@@ -20,7 +20,7 @@
 #include "cssys/sysfunc.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
-#include "celpython.h"
+#include "bootstrap.h"
 #include "csutil/cmdhelp.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"

@@ -1,7 +1,0 @@
-SubDir TOP apps celpython ;
-
-Application celpython
-	: celpython.cpp
-;
-CFlags celpython : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-
