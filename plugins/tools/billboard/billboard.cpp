@@ -618,16 +618,16 @@ void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
     mbb.delta -= elapsed;
     if (mbb.delta <= 0)
     {
-      mbb.bb->SetPosition (mbb.dstx, mbb.dsty);
+      mbb.bb->SetPosition (int (mbb.dstx), int (mbb.dsty));
       mbb.bb->is_moving = false;
       moving_billboards.DeleteIndex (i);
     }
     else
     {
-      float d = float (mbb.delta) / float (mbb.tot_delta);
+      float d = float (mbb.delta) / mbb.tot_delta;
       mbb.bb->SetPosition (
-      	int ((1.0-d) * float (mbb.dstx) + d * float (mbb.srcx)),
-      	int ((1.0-d) * float (mbb.dsty) + d * float (mbb.srcy)));
+      	int ((1.0-d) * mbb.dstx + d * mbb.srcx),
+      	int ((1.0-d) * mbb.dsty + d * mbb.srcy));
     }
     i--;
   }
@@ -655,10 +655,13 @@ void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta, int x
     }
     movingBillboard& mbb = moving_billboards[i];
     mbb.delta = delta;
-    mbb.tot_delta = delta;
-    bb->GetPosition (mbb.srcx, mbb.srcy);
-    mbb.dstx = x;
-    mbb.dsty = y;
+    mbb.tot_delta = float (delta);
+    int sx, sy;
+    bb->GetPosition (sx, sy);
+    mbb.srcx = float (sx);
+    mbb.srcy = float (sy);
+    mbb.dstx = float (x);
+    mbb.dsty = float (y);
     return;
   }
   if (delta == 0)
@@ -671,10 +674,13 @@ void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta, int x
   movingBillboard mbb;
   mbb.bb = bb;
   mbb.delta = delta;
-  mbb.tot_delta = delta;
-  bb->GetPosition (mbb.srcx, mbb.srcy);
-  mbb.dstx = x;
-  mbb.dsty = y;
+  mbb.tot_delta = float (delta);
+  int sx, sy;
+  bb->GetPosition (sx, sy);
+  mbb.srcx = float (sx);
+  mbb.srcy = float (sy);
+  mbb.dstx = float (x);
+  mbb.dsty = float (y);
   moving_billboards.Push (mbb);
 }
 
