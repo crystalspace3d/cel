@@ -4294,6 +4294,93 @@ class iSprite3DStatePtr(iSprite3DState):
 _blcelc.iSprite3DState_swigregister(iSprite3DStatePtr)
 iSprite3DState_VERSION = cvar.iSprite3DState_VERSION
 
+iSpriteCal3DFactoryState_scfGetID = _blcelc.iSpriteCal3DFactoryState_scfGetID
+
+class iSpriteCal3DFactoryState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSpriteCal3DFactoryState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSpriteCal3DFactoryState, name)
+    def Create(*args): return apply(_blcelc.iSpriteCal3DFactoryState_Create,args)
+    def ReportLastError(*args): return apply(_blcelc.iSpriteCal3DFactoryState_ReportLastError,args)
+    def SetBasePath(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetBasePath,args)
+    def SetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetRenderScale,args)
+    def LoadCoreSkeleton(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreSkeleton,args)
+    def LoadCoreAnimation(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreAnimation,args)
+    def LoadCoreMesh(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMesh,args)
+    def LoadCoreMorphTarget(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMorphTarget,args)
+    def AddMorphAnimation(*args): return apply(_blcelc.iSpriteCal3DFactoryState_AddMorphAnimation,args)
+    def AddMorphTarget(*args): return apply(_blcelc.iSpriteCal3DFactoryState_AddMorphTarget,args)
+    def AddCoreMaterial(*args): return apply(_blcelc.iSpriteCal3DFactoryState_AddCoreMaterial,args)
+    def BindMaterials(*args): return apply(_blcelc.iSpriteCal3DFactoryState_BindMaterials,args)
+    def GetMeshCount(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMeshCount,args)
+    def GetMorphAnimationCount(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphAnimationCount,args)
+    def GetMorphTargetCount(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphTargetCount,args)
+    def GetMeshName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMeshName,args)
+    def FindMeshName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindMeshName,args)
+    def GetMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphAnimationName,args)
+    def FindMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindMorphAnimationName,args)
+    def IsMeshDefault(*args): return apply(_blcelc.iSpriteCal3DFactoryState_IsMeshDefault,args)
+    def __del__(self, destroy= _blcelc.delete_iSpriteCal3DFactoryState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSpriteCal3DFactoryState instance at %s>" % (self.this,)
+
+class iSpriteCal3DFactoryStatePtr(iSpriteCal3DFactoryState):
+    def __init__(self,this):
+        _swig_setattr(self, iSpriteCal3DFactoryState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteCal3DFactoryState, 'thisown', 0)
+        _swig_setattr(self, iSpriteCal3DFactoryState,self.__class__,iSpriteCal3DFactoryState)
+_blcelc.iSpriteCal3DFactoryState_swigregister(iSpriteCal3DFactoryStatePtr)
+iSpriteCal3DFactoryState_VERSION = cvar.iSpriteCal3DFactoryState_VERSION
+
+class iSpriteCal3DState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSpriteCal3DState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSpriteCal3DState, name)
+    C3D_ANIM_TYPE_NONE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_NONE
+    C3D_ANIM_TYPE_TRAVEL = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_TRAVEL
+    C3D_ANIM_TYPE_CYCLE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_CYCLE
+    C3D_ANIM_TYPE_STYLE_CYCLE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_STYLE_CYCLE
+    C3D_ANIM_TYPE_ACTION = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_ACTION
+    def GetAnimCount(*args): return apply(_blcelc.iSpriteCal3DState_GetAnimCount,args)
+    def GetAnimName(*args): return apply(_blcelc.iSpriteCal3DState_GetAnimName,args)
+    def GetAnimType(*args): return apply(_blcelc.iSpriteCal3DState_GetAnimType,args)
+    def ClearAllAnims(*args): return apply(_blcelc.iSpriteCal3DState_ClearAllAnims,args)
+    def SetAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_SetAnimCycle,args)
+    def AddAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_AddAnimCycle,args)
+    def ClearAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_ClearAnimCycle,args)
+    def SetAnimAction(*args): return apply(_blcelc.iSpriteCal3DState_SetAnimAction,args)
+    def SetVelocity(*args): return apply(_blcelc.iSpriteCal3DState_SetVelocity,args)
+    def SetLOD(*args): return apply(_blcelc.iSpriteCal3DState_SetLOD,args)
+    def AttachCoreMesh(*args): return apply(_blcelc.iSpriteCal3DState_AttachCoreMesh,args)
+    def DetachCoreMesh(*args): return apply(_blcelc.iSpriteCal3DState_DetachCoreMesh,args)
+    def BlendMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_BlendMorphTarget,args)
+    def ClearMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_ClearMorphTarget,args)
+    def __del__(self, destroy= _blcelc.delete_iSpriteCal3DState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSpriteCal3DState instance at %s>" % (self.this,)
+
+class iSpriteCal3DStatePtr(iSpriteCal3DState):
+    def __init__(self,this):
+        _swig_setattr(self, iSpriteCal3DState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteCal3DState, 'thisown', 0)
+        _swig_setattr(self, iSpriteCal3DState,self.__class__,iSpriteCal3DState)
+_blcelc.iSpriteCal3DState_swigregister(iSpriteCal3DStatePtr)
+iSpriteCal3DState_VERSION = cvar.iSpriteCal3DState_VERSION
+
 class iBallState(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4676,6 +4763,18 @@ class csPolyTextureMapping(_object):
     def GetWidth(*args): return apply(_blcelc.csPolyTextureMapping_GetWidth,args)
     def GetHeight(*args): return apply(_blcelc.csPolyTextureMapping_GetHeight,args)
     def GetOriginalWidth(*args): return apply(_blcelc.csPolyTextureMapping_GetOriginalWidth,args)
+    __swig_setmethods__["lmu1"] = _blcelc.csPolyTextureMapping_lmu1_set
+    __swig_getmethods__["lmu1"] = _blcelc.csPolyTextureMapping_lmu1_get
+    if _newclass:lmu1 = property(_blcelc.csPolyTextureMapping_lmu1_get,_blcelc.csPolyTextureMapping_lmu1_set)
+    __swig_setmethods__["lmv1"] = _blcelc.csPolyTextureMapping_lmv1_set
+    __swig_getmethods__["lmv1"] = _blcelc.csPolyTextureMapping_lmv1_get
+    if _newclass:lmv1 = property(_blcelc.csPolyTextureMapping_lmv1_get,_blcelc.csPolyTextureMapping_lmv1_set)
+    __swig_setmethods__["lmu2"] = _blcelc.csPolyTextureMapping_lmu2_set
+    __swig_getmethods__["lmu2"] = _blcelc.csPolyTextureMapping_lmu2_get
+    if _newclass:lmu2 = property(_blcelc.csPolyTextureMapping_lmu2_get,_blcelc.csPolyTextureMapping_lmu2_set)
+    __swig_setmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_set
+    __swig_getmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_get
+    if _newclass:lmv2 = property(_blcelc.csPolyTextureMapping_lmv2_get,_blcelc.csPolyTextureMapping_lmv2_set)
     def __init__(self,*args):
         _swig_setattr(self, csPolyTextureMapping, 'this', apply(_blcelc.new_csPolyTextureMapping,args))
         _swig_setattr(self, csPolyTextureMapping, 'thisown', 1)
@@ -6626,6 +6725,10 @@ CS_VATTRIB_TEXCOORD0 = _blcelc.CS_VATTRIB_TEXCOORD0
 CS_VATTRIB_TEXCOORD1 = _blcelc.CS_VATTRIB_TEXCOORD1
 CS_VATTRIB_TEXCOORD2 = _blcelc.CS_VATTRIB_TEXCOORD2
 CS_VATTRIB_TEXCOORD3 = _blcelc.CS_VATTRIB_TEXCOORD3
+CS_VATTRIB_TEXCOORD4 = _blcelc.CS_VATTRIB_TEXCOORD4
+CS_VATTRIB_TEXCOORD5 = _blcelc.CS_VATTRIB_TEXCOORD5
+CS_VATTRIB_TEXCOORD6 = _blcelc.CS_VATTRIB_TEXCOORD6
+CS_VATTRIB_TEXCOORD7 = _blcelc.CS_VATTRIB_TEXCOORD7
 G3DFOGMETHOD_NONE = _blcelc.G3DFOGMETHOD_NONE
 G3DFOGMETHOD_ZBUFFER = _blcelc.G3DFOGMETHOD_ZBUFFER
 G3DFOGMETHOD_VERTEX = _blcelc.G3DFOGMETHOD_VERTEX
@@ -6642,6 +6745,34 @@ CS_FX_KEYCOLOR = _blcelc.CS_FX_KEYCOLOR
 CS_FX_GOURAUD = _blcelc.CS_FX_GOURAUD
 CS_FX_TILING = _blcelc.CS_FX_TILING
 CS_FX_MASK_ALPHA = _blcelc.CS_FX_MASK_ALPHA
+class csAlphaMode(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csAlphaMode, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csAlphaMode, name)
+    alphaNone = _blcelc.csAlphaMode_alphaNone
+    alphaBinary = _blcelc.csAlphaMode_alphaBinary
+    alphaSmooth = _blcelc.csAlphaMode_alphaSmooth
+    __swig_setmethods__["autoAlphaMode"] = _blcelc.csAlphaMode_autoAlphaMode_set
+    __swig_getmethods__["autoAlphaMode"] = _blcelc.csAlphaMode_autoAlphaMode_get
+    if _newclass:autoAlphaMode = property(_blcelc.csAlphaMode_autoAlphaMode_get,_blcelc.csAlphaMode_autoAlphaMode_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csAlphaMode, 'this', apply(_blcelc.new_csAlphaMode,args))
+        _swig_setattr(self, csAlphaMode, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csAlphaMode):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csAlphaMode instance at %s>" % (self.this,)
+
+class csAlphaModePtr(csAlphaMode):
+    def __init__(self,this):
+        _swig_setattr(self, csAlphaMode, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csAlphaMode, 'thisown', 0)
+        _swig_setattr(self, csAlphaMode,self.__class__,csAlphaMode)
+_blcelc.csAlphaMode_swigregister(csAlphaModePtr)
+
 CS_LIGHTPARAM_POSITION = _blcelc.CS_LIGHTPARAM_POSITION
 CS_LIGHTPARAM_DIFFUSE = _blcelc.CS_LIGHTPARAM_DIFFUSE
 CS_LIGHTPARAM_SPECULAR = _blcelc.CS_LIGHTPARAM_SPECULAR
@@ -7137,6 +7268,8 @@ class iGraphics3DPtr(iGraphics3D):
 _blcelc.iGraphics3D_swigregister(iGraphics3DPtr)
 iGraphics3D_VERSION = cvar.iGraphics3D_VERSION
 
+CS_WRITE_BASELINE = _blcelc.CS_WRITE_BASELINE
+CS_WRITE_NOANTIALIAS = _blcelc.CS_WRITE_NOANTIALIAS
 class csPixelCoord(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csPixelCoord, name, value)
@@ -7718,6 +7851,7 @@ class iShaderPass(iShaderVariableContext):
     def ResetState(*args): return apply(_blcelc.iShaderPass_ResetState,args)
     def Load(*args): return apply(_blcelc.iShaderPass_Load,args)
     def Prepare(*args): return apply(_blcelc.iShaderPass_Prepare,args)
+    def GetAlphaMode(*args): return apply(_blcelc.iShaderPass_GetAlphaMode,args)
     def __del__(self, destroy= _blcelc.delete_iShaderPass):
         try:
             if self.thisown: destroy(self)
@@ -7824,6 +7958,7 @@ class iTextureHandle(iBase):
     def GetAlphaMap(*args): return apply(_blcelc.iTextureHandle_GetAlphaMap,args)
     def Prepare(*args): return apply(_blcelc.iTextureHandle_Prepare,args)
     def GetCanvas(*args): return apply(_blcelc.iTextureHandle_GetCanvas,args)
+    def GetAlphaType(*args): return apply(_blcelc.iTextureHandle_GetAlphaType,args)
     def __del__(self, destroy= _blcelc.delete_iTextureHandle):
         try:
             if self.thisown: destroy(self)
@@ -7855,7 +7990,6 @@ class iRendererLightmap(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iRendererLightmap, name)
-    def GetRendererCoords(*args): return apply(_blcelc.iRendererLightmap_GetRendererCoords,args)
     def GetSLMCoords(*args): return apply(_blcelc.iRendererLightmap_GetSLMCoords,args)
     def SetData(*args): return apply(_blcelc.iRendererLightmap_SetData,args)
     def SetLightCellSize(*args): return apply(_blcelc.iRendererLightmap_SetLightCellSize,args)
@@ -7886,6 +8020,7 @@ class iSuperLightmap(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iSuperLightmap, name)
     def RegisterLightmap(*args): return apply(_blcelc.iSuperLightmap_RegisterLightmap,args)
     def Dump(*args): return apply(_blcelc.iSuperLightmap_Dump,args)
+    def GetTexture(*args): return apply(_blcelc.iSuperLightmap_GetTexture,args)
     def __del__(self, destroy= _blcelc.delete_iSuperLightmap):
         try:
             if self.thisown: destroy(self)
@@ -7919,6 +8054,7 @@ class iTextureManager(iBase):
     def GetTextureFormat(*args): return apply(_blcelc.iTextureManager_GetTextureFormat,args)
     def CreateSuperLightmap(*args): return apply(_blcelc.iTextureManager_CreateSuperLightmap,args)
     def GetMaxTextureSize(*args): return apply(_blcelc.iTextureManager_GetMaxTextureSize,args)
+    def GetLightmapRendererCoords(*args): return apply(_blcelc.iTextureManager_GetLightmapRendererCoords,args)
     def __del__(self, destroy= _blcelc.delete_iTextureManager):
         try:
             if self.thisown: destroy(self)
@@ -10070,6 +10206,8 @@ csfxWhiteOut = _blcelc.csfxWhiteOut
 csfxShadeVert = _blcelc.csfxShadeVert
 
 csfxScreenDPFX = _blcelc.csfxScreenDPFX
+
+csfxScreenDPFXPartial = _blcelc.csfxScreenDPFXPartial
 
 CS_IS_KEYBOARD_EVENT = _blcelc.CS_IS_KEYBOARD_EVENT
 

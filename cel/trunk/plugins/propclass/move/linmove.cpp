@@ -557,7 +557,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   return pccolldet->Init(topSize,bottomSize,shift);
 }
 
-bool celPcLinearMovement::IsOnGround ()
+bool celPcLinearMovement::IsOnGround () const
 {
   if (pccolldet)
     return pccolldet->IsOnGround();
