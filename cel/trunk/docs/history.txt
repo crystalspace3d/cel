@@ -18,6 +18,12 @@
 	  to the behaviour. 'bltest' reacts on this message and prints out
 	  the selected entity (try clicking on the small object in celtest).
 	- Added declarations for FAST SCF queries to include/pl/pl.h.
+	- Extended 'pcmeshselect' property class with the ability to switch
+	  between 'global' and 'local' selection. Local selection is default
+	  and this means that the Behaviour will only get messages when
+	  it's own mesh is selected. With global selection the Behaviour
+	  will get messages on selection of all meshes.
+	- Added a few additional FAST declarations for SCF.
 29-Oct-2001:
 	- Basic inventory handling seems to work now. Celtest demonstrates
 	  (in text form only at the moment) one box entity and four

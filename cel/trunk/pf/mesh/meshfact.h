@@ -115,6 +115,7 @@ private:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
   iCamera* camera;
+  bool global;
 
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);
@@ -122,6 +123,8 @@ public:
 
   bool HandleEvent (iEvent& ev);
   void SetCamera (iCamera* camera);
+  void SetGlobalSelection (bool glob) { global = glob; }
+  bool HasGlobalSelection () const { return global; }
 
   SCF_DECLARE_IBASE;
 
@@ -135,6 +138,14 @@ public:
     virtual void SetCamera (iCamera* camera)
     {
       scfParent->SetCamera (camera);
+    }
+    virtual void SetGlobalSelection (bool glob)
+    {
+      scfParent->SetGlobalSelection (glob);
+    }
+    virtual bool HasGlobalSelection () const
+    {
+      return scfParent->HasGlobalSelection ();
     }
   } scfiPcMeshSelect;
   struct EventHandler : public iEventHandler

@@ -23,6 +23,8 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
+
 struct iCamera;
 
 SCF_VERSION (iPcMeshSelect, 0, 0, 1);
@@ -36,6 +38,20 @@ struct iPcMeshSelect : public iBase
    * Set the camera to use for mesh selection.
    */
   virtual void SetCamera (iCamera* camera) = 0;
+
+  /**
+   * Set global/local selection. With local selection
+   * the Behaviour will only get messages when it's
+   * own mesh entity is selected (default). With global
+   * selection the Behaviour will get messages for selection
+   * of all mesh entities.
+   */
+  virtual void SetGlobalSelection (bool glob) = 0;
+
+  /**
+   * Get value of global/local selection.
+   */
+  virtual bool HasGlobalSelection () const = 0;
 };
 
 #endif // __CEL_PF_MESHSEL__
