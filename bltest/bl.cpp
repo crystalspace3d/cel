@@ -19,7 +19,7 @@
 
 #include "cssysdef.h"
 #include "bltest/bl.h"
-#include "bltest/entity.h"
+#include "bltest/behave.h"
 
 //---------------------------------------------------------------------------
 
