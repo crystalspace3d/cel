@@ -36,6 +36,46 @@ SCF_VERSION (iPcActorMove, 0, 0, 1);
  */
 struct iPcActorMove : public iBase
 {
+  /// Start/stop going forward.
+  virtual void Forward (bool start) = 0;
+  /// Start/stop going backward.
+  virtual void Backward (bool start) = 0;
+  /// Start/stop strafing left.
+  virtual void StrafeLeft (bool start) = 0;
+  /// Start/stop strafing right.
+  virtual void StrafeRight (bool start) = 0;
+  /// Start/stop rotating left.
+  virtual void RotateLeft (bool start) = 0;
+  /// Start/stop rotating right.
+  virtual void RotateRight (bool start) = 0;
+  /// Start/stop running.
+  virtual void Run (bool start) = 0;
+  /// Start/stop auto-running.
+  virtual void AutoRun (bool start) = 0;
+  /// Jump.
+  virtual void Jump () = 0;
+  /// Toggle camera mode.
+  virtual void ToggleCameraMode () = 0;
+
+  /// Set the movement speed (default 2.0).
+  virtual void SetMovementSpeed (float speed) = 0;
+  /// Get the movement speed (default 2.0).
+  virtual float GetMovementSpeed () const = 0;
+
+  /// Set the running speed (default 5.0).
+  virtual void SetRunningSpeed (float speed) = 0;
+  /// Get the running speed (default 5.0).
+  virtual float GetRunningSpeed () const = 0;
+
+  /// Set the rotation speed (default 1.75).
+  virtual void SetRotationSpeed (float speed) = 0;
+  /// Get the rotation speed (default 1.75).
+  virtual float GetRotationSpeed () const = 0;
+
+  /// Set the jumping velocity (default 6.31).
+  virtual void SetJumpingVelocity (float speed) = 0;
+  /// Get the jumping velocity (default 6.31).
+  virtual float GetJumpingVelocity () const = 0;
 };
 
 #endif // __CEL_PF_ACTORMOVE__
