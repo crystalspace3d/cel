@@ -32,6 +32,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed the new timing system in the physical layer by
 	  avoiding realloc of the weak ref arrays. The current way is much
 	  more optimal.
+	- Jorrit did another optimization on removal of PC callbacks.
 13-Jul-2004
 	- Eric Sunshine renamed celData::SetBool() to Set(), and
 	  celDataBufHelper::SetBool() to Set() in order to fix numerous

@@ -736,20 +736,31 @@ void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
 
 void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
 {
+  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
+  // If our pc is not yet in the weak_pcs table then it can't possibly
+  // be in th every_frame table so we can return here already.
+  if (pc_idx == (size_t)~0) return;
+
   CallbackPCInfo* cbinfo = GetCBInfo (where);
-  size_t pc_idx = WeakRegPC (pc);
   size_t i;
   for (i = 0 ; i < cbinfo->every_frame.Length () ; )
     if (cbinfo->every_frame[i] == pc_idx)
+    {
       cbinfo->every_frame.DeleteIndex (i);
+      return;
+    }
     else
       i++;
 }
 
 void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
 {
+  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
+  // If our pc is not yet in the weak_pcs table then it can't possibly
+  // be in th every_frame table so we can return here already.
+  if (pc_idx == (size_t)~0) return;
+
   CallbackPCInfo* cbinfo = GetCBInfo (where);
-  size_t pc_idx = WeakRegPC (pc);
   size_t i;
   for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
     if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
