@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgpfdynmove"
-			IntermediateDirectory=".\release\temp\plgpfdynmove"
+			OutputDirectory="..\out\release\build\plgpfdynmove\"
+			IntermediateDirectory="..\out\release\build\plgpfdynmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,60 +25,60 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgpfdynmove/plgpfdynmove.pch"
-				AssemblerListingLocation=".\release\temp\plgpfdynmove/"
-				ObjectFile=".\release\temp\plgpfdynmove/"
-				ProgramDataBaseFileName=".\release\temp\plgpfdynmove/plgpfdynmove.pdb"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\plgpfdynmove\plgpfdynmove.pch"
+				AssemblerListingLocation="..\out\release\build\plgpfdynmove\"
+				ObjectFile="..\out\release\build\plgpfdynmove\"
+				ProgramDataBaseFileName="..\out\release\build\plgpfdynmove\plgpfdynmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgpfdynmove\pfdynmove.dll"
-				Version="4.0"
 				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\pfdynmove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\release\build\plgpfdynmove\plgpfdynmove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgpfdynmove/plgpfdynmove.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgpfdynmove/plgpfdynmove.lib"
+				ProgramDatabaseFile="..\out\release\build\plgpfdynmove\plgpfdynmove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgpfdynmove/plgpfdynmove.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpfdynmove\plgpfdynmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -86,70 +86,70 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgpfdynmove"
-			IntermediateDirectory=".\debug\temp\plgpfdynmove"
+			OutputDirectory="..\out\debug\build\plgpfdynmove\"
+			IntermediateDirectory="..\out\debug\build\plgpfdynmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgpfdynmove/plgpfdynmove.pch"
-				AssemblerListingLocation=".\debug\temp\plgpfdynmove/"
-				ObjectFile=".\debug\temp\plgpfdynmove/"
-				ProgramDataBaseFileName=".\debug\temp\plgpfdynmove/plgpfdynmove.pdb"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\plgpfdynmove\plgpfdynmove.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpfdynmove\"
+				ObjectFile="..\out\debug\build\plgpfdynmove\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpfdynmove\plgpfdynmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgpfdynmove\pfdynmove.dll"
-				Version="1.0"
 				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\pfdynmove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\debug\build\plgpfdynmove\plgpfdynmove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgpfdynmove/plgpfdynmove.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgpfdynmove/plgpfdynmove.lib"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\plgpfdynmove\plgpfdynmove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgpfdynmove/plgpfdynmove.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpfdynmove\plgpfdynmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -157,13 +157,19 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\dynmove\dynmove.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\propclass\dynmove\dynmove.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -174,17 +180,7 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\propclass\dynmove\pfdynmove.csplugin">
 			</File>
-
 		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\dynmove\dynmove.cpp">
-			</File>
-
-		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>

@@ -11,78 +11,13 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\appbootstrap"
-			IntermediateDirectory=".\debug\temp\appbootstrap"
-			ConfigurationType="1"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG,WIN32,_CONSOLE,CS_WIN32_CSCONFIG,__CRYSTAL_SPACE__,CS_DEBUG"
-				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\appbootstrap/appbootstrap.pch"
-				AssemblerListingLocation=".\debug\temp\appbootstrap/"
-				ObjectFile=".\debug\temp\appbootstrap/"
-				ProgramDataBaseFileName=".\debug\temp\appbootstrap/appbootstrap.pdb"
-				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\appbootstrap\bootstrap.exe"
-				LinkIncremental="2"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC"
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\appbootstrap/appbootstrap.pdb"
-				SubSystem="1"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"
-				TypeLibraryName=".\debug\temp\appbootstrap/appbootstrap.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\appbootstrap"
-			IntermediateDirectory=".\release\temp\appbootstrap"
+			OutputDirectory="..\out\release\build\appbootstrap\"
+			IntermediateDirectory="..\out\release\build\appbootstrap\"
 			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="4"
@@ -91,50 +26,130 @@ copy &quot;$(TargetPath)&quot; ..
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,_WINDOWS,CS_WIN32_CSCONFIG,__CRYSTAL_SPACE__"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				PrecompiledHeaderFile=".\release\temp\appbootstrap/appbootstrap.pch"
-				AssemblerListingLocation=".\release\temp\appbootstrap/"
-				ObjectFile=".\release\temp\appbootstrap/"
-				ProgramDataBaseFileName=".\release\temp\appbootstrap/appbootstrap.pdb"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\appbootstrap\appbootstrap.pch"
+				AssemblerListingLocation="..\out\release\build\appbootstrap\"
+				ObjectFile="..\out\release\build\appbootstrap\"
+				ProgramDataBaseFileName="..\out\release\build\appbootstrap\appbootstrap.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\bootstrap.exe"
+				SubSystem="2"
 				AdditionalOptions=""
 				AdditionalDependencies="libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\appbootstrap\bootstrap.exe"
-				LinkIncremental="1"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC"
-				ProgramDatabaseFile=".\release\temp\appbootstrap/appbootstrap.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\release\build\appbootstrap\appbootstrap.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\release\temp\appbootstrap/appbootstrap.tlb"/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\out\release\build\appbootstrap\appbootstrap.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\out\debug\build\appbootstrap\"
+			IntermediateDirectory="..\out\debug\build\appbootstrap\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\appbootstrap\appbootstrap.pch"
+				AssemblerListingLocation="..\out\debug\build\appbootstrap\"
+				ObjectFile="..\out\debug\build\appbootstrap\"
+				ProgramDataBaseFileName="..\out\debug\build\appbootstrap\appbootstrap.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\bootstrap.exe"
+				SubSystem="2"
+				AdditionalOptions=""
+				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\appbootstrap\appbootstrap.pdb"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\out\debug\build\appbootstrap\appbootstrap.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -143,12 +158,18 @@ copy &quot;$(TargetPath)&quot; ..
 	</Configurations>
 	<Files>
 		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\apps\bootstrap\bootstrap.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\apps\bootstrap\bootstrap.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -156,17 +177,7 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\msvc\appbootstrap.rc">
 			</File>
-
 		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\apps\bootstrap\bootstrap.cpp">
-			</File>
-
-		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>

@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=grpall_cel - Win32 Debug
+CFG=grpall_cel - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=grpall_cel - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "grpall_cel.mak" CFG="grpall_cel - Win32 Debug"
+!MESSAGE NMAKE /f "grpall_cel.mak" CFG="grpall_cel - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -26,6 +26,7 @@ CFG=grpall_cel - Win32 Debug
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
 CPP=cl.exe
+MTL=midl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "grpall_cel - Win32 Release"
@@ -37,19 +38,28 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "release\temp\grpall_cel"
-# PROP Intermediate_Dir "release\temp\grpall_cel"
+# PROP Output_Dir "..\out\release\build\grpall_cel\"
+# PROP Intermediate_Dir "..\out\release\build\grpall_cel\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /YX /FD /I ".." /I "..\include" /c
-# ADD BASE RSC /l 0x407 /d "NDEBUG"
-# ADD RSC /l 0x407 /d "NDEBUG"
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /Gy /GF /MD /Ob2 /Og /Oi /Ot /Oy /D "_MT" /D "_MBCS" /D "NDEBUG" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "NDEBUG"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\release\build\grpall_cel\grpall_cel.res" /D "NDEBUG" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo 
+LINK32=link.exe
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib   /nologo /version:4.0 /subsystem:windows /machine:I386 /OPT:NOREF   
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+# End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "grpall_cel - Win32 Debug"
 
@@ -60,25 +70,34 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "debug\temp\grpall_cel"
-# PROP Intermediate_Dir "debug\temp\grpall_cel"
+# PROP Output_Dir "..\out\debug\build\grpall_cel\"
+# PROP Intermediate_Dir "..\out\debug\build\grpall_cel\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /Zi /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /Gm /GX /Zi /Od /FR /YX /FD /I ".." /I "..\include" /c
-# ADD BASE RSC /l 0x407 /d "_DEBUG"
-# ADD RSC /l 0x407 /d "_DEBUG"
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /GR /MDd /ZI /Od /D "_MT" /D "_MBCS" /D "_DEBUG" /D "CS_DEBUG" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "_DEBUG" /D "CS_DEBUG"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\debug\build\grpall_cel\grpall_cel.res" /D "_DEBUG" /D "CS_DEBUG" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo 
+LINK32=link.exe
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib   /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept   
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+# End Special Build Tool
 
 !ENDIF 
 
 # Begin Target
 
-# Name "grpall_cel - Win32 Debug"
 # Name "grpall_cel - Win32 Release"
+# Name "grpall_cel - Win32 Debug"
 # End Target
 # End Project

@@ -12,34 +12,59 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\grpall_cel"
-			IntermediateDirectory=".\release\temp\grpall_cel"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				InlineFunctionExpansion="1"
+				Optimization="4"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="TRUE"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\release\temp\grpall_cel/grpall_cel.pch"
-				AssemblerListingLocation=".\release\temp\grpall_cel/"
-				ObjectFile=".\release\temp\grpall_cel/"
-				ProgramDataBaseFileName=".\release\temp\grpall_cel/"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\grpall_cel\grpall_cel.pch"
+				AssemblerListingLocation="..\out\release\build\grpall_cel\"
+				ObjectFile="..\out\release\build\grpall_cel\"
+				ProgramDataBaseFileName="..\out\release\build\grpall_cel\grpall_cel.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
+				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="1"
+				AdditionalOptions=""
+				AdditionalDependencies=""
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\release\build\grpall_cel\grpall_cel.pdb"
+				TargetMachine="1"/>
+			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\release\temp\grpall_cel\grpall_cel.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\out\release\build\grpall_cel\grpall_cel.tlb"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -47,50 +72,78 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1031"/>
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\grpall_cel"
-			IntermediateDirectory=".\debug\temp\grpall_cel"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				RuntimeLibrary="5"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\debug\temp\grpall_cel/grpall_cel.pch"
-				AssemblerListingLocation=".\debug\temp\grpall_cel/"
-				ObjectFile=".\debug\temp\grpall_cel/"
-				ProgramDataBaseFileName=".\debug\temp\grpall_cel/"
+				MinimalRebuild="TRUE"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\grpall_cel\grpall_cel.pch"
+				AssemblerListingLocation="..\out\debug\build\grpall_cel\"
+				ObjectFile="..\out\debug\build\grpall_cel\"
+				ProgramDataBaseFileName="..\out\debug\build\grpall_cel\grpall_cel.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"/>
+				Detect64BitPortabilityProblems=""
+				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				AdditionalOptions=""
+				AdditionalDependencies=""
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\grpall_cel\grpall_cel.pdb"
+				TargetMachine="1"/>
+			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\debug\temp\grpall_cel\grpall_cel.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\out\debug\build\grpall_cel\grpall_cel.tlb"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1031"/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 	</Configurations>
 	<Files>
