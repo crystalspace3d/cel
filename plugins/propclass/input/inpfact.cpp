@@ -239,7 +239,6 @@ bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
   utf32_char key; 
-  //utf32_char cooked;
   csKeyModifiers modifiers; 
   if (!csInputDefinition::ParseKey (triggername, &key, false, &modifiers))
     return false;
@@ -284,7 +283,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
-  utf32_char key;//, cooked;
+  utf32_char key;
   csKeyModifiers modifiers;
   if (!csInputDefinition::ParseKey (triggername, &key, false, &modifiers))
     return false;
