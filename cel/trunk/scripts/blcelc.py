@@ -257,6 +257,33 @@ class csColorPtr(csColor):
         _swig_setattr(self, csColor,self.__class__,csColor)
 _blcelc.csColor_swigregister(csColorPtr)
 
+class csColor4(csColor):
+    __swig_setmethods__ = {}
+    for _s in [csColor]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csColor4, name, value)
+    __swig_getmethods__ = {}
+    for _s in [csColor]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, csColor4, name)
+    def __repr__(self):
+        return "<C csColor4 instance at %s>" % (self.this,)
+    __swig_setmethods__["alpha"] = _blcelc.csColor4_alpha_set
+    __swig_getmethods__["alpha"] = _blcelc.csColor4_alpha_get
+    if _newclass:alpha = property(_blcelc.csColor4_alpha_get, _blcelc.csColor4_alpha_set)
+    def __init__(self, *args):
+        _swig_setattr(self, csColor4, 'this', _blcelc.new_csColor4(*args))
+        _swig_setattr(self, csColor4, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_csColor4):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class csColor4Ptr(csColor4):
+    def __init__(self, this):
+        _swig_setattr(self, csColor4, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csColor4, 'thisown', 0)
+        _swig_setattr(self, csColor4,self.__class__,csColor4)
+_blcelc.csColor4_swigregister(csColor4Ptr)
+
 class csCommandLineHelper(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csCommandLineHelper, name, value)
@@ -1870,6 +1897,7 @@ class csCatmullRomSpline(csBSpline):
         try:
             if self.thisown: destroy(self)
         except: pass
+    def Clone(*args): return _blcelc.csCatmullRomSpline_Clone(*args)
 
 class csCatmullRomSplinePtr(csCatmullRomSpline):
     def __init__(self, this):
@@ -2245,8 +2273,6 @@ csPlatformStartup = _blcelc.csPlatformStartup
 csPlatformShutdown = _blcelc.csPlatformShutdown
 
 csPrintf = _blcelc.csPrintf
-
-csPrintfV = _blcelc.csPrintfV
 
 csFPutErr = _blcelc.csFPutErr
 
@@ -5729,6 +5755,7 @@ class iMeshObjectFactory(iBase):
     def SupportsHardTransform(*args): return _blcelc.iMeshObjectFactory_SupportsHardTransform(*args)
     def SetLogicalParent(*args): return _blcelc.iMeshObjectFactory_SetLogicalParent(*args)
     def GetLogicalParent(*args): return _blcelc.iMeshObjectFactory_GetLogicalParent(*args)
+    def GetMeshObjectType(*args): return _blcelc.iMeshObjectFactory_GetMeshObjectType(*args)
     def GetObjectModel(*args): return _blcelc.iMeshObjectFactory_GetObjectModel(*args)
     def __del__(self, destroy=_blcelc.delete_iMeshObjectFactory):
         try:
@@ -6457,6 +6484,7 @@ VFS_MAX_PATH_LEN = _blcelc.VFS_MAX_PATH_LEN
 VFS_FILE_MODE = _blcelc.VFS_FILE_MODE
 VFS_FILE_READ = _blcelc.VFS_FILE_READ
 VFS_FILE_WRITE = _blcelc.VFS_FILE_WRITE
+VFS_FILE_APPEND = _blcelc.VFS_FILE_APPEND
 VFS_FILE_UNCOMPRESSED = _blcelc.VFS_FILE_UNCOMPRESSED
 VFS_STATUS_OK = _blcelc.VFS_STATUS_OK
 VFS_STATUS_OTHER = _blcelc.VFS_STATUS_OTHER
@@ -6526,6 +6554,7 @@ class iVFS(iBase):
     def Unmount(*args): return _blcelc.iVFS_Unmount(*args)
     def MountRoot(*args): return _blcelc.iVFS_MountRoot(*args)
     def SaveMounts(*args): return _blcelc.iVFS_SaveMounts(*args)
+    def LoadMountsFromFile(*args): return _blcelc.iVFS_LoadMountsFromFile(*args)
     def GetFileTime(*args): return _blcelc.iVFS_GetFileTime(*args)
     def SetFileTime(*args): return _blcelc.iVFS_SetFileTime(*args)
     def GetFileSize(*args): return _blcelc.iVFS_GetFileSize(*args)
@@ -7406,6 +7435,8 @@ class iMouseDriver(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMouseDriver_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMouseDriver_scfGetVersion)
 
 class iMouseDriverPtr(iMouseDriver):
     def __init__(self, this):
@@ -7413,6 +7444,8 @@ class iMouseDriverPtr(iMouseDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMouseDriver, 'thisown', 0)
         _swig_setattr(self, iMouseDriver,self.__class__,iMouseDriver)
 _blcelc.iMouseDriver_swigregister(iMouseDriverPtr)
+
+iMouseDriver_scfGetVersion = _blcelc.iMouseDriver_scfGetVersion
 
 class iJoystickDriver(iBase):
     __swig_setmethods__ = {}
@@ -7877,6 +7910,229 @@ _blcelc.iDataBuffer_swigregister(iDataBufferPtr)
 
 iDataBuffer_scfGetVersion = _blcelc.iDataBuffer_scfGetVersion
 
+CS_WRITE_BASELINE = _blcelc.CS_WRITE_BASELINE
+CS_WRITE_NOANTIALIAS = _blcelc.CS_WRITE_NOANTIALIAS
+class csPixelCoord(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPixelCoord, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPixelCoord, name)
+    def __repr__(self):
+        return "<C csPixelCoord instance at %s>" % (self.this,)
+    __swig_setmethods__["x"] = _blcelc.csPixelCoord_x_set
+    __swig_getmethods__["x"] = _blcelc.csPixelCoord_x_get
+    if _newclass:x = property(_blcelc.csPixelCoord_x_get, _blcelc.csPixelCoord_x_set)
+    __swig_setmethods__["y"] = _blcelc.csPixelCoord_y_set
+    __swig_getmethods__["y"] = _blcelc.csPixelCoord_y_get
+    if _newclass:y = property(_blcelc.csPixelCoord_y_get, _blcelc.csPixelCoord_y_set)
+    def __init__(self, *args):
+        _swig_setattr(self, csPixelCoord, 'this', _blcelc.new_csPixelCoord(*args))
+        _swig_setattr(self, csPixelCoord, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_csPixelCoord):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class csPixelCoordPtr(csPixelCoord):
+    def __init__(self, this):
+        _swig_setattr(self, csPixelCoord, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPixelCoord, 'thisown', 0)
+        _swig_setattr(self, csPixelCoord,self.__class__,csPixelCoord)
+_blcelc.csPixelCoord_swigregister(csPixelCoordPtr)
+
+class csPixelFormat(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPixelFormat, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPixelFormat, name)
+    def __repr__(self):
+        return "<C csPixelFormat instance at %s>" % (self.this,)
+    __swig_setmethods__["RedMask"] = _blcelc.csPixelFormat_RedMask_set
+    __swig_getmethods__["RedMask"] = _blcelc.csPixelFormat_RedMask_get
+    if _newclass:RedMask = property(_blcelc.csPixelFormat_RedMask_get, _blcelc.csPixelFormat_RedMask_set)
+    __swig_setmethods__["GreenMask"] = _blcelc.csPixelFormat_GreenMask_set
+    __swig_getmethods__["GreenMask"] = _blcelc.csPixelFormat_GreenMask_get
+    if _newclass:GreenMask = property(_blcelc.csPixelFormat_GreenMask_get, _blcelc.csPixelFormat_GreenMask_set)
+    __swig_setmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_set
+    __swig_getmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_get
+    if _newclass:BlueMask = property(_blcelc.csPixelFormat_BlueMask_get, _blcelc.csPixelFormat_BlueMask_set)
+    __swig_setmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_set
+    __swig_getmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_get
+    if _newclass:RedShift = property(_blcelc.csPixelFormat_RedShift_get, _blcelc.csPixelFormat_RedShift_set)
+    __swig_setmethods__["GreenShift"] = _blcelc.csPixelFormat_GreenShift_set
+    __swig_getmethods__["GreenShift"] = _blcelc.csPixelFormat_GreenShift_get
+    if _newclass:GreenShift = property(_blcelc.csPixelFormat_GreenShift_get, _blcelc.csPixelFormat_GreenShift_set)
+    __swig_setmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_set
+    __swig_getmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_get
+    if _newclass:BlueShift = property(_blcelc.csPixelFormat_BlueShift_get, _blcelc.csPixelFormat_BlueShift_set)
+    __swig_setmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_set
+    __swig_getmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_get
+    if _newclass:RedBits = property(_blcelc.csPixelFormat_RedBits_get, _blcelc.csPixelFormat_RedBits_set)
+    __swig_setmethods__["GreenBits"] = _blcelc.csPixelFormat_GreenBits_set
+    __swig_getmethods__["GreenBits"] = _blcelc.csPixelFormat_GreenBits_get
+    if _newclass:GreenBits = property(_blcelc.csPixelFormat_GreenBits_get, _blcelc.csPixelFormat_GreenBits_set)
+    __swig_setmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_set
+    __swig_getmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_get
+    if _newclass:BlueBits = property(_blcelc.csPixelFormat_BlueBits_get, _blcelc.csPixelFormat_BlueBits_set)
+    __swig_setmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_set
+    __swig_getmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_get
+    if _newclass:PalEntries = property(_blcelc.csPixelFormat_PalEntries_get, _blcelc.csPixelFormat_PalEntries_set)
+    __swig_setmethods__["PixelBytes"] = _blcelc.csPixelFormat_PixelBytes_set
+    __swig_getmethods__["PixelBytes"] = _blcelc.csPixelFormat_PixelBytes_get
+    if _newclass:PixelBytes = property(_blcelc.csPixelFormat_PixelBytes_get, _blcelc.csPixelFormat_PixelBytes_set)
+    def complete(*args): return _blcelc.csPixelFormat_complete(*args)
+    def __init__(self, *args):
+        _swig_setattr(self, csPixelFormat, 'this', _blcelc.new_csPixelFormat(*args))
+        _swig_setattr(self, csPixelFormat, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_csPixelFormat):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class csPixelFormatPtr(csPixelFormat):
+    def __init__(self, this):
+        _swig_setattr(self, csPixelFormat, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPixelFormat, 'thisown', 0)
+        _swig_setattr(self, csPixelFormat,self.__class__,csPixelFormat)
+_blcelc.csPixelFormat_swigregister(csPixelFormatPtr)
+
+class csImageArea(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csImageArea, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csImageArea, name)
+    def __repr__(self):
+        return "<C csImageArea instance at %s>" % (self.this,)
+    __swig_setmethods__["x"] = _blcelc.csImageArea_x_set
+    __swig_getmethods__["x"] = _blcelc.csImageArea_x_get
+    if _newclass:x = property(_blcelc.csImageArea_x_get, _blcelc.csImageArea_x_set)
+    __swig_setmethods__["y"] = _blcelc.csImageArea_y_set
+    __swig_getmethods__["y"] = _blcelc.csImageArea_y_get
+    if _newclass:y = property(_blcelc.csImageArea_y_get, _blcelc.csImageArea_y_set)
+    __swig_setmethods__["w"] = _blcelc.csImageArea_w_set
+    __swig_getmethods__["w"] = _blcelc.csImageArea_w_get
+    if _newclass:w = property(_blcelc.csImageArea_w_get, _blcelc.csImageArea_w_set)
+    __swig_setmethods__["h"] = _blcelc.csImageArea_h_set
+    __swig_getmethods__["h"] = _blcelc.csImageArea_h_get
+    if _newclass:h = property(_blcelc.csImageArea_h_get, _blcelc.csImageArea_h_set)
+    __swig_setmethods__["data"] = _blcelc.csImageArea_data_set
+    __swig_getmethods__["data"] = _blcelc.csImageArea_data_get
+    if _newclass:data = property(_blcelc.csImageArea_data_get, _blcelc.csImageArea_data_set)
+    def __init__(self, *args):
+        _swig_setattr(self, csImageArea, 'this', _blcelc.new_csImageArea(*args))
+        _swig_setattr(self, csImageArea, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_csImageArea):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class csImageAreaPtr(csImageArea):
+    def __init__(self, this):
+        _swig_setattr(self, csImageArea, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csImageArea, 'thisown', 0)
+        _swig_setattr(self, csImageArea,self.__class__,csImageArea)
+_blcelc.csImageArea_swigregister(csImageAreaPtr)
+
+class iOffscreenCanvasCallback(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iOffscreenCanvasCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iOffscreenCanvasCallback, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iOffscreenCanvasCallback instance at %s>" % (self.this,)
+    def FinishDraw(*args): return _blcelc.iOffscreenCanvasCallback_FinishDraw(*args)
+    def SetRGB(*args): return _blcelc.iOffscreenCanvasCallback_SetRGB(*args)
+    def __del__(self, destroy=_blcelc.delete_iOffscreenCanvasCallback):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iOffscreenCanvasCallbackPtr(iOffscreenCanvasCallback):
+    def __init__(self, this):
+        _swig_setattr(self, iOffscreenCanvasCallback, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iOffscreenCanvasCallback, 'thisown', 0)
+        _swig_setattr(self, iOffscreenCanvasCallback,self.__class__,iOffscreenCanvasCallback)
+_blcelc.iOffscreenCanvasCallback_swigregister(iOffscreenCanvasCallbackPtr)
+
+class iGraphics2D(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGraphics2D, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGraphics2D, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGraphics2D instance at %s>" % (self.this,)
+    def Open(*args): return _blcelc.iGraphics2D_Open(*args)
+    def Close(*args): return _blcelc.iGraphics2D_Close(*args)
+    def GetWidth(*args): return _blcelc.iGraphics2D_GetWidth(*args)
+    def GetHeight(*args): return _blcelc.iGraphics2D_GetHeight(*args)
+    def GetPage(*args): return _blcelc.iGraphics2D_GetPage(*args)
+    def DoubleBuffer(*args): return _blcelc.iGraphics2D_DoubleBuffer(*args)
+    def GetDoubleBufferState(*args): return _blcelc.iGraphics2D_GetDoubleBufferState(*args)
+    def GetPixelFormat(*args): return _blcelc.iGraphics2D_GetPixelFormat(*args)
+    def GetPixelBytes(*args): return _blcelc.iGraphics2D_GetPixelBytes(*args)
+    def GetPalEntryCount(*args): return _blcelc.iGraphics2D_GetPalEntryCount(*args)
+    def GetPalette(*args): return _blcelc.iGraphics2D_GetPalette(*args)
+    def SetRGB(*args): return _blcelc.iGraphics2D_SetRGB(*args)
+    def FindRGB(*args): return _blcelc.iGraphics2D_FindRGB(*args)
+    def SetClipRect(*args): return _blcelc.iGraphics2D_SetClipRect(*args)
+    def GetClipRect(*args): return _blcelc.iGraphics2D_GetClipRect(*args)
+    def BeginDraw(*args): return _blcelc.iGraphics2D_BeginDraw(*args)
+    def FinishDraw(*args): return _blcelc.iGraphics2D_FinishDraw(*args)
+    def Print(*args): return _blcelc.iGraphics2D_Print(*args)
+    def Clear(*args): return _blcelc.iGraphics2D_Clear(*args)
+    def ClearAll(*args): return _blcelc.iGraphics2D_ClearAll(*args)
+    def DrawLine(*args): return _blcelc.iGraphics2D_DrawLine(*args)
+    def DrawBox(*args): return _blcelc.iGraphics2D_DrawBox(*args)
+    def ClipLine(*args): return _blcelc.iGraphics2D_ClipLine(*args)
+    def DrawPixel(*args): return _blcelc.iGraphics2D_DrawPixel(*args)
+    def DrawPixels(*args): return _blcelc.iGraphics2D_DrawPixels(*args)
+    def Blit(*args): return _blcelc.iGraphics2D_Blit(*args)
+    def GetPixelAt(*args): return _blcelc.iGraphics2D_GetPixelAt(*args)
+    def GetPixel(*args): return _blcelc.iGraphics2D_GetPixel(*args)
+    def SaveArea(*args): return _blcelc.iGraphics2D_SaveArea(*args)
+    def RestoreArea(*args): return _blcelc.iGraphics2D_RestoreArea(*args)
+    def FreeArea(*args): return _blcelc.iGraphics2D_FreeArea(*args)
+    def Write(*args): return _blcelc.iGraphics2D_Write(*args)
+    def WriteBaseline(*args): return _blcelc.iGraphics2D_WriteBaseline(*args)
+    def AllowResize(*args): return _blcelc.iGraphics2D_AllowResize(*args)
+    def Resize(*args): return _blcelc.iGraphics2D_Resize(*args)
+    def GetFontServer(*args): return _blcelc.iGraphics2D_GetFontServer(*args)
+    def PerformExtension(*args): return _blcelc.iGraphics2D_PerformExtension(*args)
+    def ScreenShot(*args): return _blcelc.iGraphics2D_ScreenShot(*args)
+    def GetNativeWindow(*args): return _blcelc.iGraphics2D_GetNativeWindow(*args)
+    def GetFullScreen(*args): return _blcelc.iGraphics2D_GetFullScreen(*args)
+    def SetFullScreen(*args): return _blcelc.iGraphics2D_SetFullScreen(*args)
+    def SetMousePosition(*args): return _blcelc.iGraphics2D_SetMousePosition(*args)
+    def SetMouseCursor(*args): return _blcelc.iGraphics2D_SetMouseCursor(*args)
+    def SetGamma(*args): return _blcelc.iGraphics2D_SetGamma(*args)
+    def GetGamma(*args): return _blcelc.iGraphics2D_GetGamma(*args)
+    def CreateOffscreenCanvas(*args): return _blcelc.iGraphics2D_CreateOffscreenCanvas(*args)
+    def __del__(self, destroy=_blcelc.delete_iGraphics2D):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGraphics2D_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iGraphics2D_scfGetVersion)
+    def _PerformExtension(*args): return _blcelc.iGraphics2D__PerformExtension(*args)
+    def PerformExtension (self, command, *args):
+              self._PerformExtension(self.__class__.__name__, command, args);
+
+
+class iGraphics2DPtr(iGraphics2D):
+    def __init__(self, this):
+        _swig_setattr(self, iGraphics2D, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGraphics2D, 'thisown', 0)
+        _swig_setattr(self, iGraphics2D,self.__class__,iGraphics2D)
+_blcelc.iGraphics2D_swigregister(iGraphics2DPtr)
+
+iGraphics2D_scfGetVersion = _blcelc.iGraphics2D_scfGetVersion
+
 CSDRAW_2DGRAPHICS = _blcelc.CSDRAW_2DGRAPHICS
 CSDRAW_3DGRAPHICS = _blcelc.CSDRAW_3DGRAPHICS
 CSDRAW_CLEARZBUFFER = _blcelc.CSDRAW_CLEARZBUFFER
@@ -7981,6 +8237,7 @@ CS_FX_ALPHA = _blcelc.CS_FX_ALPHA
 CS_FX_TRANSPARENT = _blcelc.CS_FX_TRANSPARENT
 CS_FX_DESTALPHAADD = _blcelc.CS_FX_DESTALPHAADD
 CS_FX_SRCALPHAADD = _blcelc.CS_FX_SRCALPHAADD
+CS_FX_PREMULTALPHA = _blcelc.CS_FX_PREMULTALPHA
 CS_FX_MESH = _blcelc.CS_FX_MESH
 CS_FX_KEYCOLOR = _blcelc.CS_FX_KEYCOLOR
 CS_FX_FLAT = _blcelc.CS_FX_FLAT
@@ -8603,230 +8860,6 @@ _blcelc.iGraphics3D_swigregister(iGraphics3DPtr)
 
 iGraphics3D_scfGetVersion = _blcelc.iGraphics3D_scfGetVersion
 
-CS_WRITE_BASELINE = _blcelc.CS_WRITE_BASELINE
-CS_WRITE_NOANTIALIAS = _blcelc.CS_WRITE_NOANTIALIAS
-class csPixelCoord(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csPixelCoord, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csPixelCoord, name)
-    def __repr__(self):
-        return "<C csPixelCoord instance at %s>" % (self.this,)
-    __swig_setmethods__["x"] = _blcelc.csPixelCoord_x_set
-    __swig_getmethods__["x"] = _blcelc.csPixelCoord_x_get
-    if _newclass:x = property(_blcelc.csPixelCoord_x_get, _blcelc.csPixelCoord_x_set)
-    __swig_setmethods__["y"] = _blcelc.csPixelCoord_y_set
-    __swig_getmethods__["y"] = _blcelc.csPixelCoord_y_get
-    if _newclass:y = property(_blcelc.csPixelCoord_y_get, _blcelc.csPixelCoord_y_set)
-    def __init__(self, *args):
-        _swig_setattr(self, csPixelCoord, 'this', _blcelc.new_csPixelCoord(*args))
-        _swig_setattr(self, csPixelCoord, 'thisown', 1)
-    def __del__(self, destroy=_blcelc.delete_csPixelCoord):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class csPixelCoordPtr(csPixelCoord):
-    def __init__(self, this):
-        _swig_setattr(self, csPixelCoord, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csPixelCoord, 'thisown', 0)
-        _swig_setattr(self, csPixelCoord,self.__class__,csPixelCoord)
-_blcelc.csPixelCoord_swigregister(csPixelCoordPtr)
-
-class csPixelFormat(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csPixelFormat, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csPixelFormat, name)
-    def __repr__(self):
-        return "<C csPixelFormat instance at %s>" % (self.this,)
-    __swig_setmethods__["RedMask"] = _blcelc.csPixelFormat_RedMask_set
-    __swig_getmethods__["RedMask"] = _blcelc.csPixelFormat_RedMask_get
-    if _newclass:RedMask = property(_blcelc.csPixelFormat_RedMask_get, _blcelc.csPixelFormat_RedMask_set)
-    __swig_setmethods__["GreenMask"] = _blcelc.csPixelFormat_GreenMask_set
-    __swig_getmethods__["GreenMask"] = _blcelc.csPixelFormat_GreenMask_get
-    if _newclass:GreenMask = property(_blcelc.csPixelFormat_GreenMask_get, _blcelc.csPixelFormat_GreenMask_set)
-    __swig_setmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_set
-    __swig_getmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_get
-    if _newclass:BlueMask = property(_blcelc.csPixelFormat_BlueMask_get, _blcelc.csPixelFormat_BlueMask_set)
-    __swig_setmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_set
-    __swig_getmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_get
-    if _newclass:RedShift = property(_blcelc.csPixelFormat_RedShift_get, _blcelc.csPixelFormat_RedShift_set)
-    __swig_setmethods__["GreenShift"] = _blcelc.csPixelFormat_GreenShift_set
-    __swig_getmethods__["GreenShift"] = _blcelc.csPixelFormat_GreenShift_get
-    if _newclass:GreenShift = property(_blcelc.csPixelFormat_GreenShift_get, _blcelc.csPixelFormat_GreenShift_set)
-    __swig_setmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_set
-    __swig_getmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_get
-    if _newclass:BlueShift = property(_blcelc.csPixelFormat_BlueShift_get, _blcelc.csPixelFormat_BlueShift_set)
-    __swig_setmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_set
-    __swig_getmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_get
-    if _newclass:RedBits = property(_blcelc.csPixelFormat_RedBits_get, _blcelc.csPixelFormat_RedBits_set)
-    __swig_setmethods__["GreenBits"] = _blcelc.csPixelFormat_GreenBits_set
-    __swig_getmethods__["GreenBits"] = _blcelc.csPixelFormat_GreenBits_get
-    if _newclass:GreenBits = property(_blcelc.csPixelFormat_GreenBits_get, _blcelc.csPixelFormat_GreenBits_set)
-    __swig_setmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_set
-    __swig_getmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_get
-    if _newclass:BlueBits = property(_blcelc.csPixelFormat_BlueBits_get, _blcelc.csPixelFormat_BlueBits_set)
-    __swig_setmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_set
-    __swig_getmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_get
-    if _newclass:PalEntries = property(_blcelc.csPixelFormat_PalEntries_get, _blcelc.csPixelFormat_PalEntries_set)
-    __swig_setmethods__["PixelBytes"] = _blcelc.csPixelFormat_PixelBytes_set
-    __swig_getmethods__["PixelBytes"] = _blcelc.csPixelFormat_PixelBytes_get
-    if _newclass:PixelBytes = property(_blcelc.csPixelFormat_PixelBytes_get, _blcelc.csPixelFormat_PixelBytes_set)
-    def complete(*args): return _blcelc.csPixelFormat_complete(*args)
-    def __init__(self, *args):
-        _swig_setattr(self, csPixelFormat, 'this', _blcelc.new_csPixelFormat(*args))
-        _swig_setattr(self, csPixelFormat, 'thisown', 1)
-    def __del__(self, destroy=_blcelc.delete_csPixelFormat):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class csPixelFormatPtr(csPixelFormat):
-    def __init__(self, this):
-        _swig_setattr(self, csPixelFormat, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csPixelFormat, 'thisown', 0)
-        _swig_setattr(self, csPixelFormat,self.__class__,csPixelFormat)
-_blcelc.csPixelFormat_swigregister(csPixelFormatPtr)
-
-class csImageArea(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csImageArea, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csImageArea, name)
-    def __repr__(self):
-        return "<C csImageArea instance at %s>" % (self.this,)
-    __swig_setmethods__["x"] = _blcelc.csImageArea_x_set
-    __swig_getmethods__["x"] = _blcelc.csImageArea_x_get
-    if _newclass:x = property(_blcelc.csImageArea_x_get, _blcelc.csImageArea_x_set)
-    __swig_setmethods__["y"] = _blcelc.csImageArea_y_set
-    __swig_getmethods__["y"] = _blcelc.csImageArea_y_get
-    if _newclass:y = property(_blcelc.csImageArea_y_get, _blcelc.csImageArea_y_set)
-    __swig_setmethods__["w"] = _blcelc.csImageArea_w_set
-    __swig_getmethods__["w"] = _blcelc.csImageArea_w_get
-    if _newclass:w = property(_blcelc.csImageArea_w_get, _blcelc.csImageArea_w_set)
-    __swig_setmethods__["h"] = _blcelc.csImageArea_h_set
-    __swig_getmethods__["h"] = _blcelc.csImageArea_h_get
-    if _newclass:h = property(_blcelc.csImageArea_h_get, _blcelc.csImageArea_h_set)
-    __swig_setmethods__["data"] = _blcelc.csImageArea_data_set
-    __swig_getmethods__["data"] = _blcelc.csImageArea_data_get
-    if _newclass:data = property(_blcelc.csImageArea_data_get, _blcelc.csImageArea_data_set)
-    def __init__(self, *args):
-        _swig_setattr(self, csImageArea, 'this', _blcelc.new_csImageArea(*args))
-        _swig_setattr(self, csImageArea, 'thisown', 1)
-    def __del__(self, destroy=_blcelc.delete_csImageArea):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class csImageAreaPtr(csImageArea):
-    def __init__(self, this):
-        _swig_setattr(self, csImageArea, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csImageArea, 'thisown', 0)
-        _swig_setattr(self, csImageArea,self.__class__,csImageArea)
-_blcelc.csImageArea_swigregister(csImageAreaPtr)
-
-class iOffscreenCanvasCallback(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iOffscreenCanvasCallback, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iOffscreenCanvasCallback, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iOffscreenCanvasCallback instance at %s>" % (self.this,)
-    def FinishDraw(*args): return _blcelc.iOffscreenCanvasCallback_FinishDraw(*args)
-    def SetRGB(*args): return _blcelc.iOffscreenCanvasCallback_SetRGB(*args)
-    def __del__(self, destroy=_blcelc.delete_iOffscreenCanvasCallback):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class iOffscreenCanvasCallbackPtr(iOffscreenCanvasCallback):
-    def __init__(self, this):
-        _swig_setattr(self, iOffscreenCanvasCallback, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iOffscreenCanvasCallback, 'thisown', 0)
-        _swig_setattr(self, iOffscreenCanvasCallback,self.__class__,iOffscreenCanvasCallback)
-_blcelc.iOffscreenCanvasCallback_swigregister(iOffscreenCanvasCallbackPtr)
-
-class iGraphics2D(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iGraphics2D, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iGraphics2D, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iGraphics2D instance at %s>" % (self.this,)
-    def Open(*args): return _blcelc.iGraphics2D_Open(*args)
-    def Close(*args): return _blcelc.iGraphics2D_Close(*args)
-    def GetWidth(*args): return _blcelc.iGraphics2D_GetWidth(*args)
-    def GetHeight(*args): return _blcelc.iGraphics2D_GetHeight(*args)
-    def GetPage(*args): return _blcelc.iGraphics2D_GetPage(*args)
-    def DoubleBuffer(*args): return _blcelc.iGraphics2D_DoubleBuffer(*args)
-    def GetDoubleBufferState(*args): return _blcelc.iGraphics2D_GetDoubleBufferState(*args)
-    def GetPixelFormat(*args): return _blcelc.iGraphics2D_GetPixelFormat(*args)
-    def GetPixelBytes(*args): return _blcelc.iGraphics2D_GetPixelBytes(*args)
-    def GetPalEntryCount(*args): return _blcelc.iGraphics2D_GetPalEntryCount(*args)
-    def GetPalette(*args): return _blcelc.iGraphics2D_GetPalette(*args)
-    def SetRGB(*args): return _blcelc.iGraphics2D_SetRGB(*args)
-    def FindRGB(*args): return _blcelc.iGraphics2D_FindRGB(*args)
-    def SetClipRect(*args): return _blcelc.iGraphics2D_SetClipRect(*args)
-    def GetClipRect(*args): return _blcelc.iGraphics2D_GetClipRect(*args)
-    def BeginDraw(*args): return _blcelc.iGraphics2D_BeginDraw(*args)
-    def FinishDraw(*args): return _blcelc.iGraphics2D_FinishDraw(*args)
-    def Print(*args): return _blcelc.iGraphics2D_Print(*args)
-    def Clear(*args): return _blcelc.iGraphics2D_Clear(*args)
-    def ClearAll(*args): return _blcelc.iGraphics2D_ClearAll(*args)
-    def DrawLine(*args): return _blcelc.iGraphics2D_DrawLine(*args)
-    def DrawBox(*args): return _blcelc.iGraphics2D_DrawBox(*args)
-    def ClipLine(*args): return _blcelc.iGraphics2D_ClipLine(*args)
-    def DrawPixel(*args): return _blcelc.iGraphics2D_DrawPixel(*args)
-    def DrawPixels(*args): return _blcelc.iGraphics2D_DrawPixels(*args)
-    def Blit(*args): return _blcelc.iGraphics2D_Blit(*args)
-    def GetPixelAt(*args): return _blcelc.iGraphics2D_GetPixelAt(*args)
-    def GetPixel(*args): return _blcelc.iGraphics2D_GetPixel(*args)
-    def SaveArea(*args): return _blcelc.iGraphics2D_SaveArea(*args)
-    def RestoreArea(*args): return _blcelc.iGraphics2D_RestoreArea(*args)
-    def FreeArea(*args): return _blcelc.iGraphics2D_FreeArea(*args)
-    def Write(*args): return _blcelc.iGraphics2D_Write(*args)
-    def WriteBaseline(*args): return _blcelc.iGraphics2D_WriteBaseline(*args)
-    def AllowResize(*args): return _blcelc.iGraphics2D_AllowResize(*args)
-    def Resize(*args): return _blcelc.iGraphics2D_Resize(*args)
-    def GetFontServer(*args): return _blcelc.iGraphics2D_GetFontServer(*args)
-    def PerformExtension(*args): return _blcelc.iGraphics2D_PerformExtension(*args)
-    def PerformExtensionV(*args): return _blcelc.iGraphics2D_PerformExtensionV(*args)
-    def ScreenShot(*args): return _blcelc.iGraphics2D_ScreenShot(*args)
-    def GetNativeWindow(*args): return _blcelc.iGraphics2D_GetNativeWindow(*args)
-    def GetFullScreen(*args): return _blcelc.iGraphics2D_GetFullScreen(*args)
-    def SetFullScreen(*args): return _blcelc.iGraphics2D_SetFullScreen(*args)
-    def SetMousePosition(*args): return _blcelc.iGraphics2D_SetMousePosition(*args)
-    def SetMouseCursor(*args): return _blcelc.iGraphics2D_SetMouseCursor(*args)
-    def SetGamma(*args): return _blcelc.iGraphics2D_SetGamma(*args)
-    def GetGamma(*args): return _blcelc.iGraphics2D_GetGamma(*args)
-    def CreateOffscreenCanvas(*args): return _blcelc.iGraphics2D_CreateOffscreenCanvas(*args)
-    def __del__(self, destroy=_blcelc.delete_iGraphics2D):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGraphics2D_scfGetVersion
-    if _newclass:scfGetVersion = staticmethod(_blcelc.iGraphics2D_scfGetVersion)
-    def _PerformExtension(*args): return _blcelc.iGraphics2D__PerformExtension(*args)
-    def PerformExtension (self, command, *args):
-              self._PerformExtension(self.__class__.__name__, command, args);
-
-
-class iGraphics2DPtr(iGraphics2D):
-    def __init__(self, this):
-        _swig_setattr(self, iGraphics2D, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iGraphics2D, 'thisown', 0)
-        _swig_setattr(self, iGraphics2D,self.__class__,iGraphics2D)
-_blcelc.iGraphics2D_swigregister(iGraphics2DPtr)
-
-iGraphics2D_scfGetVersion = _blcelc.iGraphics2D_scfGetVersion
-
 csmcNone = _blcelc.csmcNone
 csmcArrow = _blcelc.csmcArrow
 csmcLens = _blcelc.csmcLens
@@ -8839,6 +8872,55 @@ csmcSizeNS = _blcelc.csmcSizeNS
 csmcSizeEW = _blcelc.csmcSizeEW
 csmcStop = _blcelc.csmcStop
 csmcWait = _blcelc.csmcWait
+CS_ALERT_ERROR = _blcelc.CS_ALERT_ERROR
+CS_ALERT_WARNING = _blcelc.CS_ALERT_WARNING
+CS_ALERT_NOTE = _blcelc.CS_ALERT_NOTE
+class iNativeWindowManager(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iNativeWindowManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iNativeWindowManager, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iNativeWindowManager instance at %s>" % (self.this,)
+    def Alert(*args): return _blcelc.iNativeWindowManager_Alert(*args)
+    def __del__(self, destroy=_blcelc.delete_iNativeWindowManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iNativeWindowManagerPtr(iNativeWindowManager):
+    def __init__(self, this):
+        _swig_setattr(self, iNativeWindowManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindowManager, 'thisown', 0)
+        _swig_setattr(self, iNativeWindowManager,self.__class__,iNativeWindowManager)
+_blcelc.iNativeWindowManager_swigregister(iNativeWindowManagerPtr)
+
+class iNativeWindow(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iNativeWindow, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iNativeWindow, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iNativeWindow instance at %s>" % (self.this,)
+    def SetTitle(*args): return _blcelc.iNativeWindow_SetTitle(*args)
+    def __del__(self, destroy=_blcelc.delete_iNativeWindow):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iNativeWindowPtr(iNativeWindow):
+    def __init__(self, this):
+        _swig_setattr(self, iNativeWindow, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindow, 'thisown', 0)
+        _swig_setattr(self, iNativeWindow,self.__class__,iNativeWindow)
+_blcelc.iNativeWindow_swigregister(iNativeWindowPtr)
+
 CSFONT_LARGE = _blcelc.CSFONT_LARGE
 CSFONT_ITALIC = _blcelc.CSFONT_ITALIC
 CSFONT_COURIER = _blcelc.CSFONT_COURIER
@@ -9199,8 +9281,6 @@ class iTextureHandle(iBase):
     def SetKeyColor(*args): return _blcelc.iTextureHandle_SetKeyColor(*args)
     def GetKeyColorStatus(*args): return _blcelc.iTextureHandle_GetKeyColorStatus(*args)
     def GetKeyColor(*args): return _blcelc.iTextureHandle_GetKeyColor(*args)
-    def GetMipMapDimensions(*args): return _blcelc.iTextureHandle_GetMipMapDimensions(*args)
-    def GetOriginalDimensions(*args): return _blcelc.iTextureHandle_GetOriginalDimensions(*args)
     CS_TEX_IMG_1D = _blcelc.iTextureHandle_CS_TEX_IMG_1D
     CS_TEX_IMG_2D = _blcelc.iTextureHandle_CS_TEX_IMG_2D
     CS_TEX_IMG_3D = _blcelc.iTextureHandle_CS_TEX_IMG_3D
@@ -9211,12 +9291,14 @@ class iTextureHandle(iBase):
     CS_TEXTURE_CUBE_NEG_Y = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Y
     CS_TEXTURE_CUBE_POS_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_Z
     CS_TEXTURE_CUBE_NEG_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Z
+    def GetMipMapDimensions(*args): return _blcelc.iTextureHandle_GetMipMapDimensions(*args)
+    def GetOriginalDimensions(*args): return _blcelc.iTextureHandle_GetOriginalDimensions(*args)
+    def SetTextureTarget(*args): return _blcelc.iTextureHandle_SetTextureTarget(*args)
     def GetMeanColor(*args): return _blcelc.iTextureHandle_GetMeanColor(*args)
     def GetCacheData(*args): return _blcelc.iTextureHandle_GetCacheData(*args)
     def SetCacheData(*args): return _blcelc.iTextureHandle_SetCacheData(*args)
     def GetPrivateObject(*args): return _blcelc.iTextureHandle_GetPrivateObject(*args)
     def GetAlphaMap(*args): return _blcelc.iTextureHandle_GetAlphaMap(*args)
-    def Prepare(*args): return _blcelc.iTextureHandle_Prepare(*args)
     def GetCanvas(*args): return _blcelc.iTextureHandle_GetCanvas(*args)
     def GetAlphaType(*args): return _blcelc.iTextureHandle_GetAlphaType(*args)
     def __del__(self, destroy=_blcelc.delete_iTextureHandle):
@@ -9302,10 +9384,8 @@ class iTextureManager(iBase):
     def __repr__(self):
         return "<C iTextureManager instance at %s>" % (self.this,)
     def RegisterTexture(*args): return _blcelc.iTextureManager_RegisterTexture(*args)
-    def PrepareTextures(*args): return _blcelc.iTextureManager_PrepareTextures(*args)
     def FreeImages(*args): return _blcelc.iTextureManager_FreeImages(*args)
     def RegisterMaterial(*args): return _blcelc.iTextureManager_RegisterMaterial(*args)
-    def PrepareMaterials(*args): return _blcelc.iTextureManager_PrepareMaterials(*args)
     def FreeMaterials(*args): return _blcelc.iTextureManager_FreeMaterials(*args)
     def GetTextureFormat(*args): return _blcelc.iTextureManager_GetTextureFormat(*args)
     def CreateSuperLightmap(*args): return _blcelc.iTextureManager_CreateSuperLightmap(*args)
@@ -9546,7 +9626,6 @@ class iMaterialHandle(iBase):
     def GetTexture(*args): return _blcelc.iMaterialHandle_GetTexture(*args)
     def GetFlatColor(*args): return _blcelc.iMaterialHandle_GetFlatColor(*args)
     def GetReflection(*args): return _blcelc.iMaterialHandle_GetReflection(*args)
-    def Prepare(*args): return _blcelc.iMaterialHandle_Prepare(*args)
     def __del__(self, destroy=_blcelc.delete_iMaterialHandle):
         try:
             if self.thisown: destroy(self)
@@ -9558,56 +9637,6 @@ class iMaterialHandlePtr(iMaterialHandle):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterialHandle, 'thisown', 0)
         _swig_setattr(self, iMaterialHandle,self.__class__,iMaterialHandle)
 _blcelc.iMaterialHandle_swigregister(iMaterialHandlePtr)
-
-CS_ALERT_ERROR = _blcelc.CS_ALERT_ERROR
-CS_ALERT_WARNING = _blcelc.CS_ALERT_WARNING
-CS_ALERT_NOTE = _blcelc.CS_ALERT_NOTE
-class iNativeWindowManager(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iNativeWindowManager, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iNativeWindowManager, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iNativeWindowManager instance at %s>" % (self.this,)
-    def Alert(*args): return _blcelc.iNativeWindowManager_Alert(*args)
-    def AlertV(*args): return _blcelc.iNativeWindowManager_AlertV(*args)
-    def __del__(self, destroy=_blcelc.delete_iNativeWindowManager):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class iNativeWindowManagerPtr(iNativeWindowManager):
-    def __init__(self, this):
-        _swig_setattr(self, iNativeWindowManager, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindowManager, 'thisown', 0)
-        _swig_setattr(self, iNativeWindowManager,self.__class__,iNativeWindowManager)
-_blcelc.iNativeWindowManager_swigregister(iNativeWindowManagerPtr)
-
-class iNativeWindow(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iNativeWindow, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iNativeWindow, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iNativeWindow instance at %s>" % (self.this,)
-    def SetTitle(*args): return _blcelc.iNativeWindow_SetTitle(*args)
-    def __del__(self, destroy=_blcelc.delete_iNativeWindow):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class iNativeWindowPtr(iNativeWindow):
-    def __init__(self, this):
-        _swig_setattr(self, iNativeWindow, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindow, 'thisown', 0)
-        _swig_setattr(self, iNativeWindow,self.__class__,iNativeWindow)
-_blcelc.iNativeWindow_swigregister(iNativeWindowPtr)
 
 CS_POS_BY_FRAME = _blcelc.CS_POS_BY_FRAME
 CS_POS_BY_TIME = _blcelc.CS_POS_BY_TIME
@@ -10158,6 +10187,79 @@ _blcelc.csReporterHelper_swigregister(csReporterHelperPtr)
 
 csReporterHelper_Report = _blcelc.csReporterHelper_Report
 
+csConPageUp = _blcelc.csConPageUp
+csConPageDown = _blcelc.csConPageDown
+csConVeryTop = _blcelc.csConVeryTop
+csConVeryBottom = _blcelc.csConVeryBottom
+csConNoCursor = _blcelc.csConNoCursor
+csConNormalCursor = _blcelc.csConNormalCursor
+csConInsertCursor = _blcelc.csConInsertCursor
+class iConsoleWatcher(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iConsoleWatcher, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iConsoleWatcher, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iConsoleWatcher instance at %s>" % (self.this,)
+    def ConsoleVisibilityChanged(*args): return _blcelc.iConsoleWatcher_ConsoleVisibilityChanged(*args)
+    def __del__(self, destroy=_blcelc.delete_iConsoleWatcher):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iConsoleWatcherPtr(iConsoleWatcher):
+    def __init__(self, this):
+        _swig_setattr(self, iConsoleWatcher, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleWatcher, 'thisown', 0)
+        _swig_setattr(self, iConsoleWatcher,self.__class__,iConsoleWatcher)
+_blcelc.iConsoleWatcher_swigregister(iConsoleWatcherPtr)
+
+class iConsoleOutput(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iConsoleOutput, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iConsoleOutput, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iConsoleOutput instance at %s>" % (self.this,)
+    def PutText(*args): return _blcelc.iConsoleOutput_PutText(*args)
+    def GetLine(*args): return _blcelc.iConsoleOutput_GetLine(*args)
+    def Draw2D(*args): return _blcelc.iConsoleOutput_Draw2D(*args)
+    def Draw3D(*args): return _blcelc.iConsoleOutput_Draw3D(*args)
+    def Clear(*args): return _blcelc.iConsoleOutput_Clear(*args)
+    def SetBufferSize(*args): return _blcelc.iConsoleOutput_SetBufferSize(*args)
+    def GetTransparency(*args): return _blcelc.iConsoleOutput_GetTransparency(*args)
+    def SetTransparency(*args): return _blcelc.iConsoleOutput_SetTransparency(*args)
+    def GetFont(*args): return _blcelc.iConsoleOutput_GetFont(*args)
+    def SetFont(*args): return _blcelc.iConsoleOutput_SetFont(*args)
+    def GetTopLine(*args): return _blcelc.iConsoleOutput_GetTopLine(*args)
+    def ScrollTo(*args): return _blcelc.iConsoleOutput_ScrollTo(*args)
+    def GetCursorStyle(*args): return _blcelc.iConsoleOutput_GetCursorStyle(*args)
+    def SetCursorStyle(*args): return _blcelc.iConsoleOutput_SetCursorStyle(*args)
+    def SetVisible(*args): return _blcelc.iConsoleOutput_SetVisible(*args)
+    def GetVisible(*args): return _blcelc.iConsoleOutput_GetVisible(*args)
+    def AutoUpdate(*args): return _blcelc.iConsoleOutput_AutoUpdate(*args)
+    def SetCursorPos(*args): return _blcelc.iConsoleOutput_SetCursorPos(*args)
+    def GetMaxLineWidth(*args): return _blcelc.iConsoleOutput_GetMaxLineWidth(*args)
+    def RegisterWatcher(*args): return _blcelc.iConsoleOutput_RegisterWatcher(*args)
+    def PerformExtension(*args): return _blcelc.iConsoleOutput_PerformExtension(*args)
+    def __del__(self, destroy=_blcelc.delete_iConsoleOutput):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iConsoleOutputPtr(iConsoleOutput):
+    def __init__(self, this):
+        _swig_setattr(self, iConsoleOutput, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleOutput, 'thisown', 0)
+        _swig_setattr(self, iConsoleOutput,self.__class__,iConsoleOutput)
+_blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
+
 class iStandardReporterListener(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -10604,81 +10706,6 @@ class iJointPtr(iJoint):
 _blcelc.iJoint_swigregister(iJointPtr)
 
 iJoint_scfGetVersion = _blcelc.iJoint_scfGetVersion
-
-csConPageUp = _blcelc.csConPageUp
-csConPageDown = _blcelc.csConPageDown
-csConVeryTop = _blcelc.csConVeryTop
-csConVeryBottom = _blcelc.csConVeryBottom
-csConNoCursor = _blcelc.csConNoCursor
-csConNormalCursor = _blcelc.csConNormalCursor
-csConInsertCursor = _blcelc.csConInsertCursor
-class iConsoleWatcher(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iConsoleWatcher, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iConsoleWatcher, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iConsoleWatcher instance at %s>" % (self.this,)
-    def ConsoleVisibilityChanged(*args): return _blcelc.iConsoleWatcher_ConsoleVisibilityChanged(*args)
-    def __del__(self, destroy=_blcelc.delete_iConsoleWatcher):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class iConsoleWatcherPtr(iConsoleWatcher):
-    def __init__(self, this):
-        _swig_setattr(self, iConsoleWatcher, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleWatcher, 'thisown', 0)
-        _swig_setattr(self, iConsoleWatcher,self.__class__,iConsoleWatcher)
-_blcelc.iConsoleWatcher_swigregister(iConsoleWatcherPtr)
-
-class iConsoleOutput(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iConsoleOutput, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iConsoleOutput, name)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iConsoleOutput instance at %s>" % (self.this,)
-    def PutText(*args): return _blcelc.iConsoleOutput_PutText(*args)
-    def PutTextV(*args): return _blcelc.iConsoleOutput_PutTextV(*args)
-    def GetLine(*args): return _blcelc.iConsoleOutput_GetLine(*args)
-    def Draw2D(*args): return _blcelc.iConsoleOutput_Draw2D(*args)
-    def Draw3D(*args): return _blcelc.iConsoleOutput_Draw3D(*args)
-    def Clear(*args): return _blcelc.iConsoleOutput_Clear(*args)
-    def SetBufferSize(*args): return _blcelc.iConsoleOutput_SetBufferSize(*args)
-    def GetTransparency(*args): return _blcelc.iConsoleOutput_GetTransparency(*args)
-    def SetTransparency(*args): return _blcelc.iConsoleOutput_SetTransparency(*args)
-    def GetFont(*args): return _blcelc.iConsoleOutput_GetFont(*args)
-    def SetFont(*args): return _blcelc.iConsoleOutput_SetFont(*args)
-    def GetTopLine(*args): return _blcelc.iConsoleOutput_GetTopLine(*args)
-    def ScrollTo(*args): return _blcelc.iConsoleOutput_ScrollTo(*args)
-    def GetCursorStyle(*args): return _blcelc.iConsoleOutput_GetCursorStyle(*args)
-    def SetCursorStyle(*args): return _blcelc.iConsoleOutput_SetCursorStyle(*args)
-    def SetVisible(*args): return _blcelc.iConsoleOutput_SetVisible(*args)
-    def GetVisible(*args): return _blcelc.iConsoleOutput_GetVisible(*args)
-    def AutoUpdate(*args): return _blcelc.iConsoleOutput_AutoUpdate(*args)
-    def SetCursorPos(*args): return _blcelc.iConsoleOutput_SetCursorPos(*args)
-    def GetMaxLineWidth(*args): return _blcelc.iConsoleOutput_GetMaxLineWidth(*args)
-    def RegisterWatcher(*args): return _blcelc.iConsoleOutput_RegisterWatcher(*args)
-    def PerformExtension(*args): return _blcelc.iConsoleOutput_PerformExtension(*args)
-    def PerformExtensionV(*args): return _blcelc.iConsoleOutput_PerformExtensionV(*args)
-    def __del__(self, destroy=_blcelc.delete_iConsoleOutput):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-
-class iConsoleOutputPtr(iConsoleOutput):
-    def __init__(self, this):
-        _swig_setattr(self, iConsoleOutput, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleOutput, 'thisown', 0)
-        _swig_setattr(self, iConsoleOutput,self.__class__,iConsoleOutput)
-_blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
 
 CS_SEQUENCE_LIGHTCHANGE_NONE = _blcelc.CS_SEQUENCE_LIGHTCHANGE_NONE
 CS_SEQUENCE_LIGHTCHANGE_LESS = _blcelc.CS_SEQUENCE_LIGHTCHANGE_LESS
@@ -12009,22 +12036,28 @@ class iPcLinearMovement(iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iPcLinearMovement instance at %s>" % (self.this,)
-    def SetRotation(*args): return _blcelc.iPcLinearMovement_SetRotation(*args)
+    def SetAngularVelocity(*args): return _blcelc.iPcLinearMovement_SetAngularVelocity(*args)
     def SetSpeed(*args): return _blcelc.iPcLinearMovement_SetSpeed(*args)
-    def SetCameraPitchSpeed(*args): return _blcelc.iPcLinearMovement_SetCameraPitchSpeed(*args)
     def SetVelocity(*args): return _blcelc.iPcLinearMovement_SetVelocity(*args)
     def GetVelocity(*args): return _blcelc.iPcLinearMovement_GetVelocity(*args)
+    def GetAngularVelocity(*args): return _blcelc.iPcLinearMovement_GetAngularVelocity(*args)
     def InitCD(*args): return _blcelc.iPcLinearMovement_InitCD(*args)
     def GetDRData(*args): return _blcelc.iPcLinearMovement_GetDRData(*args)
     def SetDRData(*args): return _blcelc.iPcLinearMovement_SetDRData(*args)
-    def NeedDRData(*args): return _blcelc.iPcLinearMovement_NeedDRData(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
     def GetLastPosition(*args): return _blcelc.iPcLinearMovement_GetLastPosition(*args)
+    def IsPath(*args): return _blcelc.iPcLinearMovement_IsPath(*args)
     def GetSector(*args): return _blcelc.iPcLinearMovement_GetSector(*args)
-    def SetReady(*args): return _blcelc.iPcLinearMovement_SetReady(*args)
-    def IsReady(*args): return _blcelc.iPcLinearMovement_IsReady(*args)
-    def IsOnGround(*args): return _blcelc.iPcLinearMovement_IsOnGround(*args)
     def ExtrapolatePosition(*args): return _blcelc.iPcLinearMovement_ExtrapolatePosition(*args)
+    def UpdateDRDelta(*args): return _blcelc.iPcLinearMovement_UpdateDRDelta(*args)
+    def UpdateDR(*args): return _blcelc.iPcLinearMovement_UpdateDR(*args)
+    def SetPath(*args): return _blcelc.iPcLinearMovement_SetPath(*args)
+    def SetPathTime(*args): return _blcelc.iPcLinearMovement_SetPathTime(*args)
+    def SetPathSpeed(*args): return _blcelc.iPcLinearMovement_SetPathSpeed(*args)
+    def SetPathAction(*args): return _blcelc.iPcLinearMovement_SetPathAction(*args)
+    def SetPathSector(*args): return _blcelc.iPcLinearMovement_SetPathSector(*args)
+    def IsOnGround(*args): return _blcelc.iPcLinearMovement_IsOnGround(*args)
+    def SetDeltaLimit(*args): return _blcelc.iPcLinearMovement_SetDeltaLimit(*args)
     def __del__(self, destroy=_blcelc.delete_iPcLinearMovement):
         try:
             if self.thisown: destroy(self)
@@ -12054,18 +12087,23 @@ class iPcCamera(iBase):
     def __repr__(self):
         return "<C iPcCamera instance at %s>" % (self.this,)
     freelook = _blcelc.iPcCamera_freelook
-    follow = _blcelc.iPcCamera_follow
-    rotational = _blcelc.iPcCamera_rotational
     firstperson = _blcelc.iPcCamera_firstperson
+    thirdperson = _blcelc.iPcCamera_thirdperson
+    m64_thirdperson = _blcelc.iPcCamera_m64_thirdperson
+    lara_thirdperson = _blcelc.iPcCamera_lara_thirdperson
     def SetRegion(*args): return _blcelc.iPcCamera_SetRegion(*args)
+    def SetZoneManager(*args): return _blcelc.iPcCamera_SetZoneManager(*args)
     def SetMode(*args): return _blcelc.iPcCamera_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcCamera_GetMode(*args)
-    def SetFollowPos(*args): return _blcelc.iPcCamera_SetFollowPos(*args)
-    def GetFollowPos(*args): return _blcelc.iPcCamera_GetFollowPos(*args)
-    def SetPitch(*args): return _blcelc.iPcCamera_SetPitch(*args)
-    def GetPitch(*args): return _blcelc.iPcCamera_GetPitch(*args)
-    def SetRoll(*args): return _blcelc.iPcCamera_SetRoll(*args)
-    def GetRoll(*args): return _blcelc.iPcCamera_GetRoll(*args)
+    def SetModeName(*args): return _blcelc.iPcCamera_SetModeName(*args)
+    def GetModeName(*args): return _blcelc.iPcCamera_GetModeName(*args)
+    def GetNextMode(*args): return _blcelc.iPcCamera_GetNextMode(*args)
+    def SetSpringParameters(*args): return _blcelc.iPcCamera_SetSpringParameters(*args)
+    def SetMinMaxCameraDistance(*args): return _blcelc.iPcCamera_SetMinMaxCameraDistance(*args)
+    def SetTurnSpeed(*args): return _blcelc.iPcCamera_SetTurnSpeed(*args)
+    def SetSwingCoef(*args): return _blcelc.iPcCamera_SetSwingCoef(*args)
+    def SetFirstPersonOffset(*args): return _blcelc.iPcCamera_SetFirstPersonOffset(*args)
+    def SetThirdPersonOffset(*args): return _blcelc.iPcCamera_SetThirdPersonOffset(*args)
     def SetRectangle(*args): return _blcelc.iPcCamera_SetRectangle(*args)
     def GetCamera(*args): return _blcelc.iPcCamera_GetCamera(*args)
     def GetView(*args): return _blcelc.iPcCamera_GetView(*args)
@@ -12073,6 +12111,15 @@ class iPcCamera(iBase):
     def GetClearZBuffer(*args): return _blcelc.iPcCamera_GetClearZBuffer(*args)
     def SetClearScreen(*args): return _blcelc.iPcCamera_SetClearScreen(*args)
     def GetClearScreen(*args): return _blcelc.iPcCamera_GetClearScreen(*args)
+    def DisableDistanceClipping(*args): return _blcelc.iPcCamera_DisableDistanceClipping(*args)
+    def EnableFixedDistanceClipping(*args): return _blcelc.iPcCamera_EnableFixedDistanceClipping(*args)
+    def EnableAdaptiveDistanceClipping(*args): return _blcelc.iPcCamera_EnableAdaptiveDistanceClipping(*args)
+    def UseDistanceClipping(*args): return _blcelc.iPcCamera_UseDistanceClipping(*args)
+    def UseFixedDistanceClipping(*args): return _blcelc.iPcCamera_UseFixedDistanceClipping(*args)
+    def GetFixedDistance(*args): return _blcelc.iPcCamera_GetFixedDistance(*args)
+    def GetAdaptiveMinFPS(*args): return _blcelc.iPcCamera_GetAdaptiveMinFPS(*args)
+    def GetAdaptiveMaxFPS(*args): return _blcelc.iPcCamera_GetAdaptiveMaxFPS(*args)
+    def GetAdaptiveMinDistance(*args): return _blcelc.iPcCamera_GetAdaptiveMinDistance(*args)
     def __del__(self, destroy=_blcelc.delete_iPcCamera):
         try:
             if self.thisown: destroy(self)
