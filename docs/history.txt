@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+7-Dec-2003
+	- Jorrit renamed the string ID's for properties from
+		cel.property.pccamera.bla
+	  to
+	  	cel.property.bla
+	  It is redundant and unneeded to specify the property class
+	  there.
 6-Dec-2003
 	- Jorrit implemented cross product and modulo operator for the XML
 	  behaviour layer.

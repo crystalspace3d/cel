@@ -235,11 +235,10 @@ struct iCelPlLayer : public iBase
    * a new ID if needed. There are various places in CEL where this is
    * used.
    * <p>
-   * The convention on string names is usually 'cel.xxx.yyy.zzz'. With 'xxx'
-   * equal to the type of string (i.e. 'property'), 'yyy' equal to the
-   * scope of the property (i.e. 'pccamera') and 'zzz' the name of the
+   * The convention on string names is usually 'cel.xxx.yyy'. With 'xxx'
+   * equal to the type of string (i.e. 'property'), and 'yyy' the name of the
    * given type (i.e. the property name). An example:
-   * 'cel.property.pccamera.startsector'.
+   * 'cel.property.startsector'.
    */
   virtual csStringID FetchStringID (const char* str) = 0;
 

@@ -560,13 +560,13 @@ void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
     properties = new Property[propertycount];
 
     properties[propid_weight].id = pl->FetchStringID (
-    	"cel.property.pcgravity.weight");
+    	"cel.property.weight");
     properties[propid_weight].datatype = CEL_DATA_FLOAT;
     properties[propid_weight].readonly = false;
     properties[propid_weight].desc = "Weight of this object";
 
     action_applypermanentforce = pl->FetchStringID (
-    	"cel.property.pcgravity.ApplyPermanentForce");
+    	"cel.property.ApplyPermanentForce");
   }
 }
 

@@ -229,9 +229,9 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   if (action_wakeup == csInvalidStringID)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    action_wakeup = pl->FetchStringID ("cel.property.pctimer.WakeUp");
-    action_wakeupframe = pl->FetchStringID ("cel.property.pctimer.WakeUpFrame");
-    action_clear = pl->FetchStringID ("cel.property.pctimer.Clear");
+    action_wakeup = pl->FetchStringID ("cel.property.WakeUp");
+    action_wakeupframe = pl->FetchStringID ("cel.property.WakeUpFrame");
+    action_clear = pl->FetchStringID ("cel.property.Clear");
     id_elapsedticks = pl->FetchStringID (
     	"cel.behaviour.parameter.elapsedticks");
     id_currentticks = pl->FetchStringID (
@@ -435,7 +435,7 @@ int celPcProperties::FindProperty (csStringID id)
     if (p->id == csInvalidStringID)
     {
       char* buf = new char[30+strlen (p->propName)];
-      strcpy (buf, "cel.property.pcproperties.");
+      strcpy (buf, "cel.property.");
       strcat (buf, p->propName);
       p->id = pl->FetchStringID (buf);
       delete[] buf;
@@ -466,7 +466,7 @@ csStringID celPcProperties::GetPropertyOrActionID (int i)
   if (p->id == csInvalidStringID)
   {
     char* buf = new char[30+strlen (p->propName)];
-    strcpy (buf, "cel.property.pcproperties.");
+    strcpy (buf, "cel.property.");
     strcat (buf, p->propName);
     p->id = pl->FetchStringID (buf);
     delete[] buf;

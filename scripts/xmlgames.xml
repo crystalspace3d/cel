@@ -40,15 +40,15 @@
 	    <event name="init">
 	        <createpropclass name="pcbillboard" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.name)" value="picture1" />
-	        <property id="propid(pcbillboard.materialname)" value="picture1" />
-	        <property id="propid(pcbillboard.movable)" value="false" />
-	        <property id="propid(pcbillboard.clickable)" value="true" />
-	        <property id="propid(pcbillboard.restack)" value="true" />
-	        <property id="propid(pcbillboard.width)" value="75000" />
-	        <property id="propid(pcbillboard.height)" value="75000" />
-	        <property id="propid(pcbillboard.x)" value="10000" />
-	        <property id="propid(pcbillboard.y)" value="10000" />
+	        <property id="propid(name)" value="picture1" />
+	        <property id="propid(materialname)" value="picture1" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="true" />
+	        <property id="propid(width)" value="75000" />
+	        <property id="propid(height)" value="75000" />
+	        <property id="propid(x)" value="10000" />
+	        <property id="propid(y)" value="10000" />
 	    </event>
 	    <event name="pcbillboard_select">
 	        <call entity="menu" event="destroy" />
@@ -62,11 +62,11 @@
 		<print value="'Creating '+?ent" />
 		<createentity name="?ent" behaviour="moving_object" />
 		<default propclass="pc(?ent,pcbillboard)" />
-	        <property id="propid(pcbillboard.x)" value="1000+75000*?x" />
-	        <property id="propid(pcbillboard.y)" value="1000+75000*?y" />
+	        <property id="propid(x)" value="1000+75000*?x" />
+	        <property id="propid(y)" value="1000+75000*?y" />
 		<var name="tl" value="[?x,?y]*.25" />
-	        <property id="propid(pcbillboard.uv_topleft)" value="?tl" />
-	        <property id="propid(pcbillboard.uv_botright)"
+	        <property id="propid(uv_topleft)" value="?tl" />
+	        <property id="propid(uv_botright)"
 			value="?tl + [.25,.25]" />
 	    </event>
 	    <event name="initrow">
@@ -76,7 +76,7 @@
 	        <var name="uvtl" value="[0,0]" />
 		<for var="y" start="0" end="3" exec="initrow" />
 		<property propclass="pc(p3_3,pcbillboard)"
-			id="propid(pcbillboard.visible)" value="false" />
+			id="propid(visible)" value="false" />
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
 		<var name="allowmove" value="false" />
@@ -103,13 +103,13 @@
 	        <createpropclass name="pctimer" />
 	        <createpropclass name="pcbillboard" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.name)" value="picture1" />
-	        <property id="propid(pcbillboard.materialname)" value="picture1" />
-	        <property id="propid(pcbillboard.movable)" value="false" />
-	        <property id="propid(pcbillboard.clickable)" value="true" />
-	        <property id="propid(pcbillboard.restack)" value="true" />
-	        <property id="propid(pcbillboard.width)" value="75000" />
-	        <property id="propid(pcbillboard.height)" value="75000" />
+	        <property id="propid(name)" value="picture1" />
+	        <property id="propid(materialname)" value="picture1" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="true" />
+	        <property id="propid(width)" value="75000" />
+	        <property id="propid(height)" value="75000" />
 		<var name="rightx" value="?puzzle_main.x" />
 		<var name="righty" value="?puzzle_main.y" />
 		<var name="curx" value="?rightx" />
@@ -118,19 +118,19 @@
 
 	    <event name="pctimer_wakeupframe">
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.x)"
+	        <property id="propid(x)"
 			value="1000+intpol(?delta,?intx1,?intx2)*75000" />
-	        <property id="propid(pcbillboard.y)"
+	        <property id="propid(y)"
 			value="1000+intpol(?delta,?inty1,?inty2)*75000" />
 		<if eval="?delta>=1" true="stoptimer" />
 		<var name="delta" value="?delta+0.01*param(parid(elapsedticks))" />
 	    </event>
 	    <event name="stoptimer">
-		<action propclass="pc(pctimer)" id="propid(pctimer.Clear)" />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<var entity="puzzle_main" name="allowmove" value="true" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.x)" value="1000+?curx*75000" />
-	        <property id="propid(pcbillboard.y)" value="1000+?cury*75000" />
+	        <property id="propid(x)" value="1000+?curx*75000" />
+	        <property id="propid(y)" value="1000+?cury*75000" />
 	    </event>
 
 	    <event name="move">
@@ -145,7 +145,7 @@
 		<var name="inty2" value="float(?cury)" />
 		<var name="delta" value="0.0" />
 		<action propclass="pc(pctimer)"
-			id="propid(pctimer.WakeUpFrame)" />
+			id="propid(WakeUpFrame)" />
 	    </event>
 	    <event name="pcbillboard_select">
 	        <if eval="?puzzle_main.allowmove">
