@@ -343,25 +343,19 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
 
   if (factname && filename)
   {
-    printf("CEL is searching for meshfact '%s'...",factname);
-
     csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
 				        	->FindByName (factname);
     if (!meshfact)
     {
-      printf("Not Found, so loading %s\n",filename);
-
       meshfact = LoadMeshFactory ();
       if (meshfact)
       {
         // Cache the factory.
         csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
         CS_ASSERT (pl != 0);
-	pl->Cache (meshfact);
+	    pl->Cache (meshfact);
       }
     }
-    else
-      printf("Found\n");
 
     if (factory_ptr)
       factory_ptr = 0;
