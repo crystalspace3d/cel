@@ -1,6 +1,9 @@
 28-Dec-2001:
 	- Renamed 'pcinput_' messages to 'pckeyinput_'.
 	- Implemented persistance in pckeyinput property class.
+	- Added the first version of the 'blpython' plugin. This is
+	  a general behaviour layer for python scripting. It compiles
+	  and links but it otherwise not functional.
 27-Dec-2001:
 	- Added a string registry to the physical layer. This can be used
 	  for various things but in the first time it is going to be used

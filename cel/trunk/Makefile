@@ -30,6 +30,7 @@
 # Name of targets
 #------
 BLTEST=bltest$(DLL)
+BLPYTHON=blpython$(DLL)
 PFTEST=pftest$(DLL)
 PFMESH=pfmesh$(DLL)
 PFMOVE=pfmove$(DLL)
@@ -42,6 +43,23 @@ CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
 
 #------
+# determine directory where Python include files are installed.
+# If PYTHON_INC is undefined use /usr/include/python1.5/
+#------
+ifeq ($(strip $(PYTHON_INC)),)
+  PYTHON_INCDIR=/usr/include/python1.5/
+else
+  PYTHON_INCDIR=$(PYTHON_INC)
+endif
+ifeq ($(strip $(PYTHON_LIB)),)
+  PYTHON_LIBDIR=/usr/lib/python1.5/
+else
+  PYTHON_LIBDIR=$(PYTHON_LIB)
+endif
+
+PYTHON_LINKLIB=-L$(PYTHON_LIBDIR) -lpython15
+
+#------
 # Location of sources and object files
 #------
 CPERSIST_SRC=$(wildcard persist/classic/*.cpp)
@@ -50,6 +68,8 @@ PLIMP_SRC=$(wildcard plimp/*.cpp)
 PLIMP_OBJS=$(addsuffix .o, $(basename $(PLIMP_SRC)))
 BLTEST_SRC=$(wildcard bltest/*.cpp)
 BLTEST_OBJS=$(addsuffix .o, $(basename $(BLTEST_SRC)))
+BLPYTHON_SRC=$(wildcard blpython/*.cpp)
+BLPYTHON_OBJS=$(addsuffix .o, $(basename $(BLPYTHON_SRC)))
 PFTEST_SRC=$(wildcard pf/test/*.cpp pf/common/*.cpp)
 PFTEST_OBJS=$(addsuffix .o, $(basename $(PFTEST_SRC)))
 PFMESH_SRC=$(wildcard pf/mesh/*.cpp pf/common/*.cpp)
@@ -83,12 +103,14 @@ CSCONFIG.MAK=csconfig.mak
 ifeq ($(LINK.PLUGIN),)
   LINK.PLUGIN=$(LINK)
 endif
+CSDIR := $(shell ./cs-config --prefix)
 CEL_INCLUDES=-I. -Iinclude
 CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES)
-CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
+CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -DSWIG_GLOBAL
 CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PLIMP_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom) $(PYTHON_LINKLIB)
 PFTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFMESH_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFMOVE_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
@@ -111,9 +133,9 @@ DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) \
-	$(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT)
-
+all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) \
+	$(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT) \
+	$(BLPYTHON)
 
 $(CPERSIST): $(CPERSIST_OBJS)
 	$(DO.PLUGIN) $(CPERSIST_LINKFLAGS)
@@ -123,6 +145,9 @@ $(PLIMP): $(PLIMP_OBJS)
 
 $(BLTEST): $(BLTEST_OBJS)
 	$(DO.PLUGIN) $(BLTEST_LINKFLAGS)
+
+$(BLPYTHON): $(BLPYTHON_OBJS)
+	$(DO.PLUGIN) $(BLPYTHON_LINKFLAGS)
 
 $(PFTEST): $(PFTEST_OBJS)
 	$(DO.PLUGIN) $(PFTEST_LINKFLAGS)
@@ -149,11 +174,20 @@ $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) \
-		$(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) $(CELTEST_OBJS) \
-		$(PFENG_OBJS) $(PFINPUT_OBJS) $(CPERSIST) \
-		$(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
-		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST)
+	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) \
+		$(PFMESH_OBJS) $(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) \
+		$(CELTEST_OBJS) $(PFENG_OBJS) $(PFINPUT_OBJS) $(BLPYTHON_OBJS) \
+		$(CPERSIST) $(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
+		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST) \
+		$(BLPYTHON)
+
+#------
+# Run swig for the blpython plugin.
+#------
+blpythonswig:
+	swig -python -I$(CSDIR)/include/ivaria -c++ -shadow \
+		-o blpython/blcel.cpp blpython/blpython.i
+	mv blpython/blcel.py scripts
 
 #------
 # Create dependencies
@@ -162,6 +196,7 @@ depend: $(CSCONFIG.MAK)
 	gcc -M $(CPERSIST_SRC) $(CXXFLAGS) > makefile.dep
 	gcc -M $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
 	gcc -M $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(BLPYTHON_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(PFMESH_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(PFMOVE_SRC) >> makefile.dep
