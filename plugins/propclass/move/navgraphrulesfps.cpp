@@ -357,7 +357,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
       bool startagain = false;
       while (ilink2 < node->GetLinkCount() && !startagain)
       {
-        int ilinkcount = node->GetLinkCount();
+//      int ilinkcount = node->GetLinkCount();
 
         if (ilink1 != ilink2) // ignore if its the same link
         {

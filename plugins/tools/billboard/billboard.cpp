@@ -94,8 +94,8 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
     if (ty >= image_h) ty = image_h-1;
   }
 
-  tx = tx * (uv_botright.x - uv_topleft.x) + uv_topleft.x * image_w;
-  ty = ty * (uv_botright.y - uv_topleft.y) + uv_topleft.y * image_h;
+  tx = (int)(tx * (uv_botright.x - uv_topleft.x) + uv_topleft.x * image_w);
+  ty = (int)(ty * (uv_botright.y - uv_topleft.y) + uv_topleft.y * image_h);
 }
 
 bool celBillboard::GetFromClickMap (int tx, int ty)

@@ -3406,7 +3406,7 @@ fi
 
 
 
-# Get the cflags and libraries from the cs-config script
+# Get the cflags, libraries, and include-dir from the cs-config script.
 
 # Check whether --with-cs-prefix or --without-cs-prefix was given.
 if test "${with_cs_prefix+set}" = set; then
@@ -3507,6 +3507,7 @@ echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C
     CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
     CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
     CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
+    CRYSTAL_INCLUDE_DIR=`$CSCONF --includedir csgeom csgfx csutil cstool`
 
     cs_major_version=`$CSCONF $cs_args --version | \
        sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
@@ -3634,6 +3635,7 @@ echo "${ECHO_T}no" >&6
    CRYSTAL_CFLAGS=""
    CRYSTAL_VERSION=""
    CRYSTAL_LIBS=""
+   CRYSTAL_INCLUDE_DIR=""
    { { echo "$as_me:$LINENO: error:
 *** Crystal Space could not be found. The latest version is always avaiable
 *** from http://crystal.sourceforge.net/
@@ -3654,6 +3656,8 @@ cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$CRYSTAL_CFLAGS\" ;
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$CRYSTAL_LIBS\" ;
 "
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
+"
+cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE_DIR\" ;
 "
 
 
@@ -4295,21 +4299,21 @@ cs_jamconfig_text="${cs_jamconfig_text}MODE ?= \"$cs_build_mode\" ;
 # contains more than 2 slashes, these paths seem to be correct but jam fails
 # on them.
 if test $prefix = NONE; then
-  prefix="$ac_default_prefix"
+  jam_prefix="$ac_default_prefix"
 else
-  prefix=`echo "$prefix" | sed -e 's:///*:/:g'`
+  jam_prefix=`echo "$prefix" | sed -e 's:///*:/:g'`
 fi
 
 if test $exec_prefix = NONE; then
-  exec_prefix="\$(INSTALLDIR.PREFIX)"
+  jam_exec_prefix="\$(INSTALLDIR.PREFIX)"
 else
-  exec_prefix=`echo "$exec_prefix" | sed -e 's:///*:/:g'`
+  jam_exec_prefix=`echo "$exec_prefix" | sed -e 's:///*:/:g'`
 fi
 
 
-cs_jamconfig_text="${cs_jamconfig_text}INSTALLDIR.PREFIX ?= \"`echo "$prefix" | sed -e 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g' -e 's/\\\\/\\\\\\\\/g'`\" ;
+cs_jamconfig_text="${cs_jamconfig_text}INSTALLDIR.PREFIX ?= \"`echo "$jam_prefix" | sed -e 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g' -e 's/\\\\/\\\\\\\\/g'`\" ;
 "
-cs_jamconfig_text="${cs_jamconfig_text}INSTALLDIR.EXEC_PREFIX ?= \"`echo "$exec_prefix" | sed -e 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g' -e 's/\\\\/\\\\\\\\/g'`\" ;
+cs_jamconfig_text="${cs_jamconfig_text}INSTALLDIR.EXEC_PREFIX ?= \"`echo "$jam_exec_prefix" | sed -e 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g' -e 's/\\\\/\\\\\\\\/g'`\" ;
 "
 
 # Hack: Unfortunately, values of the other directories often contain references
