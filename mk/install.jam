@@ -7,19 +7,30 @@ Always install ;
 
 rule InstallApplication
 {
-	Install $(<)install : $(<) : $(bindir) ;
+	Install $(<:G=install) : $(<) : $(bindir) ;
 		
-	MODE on $(<)install = $(EXEMODE) ;
+	MODE on $(<:G=install) = $(EXEMODE) ;
+}
+
+rule InstallCex
+{
+	Install $(<:G=install) : $(<) : $(csconfdir) ;
+
+	MODE on $(<:G=install) = $(FILEMODE) ;
 }
 
 rule InstallPlugin
 {
-	Install $(<)install : $(<) : $(libdir) ;
+	Install $(<:G=install) : $(<) : $(libdir) ;
+
+	MODE on $(<:G=install) = $(EXEMODE) ;
 }
 
 rule InstallHeader
 {
-	Install $(<)install : $(<) : $(includedir) ;
+	Install $(<:G=install) : $(<) : [ FDirName $(includedir) $(2) ] ;
+
+	MODE on $(<:G=install) = $(FILEMODE) ;
 }
 
 rule Install

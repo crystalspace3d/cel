@@ -9,3 +9,6 @@ SubInclude TOP plimp ;
 SubInclude TOP bltest ;
 SubInclude TOP blpython ;
 SubInclude TOP celtest ;
+SubInclude TOP include ;
+
+InstallCex cel.cex ;
