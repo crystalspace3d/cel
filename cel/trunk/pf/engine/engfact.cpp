@@ -97,6 +97,8 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (kbd != NULL);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
+  followpos.Set(0,0,0);
+  followat.Set(0,0,0);
   angle_xz = angle_yz = _yz = _xz = 0.0;    // staring angles to the object (in radians)
   _dist = dist_y = 10.0;				// starting distance from the object
   alter_angle = alter_dist = false;
@@ -173,17 +175,27 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
 	    iPcMesh);
 	if (!pcmesh) break;
-	csVector3 pos = pcmesh->GetMesh()->GetMovable()->GetPosition();
+	iMovable* movable = pcmesh->GetMesh()->GetMovable();
 	pcmesh->DecRef();
-
-	iCamera* c = view->GetCamera();
-	c->GetTransform().SetOrigin(pos);
 	
-	// eventually enable collision detection for camera
+	iCamera* c = view->GetCamera();
+
+	csReversibleTransform rt = movable->GetFullTransform();
+	csMatrix3 mat = rt.GetT2O();
+	
+	c->GetTransform().SetOrigin(movable->GetPosition());
+	c->GetTransform().SetT2O(mat);
+
+	// move camera to followpos
 	c->OnlyPortals(!use_cd);
-	c->Move (CS_VEC_BACKWARD*2/*+CS_VEC_UP*2*/);
+	c->Move (followpos);
 	c->OnlyPortals(true);
-	c->Move (CS_VEC_FORWARD*.2/*+CS_VEC_DOWN*.2*/);
+	c->Move (followpos*-0.1);
+
+	// transform the lookat vector
+	csVector3 lookat = (movable->GetPosition() -
+		c->GetTransform().GetOrigin()) + (mat * followat);
+	c->GetTransform().LookAt(lookat, csVector3(0,1,0));
 	break;
       }
       case iPcCamera::rotational:
@@ -328,6 +340,9 @@ iCelDataBuffer* celPcCamera::Save ()
   db.Set (tr.GetO2T ().m32);
   db.Set (tr.GetO2T ().m33);
 
+  db.Set (followat);
+  db.Set (followpos);
+
   db.Set ((uint8)cammode);
   db.SetBool (use_cd);
   db.SetBool (rect_set);
@@ -343,7 +358,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL) return false;
-  if (databuf->GetDataCount () != 3+9+7) return false;
+  if (databuf->GetDataCount () != 3+11+7) return false;
   celDataBufHelper db(databuf);
 
   csMatrix3 m_o2t;
@@ -372,6 +387,9 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get(m_o2t.m31);
   db.Get(m_o2t.m32);
   db.Get(m_o2t.m33);
+
+  db.Get(followpos);
+  db.Get(followat);
 
   if (!db.AllOk())
     return false;
