@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	  overall size of the file by a third.
 	  He also changed augmented the list of include paths given to swig
 	  to include the $(TOP)/include
+	- Norman added an --includedir flag to cel-config and augmented cel.m4
+	  to determine and emit the cel includedir to variable CEL.INCLUDE_DIR
 23-Feb-2004
 	- Norman Kraemer fixed python behaviourlayer where const char*
 	  path to behaviour was modified.
