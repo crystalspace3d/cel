@@ -22,6 +22,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in pckeyinput with relation to modifiers.
 	  Binding keys with modifiers (shift and so on) was simply not
 	  possible.
+	- Jorrit fixed two bugs as reported by valgrind.
 13-Jan-2004
 	- Jorrit added support for scoped functions to the XML behaviour
 	  layer (i.e. calling a function from another entity script using
