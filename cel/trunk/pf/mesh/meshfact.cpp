@@ -315,6 +315,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
         CS_ASSERT (pl != NULL);
 	pl->Cache (meshfact);
         pl->DecRef ();
+        meshfact->IncRef ();
       }
     }
     else

@@ -65,6 +65,7 @@ private:
   void SetupFrame ();
   void FinishFrame ();
 
+  bool LoadTextures ();
   bool LoadTexture (const char* txtName, const char* fileName);
   iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
   iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
