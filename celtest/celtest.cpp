@@ -83,7 +83,7 @@ CS_IMPLEMENT_APPLICATION
 
 // Define MINIMAL for a very minimal celtest.
 // Useful for debugging.
-#define MINIMAL 0
+#define MINIMAL 1
 
 //-----------------------------------------------------------------------------
 

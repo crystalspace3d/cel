@@ -40,6 +40,7 @@ celEntity::celEntity (celPlLayer* pl)
   plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = NULL;
   celEntity::pl = pl;
+  entity_ID=0;  
   DG_LINK (this, plist);
   DG_TYPE (this, "celEntity");
 }

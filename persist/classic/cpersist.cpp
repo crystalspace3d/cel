@@ -241,11 +241,12 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
   /* FIXME: hash is very inefficient used that way, as the range of id is
    * probably only between 0 and some hundrets
    */
-  iCelEntity* entity = (iCelEntity*)read_entities.Get (id);
+  iCelEntity* entity = (iCelEntity*)read_entities.Get (id % 211);
   if (!entity)
   {
     entity = pl->CreateEntity ();
-    read_entities.Put (id, entity);
+    if (entity)
+      read_entities.Put (id % 211, entity);
   }
   return entity;
 }
@@ -404,6 +405,14 @@ bool celPersistClassicContext::Read (celData* cd)
       if (!Read (ub)) return false;
       cd->Set ((bool)ub);
       break;
+    case CEL_DATA_INT:
+      if (!Read (l)) return false;
+      cd->Set((int) l);
+      break;
+    case CEL_DATA_UINT:
+      if (!Read (ul)) return false;
+      cd->Set((unsigned int) ul);
+      break;
     case CEL_DATA_BYTE:
       if (!Read (b)) return false;
       cd->Set (b);
@@ -469,6 +478,7 @@ bool celPersistClassicContext::Read (celData* cd)
       }
       break;
     default:
+      Report ("Found unknown Data type!");
       return false;
   }
   return true;
@@ -522,7 +532,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
     Report ("Expected property class, got something else: '%s'!",marker);
     return false;
   }
-  if (marker[3] == '0') return true;	// NULL entity.
+  if (marker[3] == '0') { Report ("Read 0 Entity!"); return true; }	// NULL entity.
   if (marker[3] == 'R')
   {
     // A reference.
@@ -568,6 +578,8 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
 	    pc->SetEntity (entity);
 	    if (pc->Load (db))
 	    {
+	      Report ("Adding PC '%s' to Entity '%s'",
+		  pcname, entity->GetName());
 	      entity->GetPropertyClassList ()->Add (pc);
 	      rc = true;
 	    }
@@ -806,6 +818,12 @@ bool celPersistClassicContext::Write (celData* data)
     case CEL_DATA_BOOL:
       if (!Write ((uint8)data->value.bo)) return false;
       break;
+    case CEL_DATA_INT:
+      if (!Write ((int32) data->value.i)) return false;
+      break;
+    case CEL_DATA_UINT:
+      if (!Write ((uint32) data->value.ui)) return false;
+      break;
     case CEL_DATA_BYTE:
       if (!Write (data->value.b)) return false;
       break;
@@ -847,6 +865,7 @@ bool celPersistClassicContext::Write (celData* data)
       if (!Write (data->value.db)) return false;
       break;
     default:
+      Report("Found a DataType I'm not able to write!");
       CS_ASSERT (false);
       break;
   }

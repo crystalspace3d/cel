@@ -25,6 +25,7 @@
 #include "pl/entity.h"
 #include "pl/persist.h"
 #include "pl/datatype.h"
+#include "pl/databhlp.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -209,27 +210,28 @@ iCelDataBuffer* celPcCamera::Save ()
   iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
   databuf->SetDataCount (1+9+7);
+  celDataBufHelper db(databuf);
+  
   const csTransform& tr = view->GetCamera ()->GetTransform ();
-  int j = 0;
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ());
+  db.Set (tr.GetO2TTranslation ());
 
-  databuf->GetData (j++)->Set (tr.GetO2T ().m11);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m12);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m13);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m21);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m22);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m23);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m31);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m32);
-  databuf->GetData (j++)->Set (tr.GetO2T ().m33);
+  db.Set (tr.GetO2T ().m11);
+  db.Set (tr.GetO2T ().m12);
+  db.Set (tr.GetO2T ().m13);
+  db.Set (tr.GetO2T ().m21);
+  db.Set (tr.GetO2T ().m22);
+  db.Set (tr.GetO2T ().m23);
+  db.Set (tr.GetO2T ().m31);
+  db.Set (tr.GetO2T ().m32);
+  db.Set (tr.GetO2T ().m33);
 
-  databuf->GetData (j++)->Set ((uint8)cammode);
-  databuf->GetData (j++)->Set (use_cd);
-  databuf->GetData (j++)->Set (rect_set);
-  databuf->GetData (j++)->Set ((uint16)rect_x);
-  databuf->GetData (j++)->Set ((uint16)rect_y);
-  databuf->GetData (j++)->Set ((uint16)rect_w);
-  databuf->GetData (j++)->Set ((uint16)rect_h);
+  db.Set ((uint8)cammode);
+  db.Set (use_cd);
+  db.Set (rect_set);
+  db.Set ((uint16)rect_x);
+  db.Set ((uint16)rect_y);
+  db.Set ((uint16)rect_w);
+  db.Set ((uint16)rect_h);
 
   return databuf;
 }
@@ -239,52 +241,42 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL) return false;
   if (databuf->GetDataCount () != 1+9+7) return false;
+  celDataBufHelper db(databuf);
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
-  int j = 0;
-  celData* cd;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.x = cd->value.v.x;
-  v_o2t.y = cd->value.v.y;
-  v_o2t.z = cd->value.v.z;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m11 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m12 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m13 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m21 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m22 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m23 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m31 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m32 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  m_o2t.m33 = cd->value.f;
+  
+  db.Get(v_o2t);
+
+  db.Get(m_o2t.m11);
+  db.Get(m_o2t.m12);
+  db.Get(m_o2t.m13);
+  db.Get(m_o2t.m21);
+  db.Get(m_o2t.m22);
+  db.Get(m_o2t.m23);
+  db.Get(m_o2t.m31);
+  db.Get(m_o2t.m32);
+  db.Get(m_o2t.m33);
+
+  if (!db.AllOk())
+    return false;
+  
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
 
-  cd = databuf->GetData (j++); if (!cd) return false;
-  cammode = (iPcCamera::CameraMode)cd->value.ub;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  use_cd = cd->value.bo;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  rect_set = cd->value.bo;
-  int rx, ry, rw, rh;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  rx = cd->value.uw;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  ry = cd->value.uw;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  rw = cd->value.uw;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  rh = cd->value.uw;
-  if (rect_set) view->SetRectangle (rx, ry, rw, rh);
+  db.Get((uint8&)cammode);
+  db.Get(use_cd);
+  db.Get(rect_set);
+  db.Get((uint16&)rect_x);
+  db.Get((uint16&)rect_y);
+  db.Get((uint16&)rect_w);
+  db.Get((uint16&)rect_h);
+
+  if (!db.AllOk())
+    return false;
+
+  if (rect_set)
+    view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
 
   return true;
 }
@@ -435,6 +427,7 @@ celDataType celPcRegion::GetPropertyOrActionType (csStringID propertyID)
 
 bool celPcRegion::IsPropertyReadOnly (csStringID propertyID)
 {
+  (void)propertyID;
   return false;
 }
 
