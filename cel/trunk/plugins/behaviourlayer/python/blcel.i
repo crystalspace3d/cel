@@ -1,6 +1,6 @@
 #define __CEL__
 %module blcelc
-%include cspace.i
+%include "ivaria/cspace.i"
 %{
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
