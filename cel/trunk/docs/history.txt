@@ -4,6 +4,7 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 26-Nov-2003
+	- Daniel added first draft of CEL documentation.  Any feedback welcome.
 	- Jorrit added first primitive version of TestCollision() function
 	  in the billboard manager. Currently only uses the bounding
 	  rectangle and ignores transparent areas.
