@@ -68,6 +68,7 @@ private:
   float angle_xz, angle_yz, _xz, _yz, dist_y, _dist;
   bool alter_angle, alter_dist;
   int base_x, base_y, base_y_d;
+  float pitch,roll;
 
   csVector3 followpos;
   csVector3 followat;
@@ -99,7 +100,23 @@ public:
     pos = followpos;
     at = followat;
   }
-  
+  void SetPitch(float angle)
+  {
+    pitch = angle;
+  }
+  float GetPitch()
+  {
+    return pitch;
+  }
+  void SetRoll(float angle)
+  {
+    roll = angle;
+  }
+  float GetRoll()
+  {
+    return roll;
+  }
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccamera"; }
@@ -129,6 +146,22 @@ public:
     virtual void GetFollowPos (csVector3& fp, csVector3& at) const
     {
       scfParent->GetFollowPos (fp, at);
+    }
+    virtual void SetPitch(float angle)
+    {
+      scfParent->SetPitch(angle);
+    }
+    virtual float GetPitch()
+    {
+      return scfParent->GetPitch();
+    }
+    virtual void SetRoll(float angle)
+    {
+      scfParent->SetRoll(angle);
+    }
+    virtual float GetRoll()
+    {
+      return scfParent->GetRoll();
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {

@@ -70,6 +70,24 @@ struct iPcCamera : public iBase
   virtual void GetFollowPos (csVector3& fp, csVector3& at) const = 0;
 
   /**
+   * Set LookAt pitch angle (rotation around X axis) for follow and 1st person modes
+   */
+  virtual void SetPitch(float angle) = 0;
+  /**
+   * Get LookAt pitch for follow and 1st person modes
+   */
+  virtual float GetPitch() = 0;
+
+  /**
+   * Set LookAt roll angle (rotation around Z axis) for follow and 1st person modes
+   */
+  virtual void SetRoll(float angle) = 0;
+  /**
+   * Get LookAt roll for follow and 1st person modes
+   */
+  virtual float GetRoll() = 0;
+
+  /**
    * Set the view rectangle to use on screen.
    */
   virtual void SetRectangle (int x, int y, int w, int h) = 0;

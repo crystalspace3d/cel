@@ -102,7 +102,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   followat.Set(0,0,0);
 
   // Starting angles to the object (in radians)
-  angle_xz = angle_yz = _yz = _xz = 0.0;
+  roll = pitch = angle_xz = angle_yz = _yz = _xz = 0.0;
   // starting distance from the object
   _dist = dist_y = 10.0;
 
@@ -198,10 +198,16 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	c->OnlyPortals(true);
 	c->Move (followpos*-0.1);
 
-	// transform the lookat vector
+	// calculate the lookat vector
 	csVector3 lookat = (movable->GetPosition() -
 	    c->GetTransform().GetOrigin()) + (mat * followat);
-	c->GetTransform().LookAt(lookat, csVector3(0,1,0));
+
+    // Set in camera and adjust for roll in one step
+	c->GetTransform().LookAt(lookat, csVector3(0,cos(roll),sin(roll) ));
+
+    // rotation to adjust for pitch angle
+    c->GetTransform().RotateThis(csXRotMatrix3(pitch));
+
 	break;
       }
       case iPcCamera::firstperson:
@@ -229,6 +235,9 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
 	//rotate camera 180 degs
 	c->GetTransform().RotateThis(csVector3(0,1,0), 3.14f);
+
+    // rotation to adjust for pitch angle
+    c->GetTransform().RotateThis(csXRotMatrix3(pitch));
         break;
       }
       case iPcCamera::rotational:
