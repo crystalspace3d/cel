@@ -145,7 +145,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     }
     // @@@ Is this valid? If I remove this then there are
     // problems. However with persistance it seems to create one ref too many?
-    cd->value.ent->IncRef ();
+    //cd->value.ent->IncRef ();
   }
 
   return true;
