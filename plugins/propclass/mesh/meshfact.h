@@ -60,6 +60,8 @@ private:
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
+  static csStringID action_loadmesh;
+
 public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
@@ -120,6 +122,7 @@ public:
   virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcMesh : public iPcMesh
   {

@@ -12,6 +12,11 @@ The history order is reversed so that new features are at the top.
 	  again.
 	- Jorrit extended the CEL API docs so that the supported properties
 	  are now also documented for every property class.
+	- Jorrit added a new 'LoadMesh' action to pcmesh property class so
+	  that you can now load a mesh in a generic way.
+	- Jorrit extended celentity addon so that it can now also execute
+	  actions with parameters (currently string only) on property
+	  classes.
 10-Jul-2004
 	- Jorrit started working on the new pcspawn property class. This
 	  property class is responsible for spawning new entities at

@@ -37,6 +37,12 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
 
 /**
  * This is a property class holding the representation of a mesh.
+ * This property class supports the following actions (add prefix
+ * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
+ * </ul>
  */
 struct iPcMesh : public iBase
 {

@@ -75,6 +75,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcMesh::action_loadmesh = csInvalidStringID;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMesh)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -91,7 +93,12 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   fileName = 0;
   factName = 0;
   factory_ptr = 0;
-  DG_TYPE (this, "celPcMesh()");
+
+  if (action_loadmesh == csInvalidStringID)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    action_loadmesh = pl->FetchStringID ("cel.property.LoadMesh");
+  }
 }
 
 celPcMesh::~celPcMesh ()
@@ -116,6 +123,29 @@ void celPcMesh::Clear ()
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
   factory_ptr = 0;
+}
+
+bool celPcMesh::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_loadmesh)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    const celData* p_file = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.filename"));
+    if (!p_file) return false;
+    if (p_file->type != CEL_DATA_STRING) return false;
+    const celData* p_fact = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.factoryname"));
+    if (!p_fact) return false;
+    if (p_fact->type != CEL_DATA_STRING) return false;
+    bool rc = SetMesh ((const char*)*(p_fact->value.s),
+    		       (const char*)*(p_file->value.s));
+    // @@@ Error report!
+    (void)rc;
+    return true;
+  }
+  return false;
 }
 
 #define MESH_SERIAL 1
@@ -307,7 +337,6 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
   csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
@@ -326,10 +355,16 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
 bool celPcMesh::SetMesh (const char* factname, const char* filename)
 {
-  delete[] fileName;
-  fileName = csStrNew (filename);
-  delete[] factName;
-  factName = csStrNew (factname);
+  if (filename != fileName)
+  {
+    delete[] fileName;
+    fileName = csStrNew (filename);
+  }
+  if (factname != factName)
+  {
+    delete[] factName;
+    factName = csStrNew (factname);
+  }
 
   csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
