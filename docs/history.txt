@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Jul-2003
+	- Jorrit cleaned up the python plugin a bit.
+	- Box in smallgame now has gravity.
 1-Jul-2003
 	- Jorrit renamed celpython to bootstrap. The idea is that the
 	  'bootstrap' tool will be a generic utility with which you can

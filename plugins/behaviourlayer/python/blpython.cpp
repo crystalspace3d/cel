@@ -109,19 +109,18 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   // Store the object registry pointer in 'blcel.object_reg'.
   Store ("blcelc.object_reg_ptr", object_reg, (void*)"_p_iObjectRegistry");
   RunText ("blcelc.object_reg=blcelc.iObjectRegistryPtr(blcelc.object_reg_ptr)");
-  csRef<iCelPlLayer> pCELPhysicalLayer (CS_QUERY_REGISTRY( object_reg, iCelPlLayer ));
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY( object_reg, iCelPlLayer ));
                                    
   // Store the physical layer pointer in 'blcel.physicallayer'.
-  pCELPhysicalLayer->IncRef ();	// Avoid smart pointer release@@@ LEAK
-  Store ("blcelc.physicallayer_ptr", pCELPhysicalLayer, (void*)"_p_iCelPlLayer");
+  Store ("blcelc.physicallayer_ptr", pl, (void*)"_p_iCelPlLayer");
   RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
-  pCELPhysicalLayer->DecRef();
 
   return true;
 }
 
 
-iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* name)
+iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
+	const char* name)
 {
   PyObject *py_module, *py_dict, *py_func, *py_args;
   PyObject *py_entity, *py_object;
