@@ -839,7 +839,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: param %s\n", i-1, A2S (a_arg)));
 	  csStringID id = ArgToID (a_arg);
 	  int si = stack.Push (celXmlArg ());
-	  const celData* data = params->GetParameter (id);
+	  const celData* data = params ? params->GetParameter (id) : 0;
 	  if (!data)
 	    return ReportError (behave, "Can't find parameter!");
 	  switch (data->type)
