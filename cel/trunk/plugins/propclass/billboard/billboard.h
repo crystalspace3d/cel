@@ -71,7 +71,8 @@ private:
     propid_x,
     propid_y,
     propid_uv_topleft,
-    propid_uv_botright
+    propid_uv_botright,
+    propid_layer
   };
 
   static Property* properties;

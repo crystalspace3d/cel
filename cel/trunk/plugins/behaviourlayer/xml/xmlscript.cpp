@@ -2039,11 +2039,31 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  pl->RemoveEntity (ent);
 	}
         break;
-      case CEL_OPERATION_TESTCOLLIDE:
+      case CEL_OPERATION_BB_MOVELAYER:
+        {
+	  CHECK_STACK
+	  celXmlArg a_y = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_x = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_layer = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1, A2S (a_layer),
+	  	A2S (a_x), A2S (a_y)));
+	  // @@@ Efficiency?
+	  csRef<iBillboardManager> bbmgr = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iBillboardManager);
+	  const char* layername = ArgToString (a_layer);
+	  iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
+	  if (!layer)
+	    return ReportError (behave, "Can't find layer '%s'!", layername);
+	  layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
+	}
+	break;
+      case CEL_OPERATION_BB_TESTCOLLIDE:
         {
 	  CHECK_STACK
 	  celXmlArg apc = stack.Pop ();
-	  DUMP_EXEC ((":%04d: testcollide %s\n", i-1, A2S (apc)));
+	  DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (apc)));
 	  iCelPropertyClass* pc = ArgToPClass (apc);
 	  if (!pc)
 	    return ReportError (behave, "Bad property class!\n");

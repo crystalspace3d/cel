@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 15;
+    propertycount = 16;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -149,6 +149,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_uv_botright].datatype = CEL_DATA_VECTOR2;
     properties[propid_uv_botright].readonly = false;
     properties[propid_uv_botright].desc = "Bottom-right UV coordinate.";
+
+    properties[propid_layer].id = pl->FetchStringID (
+    	"cel.property.layer");
+    properties[propid_layer].datatype = CEL_DATA_STRING;
+    properties[propid_layer].readonly = false;
+    properties[propid_layer].desc = "Layer for this billboard.";
   }
 }
 
@@ -483,6 +489,19 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
+  else if (propertyId == properties[propid_layer].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (s);
+      if (!layer)
+        layer = billboard_mgr->CreateBillboardLayer (s);
+      billboard->SetLayer (layer);
+      return true;
+    }
+    return false;
+  }
   else
   {
     return celPcCommon::SetProperty (propertyId, s);
@@ -497,6 +516,13 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
     GetBillboard ();
     if (billboard)
       return billboard->GetMaterialName ();
+    return 0;
+  }
+  else if (propertyId == properties[propid_layer].id)
+  {
+    GetBillboard ();
+    if (billboard)
+      return billboard->GetLayer ()->GetName ();
     return 0;
   }
   else
@@ -663,13 +689,13 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
   	mouse_button, mousex, mousey);
 }
 
-#define BILLBOARD_SERIAL 1
+#define BILLBOARD_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (9);
+  databuf->SetDataCount (10);
   databuf->GetData (0)->Set (billboard_name);
   if (billboard)
   {
@@ -683,6 +709,7 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
     databuf->GetData (5)->Set ((int32)y);
     databuf->GetData (6)->Set ((int32)w);
     databuf->GetData (7)->Set ((int32)h);
+    databuf->GetData (8)->Set (billboard->GetLayer ()->GetName ());
   }
   else
   {
@@ -694,8 +721,9 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
     databuf->GetData (5)->Set ((int32)0);
     databuf->GetData (6)->Set ((int32)0);
     databuf->GetData (7)->Set ((int32)0);
+    databuf->GetData (8)->Set ((const char*)0);
   }
-  databuf->GetData (8)->Set (events_enabled);
+  databuf->GetData (9)->Set (events_enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -704,7 +732,7 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != BILLBOARD_SERIAL) return false;
-  if (databuf->GetDataCount () != 9) return false;
+  if (databuf->GetDataCount () != 10) return false;
   celData* cd;
 
   delete[] billboard_name; billboard_name = 0;
@@ -743,6 +771,15 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
   }
 
   cd = databuf->GetData (8); if (!cd) return false;
+  if (billboard)
+  {
+    iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (*cd->value.s);
+    if (!layer)
+      layer = billboard_mgr->CreateBillboardLayer (*cd->value.s);
+    billboard->SetLayer (layer);
+  }
+
+  cd = databuf->GetData (9); if (!cd) return false;
   EnableEvents (cd->value.b);
 
   return true;

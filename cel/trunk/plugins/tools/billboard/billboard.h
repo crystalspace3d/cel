@@ -49,6 +49,53 @@ class celBillboardManager;
 #define BSY 307200
 
 /**
+ * A layer for the billboard manager. Several billboards can
+ * be in one layer. You can move layers independently.
+ */
+class celBillboardLayer : public iBillboardLayer
+{
+public:
+  int bb_layer_x, bb_layer_y;
+  char* name;
+
+public:
+  celBillboardLayer (const char* name)
+  {
+    SCF_CONSTRUCT_IBASE (0);
+    bb_layer_x = 0;
+    bb_layer_y = 0;
+    celBillboardLayer::name = csStrNew (name);
+  }
+
+  virtual ~celBillboardLayer ()
+  {
+    delete[] name;
+  }
+
+  SCF_DECLARE_IBASE;
+
+  virtual void GetOffset (int& x, int& y) const
+  {
+    x = bb_layer_x;
+    y = bb_layer_y;
+  }
+
+  virtual void SetOffset (int x, int y)
+  {
+    bb_layer_x = x;
+    bb_layer_y = y;
+  }
+
+  virtual void Move (int dx, int dy)
+  {
+    bb_layer_x += dx;
+    bb_layer_y += dy;
+  }
+
+  virtual const char* GetName () const { return name; }
+};
+
+/**
  * A billboard.
  */
 class celBillboard : public iBillboard
@@ -65,6 +112,7 @@ private:
   int bb_x, bb_y, bb_w, bb_h;
   csRefArray<iBillboardEventHandler> handlers;
   celBillboardManager* mgr;
+  celBillboardLayer* layer;
   csColor color;
 
   // If the following flag is true an attempt to delete this billboard
@@ -90,7 +138,7 @@ private:
   void TranslateScreenToTexture (int sx, int sy, int& tx, int& ty);
 
 public:
-  celBillboard (celBillboardManager* mgr);
+  celBillboard (celBillboardManager* mgr, celBillboardLayer* layer);
   virtual ~celBillboard ();
 
   void SetName (const char* n)
@@ -129,6 +177,11 @@ public:
   virtual void Move (int dx, int dy);
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
+  virtual void SetLayer (iBillboardLayer* layer)
+  {
+    celBillboard::layer = (celBillboardLayer*)layer;
+  }
+  virtual iBillboardLayer* GetLayer () const { return layer; }
 
   virtual void SetUVTopLeft (const csVector2& uv) { uv_topleft = uv; }
   virtual const csVector2& GetUVTopLeft () const { return uv_topleft; }
@@ -146,11 +199,15 @@ class celBillboardManager : public iBillboardManager
 {
 private:
   iObjectRegistry* object_reg;
+  csRef<iGraphics3D> g3d;
+
   // Note: the billboard at the end of the following array is the top of
   // the stack.
   csPDelArray<celBillboard> billboards;
   csHash<celBillboard*,csStrKey,csConstCharHashKeyHandler> billboards_hash;
-  csRef<iGraphics3D> g3d;
+
+  csPDelArray<celBillboardLayer> layers;
+  celBillboardLayer* default_layer;
 
   celBillboard* moving_billboard;
   int moving_dx;
@@ -190,6 +247,13 @@ public:
   virtual void RemoveBillboard (iBillboard* billboard);
   virtual int GetBillboardCount () const { return billboards.Length (); }
   virtual iBillboard* GetBillboard (int idx) const { return billboards[idx]; }
+
+  virtual iBillboardLayer* CreateBillboardLayer (const char* name);
+  virtual iBillboardLayer* FindBillboardLayer (const char* name) const;
+  virtual void RemoveBillboardLayer (iBillboardLayer* layer);
+  virtual int GetBillboardLayerCount () const { return layers.Length (); }
+  virtual iBillboardLayer* GetBillboardLayer (int idx) const { return layers[idx]; }
+
   virtual void RemoveAll ();
   virtual void SetFlags (uint32 flags, uint32 mask);
 
