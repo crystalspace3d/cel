@@ -295,10 +295,37 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector, const csVector3& start
   pos = end;
   if (pcsolid->GetCollider ())
   {
+    csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetTransform ();
+    trans.SetOrigin (end);
+
     iCollideSystem* cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
     CS_ASSERT (cdsys != NULL);
-    //@@@@@@@@@@@@@@@@@@@@@@@@
-
+    cdsys->ResetCollisionPairs ();
+    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT (pl != NULL);
+    iCelEntityList* list = pl->FindNearbyEntities (sector, start, 10/*@@@*/);
+    int i;
+    for (i = 0 ; i < list->GetCount () ; i++)
+    {
+      iCelEntity* ent = list->Get (i);
+      if (ent == entity) continue;	// Ignore collisions with ourselves.
+      iPcSolid* pcsolid_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcSolid);
+      if (pcsolid_ent && pcsolid_ent->GetCollider ())
+      {
+        iPcMesh* pcmesh_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh);
+	if (pcmesh_ent)
+	{
+	  csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->GetMovable ()->GetTransform ();
+	  bool ret = cdsys->Collide (pcsolid->GetCollider (), &trans, pcsolid_ent->GetCollider (),
+			  	&trans_ent);
+	  pcmesh_ent->DecRef ();
+	  if (ret) rc = CEL_MOVE_FAIL;
+	}
+	pcsolid_ent->DecRef ();
+      }
+    }
+    list->DecRef ();
+    pl->DecRef ();
     cdsys->DecRef ();
   }
   pcsolid->DecRef ();

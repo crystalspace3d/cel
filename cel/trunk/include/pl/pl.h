@@ -26,6 +26,7 @@
 SCF_DECLARE_FAST_INTERFACE (iCelPlLayer)
 SCF_DECLARE_FAST_INTERFACE (iCelBlLayer)
 SCF_DECLARE_FAST_INTERFACE (iCelEntity)
+SCF_DECLARE_FAST_INTERFACE (iCelEntityList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClass)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
@@ -34,8 +35,11 @@ SCF_DECLARE_FAST_INTERFACE (iObject)
 
 struct iObject;
 struct iCelEntity;
+struct iCelEntityList;
 struct iCelMessage;
 struct iCelPropertyClassFactory;
+struct iSector;
+class csVector3;
 
 SCF_VERSION (iCelPlLayer, 0, 0, 2);
 
@@ -70,6 +74,14 @@ struct iCelPlLayer : public iBase
    * Given an iObject, find the attached entity (if any).
    */
   virtual iCelEntity* FindAttachedEntity (iObject* object) = 0;
+
+  /**
+   * Find all entities that are within a certain radius of
+   * a given object. This uses the attached entities from above.
+   * Do DecRef() on the returned list when ready.
+   */
+  virtual iCelEntityList* FindNearbyEntities (iSector* sector, const csVector3& pos,
+		  float radius) = 0;
 
   /**
    * Register a property class factory with this physical layer.
