@@ -6,6 +6,13 @@ The history order is reversed so that new features are at the top.
 2-Dec-2004
 	- Jorrit restarted work on the quest manager. Added quest
 	  factory implementation.
+	- Jorrit redesigned the quest manager interfaces a bit. There
+	  are now (similar to mesh objects) trigger type, factory, and
+	  instance interfaces and also reward type, factory, and
+	  instance interfaces. Also completed implementation of a few
+	  more interfaces in the quest manager.
+	  Additionally added a lot more documentation to the quest
+	  manager interfaces.
 30-Nov-2004
 	- Eric Sunshine worked around problem where MSVC6 barfed when the
 	  embedded celPcLinearMovement::PcLinearMovement::RotateV() attempted
