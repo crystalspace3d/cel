@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="pfmove" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="pfengine" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=pfmove - Win32 Debug
+CFG=pfengine - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "pfmove.mak".
+!MESSAGE NMAKE /f "pfengine.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "pfmove.mak" CFG="pfmove - Win32 Debug"
+!MESSAGE NMAKE /f "pfengine.mak" CFG="pfengine - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "pfmove - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "pfmove - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "pfengine - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "pfengine - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "pfmove - Win32 Release"
+!IF  "$(CFG)" == "pfengine - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -38,11 +38,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "release\temp\pfmove"
-# PROP Intermediate_Dir "release\temp\pfmove"
+# PROP Output_Dir "release\temp\pfengine"
+# PROP Intermediate_Dir "release\temp\pfengine"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /c
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFENGINE_EXPORTS" /YX /FD /c
 # ADD CPP /nologo /MT /W3 /GX /O2 /I "..\include" /I "..\\" /D "NDEBUG" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -56,12 +56,12 @@ LINK32=link.exe
 # ADD LINK32 libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /nodefaultlib:"LIBCMTD"
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
-TargetPath=.\release\temp\pfmove\pfmove.dll
+TargetPath=.\release\temp\pfengine\pfengine.dll
 SOURCE="$(InputPath)"
 PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "pfmove - Win32 Debug"
+!ELSEIF  "$(CFG)" == "pfengine - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -70,11 +70,11 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "debug\temp\pfmove"
-# PROP Intermediate_Dir "debug\temp\pfmove"
+# PROP Output_Dir "debug\temp\pfengine"
+# PROP Intermediate_Dir "debug\temp\pfengine"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFENGINE_EXPORTS" /YX /FD /GZ /c
 # ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\include" /I "..\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -87,7 +87,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
-TargetPath=.\debug\temp\pfmove\pfmove.dll
+TargetPath=.\debug\temp\pfengine\pfengine.dll
 SOURCE="$(InputPath)"
 PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # End Special Build Tool
@@ -96,14 +96,14 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 # Begin Target
 
-# Name "pfmove - Win32 Release"
-# Name "pfmove - Win32 Debug"
+# Name "pfengine - Win32 Release"
+# Name "pfengine - Win32 Debug"
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\move\movefact.h
+SOURCE=..\pf\engine\engfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,7 +111,7 @@ SOURCE=..\pf\move\movefact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\move\movefact.cpp
+SOURCE=..\pf\engine\engfact.cpp
 # End Source File
 # End Group
 # End Target
