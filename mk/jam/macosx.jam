@@ -64,12 +64,13 @@ rule SystemLinkApplication
   }
 }
 
-# SystemLinkPlugin target : objects : options : metafile
+# SystemLinkPlugin target : objects : options
 rule SystemLinkPlugin
 {
   local target = $($(<)_TARGET) ;
   Depends $(target) : $(>) ;
   LinkPlugin $(target) : $(>) ;
+  PluginMetaData $(<) : $($(<)_METAFILE) ;
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
 }

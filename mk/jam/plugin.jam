@@ -37,6 +37,7 @@ rule Plugin
   $(<)_OBJECTS = $(objects) ;
   $(<)_SOURCES = $(sources) ;
   $(<)_TARGET = $(target) ;
+  $(<)_METAFILE = $(metafile) ;
 
   # create target clean rule
   Always $(<)clean ;
@@ -92,7 +93,7 @@ rule PluginMetaData
   Depends $(<) : $(target) ;
   Depends $(target) : $(>) ;
   MakeLocate $(target) : $(LOCATE.TARGETS) ;
-  File $(target) : $(>) ;
+  Copy $(target) : $(>) ;
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
 }

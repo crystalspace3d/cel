@@ -59,15 +59,6 @@ rule InstallPlugin
 
   InstallPluginPlatform $(target) : $(<) ;
   Depends install_plugins : $(target) ;
-
-  # @@@ Remove this once new .csplugins are utilized.  Presently, .csplugin
-  # files are present, but not consulted at run-time.
-  if $(CMD.SCFREG)
-  {
-    local scf = $(<:R=$(dir):S=.scf:G=installscf) ;
-    ScfFileGen $(scf) : $(target) ;
-    Depends install_plugins : $(scf) ;
-  }
 }
 
 ##  InstallPluginPlatform installplugin : plugin
@@ -83,11 +74,11 @@ rule InstallPluginPlatform
   Install $(<) : $(>) ;
   MODE on $(<) = $(EXEMODE) ;
   
-#local metasrc = $(>:S=$(SUFMETA):G=$(GRISTMETA)) ;
-#  local metadst = $(metasrc:R=$(dir):G=installmeta) ;
-#  Install $(metadst) : $(metasrc) ;
-#  MODE on $(metadst) = $(FILEMODE) ;
-#  Depends install_plugins : $(metadst) ;
+  local metasrc = $(>:S=$(SUFMETA):G=$(GRISTMETA)) ;
+  local metadst = $(metasrc:R=$(dir):G=installmeta) ;
+  Install $(metadst) : $(metasrc) ;
+  MODE on $(metadst) = $(FILEMODE) ;
+  Depends install_plugins : $(metadst) ;
 }
 
 ##  InstallLibrary libraryname [ : subdir ]
@@ -214,8 +205,8 @@ rule InstallMapfile
   for m in $(<)
   {
     local dir = [ FDirName $(INSTALLDIR.MAP) $(m) ] ;
-    local target = $(MAP_$(m)_WORLDFILE:R=$(dir):G=install_$(m)) ;
-    
+    local target = $(MAP_$(m)_WORLDFILE:R=$(dir)) ; 
+   
     Install $(target) : $(MAP_$(m)_WORLDFILE) ;
     MODE on $(target) = $(FILEMODE) ;
     Depends install_maps : $(target) ;
@@ -291,18 +282,6 @@ Depends install : $(INSTALLTARGETS) ;
 actions Install
 {
   $(CMD.INSTALL) -m$(MODE) $(>) $(<) $(INSTALLFLAGS) ;
-}
-
-# @@@ Remove this rule once new .csplugins are utilized.  Presently, .csplugin
-# files are present, but not consulted at run-time.
-rule ScfFileGen
-{
-  Depends $(<) : $(>) ;
-}
-
-actions ScfFileGen
-{
-  $(CMD.SCFREG) $(>) > /dev/null
 }
 
 actions CopyDirs

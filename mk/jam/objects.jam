@@ -143,6 +143,29 @@ rule HeaderRule
   local i ;
   for i in $(s)
   {
+    HDRGRIST on $(s) = $(HDRGRIST) ;
+    HDRSEARCH on $(s) = $(HDRSEARCH) ;
+    HDRRULE on $(s) = [ on $(<) GetVar HDRRULE ] ;
+    HDRSCAN on $(s) = [ on $(<) GetVar HDRPATTERN ] ;
+  }
+}
+
+if $(JAMVERSION) < 2.5
+{
+## XXX XXX XXX a bug in jam 2.4 let's the version above fail. I'll let this
+##    non-optimal version in here until jam 2.5 is out.
+
+rule HeaderRule
+{
+  local s = $(>:G=$(HDRGRIST:E)) ;
+
+  Includes $(<) : $(s) ;
+  SEARCH on $(s) = $(HDRSEARCH) ;
+  NoCare $(s) ;
+ 
+  local i ;
+  for i in $(s)
+  {
     if $(HDRRULE_$(i:S))
     {
       HDRGRIST on $(s) = $(HDRGRIST) ;
@@ -152,10 +175,12 @@ rule HeaderRule
     }
     else if $(JAM_DEBUG)
     {
-      echo "No Header rule for $(i:S) file $(i) " ;
+      #echo "No Header rule for $(i:S) file $(i) " ;
     }
   }
 }
+
+} # end of if $(JAMVERSION) < 1.5
 
 # Dummy rule: .o files are used as is.
 rule UseObjectFile
