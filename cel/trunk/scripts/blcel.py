@@ -1158,8 +1158,8 @@ class iEnginePtr(iBasePtr):
         val = blcelc.iEngine_CreateTexture(self.this,arg0,arg1,arg2,arg3)
         val = iTextureWrapperPtr(val)
         return val
-    def CreateSector(self,arg0,*args):
-        val = apply(blcelc.iEngine_CreateSector,(self.this,arg0,)+args)
+    def CreateSector(self,arg0):
+        val = blcelc.iEngine_CreateSector(self.this,arg0)
         val = iSectorPtr(val)
         return val
     def CreateSectorWallsMesh(self,arg0,arg1):

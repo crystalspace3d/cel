@@ -1,3 +1,5 @@
+27-Feb-2002:
+	- Fixed the python behaviour layer.
 21-Feb-2002:
 	- Renamed celData->Set(bool) to SetBool() to avoid problems on
 	  platforms that don't have the bool type.
