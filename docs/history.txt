@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Jul-2004
+	- Jorrit started working on the new pcspawn property class. This
+	  property class is responsible for spawning new entities at
+	  regular or random intervals. Perhaps it already works but it is
+	  untested.
 9-Jul-2004
 	- Jorrit added a new CEL_DATA_IBASE type to celData so that you
 	  can store generic iBase pointers in a celData.
