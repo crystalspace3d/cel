@@ -24,6 +24,7 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "celtest.h"
+#include "csutil/event.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -125,16 +126,18 @@ bool CelTest::HandleEvent (iEvent& ev)
     celtest->FinishFrame ();
     return true;
   }
-  else if (ev.Type == csevKeyDown)
+  else if (ev.Type == csevKeyboard
+	&& csKeyEventHelper::GetEventType (&ev) == csKeyEventTypeDown)
   {
-    if (ev.Key.Code == CSKEY_ESC)
+    utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
+    if (code == CSKEY_ESC)
     {
       csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
       if (q)
         q->GetEventOutlet()->Broadcast (cscmdQuit);
       return true;
     }
-    else if (ev.Key.Code == 's')
+    else if (code == 's')
     {
       printf ("Saving to '/this/savefile'\n"); fflush (stdout);
       csRef<iCelPersistance> cp (
@@ -147,7 +150,7 @@ bool CelTest::HandleEvent (iEvent& ev)
       bool rc = cp->SaveEntity (game, "/this/savefile");
       printf ("  success %d\n", rc); fflush (stdout);
     }
-    else if (ev.Key.Code == 'l')
+    else if (code == 'l')
     {
       csRef<iCelPersistance> cp (
       	CS_QUERY_REGISTRY (object_reg, iCelPersistance));
@@ -185,7 +188,7 @@ bool CelTest::HandleEvent (iEvent& ev)
       engine->Prepare ();
 #endif
     }
-    else if (ev.Key.Code == 'c')
+    else if (code == 'c')
     {
       if (game)
       {

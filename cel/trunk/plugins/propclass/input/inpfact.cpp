@@ -22,6 +22,7 @@
 #include "iutil/event.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
+#include "csutil/event.h"
 #include "csutil/debug.h"
 #include "csutil/inpnames.h"
 #include "csutil/csevent.h"
@@ -189,7 +190,7 @@ void celPcCommandInput::Activate (bool activate)
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
-    q->RegisterListener (scfiEventHandler, CSMASK_KeyUp | CSMASK_KeyDown);
+    q->RegisterListener (scfiEventHandler, CSMASK_Keyboard);
   }
   else
   {
@@ -290,7 +291,7 @@ void celPcCommandInput::RemoveAllBinds ()
   maplist = 0;
 }
 
-celKeyMap* celPcCommandInput::GetMap (int key) const
+celKeyMap* celPcCommandInput::GetMap (utf32_char key) const
 {
   celKeyMap *p=maplist;
   while (p)
@@ -305,14 +306,18 @@ celKeyMap* celPcCommandInput::GetMap (int key) const
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
-  CS_ASSERT(ev.Type==csevKeyUp || ev.Type==csevKeyDown);
-  int key = ev.Key.Code;
+  CS_ASSERT(ev.Type==csevKeyboard);
+  utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
+  csKeyModifiers key_modifiers;
+  csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+  uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+  uint32 type = csKeyEventHelper::GetEventType (&ev);
 
   //find mapping
   celKeyMap *p = maplist;
   while (p)
   {
-    if ((p->key == key) && ((ev.Key.Modifiers & p->modifiers) == p->modifiers))
+    if ((p->key == key) && ((modifiers & p->modifiers) == p->modifiers))
     {
       break;
     }
@@ -321,7 +326,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   if (!p)
     return false;
 
-  if (ev.Type == csevKeyUp)
+  if (type == csKeyEventTypeUp)
   {
     if (p->is_on)
     {

@@ -41,7 +41,8 @@ CEL_DECLARE_FACTORY (CommandInput)
 struct celKeyMap
 {
   celKeyMap* next, *prev;
-  int key, modifiers;
+  utf32_char key;
+  uint32 modifiers;
   char* command;
   char* command_end;	// Points to 0 or 1 to indicate positive/negative cmd
   bool is_on;
@@ -113,7 +114,7 @@ public:
   } *scfiEventHandler;
 
 protected:
-  celKeyMap *GetMap(int key) const;
+  celKeyMap *GetMap(utf32_char key) const;
 };
 
 #endif // __CEL_PF_TESTFACT__
