@@ -27,6 +27,7 @@ enum
   CEL_TOKEN_ERROR = -1,
   CEL_TOKEN_END,	// End of string
   CEL_TOKEN_DEREFVAR,	// ?expr
+  CEL_TOKEN_DEREFPAR,	// @expr
   CEL_TOKEN_STRINGLIT,	// 'xxx...'
   CEL_TOKEN_VECTOR,	// [expr,expr] or [expr,expr,expr]
   CEL_TOKEN_BOOLTRUE,	// true

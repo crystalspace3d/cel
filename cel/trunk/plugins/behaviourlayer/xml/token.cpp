@@ -61,6 +61,7 @@ const char* celXmlParseToken (const char* input, int& token)
   {
     case 0: token = CEL_TOKEN_END; return input;
     case '?': token = CEL_TOKEN_DEREFVAR; return input+1;
+    case '@': token = CEL_TOKEN_DEREFPAR; return input+1;
     case '\'': token = CEL_TOKEN_STRINGLIT; return input+1;
     case '[': token = CEL_TOKEN_VECTOR; return input+1;
     case ']': token = CEL_TOKEN_VECTORCLOSE; return input+1;

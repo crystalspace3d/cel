@@ -60,6 +60,9 @@ private:
 
   bool SkipComma (const char*& input, iDocumentNode* child,
 	const char* name);
+  bool ParseID (const char*& input, iDocumentNode* child,
+	celXmlScriptEventHandler* h,
+	const char* name, char* str, csStringID fun_id);
   bool ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
