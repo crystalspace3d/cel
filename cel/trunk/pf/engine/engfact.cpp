@@ -107,7 +107,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  view = new csView (engine, g3d);
+  view = csPtr<iView> (new csView (engine, g3d));
   SetupEventHandler ();
   cammode = iPcCamera::freelook;
   use_cd = false;
