@@ -679,7 +679,7 @@ DeleteAll()
 
 CreateTexture(iName,iFileName,iTransp,iFlags)
 
-CreateSector(iName,link)
+CreateSector(iName)
 
 CreateSectorWallsMesh(sector,name)
 

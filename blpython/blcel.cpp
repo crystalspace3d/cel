@@ -33,19 +33,8 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.2  2001/12/28 09:55:07  jorrit
- * - Further work on the blpython layer. It now actually implements
- *   iCelBlLayer correctly and also returns iCelBehaviour instances.
- * - Added GetName() to iCelBlLayer. Behaviour layers can now have
- *   names. This allows CEL to distinguish between different behaviour
- *   layers that may be loaded at the same time.
- * - Added a registry of behaviour layers to the physical layer.
- * - Added GetBehaviourLayer() function to iCelBehaviour.
- * - Made the persistance plugin independent from the behaviour
- *   layer that is choosen by also writing and reading the name
- *   of the behaviour layer. This allows persistance to work correctly
- *   if multiple behaviour layers are in memory (and behaviours from
- *   various behaviour layers are used).
+ * Revision 1.3  2002/02/27 07:47:16  jorrit
+ * Fixed the python behaviour layer.
  *
  ************************************************************************/
 
@@ -7403,19 +7392,17 @@ static PyObject *_wrap_iEngine_CreateTexture(PyObject *self, PyObject *args) {
     return _resultobj;
 }
 
-#define iEngine_CreateSector(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreateSector(_swigarg0,_swigarg1))
+#define iEngine_CreateSector(_swigobj,_swigarg0)  (_swigobj->CreateSector(_swigarg0))
 static PyObject *_wrap_iEngine_CreateSector(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
     iSector * _result;
     iEngine * _arg0;
     char * _arg1;
-    bool  _arg2 = true;
     char * _argc0 = 0;
-    int tempbool2;
     char _ptemp[128];
 
     self = self;
-    if(!PyArg_ParseTuple(args,"ss|i:iEngine_CreateSector",&_argc0,&_arg1,&tempbool2)) 
+    if(!PyArg_ParseTuple(args,"ss:iEngine_CreateSector",&_argc0,&_arg1)) 
         return NULL;
     if (_argc0) {
         if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iEngine_p")) {
@@ -7423,8 +7410,7 @@ static PyObject *_wrap_iEngine_CreateSector(PyObject *self, PyObject *args) {
         return NULL;
         }
     }
-    _arg2 = (bool ) tempbool2;
-    _result = (iSector *)iEngine_CreateSector(_arg0,_arg1,_arg2);
+    _result = (iSector *)iEngine_CreateSector(_arg0,_arg1);
     SWIG_MakePtr(_ptemp, (char *) _result,"_iSector_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
@@ -7594,7 +7580,7 @@ static PyObject *_wrap_iObjectRegistry_Query_iGraphics3D(PyObject *self, PyObjec
 }
 
 static void  iObjectRegistry_Print(iObjectRegistry *self,int  mode,const char * format) {
-      printf (format); 
+      printf (format);
     }
 static PyObject *_wrap_iObjectRegistry_Print(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
