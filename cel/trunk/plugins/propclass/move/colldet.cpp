@@ -209,6 +209,8 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     int hits, i;
     csMatrix3 identitymatrix;
     csOrthoTransform transform_newpos (identitymatrix, newpos);
+    if (movable->GetSectors()->GetCount() == 0)
+        return true;
     iSector* current_sector=movable->GetSectors ()->Get (0);
 
     csMatrix3 mat;
