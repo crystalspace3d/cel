@@ -49,6 +49,7 @@ struct iPcCamera : public iBase
     actual_data,	// The actual camera data
     last_actual,	// Keep reference to the actual data last frame
     transition,
+    camerror,		// Error between actual camera pos and ideal.
 
     CameraMode_count
   };
