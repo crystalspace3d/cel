@@ -115,12 +115,20 @@ public:
   }
   virtual void SetDataCount (int cnt)
   {
-    for (int i = cnt ; i < data.Length () ; i++)
+    int i;
+    for (i = cnt ; i < data.Length () ; i++)
     {
       celData* cd = (celData*)data[i];
       delete cd;
     }
+    int old_cnt = data.Length ();
     data.SetLength (cnt);
+    for (i = old_cnt ; i < cnt ; i++)
+    {
+      celData* cd = new celData ();
+      cd->type = CEL_DATA_NONE;
+      data[i] = cd;
+    }
   }
   virtual int GetDataCount () const
   {

@@ -136,7 +136,7 @@ iCelDataBuffer* celPcInventory::Save ()
     databuf->GetData (j++)->Set (c->strict);
   }
   databuf->GetData (j++)->Set ((uint16)contents.Length ());
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < contents.Length () ; i++)
   {
     iCelEntity* ent = (iCelEntity*)contents[i];
     databuf->GetData (j++)->Set (ent);
