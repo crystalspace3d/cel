@@ -1,31 +1,31 @@
-MESHFACT 'large' (
-  PLUGIN ('crystalspace.mesh.loader.factory.sprite.3d')
-  PARAMS (
-    MATERIAL ('stone')
-    FRAME 'f1' (
-      V (-.2,.20,.2:0,0)
-      V (-.2,.20,-.2:1,0)
-      V (.2,.20,-.2:0,1)
-      V (.2,.20,.2:1,1)
-      V (-.2,-.20,.2:1,0)
-      V (-.2,-.20,-.2:0,1)
-      V (.2,-.20,-.2:1,1)
-      V (.2,-.20,.2:0,0)
-    )
-    ACTION 'default' ( 
-      F(f1,1000)
-    )
-    TRIANGLE (0,3,1)
-    TRIANGLE (3,2,1)
-    TRIANGLE (4,5,7)
-    TRIANGLE (5,6,7)
-    TRIANGLE (0,4,3)
-    TRIANGLE (4,7,3)
-    TRIANGLE (1,6,5)
-    TRIANGLE (1,2,6)
-    TRIANGLE (0,1,5)
-    TRIANGLE (0,5,4)
-    TRIANGLE (2,3,7)
-    TRIANGLE (2,7,6)
-  )
-)
+<meshfact>
+    <plugin>crystalspace.mesh.loader.factory.sprite.3d</plugin>
+    <params>
+        <material>stone</material>
+        <frame name="f1">
+            <v x="-0.2" y="0.2" z="0.2" u="0" v="0" />
+            <v x="-0.2" y="0.2" z="-0.2" u="1" v="0" />
+            <v x="0.2" y="0.2" z="-0.2" u="0" v="1" />
+            <v x="0.2" y="0.2" z="0.2" u="1" v="1" />
+            <v x="-0.2" y="-0.2" z="0.2" u="1" v="0" />
+            <v x="-0.2" y="-0.2" z="-0.2" u="0" v="1" />
+            <v x="0.2" y="-0.2" z="-0.2" u="1" v="1" />
+            <v x="0.2" y="-0.2" z="0.2" u="0" v="0" />
+        </frame>
+        <action name="default">
+            <f name="f1" delay="1000" />
+        </action>
+        <t v1="0" v2="3" v3="1" />
+        <t v1="3" v2="2" v3="1" />
+        <t v1="4" v2="5" v3="7" />
+        <t v1="5" v2="6" v3="7" />
+        <t v1="0" v2="4" v3="3" />
+        <t v1="4" v2="7" v3="3" />
+        <t v1="1" v2="6" v3="5" />
+        <t v1="1" v2="2" v3="6" />
+        <t v1="0" v2="1" v3="5" />
+        <t v1="0" v2="5" v3="4" />
+        <t v1="2" v2="3" v3="7" />
+        <t v1="2" v2="7" v3="6" />
+    </params>
+</meshfact>
