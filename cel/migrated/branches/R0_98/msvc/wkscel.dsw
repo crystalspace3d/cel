@@ -1,0 +1,521 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "appbootstrap"=.\appbootstrap.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "appceltst"=.\appceltst.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "grpall_cel"=.\grpall_cel.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgstdphyslayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmesh
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfdynmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftools
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfbillboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfactormove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfzone
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgcpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgbltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblpython
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblxml
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_celentity
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_xmlscripts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_billboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name appceltst
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name appbootstrap
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "grpapps_cel"=.\grpapps_cel.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name appceltst
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name appbootstrap
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "grplibs_cel"=.\grplibs_cel.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "grpplugins_cel"=.\grpplugins_cel.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name plgstdphyslayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmesh
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfdynmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftools
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfbillboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfactormove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfzone
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgcpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgbltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblpython
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblxml
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_celentity
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_xmlscripts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_billboard
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libceltool"=.\libceltool.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgaddon_celentity"=.\plgaddon_celentity.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgaddon_xmlscripts"=.\plgaddon_xmlscripts.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgblpython"=.\plgblpython.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgbltest"=.\plgbltest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgblxml"=.\plgblxml.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgcpersist"=.\plgcpersist.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgmgr_billboard"=.\plgmgr_billboard.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgpfactormove"=.\plgpfactormove.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfbillboard"=.\plgpfbillboard.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfdynmove"=.\plgpfdynmove.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfengine"=.\plgpfengine.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfinput"=.\plgpfinput.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfinv"=.\plgpfinv.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfmesh"=.\plgpfmesh.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfmove"=.\plgpfmove.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfmover"=.\plgpfmover.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpftest"=.\plgpftest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpftools"=.\plgpftools.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfzone"=.\plgpfzone.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgstdphyslayer"=.\plgstdphyslayer.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

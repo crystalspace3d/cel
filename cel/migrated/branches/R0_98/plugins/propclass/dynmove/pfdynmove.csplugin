@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- pfdynmove.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.dynsys</name>
+        <implementation>celPfDynamicSystem</implementation>
+	<description>CEL Dynamic System Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.dynbody</name>
+        <implementation>celPfDynamicBody</implementation>
+	<description>CEL Dynamic Body Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -1,0 +1,5 @@
+SubDir TOP apps ;
+
+SubInclude TOP apps celtest ;
+SubInclude TOP apps bootstrap ;
+

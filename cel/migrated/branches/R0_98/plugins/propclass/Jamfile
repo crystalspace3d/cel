@@ -1,0 +1,16 @@
+SubDir TOP plugins propclass ;
+
+SubInclude TOP plugins propclass engine ;
+SubInclude TOP plugins propclass input ;
+SubInclude TOP plugins propclass inv ;
+SubInclude TOP plugins propclass mesh ;
+SubInclude TOP plugins propclass move ;
+SubInclude TOP plugins propclass dynmove ;
+SubInclude TOP plugins propclass test ;
+SubInclude TOP plugins propclass tools ;
+SubInclude TOP plugins propclass billboard ;
+SubInclude TOP plugins propclass actormove ;
+SubInclude TOP plugins propclass npcmove ;
+SubInclude TOP plugins propclass zone ;
+SubInclude TOP plugins propclass mover ;
+

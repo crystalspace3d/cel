@@ -1,0 +1,5 @@
+SubDir TOP libs celtool ;
+
+Description celtool : "CEL tool library" ;
+Library celtool : [ Wildcard *.cpp *.h ] ;
+ExternalLibs celtool : CRYSTAL ;
