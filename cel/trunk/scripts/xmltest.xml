@@ -111,12 +111,12 @@
 	    <event name="init">
 	        <var name="isinit" value="false" />
 	        <var name="three" value="3.0" />
-		<print value="(3+4*1)+rgb(3,3,3)" />
-		<print value="[1,2,3]/?('thre'+'e')" />
-		<print value="id(cel.properties.width)" />
-		<print value="id(cel.properties.height)" />
-		<print value="propid(width)" />
-		<print value="1+2*3/2+4-1*10*(1+1+1)" />
+
+
+		<lvar name="i" value="4" />
+		<lvar name="j" value="3" />
+		<var entity="lamp_desk" name="bla_+#i+'_'+#j" value="'test!X'" />
+		<print value="?lamp_desk.bla[#j+1,#i-1]" />
 	    </event>
 	    <event name="findpc">
 	    	<var name="collidetest" value="pc(table_coffee, pcbillboard)" />
