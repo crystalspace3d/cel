@@ -1,3 +1,8 @@
+01-Oct-2002:
+	- Keith Fulton added Yaw (Y-axis) adjustment to iPcCamera.  Yaw,
+	  Pitch and Roll together change the camera viewing angle without
+	  affecting the LookAt vector.
+
 20-Sep-2002:
 	- Patch from Michael Dale Long for improved Python support
 		- Added embedded iScript interface to celBlPython.  Now
