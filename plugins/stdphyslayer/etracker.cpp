@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/math3d.h"
 #include "csutil/util.h"
 #include "csutil/weakref.h"
 #include "csutil/debug.h"
