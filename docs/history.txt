@@ -3,6 +3,15 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Aug-2004
+	- Eric Sunshine made the following changes:
+	    - Updated Autoconf and Jam utility files from master copies in CS.
+	    - CEL include files are now installed into ${includedir}cel rather
+	      than directly into ${includedir} in order to avoid polluting the
+	      top-level global include directory.
+	    - Updated cel-config to report the new installed header location
+	      for the --includedir and --cflags options.
+	    - Added a 'cs-configclean' target.
 1-Aug-2004
 	- Jorrit renamed some badly named macros (CEL_FETCH_..._VAR to
 	  CEL_FETCH_..._PAR).

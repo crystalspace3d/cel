@@ -63,27 +63,33 @@ linkflags()
 }
 
 # If CEL set, prefer it over configure-time installation directory.
-if test -f "${CEL}/include/physicallayer/pl.h"; then
+idir=''
+if test -f "${CEL}/include/cel/physicallayer/pl.h"; then
+    idir="${CEL}/include/cel"
+elif test -f "${CEL}/include/physicallayer/pl.h"; then
+    idir="${CEL}/include"
+fi
+if test -n "${idir}"; then
     # We purposely prepend the new flag to ensure that older flags appear
     # toward this end.  This allows the preprocessor to correctly prefer -I
     # options for the build directory over -I${includedir} for the installation
     # directory (i.e. prefer the current development version over an installed
     # version).
-    cflags="-I${CEL}/include ${cflags}"
-    includedir="${CEL}/include"
+    cflags="-I${idir} ${cflags}"
+    includedir="${idir}"
 fi
 
-# If CEL set and pointing at some installation directory, use it; else if CEL
-# pointing at build directory, use it; else use configure-time installation
-# directory.
-if test -f "${CEL}/lib/cel/stdphyslayer.so" ||
-   test -f "${CEL}/lib/cel/stdphyslayer.dll" ||
-   test -f "${CEL}/lib/cel/stdphyslayer.csbundle"; then
-    plugindir="${CEL}/lib/cel"
-elif test -f "${CEL}/stdphyslayer.so" ||
+# If CEL is set and pointing at build directory, then prefer it over installed
+# version; else if CEL is set and pointing at installed location, then use it;
+# else use configure-time installation directory.
+if test -f "${CEL}/stdphyslayer.so" ||
    test -f "${CEL}/stdphyslayer.dll" ||
    test -f "${CEL}/stdphyslayer.csbundle"; then
     plugindir="${CEL}"
+elif test -f "${CEL}/lib/cel/stdphyslayer.so" ||
+   test -f "${CEL}/lib/cel/stdphyslayer.dll" ||
+   test -f "${CEL}/lib/cel/stdphyslayer.csbundle"; then
+    plugindir="${CEL}/lib/cel"
 fi
 
 if test $# -eq 0; then
