@@ -108,6 +108,10 @@ SOURCE=..\plugins\stdphyslayer\entity.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\stdphyslayer\etracker.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\stdphyslayer\message.cpp
 # End Source File
 # Begin Source File
@@ -129,6 +133,10 @@ SOURCE=..\plugins\stdphyslayer\propclas.cpp
 # Begin Source File
 
 SOURCE=..\plugins\stdphyslayer\entity.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\stdphyslayer\etracker.h
 # End Source File
 # Begin Source File
 
