@@ -25,6 +25,7 @@
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
 #include "csutil/weakref.h"
+#include "csutil/weakrefarr.h"
 #include "csutil/refarr.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
@@ -44,6 +45,7 @@ struct iKeyboardDriver;
 struct iMouseDriver;
 class csView;
 class celPcCamera;
+class iPcZoneManager;
 
 /**
  * Factory for engine stuff.
@@ -196,6 +198,7 @@ public://@@@
   CameraAlgorithm* camalgo;
 
   csWeakRef<iPcRegion> region;
+  csWeakRef<iPcZoneManager> zonemgr;
 
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
@@ -298,6 +301,8 @@ public:
   iCamera* GetCamera () const;
   iView* GetView () const { return view; }
   bool SetRegion (iPcRegion* region, bool point, const char* name);
+  bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+  	const char* regionname, const char* name);
   void SetRectangle (int x, int y, int w, int h);
 
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
@@ -659,7 +664,12 @@ public:
     virtual bool SetRegion (iPcRegion* region, bool point = true,
 	const char* name = 0)
     {
-      return scfParent->SetRegion(region,point,name);
+      return scfParent->SetRegion (region, point, name);
+    }
+    virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+	const char* regionname, const char* name = 0)
+    {
+      return scfParent->SetZoneManager (zonemgr, point, regionname, name);
     }
     virtual bool SetMode (CameraMode m, bool use_cd = true)
     {
@@ -778,7 +788,7 @@ private:
 
   // This property class maintains private child entities
   // which are used for collision detection.
-  csRefArray<iCelEntity> entities;
+  csWeakRefArray<iCelEntity> entities;
 
   enum propids
   {
