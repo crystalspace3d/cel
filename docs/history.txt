@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 21-Sep-2004
 	- Eric Sunshine updated msvcgen templates from master copies in CS
 	  respository.
+	- Andrew Dai stopped collisions affecting mid-air velocity since
+	  there is no distinction between physics engine estimated velocity
+	  and user controlled velocity at the moment.
 19-Sep-2004
 	- Eric Sunshine updated msvcgen templates from master copies in CS
 	  respository.
