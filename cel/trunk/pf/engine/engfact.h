@@ -53,17 +53,17 @@ CEL_DECLARE_FACTORY(Region)
 class celPcCamera : public celPcCommon
 {
 private:
-  iGraphics3D* g3d;
-  iEngine* engine;
-  iKeyboardDriver* kbd;
-  iMouseDriver *mouse;
-  iVirtualClock* vc;
-  iView* view;
+  csRef<iGraphics3D> g3d;
+  csRef<iEngine> engine;
+  csRef<iKeyboardDriver> kbd;
+  csRef<iMouseDriver> mouse;
+  csRef<iVirtualClock> vc;
+  csRef<iView> view;
   bool use_cd;
   bool rect_set;
   int rect_x, rect_y, rect_w, rect_h;
   iPcCamera::CameraMode cammode;
-  iPcRegion* region;
+  csRef<iPcRegion> region;
 
   float angle_xz, angle_yz, _xz, _yz, dist_y, _dist;
   bool alter_angle, alter_dist;
@@ -120,7 +120,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccamera"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcCamera : public iPcCamera
@@ -244,10 +244,10 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcregion"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-	virtual bool PerformAction (csStringID, const char*);
+  virtual bool PerformAction (csStringID, const char*);
 
   struct PcRegion : public iPcRegion
   {

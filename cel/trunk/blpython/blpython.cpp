@@ -101,8 +101,10 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   RunText (
   	"blcel.object_reg=blcel.iObjectRegistryPtr(blcel.object_reg_ptr)");
 
-  iCelPlLayer* pCELPhysicalLayer = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );  
+  csRef<iCelPlLayer> pCELPhysicalLayer (
+  	CS_QUERY_REGISTRY( object_reg, iCelPlLayer ));
   // Store the physical layer pointer in 'blcel.physicallayer'.
+  pCELPhysicalLayer->IncRef ();	// Avoid smart pointer release@@@ LEAK
   Store ("blcel.physicallayer_ptr", pCELPhysicalLayer, (void*)"_iCelPlLayer_p");
   RunText (
   	"blcel.physicallayer=blcel.iCelPlLayerPtr(blcel.physicallayer_ptr)");
@@ -170,7 +172,7 @@ bool celBlPython::LoadModule (const char* name)
 
 void celBlPython::Print (bool Error, const char *msg)
 {
-  iReporter* rep = CS_QUERY_REGISTRY (object_reg, iReporter);
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (!rep)
   {
     csPrintf ("%s\n", msg);
@@ -184,7 +186,6 @@ void celBlPython::Print (bool Error, const char *msg)
     else
       rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.behaviourlayer.python",
       	"%s", msg);
-    rep->DecRef ();
   }
 }
 

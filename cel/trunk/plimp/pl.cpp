@@ -105,8 +105,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   CS_ID objid;
   
   celEntity* entity = new celEntity (this);
-  iCelEntity* ientity = SCF_QUERY_INTERFACE (entity, iCelEntity);
-  entity->DecRef();
+  csRef<iCelEntity> ientity (SCF_QUERY_INTERFACE (entity, iCelEntity));
   objid = idlist.Register(ientity);
   if (objid == 0)
   {
@@ -117,7 +116,8 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
     return NULL;
   }
   entity->SetEntityID(objid);
-  return ientity;
+  ientity->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelEntity> (ientity);
 }
 
 void celPlLayer::RemoveEntity(celEntity *entity)
@@ -268,33 +268,27 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   if (old_entity != NULL) UnattachEntity (object, old_entity);
   celEntityFinder* cef = new celEntityFinder (entity);
   cef->SetName ("__entfind__");	// @@@ For debugging mostly.
-  iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
+  csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
   object->ObjAdd (cef_obj);
-  cef_obj->DecRef ();
   cef->DecRef ();
 }
 
 void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 {
-  celEntityFinder* cef = CS_GET_CHILD_OBJECT (object, celEntityFinder);
+  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
   {
     if (cef->GetEntity () != entity) { cef->DecRef (); return; }
-    iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
+    csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
     object->ObjRemove (cef_obj);
-    cef_obj->DecRef ();
-    cef->DecRef ();
   }
 }
 
 iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 {
-  celEntityFinder* cef = CS_GET_CHILD_OBJECT (object, celEntityFinder);
+  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
-  {
-    cef->DecRef ();
     return cef->GetEntity ();
-  }
   return NULL;
 }
 
@@ -303,17 +297,16 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
-  iObjectIterator* objit = engine->GetNearbyObjects (sector, pos, radius);
+  csRef<iObjectIterator> objit (engine->GetNearbyObjects (sector, pos, radius));
   while (objit->Next ())
   {
     iObject* obj = objit->GetObject ();
-    iMeshWrapper* m = SCF_QUERY_INTERFACE (obj, iMeshWrapper);
+    csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (obj, iMeshWrapper));
     if (m)
     {
       bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-      m->DecRef ();
       if (invisible) continue;
     }
     iCelEntity* ent = FindAttachedEntity (obj);
@@ -322,8 +315,6 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
       list->Add (ent);
     }
   }
-  objit->DecRef ();
-  engine->DecRef ();
   return list;
 }
 
@@ -413,12 +404,9 @@ void celPlLayer::Uncache (iBase* object)
   int idx = cache.Find (object);
   if (idx != -1)
   {
-    iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+    csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
     if (engine)
-    {
 	engine->RemoveObject (object);
-	engine->DecRef ();
-    }
     cache.Delete (idx);
   }
 }

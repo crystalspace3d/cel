@@ -40,8 +40,8 @@ class celPersistClassicContext : public iCelPersistanceContext
 {
 private:
   iObjectRegistry* object_reg;
-  iCelPlLayer* pl;
-  iFile* file;
+  csRef<iCelPlLayer> pl;
+  csRef<iFile> file;
   bool performmapping;
   csHashSet entities;
   csHashSet pclasses;

@@ -62,7 +62,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pckeyinput"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   bool HandleEvent (iEvent& ev);

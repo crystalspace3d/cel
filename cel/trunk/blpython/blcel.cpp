@@ -33,24 +33,8 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.4  2002/07/18 14:33:36  jorrit
- * 	- Several months ago I received a patch from Anders Stenberg.
- * 	  This patch does the following:
- * 	      - Added the blcel.physicallayer_ptr variable so that python
- * 	        scripts can access the pl more easily.
- * 	      - blpython.i contains lots more interfaces to CEL stuff
- * 	        (entities and property classes).
- * 	      - Getting a description string of a property. Will be useful
- * 	        for stuff like entity editors/viewers (within a level
- * 		editor for example).
- * 	      - Enable the subclass to just "register" a property, bind it
- * 	        to one of its members, and then all handling of
- * 		SetProperty/GetProperty is done "automatically". (Of course
- * 		it can be overloaded if you want some special voodoo. For
- * 		example, you can handle just one property with some special
- * 		stuff, and release it to celPcCommon::SetProperty in all other
- * 		cases.)
- * 	      - pcregion uses the new system described above.
+ * Revision 1.5  2002/09/13 10:12:21  jorrit
+ * Full smart pointer fix.
  *
  ************************************************************************/
 
@@ -3368,7 +3352,7 @@ static void *SwigiFontServerToiBase(void *ptr) {
 #define iFontServer_LoadFont(_swigobj,_swigarg0)  (_swigobj->LoadFont(_swigarg0))
 static PyObject *_wrap_iFontServer_LoadFont(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iFont * _result;
+    csPtr< iFont > * _result;
     iFontServer * _arg0;
     char * _arg1;
     char * _argc0 = 0;
@@ -3383,8 +3367,8 @@ static PyObject *_wrap_iFontServer_LoadFont(PyObject *self, PyObject *args) {
         return NULL;
         }
     }
-    _result = (iFont *)iFontServer_LoadFont(_arg0,_arg1);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iFont_p");
+    _result = new csPtr< iFont > (iFontServer_LoadFont(_arg0,_arg1));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iFont_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -5475,12 +5459,12 @@ static void *SwigiMeshObjectToiBase(void *ptr) {
     return (void *) dest;
 }
 
-static iThingState * iMeshObject_Query_iThingState(iMeshObject *self) {
+static csPtr< iThingState >  iMeshObject_Query_iThingState(iMeshObject *self) {
       return SCF_QUERY_INTERFACE(self, iThingState);
     }
 static PyObject *_wrap_iMeshObject_Query_iThingState(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iThingState * _result;
+    csPtr< iThingState > * _result;
     iMeshObject * _arg0;
     char * _argc0 = 0;
     char _ptemp[128];
@@ -5494,8 +5478,8 @@ static PyObject *_wrap_iMeshObject_Query_iThingState(PyObject *self, PyObject *a
         return NULL;
         }
     }
-    _result = (iThingState *)iMeshObject_Query_iThingState(_arg0);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iThingState_p");
+    _result = new csPtr< iThingState > (iMeshObject_Query_iThingState(_arg0));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iThingState_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -6476,7 +6460,7 @@ static void *SwigiTextureManagerToiBase(void *ptr) {
 #define iTextureManager_RegisterTexture(_swigobj,_swigarg0,_swigarg1)  (_swigobj->RegisterTexture(_swigarg0,_swigarg1))
 static PyObject *_wrap_iTextureManager_RegisterTexture(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iTextureHandle * _result;
+    csPtr< iTextureHandle > * _result;
     iTextureManager * _arg0;
     iImage * _arg1;
     int  _arg2;
@@ -6499,8 +6483,8 @@ static PyObject *_wrap_iTextureManager_RegisterTexture(PyObject *self, PyObject 
         return NULL;
         }
     }
-    _result = (iTextureHandle *)iTextureManager_RegisterTexture(_arg0,_arg1,_arg2);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iTextureHandle_p");
+    _result = new csPtr< iTextureHandle > (iTextureManager_RegisterTexture(_arg0,_arg1,_arg2));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iTextureHandle_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -7436,7 +7420,7 @@ static PyObject *_wrap_iEngine_CreateSector(PyObject *self, PyObject *args) {
 #define iEngine_CreateSectorWallsMesh(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreateSectorWallsMesh(_swigarg0,_swigarg1))
 static PyObject *_wrap_iEngine_CreateSectorWallsMesh(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iMeshWrapper * _result;
+    csPtr< iMeshWrapper > * _result;
     iEngine * _arg0;
     iSector * _arg1;
     char * _arg2;
@@ -7459,8 +7443,8 @@ static PyObject *_wrap_iEngine_CreateSectorWallsMesh(PyObject *self, PyObject *a
         return NULL;
         }
     }
-    _result = (iMeshWrapper *)iEngine_CreateSectorWallsMesh(_arg0,_arg1,_arg2);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iMeshWrapper_p");
+    _result = new csPtr< iMeshWrapper > (iEngine_CreateSectorWallsMesh(_arg0,_arg1,_arg2));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iMeshWrapper_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -7543,9 +7527,8 @@ static void *SwigiObjectRegistryToiBase(void *ptr) {
 }
 
 static iEngine * iObjectRegistry_Query_iEngine(iObjectRegistry *self) {
-      iEngine* en = CS_QUERY_REGISTRY (self, iEngine);
-      en->DecRef ();
-      return en;
+      csRef<iEngine> en (CS_QUERY_REGISTRY (self, iEngine));
+      return en;	// DecRef is ok here.
     }
 static PyObject *_wrap_iObjectRegistry_Query_iEngine(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
@@ -7570,9 +7553,8 @@ static PyObject *_wrap_iObjectRegistry_Query_iEngine(PyObject *self, PyObject *a
 }
 
 static iGraphics3D * iObjectRegistry_Query_iGraphics3D(iObjectRegistry *self) {
-      iGraphics3D* g3d = CS_QUERY_REGISTRY (self, iGraphics3D);
-      g3d->DecRef ();
-      return g3d;
+      csRef<iGraphics3D> g3d (CS_QUERY_REGISTRY (self, iGraphics3D));
+      return g3d;	// DecRef is ok here.
     }
 static PyObject *_wrap_iObjectRegistry_Query_iGraphics3D(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
@@ -7632,7 +7614,7 @@ static void *SwigiCelPlLayerToiBase(void *ptr) {
 #define iCelPlLayer_CreateEntity(_swigobj)  (_swigobj->CreateEntity())
 static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iCelEntity * _result;
+    csPtr< iCelEntity > * _result;
     iCelPlLayer * _arg0;
     char * _argc0 = 0;
     char _ptemp[128];
@@ -7646,8 +7628,8 @@ static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) 
         return NULL;
         }
     }
-    _result = (iCelEntity *)iCelPlLayer_CreateEntity(_arg0);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelEntity_p");
+    _result = new csPtr< iCelEntity > (iCelPlLayer_CreateEntity(_arg0));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iCelEntity_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }

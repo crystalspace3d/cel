@@ -50,7 +50,7 @@ CEL_DECLARE_FACTORY (MeshSelect)
 class celPcMesh : public celPcCommon
 {
 private:
-  iMeshWrapper* mesh;
+  csRef<iMeshWrapper> mesh;
   bool visible;
   char* fileName;
   char* factName;
@@ -76,7 +76,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmesh"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMesh : public iPcMesh
@@ -267,7 +267,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmeshselect"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMeshSelect : public iPcMeshSelect

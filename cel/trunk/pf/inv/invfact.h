@@ -90,7 +90,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcinventory"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcInventory : public iPcInventory
@@ -205,7 +205,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccharacteristics"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcCharacteristics : public iPcCharacteristics

@@ -83,38 +83,34 @@ celPcMovable::celPcMovable (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovable);
-  pcmesh = NULL;
   DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
 {
-  if (pcmesh) pcmesh->DecRef ();
   RemoveAllConstraints ();
 }
 
 #define MOVABLE_SERIAL 1
 
-iCelDataBuffer* celPcMovable::Save ()
+csPtr<iCelDataBuffer> celPcMovable::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (MOVABLE_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLE_SERIAL));
   databuf->SetDataCount (1+1+constraints.Length ());
   int i, j = 0;
-  iCelPropertyClass* pc = NULL;
+  csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (j++)->Set (pc);
-  if (pc) pc->DecRef ();
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = (iPcMovableConstraint*)constraints[i];
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (pcm, iCelPropertyClass);
+    csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pcm, iCelPropertyClass));
     databuf->GetData (j++)->Set (pc);
-    pc->DecRef ();
   }
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcMovable::Load (iCelDataBuffer* databuf)
@@ -127,14 +123,13 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   int i, j = 0;
   cd = databuf->GetData (j++); if (!cd) return false;
   iCelPropertyClass* pc = cd->value.pc;
-  iPcMesh* pcm = NULL;
+  csRef<iPcMesh> pcm;
   if (pc)
   {
     pcm = SCF_QUERY_INTERFACE (pc, iPcMesh);
     CS_ASSERT (pcm != NULL);
   }
   SetMesh (pcm);
-  if (pcm) pcm->DecRef ();
 
   cd = databuf->GetData (j++); if (!cd) return false;
   int cnt_constraints = cd->value.uw;
@@ -143,11 +138,10 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_constraints ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    iPcMovableConstraint* pcm = SCF_QUERY_INTERFACE (cd->value.pc,
-    	iPcMovableConstraint);
+    csRef<iPcMovableConstraint> pcm (SCF_QUERY_INTERFACE (cd->value.pc,
+    	iPcMovableConstraint));
     CS_ASSERT (pcm != NULL);
     AddConstraint (pcm);
-    pcm->DecRef ();
   }
 
   return true;
@@ -155,8 +149,6 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
 
 void celPcMovable::SetMesh (iPcMesh* mesh)
 {
-  if (mesh) mesh->IncRef ();
-  if (pcmesh) pcmesh->DecRef ();
   pcmesh = mesh;
 }
 
@@ -257,30 +249,25 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSolid);
-  pcmesh = NULL;
-  collider = NULL;
   DG_TYPE (this, "celPcSolid()");
 }
 
 celPcSolid::~celPcSolid ()
 {
-  if (pcmesh) pcmesh->DecRef ();
-  if (collider) collider->DecRef ();
 }
 
 #define SOLID_SERIAL 1
 
-iCelDataBuffer* celPcSolid::Save ()
+csPtr<iCelDataBuffer> celPcSolid::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (SOLID_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (SOLID_SERIAL));
   databuf->SetDataCount (1);
-  iCelPropertyClass* pc = NULL;
+  csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
-  if (pc) pc->DecRef ();
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcSolid::Load (iCelDataBuffer* databuf)
@@ -289,22 +276,19 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   if (serialnr != SOLID_SERIAL) return false;
   if (databuf->GetDataCount () != 1) return false;
   celData* cd;
-  if (collider) { collider->DecRef (); collider = NULL; }
+  collider = NULL;
   cd = databuf->GetData (0); if (!cd) return false;
-  iPcMesh* pcm = NULL;
+  csRef<iPcMesh> pcm;
   if (cd->value.pc)
-      pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcMesh);
+    pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcMesh);
   SetMesh (pcm);
-  if (pcm) pcm->DecRef ();
   return true;
 }
 
 void celPcSolid::SetMesh (iPcMesh* mesh)
 {
-  if (mesh) mesh->IncRef ();
-  if (pcmesh) pcmesh->DecRef ();
   pcmesh = mesh;
-  if (collider) { collider->DecRef (); collider = NULL; }
+  collider = NULL;
 }
 
 iCollider* celPcSolid::GetCollider ()
@@ -315,15 +299,14 @@ iCollider* celPcSolid::GetCollider ()
     pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
   }
   CS_ASSERT (pcmesh != NULL);
-  iPolygonMesh* pmesh = SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->
-  	GetMeshObject (), iPolygonMesh);
+  csRef<iPolygonMesh> pmesh (SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->
+  	GetMeshObject (), iPolygonMesh));
   if (pmesh)
   {
-    iCollideSystem* cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+    csRef<iCollideSystem> cdsys (
+    	CS_QUERY_REGISTRY (object_reg, iCollideSystem));
     CS_ASSERT (cdsys != NULL);
     collider = cdsys->CreateCollider (pmesh);
-    pmesh->DecRef ();
-    cdsys->DecRef ();
   }
   return collider;
 }
@@ -389,18 +372,17 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
-  if (cdsys) cdsys->DecRef ();
 }
 
 #define MOVABLECONST_CD_SERIAL 1
 
-iCelDataBuffer* celPcMovableConstraintCD::Save ()
+csPtr<iCelDataBuffer> celPcMovableConstraintCD::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL));
   databuf->SetDataCount (0);
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
@@ -414,11 +396,11 @@ bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
 int celPcMovableConstraintCD::CheckMove (iSector* sector,
 	const csVector3& start, const csVector3& end, csVector3& pos)
 {
-  iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-  	iPcMesh);
+  csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+  	iPcMesh));
   CS_ASSERT (pcmesh != NULL);
-  iPcSolid* pcsolid = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-  	iPcSolid);
+  csRef<iPcSolid> pcsolid (CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+  	iPcSolid));
   CS_ASSERT (pcsolid != NULL);
 
   // See if we're handling a single point.
@@ -430,7 +412,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
   {
     // Create a collider for detecting collision detection along the
     // movement vector.
-    iCollider* path_collider = NULL;
+    csRef<iCollider> path_collider;
     csReversibleTransform path_trans;	// Identity
     if (!single_point)
     {
@@ -445,22 +427,23 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     trans.SetOrigin (end);
 
     cdsys->ResetCollisionPairs ();
-    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
     CS_ASSERT (pl != NULL);
-    iCelEntityList* list = pl->FindNearbyEntities (sector, start, 10/*@@@*/);
+    csRef<iCelEntityList> list (
+    	pl->FindNearbyEntities (sector, start, 10/*@@@*/));
     int i;
     for (i = 0 ; i < list->GetCount () ; i++)
     {
       iCelEntity* ent = list->Get (i);
       if (ent == entity) continue;	// Ignore collisions with ourselves.
-      iPcSolid* pcsolid_ent = CEL_QUERY_PROPCLASS (
-      	ent->GetPropertyClassList (), iPcSolid);
+      csRef<iPcSolid> pcsolid_ent (CEL_QUERY_PROPCLASS (
+      	ent->GetPropertyClassList (), iPcSolid));
       if (pcsolid_ent)
       {
         if (pcsolid_ent->GetCollider ())
         {
-          iPcMesh* pcmesh_ent = CEL_QUERY_PROPCLASS (
-		ent->GetPropertyClassList (), iPcMesh);
+          csRef<iPcMesh> pcmesh_ent (CEL_QUERY_PROPCLASS (
+		ent->GetPropertyClassList (), iPcMesh));
 	  if (pcmesh_ent)
 	  {
 	    csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->
@@ -474,19 +457,12 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 	    if (!ret)
 	      ret = cdsys->Collide (pcsolid->GetCollider (), &trans,
 	    	  pcsolid_ent->GetCollider (), &trans_ent);
-	    pcmesh_ent->DecRef ();
 	    if (ret) rc = CEL_MOVE_FAIL;
 	  }
 	}
-	pcsolid_ent->DecRef ();
       }
     }
-    list->DecRef ();
-    pl->DecRef ();
-    if (path_collider) path_collider->DecRef ();
   }
-  pcsolid->DecRef ();
-  pcmesh->DecRef ();
   return rc;
 }
 
@@ -581,9 +557,6 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcGravity);
   scfiEventHandler = NULL;
-  pcmovable = NULL;
-  pcsolid = NULL;
-  gravity_collider = NULL;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != NULL);
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -601,54 +574,41 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   gravity_mesh = NULL;
 
   scfiEventHandler = new EventHandler (this);
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != NULL);
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
-  q->DecRef ();
   DG_TYPE (this, "celPcGravity()");
 }
 
 celPcGravity::~celPcGravity ()
 {
   ClearForces ();
-  if (pcmovable) pcmovable->DecRef ();
-  if (pcsolid) pcsolid->DecRef ();
-  if (gravity_collider) gravity_collider->DecRef ();
   if (scfiEventHandler)
   {
-    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     if (q != NULL)
-    {
       q->RemoveListener (scfiEventHandler);
-      q->DecRef ();
-    }
     scfiEventHandler->DecRef ();
   }
-  if (cdsys) cdsys->DecRef ();
-  if (pl) pl->DecRef ();
-  if (vc) vc->DecRef ();
 }
 
 #define GRAVITY2_SERIAL 1
 
-iCelDataBuffer* celPcGravity::Save ()
+csPtr<iCelDataBuffer> celPcGravity::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (GRAVITY2_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (GRAVITY2_SERIAL));
   databuf->SetDataCount (8+forces.Length ()*2);
   celDataBufHelper db(databuf);
 
-  iCelPropertyClass* pc;
+  csRef<iCelPropertyClass> pc;
   if (pcmovable) pc = SCF_QUERY_INTERFACE (pcmovable, iCelPropertyClass);
   else pc = NULL;
   db.Set (pc);
-  if (pc) pc->DecRef ();
   if (pcsolid) pc = SCF_QUERY_INTERFACE (pcsolid, iCelPropertyClass);
   else pc = NULL;
   db.Set (pc);
-  if (pc) pc->DecRef ();
 
   db.Set (weight);
   db.Set (current_speed);
@@ -665,7 +625,8 @@ iCelDataBuffer* celPcGravity::Save ()
     db.Set (f->time_remaining);
   }
   
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcGravity::Load (iCelDataBuffer* databuf)
@@ -676,16 +637,14 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
   iCelPropertyClass* pc;
 
   db.Get(pc);
-  iPcMovable* pcm = NULL;
+  csRef<iPcMovable> pcm;
   if (pc) pcm = SCF_QUERY_INTERFACE (pc, iPcMovable);
   SetMovable (pcm);
-  if (pcm) pcm->DecRef ();
 
   db.Get(pc);
-  iPcSolid* pcs = NULL;
+  csRef<iPcSolid> pcs;
   if (pc) pcs = SCF_QUERY_INTERFACE (pc, iPcSolid);
   SetSolid (pcs);
-  if (pcs) pcs->DecRef ();
 
   if (!db.AllOk())
     return false;
@@ -727,7 +686,6 @@ void celPcGravity::CreateGravityCollider (const csVector3& dim,
   gravity_dim = dim;
   gravity_offs = offs;
 
-  if (gravity_collider) gravity_collider->DecRef ();
   celPolygonMeshCube* pmcube = new celPolygonMeshCube (dim, offs);
   gravity_collider = cdsys->CreateCollider (pmcube);
   pmcube->DecRef ();
@@ -815,9 +773,9 @@ bool celPcGravity::HandleEvent (iEvent& ev)
     if (!elapsed_time) return false;
     delta_t1 = elapsed_time/1000.0;
 
-    iCelEntityList* cd_list = pl->FindNearbyEntities (movable->
+    csRef<iCelEntityList> cd_list (pl->FindNearbyEntities (movable->
     	GetSectors ()->Get (0),
-    	w2o.GetOrigin (), 10/*@@@*/);
+    	w2o.GetOrigin (), 10/*@@@*/));
 
     // Handle physics so that we only call HandleForce for 0.1 second
     // maximum. This ensures that it will work ok on slower systems.
@@ -829,8 +787,6 @@ bool celPcGravity::HandleEvent (iEvent& ev)
       dt1 -= dt;
       HandleForce (dt, collider, cd_list);
     }
-
-    cd_list->DecRef ();
   }
   return false;
 }
@@ -851,18 +807,17 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
   for (i = 0 ; i < num_cdlist ; i++)
   {
     iCelEntity* ent = cd_list->Get (i);
-    iPcSolid* solid_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-      	iPcSolid);
+    csRef<iPcSolid> solid_ent (
+    	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
+      	iPcSolid));
     if (!solid_ent)
       continue;
     if (!solid_ent->GetCollider ())
-    {
-      solid_ent->DecRef ();
       continue;
-    }
 
-    iPcMovable* mov_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-      	iPcMovable);
+    csRef<iPcMovable> mov_ent (
+    	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
+      	iPcMovable));
     csReversibleTransform* coltrans;
     // @@@ Should use GetFullTransform()???
     if (mov_ent) coltrans = &mov_ent->GetMesh ()->GetMesh ()->GetMovable ()->
@@ -873,8 +828,6 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
     colliders[num_colliders] = solid_ent->GetCollider ();
     transforms[num_colliders] = coltrans;
     num_colliders++;
-    solid_ent->DecRef ();
-    if (mov_ent) mov_ent->DecRef ();
   }
   return num_colliders;
 }
