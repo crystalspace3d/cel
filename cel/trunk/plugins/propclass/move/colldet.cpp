@@ -487,7 +487,6 @@ int celPcCollisionDetection::CollisionDetect (
 #endif
 
   int hits = 0;
-  int j;
 
   csVector3 testpos;
   csVector3 line[2];
@@ -527,7 +526,7 @@ int celPcCollisionDetection::CollisionDetect (
               ->GetName ());
 #endif
         CD_contact = cdsys->GetCollisionPairs ();
-        for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
+        for (size_t j = 0; j < cdsys->GetCollisionPairCount (); j++ )
         {
           /*
            * Here we follow a segment from our current position to the
