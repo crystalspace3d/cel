@@ -91,7 +91,7 @@ public:
   bool Initialize (iObjectRegistry* object_reg, iFile* file, int mode,
       bool performmapping);
 
-  virtual iCelEntity* LoadEntity();
+  virtual csPtr<iCelEntity> LoadEntity();
   virtual bool SaveEntity(iCelEntity* entity);
 
   virtual CS_ID GetMappedID(iCelEntity* entitiy);
@@ -126,7 +126,7 @@ public:
   virtual ~celPersistClassic ();
   bool Initialize (iObjectRegistry* object_reg);
 
-  virtual iCelEntity* LoadEntity (const char* name);
+  virtual csPtr<iCelEntity> LoadEntity (const char* name);
   virtual bool SaveEntity (iCelEntity* entity, const char* name);
 
   virtual iCelPersistanceContext* CreateContext(iBase* data, int mode, 
