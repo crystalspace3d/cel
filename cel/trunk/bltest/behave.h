@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BLTEST_ENTITY__
-#define __CEL_BLTEST_ENTITY__
+#ifndef __CEL_BLTEST_BEHAVE__
+#define __CEL_BLTEST_BEHAVE__
 
 #include "cstypes.h"
 #include "csutil/scf.h"
@@ -41,5 +41,5 @@ public:
   virtual bool SendMessageV (const char* msg_id, va_list arg);
 };
 
-#endif // __CEL_BLTEST_ENTITY__
+#endif // __CEL_BLTEST_BEHAVE__
 
