@@ -1761,7 +1761,7 @@ The history order is reversed so that new features are at the top.
 	    -the position of the camera relative to the mesh
 	    -the position of the point the camera looks at, rel. to the mesh
 21-Feb-2002:
-	- Renamed celData->Set(bool) to Set() to avoid problems on
+	- Renamed celData->Set(bool) to SetBool() to avoid problems on
 	  platforms that don't have the bool type.
 20-Feb-2002:
 	- Fixed a bug in celPcRegion::SetWorldFile() it would delete
