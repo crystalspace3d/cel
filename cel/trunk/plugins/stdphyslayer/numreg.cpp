@@ -315,8 +315,12 @@ int celIDRegistry::AddScope (csString impl, int size)
   else if (impl == "cel.numreg.hash")
     nr = new NumRegHash (size);
   else
+  {
     fprintf (stderr, 
-	     "celIDRegistry: %s: no such implementation", impl.GetData ());
+	     "celIDRegistry: %s: no such implementation; falling back to "
+	     "cel.numreg.lists\n", impl.GetData ());
+    nr = new NumRegLists (size);
+  }
 
   struct part p;
   p.numreg = nr;
