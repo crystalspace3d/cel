@@ -6,6 +6,12 @@ The history order is reversed so that new features are at the top.
 3-Sep-2004
 	- Eric Sunshine upgraded CEL to completely new (from scratch) msvcgen
 	  facility based upon TemplateToolkit.
+	- Eric Sunshine fixed problems reported by <cbarney1509@earthlink.net>
+	  where invocations of the variable argument
+	  iCelPlLayer::CreateEntity(...) were incorrectly being terminated with
+	  plain `0' rather than `(void*)0'. This broke on 64-bit platforms
+	  where plain `0' was only 32 bits, but the vararg code was expecting a
+	  64-bit null terminator.
 2-Sep-2004
 	- Jorrit changed celPcCamera to use the new csColliderHelper
 	  TraceBeam() function in CS. This should speed up third

@@ -154,7 +154,7 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
 	"pcinventory",
 	"pccharacteristics",
 	"pctest",
-  	0);
+  	(void*)0);
   if (!entity_box) return 0;
 
   csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_box,
@@ -216,7 +216,7 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
 	"pcmovable",
 	"pcmovableconst_cd",
 	"pcmesh",
-  	0);
+  	(void*)0);
 
   csRef<iPcTimer> pctimer = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcTimer);
   pctimer->WakeUp (1000, true);
@@ -260,7 +260,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pcmeshselect",
 	"pclinearmovement",
 	"pctooltip",
-	0);
+	(void*)0);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -341,7 +341,7 @@ bool CelTest::CreateRoom ()
   entity_room = pl->CreateEntity ("room", bltest, "room",
   	"pcregion",
 	"pcinventory",
-  	0);
+  	(void*)0);
 
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcRegion);
 #if MINIMAL
@@ -427,7 +427,7 @@ bool CelTest::CreateRoom ()
   // Create Graph entity
   csRef<iCelEntity> graph = pl->CreateEntity ("navgraph1", 0, 0,
   	"pcgraph",
-  	0);
+  	(void*)0);
   if (!graph) return 0;
   csRef<iPcNavGraph> pcgraph = CEL_QUERY_PROPCLASS_ENT (graph, iPcNavGraph);
 
@@ -439,7 +439,7 @@ bool CelTest::CreateRoom ()
   // Create FPS rules for graph navigation
   csRef<iCelEntity> graphrulesfps = pl->CreateEntity ("graphrulesfps", 0, 0,
   	"pcgraphrulesfps",
-  	0);
+  	(void*)0);
   if (!graphrulesfps) return 0;
   csRef<iPcNavGraphRules> navrules = CEL_QUERY_PROPCLASS_ENT (graphrulesfps,
   	iPcNavGraphRules);

@@ -69,7 +69,7 @@ struct iCelPlLayer : public iBase
    * the entity could not be created for some reason (or the behaviour
    * failed). In that case this function returns 0. This function will
    * also create a number of property classes for this entity. You have
-   * to end the list of property class names with 0.
+   * to end the list of property class names with (void*)0.
    * The variable parameters should be property class strings.
    * \param entname can be 0. In that case no name will be set.
    * \param bl is the behaviour layer and can be 0.
