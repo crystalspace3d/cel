@@ -10,13 +10,13 @@ class smallgame:
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.gravity")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.movable")
 
-		region = celCreateRegion(physicallayer_ptr,celEntity,"pcregion")
+		region = celCreateRegion(physicallayer_ptr,celEntity,"main")
 		region.SetWorldFile("/lev/partsys", "world")
 		region.SetRegionName("partsys")
 		rc = region.Load()
 		room = region.GetStartSector()
 
-		camera = celCreateCamera(physicallayer_ptr,celEntity,"pccamera")
+		camera = celCreateCamera(physicallayer_ptr,celEntity)
 		camera.SetRegion(region)
 
 		# @@@ The below is not very nice.
