@@ -22,6 +22,7 @@
 
 #include "csutil/csobject.h"
 #include "csutil/refarr.h"
+#include "csutil/leakguard.h"
 #include "physicallayer/entity.h"
 #include "plugins/stdphyslayer/pl.h"
 
@@ -40,6 +41,8 @@ private:
   celPlLayer *pl;
 
 public:
+  CS_LEAKGUARD_DECLARE (celEntity);
+
   celEntity (celPlLayer* pl);
   virtual ~celEntity ();
 
