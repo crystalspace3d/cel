@@ -328,7 +328,7 @@
 		        </true>
 		        <false>
 			    <var name="delta"
-			    	value="?delta+?speed*param(parid(elapsedticks))" />
+			    	value="?delta+?speed*@elapsedticks" />
 		        </false>
 		    </if>
 		</if>
@@ -539,8 +539,7 @@
 	        <property id="propid(y)"
 			value="1000+intpol(?delta,?inty1,?inty2)*?puzzle_main.tiledim" />
 		<if eval="?delta>=1" true="stoptimer" />
-		<var name="delta" value="?delta+?puzzle_main.speed*
-			param(parid(elapsedticks))" />
+		<var name="delta" value="?delta+?puzzle_main.speed*@elapsedticks" />
 	    </event>
 
 	    <!--
@@ -1139,12 +1138,12 @@
 	      - Uses parameters 'entity', 'blocktype', 'x', and 'y'.
 	      -->
 	    <event name="setblock">
-	    	<var name="x" value="param(parid(x))" />
-	    	<var name="y" value="param(parid(y))" />
-	    	<var name="mazepos" value="param(parid(x))+'_'+param(parid(y))" />
-	        <var name="maze+?mazepos" value="param(parid(blocktype))" />
-		<var name="mazeent+?mazepos" value="param(parid(entity))" />
-		<if eval="param(parid(blocktype)) == ' '">
+	    	<var name="x" value="@x" />
+	    	<var name="y" value="@y" />
+	    	<var name="mazepos" value="@x+'_'+@y" />
+	        <var name="maze+?mazepos" value="@blocktype" />
+		<var name="mazeent+?mazepos" value="@entity" />
+		<if eval="@blocktype == ' '">
 		    <call event="checkfall">
 		        <par id="parid(x)" value="?x" />
 		        <par id="parid(y)" value="?y" />
@@ -1165,8 +1164,8 @@
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
-		<var name="cfx" value="param(parid(x))" />
-		<var name="cfy" value="param(parid(y))" />
+		<var name="cfx" value="@x" />
+		<var name="cfy" value="@y" />
 	    	<var name="mazepos" value="?cfx+'_'+(?cfy-1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
@@ -1273,7 +1272,7 @@
 	      - Move the board slowly so the hero is centered.
 	      -->
 	    <event name="pctimer_wakeupframe">
-		<var name="delta" value="?boardspeed*param(parid(elapsedticks))" />
+		<var name="delta" value="?boardspeed*@elapsedticks" />
 		<var name="layer_x" value="intpol(?delta,?layer_x,?layer_movetox)" />
 		<var name="layer_y" value="intpol(?delta,?layer_y,?layer_movetoy)" />
 		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />

@@ -250,6 +250,60 @@ bool celBlXml::ParseExpression (iDocumentNode* child,
   return true;
 }
 
+bool celBlXml::ParseID (const char*& input, iDocumentNode* child,
+	celXmlScriptEventHandler* h,
+	const char* name, char* str, csStringID fun_id)
+{
+  input = celXmlSkipWhiteSpace (input);
+  const char* i = input;
+  bool idconstant = true;
+  while (*i && *i != ')')
+  {
+    if (!isalnum (*i) && *i != '_' && *i != '.')
+    {
+      idconstant = false;
+      break;
+    }
+    i++;
+  }
+  if (!*i)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+       "Missing ')' at end of '%s' for '%s'!", str, name);
+    return false;
+  }
+  if (idconstant)
+  {
+    const char* prefix;
+    if (fun_id == XMLFUNCTION_PARID)
+      prefix = "cel.parameter.";
+    else if (fun_id == XMLFUNCTION_PROPID)
+      prefix = "cel.property.";
+    else
+      prefix = "";
+    char* str = new char [strlen (prefix) + i-input+1];
+    strcpy (str, prefix);
+    strncpy (str+strlen (prefix), input, i-input);
+    str[strlen (prefix) + i-input] = 0;
+    csStringID id = pl->FetchStringID (str);
+    delete[] str;
+    h->AddOperation (CEL_OPERATION_PUSH);
+    h->GetArgument ().SetID (id);
+    input = i;	// Right before close bracket.
+  }
+  else
+  {
+    if (!ParseExpression (input, child, h, name, 0)) return false;
+    h->AddOperation (
+	fun_id == XMLFUNCTION_PARID
+	  ? CEL_OPERATION_CALCPARID
+	  : fun_id == XMLFUNCTION_PROPID
+	  ? CEL_OPERATION_CALCPROPID
+	  : CEL_OPERATION_CALCID);
+  }
+  return true;
+}
+
 bool celBlXml::SkipComma (const char*& input, iDocumentNode* child,
 	const char* name)
 {
@@ -456,53 +510,8 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
     case XMLFUNCTION_PROPID:
     case XMLFUNCTION_PARID:
       {
-	input = celXmlSkipWhiteSpace (input);
-        const char* i = input;
-	bool idconstant = true;
-	while (*i && *i != ')')
-	{
-	  if (!isalnum (*i) && *i != '_' && *i != '.')
-	  {
-	    idconstant = false;
-	    break;
-	  }
-	  i++;
-	}
-	if (!*i)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-	     "Missing ')' at end of '%s' for '%s'!", str, name);
-          return false;
-	}
-	if (idconstant)
-	{
-	  const char* prefix;
-	  if (fun_id == XMLFUNCTION_PARID)
-	    prefix = "cel.parameter.";
-	  else if (fun_id == XMLFUNCTION_PROPID)
-	    prefix = "cel.property.";
-	  else
-	    prefix = "";
-	  char* str = new char [strlen (prefix) + i-input+1];
-	  strcpy (str, prefix);
-	  strncpy (str+strlen (prefix), input, i-input);
-	  str[strlen (prefix) + i-input] = 0;
-	  csStringID id = pl->FetchStringID (str);
-	  delete[] str;
-          h->AddOperation (CEL_OPERATION_PUSH);
-          h->GetArgument ().SetID (id);
-	  input = i;	// Right before close bracket.
-	}
-	else
-	{
-          if (!ParseExpression (input, child, h, name, 0)) return false;
-          h->AddOperation (
-		fun_id == XMLFUNCTION_PARID
-		? CEL_OPERATION_CALCPARID
-		: fun_id == XMLFUNCTION_PROPID
-		? CEL_OPERATION_CALCPROPID
-		: CEL_OPERATION_CALCID);
-        }
+        if (!ParseID (input, child, h, name, str, fun_id))
+	  return false;
       }
       break;
     case XMLFUNCTION_PARAM:
@@ -539,6 +548,30 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       synldr->ReportError ("cel.behaviour.xml", child,
 		"Error parsing expression for '%s'!", name);
       return false;
+    case CEL_TOKEN_DEREFPAR:
+      {
+        input = celXmlSkipWhiteSpace (input);
+	const char* i = input;
+	while (*i && (isalnum (*i) || *i == '_')) i++;
+	if (i == input)
+	{
+	  synldr->ReportError ("cel.behaviour.xml", child,
+		"Missing parameter name after '@' for '%s'!", name);
+	  return false;
+	}
+	const char* prefix = "cel.parameter.";
+	char* str = new char [strlen (prefix) + i-input+1];
+	strcpy (str, prefix);
+	strncpy (str+strlen (prefix), input, i-input);
+	str[strlen (prefix) + i-input] = 0;
+	input = i;
+	csStringID id = pl->FetchStringID (str);
+	delete[] str;
+	h->AddOperation (CEL_OPERATION_PUSH);
+	h->GetArgument ().SetID (id);
+	h->AddOperation (CEL_OPERATION_PARAM);
+      }
+      break;
     case CEL_TOKEN_DEREFVAR:
       if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
         return false;
