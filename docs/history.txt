@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+17-Dec-2003
+	- Jorrit changed the bootstrap loader so that it also attempts to
+	  load the sound plugins now.
+	- Jorrit added a <sound> keyword to the XML behaviour layer.
 15-Dec-2003
 	- Jorrit did the following to the XML behaviour layer:
 	      - Implemented support for setting entity variables in the

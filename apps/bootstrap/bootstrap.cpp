@@ -39,6 +39,8 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "imap/parser.h"
+#include "isound/renderer.h"
+#include "isound/loader.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -128,6 +130,9 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
 		iCollideSystem),
+	CS_REQUEST_PLUGIN ("crystalspace.sound.render.software", iSoundRender),
+	CS_REQUEST_PLUGIN ("crystalspace.sound.loader.multiplexer",
+		iSoundLoader),
 	CS_REQUEST_END))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,

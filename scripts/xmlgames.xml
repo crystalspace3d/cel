@@ -8,6 +8,10 @@
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
     </materials>
+    <sounds>
+        <sound name="boing"> <file>/this/data/sounds/boing_x.wav</file> </sound>
+        <sound name="click"> <file>/this/data/sounds/click_x.wav</file> </sound>
+    </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
         <clearzbuf>yes</clearzbuf>
@@ -109,6 +113,7 @@
 	      - Select this button. Fire up the 'puzzle' game.
 	      -->
 	    <event name="pcbillboard_select">
+	    	<sound name="boing" loop="false" />
 	        <call entity="menu" event="destroy" />
 		<createentity name="puzzle_main" behaviour="puzzle_main" />
 	    </event>
@@ -166,10 +171,10 @@
 		<var name="tiledimuv" value=".25" />
 		<var name="shuffle_count" value="30" />
 		-->
-		<var name="dimension" value="10" />
-		<var name="tiledim" value="28000" />
-		<var name="tiledimuv" value=".1" />
-		<var name="shuffle_count" value="200" />
+		<var name="dimension" value="5" />
+		<var name="tiledim" value="56000" />
+		<var name="tiledimuv" value=".2" />
+		<var name="shuffle_count" value="100" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />
@@ -370,8 +375,10 @@
 	        <if eval="?puzzle_main.allowmove">
 		    <var name="dx" value="?puzzle_main.emptyx-?curx" />
 		    <var name="dy" value="?puzzle_main.emptyy-?cury" />
-		    <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)"
-			    true="move" />
+		    <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)">
+	    	        <sound name="click" loop="false" />
+			<call event="move"/>
+		    </if>
 		</if>
 	    </event>
 	</script>

@@ -143,6 +143,7 @@ class iSCF(iBase):
     def RegisterClass(*args): return apply(_blcelc.iSCF_RegisterClass,args)
     def RegisterFactoryFunc(*args): return apply(_blcelc.iSCF_RegisterFactoryFunc,args)
     def UnregisterClass(*args): return apply(_blcelc.iSCF_UnregisterClass,args)
+    def GetInterfaceName(*args): return apply(_blcelc.iSCF_GetInterfaceName,args)
     def GetInterfaceID(*args): return apply(_blcelc.iSCF_GetInterfaceID,args)
     def Finish(*args): return apply(_blcelc.iSCF_Finish,args)
     def QueryClassList(*args): return apply(_blcelc.iSCF_QueryClassList,args)
@@ -2602,7 +2603,6 @@ class iAws(iBase):
     def SetModal(*args): return apply(_blcelc.iAws_SetModal,args)
     def UnSetModal(*args): return apply(_blcelc.iAws_UnSetModal,args)
     def HandleEvent(*args): return apply(_blcelc.iAws_HandleEvent,args)
-    def SetupCanvas(*args): return apply(_blcelc.iAws_SetupCanvas,args)
     def GetCanvas(*args): return apply(_blcelc.iAws_GetCanvas,args)
     def G2D(*args): return apply(_blcelc.iAws_G2D,args)
     def G3D(*args): return apply(_blcelc.iAws_G3D,args)
@@ -2623,6 +2623,7 @@ class iAws(iBase):
         except: pass
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iAws_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iAws_scfGetVersion)
+    def SetupCanvas(*args): return apply(_blcelc.iAws_SetupCanvas,args)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iAws instance at %s>" % (self.this,)
@@ -8642,6 +8643,8 @@ class iShaderVariableContext(iBase):
     def GetVariable(*args): return apply(_blcelc.iShaderVariableContext_GetVariable,args)
     def GetVariableRecursive(*args): return apply(_blcelc.iShaderVariableContext_GetVariableRecursive,args)
     def FillVariableList(*args): return apply(_blcelc.iShaderVariableContext_FillVariableList,args)
+    def GetVariableAdd(*args): return apply(_blcelc.iShaderVariableContext_GetVariableAdd,args)
+    def GetVariableRecursiveAdd(*args): return apply(_blcelc.iShaderVariableContext_GetVariableRecursiveAdd,args)
     def __del__(self, destroy= _blcelc.delete_iShaderVariableContext):
         try:
             if self.thisown: destroy(self)
@@ -8664,12 +8667,11 @@ class iShaderManager(iShaderVariableContext):
     __swig_getmethods__ = {}
     for _s in [iShaderVariableContext]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iShaderManager, name)
-    def CreateShader(*args): return apply(_blcelc.iShaderManager_CreateShader,args)
+    def RegisterShader(*args): return apply(_blcelc.iShaderManager_RegisterShader,args)
     def GetShader(*args): return apply(_blcelc.iShaderManager_GetShader,args)
     def GetShaders(*args): return apply(_blcelc.iShaderManager_GetShaders,args)
-    def CreateVariable(*args): return apply(_blcelc.iShaderManager_CreateVariable,args)
-    def CreateShaderProgram(*args): return apply(_blcelc.iShaderManager_CreateShaderProgram,args)
-    def PrepareShaders(*args): return apply(_blcelc.iShaderManager_PrepareShaders,args)
+    def RegisterCompiler(*args): return apply(_blcelc.iShaderManager_RegisterCompiler,args)
+    def GetCompiler(*args): return apply(_blcelc.iShaderManager_GetCompiler,args)
     def __del__(self, destroy= _blcelc.delete_iShaderManager):
         try:
             if self.thisown: destroy(self)
@@ -8715,15 +8717,12 @@ class iShader(iShaderVariableContext):
     __swig_getmethods__ = {}
     for _s in [iShaderVariableContext]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iShader, name)
-    def SetName(*args): return apply(_blcelc.iShader_SetName,args)
     def GetName(*args): return apply(_blcelc.iShader_GetName,args)
-    def CreateTechnique(*args): return apply(_blcelc.iShader_CreateTechnique,args)
-    def GetTechniqueCount(*args): return apply(_blcelc.iShader_GetTechniqueCount,args)
-    def GetTechnique(*args): return apply(_blcelc.iShader_GetTechnique,args)
-    def GetBestTechnique(*args): return apply(_blcelc.iShader_GetBestTechnique,args)
-    def IsValid(*args): return apply(_blcelc.iShader_IsValid,args)
-    def Load(*args): return apply(_blcelc.iShader_Load,args)
-    def Prepare(*args): return apply(_blcelc.iShader_Prepare,args)
+    def GetNumberOfPasses(*args): return apply(_blcelc.iShader_GetNumberOfPasses,args)
+    def ActivatePass(*args): return apply(_blcelc.iShader_ActivatePass,args)
+    def SetupPass(*args): return apply(_blcelc.iShader_SetupPass,args)
+    def TeardownPass(*args): return apply(_blcelc.iShader_TeardownPass,args)
+    def DeactivatePass(*args): return apply(_blcelc.iShader_DeactivatePass,args)
     def __del__(self, destroy= _blcelc.delete_iShader):
         try:
             if self.thisown: destroy(self)
@@ -8739,128 +8738,31 @@ class iShaderPtr(iShader):
         _swig_setattr(self, iShader,self.__class__,iShader)
 _blcelc.iShader_swigregister(iShaderPtr)
 
-class iShaderTechnique(iShaderVariableContext):
-    __swig_setmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderTechnique, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iShaderTechnique, name)
-    def GetPriority(*args): return apply(_blcelc.iShaderTechnique_GetPriority,args)
-    def SetPriority(*args): return apply(_blcelc.iShaderTechnique_SetPriority,args)
-    def CreatePass(*args): return apply(_blcelc.iShaderTechnique_CreatePass,args)
-    def GetPassCount(*args): return apply(_blcelc.iShaderTechnique_GetPassCount,args)
-    def GetPass(*args): return apply(_blcelc.iShaderTechnique_GetPass,args)
-    def IsValid(*args): return apply(_blcelc.iShaderTechnique_IsValid,args)
-    def Load(*args): return apply(_blcelc.iShaderTechnique_Load,args)
-    def Prepare(*args): return apply(_blcelc.iShaderTechnique_Prepare,args)
-    def __del__(self, destroy= _blcelc.delete_iShaderTechnique):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iShaderTechnique instance at %s>" % (self.this,)
-
-class iShaderTechniquePtr(iShaderTechnique):
-    def __init__(self,this):
-        _swig_setattr(self, iShaderTechnique, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderTechnique, 'thisown', 0)
-        _swig_setattr(self, iShaderTechnique,self.__class__,iShaderTechnique)
-_blcelc.iShaderTechnique_swigregister(iShaderTechniquePtr)
-
-class iShaderPass(iShaderVariableContext):
-    __swig_setmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderPass, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iShaderPass, name)
-    def AddStreamMapping(*args): return apply(_blcelc.iShaderPass_AddStreamMapping,args)
-    def GetStreamMapping(*args): return apply(_blcelc.iShaderPass_GetStreamMapping,args)
-    def AddTextureMapping(*args): return apply(_blcelc.iShaderPass_AddTextureMapping,args)
-    def GetTextureMapping(*args): return apply(_blcelc.iShaderPass_GetTextureMapping,args)
-    def GetMixmodeOverride(*args): return apply(_blcelc.iShaderPass_GetMixmodeOverride,args)
-    def GetVertexProgram(*args): return apply(_blcelc.iShaderPass_GetVertexProgram,args)
-    def SetVertexProgram(*args): return apply(_blcelc.iShaderPass_SetVertexProgram,args)
-    def GetFragmentProgram(*args): return apply(_blcelc.iShaderPass_GetFragmentProgram,args)
-    def SetFragmentProgram(*args): return apply(_blcelc.iShaderPass_SetFragmentProgram,args)
-    def IsValid(*args): return apply(_blcelc.iShaderPass_IsValid,args)
-    def Activate(*args): return apply(_blcelc.iShaderPass_Activate,args)
-    def Deactivate(*args): return apply(_blcelc.iShaderPass_Deactivate,args)
-    def SetupState(*args): return apply(_blcelc.iShaderPass_SetupState,args)
-    def ResetState(*args): return apply(_blcelc.iShaderPass_ResetState,args)
-    def Load(*args): return apply(_blcelc.iShaderPass_Load,args)
-    def Prepare(*args): return apply(_blcelc.iShaderPass_Prepare,args)
-    def GetAlphaMode(*args): return apply(_blcelc.iShaderPass_GetAlphaMode,args)
-    def __del__(self, destroy= _blcelc.delete_iShaderPass):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iShaderPass instance at %s>" % (self.this,)
-
-class iShaderPassPtr(iShaderPass):
-    def __init__(self,this):
-        _swig_setattr(self, iShaderPass, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderPass, 'thisown', 0)
-        _swig_setattr(self, iShaderPass,self.__class__,iShaderPass)
-_blcelc.iShaderPass_swigregister(iShaderPassPtr)
-
-class iShaderProgram(iShaderVariableContext):
-    __swig_setmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderProgram, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iShaderVariableContext]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iShaderProgram, name)
-    def Activate(*args): return apply(_blcelc.iShaderProgram_Activate,args)
-    def Deactivate(*args): return apply(_blcelc.iShaderProgram_Deactivate,args)
-    def SetupState(*args): return apply(_blcelc.iShaderProgram_SetupState,args)
-    def ResetState(*args): return apply(_blcelc.iShaderProgram_ResetState,args)
-    def IsValid(*args): return apply(_blcelc.iShaderProgram_IsValid,args)
-    def Load(*args): return apply(_blcelc.iShaderProgram_Load,args)
-    def Prepare(*args): return apply(_blcelc.iShaderProgram_Prepare,args)
-    def __del__(self, destroy= _blcelc.delete_iShaderProgram):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iShaderProgram instance at %s>" % (self.this,)
-
-class iShaderProgramPtr(iShaderProgram):
-    def __init__(self,this):
-        _swig_setattr(self, iShaderProgram, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderProgram, 'thisown', 0)
-        _swig_setattr(self, iShaderProgram,self.__class__,iShaderProgram)
-_blcelc.iShaderProgram_swigregister(iShaderProgramPtr)
-
-class iShaderProgramPlugin(iBase):
+class iShaderCompiler(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderProgramPlugin, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderCompiler, name, value)
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iShaderProgramPlugin, name)
-    def CreateProgram(*args): return apply(_blcelc.iShaderProgramPlugin_CreateProgram,args)
-    def SupportType(*args): return apply(_blcelc.iShaderProgramPlugin_SupportType,args)
-    def Open(*args): return apply(_blcelc.iShaderProgramPlugin_Open,args)
-    def __del__(self, destroy= _blcelc.delete_iShaderProgramPlugin):
+    __getattr__ = lambda self, name: _swig_getattr(self, iShaderCompiler, name)
+    def GetName(*args): return apply(_blcelc.iShaderCompiler_GetName,args)
+    def CompileShader(*args): return apply(_blcelc.iShaderCompiler_CompileShader,args)
+    def ValidateTemplate(*args): return apply(_blcelc.iShaderCompiler_ValidateTemplate,args)
+    def IsTemplateToCompiler(*args): return apply(_blcelc.iShaderCompiler_IsTemplateToCompiler,args)
+    def __del__(self, destroy= _blcelc.delete_iShaderCompiler):
         try:
             if self.thisown: destroy(self)
         except: pass
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
-        return "<C iShaderProgramPlugin instance at %s>" % (self.this,)
+        return "<C iShaderCompiler instance at %s>" % (self.this,)
 
-class iShaderProgramPluginPtr(iShaderProgramPlugin):
+class iShaderCompilerPtr(iShaderCompiler):
     def __init__(self,this):
-        _swig_setattr(self, iShaderProgramPlugin, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderProgramPlugin, 'thisown', 0)
-        _swig_setattr(self, iShaderProgramPlugin,self.__class__,iShaderProgramPlugin)
-_blcelc.iShaderProgramPlugin_swigregister(iShaderProgramPluginPtr)
+        _swig_setattr(self, iShaderCompiler, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderCompiler, 'thisown', 0)
+        _swig_setattr(self, iShaderCompiler,self.__class__,iShaderCompiler)
+_blcelc.iShaderCompiler_swigregister(iShaderCompilerPtr)
 
 class iTextureHandle(iBase):
     __swig_setmethods__ = {}
