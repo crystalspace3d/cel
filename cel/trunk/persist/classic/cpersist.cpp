@@ -129,7 +129,7 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   return true;
 }
 
-iCelEntity* celPersistClassic::LoadEntity (const char* name)
+csPtr<iCelEntity> celPersistClassic::LoadEntity (const char* name)
 {
   celPersistClassicContext* context;
   iCelEntity* ent;
@@ -253,7 +253,7 @@ void celPersistClassicContext::Report (const char* msg, ...)
   va_end (arg);
 }
 
-iCelEntity* celPersistClassicContext::LoadEntity()
+csPtr<iCelEntity> celPersistClassicContext::LoadEntity()
 {
   iCelEntity* ent;
   if (!Read(ent))

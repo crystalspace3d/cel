@@ -80,7 +80,7 @@ struct iCelPersistance : public iBase
    * the given type of persistance. It can be a filename
    * for example (VFS).
    */
-  virtual iCelEntity* LoadEntity (const char* name) = 0;
+  virtual csPtr<iCelEntity> LoadEntity (const char* name) = 0;
 
   /**
    * Save an entity to persistent data.
@@ -101,7 +101,7 @@ struct iCelPersistanceContext : public iBase
   /**
    * Load an entity from the persitent data including all property classes.
    */
-  virtual iCelEntity* LoadEntity () = 0;
+  virtual csPtr<iCelEntity> LoadEntity () = 0;
 
   /**
    * Save an entity to persistent data.
