@@ -118,7 +118,9 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
     celBlXml* cbl = (celBlXml*)bl;
     cbl->call_stack.Push (msg_id);
     cbl->call_stack_params.Push (params);
+    cbl->call_stack_entity.Push (entity);
     h->Execute (entity, this, ret, params);
+    cbl->call_stack_entity.Pop ();
     cbl->call_stack_params.Pop ();
     cbl->call_stack.Pop ();
   }
@@ -134,7 +136,9 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
         celBlXml* cbl = (celBlXml*)bl;
         cbl->call_stack.Push (msg_id);
 	cbl->call_stack_params.Push (params);
+	cbl->call_stack_entity.Push (entity);
 	h->Execute (entity, this, ret, params);
+        cbl->call_stack_entity.Pop ();
         cbl->call_stack_params.Pop ();
 	cbl->call_stack.Pop ();
 	break;

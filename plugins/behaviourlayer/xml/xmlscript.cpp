@@ -958,7 +958,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
   printf ("### Callstack ###\n");
   for (i = 0 ; i < cbl->call_stack.Length () ; i++)
   {
-    printf ("%d %s\n", i, cbl->call_stack[i]);
+    printf ("%d %s (entity=%s)\n", i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
     {
       int j;
@@ -2461,7 +2461,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celData ret;
 	  cbl->call_stack.Push (handler->GetName ());
 	  cbl->call_stack_params.Push (params);
+	  cbl->call_stack_entity.Push (entity);
 	  handler->Execute (entity, behave, ret, params);
+	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
 	}
@@ -2761,11 +2763,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celData ret;
 	  cbl->call_stack.Push (truebranch->GetName ());
 	  cbl->call_stack_params.Push (params);
+	  cbl->call_stack_entity.Push (entity);
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (varname, (long)v);
 	    truebranch->Execute (entity, behave, ret, params);
 	  }
+	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
 	}
@@ -2791,11 +2795,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celData ret;
 	  cbl->call_stack.Push (GetName ());
 	  cbl->call_stack_params.Push (params);
+	  cbl->call_stack_entity.Push (entity);
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (copy_varname, (long)v);
 	    Execute (entity, behave, ret, params, i);
 	  }
+	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
 	  delete[] copy_varname;
@@ -2868,7 +2874,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    {
 	      cbl->call_stack.Push (truebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
+	      cbl->call_stack_entity.Push (entity);
 	      truebranch->Execute (entity, behave, ret, params);
+	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
 	      cbl->call_stack.Pop ();
 	    }
@@ -2880,7 +2888,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    {
 	      cbl->call_stack.Push (falsebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
+	      cbl->call_stack_entity.Push (entity);
 	      falsebranch->Execute (entity, behave, ret, params);
+	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
 	      cbl->call_stack.Pop ();
 	    }

@@ -1210,10 +1210,10 @@
 		<var name="row54" value="'B                                                              B'" />
 		<var name="row55" value="'B                                                              B'" />
 		<var name="row56" value="'B                          BB BB                               B'" />
-		<var name="row57" value="'B                         BBB BBB                              B'" />
-		<var name="row58" value="'B                        BBBBOBBBB                             B'" />
-		<var name="row59" value="'B                       BBBBBXOBBBB                            B'" />
-		<var name="row60" value="'B                  ########BBXBB#########                      B'" />
+		<var name="row57" value="'B                          BB BB                               B'" />
+		<var name="row58" value="'B                          BBOBB                               B'" />
+		<var name="row59" value="'B                          BBXOB                               B'" />
+		<var name="row60" value="'B                          BBXBB                               B'" />
 		<var name="row61" value="'B                            H                                 B'" />
 		<var name="row62" value="'B                                                              B'" />
 		<var name="row63" value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
@@ -1242,7 +1242,6 @@
 	    	<lvar name="sn" value="entstack_+@blocktype" />
 	        <if eval="?#sn > 0">
 		    <lvar name="ent" value="?(#sn+?#sn)" />
-<print value="'fetch from stack:'+#ent+' ('+#sn+'    '+?#sn+') x='+?x+' y='+?y" />
 		    <property propclass="?(#ent).pcbb" id="propid(visible)" value="true" />
 		    <call entity="#ent" event="reinit" />
 		    <var name="#sn" value="?(#sn)-1" />
@@ -1253,7 +1252,6 @@
 		<createentity name="#entname" behaviour="?(behaviour_+@blocktype)" />
 		<inventory propclass="pc(pcinventory)" />
 		<lvar name="ent" value="ent(#entname)" />
-<print value="'create entity:'+#ent+' ('+@blocktype+') x='+?x+' y='+?y" />
 		<inventory_add child="#ent" />
 		<return value="#ent" />
 	    </event>
@@ -1268,7 +1266,6 @@
 		<property propclass="?(@entity).pcbb" id="propid(visible)" value="false" />
 	    	<lvar name="sn" value="entstack_+#blocktype" />
 		<var name="#sn" value="?(#sn)+1" />
-<print value="'put on stack:'+@entity+' ('+#sn+'    '+?#sn+')'" />
 		<var name="#sn+?#sn" value="@entity" />
 		<!--
 		<inventory propclass="pc(pcinventory)" />
@@ -1329,8 +1326,6 @@
 	    <event name="clearblock_nocheck">
 		<lvar name="mazepos" value="@x+'_'+@y" />
 		<lvar name="ent" value="?#mazepos" />
-<print value="'    clearblock_nocheck!'" />
-<print value="'    clearblock_nocheck at '+#mazepos+' ent:'+#ent"/>
 		<if eval="#ent==''"> <stop /> </if>
 		<if eval="?(#ent).moving">
 		    <!-- Block is moving -->
@@ -1638,7 +1633,6 @@
 	      - Fire an explosion. Parameters are @x and @y.
 	      -->
 	    <event name="bang">
-<print value="'bang! x='+@x+' y='+@y" />
 		<sound name="explosion" loop="false" />
 
 		<call event="explodeblock">
@@ -2183,6 +2177,7 @@
 	        <property id="propid(y)" value="?y*?dim" />
 	    </event>
 	    <event name="cleanup">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 	    </event>
 
 	    <!--
@@ -2423,7 +2418,6 @@
 	    </event>
 	    <event name="cleanup">
 	        <super />
-<print value="'  '+entname()+' cleanup'" />
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
 	    </event>
 
@@ -2437,7 +2431,6 @@
 
 	    <event name="pctimer_wakeup">
 	    	<var name="counter" value="?counter-1" />
-<print value="'  A:'+entname()+' counter='+?counter"/>
 		<if eval="?counter == ?explode">
 		    <call entity="bdash_main" event="new_explosion">
 			<par id="parid(x)" value="?x" />
@@ -2445,7 +2438,6 @@
 		    </call>
 		</if>
 		<if eval="?counter == 0">
-<print value="'  B:'+entname()+' counter='+?counter+' x='+?x+' y='+?y"/>
 		    <call entity="bdash_main" event="clearblock_check">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
