@@ -49,6 +49,8 @@ struct iPcMesh : public iBase
 {
   /**
    * Set the mesh filename to use. Returns false on failure.
+   * Note that this filename can refer to a mesh factory file or
+   * a library file containing a mesh factory.
    */
   virtual bool SetMesh (const char* factname, const char* filename) = 0;
 
