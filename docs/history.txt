@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+5-Jan-2004
+	- Eric Sunshine fixed compilation bug.  celPcDynamicBody was trying to
+	  invoke iPcMesh::IncRef() and DecRef() (via csRef<>) before the
+	  compiler had seen the full declaration of iPcMesh (it had only seen
+	  a forward declaration).
 4-Jan-2004
 	- Jorrit did several optimizations on the XML behaviour layer.
 	- Jorrit fixed a bug in the XML behaviour layer which could cause

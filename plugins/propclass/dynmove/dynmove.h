@@ -32,6 +32,7 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "propclass/dynmove.h"
+#include "propclass/mesh.h"
 #include "ivaria/dynamics.h"
 
 struct iVirtualClock;

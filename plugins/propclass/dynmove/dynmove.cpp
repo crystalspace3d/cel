@@ -37,7 +37,6 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/databhlp.h"
-#include "propclass/mesh.h"
 
 //---------------------------------------------------------------------------
 
