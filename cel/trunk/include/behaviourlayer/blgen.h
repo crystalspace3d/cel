@@ -25,8 +25,6 @@
 
 struct iDocumentNode;
 
-#define CEL_BLERROR_UNSUPPORTED "Operation not supported!"
-
 SCF_VERSION (iCelBlLayerGenerate, 0, 0, 1);
 
 /**
@@ -39,32 +37,23 @@ struct iCelBlLayerGenerate : public iBase
 {
   /**
    * Create a new named behaviour layer script from a document node.
-   * Returns error message on error or 0 otherwise.
-   * If it is not possible to create a script from a document node
-   * then this function will return CEL_BLERROR_UNSUPPORTED (use strcmp
-   * to compare the returned error with CEL_BLERROR_UNSUPPORTED!).
+   * Returns false on error (will use reporter to report the error).
    */
-  virtual const char* CreateBehaviourScriptFromDoc (const char* name,
+  virtual bool CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node) = 0;
 
   /**
    * Create a new named behaviour layer script from a string.
-   * Returns error message on error or 0 otherwise.
-   * If it is not possible to create a script from a string.
-   * then this function will return CEL_BLERROR_UNSUPPORTED (use strcmp
-   * to compare the returned error with CEL_BLERROR_UNSUPPORTED!).
+   * Returns false on error (will use reporter to report the error).
    */
-  virtual const char* CreateBehaviourScriptFromString (const char* name,
+  virtual bool CreateBehaviourScriptFromString (const char* name,
   	const char* string) = 0;
 
   /**
    * Create a new named behaviour layer script from a file (VFS path).
-   * Returns error message on error or 0 otherwise.
-   * If it is not possible to create a script from a file.
-   * then this function will return CEL_BLERROR_UNSUPPORTED (use strcmp
-   * to compare the returned error with CEL_BLERROR_UNSUPPORTED!).
+   * Returns false on error (will use reporter to report the error).
    */
-  virtual const char* CreateBehaviourScriptFromFile (const char* name,
+  virtual bool CreateBehaviourScriptFromFile (const char* name,
   	const char* filename) = 0;
 };
 
