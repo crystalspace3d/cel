@@ -2801,7 +2801,9 @@ class iEngine(iBase):
     def GetNearbyLights(*args): return apply(_blcelc.iEngine_GetNearbyLights,args)
     def GetNearbySectors(*args): return apply(_blcelc.iEngine_GetNearbySectors,args)
     def GetNearbyObjects(*args): return apply(_blcelc.iEngine_GetNearbyObjects,args)
+    def GetNearbyMeshes(*args): return apply(_blcelc.iEngine_GetNearbyMeshes,args)
     def GetVisibleObjects(*args): return apply(_blcelc.iEngine_GetVisibleObjects,args)
+    def GetVisibleMeshes(*args): return apply(_blcelc.iEngine_GetVisibleMeshes,args)
     def RemoveObject(*args): return apply(_blcelc.iEngine_RemoveObject,args)
     def SetCacheManager(*args): return apply(_blcelc.iEngine_SetCacheManager,args)
     def GetCacheManager(*args): return apply(_blcelc.iEngine_GetCacheManager,args)
@@ -3318,6 +3320,34 @@ class iMeshFactoryListPtr(iMeshFactoryList):
         _swig_setattr(self, iMeshFactoryList,self.__class__,iMeshFactoryList)
 _blcelc.iMeshFactoryList_swigregister(iMeshFactoryListPtr)
 iMeshFactoryList_VERSION = cvar.iMeshFactoryList_VERSION
+
+iMeshWrapperIterator_scfGetID = _blcelc.iMeshWrapperIterator_scfGetID
+
+class iMeshWrapperIterator(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iMeshWrapperIterator, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iMeshWrapperIterator, name)
+    def Next(*args): return apply(_blcelc.iMeshWrapperIterator_Next,args)
+    def Reset(*args): return apply(_blcelc.iMeshWrapperIterator_Reset,args)
+    def HasNext(*args): return apply(_blcelc.iMeshWrapperIterator_HasNext,args)
+    def __del__(self, destroy= _blcelc.delete_iMeshWrapperIterator):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iMeshWrapperIterator instance at %s>" % (self.this,)
+
+class iMeshWrapperIteratorPtr(iMeshWrapperIterator):
+    def __init__(self,this):
+        _swig_setattr(self, iMeshWrapperIterator, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iMeshWrapperIterator, 'thisown', 0)
+        _swig_setattr(self, iMeshWrapperIterator,self.__class__,iMeshWrapperIterator)
+_blcelc.iMeshWrapperIterator_swigregister(iMeshWrapperIteratorPtr)
+iMeshWrapperIterator_VERSION = cvar.iMeshWrapperIterator_VERSION
 
 class iMovableListener(iBase):
     __swig_setmethods__ = {}

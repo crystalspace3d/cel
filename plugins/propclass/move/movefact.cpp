@@ -361,7 +361,8 @@ iCollider* celPcSolid::GetCollider ()
 	GetObjectModel ()->GetPolygonMeshColldet ();
   if (pmesh)
   {
-    csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+    csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
+    	iCollideSystem);
     CS_ASSERT (cdsys != 0);
     collider_wrap = csPtr<csColliderWrapper> (new csColliderWrapper (
     	pcmesh->GetMesh ()->QueryObject (), cdsys, pmesh));

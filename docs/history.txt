@@ -3,6 +3,17 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Jul-2003
+	- Jorrit changed linmove property class to use a beam that is
+	  at 5% height of player to check for portal traversal. That is
+	  better than using 50% because using 50% might not work correctly
+	  for horizontal portals.
+	- Fixed linmove so it no longer falls through the floor when going
+	  through a portal. The problem was that CEL uses pcsolid which
+	  delays creation of csColliderWrapper until pcsolid->GetCollider()
+	  is called. But pclinmove doesn't use pcsolid so GetCollider() was
+	  never called. pclinmove will now try to find a pcsolid and use
+	  that if present.
 9-Jul-2003
 	- Jorrit optimized CEL by using the new GetNearbyMeshes() function
 	  that was added to CS today. This optimization affects
