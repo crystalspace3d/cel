@@ -77,7 +77,7 @@ celPlLayer::~celPlLayer ()
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	  "crystalspace.cel.physicallayer",
-	  "Entity with ID %lu and Name %s not destructed yet.",
+	  "Entity with ID %u and Name %s not destructed yet.",
 	  entity->GetID(), entity->GetName());
     }
   }
@@ -122,7 +122,7 @@ void celPlLayer::RemoveEntity (celEntity *entity)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
-	"error while removing Entity with ID %lu (%s)", entity->GetEntityID(),
+	"error while removing Entity with ID %u (%s)", entity->GetEntityID(),
 	entity->GetName());
     return;
   }
