@@ -182,7 +182,7 @@ struct iPcLinearMovement : public iBase
    */
   virtual void SetPathSector (const char *sectorname) = 0;
 
-  virtual bool IsOnGround () = 0;
+  virtual bool IsOnGround () const = 0;
 };
 
 #endif

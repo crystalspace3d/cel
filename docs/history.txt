@@ -3,36 +3,40 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Nov-2003
+	- Jorrit made iPcLinearMovement->IsOnGround() use 'const' again.
+	  For some reason this was changed in Keith's latest commit but
+	  this caused the blpython behaviour layer to not compile.
 17-Nov-2003
-	- Separated pc linmove from collision detection code in preparation for
-	  making a new linmove pc for sprcal3d sprites.  This way they can both
-	  share the same CD code.  Linmove will auto-create iPcCollisionDetection
-	  if one is not supplied to it in InitCD().  If you want one other than
-	  the default, supply one here.
+	- Keith separated pc linmove from collision detection code in
+	  preparation for making a new linmove pc for sprcal3d sprites.
+	  This way they can both share the same CD code. Linmove will
+	  auto-create iPcCollisionDetection if one is not supplied to it in
+	  InitCD(). If you want one other than the default, supply one here.
 11-Nov-2003
-	- Keith changed link directories not to be hardcode to his local machine's
-	  paths.
+	- Keith changed link directories not to be hardcode to his local
+	  machine's paths.
 9-Nov-2003
 	- Chris Matuszewski added SetMaxSelectionDistance() to iPcMeshSelect
 	  to allow the user to specify a maximum distance to use for mesh
 	  selection.  This value is used in the call to HitBeam in meshfact.cpp.
 	  A default max_distance value is set to 100000 in meshfact.cpp.
-	  This change allows meshselect to work for objects that are farther than
-	  the previously arbitrary distance of 60 units.
+	  This change allows meshselect to work for objects that are farther
+	  than the previously arbitrary distance of 60 units.
 4-Nov-2003
-	- Chris Matuszewski changed the return value of HandleEvent() in inpfact.cpp
-	  to false to allow other entities that may have registered for the same
-	  input to process the same event.
+	- Chris Matuszewski changed the return value of HandleEvent() in
+	  inpfact.cpp to false to allow other entities that may have
+	  registered for the same input to process the same event.
 	- Added vel and ang vel to CEL persistence so that objects in motion
-	  at persist time will be in motion on the receiving end.  Note that position
-	  and angle are persisted as part of the mesh/movable and don't have to 
-	  be persisted here.
+	  at persist time will be in motion on the receiving end.  Note that
+	  position and angle are persisted as part of the mesh/movable and
+	  don't have to be persisted here.
 3-Nov-2003
 	- Chris Matuszewski updated the swig generated python wrapper files.
-	- Keith Fulton took out some debugging printfs related to finding meshfact
-	  names.
+	- Keith Fulton took out some debugging printfs related to finding
+	  meshfact names.
 20-Oct-2003
-	- acraig fixed some more keyboard event related changes in CS
+	- acraig fixed some more keyboard event related changes in CS.
 18-Oct-2003
 	- Jorrit fixed CEL for latest event related changes in CS.
 	- Jorrit fixed python plugin in CEL.

@@ -147,7 +147,7 @@ public:
   void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
 
-  bool IsOnGround ();
+  bool IsOnGround () const;
 
   /// Returns dead reckoning data
   csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
@@ -282,7 +282,7 @@ public:
     {
       return scfParent->InitCD (pc_cd);
     }
-    virtual bool IsOnGround ()
+    virtual bool IsOnGround () const
     {
       return scfParent->IsOnGround ();
     }
