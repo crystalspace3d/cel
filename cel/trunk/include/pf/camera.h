@@ -43,7 +43,8 @@ struct iPcCamera : public iBase
   {
     freelook = 0,
     follow,
-    rotational
+    rotational,
+    firstperson
   };
 
   /**

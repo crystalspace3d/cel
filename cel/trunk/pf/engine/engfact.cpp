@@ -201,6 +201,31 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	c->GetTransform().LookAt(lookat, csVector3(0,1,0));
 	break;
       }
+      case iPcCamera::firstperson:
+      {
+        iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
+        if (!pcmesh) break;
+        iMovable* movable = pcmesh->GetMesh()->GetMovable();
+        pcmesh->DecRef();
+
+        iCamera* c = view->GetCamera();
+
+        csReversibleTransform rt = movable->GetFullTransform();
+        csMatrix3 mat = rt.GetT2O();
+
+	c->GetTransform().SetOrigin(movable->GetPosition());
+        c->GetTransform().SetT2O(mat);
+
+	// move camera to followpos
+	c->OnlyPortals(!use_cd);
+        c->Move (followpos);
+        c->OnlyPortals(true);
+        c->Move (followpos*-0.1);
+
+	//rotate camera 180 degs
+	c->GetTransform().RotateThis(csVector3(0,1,0), 3.14f);
+        break;
+      }                                                                                       
       case iPcCamera::rotational:
       {
 	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
