@@ -88,7 +88,6 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   view = new csView (engine, g3d);
   iview = SCF_QUERY_INTERFACE (view, iView);
   view->DecRef ();
-  g3d->DecRef ();
   SetupEventHandler ();
   cammode = iPcCamera::freelook;
   use_cd = false;
