@@ -99,8 +99,8 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="70000" />
-	        <property id="propid(height)" value="70000" />
+	        <property id="propid(width)" value="50000" />
+	        <property id="propid(height)" value="50000" />
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="10000" />
 	    </event>
@@ -133,11 +133,11 @@
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
 		<default propclass="pc(?ent,pcbillboard)" />
-	        <property id="propid(x)" value="1000+70000*?x" />
-	        <property id="propid(y)" value="1000+70000*?y" />
-		<var name="tl" value="[?x,?y]*.25" />
+	        <property id="propid(x)" value="1000+?tiledim*?x" />
+	        <property id="propid(y)" value="1000+?tiledim*?y" />
+		<var name="tl" value="[?x,?y]*?tiledimuv" />
 	        <property id="propid(uv_topleft)" value="?tl" />
-	        <property id="propid(uv_botright)" value="?tl+[.25,.25]" />
+	        <property id="propid(uv_botright)" value="?tl+[?tiledimuv,?tiledimuv]" />
 		<!-- Set the 2d grid to contain the current entity -->
 	        <var name="'grid'+?x+'_'+?y" value="?ent" />
 	    </event>
@@ -152,9 +152,24 @@
 	      -    - allowmove: if true the player can move tiles.
 	      -    - shuffle_count: if greater than 0 then we are randomizing the board.
 	      -    - speed: a float indicating the speed with which tiles should move.
+	      -    - dimension: the board size.
+	      -    - tiledim: size of one tile.
+	      -    - tiledimuv: size of one tile in texture coordinates.
 	      -->
 	    <event name="init">
 	        <createpropclass name="pcinventory" />
+
+		<!-- Set some defaults -->
+		<!--
+		<var name="dimension" value="4" />
+		<var name="tiledim" value="70000" />
+		<var name="tiledimuv" value=".25" />
+		<var name="shuffle_count" value="30" />
+		-->
+		<var name="dimension" value="10" />
+		<var name="tiledim" value="28000" />
+		<var name="tiledimuv" value=".1" />
+		<var name="shuffle_count" value="200" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />
@@ -164,24 +179,23 @@
 
 		<!-- Create the tiles of the board -->
 	        <var name="uvtl" value="[0,0]" />
-		<for var="y" start="0" end="3">
-		    <for var="x" start="0" end="3" exec="inittile" />
+		<for var="y" start="0" end="?dimension-1">
+		    <for var="x" start="0" end="?dimension-1" exec="inittile" />
 	        </for>
 
-		<!-- Clear the item at 3,3. This is the empty tile -->
-		<property propclass="pc(p3_3,pcbillboard)"
+		<!-- Clear the item at 0,0. This is the empty tile -->
+		<property propclass="pc(p0_0,pcbillboard)"
 			id="propid(visible)" value="false" />
-		<property propclass="pc(p3_3,pcbillboard)"
+		<property propclass="pc(p0_0,pcbillboard)"
 			id="propid(clickable)" value="false" />
-	        <var name="'grid'+3+'_'+3" value="''" />
-	        <var name="emptyx" value="3" />
-	        <var name="emptyy" value="3" />
+	        <var name="'grid'+0+'_'+0" value="''" />
+	        <var name="emptyx" value="0" />
+	        <var name="emptyy" value="0" />
 
 		<var name="speed" value="0.03" />
 		<var name="allowmove" value="false" />
 		<!-- Start randomizing -->
 		<var name="prev_dxdy" value="1" />
-		<var name="shuffle_count" value="30" />
 		<call event="fast_shuffle" />
 	    </event>
 
@@ -229,7 +243,7 @@
 		<var name="bx" value="?emptyx+?dx" />
 		<var name="by" value="?emptyy+?dy" />
 		<!-- Check if this is a valid location. If so we move it -->
-		<if eval="?bx < 4 && ?bx >= 0 && ?by < 4 && ?by >= 0">
+		<if eval="?bx < ?dimension && ?bx >= 0 && ?by < ?dimension && ?by >= 0">
 		    <true>
 		        <var name="ent" value="?('grid'+?bx+'_'+?by)" />
 		        <var entity="?ent" name="dx" value="-?dx" />
@@ -271,8 +285,8 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="70000" />
-	        <property id="propid(height)" value="70000" />
+	        <property id="propid(width)" value="?puzzle_main.tiledim" />
+	        <property id="propid(height)" value="?puzzle_main.tiledim" />
 		<var name="rightx" value="?puzzle_main.x" />
 		<var name="righty" value="?puzzle_main.y" />
 		<var name="curx" value="?rightx" />
@@ -290,9 +304,9 @@
 	    <event name="pctimer_wakeupframe">
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(x)"
-			value="1000+intpol(?delta,?intx1,?intx2)*70000" />
+			value="1000+intpol(?delta,?intx1,?intx2)*?puzzle_main.tiledim" />
 	        <property id="propid(y)"
-			value="1000+intpol(?delta,?inty1,?inty2)*70000" />
+			value="1000+intpol(?delta,?inty1,?inty2)*?puzzle_main.tiledim" />
 		<if eval="?delta>=1" true="stoptimer" />
 		<var name="delta" value="?delta+?puzzle_main.speed*
 			param(parid(elapsedticks))" />
@@ -308,8 +322,8 @@
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="1000+?curx*70000" />
-	        <property id="propid(y)" value="1000+?cury*70000" />
+	        <property id="propid(x)" value="1000+?curx*?puzzle_main.tiledim" />
+	        <property id="propid(y)" value="1000+?cury*?puzzle_main.tiledim" />
 		<if eval="?puzzle_main.shuffle_count>0">
 		    <true>
 		        <var entity="puzzle_main" name="shuffle_count"
