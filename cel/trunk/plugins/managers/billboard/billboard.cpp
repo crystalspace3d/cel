@@ -18,7 +18,13 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/objreg.h"
+#include "iutil/evdefs.h"
+#include "iutil/event.h"
 #include "igraphic/image.h"
+#include "ivideo/graph3d.h"
+#include "iengine/engine.h"
+#include "iengine/material.h"
 
 #include "plugins/managers/billboard/billboard.h"
 
@@ -33,6 +39,8 @@ celBillboard::celBillboard ()
   SCF_CONSTRUCT_IBASE (0);
   name = 0;
   flags.SetAll (CEL_BILLBOARD_VISIBLE);
+  materialname = 0;
+  material = 0;
   x = y = 0;
   w = h = 10;
 }
@@ -40,16 +48,15 @@ celBillboard::celBillboard ()
 celBillboard::~celBillboard ()
 {
   delete[] name;
+  delete[] materialname;
 }
 
 
-bool celBillboard::SetImage (iImage* image)
+bool celBillboard::SetMaterialName (const char* matname)
 {
-  return true;
-}
-
-bool celBillboard::SetImage (const char* filename)
-{
+  delete[] materialname;
+  materialname = csStrNew (matname);
+  material = 0;
   return true;
 }
 
@@ -63,6 +70,16 @@ void celBillboard::SetPosition (int x, int y)
 
 void celBillboard::Move (int dx, int dy)
 {
+}
+
+void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
+{
+  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
+  if (!material)
+  {
+    material = engine->FindMaterial (materialname);
+    if (!material) return;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -80,20 +97,57 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celBillboardManager::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+SCF_IMPLEMENT_IBASE (celBillboardManager::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
 celBillboardManager::celBillboardManager (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+  scfiEventHandler = 0;
 }
 
 celBillboardManager::~celBillboardManager ()
 {
+  if (scfiEventHandler)
+  {
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q != 0)
+      q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
+  }
 }
 
 bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 {
   celBillboardManager::object_reg = object_reg;
+
+  scfiEventHandler = new EventHandler (this);
+  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != 0);
+  q->RemoveListener (scfiEventHandler);
+  unsigned int trigger = CSMASK_Nothing;
+  q->RegisterListener (scfiEventHandler, trigger);
+
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+
   return true;
+}
+
+bool celBillboardManager::HandleEvent (iEvent& ev)
+{
+  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPostProcess)
+  {
+    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+    int i;
+    for (i = 0 ; i < billboards.Length () ; i++)
+    {
+      billboards[i]->Draw (engine, g3d);
+    }
+  }
+  return false;
 }
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)

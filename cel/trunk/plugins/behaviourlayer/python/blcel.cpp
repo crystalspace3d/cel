@@ -95694,36 +95694,16 @@ static PyObject *_wrap_iBillboard_GetFlags(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iBillboard_SetImage__SWIG_0(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iBillboard *arg1 = (iBillboard *) 0 ;
-    iImage *arg2 = (iImage *) 0 ;
-    bool result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboard_SetImage",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iBillboard,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iImage,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->SetImage(arg2);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iBillboard_SetImage__SWIG_1(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iBillboard_SetMaterialName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
     char *arg2 ;
     bool result;
     PyObject * obj0 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"Os:iBillboard_SetImage",&obj0,&arg2)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"Os:iBillboard_SetMaterialName",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iBillboard,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->SetImage((char const *)arg2);
+    result = (bool)(arg1)->SetMaterialName((char const *)arg2);
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -95732,78 +95712,17 @@ static PyObject *_wrap_iBillboard_SetImage__SWIG_1(PyObject *self, PyObject *arg
 }
 
 
-static PyObject *_wrap_iBillboard_SetImage(PyObject *self, PyObject *args) {
-    int argc;
-    PyObject *argv[3];
-    int ii;
-    
-    argc = PyObject_Length(args);
-    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
-        argv[ii] = PyTuple_GetItem(args,ii);
-    }
-    if (argc == 2) {
-        int _v;
-        {
-            void *ptr;
-            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iBillboard, 0) == -1) {
-                _v = 0;
-                PyErr_Clear();
-            }else {
-                _v = 1;
-            }
-        }
-        if (_v) {
-            {
-                void *ptr;
-                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_iImage, 0) == -1) {
-                    _v = 0;
-                    PyErr_Clear();
-                }else {
-                    _v = 1;
-                }
-            }
-            if (_v) {
-                return _wrap_iBillboard_SetImage__SWIG_0(self,args);
-            }
-        }
-    }
-    if (argc == 2) {
-        int _v;
-        {
-            void *ptr;
-            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iBillboard, 0) == -1) {
-                _v = 0;
-                PyErr_Clear();
-            }else {
-                _v = 1;
-            }
-        }
-        if (_v) {
-            {
-                _v = PyString_Check(argv[1]) ? 1 : 0;
-            }
-            if (_v) {
-                return _wrap_iBillboard_SetImage__SWIG_1(self,args);
-            }
-        }
-    }
-    
-    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'iBillboard_SetImage'");
-    return NULL;
-}
-
-
-static PyObject *_wrap_iBillboard_GetImage(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iBillboard_GetMaterialName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
-    iImage *result;
+    char *result;
     PyObject * obj0 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetImage",&obj0)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetMaterialName",&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iBillboard,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iImage *)(arg1)->GetImage();
+    result = (char *)(arg1)->GetMaterialName();
     
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iImage, 0);
+    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
     return resultobj;
     fail:
     return NULL;
@@ -103577,8 +103496,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celQueryPC_iPcDynamicBody", _wrap_celQueryPC_iPcDynamicBody, METH_VARARGS },
 	 { (char *)"iBillboard_GetName", _wrap_iBillboard_GetName, METH_VARARGS },
 	 { (char *)"iBillboard_GetFlags", _wrap_iBillboard_GetFlags, METH_VARARGS },
-	 { (char *)"iBillboard_SetImage", _wrap_iBillboard_SetImage, METH_VARARGS },
-	 { (char *)"iBillboard_GetImage", _wrap_iBillboard_GetImage, METH_VARARGS },
+	 { (char *)"iBillboard_SetMaterialName", _wrap_iBillboard_SetMaterialName, METH_VARARGS },
+	 { (char *)"iBillboard_GetMaterialName", _wrap_iBillboard_GetMaterialName, METH_VARARGS },
 	 { (char *)"iBillboard_SetSize", _wrap_iBillboard_SetSize, METH_VARARGS },
 	 { (char *)"iBillboard_GetSize", _wrap_iBillboard_GetSize, METH_VARARGS },
 	 { (char *)"iBillboard_SetPosition", _wrap_iBillboard_SetPosition, METH_VARARGS },

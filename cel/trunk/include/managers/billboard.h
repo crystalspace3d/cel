@@ -47,20 +47,14 @@ struct iBillboard : public iBase
   virtual csFlags& GetFlags () = 0;
 
   /**
-   * Set image for this billboard. Returns false on failure.
+   * Set material for this billboard. Returns false on failure.
    */
-  virtual bool SetImage (iImage* image) = 0;
+  virtual bool SetMaterialName (const char* matname) = 0;
 
   /**
-   * Set image for this billboard. 'filename' is a VFS
-   * filename. Returns false on failure.
+   * Get material name.
    */
-  virtual bool SetImage (const char* filename) = 0;
-
-  /**
-   * Get image.
-   */
-  virtual iImage* GetImage () = 0;
+  virtual const char* GetMaterialName () = 0;
 
   /**
    * Set the size of this billboard in pixels.

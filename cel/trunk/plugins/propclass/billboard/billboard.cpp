@@ -80,13 +80,19 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (3);
+  databuf->SetDataCount (4);
   databuf->GetData (0)->Set (filename);
   databuf->GetData (1)->Set (billboard_name);
   if (billboard)
-    databuf->GetData (2)->Set ((uint32)billboard->GetFlags ().Get ());
+  {
+    databuf->GetData (2)->Set (billboard->GetMaterialName ());
+    databuf->GetData (3)->Set ((uint32)billboard->GetFlags ().Get ());
+  }
   else
-    databuf->GetData (2)->Set ((uint32)0);
+  {
+    databuf->GetData (2)->Set ((const char*)0);
+    databuf->GetData (3)->Set ((uint32)0);
+  }
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -95,16 +101,21 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != BILLBOARD_SERIAL) return false;
-  if (databuf->GetDataCount () != 3) return false;
+  if (databuf->GetDataCount () != 4) return false;
   celData* cd;
   delete[] filename; filename = 0;
   cd = databuf->GetData (0); if (!cd) return false;
   filename = csStrNew (*cd->value.s);
+
   delete[] billboard_name; billboard_name = 0;
   cd = databuf->GetData (1); if (!cd) return false;
   billboard_name = csStrNew (*cd->value.s);
 
   cd = databuf->GetData (2); if (!cd) return false;
+  if (billboard)
+    billboard->SetMaterialName (*cd->value.s);
+
+  cd = databuf->GetData (3); if (!cd) return false;
   GetBillboard ();
   if (billboard)
     billboard->GetFlags ().SetAll (cd->value.ul);

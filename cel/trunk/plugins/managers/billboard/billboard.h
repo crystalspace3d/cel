@@ -26,10 +26,15 @@
 #include "csutil/parray.h"
 #include "csutil/strhash.h"
 #include "iutil/comp.h"
+#include "iutil/eventh.h"
+#include "iutil/eventq.h"
 #include "managers/billboard.h"
 
 struct iObjectRegistry;
 struct iImage;
+struct iEngine;
+struct iGraphics3D;
+struct iEvent;
 
 /**
  * A billboard.
@@ -39,7 +44,8 @@ class celBillboard : public iBillboard
 private:
   char* name;
   csFlags flags;
-  csRef<iImage> image;
+  char* materialname;
+  iMaterialWrapper* material;
   int x, y, w, h;
 
 public:
@@ -52,13 +58,14 @@ public:
     name = csStrNew (n);
   }
 
+  void Draw (iEngine* engine, iGraphics3D* g3d);
+
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual csFlags& GetFlags () { return flags; }
-  virtual bool SetImage (iImage* image);
-  virtual bool SetImage (const char* filename);
-  virtual iImage* GetImage () { return image; }
+  virtual bool SetMaterialName (const char* matname);
+  virtual const char* GetMaterialName () { return materialname; }
   virtual void SetSize (int w, int h);
   virtual void GetSize (int& w, int& h) const
   {
@@ -83,11 +90,14 @@ private:
   iObjectRegistry* object_reg;
   csPDelArray<celBillboard> billboards;
   csHash<celBillboard*,const char*,csConstCharHashKeyHandler> billboards_hash;
+  csRef<iGraphics3D> g3d;
+  csRef<iEngine> engine;
 
 public:
   celBillboardManager (iBase* parent);
   virtual ~celBillboardManager ();
   bool Initialize (iObjectRegistry* object_reg);
+  bool HandleEvent (iEvent& ev);
 
   SCF_DECLARE_IBASE;
 
@@ -105,6 +115,27 @@ public:
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
+
+  // Not an embedded interface to avoid circular references!!!
+  class EventHandler : public iEventHandler
+  {
+  private:
+    celBillboardManager* parent;
+
+  public:
+    EventHandler (celBillboardManager* parent)
+    {
+      SCF_CONSTRUCT_IBASE (0);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+
+    SCF_DECLARE_IBASE;
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return parent->HandleEvent (ev);
+    }
+  } *scfiEventHandler;
 };
 
 #endif // __CEL_MANAGER_BILLBOARD__
