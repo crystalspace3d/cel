@@ -3,3 +3,9 @@ from the Crystal Space dir and copy the cs-config script to this dir.
 Then edit the csconfig.mak file unless you are on Linux. In future
 this will be automated.
 
+Microsoft Visual C++ users need to open "cel.dsw" then make sure the
+have set both paths to the CS include and lib files. For more info
+see the HOWTO into the Crystal Space docs "5.7.10 Creating an External
+MSVC Application". After completing this, set each of the projects as
+the active one and compile.
+
