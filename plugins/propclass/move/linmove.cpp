@@ -450,9 +450,6 @@ bool celPcLinearMovement::MoveSprite (float delta)
       else
       {
           rc |= RotateV(local_max_interval);
-
-          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()
-              ->GetTransform ().GetT2O ();
           yrot = Matrix2YRot (transf);
       }
 
@@ -582,7 +579,8 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
   else
   {
-    bool rc = MoveSprite (delta);
+    // bool rc =
+    MoveSprite (delta);
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
