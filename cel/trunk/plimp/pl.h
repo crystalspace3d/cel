@@ -38,6 +38,7 @@ private:
   csVector pf_list;
   csPlLayerCache cache;
   iObjectRegistry* object_reg;
+  csStringSet string_registry;
 
 public:
   celPlLayer (iBase* parent);
@@ -69,6 +70,14 @@ public:
   virtual void Cache (iBase* object);
   virtual void Uncache (iBase* object);
   virtual void CleanCache ();
+  virtual csStringID FetchStringID (const char* str)
+  {
+    return string_registry.Request (str);
+  }
+  virtual const char* FetchString (csStringID id)
+  {
+    return string_registry.Request (id);
+  }
 
   struct Component : public iComponent
   {

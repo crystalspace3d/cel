@@ -58,6 +58,19 @@ public:
   virtual bool AddPropertyChangeCallback (iCelPropertyChangeCallback* cb);
   virtual bool RemovePropertyChangeCallback (
   	iCelPropertyChangeCallback* cb);
+
+  virtual bool SetProperty (csStringID, long) { return false; }
+  virtual bool SetProperty (csStringID, float) { return false; }
+  virtual bool SetProperty (csStringID, bool) { return false; }
+  virtual bool SetProperty (csStringID, const char*) { return false; }
+  virtual bool HasProperty (csStringID) { return false; }
+  virtual bool IsPropertyReadOnly (csStringID) { return false; }
+  virtual long GetPropertyLong (csStringID) { return 0; }
+  virtual float GetPropertyFloat (csStringID) { return 0; }
+  virtual bool GetPropertyBool (csStringID) { return false; }
+  virtual const char* GetPropertyString (csStringID) { return NULL; }
+  virtual int GetPropertyCount () const { return 0; }
+  virtual csStringID GetPropertyID (int) { return csInvalidStringID; }
 };
 
 #endif // __CEL_PF_COMMON_STDPC__

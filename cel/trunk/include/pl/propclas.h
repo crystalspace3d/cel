@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/strset.h"
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)		\
   (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID (#Interface), \
@@ -31,7 +32,7 @@ struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
 
-SCF_VERSION (iCelPropertyClass, 0, 0, 2);
+SCF_VERSION (iCelPropertyClass, 0, 0, 3);
 
 /**
  * This is a property class for an entity. A property class
@@ -81,6 +82,76 @@ struct iCelPropertyClass : public iBase
    */
   virtual bool RemovePropertyChangeCallback (
   	iCelPropertyChangeCallback* cb) = 0;
+
+  /**
+   * Set a generic property. In order to make it easier to access
+   * properties in a property class from general scripting languages
+   * this generic interface to properties is provided. It is always
+   * faster and more efficient to set properties directly but this system
+   * is usable in general.
+   * <p>
+   * This function returns false if the property could
+   * not be set for some reason.
+   * <p>
+   * The physical layer maintains a registry of ID's to use. The convention
+   * is to use property names like: 'cel.property.num'.
+   */
+  virtual bool SetProperty (csStringID propertyID, long value) = 0;
+
+  /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID, float value) = 0;
+
+  /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID, bool value) = 0;
+
+  /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID, const char* value) = 0;
+
+  /**
+   * Test if the given property is supported by this property class.
+   */
+  virtual bool HasProperty (csStringID propertyID) = 0;
+
+  /**
+   * Return true if a property is read-only.
+   */
+  virtual bool IsPropertyReadOnly (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as long.
+   */
+  virtual long GetPropertyLong (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as float.
+   */
+  virtual float GetPropertyFloat (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as bool.
+   */
+  virtual bool GetPropertyBool (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as string.
+   */
+  virtual const char* GetPropertyString (csStringID propertyID) = 0;
+
+  /**
+   * Return the number of supported properties.
+   */
+  virtual int GetPropertyCount () const = 0;
+
+  /**
+   * Get the ID of the given property.
+   */
+  virtual csStringID GetPropertyID (int i) = 0;
 };
 
 

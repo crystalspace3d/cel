@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/strset.h"
 
 SCF_DECLARE_FAST_INTERFACE (iCelPlLayer)
 SCF_DECLARE_FAST_INTERFACE (iCelBlLayer)
@@ -44,7 +45,7 @@ struct iSector;
 struct iCamera;
 class csVector3;
 
-SCF_VERSION (iCelPlLayer, 0, 0, 2);
+SCF_VERSION (iCelPlLayer, 0, 0, 3);
 
 /**
  * This is the Physical Layer itself.
@@ -154,6 +155,21 @@ struct iCelPlLayer : public iBase
    * some other object still has a reference.
    */
   virtual void CleanCache () = 0;
+
+  /**
+   * Retreive the unique ID associated with this string or create
+   * a new ID if needed. There are various places in CEL where this is
+   * used. The convention for string names is usually 'cel.xxx.yyy'
+   * with 'xxx' equal to what the string is (i.e. 'property' for example)
+   * and 'yyy' equal to the name (like the name of the property).
+   */
+  virtual csStringID FetchStringID (const char* str) = 0;
+
+  /**
+   * Find the string that corresponds with some ID. Returns NULL
+   * if there is no such string.
+   */
+  virtual const char* FetchString (csStringID id) = 0;
 };
 
 #endif // __CEL_PL_PL__
