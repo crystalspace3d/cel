@@ -146,6 +146,48 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+
+        <texture name="fattube_lr">
+	    <file>/cellib/images/fattube_lr.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_ud">
+	    <file>/cellib/images/fattube_ud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_lu">
+	    <file>/cellib/images/fattube_lu.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_ld">
+	    <file>/cellib/images/fattube_ld.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_ru">
+	    <file>/cellib/images/fattube_ru.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_rd">
+	    <file>/cellib/images/fattube_rd.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_lrud">
+	    <file>/cellib/images/fattube_lrud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="fattube_udlr">
+	    <file>/cellib/images/fattube_udlr.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+
         <texture name="tube_lr">
 	    <file>/cellib/images/tube_lr.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -292,6 +334,22 @@
 	    <file>/cellib/images/tube_yellowkey.png</file>
 	    <keepimage />
         </texture>
+        <texture name="arrow_r">
+	    <file>/cellib/images/arrow_r.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="arrow_l">
+	    <file>/cellib/images/arrow_l.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="arrow_u">
+	    <file>/cellib/images/arrow_u.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="arrow_d">
+	    <file>/cellib/images/arrow_d.png</file>
+	    <keepimage />
+        </texture>
 
         <texture name="save">
 	    <file>/cellib/images/save.png</file>
@@ -380,6 +438,14 @@
         <material name="explosion_br"> <texture>explosion_br</texture> </material>
         <material name="explosion_tl"> <texture>explosion_tl</texture> </material>
         <material name="explosion_tr"> <texture>explosion_tr</texture> </material>
+        <material name="fattube_lr"> <texture>fattube_lr</texture> </material>
+        <material name="fattube_ud"> <texture>fattube_ud</texture> </material>
+        <material name="fattube_lu"> <texture>fattube_lu</texture> </material>
+        <material name="fattube_ld"> <texture>fattube_ld</texture> </material>
+        <material name="fattube_ru"> <texture>fattube_ru</texture> </material>
+        <material name="fattube_rd"> <texture>fattube_rd</texture> </material>
+        <material name="fattube_lrud"> <texture>fattube_lrud</texture> </material>
+        <material name="fattube_udlr"> <texture>fattube_udlr</texture> </material>
         <material name="tube_lr"> <texture>tube_lr</texture> </material>
         <material name="tube_ud"> <texture>tube_ud</texture> </material>
         <material name="tube_lu"> <texture>tube_lu</texture> </material>
@@ -412,6 +478,10 @@
         <material name="tube_greenkey"> <texture>tube_greenkey</texture> </material>
         <material name="tube_bluekey"> <texture>tube_bluekey</texture> </material>
         <material name="tube_yellowkey"> <texture>tube_yellowkey</texture> </material>
+        <material name="arrow_l"> <texture>arrow_l</texture> </material>
+        <material name="arrow_r"> <texture>arrow_r</texture> </material>
+        <material name="arrow_u"> <texture>arrow_u</texture> </material>
+        <material name="arrow_d"> <texture>arrow_d</texture> </material>
         <material name="save"> <texture>save</texture> </material>
         <material name="number_0"> <texture>number_0</texture> </material>
         <material name="number_1"> <texture>number_1</texture> </material>
@@ -1425,7 +1495,7 @@
 
 		<!-- All blocktypes -->
 		<var name="blocktypes"
-		  value="'. HH#W#B###R#*#+XXXxOOOoMdMaMbMm=L=U=1=2=3=4=a=b=c=d=+=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO'" />
+		  value="'. HH#W#B###R#*#+XXXxOOOoMdMaMbMm=L=U=1=2=3=4=a=b=c=d=+=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO:L:U:1:2:3:4:#:%>R>L>U>D'" />
 
 		<!-- A stack of freed entities to reuse (per type) -->
 		<expr eval="inittable(table='entstack_',value=0)" />
@@ -1447,6 +1517,14 @@
 		<var name="'material_Ma'" value="apple" />
 		<var name="'material_Mb'" value="banana" />
 		<var name="'material_Mm'" value="mushroom" />
+		<var name="'material_:L'" value="fattube_lr" />
+		<var name="'material_:U'" value="fattube_ud" />
+		<var name="'material_:1'" value="fattube_lu" />
+		<var name="'material_:2'" value="fattube_ld" />
+		<var name="'material_:3'" value="fattube_ru" />
+		<var name="'material_:4'" value="fattube_rd" />
+		<var name="'material_:#'" value="fattube_lrud" />
+		<var name="'material_:%'" value="fattube_udlr" />
 		<var name="'material_=L'" value="tube_lr" />
 		<var name="'material_=U'" value="tube_ud" />
 		<var name="'material_=1'" value="tube_lu" />
@@ -1484,6 +1562,10 @@
 		<var name="'material_DB'" value="doorblue" />
 		<var name="'material_DY'" value="dooryellow" />
 		<var name="'material_DO'" value="dooropen" />
+		<var name="'material_>R'" value="arrow_r" />
+		<var name="'material_>L'" value="arrow_l" />
+		<var name="'material_>U'" value="arrow_u" />
+		<var name="'material_>D'" value="arrow_d" />
 		<!-- Create a table of behaviours per block type -->
 		<expr eval="inittable(table='behaviour_',value='bdash_nonmovable')" />
 		<var name="'behaviour_. '" value="''" />
@@ -1530,6 +1612,16 @@
 		<var name="'behaviour_DG'" value="bdash_door" />
 		<var name="'behaviour_DB'" value="bdash_door" />
 		<var name="'behaviour_DY'" value="bdash_door" />
+
+		<!-- For all fat tubes we have directional values (4 bits: LRUD) -->
+		<var name="'fattube_:L'" value="12" />	<!-- LR.. -->
+		<var name="'fattube_:U'" value="3" />	<!-- ..UD -->
+		<var name="'fattube_:1'" value="10" />	<!-- L.U. -->
+		<var name="'fattube_:2'" value="9" />	<!-- L..D -->
+		<var name="'fattube_:3'" value="6" />	<!-- .RU. -->
+		<var name="'fattube_:4'" value="5" />	<!-- .R.D -->
+		<var name="'fattube_:#'" value="-1" />	<!-- LRUD -->
+		<var name="'fattube_:%'" value="-1" />	<!-- LRUD -->
 
 		<!-- For all tubes we have directional output values (4 bits: LRUD) -->
 		<var name="'tubeout_=L'" value="12" />	<!-- LR.. -->
@@ -1615,6 +1707,18 @@
 		<var name="'destroy_=G'" value="0" />
 		<var name="'destroy_=B'" value="0" />
 		<var name="'destroy_=Y'" value="0" />
+		<var name="'destroy_:L'" value="0" />
+		<var name="'destroy_:U'" value="0" />
+		<var name="'destroy_:1'" value="0" />
+		<var name="'destroy_:2'" value="0" />
+		<var name="'destroy_:3'" value="0" />
+		<var name="'destroy_:4'" value="0" />
+		<var name="'destroy_:#'" value="0" />
+		<var name="'destroy_:%'" value="0" />
+		<var name="'destroy_>R'" value="0" />
+		<var name="'destroy_>L'" value="0" />
+		<var name="'destroy_>U'" value="0" />
+		<var name="'destroy_>D'" value="0" />
 
 		<!--
 		  - Create a table of 'destroy_diamond' settings per block type.
@@ -2322,6 +2426,7 @@
 		<var name="material" value="hero" />
 		<var name="speed" value="?bdash_main.herospeed" />
 		<var name="power" value="0" />
+		<var name="fattube_moving" value="false" />
 		<super />
 	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
@@ -2408,6 +2513,88 @@
 	    </event>
 
 	    <!--
+	      - Find a suitable fattube exit.
+	      -->
+	    <event name="find_fattube_move">
+	        <switch eval="?fattube_nextmask">
+		    <case value="-1"> <lvar name="dx" value="?dx" /> <lvar name="dy" value="?dy" /> </case>
+		    <case value="1"> <lvar name="dx" value="0" /> <lvar name="dy" value="1" /> </case>
+		    <case value="2"> <lvar name="dx" value="0" /> <lvar name="dy" value="-1" /> </case>
+		    <case value="4"> <lvar name="dx" value="1" /> <lvar name="dy" value="0" /> </case>
+		    <case value="8"> <lvar name="dx" value="-1" /> <lvar name="dy" value="0" /> </case>
+		</switch>
+	        <lvar name="newx" value="?x+#dx" />
+	        <lvar name="newy" value="?y+#dy" />
+		<lvar name="bt" value="bdash_main::get_blocktype(x=#newx,y=#newy)" />
+		<if eval="strsub(#bt,0,1)==':'">
+		    <default propclass="?pcbb" />
+	            <property id="propid(visible)" value="false" />
+		    <call event="start_fattube_move">
+		        <par id="parid(dx)" value="#dx" />
+		        <par id="parid(dy)" value="#dy" />
+		    </call>
+		    <stop />
+		</if>
+		<!--
+		  - We come out of the fattube. We check if we can really get out.
+		  - If not we have to revert direction.
+		  -->
+		<var name="dx" value="#dx" />
+		<var name="dy" value="#dy" />
+		<var name="fattube_moving" value="false" />
+		<call event="checkmove" />
+		<!-- If we are moving then we got out and we can make ourselves visible again -->
+		<if eval="?moving">
+		    <default propclass="?pcbb" />
+	            <property id="propid(visible)" value="true" />
+		    <bb_tofront />
+	    	</if>
+	    </event>
+
+	    <!--
+	      - Check if we can move through a fat tube and
+	      - start the move if possible.
+	      - Parameters are @dx and @dy.
+	      -->
+	    <event name="start_fattube_move">
+	        <lvar name="newx" value="?x+@dx" />
+	        <lvar name="newy" value="?y+@dy" />
+	    	<lvar name="mask" value="?bdash_main.fattube[bdash_main::get_blocktype(x=#newx,y=#newy)]" />
+		<if eval="#mask==-1">
+		    <!-- Special case: double tube -->
+		    <var name="fattube_nextmask" value="-1" />
+		    <var name="fattube_moving" value="true" />
+		    <var name="dx" value="@dx" />
+		    <var name="dy" value="@dy" />
+		    <call event="startmove" />
+		    <bb_toback />
+		    <stop />
+		</if>
+		<if eval="!@dx">
+		    <true>
+		        <if eval="@dy==1">
+		    	    <true> <lvar name="movemask" value="2" /> </true>
+		    	    <false> <lvar name="movemask" value="1" /> </false>
+		        </if>
+		    </true>
+		    <false>
+		        <if eval="@dx==1">
+		    	    <true> <lvar name="movemask" value="8" /> </true>
+		    	    <false> <lvar name="movemask" value="4" /> </false>
+		        </if>
+		    </false>
+		</if>
+		<if eval="#mask & #movemask">
+		    <var name="fattube_nextmask" value="#mask & ~#movemask" />
+		    <var name="fattube_moving" value="true" />
+		    <var name="dx" value="@dx" />
+		    <var name="dy" value="@dy" />
+		    <call event="startmove" />
+		    <bb_toback />
+		</if>
+	    </event>
+
+	    <!--
 	      - Start moving the hero. This will set the block at
 	      - ?x+?dx,?y+?dy to 'HH'.
 	      -->
@@ -2433,6 +2620,9 @@
 		    <par id="parid(x)" value="?oldx" />
 		    <par id="parid(y)" value="?oldy" />
 	    	</call>
+		<if eval="?fattube_moving">
+		    <call event="find_fattube_move" />
+		</if>
 	    </event>
 
 	    <!--
@@ -2657,6 +2847,12 @@
 	    	<call event="takemushroom" />
 		<call event="clearblock_nocheck" />
 	    </event>
+	    <event name="tryfattube_move">
+		<call entity="?bdash_main.hero" event="start_fattube_move">
+		    <par id="parid(dx)" value="?dx" />
+		    <par id="parid(dy)" value="?dy" />
+		</call>
+	    </event>
 
 	    <!--
 	      - Check if a move is possible and perform the move
@@ -2668,6 +2864,19 @@
 	    <event name="checkmove">
 	        <if eval="?moving">
 		    <stop />
+		</if>
+		<lvar name="cur_bt" value="bdash_main::get_blocktype(x=?x,y=?y)" />
+		<if eval="#cur_bt=='>R'">
+		    <if eval="?dx!=1"> <stop/> </if>
+		</if>
+		<if eval="#cur_bt=='>L'">
+		    <if eval="?dx!=-1"> <stop/> </if>
+		</if>
+		<if eval="#cur_bt=='>U'">
+		    <if eval="?dy!=-1"> <stop/> </if>
+		</if>
+		<if eval="#cur_bt=='>D'">
+		    <if eval="?dy!=1"> <stop/> </if>
 		</if>
 		<var name="newx" value="?x+?dx" />
 		<var name="newy" value="?y+?dy" />
@@ -2688,6 +2897,18 @@
 	    </event>
 	    <event name="checkmove_#R">
 	    	<call event="trypush_horizontal" />
+	    </event>
+	    <event name="checkmove_>R">
+	    	<call event="startmove" />
+	    </event>
+	    <event name="checkmove_>L">
+	    	<call event="startmove" />
+	    </event>
+	    <event name="checkmove_>U">
+	    	<call event="startmove" />
+	    </event>
+	    <event name="checkmove_>D">
+	    	<call event="startmove" />
 	    </event>
 	    <event name="checkmove_OO">
 	    	<call event="trypush_horizontal" />
@@ -2742,6 +2963,30 @@
 	    </event>
 	    <event name="checkmove_Xx">
 	    	<call event="trypush_horizontal" />
+	    </event>
+	    <event name="checkmove_:L">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:U">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:1">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:2">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:3">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:4">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:#">
+	    	<call event="tryfattube_move" />
+	    </event>
+	    <event name="checkmove_:%">
+	    	<call event="tryfattube_move" />
 	    </event>
 	    <event name="checkmove_KR">
 	    	<call event="takekey" />
@@ -4079,15 +4324,27 @@
 		<expr eval="createmenuentity(blocktype='=&')" />
 		<expr eval="createmenuentity(blocktype='=|')" />
 		<expr eval="createmenuentity(blocktype='=^')" />
+		<expr eval="createmenuentity(blocktype='DO')" />
 		<expr eval="createmenuentity(blocktype='DR')" />
 		<expr eval="createmenuentity(blocktype='DG')" />
 		<expr eval="createmenuentity(blocktype='DB')" />
 		<expr eval="createmenuentity(blocktype='DY')" />
-		<expr eval="createmenuentity(blocktype='DO')" />
 		<expr eval="createmenuentity(blocktype='KR')" />
 		<expr eval="createmenuentity(blocktype='KG')" />
 		<expr eval="createmenuentity(blocktype='KB')" />
 		<expr eval="createmenuentity(blocktype='KY')" />
+		<expr eval="createmenuentity(blocktype=':L')" />
+		<expr eval="createmenuentity(blocktype=':U')" />
+		<expr eval="createmenuentity(blocktype=':1')" />
+		<expr eval="createmenuentity(blocktype=':2')" />
+		<expr eval="createmenuentity(blocktype=':3')" />
+		<expr eval="createmenuentity(blocktype=':4')" />
+		<expr eval="createmenuentity(blocktype=':#')" />
+		<expr eval="createmenuentity(blocktype=':%')" />
+		<expr eval="createmenuentity(blocktype='>R')" />
+		<expr eval="createmenuentity(blocktype='>L')" />
+		<expr eval="createmenuentity(blocktype='>U')" />
+		<expr eval="createmenuentity(blocktype='>D')" />
 		<var name="lasty" value="?y" />
 
 		<!-- Create the save button -->
@@ -4379,6 +4636,7 @@
 	    <event name="realinit">
 	        <var name="blocktype" value="@blocktype" />
 
+	        <lvar name="dim" value="16000" />
 	        <createpropclass name="pcbillboard" />
 	        <createpropclass name="pcproperties" />
 		<var name="pcbb" value="pc(pcbillboard)" />
@@ -4388,11 +4646,11 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
-	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
+	        <property id="propid(width)" value="#dim" />
+	        <property id="propid(height)" value="#dim" />
 	        <property id="propid(layer)" value="menu" />
-	        <property id="propid(x)" value="220000+@x*(?bdash_main.blockdim+1000)" />
-	        <property id="propid(y)" value="10000+@y*(?bdash_main.blockdim+1000)" />
+	        <property id="propid(x)" value="240000+@x*(#dim+1000)" />
+	        <property id="propid(y)" value="10000+@y*(#dim+1000)" />
 	    </event>
 
 	    <event name="pcbillboard_select">
@@ -4427,11 +4685,11 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="19200*2" />
-	        <property id="propid(height)" value="19200" />
+	        <property id="propid(width)" value="16000*2" />
+	        <property id="propid(height)" value="16000" />
 	        <property id="propid(layer)" value="menu" />
 	        <property id="propid(x)" value="240000" />
-	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(?bdash_main.blockdim+1000)" />
+	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(16000+1000)" />
 	    </event>
 
 	    <event name="pcbillboard_select">
