@@ -17,23 +17,23 @@
 	    <file>/this/data/objects/lamp_desk.png</file>
 	    <transparent red="1" green="1" blue="1" />
         </texture>
+        <texture name="lamp_table">
+	    <file>/this/data/objects/lamp_table2.gif</file>
+	    <transparent red="1" green="1" blue="1" />
+        </texture>
+        <texture name="table_coffee">
+	    <file>/this/data/objects/table_coffee5.gif</file>
+	    <transparent red="1" green="1" blue="1" />
+        </texture>
     </textures>
     <materials>
-        <material name="wood">
-            <texture>andrew_wood.jpg</texture>
-        </material>
-        <material name="abstract">
-            <texture>abstract_a032.jpg</texture>
-        </material>
-	<material name="chair">
-            <texture>chair</texture>
-	</material>
-	<material name="desk">
-            <texture>desk</texture>
-	</material>
-	<material name="lamp_desk">
-            <texture>lamp_desk</texture>
-	</material>
+        <material name="wood"> <texture>andrew_wood.jpg</texture> </material>
+        <material name="abstract"> <texture>abstract_a032.jpg</texture> </material>
+	<material name="chair"> <texture>chair</texture> </material>
+	<material name="desk"> <texture>desk</texture> </material>
+	<material name="lamp_desk"> <texture>lamp_desk</texture> </material>
+	<material name="lamp_table"> <texture>lamp_table</texture> </material>
+	<material name="table_coffee"> <texture>table_coffee</texture> </material>
     </materials>
     <plugins>
         <plugin name="thing">crystalspace.mesh.loader.thing</plugin>
@@ -394,6 +394,24 @@
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="lamp_desk" />
 	        <property name="pcbillboard.materialname" string="lamp_desk" />
+	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.restack" bool="1" />
+	    </propclass>
+            <behaviour name="generic_object" />
+	</addon>
+	<addon plugin="celentity" entityname="lamp_table">
+	    <propclass name="pcbillboard">
+	        <property name="pcbillboard.name" string="lamp_table" />
+	        <property name="pcbillboard.materialname" string="lamp_table" />
+	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.restack" bool="1" />
+	    </propclass>
+            <behaviour name="generic_object" />
+	</addon>
+	<addon plugin="celentity" entityname="table_coffee">
+	    <propclass name="pcbillboard">
+	        <property name="pcbillboard.name" string="table_coffee" />
+	        <property name="pcbillboard.materialname" string="table_coffee" />
 	        <property name="pcbillboard.movable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
 	    </propclass>
