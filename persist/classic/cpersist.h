@@ -23,7 +23,12 @@
 #include "iutil/comp.h"
 #include "pl/persist.h"
 
+struct iFile;
 struct iObjectRegistry;
+struct iCelPropertyClass;
+struct iCelEntity;
+struct iCelDataBuffer;
+struct celData;
 
 /**
  * This is the classic persistance layer.
@@ -32,6 +37,12 @@ class celPersistClassic : public iCelPersistance
 {
 private:
   iObjectRegistry* object_reg;
+
+  bool WriteString (iFile* f, const char* s);
+  bool Write (iFile* f, iCelPropertyClass* pc);
+  bool Write (iFile* f, iCelEntity* entity);
+  bool Write (iFile* f, iCelDataBuffer* db);
+  bool Write (iFile* f, celData* data);
 
 public:
   celPersistClassic (iBase* parent);

@@ -93,6 +93,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctooltip"; }
+  virtual const char* GetFactoryName () const { return "pftools"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -160,6 +161,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctimer"; }
+  virtual const char* GetFactoryName () const { return "pftools"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

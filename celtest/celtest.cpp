@@ -60,6 +60,7 @@
 #include "pl/propfact.h"
 #include "pl/propclas.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/bl.h"
 #include "pf/test.h"
 #include "pf/mesh.h"
@@ -176,6 +177,14 @@ bool CelTest::HandleEvent (iEvent& ev)
         q->DecRef ();
       }
       return true;
+    }
+    else if (ev.Key.Code == 's')
+    {
+      printf ("Saving to '/this/savefile"); fflush (stdout);
+      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      bool rc = cp->SaveEntity (game, "/this/savefile");
+      printf ("  success %d\n", rc); fflush (stdout);
+      cp->DecRef ();
     }
   }
   return false;
@@ -516,6 +525,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
 	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test", iCelBlLayer),
+	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
 		iCollideSystem),
 	CS_REQUEST_END))

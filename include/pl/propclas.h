@@ -44,6 +44,11 @@ struct iCelPropertyClass : public iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * Get the name of the factory of this property class.
+   */
+  virtual const char* GetFactoryName () const = 0;
+
+  /**
    * Get the parent entity associated with this property class.
    */
   virtual iCelEntity* GetEntity () = 0;

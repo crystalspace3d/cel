@@ -164,7 +164,8 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (1); if (!cd) return false; x = cd->value.uw;
   cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
   delete[] text; text = NULL;
-  cd = databuf->GetData (3); if (!cd) return false; text = csStrNew (cd->value.s);
+  cd = databuf->GetData (3); if (!cd) return false;
+ text = csStrNew (cd->value.s);
   cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
   cd = databuf->GetData (5); if (!cd) return false; text_g = cd->value.ub;
   cd = databuf->GetData (6); if (!cd) return false; text_b = cd->value.ub;
@@ -279,17 +280,36 @@ void celPcTimer::SetEntity (iCelEntity* entity)
   celPcTimer::entity = entity;
 }
 
+#define TIMER_SERIAL 1
+
 iCelDataBuffer* celPcTimer::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (TIMER_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (4);
+  databuf->GetData (0)->Set (enabled);
+  databuf->GetData (1)->Set ((int32)wakeup);
+  databuf->GetData (2)->Set ((int32)wakeup_todo);
+  databuf->GetData (3)->Set (repeat);
   return databuf;
 }
 
 bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TIMER_SERIAL) return false;
+  if (databuf->GetDataCount () != 4) return false;
+  celData* cd;
+  cd = databuf->GetData (0); if (!cd) return false;
+  enabled = cd->value.bo;
+  cd = databuf->GetData (1); if (!cd) return false;
+  wakeup = cd->value.l;
+  cd = databuf->GetData (2); if (!cd) return false;
+  wakeup_todo = cd->value.l;
+  cd = databuf->GetData (3); if (!cd) return false;
+  repeat = cd->value.bo;
+
   return true;
 }
 

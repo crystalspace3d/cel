@@ -24,6 +24,7 @@
 #include "pf/move.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/csobject.h"
@@ -116,10 +117,17 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   mesh = NULL;
   celPcMesh::object_reg = object_reg;
   visible = true;
+  fileName = NULL;
 }
 
 celPcMesh::~celPcMesh ()
 {
+  Clear ();
+}
+
+void celPcMesh::Clear ()
+{
+  delete[] fileName; fileName = NULL;
   if (mesh)
   {
     iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
@@ -127,6 +135,7 @@ celPcMesh::~celPcMesh ()
     engine->GetMeshes ()->Remove (mesh);
     mesh->DecRef ();
     engine->DecRef ();
+    mesh = NULL;
   }
 }
 
@@ -135,22 +144,44 @@ void celPcMesh::SetEntity (iCelEntity* entity)
   celPcMesh::entity = entity;
 }
 
+#define MESH_SERIAL 1
+
 iCelDataBuffer* celPcMesh::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (MESH_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (3);
+  databuf->GetData (0)->Set (fileName);
+  databuf->GetData (1)->Set (GetAction ());
+  databuf->GetData (2)->Set (visible);
   return databuf;
 }
 
 bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MESH_SERIAL) return false;
+  if (databuf->GetDataCount () != 3) return false;
+  Clear ();
+  visible = true;
+  celData* cd;
+  cd = databuf->GetData (0); if (!cd) return false;
+  fileName = cd->value.s ? csStrNew (cd->value.s) : NULL;
+  cd = databuf->GetData (1); if (!cd) return false;
+  SetAction (cd->value.s);
+  cd = databuf->GetData (2); if (!cd) return false;
+  if (cd->value.bo) Show ();
+  else Hide ();
+
   return true;
 }
 
+
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory (const char* fileName)
 {
+  delete [] celPcMesh::fileName;
+  celPcMesh::fileName = csStrNew (fileName);
   iLoader* loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != NULL);
   iMeshFactoryWrapper* imeshfact = loader->LoadMeshObjectFactory (fileName);
@@ -250,6 +281,7 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 
 void celPcMesh::SetAction (const char* actionName)
 {
+  if (!actionName) return;
   CS_ASSERT (mesh != NULL);
   iSprite3DState* state = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState);
@@ -361,17 +393,74 @@ void celPcMeshSelect::SetEntity (iCelEntity* entity)
   celPcMeshSelect::entity = entity;
 }
 
+#define MESHSEL_SERIAL 1
+
 iCelDataBuffer* celPcMeshSelect::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (15);
+  //@@@ PROBLEM! Save pointer to camera: use pccamera.
+  databuf->GetData (0)->Set ((iCelEntity*)NULL);	// @@@ Camera
+  databuf->GetData (1)->Set (sel_entity);
+  databuf->GetData (2)->Set (cur_on_top);
+  databuf->GetData (3)->Set ((uint32)mouse_buttons);
+  databuf->GetData (4)->Set (do_global);
+  databuf->GetData (5)->Set (do_drag);
+  databuf->GetData (6)->Set (drag_normal.x);
+  databuf->GetData (7)->Set (drag_normal.y);
+  databuf->GetData (8)->Set (drag_normal.z);
+  databuf->GetData (9)->Set (drag_normal_camera);
+  databuf->GetData (10)->Set (do_follow);
+  databuf->GetData (11)->Set (do_follow_always);
+  databuf->GetData (12)->Set (do_sendmove);
+  databuf->GetData (13)->Set (do_sendup);
+  databuf->GetData (14)->Set (do_senddown);
   return databuf;
 }
 
 bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MESHSEL_SERIAL) return false;
+  if (databuf->GetDataCount () != 15) return false;
+  celData* cd;
+  cd = databuf->GetData (0); if (!cd) return false;
+  // @@@ camera!
+  camera = NULL;
+
+  cd = databuf->GetData (1); if (!cd) return false;
+  sel_entity = cd->value.ent;
+  cd = databuf->GetData (2); if (!cd) return false;
+  cur_on_top = cd->value.bo;
+  cd = databuf->GetData (3); if (!cd) return false;
+  mouse_buttons = cd->value.ul;
+  cd = databuf->GetData (4); if (!cd) return false;
+  do_global = cd->value.bo;
+  cd = databuf->GetData (5); if (!cd) return false;
+  do_drag = cd->value.bo;
+  cd = databuf->GetData (6); if (!cd) return false;
+  drag_normal.x = cd->value.f;
+  cd = databuf->GetData (7); if (!cd) return false;
+  drag_normal.y = cd->value.f;
+  cd = databuf->GetData (8); if (!cd) return false;
+  drag_normal.z = cd->value.f;
+  cd = databuf->GetData (9); if (!cd) return false;
+  drag_normal_camera = cd->value.bo;
+  cd = databuf->GetData (10); if (!cd) return false;
+  do_follow = cd->value.bo;
+  cd = databuf->GetData (11); if (!cd) return false;
+  do_follow_always = cd->value.bo;
+  cd = databuf->GetData (12); if (!cd) return false;
+  do_sendmove = cd->value.bo;
+  cd = databuf->GetData (13); if (!cd) return false;
+  do_sendup = cd->value.bo;
+  cd = databuf->GetData (14); if (!cd) return false;
+  do_senddown = cd->value.bo;
+
+  SetupEventHandler ();
+
   return true;
 }
 

@@ -2,6 +2,22 @@
 	- Created new cpersist plugin. This plugin will implement
 	  'classic persistance' for CEL. This plugin does not do
 	  anything at the moment except compile and register.
+	- Philip Wyett updated the MSVC project files for the new
+	  persistance plugin.
+	- Added GetName() to iCelBehaviour. This is needed to be able
+	  to save the associated behaviour name in the persistance layer.
+	- Added GetFactoryName() to iCelPropertyClass. This is needed
+	  to be able to save the associated factory name in the
+	  persistance layer.
+	- Worked on persistance a lot now. All property classes now have
+	  full support for loading and saving (untested).
+	- Implemented saving in the classic persistance plugin.
+	  At this moment it doesn't work yet (crashes) and I also need
+	  to implement a system to avoid saving the same entity or
+	  property class twice or more then once.
+	- Added 's' key to save the current world to 'savefile'. Since
+	  saving in general does not work yet I advice you NOT to press
+	  this key :-)
 11-Nov-2001:
 	- Even though persistance is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data

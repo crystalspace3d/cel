@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/util.h"
 #include "bl/behave.h"
 
 struct iCelEntity;
@@ -35,13 +36,17 @@ class celBehaviourGeneral : public iCelBehaviour
 protected:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
+  char* name;
 
 public:
   celBehaviourGeneral (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourGeneral ();
 
+  void SetName (const char* n) { delete[] name; name = csStrNew (n); }
+
   SCF_DECLARE_IBASE;
 
+  virtual const char* GetName () const { return name; }
   virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
 };
 

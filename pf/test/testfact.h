@@ -74,6 +74,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctest"; }
+  virtual const char* GetFactoryName () const { return "pftest"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
