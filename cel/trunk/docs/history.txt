@@ -53,4 +53,5 @@
 	  fits in the inventory.
 	- Fixed a bug with current constraints not being updated correctly
 	  when entities are removed from the inventory.
+	- Constraints where not cleaned up at destruction time.
 

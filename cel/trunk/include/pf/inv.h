@@ -92,6 +92,11 @@ struct iPcInventory : public iBase
 		  float& totalMaxValue) const = 0;
 
   /**
+   * Remove constraints for a characteristic.
+   */
+  virtual void RemoveConstraints (const char* charName) = 0;
+
+  /**
    * Get the current value for some characteristic.
    */
   virtual float GetCurrentCharacteristic (const char* charName) const = 0;
