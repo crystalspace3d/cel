@@ -332,11 +332,11 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   camData[iPcCamera::transition].springLength = 0.01f;
 
   int i;
-  csVector3 pos (0);
+  csVector3 origin (0);
   for (i=0 ; i < iPcCamera::CameraMode_count ; i++)
   {
-    SetPosition (pos, i);
-    SetTarget (pos, i);
+    SetPosition (origin, i);
+    SetTarget (origin, i);
     SetUp (csVector3 (0, 1, 0), i);
     SetDistance (5.0f, i);
     SetPitch (0.0f, i);
@@ -344,12 +344,18 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
     SetYaw (0.0f, i);
   }
 
+  // The error has to be set to 0 to begin with.
+  SetPosition (origin, iPcCamera::camerror);
+  SetTarget (origin, iPcCamera::camerror);
+  SetUp (origin, iPcCamera::camerror);
+
   transitionThresholdSquared = 1.0f;
   cameraHasBeenPositioned = false;
 
   DisableDistanceClipping ();
 
   useCameraCD = true;
+  lastActorSector = 0;
 
   SetMode (iPcCamera::firstperson);
 
@@ -720,6 +726,7 @@ void celPcCamera::TickEveryFrame ()
   iCamera* c = view->GetCamera ();
 
   // First set the camera back on where the sector is.
+  // We assume here that normal camera movement is good.
   if (c->GetSector () != actor_sector)
     c->SetSector (actor_sector);
   //c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
@@ -729,8 +736,29 @@ void celPcCamera::TickEveryFrame ()
 
   // Now move it to the new position.
   c->MoveWorld (GetPosition (iPcCamera::actual_data) - actor_pos);
+
+  // If the actor changed sectors then ensure that the position is correct
+  // in case it is a warping portal.
+  if (actor_sector != lastActorSector && lastActorSector != 0)
+  {
+    SetPosition (GetPosition () + GetPosition (iPcCamera::camerror),
+    	iPcCamera::actual_data);
+    SetTarget (GetTarget () + GetTarget (iPcCamera::camerror),
+    	iPcCamera::actual_data);
+    SetUp (GetUp () + GetUp (iPcCamera::camerror),
+    	iPcCamera::actual_data);
+  }
+  
   c->GetTransform ().LookAt (GetTarget (iPcCamera::actual_data) -
     	GetPosition (iPcCamera::actual_data), GetUp (iPcCamera::actual_data));
+
+  // Now calculate the error of the camera.
+  SetPosition (GetPosition (iPcCamera::actual_data) - GetPosition (),
+  	iPcCamera::camerror);
+  SetTarget (GetTarget (iPcCamera::actual_data) - GetTarget (),
+  	iPcCamera::camerror);
+  SetUp (GetUp (iPcCamera::actual_data) - GetUp (),
+  	iPcCamera::camerror);
 
   // Tell 3D driver we're going to display 3D things.
   if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS

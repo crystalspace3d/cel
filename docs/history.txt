@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+12-Aug-2004
+	- Andrew Robberts fixed a bug with camera going through space
+	  warping portals.
 8-Aug-2004
 	- Jorrit fixed the cel camera so that it makes the entire mesh
 	  hierarchy invisible instead of only the parent in first person

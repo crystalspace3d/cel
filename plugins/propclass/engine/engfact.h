@@ -249,6 +249,8 @@ public://@@@
   /// Perform collision detection between the camera target and position.
   bool useCameraCD;
 
+  iSector* lastActorSector;
+
   // For distance clipping.
   void SetDistanceClipping (float dist);
   void AdaptDistanceClipping (csTicks elapsed_time);
