@@ -133,6 +133,14 @@ struct iPcLinearMovement : public iBase
 
   /**
    * This function calls ExtrapolatePosition with a certain time
+   * but uses a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  virtual void UpdateDRDelta (csTicks ticksdelta) = 0;
+
+  /**
+   * This function calls ExtrapolatePosition with a certain time
    * but calculates the delta relative to the last update, not
    * a fixed delta.  This allows all entities linmoves to be
    * synchronized to the same ticks, even if updates are all
