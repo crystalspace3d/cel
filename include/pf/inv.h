@@ -107,6 +107,12 @@ struct iPcInventory : public iBase
    * NULL is returned.
    */
   virtual const char* TestAddEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Test if changing a characteristic of some entity inside this inventory
+   * would violate the inventory constraints. Returns true if ok.
+   */
+  virtual bool TestCharacteristicChange (const char* charName, float oldValue, float newValue) = 0;
 };
 
 #endif // __CEL_PF_INV__

@@ -54,4 +54,10 @@
 	- Fixed a bug with current constraints not being updated correctly
 	  when entities are removed from the inventory.
 	- Constraints where not cleaned up at destruction time.
+	- Constraints are now also checked when properties change. i.e. it
+	  is impossible to change a property when the entity is in an
+	  inventory and changing that property would cause the inventory
+	  constraints to be invalidated. Not fully implemented yet!
+	  We also still have to define hierarchical constraints (i.e. for
+	  nested inventories).
 
