@@ -11,64 +11,6 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory=".\release\temp\cpersist"
-			IntermediateDirectory=".\release\temp\cpersist"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
-				PreprocessorDefinitions="NDEBUG;_MT;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\release\temp\cpersist/cpersist.pch"
-				AssemblerListingLocation=".\release\temp\cpersist/"
-				ObjectFile=".\release\temp\cpersist/"
-				ProgramDataBaseFileName=".\release\temp\cpersist/"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib"
-				OutputFile=".\release\temp\cpersist/cpersist.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
-				IgnoreDefaultLibraryNames="LIBCMTD"
-				ProgramDatabaseFile=".\release\temp\cpersist/cpersist.pdb"
-				ImportLibrary=".\release\temp\cpersist/cpersist.lib"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\cpersist/cpersist.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to CEL root.
-copy &quot;$(TargetPath)&quot;  ..
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="2057"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\debug\temp\cpersist"
 			IntermediateDirectory=".\debug\temp\cpersist"
@@ -115,6 +57,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to CEL root.
 copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\persist\classic\cpersist.csplugin&quot;  ..
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -129,34 +72,95 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\release\temp\cpersist"
+			IntermediateDirectory=".\release\temp\cpersist"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\release\temp\cpersist/cpersist.pch"
+				AssemblerListingLocation=".\release\temp\cpersist/"
+				ObjectFile=".\release\temp\cpersist/"
+				ProgramDataBaseFileName=".\release\temp\cpersist/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib"
+				OutputFile=".\release\temp\cpersist/cpersist.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
+				IgnoreDefaultLibraryNames="LIBCMTD"
+				ProgramDatabaseFile=".\release\temp\cpersist/cpersist.pdb"
+				ImportLibrary=".\release\temp\cpersist/cpersist.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\release\temp\cpersist/cpersist.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\persist\classic\cpersist.csplugin&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
-			Name="Header FIles"
+				<Filter
+			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\persist\classic\cpersist.h">
 			</File>
+
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\persist\classic\cpersist.csplugin">
+			</File>
+
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\persist\classic\cpersist.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
+
 		</Filter>
+
 	</Files>
 	<Globals>
 	</Globals>

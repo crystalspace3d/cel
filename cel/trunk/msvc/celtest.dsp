@@ -105,6 +105,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 SOURCE=..\apps\celtest\celtest.h
 # End Source File
+
 # End Group
 # Begin Group "Source Files"
 
@@ -113,6 +114,8 @@ SOURCE=..\apps\celtest\celtest.h
 
 SOURCE=..\apps\celtest\celtest.cpp
 # End Source File
+
 # End Group
+
 # End Target
 # End Project

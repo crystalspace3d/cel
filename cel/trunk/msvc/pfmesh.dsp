@@ -42,7 +42,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\pfmesh"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMESH_EXPORTS" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /I "..\\" /D "NDEBUG" /D "_WINDOWS" /D "_MT" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\pfmesh\pfmesh.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\mesh\pfmesh.csplugin  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pfmesh - Win32 Debug"
@@ -74,7 +74,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Intermediate_Dir "debug\temp\pfmesh"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMESH_EXPORTS" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\include" /I "..\\" /I "..\..\CS\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -89,7 +89,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\debug\temp\pfmesh\pfmesh.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\mesh\pfmesh.csplugin  ..
 # End Special Build Tool
 
 !ENDIF 
@@ -105,6 +105,16 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 SOURCE=..\plugins\propclass\mesh\meshfact.h
 # End Source File
+
+# End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\mesh\pfmesh.csplugin
+# End Source File
+
 # End Group
 # Begin Group "Source Files"
 
@@ -113,18 +123,8 @@ SOURCE=..\plugins\propclass\mesh\meshfact.h
 
 SOURCE=..\plugins\propclass\mesh\meshfact.cpp
 # End Source File
-# Begin Source File
 
-SOURCE=..\plugins\propclass\common\stdpcimp.cpp
-# End Source File
 # End Group
-# Begin Group "Resource Files"
 
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\pfmesh.rc
-# End Source File
-# End Group
 # End Target
 # End Project

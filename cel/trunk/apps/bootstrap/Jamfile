@@ -1,7 +1,6 @@
 SubDir TOP apps bootstrap ;
 
 Application bootstrap
-	: bootstrap.cpp
+	: [ Wildcard *.cpp *.h ]
 ;
 CFlags bootstrap : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-

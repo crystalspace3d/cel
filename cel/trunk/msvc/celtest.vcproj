@@ -134,20 +134,23 @@ copy &quot;$(TargetPath)&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
+				<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\celtest\celtest.h">
+				RelativePath="..\apps\celtest\celtest.h">
 			</File>
+
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\celtest\celtest.cpp">
+				RelativePath="..\apps\celtest\celtest.cpp">
 			</File>
+
 		</Filter>
+
 	</Files>
 	<Globals>
 	</Globals>

@@ -5,7 +5,7 @@ SubDir TOP ;
 CleanDir clean : out ;
 
 Clean distclean : config.log config.status config.cache aclocal.m4
-		  Jamconfig autom4te.cache ;
+		  Makefile Jamconfig autom4te.cache ;
 Depends distclean : clean ;
 
 Clean maintainerclean : configure aclocal.m4 config.h.in ;
