@@ -666,6 +666,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (data->value.ul);
 	      break;
+	    case CEL_DATA_PCLASS:
+	      stack[si].SetPC (data->value.pc);
+	      break;
 	    case CEL_DATA_ENTITY:
 	      stack[si].SetEntity (data->value.ent);
 	      break;
@@ -2044,6 +2047,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->SetBehaviour (bh);
 	}
         break;
+      case CEL_OPERATION_CALLI:
+        {
+	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
+	  CS_ASSERT (handler != 0);
+	  DUMP_EXEC ((":%04d: calli %s\n", i-1, handler->GetName ()));
+	  handler->Execute (entity, behave, params);
+	}
+        break;
       case CEL_OPERATION_CALLENT:
         {
 	  CHECK_STACK
@@ -2057,15 +2068,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (behave, "Couldn't find entity '%s'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
-	  ent->GetBehaviour ()->SendMessage (eventname, 0);
-	}
-        break;
-      case CEL_OPERATION_CALLI:
-        {
-	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
-	  CS_ASSERT (handler != 0);
-	  DUMP_EXEC ((":%04d: calli %s\n", i-1, handler->GetName ()));
-	  handler->Execute (entity, behave, params);
+	  action_params->IncRef ();
+	  ent->GetBehaviour ()->SendMessage (eventname, action_params);
+	  action_params->DecRef ();
 	}
         break;
       case CEL_OPERATION_CALL:
@@ -2074,7 +2079,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg aevent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: call event=%s\n", i-1, A2S (aevent)));
 	  const char* eventname = ArgToString (aevent);
-	  behave->SendMessage (eventname, 0);
+	  action_params->IncRef ();
+	  behave->SendMessage (eventname, action_params);
+	  action_params->DecRef ();
+	}
+        break;
+      case CEL_OPERATION_ACTION:
+        {
+	  CHECK_STACK
+	  celXmlArg a_id = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_pc = stack.Pop ();
+          DUMP_EXEC ((":%04d: action pc=%s id=%d\n", i-1, A2S (a_pc),
+	  	A2S (a_id)));
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc) pc = default_pc;
+	  csStringID id = ArgToID (a_id);
+	  action_params->IncRef ();
+	  pc->PerformAction (id, action_params);
+	  action_params->DecRef ();
 	}
         break;
       case CEL_OPERATION_DESTROYENTITY:
@@ -2303,6 +2326,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celData& data = action_params->GetParameter ((int)op.arg.arg.ui);
 	  switch (a_val.type)
 	  {
+	    case CEL_DATA_ENTITY: data.Set (a_val.arg.entity); break;
+	    case CEL_DATA_PCLASS: data.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
 	    case CEL_DATA_BOOL: data.SetBool (a_val.arg.b); break;
@@ -2338,20 +2363,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (behave, "Bad type of value!");
 	  }
         }
-        break;
-      case CEL_OPERATION_ACTION:
-        {
-	  CHECK_STACK
-	  celXmlArg a_id = stack.Pop ();
-	  CHECK_STACK
-	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC ((":%04d: action pc=%s id=%d\n", i-1, A2S (a_pc),
-	  	A2S (a_id)));
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc) pc = default_pc;
-	  csStringID id = ArgToID (a_id);
-	  pc->PerformAction (id, action_params);
-	}
         break;
       case CEL_OPERATION_VARENT:
         {
