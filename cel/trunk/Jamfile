@@ -33,6 +33,26 @@ rule CelConfigGen
   Clean clean : $(<) ;
 }
 
+rule CelLocalLinkName
+{
+  local lflag = $(<) ;
+  local Lflag = $(LOCATE.OBJECTS)/libs/$(<) ;
+  exportsummary += $(lflag) ;
+  exportsummary += $(Lflag) ;
+}
+
+exportlibs ?= "celtool" ;
+
+rule CollectLinkOptions
+{
+  for entry in $(exportlibs)
+  {
+    CelLocalLinkName $(entry) ;
+  }
+}
+
+CollectLinkOptions ;
+
 actions CelConfigGen
 {
   cat > $(<) << __END__
@@ -42,6 +62,7 @@ prefix="$(INSTALLDIR.PREFIX)"
 exec_prefix="\${prefix}"
 version="$(PACKAGE_VERSION)"
 
+exportsummary=" $(exportsummary) "
 # test for release/source directory
 if test -e "\${CEL}/include/physicallayer/pl.h"; then
   includedir="\${CEL}/include"
@@ -59,7 +80,9 @@ else
 fi
 
 cflags="-I\${includedir}"
-libs="celtool"
+libs="$(exportlibs)"
+
+
 __END__
   cat $(>) >> $(<)
   chmod +x $(<)
