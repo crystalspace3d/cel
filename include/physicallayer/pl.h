@@ -37,6 +37,7 @@ struct iCelBehaviour;
 struct iSector;
 struct iCamera;
 class csVector3;
+class csString;
 
 SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
@@ -46,7 +47,7 @@ struct iCelEntityRemoveCallback : public iBase
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 };
 
-SCF_VERSION (iCelPlLayer, 0, 1, 1);
+SCF_VERSION (iCelPlLayer, 0, 1, 2);
 
 /**
  * This is the Physical Layer itself.
@@ -310,6 +311,12 @@ struct iCelPlLayer : public iBase
    * Remove all 'once' callbacks to a specific pc.
    */
   virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where) = 0;
+
+  /**
+   * Change the numreg registry. You should be sure to call this before any
+   * entity is created.
+   */
+  virtual void ChangeNumReg (csString new_version) = 0;
 };
 
 #endif // __CEL_PL_PL__
