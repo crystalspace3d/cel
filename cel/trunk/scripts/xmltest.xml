@@ -276,10 +276,10 @@
 	    <zuse />
 	    <priority>object</priority>
 	    <addon plugin="celentity">
-	        <behaviour name="box" />
 		<propclass name="pcsolid" />
 		<propclass name="pcgravity" />
 		<propclass name="pcmovable" />
+	        <behaviour name="box" />
 	    </addon>
 	</meshobj>
         <light>

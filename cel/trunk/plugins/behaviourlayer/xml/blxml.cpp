@@ -22,6 +22,8 @@
 #include "imap/services.h"
 #include "ivaria/reporter.h"
 
+#include "physicallayer/pl.h"
+
 #include "plugins/behaviourlayer/xml/blxml.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
@@ -70,11 +72,42 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
 
   return true;
+}
+
+const char* celBlXml::GetAttributeValue (iDocumentNode* child,
+	const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+	"cel.behaviour.xml", child,
+	"Can't find attribute '%s'!", propname);
+    return 0;
+  }
+  return rc;
+}
+
+csStringID celBlXml::GetAttributeID (iDocumentNode* child,
+	const char* prefix, const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+	"cel.behaviour.xml", child,
+	"Can't find attribute '%s'!", propname);
+    return csInvalidStringID;
+  }
+  csString p (prefix);
+  p += rc;
+  return pl->FetchStringID ((const char*)p);
 }
 
 bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
@@ -90,8 +123,31 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     switch (id)
     {
       case XMLTOKEN_PROPERTY:
+        {
+	  const char* pcname = GetAttributeValue (child, "propclass");
+	  if (!pcname) return false;
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
+	  float f = child->GetAttributeValueAsFloat ("float");
+	  h->AddOperation (CEL_OPERATION_PROPERTY);
+	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetID (propid);
+	  h->AddArgument ().SetFloat (f);
+	}
 	break;
       case XMLTOKEN_ACTION:
+        {
+	  const char* pcname = GetAttributeValue (child, "propclass");
+	  if (!pcname) return false;
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
+	  const char* params = GetAttributeValue (child, "params");
+	  if (!params) return false;
+	  h->AddOperation (CEL_OPERATION_ACTION);
+	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetID (propid);
+	  h->AddArgument ().SetString (params);
+	}
 	break;
       default:
         synldr->ReportBadToken (child);
