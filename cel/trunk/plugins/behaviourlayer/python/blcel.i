@@ -20,14 +20,17 @@
 #include "propclass/inv.h"
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
+#include "propclass/input.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 %}
 
+//=======================================================================
 
 struct iCelPlLayer : public iBase
 {
   //virtual csPtr<iCelEntity> CreateEntity ();
-  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity, const char* propname);
+  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
+  	const char* propname);
   virtual const char* FetchString (csStringID id);
 
   virtual int GetBehaviourLayerCount () const = 0;
@@ -36,12 +39,13 @@ struct iCelPlLayer : public iBase
 };
 
 %{
-iCelPlLayer *csQueryRegistry_iCelPlLayer(iObjectRegistry *object_reg) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
+{
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   return pl;
 }
 %}
-iCelPlLayer *csQueryRegistry_iCelPlLayer(iObjectRegistry *object_reg);
+iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg);
 
 struct iCelEntity : public iBase
 {
@@ -56,9 +60,10 @@ struct iCelEntity : public iBase
   iCelPropertyClassList* GetPropertyClassList ();
 
   %extend {
-    iCelBehaviour *CreateBehaviour(iCelBlLayer *bl, const char *name) {
+    iCelBehaviour *CreateBehaviour(iCelBlLayer *bl, const char *name)
+    {
       csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
-      if(!bh.IsValid()) return 0;
+      if (!bh.IsValid()) return 0;
       self->SetBehaviour(bh);
       return bh;
     }
@@ -66,35 +71,37 @@ struct iCelEntity : public iBase
 };
 
 %{
-bool celRegisterPCFactory(iObjectRegistry* object_reg,const char* pcfactname) {
-  csRef<iPluginManager> plugin_mgr (
-  	CS_QUERY_REGISTRY (object_reg, iPluginManager));
-  csRef<iBase> pf (CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname));
-  if (!pf)
-    return false;
+bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
+{
+  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+  	iPluginManager);
+  csRef<iBase> pf = CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname);
+  if (!pf) return false;
   return true;
 }
 %}
-bool celRegisterPCFactory(iObjectRegistry* object_reg,const char* pcfactname);
+bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname);
 
 %{
-iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name) {
-  csRef<iCelEntity> en(pl->CreateEntity());
-  if(!en.IsValid()) return 0;
-  en->SetName(name);
-  en->IncRef();
+iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
+{
+  csRef<iCelEntity> en = pl->CreateEntity();
+  if (!en.IsValid()) return 0;
+  en->SetName (name);
+  en->IncRef ();
   return en;
 }
 %}
 iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name);
 
 %{
-iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
-  csRef<iCelEntity> ent(SCF_QUERY_INTERFACE (base, iCelEntity));
+iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
+{
+  csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
   return ent;
 }
 %}
-iCelEntity *scfQueryInterface_iCelEntity(iBase *base);
+iCelEntity *scfQueryInterface_iCelEntity (iBase *base);
 
 struct iCelEntityList : public iBase
 {
@@ -109,42 +116,44 @@ struct iCelEntityList : public iBase
 };
 
 %{
-iCelEntityList *celFindNearbyEntities(iObjectRegistry *object_reg, iSector *sector, csVector3 pos, float radius) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
-  csRef<iCelEntityList> entlist(pl->FindNearbyEntities(sector, pos, radius));
+iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
+	iSector *sector, csVector3 pos, float radius)
+{
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl.IsValid()) return 0;
+  csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, radius);
   entlist->IncRef();
   return entlist;
 }
 %}
-iCelEntityList *celFindNearbyEntities(iObjectRegistry *object_reg, iSector *sector, csVector3 pos, float radius);
+iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
+	iSector *sector, csVector3 pos, float radius);
 
 struct iCelBlLayer : public iBase
 {
   virtual const char* GetName () const = 0;
-
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
   	const char* name) = 0;
 };
 
 %{
-iCelBlLayer *csQueryRegistry_iCelBlLayer(iObjectRegistry *object_reg) {
-  csRef<iCelBlLayer> bl(CS_QUERY_REGISTRY (object_reg, iCelBlLayer));
+iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
+{
+  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
   return bl;
 }
 %}
-iCelBlLayer *csQueryRegistry_iCelBlLayer(iObjectRegistry *object_reg);
+iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg);
 
 struct iCelBehaviour : public iBase
 {
   virtual const char* GetName () const = 0;
-
   virtual iCelBlLayer* GetBehaviourLayer () const = 0;
-
   virtual bool SendMessage(const char* msg_id, iBase *msg_info) = 0;
 
   %extend {
-    PyObject *GetPythonObject() {
+    PyObject *GetPythonObject()
+    {
       return (PyObject*)self->GetInternalObject();
     }
   }
@@ -174,23 +183,18 @@ struct iCelPropertyClass : public iBase
 
   %extend
   {
-    bool SetPropertyLong (csStringID id, long l ) { return self->SetProperty (id, l); }
-    bool SetPropertyFloat (csStringID id, float f) { return self->SetProperty (id, f); }
-    bool SetPropertyBool (csStringID id, bool b) { return self->SetProperty (id, b); }
-    bool SetPropertyString (csStringID id, const char* s) { return self->SetProperty (id, s); }
-    bool SetPropertyVector3 (csStringID id, const csVector3& v) { return self->SetProperty (id, v); }
+    bool SetPropertyLong (csStringID id, long l )
+    { return self->SetProperty (id, l); }
+    bool SetPropertyFloat (csStringID id, float f)
+    { return self->SetProperty (id, f); }
+    bool SetPropertyBool (csStringID id, bool b)
+    { return self->SetProperty (id, b); }
+    bool SetPropertyString (csStringID id, const char* s)
+    { return self->SetProperty (id, s); }
+    bool SetPropertyVector3 (csStringID id, const csVector3& v)
+    { return self->SetProperty (id, v); }
   }
-
 };
-
-%{
-iPcRegion *celQueryPC_iPcRegion(iCelPropertyClassList *pclist) {
-  csRef<iPcRegion> pcregion(CEL_QUERY_PROPCLASS(pclist, iPcRegion));
-  pcregion->IncRef ();
-  return pcregion;
-}
-%}
-iPcRegion *celQueryPC_iPcRegion(iCelPropertyClassList *pclist);
 
 struct iCelPropertyClassList : public iBase
 {
@@ -200,6 +204,8 @@ struct iCelPropertyClassList : public iBase
   virtual iCelPropertyClass* FindByName (const char *Name);
   virtual iBase* FindByInterface (scfInterfaceID id, int version);
 };
+
+//=======================================================================
 
 struct iPcRegion : public iBase
 {
@@ -216,34 +222,74 @@ struct iPcRegion : public iBase
   virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
   
   %extend {
-    bool LoadWorld(const char *vfsdir, const char *name) {
-      self->SetWorldFile(vfsdir, name);
-      return self->Load();
+    bool LoadWorld (const char *vfsdir, const char *name)
+    {
+      self->SetWorldFile (vfsdir, name);
+      return self->Load ();
     }
   }
 
 };
 
 %{
-iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char *name) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcregion"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
-  if(!pcregion.IsValid()) return 0;
-  pcregion->SetRegionName(name);
+iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
+	const char *name)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
+  if (!pcregion.IsValid()) return 0;
+  pcregion->SetRegionName (name);
   return pcregion;
 }
 %}
-iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char *name);
+iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
+	const char *name);
 
 %{
-iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) { 
-  csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
-  pcregion->IncRef ();
+iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
+{ 
+  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
+  if (pcregion) pcregion->IncRef ();
   return pcregion;
 }
 %}
-iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc);
+iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc);
+
+%{
+iPcRegion *celQueryPC_iPcRegion (iCelPropertyClassList *pclist)
+{
+  csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS(pclist, iPcRegion);
+  if (pcregion) pcregion->IncRef ();
+  return pcregion;
+}
+%}
+iPcRegion *celQueryPC_iPcRegion (iCelPropertyClassList *pclist);
+
+//=======================================================================
+
+struct iPcCommandInput : public iBase
+{
+  virtual void Activate (bool activate=true) = 0;
+  virtual bool LoadConfig (const char* fname) = 0;
+  virtual bool Bind (const char* triggername, const char* command) = 0;
+  virtual const char* GetBind (const char* triggername) const = 0;
+  virtual bool RemoveBind (const char* triggername, const char* command) = 0;
+};
+
+%{
+iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcinput");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcCommandInput> pcinput = SCF_QUERY_INTERFACE(pc, iPcCommandInput);
+  if (!pcinput.IsValid()) return 0;
+  return pcinput;
+}
+%}
+iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
 
 struct iPcLinearMovement : public iBase
 {
@@ -268,6 +314,19 @@ struct iPcLinearMovement : public iBase
   virtual void ExtrapolatePosition (float delta) = 0;
 };
 
+%{
+iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pclinmove");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcLinearMovement> pclm = SCF_QUERY_INTERFACE(pc, iPcLinearMovement);
+  if (!pclm.IsValid()) return 0;
+  return pclm;
+}
+%}
+iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
+
 struct iPcCamera : public iBase
 {
   enum CameraMode
@@ -290,65 +349,31 @@ struct iPcCamera : public iBase
   virtual void SetRectangle (int x, int y, int w, int h) = 0;
   virtual iCamera* GetCamera () const = 0;
   virtual iView* GetView () const = 0;
-
-  %extend {
-
-  }
 };
 
 %{
-iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pclinmove"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcLinearMovement> pclm (SCF_QUERY_INTERFACE(pc, iPcLinearMovement));
-  if(!pclm.IsValid()) return 0;
-  return pclm;
-}
-%}
-iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccamera"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
-  if(!pccam.IsValid()) return 0;
+iPcCamera *celCreateCamera (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pccamera");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcCamera> pccam = SCF_QUERY_INTERFACE(pc, iPcCamera);
+  if (!pccam.IsValid()) return 0;
   return pccam;
 }
 %}
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity);
+iPcCamera *celCreateCamera (iCelPlLayer *pl, iCelEntity *entity);
 
 %{
-iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc) {
-  csRef<iPcCamera> pccamera(SCF_QUERY_INTERFACE(pc, iPcCamera));
+iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc)
+{
+  csRef<iPcCamera> pccamera = SCF_QUERY_INTERFACE(pc, iPcCamera);
+  if (pccamera) pccamera->IncRef ();
   return pccamera;
 }
 %}
-iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc);
+iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc);
 
-%{
-iPcMesh *scfQuery_iPcMesh(iCelPropertyClass *pc) {
-  csRef<iPcMesh> pcMesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
-  return pcMesh;
-}
-%}
-iPcMesh *scfQuery_iPcMesh(iCelPropertyClass *pc);
-
-%{
-iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc) {
-  csRef<iPcTimer> pcTimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
-  return pcTimer;
-}
-%}
-iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc);
-
-%{
-iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc) {
-  csRef<iPcInventory> pcInventory(SCF_QUERY_INTERFACE(pc, iPcInventory));
-  return pcInventory;
-}
-%}
-iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc);
+//=======================================================================
 
 #define CEL_MOUSE_BUTTON1 1
 #define CEL_MOUSE_BUTTON2 2
@@ -367,8 +392,10 @@ struct iPcMeshSelect : public iBase
   virtual bool HasFollowAlwaysMode () const = 0;
   virtual void SetDragMode (bool drag) = 0;
   virtual bool HasDragMode () const = 0;
-  virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space) = 0;
-  virtual void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const = 0;
+  virtual void SetDragPlaneNormal (const csVector3& drag_normal,
+  	bool camera_space) = 0;
+  virtual void GetDragPlaneNormal (csVector3& drag_normal,
+  	bool& camera_space) const = 0;
   virtual void SetSendmoveEvent (bool mov) = 0;
   virtual bool HasSendmoveEvent () const = 0;
   virtual void SetSendupEvent (bool su) = 0;
@@ -378,19 +405,23 @@ struct iPcMeshSelect : public iBase
 };
 
 %{
-iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmeshselect"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcMeshSelect> pcmeshselect(SCF_QUERY_INTERFACE(pc, iPcMeshSelect));
-  if(!pcmeshselect.IsValid()) return 0;
+iPcMeshSelect *celCreateMeshSelect (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmeshselect");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcMeshSelect> pcmeshselect = SCF_QUERY_INTERFACE(pc, iPcMeshSelect);
+  if (!pcmeshselect.IsValid()) return 0;
   return pcmeshselect;
 }
 %}
-iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity);
+iPcMeshSelect *celCreateMeshSelect (iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
 
 struct iPcMesh : public iBase
 {
-  %name(LoadMesh) virtual void SetMesh (const char* factname, const char* filename) = 0;
+  %name(LoadMesh) virtual void SetMesh (const char* factname,
+  	const char* filename) = 0;
   virtual void SetMesh (iMeshWrapper* mesh) = 0;
   virtual void CreateEmptyThing () = 0;
   virtual iMeshWrapper* GetMesh () const = 0;
@@ -403,15 +434,28 @@ struct iPcMesh : public iBase
 };
 
 %{
-iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmesh"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcMesh> pcmesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
-  if(!pcmesh.IsValid()) return 0;
+iPcMesh *celCreateMesh (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmesh");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE(pc, iPcMesh);
+  if (!pcmesh.IsValid()) return 0;
   return pcmesh;
 }
 %}
-iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity);
+iPcMesh *celCreateMesh (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
+{
+  csRef<iPcMesh> pcMesh = SCF_QUERY_INTERFACE(pc, iPcMesh);
+  if (pcMesh) pcMesh->IncRef ();
+  return pcMesh;
+}
+%}
+iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc);
+
+//=======================================================================
 
 struct iPcTimer : public iBase
 {
@@ -420,15 +464,28 @@ struct iPcTimer : public iBase
 };
 
 %{
-iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pctimer"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcTimer> pctimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
-  if(!pctimer.IsValid()) return 0;
+iPcTimer *celCreateTimer (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pctimer");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcTimer> pctimer = SCF_QUERY_INTERFACE(pc, iPcTimer);
+  if (!pctimer.IsValid()) return 0;
   return pctimer;
 }
 %}
-iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity);
+iPcTimer *celCreateTimer (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc)
+{
+  csRef<iPcTimer> pcTimer = SCF_QUERY_INTERFACE(pc, iPcTimer);
+  if (pcTimer) pcTimer->IncRef ();
+  return pcTimer;
+}
+%}
+iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc);
+
+//=======================================================================
 
 struct iPcSolid : public iBase
 {
@@ -438,20 +495,25 @@ struct iPcSolid : public iBase
 };
 
 %{
-iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcsolid"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcSolid> pcsolid(SCF_QUERY_INTERFACE(pc, iPcSolid));
-  if(!pcsolid.IsValid()) return 0;
+iPcSolid *celCreateSolid (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcsolid");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcSolid> pcsolid = SCF_QUERY_INTERFACE(pc, iPcSolid);
+  if (!pcsolid.IsValid()) return 0;
   return pcsolid;
 }
 %}
-iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity);
+iPcSolid *celCreateSolid (iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
 
 struct iPcGravity : public iBase
 {
-  %name(CreateGravityColliderFromMesh) virtual void CreateGravityCollider (iPcMesh* mesh) = 0;
-  virtual void CreateGravityCollider (const csVector3& dim, const csVector3& offs) = 0;
+  %name(CreateGravityColliderFromMesh) virtual void CreateGravityCollider (
+  	iPcMesh* mesh) = 0;
+  virtual void CreateGravityCollider (const csVector3& dim,
+  	const csVector3& offs) = 0;
   virtual iCollider* GetGravityCollider () = 0;
   virtual void SetMovable (iPcMovable* movable) = 0;
   virtual iPcMovable* GetMovable () = 0;
@@ -470,15 +532,18 @@ struct iPcGravity : public iBase
 };
 
 %{
-iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcgravity"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcGravity> pcgravity(SCF_QUERY_INTERFACE(pc, iPcGravity));
-  if(!pcgravity.IsValid()) return 0;
+iPcGravity *celCreateGravity (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcgravity");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcGravity> pcgravity = SCF_QUERY_INTERFACE(pc, iPcGravity);
+  if (!pcgravity.IsValid()) return 0;
   return pcgravity;
 }
 %}
-iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity);
+iPcGravity *celCreateGravity (iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
 
 struct iPcMovable : public iBase
 {
@@ -492,15 +557,18 @@ struct iPcMovable : public iBase
 };
 
 %{
-iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmovable"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcMovable> pcmovable(SCF_QUERY_INTERFACE(pc, iPcMovable));
-  if(!pcmovable.IsValid()) return 0;
+iPcMovable *celCreateMovable (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmovable");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcMovable> pcmovable = SCF_QUERY_INTERFACE(pc, iPcMovable);
+  if (!pcmovable.IsValid()) return 0;
   return pcmovable;
 }
 %}
-iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity);
+iPcMovable *celCreateMovable (iCelPlLayer *pl, iCelEntity *entity);
+
+//=======================================================================
 
 struct iPcInventory : public iBase
 {
@@ -511,8 +579,10 @@ struct iPcInventory : public iBase
   virtual iCelEntity* GetEntity (int idx) const = 0;
   virtual bool SetStrictCharacteristics (const char* charName, bool strict) = 0;
   virtual bool HasStrictCharacteristics (const char* charName) const = 0;
-  virtual bool SetConstraints (const char* charName, float minValue, float maxValue, float totalMaxValue) = 0;
-  virtual bool GetConstraints (const char* charName, float& minValue, float& maxValue, float& totalMaxValue) const = 0;
+  virtual bool SetConstraints (const char* charName, float minValue,
+  	float maxValue, float totalMaxValue) = 0;
+  virtual bool GetConstraints (const char* charName, float& minValue,
+  	float& maxValue, float& totalMaxValue) const = 0;
   virtual void RemoveConstraints (const char* charName) = 0;
   virtual void RemoveAllConstraints () = 0;
   virtual float GetCurrentCharacteristic (const char* charName) const = 0;
@@ -522,20 +592,34 @@ struct iPcInventory : public iBase
 };
 
 %{
-iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcinventory"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcInventory> pcinv(SCF_QUERY_INTERFACE(pc, iPcInventory));
-  if(!pcinv.IsValid()) return 0;
+iPcInventory *celCreateInventory (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcinventory");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcInventory> pcinv = SCF_QUERY_INTERFACE(pc, iPcInventory);
+  if (!pcinv.IsValid()) return 0;
   return pcinv;
 }
 %}
-iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity);
+iPcInventory *celCreateInventory (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
+{
+  csRef<iPcInventory> pcInventory = SCF_QUERY_INTERFACE(pc, iPcInventory);
+  if (pcInventory) pcInventory->IncRef ();
+  return pcInventory;
+}
+%}
+iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc);
+
+//=======================================================================
 
 struct iPcCharacteristics : public iBase
 {
   virtual bool SetCharacteristic (const char* name, float value) = 0;
-  virtual bool SetInheritedCharacteristic (const char* name, float factor, float add) = 0;
+  virtual bool SetInheritedCharacteristic (const char* name, float factor,
+  	float add) = 0;
   virtual float GetCharacteristic (const char* name) const = 0;
   virtual float GetLocalCharacteristic (const char* name) const = 0;
   virtual float GetInheritedCharacteristic (const char* name) const = 0;
@@ -550,15 +634,22 @@ struct iPcCharacteristics : public iBase
 };
 
 %{
-iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccharacteristics"));
-  if(!pc.IsValid()) return 0;
-  csRef<iPcCharacteristics> pccharacteristics(SCF_QUERY_INTERFACE(pc, iPcCharacteristics));
-  if(!pccharacteristics.IsValid()) return 0;
+iPcCharacteristics *celCreateCharacteristics (iCelPlLayer *pl,
+	iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass (entity,
+  	"pccharacteristics");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcCharacteristics> pccharacteristics = SCF_QUERY_INTERFACE (pc,
+  	iPcCharacteristics);
+  if (!pccharacteristics.IsValid()) return 0;
   return pccharacteristics;
 }
 %}
-iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity);
+iPcCharacteristics *celCreateCharacteristics (iCelPlLayer *pl,
+	iCelEntity *entity);
+
+//=======================================================================
 
 enum celDataType
 {
@@ -578,3 +669,4 @@ enum celDataType
   CEL_DATA_BUFFER,
   CEL_DATA_ACTION
 };
+
