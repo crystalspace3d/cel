@@ -195,26 +195,48 @@ void celBillboard::SetupMaterial ()
 	csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
 	int x, y;
 	for (y = 0 ; y < image_h ; y++)
-	  for (x = 0 ; x < image_w ; x++)
-	  {
-	    int sx = x * scaled_image_w / image_w;
-	    int sy = y * scaled_image_h / image_h;
-	    d = data + (sy*scaled_image_w) + sx;
-	    SetClickMap (x, y, d->red != r || d->green != g || d->blue != b);
-	  }
+	{
+	  int sy = y * scaled_image_h / image_h;
+	  uint8* c = &clickmap[y*(1 + image_w/8)];
+	  d = data + (sy*scaled_image_w);
+	  if (scaled_image_w == image_w)
+	    for (x = 0 ; x < image_w ; x++)
+	    {
+	      csRGBpixel* d2 = d+x;
+	      if (d2->red != r || d2->green != g || d2->blue != b)
+	        c[x/8] |= 1<<(x%8);
+	    }
+	  else
+	    for (x = 0 ; x < image_w ; x++)
+	    {
+	      int sx = x * scaled_image_w / image_w;
+	      csRGBpixel* d2 = d+sx;
+	      if (d2->red != r || d2->green != g || d2->blue != b)
+	        c[x/8] |= 1<<(x%8);
+	    }
+        }
       }
       else
       {
 	csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
 	int x, y;
 	for (y = 0 ; y < image_h ; y++)
-	  for (x = 0 ; x < image_w ; x++)
-	  {
-	    int sx = x * scaled_image_w / image_w;
-	    int sy = y * scaled_image_h / image_h;
-	    d = data + (sy*scaled_image_w) + sx;
-	    SetClickMap (x, y, d->alpha != 0);
-	  }
+	{
+	  int sy = y * scaled_image_h / image_h;
+	  uint8* c = &clickmap[y*(1 + image_w/8)];
+	  d = data + (sy*scaled_image_w);
+	  if (scaled_image_w == image_w)
+	    for (x = 0 ; x < image_w ; x++)
+	    {
+	      if (d[x].alpha != 0) c[x/8] |= 1<<(x%8);
+	    }
+	  else
+	    for (x = 0 ; x < image_w ; x++)
+	    {
+	      int sx = x * scaled_image_w / image_w;
+	      if (d[sx].alpha != 0) c[x/8] |= 1<<(x%8);
+	    }
+        }
       }
     }
     image = 0;	// We no longer need the image.

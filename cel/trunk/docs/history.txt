@@ -19,6 +19,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit performed an optimization in the physical
 	  layer->CreatePropertyClass(). It will use a hash to find the right
 	  property class factory instead of scanning a list.
+	- Jorrit did a big optimization in the billboard manager with the
+	  creation of the clickmap for images. For big images this can make
+	  a huge difference in setup time.
 14-Dec-2003
 	- Jorrit added the following commands to the XML behaviour layer:
 	      - 'inventory' to set the current inventory on which further
