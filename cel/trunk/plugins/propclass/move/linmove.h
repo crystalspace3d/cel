@@ -148,7 +148,7 @@ public:
   void SetRotation (const csVector3& angle);
   void SetVelocity (const csVector3& vel );
   void GetVelocity (csVector3& v);
-  bool InitCD (const csVector3& body, const csVector3& shift,
+  bool InitCD (const csVector3& body, const csVector3& legs,
   	const csVector3& shift);
   bool InitCD ();
   void SetSpeed ( float speedz );
