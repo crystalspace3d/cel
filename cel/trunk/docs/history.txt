@@ -6,6 +6,13 @@ The history order is reversed so that new features are at the top.
 27-Aug-2003
 	- Jorrit moved the apps/celtest/data directory to data so that the
 	  python scripts don't have to fetch stuff inside celtest directory.
+	- Jorrit extended the python behaviour layer so that you can now
+	  call CreateBehaviour with a path in front of the behaviour name.
+	  That way you can place scripts inside other directories.
+	- Jorrit moved the physicstest script inside scripts/physicstest. Run
+	  it with:
+	    bootstrap cel.behaviourlayer.python scripts/physicstest/physicstest
+	  (note: do not add the '.py' at the end!).
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is
