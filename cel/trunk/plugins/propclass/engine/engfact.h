@@ -191,6 +191,22 @@ private:
   bool rect_set;
   int rect_x, rect_y, rect_w, rect_h;
 
+  // Fields for the far plane.
+  struct
+  {
+#define FP_MAX_DIST 10000.0	// Maximum visibile distance.
+#define FP_INIT_DIST 200.0	// We start from this value.
+    bool use_farplane;		// If true then we use a farplane.
+    float fixed_distance;	// If < 0 then we use adaptive system.
+    // All fields below are for adaptive only.
+    float min_fps, max_fps;	// Acceptable FPS interval.
+    float min_dist;		// Minimum acceptiable distance.
+    bool fps_valid;		// First frame we don't know fps yet.
+    float smooth_fps;		// To have less chaotic FPS changes.
+    float current_distance;	// Remember current distance.
+    csTicks accumulated_elapsed;// Accumulated elapsed time.
+  } fp;
+
 public://@@@
   bool modeset_needed;
   iPcCamera::CameraMode prev_cammode;
@@ -232,6 +248,24 @@ public://@@@
 
   /// Perform collision detection between the camera target and position.
   bool useCameraCD;
+
+  // For distance clipping.
+  void SetDistanceClipping (float dist);
+  void AdaptDistanceClipping (csTicks elapsed_time);
+
+  void DisableDistanceClipping ();
+  void EnableFixedDistanceClipping (float dist);
+  void EnableAdaptiveDistanceClipping (float min_fps,
+	float max_fps, float min_dist);
+  bool UseDistanceClipping () const { return fp.use_farplane; }
+  bool UseFixedDistanceClipping () const
+  {
+    return fp.use_farplane && fp.fixed_distance >= 0.0f;
+  }
+  float GetFixedDistance () const { return fp.fixed_distance; }
+  float GetAdaptiveMinFPS () const { return fp.min_fps; }
+  float GetAdaptiveMaxFPS () const { return fp.max_fps; }
+  float GetAdaptiveMinDistance () const { return fp.min_dist; }
 
   /**
    * Performs collision detection between the camera position and the player
@@ -746,6 +780,44 @@ public:
     virtual bool GetClearScreen () const
     {
       return scfParent->GetClearScreen ();
+    }
+
+    virtual void DisableDistanceClipping ()
+    {
+      scfParent->DisableDistanceClipping ();
+    }
+    virtual void EnableFixedDistanceClipping (float dist)
+    {
+      scfParent->EnableFixedDistanceClipping (dist);
+    }
+    virtual void EnableAdaptiveDistanceClipping (float min_fps,
+	float max_fps, float min_dist)
+    {
+      scfParent->EnableAdaptiveDistanceClipping (min_fps, max_fps, min_dist);
+    }
+    virtual bool UseDistanceClipping () const
+    {
+      return scfParent->UseDistanceClipping ();
+    }
+    virtual bool UseFixedDistanceClipping () const
+    {
+      return scfParent->UseFixedDistanceClipping ();
+    }
+    virtual float GetFixedDistance () const
+    {
+      return scfParent->GetFixedDistance ();
+    }
+    virtual float GetAdaptiveMinFPS () const
+    {
+      return scfParent->GetAdaptiveMinFPS ();
+    }
+    virtual float GetAdaptiveMaxFPS () const
+    {
+      return scfParent->GetAdaptiveMaxFPS ();
+    }
+    virtual float GetAdaptiveMinDistance () const
+    {
+      return scfParent->GetAdaptiveMinDistance ();
     }
   } scfiPcCamera;
 };
