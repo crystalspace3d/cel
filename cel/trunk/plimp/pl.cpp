@@ -357,6 +357,11 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
   return NULL;
 }
 
+iCelEntityList* celPlLayer::CreateEmptyEntityList ()
+{
+  return new celEntityList ();
+}
+
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
   if (pf_list.Find (pf) != -1) return;
