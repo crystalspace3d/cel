@@ -51,8 +51,14 @@ public:
  
   celAddOnXmlScripts (iBase* parent);
   virtual ~celAddOnXmlScripts ();
+  /**
+   * Initialize this plugin. Register XML tokens for script, layer and pcfactory.
+   */
   bool Initialize (iObjectRegistry* object_reg);
-
+  /**
+   * Parses a document/script for addons defining a pcfactory, a behaviour
+   * layer and/or behaviour xmlscripts.
+   */
   virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
   	iBase* context);
 
