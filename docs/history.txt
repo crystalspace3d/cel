@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit completed the quest manager. This is all untested. It will
 	  be tested for the first time when there is a quest property
 	  class which is the next task todo.
+	- Jorrit got a patch from Cirilo Bernardo which adds the 'cally'
+	  model to celtest instead of the box. If cal3d is not present
+	  then you will get alerts but the program will not fail. Instead
+	  the original box model will be used.
 16-Dec-2004
 	- Jorrit fixed a bug in the CEL_REMOVE_PROPCLASS macro which would
 	  cause a reference leak because QueryInterface() was used but the
