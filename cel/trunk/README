@@ -5,7 +5,6 @@ this will be automated.
 
 Microsoft Visual C++ users need to open "cel.dsw" then make sure the
 have set both paths to the CS include and lib files. For more info
-see the HOWTO into the Crystal Space docs "5.7.10 Creating an External
+see the HOWTO into the Crystal Space docs "Creating an External
 MSVC Application". After completing this, set each of the projects as
 the active one and compile.
-
