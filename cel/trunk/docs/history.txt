@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 3-Nov-2003
 	- Chris Matuszewski updated the swig generated python wrapper files.
+	- Keith Fulton took out some debugging printfs related to finding meshfact
+	  names.
 20-Oct-2003
 	- acraig fixed some more keyboard event related changes in CS
 18-Oct-2003
