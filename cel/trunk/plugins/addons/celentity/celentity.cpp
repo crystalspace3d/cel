@@ -51,7 +51,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 enum
 {
   XMLTOKEN_BEHAVIOUR,
-  XMLTOKEN_PROPCLASS
+  XMLTOKEN_PROPCLASS,
+  XMLTOKEN_PROPERTY
 };
 
 
@@ -88,7 +89,87 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
+  xmltokens.Register ("property", XMLTOKEN_PROPERTY);
 
+  return true;
+}
+
+const char* celAddOnCelEntity::GetAttributeValue (iDocumentNode* child,
+	const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+	"cel.addons.celentity", child,
+	"Can't find attribute '%s'!", propname);
+    return 0;
+  }
+  return rc;
+}
+
+csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
+	const char* prefix, const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+	"cel.addons.celentity", child,
+	"Can't find attribute '%s'!", propname);
+    return csInvalidStringID;
+  }
+  csString p (prefix);
+  p += rc;
+  return pl->FetchStringID ((const char*)p);
+}
+
+bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
+	iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_PROPERTY:
+        {
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
+
+	  csRef<iDocumentAttribute> attr;
+	  attr = child->GetAttribute ("float");
+	  if (attr)
+	  {
+	    pc->SetProperty (propid, attr->GetValueAsFloat ());
+	  }
+	  else
+	  {
+	    attr = child->GetAttribute ("string");
+	    if (attr)
+	    {
+	      pc->SetProperty (propid, attr->GetValue ());
+	    }
+	    else
+	    {
+	      attr = child->GetAttribute ("bool");
+	      if (attr)
+	      {
+	        pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
+	      }
+	    }
+	  }
+	}
+	break;
+      default:
+        synldr->ReportBadToken (child);
+	break;
+    }
+  }
   return true;
 }
 
@@ -182,8 +263,13 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 	        child, "Couldn't create property class '%s'!", name);
 	    return 0;
 	  }
+	  if (!ParseProperties (pc, child))
+	    return 0;
 	}
         break;
+      default:
+        synldr->ReportBadToken (child);
+	break;
     }
   }
   csRef<iBase> ent_return = (iBase*)ent;

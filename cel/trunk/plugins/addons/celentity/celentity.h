@@ -42,6 +42,12 @@ private:
   csRef<iCelPlLayer> pl;
   csStringHash xmltokens;
 
+  const char* GetAttributeValue (iDocumentNode* child,
+	const char* propname);
+  csStringID GetAttributeID (iDocumentNode* child,
+	const char* prefix, const char* propname);
+  bool ParseProperties (iCelPropertyClass* pc, iDocumentNode* child);
+
 public:
   SCF_DECLARE_IBASE;
  

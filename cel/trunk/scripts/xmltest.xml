@@ -6,7 +6,7 @@
         <texture name="andrew_wood.jpg">
             <file>/lib/stdtex/my_wood.jpg</file>
         </texture>
-        <texture name="chair5">
+        <texture name="chair">
 	    <file>/this/data/objects/chair5.gif</file>
         </texture>
         <texture name="desk">
@@ -25,8 +25,8 @@
         <material name="abstract">
             <texture>abstract_a032.jpg</texture>
         </material>
-	<material name="chair5">
-            <texture>chair5</texture>
+	<material name="chair">
+            <texture>chair</texture>
 	</material>
 	<material name="desk">
             <texture>desk</texture>
@@ -101,44 +101,7 @@
 	    </event>
 	</script>
 
-        <script name="chair">
-	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="chair" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="chair5" />
-	        <property propclass="pcbillboard" name="pcbillboard.movable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
-	    </event>
-	</script>
-        <script name="desk">
-	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="desk" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="desk" />
-	        <property propclass="pcbillboard" name="pcbillboard.movable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
-	    </event>
-	</script>
-        <script name="lamp_desk">
-	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="lamp_desk" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="lamp_desk" />
-	        <property propclass="pcbillboard" name="pcbillboard.movable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
-	    </event>
+        <script name="generic_object">
 	</script>
     </addon>
 
@@ -410,16 +373,31 @@
             <behaviour name="bb3" />
 	</addon>
 	<addon plugin="celentity" entityname="chair">
-	    <propclass name="pcbillboard" />
-            <behaviour name="chair" />
+	    <propclass name="pcbillboard">
+	        <property name="pcbillboard.name" string="chair" />
+	        <property name="pcbillboard.materialname" string="chair" />
+	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.restack" bool="1" />
+	    </propclass>
+            <behaviour name="generic_object" />
 	</addon>
 	<addon plugin="celentity" entityname="desk">
-	    <propclass name="pcbillboard" />
-            <behaviour name="desk" />
+	    <propclass name="pcbillboard">
+	        <property name="pcbillboard.name" string="desk" />
+	        <property name="pcbillboard.materialname" string="desk" />
+	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.restack" bool="1" />
+	    </propclass>
+            <behaviour name="generic_object" />
 	</addon>
 	<addon plugin="celentity" entityname="lamp_desk">
-	    <propclass name="pcbillboard" />
-            <behaviour name="lamp_desk" />
+	    <propclass name="pcbillboard">
+	        <property name="pcbillboard.name" string="lamp_desk" />
+	        <property name="pcbillboard.materialname" string="lamp_desk" />
+	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.restack" bool="1" />
+	    </propclass>
+            <behaviour name="generic_object" />
 	</addon>
 
         <light>

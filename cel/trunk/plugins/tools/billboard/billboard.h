@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_MANAGER_BILLBOARD__
-#define __CEL_MANAGER_BILLBOARD__
+#ifndef __CEL_TOOLS_BILLBOARD__
+#define __CEL_TOOLS_BILLBOARD__
 
 #include "csutil/util.h"
 #include "csutil/hash.h"
@@ -29,7 +29,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
-#include "managers/billboard.h"
+#include "tools/billboard.h"
 
 struct iObjectRegistry;
 struct iImage;
@@ -171,5 +171,5 @@ public:
   } *scfiEventHandler;
 };
 
-#endif // __CEL_MANAGER_BILLBOARD__
+#endif // __CEL_TOOLS_BILLBOARD__
 

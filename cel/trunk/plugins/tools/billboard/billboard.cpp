@@ -28,7 +28,7 @@
 #include "iengine/engine.h"
 #include "iengine/material.h"
 
-#include "plugins/managers/billboard/billboard.h"
+#include "plugins/tools/billboard/billboard.h"
 
 //---------------------------------------------------------------------------
 
