@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+7-Jul-2003
+	- Jorrit received a patch from Steve Cook (steve.cook1@excite.com)
+	  for an AI pathfinding property class. I haven't yet got time
+	  to really look at it but I cleaned it up slightly. Still needs
+	  a lot more cleanup though. I also seperated the public include
+	  file so that you can actually include from it.
+	  This is untested code (from my point of view at least).
 6-Jul-2003
 	- Jorrit fixed the problem with GetPythonObject(). It now calls
 	  Py_INCREF() on the returned python object so that it is

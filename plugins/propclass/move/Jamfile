@@ -1,7 +1,7 @@
 SubDir TOP plugins propclass move ;
 
 Plugin pfmove
-	: movefact.cpp movefact.h linmove.cpp linmove.h
+	: [ Wildcard *.cpp *.h ]
 ;
 LinkWith pfmove : celcommon ;
 

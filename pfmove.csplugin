@@ -7,45 +7,70 @@
         <name>cel.pcfactory.movable</name>
         <implementation>celPfMovable</implementation>
 	<description>CEL Movable Property Class Factory</description>
-	<requires>
-	  <class>cel.physicallayer</class>
-        </requires>
+	<requires> <class>cel.physicallayer</class> </requires>
       </class>
       
       <class>
         <name>cel.pcfactory.solid</name>
         <implementation>celPfSolid</implementation>
 	<description>CEL Solid Property Class Factory</description>
-	<requires>
-	  <class>cel.physicallayer</class>
-        </requires>	    
+	<requires> <class>cel.physicallayer</class> </requires>	    
       </class>
       
       <class>
         <name>cel.pcfactory.movableconst_cd</name>
         <implementation>celPfMovableConstraintCD</implementation>
 	<description>CEL MovableConstraintCD Class Factory</description>
-	<requires>
-	  <class>cel.physicallayer</class>
-        </requires>	    	    
+	<requires> <class>cel.physicallayer</class> </requires>	    	    
       </class>
 
       <class>
 	<name>cel.pcfactory.gravity</name>
 	<implementation>celPfGravity</implementation>
 	<description>CEL MovableConstraintCD Class Factory</description>
-	<requires>
-	  <class>cel.physicallayer</class>
-	</requires>	    	    
+	<requires> <class>cel.physicallayer</class> </requires>	    	    
       </class>
 
       <class>
 	<name>cel.pcfactory.linmove</name>
 	<implementation>celPfLinearMovement</implementation>
 	<description>CEL Linear Movement Class Factory</description>
-	<requires>
-	  <class>cel.physicallayer</class>
-	</requires>	    	    
+	<requires> <class>cel.physicallayer</class> </requires>	    	    
+      </class>
+
+      <class>
+	<name>cel.pcfactory.graph</name>
+	<implementation>celPfNavGraph</implementation>
+	<description>CEL Navigation Graph</description>
+	<requires> <class>cel.physicallayer</class> </requires>
+      </class>
+
+      <class>
+	<name>cel.pcfactory.link</name>
+	<implementation>celPfNavLink</implementation>
+	<description>CEL Navigation Link</description>
+	<requires> <class>cel.physicallayer</class> </requires>
+      </class>
+
+      <class>
+	<name>cel.pcfactory.node</name>
+	<implementation>celPfNavNode</implementation>
+	<description>CEL Navigation Node</description>
+	<requires> <class>cel.physicallayer</class> </requires>
+      </class>
+
+      <class>
+	<name>cel.pcfactory.navgraphrules</name>
+	<implementation>celPfNavGraphRules</implementation>
+	<description>CEL Navigation Graph - Rules</description>
+	<requires> <class>cel.physicallayer</class> </requires>
+      </class>
+
+      <class>
+	<name>cel.pcfactory.navgraphrulesfps</name>
+	<implementation>celPfNavGraphRulesFPS</implementation>
+	<description>CEL Navigation Graph - FPS Rules</description>
+	<requires> <class>cel.physicallayer</class> </requires>
       </class>
 
     </classes>
