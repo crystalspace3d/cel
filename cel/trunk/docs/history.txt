@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 25-Nov-2003
 	- Jorrit fixed the billboard manager so that it will now ignore
 	  clicks on transparent parts of the objects.
+	- Eric Sunshine upgraded CEL to use scfInterface<> instead of
+	  name_VERSION and name_scfGetID().
 24-Nov-2003
 	- Jorrit fixed all CEL hashes that used const char* as a key.
 	  In CS there is now a new csStrKey that safely makes copies of

@@ -10357,7 +10357,7 @@ csReport = csReporterHelper.Report
 def _GetIntfId (intf):
 	return cvar.iSCF_SCF.GetInterfaceID(intf.__name__)
 def _GetIntfVersion (intf):
-	return eval('%s_VERSION' % intf.__name__, locals(), globals())
+	return eval('%s_scfGetVersion' % intf.__name__, locals(), globals())
 def CS_QUERY_REGISTRY (reg, intf):
 	return _CS_QUERY_REGISTRY (reg, intf.__name__, _GetIntfVersion(intf))
 def CS_QUERY_REGISTRY_TAG_INTERFACE (reg, tag, intf):
@@ -10385,7 +10385,7 @@ def CS_LOAD_PLUGIN (obj, class_id, intf):
 def CS_REQUEST_PLUGIN (name, intf):
 	return (
 		name, intf.__name__, cvar.iSCF_SCF.GetInterfaceID(intf.__name__),
-		eval('%s_VERSION' % intf.__name__, locals(), globals())
+		eval('%s_scfGetVersion' % intf.__name__, locals(), globals())
 	)
 def CS_REQUEST_VFS ():
 	return CS_REQUEST_PLUGIN(
