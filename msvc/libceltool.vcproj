@@ -157,10 +157,26 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\libs\celtool\initapp.cpp">
+			</File>
+			<File
 				RelativePath="..\libs\celtool\stdparams.cpp">
 			</File>
 			<File
 				RelativePath="..\libs\celtool\stdpcimp.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\libs\celtool\..\..\include\celtool\initapp.h">
+			</File>
+			<File
+				RelativePath="..\libs\celtool\..\..\include\celtool\stdparams.h">
+			</File>
+			<File
+				RelativePath="..\libs\celtool\..\..\include\celtool\stdpcimp.h">
 			</File>
 		</Filter>
 	</Files>

@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+7-Dec-2004
+	- Eric Sunshine fixed libs/celtool/Jamfile so that its `Library' rule
+	  invocation mentions its related public header files in
+	  include/celtool.
 6-Dec-2004
 	- Eric Sunshine fixed long-term spelling errors:
 	    iCelPersistance         --> iCelPersistence
