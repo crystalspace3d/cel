@@ -160,12 +160,24 @@ bool CelTest::HandleEvent (iEvent& ev)
     {
       printf ("Saving to '/this/savefile'\n"); fflush (stdout);
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      if (!cp)
+      {
+	printf ("Couldn't find persistance context!\n");
+	return true;
+      }
       bool rc = cp->SaveEntity (game, "/this/savefile");
       printf ("  success %d\n", rc); fflush (stdout);
       cp->DecRef ();
     }
     else if (ev.Key.Code == 'l')
     {
+      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      if (!cp)
+      {
+	printf ("Couldn't find persistance context!\n");
+	return true;
+      }
+      
       printf ("Loading from '/this/savefile\n"); fflush (stdout);
       if (game)
       {
@@ -186,7 +198,6 @@ bool CelTest::HandleEvent (iEvent& ev)
       printf ("  #regions=%d\n", engine->GetRegions ()->GetCount ());
 
       LoadTextures ();
-      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       game = cp->LoadEntity ("/this/savefile");
       printf ("  success %08lx\n", (unsigned long) game); fflush (stdout);
       cp->DecRef ();
@@ -194,9 +205,11 @@ bool CelTest::HandleEvent (iEvent& ev)
       csDebuggingGraph::Dump (NULL);
 
       // @@@
+#if 1
       engine->Prepare ();
       iTextureManager* txtmgr = g3d->GetTextureManager ();
       txtmgr->SetPalette ();
+#endif
     }
     else if (ev.Key.Code == 'c')
     {

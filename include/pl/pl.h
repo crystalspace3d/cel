@@ -46,7 +46,15 @@ struct iSector;
 struct iCamera;
 class csVector3;
 
-SCF_VERSION (iCelPlLayer, 0, 0, 3);
+SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 1);
+
+struct iCelEntityRemoveCallback : public iBase
+{
+  /** this function is called for entities that are removed */
+  virtual void RemoveEntity (iCelEntity* entity) = 0;
+};
+
+SCF_VERSION (iCelPlLayer, 0, 0, 4);
 
 /**
  * This is the Physical Layer itself.
@@ -213,6 +221,17 @@ struct iCelPlLayer : public iBase
    * if there is no such string.
    */
   virtual const char* FetchString (csStringID id) = 0;
+
+  /**
+   * This resgiters a callback that is called each time when an entity is
+   * removed
+   */
+  virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
+
+  /**
+   * Removes an registered RemoveCallback
+   */
+  virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
 };
 
 #endif // __CEL_PL_PL__

@@ -56,7 +56,12 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_IBASE (celPersistClassicContext)
   SCF_IMPLEMENTS_INTERFACE (iCelPersistanceContext)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntityRemoveCallback)
 SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistClassicContext::RemoveCallback)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntityRemoveCallback)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPersistClassic::celPersistClassic (iBase* parent)
 {
@@ -173,6 +178,7 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
 celPersistClassicContext::celPersistClassicContext()
 {
   SCF_CONSTRUCT_IBASE(0);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntityRemoveCallback);
   object_reg = NULL;
   pl = NULL;
   file = NULL; 
@@ -187,20 +193,40 @@ celPersistClassicContext::~celPersistClassicContext()
     pl->DecRef();
   if (file)
     file->DecRef();
+  if (performmapping)
+    pl->UnregisterRemoveCallback(&scfiCelEntityRemoveCallback);
 }
 
 void celPersistClassicContext::Clear()
 {
-  csHashIterator i(&read_entities);
-   
-  while (i.HasNext())
-  {
-    iCelEntity* entitiy = (iCelEntity*) i.Next();
-    entitiy->DecRef();
-  }
+  if (performmapping)
+    ClearTempRefs();
+  
   read_entities.DeleteAll();
   entities.DeleteAll();
   pclasses.DeleteAll();
+}
+
+void celPersistClassicContext::ClearTempRefs()
+{
+  for (int i = 0; i < temprefs.Length(); i++)
+  {
+    iCelEntity* entity = (iCelEntity*) temprefs[i];
+    entity->DecRef();
+  }
+  temprefs.DeleteAll (false);
+}
+
+void celPersistClassicContext::RemoveEntity (iCelEntity* entity)
+{
+  // the real entitiy dies, so we have to remove the ref from our mapping
+  // tables
+  printf ("Remove Callback!\n");
+  CS_ID serverid = GetMappedID(entity);
+  if (serverid == 0)
+    return;
+  read_entities.DeleteAll (entity->GetID());
+  read_ids.DeleteAll (serverid);
 }
 
 bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
@@ -216,6 +242,9 @@ bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
   celPersistClassicContext::file = file;
   file->IncRef();
   (void) mode;
+
+  if (performmapping)
+    pl->RegisterRemoveCallback(&scfiCelEntityRemoveCallback);
 
   return true;
 }
@@ -248,11 +277,15 @@ iCelEntity* celPersistClassicContext::LoadEntity()
   if (!Read(ent))
     return NULL;
 
+  ent->IncRef();
+  if (performmapping)
+    ClearTempRefs();
+
   return ent;
 }
 
 bool celPersistClassicContext::SaveEntity(iCelEntity* entity)
-{
+{ 
   return Write(entity);
 }
 
@@ -282,6 +315,7 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 	read_entities.Put (id, entity);
 	CS_ID* tmpid = new CS_ID(id);
 	read_ids.Put (entity->GetID(), tmpid);
+	temprefs.Push (entity);
       }
     }
   }
@@ -574,7 +608,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
     rc = rc && Read (pcname);
     if (rc)
     {
-      iCelEntity* entity = FindEntity (entid);
+      iCelEntity* entity = FindOrCreateEntity (entid);
       if (!entity)
       {
 	Report ("Cannot find entity for '%s'!", pcname);

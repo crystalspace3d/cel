@@ -1,3 +1,6 @@
+26-Mar-2002:
+	- Matze added a RemoveEntity callback, that makes it possible for the
+	  persistance layer contexts to only keep soft refs to entities
 6-Mar-2002:
 	- Matze made the internal mapping of persistance (ids from localhost
 	  to ids from other host) accessible through some functions in

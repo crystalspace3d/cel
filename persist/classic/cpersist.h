@@ -47,6 +47,7 @@ private:
   csHashSet pclasses;
   csHashMap read_entities;
   csHashMap read_ids;
+  csVector temprefs;
 
   bool WriteMarker (const char* s);
   bool WriteID (iCelEntity* entity);
@@ -81,6 +82,7 @@ private:
   bool Read (celData* cd);
 
   void Report (const char* msg, ...);
+
 public:
   SCF_DECLARE_IBASE;
   
@@ -96,6 +98,18 @@ public:
   virtual iCelEntity* GetMappedEntity(CS_ID id);
 
   void Clear();
+  void RemoveEntity(iCelEntity* entity);
+
+  void ClearTempRefs();
+
+  struct RemoveCallback : public iCelEntityRemoveCallback
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPersistClassicContext);
+    virtual void RemoveEntity(iCelEntity* entity)
+    {
+      scfParent->RemoveEntity (entity);
+    }
+  } scfiCelEntityRemoveCallback;
 
   friend class celPersistClassic;
 };
