@@ -328,7 +328,7 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 
   if (point)
   {
-    iPcCamera* camera = SCF_QUERY_INTERFACE_FAST(this, iPcCamera);
+    iPcCamera* camera = SCF_QUERY_INTERFACE (this, iPcCamera);
     region->PointCamera(camera, name);
     camera->DecRef();
   }
@@ -365,7 +365,7 @@ iCelDataBuffer* celPcCamera::Save ()
   celDataBufHelper db(databuf);
 
   iCelPropertyClass* pc = NULL;
-  if (region) pc = SCF_QUERY_INTERFACE_FAST (region, iCelPropertyClass);
+  if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
   db.Set (pc);
   if (pc) pc->DecRef();
   db.Set (view->GetCamera()->GetSector()->QueryObject()->GetName());
@@ -408,7 +408,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 
   iCelPropertyClass* pc;
   if (!db.Get(pc)) return false;
-  if (pc) region = SCF_QUERY_INTERFACE_FAST (pc, iPcRegion);
+  if (pc) region = SCF_QUERY_INTERFACE (pc, iPcRegion);
   if (region)
       SetRegion(region, false, NULL);
 
@@ -682,7 +682,7 @@ bool celPcRegion::Load ()
       ent->SetName ("");
       
       pc = pl->CreatePropertyClass (ent, "pcmesh");
-      iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+      iPcMesh* pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
       pcmesh->SetMesh (m);
       pcmesh->DecRef ();
         

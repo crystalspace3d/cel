@@ -23,9 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_DECLARE_FAST_INTERFACE (iPcCommandInputData)
-SCF_DECLARE_FAST_INTERFACE (iPcCommandInput)
-
 SCF_VERSION (iPcCommandInput, 0, 0, 1);
 
 /**

@@ -792,7 +792,7 @@ void celPcCharacteristics::Dump ()
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (inv, iCelPropertyClass);
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (inv, iCelPropertyClass);
     if (pc)
     {
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());

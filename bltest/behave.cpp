@@ -90,7 +90,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
 {
   (void)arg;
   iPcMeshSelectData* dat = NULL;
-  if (msg_info) dat = SCF_QUERY_INTERFACE_FAST (msg_info,
+  if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
   int x, y, but;
   iCelEntity* ent = NULL;
@@ -167,7 +167,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 {
   (void)arg;
   iPcMeshSelectData* dat = NULL;
-  if (msg_info) dat = SCF_QUERY_INTERFACE_FAST (msg_info,
+  if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
   iCelEntity* ent = NULL;
   if (dat) ent = dat->GetEntity ();

@@ -326,7 +326,7 @@ void celPcMesh::CreateEmptyThing ()
 
   iMeshObjectType* thing_type = engine->GetThingType ();
   iMeshObjectFactory* thing_fact = thing_type->NewFactory ();
-  iMeshObject* thing_obj = SCF_QUERY_INTERFACE_FAST (thing_fact, iMeshObject);
+  iMeshObject* thing_obj = SCF_QUERY_INTERFACE (thing_fact, iMeshObject);
   thing_fact->DecRef ();
 
   mesh = engine->CreateMeshWrapper (thing_obj, entity->GetName (), NULL,
@@ -475,7 +475,7 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   pl->DecRef ();
   databuf->SetDataCount (13);
   iCelPropertyClass* pc = NULL;
-  if (pccamera) pc = SCF_QUERY_INTERFACE_FAST (pccamera, iCelPropertyClass);
+  if (pccamera) pc = SCF_QUERY_INTERFACE (pccamera, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
   if (pc) pc->DecRef ();
   databuf->GetData (1)->Set (sel_entity);
@@ -501,7 +501,7 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
   iPcCamera* pcm = NULL;
-  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcCamera);
+  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcCamera);
   SetCamera (pcm);
   if (pcm) pcm->DecRef ();
 
@@ -720,7 +720,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   {
     pccamera->IncRef ();
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (pccamera,
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (pccamera,
     	iCelPropertyClass);
     DG_LINK (this, pc);
     pc->DecRef ();
@@ -729,7 +729,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   if (celPcMeshSelect::pccamera)
   {
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (celPcMeshSelect::pccamera,
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
     	iCelPropertyClass);
     DG_UNLINK (this, pc);
     pc->DecRef ();
