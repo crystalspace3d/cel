@@ -296,7 +296,7 @@ public://@@@
 
   /**
    * Ensures that the camera distance is within the range for the camera mode
-   * @param mode Optional - the camera mode to get/set the data (leave blank
+   * @param mode Optional: the camera mode to get/set the data (leave blank
    * for current)
    */
   void EnsureCameraDistance (int mode = -1);
@@ -306,8 +306,10 @@ public://@@@
    * camera data for the current mode.
    * @param isElastic when true, the camera will follow Hooke's law and
    * dampening mechanics to interpolate, otherwise the interpolation is instant
+   * @param elapsedTicks number of ticks elapsed since the last invocation
    * @param deltaIdeal the change between the ideal data of last frame and
    * this one, used for dampening
+   * @param sector sector in question
    */
   void DoElasticPhysics (bool isElastic,
 	const csTicks elapsedTicks,
@@ -354,6 +356,8 @@ public:
   /**
    * Sets the current position of the camera (different for each mode)
    * @param pos The new camera position for the current mode
+   * @param mode Optional: the camera mode to get/set the data (leave blank
+   * for current)
    */
   void SetPosition (const csVector3& pos, int mode = -1);
 
@@ -366,6 +370,8 @@ public:
   /**
    * Sets the current target of the camera (different for each mode)
    * @param tar The new camera target for the current mode
+   * @param mode Optional: the camera mode to get/set the data (leave blank
+   * for current)
    */
   void SetTarget (const csVector3& tar, int mode = -1);
 
@@ -378,6 +384,8 @@ public:
   /**
    * Sets the current up vector of the camera (different for each mode)
    * @param up The new camera up vector for the current mode
+   * @param mode Optional: the camera mode to get/set the data (leave blank
+   * for current)
    */
   void SetUp (const csVector3& up, int mode = -1);
 
@@ -469,7 +477,7 @@ public:
 
   /**
    * Moves the distance from the camera position to its target
-   * @param deltaYaw the amount to displace the current distance
+   * @param deltaDistance the amount to displace the current distance
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
