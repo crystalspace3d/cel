@@ -189,24 +189,24 @@ bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
-  csEvent ev;
-  if (!csParseInputDef (triggername, &ev, false))
+  int key, shift;
+  if (!csParseKeyDef (triggername, key, shift, false))
     return false;
 
-  // only bind keys
-  if (ev.Type != csevKeyDown)
+  // only bind single keys
+  if (shift != 0)
       return false;
 
-  printf ("Bind: %s -> %s, %d \n",triggername, command, ev.Key.Code);
+  printf ("Bind: %s -> %s, %d \n",triggername, command, key);
 
   celKeyMap* newmap;
-  if (!(newmap = GetMap (ev.Key.Code)))
+  if (!(newmap = GetMap (key)))
   {
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
     newmap->next=maplist;
     newmap->prev=NULL;
-    newmap->key=ev.Key.Code;
+    newmap->key=key;
     newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
     strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
@@ -233,15 +233,15 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
-  csEvent ev;
-  if (!csParseInputDef (triggername, &ev, false))
+  int key, shift;
+  if (!csParseKeyDef (triggername, key, shift, false))
     return NULL;
-
-  if (ev.Type != csevKeyDown)
+  
+  if (shift != 0)
     return NULL;
 
   celKeyMap* map;
-  if (!(map = GetMap (ev.Key.Code)))
+  if (!(map = GetMap (key)))
     return NULL;
 
   return map->command+11;
