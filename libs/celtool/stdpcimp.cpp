@@ -62,7 +62,7 @@ void celPcCommon::FirePropertyChangeCallback (int propertyId)
 
 bool celPcCommon::AddPropertyChangeCallback (iCelPropertyChangeCallback* cb)
 {
-  int idx = callbacks.Find (cb);
+  size_t idx = callbacks.Find (cb);
   if (idx != csArrayItemNotFound) return false;
   callbacks.Push (cb);
   return true;

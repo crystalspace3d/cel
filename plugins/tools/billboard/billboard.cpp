@@ -962,8 +962,8 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 
 void celBillboardManager::StackTop (iBillboard* bb)
 {
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   if (idx == billboards.Length ()-1) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Push (cbb);
@@ -981,8 +981,8 @@ void celBillboardManager::StackBottom (iBillboard* bb)
 void celBillboardManager::StackUp (iBillboard* bb)
 {
   if (billboards.Length () <= 1) return;	// Nothing to do.
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   if (idx == billboards.Length ()-1) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Insert (idx+1, cbb);
@@ -1002,10 +1002,10 @@ void celBillboardManager::StackBefore (iBillboard* bb, iBillboard* other)
 {
   if (other == bb) return;
   if (billboards.Length () <= 1) return;	// Nothing to do.
-  int idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == -1) return;
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx_other = billboards.Find ((celBillboard*)other);
+  if (idx_other == csArrayItemNotFound) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   celBillboard* cbb = billboards.Extract (idx);
   idx_other = billboards.Find ((celBillboard*)other);
   if (idx_other == billboards.Length ()-1)
@@ -1018,10 +1018,10 @@ void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
 {
   if (other == bb) return;
   if (billboards.Length () <= 1) return;	// Nothing to do.
-  int idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == -1) return;
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx_other = billboards.Find ((celBillboard*)other);
+  if (idx_other == csArrayItemNotFound) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   celBillboard* cbb = billboards.Extract (idx);
   idx_other = billboards.Find ((celBillboard*)other);
   billboards.Insert (idx_other, cbb);

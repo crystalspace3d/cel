@@ -42,6 +42,7 @@ SCF_IMPLEMENT_FACTORY (celAddOnCelEntity)
 
 SCF_IMPLEMENT_IBASE (celAddOnCelEntity)
   SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
+  SCF_IMPLEMENTS_INTERFACE (iEntityLoader)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
 SCF_IMPLEMENT_IBASE_END
 
@@ -216,7 +217,14 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 {
   // If the context is not a mesh we will create a standalone entity.
   csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
+  iCelEntity* ent = Load (node, mesh);
+  csRef<iBase> ent_return = (iBase*)ent;
+  return csPtr<iBase> (ent_return);
 
+}
+
+iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
+{
   csRef<iCelEntity> ent = pl->CreateEntity ();
   const char* entityname = node->GetAttributeValue ("entityname");
   if (entityname)
@@ -309,7 +317,6 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 	break;
     }
   }
-  csRef<iBase> ent_return = (iBase*)ent;
-  return csPtr<iBase> (ent_return);
+  return ent;
 }
 
