@@ -103,18 +103,6 @@ AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
 AC_MSG_RESULT([$cs_build_mode])
 CS_EMIT_BUILD_PROPERTY([MODE], [$cs_build_mode])
 
-#------------------------------------------------------------------------------
-# Determine whether the old renderer should be activated.
-#------------------------------------------------------------------------------
-AC_MSG_CHECKING([whether to use old renderer])
-AC_ARG_ENABLE([old-renderer], [AC_HELP_STRING([--enable-old-renderer],
-    [enable use of legacy renderer technology (default NO)])],
-    [], [enable_old_renderer=no])
-AC_MSG_RESULT([$enable_old_renderer])
-CS_EMIT_BUILD_PROPERTY([USE_OLD_RENDERER], [$enable_old_renderer])
-AS_IF([test $enable_old_renderer = yes], 
-  [CS_EMIT_BUILD_PROPERTY([SWIG.FLAGS], [-DCS_USE_OLD_RENDERER], [+])])
-
 #-----------------------------------------------------------------------------
 # Output Installpaths/package info
 #-----------------------------------------------------------------------------
