@@ -25,6 +25,7 @@
 
 struct iCelPropertyClassList;
 struct iCelBehaviour;
+struct iObject;
 
 SCF_VERSION (iCelEntity, 0, 0, 1);
 
@@ -33,6 +34,12 @@ SCF_VERSION (iCelEntity, 0, 0, 1);
  */
 struct iCelEntity : public iBase
 {
+  /**
+   * Get the iObject for this entity (if supported). Otherwise
+   * return NULL.
+   */
+  virtual iObject* QueryObject () = 0;
+
   /**
    * Get the name of this entity.
    */

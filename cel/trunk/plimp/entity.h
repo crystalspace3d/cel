@@ -48,6 +48,7 @@ public:
   struct CelEntity : public iCelEntity
   {
     SCF_DECLARE_EMBEDDED_IBASE (celEntity);
+    virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }
     virtual iCelPropertyClassList* GetPropertyClassList ()

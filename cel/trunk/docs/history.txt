@@ -15,6 +15,9 @@
 	  solves another memory leak with the mesh object factories this
 	  time.
 	- celEntity (as implemented in plimp) is now also a csObject.
+	- Added QueryObject() to iCelEntity.
+	- Added more DG_LINK's to link more objects with each other.
+	- Fixed a few links now that iCelEntity no longer is an iObject.
 15-Nov-2001:
 	- Fixed a memory leak in 'pctooltip' and 'pctimer' with event queue.
 	- Added lots of DG_... lines to help debugging.
