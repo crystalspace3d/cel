@@ -54,12 +54,15 @@ struct SpawnInfo
   char* name;
   iCelBlLayer* bl;
   char* behaviour;
+  char* msg_id;
+  csRef<iCelParameterBlock> params;
   csStringArray pcs;
 
   ~SpawnInfo ()
   {
     delete[] name;
     delete[] behaviour;
+    delete[] msg_id;
   }
 };
 	
@@ -92,7 +95,8 @@ public:
   void SetEnabled (bool e) { enabled = e; }
   bool IsEnabled () const { return enabled; }
   void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, va_list behaviours);
+		  const char* behaviour, const char* msg_id,
+		  iCelParameterBlock* params, va_list behaviours);
   void ClearEntityList ();
   void SetTiming (bool repeat, bool random,
 		  csTicks mindelay, csTicks maxdelay);
@@ -117,11 +121,12 @@ public:
       return scfParent->IsEnabled ();
     }
     virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, ...)
+		  const char* behaviour, const char* msg_id,
+		  iCelParameterBlock* params, ...)
     {
       va_list arg;
-      va_start (arg, behaviour);
-      scfParent->AddEntityType (chance, name, bl, behaviour, arg);
+      va_start (arg, params);
+      scfParent->AddEntityType (chance, name, bl, behaviour, msg_id, params, arg);
       va_end (arg);
     }
     virtual void ClearEntityList ()

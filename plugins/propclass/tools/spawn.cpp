@@ -186,9 +186,17 @@ bool celPcSpawn::HandleEvent (iEvent& ev)
 	if (!pc) { /* @@@ Error reporting */ }
       }
 
+      // First send a message to our new entity if needed.
+      celData ret;
+      if (spawninfo[idx].msg_id && newent->GetBehaviour ())
+      {
+        newent->GetBehaviour ()->SendMessage (spawninfo[idx].msg_id, ret,
+		spawninfo[idx].params);
+      }
+
+      // Then send a message to our own entity.
       iCelBehaviour* bh = entity->GetBehaviour ();
       CS_ASSERT (bh != 0);
-      celData ret;
       ref = entity;
       params->GetParameter (0).Set (newent);
       params->GetParameter (1).Set (spawninfo[idx].behaviour);
@@ -208,7 +216,8 @@ void celPcSpawn::Reset ()
 }
 
 void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, va_list behaviours)
+		  const char* behaviour, const char* msg_id,
+		  iCelParameterBlock* params, va_list behaviours)
 {
   size_t idx = spawninfo.Push (SpawnInfo ());
   SpawnInfo& si = spawninfo[idx];
@@ -216,6 +225,8 @@ void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,
   si.name = csStrNew (name);
   si.bl = bl;
   si.behaviour = csStrNew (behaviour);
+  si.msg_id = csStrNew (msg_id);
+  si.params = params;
   char const* pcname = va_arg (behaviours, char*);
   while (pcname != 0)
   {
