@@ -20,9 +20,11 @@
 #ifndef __CEL_PERSIST_CLASSIC__
 #define __CEL_PERSIST_CLASSIC__
 
+#include "csutil/hashmap.h"
 #include "iutil/comp.h"
 #include "pl/persist.h"
 
+class csHashSet;
 struct iFile;
 struct iObjectRegistry;
 struct iCelPropertyClass;
@@ -37,6 +39,8 @@ class celPersistClassic : public iCelPersistance
 {
 private:
   iObjectRegistry* object_reg;
+  csHashSet entities;
+  csHashSet pclasses;
 
   bool WriteMarker (iFile* f, const char* s);
   bool WriteString (iFile* f, const char* s);
