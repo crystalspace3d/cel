@@ -403,9 +403,11 @@ void celPlLayer::Uncache (iBase* object)
   if (idx != -1)
   {
     iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-    CS_ASSERT (engine != NULL);
-    engine->RemoveObject (object);
-    engine->DecRef ();
+    if (engine)
+    {
+	engine->RemoveObject (object);
+	engine->DecRef ();
+    }
     cache.Delete (idx);
   }
 }
