@@ -196,7 +196,12 @@ bool celPcMover::Start (iSector* sector, const csVector3& position, const csVect
   iSector* cur_sector;
   pclinmove->GetLastPosition (cur_pos, cur_yrot, cur_sector);
 
-  // @@@TODO:Use center of linmove CD box to trace beam.
+  // Use center of linmove CD box to trace beam.
+  csVector3 body, legs, shift;
+  iPcCollisionDetection* pc_cd;
+  pclinmove->GetCDDimensions (body, legs, shift, pc_cd);
+  //@@@
+
   csVector3 isect;
   iMeshWrapper* hit_mesh = cur_sector->HitBeamPortals (cur_pos,
   	position, isect, 0);
@@ -265,6 +270,7 @@ void celPcMover::FindSiblingPropertyClasses ()
   if (HavePropertyClassesChanged ())
   {
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 

@@ -707,11 +707,12 @@ void celPcCamera::TickEveryFrame ()
     {
       if ((GetPosition (iPcCamera::actual_data)
 		- GetTarget (iPcCamera::actual_data)).SquaredNorm () > 0.3f)
-        pcmesh->GetMesh ()->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+        pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
     }
     else
     {
-      pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+      pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
+		      CS_ENTITY_INVISIBLE);
     }
   }
 
