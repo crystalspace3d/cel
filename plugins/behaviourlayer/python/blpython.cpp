@@ -119,10 +119,9 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   char* slash = strrchr (name, '/');
   if (slash)
   {
+    csString path;
+    path.Append (name, slash-name+1);
     realname = slash+1;
-    *slash = 0;
-    csString path = name;
-    *slash = '/';
 
     csString pythonscript = "sys.path.append('";
     pythonscript += path;
