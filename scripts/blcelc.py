@@ -2082,6 +2082,60 @@ _blcelc.csBox3_swigregister(csBox3Ptr)
 csBox3_OtherSide = _blcelc.csBox3_OtherSide
 
 
+class csSegment2(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csSegment2, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csSegment2, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csSegment2, 'this', apply(_blcelc.new_csSegment2,args))
+        _swig_setattr(self, csSegment2, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csSegment2):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def Set(*args): return apply(_blcelc.csSegment2_Set,args)
+    def SetStart(*args): return apply(_blcelc.csSegment2_SetStart,args)
+    def SetEnd(*args): return apply(_blcelc.csSegment2_SetEnd,args)
+    def Start(*args): return apply(_blcelc.csSegment2_Start,args)
+    def End(*args): return apply(_blcelc.csSegment2_End,args)
+    def __repr__(self):
+        return "<C csSegment2 instance at %s>" % (self.this,)
+
+class csSegment2Ptr(csSegment2):
+    def __init__(self,this):
+        _swig_setattr(self, csSegment2, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csSegment2, 'thisown', 0)
+        _swig_setattr(self, csSegment2,self.__class__,csSegment2)
+_blcelc.csSegment2_swigregister(csSegment2Ptr)
+
+class csSegment3(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csSegment3, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csSegment3, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csSegment3, 'this', apply(_blcelc.new_csSegment3,args))
+        _swig_setattr(self, csSegment3, 'thisown', 1)
+    def Set(*args): return apply(_blcelc.csSegment3_Set,args)
+    def SetStart(*args): return apply(_blcelc.csSegment3_SetStart,args)
+    def SetEnd(*args): return apply(_blcelc.csSegment3_SetEnd,args)
+    def Start(*args): return apply(_blcelc.csSegment3_Start,args)
+    def End(*args): return apply(_blcelc.csSegment3_End,args)
+    def __del__(self, destroy= _blcelc.delete_csSegment3):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csSegment3 instance at %s>" % (self.this,)
+
+class csSegment3Ptr(csSegment3):
+    def __init__(self,this):
+        _swig_setattr(self, csSegment3, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csSegment3, 'thisown', 0)
+        _swig_setattr(self, csSegment3,self.__class__,csSegment3)
+_blcelc.csSegment3_swigregister(csSegment3Ptr)
+
 class csRGBcolor(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csRGBcolor, name, value)
@@ -3037,76 +3091,6 @@ class iAwsConnectionNodeFactoryPtr(iAwsConnectionNodeFactory):
         _swig_setattr(self, iAwsConnectionNodeFactory,self.__class__,iAwsConnectionNodeFactory)
 _blcelc.iAwsConnectionNodeFactory_swigregister(iAwsConnectionNodeFactoryPtr)
 
-CS_POLYMESH_CLOSED = _blcelc.CS_POLYMESH_CLOSED
-CS_POLYMESH_NOTCLOSED = _blcelc.CS_POLYMESH_NOTCLOSED
-CS_POLYMESH_CONVEX = _blcelc.CS_POLYMESH_CONVEX
-CS_POLYMESH_NOTCONVEX = _blcelc.CS_POLYMESH_NOTCONVEX
-CS_POLYMESH_DEFORMABLE = _blcelc.CS_POLYMESH_DEFORMABLE
-CS_POLYMESH_TRIANGLEMESH = _blcelc.CS_POLYMESH_TRIANGLEMESH
-class csMeshedPolygon(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csMeshedPolygon, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csMeshedPolygon, name)
-    __swig_setmethods__["num_vertices"] = _blcelc.csMeshedPolygon_num_vertices_set
-    __swig_getmethods__["num_vertices"] = _blcelc.csMeshedPolygon_num_vertices_get
-    if _newclass:num_vertices = property(_blcelc.csMeshedPolygon_num_vertices_get,_blcelc.csMeshedPolygon_num_vertices_set)
-    __swig_setmethods__["vertices"] = _blcelc.csMeshedPolygon_vertices_set
-    __swig_getmethods__["vertices"] = _blcelc.csMeshedPolygon_vertices_get
-    if _newclass:vertices = property(_blcelc.csMeshedPolygon_vertices_get,_blcelc.csMeshedPolygon_vertices_set)
-    def __init__(self,*args):
-        _swig_setattr(self, csMeshedPolygon, 'this', apply(_blcelc.new_csMeshedPolygon,args))
-        _swig_setattr(self, csMeshedPolygon, 'thisown', 1)
-    def __del__(self, destroy= _blcelc.delete_csMeshedPolygon):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __repr__(self):
-        return "<C csMeshedPolygon instance at %s>" % (self.this,)
-
-class csMeshedPolygonPtr(csMeshedPolygon):
-    def __init__(self,this):
-        _swig_setattr(self, csMeshedPolygon, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csMeshedPolygon, 'thisown', 0)
-        _swig_setattr(self, csMeshedPolygon,self.__class__,csMeshedPolygon)
-_blcelc.csMeshedPolygon_swigregister(csMeshedPolygonPtr)
-
-class iPolygonMesh(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iPolygonMesh, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iPolygonMesh, name)
-    def GetVertexCount(*args): return apply(_blcelc.iPolygonMesh_GetVertexCount,args)
-    def GetVertices(*args): return apply(_blcelc.iPolygonMesh_GetVertices,args)
-    def GetPolygonCount(*args): return apply(_blcelc.iPolygonMesh_GetPolygonCount,args)
-    def GetPolygons(*args): return apply(_blcelc.iPolygonMesh_GetPolygons,args)
-    def GetTriangleCount(*args): return apply(_blcelc.iPolygonMesh_GetTriangleCount,args)
-    def GetTriangles(*args): return apply(_blcelc.iPolygonMesh_GetTriangles,args)
-    def Lock(*args): return apply(_blcelc.iPolygonMesh_Lock,args)
-    def Unlock(*args): return apply(_blcelc.iPolygonMesh_Unlock,args)
-    def GetFlags(*args): return apply(_blcelc.iPolygonMesh_GetFlags,args)
-    def GetChangeNumber(*args): return apply(_blcelc.iPolygonMesh_GetChangeNumber,args)
-    def __del__(self, destroy= _blcelc.delete_iPolygonMesh):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iPolygonMesh_scfGetVersion
-    if _newclass:scfGetVersion = staticmethod(_blcelc.iPolygonMesh_scfGetVersion)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPolygonMesh instance at %s>" % (self.this,)
-
-class iPolygonMeshPtr(iPolygonMesh):
-    def __init__(self,this):
-        _swig_setattr(self, iPolygonMesh, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iPolygonMesh, 'thisown', 0)
-        _swig_setattr(self, iPolygonMesh,self.__class__,iPolygonMesh)
-_blcelc.iPolygonMesh_swigregister(iPolygonMeshPtr)
-iPolygonMesh_scfGetVersion = _blcelc.iPolygonMesh_scfGetVersion
-
-
 MAX_OUTPUT_VERTICES = _blcelc.MAX_OUTPUT_VERTICES
 CS_CLIP_OUTSIDE = _blcelc.CS_CLIP_OUTSIDE
 CS_CLIP_INSIDE = _blcelc.CS_CLIP_INSIDE
@@ -3241,6 +3225,185 @@ class iObjectModelPtr(iObjectModel):
 _blcelc.iObjectModel_swigregister(iObjectModelPtr)
 iObjectModel_scfGetVersion = _blcelc.iObjectModel_scfGetVersion
 
+
+CS_POLYMESH_CLOSED = _blcelc.CS_POLYMESH_CLOSED
+CS_POLYMESH_NOTCLOSED = _blcelc.CS_POLYMESH_NOTCLOSED
+CS_POLYMESH_CONVEX = _blcelc.CS_POLYMESH_CONVEX
+CS_POLYMESH_NOTCONVEX = _blcelc.CS_POLYMESH_NOTCONVEX
+CS_POLYMESH_DEFORMABLE = _blcelc.CS_POLYMESH_DEFORMABLE
+CS_POLYMESH_TRIANGLEMESH = _blcelc.CS_POLYMESH_TRIANGLEMESH
+class csMeshedPolygon(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csMeshedPolygon, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csMeshedPolygon, name)
+    __swig_setmethods__["num_vertices"] = _blcelc.csMeshedPolygon_num_vertices_set
+    __swig_getmethods__["num_vertices"] = _blcelc.csMeshedPolygon_num_vertices_get
+    if _newclass:num_vertices = property(_blcelc.csMeshedPolygon_num_vertices_get,_blcelc.csMeshedPolygon_num_vertices_set)
+    __swig_setmethods__["vertices"] = _blcelc.csMeshedPolygon_vertices_set
+    __swig_getmethods__["vertices"] = _blcelc.csMeshedPolygon_vertices_get
+    if _newclass:vertices = property(_blcelc.csMeshedPolygon_vertices_get,_blcelc.csMeshedPolygon_vertices_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csMeshedPolygon, 'this', apply(_blcelc.new_csMeshedPolygon,args))
+        _swig_setattr(self, csMeshedPolygon, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csMeshedPolygon):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csMeshedPolygon instance at %s>" % (self.this,)
+
+class csMeshedPolygonPtr(csMeshedPolygon):
+    def __init__(self,this):
+        _swig_setattr(self, csMeshedPolygon, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csMeshedPolygon, 'thisown', 0)
+        _swig_setattr(self, csMeshedPolygon,self.__class__,csMeshedPolygon)
+_blcelc.csMeshedPolygon_swigregister(csMeshedPolygonPtr)
+
+class iPolygonMesh(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPolygonMesh, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPolygonMesh, name)
+    def GetVertexCount(*args): return apply(_blcelc.iPolygonMesh_GetVertexCount,args)
+    def GetVertices(*args): return apply(_blcelc.iPolygonMesh_GetVertices,args)
+    def GetPolygonCount(*args): return apply(_blcelc.iPolygonMesh_GetPolygonCount,args)
+    def GetPolygons(*args): return apply(_blcelc.iPolygonMesh_GetPolygons,args)
+    def GetTriangleCount(*args): return apply(_blcelc.iPolygonMesh_GetTriangleCount,args)
+    def GetTriangles(*args): return apply(_blcelc.iPolygonMesh_GetTriangles,args)
+    def Lock(*args): return apply(_blcelc.iPolygonMesh_Lock,args)
+    def Unlock(*args): return apply(_blcelc.iPolygonMesh_Unlock,args)
+    def GetFlags(*args): return apply(_blcelc.iPolygonMesh_GetFlags,args)
+    def GetChangeNumber(*args): return apply(_blcelc.iPolygonMesh_GetChangeNumber,args)
+    def __del__(self, destroy= _blcelc.delete_iPolygonMesh):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iPolygonMesh_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iPolygonMesh_scfGetVersion)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPolygonMesh instance at %s>" % (self.this,)
+
+class iPolygonMeshPtr(iPolygonMesh):
+    def __init__(self,this):
+        _swig_setattr(self, iPolygonMesh, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPolygonMesh, 'thisown', 0)
+        _swig_setattr(self, iPolygonMesh,self.__class__,iPolygonMesh)
+_blcelc.iPolygonMesh_swigregister(iPolygonMeshPtr)
+iPolygonMesh_scfGetVersion = _blcelc.iPolygonMesh_scfGetVersion
+
+
+class csPolygonMesh(iPolygonMesh):
+    __swig_setmethods__ = {}
+    for _s in [iPolygonMesh]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPolygonMesh, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPolygonMesh]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, csPolygonMesh, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csPolygonMesh, 'this', apply(_blcelc.new_csPolygonMesh,args))
+        _swig_setattr(self, csPolygonMesh, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csPolygonMesh):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def SetVertices(*args): return apply(_blcelc.csPolygonMesh_SetVertices,args)
+    def SetPolygons(*args): return apply(_blcelc.csPolygonMesh_SetPolygons,args)
+    def SetPolygonIndices(*args): return apply(_blcelc.csPolygonMesh_SetPolygonIndices,args)
+    def SetPolygonIndexCount(*args): return apply(_blcelc.csPolygonMesh_SetPolygonIndexCount,args)
+    def GetPolygonIndices(*args): return apply(_blcelc.csPolygonMesh_GetPolygonIndices,args)
+    def SetVertexCount(*args): return apply(_blcelc.csPolygonMesh_SetVertexCount,args)
+    def SetPolygonCount(*args): return apply(_blcelc.csPolygonMesh_SetPolygonCount,args)
+    def ShapeChanged(*args): return apply(_blcelc.csPolygonMesh_ShapeChanged,args)
+    __swig_setmethods__["scfRefCount"] = _blcelc.csPolygonMesh_scfRefCount_set
+    __swig_getmethods__["scfRefCount"] = _blcelc.csPolygonMesh_scfRefCount_get
+    if _newclass:scfRefCount = property(_blcelc.csPolygonMesh_scfRefCount_get,_blcelc.csPolygonMesh_scfRefCount_set)
+    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.csPolygonMesh_scfWeakRefOwners_set
+    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.csPolygonMesh_scfWeakRefOwners_get
+    if _newclass:scfWeakRefOwners = property(_blcelc.csPolygonMesh_scfWeakRefOwners_get,_blcelc.csPolygonMesh_scfWeakRefOwners_set)
+    def scfRemoveRefOwners(*args): return apply(_blcelc.csPolygonMesh_scfRemoveRefOwners,args)
+    __swig_setmethods__["scfParent"] = _blcelc.csPolygonMesh_scfParent_set
+    __swig_getmethods__["scfParent"] = _blcelc.csPolygonMesh_scfParent_get
+    if _newclass:scfParent = property(_blcelc.csPolygonMesh_scfParent_get,_blcelc.csPolygonMesh_scfParent_set)
+    def IncRef(*args): return apply(_blcelc.csPolygonMesh_IncRef,args)
+    def DecRef(*args): return apply(_blcelc.csPolygonMesh_DecRef,args)
+    def GetRefCount(*args): return apply(_blcelc.csPolygonMesh_GetRefCount,args)
+    def AddRefOwner(*args): return apply(_blcelc.csPolygonMesh_AddRefOwner,args)
+    def RemoveRefOwner(*args): return apply(_blcelc.csPolygonMesh_RemoveRefOwner,args)
+    def QueryInterface(*args): return apply(_blcelc.csPolygonMesh_QueryInterface,args)
+    def GetVertexCount(*args): return apply(_blcelc.csPolygonMesh_GetVertexCount,args)
+    def GetVertices(*args): return apply(_blcelc.csPolygonMesh_GetVertices,args)
+    def GetPolygonCount(*args): return apply(_blcelc.csPolygonMesh_GetPolygonCount,args)
+    def GetPolygons(*args): return apply(_blcelc.csPolygonMesh_GetPolygons,args)
+    def GetTriangleCount(*args): return apply(_blcelc.csPolygonMesh_GetTriangleCount,args)
+    def GetTriangles(*args): return apply(_blcelc.csPolygonMesh_GetTriangles,args)
+    def Lock(*args): return apply(_blcelc.csPolygonMesh_Lock,args)
+    def Unlock(*args): return apply(_blcelc.csPolygonMesh_Unlock,args)
+    def GetFlags(*args): return apply(_blcelc.csPolygonMesh_GetFlags,args)
+    def GetChangeNumber(*args): return apply(_blcelc.csPolygonMesh_GetChangeNumber,args)
+    def __repr__(self):
+        return "<C csPolygonMesh instance at %s>" % (self.this,)
+
+class csPolygonMeshPtr(csPolygonMesh):
+    def __init__(self,this):
+        _swig_setattr(self, csPolygonMesh, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPolygonMesh, 'thisown', 0)
+        _swig_setattr(self, csPolygonMesh,self.__class__,csPolygonMesh)
+_blcelc.csPolygonMesh_swigregister(csPolygonMeshPtr)
+
+class csPolygonMeshBox(iPolygonMesh):
+    __swig_setmethods__ = {}
+    for _s in [iPolygonMesh]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPolygonMeshBox, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPolygonMesh]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, csPolygonMeshBox, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csPolygonMeshBox, 'this', apply(_blcelc.new_csPolygonMeshBox,args))
+        _swig_setattr(self, csPolygonMeshBox, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csPolygonMeshBox):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def SetBox(*args): return apply(_blcelc.csPolygonMeshBox_SetBox,args)
+    __swig_setmethods__["scfRefCount"] = _blcelc.csPolygonMeshBox_scfRefCount_set
+    __swig_getmethods__["scfRefCount"] = _blcelc.csPolygonMeshBox_scfRefCount_get
+    if _newclass:scfRefCount = property(_blcelc.csPolygonMeshBox_scfRefCount_get,_blcelc.csPolygonMeshBox_scfRefCount_set)
+    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.csPolygonMeshBox_scfWeakRefOwners_set
+    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.csPolygonMeshBox_scfWeakRefOwners_get
+    if _newclass:scfWeakRefOwners = property(_blcelc.csPolygonMeshBox_scfWeakRefOwners_get,_blcelc.csPolygonMeshBox_scfWeakRefOwners_set)
+    def scfRemoveRefOwners(*args): return apply(_blcelc.csPolygonMeshBox_scfRemoveRefOwners,args)
+    __swig_setmethods__["scfParent"] = _blcelc.csPolygonMeshBox_scfParent_set
+    __swig_getmethods__["scfParent"] = _blcelc.csPolygonMeshBox_scfParent_get
+    if _newclass:scfParent = property(_blcelc.csPolygonMeshBox_scfParent_get,_blcelc.csPolygonMeshBox_scfParent_set)
+    def IncRef(*args): return apply(_blcelc.csPolygonMeshBox_IncRef,args)
+    def DecRef(*args): return apply(_blcelc.csPolygonMeshBox_DecRef,args)
+    def GetRefCount(*args): return apply(_blcelc.csPolygonMeshBox_GetRefCount,args)
+    def AddRefOwner(*args): return apply(_blcelc.csPolygonMeshBox_AddRefOwner,args)
+    def RemoveRefOwner(*args): return apply(_blcelc.csPolygonMeshBox_RemoveRefOwner,args)
+    def QueryInterface(*args): return apply(_blcelc.csPolygonMeshBox_QueryInterface,args)
+    def GetVertexCount(*args): return apply(_blcelc.csPolygonMeshBox_GetVertexCount,args)
+    def GetVertices(*args): return apply(_blcelc.csPolygonMeshBox_GetVertices,args)
+    def GetPolygonCount(*args): return apply(_blcelc.csPolygonMeshBox_GetPolygonCount,args)
+    def GetPolygons(*args): return apply(_blcelc.csPolygonMeshBox_GetPolygons,args)
+    def GetTriangleCount(*args): return apply(_blcelc.csPolygonMeshBox_GetTriangleCount,args)
+    def GetTriangles(*args): return apply(_blcelc.csPolygonMeshBox_GetTriangles,args)
+    def Lock(*args): return apply(_blcelc.csPolygonMeshBox_Lock,args)
+    def Unlock(*args): return apply(_blcelc.csPolygonMeshBox_Unlock,args)
+    def GetFlags(*args): return apply(_blcelc.csPolygonMeshBox_GetFlags,args)
+    def GetChangeNumber(*args): return apply(_blcelc.csPolygonMeshBox_GetChangeNumber,args)
+    def __repr__(self):
+        return "<C csPolygonMeshBox instance at %s>" % (self.this,)
+
+class csPolygonMeshBoxPtr(csPolygonMeshBox):
+    def __init__(self,this):
+        _swig_setattr(self, csPolygonMeshBox, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPolygonMeshBox, 'thisown', 0)
+        _swig_setattr(self, csPolygonMeshBox,self.__class__,csPolygonMeshBox)
+_blcelc.csPolygonMeshBox_swigregister(csPolygonMeshBoxPtr)
 
 class iFrustumViewUserdata(iBase):
     __swig_setmethods__ = {}
@@ -4668,6 +4831,9 @@ _blcelc.iModelConverter_swigregister(iModelConverterPtr)
 iModelConverter_scfGetVersion = _blcelc.iModelConverter_scfGetVersion
 
 
+CS_MESH_STATICPOS = _blcelc.CS_MESH_STATICPOS
+CS_MESH_STATICSHAPE = _blcelc.CS_MESH_STATICSHAPE
+CS_FACTORY_STATICSHAPE = _blcelc.CS_FACTORY_STATICSHAPE
 class iMeshObjectDrawCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4699,6 +4865,7 @@ class iMeshObject(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMeshObject, name)
     def GetFactory(*args): return apply(_blcelc.iMeshObject_GetFactory,args)
+    def GetFlags(*args): return apply(_blcelc.iMeshObject_GetFlags,args)
     def DrawTest(*args): return apply(_blcelc.iMeshObject_DrawTest,args)
     def Draw(*args): return apply(_blcelc.iMeshObject_Draw,args)
     def GetRenderMeshes(*args): return apply(_blcelc.iMeshObject_GetRenderMeshes,args)
@@ -4744,6 +4911,7 @@ class iMeshObjectFactory(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMeshObjectFactory, name)
+    def GetFlags(*args): return apply(_blcelc.iMeshObjectFactory_GetFlags,args)
     def NewInstance(*args): return apply(_blcelc.iMeshObjectFactory_NewInstance,args)
     def HardTransform(*args): return apply(_blcelc.iMeshObjectFactory_HardTransform,args)
     def SupportsHardTransform(*args): return apply(_blcelc.iMeshObjectFactory_SupportsHardTransform,args)
@@ -5234,6 +5402,7 @@ class iSpriteCal3DFactoryState(iBase):
     def GetMorphTargetCount(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphTargetCount,args)
     def GetMeshName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMeshName,args)
     def FindMeshName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindMeshName,args)
+    def GetDefaultMaterial(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetDefaultMaterial,args)
     def GetMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphAnimationName,args)
     def FindMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindMorphAnimationName,args)
     def IsMeshDefault(*args): return apply(_blcelc.iSpriteCal3DFactoryState_IsMeshDefault,args)
@@ -5550,7 +5719,6 @@ class iThingFactoryState(iBase):
     def SetVertex(*args): return apply(_blcelc.iThingFactoryState_SetVertex,args)
     def DeleteVertex(*args): return apply(_blcelc.iThingFactoryState_DeleteVertex,args)
     def DeleteVertices(*args): return apply(_blcelc.iThingFactoryState_DeleteVertices,args)
-    def GetFlags(*args): return apply(_blcelc.iThingFactoryState_GetFlags,args)
     def SetSmoothingFlag(*args): return apply(_blcelc.iThingFactoryState_SetSmoothingFlag,args)
     def GetSmoothingFlag(*args): return apply(_blcelc.iThingFactoryState_GetSmoothingFlag,args)
     def GetNormals(*args): return apply(_blcelc.iThingFactoryState_GetNormals,args)
@@ -5592,8 +5760,6 @@ class iThingState(iBase):
     def GetMixMode(*args): return apply(_blcelc.iThingState_GetMixMode,args)
     def CreatePolygonHandle(*args): return apply(_blcelc.iThingState_CreatePolygonHandle,args)
     def GetPolygonWorldPlane(*args): return apply(_blcelc.iThingState_GetPolygonWorldPlane,args)
-    def GetPolygonMaterial(*args): return apply(_blcelc.iThingState_GetPolygonMaterial,args)
-    def SetPolygonMaterial(*args): return apply(_blcelc.iThingState_SetPolygonMaterial,args)
     def __del__(self, destroy= _blcelc.delete_iThingState):
         try:
             if self.thisown: destroy(self)
@@ -5638,91 +5804,6 @@ class iThingEnvironmentPtr(iThingEnvironment):
         if not hasattr(self,"thisown"): _swig_setattr(self, iThingEnvironment, 'thisown', 0)
         _swig_setattr(self, iThingEnvironment,self.__class__,iThingEnvironment)
 _blcelc.iThingEnvironment_swigregister(iThingEnvironmentPtr)
-
-class csPolyTextureMapping(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csPolyTextureMapping, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csPolyTextureMapping, name)
-    def __init__(self,*args):
-        _swig_setattr(self, csPolyTextureMapping, 'this', apply(_blcelc.new_csPolyTextureMapping,args))
-        _swig_setattr(self, csPolyTextureMapping, 'thisown', 1)
-    __swig_setmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_set
-    __swig_getmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_get
-    if _newclass:m_obj2tex = property(_blcelc.csPolyTextureMapping_m_obj2tex_get,_blcelc.csPolyTextureMapping_m_obj2tex_set)
-    __swig_setmethods__["v_obj2tex"] = _blcelc.csPolyTextureMapping_v_obj2tex_set
-    __swig_getmethods__["v_obj2tex"] = _blcelc.csPolyTextureMapping_v_obj2tex_get
-    if _newclass:v_obj2tex = property(_blcelc.csPolyTextureMapping_v_obj2tex_get,_blcelc.csPolyTextureMapping_v_obj2tex_set)
-    __swig_setmethods__["fdu"] = _blcelc.csPolyTextureMapping_fdu_set
-    __swig_getmethods__["fdu"] = _blcelc.csPolyTextureMapping_fdu_get
-    if _newclass:fdu = property(_blcelc.csPolyTextureMapping_fdu_get,_blcelc.csPolyTextureMapping_fdu_set)
-    __swig_setmethods__["fdv"] = _blcelc.csPolyTextureMapping_fdv_set
-    __swig_getmethods__["fdv"] = _blcelc.csPolyTextureMapping_fdv_get
-    if _newclass:fdv = property(_blcelc.csPolyTextureMapping_fdv_get,_blcelc.csPolyTextureMapping_fdv_set)
-    __swig_setmethods__["Imin_u"] = _blcelc.csPolyTextureMapping_Imin_u_set
-    __swig_getmethods__["Imin_u"] = _blcelc.csPolyTextureMapping_Imin_u_get
-    if _newclass:Imin_u = property(_blcelc.csPolyTextureMapping_Imin_u_get,_blcelc.csPolyTextureMapping_Imin_u_set)
-    __swig_setmethods__["Imin_v"] = _blcelc.csPolyTextureMapping_Imin_v_set
-    __swig_getmethods__["Imin_v"] = _blcelc.csPolyTextureMapping_Imin_v_get
-    if _newclass:Imin_v = property(_blcelc.csPolyTextureMapping_Imin_v_get,_blcelc.csPolyTextureMapping_Imin_v_set)
-    __swig_setmethods__["Fmin_u"] = _blcelc.csPolyTextureMapping_Fmin_u_set
-    __swig_getmethods__["Fmin_u"] = _blcelc.csPolyTextureMapping_Fmin_u_get
-    if _newclass:Fmin_u = property(_blcelc.csPolyTextureMapping_Fmin_u_get,_blcelc.csPolyTextureMapping_Fmin_u_set)
-    __swig_setmethods__["Fmin_v"] = _blcelc.csPolyTextureMapping_Fmin_v_set
-    __swig_getmethods__["Fmin_v"] = _blcelc.csPolyTextureMapping_Fmin_v_get
-    if _newclass:Fmin_v = property(_blcelc.csPolyTextureMapping_Fmin_v_get,_blcelc.csPolyTextureMapping_Fmin_v_set)
-    __swig_setmethods__["Fmax_u"] = _blcelc.csPolyTextureMapping_Fmax_u_set
-    __swig_getmethods__["Fmax_u"] = _blcelc.csPolyTextureMapping_Fmax_u_get
-    if _newclass:Fmax_u = property(_blcelc.csPolyTextureMapping_Fmax_u_get,_blcelc.csPolyTextureMapping_Fmax_u_set)
-    __swig_setmethods__["Fmax_v"] = _blcelc.csPolyTextureMapping_Fmax_v_set
-    __swig_getmethods__["Fmax_v"] = _blcelc.csPolyTextureMapping_Fmax_v_get
-    if _newclass:Fmax_v = property(_blcelc.csPolyTextureMapping_Fmax_v_get,_blcelc.csPolyTextureMapping_Fmax_v_set)
-    __swig_setmethods__["shf_u"] = _blcelc.csPolyTextureMapping_shf_u_set
-    __swig_getmethods__["shf_u"] = _blcelc.csPolyTextureMapping_shf_u_get
-    if _newclass:shf_u = property(_blcelc.csPolyTextureMapping_shf_u_get,_blcelc.csPolyTextureMapping_shf_u_set)
-    def GetShiftU(*args): return apply(_blcelc.csPolyTextureMapping_GetShiftU,args)
-    def GetIMinU(*args): return apply(_blcelc.csPolyTextureMapping_GetIMinU,args)
-    def GetIMinV(*args): return apply(_blcelc.csPolyTextureMapping_GetIMinV,args)
-    def GetTextureBox(*args): return apply(_blcelc.csPolyTextureMapping_GetTextureBox,args)
-    def GetFDU(*args): return apply(_blcelc.csPolyTextureMapping_GetFDU,args)
-    def GetFDV(*args): return apply(_blcelc.csPolyTextureMapping_GetFDV,args)
-    __swig_setmethods__["w"] = _blcelc.csPolyTextureMapping_w_set
-    __swig_getmethods__["w"] = _blcelc.csPolyTextureMapping_w_get
-    if _newclass:w = property(_blcelc.csPolyTextureMapping_w_get,_blcelc.csPolyTextureMapping_w_set)
-    __swig_setmethods__["h"] = _blcelc.csPolyTextureMapping_h_set
-    __swig_getmethods__["h"] = _blcelc.csPolyTextureMapping_h_get
-    if _newclass:h = property(_blcelc.csPolyTextureMapping_h_get,_blcelc.csPolyTextureMapping_h_set)
-    __swig_setmethods__["w_orig"] = _blcelc.csPolyTextureMapping_w_orig_set
-    __swig_getmethods__["w_orig"] = _blcelc.csPolyTextureMapping_w_orig_get
-    if _newclass:w_orig = property(_blcelc.csPolyTextureMapping_w_orig_get,_blcelc.csPolyTextureMapping_w_orig_set)
-    def GetWidth(*args): return apply(_blcelc.csPolyTextureMapping_GetWidth,args)
-    def GetHeight(*args): return apply(_blcelc.csPolyTextureMapping_GetHeight,args)
-    def GetOriginalWidth(*args): return apply(_blcelc.csPolyTextureMapping_GetOriginalWidth,args)
-    __swig_setmethods__["lmu1"] = _blcelc.csPolyTextureMapping_lmu1_set
-    __swig_getmethods__["lmu1"] = _blcelc.csPolyTextureMapping_lmu1_get
-    if _newclass:lmu1 = property(_blcelc.csPolyTextureMapping_lmu1_get,_blcelc.csPolyTextureMapping_lmu1_set)
-    __swig_setmethods__["lmv1"] = _blcelc.csPolyTextureMapping_lmv1_set
-    __swig_getmethods__["lmv1"] = _blcelc.csPolyTextureMapping_lmv1_get
-    if _newclass:lmv1 = property(_blcelc.csPolyTextureMapping_lmv1_get,_blcelc.csPolyTextureMapping_lmv1_set)
-    __swig_setmethods__["lmu2"] = _blcelc.csPolyTextureMapping_lmu2_set
-    __swig_getmethods__["lmu2"] = _blcelc.csPolyTextureMapping_lmu2_get
-    if _newclass:lmu2 = property(_blcelc.csPolyTextureMapping_lmu2_get,_blcelc.csPolyTextureMapping_lmu2_set)
-    __swig_setmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_set
-    __swig_getmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_get
-    if _newclass:lmv2 = property(_blcelc.csPolyTextureMapping_lmv2_get,_blcelc.csPolyTextureMapping_lmv2_set)
-    def __del__(self, destroy= _blcelc.delete_csPolyTextureMapping):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __repr__(self):
-        return "<C csPolyTextureMapping instance at %s>" % (self.this,)
-
-class csPolyTextureMappingPtr(csPolyTextureMapping):
-    def __init__(self,this):
-        _swig_setattr(self, csPolyTextureMapping, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csPolyTextureMapping, 'thisown', 0)
-        _swig_setattr(self, csPolyTextureMapping,self.__class__,csPolyTextureMapping)
-_blcelc.csPolyTextureMapping_swigregister(csPolyTextureMappingPtr)
 
 class iLoaderStatus(iBase):
     __swig_setmethods__ = {}
@@ -7708,6 +7789,7 @@ CS_FX_ALPHA = _blcelc.CS_FX_ALPHA
 CS_FX_TRANSPARENT = _blcelc.CS_FX_TRANSPARENT
 CS_FX_DESTALPHAADD = _blcelc.CS_FX_DESTALPHAADD
 CS_FX_SRCALPHAADD = _blcelc.CS_FX_SRCALPHAADD
+CS_FX_MESH = _blcelc.CS_FX_MESH
 CS_FX_KEYCOLOR = _blcelc.CS_FX_KEYCOLOR
 CS_FX_GOURAUD = _blcelc.CS_FX_GOURAUD
 CS_FX_TILING = _blcelc.CS_FX_TILING
@@ -8746,10 +8828,9 @@ class iShaderVariableContext(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iShaderVariableContext, name)
     def AddVariable(*args): return apply(_blcelc.iShaderVariableContext_AddVariable,args)
     def GetVariable(*args): return apply(_blcelc.iShaderVariableContext_GetVariable,args)
-    def GetVariableRecursive(*args): return apply(_blcelc.iShaderVariableContext_GetVariableRecursive,args)
-    def FillVariableList(*args): return apply(_blcelc.iShaderVariableContext_FillVariableList,args)
     def GetVariableAdd(*args): return apply(_blcelc.iShaderVariableContext_GetVariableAdd,args)
-    def GetVariableRecursiveAdd(*args): return apply(_blcelc.iShaderVariableContext_GetVariableRecursiveAdd,args)
+    def PushVariables(*args): return apply(_blcelc.iShaderVariableContext_PushVariables,args)
+    def PopVariables(*args): return apply(_blcelc.iShaderVariableContext_PopVariables,args)
     def __del__(self, destroy= _blcelc.delete_iShaderVariableContext):
         try:
             if self.thisown: destroy(self)
@@ -8988,7 +9069,6 @@ class iTextureManager(iBase):
     def RegisterMaterial(*args): return apply(_blcelc.iTextureManager_RegisterMaterial,args)
     def PrepareMaterials(*args): return apply(_blcelc.iTextureManager_PrepareMaterials,args)
     def FreeMaterials(*args): return apply(_blcelc.iTextureManager_FreeMaterials,args)
-    def SetVerbose(*args): return apply(_blcelc.iTextureManager_SetVerbose,args)
     def GetTextureFormat(*args): return apply(_blcelc.iTextureManager_GetTextureFormat,args)
     def CreateSuperLightmap(*args): return apply(_blcelc.iTextureManager_CreateSuperLightmap,args)
     def GetMaxTextureSize(*args): return apply(_blcelc.iTextureManager_GetMaxTextureSize,args)
@@ -11166,6 +11246,41 @@ csfxScreenDPFX = _blcelc.csfxScreenDPFX
 
 csfxScreenDPFXPartial = _blcelc.csfxScreenDPFXPartial
 
+PIXMAP_TOP = _blcelc.PIXMAP_TOP
+PIXMAP_LEFT = _blcelc.PIXMAP_LEFT
+PIXMAP_CENTER = _blcelc.PIXMAP_CENTER
+PIXMAP_BOTTOM = _blcelc.PIXMAP_BOTTOM
+PIXMAP_RIGHT = _blcelc.PIXMAP_RIGHT
+class csPixmap(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPixmap, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPixmap, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csPixmap, 'this', apply(_blcelc.new_csPixmap,args))
+        _swig_setattr(self, csPixmap, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csPixmap):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def SetTextureHandle(*args): return apply(_blcelc.csPixmap_SetTextureHandle,args)
+    def SetTextureRectangle(*args): return apply(_blcelc.csPixmap_SetTextureRectangle,args)
+    def DrawScaled(*args): return apply(_blcelc.csPixmap_DrawScaled,args)
+    def DrawTiled(*args): return apply(_blcelc.csPixmap_DrawTiled,args)
+    def Width(*args): return apply(_blcelc.csPixmap_Width,args)
+    def Height(*args): return apply(_blcelc.csPixmap_Height,args)
+    def Advance(*args): return apply(_blcelc.csPixmap_Advance,args)
+    def GetTextureHandle(*args): return apply(_blcelc.csPixmap_GetTextureHandle,args)
+    def __repr__(self):
+        return "<C csPixmap instance at %s>" % (self.this,)
+
+class csPixmapPtr(csPixmap):
+    def __init__(self,this):
+        _swig_setattr(self, csPixmap, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPixmap, 'thisown', 0)
+        _swig_setattr(self, csPixmap,self.__class__,csPixmap)
+_blcelc.csPixmap_swigregister(csPixmapPtr)
+
 CS_IS_KEYBOARD_EVENT = _blcelc.CS_IS_KEYBOARD_EVENT
 
 CS_IS_MOUSE_EVENT = _blcelc.CS_IS_MOUSE_EVENT
@@ -11687,7 +11802,7 @@ celGetDynamicSystem = _blcelc.celGetDynamicSystem
 
 scfQuery_iPcDynamicSystem = _blcelc.scfQuery_iPcDynamicSystem
 
-celQueryPC_iPcDynamicSystem = _blcelc.celQueryPC_iPcDynamicSystem
+scfQueryPC_iPcDynamicSystem = _blcelc.scfQueryPC_iPcDynamicSystem
 
 class iPcDynamicBody(iBase):
     __swig_setmethods__ = {}
@@ -11734,7 +11849,7 @@ celGetDynamicBody = _blcelc.celGetDynamicBody
 
 scfQuery_iPcDynamicBody = _blcelc.scfQuery_iPcDynamicBody
 
-celQueryPC_iPcDynamicBody = _blcelc.celQueryPC_iPcDynamicBody
+scfQueryPC_iPcDynamicBody = _blcelc.scfQueryPC_iPcDynamicBody
 
 class iBillboard(iBase):
     __swig_setmethods__ = {}
@@ -11828,7 +11943,7 @@ celGetBillboard = _blcelc.celGetBillboard
 
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
 
-celQueryPC_iPcBillboard = _blcelc.celQueryPC_iPcBillboard
+scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
 
 class iPcRegion(iBase):
     __swig_setmethods__ = {}
@@ -11867,11 +11982,11 @@ _blcelc.iPcRegion_swigregister(iPcRegionPtr)
 
 celCreateRegion = _blcelc.celCreateRegion
 
-celGetRegion = _blcelc.celGetRegion
+Region = _blcelc.Region
 
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
-celQueryPC_iPcRegion = _blcelc.celQueryPC_iPcRegion
+scfQueryPC_iPcRegion = _blcelc.scfQueryPC_iPcRegion
 
 class iPcCommandInput(iBase):
     __swig_setmethods__ = {}
@@ -11903,6 +12018,8 @@ _blcelc.iPcCommandInput_swigregister(iPcCommandInputPtr)
 celCreateCommandInput = _blcelc.celCreateCommandInput
 
 celGetCommandInput = _blcelc.celGetCommandInput
+
+scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
 
 class iPcLinearMovement(iBase):
     __swig_setmethods__ = {}
@@ -11945,6 +12062,8 @@ _blcelc.iPcLinearMovement_swigregister(iPcLinearMovementPtr)
 celCreateLinearMovement = _blcelc.celCreateLinearMovement
 
 celGetLinearMovement = _blcelc.celGetLinearMovement
+
+scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
 
 class iPcCamera(iBase):
     __swig_setmethods__ = {}
@@ -12042,6 +12161,8 @@ celCreateMeshSelect = _blcelc.celCreateMeshSelect
 
 celGetMeshSelect = _blcelc.celGetMeshSelect
 
+scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
+
 class iPcMesh(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -12138,6 +12259,8 @@ _blcelc.iPcSolid_swigregister(iPcSolidPtr)
 celCreateSolid = _blcelc.celCreateSolid
 
 celGetSolid = _blcelc.celGetSolid
+
+scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
 
 class iPcGravity(iBase):
     __swig_setmethods__ = {}
@@ -12300,6 +12423,8 @@ _blcelc.iPcCharacteristics_swigregister(iPcCharacteristicsPtr)
 celCreateCharacteristics = _blcelc.celCreateCharacteristics
 
 celGetCharacteristics = _blcelc.celGetCharacteristics
+
+scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
