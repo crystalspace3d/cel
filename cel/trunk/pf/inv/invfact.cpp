@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "pf/inv/invfact.h"
+#include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
@@ -675,7 +676,7 @@ void celPcCharacteristics::Dump ()
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (inv, iCelPropertyClass);
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (inv, iCelPropertyClass);
     if (pc)
     {
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());

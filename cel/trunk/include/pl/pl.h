@@ -23,6 +23,14 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+SCF_DECLARE_FAST_INTERFACE (iCelPlLayer)
+SCF_DECLARE_FAST_INTERFACE (iCelBlLayer)
+SCF_DECLARE_FAST_INTERFACE (iCelEntity)
+SCF_DECLARE_FAST_INTERFACE (iCelPropertyClass)
+SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
+SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
+SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
+
 struct iCelEntity;
 struct iCelMessage;
 struct iCelPropertyClassFactory;

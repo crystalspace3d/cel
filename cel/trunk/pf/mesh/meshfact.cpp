@@ -110,12 +110,15 @@ public:
     printf ("Remove entity finder\n");
     pcmesh->ClearMesh ();
   }
+  celPcMesh* GetPcMesh () const { return pcmesh; }
   SCF_DECLARE_IBASE_EXT (csObject);
 };
 
 SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
   SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
 SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_DECLARE_FAST_INTERFACE (celEntityFinder)
 
 //---------------------------------------------------------------------------
 
@@ -270,9 +273,23 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   csVector3 isect, end = origin + (vw - origin) * 60;
 
   iMeshWrapper* sel = sector->HitBeam (origin, end, isect, NULL);
+  iObject* sel_obj = sel->QueryObject ();
+  celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (sel_obj, celEntityFinder);
+  iCelEntity* ent = NULL;
+  if (cef)
+  {
+    ent = cef->GetPcMesh ()->GetEntity ();
+    cef->DecRef ();
+  }
   if (sel)
   {
-    printf ("sel:'%s'\n", sel->QueryObject ()->GetName ());
+    printf ("mesh:'%s' entity:'%s'\n", sel_obj->GetName () ? sel_obj->GetName () : "<noname>",
+		    ent ? (ent->GetName () ? ent->GetName () : "<noname>") : "NONE");
+    if (ent)
+    {
+      CS_ASSERT (entity->GetBehaviour () != NULL);
+      entity->GetBehaviour ()->SendMessage ("selectmesh", ent);
+    }
   }
   else
     printf ("NO\n");
