@@ -91,9 +91,11 @@ public:
       { return false; }
     bool Call(const char *name, void **ret, const char *fmt, ...)
       { return false; }
+    bool Call(const char *name, csRef<iString> &ref, const char *fmt, ...)
+      { return false; }
     bool Call(const char *name, csRef<iScriptObject> &ref, const char *fmt, ...)
       { return false; }
-    csPtr<iScriptObject> NewObject(const char *type, const char *fmt, ...) const
+    csRef<iScriptObject> NewObject(const char *type, const char *fmt, ...) 
       { return 0; }
     bool Store(const char *name, int data)
       { return false; }
@@ -101,7 +103,7 @@ public:
       { return false; }
     bool Store(const char *name, double data)
       { return false; }
-    bool Store(const char *name, char *data)
+    bool Store(const char *name, const char *data)
       { return false; }
     bool Store(const char *name, void *data, const char *type)
       { return false; }
@@ -120,6 +122,8 @@ public:
     bool Retrieve(const char *name, void **data, const char *type) const
       { return false; }
     bool Retrieve(const char *name, csRef<iScriptObject> &data) const
+      { return false; }
+    bool Retrieve(const char *name, csRef<iString> &data) const
       { return false; }
     bool GetTruth(const char *name, bool &data) const
       { return false; }
