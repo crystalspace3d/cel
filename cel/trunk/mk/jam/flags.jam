@@ -10,13 +10,12 @@
 rule LinkWith
 {
   local deplibs = [ CreateLibList $(>) ] ;
-  DEPENDS $($(<)_target) : $(deplibs) ;
-  NEEDLIBS on $($(<)_target) += $(deplibs) ;
+  DEPENDS $($(<)_TARGET) : $(deplibs) ;
+  NEEDLIBS on $($(<)_TARGET) += $(deplibs) ;
 
-  if $(USE_PLUGINS) = no && $($(<)_type) = plugin
-      && [ IsElem $(<) : $(STATIC.PLUGINLIST) ]
+  if $($(<)_TYPE) = plugin
   {
-      STATIC.LINKWITH = [ _CreateLibList $(STATIC.LINKWITH) $(>) ] ;
+    $(<)_static.NEEDLIBS += $(>) ;
   }
 }
 
@@ -25,15 +24,20 @@ rule LinkWith
 ##    This rule affects c++ and c compiler flags.
 rule CFlags
 {
-  CCFLAGS on $($(<)_objects) += $(>) ;
-  C++FLAGS on $($(<)_objects) += $(>) ;
+  CCFLAGS on $($(<)_OBJECTS) += $(>) ;
+  C++FLAGS on $($(<)_OBJECTS) += $(>) ;
+
+  if $($(<)_TYPE) = plugin
+  {
+    CFlags $(<)_static : $(>) ;
+  }
 }
 
 ##  LFlags target : flags
 ##    Sets linker flags for a library, plugin or application target
 rule LFlags
 {
-  LINKLIBS on $($(<)_target) += $(>) ;
+  LINKLIBS on $($(<)_TARGET) += $(>) ;
 }
 
 ##  ExternalLibs appname : linkerflags
@@ -48,15 +52,19 @@ rule ExternalLibs
   {
     CFlags $(<) : $($(i).CFLAGS) ;
     LFlags $(<) : $($(i).LFLAGS) ;
-  }
 
-  if $(USE_PLUGINS) = no && $($(<)_type) = plugin 
-     && [ IsElem $(<) : $(STATIC.PLUGINLIST) ]
-  {
-    for i in $(>)
+    if $($(<)_TYPE) = plugin
     {
-      LFLAGS.STATIC += $($(i).LFLAGS) ;
+      $(<)_static.LFLAGS += $($(i).LFLAGS) ;
     }
   }
 }
 
+##  ExtraObjects target : objectfiles
+##    Link additional object files with a target
+rule ExtraObjects
+{
+  EXTRAOBJECTS on $($(<)_TARGET) += $(>) ;
+  Depends $($(<)_TARGET) : $(>) ;
+  Clean $(<)clean : $(>) ;
+}

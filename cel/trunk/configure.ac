@@ -7,25 +7,30 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf
 #----------------------------------------------------------------------------
-AC_INIT([cel], [0.1], [matze@braunis.de])
+AC_INIT([cel], [0.97], [cel-main@lists.sourceforge.net])
+CS_PACKAGEINFO([Crystalspace Entity Layer],
+		[(c)2002,2003 Jorrit Tyberghein and others.],
+		[http://cel.sourceforge.net])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
 
 #----------------------------------------------------------------------------
+# Setup for the configuration header
+#----------------------------------------------------------------------------
+
+# nothing
+
+#----------------------------------------------------------------------------
 # Check for applications
 #----------------------------------------------------------------------------
-AC_PROG_CC
+CS_PROG_CC
 AS_IF([test -z "$CC"],
 	[AC_MSG_ERROR([Couldn't find a usable C compiler.])])
-CS_JAMCONFIG_PROPERTY([CMD.CC], [$CC])
-AC_PROG_CXX
+CS_PROG_CXX
 AS_IF([test -z "$CXX"],
         [AC_MSG_ERROR([Couldn't find a usable C++ compiler.])])
-CS_JAMCONFIG_PROPERTY([CMD.C++], [$CXX])
-
-# we use the c++ compiler for linking
-CS_JAMCONFIG_PROPERTY([CMD.LINK], [AS_ESCAPE([$(CMD.C++)])])
+CS_PROG_LINK
 
 AC_CHECK_PROGS([INSTALL], [install])
 AS_IF([test -n "$INSTALL"], [CS_JAMCONFIG_PROPERTY([CMD.INSTALL], [$INSTALL])])
@@ -52,8 +57,6 @@ CS_PATH_CRYSTAL_JAM(0.97,,
 *** Be also sure that you've either installed CS or set the CRYSTAL var right.
 ]), csgeom csgfx csutil cstool cssys)
 
-CS_CHECK_SCFREG([CS_JAMCONFIG_PROPERTY([CMD.SCFREG], [$SCFREG])])
-
 CS_CHECK_PYTHON
                                                                                 
 #----------------------------------------------------------------------------
@@ -67,13 +70,17 @@ AC_MSG_CHECKING([build mode])
 AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
 AC_MSG_RESULT([$cs_build_mode])
 CS_JAMCONFIG_PROPERTY([MODE], [$cs_build_mode])
+
+#-----------------------------------------------------------------------------
+# Output Installpaths/package info
+#-----------------------------------------------------------------------------
+CS_OUTPUT_INSTALLDIRS
+CS_EMIT_PACKAGEINFO([jam])
                                                                                 
 #----------------------------------------------------------------------------
-# Output generated files.  Also create a Jamfile when compiling outside source
-# directory.
+# Output generated files.  Also create a Jamfile when compiling outside
+# source directory.
 #----------------------------------------------------------------------------
-CS_OUTPUT_INSTALLDIRS
-  
 CS_JAMCONFIG_PROPERTY([JAMCONFIG_READ], [yes])
 CS_JAMCONFIG_OUTPUT([Jamconfig])
 CS_INIT_JAMFILE
