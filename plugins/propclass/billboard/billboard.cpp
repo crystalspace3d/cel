@@ -96,7 +96,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propcount = &propertycount;
 
   propdata[propid_billboardname] = &billboard_name;
-  propdata[propid_materialname] = 0;	//@@@@@@@
+  propdata[propid_materialname] = 0;	// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -106,6 +106,41 @@ celPcBillboard::~celPcBillboard ()
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;
+}
+
+bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_materialname].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetMaterialName (s);
+      return true;
+    }
+    return false;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, s);
+  }
+}
+
+const char* celPcBillboard::GetPropertyString (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_materialname].id)
+  {
+    GetBillboard ();
+    if (billboard)
+      return billboard->GetMaterialName ();
+    return 0;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyString (propertyId);
+  }
 }
 
 #define BILLBOARD_SERIAL 1

@@ -75,6 +75,11 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the materialname property.
+  virtual bool SetProperty (csStringID, const char*);
+  virtual const char* GetPropertyString (csStringID);
+
   struct PcBillboard : public iPcBillboard
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcBillboard);

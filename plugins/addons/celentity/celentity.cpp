@@ -95,14 +95,8 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 	iLoaderContext* ldr_context, iBase* context)
 {
+  // If the context is not a mesh we will create a standalone entity.
   csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
-  if (!mesh)
-  {
-    synldr->ReportError (
-	    "cel.addons.celentity",
-	    node, "The celentity addon can only be used for meshes!");
-    return 0;
-  }
 
   csRef<iCelEntity> ent = pl->CreateEntity ();
   const char* entityname = node->GetAttributeValue ("entityname");
@@ -110,15 +104,19 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   {
     ent->SetName (entityname);
   }
-  else if (mesh->QueryObject()->GetName ())
+  else if (mesh && mesh->QueryObject()->GetName ())
   {
     ent->SetName (mesh->QueryObject ()->GetName ());
   }
 
   iCelPropertyClass* pc;
-  pc = pl->CreatePropertyClass (ent, "pcmesh");
-  csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
-  pcmesh->SetMesh (mesh);
+  if (mesh)
+  {
+    // If we have a mesh we also create a pcmesh property class.
+    pc = pl->CreatePropertyClass (ent, "pcmesh");
+    csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    pcmesh->SetMesh (mesh);
+  }
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())

@@ -27,6 +27,7 @@
         <pcfactory>cel.pcfactory.solid</pcfactory>
         <pcfactory>cel.pcfactory.gravity</pcfactory>
         <pcfactory>cel.pcfactory.movable</pcfactory>
+        <pcfactory>cel.pcfactory.billboard</pcfactory>
         <script name="box">
 	    <event name="init">
 	        <property propclass="pcgravity" name="pcgravity.weight"
@@ -36,6 +37,15 @@
 			params="0,-9.8,0" />
 	    </event>
 	    <event name="pctimer_start">
+	    </event>
+	</script>
+        <script name="bb1">
+	    <event name="init">
+	        <property propclass="pcbillboard" name="pcbillboard.name"
+			string="bb1" />
+	        <property propclass="pcbillboard"
+			name="pcbillboard.materialname"
+			string="wood" />
 	    </event>
 	</script>
     </addon>
@@ -282,6 +292,12 @@
 	        <behaviour name="box" />
 	    </addon>
 	</meshobj>
+
+	<addon plugin="celentity">
+	    <propclass name="pcbillboard" />
+            <behaviour name="bb1" />
+	</addon>
+
         <light>
             <center x="0" y="0" z="0" />
             <radius>40</radius>

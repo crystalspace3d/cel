@@ -103,8 +103,19 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity)
 	  csArray<celXmlArg>& args = op.arg.arg.a->args;
           printf ("property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
 	  fflush (stdout);
-	  resolvers[args[0].arg.pc].pc->SetProperty (
-	  	args[1].arg.id, args[2].arg.f);
+	  switch (args[2].type)
+	  {
+	    case CEL_TYPE_FLOAT:
+	      resolvers[args[0].arg.pc].pc->SetProperty (
+	  	    args[1].arg.id, args[2].arg.f);
+	      break;
+	    case CEL_TYPE_STRING:
+	      resolvers[args[0].arg.pc].pc->SetProperty (
+	  	    args[1].arg.id, args[2].arg.s);
+	      break;
+	    default:
+	      CS_ASSERT (false);
+	  }
 	}
         break;
     }

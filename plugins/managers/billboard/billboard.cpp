@@ -42,7 +42,7 @@ celBillboard::celBillboard ()
   materialname = 0;
   material = 0;
   x = y = 0;
-  w = h = 10;
+  w = h = 40;
 }
 
 celBillboard::~celBillboard ()
@@ -100,14 +100,14 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
   }
   poly.mat_handle = material->GetMaterialHandle ();
   poly.vertices[0].Set (x, y);
-  poly.vertices[1].Set (x+w, y);
+  poly.vertices[1].Set (x, y+h);
   poly.vertices[2].Set (x+w, y+h);
-  poly.vertices[3].Set (x, y+h);
+  poly.vertices[3].Set (x+w, y);
   poly.z[0] = 1;
   poly.z[1] = 1;
   poly.z[2] = 1;
   poly.z[3] = 1;
-  g3d->SetZMode (CS_ZBUF_USE);
+  g3d->SetZMode (CS_ZBUF_FILL);
   g3d->DrawPolygonFX (poly);
 }
 
@@ -181,24 +181,35 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)
 {
-  return 0;
+  celBillboard* bb = new celBillboard ();
+  bb->SetName (name);
+  billboards.Push (bb);
+  billboards_hash.Put (name, bb);
+  return bb;
 }
 
 iBillboard* celBillboardManager::FindBillboard (const char* name) const
 {
-  return 0;
+  return billboards_hash.Get (name);
 }
 
 void celBillboardManager::RemoveBillboard (iBillboard* billboard)
 {
+  billboards.Delete ((celBillboard*)billboard);
+  billboards_hash.Delete (billboard->GetName (), (celBillboard*)billboard);
 }
 
 void celBillboardManager::RemoveAll ()
 {
+  billboards.DeleteAll ();
+  billboards_hash.DeleteAll ();
 }
 
 void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
 {
+  int i;
+  for (i = 0 ; i < billboards.Length () ; i++)
+    billboards[i]->GetFlags ().Set (flags, mask);
 }
 
 //---------------------------------------------------------------------------
