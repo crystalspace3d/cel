@@ -26,17 +26,19 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEntity)
+SCF_IMPLEMENT_IBASE_EXT (celEntity)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntity)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
   SCF_IMPLEMENTS_INTERFACE (iCelEntity)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celEntity::celEntity ()
 {
-  SCF_CONSTRUCT_IBASE (NULL);
-  name = NULL;
-  plist = new celPropertyClassList (this);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
+  plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = NULL;
-  DG_ADDI (this, "celEntity(NONAME)");
   DG_LINK (this, plist);
 }
 
@@ -45,18 +47,6 @@ celEntity::~celEntity ()
   DG_UNLINK (this, plist);
   delete plist;
   if (behaviour) behaviour->DecRef ();
-  delete[] name;
-  DG_REM (this);
-}
-
-void celEntity::SetName (const char* n)
-{
-  DG_DESCRIBE1 (this, "celEntity(%s)", n);
-  delete[] name;
-  if (n)
-    name = csStrNew (n);
-  else
-    name = NULL;
 }
 
 void celEntity::SetBehaviour (iCelBehaviour* ent)

@@ -78,7 +78,7 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 iCelEntity* celPlLayer::CreateEntity ()
 {
   celEntity* entity = new celEntity ();
-  return entity;
+  return &(entity->scfiCelEntity);
 }
 
 iCelMessage* celPlLayer::CreateMessage (const char* msg_string, ...)
