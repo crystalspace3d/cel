@@ -1,3 +1,6 @@
+26-Feb-2003
+	- Matze Braun added configure to cvs and made the check for
+	  CrystalSpace looking for version 0.96 and above
 25-Feb-2003
 	- Matze Braun fixed jam install rules
 11-Feb-2003
