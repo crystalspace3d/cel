@@ -456,6 +456,7 @@ class csVector2(_object):
     def Norm(*args): return _blcelc.csVector2_Norm(*args)
     def SquaredNorm(*args): return _blcelc.csVector2_SquaredNorm(*args)
     def Rotate(*args): return _blcelc.csVector2_Rotate(*args)
+    def IsLeft(*args): return _blcelc.csVector2_IsLeft(*args)
     def __iadd__(*args): return _blcelc.csVector2___iadd__(*args)
     def __isub__(*args): return _blcelc.csVector2___isub__(*args)
     def __imul__(*args): return _blcelc.csVector2___imul__(*args)
