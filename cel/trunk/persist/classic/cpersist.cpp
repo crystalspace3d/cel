@@ -244,7 +244,7 @@ iCelEntity* celPersistClassicContext::FindEntity (CS_ID id)
 iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 {
   /* FIXME: hash is very inefficient used that way, as the range of id is
-   * probably only between 0 and some hundrets
+   * probably only between 0 and some hundreds
    */
   iCelEntity* entity = (iCelEntity*)read_entities.Get (id);
   if (!entity)
