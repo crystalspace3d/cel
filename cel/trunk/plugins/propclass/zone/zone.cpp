@@ -179,6 +179,7 @@ bool celRegion::Load ()
   }
 
   cur_region->Prepare ();
+  engine->PrecacheDraw (cur_region);
 
   // Create entities for all meshes in this region unless there is already
   // an entity for them (an addon may have created them for example).
