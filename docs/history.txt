@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Dec-2003
+	- Jorrit added error reporting to the XML behaviour layer (scripting
+	  module).
+	- Jorrit started a big rework of the XML behaviour layer by using a
+	  powerful expression evaluator and a stack. This allows us to use
+	  expressions and variables everywhere in the scripts.
+	  Not finished and even crashes right now.
 30-Nov-2003
 	- Jorrit made attribute parsing in the XML behaviour layer and 
 	  the celentity addon a bit more efficient.

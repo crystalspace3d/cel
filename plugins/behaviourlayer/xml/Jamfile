@@ -1,6 +1,6 @@
 SubDir TOP plugins behaviourlayer xml ;
 
 Plugin blxml
-	: behave_xml.cpp blxml.cpp behave_xml.h blxml.h xmlscript.cpp xmlscript.h
+	: behave_xml.cpp blxml.cpp behave_xml.h blxml.h xmlscript.cpp xmlscript.h token.cpp token.h
 ;
 

@@ -59,6 +59,12 @@ private:
   	celXmlScript* script);
   bool ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h);
 
+  bool ParseExpression (iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* attrname, const char* name,
+	bool optional);
+  bool ParseExpression (const char*& input, iDocumentNode* child,
+  	celXmlScriptEventHandler* h, const char* name, int stoppri);
+
 public:
   celBlXml (iBase* parent);
   virtual ~celBlXml ();
