@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed all CEL hashes that used const char* as a key.
 	  In CS there is now a new csStrKey that safely makes copies of
 	  the key so that is now used.
+	- Jorrit implemented moving of billboards.
+	- Jorrit added 'movable' and 'visible' properties for pcbillboard.
+	  Also renamed 'events' to 'clickable'.
 23-Nov-2003
 	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
 	  by overriding SetProperty() and GetPropertyString() from

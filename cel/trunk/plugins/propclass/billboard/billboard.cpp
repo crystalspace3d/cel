@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 3;
+    propertycount = 5;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -70,11 +70,23 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_materialname].readonly = false;
     properties[propid_materialname].desc = "Name of material.";
 
-    properties[propid_events].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.events");
-    properties[propid_events].datatype = CEL_DATA_BOOL;
-    properties[propid_events].readonly = false;
-    properties[propid_events].desc = "Enable events.";
+    properties[propid_clickable].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.clickable");
+    properties[propid_clickable].datatype = CEL_DATA_BOOL;
+    properties[propid_clickable].readonly = false;
+    properties[propid_clickable].desc = "Enable mouse events.";
+
+    properties[propid_movable].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.movable");
+    properties[propid_movable].datatype = CEL_DATA_BOOL;
+    properties[propid_movable].readonly = false;
+    properties[propid_movable].desc = "Make movable.";
+
+    properties[propid_visible].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.visible");
+    properties[propid_visible].datatype = CEL_DATA_BOOL;
+    properties[propid_visible].readonly = false;
+    properties[propid_visible].desc = "Make visible.";
   }
 }
 
@@ -105,7 +117,9 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   propdata[propid_billboardname] = &billboard_name;
   propdata[propid_materialname] = 0;	// Handled in this class.
-  propdata[propid_events] = 0;		// Handled in this class.
+  propdata[propid_clickable] = 0;	// Handled in this class.
+  propdata[propid_movable] = 0;		// Handled in this class.
+  propdata[propid_visible] = 0;		// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -120,9 +134,21 @@ celPcBillboard::~celPcBillboard ()
 bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 {
   UpdateProperties (object_reg);
-  if (propertyId == properties[propid_events].id)
+  if (propertyId == properties[propid_clickable].id)
   {
     EnableEvents (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_movable].id)
+  {
+    GetBillboard ();
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_MOVABLE, b);
+    return true;
+  }
+  else if (propertyId == properties[propid_visible].id)
+  {
+    GetBillboard ();
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
     return true;
   }
   else
@@ -134,9 +160,23 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 bool celPcBillboard::GetPropertyBool (csStringID propertyId)
 {
   UpdateProperties (object_reg);
-  if (propertyId == properties[propid_events].id)
+  if (propertyId == properties[propid_clickable].id)
   {
     return AreEventsEnabled ();
+  }
+  else if (propertyId == properties[propid_movable].id)
+  {
+    GetBillboard ();
+    return billboard ?
+    	billboard->GetFlags ().Check (CEL_BILLBOARD_MOVABLE) :
+	false;
+  }
+  else if (propertyId == properties[propid_visible].id)
+  {
+    GetBillboard ();
+    return billboard ?
+    	billboard->GetFlags ().Check (CEL_BILLBOARD_VISIBLE) :
+	false;
   }
   else
   {
@@ -186,9 +226,15 @@ void celPcBillboard::EnableEvents (bool e)
   GetBillboard ();
   if (!billboard) return;
   if (events_enabled)
+  {
     billboard->AddEventHandler (this);
+    billboard->GetFlags ().Set (CEL_BILLBOARD_CLICKABLE);
+  }
   else
+  {
     billboard->RemoveEventHandler (this);
+    billboard->GetFlags ().Reset (CEL_BILLBOARD_CLICKABLE);
+  }
 }
 
 void celPcBillboard::Select (iBillboard* billboard, int mouse_button,

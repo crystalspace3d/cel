@@ -189,6 +189,7 @@ celBillboardManager::celBillboardManager (iBase* parent)
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
+  moving_billboard = 0;
 }
 
 celBillboardManager::~celBillboardManager ()
@@ -220,15 +221,18 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-celBillboard* celBillboardManager::FindBillboard (int x, int y)
+celBillboard* celBillboardManager::FindBillboard (int x, int y,
+	uint32 desired_flags)
 {
   // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
   // @@@ KEEP Z-ORDER IN MIND!
   int i;
   for (i = 0 ; i < billboards.Length () ; i++)
   {
-    if (billboards[i]->In (x, y))
-      return billboards[i];
+    csFlags& f = billboards[i]->GetFlags ();
+    if (f.Check (CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE))
+      if (billboards[i]->In (x, y))
+        return billboards[i];
   }
   return 0;
 }
@@ -250,28 +254,55 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       break;
     case csevMouseUp:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+        if (moving_billboard)
+	{
+	  moving_billboard->SetPosition (ev.Mouse.x + moving_dx,
+	  	ev.Mouse.y + moving_dy);
+	  moving_billboard = 0;
+	}
+
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
+		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
 	  bb->FireMouseUp (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
       }
       break;
     case csevMouseDown:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
+		CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE);
 	if (bb)
-	  bb->FireMouseDown (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+	{
+	  if (bb->GetFlags ().Check (CEL_BILLBOARD_MOVABLE))
+	  {
+	    moving_billboard = bb;
+	    bb->GetPosition (moving_dx, moving_dy);
+	    moving_dx -= ev.Mouse.x;
+	    moving_dy -= ev.Mouse.y;
+	  }
+	  if (bb->GetFlags ().Check (CEL_BILLBOARD_CLICKABLE))
+	    bb->FireMouseDown (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+        }
       }
       break;
     case csevMouseMove:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+        if (moving_billboard)
+	{
+	  moving_billboard->SetPosition (ev.Mouse.x + moving_dx,
+	  	ev.Mouse.y + moving_dy);
+	}
+
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
+		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
 	  bb->FireMouseMove (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
       }
       break;
     case csevMouseDoubleClick:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
+		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
 	  bb->FireMouseDoubleClick (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
       }
@@ -298,12 +329,14 @@ void celBillboardManager::RemoveBillboard (iBillboard* billboard)
 {
   billboards.Delete ((celBillboard*)billboard);
   billboards_hash.Delete (billboard->GetName (), (celBillboard*)billboard);
+  if (billboard == moving_billboard) moving_billboard = 0;
 }
 
 void celBillboardManager::RemoveAll ()
 {
   billboards.DeleteAll ();
   billboards_hash.DeleteAll ();
+  moving_billboard = 0;
 }
 
 void celBillboardManager::SetFlags (uint32 flags, uint32 mask)

@@ -56,7 +56,9 @@ private:
   {
     propid_billboardname = 0,
     propid_materialname,
-    propid_events
+    propid_clickable,
+    propid_movable,
+    propid_visible
   };
 
   static Property* properties;
