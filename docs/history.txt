@@ -18,6 +18,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a memory leak in the pczonemanager property class.
 	  It was keeping a real ref to the physical layer. Changed to a
 	  weak ref.
+	- Jorrit removed the obsolete pczonemanager callback system.
+	  The proper way is now to listen to pczonemanager_addregion and
+	  pczonemanager_remregion.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

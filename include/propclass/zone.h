@@ -27,28 +27,7 @@
 struct iSector;
 struct iPcCamera;
 struct iPcMesh;
-struct iCelRegion;
 struct iCelEntity;
-
-SCF_VERSION (iCelZoneCallback, 0, 1, 0);
-
-/**
- * This callback is useful if you want to know when some region is
- * loaded or unloaded. This can be used if you want to create entities
- * in some region and later remove them when the region is removed too.
- */
-struct iCelZoneCallback : public iBase
-{
-  /**
-   * This is called right after a region has been loaded.
-   */
-  virtual void RegionLoaded (iCelRegion* region) = 0;
-
-  /**
-   * This is called right before a region will be unloaded.
-   */
-  virtual void RegionUnloaded (iCelRegion* region) = 0;
-};
 
 SCF_VERSION (iCelMapFile, 0, 1, 0);
 
@@ -210,16 +189,6 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
  */
 struct iPcZoneManager : public iBase
 {
-  /**
-   * Add a callback to listen to region loading/unloading events.
-   */
-  virtual void AddZoneCallback (iCelZoneCallback* cb) = 0;
-
-  /**
-   * Remove a callback to listen to region loading/unloading events.
-   */
-  virtual void RemoveZoneCallback (iCelZoneCallback* cb) = 0;
-
   /**
    * Create a zone.
    */

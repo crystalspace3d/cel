@@ -199,7 +199,6 @@ private:
   csRef<cameraSectorListener> camlistener;
   csWeakRef<iPcCamera> pccamera;
 
-  csRefArray<iCelZoneCallback> callbacks;
   csRefArray<celZone> zones;
   csRefArray<celRegion> regions;
 
@@ -233,9 +232,7 @@ public:
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
 
-  void AddZoneCallback (iCelZoneCallback* cb);
-  void RemoveZoneCallback (iCelZoneCallback* cb);
-  void FireZoneCallbacks (iCelRegion* region, bool load);
+  void SendZoneMessage (iCelRegion* region, const char* msgid);
 
   iCelZone* CreateZone (const char* name);
   size_t GetZoneCount () const { return zones.Length (); }
@@ -259,14 +256,6 @@ public:
   struct PcZoneManager : public iPcZoneManager
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcZoneManager);
-    virtual void AddZoneCallback (iCelZoneCallback* cb)
-    {
-      scfParent->AddZoneCallback (cb);
-    }
-    virtual void RemoveZoneCallback (iCelZoneCallback* cb)
-    {
-      scfParent->RemoveZoneCallback (cb);
-    }
     virtual iCelZone* CreateZone (const char* name)
     {
       return scfParent->CreateZone (name);
