@@ -62,12 +62,89 @@ private:
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcCamera> pccamera;
+
+  bool checked_spritestate;
   csWeakRef<iSpriteCal3DState> sprcal3d;
   csWeakRef<iSprite3DState> spr3d;
+
+  float movement_speed;
+  float running_speed;
+  float rotating_speed;
+  float jumping_velocity;
+  bool forward;
+  bool backward;
+  bool strafeleft;
+  bool straferight;
+  bool rotateleft;
+  bool rotateright;
+  bool running;
+  bool autorun;
+
+  void HandleMovement (bool jump);
+  void FindSiblingPropertyClasses ();
+  void GetSpriteStates ();
 
 public:
   celPcActorMove (iObjectRegistry* object_reg);
   virtual ~celPcActorMove ();
+
+  void Forward (bool start)
+  {
+    forward = start;
+    HandleMovement (false);
+  }
+  void Backward (bool start)
+  {
+    backward = start;
+    HandleMovement (false);
+  }
+  void StrafeLeft (bool start)
+  {
+    strafeleft = start;
+    HandleMovement (false);
+  }
+  void StrafeRight (bool start)
+  {
+    straferight = start;
+    HandleMovement (false);
+  }
+  void RotateLeft (bool start)
+  {
+    rotateleft = start;
+    HandleMovement (false);
+  }
+  void RotateRight (bool start)
+  {
+    rotateright = start;
+    HandleMovement (false);
+  }
+  void Run (bool start)
+  {
+    if (!autorun) running = start;
+    HandleMovement (false);
+  }
+  void AutoRun (bool start)
+  {
+    autorun = start;
+    HandleMovement (false);
+  }
+  void Jump ()
+  {
+    HandleMovement (true);
+  }
+  void ToggleCameraMode ();
+
+  void SetMovementSpeed (float speed) { movement_speed = speed; }
+  float GetMovementSpeed () const { return movement_speed; }
+
+  void SetRotationSpeed (float speed) { rotating_speed = speed; }
+  float GetRotationSpeed () const { return rotating_speed; }
+
+  void SetRunningSpeed (float speed) { running_speed = speed; }
+  float GetRunningSpeed () const { return running_speed; }
+
+  void SetJumpingVelocity (float speed) { jumping_velocity = speed; }
+  float GetJumpingVelocity () const { return jumping_velocity; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -78,6 +155,82 @@ public:
   struct PcActorMove : public iPcActorMove
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcActorMove);
+    virtual void Forward (bool start)
+    {
+      scfParent->Forward (start);
+    }
+    virtual void Backward (bool start)
+    {
+      scfParent->Backward (start);
+    }
+    virtual void StrafeLeft (bool start)
+    {
+      scfParent->StrafeLeft (start);
+    }
+    virtual void StrafeRight (bool start)
+    {
+      scfParent->StrafeRight (start);
+    }
+    virtual void RotateLeft (bool start)
+    {
+      scfParent->RotateLeft (start);
+    }
+    virtual void RotateRight (bool start)
+    {
+      scfParent->RotateRight (start);
+    }
+    virtual void Run (bool start)
+    {
+      scfParent->Run (start);
+    }
+    virtual void AutoRun (bool start)
+    {
+      scfParent->AutoRun (start);
+    }
+    virtual void Jump ()
+    {
+      scfParent->Jump ();
+    }
+    virtual void ToggleCameraMode ()
+    {
+      scfParent->ToggleCameraMode ();
+    }
+
+    virtual void SetMovementSpeed (float speed)
+    {
+      scfParent->SetMovementSpeed (speed);
+    }
+    virtual float GetMovementSpeed () const
+    {
+      return scfParent->GetMovementSpeed ();
+    }
+
+    virtual void SetRotationSpeed (float speed)
+    {
+      scfParent->SetRotationSpeed (speed);
+    }
+    virtual float GetRotationSpeed () const
+    {
+      return scfParent->GetRotationSpeed ();
+    }
+
+    virtual void SetRunningSpeed (float speed)
+    {
+      scfParent->SetRunningSpeed (speed);
+    }
+    virtual float GetRunningSpeed () const
+    {
+      return scfParent->GetRunningSpeed ();
+    }
+
+    virtual void SetJumpingVelocity (float speed)
+    {
+      scfParent->SetJumpingVelocity (speed);
+    }
+    virtual float GetJumpingVelocity () const
+    {
+      return scfParent->GetJumpingVelocity ();
+    }
   } scfiPcActorMove;
 };
 
