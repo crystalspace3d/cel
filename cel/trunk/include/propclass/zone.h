@@ -196,6 +196,11 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
  * A region can be in multiple zones. In that case if you are in some region
  * then all zones that contain that region will be in memory,
  * The representation of a region.
+ * This property class sends out messages with the following supported
+ * parameters (add prefix 'cel.parameter.' to get the ID):
+ * <ul>
+ * <li>region
+ * </ul>
  */
 struct iPcZoneManager : public iBase
 {

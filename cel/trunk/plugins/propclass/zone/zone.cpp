@@ -303,6 +303,8 @@ bool celZone::ContainsRegion (celRegion* region)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcZoneManager::id_region = csInvalidStringID;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -319,12 +321,20 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+
+  if (id_region == csInvalidStringID)
+  {
+    id_region = pl->FetchStringID ("cel.parameter.region");
+  }
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_region, "region");
 }
 
 celPcZoneManager::~celPcZoneManager ()
 {
   // Unload everything.
   ActivateRegion (0);
+  delete params;
 }
 
 #define ZONEMANAGER_SERIAL 1
@@ -373,6 +383,13 @@ void celPcZoneManager::RemoveZoneCallback (iCelZoneCallback* cb)
 
 void celPcZoneManager::FireZoneCallbacks (iCelRegion* region, bool load)
 {
+  params->GetParameter (0).SetIBase (region);
+  celData ret;
+  entity->GetBehaviour ()->SendMessage (
+	load ? "pczonemanager_addregion" : "pczonemanager_remregion",
+	ret, params);
+
+  // @@@ Below is soon obsolete.
   size_t i;
   for (i = 0 ; i < callbacks.Length () ; i++)
   {
