@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+11-Jul-2004
+	- Jorrit added the ability for the pcspawn property class to
+	  also send an initialization message with parameters to the
+	  behaviour of the new entity.
+	- Jorrit raised the version check for Crystal Space in configure
+	  from 0.97 to 0.99 since CEL now requires latest CVS of CS
+	  again.
 10-Jul-2004
 	- Jorrit started working on the new pcspawn property class. This
 	  property class is responsible for spawning new entities at

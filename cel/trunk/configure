@@ -4053,7 +4053,7 @@ fi
 
 if test "x$no_cs" = "x"
 then
-    min_cs_version=0.97
+    min_cs_version=0.99
     echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
 

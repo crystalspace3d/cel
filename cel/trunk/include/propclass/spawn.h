@@ -59,12 +59,17 @@ struct iPcSpawn : public iBase
    *        being selected (only relevant if 'random' selection is
    *        being used).
    * \param name is the name of the entity that will be created.
-   * \param bl is the behaviour layer.
-   * \param behaviour is the name of the behaviour.
+   * \param bl is the behaviour layer (can be 0).
+   * \param behaviour is the name of the behaviour (can be 0).
+   * \param msg_id if not 0 then we immediatelly send this message
+   *        to the behaviour of the new entity after creating it.
+   * \param params is the parameter block that is used to send the
+   *        message (can be 0).
    * \param ... is a list of property class names.
    */
   virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, ...) = 0;
+		  const char* behaviour, const char* msg_id,
+		  iCelParameterBlock* params, ...) = 0;
   /**
    * Clear the list of entities to create.
    */
