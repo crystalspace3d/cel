@@ -66,6 +66,7 @@ enum
   XMLTOKEN_INVENTORY_ADD,
   XMLTOKEN_INVENTORY_REM,
   XMLTOKEN_SOUND,
+  XMLTOKEN_SUPER,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -141,6 +142,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
   xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
   xmltokens.Register ("sound", XMLTOKEN_SOUND);
+  xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -855,6 +857,36 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  return false;
 	h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
 	break;
+      case XMLTOKEN_SUPER:
+        {
+	  celXmlScript* superscript = script->GetSuperScript ();
+	  if (!superscript)
+	  {
+	    synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"This script has no superscript!");
+	    return false;
+	  }
+	  celXmlScriptEventHandler* handler = superscript->GetEventHandler (
+	  	h->GetName ());
+	  while (!handler)
+	  {
+	    superscript = superscript->GetSuperScript ();
+	    if (!superscript) break;
+	    handler = superscript->GetEventHandler (h->GetName ());
+	  }
+	  if (!handler)
+	  {
+	    synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"The superscript has no method called '%s'!",
+		h->GetName ());
+	    return false;
+	  }
+	  h->AddOperation (CEL_OPERATION_CALLI);
+	  h->GetArgument ().SetEventHandlers (handler, 0);
+	}
+        break;
       case XMLTOKEN_CALL:
         {
 	  const char* entname = child->GetAttributeValue ("entity");

@@ -1999,6 +1999,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->GetBehaviour ()->SendMessage (eventname, 0);
 	}
         break;
+      case CEL_OPERATION_CALLI:
+        {
+	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
+	  CS_ASSERT (handler != 0);
+	  DUMP_EXEC (":%04d: calli %s\n", i-1, handler->GetName ());
+	  handler->Execute (entity, behave, params);
+	}
+        break;
       case CEL_OPERATION_CALL:
         {
 	  CHECK_STACK
