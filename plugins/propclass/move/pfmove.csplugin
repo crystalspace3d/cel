@@ -44,6 +44,14 @@
 	</requires>
       </class>
       <class>
+	<name>cel.pcfactory.colldet</name>
+	<implementation>celPfCollisionDetection</implementation>
+	<description>CEL Collision Detection Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
 	<name>cel.pcfactory.graph</name>
 	<implementation>celPfNavGraph</implementation>
 	<description>CEL Navigation Graph</description>

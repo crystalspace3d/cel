@@ -142,6 +142,9 @@ copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\move\colldet.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\move\linmove.h">
 			</File>
 			<File
@@ -170,6 +173,9 @@ copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\move\colldet.cpp">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\linmove.cpp">
 			</File>
