@@ -1,0 +1,66 @@
+Give property classes names so you can distinguish between
+property classes with same interface but different purpose. [ok]
+
+Implement iPcMovable and iPcMovableConstraint. An iPcMovable
+will be able to have pointers to several constraints.
+Implement iPcMeshSelect so it moves the mesh through
+the iPcMovable if present (if not present use iPcMesh
+directly). Note that a constraint can allow a particular
+move operation, disallow a move, or partly allow a
+move (for example is an obstacle if half-way in
+the desired movement vector). [ok]
+
+Implement iPcInventoryConstraints for behaviour/game-defined
+constraints in inventory system. [ok]
+
+Allow SendMessage() to return a result from behaviour
+to property class (i.e. in order to implement constraints
+for example). 
+
+Implement iPcSolid for collision detection. One of the
+iPcMovableConstraint implementations can use this to
+constrain movement according to collision detection rules. [ok]
+
+iPcSolid can also be used by a iPcForce property class
+which will implement a force based physics system. [ok]
+
+Add the ability to all property classes to explicitely
+set target/companion property classes (i.e. set the mesh to
+use together with mesh select and so on).
+
+Think about the issue with property classes refering
+to other property classes that might get deleted...
+How do we clean that up? iPcMovable currently keeps
+a reference incremented.
+
+Create an introspection like interface with Get/Set
+attributes for all property classes to making scripting
+easier.
+
+Add more optional messages to the behaviour from property
+classes so that more control is possible.
+
+Maybe add SetEntity() to iCelBehaviour so that SetBehaviour
+can set it automatic? [ok]
+
+Let pcsolid support more than one collider? Probably better.
+
+Implement movement through portals in pcmovable.
+
+IMPORTANT: unique names for entities! Can we assume current
+name of entities are unique? Unique name generator. solved with IDs [ok]
+IMPORTANT: Consider class names for entities in addition to
+names? i.e. name: "small box", class: "box". [we'll not do that]
+
+Add support for KEY/VALUE system for placement of entities.
+
+Use reporter to report error conditions (especially in persistance
+layer). [ok]
+
+Save sector position in pccamera. [ok]
+
+pcinput_... to pckeyinput_... messages... [ok]
+
+fix persistance layer when loading entities or property classes that are
+referenced multiple times.
+

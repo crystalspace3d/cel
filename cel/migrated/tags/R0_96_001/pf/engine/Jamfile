@@ -1,0 +1,6 @@
+SubDir TOP pf engine ;
+
+Plugin pfengine
+	: engfact.cpp ../common/stdpcimp.cpp
+;
+

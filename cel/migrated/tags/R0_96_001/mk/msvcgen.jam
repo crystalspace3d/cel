@@ -1,0 +1,84 @@
+SUFPRJ = .dsp ;
+SUFWSP = .dsw ;
+MSVCGEN = $(TOP)/mk/msvcgen.pl ;
+MSVCGENTEMPLATEDIR = $(TOP)/mk/msvctemp ;
+MSVCOUTPUT = $(TOP)/mk/visualc ;
+
+NotFile msvcgen ;
+Depends msvcgen : $(MSVCOUTPUT:G=dir) ;
+MkDir $(MSVCOUTPUT:G=dir) ;
+Clean msvcclen : $(MSVCOUTPUT:G=dir) ;
+
+Depends cvsclean : msvcclean ;
+
+rule MSVCWorkspace
+{
+	WSPFILE = $(MSVCOUTPUT)/$(<:S=$(SUFWSP)) ;
+
+	Depends msvcgen : $(WSPFILE) ;
+	FRAGFILES = $(>) $(>).pji $(>).dpi $(>).cfi ;
+	Depends $(WSPFILE) : $(FRAGFILES) ;
+	MsvcWorkspaceGen $(WSPFILE) : $(>) ;
+
+	RmTemps $(FRAGFILES) ;
+}
+rule MSVCApplication
+{
+	PRJFILE = $(MSVCOUTPUT)/$(<:S=$(SUFPRJ)) ;
+	FILES = $(SEARCH_SOURCE)/$(>) ;
+	PRJNAME on $(PRJFILE) = $(<) ;
+	
+	TARGET on $(PRJFILE) = $(<:S=.exe) ;
+	TYPE on $(PRJFILE) = appcon ;
+
+	FRAGMENTFILE = $(MSVCOUTPUT)/$(<:S=.frag) ;
+	FRAGMENT on $(PRJFILE) = $(FRAGMENTFILE) ;
+	Depends $(FRAGMENTFILE) : $(PRJFILE) ;
+		
+	Depends msvcgen : $(PRJFILE) ;
+	Depends $(PRJFILE) : $(FILES) ;
+	Always $(PRJFILE) ;
+	MsvcProjectGen $(PRJFILE) : $(FILES) ;
+
+	MSVCWorkspace $(PROJECTID)all : $(FRAGMENTFILE) ;
+
+	Clean msvcclean : $(PRJFILE) ;
+}
+rule MSVCPlugin
+{
+	PRJFILE = $(MSVCOUTPUT)/$(<:S=$(SUFPRJ)) ;
+	FILES = $(SEARCH_SOURCE)/$(>) ;
+	PRJNAME on $(PRJFILE) = $(<) ;
+	
+	TARGET on $(PRJFILE) = $(<:S=.dll) ;
+	TYPE on $(PRJFILE) = plugin ;
+
+	FRAGMENTFILE = $(MSVCOUTPUT)/$(<:S=.frag) ;
+	FRAGMENT on $(PRJFILE) = $(FRAGMENTFILE) ;
+	Depends $(FRAGMENTFILE) : $(PRJFILE) ;
+		
+	Depends msvcgen : $(PRJFILE) ;
+	Depends $(PRJFILE) : $(FILES) ;
+	Always $(PRJFILE) ;
+	MsvcProjectGen $(PRJFILE) : $(FILES) ;
+
+	MSVCWorkspace $(PROJECTID)all : $(FRAGMENTFILE) ;
+
+	Clean msvcclean : $(PRJFILE) ;
+}
+
+actions MsvcProjectGen
+{
+	$(MSVCGEN) --quiet --project \
+	--template=$(TYPE) --template-dir=$(MSVCGENTEMPLATEDIR) \
+	--name=$(PRJNAME) --fragment=$(FRAGMENT) --target=$(TARGET) \
+	--output=$(<) --projext=$(SUFPRJ) $(>)
+}
+actions together MsvcWorkspaceGen
+{
+	$(MSVCGEN) --quiet --workspace \
+	--projext=$(SUFPRJ) --wsext=$(SUFWSP) \
+	--template-dir=$(MSVCGENTEMPLATEDIR) \
+	--output=$(<) $(>)
+}
+

@@ -1,0 +1,13 @@
+SubDir TOP blpython ;
+
+# XXX: Need to add swig support to jamrules...
+if $(PYTHON_LIBS) != ""
+{
+	SubDirC++Flags $(PYTHON_CFLAGS) ;
+	Plugin blpython
+		: blcel.cpp blpython.cpp pytocel.cpp
+		:
+		: $(PYTHON_LIBS)
+	;
+}
+
