@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-May-2004
+	- res updated the msvcgen stuff from CS repository.
 17-May-2004
 	- Eric Sunshine updated msvcgen.pl and msvcgen.jam from the master
 	  copies in CS, and also grabbed new msvcgen template files from
