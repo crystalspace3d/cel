@@ -29,8 +29,12 @@
 #include "pl/propfact.h"
 #include "pf/move.h"
 #include "pf/solid.h"
+#include "pf/gravity.h"
 
+struct iVirtualClock;
+struct iCelPlLayer;
 struct iCelEntity;
+struct iCelEntityList;
 struct iCollideSystem;
 class csVector3;
 
@@ -51,7 +55,7 @@ public:
 
   virtual const char* GetName () const { return "pfmove"; }
   virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 3; }
+  virtual int GetTypeCount () const { return 4; }
   virtual const char* GetTypeName (int idx) const;
 
   struct Component : public iComponent
@@ -79,6 +83,7 @@ public:
   void SetMesh (iPcMesh* mesh);
   iPcMesh* GetMesh ();
   int Move (iSector* sector, const csVector3& pos);
+  int Move (const csVector3& relpos);
   void AddConstraint (iPcMovableConstraint* constraint);
   void RemoveConstraint (iPcMovableConstraint* constraint);
   void RemoveAllConstraints ();
@@ -104,6 +109,10 @@ public:
     {
       return scfParent->Move (sector, pos);
     }
+    virtual int Move (const csVector3& relpos)
+    {
+      return scfParent->Move (relpos);
+    }
     virtual void AddConstraint (iPcMovableConstraint* constraint)
     {
       scfParent->AddConstraint (constraint);
@@ -126,9 +135,9 @@ class celPcSolid : public iCelPropertyClass
 {
 private:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
   iPcMesh* pcmesh;
   iCollider* collider;
-  iObjectRegistry* object_reg;
 
 public:
   celPcSolid (iObjectRegistry* object_reg);
@@ -191,6 +200,119 @@ public:
       return scfParent->CheckMove (sector, start, end, pos);
     }
   } scfiPcMovableConstraint;
+};
+
+/**
+ * This is a gravity property class.
+ */
+class celPcGravity : public iCelPropertyClass
+{
+private:
+  iCelEntity* entity;
+  iObjectRegistry* object_reg;
+  iPcMovable* pcmovable;
+  iPcSolid* pcsolid;
+  iCollider* gravity_collider;
+  iCollideSystem* cdsys;
+  iCelPlLayer* pl;
+  iVirtualClock* vc;
+  float weight;
+
+  bool on_ground;
+  csVector3 accel, speed;
+  csVector3 grav_speed;
+  float force_time;
+
+  bool HandleForce (float delta_t, iCollider* this_collider,
+    iCelEntityList* cd_list, csVector3& force);
+  void SetOnGround (bool og);
+
+public:
+  celPcGravity (iObjectRegistry* object_reg);
+  virtual ~celPcGravity ();
+  bool HandleEvent (iEvent& ev);
+
+  void CreateGravityCollider (iPcMesh* mesh);
+  void CreateGravityCollider (const csVector3& dim,
+  	const csVector3& offs);
+  iCollider* GetGravityCollider () { return gravity_collider; }
+  void SetMovable (iPcMovable* movable);
+  iPcMovable* GetMovable ();
+  void SetSolid (iPcSolid* solid);
+  iPcSolid* GetSolid ();
+  void SetWeight (float w) { weight = w; }
+  float GetWeight () const { return weight; }
+  void ClearForces ();
+  void ApplyForce (const csVector3& force, float time);
+  bool IsOnGround () const { return on_ground; }
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return "pcgravity"; }
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
+
+  struct PcGravity : public iPcGravity
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcGravity);
+    virtual void CreateGravityCollider (iPcMesh* mesh)
+    {
+      scfParent->CreateGravityCollider (mesh);
+    }
+    virtual void CreateGravityCollider (const csVector3& dim,
+  	const csVector3& offs)
+    {
+      scfParent->CreateGravityCollider (dim, offs);
+    }
+    virtual iCollider* GetGravityCollider ()
+    {
+      return scfParent->GetGravityCollider ();
+    }
+    virtual void SetMovable (iPcMovable* movable)
+    {
+      scfParent->SetMovable (movable);
+    }
+    virtual iPcMovable* GetMovable ()
+    {
+      return scfParent->GetMovable ();
+    }
+    virtual void SetSolid (iPcSolid* solid)
+    {
+      scfParent->SetSolid (solid);
+    }
+    virtual iPcSolid* GetSolid ()
+    {
+      return scfParent->GetSolid ();
+    }
+    virtual void SetWeight (float w)
+    {
+      scfParent->SetWeight (w);
+    }
+    virtual float GetWeight () const
+    {
+      return scfParent->GetWeight ();
+    }
+    virtual void ClearForces ()
+    {
+      scfParent->ClearForces ();
+    }
+    virtual void ApplyForce (const csVector3& force, float time)
+    {
+      scfParent->ApplyForce (force, time);
+    }
+    virtual bool IsOnGround () const
+    {
+      return scfParent->IsOnGround ();
+    }
+  } scfiPcGravity;
+  struct EventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcGravity);
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return scfParent->HandleEvent (ev);
+    }
+  } scfiEventHandler;
 };
 
 #endif // __CEL_PF_MOVEFACT__

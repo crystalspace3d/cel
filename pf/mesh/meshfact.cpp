@@ -404,7 +404,6 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     CS_ASSERT (pcmesh != NULL);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
     CS_ASSERT (mesh != NULL);
-    iSector* sector = mesh->GetMovable ()->GetSectors ()->Get (0);
     csVector3 mp = mesh->GetMovable ()->GetPosition ();
 
     csVector3 v0, v1;
@@ -426,9 +425,14 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (drag_normal_camera)
         isect = camera->GetTransform ().This2Other (isect);
       if (pcmovable)
-        pcmovable->Move (sector, isect);
+      {
+        pcmovable->Move (isect-mp);
+      }
       else
+      {
+        iSector* sector = mesh->GetMovable ()->GetSectors ()->Get (0);
         pcmesh->MoveMesh (sector, isect);
+      }
     }
 
     if (pcmovable) pcmovable->DecRef ();

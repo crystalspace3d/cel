@@ -30,15 +30,13 @@ struct iObjectRegistry;
 struct iEvent;
 struct iSector;
 struct iView;
+class csVector3;
 
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
-
-#define OBJ_SPARKBOX "sparkbox"
-#define OBJ_MARBLEBOX "marblebox"
 
 class CelTest
 {
@@ -55,6 +53,12 @@ private:
   iCelPlLayer* pl;
   iCelBlLayer* bl;
   iCelEntity* game;
+  iCelPropertyClassFactory* pftest;
+  iCelPropertyClassFactory* pfmesh;
+  iCelPropertyClassFactory* pfinv;
+  iCelPropertyClassFactory* pfmove;
+  iCelPropertyClassFactory* pftools;
+  iCelPropertyClassFactory* pfengine;
  
   static bool CelTestEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
@@ -65,8 +69,15 @@ private:
   iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
   iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
   	iCelPropertyClassFactory* pf, const char* name);
-  void CreateObject (int x, int y, int z, const char* obj);
   bool CreateRoom ();
+  iCelEntity* CreateBoxEntity (const char* name, const char* factName,
+  	float weight, float size,
+	float max_indiv_weight, float max_weight,
+	float max_indiv_size, float max_size,
+  	const csVector3& pos);
+  iCelEntity* CreateDummyEntity (const char* name, const char* factName,
+  	float weight, float size,
+  	const csVector3& pos, const csVector3& force);
 
 public:
   CelTest ();

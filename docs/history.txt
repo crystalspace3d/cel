@@ -1,3 +1,25 @@
+6-Nov-2001:
+	- Started work on 'pcgravity' property class (in 'pfmove' factory).
+	  This property class is an almost exact copy of the movable property
+	  class from Dreams Eternal. It implements primitive gravity
+	  for objects. It also has an ApplyForce so you can apply a force
+	  in any direction.
+	- Added 'Move' to iPcMovable which will do a relative move.
+	  This routine will also correctly update the current sector if
+	  a portal is traversed.
+	- Cleaned up celtest a little.
+	- Right clicking on a box opens/closes it (that was already the
+	  case yesterday). If you now right-click on the box to open it
+	  all objects that are in the box will jump out (using a force
+	  and gravity).
+	- Added a timer property class to 'pftools'. The message
+	  'timer_wakeup' will be sent to the Behaviour.
+	- The timer is now used by the box so that the entities in the box
+	  are thrown out of the box one by one. Gives a nice effect :-)
+	- Added a few more objects and boxes to celtest.
+	- Note that gravity is not perfect yet. It is rather easy to get
+	  everything stuck. It would be nice to have the ability to push
+	  objects while dragging them.
 5-Nov-2001:
 	- Added a box mesh object for celtest.
 	- Made four dummy objects visible. Changed selection code in

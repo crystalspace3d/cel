@@ -54,7 +54,20 @@ struct iPcMovable : public iBase
   virtual iPcMesh* GetMesh () = 0;
 
   /**
-   * Move object while checking constraints.
+   * Move object while checking constraints. This routine will ignore
+   * the previous position and will just check if it is possible
+   * to move to the given position.
+   * Returns:
+   * <ul>
+   * <li>CEL_MOVE_FAIL: if no movement was possible.
+   * <li>CEL_MOVE_SUCCEED: if movement was possible.
+   * </ul>
+   */
+  virtual int Move (iSector* sector, const csVector3& pos) = 0;
+
+  /**
+   * Relative move. Check constraints too. This function will correctly
+   * update the current sector if a portal is traversed.
    * Returns:
    * <ul>
    * <li>CEL_MOVE_FAIL: if no movement was possible.
@@ -62,7 +75,7 @@ struct iPcMovable : public iBase
    * <li>CEL_MOVE_PARTIAL: if object could move partially.
    * </ul>
    */
-  virtual int Move (iSector* sector, const csVector3& pos) = 0;
+  virtual int Move (const csVector3& relpos) = 0;
 
   /**
    * Add a constraint.
@@ -96,9 +109,13 @@ struct iPcMovableConstraint : public iBase
    * <li>CEL_MOVE_PARTIAL: if object can move partially.
    * </ul>
    * 'pos' will contain the final position that this constraint
-   * considered valid.
+   * considered valid.<br>
+   * Note! If 'from' and 'to' are equal then it is only checked
+   * if the object can be put on the specified position. In that
+   * case this routine will never return CEL_MOVE_PARTIAL.
    */
-  virtual int CheckMove (iSector* sector, const csVector3& from, const csVector3& to, csVector3& pos) = 0;
+  virtual int CheckMove (iSector* sector, const csVector3& from,
+  	const csVector3& to, csVector3& pos) = 0;
 };
 
 #endif // __CEL_PF_MOVE__
