@@ -128,6 +128,14 @@ int celPcLinearMovement::num_our_cd;
  */
 #define ABS_MAX_FREEFALL_VELOCITY 107.3f
 
+
+/*
+ * This value is a default value to define the part of the mesh used a
+ * body and leg in collision detection
+ */
+#define BODY_LEG_FACTOR 0.6f
+
+
 //----------------------------------------------------------------------------
 
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
@@ -172,6 +180,12 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     id_legs = pl->FetchStringID ("cel.parameter.legs");
     id_offset = pl->FetchStringID ("cel.parameter.offset");
   }
+
+  /*
+   * Initialize bouding box parameters to detect if they have been
+   * loaded or not
+   */
+  topSize.Set(0, 0, 0);
 
   pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 }
@@ -655,6 +669,21 @@ void celPcLinearMovement::TickEveryFrame ()
 
 bool celPcLinearMovement::InitCD (iPcCollisionDetection *pc_cd)
 {
+  FindSiblingPropertyClasses ();
+  if (topSize.IsZero () && pcmesh)
+    {
+      csRef<iMeshWrapper> meshWrapper = pcmesh->GetMesh ();
+      if (meshWrapper)
+	{
+	  csBox3 worldBoundingBox;
+	  meshWrapper->GetWorldBoundingBox (worldBoundingBox);
+	  topSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
+	  topSize.y = topSize.y * BODY_LEG_FACTOR;
+	  bottomSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
+	  bottomSize.y = bottomSize.y * (1 - BODY_LEG_FACTOR);
+	  shift = 0;
+	}
+    }
   return InitCD (topSize, bottomSize, shift, pc_cd);
 }
 
