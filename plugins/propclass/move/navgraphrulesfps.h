@@ -23,6 +23,7 @@
 // CS Stuff
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 
 // PcCommon defs
 #include "celtool/stdpcimp.h"
@@ -50,7 +51,7 @@ class celPcNavGraphRulesFPS : public celPcNavGraphRules
      *
      */
 private:
-    csRef<iPcMovableConstraint> moveconst;
+    csWeakRef<iPcMovableConstraint> moveconst;
     iCelEntity* previousent;
 
 public:

@@ -59,7 +59,7 @@ CEL_DECLARE_FACTORY(Gravity2)
 class celPcMovable : public celPcCommon
 {
 private:
-  csRef<iPcMesh> pcmesh;
+  csWeakRef<iPcMesh> pcmesh;
   csRefArray<iPcMovableConstraint> constraints;
 
 public:
@@ -119,7 +119,7 @@ public:
 class celPcSolid : public celPcCommon
 {
 private:
-  csRef<iPcMesh> pcmesh;
+  csWeakRef<iPcMesh> pcmesh;
   csRef<csColliderWrapper> collider_wrap;
   bool no_collider;
 
@@ -191,8 +191,8 @@ public:
 class celPcGravity : public celPcCommon
 {
 private:
-  csRef<iPcMovable> pcmovable;
-  csRef<iPcSolid> pcsolid;
+  csWeakRef<iPcMovable> pcmovable;
+  csWeakRef<iPcSolid> pcsolid;
   csRef<iCollider> gravity_collider;
   csRef<iCollideSystem> cdsys;
   csWeakRef<iCelPlLayer> pl;
