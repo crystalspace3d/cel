@@ -19,10 +19,10 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
-				AdditionalOptions=""
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -43,7 +43,7 @@
 				OutputFile=".\debug\temp\pftools/pftools.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pftools/pftools.pdb"
 				ImportLibrary=".\debug\temp\pftools/pftools.lib"/>
@@ -82,10 +82,10 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
-				AdditionalOptions=""
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -138,7 +138,7 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
@@ -147,7 +147,6 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -155,7 +154,6 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\tools\pftools.csplugin">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -166,9 +164,7 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
 			</File>
-
 		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>

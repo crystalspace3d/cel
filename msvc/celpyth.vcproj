@@ -19,9 +19,9 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
-				AdditionalOptions=""
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,_MT,WIN32,WIN32_VOLATILE,__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -81,10 +81,10 @@ copy &quot;$(TargetPath)&quot;  ..
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="_DEBUG,_MT,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
-				AdditionalOptions=""
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -105,7 +105,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\debug\temp\celpyth/celpyth.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\celpyth/celpyth.pdb"
 				SubSystem="2"/>
@@ -136,7 +136,6 @@ copy &quot;$(TargetPath)&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-		
 	</Files>
 	<Globals>
 	</Globals>
