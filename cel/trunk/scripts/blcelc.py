@@ -1409,10 +1409,20 @@ class csIntersect3(_object):
     if _newclass:Z0Plane = staticmethod(_blcelc.csIntersect3_Z0Plane)
     __swig_getmethods__["Z0Plane"] = lambda x: _blcelc.csIntersect3_Z0Plane
     if _newclass:Z0Plane = staticmethod(_blcelc.csIntersect3_Z0Plane)
+    __swig_getmethods__["XPlane"] = lambda x: _blcelc.csIntersect3_XPlane
+    if _newclass:XPlane = staticmethod(_blcelc.csIntersect3_XPlane)
+    __swig_getmethods__["XPlane"] = lambda x: _blcelc.csIntersect3_XPlane
+    if _newclass:XPlane = staticmethod(_blcelc.csIntersect3_XPlane)
+    __swig_getmethods__["YPlane"] = lambda x: _blcelc.csIntersect3_YPlane
+    if _newclass:YPlane = staticmethod(_blcelc.csIntersect3_YPlane)
+    __swig_getmethods__["YPlane"] = lambda x: _blcelc.csIntersect3_YPlane
+    if _newclass:YPlane = staticmethod(_blcelc.csIntersect3_YPlane)
     __swig_getmethods__["ZPlane"] = lambda x: _blcelc.csIntersect3_ZPlane
     if _newclass:ZPlane = staticmethod(_blcelc.csIntersect3_ZPlane)
     __swig_getmethods__["ZPlane"] = lambda x: _blcelc.csIntersect3_ZPlane
     if _newclass:ZPlane = staticmethod(_blcelc.csIntersect3_ZPlane)
+    __swig_getmethods__["AxisPlane"] = lambda x: _blcelc.csIntersect3_AxisPlane
+    if _newclass:AxisPlane = staticmethod(_blcelc.csIntersect3_AxisPlane)
     __swig_getmethods__["XFrustum"] = lambda x: _blcelc.csIntersect3_XFrustum
     if _newclass:XFrustum = staticmethod(_blcelc.csIntersect3_XFrustum)
     __swig_getmethods__["XFrustum"] = lambda x: _blcelc.csIntersect3_XFrustum
@@ -1462,7 +1472,13 @@ csIntersect3_PlaneAxisPlane = _blcelc.csIntersect3_PlaneAxisPlane
 
 csIntersect3_Z0Plane = _blcelc.csIntersect3_Z0Plane
 
+csIntersect3_XPlane = _blcelc.csIntersect3_XPlane
+
+csIntersect3_YPlane = _blcelc.csIntersect3_YPlane
+
 csIntersect3_ZPlane = _blcelc.csIntersect3_ZPlane
+
+csIntersect3_AxisPlane = _blcelc.csIntersect3_AxisPlane
 
 csIntersect3_XFrustum = _blcelc.csIntersect3_XFrustum
 
