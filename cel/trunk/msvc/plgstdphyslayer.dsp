@@ -104,15 +104,11 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\stdphyslayer\message.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\plugins\stdphyslayer\entity.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\stdphyslayer\propclas.cpp
+SOURCE=..\plugins\stdphyslayer\message.cpp
 # End Source File
 # Begin Source File
 
@@ -121,6 +117,10 @@ SOURCE=..\plugins\stdphyslayer\numreg.cpp
 # Begin Source File
 
 SOURCE=..\plugins\stdphyslayer\pl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\stdphyslayer\propclas.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-Sep-2004
+	- Eric Sunshine updated Jam and msvcgen utility files from master
+	  copies in CS repository.
 13-Sep-2004
 	- Jorrit merged npcmove property class into actormove plugin.
 	  The two classes will be very similar and share a lot of code

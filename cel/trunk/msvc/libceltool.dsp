@@ -104,11 +104,11 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\libs\celtool\stdpcimp.cpp
+SOURCE=..\libs\celtool\stdparams.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\libs\celtool\stdparams.cpp
+SOURCE=..\libs\celtool\stdpcimp.cpp
 # End Source File
 # End Group
 # End Target

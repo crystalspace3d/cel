@@ -121,7 +121,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\out\debug\build\plgpfmove\plgpfmove.lib"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -161,6 +161,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\move\colldet.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\move\linmove.cpp">
 			</File>
 			<File
@@ -172,13 +175,13 @@
 			<File
 				RelativePath="..\plugins\propclass\move\navgraphrulesfps.cpp">
 			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\colldet.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\move\colldet.h">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\linmove.h">
 			</File>
@@ -190,9 +193,6 @@
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\navgraphrulesfps.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\colldet.h">
 			</File>
 		</Filter>
 		<Filter

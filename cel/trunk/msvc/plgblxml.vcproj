@@ -121,7 +121,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\out\debug\build\plgblxml\plgblxml.lib"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -167,10 +167,10 @@
 				RelativePath="..\plugins\behaviourlayer\xml\blxml.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\behaviourlayer\xml\xmlscript.cpp">
+				RelativePath="..\plugins\behaviourlayer\xml\token.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\behaviourlayer\xml\token.cpp">
+				RelativePath="..\plugins\behaviourlayer\xml\xmlscript.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -183,10 +183,10 @@
 				RelativePath="..\plugins\behaviourlayer\xml\blxml.h">
 			</File>
 			<File
-				RelativePath="..\plugins\behaviourlayer\xml\xmlscript.h">
+				RelativePath="..\plugins\behaviourlayer\xml\token.h">
 			</File>
 			<File
-				RelativePath="..\plugins\behaviourlayer\xml\token.h">
+				RelativePath="..\plugins\behaviourlayer\xml\xmlscript.h">
 			</File>
 		</Filter>
 		<Filter

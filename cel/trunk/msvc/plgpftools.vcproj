@@ -121,7 +121,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\out\debug\build\plgpftools\plgpftools.lib"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -161,20 +161,20 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
+				RelativePath="..\plugins\propclass\tools\spawn.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\tools\spawn.cpp">
+				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\tools\toolfact.h">
+				RelativePath="..\plugins\propclass\tools\spawn.h">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\tools\spawn.h">
+				RelativePath="..\plugins\propclass\tools\toolfact.h">
 			</File>
 		</Filter>
 		<Filter
