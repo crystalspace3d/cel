@@ -115,6 +115,7 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
+    if (!obj) continue;
     iBase* interf = (iBase*)(obj->QueryInterface (id, version));
     if (interf) return interf;
   }
