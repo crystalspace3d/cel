@@ -31,6 +31,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/stringarray.h"
 #include "cstool/collider.h"
 #include "ivaria/collider.h"
 #include "cssys/sysfunc.h"
@@ -55,6 +56,7 @@ struct iSector;
 class csReversibleTransform;
 class csObject;
 class csColliderWrapper;
+struct iPath;
 
 /* Max deviation before we need to send
    a new DR packet */
@@ -77,6 +79,7 @@ protected:
   csRef<iVirtualClock> vc;
   csRef<iCelPlLayer> pl;
 
+  // Linear vars
   csVector3 angularVelocity;
   csVector3 vel;
   float speed;
@@ -85,6 +88,13 @@ protected:
   bool useCD;
   bool ready;
   bool stationary;
+
+  // Path vars
+  csRef<iPath> path;
+  float path_time,path_speed;
+  csStringArray path_actions;
+  bool path_sent;
+  csString path_sector;
 
   //Collision vars
   csVector3 shift;
@@ -143,6 +153,9 @@ protected:
    */
   int CollisionDetect (iCollider *cw, iSector* sect,
   	csReversibleTransform *cdt, csReversibleTransform *cdstart);
+
+  csPtr<iDataBuffer> GetPathDRData ();
+  bool SetPathDRData (iDataBuffer* data);
 
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);
@@ -216,6 +229,47 @@ public:
    */
   void UpdateDR(csTicks ticks);
 
+  /**
+   * This function lets linmove store a ref to the supplied
+   * iPath.  If this path is present, it will be used for
+   * movement instead of linear velocity vector.
+   */
+  void SetPath (iPath *newpath)
+  { path = newpath; path_sent = false; }
+
+  /**
+   * This function sets the current position on the path
+   * for use when time deltas are added later.
+   */
+  void SetPathTime (float timeval)
+  { path_time = timeval; }
+
+  /**
+   * This relates the movement of the entity
+   * along the path to the time values specified
+   * by the path.  Speed=0 makes the entity
+   * stationary.  Speed=1 is normal traversal
+   * of the path.
+   */
+  void SetPathSpeed (float speed)
+  { path_speed = speed; }
+
+  /**
+   * This relates a particular action name
+   * to be used between two points in the path.
+   * This allows linmove to automatically
+   * switch a bird from "fly" to "glide", for
+   * example, during downward segments of the
+   * flight path.
+   */
+  void SetPathAction (int which, const char *action);
+
+  /**
+   * This sets the sector which will be used
+   * for the entire path.
+   */
+  void SetPathSector (const char *sectorname)
+  { path_sector = sectorname; }
 
   struct PcLinearMovement : public iPcLinearMovement
   {
@@ -300,6 +354,27 @@ public:
     {
       scfParent->UpdateDR(ticks);
     }
+    virtual void SetPath (iPath *newpath)
+    {
+      scfParent->SetPath (newpath);
+    }
+    virtual void SetPathTime (float timeval)
+    {
+      scfParent->SetPathTime (timeval);
+    }
+    virtual void SetPathSpeed (float speed)
+    {
+      scfParent->SetPathSpeed (speed);
+    }
+    virtual void SetPathAction (int which, const char *action)
+    {
+      scfParent->SetPathAction (which, action);
+    }
+    virtual void SetPathSector (const char *sectorname)
+    {
+      scfParent->SetPathSector (sectorname);
+    }
+
   } scfiPcLinearMovement;
 
   class EventHandler : public iEventHandler

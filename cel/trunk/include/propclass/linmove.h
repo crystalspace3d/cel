@@ -34,6 +34,7 @@ SCF_VERSION (iPcLinearMovement, 0, 0, 1);
 
 struct iDataBuffer;
 struct iSector;
+struct iPath;
 
 /**
  * This property class controls movement of an entity in a realistic
@@ -145,6 +146,44 @@ struct iPcLinearMovement : public iBase
    * happening at different times.
    */
   virtual void UpdateDR (csTicks ticks) = 0;
+
+  /**
+   * This function lets linmove store a ref to the supplied
+   * iPath.  If this path is present, it will be used for
+   * movement instead of linear velocity vector.
+   */
+  virtual void SetPath (iPath *newpath) = 0;
+
+  /**
+   * This function sets the current position on the path
+   * for use when time deltas are added later.
+   */
+  virtual void SetPathTime (float timeval) = 0;
+
+  /**
+   * This relates the movement of the entity
+   * along the path to the time values specified
+   * by the path.  Speed=0 makes the entity
+   * stationary.  Speed=1 is normal traversal
+   * of the path.
+   */
+  virtual void SetPathSpeed (float speed) = 0;
+
+  /**
+   * This relates a particular action name
+   * to be used between two points in the path.
+   * This allows linmove to automatically
+   * switch a bird from "fly" to "glide", for
+   * example, during downward segments of the
+   * flight path.
+   */
+  virtual void SetPathAction (int which, const char *action) = 0;
+
+  /**
+   * This sets the sector which will be used
+   * for the entire path.
+   */
+  virtual void SetPathSector (const char *sectorname) = 0;
 };
 
 #endif
