@@ -226,6 +226,11 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   bottomSize.y = cd->value.v.y;
   bottomSize.z = cd->value.v.z;
 
+  intervalSize.x = MIN(topSize.x, bottomSize.x);
+  intervalSize.y = MIN(topSize.y, bottomSize.y);
+  intervalSize.z = MIN(topSize.z, bottomSize.z);
+
+
   cd = databuf->GetData (2);
   shift.x = cd->value.v.x;
   shift.y = cd->value.v.y;
@@ -360,11 +365,11 @@ bool celPcLinearMovement::MoveSprite (float delta)
   float local_max_interval =
     MAX (MIN (MIN ((vel.y==0.0f)
   	? MAX_CD_INTERVAL
-	: ABS (topSize.y/vel.y), (vel.x==0.0f)
+	: ABS (intervalSize.y/vel.y), (vel.x==0.0f)
 		? MAX_CD_INTERVAL
-		: ABS (topSize.x/vel.x)), (vel.z==0.0f)
+		: ABS (intervalSize.x/vel.x)), (vel.z==0.0f)
 			? MAX_CD_INTERVAL
-			: ABS (topSize.z/vel.z)), MIN_CD_INTERVAL);
+			: ABS (intervalSize.z/vel.z)), MIN_CD_INTERVAL);
 
   // Compensate for speed
   local_max_interval /= speed;
@@ -382,11 +387,11 @@ bool celPcLinearMovement::MoveSprite (float delta)
       delta -= local_max_interval;
       local_max_interval = MAX (MIN (MIN ((vel.y==0.0f)
       	? MAX_CD_INTERVAL
-	: ABS (topSize.y/vel.y), (vel.x==0.0f)
+	: ABS (intervalSize.y/vel.y), (vel.x==0.0f)
 		? MAX_CD_INTERVAL
-		: ABS (topSize.x/vel.x)), (vel.z==0.0f)
+		: ABS (intervalSize.x/vel.x)), (vel.z==0.0f)
 			? MAX_CD_INTERVAL
-			: ABS (topSize.z/vel.z)), MIN_CD_INTERVAL);
+			: ABS (intervalSize.z/vel.z)), MIN_CD_INTERVAL);
       // Compensate for speed
       local_max_interval /= speed;
       // Err on the side of safety
@@ -593,10 +598,18 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   topSize = body;
   bottomSize = legs;
+
+  intervalSize.x = MIN(topSize.x, bottomSize.x);
+  intervalSize.y = MIN(topSize.y, bottomSize.y);
+  intervalSize.z = MIN(topSize.z, bottomSize.z);
+
   celPcLinearMovement::shift = shift;
 
+  // Temporary fix for ladder climbing
+  // This MIGHT not be necessary in most cases
   bottomSize.x = MAX(topSize.x, bottomSize.x);
   bottomSize.z = MAX(topSize.z, bottomSize.z);
+
   if (!pc_cd)
   {
     csRef<iCelPropertyClass> pc;
