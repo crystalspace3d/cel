@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 16;
+    propertycount = 17;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -69,6 +69,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_materialname].datatype = CEL_DATA_STRING;
     properties[propid_materialname].readonly = false;
     properties[propid_materialname].desc = "Name of material.";
+
+    properties[propid_materialnamefast].id = pl->FetchStringID (
+    	"cel.property.materialnamefast");
+    properties[propid_materialnamefast].datatype = CEL_DATA_STRING;
+    properties[propid_materialnamefast].readonly = false;
+    properties[propid_materialnamefast].desc = "Name of material (fast version).";
 
     properties[propid_clickable].id = pl->FetchStringID (
     	"cel.property.clickable");
@@ -194,6 +200,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   propdata[propid_billboardname] = &billboard_name;
   propdata[propid_materialname] = 0;	// Handled in this class.
+  propdata[propid_materialnamefast] = 0;// Handled in this class.
   propdata[propid_clickable] = 0;	// Handled in this class.
   propdata[propid_movable] = 0;		// Handled in this class.
   propdata[propid_visible] = 0;		// Handled in this class.
@@ -489,6 +496,16 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
+  else if (propertyId == properties[propid_materialnamefast].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetMaterialNameFast (s);
+      return true;
+    }
+    return false;
+  }
   else if (propertyId == properties[propid_layer].id)
   {
     GetBillboard ();
@@ -511,7 +528,8 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
 const char* celPcBillboard::GetPropertyString (csStringID propertyId)
 {
   UpdateProperties (object_reg);
-  if (propertyId == properties[propid_materialname].id)
+  if (propertyId == properties[propid_materialname].id ||
+	propertyId == properties[propid_materialnamefast].id)
   {
     GetBillboard ();
     if (billboard)

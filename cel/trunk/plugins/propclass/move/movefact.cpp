@@ -589,7 +589,8 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   scfiEventHandler = 0;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != 0);
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = player;
   CS_ASSERT (pl != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);

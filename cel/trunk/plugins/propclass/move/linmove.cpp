@@ -143,7 +143,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     return;
   }
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = player;
   if (!pl)
   {
     MoveReport (object_reg, "Physical layer missing!");

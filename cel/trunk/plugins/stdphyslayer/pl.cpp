@@ -68,18 +68,6 @@ celPlLayer::~celPlLayer ()
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
 
-  // Print out entities that aren't deleted properly.
-  for (CS_ID i = 1 ; i < idlist.Length() ; i++)
-  {
-    iCelEntity* entity=(iCelEntity*) idlist.Get(i);
-    if (entity)
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-	  "crystalspace.cel.physicallayer",
-	  "Entity with ID %u and Name %s not destructed yet.",
-	  entity->GetID(), entity->GetName());
-    }
-  }
   for (int j = 0 ; j < removecallbacks.Length() ; j++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[j];

@@ -1,64 +1,80 @@
-#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B
-#B. ##XXXXXX##. . . . #*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B. ##XXXXXX##. . . . #*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxXxMdMdMdMdMdMdMdMdMdMdMdMdMdMdMd#B
-#B. ##XXXXXX##. . . . #*. . . . OO. . . . . . . . XX. . . . . . . . . . . . . . . . . ##XxXxXxXxMdMdMdMdMdMdMdMdMdMdMdMdMdMdMd#B
-#B. ##XXXXXX##. . . . . . . ##########. . . . . XXXXXX. . . . . Md. . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxMmMmMmMmMm#B
-#B. ##########. . . . . . . ##########. . . . XXXXXXXXXX. . . . . . . . MdMd. Md. . . ##XxXxXxXxMd#*#*#*#*XxXxXxXxXxXxXxXxXxXx#B
-#B. . . . . . . . . XX. . XX######Xx##. . XxXXXXXxXxXXXXXX. . . . . . . . . . . . . Md############XxMdXxXx#####################B
-#B. . ##. . . . #B#B#B#B#B#B#B#B######. . ##XXXXXXXXXxMdXXXx##. . XX. . . XXXx. . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B. . . . #B. . . . . . . . . #B. . . . . ##XXXXMdXXXXXxXXXX##. ######. ######. . . ####XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B. . . OO. . OO. . . . . . . #B. . . Md. ##XXXXXXXXXxXXXXXX##. . . . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B##################. . . . . #B. . . . . ##XXXxXXXXXXXXXXXX##. . ##Xx. . #B. . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B##################. . . Md. #B. . . . . ####################. . . . . . . . . . . . ##XxXxXxMdXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx#B
-#B##################. . . . . #B. . . . . . . . . . . . . . . . . . . #R. . . . . . . #########################################B
-#B. . . . Xx. . ####. . . . . #B. . . . =2=L=L=L=L=L=2. . . . . . . . #####R. . Ma. . . . . . . . . . . . . . . . . . . . . . #B
-#B. . #*#*#*#*. ####. . Ma. . #B. . =*. =U. . . =4=L=1. . . . . . Xx. . . ##. #B. . . . . . . . . . . . . . . . . . . . . . . #B
-#B. . . . . #*. ####Ma. . . . #B. . . . =d=L=a. =U. . . . . Xx. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
-#B. . #*#*#*#*. ####. . . . . #B. . . . =3=L=+=L=1. . . . . ##. . . . . ##. . . . . ##. . . . . . . . . . . . . . . . . . . . #B
-#B. . #*. . . . ####. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . XX. . . . . . . . . . . . #B
-#B. . #*#*#*#*. ####. . . . Ma. . . . . . . . . . . Ma. . . . Ma. . . . . . . . . . Ma. . . . . #B#######B. . . . . . . . . . #B
-#B. . . . . . . ####. . . #*#*#*. . #*. . . #*. #*#*#*. . #*#*#*#*. #*. . . #*. . . . . . . . . #B#######B. . . . . . . . . . #B
-#B. . . . . . . ####. . . #*. . #*. #*. . . #*. #*. . #*. #*. . . . #*#*. . #*. . . . . . . . . #B#######B. . . . . . . . . . #B
-#B. . . . . . . ####. . . #*#*#*. . #*. . . #*. #*#*#*. . #*#*#*. . #*. #*. #*. . . . . . . . . #B#B#B#B#B. . . . . . . . . . #B
-#B. . . . . . . ####. . . #*. . #*. #*. . . #*. #*. . #*. #*. . . . #*. . #*#*. . . . . . #*#*#*#*#*#*#*#*#*#*#*#*#*#*. . . . #B
-#B. . . . . . . #*##. . . #*. . #*. . #*#*#*. . #*#*#*. . #*#*#*#*. #*. . . #*. . . . . . #*. . . . . . . Mm. . Ma. #*. . . . #B
-#B. . . . . . . #*##. . . . . . . . . . . . . . . . HHMaMaMa. . . . . . . . . . . . . . . #*Ma. Mb. MaMa. . Mm. Ma. #*. . . . #B
-#B. . . MbMb. . #*##. . . #*. . . #*. . . #*. . . . . #*. . . #*. #*. #*. #*#*#*#*. . . . #*. MaMbMa. Mb. . Ma. Mm. #*. . . . #B
-#B. . . MmMm. . #*##. . . #*#*. #*#*. . #*. #*. . . #*. #*. . #*. #*. #*. #*. . . . . . . #*. . . Mb. . . MbMb. . . #*. . . . #B
-#B. . . Mm. . . #B##. . . #*. #*. #*. #*. . . #*. #*. . . #*. #*. #*#*. . #*#*#*. . . . . #*#*#*#*#*#*#*#*#*#*#*#*#*#*. . . . #B
-#B. . Mb. Mb. . #B##. . . #*. . . #*. #*#*#*#*#*. #*#*#*#*#*. #*. #*. #*. #*. . . . . . . . . . . . . . . . . . . . . . . . . #B
-#B. . Mb. . Mb. #B##. . . #*. . . #*. #*. . . #*. #*. . . #*. #*. #*. #*. #*#*#*#*. . . . . . . . . . . . . . . . . . . . . . #B
-#B. . . Mb. Mb. #B##. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
-#B#B#B#B#B#B#B#B#B##. Md. . ##XXXXXXMaXXXXMaXXXXXXXXMdMdMdMdMdMdMdMdMdMdMdMdMdMdMdMdMdMdMd#BXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . ##. . . ##. . . . ##XXMdXXXXXXXXXXXXXXXXXXXXMmXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#BXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . ##. . . ##. . . . ##XXXXXXXXXXXXXXXXXXOOXXXXXXMbOOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#BXXOOXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . ##. . . ##. . . . ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOXXXXOOXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . ##MbMaMb##. . . . ##XXXXXXXXXXMdXXXXXXXXXXXXXXOOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOXXXXXXXXXXXXXX##. . #B
-#B. . . #*#*#*#*#*##. . . . ##XXXXXXXXXXXXXXXXXX#RXXXXXXXX#BXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . . . . . . . . . OOOOOO#ROO#ROO#ROO#ROOOOOO#ROOOO#BOOMb#R#ROOMbOOOOOOMbOOOOOOOOMbOOOOOOOOOOOOOOOOXXXXXXXXXXXXXX##. . #B
-#B#B#B#B. . . . . . . . . ####XXXXXXXXXX#*#*#*XXXXXXXX#B#B#BXXXXXX#*#*XX#B#B#BXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . . . . . . . . . . ##XXXXXXXXOOMdXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . #B
-#B. . . . #B. . #B#B. #B#B#B##XXXXXXXXXXXXXXXXXXXXXXXXXXXXOOXXOOXXXXXXXXXXXXXXXXXXXXXX#B#B#BXXXXXXXXXX#R#R#R#R#R#R#R#R#R##. . #B
-#B. . . . #B. . . #B. . . . ##XXXXXXXXXXXXXXMdXXXXXXXXXXOOXXXXXXXXXX#RXXXXXXXXXXXXXXXXXXXXXXXXXXXX#R#R#RMaMaMaMaMbMaMaMa##. . #B
-#B. . . . #B#B#B. #B. . . . ##XXXXXXXXXX#*#*#*OOXXXXXXXXXXXXXXXXXXXX#RXXXXXX#RXXXXXXXXXXXXXXXXXX#R#R#RMaMaMaMaMbMaMaMaMa##. . #B
-#B. . . . . . . . #B. . . . ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMaXXXXXXXXXXXXXXXXXXMaMaMaMaXXXX#R#R#R#RMaMa#RMbMaMaMbXXMa##. . #B
-#B#*#*#*. ##. . . . . . . . ##XXXXXXXXXXXXXXXXXXXXXXMdXXXXXXXXMaXXXXXXXXXXXXXX#RXXMmXXXXMaXXXXXXXXXX#RMaMaMmMa#R#RMaMaMa##. . #B
-#B. . . . ##. . #*. . #B##. ##XXXXXXXXXXXXMdXXXXXXXXXXXXXXXXXXMaMaMaMaMaXXXXMaMaMaMaXXXXMaXXXXMbMbMb#RMa#R#RMaMbMbMbMb#R##. . #B
-#B. . #B#B#B#B. #*. . #B##. ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMaXXMaXXOOXXXXXXMaXXXXXXXXXXMb#RMaMbMbMaMaMaMa#R##. . #B
-#B. . . . . . . #*. . #B##. ##XXXXXXXXXXXXXXXXXXXXMdXXXXMdXXXXXXXXXXXXXXXXMaMaXXXXXXXXOOMaMaMaMaMaMa#RMaMaMa#RMaMa#RMaMa##. . #B
-#B. #B. #B. . . #*. . . ##. ###########################B##################################################################. . #B
-#B. #B. #B. . #B#B#B. . ##. . . . . . #*. . . . . . . #B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
-#B###B#B#B. . . . . . . ##. . . . #B. #*. . . . #B#B#B#B. . . . . . . . . . . . . . MaMaMa. . . MaMa. . . . . . . . . . . . . #B
-#B. . . . . . . . . #*#*#*. . . . #B#*#*#*. . . . . . . . . . . . #*#*#*#*. . . MaMa. . . Ma. Ma. Ma. . . . . . . . . . . . . #B
-#B. . . . #B#B#B#B. . . . . . #B. #B. . . . . . . . #B#B#B. . . . . . . . . . . Ma. #B#B#B#B#B. . Ma. #B. . #B#B#B#B#B#B#B. . #B
-#B#B#B#B#*#*. . #B. . . . . . #B. #B. #B#B#B#B#B. . . . . . . . . . . . . . . Ma. . . MbMbMbMbMbMb. . #B. . . . . . . . . . . #B
-#B. . . . #B. . #B#B#B#B#B. . #B#B#B. . . #B. #B. . . . . . . . . . . . . . Ma. . . . Mb. #B. . . . . #B. Ma. ######. . . . . #B
-#B. . . . #B. . . . . . . . . . . . . . . #B. #B. . . . . . . . . . Mb. . Ma. . . . . Mb. #B####. . . #BMa. . . . . . . #B. . #B
-#B. . #B#B#B. . . . #B. #B. . . . . . . . . . #B. . . #B#B. #B#B. . . MbMbMbMbMbMbMb. Mb. #B. Ma######Ma#B. . Ma. . . . #B. . #B
-#B. . . . ##. #B. . #B. #B#B#B#B. . . #B. #B. . . . . #B#B. #B#B. . . . . . . . . MbMbMb. #BMa. Mm. Ma. #B. Ma. Ma. . . #B. . #B
-#B. . ##. ##. #B. . #B. . . . . . . . #B. #B. . #B. . #B#BOO#B#B. . . #*. #*. . #B. MbMb. #B. . . MmMaMm. Ma. Ma. . . . #B. . #B
-#B. . . . #B. #B. . #B#B#B#B#B. . #B#B#B#B#B#B. #B. . #B#BXXOO#B. . . #*. #*. . #B. Ma. . #B#B#B. . . MmMm. Ma#B. ##. #B#B. . #B
-#B. ##. #####B#B#B. #B. . . . . . #B. . . . . . #B. . #B#BXX#B#B. . . #*. #*. . #B. . Ma. . . . . . #B#B#BMaMa#B. ##. . . . . #B
-#B. ##. . . . . . . #B#B#B#B. #*. #B. . Md. #B#B#B. . . . ##. . . . . #*. #*. . #B. . . . . . #B. . . . . . . . . ##. . . #B#B#B
-#B. . . . #B. #B. . . . . . . #*. #B. . . . . . . . . . . . . . . . . #*. #*. . . . . . . . . #B. . . . . . . . . ##. . . . . #B
-#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B
+#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B
+#B. ##XXXXXX##. #B. . #*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B. ##XXXXXX##. #B. . #*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxXxMdMdMdMdMdMdMdMdMdMdMdMdMdMdMd##. . . . . . . . . . . . . . . #B
+#B. ##XXXXXX##. #B. . #*. . . . OO. . . . . . . . XX. . . . . . . . . . . . . . . . . ##XxXxXxXxMdMdMdMdMdMdMdMdMdMdMdMdMdMdMd##. . . . . . . . . . . . . . . #B
+#B. ##XXXXXX##. #B. . . . . ##########. . . . . XXXXXX. . . . . Md. . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxMmMmMmMmMm##. . . . . . . . . . . . . . . #B
+#B. ##########. #B. . . . . ##########. . . . XXXXXXXXXX. . . . . . . . MdMd. Md. . . ##XxXxXxXxMd#*#*#*#*XxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B. . . . . . . #B. XX. . XX######Xx##. . XxXXXXXxXxXXXXXX. . . . . . . . . . . . . Md############XxMdXxXx######################. . . . . . . . . . . . . . . #B
+#B. . ##. . . . #B#B#B#B#B#B#B#B######. . ##XXXXXXXXXxMdXXXx##. . XX. . . XXXx. . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B. . . . #B. . #B. . . . . KG#B. . . . . ####################. ######. ######. . . ####XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B. . . OO. . OO#BMbMbMbMbMa. #B. . . Md. . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B###############B. MbMaMaMa. #B. . . . . . . . . . . . #W. . . . ##. . . #B. . . . . ##XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B###############B. Mb. MaMaMa#B. . . . . . . . . . . . . . . . . . . . . . . . . . . ##XxXxXxMdXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx##. . . . . . . . . . . . . . . #B
+#B###############B. MbMbMbMbMbDG. . . . . =1. . . . #W. . #W. . . . . #R. . . . . . . ##########################################. . . . . . . . . . . . . . . #B
+#B. . . . Xx#####B. . . . . . #B. . =U. =L. . . . . . #W. . . . . . . #####R. . Ma. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . #*#*#*#*###B. . . Ma. . DR. . . =3. =*. . . . . . #W. . . . . . . . ##. #B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #*###B. Ma. . . . =R. . . =U#*. #*. . . HH. . . Xx. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . #*#*#*#*###B#B#B#B#B#B#B#B. . . =U. =U. . . . . . . . ##. . . . . ##. . . . . ##. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . #*KY. #####B##. =L. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . XX. . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . #*#*#*#*##DY##. . . . Ma. . . . . . . . . . . Ma. . . . Ma. . . . . . . . . . Ma. . . . . #B#######B. . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . #*#*#*. . #*. =2. #*. #*#*#*. . #*#*#*#*. #*. . . #*. . . . . . . . . #B#######B. . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . #*. . #*. #*. . . #*. #*. . #*. #*. . . . #*#*. . #*. . . . . . . . . #B#######B. . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . #*#*#*. . #*. . . #*. #*#*#*. . #*#*#*. . #*. #*. #*. . . . . . . . . #B#B#B#B#B. . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . #*. . #*. #*. . . #*. #*. . #*. #*. . . . #*. . #*#*. . . . . . #*#*#*#*#*#*#*#*#*#*#*#*#*#*. . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . #*=2. #*=U. #*#*#*. . #*#*#*. . #*#*#*#*. #*. . . #*. . . . . . #*. . . . . . . Mm. . Ma. #*. . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . #####B##. . . . . . . . . . . . . . . . . MaMaMa. . . . . . . . . . . . . . . #*Ma. Mb. MaMa. . Mm. Ma. #*. . . . . . . . . . . . . . . . . . . . #B
+#B. . . MbMb#####B##. . . #*. . . #*. . . #*. . . . . #*. . . #*. #*. #*. #*#*#*#*. . . . #*. MaMbMa. Mb. . Ma. Mm. #*. . . . . . . . . . . . . . . . . . . . #B
+#B. . . MmMa#####B##. . . #*#*. #*#*. . #*. #*. . . #*. #*. . #*. #*. #*. #*. . . . . . . #*. . . Mb. . . MbMb. . . #*. . . . . . . . . . . . . . . . . . . . #B
+#B. . . Mm. #####B##. . . #*. #*. #*. #*. . . #*. #*. . . #*. #*. #*#*. . #*#*#*. . . . . #*#*#*#*#*#*#*#*#*#*#*#*#*#*. . . . . . . . . . . . . . . . . . . . #B
+#B. . Mb. Mb#####B##. . . #*. . . #*. #*#*#*#*#*. #*#*#*#*#*. #*. #*. #*. #*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . Mb. Mb#####B##. . . #*. . . #*. #*. . . #*. #*XXXXXX#*. #*. #*. #*. #*#*#*#*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . MbMb####DB##. . . . . . . . . . . . . . . #B#BXXXXXX. . . . . . . XXXXXX. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B#B#B#B#B#B#B#B#B##. Md. . . . . . . . . . =3. =&=B#B########. . . . . ##########=4=L=L=2. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . ##. . . ##. . . . =3. . . . . =L. . . . #B#B=*#*#*. . . . . . . . =*=L=L=^=L=L=1. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . ##. . . ##. . . . . . . . =L. . . . . . . =L=1. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . ##. . . ##. . . . . . . . . . . =1. . . . . . . =1. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . ##MbMaMb##. . . . ##XXXXXXXXXXMdXXXX=UXXXXXXXXXX##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOXXXXXXXXXXXXXX##. . . . . . . . . . . . . . . . . . #B
+#B. . . #*#*#*#*#*##. . . . ##XXXXXXXXXXXXXXXX=UXXXXXXXXXX##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . OOOOOO#ROO#ROO#ROO#R=UXXXXXXXXXX##XXMb#R#ROOMbOOOOOOMbOOOOOOOOMbOOOOOOOOOOOOOOOOXXXXXXXXXXXXXX##. . . . . . . . . . . . . . . . . . #B
+#B#B#B#B. . . . . . . . . ####XXXXXXXXXX#*#*#*=UXX##########XXXXXX#*#*XX#B#B#BXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . ##XXXXXXXXOOMdXXXX=3=L=*#*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX##. . . . . . . . . . . . . . . . . . #B
+#B. . . . #B. . #B#B. #B#B#B##XXXXXXXXXXXXXXXXXX#*#*#*XXXXOOXXOOXXXXXXXXXXXXXXXXXXXXXX#B#B#BXXXXXXXXXX#R#R#R#R#R#R#R#R#R##. . . . . . . . . . . . . . . . . . #B
+#B. . . . #B. . . #B. . . . ##XXXXXXXXXXXXXXMdXXXXXXXXXXOOXXXXXXXXXX#RXXXXXXXXXXXXXXXXXXXXXXXXXXXX#R#R#RMaMaMaMaMbMaMaMa##. . . . . . . . . . . . . . . . . . #B
+#B. . . . #B#B#B. #B. . . . ##XXXXXXXXXX#*#*#*OOXXXXXXXXXXXXXXXXXXXX#RXXXXXX#RXXXXXXXXXXXXXXXXXX#R#R#RMaMaMaMaMbMaMaMaMa##. . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . #B. . . . ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMaXXXXXXXXXXXXXXXXXXMaMaMaMaXXXX#R#R#R#RMaMa#RMbMaMaMbXXMa##. . . . . . . . . . . . . . . . . . #B
+#B#*#*#*. ##. . . . . . . . ##XXXXXXXXXXXXXXXXXXXXXXMdXXXXXXXXMaXXXXXXXXXXXXXX#RXXMmXXXXMaXXXXXXXXXX#RMaMaMmMa#R#RMaMaMa##. . . . . . . . . . . . . . . . . . #B
+#B. . . . ##. . #*. . #B##. ##XXXXXXXXXXXXMdXXXXXXXXXXXXXXXXXXMaMaMaMaMaXXXXMaMaMaMaXXXXMaXXXXMbMbMb#RMa#R#RMaMbMbMbMb#R##. . . . . . . . . . . . . . . . . . #B
+#B. . #B#B#B#B. #*. . #B##. ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMaXXMaXXOOXXXXXXMaXXXXXXXXXXMb#RMaMbMbMaMaMaMa#R##. . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . #*. . #B##. ##XXXXXXXXXXXXXXXXXXXXMdXXXXMdXXXXXXXXXXXXXXXXMaMaXXXXXXXXOOMaMaMaMaMaMa#RMaMaMa#RMaMa#RMaMa##. . . . . . . . . . . . . . . . . . #B
+#B. #B. #B. . . #*. . . ##. ###########################B##################################################################. . . . . . . . . . . . . . . . . . #B
+#B. #B. #B. . #B#B#B. . ##. . . . . . #*. . . . . . . #B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B###B#B#B. . . . . . . ##. . . . #B. #*. . . . #B#B#B#B. . . . . . . . . . . . . . MaMaMa. . . MaMa. . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . #*#*#*. . . . #B#*#*#*. . . . . . . . . . . . #*#*#*#*. . . MaMa. . . Ma. Ma. Ma. . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . #B#B#B#B. . . . . . #B. #B. . . . . . . . #B#B#B. . . . . . . . . . . Ma. #B#B#B#B#B. . Ma. #B. . #B#B#B#B#B#B#B. . . . . . . . . . . . . . . . . . #B
+#B#B#B#B#*#*. . #B. . . . . . #B. #B. #B#B#B#B#B. . . . . . . . . . . . . . . Ma. . . MbMbMbMbMbMb. . #B. . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . #B. . #B#B#B#B#B. . #B#B#B. . . #B. #B. . . . . . . . . . . . . . Ma. . . . Mb. #B. . . . . #B. Ma. ######. . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . #B. . . . . . . . . . . . . . . #B. #B. =4=^=L=L. . . . . Mb. . Ma. . . . . Mb. #B####. . . #BMa. . . . . . . #B. . . . . . . . . . . . . . . . . . #B
+#B. . #B#B#B. . . . #B. #B. . . . . . . . . . #B. =U=U#B#B. #B#B. . . MbMbMbMbMbMbMb. Mb. #B. Ma######Ma#B. . Ma. . . . #B. . #B. . . . . . . . . . . . . . . #B
+#B. . . . ##. #B. . #B. #B#B#B#B. . . #B. #B. . . =U=U#B#B. #B#B. . . . . . . . . MbMbMb. #BMa. Mm. Ma. #B. Ma. Ma. . . #B. . #B. . . . . . . . . . . . . . . #B
+#B. . ##. ##. #B. . #B. . . . . . . . #B. #B. . #B=U=U#B#BOO#B#B. . . #*. #*. . #B. MbMb. #B. . . MmMaMm. Ma. Ma. . . . #B. . #B. . . . . . . . . . . . . . . #B
+#B. . . . #B. #B. . #B#B#B#B#B. . #B#B#B#B#B#B. #B=U=U#B#BXXOO#B. . . #*. #*. . #B. Ma. . #B#B#B. . . MmMm. Ma#B. ##. #B#B. . #B. . . . . . . . . . . . . . . #B
+#B. ##. #####B#B#B. #B. . . . . . #B=4=L=L=L=L=L=L=c=U#B#BXX#B#B. . . #*. #*. . #B. . Ma. . . . . . #B#B#BMaMa#B. ##. . . . . #B. . . . . . . . . . . . . . . #B
+#B. ##. . . . . . . #B#B#B#B. #*. #B=U. . . #B#B#B=^=1. . ##. . . . . #*. #*. . #B. . . . . . #B. . . . . . . . . ##. . . #B#B#B. . . . . . . . . . . . . . . #B
+#B. . . . #B. #B. . . . . . . #*. #B=3=L=L=L=L=L=L=b=L=L=L=L=L=*. . . #*. #*. . . . . . . . . #B. . . . . . . . . ##. . . . . #B. . . . . . . . . . . . . . . #B
+#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B. . . . #B#B#B#B#B#B#B#B#B#B#B#B#B#B. #B#B#B#B#B#B#B#B#B#B#B. . . . . . . . . #B#B#B#B#B#B#B. . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #B
+#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B#B

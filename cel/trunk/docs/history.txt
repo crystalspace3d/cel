@@ -3,6 +3,27 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+23-Jan-2004
+	- Jorrit added an optional profiler to the XML behaviour
+	  layer.
+	- Jorrit fixed a big memory leak in CEL by replacing a lot
+	  of csRef's to iCelPlLayer with csWeakRef. This avoids
+	  circular references.
+	- Jorrit added a new notation in the XML behaviour layer
+	  to have a faster way to emulate arrays:
+	  	?array[<expr>]
+	  is equivalent to:
+	  	?('array_'+<expr>)
+22-Jan-2004
+	- Jorrit fixed 'expr' in the XML behaviour layer so that
+	  it clear the stack instead of drop.
+	- Jorrit fixed a bug in the XML behaviour layer where the
+	  local variables would be cleared for the inside of
+	  a 'for' loop.
+	- Jorrit added a new iBillboard->SetMaterialNameFast() function
+	  to set a material without recomputing the clickmap.
+	- Jorrit fixed the XML behaviour layer so that 'default' in
+	  'switch' statement works.
 21-Jan-2004
 	- Jorrit added 'reporterror' command to the XML behaviour
 	  layer and the 'readfile', and 'writefile' functions.

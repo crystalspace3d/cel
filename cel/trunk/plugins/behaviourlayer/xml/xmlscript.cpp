@@ -141,6 +141,180 @@ static void CleanupTemporaryStrings ()
   }
 }
 
+static const char* ArgToString (const char* prefix, const char* prefix2, const celXmlArg& a)
+{
+  switch (a.type)
+  {
+    case CEL_DATA_LONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_%d", prefix, prefix2, a.arg.i);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ULONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_%u", prefix, prefix2, a.arg.ui);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_FLOAT:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_%g", prefix, prefix2, a.arg.f);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_BOOL:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_%s", prefix, prefix2, a.arg.b ? "true" : "false");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_STRING:
+       {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_%s", prefix, prefix2, a.arg.str.s);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR2:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_[%g,%g]", prefix, prefix2, a.arg.vec.x, a.arg.vec.y);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR3:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_[%g,%g,%g]", prefix, prefix2, a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_PCLASS:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_pc(%08lx)", prefix, prefix2, (long)a.arg.pc);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_ent(%s)", prefix, prefix2, a.arg.entity ? a.arg.entity->GetName () : "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ID:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_id(%d)", prefix, prefix2, a.arg.id);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_COLOR:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_rgb(%g,%g,%g)", prefix, prefix2, a.arg.col.red, a.arg.col.green,
+      	  a.arg.col.blue);
+	used_strings.Push (str);
+        return *str;
+      }
+    default:
+      return 0;
+  }
+}
+
+static const char* ArgToString (const char* prefix, const celXmlArg& a)
+{
+  switch (a.type)
+  {
+    case CEL_DATA_LONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%d", prefix, a.arg.i);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ULONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%u", prefix, a.arg.ui);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_FLOAT:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%g", prefix, a.arg.f);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_BOOL:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s", prefix, a.arg.b ? "true" : "false");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_STRING:
+       {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s", prefix, a.arg.str.s);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR2:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_[%g,%g]", prefix, a.arg.vec.x, a.arg.vec.y);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR3:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_[%g,%g,%g]", prefix, a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_PCLASS:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_pc(%08lx)", prefix, (long)a.arg.pc);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_ent(%s)", prefix, a.arg.entity ? a.arg.entity->GetName () : "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ID:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_id(%d)", prefix, a.arg.id);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_COLOR:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_rgb(%g,%g,%g)", prefix, a.arg.col.red, a.arg.col.green,
+      	  a.arg.col.blue);
+	used_strings.Push (str);
+        return *str;
+      }
+    default:
+      return 0;
+  }
+}
+
 static const char* ArgToString (const celXmlArg& a)
 {
   switch (a.type)
@@ -518,7 +692,7 @@ static int GetCalculationType (const celXmlArg& a, const celXmlArg& b)
 bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
 	const char* msg, ...)
 {
-  DumpVariables (behave);
+  //DumpVariables (behave);
   DumpCallStack (behave);
   va_list arg;
   va_start (arg, msg);
@@ -1050,7 +1224,7 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	celBehaviourXml* behave, celData& ret, iCelParameterBlock* params,
-	int startop)
+	int startop, bool newscope)
 {
   // We keep a reference to the entity here to prevent
   // deletion of that entity during script execution.
@@ -1068,7 +1242,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 #ifdef CS_DEBUG
   // Force cleaning of local variables in debug mode to
   // ensure they are not being misused.
-  local_vars.Empty ();
+  if (newscope) local_vars.Empty ();
+#else
+  (void)newscope;
 #endif
 
   for (;;)
@@ -2301,6 +2477,186 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
 	break;
 
+      case CEL_OPERATION_DEREFARRENT2_STR:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_index2 = stack.Pop ();
+	  celXmlArg a_index1 = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarrent2_str entity=%s arr=%s index1=%s index2=%s\n", i-1,
+	  	A2S (top), A2S (op.arg), A2S (a_index1), A2S (a_index2)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
+	    	EntityNameForError (top));
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!",
+	    	EntityNameForError (top));
+	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (a_index1), a_index2);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+      case CEL_OPERATION_DEREFARRENT2:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_index2 = stack.Pop ();
+	  celXmlArg a_index1 = stack.Pop ();
+	  celXmlArg a_array = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarrent entity=%s arr=%s index1=%s index2=%s\n", i-1,
+	  	A2S (top), A2S (a_array), A2S (a_index1), A2S (a_index2)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
+	    	EntityNameForError (top));
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!",
+	    	EntityNameForError (top));
+	  const char* varname = ArgToString (ArgToString (a_array), ArgToString (a_index1), a_index2);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+
+      case CEL_OPERATION_DEREFARR2_STR:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_index2 = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarr2_str arr=%s index1=%s index2=%s\n", i-1,
+	  	A2S (op.arg), A2S (top), A2S (a_index2)));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (top), a_index2);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+      case CEL_OPERATION_DEREFARR2:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_index2 = stack.Pop ();
+	  celXmlArg a_index1 = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarr2 arr=%s index1=%s\n", i-1,
+	  	A2S (top), A2S (a_index1), A2S (a_index2)));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (ArgToString (top), ArgToString (a_index1), a_index2);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+
+      case CEL_OPERATION_DEREFARRENT_STR:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_index = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarrent_str entity=%s arr=%s index=%s\n", i-1,
+	  	A2S (top), A2S (op.arg), A2S (a_index)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
+	    	EntityNameForError (top));
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!",
+	    	EntityNameForError (top));
+	  const char* varname = ArgToString (op.arg.arg.str.s, a_index);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+      case CEL_OPERATION_DEREFARRENT:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_index = stack.Pop ();
+	  celXmlArg a_array = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarrent entity=%s arr=%s index=%s\n", i-1,
+	  	A2S (top), A2S (a_array), A2S (a_index)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
+	    	EntityNameForError (top));
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!",
+	    	EntityNameForError (top));
+	  const char* varname = ArgToString (ArgToString (a_array), a_index);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+
+      case CEL_OPERATION_DEREFARR_STR:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarr_str arr=%s index=%s\n", i-1,
+	  	A2S (op.arg), A2S (top)));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (op.arg.arg.str.s, top);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+      case CEL_OPERATION_DEREFARR:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_index = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefarr arr=%s index=%s\n", i-1,
+	  	A2S (top), A2S (a_index)));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (ArgToString (top), a_index);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	}
+        break;
+
       case CEL_OPERATION_DEREFVAR_STR:
         {
           DUMP_EXEC ((":%04d: derefvar_str %s\n", i-1, A2S (op.arg)));
@@ -2812,7 +3168,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (copy_varname, (long)v);
-	    Execute (entity, behave, ret, params, i);
+	    Execute (entity, behave, ret, params, i, false);
 	  }
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
@@ -2842,6 +3198,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  DUMP_EXEC ((":%04d: drop %s\n", i-1, A2S (stack[stack.Length ()-1])));
 	  stack.Pop ();
+	}
+	break;
+      case CEL_OPERATION_CLEARSTACK:
+        {
+	  DUMP_EXEC ((":%04d: clearstack\n", i-1));
+	  stack.DeleteAll ();
 	}
 	break;
       case CEL_OPERATION_DUP:

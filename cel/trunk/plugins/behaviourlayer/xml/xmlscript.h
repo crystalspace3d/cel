@@ -120,6 +120,7 @@ enum
   CEL_OPERATION_PUSHSTR,	// A:S		S:-		OS:S
   CEL_OPERATION_DUP,		// A:-		S:?		OS:?,?
   CEL_OPERATION_DROP,		// A:-		S:?		OS:-
+  CEL_OPERATION_CLEARSTACK,	// A:-		S:...		OS:<nothing>
 
   CEL_OPERATION_DEREFLVAR,	// A:I		S:-		OS:?
   CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
@@ -132,6 +133,14 @@ enum
   CEL_OPERATION_VAR_STR,	// A:S		S:?		OS:-
   CEL_OPERATION_VARENT_STR,	// A:S		S:E,?		OS:-
   CEL_OPERATION_PARAM,		// A:-		S:ID		OS:?
+  CEL_OPERATION_DEREFARR,	// A:-		S:S,?		OS:?
+  CEL_OPERATION_DEREFARR_STR,	// A:S		S:?		OS:?
+  CEL_OPERATION_DEREFARRENT,	// A:-		S:E,S,?		OS:?
+  CEL_OPERATION_DEREFARRENT_STR,// A:S		S:E,?		OS:?
+  CEL_OPERATION_DEREFARR2,	// A:-		S:S,?,?		OS:?
+  CEL_OPERATION_DEREFARR2_STR,	// A:S		S:?,?		OS:?
+  CEL_OPERATION_DEREFARRENT2,	// A:-		S:E,S,?,?	OS:?
+  CEL_OPERATION_DEREFARRENT2_STR,// A:S		S:E,?,?		OS:?
 
   CEL_OPERATION_COLOR,		// A:-		S:F,F,F		OS:C
   CEL_OPERATION_VECTOR2,	// A:-		S:F,F		OS:V2
@@ -375,7 +384,8 @@ public:
   celXmlArg& GetLocalVariable (int idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
-  	celData& ret, iCelParameterBlock* params, int startop = 0);
+  	celData& ret, iCelParameterBlock* params, int startop = 0,
+	bool newscope = true);
 };
 
 /**

@@ -59,6 +59,7 @@ private:
   {
     propid_billboardname = 0,
     propid_materialname,
+    propid_materialnamefast,
     propid_clickable,
     propid_movable,
     propid_visible,

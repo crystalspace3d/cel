@@ -170,6 +170,7 @@ public:
   virtual const char* GetName () const { return name; }
   virtual csFlags& GetFlags () { return flags; }
   virtual bool SetMaterialName (const char* matname);
+  virtual bool SetMaterialNameFast (const char* matname);
   virtual const char* GetMaterialName () { return materialname; }
   virtual void SetSize (int w, int h);
   virtual void GetSize (int& w, int& h);

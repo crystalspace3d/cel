@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/refarr.h"
 #include "csutil/parray.h"
 #include "physicallayer/propclas.h"
@@ -194,7 +195,7 @@ private:
   csRef<iPcSolid> pcsolid;
   csRef<iCollider> gravity_collider;
   csRef<iCollideSystem> cdsys;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
 
   bool active;
