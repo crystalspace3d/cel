@@ -457,8 +457,6 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(look.Unit(),up.Unit());
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
-    pcmesh->GetMesh ()->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
-
     csRef<iSprite3DState> spstate =
             SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
                                  iSprite3DState);
@@ -474,11 +472,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     bool rc = MoveSprite (delta);
     rc = RotateV (delta) || rc;
     if (rc)
-    {
       pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
-      pcmesh->GetMesh ()->DeferUpdateLighting (
-    	  CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 5);
-    }
   }
 }
 

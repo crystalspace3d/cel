@@ -2819,7 +2819,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  cbl->call_stack.Push (handler->GetName ());
 	  cbl->call_stack_params.Push (params);
 	  cbl->call_stack_entity.Push (entity);
-	  handler->Execute (entity, behave, ret, params);
+	  if (!handler->Execute (entity, behave, ret, params))
+	    return false;
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
@@ -3136,7 +3137,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (varname, (long)v);
-	    truebranch->Execute (entity, behave, ret, params);
+	    if (!truebranch->Execute (entity, behave, ret, params))
+	      return false;
 	  }
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
@@ -3168,7 +3170,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (copy_varname, (long)v);
-	    Execute (entity, behave, ret, params, i, false);
+	    if (!Execute (entity, behave, ret, params, i, false))
+	      return false;
 	  }
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
@@ -3250,7 +3253,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      cbl->call_stack.Push (truebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
 	      cbl->call_stack_entity.Push (entity);
-	      truebranch->Execute (entity, behave, ret, params);
+	      if (!truebranch->Execute (entity, behave, ret, params))
+	        return false;
 	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
 	      cbl->call_stack.Pop ();
@@ -3264,7 +3268,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      cbl->call_stack.Push (falsebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
 	      cbl->call_stack_entity.Push (entity);
-	      falsebranch->Execute (entity, behave, ret, params);
+	      if (!falsebranch->Execute (entity, behave, ret, params))
+	        return false;
 	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
 	      cbl->call_stack.Pop ();

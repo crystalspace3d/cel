@@ -303,7 +303,6 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   csReversibleTransform tr (m_o2t, v_o2t);
   mesh->GetMovable ()->SetTransform (tr);
   mesh->GetMovable ()->UpdateMove ();
-  mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
 
   return true;
 }
@@ -417,7 +416,6 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 
   mesh->GetMovable ()->SetPosition (pos);
   mesh->GetMovable ()->UpdateMove ();
-  mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
 }
 
 void celPcMesh::SetAction (const char* actionName, bool resetaction)
