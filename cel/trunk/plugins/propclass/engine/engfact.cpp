@@ -1569,7 +1569,7 @@ bool celPcRegion::Load ()
   CS_ASSERT (VFS != 0);
   VFS->ChDir (worlddir);
   // Load the level file which is called 'world'.
-  if (!loader->LoadMapFile (worldfile, false, cur_region, true))
+  if (!loader->LoadMapFile (worldfile, false, cur_region, false, true))
   {
     Report (object_reg, "Could not load map file '%s'.", worldfile);
     return false;
