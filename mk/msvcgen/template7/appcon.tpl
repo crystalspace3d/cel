@@ -22,6 +22,7 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,_MT,WIN32,WIN32_VOLATILE,__CRYSTAL_SPACE__"
+				AdditionalOptions="%cflags%"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -37,8 +38,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib"
+				AdditionalOptions="/MACHINE:I386 %lflags%"
+				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\release\temp\%project%/%target%"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -83,6 +84,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="_DEBUG,_MT,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
+				AdditionalOptions="%cflags%"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -98,8 +100,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="libcssys_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib"
+				AdditionalOptions="/MACHINE:I386 %lflags%"
+				AdditionalDependencies="libcssys_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\debug\temp\%project%/%target%"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
