@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Apr-2005
+	- Jorrit fixed CEL for the removal of csHashMap and csHashSet in CS.
 25-Mar-2005
 	- Eric Sunshine updated Autoconf and Jam files from master copies in CS
 	  repository.
