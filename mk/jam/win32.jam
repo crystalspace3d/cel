@@ -114,6 +114,7 @@ rule LinkVersionRc
   v3 = $(PACKAGE.VERSION.LIST[3]) ;
   if ! $(v3) { v3 = 0 ; }
   v4 = $(PACKAGE.VERSION.LIST[4]) ;
+  if ! $(v4) { v4 = 0 ; }
   PACKAGE.VERSION.LIST on $(versionrc) = $(v1) $(v2) $(v3) $(v4) ;
       
   GenerateWin32VersionRc $(versionrc) ;
@@ -135,7 +136,7 @@ rule SystemLinkApplication
   LinkVersionRc $(<) ;
 }
 
-# SystemLinkPlugin target : objects : options : metafile
+# SystemLinkPlugin target : objects : options
 rule SystemLinkPlugin
 {
   local target = $($(<)_TARGET) ;
@@ -151,6 +152,7 @@ rule SystemLinkPlugin
   Depends $(target) : $(>) ;
   EXPORTDEFS on $(target) = $(exportdefs) ;
   LinkPlugin $(target) : $(>) ;
+#PluginMetaData $(<) : $($(<)_METAFILE) ;
   # setup clean rules
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
