@@ -83,6 +83,7 @@ enum
   XMLFUNCTION_FLOAT,
   XMLFUNCTION_RAND,
   XMLFUNCTION_TESTCOLLIDE,
+  XMLFUNCTION_IF,
 
   XMLFUNCTION_LAST
 };
@@ -140,6 +141,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("float", XMLFUNCTION_FLOAT);
   functions.Register ("rand", XMLFUNCTION_RAND);
   functions.Register ("testcollide", XMLFUNCTION_TESTCOLLIDE);
+  functions.Register ("if", XMLFUNCTION_IF);
 
   return true;
 }
@@ -247,6 +249,16 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       {
         if (!ParseExpression (input, child, h, name, 0)) return false;
         h->AddOperation (CEL_OPERATION_ABS);
+      }
+      break;
+    case XMLFUNCTION_IF:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_IFFUN);
       }
       break;
     case XMLFUNCTION_MIN:
@@ -562,9 +574,14 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       }
       break;
     case CEL_TOKEN_MINUS:
-      if (!ParseExpression (input, child, h, name, 0))
+      if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
 	return false;
       h->AddOperation (CEL_OPERATION_UNARYMINUS);
+      break;
+    case CEL_TOKEN_BITNOT:
+      if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
+	return false;
+      h->AddOperation (CEL_OPERATION_BITNOT);
       break;
     case CEL_TOKEN_COMMA:
       synldr->ReportError ("cel.behaviour.xml", child,
@@ -605,6 +622,24 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       case CEL_TOKEN_VECTORCLOSE:
         input = pinput;	// Restore.
         return true;
+      case CEL_TOKEN_BITAND:
+        if (stoppri >= CEL_PRIORITY_BITAND) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_BITAND))
+	  return false;
+        h->AddOperation (CEL_OPERATION_BITAND);
+        break;
+      case CEL_TOKEN_BITOR:
+        if (stoppri >= CEL_PRIORITY_BITOR) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_BITOR))
+	  return false;
+        h->AddOperation (CEL_OPERATION_BITOR);
+        break;
+      case CEL_TOKEN_BITXOR:
+        if (stoppri >= CEL_PRIORITY_BITXOR) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_BITXOR))
+	  return false;
+        h->AddOperation (CEL_OPERATION_BITXOR);
+        break;
       case CEL_TOKEN_LOGAND:
         if (stoppri >= CEL_PRIORITY_LOGAND) { input = pinput; return true; }
         if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LOGAND))

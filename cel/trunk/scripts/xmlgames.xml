@@ -80,12 +80,21 @@
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
 		<var name="allowmove" value="false" />
-		<for var="i" start="0" end="100" exec="fast_shuffle" />
+		<for var="i" start="0" end="20" exec="fast_shuffle" />
 		<var name="allowmove" value="true" />
 	    </event>
 	    <event name="fast_shuffle">
 	        <var name="dxdy" value="int(rand(4.0))" />
-		<print value="'dxdy:'+?dxdy" />
+		<if eval="?dxdy&2">
+		    <true>
+		        <var name="dx" value="0" />
+		        <var name="dy" value="if(?dxdy&1,1,-1)" />
+		    </true>
+		    <false>
+		        <var name="dx" value="if(?dxdy&1,1,-1)" />
+		        <var name="dy" value="0" />
+		    </false>
+		</if>
 	    </event>
 	</script>
 

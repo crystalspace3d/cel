@@ -72,13 +72,15 @@ const char* celXmlParseToken (const char* input, int& token)
     case '%': token = CEL_TOKEN_MODULO; return input+1;
     case '-': token = CEL_TOKEN_MINUS; return input+1;
     case '+': token = CEL_TOKEN_ADD; return input+1;
+    case '~': token = CEL_TOKEN_BITNOT; return input+1;
+    case '^': token = CEL_TOKEN_BITXOR; return input+1;
     case '|':
       if (*(input+1) == '|')
       {
         token = CEL_TOKEN_LOGOR;
 	return input+2;
       }
-      token = CEL_TOKEN_ERROR;
+      token = CEL_TOKEN_BITOR;
       return input+1;
     case '&':
       if (*(input+1) == '&')
@@ -86,7 +88,7 @@ const char* celXmlParseToken (const char* input, int& token)
         token = CEL_TOKEN_LOGAND;
 	return input+2;
       }
-      token = CEL_TOKEN_ERROR;
+      token = CEL_TOKEN_BITAND;
       return input+1;
     case '<':
       if (*(input+1) == '=')

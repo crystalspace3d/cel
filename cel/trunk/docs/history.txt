@@ -6,6 +6,13 @@ The history order is reversed so that new features are at the top.
 6-Dec-2003
 	- Jorrit implemented cross product and modulo operator for the XML
 	  behaviour layer.
+	- Jorrit implemented bitwise and, or, xor, and not for the XML
+	  behaviour layer.
+	- Jorrit fixed operator precedence for the unary operators (! and ~).
+	- Jorrit implemented the 'if' function in the XML behaviour layer.
+	  Works a bit like the C++ ?: operator. An important difference is
+	  that the 'if' function will always evaluate both the true and
+	  the false expression.
 5-Dec-2003
 	- Jorrit changed 'testcollide' to be a function in the XML behaviour
 	  layer.

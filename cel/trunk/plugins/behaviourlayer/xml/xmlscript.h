@@ -51,8 +51,9 @@ enum
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_VARENT,		// A:-		S:S,S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
-  CEL_OPERATION_IF,		// A:E,E	S:?		OS:-
-  CEL_OPERATION_IFGOTO,		// A:C		S:?		OS:-
+  CEL_OPERATION_IF,		// A:E,E	S:B		OS:-
+  CEL_OPERATION_IFGOTO,		// A:C		S:B		OS:-
+  CEL_OPERATION_IFFUN,		// A:-		S:B,?,?		OS:?
   CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
   CEL_OPERATION_FOR,		// A:E		S:S,?,?		OS:-
   CEL_OPERATION_CALL,		// A:-		S:S,S		OS:-
@@ -83,6 +84,10 @@ enum
   CEL_OPERATION_GE,		// A:-		S:?,?		OS:B
   CEL_OPERATION_LOGAND,		// A:-		S:?,?		OS:B
   CEL_OPERATION_LOGOR,		// A:-		S:?,?		OS:B
+  CEL_OPERATION_BITAND,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_BITOR,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_BITXOR,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_BITNOT,		// A:-		S:?,?		OS:?
   CEL_OPERATION_CALCID,		// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPROPID,	// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPARID,	// A:-		S:S		OS:ID

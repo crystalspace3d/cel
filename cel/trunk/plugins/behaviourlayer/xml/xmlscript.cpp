@@ -793,6 +793,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_BITNOT:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (":%04d: ~ %s\n", i-1, A2S (stack[si]));
+	  switch (stack[si].type)
+	  {
+	    case CEL_DATA_LONG: stack[si].arg.i = ~stack[si].arg.i; break;
+	    case CEL_DATA_ULONG: stack[si].arg.ui = ~stack[si].arg.ui; break;
+	    case CEL_DATA_BOOL: stack[si].arg.b = !stack[si].arg.b; break;
+	    default:
+	      return ReportError (behave, "Can't bit-not element on stack!");
+	  }
+	}
+	break;
       case CEL_OPERATION_UNARYMINUS:
         {
 	  CHECK_STACK
@@ -1151,6 +1166,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      stack[si].SetBool (bool (int (ArgToBool (ela))
 	      	* int (ArgToBool (elb))));
 	      break;
+	    default:
+	      return ReportError (behave, "Can't multiply these types!");
 	  }
 	}
 	break;
@@ -1228,6 +1245,83 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) / ArgToUInt32 (elb));
 	      break;
+	    default:
+	      return ReportError (behave, "Can't divide these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_BITAND:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (":%04d: %s & %s\n", i-1, A2S (ela), A2S (elb));
+	  int si = stack.Push (celXmlArg ());
+	  int t = GetCalculationType (ela, elb);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      stack[si].SetBool (ArgToBool (ela) & ArgToBool (elb));
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (ArgToInt32 (ela) & ArgToInt32 (elb));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 (ArgToUInt32 (ela) & ArgToUInt32 (elb));
+	      break;
+	    default:
+	      return ReportError (behave, "Can't bit-and these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_BITOR:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (":%04d: %s | %s\n", i-1, A2S (ela), A2S (elb));
+	  int si = stack.Push (celXmlArg ());
+	  int t = GetCalculationType (ela, elb);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      stack[si].SetBool (ArgToBool (ela) | ArgToBool (elb));
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (ArgToInt32 (ela) | ArgToInt32 (elb));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 (ArgToUInt32 (ela) | ArgToUInt32 (elb));
+	      break;
+	    default:
+	      return ReportError (behave, "Can't bit-or these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_BITXOR:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (":%04d: %s ^ %s\n", i-1, A2S (ela), A2S (elb));
+	  int si = stack.Push (celXmlArg ());
+	  int t = GetCalculationType (ela, elb);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      stack[si].SetBool (ArgToBool (ela) ^ ArgToBool (elb));
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (ArgToInt32 (ela) ^ ArgToInt32 (elb));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 (ArgToUInt32 (ela) ^ ArgToUInt32 (elb));
+	      break;
+	    default:
+	      return ReportError (behave, "Can't bit-or these types!");
 	  }
 	}
 	break;
@@ -1771,6 +1865,77 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    props->SetProperty (varname, (long)v);
 	    truebranch->Execute (entity, behave, params);
+	  }
+	}
+	break;
+      case CEL_OPERATION_IFFUN:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg eval = stack.Pop ();
+	  DUMP_EXEC (":%04d: iffun eval=%s true=%s false=%s\n", i-1,
+	  	A2S (eval), A2S (ela), A2S (elb));
+	  bool rc = false;
+	  switch (eval.type)
+	  {
+	    case CEL_DATA_STRING:
+	      {
+	        const char* s = ArgToString (eval);
+	        rc = s ? *s != 0 : false;
+	      }
+	      break;
+	    case CEL_DATA_PCLASS:
+	      rc = ArgToPClass (eval) != 0;
+	      break;
+	    case CEL_DATA_BOOL:
+	      rc = ArgToBool (eval);
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v = ArgToVector2 (eval);
+		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v = ArgToVector3 (eval);
+		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
+			ABS (v.z) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v = ArgToColor (eval);
+		rc = ABS (v.red) >= SMALL_EPSILON ||
+			ABS (v.green) >= SMALL_EPSILON ||
+			ABS (v.blue) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_FLOAT:
+	      {
+	        float f = ArgToFloat (eval);
+	        rc = ABS (f) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_LONG:
+	      rc = ArgToInt32 (eval) != 0;
+	      break;
+	    case CEL_DATA_ULONG:
+	      rc = ArgToUInt32 (eval) != 0;
+	      break;
+	    default:
+	      return ReportError (behave, "Can't test on this type!");
+	  }
+	  if (rc)
+	  {
+	    stack.Push (ela);
+	  }
+	  else
+	  {
+	    stack.Push (elb);
 	  }
 	}
 	break;
