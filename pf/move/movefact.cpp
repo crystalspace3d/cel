@@ -289,7 +289,9 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   celData* cd;
   if (collider) { collider->DecRef (); collider = NULL; }
   cd = databuf->GetData (0); if (!cd) return false;
-  iPcMesh* pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMesh);
+  iPcMesh* pcm = NULL;
+  if (cd->value.pc)
+      pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMesh);
   SetMesh (pcm);
   if (pcm) pcm->DecRef ();
   return true;
