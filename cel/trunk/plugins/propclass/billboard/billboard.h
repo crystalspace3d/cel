@@ -58,7 +58,8 @@ private:
     propid_materialname,
     propid_clickable,
     propid_movable,
-    propid_visible
+    propid_visible,
+    propid_restack
   };
 
   static Property* properties;

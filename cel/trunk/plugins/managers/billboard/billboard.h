@@ -61,7 +61,7 @@ public:
   }
 
   // Draw billboard (requires 3D mode of g3d).
-  void Draw (iEngine* engine, iGraphics3D* g3d);
+  void Draw (iEngine* engine, iGraphics3D* g3d, float z);
 
   // Check if x,y is in billboard.
   bool In (int cx, int cy);
@@ -103,6 +103,8 @@ class celBillboardManager : public iBillboardManager
 {
 private:
   iObjectRegistry* object_reg;
+  // Note: the billboard at the end of the following array is the top of
+  // the stack.
   csPDelArray<celBillboard> billboards;
   csHash<celBillboard*,csStrKey,csConstCharHashKeyHandler> billboards_hash;
   csRef<iGraphics3D> g3d;
@@ -111,6 +113,9 @@ private:
   celBillboard* moving_billboard;
   int moving_dx;
   int moving_dy;
+
+  float z_min;
+  float z_max;
 
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
@@ -129,6 +134,13 @@ public:
   virtual iBillboard* GetBillboard (int idx) const { return billboards[idx]; }
   virtual void RemoveAll ();
   virtual void SetFlags (uint32 flags, uint32 mask);
+
+  virtual void StackTop (iBillboard* bb);
+  virtual void StackBottom (iBillboard* bb);
+  virtual void StackUp (iBillboard* bb);
+  virtual void StackDown (iBillboard* bb);
+  virtual void StackBefore (iBillboard* bb, iBillboard* other);
+  virtual void StackAfter (iBillboard* bb, iBillboard* other);
 
   struct Component : public iComponent
   {

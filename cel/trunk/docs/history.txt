@@ -10,6 +10,17 @@ The history order is reversed so that new features are at the top.
 	- Jorrit implemented moving of billboards.
 	- Jorrit added 'movable' and 'visible' properties for pcbillboard.
 	  Also renamed 'events' to 'clickable'.
+	- Jorrit implemented stacking order in the billboard manager. By
+	  default the most recently created object will be in front of
+	  all others.
+	- Jorrit added various stacking functions to iBillboardManager.
+	- Jorrit added a CEL_BILLBOARD_RESTACK option to billboards. With
+	  this option the billboard will automatically restack to front
+	  if it is clicked on. Also added a 'restack' property for
+	  pcbillboard.
+	- Jorrit fixed a bug in the xml behaviour layer. If the same
+	  behaviour scfript was reused for multiple entities then the
+	  property classes would not be resolved again.
 23-Nov-2003
 	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
 	  by overriding SetProperty() and GetPropertyString() from

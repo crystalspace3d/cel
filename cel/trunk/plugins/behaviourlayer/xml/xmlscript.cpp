@@ -72,7 +72,7 @@ void celXmlScriptEventHandler::ResolveParameters (iCelEntity* entity)
   int i;
   iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
   for (i = 0 ; i < resolvers.Length () ; i++)
-    if (!resolvers[i].pc)
+    //if (!resolvers[i].pc)
     {
       resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
       printf ("Resolve '%s'->%p\n", resolvers[i].pcname, resolvers[i].pc);

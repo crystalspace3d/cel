@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 5;
+    propertycount = 6;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -87,6 +87,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_visible].datatype = CEL_DATA_BOOL;
     properties[propid_visible].readonly = false;
     properties[propid_visible].desc = "Make visible.";
+
+    properties[propid_restack].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.restack");
+    properties[propid_restack].datatype = CEL_DATA_BOOL;
+    properties[propid_restack].readonly = false;
+    properties[propid_restack].desc = "Make restackable on selection.";
   }
 }
 
@@ -120,6 +126,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_clickable] = 0;	// Handled in this class.
   propdata[propid_movable] = 0;		// Handled in this class.
   propdata[propid_visible] = 0;		// Handled in this class.
+  propdata[propid_restack] = 0;		// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -151,6 +158,12 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
     return true;
   }
+  else if (propertyId == properties[propid_restack].id)
+  {
+    GetBillboard ();
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
+    return true;
+  }
   else
   {
     return celPcCommon::SetProperty (propertyId, b);
@@ -176,6 +189,13 @@ bool celPcBillboard::GetPropertyBool (csStringID propertyId)
     GetBillboard ();
     return billboard ?
     	billboard->GetFlags ().Check (CEL_BILLBOARD_VISIBLE) :
+	false;
+  }
+  else if (propertyId == properties[propid_restack].id)
+  {
+    GetBillboard ();
+    return billboard ?
+    	billboard->GetFlags ().Check (CEL_BILLBOARD_RESTACK) :
 	false;
   }
   else
