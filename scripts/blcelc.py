@@ -3611,6 +3611,9 @@ CS_ATTN_LINEAR = _blcelc.CS_ATTN_LINEAR
 CS_ATTN_INVERSE = _blcelc.CS_ATTN_INVERSE
 CS_ATTN_REALISTIC = _blcelc.CS_ATTN_REALISTIC
 CS_ATTN_CLQ = _blcelc.CS_ATTN_CLQ
+CS_LIGHT_POINTLIGHT = _blcelc.CS_LIGHT_POINTLIGHT
+CS_LIGHT_DIRECTIONAL = _blcelc.CS_LIGHT_DIRECTIONAL
+CS_LIGHT_SPOTLIGHT = _blcelc.CS_LIGHT_SPOTLIGHT
 class iLightCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3655,8 +3658,15 @@ class iLight(iBase):
     def GetCenter(*args): return _blcelc.iLight_GetCenter(*args)
     def SetCenter(*args): return _blcelc.iLight_SetCenter(*args)
     def GetSector(*args): return _blcelc.iLight_GetSector(*args)
+    def GetMovable(*args): return _blcelc.iLight_GetMovable(*args)
     def GetColor(*args): return _blcelc.iLight_GetColor(*args)
     def SetColor(*args): return _blcelc.iLight_SetColor(*args)
+    def GetType(*args): return _blcelc.iLight_GetType(*args)
+    def SetType(*args): return _blcelc.iLight_SetType(*args)
+    def GetDirection(*args): return _blcelc.iLight_GetDirection(*args)
+    def SetDirection(*args): return _blcelc.iLight_SetDirection(*args)
+    def GetSpotFalloff(*args): return _blcelc.iLight_GetSpotFalloff(*args)
+    def SetSpotFalloff(*args): return _blcelc.iLight_SetSpotFalloff(*args)
     def GetInfluenceRadius(*args): return _blcelc.iLight_GetInfluenceRadius(*args)
     def GetInfluenceRadiusSq(*args): return _blcelc.iLight_GetInfluenceRadiusSq(*args)
     def SetInfluenceRadius(*args): return _blcelc.iLight_SetInfluenceRadius(*args)
