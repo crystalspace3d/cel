@@ -71,11 +71,8 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   InitPytocel ();
 
   char path[256];
-  char* temp;
-  temp = csGetConfigPath ();
-  strncpy (path, temp, 255);
+  strncpy (path, csGetConfigPath (), 255);
   strcat (path, "/");
-  delete[] temp;
 
   if (!LoadModule ("sys")) return false;
 
