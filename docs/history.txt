@@ -3,6 +3,29 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+26-Nov-2003
+	- Jorrit added first primitive version of TestCollision() function
+	  in the billboard manager. Currently only uses the bounding
+	  rectangle and ignores transparent areas.
+	- Jorrit implemented generic property support for the pcproperties
+	  property class.
+	- Jorrit added support for setting 'long' properties to the XML
+	  behaviour layer.
+	- Jorrit added support for setting 'long' properties to the 'celentity'
+	  addon.
+	- Jorrit implemented <getproperty> in the xml behaviour layer. With
+	  this command you can get a property from any property class and
+	  set it to a property of the 'pcproperties' property class for that
+	  entity.
+	- Jorrit added support for property class and entity properties in
+	  the pcproperties property class (in addition to long, float, bool,
+	  and string). This uses weak references so it should be relatively
+	  safe to use.
+	- Jorrit extended iCelPropertyClass with methods to get and set
+	  generic property class and entity properties. Extended pcproperties
+	  to implement those too.
+	- Jorrit fixed the python behaviour layer for the latest move of
+	  the billboard manager from 'managers' to 'tools'.
 25-Nov-2003
 	- Jorrit fixed the billboard manager so that it will now ignore
 	  clicks on transparent parts of the objects.

@@ -47,7 +47,13 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 enum
 {
   XMLTOKEN_PROPERTY,
-  XMLTOKEN_ACTION
+  XMLTOKEN_GETPROPERTY,
+  XMLTOKEN_ACTION,
+
+  XMLTOKEN_VAR,
+  XMLTOKEN_GETPROPCLASS,
+  XMLTOKEN_TESTCOLLIDE,
+  XMLTOKEN_IF
 };
 
 celBlXml::celBlXml (iBase* parent)
@@ -75,7 +81,12 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
+  xmltokens.Register ("getproperty", XMLTOKEN_GETPROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
+  xmltokens.Register ("var", XMLTOKEN_VAR);
+  xmltokens.Register ("getpropclass", XMLTOKEN_GETPROPCLASS);
+  xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
+  xmltokens.Register ("if", XMLTOKEN_IF);
 
   return true;
 }
@@ -122,6 +133,39 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_VAR:
+        // @@@ TODO
+        break;
+      case XMLTOKEN_GETPROPCLASS:
+        // @@@ TODO
+        break;
+      case XMLTOKEN_TESTCOLLIDE:
+        // @@@ TODO
+        break;
+      case XMLTOKEN_IF:
+        // @@@ TODO
+        break;
+      case XMLTOKEN_GETPROPERTY:
+	{
+	  const char* pcname = GetAttributeValue (child, "propclass");
+	  if (!pcname) return false;
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
+	  const char* varname = child->GetAttributeValue ("var");
+	  if (!varname)
+	  {
+            synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"'var' attribute is missing!");
+	    return false;
+	  }
+	  h->AddOperation (CEL_OPERATION_GETPROPERTY);
+	  h->AddArgument ().SetPC (h->GetResolver ("pcproperties"));
+	  h->AddArgument ().SetString (varname);
+	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetID (propid);
+	}
+	break;
       case XMLTOKEN_PROPERTY:
         {
 	  const char* pcname = GetAttributeValue (child, "propclass");
@@ -152,6 +196,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	      if (attr)
 	      {
 	        h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
+	      }
+	      else
+	      {
+	        attr = child->GetAttribute ("long");
+	        if (attr)
+	        {
+	          h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
+	        }
 	      }
 	    }
 	  }

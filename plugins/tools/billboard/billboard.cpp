@@ -57,20 +57,26 @@ celBillboard::~celBillboard ()
   delete[] clickmap;
 }
 
-bool celBillboard::GetFromClickMap (int x, int y)
+void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
+{
+  tx = sx-x;
+  ty = sy-y;
+}
+
+bool celBillboard::GetFromClickMap (int tx, int ty)
 {
   if (!has_clickmap)
     SetupMaterial ();
   if (!clickmap) return true;
-  uint8 c = clickmap[y*(1 + image_w/8) + x/8];
+  uint8 c = clickmap[ty*(1 + image_w/8) + tx/8];
   return (c & (1<<(x%8))) != 0;
 }
 
-void celBillboard::SetClickMap (int x, int y, bool v)
+void celBillboard::SetClickMap (int tx, int ty, bool v)
 {
   if (!clickmap) return;
-  uint8& c = clickmap[y*(1 + image_w/8) + x/8];
-  uint8 mask = 1<<(x%8);
+  uint8& c = clickmap[ty*(1 + image_w/8) + tx/8];
+  uint8 mask = 1<<(tx%8);
   if (v) c |= mask;
   else c &= ~mask;
 }
@@ -178,45 +184,47 @@ void celBillboard::Move (int dx, int dy)
   celBillboard::y += y;
 }
 
-void celBillboard::FireMouseUp (int x, int y, int button)
+void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->Unselect (this, x, y, button);
+    handlers[i]->Unselect (this, sx, sy, button);
 }
 
-void celBillboard::FireMouseDown (int x, int y, int button)
+void celBillboard::FireMouseDown (int sx, int sy, int button)
 {
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->Select (this, x, y, button);
+    handlers[i]->Select (this, sx, sy, button);
 }
 
-void celBillboard::FireMouseMove (int x, int y, int button)
+void celBillboard::FireMouseMove (int sx, int sy, int button)
 {
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->MouseMove (this, x, y, button);
+    handlers[i]->MouseMove (this, sx, sy, button);
 }
 
-void celBillboard::FireMouseDoubleClick (int x, int y, int button)
+void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
 {
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->DoubleClick (this, x, y, button);
+    handlers[i]->DoubleClick (this, sx, sy, button);
 }
 
 
-bool celBillboard::In (int cx, int cy)
+bool celBillboard::In (int sx, int sy)
 {
   if (w == -1 || !has_clickmap)
   {
     SetupMaterial ();
     if (w == -1 || !has_clickmap) return false;
   }
-  if (cx >= x && cx < x+w && cy >= y && cy < y+h)
+  if (sx >= x && sx < x+w && sy >= y && sy < y+h)
   {
-    return GetFromClickMap (cx-x, cy-y);
+    int tx, ty;
+    TranslateScreenToTexture (sx, sy, tx, ty);
+    return GetFromClickMap (tx, ty);
   }
   else
     return false;
@@ -533,6 +541,22 @@ void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
   int i;
   for (i = 0 ; i < billboards.Length () ; i++)
     billboards[i]->GetFlags ().Set (flags, mask);
+}
+
+bool celBillboardManager::TestCollision (iBillboard* bb1, iBillboard* bb2)
+{
+  int x1, y1, w1, h1;
+  int x2, y2, w2, h2;
+  bb1->GetPosition (x1, y1);
+  bb1->GetSize (w1, h1);
+  bb2->GetPosition (x2, y2);
+  bb2->GetSize (w2, h2);
+  if (x1 >= (x2+w2-1)) return false;
+  if (y1 >= (y2+h2-1)) return false;
+  if ((x1+w1-1) < x2) return false;
+  if ((y1+h1-1) < y2) return false;
+  // Test transparent bits...
+  return true;
 }
 
 //---------------------------------------------------------------------------

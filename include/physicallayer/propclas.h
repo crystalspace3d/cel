@@ -36,7 +36,7 @@ struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
 
-SCF_VERSION (iCelPropertyClass, 0, 0, 4);
+SCF_VERSION (iCelPropertyClass, 0, 0, 5);
 
 /**
  * This is a property class for an entity. A property class
@@ -123,6 +123,17 @@ struct iCelPropertyClass : public iBase
   virtual bool SetProperty (csStringID propertyID, const csVector3& value) = 0;
 
   /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID,
+  	iCelPropertyClass* value) = 0;
+
+  /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID, iCelEntity* entity) = 0;
+
+  /**
    * Get the type of the given property or action. Returns CEL_DATA_NONE
    * if property is not supported. Only the following types are supported:
    * <ul>
@@ -132,6 +143,8 @@ struct iCelPropertyClass : public iBase
    * <li>CEL_DATA_STRING
    * <li>CEL_DATA_VECTOR3
    * <li>CEL_DATA_ACTION
+   * <li>CEL_DATA_PCLASS
+   * <li>CEL_DATA_ENTITY
    * </ul>
    */
   virtual celDataType GetPropertyOrActionType (
@@ -166,6 +179,16 @@ struct iCelPropertyClass : public iBase
    * Get a property as a 3D vector.
    */
   virtual bool GetPropertyVector (csStringID propertyID, csVector3& v) = 0;
+
+  /**
+   * Get a property as property class.
+   */
+  virtual iCelPropertyClass* GetPropertyPClass (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as entity.
+   */
+  virtual iCelEntity* GetPropertyEntity (csStringID propertyID) = 0;
 
   /**
    * Perform an action with a generic string parameter.

@@ -25,6 +25,7 @@
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
 #include "csutil/parray.h"
+#include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -34,6 +35,7 @@
 #include "propclass/prop.h"
 
 struct iCelEntity;
+struct iCelPlLayer;
 struct iObjectRegistry;
 struct iVirtualClock;
 
@@ -194,9 +196,12 @@ public:
 class celPcProperties : public celPcCommon
 {
 private:
+  csRef<iCelPlLayer> pl;
+
   struct property
   {
     char* propName;
+    csStringID id;
     celDataType type;
     union
     {
@@ -205,31 +210,61 @@ private:
       bool b;
       char* s;
     } v;
+    csWeakRef<iCelEntity> entity;
+    csWeakRef<iCelPropertyClass> pclass;
   };
   csPDelArray<property> properties;
 
   int NewProperty (const char* name);
+  int FindProperty (csStringID id);
   int FindOrNewProperty (const char* name);
+  int FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
 
 public:
   celPcProperties (iObjectRegistry* object_reg);
   virtual ~celPcProperties ();
 
+  virtual bool SetProperty (csStringID, const char*);
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool SetProperty (csStringID, float);
+  virtual bool SetProperty (csStringID, long);
+  virtual bool SetProperty (csStringID, iCelPropertyClass*);
+  virtual bool SetProperty (csStringID, iCelEntity*);
+  virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyBool (csStringID);
+  virtual long GetPropertyLong (csStringID);
+  virtual float GetPropertyFloat (csStringID);
+  virtual iCelPropertyClass* GetPropertyPClass (csStringID);
+  virtual iCelEntity* GetPropertyEntity (csStringID);
+
+  virtual celDataType GetPropertyOrActionType (csStringID propertyID);
+  virtual bool IsPropertyReadOnly (csStringID) { return false; }
+  virtual int GetPropertyAndActionCount () const
+  { return properties.Length (); }
+  virtual csStringID GetPropertyOrActionID (int i);
+  virtual const char* GetPropertyOrActionDescription (csStringID);
+
   void SetProperty (const char* name, float value);
   void SetProperty (const char* name, long value);
   void SetProperty (const char* name, bool value);
   void SetProperty (const char* name, const char* value);
+  void SetProperty (const char* name, iCelPropertyClass* pclass);
+  void SetProperty (const char* name, iCelEntity* entity);
   int GetPropertyIndex (const char* name) const;
   void SetProperty (int index, float value);
   void SetProperty (int index, long value);
   void SetProperty (int index, bool value);
   void SetProperty (int index, const char* value);
+  void SetProperty (int index, iCelPropertyClass* pclass);
+  void SetProperty (int index, iCelEntity* entity);
   celDataType GetPropertyType (int index) const;
-  float GetPropertyFloat (int index) const;
-  long GetPropertyLong (int index) const;
-  bool GetPropertyBool (int index) const;
-  const char* GetPropertyString (int index) const;
+  float GetPropertyFloatIndex (int index) const;
+  long GetPropertyLongIndex (int index) const;
+  bool GetPropertyBoolIndex (int index) const;
+  const char* GetPropertyStringIndex (int index) const;
+  iCelPropertyClass* GetPropertyPClassIndex (int index) const;
+  iCelEntity* GetPropertyEntityIndex (int index) const;
   void ClearProperty (int index);
   void Clear ();
   int GetPropertyCount () const;
@@ -261,6 +296,14 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
+    virtual void SetProperty (const char* name, iCelPropertyClass* value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual void SetProperty (const char* name, iCelEntity* value)
+    {
+      scfParent->SetProperty (name, value);
+    }
     virtual int GetPropertyIndex (const char* name) const
     {
       return scfParent->GetPropertyIndex (name);
@@ -281,25 +324,41 @@ public:
     {
       scfParent->SetProperty (index, value);
     }
+    virtual void SetProperty (int index, iCelPropertyClass* value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, iCelEntity* value)
+    {
+      scfParent->SetProperty (index, value);
+    }
     virtual celDataType GetPropertyType (int index) const
     {
       return scfParent->GetPropertyType (index);
     }
     virtual float GetPropertyFloat (int index) const
     {
-      return scfParent->GetPropertyFloat (index);
+      return scfParent->GetPropertyFloatIndex (index);
     }
     virtual long GetPropertyLong (int index) const
     {
-      return scfParent->GetPropertyLong (index);
+      return scfParent->GetPropertyLongIndex (index);
     }
     virtual bool GetPropertyBool (int index) const
     {
-      return scfParent->GetPropertyBool (index);
+      return scfParent->GetPropertyBoolIndex (index);
     }
     virtual const char* GetPropertyString (int index) const
     {
-      return scfParent->GetPropertyString (index);
+      return scfParent->GetPropertyStringIndex (index);
+    }
+    virtual iCelPropertyClass* GetPropertyPClass (int index) const
+    {
+      return scfParent->GetPropertyPClassIndex (index);
+    }
+    virtual iCelEntity* GetPropertyEntity (int index) const
+    {
+      return scfParent->GetPropertyEntityIndex (index);
     }
     virtual void ClearProperty (int index)
     {

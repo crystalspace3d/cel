@@ -21,6 +21,7 @@
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "propclass/prop.h"
 
 //---------------------------------------------------------------------------
 
@@ -98,6 +99,47 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity)
 	  	args[1].arg.id, args[2].arg.s);
 	}
         break;
+      case CEL_OPERATION_GETPROPERTY:
+        {
+	  csArray<celXmlArg>& args = op.arg.arg.a->args;
+	  // @@@ NOT EFFICIENT!
+	  if (!resolvers[args[0].arg.pc].pc) break;	// @@@ Report error!
+	  csRef<iPcProperties> props =
+	  	SCF_QUERY_INTERFACE (resolvers[args[0].arg.pc].pc,
+		iPcProperties);
+	  CS_ASSERT (props != 0);
+	  iCelPropertyClass* pc = resolvers[args[2].arg.pc].pc;
+	  csStringID id = args[3].arg.id;
+	  celDataType t = pc->GetPropertyOrActionType (id);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      props->SetProperty (args[1].arg.s, pc->GetPropertyBool (id));
+	      printf ("set prop %s %d\n", args[1].arg.s,
+	      	pc->GetPropertyBool (id)); fflush (stdout);
+	      break;
+	    case CEL_DATA_FLOAT:
+	      props->SetProperty (args[1].arg.s, pc->GetPropertyFloat (id));
+	      printf ("set prop %s %g\n", args[1].arg.s,
+	      	pc->GetPropertyFloat (id)); fflush (stdout);
+	      break;
+	    case CEL_DATA_STRING:
+	      props->SetProperty (args[1].arg.s, pc->GetPropertyString (id));
+	      printf ("set prop %s %s\n", args[1].arg.s,
+	      	pc->GetPropertyString (id)); fflush (stdout);
+	      break;
+	    case CEL_DATA_LONG:
+	      props->SetProperty (args[1].arg.s, pc->GetPropertyLong (id));
+	      printf ("set prop %s %ld\n", args[1].arg.s,
+	      	pc->GetPropertyLong (id)); fflush (stdout);
+	      break;
+	    default:
+	      printf ("Type not supported!\n");
+	      fflush (stdout);
+	      break;
+	  }
+	}
+	break;
       case CEL_OPERATION_PROPERTY:
         {
 	  csArray<celXmlArg>& args = op.arg.arg.a->args;
@@ -116,6 +158,10 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity)
 	    case CEL_TYPE_STRING:
 	      resolvers[args[0].arg.pc].pc->SetProperty (
 	  	    args[1].arg.id, args[2].arg.s);
+	      break;
+	    case CEL_TYPE_INT32:
+	      resolvers[args[0].arg.pc].pc->SetProperty (
+	  	    args[1].arg.id, (long)args[2].arg.i);
 	      break;
 	    default:
 	      CS_ASSERT (false);

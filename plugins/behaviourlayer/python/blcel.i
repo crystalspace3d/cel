@@ -24,7 +24,7 @@
 #include "propclass/dynmove.h"
 #include "propclass/billboard.h"
 #include "plugins/behaviourlayer/python/blpython.h"
-#include "managers/billboard.h"
+#include "tools/billboard.h"
 %}
 
 //=======================================================================

@@ -75,6 +75,8 @@ class iBase(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iBase_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iBase_scfGetVersion)
     def _DynamicCast(*args): return apply(_blcelc.iBase__DynamicCast,args)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -87,6 +89,8 @@ class iBasePtr(iBase):
         _swig_setattr(self, iBase,self.__class__,iBase)
 _blcelc.iBase_swigregister(iBasePtr)
 iBase_QueryInterfaceSafe = _blcelc.iBase_QueryInterfaceSafe
+
+iBase_scfGetVersion = _blcelc.iBase_scfGetVersion
 
 
 SCF_STATIC_CLASS_CONTEXT = _blcelc.SCF_STATIC_CLASS_CONTEXT
@@ -106,6 +110,8 @@ class iFactory(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFactory_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFactory_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFactory instance at %s>" % (self.this,)
@@ -116,6 +122,8 @@ class iFactoryPtr(iFactory):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFactory, 'thisown', 0)
         _swig_setattr(self, iFactory,self.__class__,iFactory)
 _blcelc.iFactory_swigregister(iFactoryPtr)
+iFactory_scfGetVersion = _blcelc.iFactory_scfGetVersion
+
 
 scfCompatibleVersion = _blcelc.scfCompatibleVersion
 
@@ -144,6 +152,8 @@ class iSCF(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSCF_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSCF_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSCF instance at %s>" % (self.this,)
@@ -157,6 +167,8 @@ _blcelc.iSCF_swigregister(iSCFPtr)
 scfInitialize = _blcelc.scfInitialize
 
 cvar = _blcelc.cvar
+iSCF_scfGetVersion = _blcelc.iSCF_scfGetVersion
+
 
 CS_DBGHELP_UNITTEST = _blcelc.CS_DBGHELP_UNITTEST
 CS_DBGHELP_BENCHMARK = _blcelc.CS_DBGHELP_BENCHMARK
@@ -180,6 +192,8 @@ class iDebugHelper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDebugHelper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDebugHelper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDebugHelper instance at %s>" % (self.this,)
@@ -190,10 +204,8 @@ class iDebugHelperPtr(iDebugHelper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDebugHelper, 'thisown', 0)
         _swig_setattr(self, iDebugHelper,self.__class__,iDebugHelper)
 _blcelc.iDebugHelper_swigregister(iDebugHelperPtr)
-iFactory_VERSION = cvar.iFactory_VERSION
-iBase_VERSION = cvar.iBase_VERSION
-iSCF_VERSION = cvar.iSCF_VERSION
-iDebugHelper_VERSION = cvar.iDebugHelper_VERSION
+iDebugHelper_scfGetVersion = _blcelc.iDebugHelper_scfGetVersion
+
 
 class csColor(_object):
     __swig_setmethods__ = {}
@@ -360,6 +372,8 @@ class iString(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iString_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iString_scfGetVersion)
     def __getitem__(*args): return apply(_blcelc.iString___getitem__,args)
     def __setitem__(*args): return apply(_blcelc.iString___setitem__,args)
     def __init__(self): raise RuntimeError, "No constructor defined"
@@ -372,7 +386,8 @@ class iStringPtr(iString):
         if not hasattr(self,"thisown"): _swig_setattr(self, iString, 'thisown', 0)
         _swig_setattr(self, iString,self.__class__,iString)
 _blcelc.iString_swigregister(iStringPtr)
-iString_VERSION = cvar.iString_VERSION
+iString_scfGetVersion = _blcelc.iString_scfGetVersion
+
 
 class csString(_object):
     __swig_setmethods__ = {}
@@ -2175,6 +2190,8 @@ class iPolygonMesh(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iPolygonMesh_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iPolygonMesh_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iPolygonMesh instance at %s>" % (self.this,)
@@ -2185,7 +2202,8 @@ class iPolygonMeshPtr(iPolygonMesh):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPolygonMesh, 'thisown', 0)
         _swig_setattr(self, iPolygonMesh,self.__class__,iPolygonMesh)
 _blcelc.iPolygonMesh_swigregister(iPolygonMeshPtr)
-iPolygonMesh_VERSION = cvar.iPolygonMesh_VERSION
+iPolygonMesh_scfGetVersion = _blcelc.iPolygonMesh_scfGetVersion
+
 
 MAX_OUTPUT_VERTICES = _blcelc.MAX_OUTPUT_VERTICES
 CS_CLIP_OUTSIDE = _blcelc.CS_CLIP_OUTSIDE
@@ -2225,8 +2243,6 @@ _blcelc.csVertexStatus_swigregister(csVertexStatusPtr)
 CS_VERTEX_ORIGINAL = _blcelc.CS_VERTEX_ORIGINAL
 CS_VERTEX_ONEDGE = _blcelc.CS_VERTEX_ONEDGE
 CS_VERTEX_INSIDE = _blcelc.CS_VERTEX_INSIDE
-iClipper2D_scfGetID = _blcelc.iClipper2D_scfGetID
-
 class iClipper2D(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2254,7 +2270,6 @@ class iClipper2DPtr(iClipper2D):
         if not hasattr(self,"thisown"): _swig_setattr(self, iClipper2D, 'thisown', 0)
         _swig_setattr(self, iClipper2D,self.__class__,iClipper2D)
 _blcelc.iClipper2D_swigregister(iClipper2DPtr)
-iClipper2D_VERSION = cvar.iClipper2D_VERSION
 
 CS_BBOX_NORMAL = _blcelc.CS_BBOX_NORMAL
 CS_BBOX_ACCURATE = _blcelc.CS_BBOX_ACCURATE
@@ -2271,6 +2286,8 @@ class iObjectModelListener(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iObjectModelListener_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iObjectModelListener_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iObjectModelListener instance at %s>" % (self.this,)
@@ -2281,7 +2298,8 @@ class iObjectModelListenerPtr(iObjectModelListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObjectModelListener, 'thisown', 0)
         _swig_setattr(self, iObjectModelListener,self.__class__,iObjectModelListener)
 _blcelc.iObjectModelListener_swigregister(iObjectModelListenerPtr)
-iObjectModelListener_VERSION = cvar.iObjectModelListener_VERSION
+iObjectModelListener_scfGetVersion = _blcelc.iObjectModelListener_scfGetVersion
+
 
 class iObjectModel(iBase):
     __swig_setmethods__ = {}
@@ -2307,6 +2325,8 @@ class iObjectModel(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iObjectModel_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iObjectModel_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iObjectModel instance at %s>" % (self.this,)
@@ -2317,7 +2337,8 @@ class iObjectModelPtr(iObjectModel):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObjectModel, 'thisown', 0)
         _swig_setattr(self, iObjectModel,self.__class__,iObjectModel)
 _blcelc.iObjectModel_swigregister(iObjectModelPtr)
-iObjectModel_VERSION = cvar.iObjectModel_VERSION
+iObjectModel_scfGetVersion = _blcelc.iObjectModel_scfGetVersion
+
 
 class iFrustumViewUserdata(iBase):
     __swig_setmethods__ = {}
@@ -2330,6 +2351,8 @@ class iFrustumViewUserdata(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFrustumViewUserdata_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFrustumViewUserdata_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFrustumViewUserdata instance at %s>" % (self.this,)
@@ -2340,7 +2363,8 @@ class iFrustumViewUserdataPtr(iFrustumViewUserdata):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFrustumViewUserdata, 'thisown', 0)
         _swig_setattr(self, iFrustumViewUserdata,self.__class__,iFrustumViewUserdata)
 _blcelc.iFrustumViewUserdata_swigregister(iFrustumViewUserdataPtr)
-iFrustumViewUserdata_VERSION = cvar.iFrustumViewUserdata_VERSION
+iFrustumViewUserdata_scfGetVersion = _blcelc.iFrustumViewUserdata_scfGetVersion
+
 
 class csFrustumContext(_object):
     __swig_setmethods__ = {}
@@ -2401,6 +2425,8 @@ class iFrustumView(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFrustumView_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFrustumView_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFrustumView instance at %s>" % (self.this,)
@@ -2411,7 +2437,8 @@ class iFrustumViewPtr(iFrustumView):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFrustumView, 'thisown', 0)
         _swig_setattr(self, iFrustumView,self.__class__,iFrustumView)
 _blcelc.iFrustumView_swigregister(iFrustumViewPtr)
-iFrustumView_VERSION = cvar.iFrustumView_VERSION
+iFrustumView_scfGetVersion = _blcelc.iFrustumView_scfGetVersion
+
 
 CS_LIGHT_THINGSHADOWS = _blcelc.CS_LIGHT_THINGSHADOWS
 CS_LIGHT_ACTIVEHALO = _blcelc.CS_LIGHT_ACTIVEHALO
@@ -2422,8 +2449,6 @@ CS_ATTN_LINEAR = _blcelc.CS_ATTN_LINEAR
 CS_ATTN_INVERSE = _blcelc.CS_ATTN_INVERSE
 CS_ATTN_REALISTIC = _blcelc.CS_ATTN_REALISTIC
 CS_ATTN_CLQ = _blcelc.CS_ATTN_CLQ
-iLightCallback_scfGetID = _blcelc.iLightCallback_scfGetID
-
 class iLightCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2450,9 +2475,6 @@ class iLightCallbackPtr(iLightCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightCallback, 'thisown', 0)
         _swig_setattr(self, iLightCallback,self.__class__,iLightCallback)
 _blcelc.iLightCallback_swigregister(iLightCallbackPtr)
-iLightCallback_VERSION = cvar.iLightCallback_VERSION
-
-iLight_scfGetID = _blcelc.iLight_scfGetID
 
 class iLight(iBase):
     __swig_setmethods__ = {}
@@ -2504,7 +2526,6 @@ class iLightPtr(iLight):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLight, 'thisown', 0)
         _swig_setattr(self, iLight,self.__class__,iLight)
 _blcelc.iLight_swigregister(iLightPtr)
-iLight_VERSION = cvar.iLight_VERSION
 
 class iLightList(iBase):
     __swig_setmethods__ = {}
@@ -2525,6 +2546,8 @@ class iLightList(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iLightList_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iLightList_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iLightList instance at %s>" % (self.this,)
@@ -2535,9 +2558,8 @@ class iLightListPtr(iLightList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightList, 'thisown', 0)
         _swig_setattr(self, iLightList,self.__class__,iLightList)
 _blcelc.iLightList_swigregister(iLightListPtr)
-iLightList_VERSION = cvar.iLightList_VERSION
+iLightList_scfGetVersion = _blcelc.iLightList_scfGetVersion
 
-iLightingProcessData_scfGetID = _blcelc.iLightingProcessData_scfGetID
 
 class iLightingProcessData(iBase):
     __swig_setmethods__ = {}
@@ -2561,9 +2583,6 @@ class iLightingProcessDataPtr(iLightingProcessData):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightingProcessData, 'thisown', 0)
         _swig_setattr(self, iLightingProcessData,self.__class__,iLightingProcessData)
 _blcelc.iLightingProcessData_swigregister(iLightingProcessDataPtr)
-iLightingProcessData_VERSION = cvar.iLightingProcessData_VERSION
-
-iLightingProcessInfo_scfGetID = _blcelc.iLightingProcessInfo_scfGetID
 
 class iLightingProcessInfo(iFrustumViewUserdata):
     __swig_setmethods__ = {}
@@ -2593,9 +2612,6 @@ class iLightingProcessInfoPtr(iLightingProcessInfo):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightingProcessInfo, 'thisown', 0)
         _swig_setattr(self, iLightingProcessInfo,self.__class__,iLightingProcessInfo)
 _blcelc.iLightingProcessInfo_swigregister(iLightingProcessInfoPtr)
-iLightingProcessInfo_VERSION = cvar.iLightingProcessInfo_VERSION
-
-iLightIterator_scfGetID = _blcelc.iLightIterator_scfGetID
 
 class iLightIterator(iBase):
     __swig_setmethods__ = {}
@@ -2622,7 +2638,6 @@ class iLightIteratorPtr(iLightIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightIterator, 'thisown', 0)
         _swig_setattr(self, iLightIterator,self.__class__,iLightIterator)
 _blcelc.iLightIterator_swigregister(iLightIteratorPtr)
-iLightIterator_VERSION = cvar.iLightIterator_VERSION
 
 class iStatLight(iBase):
     __swig_setmethods__ = {}
@@ -2639,6 +2654,8 @@ class iStatLight(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStatLight_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iStatLight_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iStatLight instance at %s>" % (self.this,)
@@ -2649,9 +2666,8 @@ class iStatLightPtr(iStatLight):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStatLight, 'thisown', 0)
         _swig_setattr(self, iStatLight,self.__class__,iStatLight)
 _blcelc.iStatLight_swigregister(iStatLightPtr)
-iStatLight_VERSION = cvar.iStatLight_VERSION
+iStatLight_scfGetVersion = _blcelc.iStatLight_scfGetVersion
 
-iSectorCallback_scfGetID = _blcelc.iSectorCallback_scfGetID
 
 class iSectorCallback(iBase):
     __swig_setmethods__ = {}
@@ -2675,7 +2691,6 @@ class iSectorCallbackPtr(iSectorCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSectorCallback, 'thisown', 0)
         _swig_setattr(self, iSectorCallback,self.__class__,iSectorCallback)
 _blcelc.iSectorCallback_swigregister(iSectorCallbackPtr)
-iSectorCallback_VERSION = cvar.iSectorCallback_VERSION
 
 class iSector(iBase):
     __swig_setmethods__ = {}
@@ -2717,6 +2732,8 @@ class iSector(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSector_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSector_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSector instance at %s>" % (self.this,)
@@ -2727,7 +2744,8 @@ class iSectorPtr(iSector):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSector, 'thisown', 0)
         _swig_setattr(self, iSector,self.__class__,iSector)
 _blcelc.iSector_swigregister(iSectorPtr)
-iSector_VERSION = cvar.iSector_VERSION
+iSector_scfGetVersion = _blcelc.iSector_scfGetVersion
+
 
 class iSectorList(iBase):
     __swig_setmethods__ = {}
@@ -2747,6 +2765,8 @@ class iSectorList(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSectorList_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSectorList_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSectorList instance at %s>" % (self.this,)
@@ -2757,9 +2777,8 @@ class iSectorListPtr(iSectorList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSectorList, 'thisown', 0)
         _swig_setattr(self, iSectorList,self.__class__,iSectorList)
 _blcelc.iSectorList_swigregister(iSectorListPtr)
-iSectorList_VERSION = cvar.iSectorList_VERSION
+iSectorList_scfGetVersion = _blcelc.iSectorList_scfGetVersion
 
-iSectorIterator_scfGetID = _blcelc.iSectorIterator_scfGetID
 
 class iSectorIterator(iBase):
     __swig_setmethods__ = {}
@@ -2786,7 +2805,6 @@ class iSectorIteratorPtr(iSectorIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSectorIterator, 'thisown', 0)
         _swig_setattr(self, iSectorIterator,self.__class__,iSectorIterator)
 _blcelc.iSectorIterator_swigregister(iSectorIteratorPtr)
-iSectorIterator_VERSION = cvar.iSectorIterator_VERSION
 
 CS_NLIGHT_SHADOWS = _blcelc.CS_NLIGHT_SHADOWS
 CS_NLIGHT_STATIC = _blcelc.CS_NLIGHT_STATIC
@@ -2907,6 +2925,8 @@ class iEngine(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iEngine_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iEngine_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iEngine instance at %s>" % (self.this,)
@@ -2917,7 +2937,8 @@ class iEnginePtr(iEngine):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEngine, 'thisown', 0)
         _swig_setattr(self, iEngine,self.__class__,iEngine)
 _blcelc.iEngine_swigregister(iEnginePtr)
-iEngine_VERSION = cvar.iEngine_VERSION
+iEngine_scfGetVersion = _blcelc.iEngine_scfGetVersion
+
 
 class iCamera(iBase):
     __swig_setmethods__ = {}
@@ -2957,6 +2978,8 @@ class iCamera(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCamera_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCamera_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iCamera instance at %s>" % (self.this,)
@@ -2967,7 +2990,8 @@ class iCameraPtr(iCamera):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCamera, 'thisown', 0)
         _swig_setattr(self, iCamera,self.__class__,iCamera)
 _blcelc.iCamera_swigregister(iCameraPtr)
-iCamera_VERSION = cvar.iCamera_VERSION
+iCamera_scfGetVersion = _blcelc.iCamera_scfGetVersion
+
 
 class iCameraPosition(iBase):
     __swig_setmethods__ = {}
@@ -2995,6 +3019,8 @@ class iCameraPosition(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCameraPosition_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCameraPosition_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iCameraPosition instance at %s>" % (self.this,)
@@ -3005,9 +3031,8 @@ class iCameraPositionPtr(iCameraPosition):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCameraPosition, 'thisown', 0)
         _swig_setattr(self, iCameraPosition,self.__class__,iCameraPosition)
 _blcelc.iCameraPosition_swigregister(iCameraPositionPtr)
-iCameraPosition_VERSION = cvar.iCameraPosition_VERSION
+iCameraPosition_scfGetVersion = _blcelc.iCameraPosition_scfGetVersion
 
-iCameraPositionList_scfGetID = _blcelc.iCameraPositionList_scfGetID
 
 class iCameraPositionList(iBase):
     __swig_setmethods__ = {}
@@ -3038,9 +3063,6 @@ class iCameraPositionListPtr(iCameraPositionList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCameraPositionList, 'thisown', 0)
         _swig_setattr(self, iCameraPositionList,self.__class__,iCameraPositionList)
 _blcelc.iCameraPositionList_swigregister(iCameraPositionListPtr)
-iCameraPositionList_VERSION = cvar.iCameraPositionList_VERSION
-
-iTextureCallback_scfGetID = _blcelc.iTextureCallback_scfGetID
 
 class iTextureCallback(iBase):
     __swig_setmethods__ = {}
@@ -3064,7 +3086,6 @@ class iTextureCallbackPtr(iTextureCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iTextureCallback, 'thisown', 0)
         _swig_setattr(self, iTextureCallback,self.__class__,iTextureCallback)
 _blcelc.iTextureCallback_swigregister(iTextureCallbackPtr)
-iTextureCallback_VERSION = cvar.iTextureCallback_VERSION
 
 class iTextureWrapper(iBase):
     __swig_setmethods__ = {}
@@ -3094,6 +3115,8 @@ class iTextureWrapper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iTextureWrapper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iTextureWrapper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iTextureWrapper instance at %s>" % (self.this,)
@@ -3104,7 +3127,8 @@ class iTextureWrapperPtr(iTextureWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iTextureWrapper, 'thisown', 0)
         _swig_setattr(self, iTextureWrapper,self.__class__,iTextureWrapper)
 _blcelc.iTextureWrapper_swigregister(iTextureWrapperPtr)
-iTextureWrapper_VERSION = cvar.iTextureWrapper_VERSION
+iTextureWrapper_scfGetVersion = _blcelc.iTextureWrapper_scfGetVersion
+
 
 class iTextureList(iBase):
     __swig_setmethods__ = {}
@@ -3125,6 +3149,8 @@ class iTextureList(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iTextureList_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iTextureList_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iTextureList instance at %s>" % (self.this,)
@@ -3135,7 +3161,8 @@ class iTextureListPtr(iTextureList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iTextureList, 'thisown', 0)
         _swig_setattr(self, iTextureList,self.__class__,iTextureList)
 _blcelc.iTextureList_swigregister(iTextureListPtr)
-iTextureList_VERSION = cvar.iTextureList_VERSION
+iTextureList_scfGetVersion = _blcelc.iTextureList_scfGetVersion
+
 
 class iMaterialWrapper(iBase):
     __swig_setmethods__ = {}
@@ -3157,6 +3184,8 @@ class iMaterialWrapper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMaterialWrapper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMaterialWrapper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMaterialWrapper instance at %s>" % (self.this,)
@@ -3167,9 +3196,8 @@ class iMaterialWrapperPtr(iMaterialWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterialWrapper, 'thisown', 0)
         _swig_setattr(self, iMaterialWrapper,self.__class__,iMaterialWrapper)
 _blcelc.iMaterialWrapper_swigregister(iMaterialWrapperPtr)
-iMaterialWrapper_VERSION = cvar.iMaterialWrapper_VERSION
+iMaterialWrapper_scfGetVersion = _blcelc.iMaterialWrapper_scfGetVersion
 
-iMaterialEngine_scfGetID = _blcelc.iMaterialEngine_scfGetID
 
 class iMaterialEngine(iBase):
     __swig_setmethods__ = {}
@@ -3195,9 +3223,6 @@ class iMaterialEnginePtr(iMaterialEngine):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterialEngine, 'thisown', 0)
         _swig_setattr(self, iMaterialEngine,self.__class__,iMaterialEngine)
 _blcelc.iMaterialEngine_swigregister(iMaterialEnginePtr)
-iMaterialEngine_VERSION = cvar.iMaterialEngine_VERSION
-
-iMaterialList_scfGetID = _blcelc.iMaterialList_scfGetID
 
 class iMaterialList(iBase):
     __swig_setmethods__ = {}
@@ -3228,15 +3253,12 @@ class iMaterialListPtr(iMaterialList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterialList, 'thisown', 0)
         _swig_setattr(self, iMaterialList,self.__class__,iMaterialList)
 _blcelc.iMaterialList_swigregister(iMaterialListPtr)
-iMaterialList_VERSION = cvar.iMaterialList_VERSION
 
 CS_ENTITY_DETAIL = _blcelc.CS_ENTITY_DETAIL
 CS_ENTITY_CAMERA = _blcelc.CS_ENTITY_CAMERA
 CS_ENTITY_INVISIBLE = _blcelc.CS_ENTITY_INVISIBLE
 CS_ENTITY_NOSHADOWS = _blcelc.CS_ENTITY_NOSHADOWS
 CS_ENTITY_NOLIGHTING = _blcelc.CS_ENTITY_NOLIGHTING
-iMeshDrawCallback_scfGetID = _blcelc.iMeshDrawCallback_scfGetID
-
 class iMeshDrawCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3259,7 +3281,6 @@ class iMeshDrawCallbackPtr(iMeshDrawCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshDrawCallback, 'thisown', 0)
         _swig_setattr(self, iMeshDrawCallback,self.__class__,iMeshDrawCallback)
 _blcelc.iMeshDrawCallback_swigregister(iMeshDrawCallbackPtr)
-iMeshDrawCallback_VERSION = cvar.iMeshDrawCallback_VERSION
 
 class iMeshWrapper(iBase):
     __swig_setmethods__ = {}
@@ -3318,6 +3339,8 @@ class iMeshWrapper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMeshWrapper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMeshWrapper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMeshWrapper instance at %s>" % (self.this,)
@@ -3328,7 +3351,8 @@ class iMeshWrapperPtr(iMeshWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshWrapper, 'thisown', 0)
         _swig_setattr(self, iMeshWrapper,self.__class__,iMeshWrapper)
 _blcelc.iMeshWrapper_swigregister(iMeshWrapperPtr)
-iMeshWrapper_VERSION = cvar.iMeshWrapper_VERSION
+iMeshWrapper_scfGetVersion = _blcelc.iMeshWrapper_scfGetVersion
+
 
 class iMeshFactoryWrapper(iBase):
     __swig_setmethods__ = {}
@@ -3357,6 +3381,8 @@ class iMeshFactoryWrapper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMeshFactoryWrapper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMeshFactoryWrapper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMeshFactoryWrapper instance at %s>" % (self.this,)
@@ -3367,9 +3393,8 @@ class iMeshFactoryWrapperPtr(iMeshFactoryWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshFactoryWrapper, 'thisown', 0)
         _swig_setattr(self, iMeshFactoryWrapper,self.__class__,iMeshFactoryWrapper)
 _blcelc.iMeshFactoryWrapper_swigregister(iMeshFactoryWrapperPtr)
-iMeshFactoryWrapper_VERSION = cvar.iMeshFactoryWrapper_VERSION
+iMeshFactoryWrapper_scfGetVersion = _blcelc.iMeshFactoryWrapper_scfGetVersion
 
-iMeshList_scfGetID = _blcelc.iMeshList_scfGetID
 
 class iMeshList(iBase):
     __swig_setmethods__ = {}
@@ -3399,9 +3424,6 @@ class iMeshListPtr(iMeshList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshList, 'thisown', 0)
         _swig_setattr(self, iMeshList,self.__class__,iMeshList)
 _blcelc.iMeshList_swigregister(iMeshListPtr)
-iMeshList_VERSION = cvar.iMeshList_VERSION
-
-iMeshFactoryList_scfGetID = _blcelc.iMeshFactoryList_scfGetID
 
 class iMeshFactoryList(iBase):
     __swig_setmethods__ = {}
@@ -3431,9 +3453,6 @@ class iMeshFactoryListPtr(iMeshFactoryList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshFactoryList, 'thisown', 0)
         _swig_setattr(self, iMeshFactoryList,self.__class__,iMeshFactoryList)
 _blcelc.iMeshFactoryList_swigregister(iMeshFactoryListPtr)
-iMeshFactoryList_VERSION = cvar.iMeshFactoryList_VERSION
-
-iMeshWrapperIterator_scfGetID = _blcelc.iMeshWrapperIterator_scfGetID
 
 class iMeshWrapperIterator(iBase):
     __swig_setmethods__ = {}
@@ -3459,7 +3478,6 @@ class iMeshWrapperIteratorPtr(iMeshWrapperIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshWrapperIterator, 'thisown', 0)
         _swig_setattr(self, iMeshWrapperIterator,self.__class__,iMeshWrapperIterator)
 _blcelc.iMeshWrapperIterator_swigregister(iMeshWrapperIteratorPtr)
-iMeshWrapperIterator_VERSION = cvar.iMeshWrapperIterator_VERSION
 
 class iMovableListener(iBase):
     __swig_setmethods__ = {}
@@ -3474,6 +3492,8 @@ class iMovableListener(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMovableListener_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMovableListener_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMovableListener instance at %s>" % (self.this,)
@@ -3484,7 +3504,8 @@ class iMovableListenerPtr(iMovableListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMovableListener, 'thisown', 0)
         _swig_setattr(self, iMovableListener,self.__class__,iMovableListener)
 _blcelc.iMovableListener_swigregister(iMovableListenerPtr)
-iMovableListener_VERSION = cvar.iMovableListener_VERSION
+iMovableListener_scfGetVersion = _blcelc.iMovableListener_scfGetVersion
+
 
 class iMovable(iBase):
     __swig_setmethods__ = {}
@@ -3518,6 +3539,8 @@ class iMovable(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMovable_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMovable_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMovable instance at %s>" % (self.this,)
@@ -3528,9 +3551,8 @@ class iMovablePtr(iMovable):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMovable, 'thisown', 0)
         _swig_setattr(self, iMovable,self.__class__,iMovable)
 _blcelc.iMovable_swigregister(iMovablePtr)
-iMovable_VERSION = cvar.iMovable_VERSION
+iMovable_scfGetVersion = _blcelc.iMovable_scfGetVersion
 
-iRegion_scfGetID = _blcelc.iRegion_scfGetID
 
 class iRegion(iBase):
     __swig_setmethods__ = {}
@@ -3568,9 +3590,6 @@ class iRegionPtr(iRegion):
         if not hasattr(self,"thisown"): _swig_setattr(self, iRegion, 'thisown', 0)
         _swig_setattr(self, iRegion,self.__class__,iRegion)
 _blcelc.iRegion_swigregister(iRegionPtr)
-iRegion_VERSION = cvar.iRegion_VERSION
-
-iRegionList_scfGetID = _blcelc.iRegionList_scfGetID
 
 class iRegionList(iBase):
     __swig_setmethods__ = {}
@@ -3600,9 +3619,6 @@ class iRegionListPtr(iRegionList):
         if not hasattr(self,"thisown"): _swig_setattr(self, iRegionList, 'thisown', 0)
         _swig_setattr(self, iRegionList,self.__class__,iRegionList)
 _blcelc.iRegionList_swigregister(iRegionListPtr)
-iRegionList_VERSION = cvar.iRegionList_VERSION
-
-iVisibilityObjectIterator_scfGetID = _blcelc.iVisibilityObjectIterator_scfGetID
 
 class iVisibilityObjectIterator(iBase):
     __swig_setmethods__ = {}
@@ -3628,9 +3644,6 @@ class iVisibilityObjectIteratorPtr(iVisibilityObjectIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVisibilityObjectIterator, 'thisown', 0)
         _swig_setattr(self, iVisibilityObjectIterator,self.__class__,iVisibilityObjectIterator)
 _blcelc.iVisibilityObjectIterator_swigregister(iVisibilityObjectIteratorPtr)
-iVisibilityObjectIterator_VERSION = cvar.iVisibilityObjectIterator_VERSION
-
-iVisibilityCullerListener_scfGetID = _blcelc.iVisibilityCullerListener_scfGetID
 
 class iVisibilityCullerListener(iBase):
     __swig_setmethods__ = {}
@@ -3654,7 +3667,6 @@ class iVisibilityCullerListenerPtr(iVisibilityCullerListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVisibilityCullerListener, 'thisown', 0)
         _swig_setattr(self, iVisibilityCullerListener,self.__class__,iVisibilityCullerListener)
 _blcelc.iVisibilityCullerListener_swigregister(iVisibilityCullerListenerPtr)
-iVisibilityCullerListener_VERSION = cvar.iVisibilityCullerListener_VERSION
 
 class iVisibilityCuller(iBase):
     __swig_setmethods__ = {}
@@ -3673,6 +3685,8 @@ class iVisibilityCuller(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iVisibilityCuller_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iVisibilityCuller_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iVisibilityCuller instance at %s>" % (self.this,)
@@ -3683,12 +3697,11 @@ class iVisibilityCullerPtr(iVisibilityCuller):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVisibilityCuller, 'thisown', 0)
         _swig_setattr(self, iVisibilityCuller,self.__class__,iVisibilityCuller)
 _blcelc.iVisibilityCuller_swigregister(iVisibilityCullerPtr)
-iVisibilityCuller_VERSION = cvar.iVisibilityCuller_VERSION
+iVisibilityCuller_scfGetVersion = _blcelc.iVisibilityCuller_scfGetVersion
+
 
 CS_CULLER_HINT_GOODOCCLUDER = _blcelc.CS_CULLER_HINT_GOODOCCLUDER
 CS_CULLER_HINT_BADOCCLUDER = _blcelc.CS_CULLER_HINT_BADOCCLUDER
-iVisibilityObject_scfGetID = _blcelc.iVisibilityObject_scfGetID
-
 class iVisibilityObject(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3716,7 +3729,6 @@ class iVisibilityObjectPtr(iVisibilityObject):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVisibilityObject, 'thisown', 0)
         _swig_setattr(self, iVisibilityObject,self.__class__,iVisibilityObject)
 _blcelc.iVisibilityObject_swigregister(iVisibilityObjectPtr)
-iVisibilityObject_VERSION = cvar.iVisibilityObject_VERSION
 
 class csModelConverterFormat(_object):
     __swig_setmethods__ = {}
@@ -3764,6 +3776,8 @@ class iModelConverter(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iModelConverter_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iModelConverter_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iModelConverter instance at %s>" % (self.this,)
@@ -3774,9 +3788,8 @@ class iModelConverterPtr(iModelConverter):
         if not hasattr(self,"thisown"): _swig_setattr(self, iModelConverter, 'thisown', 0)
         _swig_setattr(self, iModelConverter,self.__class__,iModelConverter)
 _blcelc.iModelConverter_swigregister(iModelConverterPtr)
-iModelConverter_VERSION = cvar.iModelConverter_VERSION
+iModelConverter_scfGetVersion = _blcelc.iModelConverter_scfGetVersion
 
-iMeshObjectDrawCallback_scfGetID = _blcelc.iMeshObjectDrawCallback_scfGetID
 
 class iMeshObjectDrawCallback(iBase):
     __swig_setmethods__ = {}
@@ -3800,7 +3813,6 @@ class iMeshObjectDrawCallbackPtr(iMeshObjectDrawCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshObjectDrawCallback, 'thisown', 0)
         _swig_setattr(self, iMeshObjectDrawCallback,self.__class__,iMeshObjectDrawCallback)
 _blcelc.iMeshObjectDrawCallback_swigregister(iMeshObjectDrawCallbackPtr)
-iMeshObjectDrawCallback_VERSION = cvar.iMeshObjectDrawCallback_VERSION
 
 class iMeshObject(iBase):
     __swig_setmethods__ = {}
@@ -3833,6 +3845,8 @@ class iMeshObject(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMeshObject_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMeshObject_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMeshObject instance at %s>" % (self.this,)
@@ -3843,7 +3857,8 @@ class iMeshObjectPtr(iMeshObject):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshObject, 'thisown', 0)
         _swig_setattr(self, iMeshObject,self.__class__,iMeshObject)
 _blcelc.iMeshObject_swigregister(iMeshObjectPtr)
-iMeshObject_VERSION = cvar.iMeshObject_VERSION
+iMeshObject_scfGetVersion = _blcelc.iMeshObject_scfGetVersion
+
 
 class iMeshObjectFactory(iBase):
     __swig_setmethods__ = {}
@@ -3862,6 +3877,8 @@ class iMeshObjectFactory(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMeshObjectFactory_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMeshObjectFactory_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMeshObjectFactory instance at %s>" % (self.this,)
@@ -3872,7 +3889,8 @@ class iMeshObjectFactoryPtr(iMeshObjectFactory):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshObjectFactory, 'thisown', 0)
         _swig_setattr(self, iMeshObjectFactory,self.__class__,iMeshObjectFactory)
 _blcelc.iMeshObjectFactory_swigregister(iMeshObjectFactoryPtr)
-iMeshObjectFactory_VERSION = cvar.iMeshObjectFactory_VERSION
+iMeshObjectFactory_scfGetVersion = _blcelc.iMeshObjectFactory_scfGetVersion
+
 
 class iMeshObjectType(iBase):
     __swig_setmethods__ = {}
@@ -3886,6 +3904,8 @@ class iMeshObjectType(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMeshObjectType_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMeshObjectType_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMeshObjectType instance at %s>" % (self.this,)
@@ -3896,7 +3916,8 @@ class iMeshObjectTypePtr(iMeshObjectType):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMeshObjectType, 'thisown', 0)
         _swig_setattr(self, iMeshObjectType,self.__class__,iMeshObjectType)
 _blcelc.iMeshObjectType_swigregister(iMeshObjectTypePtr)
-iMeshObjectType_VERSION = cvar.iMeshObjectType_VERSION
+iMeshObjectType_scfGetVersion = _blcelc.iMeshObjectType_scfGetVersion
+
 
 class csSprite2DVertex(_object):
     __swig_setmethods__ = {}
@@ -3935,8 +3956,6 @@ class csSprite2DVertexPtr(csSprite2DVertex):
         _swig_setattr(self, csSprite2DVertex,self.__class__,csSprite2DVertex)
 _blcelc.csSprite2DVertex_swigregister(csSprite2DVertexPtr)
 
-iSprite2DUVAnimationFrame_scfGetID = _blcelc.iSprite2DUVAnimationFrame_scfGetID
-
 class iSprite2DUVAnimationFrame(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3967,9 +3986,6 @@ class iSprite2DUVAnimationFramePtr(iSprite2DUVAnimationFrame):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DUVAnimationFrame, 'thisown', 0)
         _swig_setattr(self, iSprite2DUVAnimationFrame,self.__class__,iSprite2DUVAnimationFrame)
 _blcelc.iSprite2DUVAnimationFrame_swigregister(iSprite2DUVAnimationFramePtr)
-iSprite2DUVAnimationFrame_VERSION = cvar.iSprite2DUVAnimationFrame_VERSION
-
-iSprite2DUVAnimation_scfGetID = _blcelc.iSprite2DUVAnimation_scfGetID
 
 class iSprite2DUVAnimation(iBase):
     __swig_setmethods__ = {}
@@ -3999,9 +4015,6 @@ class iSprite2DUVAnimationPtr(iSprite2DUVAnimation):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DUVAnimation, 'thisown', 0)
         _swig_setattr(self, iSprite2DUVAnimation,self.__class__,iSprite2DUVAnimation)
 _blcelc.iSprite2DUVAnimation_swigregister(iSprite2DUVAnimationPtr)
-iSprite2DUVAnimation_VERSION = cvar.iSprite2DUVAnimation_VERSION
-
-iSprite2DFactoryState_scfGetID = _blcelc.iSprite2DFactoryState_scfGetID
 
 class iSprite2DFactoryState(iBase):
     __swig_setmethods__ = {}
@@ -4034,7 +4047,6 @@ class iSprite2DFactoryStatePtr(iSprite2DFactoryState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DFactoryState, 'thisown', 0)
         _swig_setattr(self, iSprite2DFactoryState,self.__class__,iSprite2DFactoryState)
 _blcelc.iSprite2DFactoryState_swigregister(iSprite2DFactoryStatePtr)
-iSprite2DFactoryState_VERSION = cvar.iSprite2DFactoryState_VERSION
 
 class iSprite2DState(iSprite2DFactoryState):
     __swig_setmethods__ = {}
@@ -4053,6 +4065,8 @@ class iSprite2DState(iSprite2DFactoryState):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSprite2DState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSprite2DState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSprite2DState instance at %s>" % (self.this,)
@@ -4063,7 +4077,8 @@ class iSprite2DStatePtr(iSprite2DState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DState, 'thisown', 0)
         _swig_setattr(self, iSprite2DState,self.__class__,iSprite2DState)
 _blcelc.iSprite2DState_swigregister(iSprite2DStatePtr)
-iSprite2DState_VERSION = cvar.iSprite2DState_VERSION
+iSprite2DState_scfGetVersion = _blcelc.iSprite2DState_scfGetVersion
+
 
 CS_SPR_LIGHTING_HQ = _blcelc.CS_SPR_LIGHTING_HQ
 CS_SPR_LIGHTING_LQ = _blcelc.CS_SPR_LIGHTING_LQ
@@ -4075,8 +4090,6 @@ CS_SPR_LIGHT_LOCAL = _blcelc.CS_SPR_LIGHT_LOCAL
 CS_SPR_LOD_GLOBAL = _blcelc.CS_SPR_LOD_GLOBAL
 CS_SPR_LOD_TEMPLATE = _blcelc.CS_SPR_LOD_TEMPLATE
 CS_SPR_LOD_LOCAL = _blcelc.CS_SPR_LOD_LOCAL
-iSpriteFrame_scfGetID = _blcelc.iSpriteFrame_scfGetID
-
 class iSpriteFrame(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4102,9 +4115,6 @@ class iSpriteFramePtr(iSpriteFrame):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteFrame, 'thisown', 0)
         _swig_setattr(self, iSpriteFrame,self.__class__,iSpriteFrame)
 _blcelc.iSpriteFrame_swigregister(iSpriteFramePtr)
-iSpriteFrame_VERSION = cvar.iSpriteFrame_VERSION
-
-iSpriteAction_scfGetID = _blcelc.iSpriteAction_scfGetID
 
 class iSpriteAction(iBase):
     __swig_setmethods__ = {}
@@ -4135,9 +4145,6 @@ class iSpriteActionPtr(iSpriteAction):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteAction, 'thisown', 0)
         _swig_setattr(self, iSpriteAction,self.__class__,iSpriteAction)
 _blcelc.iSpriteAction_swigregister(iSpriteActionPtr)
-iSpriteAction_VERSION = cvar.iSpriteAction_VERSION
-
-iSpriteSocket_scfGetID = _blcelc.iSpriteSocket_scfGetID
 
 class iSpriteSocket(iBase):
     __swig_setmethods__ = {}
@@ -4166,9 +4173,6 @@ class iSpriteSocketPtr(iSpriteSocket):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteSocket, 'thisown', 0)
         _swig_setattr(self, iSpriteSocket,self.__class__,iSpriteSocket)
 _blcelc.iSpriteSocket_swigregister(iSpriteSocketPtr)
-iSpriteSocket_VERSION = cvar.iSpriteSocket_VERSION
-
-iSprite3DFactoryState_scfGetID = _blcelc.iSprite3DFactoryState_scfGetID
 
 class iSprite3DFactoryState(iBase):
     __swig_setmethods__ = {}
@@ -4239,7 +4243,6 @@ class iSprite3DFactoryStatePtr(iSprite3DFactoryState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite3DFactoryState, 'thisown', 0)
         _swig_setattr(self, iSprite3DFactoryState,self.__class__,iSprite3DFactoryState)
 _blcelc.iSprite3DFactoryState_swigregister(iSprite3DFactoryStatePtr)
-iSprite3DFactoryState_VERSION = cvar.iSprite3DFactoryState_VERSION
 
 class iSprite3DState(iBase):
     __swig_setmethods__ = {}
@@ -4282,6 +4285,8 @@ class iSprite3DState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSprite3DState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSprite3DState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSprite3DState instance at %s>" % (self.this,)
@@ -4292,9 +4297,8 @@ class iSprite3DStatePtr(iSprite3DState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSprite3DState, 'thisown', 0)
         _swig_setattr(self, iSprite3DState,self.__class__,iSprite3DState)
 _blcelc.iSprite3DState_swigregister(iSprite3DStatePtr)
-iSprite3DState_VERSION = cvar.iSprite3DState_VERSION
+iSprite3DState_scfGetVersion = _blcelc.iSprite3DState_scfGetVersion
 
-iSpriteCal3DFactoryState_scfGetID = _blcelc.iSpriteCal3DFactoryState_scfGetID
 
 class iSpriteCal3DFactoryState(iBase):
     __swig_setmethods__ = {}
@@ -4337,7 +4341,6 @@ class iSpriteCal3DFactoryStatePtr(iSpriteCal3DFactoryState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteCal3DFactoryState, 'thisown', 0)
         _swig_setattr(self, iSpriteCal3DFactoryState,self.__class__,iSpriteCal3DFactoryState)
 _blcelc.iSpriteCal3DFactoryState_swigregister(iSpriteCal3DFactoryStatePtr)
-iSpriteCal3DFactoryState_VERSION = cvar.iSpriteCal3DFactoryState_VERSION
 
 class iSpriteCal3DState(iBase):
     __swig_setmethods__ = {}
@@ -4369,6 +4372,8 @@ class iSpriteCal3DState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSpriteCal3DState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSpriteCal3DState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSpriteCal3DState instance at %s>" % (self.this,)
@@ -4379,7 +4384,8 @@ class iSpriteCal3DStatePtr(iSpriteCal3DState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteCal3DState, 'thisown', 0)
         _swig_setattr(self, iSpriteCal3DState,self.__class__,iSpriteCal3DState)
 _blcelc.iSpriteCal3DState_swigregister(iSpriteCal3DStatePtr)
-iSpriteCal3DState_VERSION = cvar.iSpriteCal3DState_VERSION
+iSpriteCal3DState_scfGetVersion = _blcelc.iSpriteCal3DState_scfGetVersion
+
 
 class iBallState(iBase):
     __swig_setmethods__ = {}
@@ -4415,6 +4421,8 @@ class iBallState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iBallState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iBallState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iBallState instance at %s>" % (self.this,)
@@ -4425,7 +4433,8 @@ class iBallStatePtr(iBallState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iBallState, 'thisown', 0)
         _swig_setattr(self, iBallState,self.__class__,iBallState)
 _blcelc.iBallState_swigregister(iBallStatePtr)
-iBallState_VERSION = cvar.iBallState_VERSION
+iBallState_scfGetVersion = _blcelc.iBallState_scfGetVersion
+
 
 class iGeneralMeshState(iBase):
     __swig_setmethods__ = {}
@@ -4452,6 +4461,8 @@ class iGeneralMeshState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGeneralMeshState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iGeneralMeshState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iGeneralMeshState instance at %s>" % (self.this,)
@@ -4462,7 +4473,8 @@ class iGeneralMeshStatePtr(iGeneralMeshState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iGeneralMeshState, 'thisown', 0)
         _swig_setattr(self, iGeneralMeshState,self.__class__,iGeneralMeshState)
 _blcelc.iGeneralMeshState_swigregister(iGeneralMeshStatePtr)
-iGeneralMeshState_VERSION = cvar.iGeneralMeshState_VERSION
+iGeneralMeshState_scfGetVersion = _blcelc.iGeneralMeshState_scfGetVersion
+
 
 class iGeneralFactoryState(iBase):
     __swig_setmethods__ = {}
@@ -4492,6 +4504,8 @@ class iGeneralFactoryState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGeneralFactoryState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iGeneralFactoryState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iGeneralFactoryState instance at %s>" % (self.this,)
@@ -4502,7 +4516,8 @@ class iGeneralFactoryStatePtr(iGeneralFactoryState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iGeneralFactoryState, 'thisown', 0)
         _swig_setattr(self, iGeneralFactoryState,self.__class__,iGeneralFactoryState)
 _blcelc.iGeneralFactoryState_swigregister(iGeneralFactoryStatePtr)
-iGeneralFactoryState_VERSION = cvar.iGeneralFactoryState_VERSION
+iGeneralFactoryState_scfGetVersion = _blcelc.iGeneralFactoryState_scfGetVersion
+
 
 class csPolygonRange(_object):
     __swig_setmethods__ = {}
@@ -4540,8 +4555,6 @@ CS_POLYINDEX_LAST = _blcelc.CS_POLYINDEX_LAST
 CS_THING_NOCOMPRESS = _blcelc.CS_THING_NOCOMPRESS
 CS_THING_MOVE_NEVER = _blcelc.CS_THING_MOVE_NEVER
 CS_THING_MOVE_OCCASIONAL = _blcelc.CS_THING_MOVE_OCCASIONAL
-iPolygonHandle_scfGetID = _blcelc.iPolygonHandle_scfGetID
-
 class iPolygonHandle(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4568,9 +4581,6 @@ class iPolygonHandlePtr(iPolygonHandle):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPolygonHandle, 'thisown', 0)
         _swig_setattr(self, iPolygonHandle,self.__class__,iPolygonHandle)
 _blcelc.iPolygonHandle_swigregister(iPolygonHandlePtr)
-iPolygonHandle_VERSION = cvar.iPolygonHandle_VERSION
-
-iThingFactoryState_scfGetID = _blcelc.iThingFactoryState_scfGetID
 
 class iThingFactoryState(iBase):
     __swig_setmethods__ = {}
@@ -4637,7 +4647,6 @@ class iThingFactoryStatePtr(iThingFactoryState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iThingFactoryState, 'thisown', 0)
         _swig_setattr(self, iThingFactoryState,self.__class__,iThingFactoryState)
 _blcelc.iThingFactoryState_swigregister(iThingFactoryStatePtr)
-iThingFactoryState_VERSION = cvar.iThingFactoryState_VERSION
 
 class iThingState(iBase):
     __swig_setmethods__ = {}
@@ -4666,6 +4675,8 @@ class iThingState(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iThingState_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iThingState_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iThingState instance at %s>" % (self.this,)
@@ -4676,9 +4687,8 @@ class iThingStatePtr(iThingState):
         if not hasattr(self,"thisown"): _swig_setattr(self, iThingState, 'thisown', 0)
         _swig_setattr(self, iThingState,self.__class__,iThingState)
 _blcelc.iThingState_swigregister(iThingStatePtr)
-iThingState_VERSION = cvar.iThingState_VERSION
+iThingState_scfGetVersion = _blcelc.iThingState_scfGetVersion
 
-iThingEnvironment_scfGetID = _blcelc.iThingEnvironment_scfGetID
 
 class iThingEnvironment(iBase):
     __swig_setmethods__ = {}
@@ -4705,7 +4715,6 @@ class iThingEnvironmentPtr(iThingEnvironment):
         if not hasattr(self,"thisown"): _swig_setattr(self, iThingEnvironment, 'thisown', 0)
         _swig_setattr(self, iThingEnvironment,self.__class__,iThingEnvironment)
 _blcelc.iThingEnvironment_swigregister(iThingEnvironmentPtr)
-iThingEnvironment_VERSION = cvar.iThingEnvironment_VERSION
 
 class csPolyTextureMapping(_object):
     __swig_setmethods__ = {}
@@ -4792,8 +4801,6 @@ class csPolyTextureMappingPtr(csPolyTextureMapping):
         _swig_setattr(self, csPolyTextureMapping,self.__class__,csPolyTextureMapping)
 _blcelc.csPolyTextureMapping_swigregister(csPolyTextureMappingPtr)
 
-iLoaderStatus_scfGetID = _blcelc.iLoaderStatus_scfGetID
-
 class iLoaderStatus(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4817,7 +4824,6 @@ class iLoaderStatusPtr(iLoaderStatus):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLoaderStatus, 'thisown', 0)
         _swig_setattr(self, iLoaderStatus,self.__class__,iLoaderStatus)
 _blcelc.iLoaderStatus_swigregister(iLoaderStatusPtr)
-iLoaderStatus_VERSION = cvar.iLoaderStatus_VERSION
 
 class iLoader(iBase):
     __swig_setmethods__ = {}
@@ -4840,6 +4846,8 @@ class iLoader(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iLoader_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iLoader_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iLoader instance at %s>" % (self.this,)
@@ -4850,7 +4858,8 @@ class iLoaderPtr(iLoader):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLoader, 'thisown', 0)
         _swig_setattr(self, iLoader,self.__class__,iLoader)
 _blcelc.iLoader_swigregister(iLoaderPtr)
-iLoader_VERSION = cvar.iLoader_VERSION
+iLoader_scfGetVersion = _blcelc.iLoader_scfGetVersion
+
 
 class iLoaderPlugin(iBase):
     __swig_setmethods__ = {}
@@ -4864,6 +4873,8 @@ class iLoaderPlugin(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iLoaderPlugin_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iLoaderPlugin_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iLoaderPlugin instance at %s>" % (self.this,)
@@ -4874,7 +4885,8 @@ class iLoaderPluginPtr(iLoaderPlugin):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLoaderPlugin, 'thisown', 0)
         _swig_setattr(self, iLoaderPlugin,self.__class__,iLoaderPlugin)
 _blcelc.iLoaderPlugin_swigregister(iLoaderPluginPtr)
-iLoaderPlugin_VERSION = cvar.iLoaderPlugin_VERSION
+iLoaderPlugin_scfGetVersion = _blcelc.iLoaderPlugin_scfGetVersion
+
 
 class iBinaryLoaderPlugin(iBase):
     __swig_setmethods__ = {}
@@ -4888,6 +4900,8 @@ class iBinaryLoaderPlugin(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iBinaryLoaderPlugin_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iBinaryLoaderPlugin_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iBinaryLoaderPlugin instance at %s>" % (self.this,)
@@ -4898,9 +4912,8 @@ class iBinaryLoaderPluginPtr(iBinaryLoaderPlugin):
         if not hasattr(self,"thisown"): _swig_setattr(self, iBinaryLoaderPlugin, 'thisown', 0)
         _swig_setattr(self, iBinaryLoaderPlugin,self.__class__,iBinaryLoaderPlugin)
 _blcelc.iBinaryLoaderPlugin_swigregister(iBinaryLoaderPluginPtr)
-iBinaryLoaderPlugin_VERSION = cvar.iBinaryLoaderPlugin_VERSION
+iBinaryLoaderPlugin_scfGetVersion = _blcelc.iBinaryLoaderPlugin_scfGetVersion
 
-iSaver_scfGetID = _blcelc.iSaver_scfGetID
 
 class iSaver(iBase):
     __swig_setmethods__ = {}
@@ -4924,7 +4937,6 @@ class iSaverPtr(iSaver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSaver, 'thisown', 0)
         _swig_setattr(self, iSaver,self.__class__,iSaver)
 _blcelc.iSaver_swigregister(iSaverPtr)
-iSaver_VERSION = cvar.iSaver_VERSION
 
 class iSoundHandle(iBase):
     __swig_setmethods__ = {}
@@ -4943,6 +4955,8 @@ class iSoundHandle(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundHandle_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundHandle_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundHandle instance at %s>" % (self.this,)
@@ -4953,7 +4967,8 @@ class iSoundHandlePtr(iSoundHandle):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundHandle, 'thisown', 0)
         _swig_setattr(self, iSoundHandle,self.__class__,iSoundHandle)
 _blcelc.iSoundHandle_swigregister(iSoundHandlePtr)
-iSoundHandle_VERSION = cvar.iSoundHandle_VERSION
+iSoundHandle_scfGetVersion = _blcelc.iSoundHandle_scfGetVersion
+
 
 class iSoundLoader(iBase):
     __swig_setmethods__ = {}
@@ -4967,6 +4982,8 @@ class iSoundLoader(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundLoader_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundLoader_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundLoader instance at %s>" % (self.this,)
@@ -4977,7 +4994,8 @@ class iSoundLoaderPtr(iSoundLoader):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundLoader, 'thisown', 0)
         _swig_setattr(self, iSoundLoader,self.__class__,iSoundLoader)
 _blcelc.iSoundLoader_swigregister(iSoundLoaderPtr)
-iSoundLoader_VERSION = cvar.iSoundLoader_VERSION
+iSoundLoader_scfGetVersion = _blcelc.iSoundLoader_scfGetVersion
+
 
 class iSoundRender(iBase):
     __swig_setmethods__ = {}
@@ -4996,6 +5014,8 @@ class iSoundRender(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundRender_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundRender_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundRender instance at %s>" % (self.this,)
@@ -5006,7 +5026,8 @@ class iSoundRenderPtr(iSoundRender):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundRender, 'thisown', 0)
         _swig_setattr(self, iSoundRender,self.__class__,iSoundRender)
 _blcelc.iSoundRender_swigregister(iSoundRenderPtr)
-iSoundRender_VERSION = cvar.iSoundRender_VERSION
+iSoundRender_scfGetVersion = _blcelc.iSoundRender_scfGetVersion
+
 
 class iSoundWrapper(iBase):
     __swig_setmethods__ = {}
@@ -5021,6 +5042,8 @@ class iSoundWrapper(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundWrapper_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundWrapper_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundWrapper instance at %s>" % (self.this,)
@@ -5031,7 +5054,8 @@ class iSoundWrapperPtr(iSoundWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundWrapper, 'thisown', 0)
         _swig_setattr(self, iSoundWrapper,self.__class__,iSoundWrapper)
 _blcelc.iSoundWrapper_swigregister(iSoundWrapperPtr)
-iSoundWrapper_VERSION = cvar.iSoundWrapper_VERSION
+iSoundWrapper_scfGetVersion = _blcelc.iSoundWrapper_scfGetVersion
+
 
 class iSoundDriver(iBase):
     __swig_setmethods__ = {}
@@ -5054,6 +5078,8 @@ class iSoundDriver(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundDriver_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundDriver_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundDriver instance at %s>" % (self.this,)
@@ -5064,7 +5090,8 @@ class iSoundDriverPtr(iSoundDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundDriver, 'thisown', 0)
         _swig_setattr(self, iSoundDriver,self.__class__,iSoundDriver)
 _blcelc.iSoundDriver_swigregister(iSoundDriverPtr)
-iSoundDriver_VERSION = cvar.iSoundDriver_VERSION
+iSoundDriver_scfGetVersion = _blcelc.iSoundDriver_scfGetVersion
+
 
 SOUND_RESTART = _blcelc.SOUND_RESTART
 SOUND_LOOP = _blcelc.SOUND_LOOP
@@ -5094,6 +5121,8 @@ class iSoundSource(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iSoundSource_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iSoundSource_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSoundSource instance at %s>" % (self.this,)
@@ -5104,7 +5133,8 @@ class iSoundSourcePtr(iSoundSource):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSoundSource, 'thisown', 0)
         _swig_setattr(self, iSoundSource,self.__class__,iSoundSource)
 _blcelc.iSoundSource_swigregister(iSoundSourcePtr)
-iSoundSource_VERSION = cvar.iSoundSource_VERSION
+iSoundSource_scfGetVersion = _blcelc.iSoundSource_scfGetVersion
+
 
 class iComponent(iBase):
     __swig_setmethods__ = {}
@@ -5118,6 +5148,8 @@ class iComponent(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iComponent_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iComponent_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iComponent instance at %s>" % (self.this,)
@@ -5128,7 +5160,8 @@ class iComponentPtr(iComponent):
         if not hasattr(self,"thisown"): _swig_setattr(self, iComponent, 'thisown', 0)
         _swig_setattr(self, iComponent,self.__class__,iComponent)
 _blcelc.iComponent_swigregister(iComponentPtr)
-iComponent_VERSION = cvar.iComponent_VERSION
+iComponent_scfGetVersion = _blcelc.iComponent_scfGetVersion
+
 
 class iCacheManager(iBase):
     __swig_setmethods__ = {}
@@ -5148,6 +5181,8 @@ class iCacheManager(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCacheManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCacheManager_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iCacheManager instance at %s>" % (self.this,)
@@ -5158,7 +5193,8 @@ class iCacheManagerPtr(iCacheManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCacheManager, 'thisown', 0)
         _swig_setattr(self, iCacheManager,self.__class__,iCacheManager)
 _blcelc.iCacheManager_swigregister(iCacheManagerPtr)
-iCacheManager_VERSION = cvar.iCacheManager_VERSION
+iCacheManager_scfGetVersion = _blcelc.iCacheManager_scfGetVersion
+
 
 class csFileTime(_object):
     __swig_setmethods__ = {}
@@ -5234,6 +5270,8 @@ class iFile(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFile_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFile_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFile instance at %s>" % (self.this,)
@@ -5244,7 +5282,8 @@ class iFilePtr(iFile):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFile, 'thisown', 0)
         _swig_setattr(self, iFile,self.__class__,iFile)
 _blcelc.iFile_swigregister(iFilePtr)
-iFile_VERSION = cvar.iFile_VERSION
+iFile_scfGetVersion = _blcelc.iFile_scfGetVersion
+
 
 class iVFS(iBase):
     __swig_setmethods__ = {}
@@ -5277,6 +5316,8 @@ class iVFS(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iVFS_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iVFS_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iVFS instance at %s>" % (self.this,)
@@ -5287,7 +5328,8 @@ class iVFSPtr(iVFS):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVFS, 'thisown', 0)
         _swig_setattr(self, iVFS,self.__class__,iVFS)
 _blcelc.iVFS_swigregister(iVFSPtr)
-iVFS_VERSION = cvar.iVFS_VERSION
+iVFS_scfGetVersion = _blcelc.iVFS_scfGetVersion
+
 
 class iObject(iBase):
     __swig_setmethods__ = {}
@@ -5312,6 +5354,8 @@ class iObject(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iObject_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iObject_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iObject instance at %s>" % (self.this,)
@@ -5322,9 +5366,8 @@ class iObjectPtr(iObject):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObject, 'thisown', 0)
         _swig_setattr(self, iObject,self.__class__,iObject)
 _blcelc.iObject_swigregister(iObjectPtr)
-iObject_VERSION = cvar.iObject_VERSION
+iObject_scfGetVersion = _blcelc.iObject_scfGetVersion
 
-iObjectIterator_scfGetID = _blcelc.iObjectIterator_scfGetID
 
 class iObjectIterator(iBase):
     __swig_setmethods__ = {}
@@ -5352,9 +5395,6 @@ class iObjectIteratorPtr(iObjectIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObjectIterator, 'thisown', 0)
         _swig_setattr(self, iObjectIterator,self.__class__,iObjectIterator)
 _blcelc.iObjectIterator_swigregister(iObjectIteratorPtr)
-iObjectIterator_VERSION = cvar.iObjectIterator_VERSION
-
-iDataObject_scfGetID = _blcelc.iDataObject_scfGetID
 
 class iDataObject(iBase):
     __swig_setmethods__ = {}
@@ -5379,7 +5419,6 @@ class iDataObjectPtr(iDataObject):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDataObject, 'thisown', 0)
         _swig_setattr(self, iDataObject,self.__class__,iDataObject)
 _blcelc.iDataObject_swigregister(iDataObjectPtr)
-iDataObject_VERSION = cvar.iDataObject_VERSION
 
 class iObjectRegistry(iBase):
     __swig_setmethods__ = {}
@@ -5396,6 +5435,8 @@ class iObjectRegistry(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iObjectRegistry_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iObjectRegistry_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iObjectRegistry instance at %s>" % (self.this,)
@@ -5406,9 +5447,8 @@ class iObjectRegistryPtr(iObjectRegistry):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObjectRegistry, 'thisown', 0)
         _swig_setattr(self, iObjectRegistry,self.__class__,iObjectRegistry)
 _blcelc.iObjectRegistry_swigregister(iObjectRegistryPtr)
-iObjectRegistry_VERSION = cvar.iObjectRegistry_VERSION
+iObjectRegistry_scfGetVersion = _blcelc.iObjectRegistry_scfGetVersion
 
-iObjectRegistryIterator_scfGetID = _blcelc.iObjectRegistryIterator_scfGetID
 
 class iObjectRegistryIterator(iBase):
     __swig_setmethods__ = {}
@@ -5435,7 +5475,6 @@ class iObjectRegistryIteratorPtr(iObjectRegistryIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iObjectRegistryIterator, 'thisown', 0)
         _swig_setattr(self, iObjectRegistryIterator,self.__class__,iObjectRegistryIterator)
 _blcelc.iObjectRegistryIterator_swigregister(iObjectRegistryIteratorPtr)
-iObjectRegistryIterator_VERSION = cvar.iObjectRegistryIterator_VERSION
 
 class iVirtualClock(iBase):
     __swig_setmethods__ = {}
@@ -5453,6 +5492,8 @@ class iVirtualClock(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iVirtualClock_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iVirtualClock_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iVirtualClock instance at %s>" % (self.this,)
@@ -5463,7 +5504,8 @@ class iVirtualClockPtr(iVirtualClock):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVirtualClock, 'thisown', 0)
         _swig_setattr(self, iVirtualClock,self.__class__,iVirtualClock)
 _blcelc.iVirtualClock_swigregister(iVirtualClockPtr)
-iVirtualClock_VERSION = cvar.iVirtualClock_VERSION
+iVirtualClock_scfGetVersion = _blcelc.iVirtualClock_scfGetVersion
+
 
 CS_CRYSTAL_PROTOCOL = _blcelc.CS_CRYSTAL_PROTOCOL
 CS_MUSCLE_PROTOCOL = _blcelc.CS_MUSCLE_PROTOCOL
@@ -5507,7 +5549,6 @@ class csKeyEventDataPtr(csKeyEventData):
         if not hasattr(self,"thisown"): _swig_setattr(self, csKeyEventData, 'thisown', 0)
         _swig_setattr(self, csKeyEventData,self.__class__,csKeyEventData)
 _blcelc.csKeyEventData_swigregister(csKeyEventDataPtr)
-iEvent_VERSION = cvar.iEvent_VERSION
 
 class csEventMouseData(_object):
     __swig_setmethods__ = {}
@@ -5693,6 +5734,8 @@ class iEvent(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iEvent_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iEvent_scfGetVersion)
     __swig_getmethods__["Mouse"] = _blcelc.iEvent_Mouse_get
     if _newclass:Mouse = property(_blcelc.iEvent_Mouse_get)
     __swig_getmethods__["Joystick"] = _blcelc.iEvent_Joystick_get
@@ -5711,8 +5754,8 @@ class iEventPtr(iEvent):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEvent, 'thisown', 0)
         _swig_setattr(self, iEvent,self.__class__,iEvent)
 _blcelc.iEvent_swigregister(iEventPtr)
+iEvent_scfGetVersion = _blcelc.iEvent_scfGetVersion
 
-iEventPlug_scfGetID = _blcelc.iEventPlug_scfGetID
 
 class iEventPlug(iBase):
     __swig_setmethods__ = {}
@@ -5738,9 +5781,6 @@ class iEventPlugPtr(iEventPlug):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEventPlug, 'thisown', 0)
         _swig_setattr(self, iEventPlug,self.__class__,iEventPlug)
 _blcelc.iEventPlug_swigregister(iEventPlugPtr)
-iEventPlug_VERSION = cvar.iEventPlug_VERSION
-
-iEventOutlet_scfGetID = _blcelc.iEventOutlet_scfGetID
 
 class iEventOutlet(iBase):
     __swig_setmethods__ = {}
@@ -5770,9 +5810,6 @@ class iEventOutletPtr(iEventOutlet):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEventOutlet, 'thisown', 0)
         _swig_setattr(self, iEventOutlet,self.__class__,iEventOutlet)
 _blcelc.iEventOutlet_swigregister(iEventOutletPtr)
-iEventOutlet_VERSION = cvar.iEventOutlet_VERSION
-
-iEventCord_scfGetID = _blcelc.iEventCord_scfGetID
 
 class iEventCord(iBase):
     __swig_setmethods__ = {}
@@ -5801,7 +5838,6 @@ class iEventCordPtr(iEventCord):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEventCord, 'thisown', 0)
         _swig_setattr(self, iEventCord,self.__class__,iEventCord)
 _blcelc.iEventCord_swigregister(iEventCordPtr)
-iEventCord_VERSION = cvar.iEventCord_VERSION
 
 class csKeyEventHelper(_object):
     __swig_setmethods__ = {}
@@ -5996,6 +6032,8 @@ class iEventQueue(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iEventQueue_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iEventQueue_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iEventQueue instance at %s>" % (self.this,)
@@ -6006,7 +6044,8 @@ class iEventQueuePtr(iEventQueue):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEventQueue, 'thisown', 0)
         _swig_setattr(self, iEventQueue,self.__class__,iEventQueue)
 _blcelc.iEventQueue_swigregister(iEventQueuePtr)
-iEventQueue_VERSION = cvar.iEventQueue_VERSION
+iEventQueue_scfGetVersion = _blcelc.iEventQueue_scfGetVersion
+
 
 class iEventHandler(iBase):
     __swig_setmethods__ = {}
@@ -6020,6 +6059,8 @@ class iEventHandler(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iEventHandler_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iEventHandler_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iEventHandler instance at %s>" % (self.this,)
@@ -6030,9 +6071,8 @@ class iEventHandlerPtr(iEventHandler):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEventHandler, 'thisown', 0)
         _swig_setattr(self, iEventHandler,self.__class__,iEventHandler)
 _blcelc.iEventHandler_swigregister(iEventHandlerPtr)
-iEventHandler_VERSION = cvar.iEventHandler_VERSION
+iEventHandler_scfGetVersion = _blcelc.iEventHandler_scfGetVersion
 
-iPluginIterator_scfGetID = _blcelc.iPluginIterator_scfGetID
 
 class iPluginIterator(iBase):
     __swig_setmethods__ = {}
@@ -6057,7 +6097,6 @@ class iPluginIteratorPtr(iPluginIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPluginIterator, 'thisown', 0)
         _swig_setattr(self, iPluginIterator,self.__class__,iPluginIterator)
 _blcelc.iPluginIterator_swigregister(iPluginIteratorPtr)
-iPluginIterator_VERSION = cvar.iPluginIterator_VERSION
 
 class iPluginManager(iBase):
     __swig_setmethods__ = {}
@@ -6077,6 +6116,8 @@ class iPluginManager(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iPluginManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iPluginManager_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iPluginManager instance at %s>" % (self.this,)
@@ -6087,13 +6128,12 @@ class iPluginManagerPtr(iPluginManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPluginManager, 'thisown', 0)
         _swig_setattr(self, iPluginManager,self.__class__,iPluginManager)
 _blcelc.iPluginManager_swigregister(iPluginManagerPtr)
-iPluginManager_VERSION = cvar.iPluginManager_VERSION
+iPluginManager_scfGetVersion = _blcelc.iPluginManager_scfGetVersion
+
 
 CS_MAX_MOUSE_BUTTONS = _blcelc.CS_MAX_MOUSE_BUTTONS
 CS_MAX_JOYSTICK_COUNT = _blcelc.CS_MAX_JOYSTICK_COUNT
 CS_MAX_JOYSTICK_BUTTONS = _blcelc.CS_MAX_JOYSTICK_BUTTONS
-iKeyComposer_scfGetID = _blcelc.iKeyComposer_scfGetID
-
 csComposeNoChar = _blcelc.csComposeNoChar
 csComposeNormalChar = _blcelc.csComposeNormalChar
 csComposeComposedChar = _blcelc.csComposeComposedChar
@@ -6121,8 +6161,6 @@ class iKeyComposerPtr(iKeyComposer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iKeyComposer, 'thisown', 0)
         _swig_setattr(self, iKeyComposer,self.__class__,iKeyComposer)
 _blcelc.iKeyComposer_swigregister(iKeyComposerPtr)
-iKeyComposer_VERSION = cvar.iKeyComposer_VERSION
-iKeyboardDriver_VERSION = cvar.iKeyboardDriver_VERSION
 
 class iKeyboardDriver(iBase):
     __swig_setmethods__ = {}
@@ -6139,6 +6177,8 @@ class iKeyboardDriver(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iKeyboardDriver_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iKeyboardDriver_scfGetVersion)
     def GetKeyState(*args): return apply(_blcelc.iKeyboardDriver_GetKeyState,args)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -6150,8 +6190,8 @@ class iKeyboardDriverPtr(iKeyboardDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iKeyboardDriver, 'thisown', 0)
         _swig_setattr(self, iKeyboardDriver,self.__class__,iKeyboardDriver)
 _blcelc.iKeyboardDriver_swigregister(iKeyboardDriverPtr)
+iKeyboardDriver_scfGetVersion = _blcelc.iKeyboardDriver_scfGetVersion
 
-iMouseDriver_scfGetID = _blcelc.iMouseDriver_scfGetID
 
 class iMouseDriver(iBase):
     __swig_setmethods__ = {}
@@ -6181,9 +6221,6 @@ class iMouseDriverPtr(iMouseDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMouseDriver, 'thisown', 0)
         _swig_setattr(self, iMouseDriver,self.__class__,iMouseDriver)
 _blcelc.iMouseDriver_swigregister(iMouseDriverPtr)
-iMouseDriver_VERSION = cvar.iMouseDriver_VERSION
-
-iJoystickDriver_scfGetID = _blcelc.iJoystickDriver_scfGetID
 
 class iJoystickDriver(iBase):
     __swig_setmethods__ = {}
@@ -6212,7 +6249,6 @@ class iJoystickDriverPtr(iJoystickDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iJoystickDriver, 'thisown', 0)
         _swig_setattr(self, iJoystickDriver,self.__class__,iJoystickDriver)
 _blcelc.iJoystickDriver_swigregister(iJoystickDriverPtr)
-iJoystickDriver_VERSION = cvar.iJoystickDriver_VERSION
 
 class iConfigFile(iBase):
     __swig_setmethods__ = {}
@@ -6247,6 +6283,8 @@ class iConfigFile(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iConfigFile_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iConfigFile_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iConfigFile instance at %s>" % (self.this,)
@@ -6257,7 +6295,8 @@ class iConfigFilePtr(iConfigFile):
         if not hasattr(self,"thisown"): _swig_setattr(self, iConfigFile, 'thisown', 0)
         _swig_setattr(self, iConfigFile,self.__class__,iConfigFile)
 _blcelc.iConfigFile_swigregister(iConfigFilePtr)
-iConfigFile_VERSION = cvar.iConfigFile_VERSION
+iConfigFile_scfGetVersion = _blcelc.iConfigFile_scfGetVersion
+
 
 class iConfigIterator(iBase):
     __swig_setmethods__ = {}
@@ -6280,6 +6319,8 @@ class iConfigIterator(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iConfigIterator_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iConfigIterator_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iConfigIterator instance at %s>" % (self.this,)
@@ -6290,7 +6331,8 @@ class iConfigIteratorPtr(iConfigIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iConfigIterator, 'thisown', 0)
         _swig_setattr(self, iConfigIterator,self.__class__,iConfigIterator)
 _blcelc.iConfigIterator_swigregister(iConfigIteratorPtr)
-iConfigIterator_VERSION = cvar.iConfigIterator_VERSION
+iConfigIterator_scfGetVersion = _blcelc.iConfigIterator_scfGetVersion
+
 
 class iConfigManager(iConfigFile):
     __swig_setmethods__ = {}
@@ -6325,6 +6367,8 @@ class iConfigManager(iConfigFile):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iConfigManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iConfigManager_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iConfigManager instance at %s>" % (self.this,)
@@ -6335,7 +6379,8 @@ class iConfigManagerPtr(iConfigManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iConfigManager, 'thisown', 0)
         _swig_setattr(self, iConfigManager,self.__class__,iConfigManager)
 _blcelc.iConfigManager_swigregister(iConfigManagerPtr)
-iConfigManager_VERSION = cvar.iConfigManager_VERSION
+iConfigManager_scfGetVersion = _blcelc.iConfigManager_scfGetVersion
+
 
 class iStringArray(iBase):
     __swig_setmethods__ = {}
@@ -6359,6 +6404,8 @@ class iStringArray(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStringArray_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iStringArray_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iStringArray instance at %s>" % (self.this,)
@@ -6369,7 +6416,8 @@ class iStringArrayPtr(iStringArray):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStringArray, 'thisown', 0)
         _swig_setattr(self, iStringArray,self.__class__,iStringArray)
 _blcelc.iStringArray_swigregister(iStringArrayPtr)
-iStringArray_VERSION = cvar.iStringArray_VERSION
+iStringArray_scfGetVersion = _blcelc.iStringArray_scfGetVersion
+
 
 CS_NODE_DOCUMENT = _blcelc.CS_NODE_DOCUMENT
 CS_NODE_ELEMENT = _blcelc.CS_NODE_ELEMENT
@@ -6380,8 +6428,6 @@ CS_NODE_DECLARATION = _blcelc.CS_NODE_DECLARATION
 CS_CHANGEABLE_NEVER = _blcelc.CS_CHANGEABLE_NEVER
 CS_CHANGEABLE_NEWROOT = _blcelc.CS_CHANGEABLE_NEWROOT
 CS_CHANGEABLE_YES = _blcelc.CS_CHANGEABLE_YES
-iDocumentAttributeIterator_scfGetID = _blcelc.iDocumentAttributeIterator_scfGetID
-
 class iDocumentAttributeIterator(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -6405,9 +6451,6 @@ class iDocumentAttributeIteratorPtr(iDocumentAttributeIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocumentAttributeIterator, 'thisown', 0)
         _swig_setattr(self, iDocumentAttributeIterator,self.__class__,iDocumentAttributeIterator)
 _blcelc.iDocumentAttributeIterator_swigregister(iDocumentAttributeIteratorPtr)
-iDocumentAttributeIterator_VERSION = cvar.iDocumentAttributeIterator_VERSION
-
-iDocumentAttribute_scfGetID = _blcelc.iDocumentAttribute_scfGetID
 
 class iDocumentAttribute(iBase):
     __swig_setmethods__ = {}
@@ -6438,9 +6481,6 @@ class iDocumentAttributePtr(iDocumentAttribute):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocumentAttribute, 'thisown', 0)
         _swig_setattr(self, iDocumentAttribute,self.__class__,iDocumentAttribute)
 _blcelc.iDocumentAttribute_swigregister(iDocumentAttributePtr)
-iDocumentAttribute_VERSION = cvar.iDocumentAttribute_VERSION
-
-iDocumentNodeIterator_scfGetID = _blcelc.iDocumentNodeIterator_scfGetID
 
 class iDocumentNodeIterator(iBase):
     __swig_setmethods__ = {}
@@ -6465,9 +6505,6 @@ class iDocumentNodeIteratorPtr(iDocumentNodeIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocumentNodeIterator, 'thisown', 0)
         _swig_setattr(self, iDocumentNodeIterator,self.__class__,iDocumentNodeIterator)
 _blcelc.iDocumentNodeIterator_swigregister(iDocumentNodeIteratorPtr)
-iDocumentNodeIterator_VERSION = cvar.iDocumentNodeIterator_VERSION
-
-iDocumentNode_scfGetID = _blcelc.iDocumentNode_scfGetID
 
 class iDocumentNode(iBase):
     __swig_setmethods__ = {}
@@ -6515,7 +6552,6 @@ class iDocumentNodePtr(iDocumentNode):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocumentNode, 'thisown', 0)
         _swig_setattr(self, iDocumentNode,self.__class__,iDocumentNode)
 _blcelc.iDocumentNode_swigregister(iDocumentNodePtr)
-iDocumentNode_VERSION = cvar.iDocumentNode_VERSION
 
 class iDocument(iBase):
     __swig_setmethods__ = {}
@@ -6534,6 +6570,8 @@ class iDocument(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDocument_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDocument_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDocument instance at %s>" % (self.this,)
@@ -6544,7 +6582,8 @@ class iDocumentPtr(iDocument):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocument, 'thisown', 0)
         _swig_setattr(self, iDocument,self.__class__,iDocument)
 _blcelc.iDocument_swigregister(iDocumentPtr)
-iDocument_VERSION = cvar.iDocument_VERSION
+iDocument_scfGetVersion = _blcelc.iDocument_scfGetVersion
+
 
 class iDocumentSystem(iBase):
     __swig_setmethods__ = {}
@@ -6558,6 +6597,8 @@ class iDocumentSystem(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDocumentSystem_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDocumentSystem_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDocumentSystem instance at %s>" % (self.this,)
@@ -6568,7 +6609,8 @@ class iDocumentSystemPtr(iDocumentSystem):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDocumentSystem, 'thisown', 0)
         _swig_setattr(self, iDocumentSystem,self.__class__,iDocumentSystem)
 _blcelc.iDocumentSystem_swigregister(iDocumentSystemPtr)
-iDocumentSystem_VERSION = cvar.iDocumentSystem_VERSION
+iDocumentSystem_scfGetVersion = _blcelc.iDocumentSystem_scfGetVersion
+
 
 class csTinyDocumentSystem(iDocumentSystem):
     __swig_setmethods__ = {}
@@ -6626,6 +6668,8 @@ class iDataBuffer(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDataBuffer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDataBuffer_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDataBuffer instance at %s>" % (self.this,)
@@ -6636,7 +6680,8 @@ class iDataBufferPtr(iDataBuffer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDataBuffer, 'thisown', 0)
         _swig_setattr(self, iDataBuffer,self.__class__,iDataBuffer)
 _blcelc.iDataBuffer_swigregister(iDataBufferPtr)
-iDataBuffer_VERSION = cvar.iDataBuffer_VERSION
+iDataBuffer_scfGetVersion = _blcelc.iDataBuffer_scfGetVersion
+
 
 CSDRAW_2DGRAPHICS = _blcelc.CSDRAW_2DGRAPHICS
 CSDRAW_3DGRAPHICS = _blcelc.CSDRAW_3DGRAPHICS
@@ -7256,6 +7301,8 @@ class iGraphics3D(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGraphics3D_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iGraphics3D_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iGraphics3D instance at %s>" % (self.this,)
@@ -7266,7 +7313,8 @@ class iGraphics3DPtr(iGraphics3D):
         if not hasattr(self,"thisown"): _swig_setattr(self, iGraphics3D, 'thisown', 0)
         _swig_setattr(self, iGraphics3D,self.__class__,iGraphics3D)
 _blcelc.iGraphics3D_swigregister(iGraphics3DPtr)
-iGraphics3D_VERSION = cvar.iGraphics3D_VERSION
+iGraphics3D_scfGetVersion = _blcelc.iGraphics3D_scfGetVersion
+
 
 CS_WRITE_BASELINE = _blcelc.CS_WRITE_BASELINE
 CS_WRITE_NOANTIALIAS = _blcelc.CS_WRITE_NOANTIALIAS
@@ -7391,8 +7439,6 @@ class csImageAreaPtr(csImageArea):
         _swig_setattr(self, csImageArea,self.__class__,csImageArea)
 _blcelc.csImageArea_swigregister(csImageAreaPtr)
 
-iOffscreenCanvasCallback_scfGetID = _blcelc.iOffscreenCanvasCallback_scfGetID
-
 class iOffscreenCanvasCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -7416,7 +7462,6 @@ class iOffscreenCanvasCallbackPtr(iOffscreenCanvasCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iOffscreenCanvasCallback, 'thisown', 0)
         _swig_setattr(self, iOffscreenCanvasCallback,self.__class__,iOffscreenCanvasCallback)
 _blcelc.iOffscreenCanvasCallback_swigregister(iOffscreenCanvasCallbackPtr)
-iOffscreenCanvasCallback_VERSION = cvar.iOffscreenCanvasCallback_VERSION
 
 class iGraphics2D(iBase):
     __swig_setmethods__ = {}
@@ -7476,6 +7521,8 @@ class iGraphics2D(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iGraphics2D_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iGraphics2D_scfGetVersion)
     def _PerformExtension(*args): return apply(_blcelc.iGraphics2D__PerformExtension,args)
     def PerformExtension (self, command, *args):
               self._PerformExtension(self.__class__.__name__, command, args);
@@ -7491,15 +7538,14 @@ class iGraphics2DPtr(iGraphics2D):
         if not hasattr(self,"thisown"): _swig_setattr(self, iGraphics2D, 'thisown', 0)
         _swig_setattr(self, iGraphics2D,self.__class__,iGraphics2D)
 _blcelc.iGraphics2D_swigregister(iGraphics2DPtr)
-iGraphics2D_VERSION = cvar.iGraphics2D_VERSION
+iGraphics2D_scfGetVersion = _blcelc.iGraphics2D_scfGetVersion
+
 
 CSFONT_LARGE = _blcelc.CSFONT_LARGE
 CSFONT_ITALIC = _blcelc.CSFONT_ITALIC
 CSFONT_COURIER = _blcelc.CSFONT_COURIER
 CSFONT_SMALL = _blcelc.CSFONT_SMALL
 CS_FONT_DEFAULT_GLYPH = _blcelc.CS_FONT_DEFAULT_GLYPH
-iFontDeleteNotify_scfGetID = _blcelc.iFontDeleteNotify_scfGetID
-
 class iFontDeleteNotify(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -7522,7 +7568,6 @@ class iFontDeleteNotifyPtr(iFontDeleteNotify):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFontDeleteNotify, 'thisown', 0)
         _swig_setattr(self, iFontDeleteNotify,self.__class__,iFontDeleteNotify)
 _blcelc.iFontDeleteNotify_swigregister(iFontDeleteNotifyPtr)
-iFontDeleteNotify_VERSION = cvar.iFontDeleteNotify_VERSION
 
 class csBitmapMetrics(_object):
     __swig_setmethods__ = {}
@@ -7607,6 +7652,8 @@ class iFont(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFont_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFont_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFont instance at %s>" % (self.this,)
@@ -7617,7 +7664,8 @@ class iFontPtr(iFont):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFont, 'thisown', 0)
         _swig_setattr(self, iFont,self.__class__,iFont)
 _blcelc.iFont_swigregister(iFontPtr)
-iFont_VERSION = cvar.iFont_VERSION
+iFont_scfGetVersion = _blcelc.iFont_scfGetVersion
+
 
 class iFontServer(iBase):
     __swig_setmethods__ = {}
@@ -7633,6 +7681,8 @@ class iFontServer(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iFontServer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iFontServer_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iFontServer instance at %s>" % (self.this,)
@@ -7643,7 +7693,8 @@ class iFontServerPtr(iFontServer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iFontServer, 'thisown', 0)
         _swig_setattr(self, iFontServer,self.__class__,iFontServer)
 _blcelc.iFontServer_swigregister(iFontServerPtr)
-iFontServer_VERSION = cvar.iFontServer_VERSION
+iFontServer_scfGetVersion = _blcelc.iFontServer_scfGetVersion
+
 
 class iHalo(iBase):
     __swig_setmethods__ = {}
@@ -7661,6 +7712,8 @@ class iHalo(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iHalo_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iHalo_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iHalo instance at %s>" % (self.this,)
@@ -7671,9 +7724,8 @@ class iHaloPtr(iHalo):
         if not hasattr(self,"thisown"): _swig_setattr(self, iHalo, 'thisown', 0)
         _swig_setattr(self, iHalo,self.__class__,iHalo)
 _blcelc.iHalo_swigregister(iHaloPtr)
-iHalo_VERSION = cvar.iHalo_VERSION
+iHalo_scfGetVersion = _blcelc.iHalo_scfGetVersion
 
-iShaderVariableContext_scfGetID = _blcelc.iShaderVariableContext_scfGetID
 
 class iShaderVariableContext(iBase):
     __swig_setmethods__ = {}
@@ -7700,9 +7752,6 @@ class iShaderVariableContextPtr(iShaderVariableContext):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderVariableContext, 'thisown', 0)
         _swig_setattr(self, iShaderVariableContext,self.__class__,iShaderVariableContext)
 _blcelc.iShaderVariableContext_swigregister(iShaderVariableContextPtr)
-iShaderVariableContext_VERSION = cvar.iShaderVariableContext_VERSION
-
-iShaderManager_scfGetID = _blcelc.iShaderManager_scfGetID
 
 class iShaderManager(iShaderVariableContext):
     __swig_setmethods__ = {}
@@ -7731,9 +7780,6 @@ class iShaderManagerPtr(iShaderManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderManager, 'thisown', 0)
         _swig_setattr(self, iShaderManager,self.__class__,iShaderManager)
 _blcelc.iShaderManager_swigregister(iShaderManagerPtr)
-iShaderManager_VERSION = cvar.iShaderManager_VERSION
-
-iShaderRenderInterface_scfGetID = _blcelc.iShaderRenderInterface_scfGetID
 
 class iShaderRenderInterface(iBase):
     __swig_setmethods__ = {}
@@ -7757,9 +7803,6 @@ class iShaderRenderInterfacePtr(iShaderRenderInterface):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderRenderInterface, 'thisown', 0)
         _swig_setattr(self, iShaderRenderInterface,self.__class__,iShaderRenderInterface)
 _blcelc.iShaderRenderInterface_swigregister(iShaderRenderInterfacePtr)
-iShaderRenderInterface_VERSION = cvar.iShaderRenderInterface_VERSION
-
-iShader_scfGetID = _blcelc.iShader_scfGetID
 
 class iShader(iShaderVariableContext):
     __swig_setmethods__ = {}
@@ -7791,9 +7834,6 @@ class iShaderPtr(iShader):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShader, 'thisown', 0)
         _swig_setattr(self, iShader,self.__class__,iShader)
 _blcelc.iShader_swigregister(iShaderPtr)
-iShader_VERSION = cvar.iShader_VERSION
-
-iShaderTechnique_scfGetID = _blcelc.iShaderTechnique_scfGetID
 
 class iShaderTechnique(iShaderVariableContext):
     __swig_setmethods__ = {}
@@ -7824,9 +7864,6 @@ class iShaderTechniquePtr(iShaderTechnique):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderTechnique, 'thisown', 0)
         _swig_setattr(self, iShaderTechnique,self.__class__,iShaderTechnique)
 _blcelc.iShaderTechnique_swigregister(iShaderTechniquePtr)
-iShaderTechnique_VERSION = cvar.iShaderTechnique_VERSION
-
-iShaderPass_scfGetID = _blcelc.iShaderPass_scfGetID
 
 class iShaderPass(iShaderVariableContext):
     __swig_setmethods__ = {}
@@ -7866,9 +7903,6 @@ class iShaderPassPtr(iShaderPass):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderPass, 'thisown', 0)
         _swig_setattr(self, iShaderPass,self.__class__,iShaderPass)
 _blcelc.iShaderPass_swigregister(iShaderPassPtr)
-iShaderPass_VERSION = cvar.iShaderPass_VERSION
-
-iShaderProgram_scfGetID = _blcelc.iShaderProgram_scfGetID
 
 class iShaderProgram(iShaderVariableContext):
     __swig_setmethods__ = {}
@@ -7898,9 +7932,6 @@ class iShaderProgramPtr(iShaderProgram):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderProgram, 'thisown', 0)
         _swig_setattr(self, iShaderProgram,self.__class__,iShaderProgram)
 _blcelc.iShaderProgram_swigregister(iShaderProgramPtr)
-iShaderProgram_VERSION = cvar.iShaderProgram_VERSION
-
-iShaderProgramPlugin_scfGetID = _blcelc.iShaderProgramPlugin_scfGetID
 
 class iShaderProgramPlugin(iBase):
     __swig_setmethods__ = {}
@@ -7926,7 +7957,6 @@ class iShaderProgramPluginPtr(iShaderProgramPlugin):
         if not hasattr(self,"thisown"): _swig_setattr(self, iShaderProgramPlugin, 'thisown', 0)
         _swig_setattr(self, iShaderProgramPlugin,self.__class__,iShaderProgramPlugin)
 _blcelc.iShaderProgramPlugin_swigregister(iShaderProgramPluginPtr)
-iShaderProgramPlugin_VERSION = cvar.iShaderProgramPlugin_VERSION
 
 class iTextureHandle(iBase):
     __swig_setmethods__ = {}
@@ -7963,6 +7993,8 @@ class iTextureHandle(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iTextureHandle_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iTextureHandle_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iTextureHandle instance at %s>" % (self.this,)
@@ -7973,7 +8005,8 @@ class iTextureHandlePtr(iTextureHandle):
         if not hasattr(self,"thisown"): _swig_setattr(self, iTextureHandle, 'thisown', 0)
         _swig_setattr(self, iTextureHandle,self.__class__,iTextureHandle)
 _blcelc.iTextureHandle_swigregister(iTextureHandlePtr)
-iTextureHandle_VERSION = cvar.iTextureHandle_VERSION
+iTextureHandle_scfGetVersion = _blcelc.iTextureHandle_scfGetVersion
+
 
 CS_TEXTURE_2D = _blcelc.CS_TEXTURE_2D
 CS_TEXTURE_3D = _blcelc.CS_TEXTURE_3D
@@ -7981,8 +8014,6 @@ CS_TEXTURE_DITHER = _blcelc.CS_TEXTURE_DITHER
 CS_TEXTURE_NOMIPMAPS = _blcelc.CS_TEXTURE_NOMIPMAPS
 CS_TEXTURE_CLAMP = _blcelc.CS_TEXTURE_CLAMP
 CS_TEXTURE_NOFILTER = _blcelc.CS_TEXTURE_NOFILTER
-iRendererLightmap_scfGetID = _blcelc.iRendererLightmap_scfGetID
-
 class iRendererLightmap(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8007,9 +8038,6 @@ class iRendererLightmapPtr(iRendererLightmap):
         if not hasattr(self,"thisown"): _swig_setattr(self, iRendererLightmap, 'thisown', 0)
         _swig_setattr(self, iRendererLightmap,self.__class__,iRendererLightmap)
 _blcelc.iRendererLightmap_swigregister(iRendererLightmapPtr)
-iRendererLightmap_VERSION = cvar.iRendererLightmap_VERSION
-
-iSuperLightmap_scfGetID = _blcelc.iSuperLightmap_scfGetID
 
 class iSuperLightmap(iBase):
     __swig_setmethods__ = {}
@@ -8035,7 +8063,6 @@ class iSuperLightmapPtr(iSuperLightmap):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSuperLightmap, 'thisown', 0)
         _swig_setattr(self, iSuperLightmap,self.__class__,iSuperLightmap)
 _blcelc.iSuperLightmap_swigregister(iSuperLightmapPtr)
-iSuperLightmap_VERSION = cvar.iSuperLightmap_VERSION
 
 class iTextureManager(iBase):
     __swig_setmethods__ = {}
@@ -8059,6 +8086,8 @@ class iTextureManager(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iTextureManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iTextureManager_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iTextureManager instance at %s>" % (self.this,)
@@ -8069,9 +8098,8 @@ class iTextureManagerPtr(iTextureManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iTextureManager, 'thisown', 0)
         _swig_setattr(self, iTextureManager,self.__class__,iTextureManager)
 _blcelc.iTextureManager_swigregister(iTextureManagerPtr)
-iTextureManager_VERSION = cvar.iTextureManager_VERSION
+iTextureManager_scfGetVersion = _blcelc.iTextureManager_scfGetVersion
 
-iVertexBuffer_scfGetID = _blcelc.iVertexBuffer_scfGetID
 
 class iVertexBuffer(iBase):
     __swig_setmethods__ = {}
@@ -8103,9 +8131,6 @@ class iVertexBufferPtr(iVertexBuffer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVertexBuffer, 'thisown', 0)
         _swig_setattr(self, iVertexBuffer,self.__class__,iVertexBuffer)
 _blcelc.iVertexBuffer_swigregister(iVertexBufferPtr)
-iVertexBuffer_VERSION = cvar.iVertexBuffer_VERSION
-
-iPolygonBuffer_scfGetID = _blcelc.iPolygonBuffer_scfGetID
 
 class iPolygonBuffer(iBase):
     __swig_setmethods__ = {}
@@ -8140,9 +8165,6 @@ class iPolygonBufferPtr(iPolygonBuffer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPolygonBuffer, 'thisown', 0)
         _swig_setattr(self, iPolygonBuffer,self.__class__,iPolygonBuffer)
 _blcelc.iPolygonBuffer_swigregister(iPolygonBufferPtr)
-iPolygonBuffer_VERSION = cvar.iPolygonBuffer_VERSION
-
-iVertexBufferManagerClient_scfGetID = _blcelc.iVertexBufferManagerClient_scfGetID
 
 class iVertexBufferManagerClient(iBase):
     __swig_setmethods__ = {}
@@ -8166,9 +8188,6 @@ class iVertexBufferManagerClientPtr(iVertexBufferManagerClient):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVertexBufferManagerClient, 'thisown', 0)
         _swig_setattr(self, iVertexBufferManagerClient,self.__class__,iVertexBufferManagerClient)
 _blcelc.iVertexBufferManagerClient_swigregister(iVertexBufferManagerClientPtr)
-iVertexBufferManagerClient_VERSION = cvar.iVertexBufferManagerClient_VERSION
-
-iVertexBufferManager_scfGetID = _blcelc.iVertexBufferManager_scfGetID
 
 class iVertexBufferManager(iBase):
     __swig_setmethods__ = {}
@@ -8199,7 +8218,6 @@ class iVertexBufferManagerPtr(iVertexBufferManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVertexBufferManager, 'thisown', 0)
         _swig_setattr(self, iVertexBufferManager,self.__class__,iVertexBufferManager)
 _blcelc.iVertexBufferManager_swigregister(iVertexBufferManagerPtr)
-iVertexBufferManager_VERSION = cvar.iVertexBufferManager_VERSION
 
 CS_DEFMAT_DIFFUSE = _blcelc.CS_DEFMAT_DIFFUSE
 CS_DEFMAT_AMBIENT = _blcelc.CS_DEFMAT_AMBIENT
@@ -8275,6 +8293,8 @@ class iMaterial(iShaderVariableContext):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iMaterial_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iMaterial_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iMaterial instance at %s>" % (self.this,)
@@ -8285,9 +8305,8 @@ class iMaterialPtr(iMaterial):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterial, 'thisown', 0)
         _swig_setattr(self, iMaterial,self.__class__,iMaterial)
 _blcelc.iMaterial_swigregister(iMaterialPtr)
-iMaterial_VERSION = cvar.iMaterial_VERSION
+iMaterial_scfGetVersion = _blcelc.iMaterial_scfGetVersion
 
-iMaterialHandle_scfGetID = _blcelc.iMaterialHandle_scfGetID
 
 class iMaterialHandle(iBase):
     __swig_setmethods__ = {}
@@ -8315,13 +8334,10 @@ class iMaterialHandlePtr(iMaterialHandle):
         if not hasattr(self,"thisown"): _swig_setattr(self, iMaterialHandle, 'thisown', 0)
         _swig_setattr(self, iMaterialHandle,self.__class__,iMaterialHandle)
 _blcelc.iMaterialHandle_swigregister(iMaterialHandlePtr)
-iMaterialHandle_VERSION = cvar.iMaterialHandle_VERSION
 
 CS_ALERT_ERROR = _blcelc.CS_ALERT_ERROR
 CS_ALERT_WARNING = _blcelc.CS_ALERT_WARNING
 CS_ALERT_NOTE = _blcelc.CS_ALERT_NOTE
-iNativeWindowManager_scfGetID = _blcelc.iNativeWindowManager_scfGetID
-
 class iNativeWindowManager(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8345,9 +8361,6 @@ class iNativeWindowManagerPtr(iNativeWindowManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindowManager, 'thisown', 0)
         _swig_setattr(self, iNativeWindowManager,self.__class__,iNativeWindowManager)
 _blcelc.iNativeWindowManager_swigregister(iNativeWindowManagerPtr)
-iNativeWindowManager_VERSION = cvar.iNativeWindowManager_VERSION
-
-iNativeWindow_scfGetID = _blcelc.iNativeWindow_scfGetID
 
 class iNativeWindow(iBase):
     __swig_setmethods__ = {}
@@ -8371,7 +8384,6 @@ class iNativeWindowPtr(iNativeWindow):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNativeWindow, 'thisown', 0)
         _swig_setattr(self, iNativeWindow,self.__class__,iNativeWindow)
 _blcelc.iNativeWindow_swigregister(iNativeWindowPtr)
-iNativeWindow_VERSION = cvar.iNativeWindow_VERSION
 
 CS_POS_BY_FRAME = _blcelc.CS_POS_BY_FRAME
 CS_POS_BY_TIME = _blcelc.CS_POS_BY_TIME
@@ -8505,6 +8517,8 @@ class iStreamIterator(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStreamIterator_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iStreamIterator_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iStreamIterator instance at %s>" % (self.this,)
@@ -8515,7 +8529,8 @@ class iStreamIteratorPtr(iStreamIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStreamIterator, 'thisown', 0)
         _swig_setattr(self, iStreamIterator,self.__class__,iStreamIterator)
 _blcelc.iStreamIterator_swigregister(iStreamIteratorPtr)
-iStreamIterator_VERSION = cvar.iStreamIterator_VERSION
+iStreamIterator_scfGetVersion = _blcelc.iStreamIterator_scfGetVersion
+
 
 class iStreamFormat(iBase):
     __swig_setmethods__ = {}
@@ -8534,6 +8549,8 @@ class iStreamFormat(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStreamFormat_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iStreamFormat_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iStreamFormat instance at %s>" % (self.this,)
@@ -8544,7 +8561,8 @@ class iStreamFormatPtr(iStreamFormat):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStreamFormat, 'thisown', 0)
         _swig_setattr(self, iStreamFormat,self.__class__,iStreamFormat)
 _blcelc.iStreamFormat_swigregister(iStreamFormatPtr)
-iStreamFormat_VERSION = cvar.iStreamFormat_VERSION
+iStreamFormat_scfGetVersion = _blcelc.iStreamFormat_scfGetVersion
+
 
 class iStream(iBase):
     __swig_setmethods__ = {}
@@ -8562,6 +8580,8 @@ class iStream(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStream_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iStream_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iStream instance at %s>" % (self.this,)
@@ -8572,7 +8592,8 @@ class iStreamPtr(iStream):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStream, 'thisown', 0)
         _swig_setattr(self, iStream,self.__class__,iStream)
 _blcelc.iStream_swigregister(iStreamPtr)
-iStream_VERSION = cvar.iStream_VERSION
+iStream_scfGetVersion = _blcelc.iStream_scfGetVersion
+
 
 class iVideoStream(iStream):
     __swig_setmethods__ = {}
@@ -8589,6 +8610,8 @@ class iVideoStream(iStream):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iVideoStream_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iVideoStream_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iVideoStream instance at %s>" % (self.this,)
@@ -8599,7 +8622,8 @@ class iVideoStreamPtr(iVideoStream):
         if not hasattr(self,"thisown"): _swig_setattr(self, iVideoStream, 'thisown', 0)
         _swig_setattr(self, iVideoStream,self.__class__,iVideoStream)
 _blcelc.iVideoStream_swigregister(iVideoStreamPtr)
-iVideoStream_VERSION = cvar.iVideoStream_VERSION
+iVideoStream_scfGetVersion = _blcelc.iVideoStream_scfGetVersion
+
 
 class iAudioStream(iStream):
     __swig_setmethods__ = {}
@@ -8613,6 +8637,8 @@ class iAudioStream(iStream):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iAudioStream_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iAudioStream_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iAudioStream instance at %s>" % (self.this,)
@@ -8623,7 +8649,8 @@ class iAudioStreamPtr(iAudioStream):
         if not hasattr(self,"thisown"): _swig_setattr(self, iAudioStream, 'thisown', 0)
         _swig_setattr(self, iAudioStream,self.__class__,iAudioStream)
 _blcelc.iAudioStream_swigregister(iAudioStreamPtr)
-iAudioStream_VERSION = cvar.iAudioStream_VERSION
+iAudioStream_scfGetVersion = _blcelc.iAudioStream_scfGetVersion
+
 
 CS_CODECFORMAT_RGB_CHANNEL = _blcelc.CS_CODECFORMAT_RGB_CHANNEL
 CS_CODECFORMAT_RGBA_CHANNEL = _blcelc.CS_CODECFORMAT_RGBA_CHANNEL
@@ -8705,6 +8732,8 @@ class iImage(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iImage_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iImage_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iImage instance at %s>" % (self.this,)
@@ -8715,7 +8744,8 @@ class iImagePtr(iImage):
         if not hasattr(self,"thisown"): _swig_setattr(self, iImage, 'thisown', 0)
         _swig_setattr(self, iImage,self.__class__,iImage)
 _blcelc.iImage_swigregister(iImagePtr)
-iImage_VERSION = cvar.iImage_VERSION
+iImage_scfGetVersion = _blcelc.iImage_scfGetVersion
+
 
 CS_IMAGEIO_LOAD = _blcelc.CS_IMAGEIO_LOAD
 CS_IMAGEIO_SAVE = _blcelc.CS_IMAGEIO_SAVE
@@ -8747,7 +8777,6 @@ class csImageIOFileFormatDescriptionPtr(csImageIOFileFormatDescription):
         if not hasattr(self,"thisown"): _swig_setattr(self, csImageIOFileFormatDescription, 'thisown', 0)
         _swig_setattr(self, csImageIOFileFormatDescription,self.__class__,csImageIOFileFormatDescription)
 _blcelc.csImageIOFileFormatDescription_swigregister(csImageIOFileFormatDescriptionPtr)
-iImageIO_VERSION = cvar.iImageIO_VERSION
 
 class iImageIO(iBase):
     __swig_setmethods__ = {}
@@ -8764,6 +8793,8 @@ class iImageIO(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iImageIO_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iImageIO_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iImageIO instance at %s>" % (self.this,)
@@ -8774,14 +8805,14 @@ class iImageIOPtr(iImageIO):
         if not hasattr(self,"thisown"): _swig_setattr(self, iImageIO, 'thisown', 0)
         _swig_setattr(self, iImageIO,self.__class__,iImageIO)
 _blcelc.iImageIO_swigregister(iImageIOPtr)
+iImageIO_scfGetVersion = _blcelc.iImageIO_scfGetVersion
+
 
 CS_REPORTER_SEVERITY_BUG = _blcelc.CS_REPORTER_SEVERITY_BUG
 CS_REPORTER_SEVERITY_ERROR = _blcelc.CS_REPORTER_SEVERITY_ERROR
 CS_REPORTER_SEVERITY_WARNING = _blcelc.CS_REPORTER_SEVERITY_WARNING
 CS_REPORTER_SEVERITY_NOTIFY = _blcelc.CS_REPORTER_SEVERITY_NOTIFY
 CS_REPORTER_SEVERITY_DEBUG = _blcelc.CS_REPORTER_SEVERITY_DEBUG
-iReporterListener_scfGetID = _blcelc.iReporterListener_scfGetID
-
 class iReporterListener(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8804,9 +8835,6 @@ class iReporterListenerPtr(iReporterListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporterListener, 'thisown', 0)
         _swig_setattr(self, iReporterListener,self.__class__,iReporterListener)
 _blcelc.iReporterListener_swigregister(iReporterListenerPtr)
-iReporterListener_VERSION = cvar.iReporterListener_VERSION
-
-iReporterIterator_scfGetID = _blcelc.iReporterIterator_scfGetID
 
 class iReporterIterator(iBase):
     __swig_setmethods__ = {}
@@ -8834,9 +8862,6 @@ class iReporterIteratorPtr(iReporterIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporterIterator, 'thisown', 0)
         _swig_setattr(self, iReporterIterator,self.__class__,iReporterIterator)
 _blcelc.iReporterIterator_swigregister(iReporterIteratorPtr)
-iReporterIterator_VERSION = cvar.iReporterIterator_VERSION
-
-iReporter_scfGetID = _blcelc.iReporter_scfGetID
 
 class iReporter(iBase):
     __swig_setmethods__ = {}
@@ -8870,7 +8895,6 @@ class iReporterPtr(iReporter):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporter, 'thisown', 0)
         _swig_setattr(self, iReporter,self.__class__,iReporter)
 _blcelc.iReporter_swigregister(iReporterPtr)
-iReporter_VERSION = cvar.iReporter_VERSION
 
 class csReporterHelper(_object):
     __swig_setmethods__ = {}
@@ -8897,8 +8921,6 @@ class csReporterHelperPtr(csReporterHelper):
 _blcelc.csReporterHelper_swigregister(csReporterHelperPtr)
 csReporterHelper_Report = _blcelc.csReporterHelper_Report
 
-
-iStandardReporterListener_scfGetID = _blcelc.iStandardReporterListener_scfGetID
 
 class iStandardReporterListener(iBase):
     __swig_setmethods__ = {}
@@ -8929,7 +8951,6 @@ class iStandardReporterListenerPtr(iStandardReporterListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iStandardReporterListener, 'thisown', 0)
         _swig_setattr(self, iStandardReporterListener,self.__class__,iStandardReporterListener)
 _blcelc.iStandardReporterListener_swigregister(iStandardReporterListenerPtr)
-iStandardReporterListener_VERSION = cvar.iStandardReporterListener_VERSION
 
 class iView(iBase):
     __swig_setmethods__ = {}
@@ -8955,6 +8976,8 @@ class iView(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iView_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iView_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iView instance at %s>" % (self.this,)
@@ -8965,7 +8988,8 @@ class iViewPtr(iView):
         if not hasattr(self,"thisown"): _swig_setattr(self, iView, 'thisown', 0)
         _swig_setattr(self, iView,self.__class__,iView)
 _blcelc.iView_swigregister(iViewPtr)
-iView_VERSION = cvar.iView_VERSION
+iView_scfGetVersion = _blcelc.iView_scfGetVersion
+
 
 class csCollisionPair(_object):
     __swig_setmethods__ = {}
@@ -9018,6 +9042,8 @@ class iCollider(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCollider_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCollider_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iCollider instance at %s>" % (self.this,)
@@ -9028,7 +9054,8 @@ class iColliderPtr(iCollider):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCollider, 'thisown', 0)
         _swig_setattr(self, iCollider,self.__class__,iCollider)
 _blcelc.iCollider_swigregister(iColliderPtr)
-iCollider_VERSION = cvar.iCollider_VERSION
+iCollider_scfGetVersion = _blcelc.iCollider_scfGetVersion
+
 
 class iCollideSystem(iBase):
     __swig_setmethods__ = {}
@@ -9051,6 +9078,8 @@ class iCollideSystem(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCollideSystem_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCollideSystem_scfGetVersion)
     def GetCollisionPairByIndex(*args): return apply(_blcelc.iCollideSystem_GetCollisionPairByIndex,args)
     def GetCollisionPairs (self):
     	num = self.GetCollisionPairCount()
@@ -9070,7 +9099,8 @@ class iCollideSystemPtr(iCollideSystem):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCollideSystem, 'thisown', 0)
         _swig_setattr(self, iCollideSystem,self.__class__,iCollideSystem)
 _blcelc.iCollideSystem_swigregister(iCollideSystemPtr)
-iCollideSystem_VERSION = cvar.iCollideSystem_VERSION
+iCollideSystem_scfGetVersion = _blcelc.iCollideSystem_scfGetVersion
+
 
 class iDynamics(iBase):
     __swig_setmethods__ = {}
@@ -9087,6 +9117,8 @@ class iDynamics(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDynamics_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDynamics_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDynamics instance at %s>" % (self.this,)
@@ -9097,7 +9129,8 @@ class iDynamicsPtr(iDynamics):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDynamics, 'thisown', 0)
         _swig_setattr(self, iDynamics,self.__class__,iDynamics)
 _blcelc.iDynamics_swigregister(iDynamicsPtr)
-iDynamics_VERSION = cvar.iDynamics_VERSION
+iDynamics_scfGetVersion = _blcelc.iDynamics_scfGetVersion
+
 
 class iDynamicSystem(iBase):
     __swig_setmethods__ = {}
@@ -9131,6 +9164,8 @@ class iDynamicSystem(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iDynamicSystem_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iDynamicSystem_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iDynamicSystem instance at %s>" % (self.this,)
@@ -9141,9 +9176,8 @@ class iDynamicSystemPtr(iDynamicSystem):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDynamicSystem, 'thisown', 0)
         _swig_setattr(self, iDynamicSystem,self.__class__,iDynamicSystem)
 _blcelc.iDynamicSystem_swigregister(iDynamicSystemPtr)
-iDynamicSystem_VERSION = cvar.iDynamicSystem_VERSION
+iDynamicSystem_scfGetVersion = _blcelc.iDynamicSystem_scfGetVersion
 
-iDynamicsMoveCallback_scfGetID = _blcelc.iDynamicsMoveCallback_scfGetID
 
 class iDynamicsMoveCallback(iBase):
     __swig_setmethods__ = {}
@@ -9167,9 +9201,6 @@ class iDynamicsMoveCallbackPtr(iDynamicsMoveCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDynamicsMoveCallback, 'thisown', 0)
         _swig_setattr(self, iDynamicsMoveCallback,self.__class__,iDynamicsMoveCallback)
 _blcelc.iDynamicsMoveCallback_swigregister(iDynamicsMoveCallbackPtr)
-iDynamicsMoveCallback_VERSION = cvar.iDynamicsMoveCallback_VERSION
-
-iDynamicsCollisionCallback_scfGetID = _blcelc.iDynamicsCollisionCallback_scfGetID
 
 class iDynamicsCollisionCallback(iBase):
     __swig_setmethods__ = {}
@@ -9193,7 +9224,6 @@ class iDynamicsCollisionCallbackPtr(iDynamicsCollisionCallback):
         if not hasattr(self,"thisown"): _swig_setattr(self, iDynamicsCollisionCallback, 'thisown', 0)
         _swig_setattr(self, iDynamicsCollisionCallback,self.__class__,iDynamicsCollisionCallback)
 _blcelc.iDynamicsCollisionCallback_swigregister(iDynamicsCollisionCallbackPtr)
-iDynamicsCollisionCallback_VERSION = cvar.iDynamicsCollisionCallback_VERSION
 
 class iBodyGroup(iBase):
     __swig_setmethods__ = {}
@@ -9209,6 +9239,8 @@ class iBodyGroup(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iBodyGroup_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iBodyGroup_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iBodyGroup instance at %s>" % (self.this,)
@@ -9219,9 +9251,8 @@ class iBodyGroupPtr(iBodyGroup):
         if not hasattr(self,"thisown"): _swig_setattr(self, iBodyGroup, 'thisown', 0)
         _swig_setattr(self, iBodyGroup,self.__class__,iBodyGroup)
 _blcelc.iBodyGroup_swigregister(iBodyGroupPtr)
-iBodyGroup_VERSION = cvar.iBodyGroup_VERSION
+iBodyGroup_scfGetVersion = _blcelc.iBodyGroup_scfGetVersion
 
-iRigidBody_scfGetID = _blcelc.iRigidBody_scfGetID
 
 class iRigidBody(iBase):
     __swig_setmethods__ = {}
@@ -9285,7 +9316,6 @@ class iRigidBodyPtr(iRigidBody):
         if not hasattr(self,"thisown"): _swig_setattr(self, iRigidBody, 'thisown', 0)
         _swig_setattr(self, iRigidBody,self.__class__,iRigidBody)
 _blcelc.iRigidBody_swigregister(iRigidBodyPtr)
-iRigidBody_VERSION = cvar.iRigidBody_VERSION
 
 class iJoint(iBase):
     __swig_setmethods__ = {}
@@ -9318,6 +9348,8 @@ class iJoint(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iJoint_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iJoint_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iJoint instance at %s>" % (self.this,)
@@ -9328,7 +9360,8 @@ class iJointPtr(iJoint):
         if not hasattr(self,"thisown"): _swig_setattr(self, iJoint, 'thisown', 0)
         _swig_setattr(self, iJoint,self.__class__,iJoint)
 _blcelc.iJoint_swigregister(iJointPtr)
-iJoint_VERSION = cvar.iJoint_VERSION
+iJoint_scfGetVersion = _blcelc.iJoint_scfGetVersion
+
 
 csConPageUp = _blcelc.csConPageUp
 csConPageDown = _blcelc.csConPageDown
@@ -9337,8 +9370,6 @@ csConVeryBottom = _blcelc.csConVeryBottom
 csConNoCursor = _blcelc.csConNoCursor
 csConNormalCursor = _blcelc.csConNormalCursor
 csConInsertCursor = _blcelc.csConInsertCursor
-iConsoleWatcher_scfGetID = _blcelc.iConsoleWatcher_scfGetID
-
 class iConsoleWatcher(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9361,9 +9392,6 @@ class iConsoleWatcherPtr(iConsoleWatcher):
         if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleWatcher, 'thisown', 0)
         _swig_setattr(self, iConsoleWatcher,self.__class__,iConsoleWatcher)
 _blcelc.iConsoleWatcher_swigregister(iConsoleWatcherPtr)
-iConsoleWatcher_VERSION = cvar.iConsoleWatcher_VERSION
-
-iConsoleOutput_scfGetID = _blcelc.iConsoleOutput_scfGetID
 
 class iConsoleOutput(iBase):
     __swig_setmethods__ = {}
@@ -9409,9 +9437,6 @@ class iConsoleOutputPtr(iConsoleOutput):
         if not hasattr(self,"thisown"): _swig_setattr(self, iConsoleOutput, 'thisown', 0)
         _swig_setattr(self, iConsoleOutput,self.__class__,iConsoleOutput)
 _blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
-iConsoleOutput_VERSION = cvar.iConsoleOutput_VERSION
-
-iParameterESM_scfGetID = _blcelc.iParameterESM_scfGetID
 
 class iParameterESM(iBase):
     __swig_setmethods__ = {}
@@ -9436,9 +9461,6 @@ class iParameterESMPtr(iParameterESM):
         if not hasattr(self,"thisown"): _swig_setattr(self, iParameterESM, 'thisown', 0)
         _swig_setattr(self, iParameterESM,self.__class__,iParameterESM)
 _blcelc.iParameterESM_swigregister(iParameterESMPtr)
-iParameterESM_VERSION = cvar.iParameterESM_VERSION
-
-iEngineSequenceParameters_scfGetID = _blcelc.iEngineSequenceParameters_scfGetID
 
 class iEngineSequenceParameters(iBase):
     __swig_setmethods__ = {}
@@ -9468,9 +9490,6 @@ class iEngineSequenceParametersPtr(iEngineSequenceParameters):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEngineSequenceParameters, 'thisown', 0)
         _swig_setattr(self, iEngineSequenceParameters,self.__class__,iEngineSequenceParameters)
 _blcelc.iEngineSequenceParameters_swigregister(iEngineSequenceParametersPtr)
-iEngineSequenceParameters_VERSION = cvar.iEngineSequenceParameters_VERSION
-
-iSequenceWrapper_scfGetID = _blcelc.iSequenceWrapper_scfGetID
 
 class iSequenceWrapper(iBase):
     __swig_setmethods__ = {}
@@ -9515,9 +9534,6 @@ class iSequenceWrapperPtr(iSequenceWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSequenceWrapper, 'thisown', 0)
         _swig_setattr(self, iSequenceWrapper,self.__class__,iSequenceWrapper)
 _blcelc.iSequenceWrapper_swigregister(iSequenceWrapperPtr)
-iSequenceWrapper_VERSION = cvar.iSequenceWrapper_VERSION
-
-iSequenceTrigger_scfGetID = _blcelc.iSequenceTrigger_scfGetID
 
 class iSequenceTrigger(iBase):
     __swig_setmethods__ = {}
@@ -9557,9 +9573,6 @@ class iSequenceTriggerPtr(iSequenceTrigger):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSequenceTrigger, 'thisown', 0)
         _swig_setattr(self, iSequenceTrigger,self.__class__,iSequenceTrigger)
 _blcelc.iSequenceTrigger_swigregister(iSequenceTriggerPtr)
-iSequenceTrigger_VERSION = cvar.iSequenceTrigger_VERSION
-
-iSequenceTimedOperation_scfGetID = _blcelc.iSequenceTimedOperation_scfGetID
 
 class iSequenceTimedOperation(iBase):
     __swig_setmethods__ = {}
@@ -9583,9 +9596,6 @@ class iSequenceTimedOperationPtr(iSequenceTimedOperation):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSequenceTimedOperation, 'thisown', 0)
         _swig_setattr(self, iSequenceTimedOperation,self.__class__,iSequenceTimedOperation)
 _blcelc.iSequenceTimedOperation_swigregister(iSequenceTimedOperationPtr)
-iSequenceTimedOperation_VERSION = cvar.iSequenceTimedOperation_VERSION
-
-iEngineSequenceManager_scfGetID = _blcelc.iEngineSequenceManager_scfGetID
 
 class iEngineSequenceManager(iBase):
     __swig_setmethods__ = {}
@@ -9627,7 +9637,6 @@ class iEngineSequenceManagerPtr(iEngineSequenceManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iEngineSequenceManager, 'thisown', 0)
         _swig_setattr(self, iEngineSequenceManager,self.__class__,iEngineSequenceManager)
 _blcelc.iEngineSequenceManager_swigregister(iEngineSequenceManagerPtr)
-iEngineSequenceManager_VERSION = cvar.iEngineSequenceManager_VERSION
 
 class iScriptObject(iBase):
     __swig_setmethods__ = {}
@@ -9657,6 +9666,8 @@ class iScriptObject(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iScriptObject_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iScriptObject_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iScriptObject instance at %s>" % (self.this,)
@@ -9667,7 +9678,8 @@ class iScriptObjectPtr(iScriptObject):
         if not hasattr(self,"thisown"): _swig_setattr(self, iScriptObject, 'thisown', 0)
         _swig_setattr(self, iScriptObject,self.__class__,iScriptObject)
 _blcelc.iScriptObject_swigregister(iScriptObjectPtr)
-iScriptObject_VERSION = cvar.iScriptObject_VERSION
+iScriptObject_scfGetVersion = _blcelc.iScriptObject_scfGetVersion
+
 
 class iScript(iBase):
     __swig_setmethods__ = {}
@@ -9699,6 +9711,8 @@ class iScript(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iScript_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iScript_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iScript instance at %s>" % (self.this,)
@@ -9709,7 +9723,8 @@ class iScriptPtr(iScript):
         if not hasattr(self,"thisown"): _swig_setattr(self, iScript, 'thisown', 0)
         _swig_setattr(self, iScript,self.__class__,iScript)
 _blcelc.iScript_swigregister(iScriptPtr)
-iScript_VERSION = cvar.iScript_VERSION
+iScript_scfGetVersion = _blcelc.iScript_scfGetVersion
+
 
 class iNetworkPacket(iBase):
     __swig_setmethods__ = {}
@@ -9726,6 +9741,8 @@ class iNetworkPacket(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkPacket_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkPacket_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkPacket instance at %s>" % (self.this,)
@@ -9736,9 +9753,8 @@ class iNetworkPacketPtr(iNetworkPacket):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkPacket, 'thisown', 0)
         _swig_setattr(self, iNetworkPacket,self.__class__,iNetworkPacket)
 _blcelc.iNetworkPacket_swigregister(iNetworkPacketPtr)
-iNetworkPacket_VERSION = cvar.iNetworkPacket_VERSION
+iNetworkPacket_scfGetVersion = _blcelc.iNetworkPacket_scfGetVersion
 
-iNetworkPacket2_scfGetID = _blcelc.iNetworkPacket2_scfGetID
 
 class iNetworkPacket2(iBase):
     __swig_setmethods__ = {}
@@ -9765,7 +9781,6 @@ class iNetworkPacket2Ptr(iNetworkPacket2):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkPacket2, 'thisown', 0)
         _swig_setattr(self, iNetworkPacket2,self.__class__,iNetworkPacket2)
 _blcelc.iNetworkPacket2_swigregister(iNetworkPacket2Ptr)
-iNetworkPacket2_VERSION = cvar.iNetworkPacket2_VERSION
 
 class iNetworkManager(iBase):
     __swig_setmethods__ = {}
@@ -9787,6 +9802,8 @@ class iNetworkManager(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkManager_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkManager instance at %s>" % (self.this,)
@@ -9797,7 +9814,8 @@ class iNetworkManagerPtr(iNetworkManager):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkManager, 'thisown', 0)
         _swig_setattr(self, iNetworkManager,self.__class__,iNetworkManager)
 _blcelc.iNetworkManager_swigregister(iNetworkManagerPtr)
-iNetworkManager_VERSION = cvar.iNetworkManager_VERSION
+iNetworkManager_scfGetVersion = _blcelc.iNetworkManager_scfGetVersion
+
 
 CS_NET_SOCKET_TYPE_TCP = _blcelc.CS_NET_SOCKET_TYPE_TCP
 CS_NET_SOCKET_TYPE_UDP = _blcelc.CS_NET_SOCKET_TYPE_UDP
@@ -9882,6 +9900,8 @@ class iNetworkEndPoint(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkEndPoint_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkEndPoint_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkEndPoint instance at %s>" % (self.this,)
@@ -9892,7 +9912,8 @@ class iNetworkEndPointPtr(iNetworkEndPoint):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkEndPoint, 'thisown', 0)
         _swig_setattr(self, iNetworkEndPoint,self.__class__,iNetworkEndPoint)
 _blcelc.iNetworkEndPoint_swigregister(iNetworkEndPointPtr)
-iNetworkEndPoint_VERSION = cvar.iNetworkEndPoint_VERSION
+iNetworkEndPoint_scfGetVersion = _blcelc.iNetworkEndPoint_scfGetVersion
+
 
 class iNetworkConnection(iNetworkEndPoint):
     __swig_setmethods__ = {}
@@ -9909,6 +9930,8 @@ class iNetworkConnection(iNetworkEndPoint):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkConnection_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkConnection_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkConnection instance at %s>" % (self.this,)
@@ -9919,7 +9942,8 @@ class iNetworkConnectionPtr(iNetworkConnection):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkConnection, 'thisown', 0)
         _swig_setattr(self, iNetworkConnection,self.__class__,iNetworkConnection)
 _blcelc.iNetworkConnection_swigregister(iNetworkConnectionPtr)
-iNetworkConnection_VERSION = cvar.iNetworkConnection_VERSION
+iNetworkConnection_scfGetVersion = _blcelc.iNetworkConnection_scfGetVersion
+
 
 class iNetworkListener(iNetworkEndPoint):
     __swig_setmethods__ = {}
@@ -9933,6 +9957,8 @@ class iNetworkListener(iNetworkEndPoint):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkListener_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkListener_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkListener instance at %s>" % (self.this,)
@@ -9943,7 +9969,8 @@ class iNetworkListenerPtr(iNetworkListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkListener, 'thisown', 0)
         _swig_setattr(self, iNetworkListener,self.__class__,iNetworkListener)
 _blcelc.iNetworkListener_swigregister(iNetworkListenerPtr)
-iNetworkListener_VERSION = cvar.iNetworkListener_VERSION
+iNetworkListener_scfGetVersion = _blcelc.iNetworkListener_scfGetVersion
+
 
 class iNetworkDriver(iBase):
     __swig_setmethods__ = {}
@@ -9960,6 +9987,8 @@ class iNetworkDriver(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkDriver_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkDriver_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkDriver instance at %s>" % (self.this,)
@@ -9970,7 +9999,8 @@ class iNetworkDriverPtr(iNetworkDriver):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkDriver, 'thisown', 0)
         _swig_setattr(self, iNetworkDriver,self.__class__,iNetworkDriver)
 _blcelc.iNetworkDriver_swigregister(iNetworkDriverPtr)
-iNetworkDriver_VERSION = cvar.iNetworkDriver_VERSION
+iNetworkDriver_scfGetVersion = _blcelc.iNetworkDriver_scfGetVersion
+
 
 class iNetworkSocket2(iBase):
     __swig_setmethods__ = {}
@@ -9998,6 +10028,8 @@ class iNetworkSocket2(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iNetworkSocket2_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iNetworkSocket2_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iNetworkSocket2 instance at %s>" % (self.this,)
@@ -10008,7 +10040,8 @@ class iNetworkSocket2Ptr(iNetworkSocket2):
         if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkSocket2, 'thisown', 0)
         _swig_setattr(self, iNetworkSocket2,self.__class__,iNetworkSocket2)
 _blcelc.iNetworkSocket2_swigregister(iNetworkSocket2Ptr)
-iNetworkSocket2_VERSION = cvar.iNetworkSocket2_VERSION
+iNetworkSocket2_scfGetVersion = _blcelc.iNetworkSocket2_scfGetVersion
+
 
 class csObject(iObject):
     __swig_setmethods__ = {}
@@ -10115,8 +10148,6 @@ class csViewPtr(csView):
         _swig_setattr(self, csView,self.__class__,csView)
 _blcelc.csView_swigregister(csViewPtr)
 
-csColliderWrapper_scfGetID = _blcelc.csColliderWrapper_scfGetID
-
 class csColliderWrapper(csObject):
     __swig_setmethods__ = {}
     for _s in [csObject]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -10153,7 +10184,6 @@ class csColliderWrapperPtr(csColliderWrapper):
         if not hasattr(self,"thisown"): _swig_setattr(self, csColliderWrapper, 'thisown', 0)
         _swig_setattr(self, csColliderWrapper,self.__class__,csColliderWrapper)
 _blcelc.csColliderWrapper_swigregister(csColliderWrapperPtr)
-csColliderWrapper_VERSION = cvar.csColliderWrapper_VERSION
 csColliderWrapper_GetColliderWrapper = _blcelc.csColliderWrapper_GetColliderWrapper
 
 
@@ -10357,7 +10387,7 @@ csReport = csReporterHelper.Report
 def _GetIntfId (intf):
 	return cvar.iSCF_SCF.GetInterfaceID(intf.__name__)
 def _GetIntfVersion (intf):
-	return eval('%s_scfGetVersion' % intf.__name__, locals(), globals())
+	return eval('%s_scfGetVersion()' % intf.__name__, locals(), globals())
 def CS_QUERY_REGISTRY (reg, intf):
 	return _CS_QUERY_REGISTRY (reg, intf.__name__, _GetIntfVersion(intf))
 def CS_QUERY_REGISTRY_TAG_INTERFACE (reg, tag, intf):
@@ -10385,7 +10415,7 @@ def CS_LOAD_PLUGIN (obj, class_id, intf):
 def CS_REQUEST_PLUGIN (name, intf):
 	return (
 		name, intf.__name__, cvar.iSCF_SCF.GetInterfaceID(intf.__name__),
-		eval('%s_scfGetVersion' % intf.__name__, locals(), globals())
+		eval('%s_scfGetVersion()' % intf.__name__, locals(), globals())
 	)
 def CS_REQUEST_VFS ():
 	return CS_REQUEST_PLUGIN(

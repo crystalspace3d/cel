@@ -161,6 +161,14 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	      {
 	        pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
 	      }
+	      else
+	      {
+	        attr = child->GetAttribute ("long");
+	        if (attr)
+	        {
+	          pc->SetProperty (propid, (long)attr->GetValueAsInt ());
+	        }
+	      }
 	    }
 	  }
 	}

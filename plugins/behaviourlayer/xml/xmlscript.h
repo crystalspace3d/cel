@@ -33,7 +33,8 @@ struct iCelPropertyClass;
 
 #define CEL_OPERATION_END 0
 #define CEL_OPERATION_PROPERTY 1	// Args: PC, ID, ?
-#define CEL_OPERATION_ACTION 2		// Args: PC, ID, S
+#define CEL_OPERATION_GETPROPERTY 2	// Args: PC, S, PC, ID
+#define CEL_OPERATION_ACTION 3		// Args: PC, ID, S
 
 #define CEL_TYPE_NONE 0
 #define CEL_TYPE_UINT32 1

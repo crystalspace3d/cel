@@ -1223,292 +1223,293 @@ _csWrapPtr_to_Python (const csWrapPtr & wp)
 }
 
 void delete_iBase(iBase *self){ if (self) self->DecRef (); }
+int iBase_scfGetVersion(){ return scfInterface<iBase>::GetVersion(); }
 csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		void * ptr;
 		if (!to_name || !to_name[0] || !self) ptr = 0;
-		/*@c:/proj/cs/cs/include/ivaria/cspace.i,31,APPLY_FOR_EACH_INTERFACE@*/	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+		/*@c:/proj/cs/cs/include/ivaria/cspace.i,31,APPLY_FOR_EACH_INTERFACE@*/	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iAudioStream")) ptr = (void*)(iAudioStream*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBase")) ptr = (void*)(iBase*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBallState")) ptr = (void*)(iBallState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBinaryLoaderPlugin")) ptr = (void*)(iBinaryLoaderPlugin*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBodyGroup")) ptr = (void*)(iBodyGroup*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCamera")) ptr = (void*)(iCamera*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCameraPosition")) ptr = (void*)(iCameraPosition*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCacheManager")) ptr = (void*)(iCacheManager*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollider")) ptr = (void*)(iCollider*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollideSystem")) ptr = (void*)(iCollideSystem*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iComponent")) ptr = (void*)(iComponent*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigFile")) ptr = (void*)(iConfigFile*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigIterator")) ptr = (void*)(iConfigIterator*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigManager")) ptr = (void*)(iConfigManager*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDataBuffer")) ptr = (void*)(iDataBuffer*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDebugHelper")) ptr = (void*)(iDebugHelper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocument")) ptr = (void*)(iDocument*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocumentSystem")) ptr = (void*)(iDocumentSystem*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamics")) ptr = (void*)(iDynamics*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamicSystem")) ptr = (void*)(iDynamicSystem*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEngine")) ptr = (void*)(iEngine*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEvent")) ptr = (void*)(iEvent*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventHandler")) ptr = (void*)(iEventHandler*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventQueue")) ptr = (void*)(iEventQueue*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFactory")) ptr = (void*)(iFactory*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFile")) ptr = (void*)(iFile*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFont")) ptr = (void*)(iFont*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFontServer")) ptr = (void*)(iFontServer*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumView")) ptr = (void*)(iFrustumView*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumViewUserdata")) ptr = (void*)(iFrustumViewUserdata*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGeneralFactoryState")) ptr = (void*)(iGeneralFactoryState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGeneralMeshState")) ptr = (void*)(iGeneralMeshState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics3D")) ptr = (void*)(iGraphics3D*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics2D")) ptr = (void*)(iGraphics2D*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iHalo")) ptr = (void*)(iHalo*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImage")) ptr = (void*)(iImage*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImageIO")) ptr = (void*)(iImageIO*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iJoint")) ptr = (void*)(iJoint*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iKeyboardDriver")) ptr = (void*)(iKeyboardDriver*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLightList")) ptr = (void*)(iLightList*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoader")) ptr = (void*)(iLoader*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoaderPlugin")) ptr = (void*)(iLoaderPlugin*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterial")) ptr = (void*)(iMaterial*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterialWrapper")) ptr = (void*)(iMaterialWrapper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshFactoryWrapper")) ptr = (void*)(iMeshFactoryWrapper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObject")) ptr = (void*)(iMeshObject*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectFactory")) ptr = (void*)(iMeshObjectFactory*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectType")) ptr = (void*)(iMeshObjectType*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshWrapper")) ptr = (void*)(iMeshWrapper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iModelConverter")) ptr = (void*)(iModelConverter*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovable")) ptr = (void*)(iMovable*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovableListener")) ptr = (void*)(iMovableListener*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkConnection")) ptr = (void*)(iNetworkConnection*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkDriver")) ptr = (void*)(iNetworkDriver*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkEndPoint")) ptr = (void*)(iNetworkEndPoint*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkListener")) ptr = (void*)(iNetworkListener*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkManager")) ptr = (void*)(iNetworkManager*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkPacket")) ptr = (void*)(iNetworkPacket*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkSocket2")) ptr = (void*)(iNetworkSocket2*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObject")) ptr = (void*)(iObject*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModel")) ptr = (void*)(iObjectModel*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModelListener")) ptr = (void*)(iObjectModelListener*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectRegistry")) ptr = (void*)(iObjectRegistry*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPluginManager")) ptr = (void*)(iPluginManager*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonMesh")) ptr = (void*)(iPolygonMesh*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSCF")) ptr = (void*)(iSCF*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iScript")) ptr = (void*)(iScript*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iScriptObject")) ptr = (void*)(iScriptObject*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSector")) ptr = (void*)(iSector*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSectorList")) ptr = (void*)(iSectorList*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundHandle")) ptr = (void*)(iSoundHandle*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundLoader")) ptr = (void*)(iSoundLoader*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundRender")) ptr = (void*)(iSoundRender*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundWrapper")) ptr = (void*)(iSoundWrapper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundDriver")) ptr = (void*)(iSoundDriver*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundSource")) ptr = (void*)(iSoundSource*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite2DState")) ptr = (void*)(iSprite2DState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite3DState")) ptr = (void*)(iSprite3DState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSpriteCal3DState")) ptr = (void*)(iSpriteCal3DState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStatLight")) ptr = (void*)(iStatLight*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStream")) ptr = (void*)(iStream*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamIterator")) ptr = (void*)(iStreamIterator*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamFormat")) ptr = (void*)(iStreamFormat*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iString")) ptr = (void*)(iString*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStringArray")) ptr = (void*)(iStringArray*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureHandle")) ptr = (void*)(iTextureHandle*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureList")) ptr = (void*)(iTextureList*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureManager")) ptr = (void*)(iTextureManager*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureWrapper")) ptr = (void*)(iTextureWrapper*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iThingState")) ptr = (void*)(iThingState*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVFS")) ptr = (void*)(iVFS*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVideoStream")) ptr = (void*)(iVideoStream*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iView")) ptr = (void*)(iView*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVirtualClock")) ptr = (void*)(iVirtualClock*)self;
 /*@@*/
-	/*@c:/proj/cs/cs/include/ivaria/cspace.i,910,CAST_FROM_BASE@*/
+	/*@c:/proj/cs/cs/include/ivaria/cspace.i,911,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVisibilityCuller")) ptr = (void*)(iVisibilityCuller*)self;
 /*@@*/
 /*@@*/
@@ -1516,15 +1517,19 @@ csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		return csWrapPtr(to_name, ptr);
 	}
 void delete_iFactory(iFactory *self){ if (self) self->DecRef (); }
+int iFactory_scfGetVersion(){ return scfInterface<iFactory>::GetVersion(); }
 extern void scfInitialize(csPluginPaths *);
 extern void scfInitialize(int,char const *const []);
 void delete_iSCF(iSCF *self){ if (self) self->DecRef (); }
+int iSCF_scfGetVersion(){ return scfInterface<iSCF>::GetVersion(); }
 void delete_iDebugHelper(iDebugHelper *self){ if (self) self->DecRef (); }
+int iDebugHelper_scfGetVersion(){ return scfInterface<iDebugHelper>::GetVersion(); }
 csColor csColor_operator_a___(csColor const *self,csColor const &c){ return *self + c; }
 csColor csColor_operator_s___(csColor const *self,csColor const &c){ return *self - c; }
 csColor csColor_operator_m___(csColor const *self,float f){ return *self * f; }
 csColor csColor___rmul__(csColor const *self,float f){ return f * *self; }
 void delete_iString(iString *self){ if (self) self->DecRef (); }
+int iString_scfGetVersion(){ return scfInterface<iString>::GetVersion(); }
 char iString___getitem__(iString const *self,size_t i){ return self->GetAt(i); }
 void iString___setitem__(iString *self,size_t i,char c){ self->SetAt(i, c); }
 char csString___getitem__(csString const *self,size_t i){ return self->operator[](i); }
@@ -1628,72 +1633,133 @@ bool csInitializer__RequestPlugin(iObjectRegistry *object_reg,char const *plugNa
 		);
 	}
 void delete_iPolygonMesh(iPolygonMesh *self){ if (self) self->DecRef (); }
+int iPolygonMesh_scfGetVersion(){ return scfInterface<iPolygonMesh>::GetVersion(); }
 void delete_iObjectModelListener(iObjectModelListener *self){ if (self) self->DecRef (); }
+int iObjectModelListener_scfGetVersion(){ return scfInterface<iObjectModelListener>::GetVersion(); }
 void delete_iObjectModel(iObjectModel *self){ if (self) self->DecRef (); }
+int iObjectModel_scfGetVersion(){ return scfInterface<iObjectModel>::GetVersion(); }
 void delete_iFrustumViewUserdata(iFrustumViewUserdata *self){ if (self) self->DecRef (); }
+int iFrustumViewUserdata_scfGetVersion(){ return scfInterface<iFrustumViewUserdata>::GetVersion(); }
 void delete_iFrustumView(iFrustumView *self){ if (self) self->DecRef (); }
+int iFrustumView_scfGetVersion(){ return scfInterface<iFrustumView>::GetVersion(); }
 void delete_iLightList(iLightList *self){ if (self) self->DecRef (); }
+int iLightList_scfGetVersion(){ return scfInterface<iLightList>::GetVersion(); }
 void delete_iStatLight(iStatLight *self){ if (self) self->DecRef (); }
+int iStatLight_scfGetVersion(){ return scfInterface<iStatLight>::GetVersion(); }
 void delete_iSector(iSector *self){ if (self) self->DecRef (); }
+int iSector_scfGetVersion(){ return scfInterface<iSector>::GetVersion(); }
 void delete_iSectorList(iSectorList *self){ if (self) self->DecRef (); }
+int iSectorList_scfGetVersion(){ return scfInterface<iSectorList>::GetVersion(); }
 void delete_iEngine(iEngine *self){ if (self) self->DecRef (); }
+int iEngine_scfGetVersion(){ return scfInterface<iEngine>::GetVersion(); }
 void delete_iCamera(iCamera *self){ if (self) self->DecRef (); }
+int iCamera_scfGetVersion(){ return scfInterface<iCamera>::GetVersion(); }
 void delete_iCameraPosition(iCameraPosition *self){ if (self) self->DecRef (); }
+int iCameraPosition_scfGetVersion(){ return scfInterface<iCameraPosition>::GetVersion(); }
 void delete_iTextureWrapper(iTextureWrapper *self){ if (self) self->DecRef (); }
+int iTextureWrapper_scfGetVersion(){ return scfInterface<iTextureWrapper>::GetVersion(); }
 void delete_iTextureList(iTextureList *self){ if (self) self->DecRef (); }
+int iTextureList_scfGetVersion(){ return scfInterface<iTextureList>::GetVersion(); }
 void delete_iMaterialWrapper(iMaterialWrapper *self){ if (self) self->DecRef (); }
+int iMaterialWrapper_scfGetVersion(){ return scfInterface<iMaterialWrapper>::GetVersion(); }
 void delete_iMeshWrapper(iMeshWrapper *self){ if (self) self->DecRef (); }
+int iMeshWrapper_scfGetVersion(){ return scfInterface<iMeshWrapper>::GetVersion(); }
 void delete_iMeshFactoryWrapper(iMeshFactoryWrapper *self){ if (self) self->DecRef (); }
+int iMeshFactoryWrapper_scfGetVersion(){ return scfInterface<iMeshFactoryWrapper>::GetVersion(); }
 void delete_iMovableListener(iMovableListener *self){ if (self) self->DecRef (); }
+int iMovableListener_scfGetVersion(){ return scfInterface<iMovableListener>::GetVersion(); }
 void delete_iMovable(iMovable *self){ if (self) self->DecRef (); }
+int iMovable_scfGetVersion(){ return scfInterface<iMovable>::GetVersion(); }
 void delete_iVisibilityCuller(iVisibilityCuller *self){ if (self) self->DecRef (); }
+int iVisibilityCuller_scfGetVersion(){ return scfInterface<iVisibilityCuller>::GetVersion(); }
 void delete_iModelConverter(iModelConverter *self){ if (self) self->DecRef (); }
+int iModelConverter_scfGetVersion(){ return scfInterface<iModelConverter>::GetVersion(); }
 void delete_iMeshObject(iMeshObject *self){ if (self) self->DecRef (); }
+int iMeshObject_scfGetVersion(){ return scfInterface<iMeshObject>::GetVersion(); }
 void delete_iMeshObjectFactory(iMeshObjectFactory *self){ if (self) self->DecRef (); }
+int iMeshObjectFactory_scfGetVersion(){ return scfInterface<iMeshObjectFactory>::GetVersion(); }
 void delete_iMeshObjectType(iMeshObjectType *self){ if (self) self->DecRef (); }
+int iMeshObjectType_scfGetVersion(){ return scfInterface<iMeshObjectType>::GetVersion(); }
 csSprite2DVertex *iSprite2DState_GetVertexByIndex(iSprite2DState *self,int index){
     return &(self->GetVertices()[index]);
   }
 void delete_iSprite2DState(iSprite2DState *self){ if (self) self->DecRef (); }
+int iSprite2DState_scfGetVersion(){ return scfInterface<iSprite2DState>::GetVersion(); }
 void delete_iSprite3DState(iSprite3DState *self){ if (self) self->DecRef (); }
+int iSprite3DState_scfGetVersion(){ return scfInterface<iSprite3DState>::GetVersion(); }
 void delete_iSpriteCal3DState(iSpriteCal3DState *self){ if (self) self->DecRef (); }
+int iSpriteCal3DState_scfGetVersion(){ return scfInterface<iSpriteCal3DState>::GetVersion(); }
 void delete_iBallState(iBallState *self){ if (self) self->DecRef (); }
+int iBallState_scfGetVersion(){ return scfInterface<iBallState>::GetVersion(); }
 void delete_iGeneralMeshState(iGeneralMeshState *self){ if (self) self->DecRef (); }
+int iGeneralMeshState_scfGetVersion(){ return scfInterface<iGeneralMeshState>::GetVersion(); }
 void delete_iGeneralFactoryState(iGeneralFactoryState *self){ if (self) self->DecRef (); }
+int iGeneralFactoryState_scfGetVersion(){ return scfInterface<iGeneralFactoryState>::GetVersion(); }
 void delete_iThingState(iThingState *self){ if (self) self->DecRef (); }
+int iThingState_scfGetVersion(){ return scfInterface<iThingState>::GetVersion(); }
 void delete_iLoader(iLoader *self){ if (self) self->DecRef (); }
+int iLoader_scfGetVersion(){ return scfInterface<iLoader>::GetVersion(); }
 void delete_iLoaderPlugin(iLoaderPlugin *self){ if (self) self->DecRef (); }
+int iLoaderPlugin_scfGetVersion(){ return scfInterface<iLoaderPlugin>::GetVersion(); }
 void delete_iBinaryLoaderPlugin(iBinaryLoaderPlugin *self){ if (self) self->DecRef (); }
+int iBinaryLoaderPlugin_scfGetVersion(){ return scfInterface<iBinaryLoaderPlugin>::GetVersion(); }
 void delete_iSoundHandle(iSoundHandle *self){ if (self) self->DecRef (); }
+int iSoundHandle_scfGetVersion(){ return scfInterface<iSoundHandle>::GetVersion(); }
 void delete_iSoundLoader(iSoundLoader *self){ if (self) self->DecRef (); }
+int iSoundLoader_scfGetVersion(){ return scfInterface<iSoundLoader>::GetVersion(); }
 void delete_iSoundRender(iSoundRender *self){ if (self) self->DecRef (); }
+int iSoundRender_scfGetVersion(){ return scfInterface<iSoundRender>::GetVersion(); }
 void delete_iSoundWrapper(iSoundWrapper *self){ if (self) self->DecRef (); }
+int iSoundWrapper_scfGetVersion(){ return scfInterface<iSoundWrapper>::GetVersion(); }
 void delete_iSoundDriver(iSoundDriver *self){ if (self) self->DecRef (); }
+int iSoundDriver_scfGetVersion(){ return scfInterface<iSoundDriver>::GetVersion(); }
 void delete_iSoundSource(iSoundSource *self){ if (self) self->DecRef (); }
+int iSoundSource_scfGetVersion(){ return scfInterface<iSoundSource>::GetVersion(); }
 void delete_iComponent(iComponent *self){ if (self) self->DecRef (); }
+int iComponent_scfGetVersion(){ return scfInterface<iComponent>::GetVersion(); }
 void delete_iCacheManager(iCacheManager *self){ if (self) self->DecRef (); }
+int iCacheManager_scfGetVersion(){ return scfInterface<iCacheManager>::GetVersion(); }
 void delete_iFile(iFile *self){ if (self) self->DecRef (); }
+int iFile_scfGetVersion(){ return scfInterface<iFile>::GetVersion(); }
 void delete_iVFS(iVFS *self){ if (self) self->DecRef (); }
+int iVFS_scfGetVersion(){ return scfInterface<iVFS>::GetVersion(); }
 void delete_iObject(iObject *self){ if (self) self->DecRef (); }
+int iObject_scfGetVersion(){ return scfInterface<iObject>::GetVersion(); }
 void delete_iObjectRegistry(iObjectRegistry *self){ if (self) self->DecRef (); }
+int iObjectRegistry_scfGetVersion(){ return scfInterface<iObjectRegistry>::GetVersion(); }
 void delete_iVirtualClock(iVirtualClock *self){ if (self) self->DecRef (); }
+int iVirtualClock_scfGetVersion(){ return scfInterface<iVirtualClock>::GetVersion(); }
 void delete_iEvent(iEvent *self){ if (self) self->DecRef (); }
+int iEvent_scfGetVersion(){ return scfInterface<iEvent>::GetVersion(); }
 void delete_iEventQueue(iEventQueue *self){ if (self) self->DecRef (); }
+int iEventQueue_scfGetVersion(){ return scfInterface<iEventQueue>::GetVersion(); }
 void delete_iEventHandler(iEventHandler *self){ if (self) self->DecRef (); }
+int iEventHandler_scfGetVersion(){ return scfInterface<iEventHandler>::GetVersion(); }
 void delete_iPluginManager(iPluginManager *self){ if (self) self->DecRef (); }
+int iPluginManager_scfGetVersion(){ return scfInterface<iPluginManager>::GetVersion(); }
 void delete_iKeyboardDriver(iKeyboardDriver *self){ if (self) self->DecRef (); }
+int iKeyboardDriver_scfGetVersion(){ return scfInterface<iKeyboardDriver>::GetVersion(); }
 bool iKeyboardDriver_GetKeyState__SWIG_1(iKeyboardDriver *self,char const *key){
 		return self->GetKeyState ((int) key[0]);
 	}
 void delete_iConfigFile(iConfigFile *self){ if (self) self->DecRef (); }
+int iConfigFile_scfGetVersion(){ return scfInterface<iConfigFile>::GetVersion(); }
 void delete_iConfigIterator(iConfigIterator *self){ if (self) self->DecRef (); }
+int iConfigIterator_scfGetVersion(){ return scfInterface<iConfigIterator>::GetVersion(); }
 void delete_iConfigManager(iConfigManager *self){ if (self) self->DecRef (); }
+int iConfigManager_scfGetVersion(){ return scfInterface<iConfigManager>::GetVersion(); }
 void delete_iStringArray(iStringArray *self){ if (self) self->DecRef (); }
+int iStringArray_scfGetVersion(){ return scfInterface<iStringArray>::GetVersion(); }
 void delete_iDocument(iDocument *self){ if (self) self->DecRef (); }
+int iDocument_scfGetVersion(){ return scfInterface<iDocument>::GetVersion(); }
 void delete_iDocumentSystem(iDocumentSystem *self){ if (self) self->DecRef (); }
+int iDocumentSystem_scfGetVersion(){ return scfInterface<iDocumentSystem>::GetVersion(); }
 void delete_iDataBuffer(iDataBuffer *self){ if (self) self->DecRef (); }
+int iDataBuffer_scfGetVersion(){ return scfInterface<iDataBuffer>::GetVersion(); }
 void delete_iGraphics3D(iGraphics3D *self){ if (self) self->DecRef (); }
+int iGraphics3D_scfGetVersion(){ return scfInterface<iGraphics3D>::GetVersion(); }
 void delete_iGraphics2D(iGraphics2D *self){ if (self) self->DecRef (); }
+int iGraphics2D_scfGetVersion(){ return scfInterface<iGraphics2D>::GetVersion(); }
 PyObject *iGraphics2D__PerformExtension(iGraphics2D *self,char const *clazz,char const *command,PyObject *args){
         if (!command || !strlen(command)) {
             // error
@@ -1731,37 +1797,66 @@ PyObject *iGraphics2D__PerformExtension(iGraphics2D *self,char const *clazz,char
         return PyInt_FromLong(0);
     }
 void delete_iFont(iFont *self){ if (self) self->DecRef (); }
+int iFont_scfGetVersion(){ return scfInterface<iFont>::GetVersion(); }
 void delete_iFontServer(iFontServer *self){ if (self) self->DecRef (); }
+int iFontServer_scfGetVersion(){ return scfInterface<iFontServer>::GetVersion(); }
 void delete_iHalo(iHalo *self){ if (self) self->DecRef (); }
+int iHalo_scfGetVersion(){ return scfInterface<iHalo>::GetVersion(); }
 void delete_iTextureHandle(iTextureHandle *self){ if (self) self->DecRef (); }
+int iTextureHandle_scfGetVersion(){ return scfInterface<iTextureHandle>::GetVersion(); }
 void delete_iTextureManager(iTextureManager *self){ if (self) self->DecRef (); }
+int iTextureManager_scfGetVersion(){ return scfInterface<iTextureManager>::GetVersion(); }
 void delete_iMaterial(iMaterial *self){ if (self) self->DecRef (); }
+int iMaterial_scfGetVersion(){ return scfInterface<iMaterial>::GetVersion(); }
 void delete_iStreamIterator(iStreamIterator *self){ if (self) self->DecRef (); }
+int iStreamIterator_scfGetVersion(){ return scfInterface<iStreamIterator>::GetVersion(); }
 void delete_iStreamFormat(iStreamFormat *self){ if (self) self->DecRef (); }
+int iStreamFormat_scfGetVersion(){ return scfInterface<iStreamFormat>::GetVersion(); }
 void delete_iStream(iStream *self){ if (self) self->DecRef (); }
+int iStream_scfGetVersion(){ return scfInterface<iStream>::GetVersion(); }
 void delete_iVideoStream(iVideoStream *self){ if (self) self->DecRef (); }
+int iVideoStream_scfGetVersion(){ return scfInterface<iVideoStream>::GetVersion(); }
 void delete_iAudioStream(iAudioStream *self){ if (self) self->DecRef (); }
+int iAudioStream_scfGetVersion(){ return scfInterface<iAudioStream>::GetVersion(); }
 void delete_iImage(iImage *self){ if (self) self->DecRef (); }
+int iImage_scfGetVersion(){ return scfInterface<iImage>::GetVersion(); }
 void delete_iImageIO(iImageIO *self){ if (self) self->DecRef (); }
+int iImageIO_scfGetVersion(){ return scfInterface<iImageIO>::GetVersion(); }
 void delete_iView(iView *self){ if (self) self->DecRef (); }
+int iView_scfGetVersion(){ return scfInterface<iView>::GetVersion(); }
 void delete_iCollider(iCollider *self){ if (self) self->DecRef (); }
+int iCollider_scfGetVersion(){ return scfInterface<iCollider>::GetVersion(); }
 void delete_iCollideSystem(iCollideSystem *self){ if (self) self->DecRef (); }
+int iCollideSystem_scfGetVersion(){ return scfInterface<iCollideSystem>::GetVersion(); }
 csCollisionPair *iCollideSystem_GetCollisionPairByIndex(iCollideSystem *self,int index){
 		return self->GetCollisionPairs() + index;
 	}
 void delete_iDynamics(iDynamics *self){ if (self) self->DecRef (); }
+int iDynamics_scfGetVersion(){ return scfInterface<iDynamics>::GetVersion(); }
 void delete_iDynamicSystem(iDynamicSystem *self){ if (self) self->DecRef (); }
+int iDynamicSystem_scfGetVersion(){ return scfInterface<iDynamicSystem>::GetVersion(); }
 void delete_iBodyGroup(iBodyGroup *self){ if (self) self->DecRef (); }
+int iBodyGroup_scfGetVersion(){ return scfInterface<iBodyGroup>::GetVersion(); }
 void delete_iJoint(iJoint *self){ if (self) self->DecRef (); }
+int iJoint_scfGetVersion(){ return scfInterface<iJoint>::GetVersion(); }
 void delete_iScriptObject(iScriptObject *self){ if (self) self->DecRef (); }
+int iScriptObject_scfGetVersion(){ return scfInterface<iScriptObject>::GetVersion(); }
 void delete_iScript(iScript *self){ if (self) self->DecRef (); }
+int iScript_scfGetVersion(){ return scfInterface<iScript>::GetVersion(); }
 void delete_iNetworkPacket(iNetworkPacket *self){ if (self) self->DecRef (); }
+int iNetworkPacket_scfGetVersion(){ return scfInterface<iNetworkPacket>::GetVersion(); }
 void delete_iNetworkManager(iNetworkManager *self){ if (self) self->DecRef (); }
+int iNetworkManager_scfGetVersion(){ return scfInterface<iNetworkManager>::GetVersion(); }
 void delete_iNetworkEndPoint(iNetworkEndPoint *self){ if (self) self->DecRef (); }
+int iNetworkEndPoint_scfGetVersion(){ return scfInterface<iNetworkEndPoint>::GetVersion(); }
 void delete_iNetworkConnection(iNetworkConnection *self){ if (self) self->DecRef (); }
+int iNetworkConnection_scfGetVersion(){ return scfInterface<iNetworkConnection>::GetVersion(); }
 void delete_iNetworkListener(iNetworkListener *self){ if (self) self->DecRef (); }
+int iNetworkListener_scfGetVersion(){ return scfInterface<iNetworkListener>::GetVersion(); }
 void delete_iNetworkDriver(iNetworkDriver *self){ if (self) self->DecRef (); }
+int iNetworkDriver_scfGetVersion(){ return scfInterface<iNetworkDriver>::GetVersion(); }
 void delete_iNetworkSocket2(iNetworkSocket2 *self){ if (self) self->DecRef (); }
+int iNetworkSocket2_scfGetVersion(){ return scfInterface<iNetworkSocket2>::GetVersion(); }
 
 	csEventMouseData * iEvent_Mouse_get (iEvent * event)
 		{ return &event->Mouse; }
@@ -1907,7 +2002,7 @@ csWrapPtr _CS_GET_FIRST_NAMED_CHILD_OBJECT (iObject *obj, const char *iface,
 #include "propclass/dynmove.h"
 #include "propclass/billboard.h"
 #include "plugins/behaviourlayer/python/blpython.h"
-#include "managers/billboard.h"
+#include "tools/billboard.h"
 
 
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
@@ -2852,6 +2947,20 @@ static PyObject *_wrap_delete_iBase(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBase_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iBase_scfGetVersion")) goto fail;
+    result = (int)iBase_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBase__DynamicCast(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBase *arg1 = (iBase *) 0 ;
@@ -2973,6 +3082,20 @@ static PyObject *_wrap_delete_iFactory(PyObject *self, PyObject *args) {
     delete_iFactory(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iFactory_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iFactory_scfGetVersion")) goto fail;
+    result = (int)iFactory_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -3715,6 +3838,20 @@ static PyObject *_wrap_delete_iSCF(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSCF_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSCF_scfGetVersion")) goto fail;
+    result = (int)iSCF_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSCF_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -3722,62 +3859,6 @@ static PyObject * iSCF_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFactory_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFactory_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFactory_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFactory_VERSION);
-    return pyobj;
-}
-
-
-static int _wrap_iBase_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iBase_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iBase_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iBase_VERSION);
-    return pyobj;
-}
-
-
-static int _wrap_iSCF_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSCF_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSCF_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSCF_VERSION);
-    return pyobj;
-}
-
-
-static int _wrap_iDebugHelper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDebugHelper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDebugHelper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDebugHelper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDebugHelper_GetSupportedTests(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDebugHelper *arg1 = (iDebugHelper *) 0 ;
@@ -3985,6 +4066,20 @@ static PyObject *_wrap_delete_iDebugHelper(PyObject *self, PyObject *args) {
     delete_iDebugHelper(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iDebugHelper_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iDebugHelper_scfGetVersion")) goto fail;
+    result = (int)iDebugHelper_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -4837,20 +4932,6 @@ static PyObject * csStringSet_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iString_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iString_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iString_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iString_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iString_SetCapacity(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iString *arg1 = (iString *) 0 ;
@@ -5794,6 +5875,20 @@ static PyObject *_wrap_delete_iString(PyObject *self, PyObject *args) {
     delete_iString(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iString_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iString_scfGetVersion")) goto fail;
+    result = (int)iString_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -28463,20 +28558,6 @@ static PyObject * csMeshedPolygon_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iPolygonMesh_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iPolygonMesh_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iPolygonMesh_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iPolygonMesh_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iPolygonMesh_GetVertexCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPolygonMesh *arg1 = (iPolygonMesh *) 0 ;
@@ -28664,6 +28745,20 @@ static PyObject *_wrap_delete_iPolygonMesh(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iPolygonMesh_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iPolygonMesh_scfGetVersion")) goto fail;
+    result = (int)iPolygonMesh_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iPolygonMesh_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -28816,34 +28911,6 @@ static PyObject * csVertexStatus_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iClipper2D_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iClipper2D_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iClipper2D_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iClipper2D_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iClipper2D_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iClipper2D_scfGetID")) goto fail;
-    result = (scfInterfaceID)iClipper2D_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iClipper2D_Clip__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iClipper2D *arg1 = (iClipper2D *) 0 ;
@@ -29304,20 +29371,6 @@ static PyObject * iClipper2D_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iObjectModelListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObjectModelListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObjectModelListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObjectModelListener_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iObjectModelListener_ObjectModelChanged(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObjectModelListener *arg1 = (iObjectModelListener *) 0 ;
@@ -29353,6 +29406,20 @@ static PyObject *_wrap_delete_iObjectModelListener(PyObject *self, PyObject *arg
 }
 
 
+static PyObject *_wrap_iObjectModelListener_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iObjectModelListener_scfGetVersion")) goto fail;
+    result = (int)iObjectModelListener_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iObjectModelListener_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -29360,20 +29427,6 @@ static PyObject * iObjectModelListener_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iObjectModel_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObjectModel_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObjectModel_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObjectModel_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iObjectModel_GetShapeNumber(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObjectModel *arg1 = (iObjectModel *) 0 ;
@@ -29645,6 +29698,20 @@ static PyObject *_wrap_delete_iObjectModel(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iObjectModel_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iObjectModel_scfGetVersion")) goto fail;
+    result = (int)iObjectModel_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iObjectModel_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -29652,20 +29719,6 @@ static PyObject * iObjectModel_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFrustumViewUserdata_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFrustumViewUserdata_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFrustumViewUserdata_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFrustumViewUserdata_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_delete_iFrustumViewUserdata(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFrustumViewUserdata *arg1 = (iFrustumViewUserdata *) 0 ;
@@ -29676,6 +29729,20 @@ static PyObject *_wrap_delete_iFrustumViewUserdata(PyObject *self, PyObject *arg
     delete_iFrustumViewUserdata(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iFrustumViewUserdata_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iFrustumViewUserdata_scfGetVersion")) goto fail;
+    result = (int)iFrustumViewUserdata_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -29932,20 +29999,6 @@ static PyObject * csFrustumContext_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFrustumView_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFrustumView_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFrustumView_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFrustumView_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iFrustumView_GetFrustumContext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFrustumView *arg1 = (iFrustumView *) 0 ;
@@ -30258,33 +30311,12 @@ static PyObject *_wrap_delete_iFrustumView(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iFrustumView_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iFrustumView, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iLightCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLightCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLightCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLightCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLightCallback_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iFrustumView_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iLightCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLightCallback_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iFrustumView_scfGetVersion")) goto fail;
+    result = (int)iFrustumView_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -30293,6 +30325,13 @@ static PyObject *_wrap_iLightCallback_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iFrustumView_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iFrustumView, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iLightCallback_OnColorChange(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLightCallback *arg1 = (iLightCallback *) 0 ;
@@ -30427,34 +30466,6 @@ static PyObject * iLightCallback_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLight_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLight_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLight_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLight_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLight_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iLight_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLight_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iLight_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLight *arg1 = (iLight *) 0 ;
@@ -31020,20 +31031,6 @@ static PyObject * iLight_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLightList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLightList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLightList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLightList_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iLightList_GetCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLightList *arg1 = (iLightList *) 0 ;
@@ -31276,33 +31273,12 @@ static PyObject *_wrap_delete_iLightList(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iLightList_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iLightList, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iLightingProcessData_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLightingProcessData_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLightingProcessData_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLightingProcessData_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLightingProcessData_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iLightList_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iLightingProcessData_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLightingProcessData_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iLightList_scfGetVersion")) goto fail;
+    result = (int)iLightList_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -31311,6 +31287,13 @@ static PyObject *_wrap_iLightingProcessData_scfGetID(PyObject *self, PyObject *a
 }
 
 
+static PyObject * iLightList_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iLightList, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iLightingProcessData_FinalizeLighting(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLightingProcessData *arg1 = (iLightingProcessData *) 0 ;
@@ -31350,34 +31333,6 @@ static PyObject * iLightingProcessData_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLightingProcessInfo_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLightingProcessInfo_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLightingProcessInfo_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLightingProcessInfo_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLightingProcessInfo_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iLightingProcessInfo_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLightingProcessInfo_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iLightingProcessInfo_GetLight(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLightingProcessInfo *arg1 = (iLightingProcessInfo *) 0 ;
@@ -31538,34 +31493,6 @@ static PyObject * iLightingProcessInfo_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLightIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLightIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLightIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLightIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLightIterator_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iLightIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLightIterator_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iLightIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLightIterator *arg1 = (iLightIterator *) 0 ;
@@ -31656,20 +31583,6 @@ static PyObject * iLightIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStatLight_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStatLight_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStatLight_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStatLight_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iStatLight_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStatLight *arg1 = (iStatLight *) 0 ;
@@ -31756,33 +31669,12 @@ static PyObject *_wrap_delete_iStatLight(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iStatLight_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iStatLight, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iSectorCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSectorCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSectorCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSectorCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSectorCallback_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iStatLight_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iSectorCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSectorCallback_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iStatLight_scfGetVersion")) goto fail;
+    result = (int)iStatLight_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -31791,6 +31683,13 @@ static PyObject *_wrap_iSectorCallback_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iStatLight_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iStatLight, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iSectorCallback_Traverse(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSectorCallback *arg1 = (iSectorCallback *) 0 ;
@@ -31836,20 +31735,6 @@ static PyObject * iSectorCallback_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSector_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSector_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSector_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSector_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSector_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSector *arg1 = (iSector *) 0 ;
@@ -32550,6 +32435,20 @@ static PyObject *_wrap_delete_iSector(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSector_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSector_scfGetVersion")) goto fail;
+    result = (int)iSector_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSector_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -32557,20 +32456,6 @@ static PyObject * iSector_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSectorList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSectorList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSectorList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSectorList_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSectorList_GetCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSectorList *arg1 = (iSectorList *) 0 ;
@@ -32795,33 +32680,12 @@ static PyObject *_wrap_delete_iSectorList(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iSectorList_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iSectorList, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iSectorIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSectorIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSectorIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSectorIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSectorIterator_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iSectorList_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iSectorIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSectorIterator_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iSectorList_scfGetVersion")) goto fail;
+    result = (int)iSectorList_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -32830,6 +32694,13 @@ static PyObject *_wrap_iSectorIterator_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iSectorList_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iSectorList, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iSectorIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSectorIterator *arg1 = (iSectorIterator *) 0 ;
@@ -32923,20 +32794,6 @@ static PyObject * iSectorIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEngine_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEngine_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEngine_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEngine_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iEngine_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEngine *arg1 = (iEngine *) 0 ;
@@ -36586,6 +36443,20 @@ static PyObject *_wrap_delete_iEngine(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iEngine_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iEngine_scfGetVersion")) goto fail;
+    result = (int)iEngine_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iEngine_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -36593,20 +36464,6 @@ static PyObject * iEngine_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iCamera_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCamera_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCamera_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCamera_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iCamera_Clone(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCamera *arg1 = (iCamera *) 0 ;
@@ -37223,6 +37080,20 @@ static PyObject *_wrap_delete_iCamera(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iCamera_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iCamera_scfGetVersion")) goto fail;
+    result = (int)iCamera_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iCamera_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -37230,20 +37101,6 @@ static PyObject * iCamera_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iCameraPosition_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCameraPosition_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCameraPosition_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCameraPosition_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iCameraPosition_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCameraPosition *arg1 = (iCameraPosition *) 0 ;
@@ -37564,33 +37421,12 @@ static PyObject *_wrap_delete_iCameraPosition(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iCameraPosition_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iCameraPosition, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iCameraPositionList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCameraPositionList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCameraPositionList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCameraPositionList_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iCameraPositionList_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iCameraPosition_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iCameraPositionList_scfGetID")) goto fail;
-    result = (scfInterfaceID)iCameraPositionList_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iCameraPosition_scfGetVersion")) goto fail;
+    result = (int)iCameraPosition_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -37599,6 +37435,13 @@ static PyObject *_wrap_iCameraPositionList_scfGetID(PyObject *self, PyObject *ar
 }
 
 
+static PyObject * iCameraPosition_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iCameraPosition, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iCameraPositionList_NewCameraPosition(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCameraPositionList *arg1 = (iCameraPositionList *) 0 ;
@@ -37848,34 +37691,6 @@ static PyObject * iCameraPositionList_swigregister(PyObject *self, PyObject *arg
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iTextureCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iTextureCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iTextureCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iTextureCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iTextureCallback_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iTextureCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iTextureCallback_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iTextureCallback_UseTexture(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iTextureCallback *arg1 = (iTextureCallback *) 0 ;
@@ -37918,20 +37733,6 @@ static PyObject * iTextureCallback_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iTextureWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iTextureWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iTextureWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iTextureWrapper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iTextureWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iTextureWrapper *arg1 = (iTextureWrapper *) 0 ;
@@ -38269,6 +38070,20 @@ static PyObject *_wrap_delete_iTextureWrapper(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iTextureWrapper_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iTextureWrapper_scfGetVersion")) goto fail;
+    result = (int)iTextureWrapper_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iTextureWrapper_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -38276,20 +38091,6 @@ static PyObject * iTextureWrapper_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iTextureList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iTextureList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iTextureList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iTextureList_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iTextureList_NewTexture__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iTextureList *arg1 = (iTextureList *) 0 ;
@@ -38621,6 +38422,20 @@ static PyObject *_wrap_delete_iTextureList(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iTextureList_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iTextureList_scfGetVersion")) goto fail;
+    result = (int)iTextureList_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iTextureList_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -38628,20 +38443,6 @@ static PyObject * iTextureList_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMaterialWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMaterialWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMaterialWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMaterialWrapper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMaterialWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterialWrapper *arg1 = (iMaterialWrapper *) 0 ;
@@ -38816,33 +38617,12 @@ static PyObject *_wrap_delete_iMaterialWrapper(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iMaterialWrapper_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iMaterialWrapper, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iMaterialEngine_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMaterialEngine_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMaterialEngine_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMaterialEngine_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMaterialEngine_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iMaterialWrapper_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iMaterialEngine_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMaterialEngine_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iMaterialWrapper_scfGetVersion")) goto fail;
+    result = (int)iMaterialWrapper_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -38851,6 +38631,13 @@ static PyObject *_wrap_iMaterialEngine_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iMaterialWrapper_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iMaterialWrapper, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iMaterialEngine_GetTextureWrapper__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterialEngine *arg1 = (iMaterialEngine *) 0 ;
@@ -39002,34 +38789,6 @@ static PyObject * iMaterialEngine_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMaterialList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMaterialList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMaterialList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMaterialList_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMaterialList_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iMaterialList_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMaterialList_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMaterialList_NewMaterial__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterialList *arg1 = (iMaterialList *) 0 ;
@@ -39368,34 +39127,6 @@ static PyObject * iMaterialList_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshDrawCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshDrawCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshDrawCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshDrawCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMeshDrawCallback_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iMeshDrawCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMeshDrawCallback_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMeshDrawCallback_BeforeDrawing(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshDrawCallback *arg1 = (iMeshDrawCallback *) 0 ;
@@ -39442,20 +39173,6 @@ static PyObject * iMeshDrawCallback_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshWrapper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMeshWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshWrapper *arg1 = (iMeshWrapper *) 0 ;
@@ -40435,6 +40152,20 @@ static PyObject *_wrap_delete_iMeshWrapper(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iMeshWrapper_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iMeshWrapper_scfGetVersion")) goto fail;
+    result = (int)iMeshWrapper_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iMeshWrapper_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -40442,20 +40173,6 @@ static PyObject * iMeshWrapper_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshFactoryWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshFactoryWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshFactoryWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshFactoryWrapper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMeshFactoryWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshFactoryWrapper *arg1 = (iMeshFactoryWrapper *) 0 ;
@@ -40851,33 +40568,12 @@ static PyObject *_wrap_delete_iMeshFactoryWrapper(PyObject *self, PyObject *args
 }
 
 
-static PyObject * iMeshFactoryWrapper_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iMeshFactoryWrapper, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iMeshList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshList_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMeshList_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iMeshFactoryWrapper_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iMeshList_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMeshList_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iMeshFactoryWrapper_scfGetVersion")) goto fail;
+    result = (int)iMeshFactoryWrapper_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -40886,6 +40582,13 @@ static PyObject *_wrap_iMeshList_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iMeshFactoryWrapper_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iMeshFactoryWrapper, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iMeshList_GetCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshList *arg1 = (iMeshList *) 0 ;
@@ -41117,34 +40820,6 @@ static PyObject * iMeshList_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshFactoryList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshFactoryList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshFactoryList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshFactoryList_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMeshFactoryList_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iMeshFactoryList_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMeshFactoryList_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMeshFactoryList_GetCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshFactoryList *arg1 = (iMeshFactoryList *) 0 ;
@@ -41376,34 +41051,6 @@ static PyObject * iMeshFactoryList_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshWrapperIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshWrapperIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshWrapperIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshWrapperIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMeshWrapperIterator_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iMeshWrapperIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMeshWrapperIterator_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMeshWrapperIterator_Next(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshWrapperIterator *arg1 = (iMeshWrapperIterator *) 0 ;
@@ -41477,20 +41124,6 @@ static PyObject * iMeshWrapperIterator_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMovableListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMovableListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMovableListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMovableListener_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMovableListener_MovableChanged(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMovableListener *arg1 = (iMovableListener *) 0 ;
@@ -41545,6 +41178,20 @@ static PyObject *_wrap_delete_iMovableListener(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iMovableListener_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iMovableListener_scfGetVersion")) goto fail;
+    result = (int)iMovableListener_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iMovableListener_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -41552,20 +41199,6 @@ static PyObject * iMovableListener_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMovable_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMovable_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMovable_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMovable_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMovable_GetParent(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMovable *arg1 = (iMovable *) 0 ;
@@ -42170,33 +41803,12 @@ static PyObject *_wrap_delete_iMovable(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iMovable_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iMovable, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iRegion_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iRegion_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iRegion_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iRegion_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iRegion_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iMovable_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iRegion_scfGetID")) goto fail;
-    result = (scfInterfaceID)iRegion_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iMovable_scfGetVersion")) goto fail;
+    result = (int)iMovable_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -42205,6 +41817,13 @@ static PyObject *_wrap_iRegion_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iMovable_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iMovable, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iRegion_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iRegion *arg1 = (iRegion *) 0 ;
@@ -42493,34 +42112,6 @@ static PyObject * iRegion_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iRegionList_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iRegionList_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iRegionList_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iRegionList_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iRegionList_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iRegionList_scfGetID")) goto fail;
-    result = (scfInterfaceID)iRegionList_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iRegionList_GetCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iRegionList *arg1 = (iRegionList *) 0 ;
@@ -42752,34 +42343,6 @@ static PyObject * iRegionList_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVisibilityObjectIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVisibilityObjectIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVisibilityObjectIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVisibilityObjectIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVisibilityObjectIterator_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iVisibilityObjectIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVisibilityObjectIterator_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iVisibilityObjectIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVisibilityObjectIterator *arg1 = (iVisibilityObjectIterator *) 0 ;
@@ -42853,34 +42416,6 @@ static PyObject * iVisibilityObjectIterator_swigregister(PyObject *self, PyObjec
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVisibilityCullerListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVisibilityCullerListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVisibilityCullerListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVisibilityCullerListener_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVisibilityCullerListener_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iVisibilityCullerListener_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVisibilityCullerListener_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iVisibilityCullerListener_ObjectVisible(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVisibilityCullerListener *arg1 = (iVisibilityCullerListener *) 0 ;
@@ -42926,20 +42461,6 @@ static PyObject * iVisibilityCullerListener_swigregister(PyObject *self, PyObjec
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVisibilityCuller_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVisibilityCuller_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVisibilityCuller_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVisibilityCuller_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iVisibilityCuller_Setup(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVisibilityCuller *arg1 = (iVisibilityCuller *) 0 ;
@@ -43647,33 +43168,12 @@ static PyObject *_wrap_delete_iVisibilityCuller(PyObject *self, PyObject *args) 
 }
 
 
-static PyObject * iVisibilityCuller_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iVisibilityCuller, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iVisibilityObject_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVisibilityObject_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVisibilityObject_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVisibilityObject_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVisibilityObject_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iVisibilityCuller_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iVisibilityObject_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVisibilityObject_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iVisibilityCuller_scfGetVersion")) goto fail;
+    result = (int)iVisibilityCuller_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -43682,6 +43182,13 @@ static PyObject *_wrap_iVisibilityObject_scfGetID(PyObject *self, PyObject *args
 }
 
 
+static PyObject * iVisibilityCuller_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iVisibilityCuller, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iVisibilityObject_GetMovable(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVisibilityObject *arg1 = (iVisibilityObject *) 0 ;
@@ -43965,20 +43472,6 @@ static PyObject * csModelConverterFormat_swigregister(PyObject *self, PyObject *
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iModelConverter_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iModelConverter_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iModelConverter_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iModelConverter_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iModelConverter_GetFormatCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iModelConverter *arg1 = (iModelConverter *) 0 ;
@@ -44085,33 +43578,12 @@ static PyObject *_wrap_delete_iModelConverter(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iModelConverter_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iModelConverter, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iMeshObjectDrawCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshObjectDrawCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshObjectDrawCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshObjectDrawCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMeshObjectDrawCallback_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iModelConverter_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iMeshObjectDrawCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMeshObjectDrawCallback_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iModelConverter_scfGetVersion")) goto fail;
+    result = (int)iModelConverter_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -44120,6 +43592,13 @@ static PyObject *_wrap_iMeshObjectDrawCallback_scfGetID(PyObject *self, PyObject
 }
 
 
+static PyObject * iModelConverter_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iModelConverter, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iMeshObjectDrawCallback_BeforeDrawing(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshObjectDrawCallback *arg1 = (iMeshObjectDrawCallback *) 0 ;
@@ -44166,20 +43645,6 @@ static PyObject * iMeshObjectDrawCallback_swigregister(PyObject *self, PyObject 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshObject_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshObject_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshObject_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshObject_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMeshObject_GetFactory(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshObject *arg1 = (iMeshObject *) 0 ;
@@ -44640,6 +44105,20 @@ static PyObject *_wrap_delete_iMeshObject(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iMeshObject_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iMeshObject_scfGetVersion")) goto fail;
+    result = (int)iMeshObject_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iMeshObject_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -44647,20 +44126,6 @@ static PyObject * iMeshObject_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshObjectFactory_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshObjectFactory_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshObjectFactory_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshObjectFactory_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMeshObjectFactory_NewInstance(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshObjectFactory *arg1 = (iMeshObjectFactory *) 0 ;
@@ -44792,6 +44257,20 @@ static PyObject *_wrap_delete_iMeshObjectFactory(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *_wrap_iMeshObjectFactory_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iMeshObjectFactory_scfGetVersion")) goto fail;
+    result = (int)iMeshObjectFactory_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iMeshObjectFactory_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -44799,20 +44278,6 @@ static PyObject * iMeshObjectFactory_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMeshObjectType_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMeshObjectType_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMeshObjectType_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMeshObjectType_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMeshObjectType_NewFactory(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshObjectType *arg1 = (iMeshObjectType *) 0 ;
@@ -44846,6 +44311,20 @@ static PyObject *_wrap_delete_iMeshObjectType(PyObject *self, PyObject *args) {
     delete_iMeshObjectType(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iMeshObjectType_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iMeshObjectType_scfGetVersion")) goto fail;
+    result = (int)iMeshObjectType_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -45072,34 +44551,6 @@ static PyObject * csSprite2DVertex_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite2DUVAnimationFrame_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite2DUVAnimationFrame_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite2DUVAnimationFrame_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite2DUVAnimationFrame_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSprite2DUVAnimationFrame_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSprite2DUVAnimationFrame_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSprite2DUVAnimationFrame_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSprite2DUVAnimationFrame_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite2DUVAnimationFrame *arg1 = (iSprite2DUVAnimationFrame *) 0 ;
@@ -45354,34 +44805,6 @@ static PyObject * iSprite2DUVAnimationFrame_swigregister(PyObject *self, PyObjec
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite2DUVAnimation_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite2DUVAnimation_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite2DUVAnimation_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite2DUVAnimation_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSprite2DUVAnimation_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSprite2DUVAnimation_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSprite2DUVAnimation_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSprite2DUVAnimation_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite2DUVAnimation *arg1 = (iSprite2DUVAnimation *) 0 ;
@@ -45600,34 +45023,6 @@ static PyObject * iSprite2DUVAnimation_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite2DFactoryState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite2DFactoryState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite2DFactoryState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite2DFactoryState_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSprite2DFactoryState_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSprite2DFactoryState_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSprite2DFactoryState_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSprite2DFactoryState_SetMaterialWrapper(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite2DFactoryState *arg1 = (iSprite2DFactoryState *) 0 ;
@@ -45905,20 +45300,6 @@ static PyObject * iSprite2DFactoryState_swigregister(PyObject *self, PyObject *a
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite2DState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite2DState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite2DState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite2DState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSprite2DState_GetVertices(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite2DState *arg1 = (iSprite2DState *) 0 ;
@@ -46055,33 +45436,12 @@ static PyObject *_wrap_delete_iSprite2DState(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iSprite2DState_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iSprite2DState, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iSpriteFrame_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSpriteFrame_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSpriteFrame_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSpriteFrame_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSpriteFrame_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iSprite2DState_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iSpriteFrame_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSpriteFrame_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iSprite2DState_scfGetVersion")) goto fail;
+    result = (int)iSprite2DState_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -46090,6 +45450,13 @@ static PyObject *_wrap_iSpriteFrame_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iSprite2DState_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iSprite2DState, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iSpriteFrame_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSpriteFrame *arg1 = (iSpriteFrame *) 0 ;
@@ -46181,34 +45548,6 @@ static PyObject * iSpriteFrame_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSpriteAction_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSpriteAction_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSpriteAction_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSpriteAction_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSpriteAction_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSpriteAction_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSpriteAction_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSpriteAction_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSpriteAction *arg1 = (iSpriteAction *) 0 ;
@@ -46376,34 +45715,6 @@ static PyObject * iSpriteAction_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSpriteSocket_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSpriteSocket_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSpriteSocket_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSpriteSocket_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSpriteSocket_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSpriteSocket_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSpriteSocket_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSpriteSocket_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSpriteSocket *arg1 = (iSpriteSocket *) 0 ;
@@ -46531,34 +45842,6 @@ static PyObject * iSpriteSocket_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite3DFactoryState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite3DFactoryState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite3DFactoryState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite3DFactoryState_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSprite3DFactoryState_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSprite3DFactoryState_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSprite3DFactoryState_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSprite3DFactoryState_SetMaterialWrapper(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite3DFactoryState *arg1 = (iSprite3DFactoryState *) 0 ;
@@ -47659,20 +46942,6 @@ static PyObject * iSprite3DFactoryState_swigregister(PyObject *self, PyObject *a
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSprite3DState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSprite3DState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSprite3DState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSprite3DState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSprite3DState_SetMaterialWrapper(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSprite3DState *arg1 = (iSprite3DState *) 0 ;
@@ -48520,33 +47789,12 @@ static PyObject *_wrap_delete_iSprite3DState(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iSprite3DState_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iSprite3DState, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iSpriteCal3DFactoryState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSpriteCal3DFactoryState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSpriteCal3DFactoryState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSpriteCal3DFactoryState_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSpriteCal3DFactoryState_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iSprite3DState_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iSpriteCal3DFactoryState_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSpriteCal3DFactoryState_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iSprite3DState_scfGetVersion")) goto fail;
+    result = (int)iSprite3DState_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -48555,6 +47803,13 @@ static PyObject *_wrap_iSpriteCal3DFactoryState_scfGetID(PyObject *self, PyObjec
 }
 
 
+static PyObject * iSprite3DState_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iSprite3DState, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iSpriteCal3DFactoryState_Create(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSpriteCal3DFactoryState *arg1 = (iSpriteCal3DFactoryState *) 0 ;
@@ -48949,20 +48204,6 @@ static PyObject * iSpriteCal3DFactoryState_swigregister(PyObject *self, PyObject
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSpriteCal3DState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSpriteCal3DState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSpriteCal3DState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSpriteCal3DState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSpriteCal3DState_GetAnimCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSpriteCal3DState *arg1 = (iSpriteCal3DState *) 0 ;
@@ -49388,6 +48629,20 @@ static PyObject *_wrap_delete_iSpriteCal3DState(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iSpriteCal3DState_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSpriteCal3DState_scfGetVersion")) goto fail;
+    result = (int)iSpriteCal3DState_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSpriteCal3DState_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -49395,20 +48650,6 @@ static PyObject * iSpriteCal3DState_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iBallState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iBallState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iBallState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iBallState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iBallState_SetRadius(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBallState *arg1 = (iBallState *) 0 ;
@@ -49891,6 +49132,20 @@ static PyObject *_wrap_delete_iBallState(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBallState_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iBallState_scfGetVersion")) goto fail;
+    result = (int)iBallState_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iBallState_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -49898,20 +49153,6 @@ static PyObject * iBallState_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iGeneralMeshState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iGeneralMeshState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iGeneralMeshState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iGeneralMeshState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iGeneralMeshState_SetMaterialWrapper(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iGeneralMeshState *arg1 = (iGeneralMeshState *) 0 ;
@@ -50192,6 +49433,20 @@ static PyObject *_wrap_delete_iGeneralMeshState(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iGeneralMeshState_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iGeneralMeshState_scfGetVersion")) goto fail;
+    result = (int)iGeneralMeshState_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iGeneralMeshState_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -50199,20 +49454,6 @@ static PyObject * iGeneralMeshState_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iGeneralFactoryState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iGeneralFactoryState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iGeneralFactoryState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iGeneralFactoryState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iGeneralFactoryState_SetMaterialWrapper(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iGeneralFactoryState *arg1 = (iGeneralFactoryState *) 0 ;
@@ -50742,6 +49983,20 @@ static PyObject *_wrap_delete_iGeneralFactoryState(PyObject *self, PyObject *arg
 }
 
 
+static PyObject *_wrap_iGeneralFactoryState_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iGeneralFactoryState_scfGetVersion")) goto fail;
+    result = (int)iGeneralFactoryState_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iGeneralFactoryState_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -50951,34 +50206,6 @@ static PyObject * csPolygonRange_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iPolygonHandle_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iPolygonHandle_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iPolygonHandle_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iPolygonHandle_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iPolygonHandle_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iPolygonHandle_scfGetID")) goto fail;
-    result = (scfInterfaceID)iPolygonHandle_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iPolygonHandle_GetThingFactoryState(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPolygonHandle *arg1 = (iPolygonHandle *) 0 ;
@@ -51087,34 +50314,6 @@ static PyObject * iPolygonHandle_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iThingFactoryState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iThingFactoryState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iThingFactoryState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iThingFactoryState_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iThingFactoryState_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iThingFactoryState_scfGetID")) goto fail;
-    result = (scfInterfaceID)iThingFactoryState_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iThingFactoryState_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iThingFactoryState *arg1 = (iThingFactoryState *) 0 ;
@@ -52977,20 +52176,6 @@ static PyObject * iThingFactoryState_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iThingState_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iThingState_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iThingState_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iThingState_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iThingState_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iThingState *arg1 = (iThingState *) 0 ;
@@ -53306,33 +52491,12 @@ static PyObject *_wrap_delete_iThingState(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iThingState_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iThingState, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iThingEnvironment_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iThingEnvironment_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iThingEnvironment_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iThingEnvironment_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iThingEnvironment_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iThingState_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iThingEnvironment_scfGetID")) goto fail;
-    result = (scfInterfaceID)iThingEnvironment_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iThingState_scfGetVersion")) goto fail;
+    result = (int)iThingState_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -53341,6 +52505,13 @@ static PyObject *_wrap_iThingEnvironment_scfGetID(PyObject *self, PyObject *args
 }
 
 
+static PyObject * iThingState_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iThingState, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iThingEnvironment_Clear(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iThingEnvironment *arg1 = (iThingEnvironment *) 0 ;
@@ -54263,34 +53434,6 @@ static PyObject * csPolyTextureMapping_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLoaderStatus_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLoaderStatus_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLoaderStatus_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLoaderStatus_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iLoaderStatus_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iLoaderStatus_scfGetID")) goto fail;
-    result = (scfInterfaceID)iLoaderStatus_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iLoaderStatus_IsReady(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLoaderStatus *arg1 = (iLoaderStatus *) 0 ;
@@ -54348,20 +53491,6 @@ static PyObject * iLoaderStatus_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLoader_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLoader_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLoader_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLoader_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iLoader_LoadImage(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLoader *arg1 = (iLoader *) 0 ;
@@ -54915,6 +54044,20 @@ static PyObject *_wrap_delete_iLoader(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iLoader_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iLoader_scfGetVersion")) goto fail;
+    result = (int)iLoader_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iLoader_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -54922,20 +54065,6 @@ static PyObject * iLoader_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iLoaderPlugin_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iLoaderPlugin_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iLoaderPlugin_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iLoaderPlugin_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iLoaderPlugin_Parse(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iLoaderPlugin *arg1 = (iLoaderPlugin *) 0 ;
@@ -54984,6 +54113,20 @@ static PyObject *_wrap_delete_iLoaderPlugin(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iLoaderPlugin_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iLoaderPlugin_scfGetVersion")) goto fail;
+    result = (int)iLoaderPlugin_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iLoaderPlugin_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -54991,20 +54134,6 @@ static PyObject * iLoaderPlugin_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iBinaryLoaderPlugin_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iBinaryLoaderPlugin_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iBinaryLoaderPlugin_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iBinaryLoaderPlugin_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iBinaryLoaderPlugin_Parse(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBinaryLoaderPlugin *arg1 = (iBinaryLoaderPlugin *) 0 ;
@@ -55053,33 +54182,12 @@ static PyObject *_wrap_delete_iBinaryLoaderPlugin(PyObject *self, PyObject *args
 }
 
 
-static PyObject * iBinaryLoaderPlugin_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iBinaryLoaderPlugin, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iSaver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSaver_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSaver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSaver_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSaver_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iBinaryLoaderPlugin_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iSaver_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSaver_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iBinaryLoaderPlugin_scfGetVersion")) goto fail;
+    result = (int)iBinaryLoaderPlugin_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -55088,6 +54196,13 @@ static PyObject *_wrap_iSaver_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iBinaryLoaderPlugin_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iBinaryLoaderPlugin, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iSaver_SaveMapFile__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSaver *arg1 = (iSaver *) 0 ;
@@ -55202,20 +54317,6 @@ static PyObject * iSaver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundHandle_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundHandle_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundHandle_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundHandle_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundHandle_IsStatic(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundHandle *arg1 = (iSoundHandle *) 0 ;
@@ -55354,6 +54455,20 @@ static PyObject *_wrap_delete_iSoundHandle(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundHandle_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundHandle_scfGetVersion")) goto fail;
+    result = (int)iSoundHandle_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundHandle_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -55361,20 +54476,6 @@ static PyObject * iSoundHandle_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundLoader_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundLoader_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundLoader_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundLoader_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundLoader_LoadSound(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundLoader *arg1 = (iSoundLoader *) 0 ;
@@ -55419,6 +54520,20 @@ static PyObject *_wrap_delete_iSoundLoader(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundLoader_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundLoader_scfGetVersion")) goto fail;
+    result = (int)iSoundLoader_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundLoader_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -55426,20 +54541,6 @@ static PyObject * iSoundLoader_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundRender_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundRender_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundRender_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundRender_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundRender_SetVolume(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundRender *arg1 = (iSoundRender *) 0 ;
@@ -55568,6 +54669,20 @@ static PyObject *_wrap_delete_iSoundRender(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundRender_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundRender_scfGetVersion")) goto fail;
+    result = (int)iSoundRender_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundRender_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -55575,20 +54690,6 @@ static PyObject * iSoundRender_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundWrapper_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundWrapper_GetSound(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundWrapper *arg1 = (iSoundWrapper *) 0 ;
@@ -55639,6 +54740,20 @@ static PyObject *_wrap_delete_iSoundWrapper(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundWrapper_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundWrapper_scfGetVersion")) goto fail;
+    result = (int)iSoundWrapper_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundWrapper_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -55646,20 +54761,6 @@ static PyObject * iSoundWrapper_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundDriver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundDriver_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundDriver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundDriver_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundDriver_Open(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundDriver *arg1 = (iSoundDriver *) 0 ;
@@ -55861,6 +54962,20 @@ static PyObject *_wrap_delete_iSoundDriver(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundDriver_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundDriver_scfGetVersion")) goto fail;
+    result = (int)iSoundDriver_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundDriver_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -55868,20 +54983,6 @@ static PyObject * iSoundDriver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSoundSource_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSoundSource_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSoundSource_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSoundSource_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iSoundSource_Play(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSoundSource *arg1 = (iSoundSource *) 0 ;
@@ -56122,6 +55223,20 @@ static PyObject *_wrap_delete_iSoundSource(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iSoundSource_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iSoundSource_scfGetVersion")) goto fail;
+    result = (int)iSoundSource_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iSoundSource_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -56129,20 +55244,6 @@ static PyObject * iSoundSource_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iComponent_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iComponent_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iComponent_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iComponent_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iComponent_Initialize(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iComponent *arg1 = (iComponent *) 0 ;
@@ -56179,6 +55280,20 @@ static PyObject *_wrap_delete_iComponent(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iComponent_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iComponent_scfGetVersion")) goto fail;
+    result = (int)iComponent_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iComponent_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -56186,20 +55301,6 @@ static PyObject * iComponent_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iCacheManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCacheManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCacheManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCacheManager_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iCacheManager_SetCurrentType(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCacheManager *arg1 = (iCacheManager *) 0 ;
@@ -56361,6 +55462,20 @@ static PyObject *_wrap_delete_iCacheManager(PyObject *self, PyObject *args) {
     delete_iCacheManager(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCacheManager_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iCacheManager_scfGetVersion")) goto fail;
+    result = (int)iCacheManager_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -56615,20 +55730,6 @@ static PyObject * csFileTime_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFile_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFile_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFile_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFile_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iFile_GetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFile *arg1 = (iFile *) 0 ;
@@ -56840,6 +55941,20 @@ static PyObject *_wrap_delete_iFile(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iFile_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iFile_scfGetVersion")) goto fail;
+    result = (int)iFile_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iFile_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -56847,20 +55962,6 @@ static PyObject * iFile_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVFS_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVFS_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVFS_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVFS_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iVFS_ChDir(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVFS *arg1 = (iVFS *) 0 ;
@@ -57306,6 +56407,20 @@ static PyObject *_wrap_delete_iVFS(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iVFS_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iVFS_scfGetVersion")) goto fail;
+    result = (int)iVFS_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iVFS_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -57313,20 +56428,6 @@ static PyObject * iVFS_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iObject_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObject_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObject_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObject_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iObject_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObject *arg1 = (iObject *) 0 ;
@@ -57663,33 +56764,12 @@ static PyObject *_wrap_delete_iObject(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iObject_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iObject, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iObjectIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObjectIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObjectIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObjectIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iObjectIterator_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iObject_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iObjectIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iObjectIterator_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iObject_scfGetVersion")) goto fail;
+    result = (int)iObject_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -57698,6 +56778,13 @@ static PyObject *_wrap_iObjectIterator_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iObject_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iObject, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iObjectIterator_Next(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObjectIterator *arg1 = (iObjectIterator *) 0 ;
@@ -57806,34 +56893,6 @@ static PyObject * iObjectIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDataObject_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDataObject_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDataObject_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDataObject_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDataObject_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iDataObject_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDataObject_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iDataObject_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDataObject *arg1 = (iDataObject *) 0 ;
@@ -57891,20 +56950,6 @@ static PyObject * iDataObject_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iObjectRegistry_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObjectRegistry_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObjectRegistry_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObjectRegistry_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iObjectRegistry_Clear(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
@@ -58171,33 +57216,12 @@ static PyObject *_wrap_delete_iObjectRegistry(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iObjectRegistry_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iObjectRegistry, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iObjectRegistryIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iObjectRegistryIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iObjectRegistryIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iObjectRegistryIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iObjectRegistryIterator_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iObjectRegistry_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iObjectRegistryIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iObjectRegistryIterator_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iObjectRegistry_scfGetVersion")) goto fail;
+    result = (int)iObjectRegistry_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -58206,6 +57230,13 @@ static PyObject *_wrap_iObjectRegistryIterator_scfGetID(PyObject *self, PyObject
 }
 
 
+static PyObject * iObjectRegistry_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iObjectRegistry, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iObjectRegistryIterator_Reset(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iObjectRegistryIterator *arg1 = (iObjectRegistryIterator *) 0 ;
@@ -58297,20 +57328,6 @@ static PyObject * iObjectRegistryIterator_swigregister(PyObject *self, PyObject 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVirtualClock_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVirtualClock_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVirtualClock_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVirtualClock_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iVirtualClock_Advance(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVirtualClock *arg1 = (iVirtualClock *) 0 ;
@@ -58409,6 +57426,20 @@ static PyObject *_wrap_delete_iVirtualClock(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iVirtualClock_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iVirtualClock_scfGetVersion")) goto fail;
+    result = (int)iVirtualClock_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iVirtualClock_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -58416,20 +57447,6 @@ static PyObject * iVirtualClock_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEvent_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEvent_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEvent_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEvent_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_csKeyEventData_eventType_set(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csKeyEventData *arg1 = (csKeyEventData *) 0 ;
@@ -60523,6 +59540,20 @@ static PyObject *_wrap_delete_iEvent(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iEvent_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iEvent_scfGetVersion")) goto fail;
+    result = (int)iEvent_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iEvent_Mouse_get(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEvent *arg1 = (iEvent *) 0 ;
@@ -60598,34 +59629,6 @@ static PyObject * iEvent_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEventPlug_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEventPlug_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEventPlug_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEventPlug_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iEventPlug_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iEventPlug_scfGetID")) goto fail;
-    result = (scfInterfaceID)iEventPlug_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iEventPlug_GetPotentiallyConflictingEvents(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEventPlug *arg1 = (iEventPlug *) 0 ;
@@ -60711,34 +59714,6 @@ static PyObject * iEventPlug_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEventOutlet_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEventOutlet_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEventOutlet_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEventOutlet_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iEventOutlet_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iEventOutlet_scfGetID")) goto fail;
-    result = (scfInterfaceID)iEventOutlet_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iEventOutlet_CreateEvent(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEventOutlet *arg1 = (iEventOutlet *) 0 ;
@@ -60921,34 +59896,6 @@ static PyObject * iEventOutlet_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEventCord_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEventCord_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEventCord_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEventCord_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iEventCord_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iEventCord_scfGetID")) goto fail;
-    result = (scfInterfaceID)iEventCord_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iEventCord_Insert(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEventCord *arg1 = (iEventCord *) 0 ;
@@ -61408,20 +60355,6 @@ static PyObject * csKeyModifiers_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEventQueue_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEventQueue_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEventQueue_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEventQueue_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iEventQueue_Process(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEventQueue *arg1 = (iEventQueue *) 0 ;
@@ -61719,6 +60652,20 @@ static PyObject *_wrap_delete_iEventQueue(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iEventQueue_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iEventQueue_scfGetVersion")) goto fail;
+    result = (int)iEventQueue_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iEventQueue_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -61726,20 +60673,6 @@ static PyObject * iEventQueue_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEventHandler_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEventHandler_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEventHandler_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEventHandler_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iEventHandler_HandleEvent(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEventHandler *arg1 = (iEventHandler *) 0 ;
@@ -61779,33 +60712,12 @@ static PyObject *_wrap_delete_iEventHandler(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iEventHandler_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iEventHandler, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iPluginIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iPluginIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iPluginIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iPluginIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iPluginIterator_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iEventHandler_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iPluginIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iPluginIterator_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iEventHandler_scfGetVersion")) goto fail;
+    result = (int)iEventHandler_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -61814,6 +60726,13 @@ static PyObject *_wrap_iPluginIterator_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iEventHandler_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iEventHandler, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iPluginIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPluginIterator *arg1 = (iPluginIterator *) 0 ;
@@ -61871,20 +60790,6 @@ static PyObject * iPluginIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iPluginManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iPluginManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iPluginManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iPluginManager_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iPluginManager_LoadPlugin(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPluginManager *arg1 = (iPluginManager *) 0 ;
@@ -62133,33 +61038,12 @@ static PyObject *_wrap_delete_iPluginManager(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iPluginManager_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iPluginManager, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iKeyComposer_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iKeyComposer_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iKeyComposer_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iKeyComposer_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iKeyComposer_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iPluginManager_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iKeyComposer_scfGetID")) goto fail;
-    result = (scfInterfaceID)iKeyComposer_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iPluginManager_scfGetVersion")) goto fail;
+    result = (int)iPluginManager_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -62168,20 +61052,13 @@ static PyObject *_wrap_iKeyComposer_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
-static int _wrap_iKeyboardDriver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iKeyboardDriver_VERSION is read-only.");
-    return 1;
+static PyObject * iPluginManager_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iPluginManager, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
 }
-
-
-static PyObject *_wrap_iKeyboardDriver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iKeyboardDriver_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iKeyComposer_HandleKey(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iKeyComposer *arg1 = (iKeyComposer *) 0 ;
@@ -62386,6 +61263,20 @@ static PyObject *_wrap_delete_iKeyboardDriver(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iKeyboardDriver_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iKeyboardDriver_scfGetVersion")) goto fail;
+    result = (int)iKeyboardDriver_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iKeyboardDriver_GetKeyState__SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iKeyboardDriver *arg1 = (iKeyboardDriver *) 0 ;
@@ -62466,34 +61357,6 @@ static PyObject * iKeyboardDriver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMouseDriver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMouseDriver_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMouseDriver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMouseDriver_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMouseDriver_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iMouseDriver_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMouseDriver_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMouseDriver_SetDoubleClickTime(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMouseDriver *arg1 = (iMouseDriver *) 0 ;
@@ -62647,34 +61510,6 @@ static PyObject * iMouseDriver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iJoystickDriver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iJoystickDriver_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iJoystickDriver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iJoystickDriver_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iJoystickDriver_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iJoystickDriver_scfGetID")) goto fail;
-    result = (scfInterfaceID)iJoystickDriver_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iJoystickDriver_Reset(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iJoystickDriver *arg1 = (iJoystickDriver *) 0 ;
@@ -62812,20 +61647,6 @@ static PyObject * iJoystickDriver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iConfigFile_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iConfigFile_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iConfigFile_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iConfigFile_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iConfigFile_GetFileName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iConfigFile *arg1 = (iConfigFile *) 0 ;
@@ -63355,6 +62176,20 @@ static PyObject *_wrap_delete_iConfigFile(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iConfigFile_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iConfigFile_scfGetVersion")) goto fail;
+    result = (int)iConfigFile_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iConfigFile_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -63362,20 +62197,6 @@ static PyObject * iConfigFile_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iConfigIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iConfigIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iConfigIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iConfigIterator_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iConfigIterator_GetConfigFile(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iConfigIterator *arg1 = (iConfigIterator *) 0 ;
@@ -63567,6 +62388,20 @@ static PyObject *_wrap_delete_iConfigIterator(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iConfigIterator_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iConfigIterator_scfGetVersion")) goto fail;
+    result = (int)iConfigIterator_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iConfigIterator_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -63574,20 +62409,6 @@ static PyObject * iConfigIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iConfigManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iConfigManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iConfigManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iConfigManager_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iConfigManager_AddDomain__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iConfigManager *arg1 = (iConfigManager *) 0 ;
@@ -64138,6 +62959,20 @@ static PyObject *_wrap_delete_iConfigManager(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iConfigManager_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iConfigManager_scfGetVersion")) goto fail;
+    result = (int)iConfigManager_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iConfigManager_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -64145,20 +62980,6 @@ static PyObject * iConfigManager_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStringArray_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStringArray_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStringArray_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStringArray_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iStringArray_Length(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStringArray *arg1 = (iStringArray *) 0 ;
@@ -64367,33 +63188,12 @@ static PyObject *_wrap_delete_iStringArray(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iStringArray_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iStringArray, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iDocumentAttributeIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocumentAttributeIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocumentAttributeIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocumentAttributeIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDocumentAttributeIterator_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iStringArray_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iDocumentAttributeIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDocumentAttributeIterator_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iStringArray_scfGetVersion")) goto fail;
+    result = (int)iStringArray_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -64402,6 +63202,13 @@ static PyObject *_wrap_iDocumentAttributeIterator_scfGetID(PyObject *self, PyObj
 }
 
 
+static PyObject * iStringArray_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iStringArray, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iDocumentAttributeIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocumentAttributeIterator *arg1 = (iDocumentAttributeIterator *) 0 ;
@@ -64463,34 +63270,6 @@ static PyObject * iDocumentAttributeIterator_swigregister(PyObject *self, PyObje
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDocumentAttribute_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocumentAttribute_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocumentAttribute_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocumentAttribute_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDocumentAttribute_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iDocumentAttribute_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDocumentAttribute_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iDocumentAttribute_GetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocumentAttribute *arg1 = (iDocumentAttribute *) 0 ;
@@ -64650,34 +63429,6 @@ static PyObject * iDocumentAttribute_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDocumentNodeIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocumentNodeIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocumentNodeIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocumentNodeIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDocumentNodeIterator_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iDocumentNodeIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDocumentNodeIterator_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iDocumentNodeIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocumentNodeIterator *arg1 = (iDocumentNodeIterator *) 0 ;
@@ -64739,34 +63490,6 @@ static PyObject * iDocumentNodeIterator_swigregister(PyObject *self, PyObject *a
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDocumentNode_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocumentNode_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocumentNode_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocumentNode_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDocumentNode_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iDocumentNode_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDocumentNode_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iDocumentNode_GetType(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocumentNode *arg1 = (iDocumentNode *) 0 ;
@@ -65336,20 +64059,6 @@ static PyObject * iDocumentNode_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDocument_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocument_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocument_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocument_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDocument_Clear(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocument *arg1 = (iDocument *) 0 ;
@@ -65791,6 +64500,20 @@ static PyObject *_wrap_delete_iDocument(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iDocument_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iDocument_scfGetVersion")) goto fail;
+    result = (int)iDocument_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iDocument_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -65798,20 +64521,6 @@ static PyObject * iDocument_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDocumentSystem_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDocumentSystem_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDocumentSystem_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDocumentSystem_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDocumentSystem_CreateDocument(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDocumentSystem *arg1 = (iDocumentSystem *) 0 ;
@@ -65845,6 +64554,20 @@ static PyObject *_wrap_delete_iDocumentSystem(PyObject *self, PyObject *args) {
     delete_iDocumentSystem(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iDocumentSystem_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iDocumentSystem_scfGetVersion")) goto fail;
+    result = (int)iDocumentSystem_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -66149,20 +64872,6 @@ static PyObject * csTinyDocumentSystem_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDataBuffer_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDataBuffer_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDataBuffer_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDataBuffer_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDataBuffer_GetSize(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDataBuffer *arg1 = (iDataBuffer *) 0 ;
@@ -66241,6 +64950,20 @@ static PyObject *_wrap_delete_iDataBuffer(PyObject *self, PyObject *args) {
     delete_iDataBuffer(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iDataBuffer_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iDataBuffer_scfGetVersion")) goto fail;
+    result = (int)iDataBuffer_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -69167,20 +67890,6 @@ static PyObject * G3DPolygonMesh_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iGraphics3D_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iGraphics3D_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iGraphics3D_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iGraphics3D_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iGraphics3D_Open(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iGraphics3D *arg1 = (iGraphics3D *) 0 ;
@@ -70424,6 +69133,20 @@ static PyObject *_wrap_delete_iGraphics3D(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iGraphics3D_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iGraphics3D_scfGetVersion")) goto fail;
+    result = (int)iGraphics3D_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iGraphics3D_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -71190,34 +69913,6 @@ static PyObject * csImageArea_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iOffscreenCanvasCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iOffscreenCanvasCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iOffscreenCanvasCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iOffscreenCanvasCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iOffscreenCanvasCallback_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iOffscreenCanvasCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iOffscreenCanvasCallback_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iOffscreenCanvasCallback_FinishDraw(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iOffscreenCanvasCallback *arg1 = (iOffscreenCanvasCallback *) 0 ;
@@ -71283,20 +69978,6 @@ static PyObject * iOffscreenCanvasCallback_swigregister(PyObject *self, PyObject
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iGraphics2D_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iGraphics2D_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iGraphics2D_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iGraphics2D_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iGraphics2D_Open(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iGraphics2D *arg1 = (iGraphics2D *) 0 ;
@@ -72315,6 +70996,20 @@ static PyObject *_wrap_delete_iGraphics2D(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iGraphics2D_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iGraphics2D_scfGetVersion")) goto fail;
+    result = (int)iGraphics2D_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iGraphics2D__PerformExtension(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iGraphics2D *arg1 = (iGraphics2D *) 0 ;
@@ -72344,34 +71039,6 @@ static PyObject * iGraphics2D_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFontDeleteNotify_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFontDeleteNotify_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFontDeleteNotify_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFontDeleteNotify_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iFontDeleteNotify_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iFontDeleteNotify_scfGetID")) goto fail;
-    result = (scfInterfaceID)iFontDeleteNotify_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iFontDeleteNotify_BeforeDelete(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFontDeleteNotify *arg1 = (iFontDeleteNotify *) 0 ;
@@ -72658,20 +71325,6 @@ static PyObject * csGlyphMetrics_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFont_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFont_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFont_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFont_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iFont_AddDeleteCallback(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFont *arg1 = (iFont *) 0 ;
@@ -72996,6 +71649,20 @@ static PyObject *_wrap_delete_iFont(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iFont_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iFont_scfGetVersion")) goto fail;
+    result = (int)iFont_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iFont_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -73003,20 +71670,6 @@ static PyObject * iFont_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iFontServer_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iFontServer_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iFontServer_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iFontServer_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iFontServer_LoadFont(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iFontServer *arg1 = (iFontServer *) 0 ;
@@ -73092,6 +71745,20 @@ static PyObject *_wrap_delete_iFontServer(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iFontServer_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iFontServer_scfGetVersion")) goto fail;
+    result = (int)iFontServer_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iFontServer_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -73099,20 +71766,6 @@ static PyObject * iFontServer_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iHalo_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iHalo_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iHalo_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iHalo_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iHalo_GetWidth(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iHalo *arg1 = (iHalo *) 0 ;
@@ -73277,33 +71930,12 @@ static PyObject *_wrap_delete_iHalo(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iHalo_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iHalo, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iShaderVariableContext_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderVariableContext_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderVariableContext_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderVariableContext_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderVariableContext_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iHalo_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iShaderVariableContext_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderVariableContext_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iHalo_scfGetVersion")) goto fail;
+    result = (int)iHalo_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -73312,6 +71944,13 @@ static PyObject *_wrap_iShaderVariableContext_scfGetID(PyObject *self, PyObject 
 }
 
 
+static PyObject * iHalo_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iHalo, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iShaderVariableContext_AddVariable(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderVariableContext *arg1 = (iShaderVariableContext *) 0 ;
@@ -73417,34 +72056,6 @@ static PyObject * iShaderVariableContext_swigregister(PyObject *self, PyObject *
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderManager_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderManager_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderManager_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderManager_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderManager_CreateShader(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderManager *arg1 = (iShaderManager *) 0 ;
@@ -73591,34 +72202,6 @@ static PyObject * iShaderManager_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderRenderInterface_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderRenderInterface_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderRenderInterface_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderRenderInterface_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderRenderInterface_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderRenderInterface_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderRenderInterface_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderRenderInterface_GetPrivateObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderRenderInterface *arg1 = (iShaderRenderInterface *) 0 ;
@@ -73660,34 +72243,6 @@ static PyObject * iShaderRenderInterface_swigregister(PyObject *self, PyObject *
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShader_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShader_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShader_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShader_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShader_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShader_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShader_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShader_SetName(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShader *arg1 = (iShader *) 0 ;
@@ -73959,34 +72514,6 @@ static PyObject * iShader_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderTechnique_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderTechnique_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderTechnique_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderTechnique_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderTechnique_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderTechnique_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderTechnique_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderTechnique_GetPriority(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderTechnique *arg1 = (iShaderTechnique *) 0 ;
@@ -74241,34 +72768,6 @@ static PyObject * iShaderTechnique_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderPass_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderPass_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderPass_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderPass_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderPass_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderPass_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderPass_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderPass_AddStreamMapping(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderPass *arg1 = (iShaderPass *) 0 ;
@@ -74706,34 +73205,6 @@ static PyObject * iShaderPass_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderProgram_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderProgram_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderProgram_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderProgram_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderProgram_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderProgram_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderProgram_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderProgram_Activate(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderProgram *arg1 = (iShaderProgram *) 0 ;
@@ -74977,34 +73448,6 @@ static PyObject * iShaderProgram_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iShaderProgramPlugin_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iShaderProgramPlugin_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iShaderProgramPlugin_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iShaderProgramPlugin_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iShaderProgramPlugin_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iShaderProgramPlugin_scfGetID")) goto fail;
-    result = (scfInterfaceID)iShaderProgramPlugin_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iShaderProgramPlugin_CreateProgram(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iShaderProgramPlugin *arg1 = (iShaderProgramPlugin *) 0 ;
@@ -75084,20 +73527,6 @@ static PyObject * iShaderProgramPlugin_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iTextureHandle_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iTextureHandle_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iTextureHandle_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iTextureHandle_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iTextureHandle_GetFlags(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iTextureHandle *arg1 = (iTextureHandle *) 0 ;
@@ -75517,33 +73946,12 @@ static PyObject *_wrap_delete_iTextureHandle(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iTextureHandle_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iTextureHandle, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iRendererLightmap_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iRendererLightmap_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iRendererLightmap_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iRendererLightmap_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iRendererLightmap_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iTextureHandle_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iRendererLightmap_scfGetID")) goto fail;
-    result = (scfInterfaceID)iRendererLightmap_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iTextureHandle_scfGetVersion")) goto fail;
+    result = (int)iTextureHandle_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -75552,6 +73960,13 @@ static PyObject *_wrap_iRendererLightmap_scfGetID(PyObject *self, PyObject *args
 }
 
 
+static PyObject * iTextureHandle_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iTextureHandle, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iRendererLightmap_GetSLMCoords(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iRendererLightmap *arg1 = (iRendererLightmap *) 0 ;
@@ -75653,34 +74068,6 @@ static PyObject * iRendererLightmap_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSuperLightmap_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSuperLightmap_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSuperLightmap_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSuperLightmap_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSuperLightmap_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSuperLightmap_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSuperLightmap_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSuperLightmap_RegisterLightmap(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSuperLightmap *arg1 = (iSuperLightmap *) 0 ;
@@ -75769,20 +74156,6 @@ static PyObject * iSuperLightmap_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iTextureManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iTextureManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iTextureManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iTextureManager_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iTextureManager_RegisterTexture(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iTextureManager *arg1 = (iTextureManager *) 0 ;
@@ -76147,33 +74520,12 @@ static PyObject *_wrap_delete_iTextureManager(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iTextureManager_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iTextureManager, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iVertexBuffer_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVertexBuffer_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVertexBuffer_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVertexBuffer_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVertexBuffer_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iTextureManager_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iVertexBuffer_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVertexBuffer_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iTextureManager_scfGetVersion")) goto fail;
+    result = (int)iTextureManager_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -76182,6 +74534,13 @@ static PyObject *_wrap_iVertexBuffer_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iTextureManager_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iTextureManager, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iVertexBuffer_GetPriority(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVertexBuffer *arg1 = (iVertexBuffer *) 0 ;
@@ -76363,34 +74722,6 @@ static PyObject * iVertexBuffer_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iPolygonBuffer_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iPolygonBuffer_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iPolygonBuffer_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iPolygonBuffer_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iPolygonBuffer_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iPolygonBuffer_scfGetID")) goto fail;
-    result = (scfInterfaceID)iPolygonBuffer_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iPolygonBuffer_SetVertexArray(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPolygonBuffer *arg1 = (iPolygonBuffer *) 0 ;
@@ -76643,34 +74974,6 @@ static PyObject * iPolygonBuffer_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVertexBufferManagerClient_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVertexBufferManagerClient_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVertexBufferManagerClient_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVertexBufferManagerClient_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVertexBufferManagerClient_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iVertexBufferManagerClient_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVertexBufferManagerClient_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iVertexBufferManagerClient_ManagerClosing(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVertexBufferManagerClient *arg1 = (iVertexBufferManagerClient *) 0 ;
@@ -76710,34 +75013,6 @@ static PyObject * iVertexBufferManagerClient_swigregister(PyObject *self, PyObje
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVertexBufferManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVertexBufferManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVertexBufferManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVertexBufferManager_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iVertexBufferManager_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iVertexBufferManager_scfGetID")) goto fail;
-    result = (scfInterfaceID)iVertexBufferManager_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iVertexBufferManager_CreateBuffer(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVertexBufferManager *arg1 = (iVertexBufferManager *) 0 ;
@@ -77186,20 +75461,6 @@ static PyObject * csTextureLayer_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iMaterial_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMaterial_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMaterial_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMaterial_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iMaterial_SetShader(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterial *arg1 = (iMaterial *) 0 ;
@@ -77534,33 +75795,12 @@ static PyObject *_wrap_delete_iMaterial(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iMaterial_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iMaterial, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iMaterialHandle_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iMaterialHandle_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iMaterialHandle_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iMaterialHandle_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iMaterialHandle_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iMaterial_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iMaterialHandle_scfGetID")) goto fail;
-    result = (scfInterfaceID)iMaterialHandle_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iMaterial_scfGetVersion")) goto fail;
+    result = (int)iMaterial_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -77569,6 +75809,13 @@ static PyObject *_wrap_iMaterialHandle_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iMaterial_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iMaterial, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iMaterialHandle_GetShader(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterialHandle *arg1 = (iMaterialHandle *) 0 ;
@@ -77706,34 +75953,6 @@ static PyObject * iMaterialHandle_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNativeWindowManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNativeWindowManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNativeWindowManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNativeWindowManager_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iNativeWindowManager_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iNativeWindowManager_scfGetID")) goto fail;
-    result = (scfInterfaceID)iNativeWindowManager_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iNativeWindowManager_Alert__varargs__(PyObject *self, PyObject *args, PyObject *varargs) {
     PyObject *resultobj;
     iNativeWindowManager *arg1 = (iNativeWindowManager *) 0 ;
@@ -77817,34 +76036,6 @@ static PyObject * iNativeWindowManager_swigregister(PyObject *self, PyObject *ar
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNativeWindow_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNativeWindow_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNativeWindow_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNativeWindow_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iNativeWindow_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iNativeWindow_scfGetID")) goto fail;
-    result = (scfInterfaceID)iNativeWindow_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iNativeWindow_SetTitle(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNativeWindow *arg1 = (iNativeWindow *) 0 ;
@@ -78475,20 +76666,6 @@ static PyObject * csAudioStreamDescription_swigregister(PyObject *self, PyObject
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStreamIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStreamIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStreamIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStreamIterator_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iStreamIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStreamIterator *arg1 = (iStreamIterator *) 0 ;
@@ -78539,6 +76716,20 @@ static PyObject *_wrap_delete_iStreamIterator(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iStreamIterator_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iStreamIterator_scfGetVersion")) goto fail;
+    result = (int)iStreamIterator_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iStreamIterator_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -78546,20 +76737,6 @@ static PyObject * iStreamIterator_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStreamFormat_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStreamFormat_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStreamFormat_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStreamFormat_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iStreamFormat_GetCaps(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStreamFormat *arg1 = (iStreamFormat *) 0 ;
@@ -78689,6 +76866,20 @@ static PyObject *_wrap_delete_iStreamFormat(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iStreamFormat_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iStreamFormat_scfGetVersion")) goto fail;
+    result = (int)iStreamFormat_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iStreamFormat_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -78696,20 +76887,6 @@ static PyObject * iStreamFormat_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStream_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStream_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStream_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStream_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iStream_GetStreamDescription(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStream *arg1 = (iStream *) 0 ;
@@ -78827,6 +77004,20 @@ static PyObject *_wrap_delete_iStream(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iStream_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iStream_scfGetVersion")) goto fail;
+    result = (int)iStream_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iStream_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -78834,20 +77025,6 @@ static PyObject * iStream_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iVideoStream_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iVideoStream_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iVideoStream_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iVideoStream_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iVideoStream_GetStreamDescription(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iVideoStream *arg1 = (iVideoStream *) 0 ;
@@ -78945,6 +77122,20 @@ static PyObject *_wrap_delete_iVideoStream(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iVideoStream_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iVideoStream_scfGetVersion")) goto fail;
+    result = (int)iVideoStream_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iVideoStream_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -78952,20 +77143,6 @@ static PyObject * iVideoStream_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iAudioStream_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iAudioStream_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iAudioStream_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iAudioStream_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iAudioStream_GetStreamDescription(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iAudioStream *arg1 = (iAudioStream *) 0 ;
@@ -78998,6 +77175,20 @@ static PyObject *_wrap_delete_iAudioStream(PyObject *self, PyObject *args) {
     delete_iAudioStream(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iAudioStream_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iAudioStream_scfGetVersion")) goto fail;
+    result = (int)iAudioStream_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -79232,20 +77423,6 @@ static PyObject * csCodecDescription_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iImage_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iImage_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iImage_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iImage_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iImage_GetImageData(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iImage *arg1 = (iImage *) 0 ;
@@ -79641,6 +77818,20 @@ static PyObject *_wrap_delete_iImage(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iImage_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iImage_scfGetVersion")) goto fail;
+    result = (int)iImage_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iImage_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -79648,20 +77839,6 @@ static PyObject * iImage_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iImageIO_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iImageIO_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iImageIO_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iImageIO_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_csImageIOFileFormatDescription_mime_get(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csImageIOFileFormatDescription *arg1 = (csImageIOFileFormatDescription *) 0 ;
@@ -80014,33 +78191,12 @@ static PyObject *_wrap_delete_iImageIO(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iImageIO_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iImageIO, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iReporterListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iReporterListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iReporterListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iReporterListener_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iReporterListener_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iImageIO_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iReporterListener_scfGetID")) goto fail;
-    result = (scfInterfaceID)iReporterListener_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iImageIO_scfGetVersion")) goto fail;
+    result = (int)iImageIO_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -80049,6 +78205,13 @@ static PyObject *_wrap_iReporterListener_scfGetID(PyObject *self, PyObject *args
 }
 
 
+static PyObject * iImageIO_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iImageIO, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iReporterListener_Report(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iReporterListener *arg1 = (iReporterListener *) 0 ;
@@ -80095,34 +78258,6 @@ static PyObject * iReporterListener_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iReporterIterator_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iReporterIterator_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iReporterIterator_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iReporterIterator_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iReporterIterator_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iReporterIterator_scfGetID")) goto fail;
-    result = (scfInterfaceID)iReporterIterator_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iReporterIterator_HasNext(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iReporterIterator *arg1 = (iReporterIterator *) 0 ;
@@ -80230,34 +78365,6 @@ static PyObject * iReporterIterator_swigregister(PyObject *self, PyObject *args)
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iReporter_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iReporter_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iReporter_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iReporter_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iReporter_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iReporter_scfGetID")) goto fail;
-    result = (scfInterfaceID)iReporter_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iReporter_Report__varargs__(PyObject *self, PyObject *args, PyObject *varargs) {
     PyObject *resultobj;
     iReporter *arg1 = (iReporter *) 0 ;
@@ -80757,34 +78864,6 @@ static PyObject * csReporterHelper_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iStandardReporterListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iStandardReporterListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iStandardReporterListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iStandardReporterListener_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iStandardReporterListener_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iStandardReporterListener_scfGetID")) goto fail;
-    result = (scfInterfaceID)iStandardReporterListener_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iStandardReporterListener_SetOutputConsole(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStandardReporterListener *arg1 = (iStandardReporterListener *) 0 ;
@@ -80983,20 +79062,6 @@ static PyObject * iStandardReporterListener_swigregister(PyObject *self, PyObjec
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iView_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iView_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iView_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iView_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iView_GetEngine(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iView *arg1 = (iView *) 0 ;
@@ -81234,6 +79299,20 @@ static PyObject *_wrap_delete_iView(PyObject *self, PyObject *args) {
     delete_iView(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iView_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iView_scfGetVersion")) goto fail;
+    result = (int)iView_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -81500,20 +79579,6 @@ static PyObject * csCollisionPair_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iCollider_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCollider_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCollider_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCollider_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_delete_iCollider(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCollider *arg1 = (iCollider *) 0 ;
@@ -81530,6 +79595,20 @@ static PyObject *_wrap_delete_iCollider(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iCollider_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iCollider_scfGetVersion")) goto fail;
+    result = (int)iCollider_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iCollider_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -81537,20 +79616,6 @@ static PyObject * iCollider_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iCollideSystem_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iCollideSystem_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iCollideSystem_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iCollideSystem_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iCollideSystem_CreateCollider(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCollideSystem *arg1 = (iCollideSystem *) 0 ;
@@ -81797,6 +79862,20 @@ static PyObject *_wrap_delete_iCollideSystem(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iCollideSystem_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iCollideSystem_scfGetVersion")) goto fail;
+    result = (int)iCollideSystem_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCollideSystem_GetCollisionPairByIndex(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCollideSystem *arg1 = (iCollideSystem *) 0 ;
@@ -81822,20 +79901,6 @@ static PyObject * iCollideSystem_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDynamics_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDynamics_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDynamics_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDynamics_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDynamics_CreateSystem(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDynamics *arg1 = (iDynamics *) 0 ;
@@ -81929,6 +79994,20 @@ static PyObject *_wrap_delete_iDynamics(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iDynamics_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iDynamics_scfGetVersion")) goto fail;
+    result = (int)iDynamics_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iDynamics_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -81936,20 +80015,6 @@ static PyObject * iDynamics_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDynamicSystem_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDynamicSystem_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDynamicSystem_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDynamicSystem_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iDynamicSystem_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDynamicSystem *arg1 = (iDynamicSystem *) 0 ;
@@ -82412,33 +80477,12 @@ static PyObject *_wrap_delete_iDynamicSystem(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iDynamicSystem_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iDynamicSystem, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iDynamicsMoveCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDynamicsMoveCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDynamicsMoveCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDynamicsMoveCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDynamicsMoveCallback_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iDynamicSystem_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iDynamicsMoveCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDynamicsMoveCallback_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iDynamicSystem_scfGetVersion")) goto fail;
+    result = (int)iDynamicSystem_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -82447,6 +80491,13 @@ static PyObject *_wrap_iDynamicsMoveCallback_scfGetID(PyObject *self, PyObject *
 }
 
 
+static PyObject * iDynamicSystem_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iDynamicSystem, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iDynamicsMoveCallback_Execute__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDynamicsMoveCallback *arg1 = (iDynamicsMoveCallback *) 0 ;
@@ -82657,34 +80708,6 @@ static PyObject * iDynamicsMoveCallback_swigregister(PyObject *self, PyObject *a
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iDynamicsCollisionCallback_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iDynamicsCollisionCallback_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iDynamicsCollisionCallback_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iDynamicsCollisionCallback_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iDynamicsCollisionCallback_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iDynamicsCollisionCallback_scfGetID")) goto fail;
-    result = (scfInterfaceID)iDynamicsCollisionCallback_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iDynamicsCollisionCallback_Execute(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iDynamicsCollisionCallback *arg1 = (iDynamicsCollisionCallback *) 0 ;
@@ -82730,20 +80753,6 @@ static PyObject * iDynamicsCollisionCallback_swigregister(PyObject *self, PyObje
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iBodyGroup_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iBodyGroup_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iBodyGroup_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iBodyGroup_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iBodyGroup_AddBody(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iBodyGroup *arg1 = (iBodyGroup *) 0 ;
@@ -82818,33 +80827,12 @@ static PyObject *_wrap_delete_iBodyGroup(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iBodyGroup_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iBodyGroup, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iRigidBody_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iRigidBody_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iRigidBody_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iRigidBody_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iRigidBody_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iBodyGroup_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iRigidBody_scfGetID")) goto fail;
-    result = (scfInterfaceID)iRigidBody_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iBodyGroup_scfGetVersion")) goto fail;
+    result = (int)iBodyGroup_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -82853,6 +80841,13 @@ static PyObject *_wrap_iRigidBody_scfGetID(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject * iBodyGroup_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iBodyGroup, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iRigidBody_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iRigidBody *arg1 = (iRigidBody *) 0 ;
@@ -83797,20 +81792,6 @@ static PyObject * iRigidBody_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iJoint_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iJoint_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iJoint_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iJoint_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iJoint_Attach(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iJoint *arg1 = (iJoint *) 0 ;
@@ -84244,33 +82225,12 @@ static PyObject *_wrap_delete_iJoint(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iJoint_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iJoint, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iConsoleWatcher_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iConsoleWatcher_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iConsoleWatcher_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iConsoleWatcher_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iConsoleWatcher_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iJoint_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iConsoleWatcher_scfGetID")) goto fail;
-    result = (scfInterfaceID)iConsoleWatcher_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iJoint_scfGetVersion")) goto fail;
+    result = (int)iJoint_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -84279,6 +82239,13 @@ static PyObject *_wrap_iConsoleWatcher_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iJoint_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iJoint, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iConsoleWatcher_ConsoleVisibilityChanged(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iConsoleWatcher *arg1 = (iConsoleWatcher *) 0 ;
@@ -84325,34 +82292,6 @@ static PyObject * iConsoleWatcher_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iConsoleOutput_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iConsoleOutput_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iConsoleOutput_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iConsoleOutput_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iConsoleOutput_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iConsoleOutput_scfGetID")) goto fail;
-    result = (scfInterfaceID)iConsoleOutput_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iConsoleOutput_PutText__varargs__(PyObject *self, PyObject *args, PyObject *varargs) {
     PyObject *resultobj;
     iConsoleOutput *arg1 = (iConsoleOutput *) 0 ;
@@ -84842,34 +82781,6 @@ static PyObject * iConsoleOutput_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iParameterESM_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iParameterESM_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iParameterESM_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iParameterESM_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iParameterESM_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iParameterESM_scfGetID")) goto fail;
-    result = (scfInterfaceID)iParameterESM_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iParameterESM_GetValue(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iParameterESM *arg1 = (iParameterESM *) 0 ;
@@ -84932,34 +82843,6 @@ static PyObject * iParameterESM_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEngineSequenceParameters_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEngineSequenceParameters_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEngineSequenceParameters_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEngineSequenceParameters_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iEngineSequenceParameters_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iEngineSequenceParameters_scfGetID")) goto fail;
-    result = (scfInterfaceID)iEngineSequenceParameters_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iEngineSequenceParameters_GetParameterCount(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEngineSequenceParameters *arg1 = (iEngineSequenceParameters *) 0 ;
@@ -85288,34 +83171,6 @@ static PyObject * iEngineSequenceParameters_swigregister(PyObject *self, PyObjec
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSequenceWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSequenceWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSequenceWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSequenceWrapper_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSequenceWrapper_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSequenceWrapper_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSequenceWrapper_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSequenceWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
@@ -86223,34 +84078,6 @@ static PyObject * iSequenceWrapper_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSequenceTrigger_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSequenceTrigger_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSequenceTrigger_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSequenceTrigger_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSequenceTrigger_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSequenceTrigger_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSequenceTrigger_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSequenceTrigger_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSequenceTrigger *arg1 = (iSequenceTrigger *) 0 ;
@@ -86759,34 +84586,6 @@ static PyObject * iSequenceTrigger_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iSequenceTimedOperation_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iSequenceTimedOperation_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iSequenceTimedOperation_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iSequenceTimedOperation_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iSequenceTimedOperation_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iSequenceTimedOperation_scfGetID")) goto fail;
-    result = (scfInterfaceID)iSequenceTimedOperation_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iSequenceTimedOperation_Do(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSequenceTimedOperation *arg1 = (iSequenceTimedOperation *) 0 ;
@@ -86830,34 +84629,6 @@ static PyObject * iSequenceTimedOperation_swigregister(PyObject *self, PyObject 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iEngineSequenceManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iEngineSequenceManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iEngineSequenceManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iEngineSequenceManager_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iEngineSequenceManager_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":iEngineSequenceManager_scfGetID")) goto fail;
-    result = (scfInterfaceID)iEngineSequenceManager_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iEngineSequenceManager_GetSequenceManager(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iEngineSequenceManager *arg1 = (iEngineSequenceManager *) 0 ;
@@ -87253,20 +85024,6 @@ static PyObject * iEngineSequenceManager_swigregister(PyObject *self, PyObject *
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iScriptObject_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iScriptObject_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iScriptObject_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iScriptObject_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iScriptObject_IsType(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iScriptObject *arg1 = (iScriptObject *) 0 ;
@@ -88039,6 +85796,20 @@ static PyObject *_wrap_delete_iScriptObject(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iScriptObject_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iScriptObject_scfGetVersion")) goto fail;
+    result = (int)iScriptObject_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iScriptObject_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -88046,20 +85817,6 @@ static PyObject * iScriptObject_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iScript_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iScript_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iScript_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iScript_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iScript_Initialize(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iScript *arg1 = (iScript *) 0 ;
@@ -88957,6 +86714,20 @@ static PyObject *_wrap_delete_iScript(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iScript_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iScript_scfGetVersion")) goto fail;
+    result = (int)iScript_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iScript_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -88964,20 +86735,6 @@ static PyObject * iScript_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkPacket_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkPacket_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkPacket_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkPacket_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkPacket_Read(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkPacket *arg1 = (iNetworkPacket *) 0 ;
@@ -89086,33 +86843,12 @@ static PyObject *_wrap_delete_iNetworkPacket(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject * iNetworkPacket_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_iNetworkPacket, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static int _wrap_iNetworkPacket2_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkPacket2_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkPacket2_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkPacket2_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_iNetworkPacket2_scfGetID(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iNetworkPacket_scfGetVersion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    scfInterfaceID result;
+    int result;
     
-    if(!PyArg_ParseTuple(args,(char *)":iNetworkPacket2_scfGetID")) goto fail;
-    result = (scfInterfaceID)iNetworkPacket2_scfGetID();
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkPacket_scfGetVersion")) goto fail;
+    result = (int)iNetworkPacket_scfGetVersion();
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -89121,6 +86857,13 @@ static PyObject *_wrap_iNetworkPacket2_scfGetID(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject * iNetworkPacket_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_iNetworkPacket, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_iNetworkPacket2_Read(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkPacket2 *arg1 = (iNetworkPacket2 *) 0 ;
@@ -89234,20 +86977,6 @@ static PyObject * iNetworkPacket2_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkManager_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkManager_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkManager_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkManager_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkManager_RegisterConnection(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkManager *arg1 = (iNetworkManager *) 0 ;
@@ -89654,6 +87383,20 @@ static PyObject *_wrap_delete_iNetworkManager(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iNetworkManager_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkManager_scfGetVersion")) goto fail;
+    result = (int)iNetworkManager_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iNetworkManager_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -89846,20 +87589,6 @@ static PyObject * csNetworkDriverCapabilities_swigregister(PyObject *self, PyObj
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkEndPoint_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkEndPoint_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkEndPoint_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkEndPoint_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkEndPoint_Terminate(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkEndPoint *arg1 = (iNetworkEndPoint *) 0 ;
@@ -89928,6 +87657,20 @@ static PyObject *_wrap_delete_iNetworkEndPoint(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iNetworkEndPoint_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkEndPoint_scfGetVersion")) goto fail;
+    result = (int)iNetworkEndPoint_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iNetworkEndPoint_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -89935,20 +87678,6 @@ static PyObject * iNetworkEndPoint_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkConnection_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkConnection_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkConnection_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkConnection_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkConnection_Send(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkConnection *arg1 = (iNetworkConnection *) 0 ;
@@ -90175,6 +87904,20 @@ static PyObject *_wrap_delete_iNetworkConnection(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *_wrap_iNetworkConnection_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkConnection_scfGetVersion")) goto fail;
+    result = (int)iNetworkConnection_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iNetworkConnection_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -90182,20 +87925,6 @@ static PyObject * iNetworkConnection_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkListener_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkListener_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkListener_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkListener_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkListener_Accept(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkListener *arg1 = (iNetworkListener *) 0 ;
@@ -90235,6 +87964,20 @@ static PyObject *_wrap_delete_iNetworkListener(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iNetworkListener_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkListener_scfGetVersion")) goto fail;
+    result = (int)iNetworkListener_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iNetworkListener_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -90242,20 +87985,6 @@ static PyObject * iNetworkListener_swigregister(PyObject *self, PyObject *args) 
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkDriver_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkDriver_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkDriver_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkDriver_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkDriver_NewConnection(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkDriver *arg1 = (iNetworkDriver *) 0 ;
@@ -90388,6 +88117,20 @@ static PyObject *_wrap_delete_iNetworkDriver(PyObject *self, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iNetworkDriver_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkDriver_scfGetVersion")) goto fail;
+    result = (int)iNetworkDriver_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject * iNetworkDriver_swigregister(PyObject *self, PyObject *args) {
     PyObject *obj;
     if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
@@ -90395,20 +88138,6 @@ static PyObject * iNetworkDriver_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_iNetworkSocket2_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable iNetworkSocket2_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_iNetworkSocket2_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)iNetworkSocket2_VERSION);
-    return pyobj;
-}
-
-
 static PyObject *_wrap_iNetworkSocket2_IsConnected(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkSocket2 *arg1 = (iNetworkSocket2 *) 0 ;
@@ -90708,6 +88437,20 @@ static PyObject *_wrap_delete_iNetworkSocket2(PyObject *self, PyObject *args) {
     delete_iNetworkSocket2(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iNetworkSocket2_scfGetVersion(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":iNetworkSocket2_scfGetVersion")) goto fail;
+    result = (int)iNetworkSocket2_scfGetVersion();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -91883,34 +89626,6 @@ static PyObject * csView_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static int _wrap_csColliderWrapper_VERSION_set(PyObject *_val) {
-    PyErr_SetString(PyExc_TypeError,"Variable csColliderWrapper_VERSION is read-only.");
-    return 1;
-}
-
-
-static PyObject *_wrap_csColliderWrapper_VERSION_get() {
-    PyObject *pyobj;
-    
-    pyobj = PyInt_FromLong((long)csColliderWrapper_VERSION);
-    return pyobj;
-}
-
-
-static PyObject *_wrap_csColliderWrapper_scfGetID(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    scfInterfaceID result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":csColliderWrapper_scfGetID")) goto fail;
-    result = (scfInterfaceID)csColliderWrapper_scfGetID();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_new_csColliderWrapper__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csObject *arg1 = 0 ;
@@ -99761,6 +97476,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBase_AddRefOwner", _wrap_iBase_AddRefOwner, METH_VARARGS },
 	 { (char *)"iBase_RemoveRefOwner", _wrap_iBase_RemoveRefOwner, METH_VARARGS },
 	 { (char *)"delete_iBase", _wrap_delete_iBase, METH_VARARGS },
+	 { (char *)"iBase_scfGetVersion", _wrap_iBase_scfGetVersion, METH_VARARGS },
 	 { (char *)"iBase__DynamicCast", _wrap_iBase__DynamicCast, METH_VARARGS },
 	 { (char *)"iBase_swigregister", iBase_swigregister, METH_VARARGS },
 	 { (char *)"iFactory_CreateInstance", _wrap_iFactory_CreateInstance, METH_VARARGS },
@@ -99769,6 +97485,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iFactory_QueryDependencies", _wrap_iFactory_QueryDependencies, METH_VARARGS },
 	 { (char *)"iFactory_QueryClassID", _wrap_iFactory_QueryClassID, METH_VARARGS },
 	 { (char *)"delete_iFactory", _wrap_delete_iFactory, METH_VARARGS },
+	 { (char *)"iFactory_scfGetVersion", _wrap_iFactory_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFactory_swigregister", iFactory_swigregister, METH_VARARGS },
 	 { (char *)"scfInitialize", _wrap_scfInitialize, METH_VARARGS },
 	 { (char *)"scfCompatibleVersion", _wrap_scfCompatibleVersion, METH_VARARGS },
@@ -99787,6 +97504,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSCF_ScanPluginsPath", _wrap_iSCF_ScanPluginsPath, METH_VARARGS },
 	 { (char *)"iSCF_RegisterPlugin", _wrap_iSCF_RegisterPlugin, METH_VARARGS },
 	 { (char *)"delete_iSCF", _wrap_delete_iSCF, METH_VARARGS },
+	 { (char *)"iSCF_scfGetVersion", _wrap_iSCF_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSCF_swigregister", iSCF_swigregister, METH_VARARGS },
 	 { (char *)"iDebugHelper_GetSupportedTests", _wrap_iDebugHelper_GetSupportedTests, METH_VARARGS },
 	 { (char *)"iDebugHelper_UnitTest", _wrap_iDebugHelper_UnitTest, METH_VARARGS },
@@ -99795,6 +97513,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDebugHelper_Dump", _wrap_iDebugHelper_Dump, METH_VARARGS },
 	 { (char *)"iDebugHelper_DebugCommand", _wrap_iDebugHelper_DebugCommand, METH_VARARGS },
 	 { (char *)"delete_iDebugHelper", _wrap_delete_iDebugHelper, METH_VARARGS },
+	 { (char *)"iDebugHelper_scfGetVersion", _wrap_iDebugHelper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDebugHelper_swigregister", iDebugHelper_swigregister, METH_VARARGS },
 	 { (char *)"csColor_red_set", _wrap_csColor_red_set, METH_VARARGS },
 	 { (char *)"csColor_red_get", _wrap_csColor_red_get, METH_VARARGS },
@@ -99866,6 +97585,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iString_Downcase", _wrap_iString_Downcase, METH_VARARGS },
 	 { (char *)"iString_Upcase", _wrap_iString_Upcase, METH_VARARGS },
 	 { (char *)"delete_iString", _wrap_delete_iString, METH_VARARGS },
+	 { (char *)"iString_scfGetVersion", _wrap_iString_scfGetVersion, METH_VARARGS },
 	 { (char *)"iString___getitem__", _wrap_iString___getitem__, METH_VARARGS },
 	 { (char *)"iString___setitem__", _wrap_iString___setitem__, METH_VARARGS },
 	 { (char *)"iString_swigregister", iString_swigregister, METH_VARARGS },
@@ -100532,6 +98252,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPolygonMesh_GetFlags", _wrap_iPolygonMesh_GetFlags, METH_VARARGS },
 	 { (char *)"iPolygonMesh_GetChangeNumber", _wrap_iPolygonMesh_GetChangeNumber, METH_VARARGS },
 	 { (char *)"delete_iPolygonMesh", _wrap_delete_iPolygonMesh, METH_VARARGS },
+	 { (char *)"iPolygonMesh_scfGetVersion", _wrap_iPolygonMesh_scfGetVersion, METH_VARARGS },
 	 { (char *)"iPolygonMesh_swigregister", iPolygonMesh_swigregister, METH_VARARGS },
 	 { (char *)"csVertexStatus_Type_set", _wrap_csVertexStatus_Type_set, METH_VARARGS },
 	 { (char *)"csVertexStatus_Type_get", _wrap_csVertexStatus_Type_get, METH_VARARGS },
@@ -100542,7 +98263,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_csVertexStatus", _wrap_new_csVertexStatus, METH_VARARGS },
 	 { (char *)"delete_csVertexStatus", _wrap_delete_csVertexStatus, METH_VARARGS },
 	 { (char *)"csVertexStatus_swigregister", csVertexStatus_swigregister, METH_VARARGS },
-	 { (char *)"iClipper2D_scfGetID", _wrap_iClipper2D_scfGetID, METH_VARARGS },
 	 { (char *)"iClipper2D_Clip", _wrap_iClipper2D_Clip, METH_VARARGS },
 	 { (char *)"iClipper2D_ClipInPlace", _wrap_iClipper2D_ClipInPlace, METH_VARARGS },
 	 { (char *)"iClipper2D_ClassifyBox", _wrap_iClipper2D_ClassifyBox, METH_VARARGS },
@@ -100553,6 +98273,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iClipper2D_swigregister", iClipper2D_swigregister, METH_VARARGS },
 	 { (char *)"iObjectModelListener_ObjectModelChanged", _wrap_iObjectModelListener_ObjectModelChanged, METH_VARARGS },
 	 { (char *)"delete_iObjectModelListener", _wrap_delete_iObjectModelListener, METH_VARARGS },
+	 { (char *)"iObjectModelListener_scfGetVersion", _wrap_iObjectModelListener_scfGetVersion, METH_VARARGS },
 	 { (char *)"iObjectModelListener_swigregister", iObjectModelListener_swigregister, METH_VARARGS },
 	 { (char *)"iObjectModel_GetShapeNumber", _wrap_iObjectModel_GetShapeNumber, METH_VARARGS },
 	 { (char *)"iObjectModel_GetPolygonMeshBase", _wrap_iObjectModel_GetPolygonMeshBase, METH_VARARGS },
@@ -100568,8 +98289,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iObjectModel_AddListener", _wrap_iObjectModel_AddListener, METH_VARARGS },
 	 { (char *)"iObjectModel_RemoveListener", _wrap_iObjectModel_RemoveListener, METH_VARARGS },
 	 { (char *)"delete_iObjectModel", _wrap_delete_iObjectModel, METH_VARARGS },
+	 { (char *)"iObjectModel_scfGetVersion", _wrap_iObjectModel_scfGetVersion, METH_VARARGS },
 	 { (char *)"iObjectModel_swigregister", iObjectModel_swigregister, METH_VARARGS },
 	 { (char *)"delete_iFrustumViewUserdata", _wrap_delete_iFrustumViewUserdata, METH_VARARGS },
+	 { (char *)"iFrustumViewUserdata_scfGetVersion", _wrap_iFrustumViewUserdata_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFrustumViewUserdata_swigregister", iFrustumViewUserdata_swigregister, METH_VARARGS },
 	 { (char *)"new_csFrustumContext", _wrap_new_csFrustumContext, METH_VARARGS },
 	 { (char *)"csFrustumContext_assign", _wrap_csFrustumContext_assign, METH_VARARGS },
@@ -100601,8 +98324,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iFrustumView_GetUserdata", _wrap_iFrustumView_GetUserdata, METH_VARARGS },
 	 { (char *)"iFrustumView_CreateShadowBlock", _wrap_iFrustumView_CreateShadowBlock, METH_VARARGS },
 	 { (char *)"delete_iFrustumView", _wrap_delete_iFrustumView, METH_VARARGS },
+	 { (char *)"iFrustumView_scfGetVersion", _wrap_iFrustumView_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFrustumView_swigregister", iFrustumView_swigregister, METH_VARARGS },
-	 { (char *)"iLightCallback_scfGetID", _wrap_iLightCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iLightCallback_OnColorChange", _wrap_iLightCallback_OnColorChange, METH_VARARGS },
 	 { (char *)"iLightCallback_OnPositionChange", _wrap_iLightCallback_OnPositionChange, METH_VARARGS },
 	 { (char *)"iLightCallback_OnSectorChange", _wrap_iLightCallback_OnSectorChange, METH_VARARGS },
@@ -100610,7 +98333,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iLightCallback_OnDestroy", _wrap_iLightCallback_OnDestroy, METH_VARARGS },
 	 { (char *)"delete_iLightCallback", _wrap_delete_iLightCallback, METH_VARARGS },
 	 { (char *)"iLightCallback_swigregister", iLightCallback_swigregister, METH_VARARGS },
-	 { (char *)"iLight_scfGetID", _wrap_iLight_scfGetID, METH_VARARGS },
 	 { (char *)"iLight_GetPrivateObject", _wrap_iLight_GetPrivateObject, METH_VARARGS },
 	 { (char *)"iLight_GetLightID", _wrap_iLight_GetLightID, METH_VARARGS },
 	 { (char *)"iLight_QueryObject", _wrap_iLight_QueryObject, METH_VARARGS },
@@ -100651,12 +98373,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iLightList_FindByName", _wrap_iLightList_FindByName, METH_VARARGS },
 	 { (char *)"iLightList_FindByID", _wrap_iLightList_FindByID, METH_VARARGS },
 	 { (char *)"delete_iLightList", _wrap_delete_iLightList, METH_VARARGS },
+	 { (char *)"iLightList_scfGetVersion", _wrap_iLightList_scfGetVersion, METH_VARARGS },
 	 { (char *)"iLightList_swigregister", iLightList_swigregister, METH_VARARGS },
-	 { (char *)"iLightingProcessData_scfGetID", _wrap_iLightingProcessData_scfGetID, METH_VARARGS },
 	 { (char *)"iLightingProcessData_FinalizeLighting", _wrap_iLightingProcessData_FinalizeLighting, METH_VARARGS },
 	 { (char *)"delete_iLightingProcessData", _wrap_delete_iLightingProcessData, METH_VARARGS },
 	 { (char *)"iLightingProcessData_swigregister", iLightingProcessData_swigregister, METH_VARARGS },
-	 { (char *)"iLightingProcessInfo_scfGetID", _wrap_iLightingProcessInfo_scfGetID, METH_VARARGS },
 	 { (char *)"iLightingProcessInfo_GetLight", _wrap_iLightingProcessInfo_GetLight, METH_VARARGS },
 	 { (char *)"iLightingProcessInfo_IsDynamic", _wrap_iLightingProcessInfo_IsDynamic, METH_VARARGS },
 	 { (char *)"iLightingProcessInfo_SetColor", _wrap_iLightingProcessInfo_SetColor, METH_VARARGS },
@@ -100666,7 +98387,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iLightingProcessInfo_FinalizeLighting", _wrap_iLightingProcessInfo_FinalizeLighting, METH_VARARGS },
 	 { (char *)"delete_iLightingProcessInfo", _wrap_delete_iLightingProcessInfo, METH_VARARGS },
 	 { (char *)"iLightingProcessInfo_swigregister", iLightingProcessInfo_swigregister, METH_VARARGS },
-	 { (char *)"iLightIterator_scfGetID", _wrap_iLightIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iLightIterator_HasNext", _wrap_iLightIterator_HasNext, METH_VARARGS },
 	 { (char *)"iLightIterator_Next", _wrap_iLightIterator_Next, METH_VARARGS },
 	 { (char *)"iLightIterator_GetLastSector", _wrap_iLightIterator_GetLastSector, METH_VARARGS },
@@ -100678,8 +98398,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStatLight_QueryLight", _wrap_iStatLight_QueryLight, METH_VARARGS },
 	 { (char *)"iStatLight_AddAffectedLightingInfo", _wrap_iStatLight_AddAffectedLightingInfo, METH_VARARGS },
 	 { (char *)"delete_iStatLight", _wrap_delete_iStatLight, METH_VARARGS },
+	 { (char *)"iStatLight_scfGetVersion", _wrap_iStatLight_scfGetVersion, METH_VARARGS },
 	 { (char *)"iStatLight_swigregister", iStatLight_swigregister, METH_VARARGS },
-	 { (char *)"iSectorCallback_scfGetID", _wrap_iSectorCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iSectorCallback_Traverse", _wrap_iSectorCallback_Traverse, METH_VARARGS },
 	 { (char *)"delete_iSectorCallback", _wrap_delete_iSectorCallback, METH_VARARGS },
 	 { (char *)"iSectorCallback_swigregister", iSectorCallback_swigregister, METH_VARARGS },
@@ -100713,6 +98433,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSector_RegisterPortalMesh", _wrap_iSector_RegisterPortalMesh, METH_VARARGS },
 	 { (char *)"iSector_UnregisterPortalMesh", _wrap_iSector_UnregisterPortalMesh, METH_VARARGS },
 	 { (char *)"delete_iSector", _wrap_delete_iSector, METH_VARARGS },
+	 { (char *)"iSector_scfGetVersion", _wrap_iSector_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSector_swigregister", iSector_swigregister, METH_VARARGS },
 	 { (char *)"iSectorList_GetCount", _wrap_iSectorList_GetCount, METH_VARARGS },
 	 { (char *)"iSectorList_Get", _wrap_iSectorList_Get, METH_VARARGS },
@@ -100722,8 +98443,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSectorList_Find", _wrap_iSectorList_Find, METH_VARARGS },
 	 { (char *)"iSectorList_FindByName", _wrap_iSectorList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iSectorList", _wrap_delete_iSectorList, METH_VARARGS },
+	 { (char *)"iSectorList_scfGetVersion", _wrap_iSectorList_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSectorList_swigregister", iSectorList_swigregister, METH_VARARGS },
-	 { (char *)"iSectorIterator_scfGetID", _wrap_iSectorIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iSectorIterator_HasNext", _wrap_iSectorIterator_HasNext, METH_VARARGS },
 	 { (char *)"iSectorIterator_Next", _wrap_iSectorIterator_Next, METH_VARARGS },
 	 { (char *)"iSectorIterator_GetLastPosition", _wrap_iSectorIterator_GetLastPosition, METH_VARARGS },
@@ -100829,6 +98550,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iEngine_SetCurrentDefaultRenderloop", _wrap_iEngine_SetCurrentDefaultRenderloop, METH_VARARGS },
 	 { (char *)"iEngine_GetCurrentFrameNumber", _wrap_iEngine_GetCurrentFrameNumber, METH_VARARGS },
 	 { (char *)"delete_iEngine", _wrap_delete_iEngine, METH_VARARGS },
+	 { (char *)"iEngine_scfGetVersion", _wrap_iEngine_scfGetVersion, METH_VARARGS },
 	 { (char *)"iEngine_swigregister", iEngine_swigregister, METH_VARARGS },
 	 { (char *)"iCamera_Clone", _wrap_iCamera_Clone, METH_VARARGS },
 	 { (char *)"iCamera_GetFOV", _wrap_iCamera_GetFOV, METH_VARARGS },
@@ -100858,6 +98580,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCamera_OnlyPortals", _wrap_iCamera_OnlyPortals, METH_VARARGS },
 	 { (char *)"iCamera_GetOnlyPortals", _wrap_iCamera_GetOnlyPortals, METH_VARARGS },
 	 { (char *)"delete_iCamera", _wrap_delete_iCamera, METH_VARARGS },
+	 { (char *)"iCamera_scfGetVersion", _wrap_iCamera_scfGetVersion, METH_VARARGS },
 	 { (char *)"iCamera_swigregister", iCamera_swigregister, METH_VARARGS },
 	 { (char *)"iCameraPosition_QueryObject", _wrap_iCameraPosition_QueryObject, METH_VARARGS },
 	 { (char *)"iCameraPosition_Clone", _wrap_iCameraPosition_Clone, METH_VARARGS },
@@ -100875,8 +98598,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCameraPosition_ClearFarPlane", _wrap_iCameraPosition_ClearFarPlane, METH_VARARGS },
 	 { (char *)"iCameraPosition_GetFarPlane", _wrap_iCameraPosition_GetFarPlane, METH_VARARGS },
 	 { (char *)"delete_iCameraPosition", _wrap_delete_iCameraPosition, METH_VARARGS },
+	 { (char *)"iCameraPosition_scfGetVersion", _wrap_iCameraPosition_scfGetVersion, METH_VARARGS },
 	 { (char *)"iCameraPosition_swigregister", iCameraPosition_swigregister, METH_VARARGS },
-	 { (char *)"iCameraPositionList_scfGetID", _wrap_iCameraPositionList_scfGetID, METH_VARARGS },
 	 { (char *)"iCameraPositionList_NewCameraPosition", _wrap_iCameraPositionList_NewCameraPosition, METH_VARARGS },
 	 { (char *)"iCameraPositionList_GetCount", _wrap_iCameraPositionList_GetCount, METH_VARARGS },
 	 { (char *)"iCameraPositionList_Get", _wrap_iCameraPositionList_Get, METH_VARARGS },
@@ -100887,7 +98610,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCameraPositionList_FindByName", _wrap_iCameraPositionList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iCameraPositionList", _wrap_delete_iCameraPositionList, METH_VARARGS },
 	 { (char *)"iCameraPositionList_swigregister", iCameraPositionList_swigregister, METH_VARARGS },
-	 { (char *)"iTextureCallback_scfGetID", _wrap_iTextureCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iTextureCallback_UseTexture", _wrap_iTextureCallback_UseTexture, METH_VARARGS },
 	 { (char *)"delete_iTextureCallback", _wrap_delete_iTextureCallback, METH_VARARGS },
 	 { (char *)"iTextureCallback_swigregister", iTextureCallback_swigregister, METH_VARARGS },
@@ -100909,6 +98631,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iTextureWrapper_SetKeepImage", _wrap_iTextureWrapper_SetKeepImage, METH_VARARGS },
 	 { (char *)"iTextureWrapper_KeepImage", _wrap_iTextureWrapper_KeepImage, METH_VARARGS },
 	 { (char *)"delete_iTextureWrapper", _wrap_delete_iTextureWrapper, METH_VARARGS },
+	 { (char *)"iTextureWrapper_scfGetVersion", _wrap_iTextureWrapper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iTextureWrapper_swigregister", iTextureWrapper_swigregister, METH_VARARGS },
 	 { (char *)"iTextureList_NewTexture", _wrap_iTextureList_NewTexture, METH_VARARGS },
 	 { (char *)"iTextureList_GetCount", _wrap_iTextureList_GetCount, METH_VARARGS },
@@ -100919,6 +98642,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iTextureList_Find", _wrap_iTextureList_Find, METH_VARARGS },
 	 { (char *)"iTextureList_FindByName", _wrap_iTextureList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iTextureList", _wrap_delete_iTextureList, METH_VARARGS },
+	 { (char *)"iTextureList_scfGetVersion", _wrap_iTextureList_scfGetVersion, METH_VARARGS },
 	 { (char *)"iTextureList_swigregister", iTextureList_swigregister, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_QueryObject", _wrap_iMaterialWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_Clone", _wrap_iMaterialWrapper_Clone, METH_VARARGS },
@@ -100930,14 +98654,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMaterialWrapper_Visit", _wrap_iMaterialWrapper_Visit, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_IsVisitRequired", _wrap_iMaterialWrapper_IsVisitRequired, METH_VARARGS },
 	 { (char *)"delete_iMaterialWrapper", _wrap_delete_iMaterialWrapper, METH_VARARGS },
+	 { (char *)"iMaterialWrapper_scfGetVersion", _wrap_iMaterialWrapper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_swigregister", iMaterialWrapper_swigregister, METH_VARARGS },
-	 { (char *)"iMaterialEngine_scfGetID", _wrap_iMaterialEngine_scfGetID, METH_VARARGS },
 	 { (char *)"iMaterialEngine_GetTextureWrapper", _wrap_iMaterialEngine_GetTextureWrapper, METH_VARARGS },
 	 { (char *)"iMaterialEngine_Visit", _wrap_iMaterialEngine_Visit, METH_VARARGS },
 	 { (char *)"iMaterialEngine_IsVisitRequired", _wrap_iMaterialEngine_IsVisitRequired, METH_VARARGS },
 	 { (char *)"delete_iMaterialEngine", _wrap_delete_iMaterialEngine, METH_VARARGS },
 	 { (char *)"iMaterialEngine_swigregister", iMaterialEngine_swigregister, METH_VARARGS },
-	 { (char *)"iMaterialList_scfGetID", _wrap_iMaterialList_scfGetID, METH_VARARGS },
 	 { (char *)"iMaterialList_NewMaterial", _wrap_iMaterialList_NewMaterial, METH_VARARGS },
 	 { (char *)"iMaterialList_GetCount", _wrap_iMaterialList_GetCount, METH_VARARGS },
 	 { (char *)"iMaterialList_Get", _wrap_iMaterialList_Get, METH_VARARGS },
@@ -100948,7 +98671,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMaterialList_FindByName", _wrap_iMaterialList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iMaterialList", _wrap_delete_iMaterialList, METH_VARARGS },
 	 { (char *)"iMaterialList_swigregister", iMaterialList_swigregister, METH_VARARGS },
-	 { (char *)"iMeshDrawCallback_scfGetID", _wrap_iMeshDrawCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iMeshDrawCallback_BeforeDrawing", _wrap_iMeshDrawCallback_BeforeDrawing, METH_VARARGS },
 	 { (char *)"delete_iMeshDrawCallback", _wrap_delete_iMeshDrawCallback, METH_VARARGS },
 	 { (char *)"iMeshDrawCallback_swigregister", iMeshDrawCallback_swigregister, METH_VARARGS },
@@ -100999,6 +98721,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshWrapper_SetDrawAfterShadow", _wrap_iMeshWrapper_SetDrawAfterShadow, METH_VARARGS },
 	 { (char *)"iMeshWrapper_GetDrawAfterShadow", _wrap_iMeshWrapper_GetDrawAfterShadow, METH_VARARGS },
 	 { (char *)"delete_iMeshWrapper", _wrap_delete_iMeshWrapper, METH_VARARGS },
+	 { (char *)"iMeshWrapper_scfGetVersion", _wrap_iMeshWrapper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMeshWrapper_swigregister", iMeshWrapper_swigregister, METH_VARARGS },
 	 { (char *)"iMeshFactoryWrapper_QueryObject", _wrap_iMeshFactoryWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"iMeshFactoryWrapper_GetMeshObjectFactory", _wrap_iMeshFactoryWrapper_GetMeshObjectFactory, METH_VARARGS },
@@ -101017,8 +98740,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshFactoryWrapper_AddFactoryToStaticLOD", _wrap_iMeshFactoryWrapper_AddFactoryToStaticLOD, METH_VARARGS },
 	 { (char *)"iMeshFactoryWrapper_RemoveFactoryFromStaticLOD", _wrap_iMeshFactoryWrapper_RemoveFactoryFromStaticLOD, METH_VARARGS },
 	 { (char *)"delete_iMeshFactoryWrapper", _wrap_delete_iMeshFactoryWrapper, METH_VARARGS },
+	 { (char *)"iMeshFactoryWrapper_scfGetVersion", _wrap_iMeshFactoryWrapper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMeshFactoryWrapper_swigregister", iMeshFactoryWrapper_swigregister, METH_VARARGS },
-	 { (char *)"iMeshList_scfGetID", _wrap_iMeshList_scfGetID, METH_VARARGS },
 	 { (char *)"iMeshList_GetCount", _wrap_iMeshList_GetCount, METH_VARARGS },
 	 { (char *)"iMeshList_Get", _wrap_iMeshList_Get, METH_VARARGS },
 	 { (char *)"iMeshList_Add", _wrap_iMeshList_Add, METH_VARARGS },
@@ -101028,7 +98751,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshList_FindByName", _wrap_iMeshList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iMeshList", _wrap_delete_iMeshList, METH_VARARGS },
 	 { (char *)"iMeshList_swigregister", iMeshList_swigregister, METH_VARARGS },
-	 { (char *)"iMeshFactoryList_scfGetID", _wrap_iMeshFactoryList_scfGetID, METH_VARARGS },
 	 { (char *)"iMeshFactoryList_GetCount", _wrap_iMeshFactoryList_GetCount, METH_VARARGS },
 	 { (char *)"iMeshFactoryList_Get", _wrap_iMeshFactoryList_Get, METH_VARARGS },
 	 { (char *)"iMeshFactoryList_Add", _wrap_iMeshFactoryList_Add, METH_VARARGS },
@@ -101038,7 +98760,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshFactoryList_FindByName", _wrap_iMeshFactoryList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iMeshFactoryList", _wrap_delete_iMeshFactoryList, METH_VARARGS },
 	 { (char *)"iMeshFactoryList_swigregister", iMeshFactoryList_swigregister, METH_VARARGS },
-	 { (char *)"iMeshWrapperIterator_scfGetID", _wrap_iMeshWrapperIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iMeshWrapperIterator_Next", _wrap_iMeshWrapperIterator_Next, METH_VARARGS },
 	 { (char *)"iMeshWrapperIterator_Reset", _wrap_iMeshWrapperIterator_Reset, METH_VARARGS },
 	 { (char *)"iMeshWrapperIterator_HasNext", _wrap_iMeshWrapperIterator_HasNext, METH_VARARGS },
@@ -101047,6 +98768,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMovableListener_MovableChanged", _wrap_iMovableListener_MovableChanged, METH_VARARGS },
 	 { (char *)"iMovableListener_MovableDestroyed", _wrap_iMovableListener_MovableDestroyed, METH_VARARGS },
 	 { (char *)"delete_iMovableListener", _wrap_delete_iMovableListener, METH_VARARGS },
+	 { (char *)"iMovableListener_scfGetVersion", _wrap_iMovableListener_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMovableListener_swigregister", iMovableListener_swigregister, METH_VARARGS },
 	 { (char *)"iMovable_GetParent", _wrap_iMovable_GetParent, METH_VARARGS },
 	 { (char *)"iMovable_SetParent", _wrap_iMovable_SetParent, METH_VARARGS },
@@ -101070,8 +98792,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMovable_IsFullTransformIdentity", _wrap_iMovable_IsFullTransformIdentity, METH_VARARGS },
 	 { (char *)"iMovable_TransformIdentity", _wrap_iMovable_TransformIdentity, METH_VARARGS },
 	 { (char *)"delete_iMovable", _wrap_delete_iMovable, METH_VARARGS },
+	 { (char *)"iMovable_scfGetVersion", _wrap_iMovable_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMovable_swigregister", iMovable_swigregister, METH_VARARGS },
-	 { (char *)"iRegion_scfGetID", _wrap_iRegion_scfGetID, METH_VARARGS },
 	 { (char *)"iRegion_QueryObject", _wrap_iRegion_QueryObject, METH_VARARGS },
 	 { (char *)"iRegion_Add", _wrap_iRegion_Add, METH_VARARGS },
 	 { (char *)"iRegion_Clear", _wrap_iRegion_Clear, METH_VARARGS },
@@ -101089,7 +98811,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iRegion_IsInRegion", _wrap_iRegion_IsInRegion, METH_VARARGS },
 	 { (char *)"delete_iRegion", _wrap_delete_iRegion, METH_VARARGS },
 	 { (char *)"iRegion_swigregister", iRegion_swigregister, METH_VARARGS },
-	 { (char *)"iRegionList_scfGetID", _wrap_iRegionList_scfGetID, METH_VARARGS },
 	 { (char *)"iRegionList_GetCount", _wrap_iRegionList_GetCount, METH_VARARGS },
 	 { (char *)"iRegionList_Get", _wrap_iRegionList_Get, METH_VARARGS },
 	 { (char *)"iRegionList_Add", _wrap_iRegionList_Add, METH_VARARGS },
@@ -101099,13 +98820,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iRegionList_FindByName", _wrap_iRegionList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iRegionList", _wrap_delete_iRegionList, METH_VARARGS },
 	 { (char *)"iRegionList_swigregister", iRegionList_swigregister, METH_VARARGS },
-	 { (char *)"iVisibilityObjectIterator_scfGetID", _wrap_iVisibilityObjectIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iVisibilityObjectIterator_HasNext", _wrap_iVisibilityObjectIterator_HasNext, METH_VARARGS },
 	 { (char *)"iVisibilityObjectIterator_Next", _wrap_iVisibilityObjectIterator_Next, METH_VARARGS },
 	 { (char *)"iVisibilityObjectIterator_Reset", _wrap_iVisibilityObjectIterator_Reset, METH_VARARGS },
 	 { (char *)"delete_iVisibilityObjectIterator", _wrap_delete_iVisibilityObjectIterator, METH_VARARGS },
 	 { (char *)"iVisibilityObjectIterator_swigregister", iVisibilityObjectIterator_swigregister, METH_VARARGS },
-	 { (char *)"iVisibilityCullerListener_scfGetID", _wrap_iVisibilityCullerListener_scfGetID, METH_VARARGS },
 	 { (char *)"iVisibilityCullerListener_ObjectVisible", _wrap_iVisibilityCullerListener_ObjectVisible, METH_VARARGS },
 	 { (char *)"delete_iVisibilityCullerListener", _wrap_delete_iVisibilityCullerListener, METH_VARARGS },
 	 { (char *)"iVisibilityCullerListener_swigregister", iVisibilityCullerListener_swigregister, METH_VARARGS },
@@ -101116,8 +98835,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iVisibilityCuller_IntersectSegment", _wrap_iVisibilityCuller_IntersectSegment, METH_VARARGS },
 	 { (char *)"iVisibilityCuller_CastShadows", _wrap_iVisibilityCuller_CastShadows, METH_VARARGS },
 	 { (char *)"delete_iVisibilityCuller", _wrap_delete_iVisibilityCuller, METH_VARARGS },
+	 { (char *)"iVisibilityCuller_scfGetVersion", _wrap_iVisibilityCuller_scfGetVersion, METH_VARARGS },
 	 { (char *)"iVisibilityCuller_swigregister", iVisibilityCuller_swigregister, METH_VARARGS },
-	 { (char *)"iVisibilityObject_scfGetID", _wrap_iVisibilityObject_scfGetID, METH_VARARGS },
 	 { (char *)"iVisibilityObject_GetMovable", _wrap_iVisibilityObject_GetMovable, METH_VARARGS },
 	 { (char *)"iVisibilityObject_GetMeshWrapper", _wrap_iVisibilityObject_GetMeshWrapper, METH_VARARGS },
 	 { (char *)"iVisibilityObject_SetVisibilityNumber", _wrap_iVisibilityObject_SetVisibilityNumber, METH_VARARGS },
@@ -101140,8 +98859,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iModelConverter_Load", _wrap_iModelConverter_Load, METH_VARARGS },
 	 { (char *)"iModelConverter_Save", _wrap_iModelConverter_Save, METH_VARARGS },
 	 { (char *)"delete_iModelConverter", _wrap_delete_iModelConverter, METH_VARARGS },
+	 { (char *)"iModelConverter_scfGetVersion", _wrap_iModelConverter_scfGetVersion, METH_VARARGS },
 	 { (char *)"iModelConverter_swigregister", iModelConverter_swigregister, METH_VARARGS },
-	 { (char *)"iMeshObjectDrawCallback_scfGetID", _wrap_iMeshObjectDrawCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iMeshObjectDrawCallback_BeforeDrawing", _wrap_iMeshObjectDrawCallback_BeforeDrawing, METH_VARARGS },
 	 { (char *)"delete_iMeshObjectDrawCallback", _wrap_delete_iMeshObjectDrawCallback, METH_VARARGS },
 	 { (char *)"iMeshObjectDrawCallback_swigregister", iMeshObjectDrawCallback_swigregister, METH_VARARGS },
@@ -101166,6 +98885,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshObject_GetMaterialWrapper", _wrap_iMeshObject_GetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iMeshObject_InvalidateMaterialHandles", _wrap_iMeshObject_InvalidateMaterialHandles, METH_VARARGS },
 	 { (char *)"delete_iMeshObject", _wrap_delete_iMeshObject, METH_VARARGS },
+	 { (char *)"iMeshObject_scfGetVersion", _wrap_iMeshObject_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMeshObject_swigregister", iMeshObject_swigregister, METH_VARARGS },
 	 { (char *)"iMeshObjectFactory_NewInstance", _wrap_iMeshObjectFactory_NewInstance, METH_VARARGS },
 	 { (char *)"iMeshObjectFactory_HardTransform", _wrap_iMeshObjectFactory_HardTransform, METH_VARARGS },
@@ -101174,9 +98894,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshObjectFactory_GetLogicalParent", _wrap_iMeshObjectFactory_GetLogicalParent, METH_VARARGS },
 	 { (char *)"iMeshObjectFactory_GetObjectModel", _wrap_iMeshObjectFactory_GetObjectModel, METH_VARARGS },
 	 { (char *)"delete_iMeshObjectFactory", _wrap_delete_iMeshObjectFactory, METH_VARARGS },
+	 { (char *)"iMeshObjectFactory_scfGetVersion", _wrap_iMeshObjectFactory_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMeshObjectFactory_swigregister", iMeshObjectFactory_swigregister, METH_VARARGS },
 	 { (char *)"iMeshObjectType_NewFactory", _wrap_iMeshObjectType_NewFactory, METH_VARARGS },
 	 { (char *)"delete_iMeshObjectType", _wrap_delete_iMeshObjectType, METH_VARARGS },
+	 { (char *)"iMeshObjectType_scfGetVersion", _wrap_iMeshObjectType_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMeshObjectType_swigregister", iMeshObjectType_swigregister, METH_VARARGS },
 	 { (char *)"csSprite2DVertex_pos_set", _wrap_csSprite2DVertex_pos_set, METH_VARARGS },
 	 { (char *)"csSprite2DVertex_pos_get", _wrap_csSprite2DVertex_pos_get, METH_VARARGS },
@@ -101191,7 +98913,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_csSprite2DVertex", _wrap_new_csSprite2DVertex, METH_VARARGS },
 	 { (char *)"delete_csSprite2DVertex", _wrap_delete_csSprite2DVertex, METH_VARARGS },
 	 { (char *)"csSprite2DVertex_swigregister", csSprite2DVertex_swigregister, METH_VARARGS },
-	 { (char *)"iSprite2DUVAnimationFrame_scfGetID", _wrap_iSprite2DUVAnimationFrame_scfGetID, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimationFrame_SetName", _wrap_iSprite2DUVAnimationFrame_SetName, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimationFrame_GetName", _wrap_iSprite2DUVAnimationFrame_GetName, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimationFrame_GetUVCoo", _wrap_iSprite2DUVAnimationFrame_GetUVCoo, METH_VARARGS },
@@ -101203,7 +98924,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSprite2DUVAnimationFrame_SetDuration", _wrap_iSprite2DUVAnimationFrame_SetDuration, METH_VARARGS },
 	 { (char *)"delete_iSprite2DUVAnimationFrame", _wrap_delete_iSprite2DUVAnimationFrame, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimationFrame_swigregister", iSprite2DUVAnimationFrame_swigregister, METH_VARARGS },
-	 { (char *)"iSprite2DUVAnimation_scfGetID", _wrap_iSprite2DUVAnimation_scfGetID, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimation_SetName", _wrap_iSprite2DUVAnimation_SetName, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimation_GetName", _wrap_iSprite2DUVAnimation_GetName, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimation_GetFrameCount", _wrap_iSprite2DUVAnimation_GetFrameCount, METH_VARARGS },
@@ -101213,7 +98933,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSprite2DUVAnimation_RemoveFrame", _wrap_iSprite2DUVAnimation_RemoveFrame, METH_VARARGS },
 	 { (char *)"delete_iSprite2DUVAnimation", _wrap_delete_iSprite2DUVAnimation, METH_VARARGS },
 	 { (char *)"iSprite2DUVAnimation_swigregister", iSprite2DUVAnimation_swigregister, METH_VARARGS },
-	 { (char *)"iSprite2DFactoryState_scfGetID", _wrap_iSprite2DFactoryState_scfGetID, METH_VARARGS },
 	 { (char *)"iSprite2DFactoryState_SetMaterialWrapper", _wrap_iSprite2DFactoryState_SetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iSprite2DFactoryState_GetMaterialWrapper", _wrap_iSprite2DFactoryState_GetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iSprite2DFactoryState_SetMixMode", _wrap_iSprite2DFactoryState_SetMixMode, METH_VARARGS },
@@ -101233,15 +98952,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSprite2DState_PlayUVAnimation", _wrap_iSprite2DState_PlayUVAnimation, METH_VARARGS },
 	 { (char *)"iSprite2DState_GetVertexByIndex", _wrap_iSprite2DState_GetVertexByIndex, METH_VARARGS },
 	 { (char *)"delete_iSprite2DState", _wrap_delete_iSprite2DState, METH_VARARGS },
+	 { (char *)"iSprite2DState_scfGetVersion", _wrap_iSprite2DState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSprite2DState_swigregister", iSprite2DState_swigregister, METH_VARARGS },
-	 { (char *)"iSpriteFrame_scfGetID", _wrap_iSpriteFrame_scfGetID, METH_VARARGS },
 	 { (char *)"iSpriteFrame_SetName", _wrap_iSpriteFrame_SetName, METH_VARARGS },
 	 { (char *)"iSpriteFrame_GetName", _wrap_iSpriteFrame_GetName, METH_VARARGS },
 	 { (char *)"iSpriteFrame_GetAnmIndex", _wrap_iSpriteFrame_GetAnmIndex, METH_VARARGS },
 	 { (char *)"iSpriteFrame_GetTexIndex", _wrap_iSpriteFrame_GetTexIndex, METH_VARARGS },
 	 { (char *)"delete_iSpriteFrame", _wrap_delete_iSpriteFrame, METH_VARARGS },
 	 { (char *)"iSpriteFrame_swigregister", iSpriteFrame_swigregister, METH_VARARGS },
-	 { (char *)"iSpriteAction_scfGetID", _wrap_iSpriteAction_scfGetID, METH_VARARGS },
 	 { (char *)"iSpriteAction_SetName", _wrap_iSpriteAction_SetName, METH_VARARGS },
 	 { (char *)"iSpriteAction_GetName", _wrap_iSpriteAction_GetName, METH_VARARGS },
 	 { (char *)"iSpriteAction_GetFrameCount", _wrap_iSpriteAction_GetFrameCount, METH_VARARGS },
@@ -101252,7 +98970,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSpriteAction_AddFrame", _wrap_iSpriteAction_AddFrame, METH_VARARGS },
 	 { (char *)"delete_iSpriteAction", _wrap_delete_iSpriteAction, METH_VARARGS },
 	 { (char *)"iSpriteAction_swigregister", iSpriteAction_swigregister, METH_VARARGS },
-	 { (char *)"iSpriteSocket_scfGetID", _wrap_iSpriteSocket_scfGetID, METH_VARARGS },
 	 { (char *)"iSpriteSocket_SetName", _wrap_iSpriteSocket_SetName, METH_VARARGS },
 	 { (char *)"iSpriteSocket_GetName", _wrap_iSpriteSocket_GetName, METH_VARARGS },
 	 { (char *)"iSpriteSocket_SetMeshWrapper", _wrap_iSpriteSocket_SetMeshWrapper, METH_VARARGS },
@@ -101261,7 +98978,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSpriteSocket_GetTriangleIndex", _wrap_iSpriteSocket_GetTriangleIndex, METH_VARARGS },
 	 { (char *)"delete_iSpriteSocket", _wrap_delete_iSpriteSocket, METH_VARARGS },
 	 { (char *)"iSpriteSocket_swigregister", iSpriteSocket_swigregister, METH_VARARGS },
-	 { (char *)"iSprite3DFactoryState_scfGetID", _wrap_iSprite3DFactoryState_scfGetID, METH_VARARGS },
 	 { (char *)"iSprite3DFactoryState_SetMaterialWrapper", _wrap_iSprite3DFactoryState_SetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iSprite3DFactoryState_GetMaterialWrapper", _wrap_iSprite3DFactoryState_GetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iSprite3DFactoryState_AddVertices", _wrap_iSprite3DFactoryState_AddVertices, METH_VARARGS },
@@ -101343,8 +99059,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSprite3DState_GetBaseColor", _wrap_iSprite3DState_GetBaseColor, METH_VARARGS },
 	 { (char *)"iSprite3DState_FindSocket", _wrap_iSprite3DState_FindSocket, METH_VARARGS },
 	 { (char *)"delete_iSprite3DState", _wrap_delete_iSprite3DState, METH_VARARGS },
+	 { (char *)"iSprite3DState_scfGetVersion", _wrap_iSprite3DState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSprite3DState_swigregister", iSprite3DState_swigregister, METH_VARARGS },
-	 { (char *)"iSpriteCal3DFactoryState_scfGetID", _wrap_iSpriteCal3DFactoryState_scfGetID, METH_VARARGS },
 	 { (char *)"iSpriteCal3DFactoryState_Create", _wrap_iSpriteCal3DFactoryState_Create, METH_VARARGS },
 	 { (char *)"iSpriteCal3DFactoryState_ReportLastError", _wrap_iSpriteCal3DFactoryState_ReportLastError, METH_VARARGS },
 	 { (char *)"iSpriteCal3DFactoryState_SetBasePath", _wrap_iSpriteCal3DFactoryState_SetBasePath, METH_VARARGS },
@@ -101382,6 +99098,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSpriteCal3DState_BlendMorphTarget", _wrap_iSpriteCal3DState_BlendMorphTarget, METH_VARARGS },
 	 { (char *)"iSpriteCal3DState_ClearMorphTarget", _wrap_iSpriteCal3DState_ClearMorphTarget, METH_VARARGS },
 	 { (char *)"delete_iSpriteCal3DState", _wrap_delete_iSpriteCal3DState, METH_VARARGS },
+	 { (char *)"iSpriteCal3DState_scfGetVersion", _wrap_iSpriteCal3DState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSpriteCal3DState_swigregister", iSpriteCal3DState_swigregister, METH_VARARGS },
 	 { (char *)"iBallState_SetRadius", _wrap_iBallState_SetRadius, METH_VARARGS },
 	 { (char *)"iBallState_GetRadius", _wrap_iBallState_GetRadius, METH_VARARGS },
@@ -101407,6 +99124,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBallState_ApplyLightSpot", _wrap_iBallState_ApplyLightSpot, METH_VARARGS },
 	 { (char *)"iBallState_PaintSky", _wrap_iBallState_PaintSky, METH_VARARGS },
 	 { (char *)"delete_iBallState", _wrap_delete_iBallState, METH_VARARGS },
+	 { (char *)"iBallState_scfGetVersion", _wrap_iBallState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iBallState_swigregister", iBallState_swigregister, METH_VARARGS },
 	 { (char *)"iGeneralMeshState_SetMaterialWrapper", _wrap_iGeneralMeshState_SetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iGeneralMeshState_GetMaterialWrapper", _wrap_iGeneralMeshState_GetMaterialWrapper, METH_VARARGS },
@@ -101423,6 +99141,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iGeneralMeshState_SetShadowReceiving", _wrap_iGeneralMeshState_SetShadowReceiving, METH_VARARGS },
 	 { (char *)"iGeneralMeshState_IsShadowReceiving", _wrap_iGeneralMeshState_IsShadowReceiving, METH_VARARGS },
 	 { (char *)"delete_iGeneralMeshState", _wrap_delete_iGeneralMeshState, METH_VARARGS },
+	 { (char *)"iGeneralMeshState_scfGetVersion", _wrap_iGeneralMeshState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iGeneralMeshState_swigregister", iGeneralMeshState_swigregister, METH_VARARGS },
 	 { (char *)"iGeneralFactoryState_SetMaterialWrapper", _wrap_iGeneralFactoryState_SetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iGeneralFactoryState_GetMaterialWrapper", _wrap_iGeneralFactoryState_GetMaterialWrapper, METH_VARARGS },
@@ -101442,6 +99161,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iGeneralFactoryState_SetRenderBufferComponent", _wrap_iGeneralFactoryState_SetRenderBufferComponent, METH_VARARGS },
 	 { (char *)"iGeneralFactoryState_SetRenderBuffer", _wrap_iGeneralFactoryState_SetRenderBuffer, METH_VARARGS },
 	 { (char *)"delete_iGeneralFactoryState", _wrap_delete_iGeneralFactoryState, METH_VARARGS },
+	 { (char *)"iGeneralFactoryState_scfGetVersion", _wrap_iGeneralFactoryState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iGeneralFactoryState_swigregister", iGeneralFactoryState_swigregister, METH_VARARGS },
 	 { (char *)"csPolygonRange_start_set", _wrap_csPolygonRange_start_set, METH_VARARGS },
 	 { (char *)"csPolygonRange_start_get", _wrap_csPolygonRange_start_get, METH_VARARGS },
@@ -101451,7 +99171,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csPolygonRange_Set", _wrap_csPolygonRange_Set, METH_VARARGS },
 	 { (char *)"delete_csPolygonRange", _wrap_delete_csPolygonRange, METH_VARARGS },
 	 { (char *)"csPolygonRange_swigregister", csPolygonRange_swigregister, METH_VARARGS },
-	 { (char *)"iPolygonHandle_scfGetID", _wrap_iPolygonHandle_scfGetID, METH_VARARGS },
 	 { (char *)"iPolygonHandle_GetThingFactoryState", _wrap_iPolygonHandle_GetThingFactoryState, METH_VARARGS },
 	 { (char *)"iPolygonHandle_GetMeshObjectFactory", _wrap_iPolygonHandle_GetMeshObjectFactory, METH_VARARGS },
 	 { (char *)"iPolygonHandle_GetThingState", _wrap_iPolygonHandle_GetThingState, METH_VARARGS },
@@ -101459,7 +99178,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPolygonHandle_GetIndex", _wrap_iPolygonHandle_GetIndex, METH_VARARGS },
 	 { (char *)"delete_iPolygonHandle", _wrap_delete_iPolygonHandle, METH_VARARGS },
 	 { (char *)"iPolygonHandle_swigregister", iPolygonHandle_swigregister, METH_VARARGS },
-	 { (char *)"iThingFactoryState_scfGetID", _wrap_iThingFactoryState_scfGetID, METH_VARARGS },
 	 { (char *)"iThingFactoryState_GetPrivateObject", _wrap_iThingFactoryState_GetPrivateObject, METH_VARARGS },
 	 { (char *)"iThingFactoryState_CompressVertices", _wrap_iThingFactoryState_CompressVertices, METH_VARARGS },
 	 { (char *)"iThingFactoryState_GetPolygonCount", _wrap_iThingFactoryState_GetPolygonCount, METH_VARARGS },
@@ -101523,8 +99241,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iThingState_GetPolygonMaterial", _wrap_iThingState_GetPolygonMaterial, METH_VARARGS },
 	 { (char *)"iThingState_SetPolygonMaterial", _wrap_iThingState_SetPolygonMaterial, METH_VARARGS },
 	 { (char *)"delete_iThingState", _wrap_delete_iThingState, METH_VARARGS },
+	 { (char *)"iThingState_scfGetVersion", _wrap_iThingState_scfGetVersion, METH_VARARGS },
 	 { (char *)"iThingState_swigregister", iThingState_swigregister, METH_VARARGS },
-	 { (char *)"iThingEnvironment_scfGetID", _wrap_iThingEnvironment_scfGetID, METH_VARARGS },
 	 { (char *)"iThingEnvironment_Clear", _wrap_iThingEnvironment_Clear, METH_VARARGS },
 	 { (char *)"iThingEnvironment_GetLightmapCellSize", _wrap_iThingEnvironment_GetLightmapCellSize, METH_VARARGS },
 	 { (char *)"iThingEnvironment_SetLightmapCellSize", _wrap_iThingEnvironment_SetLightmapCellSize, METH_VARARGS },
@@ -101579,7 +99297,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_csPolyTextureMapping", _wrap_new_csPolyTextureMapping, METH_VARARGS },
 	 { (char *)"delete_csPolyTextureMapping", _wrap_delete_csPolyTextureMapping, METH_VARARGS },
 	 { (char *)"csPolyTextureMapping_swigregister", csPolyTextureMapping_swigregister, METH_VARARGS },
-	 { (char *)"iLoaderStatus_scfGetID", _wrap_iLoaderStatus_scfGetID, METH_VARARGS },
 	 { (char *)"iLoaderStatus_IsReady", _wrap_iLoaderStatus_IsReady, METH_VARARGS },
 	 { (char *)"iLoaderStatus_IsError", _wrap_iLoaderStatus_IsError, METH_VARARGS },
 	 { (char *)"delete_iLoaderStatus", _wrap_delete_iLoaderStatus, METH_VARARGS },
@@ -101595,14 +99312,16 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iLoader_LoadMeshObject", _wrap_iLoader_LoadMeshObject, METH_VARARGS },
 	 { (char *)"iLoader_LoadEffectFile", _wrap_iLoader_LoadEffectFile, METH_VARARGS },
 	 { (char *)"delete_iLoader", _wrap_delete_iLoader, METH_VARARGS },
+	 { (char *)"iLoader_scfGetVersion", _wrap_iLoader_scfGetVersion, METH_VARARGS },
 	 { (char *)"iLoader_swigregister", iLoader_swigregister, METH_VARARGS },
 	 { (char *)"iLoaderPlugin_Parse", _wrap_iLoaderPlugin_Parse, METH_VARARGS },
 	 { (char *)"delete_iLoaderPlugin", _wrap_delete_iLoaderPlugin, METH_VARARGS },
+	 { (char *)"iLoaderPlugin_scfGetVersion", _wrap_iLoaderPlugin_scfGetVersion, METH_VARARGS },
 	 { (char *)"iLoaderPlugin_swigregister", iLoaderPlugin_swigregister, METH_VARARGS },
 	 { (char *)"iBinaryLoaderPlugin_Parse", _wrap_iBinaryLoaderPlugin_Parse, METH_VARARGS },
 	 { (char *)"delete_iBinaryLoaderPlugin", _wrap_delete_iBinaryLoaderPlugin, METH_VARARGS },
+	 { (char *)"iBinaryLoaderPlugin_scfGetVersion", _wrap_iBinaryLoaderPlugin_scfGetVersion, METH_VARARGS },
 	 { (char *)"iBinaryLoaderPlugin_swigregister", iBinaryLoaderPlugin_swigregister, METH_VARARGS },
-	 { (char *)"iSaver_scfGetID", _wrap_iSaver_scfGetID, METH_VARARGS },
 	 { (char *)"iSaver_SaveMapFile", _wrap_iSaver_SaveMapFile, METH_VARARGS },
 	 { (char *)"delete_iSaver", _wrap_delete_iSaver, METH_VARARGS },
 	 { (char *)"iSaver_swigregister", iSaver_swigregister, METH_VARARGS },
@@ -101613,9 +99332,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSoundHandle_StopStream", _wrap_iSoundHandle_StopStream, METH_VARARGS },
 	 { (char *)"iSoundHandle_ResetStream", _wrap_iSoundHandle_ResetStream, METH_VARARGS },
 	 { (char *)"delete_iSoundHandle", _wrap_delete_iSoundHandle, METH_VARARGS },
+	 { (char *)"iSoundHandle_scfGetVersion", _wrap_iSoundHandle_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundHandle_swigregister", iSoundHandle_swigregister, METH_VARARGS },
 	 { (char *)"iSoundLoader_LoadSound", _wrap_iSoundLoader_LoadSound, METH_VARARGS },
 	 { (char *)"delete_iSoundLoader", _wrap_delete_iSoundLoader, METH_VARARGS },
+	 { (char *)"iSoundLoader_scfGetVersion", _wrap_iSoundLoader_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundLoader_swigregister", iSoundLoader_swigregister, METH_VARARGS },
 	 { (char *)"iSoundRender_SetVolume", _wrap_iSoundRender_SetVolume, METH_VARARGS },
 	 { (char *)"iSoundRender_GetVolume", _wrap_iSoundRender_GetVolume, METH_VARARGS },
@@ -101624,10 +99345,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSoundRender_GetListener", _wrap_iSoundRender_GetListener, METH_VARARGS },
 	 { (char *)"iSoundRender_MixingFunction", _wrap_iSoundRender_MixingFunction, METH_VARARGS },
 	 { (char *)"delete_iSoundRender", _wrap_delete_iSoundRender, METH_VARARGS },
+	 { (char *)"iSoundRender_scfGetVersion", _wrap_iSoundRender_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundRender_swigregister", iSoundRender_swigregister, METH_VARARGS },
 	 { (char *)"iSoundWrapper_GetSound", _wrap_iSoundWrapper_GetSound, METH_VARARGS },
 	 { (char *)"iSoundWrapper_QueryObject", _wrap_iSoundWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"delete_iSoundWrapper", _wrap_delete_iSoundWrapper, METH_VARARGS },
+	 { (char *)"iSoundWrapper_scfGetVersion", _wrap_iSoundWrapper_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundWrapper_swigregister", iSoundWrapper_swigregister, METH_VARARGS },
 	 { (char *)"iSoundDriver_Open", _wrap_iSoundDriver_Open, METH_VARARGS },
 	 { (char *)"iSoundDriver_Close", _wrap_iSoundDriver_Close, METH_VARARGS },
@@ -101640,6 +99363,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSoundDriver_IsHandleVoidSound", _wrap_iSoundDriver_IsHandleVoidSound, METH_VARARGS },
 	 { (char *)"iSoundDriver_ThreadAware", _wrap_iSoundDriver_ThreadAware, METH_VARARGS },
 	 { (char *)"delete_iSoundDriver", _wrap_delete_iSoundDriver, METH_VARARGS },
+	 { (char *)"iSoundDriver_scfGetVersion", _wrap_iSoundDriver_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundDriver_swigregister", iSoundDriver_swigregister, METH_VARARGS },
 	 { (char *)"iSoundSource_Play", _wrap_iSoundSource_Play, METH_VARARGS },
 	 { (char *)"iSoundSource_Stop", _wrap_iSoundSource_Stop, METH_VARARGS },
@@ -101654,9 +99378,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSoundSource_SetVelocity", _wrap_iSoundSource_SetVelocity, METH_VARARGS },
 	 { (char *)"iSoundSource_GetVelocity", _wrap_iSoundSource_GetVelocity, METH_VARARGS },
 	 { (char *)"delete_iSoundSource", _wrap_delete_iSoundSource, METH_VARARGS },
+	 { (char *)"iSoundSource_scfGetVersion", _wrap_iSoundSource_scfGetVersion, METH_VARARGS },
 	 { (char *)"iSoundSource_swigregister", iSoundSource_swigregister, METH_VARARGS },
 	 { (char *)"iComponent_Initialize", _wrap_iComponent_Initialize, METH_VARARGS },
 	 { (char *)"delete_iComponent", _wrap_delete_iComponent, METH_VARARGS },
+	 { (char *)"iComponent_scfGetVersion", _wrap_iComponent_scfGetVersion, METH_VARARGS },
 	 { (char *)"iComponent_swigregister", iComponent_swigregister, METH_VARARGS },
 	 { (char *)"iCacheManager_SetCurrentType", _wrap_iCacheManager_SetCurrentType, METH_VARARGS },
 	 { (char *)"iCacheManager_GetCurrentType", _wrap_iCacheManager_GetCurrentType, METH_VARARGS },
@@ -101666,6 +99392,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCacheManager_ReadCache", _wrap_iCacheManager_ReadCache, METH_VARARGS },
 	 { (char *)"iCacheManager_ClearCache", _wrap_iCacheManager_ClearCache, METH_VARARGS },
 	 { (char *)"delete_iCacheManager", _wrap_delete_iCacheManager, METH_VARARGS },
+	 { (char *)"iCacheManager_scfGetVersion", _wrap_iCacheManager_scfGetVersion, METH_VARARGS },
 	 { (char *)"iCacheManager_swigregister", iCacheManager_swigregister, METH_VARARGS },
 	 { (char *)"csFileTime_sec_set", _wrap_csFileTime_sec_set, METH_VARARGS },
 	 { (char *)"csFileTime_sec_get", _wrap_csFileTime_sec_get, METH_VARARGS },
@@ -101693,6 +99420,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iFile_GetAllData", _wrap_iFile_GetAllData, METH_VARARGS },
 	 { (char *)"iFile_SetPos", _wrap_iFile_SetPos, METH_VARARGS },
 	 { (char *)"delete_iFile", _wrap_delete_iFile, METH_VARARGS },
+	 { (char *)"iFile_scfGetVersion", _wrap_iFile_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFile_swigregister", iFile_swigregister, METH_VARARGS },
 	 { (char *)"iVFS_ChDir", _wrap_iVFS_ChDir, METH_VARARGS },
 	 { (char *)"iVFS_GetCwd", _wrap_iVFS_GetCwd, METH_VARARGS },
@@ -101715,6 +99443,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iVFS_GetFileSize", _wrap_iVFS_GetFileSize, METH_VARARGS },
 	 { (char *)"iVFS_GetRealPath", _wrap_iVFS_GetRealPath, METH_VARARGS },
 	 { (char *)"delete_iVFS", _wrap_delete_iVFS, METH_VARARGS },
+	 { (char *)"iVFS_scfGetVersion", _wrap_iVFS_scfGetVersion, METH_VARARGS },
 	 { (char *)"iVFS_swigregister", iVFS_swigregister, METH_VARARGS },
 	 { (char *)"iObject_SetName", _wrap_iObject_SetName, METH_VARARGS },
 	 { (char *)"iObject_GetName", _wrap_iObject_GetName, METH_VARARGS },
@@ -101729,8 +99458,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iObject_GetIterator", _wrap_iObject_GetIterator, METH_VARARGS },
 	 { (char *)"iObject_ObjReleaseOld", _wrap_iObject_ObjReleaseOld, METH_VARARGS },
 	 { (char *)"delete_iObject", _wrap_delete_iObject, METH_VARARGS },
+	 { (char *)"iObject_scfGetVersion", _wrap_iObject_scfGetVersion, METH_VARARGS },
 	 { (char *)"iObject_swigregister", iObject_swigregister, METH_VARARGS },
-	 { (char *)"iObjectIterator_scfGetID", _wrap_iObjectIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iObjectIterator_Next", _wrap_iObjectIterator_Next, METH_VARARGS },
 	 { (char *)"iObjectIterator_Reset", _wrap_iObjectIterator_Reset, METH_VARARGS },
 	 { (char *)"iObjectIterator_GetParentObj", _wrap_iObjectIterator_GetParentObj, METH_VARARGS },
@@ -101738,7 +99467,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iObjectIterator_FindName", _wrap_iObjectIterator_FindName, METH_VARARGS },
 	 { (char *)"delete_iObjectIterator", _wrap_delete_iObjectIterator, METH_VARARGS },
 	 { (char *)"iObjectIterator_swigregister", iObjectIterator_swigregister, METH_VARARGS },
-	 { (char *)"iDataObject_scfGetID", _wrap_iDataObject_scfGetID, METH_VARARGS },
 	 { (char *)"iDataObject_QueryObject", _wrap_iDataObject_QueryObject, METH_VARARGS },
 	 { (char *)"iDataObject_GetData", _wrap_iDataObject_GetData, METH_VARARGS },
 	 { (char *)"delete_iDataObject", _wrap_delete_iDataObject, METH_VARARGS },
@@ -101748,8 +99476,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iObjectRegistry_Unregister", _wrap_iObjectRegistry_Unregister, METH_VARARGS },
 	 { (char *)"iObjectRegistry_Get", _wrap_iObjectRegistry_Get, METH_VARARGS },
 	 { (char *)"delete_iObjectRegistry", _wrap_delete_iObjectRegistry, METH_VARARGS },
+	 { (char *)"iObjectRegistry_scfGetVersion", _wrap_iObjectRegistry_scfGetVersion, METH_VARARGS },
 	 { (char *)"iObjectRegistry_swigregister", iObjectRegistry_swigregister, METH_VARARGS },
-	 { (char *)"iObjectRegistryIterator_scfGetID", _wrap_iObjectRegistryIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iObjectRegistryIterator_Reset", _wrap_iObjectRegistryIterator_Reset, METH_VARARGS },
 	 { (char *)"iObjectRegistryIterator_GetCurrentTag", _wrap_iObjectRegistryIterator_GetCurrentTag, METH_VARARGS },
 	 { (char *)"iObjectRegistryIterator_HasNext", _wrap_iObjectRegistryIterator_HasNext, METH_VARARGS },
@@ -101762,6 +99490,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iVirtualClock_GetElapsedTicks", _wrap_iVirtualClock_GetElapsedTicks, METH_VARARGS },
 	 { (char *)"iVirtualClock_GetCurrentTicks", _wrap_iVirtualClock_GetCurrentTicks, METH_VARARGS },
 	 { (char *)"delete_iVirtualClock", _wrap_delete_iVirtualClock, METH_VARARGS },
+	 { (char *)"iVirtualClock_scfGetVersion", _wrap_iVirtualClock_scfGetVersion, METH_VARARGS },
 	 { (char *)"iVirtualClock_swigregister", iVirtualClock_swigregister, METH_VARARGS },
 	 { (char *)"csKeyEventData_eventType_set", _wrap_csKeyEventData_eventType_set, METH_VARARGS },
 	 { (char *)"csKeyEventData_eventType_get", _wrap_csKeyEventData_eventType_get, METH_VARARGS },
@@ -101856,18 +99585,17 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iEvent_Flatten", _wrap_iEvent_Flatten, METH_VARARGS },
 	 { (char *)"iEvent_Unflatten", _wrap_iEvent_Unflatten, METH_VARARGS },
 	 { (char *)"delete_iEvent", _wrap_delete_iEvent, METH_VARARGS },
+	 { (char *)"iEvent_scfGetVersion", _wrap_iEvent_scfGetVersion, METH_VARARGS },
 	 { (char *)"iEvent_Mouse_get", _wrap_iEvent_Mouse_get, METH_VARARGS },
 	 { (char *)"iEvent_Joystick_get", _wrap_iEvent_Joystick_get, METH_VARARGS },
 	 { (char *)"iEvent_Command_get", _wrap_iEvent_Command_get, METH_VARARGS },
 	 { (char *)"iEvent_Network_get", _wrap_iEvent_Network_get, METH_VARARGS },
 	 { (char *)"iEvent_swigregister", iEvent_swigregister, METH_VARARGS },
-	 { (char *)"iEventPlug_scfGetID", _wrap_iEventPlug_scfGetID, METH_VARARGS },
 	 { (char *)"iEventPlug_GetPotentiallyConflictingEvents", _wrap_iEventPlug_GetPotentiallyConflictingEvents, METH_VARARGS },
 	 { (char *)"iEventPlug_QueryEventPriority", _wrap_iEventPlug_QueryEventPriority, METH_VARARGS },
 	 { (char *)"iEventPlug_EnableEvents", _wrap_iEventPlug_EnableEvents, METH_VARARGS },
 	 { (char *)"delete_iEventPlug", _wrap_delete_iEventPlug, METH_VARARGS },
 	 { (char *)"iEventPlug_swigregister", iEventPlug_swigregister, METH_VARARGS },
-	 { (char *)"iEventOutlet_scfGetID", _wrap_iEventOutlet_scfGetID, METH_VARARGS },
 	 { (char *)"iEventOutlet_CreateEvent", _wrap_iEventOutlet_CreateEvent, METH_VARARGS },
 	 { (char *)"iEventOutlet_Post", _wrap_iEventOutlet_Post, METH_VARARGS },
 	 { (char *)"iEventOutlet_Key", _wrap_iEventOutlet_Key, METH_VARARGS },
@@ -101877,7 +99605,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iEventOutlet_ImmediateBroadcast", _wrap_iEventOutlet_ImmediateBroadcast, METH_VARARGS },
 	 { (char *)"delete_iEventOutlet", _wrap_delete_iEventOutlet, METH_VARARGS },
 	 { (char *)"iEventOutlet_swigregister", iEventOutlet_swigregister, METH_VARARGS },
-	 { (char *)"iEventCord_scfGetID", _wrap_iEventCord_scfGetID, METH_VARARGS },
 	 { (char *)"iEventCord_Insert", _wrap_iEventCord_Insert, METH_VARARGS },
 	 { (char *)"iEventCord_Remove", _wrap_iEventCord_Remove, METH_VARARGS },
 	 { (char *)"iEventCord_GetPass", _wrap_iEventCord_GetPass, METH_VARARGS },
@@ -101917,11 +99644,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iEventQueue_IsEmpty", _wrap_iEventQueue_IsEmpty, METH_VARARGS },
 	 { (char *)"iEventQueue_RemoveAllListeners", _wrap_iEventQueue_RemoveAllListeners, METH_VARARGS },
 	 { (char *)"delete_iEventQueue", _wrap_delete_iEventQueue, METH_VARARGS },
+	 { (char *)"iEventQueue_scfGetVersion", _wrap_iEventQueue_scfGetVersion, METH_VARARGS },
 	 { (char *)"iEventQueue_swigregister", iEventQueue_swigregister, METH_VARARGS },
 	 { (char *)"iEventHandler_HandleEvent", _wrap_iEventHandler_HandleEvent, METH_VARARGS },
 	 { (char *)"delete_iEventHandler", _wrap_delete_iEventHandler, METH_VARARGS },
+	 { (char *)"iEventHandler_scfGetVersion", _wrap_iEventHandler_scfGetVersion, METH_VARARGS },
 	 { (char *)"iEventHandler_swigregister", iEventHandler_swigregister, METH_VARARGS },
-	 { (char *)"iPluginIterator_scfGetID", _wrap_iPluginIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iPluginIterator_HasNext", _wrap_iPluginIterator_HasNext, METH_VARARGS },
 	 { (char *)"iPluginIterator_Next", _wrap_iPluginIterator_Next, METH_VARARGS },
 	 { (char *)"delete_iPluginIterator", _wrap_delete_iPluginIterator, METH_VARARGS },
@@ -101934,8 +99662,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPluginManager_Clear", _wrap_iPluginManager_Clear, METH_VARARGS },
 	 { (char *)"iPluginManager_QueryOptions", _wrap_iPluginManager_QueryOptions, METH_VARARGS },
 	 { (char *)"delete_iPluginManager", _wrap_delete_iPluginManager, METH_VARARGS },
+	 { (char *)"iPluginManager_scfGetVersion", _wrap_iPluginManager_scfGetVersion, METH_VARARGS },
 	 { (char *)"iPluginManager_swigregister", iPluginManager_swigregister, METH_VARARGS },
-	 { (char *)"iKeyComposer_scfGetID", _wrap_iKeyComposer_scfGetID, METH_VARARGS },
 	 { (char *)"iKeyComposer_HandleKey", _wrap_iKeyComposer_HandleKey, METH_VARARGS },
 	 { (char *)"iKeyComposer_ResetState", _wrap_iKeyComposer_ResetState, METH_VARARGS },
 	 { (char *)"delete_iKeyComposer", _wrap_delete_iKeyComposer, METH_VARARGS },
@@ -101945,9 +99673,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iKeyboardDriver_GetModifierState", _wrap_iKeyboardDriver_GetModifierState, METH_VARARGS },
 	 { (char *)"iKeyboardDriver_CreateKeyComposer", _wrap_iKeyboardDriver_CreateKeyComposer, METH_VARARGS },
 	 { (char *)"delete_iKeyboardDriver", _wrap_delete_iKeyboardDriver, METH_VARARGS },
+	 { (char *)"iKeyboardDriver_scfGetVersion", _wrap_iKeyboardDriver_scfGetVersion, METH_VARARGS },
 	 { (char *)"iKeyboardDriver_GetKeyState", _wrap_iKeyboardDriver_GetKeyState, METH_VARARGS },
 	 { (char *)"iKeyboardDriver_swigregister", iKeyboardDriver_swigregister, METH_VARARGS },
-	 { (char *)"iMouseDriver_scfGetID", _wrap_iMouseDriver_scfGetID, METH_VARARGS },
 	 { (char *)"iMouseDriver_SetDoubleClickTime", _wrap_iMouseDriver_SetDoubleClickTime, METH_VARARGS },
 	 { (char *)"iMouseDriver_Reset", _wrap_iMouseDriver_Reset, METH_VARARGS },
 	 { (char *)"iMouseDriver_GetLastX", _wrap_iMouseDriver_GetLastX, METH_VARARGS },
@@ -101957,7 +99685,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMouseDriver_DoMotion", _wrap_iMouseDriver_DoMotion, METH_VARARGS },
 	 { (char *)"delete_iMouseDriver", _wrap_delete_iMouseDriver, METH_VARARGS },
 	 { (char *)"iMouseDriver_swigregister", iMouseDriver_swigregister, METH_VARARGS },
-	 { (char *)"iJoystickDriver_scfGetID", _wrap_iJoystickDriver_scfGetID, METH_VARARGS },
 	 { (char *)"iJoystickDriver_Reset", _wrap_iJoystickDriver_Reset, METH_VARARGS },
 	 { (char *)"iJoystickDriver_GetLastX", _wrap_iJoystickDriver_GetLastX, METH_VARARGS },
 	 { (char *)"iJoystickDriver_GetLastY", _wrap_iJoystickDriver_GetLastY, METH_VARARGS },
@@ -101989,6 +99716,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iConfigFile_GetEOFComment", _wrap_iConfigFile_GetEOFComment, METH_VARARGS },
 	 { (char *)"iConfigFile_SetEOFComment", _wrap_iConfigFile_SetEOFComment, METH_VARARGS },
 	 { (char *)"delete_iConfigFile", _wrap_delete_iConfigFile, METH_VARARGS },
+	 { (char *)"iConfigFile_scfGetVersion", _wrap_iConfigFile_scfGetVersion, METH_VARARGS },
 	 { (char *)"iConfigFile_swigregister", iConfigFile_swigregister, METH_VARARGS },
 	 { (char *)"iConfigIterator_GetConfigFile", _wrap_iConfigIterator_GetConfigFile, METH_VARARGS },
 	 { (char *)"iConfigIterator_GetSubsection", _wrap_iConfigIterator_GetSubsection, METH_VARARGS },
@@ -102001,6 +99729,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iConfigIterator_GetBool", _wrap_iConfigIterator_GetBool, METH_VARARGS },
 	 { (char *)"iConfigIterator_GetComment", _wrap_iConfigIterator_GetComment, METH_VARARGS },
 	 { (char *)"delete_iConfigIterator", _wrap_delete_iConfigIterator, METH_VARARGS },
+	 { (char *)"iConfigIterator_scfGetVersion", _wrap_iConfigIterator_scfGetVersion, METH_VARARGS },
 	 { (char *)"iConfigIterator_swigregister", iConfigIterator_swigregister, METH_VARARGS },
 	 { (char *)"iConfigManager_AddDomain", _wrap_iConfigManager_AddDomain, METH_VARARGS },
 	 { (char *)"iConfigManager_RemoveDomain", _wrap_iConfigManager_RemoveDomain, METH_VARARGS },
@@ -102013,6 +99742,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iConfigManager_GetDynamicDomainPriority", _wrap_iConfigManager_GetDynamicDomainPriority, METH_VARARGS },
 	 { (char *)"iConfigManager_FlushRemoved", _wrap_iConfigManager_FlushRemoved, METH_VARARGS },
 	 { (char *)"delete_iConfigManager", _wrap_delete_iConfigManager, METH_VARARGS },
+	 { (char *)"iConfigManager_scfGetVersion", _wrap_iConfigManager_scfGetVersion, METH_VARARGS },
 	 { (char *)"iConfigManager_swigregister", iConfigManager_swigregister, METH_VARARGS },
 	 { (char *)"iStringArray_Length", _wrap_iStringArray_Length, METH_VARARGS },
 	 { (char *)"iStringArray_Push", _wrap_iStringArray_Push, METH_VARARGS },
@@ -102026,13 +99756,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStringArray_Insert", _wrap_iStringArray_Insert, METH_VARARGS },
 	 { (char *)"iStringArray_DeleteAll", _wrap_iStringArray_DeleteAll, METH_VARARGS },
 	 { (char *)"delete_iStringArray", _wrap_delete_iStringArray, METH_VARARGS },
+	 { (char *)"iStringArray_scfGetVersion", _wrap_iStringArray_scfGetVersion, METH_VARARGS },
 	 { (char *)"iStringArray_swigregister", iStringArray_swigregister, METH_VARARGS },
-	 { (char *)"iDocumentAttributeIterator_scfGetID", _wrap_iDocumentAttributeIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iDocumentAttributeIterator_HasNext", _wrap_iDocumentAttributeIterator_HasNext, METH_VARARGS },
 	 { (char *)"iDocumentAttributeIterator_Next", _wrap_iDocumentAttributeIterator_Next, METH_VARARGS },
 	 { (char *)"delete_iDocumentAttributeIterator", _wrap_delete_iDocumentAttributeIterator, METH_VARARGS },
 	 { (char *)"iDocumentAttributeIterator_swigregister", iDocumentAttributeIterator_swigregister, METH_VARARGS },
-	 { (char *)"iDocumentAttribute_scfGetID", _wrap_iDocumentAttribute_scfGetID, METH_VARARGS },
 	 { (char *)"iDocumentAttribute_GetName", _wrap_iDocumentAttribute_GetName, METH_VARARGS },
 	 { (char *)"iDocumentAttribute_GetValue", _wrap_iDocumentAttribute_GetValue, METH_VARARGS },
 	 { (char *)"iDocumentAttribute_GetValueAsInt", _wrap_iDocumentAttribute_GetValueAsInt, METH_VARARGS },
@@ -102043,12 +99772,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDocumentAttribute_SetValueAsFloat", _wrap_iDocumentAttribute_SetValueAsFloat, METH_VARARGS },
 	 { (char *)"delete_iDocumentAttribute", _wrap_delete_iDocumentAttribute, METH_VARARGS },
 	 { (char *)"iDocumentAttribute_swigregister", iDocumentAttribute_swigregister, METH_VARARGS },
-	 { (char *)"iDocumentNodeIterator_scfGetID", _wrap_iDocumentNodeIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iDocumentNodeIterator_HasNext", _wrap_iDocumentNodeIterator_HasNext, METH_VARARGS },
 	 { (char *)"iDocumentNodeIterator_Next", _wrap_iDocumentNodeIterator_Next, METH_VARARGS },
 	 { (char *)"delete_iDocumentNodeIterator", _wrap_delete_iDocumentNodeIterator, METH_VARARGS },
 	 { (char *)"iDocumentNodeIterator_swigregister", iDocumentNodeIterator_swigregister, METH_VARARGS },
-	 { (char *)"iDocumentNode_scfGetID", _wrap_iDocumentNode_scfGetID, METH_VARARGS },
 	 { (char *)"iDocumentNode_GetType", _wrap_iDocumentNode_GetType, METH_VARARGS },
 	 { (char *)"iDocumentNode_Equals", _wrap_iDocumentNode_Equals, METH_VARARGS },
 	 { (char *)"iDocumentNode_GetValue", _wrap_iDocumentNode_GetValue, METH_VARARGS },
@@ -102083,9 +99810,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDocument_Write", _wrap_iDocument_Write, METH_VARARGS },
 	 { (char *)"iDocument_Changeable", _wrap_iDocument_Changeable, METH_VARARGS },
 	 { (char *)"delete_iDocument", _wrap_delete_iDocument, METH_VARARGS },
+	 { (char *)"iDocument_scfGetVersion", _wrap_iDocument_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDocument_swigregister", iDocument_swigregister, METH_VARARGS },
 	 { (char *)"iDocumentSystem_CreateDocument", _wrap_iDocumentSystem_CreateDocument, METH_VARARGS },
 	 { (char *)"delete_iDocumentSystem", _wrap_delete_iDocumentSystem, METH_VARARGS },
+	 { (char *)"iDocumentSystem_scfGetVersion", _wrap_iDocumentSystem_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDocumentSystem_swigregister", iDocumentSystem_swigregister, METH_VARARGS },
 	 { (char *)"new_csTinyDocumentSystem", _wrap_new_csTinyDocumentSystem, METH_VARARGS },
 	 { (char *)"delete_csTinyDocumentSystem", _wrap_delete_csTinyDocumentSystem, METH_VARARGS },
@@ -102109,6 +99838,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDataBuffer_asString", _wrap_iDataBuffer_asString, METH_VARARGS },
 	 { (char *)"iDataBuffer_GetUint8", _wrap_iDataBuffer_GetUint8, METH_VARARGS },
 	 { (char *)"delete_iDataBuffer", _wrap_delete_iDataBuffer, METH_VARARGS },
+	 { (char *)"iDataBuffer_scfGetVersion", _wrap_iDataBuffer_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDataBuffer_swigregister", iDataBuffer_swigregister, METH_VARARGS },
 	 { (char *)"csFog_enabled_set", _wrap_csFog_enabled_set, METH_VARARGS },
 	 { (char *)"csFog_enabled_get", _wrap_csFog_enabled_get, METH_VARARGS },
@@ -102343,6 +100073,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iGraphics3D_CreatePolygonRenderer", _wrap_iGraphics3D_CreatePolygonRenderer, METH_VARARGS },
 	 { (char *)"iGraphics3D_SetWorldToCamera", _wrap_iGraphics3D_SetWorldToCamera, METH_VARARGS },
 	 { (char *)"delete_iGraphics3D", _wrap_delete_iGraphics3D, METH_VARARGS },
+	 { (char *)"iGraphics3D_scfGetVersion", _wrap_iGraphics3D_scfGetVersion, METH_VARARGS },
 	 { (char *)"iGraphics3D_swigregister", iGraphics3D_swigregister, METH_VARARGS },
 	 { (char *)"csPixelCoord_x_set", _wrap_csPixelCoord_x_set, METH_VARARGS },
 	 { (char *)"csPixelCoord_x_get", _wrap_csPixelCoord_x_get, METH_VARARGS },
@@ -102390,7 +100121,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_csImageArea", _wrap_new_csImageArea, METH_VARARGS },
 	 { (char *)"delete_csImageArea", _wrap_delete_csImageArea, METH_VARARGS },
 	 { (char *)"csImageArea_swigregister", csImageArea_swigregister, METH_VARARGS },
-	 { (char *)"iOffscreenCanvasCallback_scfGetID", _wrap_iOffscreenCanvasCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iOffscreenCanvasCallback_FinishDraw", _wrap_iOffscreenCanvasCallback_FinishDraw, METH_VARARGS },
 	 { (char *)"iOffscreenCanvasCallback_SetRGB", _wrap_iOffscreenCanvasCallback_SetRGB, METH_VARARGS },
 	 { (char *)"delete_iOffscreenCanvasCallback", _wrap_delete_iOffscreenCanvasCallback, METH_VARARGS },
@@ -102443,9 +100173,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iGraphics2D_GetGamma", _wrap_iGraphics2D_GetGamma, METH_VARARGS },
 	 { (char *)"iGraphics2D_CreateOffscreenCanvas", _wrap_iGraphics2D_CreateOffscreenCanvas, METH_VARARGS },
 	 { (char *)"delete_iGraphics2D", _wrap_delete_iGraphics2D, METH_VARARGS },
+	 { (char *)"iGraphics2D_scfGetVersion", _wrap_iGraphics2D_scfGetVersion, METH_VARARGS },
 	 { (char *)"iGraphics2D__PerformExtension", _wrap_iGraphics2D__PerformExtension, METH_VARARGS },
 	 { (char *)"iGraphics2D_swigregister", iGraphics2D_swigregister, METH_VARARGS },
-	 { (char *)"iFontDeleteNotify_scfGetID", _wrap_iFontDeleteNotify_scfGetID, METH_VARARGS },
 	 { (char *)"iFontDeleteNotify_BeforeDelete", _wrap_iFontDeleteNotify_BeforeDelete, METH_VARARGS },
 	 { (char *)"delete_iFontDeleteNotify", _wrap_delete_iFontDeleteNotify, METH_VARARGS },
 	 { (char *)"iFontDeleteNotify_swigregister", iFontDeleteNotify_swigregister, METH_VARARGS },
@@ -102479,11 +100209,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iFont_GetAscent", _wrap_iFont_GetAscent, METH_VARARGS },
 	 { (char *)"iFont_HasGlyph", _wrap_iFont_HasGlyph, METH_VARARGS },
 	 { (char *)"delete_iFont", _wrap_delete_iFont, METH_VARARGS },
+	 { (char *)"iFont_scfGetVersion", _wrap_iFont_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFont_swigregister", iFont_swigregister, METH_VARARGS },
 	 { (char *)"iFontServer_LoadFont", _wrap_iFontServer_LoadFont, METH_VARARGS },
 	 { (char *)"iFontServer_GetFontCount", _wrap_iFontServer_GetFontCount, METH_VARARGS },
 	 { (char *)"iFontServer_GetFont", _wrap_iFontServer_GetFont, METH_VARARGS },
 	 { (char *)"delete_iFontServer", _wrap_delete_iFontServer, METH_VARARGS },
+	 { (char *)"iFontServer_scfGetVersion", _wrap_iFontServer_scfGetVersion, METH_VARARGS },
 	 { (char *)"iFontServer_swigregister", iFontServer_swigregister, METH_VARARGS },
 	 { (char *)"iHalo_GetWidth", _wrap_iHalo_GetWidth, METH_VARARGS },
 	 { (char *)"iHalo_GetHeight", _wrap_iHalo_GetHeight, METH_VARARGS },
@@ -102491,15 +100223,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iHalo_GetColor", _wrap_iHalo_GetColor, METH_VARARGS },
 	 { (char *)"iHalo_Draw", _wrap_iHalo_Draw, METH_VARARGS },
 	 { (char *)"delete_iHalo", _wrap_delete_iHalo, METH_VARARGS },
+	 { (char *)"iHalo_scfGetVersion", _wrap_iHalo_scfGetVersion, METH_VARARGS },
 	 { (char *)"iHalo_swigregister", iHalo_swigregister, METH_VARARGS },
-	 { (char *)"iShaderVariableContext_scfGetID", _wrap_iShaderVariableContext_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderVariableContext_AddVariable", _wrap_iShaderVariableContext_AddVariable, METH_VARARGS },
 	 { (char *)"iShaderVariableContext_GetVariable", _wrap_iShaderVariableContext_GetVariable, METH_VARARGS },
 	 { (char *)"iShaderVariableContext_GetVariableRecursive", _wrap_iShaderVariableContext_GetVariableRecursive, METH_VARARGS },
 	 { (char *)"iShaderVariableContext_FillVariableList", _wrap_iShaderVariableContext_FillVariableList, METH_VARARGS },
 	 { (char *)"delete_iShaderVariableContext", _wrap_delete_iShaderVariableContext, METH_VARARGS },
 	 { (char *)"iShaderVariableContext_swigregister", iShaderVariableContext_swigregister, METH_VARARGS },
-	 { (char *)"iShaderManager_scfGetID", _wrap_iShaderManager_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderManager_CreateShader", _wrap_iShaderManager_CreateShader, METH_VARARGS },
 	 { (char *)"iShaderManager_GetShader", _wrap_iShaderManager_GetShader, METH_VARARGS },
 	 { (char *)"iShaderManager_GetShaders", _wrap_iShaderManager_GetShaders, METH_VARARGS },
@@ -102508,11 +100239,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iShaderManager_PrepareShaders", _wrap_iShaderManager_PrepareShaders, METH_VARARGS },
 	 { (char *)"delete_iShaderManager", _wrap_delete_iShaderManager, METH_VARARGS },
 	 { (char *)"iShaderManager_swigregister", iShaderManager_swigregister, METH_VARARGS },
-	 { (char *)"iShaderRenderInterface_scfGetID", _wrap_iShaderRenderInterface_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderRenderInterface_GetPrivateObject", _wrap_iShaderRenderInterface_GetPrivateObject, METH_VARARGS },
 	 { (char *)"delete_iShaderRenderInterface", _wrap_delete_iShaderRenderInterface, METH_VARARGS },
 	 { (char *)"iShaderRenderInterface_swigregister", iShaderRenderInterface_swigregister, METH_VARARGS },
-	 { (char *)"iShader_scfGetID", _wrap_iShader_scfGetID, METH_VARARGS },
 	 { (char *)"iShader_SetName", _wrap_iShader_SetName, METH_VARARGS },
 	 { (char *)"iShader_GetName", _wrap_iShader_GetName, METH_VARARGS },
 	 { (char *)"iShader_CreateTechnique", _wrap_iShader_CreateTechnique, METH_VARARGS },
@@ -102524,7 +100253,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iShader_Prepare", _wrap_iShader_Prepare, METH_VARARGS },
 	 { (char *)"delete_iShader", _wrap_delete_iShader, METH_VARARGS },
 	 { (char *)"iShader_swigregister", iShader_swigregister, METH_VARARGS },
-	 { (char *)"iShaderTechnique_scfGetID", _wrap_iShaderTechnique_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderTechnique_GetPriority", _wrap_iShaderTechnique_GetPriority, METH_VARARGS },
 	 { (char *)"iShaderTechnique_SetPriority", _wrap_iShaderTechnique_SetPriority, METH_VARARGS },
 	 { (char *)"iShaderTechnique_CreatePass", _wrap_iShaderTechnique_CreatePass, METH_VARARGS },
@@ -102535,7 +100263,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iShaderTechnique_Prepare", _wrap_iShaderTechnique_Prepare, METH_VARARGS },
 	 { (char *)"delete_iShaderTechnique", _wrap_delete_iShaderTechnique, METH_VARARGS },
 	 { (char *)"iShaderTechnique_swigregister", iShaderTechnique_swigregister, METH_VARARGS },
-	 { (char *)"iShaderPass_scfGetID", _wrap_iShaderPass_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderPass_AddStreamMapping", _wrap_iShaderPass_AddStreamMapping, METH_VARARGS },
 	 { (char *)"iShaderPass_GetStreamMapping", _wrap_iShaderPass_GetStreamMapping, METH_VARARGS },
 	 { (char *)"iShaderPass_AddTextureMapping", _wrap_iShaderPass_AddTextureMapping, METH_VARARGS },
@@ -102555,7 +100282,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iShaderPass_GetAlphaMode", _wrap_iShaderPass_GetAlphaMode, METH_VARARGS },
 	 { (char *)"delete_iShaderPass", _wrap_delete_iShaderPass, METH_VARARGS },
 	 { (char *)"iShaderPass_swigregister", iShaderPass_swigregister, METH_VARARGS },
-	 { (char *)"iShaderProgram_scfGetID", _wrap_iShaderProgram_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderProgram_Activate", _wrap_iShaderProgram_Activate, METH_VARARGS },
 	 { (char *)"iShaderProgram_Deactivate", _wrap_iShaderProgram_Deactivate, METH_VARARGS },
 	 { (char *)"iShaderProgram_SetupState", _wrap_iShaderProgram_SetupState, METH_VARARGS },
@@ -102565,7 +100291,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iShaderProgram_Prepare", _wrap_iShaderProgram_Prepare, METH_VARARGS },
 	 { (char *)"delete_iShaderProgram", _wrap_delete_iShaderProgram, METH_VARARGS },
 	 { (char *)"iShaderProgram_swigregister", iShaderProgram_swigregister, METH_VARARGS },
-	 { (char *)"iShaderProgramPlugin_scfGetID", _wrap_iShaderProgramPlugin_scfGetID, METH_VARARGS },
 	 { (char *)"iShaderProgramPlugin_CreateProgram", _wrap_iShaderProgramPlugin_CreateProgram, METH_VARARGS },
 	 { (char *)"iShaderProgramPlugin_SupportType", _wrap_iShaderProgramPlugin_SupportType, METH_VARARGS },
 	 { (char *)"iShaderProgramPlugin_Open", _wrap_iShaderProgramPlugin_Open, METH_VARARGS },
@@ -102586,14 +100311,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iTextureHandle_GetCanvas", _wrap_iTextureHandle_GetCanvas, METH_VARARGS },
 	 { (char *)"iTextureHandle_GetAlphaType", _wrap_iTextureHandle_GetAlphaType, METH_VARARGS },
 	 { (char *)"delete_iTextureHandle", _wrap_delete_iTextureHandle, METH_VARARGS },
+	 { (char *)"iTextureHandle_scfGetVersion", _wrap_iTextureHandle_scfGetVersion, METH_VARARGS },
 	 { (char *)"iTextureHandle_swigregister", iTextureHandle_swigregister, METH_VARARGS },
-	 { (char *)"iRendererLightmap_scfGetID", _wrap_iRendererLightmap_scfGetID, METH_VARARGS },
 	 { (char *)"iRendererLightmap_GetSLMCoords", _wrap_iRendererLightmap_GetSLMCoords, METH_VARARGS },
 	 { (char *)"iRendererLightmap_SetData", _wrap_iRendererLightmap_SetData, METH_VARARGS },
 	 { (char *)"iRendererLightmap_SetLightCellSize", _wrap_iRendererLightmap_SetLightCellSize, METH_VARARGS },
 	 { (char *)"delete_iRendererLightmap", _wrap_delete_iRendererLightmap, METH_VARARGS },
 	 { (char *)"iRendererLightmap_swigregister", iRendererLightmap_swigregister, METH_VARARGS },
-	 { (char *)"iSuperLightmap_scfGetID", _wrap_iSuperLightmap_scfGetID, METH_VARARGS },
 	 { (char *)"iSuperLightmap_RegisterLightmap", _wrap_iSuperLightmap_RegisterLightmap, METH_VARARGS },
 	 { (char *)"iSuperLightmap_Dump", _wrap_iSuperLightmap_Dump, METH_VARARGS },
 	 { (char *)"iSuperLightmap_GetTexture", _wrap_iSuperLightmap_GetTexture, METH_VARARGS },
@@ -102611,8 +100335,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iTextureManager_GetMaxTextureSize", _wrap_iTextureManager_GetMaxTextureSize, METH_VARARGS },
 	 { (char *)"iTextureManager_GetLightmapRendererCoords", _wrap_iTextureManager_GetLightmapRendererCoords, METH_VARARGS },
 	 { (char *)"delete_iTextureManager", _wrap_delete_iTextureManager, METH_VARARGS },
+	 { (char *)"iTextureManager_scfGetVersion", _wrap_iTextureManager_scfGetVersion, METH_VARARGS },
 	 { (char *)"iTextureManager_swigregister", iTextureManager_swigregister, METH_VARARGS },
-	 { (char *)"iVertexBuffer_scfGetID", _wrap_iVertexBuffer_scfGetID, METH_VARARGS },
 	 { (char *)"iVertexBuffer_GetPriority", _wrap_iVertexBuffer_GetPriority, METH_VARARGS },
 	 { (char *)"iVertexBuffer_IsLocked", _wrap_iVertexBuffer_IsLocked, METH_VARARGS },
 	 { (char *)"iVertexBuffer_GetVertices", _wrap_iVertexBuffer_GetVertices, METH_VARARGS },
@@ -102624,7 +100348,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iVertexBuffer_GetBoundingBox", _wrap_iVertexBuffer_GetBoundingBox, METH_VARARGS },
 	 { (char *)"delete_iVertexBuffer", _wrap_delete_iVertexBuffer, METH_VARARGS },
 	 { (char *)"iVertexBuffer_swigregister", iVertexBuffer_swigregister, METH_VARARGS },
-	 { (char *)"iPolygonBuffer_scfGetID", _wrap_iPolygonBuffer_scfGetID, METH_VARARGS },
 	 { (char *)"iPolygonBuffer_SetVertexArray", _wrap_iPolygonBuffer_SetVertexArray, METH_VARARGS },
 	 { (char *)"iPolygonBuffer_GetVertexCount", _wrap_iPolygonBuffer_GetVertexCount, METH_VARARGS },
 	 { (char *)"iPolygonBuffer_GetVertices", _wrap_iPolygonBuffer_GetVertices, METH_VARARGS },
@@ -102639,11 +100362,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPolygonBuffer_AddPolygon", _wrap_iPolygonBuffer_AddPolygon, METH_VARARGS },
 	 { (char *)"delete_iPolygonBuffer", _wrap_delete_iPolygonBuffer, METH_VARARGS },
 	 { (char *)"iPolygonBuffer_swigregister", iPolygonBuffer_swigregister, METH_VARARGS },
-	 { (char *)"iVertexBufferManagerClient_scfGetID", _wrap_iVertexBufferManagerClient_scfGetID, METH_VARARGS },
 	 { (char *)"iVertexBufferManagerClient_ManagerClosing", _wrap_iVertexBufferManagerClient_ManagerClosing, METH_VARARGS },
 	 { (char *)"delete_iVertexBufferManagerClient", _wrap_delete_iVertexBufferManagerClient, METH_VARARGS },
 	 { (char *)"iVertexBufferManagerClient_swigregister", iVertexBufferManagerClient_swigregister, METH_VARARGS },
-	 { (char *)"iVertexBufferManager_scfGetID", _wrap_iVertexBufferManager_scfGetID, METH_VARARGS },
 	 { (char *)"iVertexBufferManager_CreateBuffer", _wrap_iVertexBufferManager_CreateBuffer, METH_VARARGS },
 	 { (char *)"iVertexBufferManager_ChangePriority", _wrap_iVertexBufferManager_ChangePriority, METH_VARARGS },
 	 { (char *)"iVertexBufferManager_LockBuffer", _wrap_iVertexBufferManager_LockBuffer, METH_VARARGS },
@@ -102681,8 +100402,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMaterial_GetReflection", _wrap_iMaterial_GetReflection, METH_VARARGS },
 	 { (char *)"iMaterial_SetReflection", _wrap_iMaterial_SetReflection, METH_VARARGS },
 	 { (char *)"delete_iMaterial", _wrap_delete_iMaterial, METH_VARARGS },
+	 { (char *)"iMaterial_scfGetVersion", _wrap_iMaterial_scfGetVersion, METH_VARARGS },
 	 { (char *)"iMaterial_swigregister", iMaterial_swigregister, METH_VARARGS },
-	 { (char *)"iMaterialHandle_scfGetID", _wrap_iMaterialHandle_scfGetID, METH_VARARGS },
 	 { (char *)"iMaterialHandle_GetShader", _wrap_iMaterialHandle_GetShader, METH_VARARGS },
 	 { (char *)"iMaterialHandle_GetTexture", _wrap_iMaterialHandle_GetTexture, METH_VARARGS },
 	 { (char *)"iMaterialHandle_GetFlatColor", _wrap_iMaterialHandle_GetFlatColor, METH_VARARGS },
@@ -102690,12 +100411,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMaterialHandle_Prepare", _wrap_iMaterialHandle_Prepare, METH_VARARGS },
 	 { (char *)"delete_iMaterialHandle", _wrap_delete_iMaterialHandle, METH_VARARGS },
 	 { (char *)"iMaterialHandle_swigregister", iMaterialHandle_swigregister, METH_VARARGS },
-	 { (char *)"iNativeWindowManager_scfGetID", _wrap_iNativeWindowManager_scfGetID, METH_VARARGS },
 	 { (char *)"iNativeWindowManager_Alert", _wrap_iNativeWindowManager_Alert, METH_VARARGS },
 	 { (char *)"iNativeWindowManager_AlertV", _wrap_iNativeWindowManager_AlertV, METH_VARARGS },
 	 { (char *)"delete_iNativeWindowManager", _wrap_delete_iNativeWindowManager, METH_VARARGS },
 	 { (char *)"iNativeWindowManager_swigregister", iNativeWindowManager_swigregister, METH_VARARGS },
-	 { (char *)"iNativeWindow_scfGetID", _wrap_iNativeWindow_scfGetID, METH_VARARGS },
 	 { (char *)"iNativeWindow_SetTitle", _wrap_iNativeWindow_SetTitle, METH_VARARGS },
 	 { (char *)"delete_iNativeWindow", _wrap_delete_iNativeWindow, METH_VARARGS },
 	 { (char *)"iNativeWindow_swigregister", iNativeWindow_swigregister, METH_VARARGS },
@@ -102738,6 +100457,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStreamIterator_HasNext", _wrap_iStreamIterator_HasNext, METH_VARARGS },
 	 { (char *)"iStreamIterator_Next", _wrap_iStreamIterator_Next, METH_VARARGS },
 	 { (char *)"delete_iStreamIterator", _wrap_delete_iStreamIterator, METH_VARARGS },
+	 { (char *)"iStreamIterator_scfGetVersion", _wrap_iStreamIterator_scfGetVersion, METH_VARARGS },
 	 { (char *)"iStreamIterator_swigregister", iStreamIterator_swigregister, METH_VARARGS },
 	 { (char *)"iStreamFormat_GetCaps", _wrap_iStreamFormat_GetCaps, METH_VARARGS },
 	 { (char *)"iStreamFormat_GetStreamIterator", _wrap_iStreamFormat_GetStreamIterator, METH_VARARGS },
@@ -102746,6 +100466,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStreamFormat_Load", _wrap_iStreamFormat_Load, METH_VARARGS },
 	 { (char *)"iStreamFormat_Unload", _wrap_iStreamFormat_Unload, METH_VARARGS },
 	 { (char *)"delete_iStreamFormat", _wrap_delete_iStreamFormat, METH_VARARGS },
+	 { (char *)"iStreamFormat_scfGetVersion", _wrap_iStreamFormat_scfGetVersion, METH_VARARGS },
 	 { (char *)"iStreamFormat_swigregister", iStreamFormat_swigregister, METH_VARARGS },
 	 { (char *)"iStream_GetStreamDescription", _wrap_iStream_GetStreamDescription, METH_VARARGS },
 	 { (char *)"iStream_GotoFrame", _wrap_iStream_GotoFrame, METH_VARARGS },
@@ -102753,15 +100474,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStream_SetPlayMethod", _wrap_iStream_SetPlayMethod, METH_VARARGS },
 	 { (char *)"iStream_NextFrame", _wrap_iStream_NextFrame, METH_VARARGS },
 	 { (char *)"delete_iStream", _wrap_delete_iStream, METH_VARARGS },
+	 { (char *)"iStream_scfGetVersion", _wrap_iStream_scfGetVersion, METH_VARARGS },
 	 { (char *)"iStream_swigregister", iStream_swigregister, METH_VARARGS },
 	 { (char *)"iVideoStream_GetStreamDescription", _wrap_iVideoStream_GetStreamDescription, METH_VARARGS },
 	 { (char *)"iVideoStream_SetRect", _wrap_iVideoStream_SetRect, METH_VARARGS },
 	 { (char *)"iVideoStream_SetFXMode", _wrap_iVideoStream_SetFXMode, METH_VARARGS },
 	 { (char *)"iVideoStream_NextFrameGetMaterial", _wrap_iVideoStream_NextFrameGetMaterial, METH_VARARGS },
 	 { (char *)"delete_iVideoStream", _wrap_delete_iVideoStream, METH_VARARGS },
+	 { (char *)"iVideoStream_scfGetVersion", _wrap_iVideoStream_scfGetVersion, METH_VARARGS },
 	 { (char *)"iVideoStream_swigregister", iVideoStream_swigregister, METH_VARARGS },
 	 { (char *)"iAudioStream_GetStreamDescription", _wrap_iAudioStream_GetStreamDescription, METH_VARARGS },
 	 { (char *)"delete_iAudioStream", _wrap_delete_iAudioStream, METH_VARARGS },
+	 { (char *)"iAudioStream_scfGetVersion", _wrap_iAudioStream_scfGetVersion, METH_VARARGS },
 	 { (char *)"iAudioStream_swigregister", iAudioStream_swigregister, METH_VARARGS },
 	 { (char *)"csCodecDescription_codec_set", _wrap_csCodecDescription_codec_set, METH_VARARGS },
 	 { (char *)"csCodecDescription_codec_get", _wrap_csCodecDescription_codec_get, METH_VARARGS },
@@ -102796,6 +100520,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iImage_Sharpen", _wrap_iImage_Sharpen, METH_VARARGS },
 	 { (char *)"iImage_HasMipmaps", _wrap_iImage_HasMipmaps, METH_VARARGS },
 	 { (char *)"delete_iImage", _wrap_delete_iImage, METH_VARARGS },
+	 { (char *)"iImage_scfGetVersion", _wrap_iImage_scfGetVersion, METH_VARARGS },
 	 { (char *)"iImage_swigregister", iImage_swigregister, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_mime_get", _wrap_csImageIOFileFormatDescription_mime_get, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_subtype_get", _wrap_csImageIOFileFormatDescription_subtype_get, METH_VARARGS },
@@ -102809,12 +100534,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iImageIO_SetDithering", _wrap_iImageIO_SetDithering, METH_VARARGS },
 	 { (char *)"iImageIO_Save", _wrap_iImageIO_Save, METH_VARARGS },
 	 { (char *)"delete_iImageIO", _wrap_delete_iImageIO, METH_VARARGS },
+	 { (char *)"iImageIO_scfGetVersion", _wrap_iImageIO_scfGetVersion, METH_VARARGS },
 	 { (char *)"iImageIO_swigregister", iImageIO_swigregister, METH_VARARGS },
-	 { (char *)"iReporterListener_scfGetID", _wrap_iReporterListener_scfGetID, METH_VARARGS },
 	 { (char *)"iReporterListener_Report", _wrap_iReporterListener_Report, METH_VARARGS },
 	 { (char *)"delete_iReporterListener", _wrap_delete_iReporterListener, METH_VARARGS },
 	 { (char *)"iReporterListener_swigregister", iReporterListener_swigregister, METH_VARARGS },
-	 { (char *)"iReporterIterator_scfGetID", _wrap_iReporterIterator_scfGetID, METH_VARARGS },
 	 { (char *)"iReporterIterator_HasNext", _wrap_iReporterIterator_HasNext, METH_VARARGS },
 	 { (char *)"iReporterIterator_Next", _wrap_iReporterIterator_Next, METH_VARARGS },
 	 { (char *)"iReporterIterator_GetMessageSeverity", _wrap_iReporterIterator_GetMessageSeverity, METH_VARARGS },
@@ -102822,7 +100546,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iReporterIterator_GetMessageDescription", _wrap_iReporterIterator_GetMessageDescription, METH_VARARGS },
 	 { (char *)"delete_iReporterIterator", _wrap_delete_iReporterIterator, METH_VARARGS },
 	 { (char *)"iReporterIterator_swigregister", iReporterIterator_swigregister, METH_VARARGS },
-	 { (char *)"iReporter_scfGetID", _wrap_iReporter_scfGetID, METH_VARARGS },
 	 { (char *)"iReporter_Report", _wrap_iReporter_Report, METH_VARARGS },
 	 { (char *)"iReporter_Clear", _wrap_iReporter_Clear, METH_VARARGS },
 	 { (char *)"iReporter_GetMessageIterator", _wrap_iReporter_GetMessageIterator, METH_VARARGS },
@@ -102840,7 +100563,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_csReporterHelper", _wrap_new_csReporterHelper, METH_VARARGS },
 	 { (char *)"delete_csReporterHelper", _wrap_delete_csReporterHelper, METH_VARARGS },
 	 { (char *)"csReporterHelper_swigregister", csReporterHelper_swigregister, METH_VARARGS },
-	 { (char *)"iStandardReporterListener_scfGetID", _wrap_iStandardReporterListener_scfGetID, METH_VARARGS },
 	 { (char *)"iStandardReporterListener_SetOutputConsole", _wrap_iStandardReporterListener_SetOutputConsole, METH_VARARGS },
 	 { (char *)"iStandardReporterListener_SetNativeWindowManager", _wrap_iStandardReporterListener_SetNativeWindowManager, METH_VARARGS },
 	 { (char *)"iStandardReporterListener_SetReporter", _wrap_iStandardReporterListener_SetReporter, METH_VARARGS },
@@ -102865,6 +100587,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iView_GetClipper", _wrap_iView_GetClipper, METH_VARARGS },
 	 { (char *)"iView_Draw", _wrap_iView_Draw, METH_VARARGS },
 	 { (char *)"delete_iView", _wrap_delete_iView, METH_VARARGS },
+	 { (char *)"iView_scfGetVersion", _wrap_iView_scfGetVersion, METH_VARARGS },
 	 { (char *)"iView_swigregister", iView_swigregister, METH_VARARGS },
 	 { (char *)"csCollisionPair_a1_set", _wrap_csCollisionPair_a1_set, METH_VARARGS },
 	 { (char *)"csCollisionPair_a1_get", _wrap_csCollisionPair_a1_get, METH_VARARGS },
@@ -102882,6 +100605,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_csCollisionPair", _wrap_delete_csCollisionPair, METH_VARARGS },
 	 { (char *)"csCollisionPair_swigregister", csCollisionPair_swigregister, METH_VARARGS },
 	 { (char *)"delete_iCollider", _wrap_delete_iCollider, METH_VARARGS },
+	 { (char *)"iCollider_scfGetVersion", _wrap_iCollider_scfGetVersion, METH_VARARGS },
 	 { (char *)"iCollider_swigregister", iCollider_swigregister, METH_VARARGS },
 	 { (char *)"iCollideSystem_CreateCollider", _wrap_iCollideSystem_CreateCollider, METH_VARARGS },
 	 { (char *)"iCollideSystem_CreateSphereCollider", _wrap_iCollideSystem_CreateSphereCollider, METH_VARARGS },
@@ -102894,6 +100618,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCollideSystem_GetOneHitOnly", _wrap_iCollideSystem_GetOneHitOnly, METH_VARARGS },
 	 { (char *)"iCollideSystem_CollidePath", _wrap_iCollideSystem_CollidePath, METH_VARARGS },
 	 { (char *)"delete_iCollideSystem", _wrap_delete_iCollideSystem, METH_VARARGS },
+	 { (char *)"iCollideSystem_scfGetVersion", _wrap_iCollideSystem_scfGetVersion, METH_VARARGS },
 	 { (char *)"iCollideSystem_GetCollisionPairByIndex", _wrap_iCollideSystem_GetCollisionPairByIndex, METH_VARARGS },
 	 { (char *)"iCollideSystem_swigregister", iCollideSystem_swigregister, METH_VARARGS },
 	 { (char *)"iDynamics_CreateSystem", _wrap_iDynamics_CreateSystem, METH_VARARGS },
@@ -102901,6 +100626,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDynamics_FindSystem", _wrap_iDynamics_FindSystem, METH_VARARGS },
 	 { (char *)"iDynamics_Step", _wrap_iDynamics_Step, METH_VARARGS },
 	 { (char *)"delete_iDynamics", _wrap_delete_iDynamics, METH_VARARGS },
+	 { (char *)"iDynamics_scfGetVersion", _wrap_iDynamics_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDynamics_swigregister", iDynamics_swigregister, METH_VARARGS },
 	 { (char *)"iDynamicSystem_QueryObject", _wrap_iDynamicSystem_QueryObject, METH_VARARGS },
 	 { (char *)"iDynamicSystem_SetGravity", _wrap_iDynamicSystem_SetGravity, METH_VARARGS },
@@ -102924,12 +100650,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iDynamicSystem_AttachColliderSphere", _wrap_iDynamicSystem_AttachColliderSphere, METH_VARARGS },
 	 { (char *)"iDynamicSystem_AttachColliderPlane", _wrap_iDynamicSystem_AttachColliderPlane, METH_VARARGS },
 	 { (char *)"delete_iDynamicSystem", _wrap_delete_iDynamicSystem, METH_VARARGS },
+	 { (char *)"iDynamicSystem_scfGetVersion", _wrap_iDynamicSystem_scfGetVersion, METH_VARARGS },
 	 { (char *)"iDynamicSystem_swigregister", iDynamicSystem_swigregister, METH_VARARGS },
-	 { (char *)"iDynamicsMoveCallback_scfGetID", _wrap_iDynamicsMoveCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iDynamicsMoveCallback_Execute", _wrap_iDynamicsMoveCallback_Execute, METH_VARARGS },
 	 { (char *)"delete_iDynamicsMoveCallback", _wrap_delete_iDynamicsMoveCallback, METH_VARARGS },
 	 { (char *)"iDynamicsMoveCallback_swigregister", iDynamicsMoveCallback_swigregister, METH_VARARGS },
-	 { (char *)"iDynamicsCollisionCallback_scfGetID", _wrap_iDynamicsCollisionCallback_scfGetID, METH_VARARGS },
 	 { (char *)"iDynamicsCollisionCallback_Execute", _wrap_iDynamicsCollisionCallback_Execute, METH_VARARGS },
 	 { (char *)"delete_iDynamicsCollisionCallback", _wrap_delete_iDynamicsCollisionCallback, METH_VARARGS },
 	 { (char *)"iDynamicsCollisionCallback_swigregister", iDynamicsCollisionCallback_swigregister, METH_VARARGS },
@@ -102937,8 +100662,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBodyGroup_RemoveBody", _wrap_iBodyGroup_RemoveBody, METH_VARARGS },
 	 { (char *)"iBodyGroup_BodyInGroup", _wrap_iBodyGroup_BodyInGroup, METH_VARARGS },
 	 { (char *)"delete_iBodyGroup", _wrap_delete_iBodyGroup, METH_VARARGS },
+	 { (char *)"iBodyGroup_scfGetVersion", _wrap_iBodyGroup_scfGetVersion, METH_VARARGS },
 	 { (char *)"iBodyGroup_swigregister", iBodyGroup_swigregister, METH_VARARGS },
-	 { (char *)"iRigidBody_scfGetID", _wrap_iRigidBody_scfGetID, METH_VARARGS },
 	 { (char *)"iRigidBody_QueryObject", _wrap_iRigidBody_QueryObject, METH_VARARGS },
 	 { (char *)"iRigidBody_MakeStatic", _wrap_iRigidBody_MakeStatic, METH_VARARGS },
 	 { (char *)"iRigidBody_MakeDynamic", _wrap_iRigidBody_MakeDynamic, METH_VARARGS },
@@ -103003,12 +100728,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iJoint_SetMaximumAngle", _wrap_iJoint_SetMaximumAngle, METH_VARARGS },
 	 { (char *)"iJoint_GetMaximumAngle", _wrap_iJoint_GetMaximumAngle, METH_VARARGS },
 	 { (char *)"delete_iJoint", _wrap_delete_iJoint, METH_VARARGS },
+	 { (char *)"iJoint_scfGetVersion", _wrap_iJoint_scfGetVersion, METH_VARARGS },
 	 { (char *)"iJoint_swigregister", iJoint_swigregister, METH_VARARGS },
-	 { (char *)"iConsoleWatcher_scfGetID", _wrap_iConsoleWatcher_scfGetID, METH_VARARGS },
 	 { (char *)"iConsoleWatcher_ConsoleVisibilityChanged", _wrap_iConsoleWatcher_ConsoleVisibilityChanged, METH_VARARGS },
 	 { (char *)"delete_iConsoleWatcher", _wrap_delete_iConsoleWatcher, METH_VARARGS },
 	 { (char *)"iConsoleWatcher_swigregister", iConsoleWatcher_swigregister, METH_VARARGS },
-	 { (char *)"iConsoleOutput_scfGetID", _wrap_iConsoleOutput_scfGetID, METH_VARARGS },
 	 { (char *)"iConsoleOutput_PutText", _wrap_iConsoleOutput_PutText, METH_VARARGS },
 	 { (char *)"iConsoleOutput_PutTextV", _wrap_iConsoleOutput_PutTextV, METH_VARARGS },
 	 { (char *)"iConsoleOutput_GetLine", _wrap_iConsoleOutput_GetLine, METH_VARARGS },
@@ -103034,12 +100758,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iConsoleOutput_PerformExtensionV", _wrap_iConsoleOutput_PerformExtensionV, METH_VARARGS },
 	 { (char *)"delete_iConsoleOutput", _wrap_delete_iConsoleOutput, METH_VARARGS },
 	 { (char *)"iConsoleOutput_swigregister", iConsoleOutput_swigregister, METH_VARARGS },
-	 { (char *)"iParameterESM_scfGetID", _wrap_iParameterESM_scfGetID, METH_VARARGS },
 	 { (char *)"iParameterESM_GetValue", _wrap_iParameterESM_GetValue, METH_VARARGS },
 	 { (char *)"iParameterESM_IsConstant", _wrap_iParameterESM_IsConstant, METH_VARARGS },
 	 { (char *)"delete_iParameterESM", _wrap_delete_iParameterESM, METH_VARARGS },
 	 { (char *)"iParameterESM_swigregister", iParameterESM_swigregister, METH_VARARGS },
-	 { (char *)"iEngineSequenceParameters_scfGetID", _wrap_iEngineSequenceParameters_scfGetID, METH_VARARGS },
 	 { (char *)"iEngineSequenceParameters_GetParameterCount", _wrap_iEngineSequenceParameters_GetParameterCount, METH_VARARGS },
 	 { (char *)"iEngineSequenceParameters_GetParameter", _wrap_iEngineSequenceParameters_GetParameter, METH_VARARGS },
 	 { (char *)"iEngineSequenceParameters_GetParameterIdx", _wrap_iEngineSequenceParameters_GetParameterIdx, METH_VARARGS },
@@ -103049,7 +100771,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iEngineSequenceParameters_CreateParameterESM", _wrap_iEngineSequenceParameters_CreateParameterESM, METH_VARARGS },
 	 { (char *)"delete_iEngineSequenceParameters", _wrap_delete_iEngineSequenceParameters, METH_VARARGS },
 	 { (char *)"iEngineSequenceParameters_swigregister", iEngineSequenceParameters_swigregister, METH_VARARGS },
-	 { (char *)"iSequenceWrapper_scfGetID", _wrap_iSequenceWrapper_scfGetID, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_QueryObject", _wrap_iSequenceWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_GetSequence", _wrap_iSequenceWrapper_GetSequence, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_CreateBaseParameterBlock", _wrap_iSequenceWrapper_CreateBaseParameterBlock, METH_VARARGS },
@@ -103074,7 +100795,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSequenceWrapper_AddOperationTestTrigger", _wrap_iSequenceWrapper_AddOperationTestTrigger, METH_VARARGS },
 	 { (char *)"delete_iSequenceWrapper", _wrap_delete_iSequenceWrapper, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_swigregister", iSequenceWrapper_swigregister, METH_VARARGS },
-	 { (char *)"iSequenceTrigger_scfGetID", _wrap_iSequenceTrigger_scfGetID, METH_VARARGS },
 	 { (char *)"iSequenceTrigger_QueryObject", _wrap_iSequenceTrigger_QueryObject, METH_VARARGS },
 	 { (char *)"iSequenceTrigger_AddConditionInSector", _wrap_iSequenceTrigger_AddConditionInSector, METH_VARARGS },
 	 { (char *)"iSequenceTrigger_AddConditionSectorVisible", _wrap_iSequenceTrigger_AddConditionSectorVisible, METH_VARARGS },
@@ -103094,11 +100814,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSequenceTrigger_ForceFire", _wrap_iSequenceTrigger_ForceFire, METH_VARARGS },
 	 { (char *)"delete_iSequenceTrigger", _wrap_delete_iSequenceTrigger, METH_VARARGS },
 	 { (char *)"iSequenceTrigger_swigregister", iSequenceTrigger_swigregister, METH_VARARGS },
-	 { (char *)"iSequenceTimedOperation_scfGetID", _wrap_iSequenceTimedOperation_scfGetID, METH_VARARGS },
 	 { (char *)"iSequenceTimedOperation_Do", _wrap_iSequenceTimedOperation_Do, METH_VARARGS },
 	 { (char *)"delete_iSequenceTimedOperation", _wrap_delete_iSequenceTimedOperation, METH_VARARGS },
 	 { (char *)"iSequenceTimedOperation_swigregister", iSequenceTimedOperation_swigregister, METH_VARARGS },
-	 { (char *)"iEngineSequenceManager_scfGetID", _wrap_iEngineSequenceManager_scfGetID, METH_VARARGS },
 	 { (char *)"iEngineSequenceManager_GetSequenceManager", _wrap_iEngineSequenceManager_GetSequenceManager, METH_VARARGS },
 	 { (char *)"iEngineSequenceManager_SetCamera", _wrap_iEngineSequenceManager_SetCamera, METH_VARARGS },
 	 { (char *)"iEngineSequenceManager_GetCamera", _wrap_iEngineSequenceManager_GetCamera, METH_VARARGS },
@@ -103138,6 +100856,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iScriptObject_Get", _wrap_iScriptObject_Get, METH_VARARGS },
 	 { (char *)"iScriptObject_GetTruth", _wrap_iScriptObject_GetTruth, METH_VARARGS },
 	 { (char *)"delete_iScriptObject", _wrap_delete_iScriptObject, METH_VARARGS },
+	 { (char *)"iScriptObject_scfGetVersion", _wrap_iScriptObject_scfGetVersion, METH_VARARGS },
 	 { (char *)"iScriptObject_swigregister", iScriptObject_swigregister, METH_VARARGS },
 	 { (char *)"iScript_Initialize", _wrap_iScript_Initialize, METH_VARARGS },
 	 { (char *)"iScript_RunText", _wrap_iScript_RunText, METH_VARARGS },
@@ -103159,14 +100878,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iScript_GetTruth", _wrap_iScript_GetTruth, METH_VARARGS },
 	 { (char *)"iScript_Remove", _wrap_iScript_Remove, METH_VARARGS },
 	 { (char *)"delete_iScript", _wrap_delete_iScript, METH_VARARGS },
+	 { (char *)"iScript_scfGetVersion", _wrap_iScript_scfGetVersion, METH_VARARGS },
 	 { (char *)"iScript_swigregister", iScript_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkPacket_Read", _wrap_iNetworkPacket_Read, METH_VARARGS },
 	 { (char *)"iNetworkPacket_Write", _wrap_iNetworkPacket_Write, METH_VARARGS },
 	 { (char *)"iNetworkPacket_New", _wrap_iNetworkPacket_New, METH_VARARGS },
 	 { (char *)"iNetworkPacket_FilterSocket", _wrap_iNetworkPacket_FilterSocket, METH_VARARGS },
 	 { (char *)"delete_iNetworkPacket", _wrap_delete_iNetworkPacket, METH_VARARGS },
+	 { (char *)"iNetworkPacket_scfGetVersion", _wrap_iNetworkPacket_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkPacket_swigregister", iNetworkPacket_swigregister, METH_VARARGS },
-	 { (char *)"iNetworkPacket2_scfGetID", _wrap_iNetworkPacket2_scfGetID, METH_VARARGS },
 	 { (char *)"iNetworkPacket2_Read", _wrap_iNetworkPacket2_Read, METH_VARARGS },
 	 { (char *)"iNetworkPacket2_Write", _wrap_iNetworkPacket2_Write, METH_VARARGS },
 	 { (char *)"iNetworkPacket2_New", _wrap_iNetworkPacket2_New, METH_VARARGS },
@@ -103183,6 +100903,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iNetworkManager_Send", _wrap_iNetworkManager_Send, METH_VARARGS },
 	 { (char *)"iNetworkManager_SendToAll", _wrap_iNetworkManager_SendToAll, METH_VARARGS },
 	 { (char *)"delete_iNetworkManager", _wrap_delete_iNetworkManager, METH_VARARGS },
+	 { (char *)"iNetworkManager_scfGetVersion", _wrap_iNetworkManager_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkManager_swigregister", iNetworkManager_swigregister, METH_VARARGS },
 	 { (char *)"csNetworkDriverCapabilities_ConnectionReliable_set", _wrap_csNetworkDriverCapabilities_ConnectionReliable_set, METH_VARARGS },
 	 { (char *)"csNetworkDriverCapabilities_ConnectionReliable_get", _wrap_csNetworkDriverCapabilities_ConnectionReliable_get, METH_VARARGS },
@@ -103199,21 +100920,25 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iNetworkEndPoint_SetOption", _wrap_iNetworkEndPoint_SetOption, METH_VARARGS },
 	 { (char *)"iNetworkEndPoint_GetLastError", _wrap_iNetworkEndPoint_GetLastError, METH_VARARGS },
 	 { (char *)"delete_iNetworkEndPoint", _wrap_delete_iNetworkEndPoint, METH_VARARGS },
+	 { (char *)"iNetworkEndPoint_scfGetVersion", _wrap_iNetworkEndPoint_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkEndPoint_swigregister", iNetworkEndPoint_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkConnection_Send", _wrap_iNetworkConnection_Send, METH_VARARGS },
 	 { (char *)"iNetworkConnection_IsConnected", _wrap_iNetworkConnection_IsConnected, METH_VARARGS },
 	 { (char *)"iNetworkConnection_Receive", _wrap_iNetworkConnection_Receive, METH_VARARGS },
 	 { (char *)"iNetworkConnection_IsDataWaiting", _wrap_iNetworkConnection_IsDataWaiting, METH_VARARGS },
 	 { (char *)"delete_iNetworkConnection", _wrap_delete_iNetworkConnection, METH_VARARGS },
+	 { (char *)"iNetworkConnection_scfGetVersion", _wrap_iNetworkConnection_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkConnection_swigregister", iNetworkConnection_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkListener_Accept", _wrap_iNetworkListener_Accept, METH_VARARGS },
 	 { (char *)"delete_iNetworkListener", _wrap_delete_iNetworkListener, METH_VARARGS },
+	 { (char *)"iNetworkListener_scfGetVersion", _wrap_iNetworkListener_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkListener_swigregister", iNetworkListener_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkDriver_NewConnection", _wrap_iNetworkDriver_NewConnection, METH_VARARGS },
 	 { (char *)"iNetworkDriver_NewListener", _wrap_iNetworkDriver_NewListener, METH_VARARGS },
 	 { (char *)"iNetworkDriver_GetCapabilities", _wrap_iNetworkDriver_GetCapabilities, METH_VARARGS },
 	 { (char *)"iNetworkDriver_GetLastError", _wrap_iNetworkDriver_GetLastError, METH_VARARGS },
 	 { (char *)"delete_iNetworkDriver", _wrap_delete_iNetworkDriver, METH_VARARGS },
+	 { (char *)"iNetworkDriver_scfGetVersion", _wrap_iNetworkDriver_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkDriver_swigregister", iNetworkDriver_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkSocket2_IsConnected", _wrap_iNetworkSocket2_IsConnected, METH_VARARGS },
 	 { (char *)"iNetworkSocket2_LastError", _wrap_iNetworkSocket2_LastError, METH_VARARGS },
@@ -103231,6 +100956,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iNetworkSocket2_ReadLine", _wrap_iNetworkSocket2_ReadLine, METH_VARARGS },
 	 { (char *)"iNetworkSocket2_RemoteName", _wrap_iNetworkSocket2_RemoteName, METH_VARARGS },
 	 { (char *)"delete_iNetworkSocket2", _wrap_delete_iNetworkSocket2, METH_VARARGS },
+	 { (char *)"iNetworkSocket2_scfGetVersion", _wrap_iNetworkSocket2_scfGetVersion, METH_VARARGS },
 	 { (char *)"iNetworkSocket2_swigregister", iNetworkSocket2_swigregister, METH_VARARGS },
 	 { (char *)"new_csObject", _wrap_new_csObject, METH_VARARGS },
 	 { (char *)"delete_csObject", _wrap_delete_csObject, METH_VARARGS },
@@ -103289,7 +101015,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csView_RemoveRefOwner", _wrap_csView_RemoveRefOwner, METH_VARARGS },
 	 { (char *)"csView_QueryInterface", _wrap_csView_QueryInterface, METH_VARARGS },
 	 { (char *)"csView_swigregister", csView_swigregister, METH_VARARGS },
-	 { (char *)"csColliderWrapper_scfGetID", _wrap_csColliderWrapper_scfGetID, METH_VARARGS },
 	 { (char *)"new_csColliderWrapper", _wrap_new_csColliderWrapper, METH_VARARGS },
 	 { (char *)"delete_csColliderWrapper", _wrap_delete_csColliderWrapper, METH_VARARGS },
 	 { (char *)"csColliderWrapper_GetCollider", _wrap_csColliderWrapper_GetCollider, METH_VARARGS },
@@ -106437,186 +104162,6 @@ SWIGEXPORT(void) SWIG_init(void) {
     
     PyDict_SetItemString(d,(char*)"cvar", SWIG_globals);
     SWIG_addvarlink(SWIG_globals,(char*)"iSCF_SCF",_wrap_iSCF_SCF_get, _wrap_iSCF_SCF_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFactory_VERSION",_wrap_iFactory_VERSION_get, _wrap_iFactory_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iBase_VERSION",_wrap_iBase_VERSION_get, _wrap_iBase_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSCF_VERSION",_wrap_iSCF_VERSION_get, _wrap_iSCF_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDebugHelper_VERSION",_wrap_iDebugHelper_VERSION_get, _wrap_iDebugHelper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iString_VERSION",_wrap_iString_VERSION_get, _wrap_iString_VERSION_set);
     SWIG_addvarlink(SWIG_globals,(char*)"FRAGMENT_BUFFER_SIZE",_wrap_FRAGMENT_BUFFER_SIZE_get, _wrap_FRAGMENT_BUFFER_SIZE_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iPolygonMesh_VERSION",_wrap_iPolygonMesh_VERSION_get, _wrap_iPolygonMesh_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iClipper2D_VERSION",_wrap_iClipper2D_VERSION_get, _wrap_iClipper2D_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObjectModelListener_VERSION",_wrap_iObjectModelListener_VERSION_get, _wrap_iObjectModelListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObjectModel_VERSION",_wrap_iObjectModel_VERSION_get, _wrap_iObjectModel_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFrustumViewUserdata_VERSION",_wrap_iFrustumViewUserdata_VERSION_get, _wrap_iFrustumViewUserdata_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFrustumView_VERSION",_wrap_iFrustumView_VERSION_get, _wrap_iFrustumView_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLightCallback_VERSION",_wrap_iLightCallback_VERSION_get, _wrap_iLightCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLight_VERSION",_wrap_iLight_VERSION_get, _wrap_iLight_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLightList_VERSION",_wrap_iLightList_VERSION_get, _wrap_iLightList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLightingProcessData_VERSION",_wrap_iLightingProcessData_VERSION_get, _wrap_iLightingProcessData_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLightingProcessInfo_VERSION",_wrap_iLightingProcessInfo_VERSION_get, _wrap_iLightingProcessInfo_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLightIterator_VERSION",_wrap_iLightIterator_VERSION_get, _wrap_iLightIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStatLight_VERSION",_wrap_iStatLight_VERSION_get, _wrap_iStatLight_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSectorCallback_VERSION",_wrap_iSectorCallback_VERSION_get, _wrap_iSectorCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSector_VERSION",_wrap_iSector_VERSION_get, _wrap_iSector_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSectorList_VERSION",_wrap_iSectorList_VERSION_get, _wrap_iSectorList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSectorIterator_VERSION",_wrap_iSectorIterator_VERSION_get, _wrap_iSectorIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEngine_VERSION",_wrap_iEngine_VERSION_get, _wrap_iEngine_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCamera_VERSION",_wrap_iCamera_VERSION_get, _wrap_iCamera_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCameraPosition_VERSION",_wrap_iCameraPosition_VERSION_get, _wrap_iCameraPosition_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCameraPositionList_VERSION",_wrap_iCameraPositionList_VERSION_get, _wrap_iCameraPositionList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iTextureCallback_VERSION",_wrap_iTextureCallback_VERSION_get, _wrap_iTextureCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iTextureWrapper_VERSION",_wrap_iTextureWrapper_VERSION_get, _wrap_iTextureWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iTextureList_VERSION",_wrap_iTextureList_VERSION_get, _wrap_iTextureList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMaterialWrapper_VERSION",_wrap_iMaterialWrapper_VERSION_get, _wrap_iMaterialWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMaterialEngine_VERSION",_wrap_iMaterialEngine_VERSION_get, _wrap_iMaterialEngine_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMaterialList_VERSION",_wrap_iMaterialList_VERSION_get, _wrap_iMaterialList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshDrawCallback_VERSION",_wrap_iMeshDrawCallback_VERSION_get, _wrap_iMeshDrawCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshWrapper_VERSION",_wrap_iMeshWrapper_VERSION_get, _wrap_iMeshWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshFactoryWrapper_VERSION",_wrap_iMeshFactoryWrapper_VERSION_get, _wrap_iMeshFactoryWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshList_VERSION",_wrap_iMeshList_VERSION_get, _wrap_iMeshList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshFactoryList_VERSION",_wrap_iMeshFactoryList_VERSION_get, _wrap_iMeshFactoryList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshWrapperIterator_VERSION",_wrap_iMeshWrapperIterator_VERSION_get, _wrap_iMeshWrapperIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMovableListener_VERSION",_wrap_iMovableListener_VERSION_get, _wrap_iMovableListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMovable_VERSION",_wrap_iMovable_VERSION_get, _wrap_iMovable_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iRegion_VERSION",_wrap_iRegion_VERSION_get, _wrap_iRegion_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iRegionList_VERSION",_wrap_iRegionList_VERSION_get, _wrap_iRegionList_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVisibilityObjectIterator_VERSION",_wrap_iVisibilityObjectIterator_VERSION_get, _wrap_iVisibilityObjectIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVisibilityCullerListener_VERSION",_wrap_iVisibilityCullerListener_VERSION_get, _wrap_iVisibilityCullerListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVisibilityCuller_VERSION",_wrap_iVisibilityCuller_VERSION_get, _wrap_iVisibilityCuller_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVisibilityObject_VERSION",_wrap_iVisibilityObject_VERSION_get, _wrap_iVisibilityObject_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iModelConverter_VERSION",_wrap_iModelConverter_VERSION_get, _wrap_iModelConverter_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshObjectDrawCallback_VERSION",_wrap_iMeshObjectDrawCallback_VERSION_get, _wrap_iMeshObjectDrawCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshObject_VERSION",_wrap_iMeshObject_VERSION_get, _wrap_iMeshObject_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshObjectFactory_VERSION",_wrap_iMeshObjectFactory_VERSION_get, _wrap_iMeshObjectFactory_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMeshObjectType_VERSION",_wrap_iMeshObjectType_VERSION_get, _wrap_iMeshObjectType_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite2DUVAnimationFrame_VERSION",_wrap_iSprite2DUVAnimationFrame_VERSION_get, _wrap_iSprite2DUVAnimationFrame_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite2DUVAnimation_VERSION",_wrap_iSprite2DUVAnimation_VERSION_get, _wrap_iSprite2DUVAnimation_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite2DFactoryState_VERSION",_wrap_iSprite2DFactoryState_VERSION_get, _wrap_iSprite2DFactoryState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite2DState_VERSION",_wrap_iSprite2DState_VERSION_get, _wrap_iSprite2DState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSpriteFrame_VERSION",_wrap_iSpriteFrame_VERSION_get, _wrap_iSpriteFrame_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSpriteAction_VERSION",_wrap_iSpriteAction_VERSION_get, _wrap_iSpriteAction_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSpriteSocket_VERSION",_wrap_iSpriteSocket_VERSION_get, _wrap_iSpriteSocket_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite3DFactoryState_VERSION",_wrap_iSprite3DFactoryState_VERSION_get, _wrap_iSprite3DFactoryState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSprite3DState_VERSION",_wrap_iSprite3DState_VERSION_get, _wrap_iSprite3DState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSpriteCal3DFactoryState_VERSION",_wrap_iSpriteCal3DFactoryState_VERSION_get, _wrap_iSpriteCal3DFactoryState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSpriteCal3DState_VERSION",_wrap_iSpriteCal3DState_VERSION_get, _wrap_iSpriteCal3DState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iBallState_VERSION",_wrap_iBallState_VERSION_get, _wrap_iBallState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iGeneralMeshState_VERSION",_wrap_iGeneralMeshState_VERSION_get, _wrap_iGeneralMeshState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iGeneralFactoryState_VERSION",_wrap_iGeneralFactoryState_VERSION_get, _wrap_iGeneralFactoryState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iPolygonHandle_VERSION",_wrap_iPolygonHandle_VERSION_get, _wrap_iPolygonHandle_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iThingFactoryState_VERSION",_wrap_iThingFactoryState_VERSION_get, _wrap_iThingFactoryState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iThingState_VERSION",_wrap_iThingState_VERSION_get, _wrap_iThingState_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iThingEnvironment_VERSION",_wrap_iThingEnvironment_VERSION_get, _wrap_iThingEnvironment_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLoaderStatus_VERSION",_wrap_iLoaderStatus_VERSION_get, _wrap_iLoaderStatus_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLoader_VERSION",_wrap_iLoader_VERSION_get, _wrap_iLoader_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iLoaderPlugin_VERSION",_wrap_iLoaderPlugin_VERSION_get, _wrap_iLoaderPlugin_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iBinaryLoaderPlugin_VERSION",_wrap_iBinaryLoaderPlugin_VERSION_get, _wrap_iBinaryLoaderPlugin_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSaver_VERSION",_wrap_iSaver_VERSION_get, _wrap_iSaver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundHandle_VERSION",_wrap_iSoundHandle_VERSION_get, _wrap_iSoundHandle_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundLoader_VERSION",_wrap_iSoundLoader_VERSION_get, _wrap_iSoundLoader_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundRender_VERSION",_wrap_iSoundRender_VERSION_get, _wrap_iSoundRender_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundWrapper_VERSION",_wrap_iSoundWrapper_VERSION_get, _wrap_iSoundWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundDriver_VERSION",_wrap_iSoundDriver_VERSION_get, _wrap_iSoundDriver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSoundSource_VERSION",_wrap_iSoundSource_VERSION_get, _wrap_iSoundSource_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iComponent_VERSION",_wrap_iComponent_VERSION_get, _wrap_iComponent_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCacheManager_VERSION",_wrap_iCacheManager_VERSION_get, _wrap_iCacheManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFile_VERSION",_wrap_iFile_VERSION_get, _wrap_iFile_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVFS_VERSION",_wrap_iVFS_VERSION_get, _wrap_iVFS_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObject_VERSION",_wrap_iObject_VERSION_get, _wrap_iObject_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObjectIterator_VERSION",_wrap_iObjectIterator_VERSION_get, _wrap_iObjectIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDataObject_VERSION",_wrap_iDataObject_VERSION_get, _wrap_iDataObject_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObjectRegistry_VERSION",_wrap_iObjectRegistry_VERSION_get, _wrap_iObjectRegistry_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iObjectRegistryIterator_VERSION",_wrap_iObjectRegistryIterator_VERSION_get, _wrap_iObjectRegistryIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVirtualClock_VERSION",_wrap_iVirtualClock_VERSION_get, _wrap_iVirtualClock_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEvent_VERSION",_wrap_iEvent_VERSION_get, _wrap_iEvent_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEventPlug_VERSION",_wrap_iEventPlug_VERSION_get, _wrap_iEventPlug_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEventOutlet_VERSION",_wrap_iEventOutlet_VERSION_get, _wrap_iEventOutlet_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEventCord_VERSION",_wrap_iEventCord_VERSION_get, _wrap_iEventCord_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEventQueue_VERSION",_wrap_iEventQueue_VERSION_get, _wrap_iEventQueue_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEventHandler_VERSION",_wrap_iEventHandler_VERSION_get, _wrap_iEventHandler_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iPluginIterator_VERSION",_wrap_iPluginIterator_VERSION_get, _wrap_iPluginIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iPluginManager_VERSION",_wrap_iPluginManager_VERSION_get, _wrap_iPluginManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iKeyComposer_VERSION",_wrap_iKeyComposer_VERSION_get, _wrap_iKeyComposer_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iKeyboardDriver_VERSION",_wrap_iKeyboardDriver_VERSION_get, _wrap_iKeyboardDriver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMouseDriver_VERSION",_wrap_iMouseDriver_VERSION_get, _wrap_iMouseDriver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iJoystickDriver_VERSION",_wrap_iJoystickDriver_VERSION_get, _wrap_iJoystickDriver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iConfigFile_VERSION",_wrap_iConfigFile_VERSION_get, _wrap_iConfigFile_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iConfigIterator_VERSION",_wrap_iConfigIterator_VERSION_get, _wrap_iConfigIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iConfigManager_VERSION",_wrap_iConfigManager_VERSION_get, _wrap_iConfigManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStringArray_VERSION",_wrap_iStringArray_VERSION_get, _wrap_iStringArray_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocumentAttributeIterator_VERSION",_wrap_iDocumentAttributeIterator_VERSION_get, _wrap_iDocumentAttributeIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocumentAttribute_VERSION",_wrap_iDocumentAttribute_VERSION_get, _wrap_iDocumentAttribute_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocumentNodeIterator_VERSION",_wrap_iDocumentNodeIterator_VERSION_get, _wrap_iDocumentNodeIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocumentNode_VERSION",_wrap_iDocumentNode_VERSION_get, _wrap_iDocumentNode_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocument_VERSION",_wrap_iDocument_VERSION_get, _wrap_iDocument_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDocumentSystem_VERSION",_wrap_iDocumentSystem_VERSION_get, _wrap_iDocumentSystem_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDataBuffer_VERSION",_wrap_iDataBuffer_VERSION_get, _wrap_iDataBuffer_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iGraphics3D_VERSION",_wrap_iGraphics3D_VERSION_get, _wrap_iGraphics3D_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iOffscreenCanvasCallback_VERSION",_wrap_iOffscreenCanvasCallback_VERSION_get, _wrap_iOffscreenCanvasCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iGraphics2D_VERSION",_wrap_iGraphics2D_VERSION_get, _wrap_iGraphics2D_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFontDeleteNotify_VERSION",_wrap_iFontDeleteNotify_VERSION_get, _wrap_iFontDeleteNotify_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFont_VERSION",_wrap_iFont_VERSION_get, _wrap_iFont_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iFontServer_VERSION",_wrap_iFontServer_VERSION_get, _wrap_iFontServer_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iHalo_VERSION",_wrap_iHalo_VERSION_get, _wrap_iHalo_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderVariableContext_VERSION",_wrap_iShaderVariableContext_VERSION_get, _wrap_iShaderVariableContext_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderManager_VERSION",_wrap_iShaderManager_VERSION_get, _wrap_iShaderManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderRenderInterface_VERSION",_wrap_iShaderRenderInterface_VERSION_get, _wrap_iShaderRenderInterface_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShader_VERSION",_wrap_iShader_VERSION_get, _wrap_iShader_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderTechnique_VERSION",_wrap_iShaderTechnique_VERSION_get, _wrap_iShaderTechnique_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderPass_VERSION",_wrap_iShaderPass_VERSION_get, _wrap_iShaderPass_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderProgram_VERSION",_wrap_iShaderProgram_VERSION_get, _wrap_iShaderProgram_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iShaderProgramPlugin_VERSION",_wrap_iShaderProgramPlugin_VERSION_get, _wrap_iShaderProgramPlugin_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iTextureHandle_VERSION",_wrap_iTextureHandle_VERSION_get, _wrap_iTextureHandle_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iRendererLightmap_VERSION",_wrap_iRendererLightmap_VERSION_get, _wrap_iRendererLightmap_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSuperLightmap_VERSION",_wrap_iSuperLightmap_VERSION_get, _wrap_iSuperLightmap_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iTextureManager_VERSION",_wrap_iTextureManager_VERSION_get, _wrap_iTextureManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVertexBuffer_VERSION",_wrap_iVertexBuffer_VERSION_get, _wrap_iVertexBuffer_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iPolygonBuffer_VERSION",_wrap_iPolygonBuffer_VERSION_get, _wrap_iPolygonBuffer_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVertexBufferManagerClient_VERSION",_wrap_iVertexBufferManagerClient_VERSION_get, _wrap_iVertexBufferManagerClient_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVertexBufferManager_VERSION",_wrap_iVertexBufferManager_VERSION_get, _wrap_iVertexBufferManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMaterial_VERSION",_wrap_iMaterial_VERSION_get, _wrap_iMaterial_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iMaterialHandle_VERSION",_wrap_iMaterialHandle_VERSION_get, _wrap_iMaterialHandle_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNativeWindowManager_VERSION",_wrap_iNativeWindowManager_VERSION_get, _wrap_iNativeWindowManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNativeWindow_VERSION",_wrap_iNativeWindow_VERSION_get, _wrap_iNativeWindow_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStreamIterator_VERSION",_wrap_iStreamIterator_VERSION_get, _wrap_iStreamIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStreamFormat_VERSION",_wrap_iStreamFormat_VERSION_get, _wrap_iStreamFormat_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStream_VERSION",_wrap_iStream_VERSION_get, _wrap_iStream_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iVideoStream_VERSION",_wrap_iVideoStream_VERSION_get, _wrap_iVideoStream_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iAudioStream_VERSION",_wrap_iAudioStream_VERSION_get, _wrap_iAudioStream_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iImage_VERSION",_wrap_iImage_VERSION_get, _wrap_iImage_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iImageIO_VERSION",_wrap_iImageIO_VERSION_get, _wrap_iImageIO_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iReporterListener_VERSION",_wrap_iReporterListener_VERSION_get, _wrap_iReporterListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iReporterIterator_VERSION",_wrap_iReporterIterator_VERSION_get, _wrap_iReporterIterator_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iReporter_VERSION",_wrap_iReporter_VERSION_get, _wrap_iReporter_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iStandardReporterListener_VERSION",_wrap_iStandardReporterListener_VERSION_get, _wrap_iStandardReporterListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iView_VERSION",_wrap_iView_VERSION_get, _wrap_iView_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCollider_VERSION",_wrap_iCollider_VERSION_get, _wrap_iCollider_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iCollideSystem_VERSION",_wrap_iCollideSystem_VERSION_get, _wrap_iCollideSystem_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDynamics_VERSION",_wrap_iDynamics_VERSION_get, _wrap_iDynamics_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDynamicSystem_VERSION",_wrap_iDynamicSystem_VERSION_get, _wrap_iDynamicSystem_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDynamicsMoveCallback_VERSION",_wrap_iDynamicsMoveCallback_VERSION_get, _wrap_iDynamicsMoveCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iDynamicsCollisionCallback_VERSION",_wrap_iDynamicsCollisionCallback_VERSION_get, _wrap_iDynamicsCollisionCallback_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iBodyGroup_VERSION",_wrap_iBodyGroup_VERSION_get, _wrap_iBodyGroup_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iRigidBody_VERSION",_wrap_iRigidBody_VERSION_get, _wrap_iRigidBody_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iJoint_VERSION",_wrap_iJoint_VERSION_get, _wrap_iJoint_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iConsoleWatcher_VERSION",_wrap_iConsoleWatcher_VERSION_get, _wrap_iConsoleWatcher_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iConsoleOutput_VERSION",_wrap_iConsoleOutput_VERSION_get, _wrap_iConsoleOutput_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iParameterESM_VERSION",_wrap_iParameterESM_VERSION_get, _wrap_iParameterESM_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEngineSequenceParameters_VERSION",_wrap_iEngineSequenceParameters_VERSION_get, _wrap_iEngineSequenceParameters_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSequenceWrapper_VERSION",_wrap_iSequenceWrapper_VERSION_get, _wrap_iSequenceWrapper_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSequenceTrigger_VERSION",_wrap_iSequenceTrigger_VERSION_get, _wrap_iSequenceTrigger_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iSequenceTimedOperation_VERSION",_wrap_iSequenceTimedOperation_VERSION_get, _wrap_iSequenceTimedOperation_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iEngineSequenceManager_VERSION",_wrap_iEngineSequenceManager_VERSION_get, _wrap_iEngineSequenceManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iScriptObject_VERSION",_wrap_iScriptObject_VERSION_get, _wrap_iScriptObject_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iScript_VERSION",_wrap_iScript_VERSION_get, _wrap_iScript_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkPacket_VERSION",_wrap_iNetworkPacket_VERSION_get, _wrap_iNetworkPacket_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkPacket2_VERSION",_wrap_iNetworkPacket2_VERSION_get, _wrap_iNetworkPacket2_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkManager_VERSION",_wrap_iNetworkManager_VERSION_get, _wrap_iNetworkManager_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkEndPoint_VERSION",_wrap_iNetworkEndPoint_VERSION_get, _wrap_iNetworkEndPoint_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkConnection_VERSION",_wrap_iNetworkConnection_VERSION_get, _wrap_iNetworkConnection_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkListener_VERSION",_wrap_iNetworkListener_VERSION_get, _wrap_iNetworkListener_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkDriver_VERSION",_wrap_iNetworkDriver_VERSION_get, _wrap_iNetworkDriver_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"iNetworkSocket2_VERSION",_wrap_iNetworkSocket2_VERSION_get, _wrap_iNetworkSocket2_VERSION_set);
-    SWIG_addvarlink(SWIG_globals,(char*)"csColliderWrapper_VERSION",_wrap_csColliderWrapper_VERSION_get, _wrap_csColliderWrapper_VERSION_set);
 }
 
