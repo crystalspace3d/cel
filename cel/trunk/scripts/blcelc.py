@@ -87,6 +87,7 @@ _blcelc.iBase_swigregister(iBasePtr)
 iBase_QueryInterfaceSafe = _blcelc.iBase_QueryInterfaceSafe
 
 
+SCF_STATIC_CLASS_CONTEXT = _blcelc.SCF_STATIC_CLASS_CONTEXT
 class iFactory(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2724,9 +2725,6 @@ class iEngine(iBase):
     def PrepareMeshes(*args): return apply(_blcelc.iEngine_PrepareMeshes,args)
     def ShineLights(*args): return apply(_blcelc.iEngine_ShineLights,args)
     def GetTextureFormat(*args): return apply(_blcelc.iEngine_GetTextureFormat,args)
-    def SelectRegion(*args): return apply(_blcelc.iEngine_SelectRegion,args)
-    def GetCurrentRegion(*args): return apply(_blcelc.iEngine_GetCurrentRegion,args)
-    def AddToCurrentRegion(*args): return apply(_blcelc.iEngine_AddToCurrentRegion,args)
     def DeleteAll(*args): return apply(_blcelc.iEngine_DeleteAll,args)
     def RegisterRenderPriority(*args): return apply(_blcelc.iEngine_RegisterRenderPriority,args)
     def GetRenderPriority(*args): return apply(_blcelc.iEngine_GetRenderPriority,args)
@@ -2755,6 +2753,7 @@ class iEngine(iBase):
     def GetTextureList(*args): return apply(_blcelc.iEngine_GetTextureList,args)
     def GetMaterialList(*args): return apply(_blcelc.iEngine_GetMaterialList,args)
     def GetVariableList(*args): return apply(_blcelc.iEngine_GetVariableList,args)
+    def CreateRegion(*args): return apply(_blcelc.iEngine_CreateRegion,args)
     def GetRegions(*args): return apply(_blcelc.iEngine_GetRegions,args)
     def FindMaterial(*args): return apply(_blcelc.iEngine_FindMaterial,args)
     def FindTexture(*args): return apply(_blcelc.iEngine_FindTexture,args)
