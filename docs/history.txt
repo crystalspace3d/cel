@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+25-Mar-2005
+	- Eric Sunshine updated Autoconf and Jam files from master copies in CS
+	  repository.
+	- Eric Sunshine updated CEL for consolidation of CS libraries (csutil,
+	  etc.) into `crystalspace', and rename of `cspython' to
+	  `crystalspace_python'.
+	- Eric Sunshine eliminated several compilation warnings.
 21-Mar-2005
 	- Eric Sunshine updated Autoconf and msvcgen files from master copies
 	  in CS repository.
