@@ -200,7 +200,19 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
     case CEL_TOKEN_DEREFVAR:
       if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
         return false;
-      h->AddOperation (CEL_OPERATION_DEREFVAR);
+      pinput = input;
+      input = celXmlParseToken (input, token);
+      if (token == CEL_TOKEN_DOT)
+      {
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
+          return false;
+        h->AddOperation (CEL_OPERATION_DEREFVARENT);
+      }
+      else
+      {
+        input = pinput;	// Restore!
+        h->AddOperation (CEL_OPERATION_DEREFVAR);
+      }
       break;
     case CEL_TOKEN_PROPERTY:
       {
@@ -672,11 +684,15 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_VAR:
         {
+	  const char* entname = child->GetAttributeValue ("entity");
+	  if (entname)
+            if (!ParseExpression (child, h, "entity", "var"))
+	      return false;
           if (!ParseExpression (child, h, "name", "var"))
 	    return false;
           if (!ParseExpression (child, h, "value", "var"))
 	    return false;
-	  h->AddOperation (CEL_OPERATION_VAR);
+	  h->AddOperation (entname ? CEL_OPERATION_VARENT : CEL_OPERATION_VAR);
 	}
 	break;
       case XMLTOKEN_TESTCOLLIDE:

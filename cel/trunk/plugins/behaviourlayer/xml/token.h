@@ -50,6 +50,7 @@ enum
   CEL_TOKEN_LOGAND,	// &&
   CEL_TOKEN_LOGOR,	// ||
   CEL_TOKEN_COMMA,	// ,
+  CEL_TOKEN_DOT,	// .
   CEL_TOKEN_VECTORCLOSE,// ]
   CEL_TOKEN_ENTITY,	// entity(expr)
   CEL_TOKEN_PC,		// pc(expr,expr)
