@@ -9650,7 +9650,7 @@ class iPcMeshSelectPtr(iPcMeshSelect):
         _swig_setattr(self, iPcMeshSelect,self.__class__,iPcMeshSelect)
 _blcelc.iPcMeshSelect_swigregister(iPcMeshSelectPtr)
 
-celPcMeshSelect = _blcelc.celPcMeshSelect
+celCreateMeshSelect = _blcelc.celCreateMeshSelect
 
 class iPcMesh(iBase):
     __swig_setmethods__ = {}
@@ -9684,7 +9684,7 @@ class iPcMeshPtr(iPcMesh):
         _swig_setattr(self, iPcMesh,self.__class__,iPcMesh)
 _blcelc.iPcMesh_swigregister(iPcMeshPtr)
 
-celPcMesh = _blcelc.celPcMesh
+celCreateMesh = _blcelc.celCreateMesh
 
 class iPcTimer(iBase):
     __swig_setmethods__ = {}
@@ -9710,7 +9710,7 @@ class iPcTimerPtr(iPcTimer):
         _swig_setattr(self, iPcTimer,self.__class__,iPcTimer)
 _blcelc.iPcTimer_swigregister(iPcTimerPtr)
 
-celPcTimer = _blcelc.celPcTimer
+celCreateTimer = _blcelc.celCreateTimer
 
 class iPcSolid(iBase):
     __swig_setmethods__ = {}
@@ -9737,7 +9737,7 @@ class iPcSolidPtr(iPcSolid):
         _swig_setattr(self, iPcSolid,self.__class__,iPcSolid)
 _blcelc.iPcSolid_swigregister(iPcSolidPtr)
 
-celPcSolid = _blcelc.celPcSolid
+celCreateSolid = _blcelc.celCreateSolid
 
 class iPcGravity(iBase):
     __swig_setmethods__ = {}
@@ -9778,7 +9778,7 @@ class iPcGravityPtr(iPcGravity):
         _swig_setattr(self, iPcGravity,self.__class__,iPcGravity)
 _blcelc.iPcGravity_swigregister(iPcGravityPtr)
 
-celPcGravity = _blcelc.celPcGravity
+celCreateGravity = _blcelc.celCreateGravity
 
 class iPcMovable(iBase):
     __swig_setmethods__ = {}
@@ -9809,7 +9809,7 @@ class iPcMovablePtr(iPcMovable):
         _swig_setattr(self, iPcMovable,self.__class__,iPcMovable)
 _blcelc.iPcMovable_swigregister(iPcMovablePtr)
 
-celPcMovable = _blcelc.celPcMovable
+celCreateMovable = _blcelc.celCreateMovable
 
 class iPcInventory(iBase):
     __swig_setmethods__ = {}
@@ -9848,7 +9848,7 @@ class iPcInventoryPtr(iPcInventory):
         _swig_setattr(self, iPcInventory,self.__class__,iPcInventory)
 _blcelc.iPcInventory_swigregister(iPcInventoryPtr)
 
-celPcInventory = _blcelc.celPcInventory
+celCreateInventory = _blcelc.celCreateInventory
 
 class iPcCharacteristics(iBase):
     __swig_setmethods__ = {}
@@ -9885,7 +9885,7 @@ class iPcCharacteristicsPtr(iPcCharacteristics):
         _swig_setattr(self, iPcCharacteristics,self.__class__,iPcCharacteristics)
 _blcelc.iPcCharacteristics_swigregister(iPcCharacteristicsPtr)
 
-celPcCharacteristics = _blcelc.celPcCharacteristics
+celCreateCharacteristics = _blcelc.celCreateCharacteristics
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL

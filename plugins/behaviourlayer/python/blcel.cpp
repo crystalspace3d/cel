@@ -1884,9 +1884,7 @@ iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc) {
 }
 
 
-iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmeshselect"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMeshSelect> pcmeshselect(SCF_QUERY_INTERFACE(pc, iPcMeshSelect));
@@ -1895,9 +1893,7 @@ iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity) 
 }
 
 
-iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmesh"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMesh> pcmesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
@@ -1906,9 +1902,7 @@ iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pctimer"));
   if(!pc.IsValid()) return 0;
   csRef<iPcTimer> pctimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
@@ -1917,9 +1911,7 @@ iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcsolid"));
   if(!pc.IsValid()) return 0;
   csRef<iPcSolid> pcsolid(SCF_QUERY_INTERFACE(pc, iPcSolid));
@@ -1928,9 +1920,7 @@ iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcgravity"));
   if(!pc.IsValid()) return 0;
   csRef<iPcGravity> pcgravity(SCF_QUERY_INTERFACE(pc, iPcGravity));
@@ -1939,9 +1929,7 @@ iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmovable"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMovable> pcmovable(SCF_QUERY_INTERFACE(pc, iPcMovable));
@@ -1950,9 +1938,7 @@ iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcinventory"));
   if(!pc.IsValid()) return 0;
   csRef<iPcInventory> pcinv(SCF_QUERY_INTERFACE(pc, iPcInventory));
@@ -1961,9 +1947,7 @@ iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity) {
 }
 
 
-iPcCharacteristics *celPcCharacteristics(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccharacteristics"));
   if(!pc.IsValid()) return 0;
   csRef<iPcCharacteristics> pccharacteristics(SCF_QUERY_INTERFACE(pc, iPcCharacteristics));
@@ -84174,18 +84158,18 @@ static PyObject * iPcMeshSelect_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcMeshSelect(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateMeshSelect(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcMeshSelect *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcMeshSelect",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateMeshSelect",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcMeshSelect *)celPcMeshSelect(arg1,arg2);
+    result = (iPcMeshSelect *)celCreateMeshSelect(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcMeshSelect, 0);
     return resultobj;
@@ -84401,18 +84385,18 @@ static PyObject * iPcMesh_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcMesh(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateMesh(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcMesh *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcMesh",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateMesh",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcMesh *)celPcMesh(arg1,arg2);
+    result = (iPcMesh *)celCreateMesh(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcMesh, 0);
     return resultobj;
@@ -84484,18 +84468,18 @@ static PyObject * iPcTimer_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcTimer(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateTimer(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcTimer *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcTimer",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateTimer",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcTimer *)celPcTimer(arg1,arg2);
+    result = (iPcTimer *)celCreateTimer(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcTimer, 0);
     return resultobj;
@@ -84580,18 +84564,18 @@ static PyObject * iPcSolid_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcSolid(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateSolid(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcSolid *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcSolid",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateSolid",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcSolid *)celPcSolid(arg1,arg2);
+    result = (iPcSolid *)celCreateSolid(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcSolid, 0);
     return resultobj;
@@ -84940,18 +84924,18 @@ static PyObject * iPcGravity_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcGravity(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateGravity(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcGravity *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcGravity",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateGravity",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcGravity *)celPcGravity(arg1,arg2);
+    result = (iPcGravity *)celCreateGravity(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcGravity, 0);
     return resultobj;
@@ -85122,18 +85106,18 @@ static PyObject * iPcMovable_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcMovable(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateMovable(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcMovable *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcMovable",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateMovable",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcMovable *)celPcMovable(arg1,arg2);
+    result = (iPcMovable *)celCreateMovable(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcMovable, 0);
     return resultobj;
@@ -85456,18 +85440,18 @@ static PyObject * iPcInventory_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcInventory(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateInventory(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcInventory *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcInventory",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateInventory",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcInventory *)celPcInventory(arg1,arg2);
+    result = (iPcInventory *)celCreateInventory(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcInventory, 0);
     return resultobj;
@@ -85734,18 +85718,18 @@ static PyObject * iPcCharacteristics_swigregister(PyObject *self, PyObject *args
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_celPcCharacteristics(PyObject *self, PyObject *args) {
+static PyObject *_wrap_celCreateCharacteristics(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iPcCharacteristics *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:celPcCharacteristics",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:celCreateCharacteristics",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iPcCharacteristics *)celPcCharacteristics(arg1,arg2);
+    result = (iPcCharacteristics *)celCreateCharacteristics(arg1,arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPcCharacteristics, 0);
     return resultobj;
@@ -89065,7 +89049,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMeshSelect_HasSenddownEvent", _wrap_iPcMeshSelect_HasSenddownEvent, METH_VARARGS },
 	 { (char *)"delete_iPcMeshSelect", _wrap_delete_iPcMeshSelect, METH_VARARGS },
 	 { (char *)"iPcMeshSelect_swigregister", iPcMeshSelect_swigregister, METH_VARARGS },
-	 { (char *)"celPcMeshSelect", _wrap_celPcMeshSelect, METH_VARARGS },
+	 { (char *)"celCreateMeshSelect", _wrap_celCreateMeshSelect, METH_VARARGS },
 	 { (char *)"iPcMesh_LoadMesh", _wrap_iPcMesh_LoadMesh, METH_VARARGS },
 	 { (char *)"iPcMesh_SetMesh", _wrap_iPcMesh_SetMesh, METH_VARARGS },
 	 { (char *)"iPcMesh_CreateEmptyThing", _wrap_iPcMesh_CreateEmptyThing, METH_VARARGS },
@@ -89078,18 +89062,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMesh_IsVisible", _wrap_iPcMesh_IsVisible, METH_VARARGS },
 	 { (char *)"delete_iPcMesh", _wrap_delete_iPcMesh, METH_VARARGS },
 	 { (char *)"iPcMesh_swigregister", iPcMesh_swigregister, METH_VARARGS },
-	 { (char *)"celPcMesh", _wrap_celPcMesh, METH_VARARGS },
+	 { (char *)"celCreateMesh", _wrap_celCreateMesh, METH_VARARGS },
 	 { (char *)"iPcTimer_WakeUp", _wrap_iPcTimer_WakeUp, METH_VARARGS },
 	 { (char *)"iPcTimer_Clear", _wrap_iPcTimer_Clear, METH_VARARGS },
 	 { (char *)"delete_iPcTimer", _wrap_delete_iPcTimer, METH_VARARGS },
 	 { (char *)"iPcTimer_swigregister", iPcTimer_swigregister, METH_VARARGS },
-	 { (char *)"celPcTimer", _wrap_celPcTimer, METH_VARARGS },
+	 { (char *)"celCreateTimer", _wrap_celCreateTimer, METH_VARARGS },
 	 { (char *)"iPcSolid_SetMesh", _wrap_iPcSolid_SetMesh, METH_VARARGS },
 	 { (char *)"iPcSolid_GetMesh", _wrap_iPcSolid_GetMesh, METH_VARARGS },
 	 { (char *)"iPcSolid_GetCollider", _wrap_iPcSolid_GetCollider, METH_VARARGS },
 	 { (char *)"delete_iPcSolid", _wrap_delete_iPcSolid, METH_VARARGS },
 	 { (char *)"iPcSolid_swigregister", iPcSolid_swigregister, METH_VARARGS },
-	 { (char *)"celPcSolid", _wrap_celPcSolid, METH_VARARGS },
+	 { (char *)"celCreateSolid", _wrap_celCreateSolid, METH_VARARGS },
 	 { (char *)"iPcGravity_CreateGravityColliderFromMesh", _wrap_iPcGravity_CreateGravityColliderFromMesh, METH_VARARGS },
 	 { (char *)"iPcGravity_CreateGravityCollider", _wrap_iPcGravity_CreateGravityCollider, METH_VARARGS },
 	 { (char *)"iPcGravity_GetGravityCollider", _wrap_iPcGravity_GetGravityCollider, METH_VARARGS },
@@ -89109,7 +89093,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcGravity_IsActive", _wrap_iPcGravity_IsActive, METH_VARARGS },
 	 { (char *)"delete_iPcGravity", _wrap_delete_iPcGravity, METH_VARARGS },
 	 { (char *)"iPcGravity_swigregister", iPcGravity_swigregister, METH_VARARGS },
-	 { (char *)"celPcGravity", _wrap_celPcGravity, METH_VARARGS },
+	 { (char *)"celCreateGravity", _wrap_celCreateGravity, METH_VARARGS },
 	 { (char *)"iPcMovable_SetMesh", _wrap_iPcMovable_SetMesh, METH_VARARGS },
 	 { (char *)"iPcMovable_GetMesh", _wrap_iPcMovable_GetMesh, METH_VARARGS },
 	 { (char *)"iPcMovable_SetPos", _wrap_iPcMovable_SetPos, METH_VARARGS },
@@ -89119,7 +89103,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMovable_RemoveAllConstraints", _wrap_iPcMovable_RemoveAllConstraints, METH_VARARGS },
 	 { (char *)"delete_iPcMovable", _wrap_delete_iPcMovable, METH_VARARGS },
 	 { (char *)"iPcMovable_swigregister", iPcMovable_swigregister, METH_VARARGS },
-	 { (char *)"celPcMovable", _wrap_celPcMovable, METH_VARARGS },
+	 { (char *)"celCreateMovable", _wrap_celCreateMovable, METH_VARARGS },
 	 { (char *)"iPcInventory_AddEntity", _wrap_iPcInventory_AddEntity, METH_VARARGS },
 	 { (char *)"iPcInventory_RemoveEntity", _wrap_iPcInventory_RemoveEntity, METH_VARARGS },
 	 { (char *)"iPcInventory_RemoveAll", _wrap_iPcInventory_RemoveAll, METH_VARARGS },
@@ -89137,7 +89121,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcInventory_Dump", _wrap_iPcInventory_Dump, METH_VARARGS },
 	 { (char *)"delete_iPcInventory", _wrap_delete_iPcInventory, METH_VARARGS },
 	 { (char *)"iPcInventory_swigregister", iPcInventory_swigregister, METH_VARARGS },
-	 { (char *)"celPcInventory", _wrap_celPcInventory, METH_VARARGS },
+	 { (char *)"celCreateInventory", _wrap_celCreateInventory, METH_VARARGS },
 	 { (char *)"iPcCharacteristics_SetCharacteristic", _wrap_iPcCharacteristics_SetCharacteristic, METH_VARARGS },
 	 { (char *)"iPcCharacteristics_SetInheritedCharacteristic", _wrap_iPcCharacteristics_SetInheritedCharacteristic, METH_VARARGS },
 	 { (char *)"iPcCharacteristics_GetCharacteristic", _wrap_iPcCharacteristics_GetCharacteristic, METH_VARARGS },
@@ -89153,7 +89137,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCharacteristics_Dump", _wrap_iPcCharacteristics_Dump, METH_VARARGS },
 	 { (char *)"delete_iPcCharacteristics", _wrap_delete_iPcCharacteristics, METH_VARARGS },
 	 { (char *)"iPcCharacteristics_swigregister", iPcCharacteristics_swigregister, METH_VARARGS },
-	 { (char *)"celPcCharacteristics", _wrap_celPcCharacteristics, METH_VARARGS },
+	 { (char *)"celCreateCharacteristics", _wrap_celCreateCharacteristics, METH_VARARGS },
 	 { NULL, NULL }
 };
 

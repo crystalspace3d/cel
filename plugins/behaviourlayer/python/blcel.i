@@ -334,9 +334,7 @@ struct iPcMeshSelect : public iBase
 };
 
 %{
-iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmeshselect"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMeshSelect> pcmeshselect(SCF_QUERY_INTERFACE(pc, iPcMeshSelect));
@@ -344,7 +342,7 @@ iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity) 
   return pcmeshselect;
 }
 %}
-iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcMesh : public iBase
 {
@@ -361,9 +359,7 @@ struct iPcMesh : public iBase
 };
 
 %{
-iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmesh"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMesh> pcmesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
@@ -371,7 +367,7 @@ iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pcmesh;
 }
 %}
-iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcTimer : public iBase
 {
@@ -380,9 +376,7 @@ struct iPcTimer : public iBase
 };
 
 %{
-iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pctimer"));
   if(!pc.IsValid()) return 0;
   csRef<iPcTimer> pctimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
@@ -390,7 +384,7 @@ iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pctimer;
 }
 %}
-iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcSolid : public iBase
 {
@@ -400,9 +394,7 @@ struct iPcSolid : public iBase
 };
 
 %{
-iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcsolid"));
   if(!pc.IsValid()) return 0;
   csRef<iPcSolid> pcsolid(SCF_QUERY_INTERFACE(pc, iPcSolid));
@@ -410,7 +402,7 @@ iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pcsolid;
 }
 %}
-iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcGravity : public iBase
 {
@@ -434,9 +426,7 @@ struct iPcGravity : public iBase
 };
 
 %{
-iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcgravity"));
   if(!pc.IsValid()) return 0;
   csRef<iPcGravity> pcgravity(SCF_QUERY_INTERFACE(pc, iPcGravity));
@@ -444,7 +434,7 @@ iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pcgravity;
 }
 %}
-iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcMovable : public iBase
 {
@@ -458,9 +448,7 @@ struct iPcMovable : public iBase
 };
 
 %{
-iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmovable"));
   if(!pc.IsValid()) return 0;
   csRef<iPcMovable> pcmovable(SCF_QUERY_INTERFACE(pc, iPcMovable));
@@ -468,7 +456,7 @@ iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pcmovable;
 }
 %}
-iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcInventory : public iBase
 {
@@ -490,9 +478,7 @@ struct iPcInventory : public iBase
 };
 
 %{
-iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcinventory"));
   if(!pc.IsValid()) return 0;
   csRef<iPcInventory> pcinv(SCF_QUERY_INTERFACE(pc, iPcInventory));
@@ -500,7 +486,7 @@ iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity) {
   return pcinv;
 }
 %}
-iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcCharacteristics : public iBase
 {
@@ -520,9 +506,7 @@ struct iPcCharacteristics : public iBase
 };
 
 %{
-iPcCharacteristics *celPcCharacteristics(iObjectRegistry *object_reg, iCelEntity *entity) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccharacteristics"));
   if(!pc.IsValid()) return 0;
   csRef<iPcCharacteristics> pccharacteristics(SCF_QUERY_INTERFACE(pc, iPcCharacteristics));
@@ -530,7 +514,7 @@ iPcCharacteristics *celPcCharacteristics(iObjectRegistry *object_reg, iCelEntity
   return pccharacteristics;
 }
 %}
-iPcCharacteristics *celPcCharacteristics(iObjectRegistry *object_reg, iCelEntity *entity);
+iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity);
 
 enum celDataType
 {
