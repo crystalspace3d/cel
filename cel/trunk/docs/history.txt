@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+28-Dec-2004
+	- Jorrit fixed a bug with NumRegLists::RegisterWithID(). First it
+	  would not update the listsize if the list grew. Secondly it would
+	  not grow the list enough if the id is a lot bigger.
 26-Dec-2004
 	- Jorrit added missing SCF_DESTRUCT_IBASE to all classes in CEL.
 	- Jorrit started a new entity tracker in CEL which can be used
