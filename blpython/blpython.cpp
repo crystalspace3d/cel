@@ -16,15 +16,13 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//extern "C" {
-//#include "Python.h"
-//}
 #include "cssysdef.h"
 #include "cssys/sysfunc.h"
 #include "blpython/blpython.h"
 #include "csutil/csstring.h"
 #include "csutil/util.h"
 #include "ivaria/reporter.h"
+#include "cssys/syspath.h"
 #include "iutil/objreg.h"
 #include "pl/entity.h"
 #include "pl/pl.h"
@@ -70,16 +68,6 @@ celBlPython::~celBlPython ()
   Py_Finalize ();
   object_reg = 0;
 }
-
-/*
-extern "C" {
-  struct swig_type_info;
-  extern swig_type_info * SWIG_TypeQuery (const char *);
-  extern PyObject * SWIG_NewPointerObj (void *, swig_type_info *, int own);
-  extern char * SWIG_PackData (char *c, void *, int);  
-  extern void init_cspace ();
-}
-*/
 
 bool celBlPython::Initialize (iObjectRegistry* object_reg)
 {
@@ -129,7 +117,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
 
 iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* name)
 {
-  PyObject *py_name, *py_module, *py_dict, *py_func, *py_args;
+  PyObject *py_module, *py_dict, *py_func, *py_args;
   PyObject *py_entity, *py_object;
 
   py_module = PyImport_ImportModule((char *)name);
