@@ -183,8 +183,6 @@ bool CelTest::HandleEvent (iEvent& ev)
       // @@@
 #if 1
       engine->Prepare ();
-      iTextureManager* txtmgr = g3d->GetTextureManager ();
-      txtmgr->SetPalette ();
 #endif
     }
     else if (ev.Key.Code == 'c')
@@ -484,7 +482,6 @@ bool CelTest::CreateRoom ()
   engine->Prepare ();
 
   iTextureManager* txtmgr = g3d->GetTextureManager ();
-  txtmgr->SetPalette ();
 
   //===============================
   // Create the box entities.
