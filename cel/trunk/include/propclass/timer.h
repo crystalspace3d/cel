@@ -46,7 +46,7 @@ SCF_VERSION (iPcTimer, 0, 0, 1);
  * to the behaviour:
  * <ul>
  * <li>pctimer_wakeup: wakeup message
- * <li>pctimer_wakeupframe: wakeup message every frame
+ * <li>pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
  * </ul>
  */
 struct iPcTimer : public iBase
