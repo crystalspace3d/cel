@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pf/meshsel.h"
 #include "bltest/behave.h"
 
 //---------------------------------------------------------------------------
@@ -51,24 +52,30 @@ bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 {
   (void)arg;
   printf ("Got message '%s'\n", msg_id);
-  if (!strcmp (msg_id, "selectmesh_up"))
+  iPcMeshSelectData* dat = NULL;
+  if (msg_info) dat = SCF_QUERY_INTERFACE_FAST (msg_info,
+    	iPcMeshSelectData);
+  int x, y, but;
+  iCelEntity* ent = NULL;
+  if (dat)
   {
-    iCelEntity* ent = SCF_QUERY_INTERFACE_FAST (msg_info, iCelEntity);
-    if (ent)
-    {
-      printf ("  UP '%s'\n", ent->GetName ());
-      ent->DecRef ();
-    }
+    ent = dat->GetEntity ();
+    dat->GetMousePosition (x, y);
+    but = dat->GetMouseButton ();
   }
-  else if (!strcmp (msg_id, "selectmesh_down"))
+  if (ent)
   {
-    iCelEntity* ent = SCF_QUERY_INTERFACE_FAST (msg_info, iCelEntity);
-    if (ent)
-    {
-      printf ("  DOWN '%s'\n", ent->GetName ());
-      ent->DecRef ();
-    }
+    if (!strcmp (msg_id, "selectmesh_up"))
+      printf ("  UP '%s' (%d,%d,%d)\n", ent->GetName (),
+      	x, y, dat->GetMouseButton ());
+    else if (!strcmp (msg_id, "selectmesh_down"))
+      printf ("  DOWN '%s' (%d,%d,%d)\n", ent->GetName (),
+      	x, y, dat->GetMouseButton ());
+    else if (!strcmp (msg_id, "selectmesh_move"))
+      printf ("  MOVE '%s' (%d,%d,%d)\n", ent->GetName (),
+      	x, y, dat->GetMouseButton ());
   }
+  if (dat) dat->DecRef ();
   fflush (stdout);
   return false;
 }

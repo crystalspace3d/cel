@@ -519,6 +519,14 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (view->GetCamera ());
   pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetSendmoveEvent (true);
+  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
+  pcmeshsel->DecRef ();
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
+  if (!pc) return false;
+  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
   pcmeshsel->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
