@@ -24,4 +24,7 @@ constrain movement according to collision detection rules.
 iPcSolid can also be used by a iPcForce property class
 which will implement a force based physics system.
 
+Add the ability to all property classes to explicitely
+set target/companion property classes (i.e. set the mesh to
+use together with mesh select and so on).
 
