@@ -477,7 +477,7 @@ bool celBillboard::In (int sx, int sy)
     return false;
 }
 
-#ifdef CS_USE_NEW_RENDERER
+#ifndef CS_USE_OLD_RENDERER
 static csSimpleRenderMesh mesh;
 static bool mesh_init = false;
 

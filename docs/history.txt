@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Nov-2004
+	- Jorrit fixed CEL so that it compiles again after the change
+	  of CS_USE_NEW_RENDERER to CS_USE_OLD_RENDERER.
 27-Nov-2004
 	- Jorrit added a patch from Cirilo Bernardo which exposes the
 	  SetDistance() method of celPcCamera via iPcCamera.
