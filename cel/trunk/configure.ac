@@ -56,6 +56,7 @@ CS_PATH_CRYSTAL_JAM(0.97,,
 *** from http://crystal.sourceforge.net
 *** Be also sure that you've either installed CS or set the CRYSTAL var right.
 ]), csgeom csgfx csutil cstool cssys)
+CS_PROG_SCFREG([CS_JAMCONFIG_PROPERTY([CMD.SCFREG],[$SCFREG])])
 
 CS_CHECK_PYTHON
                                                                                 

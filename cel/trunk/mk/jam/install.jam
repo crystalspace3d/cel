@@ -83,11 +83,11 @@ rule InstallPluginPlatform
   Install $(<) : $(>) ;
   MODE on $(<) = $(EXEMODE) ;
   
-  local metasrc = $(>:S=$(SUFMETA):G=$(GRISTMETA)) ;
-  local metadst = $(metasrc:R=$(dir):G=installmeta) ;
-  Install $(metadst) : $(metasrc) ;
-  MODE on $(metadst) = $(FILEMODE) ;
-  Depends install_plugins : $(metadst) ;
+#local metasrc = $(>:S=$(SUFMETA):G=$(GRISTMETA)) ;
+#  local metadst = $(metasrc:R=$(dir):G=installmeta) ;
+#  Install $(metadst) : $(metasrc) ;
+#  MODE on $(metadst) = $(FILEMODE) ;
+#  Depends install_plugins : $(metadst) ;
 }
 
 ##  InstallLibrary libraryname [ : subdir ]

@@ -3,8 +3,8 @@
 #   and sets the SCFREG variable.
 #-----------------------------------------------------------------------------
 
-dnl CS_CHECK_SCFREG([ACTION-IF-FOUND,[ACTION-IF-NOT-FOUND]])
-AC_DEFUN([CS_CHECK_SCFREG],[
+dnl CS_PROG_SCFREG([ACTION-IF-FOUND,[ACTION-IF-NOT-FOUND]])
+AC_DEFUN([CS_PROG_SCFREG],[
   AC_REQUIRE([CS_PATH_CRYSTAL_HELPER])
   AC_CHECK_PROGS([SCFREG], [scfreg])
   AS_IF([test -z "$SCFREG"],
