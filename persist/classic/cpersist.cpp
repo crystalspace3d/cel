@@ -138,14 +138,10 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   CS_ASSERT (vfs != NULL);
 
   iDataBuffer* data = vfs->ReadFile (name);
-#if 0
   vfs->DecRef ();
-#endif
-  iFile* file=vfs->Open(name, VFS_FILE_READ);
-  
-  //csMemFile mf((const char*) data->GetData(), data->GetSize());
+  csMemFile mf((const char*) data->GetData(), data->GetSize());
   context = new celPersistClassicContext;
-  if (!context->Initialize(object_reg, file, CEL_PERSIST_MODE_WRITE))
+  if (!context->Initialize(object_reg, &mf, CEL_PERSIST_MODE_WRITE))
     return NULL;
 
   if (!context->CheckMarker ("CEL0"))
@@ -164,7 +160,6 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
     return NULL;
   }
 
-  file->DecRef();
   context->DecRef();
   data->DecRef ();
 
