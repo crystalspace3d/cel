@@ -231,20 +231,21 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+SCF_IMPLEMENT_IBASE (celPcMeshSelect::PcMeshSelectData)
+  SCF_IMPLEMENTS_INTERFACE (iPcMeshSelectData)
+SCF_IMPLEMENT_IBASE_END
+
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
   celPcMeshSelect::object_reg = object_reg;
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  CS_ASSERT (q != NULL);
-  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown | CSMASK_MouseUp
-  	| CSMASK_MouseMove);
-  q->DecRef ();
   camera = NULL;
 
   sel_entity = NULL;
+  cur_on_top = false;
+  mouse_buttons = CEL_MOUSE_BUTTON1;
 
   // Initialize default behaviour.
   do_global = false;
@@ -252,6 +253,9 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_follow = false;
   do_sendup = true;
   do_senddown = true;
+  do_sendmove = false;
+
+  SetupEventHandler ();
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
@@ -260,7 +264,19 @@ celPcMeshSelect::~celPcMeshSelect ()
   if (q)
   {
     q->RemoveListener (&scfiEventHandler);
+    q->DecRef ();
   }
+}
+
+void celPcMeshSelect::SetupEventHandler ()
+{
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != NULL);
+  q->RemoveListener (&scfiEventHandler);
+  unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
+  if (do_follow || do_drag || do_sendmove) trigger |= CSMASK_MouseMove;
+  q->RegisterListener (&scfiEventHandler, trigger);
+  q->DecRef ();
 }
 
 void celPcMeshSelect::SetEntity (iCelEntity* entity)
@@ -268,12 +284,30 @@ void celPcMeshSelect::SetEntity (iCelEntity* entity)
   celPcMeshSelect::entity = entity;
 }
 
+void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
+	int x, int y, int but)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  CS_ASSERT (bh != NULL);
+  mesh_sel_data.Select (ent, x, y, but);
+  bh->SendMessage (msg, &mesh_sel_data);
+}
+
+
 bool celPcMeshSelect::HandleEvent (iEvent& ev)
 {
   if (!camera) return false;
 
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  CS_ASSERT (bh != NULL);
+  int mouse_but = ev.Mouse.Button;
+  int but = 1<<(mouse_but-1);
+  if (do_follow)
+  {
+    if (mouse_but != 0 && !(mouse_buttons & but)) return false;
+  }
+  else
+  {
+    if (!(mouse_buttons & but)) return false;
+  }
 
   bool mouse_down = ev.Type == csevMouseDown;
   bool mouse_up = ev.Type == csevMouseUp;
@@ -311,7 +345,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     {
       sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        bh->SendMessage ("selectmesh_down", sel_entity);
+        SendMessage ("selectmesh_down", sel_entity,
+		mouse_x, mouse_y, mouse_but);
       if (sel_entity) cur_on_top = true;
       else cur_on_top = false;
     }
@@ -320,10 +355,15 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       bool old_cur_on_top = cur_on_top;
       cur_on_top = (new_sel == sel_entity);
       if (do_senddown && cur_on_top && (cur_on_top != old_cur_on_top))
-        bh->SendMessage ("selectmesh_down", sel_entity);
+        SendMessage ("selectmesh_down", sel_entity,
+		mouse_x, mouse_y, mouse_but);
       else if (do_sendup && ((mouse_up && cur_on_top) ||
       		!cur_on_top && (cur_on_top != old_cur_on_top)))
-        bh->SendMessage ("selectmesh_up", sel_entity);
+        SendMessage ("selectmesh_up", sel_entity,
+		mouse_x, mouse_y, mouse_but);
+      else if (do_sendmove)
+        SendMessage ("selectmesh_move", sel_entity,
+		mouse_x, mouse_y, mouse_but);
       if (mouse_up) sel_entity = NULL;
     }
   }
@@ -333,12 +373,20 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     {
       sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        bh->SendMessage ("selectmesh_down", sel_entity);
+        SendMessage ("selectmesh_down", sel_entity,
+		mouse_x, mouse_y, mouse_but);
     }
     else if (mouse_up)
     {
       if (do_sendup && sel_entity)
-        bh->SendMessage ("selectmesh_up", sel_entity);
+        SendMessage ("selectmesh_up", sel_entity,
+		mouse_x, mouse_y, mouse_but);
+    }
+    else
+    {
+      if (do_sendmove && sel_entity)
+        SendMessage ("selectmesh_move", sel_entity,
+		mouse_x, mouse_y, mouse_but);
     }
   }
 

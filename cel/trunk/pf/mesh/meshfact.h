@@ -125,6 +125,9 @@ private:
   // (in do_follow mode).
   bool cur_on_top;
 
+  // On which mouse buttons do we act (flag combination of CEL_MOUSE_...).
+  int mouse_buttons;
+
   // If true then selections on ALL objects will arrive
   // at the attached behaviour. Otherwise only selections
   // on the attached entity will come through.
@@ -141,11 +144,51 @@ private:
   // object at release time.
   bool do_follow;
 
+  // If true then send mouse-move events.
+  bool do_sendmove;
+
   // If true then send mouse-up events.
   bool do_sendup;
 
   // If true then send mouse-down events.
   bool do_senddown;
+
+  // Setup the event handler based on settings.
+  void SetupEventHandler ();
+
+  // Data for the event handlers in behaviour layer.
+  class PcMeshSelectData : public iPcMeshSelectData
+  {
+  private:
+    int mouse_x, mouse_y, mouse_button;
+    iCelEntity* entity;
+
+  public:
+    PcMeshSelectData () { SCF_CONSTRUCT_IBASE (NULL); }
+    virtual ~PcMeshSelectData () { }
+
+    void Select (iCelEntity* entity, int mouse_x, int mouse_y,
+      int mouse_button)
+    {
+      PcMeshSelectData::entity = entity;
+      PcMeshSelectData::mouse_x = mouse_x;
+      PcMeshSelectData::mouse_y = mouse_y;
+      PcMeshSelectData::mouse_button = mouse_button;
+    }
+
+    SCF_DECLARE_IBASE;
+    virtual int GetMouseButton () const
+    {
+      return mouse_button;
+    }
+    virtual void GetMousePosition (int& x, int& y) const
+    {
+      x = mouse_x;
+      y = mouse_y;
+    }
+    virtual iCelEntity* GetEntity () const { return entity; }
+  } mesh_sel_data;
+  void SendMessage (const char* name, iCelEntity* ent, int x, int y, int but);
 
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);
@@ -154,12 +197,29 @@ public:
   bool HandleEvent (iEvent& ev);
   void SetCamera (iCamera* camera);
 
+  void SetMouseButtons (int buttons) { mouse_buttons = buttons; }
+  int GetMouseButtons () const { return mouse_buttons; }
+
   void SetGlobalSelection (bool glob) { do_global = glob; }
   bool HasGlobalSelection () const { return do_global; }
-  void SetFollowMode (bool follow) { do_follow = follow; };
+  void SetFollowMode (bool follow)
+  {
+    do_follow = follow;
+    SetupEventHandler ();
+  }
   bool HasFollowMode () const { return do_follow; }
-  void SetDragMode (bool drag) { do_drag = drag; }
+  void SetDragMode (bool drag)
+  {
+    do_drag = drag;
+    SetupEventHandler ();
+  }
   bool HasDragMode () const { return do_drag; }
+  void SetSendmoveEvent (bool mov)
+  {
+    do_sendmove = mov;
+    SetupEventHandler ();
+  }
+  bool HasSendmoveEvent () const { return do_sendmove; }
   void SetSendupEvent (bool su) { do_sendup = su; }
   bool HasSendupEvent () const { return do_sendup; }
   void SetSenddownEvent (bool sd) { do_senddown = sd; }
@@ -177,6 +237,14 @@ public:
     virtual void SetCamera (iCamera* camera)
     {
       scfParent->SetCamera (camera);
+    }
+    virtual void SetMouseButtons (int buttons)
+    {
+      scfParent->SetMouseButtons (buttons);
+    }
+    virtual int GetMouseButtons () const
+    {
+      return scfParent->GetMouseButtons ();
     }
     virtual void SetGlobalSelection (bool glob)
     {
@@ -201,6 +269,14 @@ public:
     virtual bool HasDragMode () const
     {
       return scfParent->HasDragMode ();
+    }
+    virtual void SetSendmoveEvent (bool mov)
+    {
+      scfParent->SetSendmoveEvent (mov);
+    }
+    virtual bool HasSendmoveEvent () const
+    {
+      return scfParent->HasSendmoveEvent ();
     }
     virtual void SetSendupEvent (bool su)
     {

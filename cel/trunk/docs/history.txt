@@ -10,6 +10,16 @@
 	  Also added the ability to disable up/down mouse events if you
 	  don't need them.
 	  Added a few other functions that are not yet implemented (dragging).
+	- Fixed a missing DecRef() in the destructor of 'pcmeshselect'
+	  property class.
+	- Optimized 'pcmeshselect' by only registering the event handler
+	  for the right events depending on the settings. i.e. don't listen
+	  to mouse move events if you are not dragging or in follow mode.
+	- Added the ability to control for which mouse buttons you want
+	  to use 'pcmeshselect'. By default it will only react on mouse
+	  button one. You can use multiple 'pcmeshselect' property classes
+	  on one entity to have different behaviour depending on the mouse
+	  button.
 30-Oct-2001:
 	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
 	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour

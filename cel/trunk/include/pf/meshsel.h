@@ -23,9 +23,38 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+SCF_DECLARE_FAST_INTERFACE (iPcMeshSelectData)
 SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
 
 struct iCamera;
+
+#define CEL_MOUSE_BUTTON1 1
+#define CEL_MOUSE_BUTTON2 2
+#define CEL_MOUSE_BUTTON3 4
+
+SCF_VERSION (iPcMeshSelectData, 0, 0, 1);
+
+/**
+ * Data which is sent to the BL through SendMessage().
+ */
+struct iPcMeshSelectData : public iBase
+{
+  /**
+   * Get the mouse button that was pressed (1, 2, or 3).
+   */
+  virtual int GetMouseButton () const = 0;
+
+  /**
+   * Get the mouse location.
+   */
+  virtual void GetMousePosition (int& x, int& y) const = 0;
+
+  /**
+   * Get the selected entity.
+   */
+  virtual iCelEntity* GetEntity () const = 0;
+};
+
 
 SCF_VERSION (iPcMeshSelect, 0, 0, 1);
 
@@ -38,6 +67,17 @@ struct iPcMeshSelect : public iBase
    * Set the camera to use for mesh selection.
    */
   virtual void SetCamera (iCamera* camera) = 0;
+
+  /**
+   * Indicate (with a bit-mask) for which buttons this
+   * mesh selector will work. By default this is mouse button one.
+   * Use a combination of CEL_MOUSE_... flags.
+   */
+  virtual void SetMouseButtons (int buttons) = 0;
+  /**
+   * Get the bit-mask for the supported buttons.
+   */
+  virtual int GetMouseButtons () const = 0;
 
   /**
    * Set global/local selection. With local selection
@@ -77,7 +117,19 @@ struct iPcMeshSelect : public iBase
   virtual bool HasDragMode () const = 0;
 
   /**
-   * If true then send mouse-up events. Default true.
+   * If true then also send messages on mouse move (only
+   * between mouse-down and mouse-up (message 'selectmesh_move').
+   * Default false.
+   */
+  virtual void SetSendmoveEvent (bool mov) = 0;
+  /**
+   * Get the value of send move events.
+   */
+  virtual bool HasSendmoveEvent () const = 0;
+
+  /**
+   * If true then send mouse-up events (message 'selectmesh_up').
+   * Default true.
    */
   virtual void SetSendupEvent (bool su) = 0;
   /**
@@ -86,7 +138,8 @@ struct iPcMeshSelect : public iBase
   virtual bool HasSendupEvent () const = 0;
 
   /**
-   * If true then send mouse-down events. Default true.
+   * If true then send mouse-down events (message 'selectmesh_down').
+   * Default true.
    */
   virtual void SetSenddownEvent (bool sd) = 0;
   /**
