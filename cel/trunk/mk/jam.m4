@@ -25,3 +25,27 @@ fi
 
 ])
 
+AC_DEFUN(AC_JAM_FIXINSTALLDIRS,
+[
+# Unfortunately the install directory autoconf outputs are only usefull for
+# Makefiles as they use ${prefix}...
+# This hack should fix the issue
+
+test "$exec_prefix" = '${prefix}' && exec_prefix='$(prefix)'
+test "x$exec_prefix" = xNONE && exec_prefix='$(prefix)'
+#ugly :-/
+
+test "$bindir" = '${exec_prefix}/bin' && bindir='$(exec_prefix)/bin'
+test "$sbindir" = '${exec_prefix}/sbin' && sbindir='$(exec_prefix)/sbin'
+test "$libexecdir" = '${exec_prefix}/libexec' && libexecdir='$(exec_prefix)/libexec'
+test "$datadir" = '${prefix}/share' && datadir='$(prefix)/share'
+test "$sysconfdir" = '${prefix}/etc' && sysconfdir='$(prefix)/etc'
+test "$sharedstatedir" = '${prefix}/com' && sharedstatedir='$(prefix)/com'
+test "$localstatedir" = '${prefix}/var' && localstatedir='$(prefix)/var'
+test "$libdir" = '${exec_prefix}/lib' && libdir='$(exec_prefix)/lib'
+test "$includedir" = '${prefix}/include' && includedir='$(prefix)/include'
+test "$infodir" = '${prefix}/info' && infodir='$(prefix)/info'
+test "$mandir" = '${prefix}/man' && mandir='$(prefix)/man'
+
+])
+

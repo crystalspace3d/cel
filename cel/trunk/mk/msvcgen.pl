@@ -203,7 +203,7 @@ sub print_title {
 #------------------------------------------------------------------------------
 sub add_suffix {
     my ($name, $suffix) = @_;
-    $name .= ".$suffix" unless $name =~ /(?i)\.$suffix$/;
+    $name .= "$suffix" unless $name =~ /(?i)$suffix$/;
     $_[0] = $name;
 }
 
@@ -460,17 +460,17 @@ sub create_project {
 	
     	my $dependencies = interpolate_ws_dependency();
     	my $dpi_frag = $main::opt_fragment;
-    	add_suffix ($dpi_frag, 'dpi');
+    	add_suffix ($dpi_frag, '.dpi');
 	save_file($dpi_frag, $dependencies);
 	print "Generated: $dpi_frag\n" unless quiet();
 
     	my $pji_frag = $main::opt_fragment;
-    	add_suffix ($pji_frag, 'pji');
+    	add_suffix ($pji_frag, '.pji');
 	save_file($pji_frag, interpolate_ws_project($dependencies));
 	print "Generated: $pji_frag\n" unless quiet();
 
     	my $cfi_frag = $main::opt_fragment;
-    	add_suffix ($cfi_frag, 'cfi');
+    	add_suffix ($cfi_frag, '.cfi');
 	save_file($cfi_frag, interpolate_ws_config());
 	print "Generated: $cfi_frag\n" unless quiet();
     }
@@ -641,7 +641,7 @@ sub process_project_options {
     my @libraries;
     my $library;
     foreach $library (@main::opt_library) {
-	add_suffix($library, 'lib');
+	add_suffix($library, '.lib');
 	push(@libraries, $library);
     }
     @main::opt_library = @libraries;
@@ -684,15 +684,15 @@ sub process_workspace_options {
    my $fragment;
     foreach $fragment (@ARGV) {
 	my $pji_frag = $fragment;    	
-	add_suffix($pji_frag, 'pji');
+	add_suffix($pji_frag, '.pji');
 	push(@main::pji_fragments, $pji_frag);
 	
 	my $dpi_frag = $fragment;    	
-	add_suffix($dpi_frag, 'dpi');
+	add_suffix($dpi_frag, '.dpi');
 	push(@main::dpi_fragments, $dpi_frag);
 	
 	my $cfi_frag = $fragment;    	
-	add_suffix($cfi_frag, 'cfi');
+	add_suffix($cfi_frag, '.cfi');
 	push(@main::cfi_fragments, $cfi_frag);
     }
 }

@@ -1,0 +1,41 @@
+# Rules for installing data
+
+INSTALL = install ;
+
+NotFile install ;
+Always install ;
+
+rule InstallApplication
+{
+	Install $(<)install : $(<) : $(bindir) ;
+		
+	MODE on $(<)install = $(EXEMODE) ;
+}
+
+rule InstallPlugin
+{
+	Install $(<)install : $(<) : $(libdir) ;
+}
+
+rule InstallHeader
+{
+	Install $(<)install : $(<) : $(includedir) ;
+}
+
+rule Install
+{
+	Depends $(<) : $(>) ;
+	Depends install : $(<) ;
+	Always $(<) ;
+
+	#Make sure the target directory exists
+	DIR on $(<) = $(3) ;
+	Depends $(<) : $(3) ;
+	MkDir $(3) ;
+}
+
+actions Install
+{
+	$(INSTALL) -c -m$(MODE) $(>) $(DIR)
+}
+

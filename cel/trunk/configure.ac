@@ -6,6 +6,7 @@ AC_CONFIG_HEADER(config.h)
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_JAM
+AC_JAM_FIXINSTALLDIRS
 
 dnl Check for libs
 dnl Check for Crystal Space
