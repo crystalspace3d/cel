@@ -1,3 +1,7 @@
+19-Feb-2002:
+	-jtarbox added a rotational camera mode a few days back and then
+	changed it so that the distance from the object can be changed as
+	well.
 12-Fev-2002:
 	-Matze changed order of entity saving/loading. behaviour is the last
 	processed piece now.
