@@ -642,7 +642,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   mesh = csPtr<iPolygonMesh> (new csPolygonMeshBox (
 	csBox3 (csVector3 (-bX2, bYbottom, -bZ2) + shift,
-		csVector3 (-bX2, bYtop, bZ2) + shift)));
+		csVector3 (bX2, bYtop, bZ2) + shift)));
   topCollider = cdsys->CreateCollider (mesh);
 
   float lX2 = legs.x / 2.0f;
@@ -650,7 +650,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   mesh = csPtr<iPolygonMesh> (new csPolygonMeshBox (
 	csBox3 (csVector3 (-lX2, LEGOFFSET, -lZ2) + shift,
-		csVector3 (-lX2, LEGOFFSET + legs.y, lZ2) + shift)));
+		csVector3 (lX2, LEGOFFSET + legs.y, lZ2) + shift)));
   bottomCollider = cdsys->CreateCollider (mesh);
 
   bool result;
