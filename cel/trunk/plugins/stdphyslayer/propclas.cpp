@@ -42,21 +42,21 @@ celPropertyClassList::~celPropertyClassList ()
   DG_REM (this);
 }
 
-int celPropertyClassList::GetCount () const
+size_t celPropertyClassList::GetCount () const
 {
   return prop_classes.Length ();
 }
 
-iCelPropertyClass* celPropertyClassList::Get (int n) const
+iCelPropertyClass* celPropertyClassList::Get (size_t n) const
 {
-  CS_ASSERT (n >= 0 && n < prop_classes.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
   iCelPropertyClass* pclass = prop_classes[n];
   return pclass;
 }
 
-int celPropertyClassList::Add (iCelPropertyClass* obj)
+size_t celPropertyClassList::Add (iCelPropertyClass* obj)
 {
-  int idx = prop_classes.Push (obj);
+  size_t idx = prop_classes.Push (obj);
   obj->SetEntity (parent_entity);
   ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();
@@ -66,8 +66,8 @@ int celPropertyClassList::Add (iCelPropertyClass* obj)
 
 bool celPropertyClassList::Remove (iCelPropertyClass* obj)
 {
-  int idx = prop_classes.Find (obj);
-  if (idx != -1)
+  size_t idx = prop_classes.Find (obj);
+  if (idx != csArrayItemNotFound)
   {
     DG_UNLINK (this, obj);
     obj->SetEntity (0);
@@ -79,9 +79,9 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   else return false;
 }
 
-bool celPropertyClassList::Remove (int n)
+bool celPropertyClassList::Remove (size_t n)
 {
-  CS_ASSERT (n >= 0 && n < prop_classes.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
   DG_UNLINK (this, prop_classes[n]);
   prop_classes.DeleteIndex (n);
   ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
@@ -93,17 +93,17 @@ bool celPropertyClassList::Remove (int n)
 void celPropertyClassList::RemoveAll ()
 {
   while (prop_classes.Length () > 0)
-    Remove (0);
+    Remove ((size_t)0);
 }
 
-int celPropertyClassList::Find (iCelPropertyClass* obj) const
+size_t celPropertyClassList::Find (iCelPropertyClass* obj) const
 {
   return prop_classes.Find (obj);
 }
 
 iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
@@ -118,7 +118,7 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
 iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
 	int version) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];

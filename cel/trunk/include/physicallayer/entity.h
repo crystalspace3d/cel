@@ -114,7 +114,7 @@ struct iCelEntityList : public iBase
    *
    * \return The number of entities in the list, as an integer.
    */
-  virtual int GetCount () const = 0;
+  virtual size_t GetCount () const = 0;
 
   /**
    * Return an entity class by index.
@@ -124,7 +124,7 @@ struct iCelEntityList : public iBase
    * \param n An index in the list
    * \return A pointer to the iCelEntity at that location in the list.
    */
-  virtual iCelEntity* Get (int n) const = 0;
+  virtual iCelEntity* Get (size_t n) const = 0;
 
   /**
    * Add an entity.
@@ -134,7 +134,7 @@ struct iCelEntityList : public iBase
    * \param obj A pointer to an iCelEntity to be added to the list.
    * \return ???
    */
-  virtual int Add (iCelEntity* obj) = 0;
+  virtual size_t Add (iCelEntity* obj) = 0;
 
   /**
    * Remove an entity.
@@ -154,7 +154,7 @@ struct iCelEntityList : public iBase
    * \param n An index in the list
    * \return True upon Success, or False upon Failure
    */
-  virtual bool Remove (int n) = 0;
+  virtual bool Remove (size_t n) = 0;
 
   /**
    * Remove all entities.
@@ -171,7 +171,7 @@ struct iCelEntityList : public iBase
    * \param obj A pointer to an iCelEntity to find in the list
    * \return The Entities index within the list
    */
-  virtual int Find (iCelEntity* obj) const = 0;
+  virtual size_t Find (iCelEntity* obj) const = 0;
 
   /**
    * Find an entity by name.

@@ -130,7 +130,7 @@ void celPcDynamicSystem::ProcessForces (float dt)
 // fact that 'dt' may be smaller than delta and also that the
 // remaining time for a force may be smaller than the 'dt' value
 // given here.
-  int i;
+  size_t i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
@@ -173,7 +173,7 @@ bool celPcDynamicSystem::HandleEvent (iEvent& ev)
 
     // Delete all expired forces and forces that were only
     // meant to be here for one frame.
-    int i;
+    size_t i;
     for (i = 0 ; i < forces.Length () ; i++)
     {
       celForce& f = forces[i];
@@ -290,7 +290,7 @@ void celPcDynamicSystem::AddForceFrame (iPcDynamicBody* body,
 
 void celPcDynamicSystem::ClearForces (iPcDynamicBody* body)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
     if (forces[i].body == body)

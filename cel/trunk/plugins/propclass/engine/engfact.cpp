@@ -1463,7 +1463,7 @@ void celPcRegion::Unload ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (pl)
   {
-    int i;
+    size_t i;
     for (i = 0 ; i < entities.Length () ; i++)
     {
       pl->RemoveEntity (entities[i]);

@@ -1129,14 +1129,14 @@ static bool celData2prop (const celData& val, iPcProperties* props, const char* 
 void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 {
   celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
-  int i;
+  size_t i;
   printf ("### Callstack ###\n");
   for (i = 0 ; i < cbl->call_stack.Length () ; i++)
   {
     printf ("%d %s (entity=%s)\n", i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
     {
-      int j;
+      size_t j;
       iCelParameterBlock* p = cbl->call_stack_params[i];
       for (j = 0 ; j < p->GetParameterCount () ; j++)
       {
@@ -1155,7 +1155,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 
 void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 {
-  int i;
+  size_t i;
   printf ("### Variables ###\n");
   iPcProperties* props = behave->GetProperties ();
   CS_ASSERT (props != 0);
@@ -3866,7 +3866,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   }
 }
 
-void celXmlScriptEventHandler::AddOperation (int op)
+void celXmlScriptEventHandler::AddOperation (size_t op)
 {
   operations.Push (celXmlOperation ());
   celXmlOperation& top_op = operations[operations.Length ()-1];
@@ -3879,13 +3879,13 @@ celXmlArg& celXmlScriptEventHandler::GetArgument ()
   return op.arg;
 }
 
-celXmlArg& celXmlScriptEventHandler::GetArgument (int idx)
+celXmlArg& celXmlScriptEventHandler::GetArgument (size_t idx)
 {
   celXmlOperation& op = operations[idx];
   return op.arg;
 }
 
-int celXmlScriptEventHandler::AddLocalVariable ()
+size_t celXmlScriptEventHandler::AddLocalVariable ()
 {
   return local_vars.Push (celXmlArg ());
 }

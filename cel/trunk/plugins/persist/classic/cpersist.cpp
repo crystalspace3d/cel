@@ -860,7 +860,7 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
   if (!Write ((uint16) pl->GetCount())) return false;
-  int i;
+  size_t i;
   for (i = 0 ; i < pl->GetCount () ; i++)
   {
     if (!Write (pl->Get (i)))
@@ -885,7 +885,7 @@ bool celPersistClassicContext::Write (iCelDataBuffer* db)
   WRITEDEBUG("DTBF");
   if (!Write ((int32) db->GetSerialNumber())) return false;
   if (!Write ((uint16) db->GetDataCount())) return false;
-  int i;
+  size_t i;
   for (i = 0 ; i < db->GetDataCount () ; i++)
   {
     if (!Write (db->GetData (i)))

@@ -91,15 +91,15 @@ public:
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);
-  virtual int GetPropertyClassFactoryCount () const;
-  virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const;
+  virtual size_t GetPropertyClassFactoryCount () const;
+  virtual iCelPropertyClassFactory* GetPropertyClassFactory (size_t idx) const;
   virtual iCelPropertyClassFactory* FindPropertyClassFactory (
   	const char* name) const;
 
   virtual void RegisterBehaviourLayer (iCelBlLayer* bl);
   virtual void UnregisterBehaviourLayer (iCelBlLayer* bl);
-  virtual int GetBehaviourLayerCount () const;
-  virtual iCelBlLayer* GetBehaviourLayer (int idx) const;
+  virtual size_t GetBehaviourLayerCount () const;
+  virtual iCelBlLayer* GetBehaviourLayer (size_t idx) const;
   virtual iCelBlLayer* FindBehaviourLayer (const char* name) const;
 
   virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* callback);

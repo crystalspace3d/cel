@@ -259,17 +259,17 @@ struct iCelPropertyClassList : public iBase
   /**
    * Return the number of property classes in this list.
    */
-  virtual int GetCount () const = 0;
+  virtual size_t GetCount () const = 0;
 
   /**
    * Return a property class by index.
    */
-  virtual iCelPropertyClass* Get (int n) const = 0;
+  virtual iCelPropertyClass* Get (size_t n) const = 0;
 
   /**
    * Add a property class.
    */
-  virtual int Add (iCelPropertyClass* obj) = 0;
+  virtual size_t Add (iCelPropertyClass* obj) = 0;
 
   /**
    * Remove a property class.
@@ -279,7 +279,7 @@ struct iCelPropertyClassList : public iBase
   /**
    * Remove the nth property class.
    */
-  virtual bool Remove (int n) = 0;
+  virtual bool Remove (size_t n) = 0;
 
   /**
    * Remove all property classes.
@@ -289,7 +289,7 @@ struct iCelPropertyClassList : public iBase
   /**
    * Find a property class and return its index.
    */
-  virtual int Find (iCelPropertyClass* obj) const = 0;
+  virtual size_t Find (iCelPropertyClass* obj) const = 0;
 
   /**
    * Find a property class by name.

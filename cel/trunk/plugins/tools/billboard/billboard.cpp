@@ -381,7 +381,7 @@ void celBillboard::StackDown ()
 void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
-  int i;
+  size_t i;
   firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
   {
@@ -398,7 +398,7 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
 void celBillboard::FireMouseDown (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
-  int i;
+  size_t i;
   firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
   {
@@ -415,7 +415,7 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
 void celBillboard::FireMouseMove (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
-  int i;
+  size_t i;
   firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
   {
@@ -432,7 +432,7 @@ void celBillboard::FireMouseMove (int sx, int sy, int button)
 void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
-  int i;
+  size_t i;
   firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
   {
@@ -770,18 +770,18 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 
 int celBillboardManager::FindMovingBillboard (celBillboard* bb)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < moving_billboards.Length () ; i++)
   {
     if (bb == moving_billboards[i].bb) return i;
   }
-  return -1;
+  return csArrayItemNotFound;
 }
 
 void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
 {
-  int i = moving_billboards.Length ()-1;
-  while (i >= 0)
+  size_t i = moving_billboards.Length ();
+  while (i-- > 0)
   {
     movingBillboard& mbb = moving_billboards[i];
     mbb.delta -= elapsed;
@@ -798,13 +798,12 @@ void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
       	int ((1.0-d) * mbb.dstx + d * mbb.srcx),
       	int ((1.0-d) * mbb.dsty + d * mbb.srcy));
     }
-    i--;
   }
 }
 
 void celBillboardManager::RemoveMovingBillboard (celBillboard* bb)
 {
-  int i = FindMovingBillboard (bb);
+  size_t i = FindMovingBillboard (bb);
   moving_billboards.DeleteIndex (i);
   bb->is_moving = false;
 }
@@ -886,7 +885,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	{
           g3d->BeginDraw (CSDRAW_3DGRAPHICS);
 	  mesh_reset ();
-          int i;
+          size_t i;
 	  float z = z_max;
 	  float dz = (z_max-z_min) / float (billboards.Length ());
           for (i = 0 ; i < billboards.Length () ; i++)
@@ -1070,7 +1069,7 @@ iBillboardLayer* celBillboardManager::CreateBillboardLayer (const char* name)
 
 iBillboardLayer* celBillboardManager::FindBillboardLayer (const char* name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < layers.Length () ; i++)
     if (!strcmp (layers[i]->GetName (), name))
       return layers[i];
@@ -1080,7 +1079,7 @@ iBillboardLayer* celBillboardManager::FindBillboardLayer (const char* name) cons
 void celBillboardManager::RemoveBillboardLayer (iBillboardLayer* layer)
 {
   if (layer == default_layer) return;	// Not allowed!
-  int i;
+  size_t i;
   for (i = 0 ; i < billboards.Length () ; i++)
   {
     if (billboards[i]->GetLayer () == layer)
@@ -1098,7 +1097,7 @@ void celBillboardManager::RemoveAll ()
 
 void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < billboards.Length () ; i++)
     billboards[i]->GetFlags ().Set (flags, mask);
 }

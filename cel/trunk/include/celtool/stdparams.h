@@ -34,13 +34,13 @@
 class celGenericParameterBlock : public iCelParameterBlock
 {
 private:
-  int count;
+  size_t count;
   csStringID* ids;
   celData* data;
   char** names;
 
 public:
-  celGenericParameterBlock (int count)
+  celGenericParameterBlock (size_t count)
   {
     SCF_CONSTRUCT_IBASE (0);
     celGenericParameterBlock::count = count;
@@ -53,27 +53,27 @@ public:
   {
     delete[] ids;
     delete[] data;
-    int i;
+    size_t i;
     for (i = 0 ; i < count ; i++)
       delete[] names[i];
     delete[] names;
   }
 
-  void SetParameterDef (int idx, csStringID id, const char* parname)
+  void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids[idx] = id;
     delete[] names[idx];
     names[idx] = csStrNew (parname);
   }
-  celData& GetParameter (int idx) { return data[idx]; }
+  celData& GetParameter (size_t idx) { return data[idx]; }
 
   SCF_DECLARE_IBASE;
 
-  virtual int GetParameterCount () const { return count; }
-  virtual const char* GetParameter (int idx, csStringID& id,
+  virtual size_t GetParameterCount () const { return count; }
+  virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const
   {
-    if (idx < 0 || idx >= count)
+    if (/*idx < 0 || */idx >= count)
     {
       id = csInvalidStringID;
       t = CEL_DATA_NONE;
@@ -85,7 +85,7 @@ public:
   }
   virtual const celData* GetParameter (csStringID id) const
   {
-    int i;
+    size_t i;
     for (i = 0 ; i < count ; i++)
       if (id == ids[i])
         return &data[i];
@@ -112,22 +112,22 @@ public:
   {
   }
 
-  void SetParameterDef (int idx, csStringID id, const char* parname)
+  void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids.GetExtend (idx) = id;
     if (idx >= names.Length ())
       names.SetLength (idx+1);
     names.Put (idx, parname);
   }
-  celData& GetParameter (int idx) { return data.GetExtend (idx); }
+  celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   SCF_DECLARE_IBASE;
 
-  virtual int GetParameterCount () const { return data.Length (); }
-  virtual const char* GetParameter (int idx, csStringID& id,
+  virtual size_t GetParameterCount () const { return data.Length (); }
+  virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const
   {
-    if (idx < 0 || idx >= data.Length ())
+    if (/*idx < 0 || */idx >= data.Length ())
     {
       id = csInvalidStringID;
       t = CEL_DATA_NONE;
@@ -139,7 +139,7 @@ public:
   }
   virtual const celData* GetParameter (csStringID id) const
   {
-    int i;
+    size_t i;
     for (i = 0 ; i < data.Length () ; i++)
       if (id == ids[i])
         return &data[i];
@@ -178,8 +178,8 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual int GetParameterCount () const { return 1; }
-  virtual const char* GetParameter (int idx, csStringID& id,
+  virtual size_t GetParameterCount () const { return 1; }
+  virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const
   {
     if (idx != 0)

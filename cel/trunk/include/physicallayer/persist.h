@@ -52,17 +52,17 @@ struct iCelDataBuffer : public iBase
   /**
    * Set the number of data entries.
    */
-  virtual void SetDataCount (int cnt) = 0;
+  virtual void SetDataCount (size_t cnt) = 0;
 
   /**
    * Get the number of data entries.
    */
-  virtual int GetDataCount () const = 0;
+  virtual size_t GetDataCount () const = 0;
 
   /**
    * Get a specific data entry.
    */
-  virtual celData* GetData (int idx) const = 0;
+  virtual celData* GetData (size_t idx) const = 0;
 };
 
 SCF_VERSION (iCelPersistance, 0, 0, 1);
