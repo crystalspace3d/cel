@@ -81,11 +81,16 @@ protected:
 //  csRef<iVirtualClock> vc;
   csWeakRef<iCelPlLayer> pl;
 
+  // This is the distance the CD will use to look for objects to collide with.
+  float radiusCD;
+
   // Linear vars
 //  csVector3 angularVelocity;
 //  csVector3 vel;
 //  float speed;
 //  float camera_pitchspeed;
+  
+
   bool onground;
   bool useCD;
 //  bool ready;

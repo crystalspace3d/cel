@@ -11,6 +11,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added CEL_QUERY_PROPCLASS_ENT() which is a variant of
 	  CEL_QUERY_PROPCLASS() but you don't have to add GetPropertyClassList()
 	  yourselves. Slightly easier to read and use.
+	- Keith committing significant debugging patch to linmove and CD from
+	  Andrew Dai (Khaki).  Improvements include better handling of going up
+	  and down (like on stairs), and corrections to extrapolations of 
+	  movement when moving forward and turning at the same time.
 8-May-2004
 	- res made some fixes to the VC project templates; the Release
 	  configuraion was ignored by VC, the templates contained absolute

@@ -83,12 +83,17 @@ protected:
   csWeakRef<iCelPlLayer> pl;
 
   // Linear vars
+  // Actual velocity
   csVector3 angularVelocity;
   csVector3 vel;
+  // Target velocity
+  csVector3 targAngularVelocity;
+  csVector3 targVel;
   float speed;
   float camera_pitchspeed;
   bool ready;
   bool stationary;
+  float angDelta;
 
   // Path vars
   csRef<iPath> path;
@@ -190,13 +195,14 @@ public:
   void ExtrapolatePosition (float delta);
 
   /**
-   * This function calls ExtrapolatePosition with a certain time
-   * but calculates the delta relative to the last update, not
-   * a fixed delta.  This allows all entities linmoves to be
+   * This function calls ExtrapolatePosition with a certain time delta
+   * or calculates the delta relative to the last update.
+   * This allows all entities linmoves to be
    * synchronized to the same ticks, even if updates are all
    * happening at different times.
    */
-  void UpdateDR(csTicks ticks);
+  void UpdateDR(csTicks delta);
+  void UpdateDR();
 
   /**
    * This function lets linmove store a ref to the supplied

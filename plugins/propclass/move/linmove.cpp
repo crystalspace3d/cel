@@ -87,10 +87,12 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 csCollisionPair celPcLinearMovement::our_cd_contact[1000];
 int celPcLinearMovement::num_our_cd;
 
+// velocity = prevVelocity + ACCEL
+#define ACCEL 0.5f
+
 #define LEGOFFSET	  0
 
 // This is the distance the CD will use to look for objects to collide with.
-#define COLLISION_DISTANCE  5
 
 // Set this in order to see what meshes the player is colliding with
 //#define SHOW_COLLIDER_MESH_DEBUG
@@ -152,9 +154,11 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     return;
   }
 
-  vel.x = vel.z = 0;
-  vel.y = 0;
-  angularVelocity.x = angularVelocity.y = angularVelocity.z  = 0;
+  vel = 0;
+  targVel = 0;
+  angularVelocity = 0;
+  targAngularVelocity = 0;
+  angDelta = 0;
   camera_pitchspeed = 0;
 
   topCollider = 0;
@@ -260,7 +264,9 @@ static inline int FindIntersection (const csCollisionPair& cd,
 
 void celPcLinearMovement::SetRotation (const csVector3& angleVel)
 {
-  angularVelocity = angleVel;
+  targAngularVelocity = angleVel;
+  if (IsOnGround())
+	angularVelocity = angleVel;
 }
 
 void celPcLinearMovement::SetVelocity (const csVector3& vel)
@@ -269,9 +275,11 @@ void celPcLinearMovement::SetVelocity (const csVector3& vel)
    * Y movement is jumping, flight (lift) and gravity effects
    * Take care to check IsOnGround () before calling this for jumping
    */
-  celPcLinearMovement::vel.y  = vel.y;
-  celPcLinearMovement::vel.x  = vel.x;
-  celPcLinearMovement::vel.z  = vel.z;
+  targVel  = vel;
+  if (IsOnGround())
+  {
+	celPcLinearMovement::vel = vel;
+  }
 }
 
 void celPcLinearMovement::GetVelocity (csVector3& v)
@@ -347,11 +355,27 @@ bool celPcLinearMovement::RotateV (float delta)
 
 bool celPcLinearMovement::MoveSprite (float delta)
 {
-  float local_max_interval;
+  //float local_max_interval;
   bool rc = false;
 
   // Make sure time moves forward at least at this rate
-  local_max_interval =
+
+  //float temp3=(vel.y==0.0f)
+	 // ? MAX_CD_INTERVAL
+	 // : ABS (topSize.y/vel.y);
+
+  //float temp2=MIN (temp3, (vel.x==0.0f)
+	 // ? MAX_CD_INTERVAL
+	 // : ABS (topSize.x/vel.x));
+
+  //float temp1=MIN (temp2, (vel.z==0.0f)
+	 // ? MAX_CD_INTERVAL
+	 // : ABS (topSize.z/vel.z));
+
+  //float local_max_interval =
+	 // MAX (temp1, MIN_CD_INTERVAL);
+
+  float local_max_interval =
     MAX (MIN (MIN ((vel.y==0.0f)
   	? MAX_CD_INTERVAL
 	: ABS (topSize.y/vel.y), (vel.x==0.0f)
@@ -359,6 +383,7 @@ bool celPcLinearMovement::MoveSprite (float delta)
 		: ABS (topSize.x/vel.x)), (vel.z==0.0f)
 			? MAX_CD_INTERVAL
 			: ABS (topSize.z/vel.z)), MIN_CD_INTERVAL);
+
   // Compensate for speed
   local_max_interval /= speed;
   // Err on the side of safety
@@ -392,6 +417,14 @@ bool celPcLinearMovement::MoveSprite (float delta)
     if (MoveV (delta))
       rc = true;
   }
+  if(IsOnGround() && vel != targVel)
+  {
+	  vel.x = targVel.x;
+	  vel.z = targVel.z;
+  }
+  if (IsOnGround() && angularVelocity != targAngularVelocity)
+	    angularVelocity = targAngularVelocity;
+
   return rc;
 }
 
@@ -436,10 +469,19 @@ bool celPcLinearMovement::MoveV (float delta)
 
 void celPcLinearMovement::UpdateDR (csTicks ticks)
 {
-  float delta = ticks - lastDRUpdate;
+  float delta = ticks;
   delta /= 1000;
   ExtrapolatePosition (delta);
   lastDRUpdate = ticks;
+}
+
+void celPcLinearMovement::UpdateDR ()
+{
+	csTicks time = csGetTicks();
+  float delta = time - lastDRUpdate;
+  delta /= 1000;
+  ExtrapolatePosition (delta);
+  lastDRUpdate = time;
 }
 
 void celPcLinearMovement::ExtrapolatePosition (float delta)
@@ -470,10 +512,36 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
   else
   {
-    bool rc = MoveSprite (delta);
-    rc = RotateV (delta) || rc;
-    if (rc)
-      pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+	  float interval = 0.05f;
+	  angDelta += delta;
+	  bool rc = false;
+	  if (delta < interval)
+	  {
+		rc = MoveSprite (delta);
+		delta = 0;
+	  }
+	  else
+	  {
+		  while (delta >= interval)
+		  {
+			  rc = MoveSprite (interval) || rc;
+			  rc = RotateV (interval) || rc;
+			  delta -=interval;
+			  angDelta -=interval;
+		  }
+		  if (delta)
+		  {
+			  rc = MoveSprite(delta) || rc;
+	  		delta = 0;
+		  }
+	  }
+	  while (angDelta >= interval)
+	  {
+		  rc = RotateV(interval) || rc;
+		  angDelta -= interval;
+	  }
+    //if (rc)
+    //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
 }
 
@@ -536,6 +604,8 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   bottomSize = legs;
   celPcLinearMovement::shift = shift;
 
+  bottomSize.x = MAX(topSize.x, bottomSize.x);
+  bottomSize.z = MAX(topSize.z, bottomSize.z);
   if (!pc_cd)
   {
     csRef<iCelPropertyClass> pc;
@@ -639,11 +709,11 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStrin
   pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
 
   //angularVelocity.x = *(tptr++);
-  angularVelocity.y = *(tptr++);
+  targAngularVelocity.y = angularVelocity.y = *(tptr++);
   //angularVelocity.z = *(tptr++);
-  vel.x = *(tptr++);
+  targVel.x = vel.x = *(tptr++);
   //vel.y = *(tptr++);
-  vel.z = *(tptr++);
+  targVel.z = vel.z = *(tptr++);
   csVector3 pos;
   pos.x = *(tptr++);
   pos.y = *(tptr++);
@@ -999,7 +1069,7 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData (csStringHash* msgstrings)
   return csPtr<iDataBuffer> (databuf);
 }
 
-//#define DRDBG (X) printf ("DR: [ %f ] : %s\n", delta, X);
+//#define DRDBG(X) printf ("DR: [ %f ] : %s\n", delta, X);
 #define DRDBG(x)
 
 bool celPcLinearMovement::NeedDRData (uint8& priority)
