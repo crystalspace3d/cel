@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+17-May-2004
+	- Eric Sunshine updated msvcgen.pl and msvcgen.jam from the master
+	  copies in CS, and also grabbed new msvcgen template files from
+	  CS/scripts/jamtemplate. These templates should now be sufficiently
+	  generic for use by many external projects, so there should no longer
+	  be any need to modify them locally.
 15-May-2004
 	- Jorrit added a new function iCelPropertyClass->
 	  PropertyClassesHaveChanged(). This function is called by the parent

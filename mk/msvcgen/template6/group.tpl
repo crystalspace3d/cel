@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=%project% - Win32 ExtensiveMemDebug
+CFG=%project% - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -17,7 +17,6 @@ CFG=%project% - Win32 ExtensiveMemDebug
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "%project% - Win32 ExtensiveMemDebug" (based on "Win32 (x86) Static Library")
 !MESSAGE "%project% - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE "%project% - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE 

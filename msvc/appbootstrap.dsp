@@ -17,8 +17,8 @@ CFG=appbootstrap - Win32 Debug
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "appbootstrap - Win32 Release" (based on "Win32 (x86) Application")
 !MESSAGE "appbootstrap - Win32 Debug" (based on "Win32 (x86) Application")
+!MESSAGE "appbootstrap - Win32 Release" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -26,15 +26,14 @@ CFG=appbootstrap - Win32 Debug
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
 CPP=cl.exe
-MTL=midl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "appbootstrap - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Release"
-# PROP BASE Intermediate_Dir "Release"
+# PROP BASE Output_Dir "release"
+# PROP BASE Intermediate_Dir "release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
@@ -42,62 +41,57 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\appbootstrap"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /I "..\" /D "NDEBUG" /D "_WINDOWS" /D "_MT" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__"  /YX /FD /c
-# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
-# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
-# ADD BASE RSC /l 0x809 /d "NDEBUG"
-# ADD RSC /l 0x809 /d "NDEBUG"
+# ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /FD /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "." /I ".." /I "..\include" /D "NDEBUG" /D "_MT" /D "_CONSOLE" /D "_MBCS" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /FD  /c
+# ADD BASE RSC /l 0x409 /d "NDEBUG" 
+# ADD RSC /l 0x409 /d "NDEBUG" /fo".\release\temp\appbootstrap\appbootstrap.res"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /subsystem:windows /machine:I386 /nodefaultlib:"LIBCMTD" /nodefaultlib:"LIBCMT" 
-# SUBTRACT LINK32 /pdb:none
+# ADD BASE LINK32 user32.lib advapi32.lib /nologo /subsystem:console /machine:I386
+# ADD LINK32 shell32.lib gdi32.lib user32.lib advapi32.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib /nologo /subsystem:console /machine:I386 /out:"release\temp\appbootstrap\bootstrap.exe"  /OPT:NOREF
 # Begin Special Build Tool
-TargetPath=.\release\temp\appbootstrap\bootstrap.exe
+TargetPath".\release\temp\appbootstrap\bootstrap.exe"
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "appbootstrap - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "Debug"
-# PROP BASE Intermediate_Dir "Debug"
+# PROP BASE Output_Dir "debug"
+# PROP BASE Intermediate_Dir "debug"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "debug\temp\appbootstrap"
 # PROP Intermediate_Dir "debug\temp\appbootstrap"
-# PROP Ignore_Export_Lib 0
+# PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\include" /I "..\" /I /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__"  /D "CS_DEBUG" /YX /FD /GZ /c
-# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
-# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
-# ADD BASE RSC /l 0x809 /d "_DEBUG"
-# ADD RSC /l 0x809 /d "_DEBUG"
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FD /c
+# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GR /GX /G5 /ZI /Od /I "." /I ".." /I "..\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD  /c
+# ADD BASE RSC /l 0x409 /d "_DEBUG" 
+# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /fo".\debug\temp\appbootstrap\appbootstrap.res"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept 
+# ADD BASE LINK32 user32.lib advapi32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 shell32.lib gdi32.lib user32.lib advapi32.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib /nologo /subsystem:console /debug /machine:I386 /out:"debug\temp\appbootstrap\bootstrap.exe" /pdbtype:sept 
 # Begin Special Build Tool
-TargetPath=.\debug\temp\appbootstrap\bootstrap.exe
+TargetPath=".\debug\temp\appbootstrap\bootstrap.exe"
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
 
 !ENDIF 
 
 # Begin Target
 
-# Name "appbootstrap - Win32 Release"
 # Name "appbootstrap - Win32 Debug"
+# Name "appbootstrap - Win32 Release"
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""

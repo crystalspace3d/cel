@@ -11,69 +11,6 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\%project%"
-			IntermediateDirectory=".\debug\temp\%project%"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\include;..\"
-				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
-				AdditionalOptions="%debugcflags%"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\debug\temp\%project%/%project%.pch"
-				AssemblerListingLocation=".\debug\temp\%project%/"
-				ObjectFile=".\debug\temp\%project%/"
-				ProgramDataBaseFileName=".\debug\temp\%project%/"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="%debuglflags%"
-				AdditionalDependencies="%debuglibs%"
-				OutputFile=".\debug\temp\%project%/%target%"
-				LinkIncremental="2"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\%project%/%project%.pdb"
-				ImportLibrary=".\debug\temp\%project%/%project%.lib"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\%project%/%project%.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to CEL root.
-copy &quot;$(TargetPath)&quot;  ..
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="2057"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\release\temp\%project%"
 			IntermediateDirectory=".\release\temp\%project%"
@@ -82,18 +19,23 @@ copy &quot;$(TargetPath)&quot;  ..
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include;..\"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
+				Optimization="4"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="TRUE"
+				OptimizeForProcessor="1"
 				AdditionalOptions="%cflags%"
+				AdditionalIncludeDirectories=".,%sourceroot%,%sourceroot%\include"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\release\temp\%project%/%project%.pch"
 				AssemblerListingLocation=".\release\temp\%project%/"
 				ObjectFile=".\release\temp\%project%/"
-				ProgramDataBaseFileName=".\release\temp\%project%/"
+				ProgramDataBaseFileName=".\release\temp\%project%/%project%.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -101,14 +43,19 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="%lflags%"
-				AdditionalDependencies="%libs%"
-				OutputFile=".\release\temp\%project%/%target%"
+				AdditionalDependencies="delayimp.lib %libs%"
+				OutputFile="release\temp\%project%\%target%"
+				Version="4.0"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBCMTD"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				DelayLoadDLLs="%delaylibs%"
 				ProgramDatabaseFile=".\release\temp\%project%/%project%.pdb"
+				SubSystem="2"
+				OptimizeReferences="1"
 				ImportLibrary=".\release\temp\%project%/%project%.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -120,8 +67,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				TypeLibraryName=".\release\temp\%project%/%project%.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to CEL root.
-copy &quot;$(TargetPath)&quot;  ..
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; %buildroot%
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -130,7 +77,79 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="2057"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=""/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\debug\temp\%project%"
+			IntermediateDirectory=".\debug\temp\%project%"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				OptimizeForProcessor="1"
+				AdditionalOptions="%debugcflags%"
+				AdditionalIncludeDirectories=".,%sourceroot%,%sourceroot%\include"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
+				MinimalRebuild="TRUE"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="TRUE"
+				PrecompiledHeaderFile=".\debug\temp\%project%/%project%.pch"
+				AssemblerListingLocation=".\debug\temp\%project%/"
+				ObjectFile=".\debug\temp\%project%/"
+				ProgramDataBaseFileName=".\debug\temp\%project%/%project%.pdb"
+				BrowseInformation="1"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="%debuglflags%"
+				AdditionalDependencies="%debuglibs%"
+				OutputFile="debug\temp\%project%\%target%"
+				Version="1.0"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
+				DelayLoadDLLs="%delaylibs%"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\%project%/%project%.pdb"
+				SubSystem="2"
+				ImportLibrary=".\debug\temp\%project%/%project%.lib"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\debug\temp\%project%/%project%.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; %buildroot%
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=""/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
