@@ -21,6 +21,7 @@
 #define __CEL_PL_PERSIST__
 
 #include "cstypes.h"
+#include "csutil/scf.h"
 #include "csutil/util.h"
 
 struct iCelPropertyClass;

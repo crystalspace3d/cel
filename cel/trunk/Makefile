@@ -37,11 +37,14 @@ PFTOOLS=pftools$(DLL)
 PFENG=pfengine$(DLL)
 PFINV=pfinv$(DLL)
 PLIMP=plimp$(DLL)
+CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
 
 #------
 # Location of sources and object files
 #------
+CPERSIST_SRC=$(wildcard persist/classic/*.cpp)
+CPERSIST_OBJS=$(addsuffix .o, $(basename $(CPERSIST_SRC)))
 PLIMP_SRC=$(wildcard plimp/*.cpp)
 PLIMP_OBJS=$(addsuffix .o, $(basename $(PLIMP_SRC)))
 BLTEST_SRC=$(wildcard bltest/*.cpp)
@@ -80,6 +83,7 @@ endif
 CEL_INCLUDES=-I. -Iinclude
 CFLAGS = $(shell ./cs-config --cflags) $(CEL_INCLUDES)
 CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
+CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PLIMP_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
@@ -103,8 +107,12 @@ DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(CSCONFIG.MAK) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) 
+all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) \
+	$(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) 
 
+
+$(CPERSIST): $(CPERSIST_OBJS)
+	$(DO.PLUGIN) $(CPERSIST_LINKFLAGS)
 
 $(PLIMP): $(PLIMP_OBJS)
 	$(DO.PLUGIN) $(PLIMP_LINKFLAGS)
@@ -134,9 +142,9 @@ $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) \
+	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) \
 		$(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) $(CELTEST_OBJS) \
-		$(PFENG_OBJS) \
+		$(PFENG_OBJS) $(CPERSIST) \
 		$(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST)
 
@@ -144,6 +152,7 @@ clean:
 # Create dependencies
 #------
 depend: $(CSCONFIG.MAK)
+	gcc -MM $(CXXFLAGS) $(CPERSIST_SRC) > makefile.dep
 	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
 	gcc -MM $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
