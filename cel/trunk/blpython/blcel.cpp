@@ -807,8 +807,8 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_iSoundData swig_types[150] 
 #define  SWIGTYPE_p_iCelPropertyClass swig_types[151] 
 #define  SWIGTYPE_p_iProgressMeter swig_types[152] 
-#define  SWIGTYPE_p_iString swig_types[153] 
-#define  SWIGTYPE_p_csString swig_types[154] 
+#define  SWIGTYPE_p_csString swig_types[153] 
+#define  SWIGTYPE_p_iString swig_types[154] 
 #define  SWIGTYPE_p_iPcCharacteristics swig_types[155] 
 #define  SWIGTYPE_p_iKeyboardDriver swig_types[156] 
 #define  SWIGTYPE_p_iSoundDriver swig_types[157] 
@@ -1157,278 +1157,280 @@ void delete_iBase(iBase *self){ {if (self) {self->DecRef();}}; }
 csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		void * ptr;
 		if (!to_name || !to_name[0] || !self) ptr = 0;
-		/*@e:\CS\include\ivaria/cspace.i,29,APPLY_FOR_EACH_INTERFACE@*/	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+		/*@e:\CS\include\ivaria/cspace.i,29,APPLY_FOR_EACH_INTERFACE@*/	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iAudioStream")) ptr = (void*)(iAudioStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBase")) ptr = (void*)(iBase*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBinaryLoaderPlugin")) ptr = (void*)(iBinaryLoaderPlugin*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBodyGroup")) ptr = (void*)(iBodyGroup*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCamera")) ptr = (void*)(iCamera*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCameraPosition")) ptr = (void*)(iCameraPosition*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCacheManager")) ptr = (void*)(iCacheManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollider")) ptr = (void*)(iCollider*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollideSystem")) ptr = (void*)(iCollideSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iComponent")) ptr = (void*)(iComponent*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigFile")) ptr = (void*)(iConfigFile*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigIterator")) ptr = (void*)(iConfigIterator*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigManager")) ptr = (void*)(iConfigManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDataBuffer")) ptr = (void*)(iDataBuffer*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDebugHelper")) ptr = (void*)(iDebugHelper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocument")) ptr = (void*)(iDocument*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocumentSystem")) ptr = (void*)(iDocumentSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamics")) ptr = (void*)(iDynamics*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamicSystem")) ptr = (void*)(iDynamicSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEngine")) ptr = (void*)(iEngine*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEvent")) ptr = (void*)(iEvent*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventHandler")) ptr = (void*)(iEventHandler*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventQueue")) ptr = (void*)(iEventQueue*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFactory")) ptr = (void*)(iFactory*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFile")) ptr = (void*)(iFile*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFont")) ptr = (void*)(iFont*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFontServer")) ptr = (void*)(iFontServer*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumView")) ptr = (void*)(iFrustumView*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumViewUserdata")) ptr = (void*)(iFrustumViewUserdata*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics3D")) ptr = (void*)(iGraphics3D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics2D")) ptr = (void*)(iGraphics2D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iHalo")) ptr = (void*)(iHalo*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImage")) ptr = (void*)(iImage*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImageIO")) ptr = (void*)(iImageIO*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iJoint")) ptr = (void*)(iJoint*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iKeyboardDriver")) ptr = (void*)(iKeyboardDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLightList")) ptr = (void*)(iLightList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoader")) ptr = (void*)(iLoader*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoaderPlugin")) ptr = (void*)(iLoaderPlugin*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterial")) ptr = (void*)(iMaterial*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterialWrapper")) ptr = (void*)(iMaterialWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshFactoryWrapper")) ptr = (void*)(iMeshFactoryWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObject")) ptr = (void*)(iMeshObject*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectFactory")) ptr = (void*)(iMeshObjectFactory*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectType")) ptr = (void*)(iMeshObjectType*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshWrapper")) ptr = (void*)(iMeshWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iModelConverter")) ptr = (void*)(iModelConverter*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovable")) ptr = (void*)(iMovable*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovableListener")) ptr = (void*)(iMovableListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkConnection")) ptr = (void*)(iNetworkConnection*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkDriver")) ptr = (void*)(iNetworkDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkEndPoint")) ptr = (void*)(iNetworkEndPoint*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkListener")) ptr = (void*)(iNetworkListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkManager")) ptr = (void*)(iNetworkManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkPacket")) ptr = (void*)(iNetworkPacket*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkSocket2")) ptr = (void*)(iNetworkSocket2*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObject")) ptr = (void*)(iObject*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModel")) ptr = (void*)(iObjectModel*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModelListener")) ptr = (void*)(iObjectModelListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectRegistry")) ptr = (void*)(iObjectRegistry*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPluginManager")) ptr = (void*)(iPluginManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygon3D")) ptr = (void*)(iPolygon3D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonMesh")) ptr = (void*)(iPolygonMesh*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonTexture")) ptr = (void*)(iPolygonTexture*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSCF")) ptr = (void*)(iSCF*)self;
 /*@@*/
-//	INTERFACE_APPLY(iScript)
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	else if (!strcmp(to_name,"iScript")) ptr = (void*)(iScript*)self;
+/*@@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSector")) ptr = (void*)(iSector*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSectorList")) ptr = (void*)(iSectorList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundHandle")) ptr = (void*)(iSoundHandle*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundLoader")) ptr = (void*)(iSoundLoader*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundRender")) ptr = (void*)(iSoundRender*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundWrapper")) ptr = (void*)(iSoundWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundDriver")) ptr = (void*)(iSoundDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundSource")) ptr = (void*)(iSoundSource*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite2DState")) ptr = (void*)(iSprite2DState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite3DState")) ptr = (void*)(iSprite3DState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStatLight")) ptr = (void*)(iStatLight*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStream")) ptr = (void*)(iStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamIterator")) ptr = (void*)(iStreamIterator*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamFormat")) ptr = (void*)(iStreamFormat*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iString")) ptr = (void*)(iString*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStrVector")) ptr = (void*)(iStrVector*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureHandle")) ptr = (void*)(iTextureHandle*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureList")) ptr = (void*)(iTextureList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureManager")) ptr = (void*)(iTextureManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureWrapper")) ptr = (void*)(iTextureWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iThingState")) ptr = (void*)(iThingState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVFS")) ptr = (void*)(iVFS*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVideoStream")) ptr = (void*)(iVideoStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iView")) ptr = (void*)(iView*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVirtualClock")) ptr = (void*)(iVirtualClock*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,648,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVisibilityCuller")) ptr = (void*)(iVisibilityCuller*)self;
 /*@@*/
 /*@@*/
@@ -1437,6 +1439,7 @@ csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 	}
 void delete_iFactory(iFactory *self){ {if (self) {self->DecRef();}}; }
 extern void scfInitialize(csPluginPaths *);
+extern void scfInitialize(int,char const *const []);
 void delete_iSCF(iSCF *self){ {if (self) {self->DecRef();}}; }
 void delete_iDebugHelper(iDebugHelper *self){ {if (self) {self->DecRef();}}; }
 csColor csColor_operator_a___(csColor const *self,csColor const &c){ return *self + c; }
@@ -1446,8 +1449,8 @@ csColor csColor___rmul__(csColor const *self,float f){ return f * *self; }
 void delete_iString(iString *self){ {if (self) {self->DecRef();}}; }
 csVector2 csVector2_operator_a___(csVector2 const *self,csVector2 const &v){ return *self + v; }
 csVector2 csVector2_operator_s___(csVector2 const *self,csVector2 const &v){ return *self - v; }
-float csVector2_operator_m_____SWIG_3(csVector2 const *self,csVector2 const &v){ return *self * v; }
-csVector2 csVector2_operator_m_____SWIG_4(csVector2 const *self,float f){ return *self * f; }
+float csVector2_operator_m_____SWIG_0(csVector2 const *self,csVector2 const &v){ return *self * v; }
+csVector2 csVector2_operator_m_____SWIG_1(csVector2 const *self,float f){ return *self * f; }
 csVector2 csVector2_operator_d___(csVector2 const *self,float f){ return *self * f; }
 bool csVector2_operator_ee___(csVector2 const *self,csVector2 const &v){ return *self == v; }
 bool csVector2_operator_Ne___(csVector2 const *self,csVector2 const &v){ return *self != v; }
@@ -1459,16 +1462,16 @@ float csVector2___getitem__(csVector2 const *self,int i){ return i ? self->y : s
 void csVector2___setitem__(csVector2 *self,int i,float v){ if (i) self->y = v; else self->x = v; }
 csVector3 csVector3_operator_a___(csVector3 const *self,csVector3 const &v){ return *self + v; }
 csVector3 csVector3_operator_s___(csVector3 const *self,csVector3 const &v){ return *self - v; }
-float csVector3_operator_m_____SWIG_7(csVector3 const *self,csVector3 const &v){ return *self * v; }
-csVector3 csVector3_operator_m_____SWIG_8(csVector3 const *self,float f){ return *self * f; }
-csVector3 csVector3_operator_d_____SWIG_3(csVector3 const *self,float f){ return *self * f; }
+float csVector3_operator_m_____SWIG_0(csVector3 const *self,csVector3 const &v){ return *self * v; }
+csVector3 csVector3_operator_m_____SWIG_1(csVector3 const *self,float f){ return *self * f; }
+csVector3 csVector3_operator_d_____SWIG_0(csVector3 const *self,float f){ return *self * f; }
 bool csVector3_operator_ee___(csVector3 const *self,csVector3 const &v){ return *self == v; }
 bool csVector3_operator_Ne___(csVector3 const *self,csVector3 const &v){ return *self != v; }
 bool csVector3_operator_l___(csVector3 const *self,float f){ return *self < f; }
 bool csVector3_operator_g___(csVector3 const *self,float f){ return f > *self; }
 csVector3 &csVector3_operator_me_____SWIG_1(csVector3 *self,csTransform const &t){ return *self *= t; }
 csVector3 &csVector3_operator_de_____SWIG_1(csVector3 *self,csReversibleTransform const &t){ return *self /= t; }
-csVector3 csVector3_operator_d_____SWIG_4(csVector3 *self,csReversibleTransform const &t){ return *self / t; }
+csVector3 csVector3_operator_d_____SWIG_1(csVector3 *self,csReversibleTransform const &t){ return *self / t; }
 csVector3 csVector3_project(csVector3 const *self,csVector3 const &what){ return what << *self; }
 csVector3 csVector3___rmul__(csVector3 const *self,float f){ return f * *self; }
 float csVector3___abs__(csVector3 const *self){ return self->Norm(); }
@@ -1477,21 +1480,21 @@ void csVector3___setitem__(csVector3 *self,int i,float v){ self->operator[](i) =
 bool csVector3___nonzero__(csVector3 const *self){ return !self->IsZero(); }
 csMatrix3 csMatrix3_operator_a___(csMatrix3 *self,csMatrix3 const &m){ return *self + m; }
 csMatrix3 csMatrix3_operator_s___(csMatrix3 *self,csMatrix3 const &m){ return *self - m; }
-csMatrix3 csMatrix3_operator_m_____SWIG_4(csMatrix3 *self,csMatrix3 const &m){ return *self * m; }
-csVector3 csMatrix3_operator_m_____SWIG_5(csMatrix3 *self,csVector3 const &v){ return *self * v; }
-csMatrix3 csMatrix3_operator_m_____SWIG_6(csMatrix3 *self,float f){ return *self * f; }
+csMatrix3 csMatrix3_operator_m_____SWIG_0(csMatrix3 *self,csMatrix3 const &m){ return *self * m; }
+csVector3 csMatrix3_operator_m_____SWIG_1(csMatrix3 *self,csVector3 const &v){ return *self * v; }
+csMatrix3 csMatrix3_operator_m_____SWIG_2(csMatrix3 *self,float f){ return *self * f; }
 csMatrix3 csMatrix3_operator_d___(csMatrix3 *self,float f){ return *self / f; }
 bool csMatrix3_operator_ee___(csMatrix3 const *self,csMatrix3 const &m){ return *self == m; }
 bool csMatrix3_operator_Ne___(csMatrix3 const *self,csMatrix3 const &m){ return *self != m; }
 bool csMatrix3_operator_l___(csMatrix3 const *self,float f){ return *self < f; }
-csMatrix3 csMatrix3_operator_m_____SWIG_7(csMatrix3 const *self,csTransform const &t){ return *self * t; }
+csMatrix3 csMatrix3_operator_m_____SWIG_3(csMatrix3 const *self,csTransform const &t){ return *self * t; }
 csMatrix3 &csMatrix3_operator_me_____SWIG_2(csMatrix3 *self,csTransform const &t){ return *self *= t; }
 csMatrix3 csMatrix3___rmul__(csMatrix3 *self,float f){ return f * *self; }
-csVector3 csTransform_operator_m_____SWIG_9(csTransform const *self,csVector3 const &v){ return *self * v; }
-csPlane3 csTransform_operator_m_____SWIG_10(csTransform const *self,csPlane3 const &p){ return *self * p; }
-csSphere csTransform_operator_m_____SWIG_11(csTransform const *self,csSphere const &s){ return *self * s; }
-csMatrix3 csTransform_operator_m_____SWIG_12(csTransform const *self,csMatrix3 const &m){ return *self * m; }
-csTransform csTransform_operator_m_____SWIG_13(csTransform const *self,csReversibleTransform const &t){ return *self * t; }
+csVector3 csTransform_operator_m_____SWIG_0(csTransform const *self,csVector3 const &v){ return *self * v; }
+csPlane3 csTransform_operator_m_____SWIG_1(csTransform const *self,csPlane3 const &p){ return *self * p; }
+csSphere csTransform_operator_m_____SWIG_2(csTransform const *self,csSphere const &s){ return *self * s; }
+csMatrix3 csTransform_operator_m_____SWIG_3(csTransform const *self,csMatrix3 const &m){ return *self * m; }
+csTransform csTransform_operator_m_____SWIG_4(csTransform const *self,csReversibleTransform const &t){ return *self * t; }
 csVector3 csTransform___rmul____SWIG_0(csTransform const *self,csVector3 const &v){ return v * *self; }
 csPlane3 csTransform___rmul____SWIG_1(csTransform const *self,csPlane3 const &p){ return p * *self; }
 csSphere csTransform___rmul____SWIG_2(csTransform const *self,csSphere const &s){ return s * *self; }
@@ -2050,29 +2053,6 @@ static PyObject *_wrap_csWrapPtr_VoidPtr_get(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csWrapPtr_Type_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csWrapPtr *arg1 = (csWrapPtr *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:csWrapPtr_Type_set",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csWrapPtr,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        if (arg2) {
-            arg1->Type = (char const *) (new char[strlen(arg2)+1]);
-            strcpy((char *) arg1->Type,arg2);
-        }else {
-            arg1->Type = 0;
-        }
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_csWrapPtr_Type_get(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csWrapPtr *arg1 = (csWrapPtr *) 0 ;
@@ -2562,20 +2542,115 @@ static PyObject * iFactory_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
-static PyObject *_wrap_scfInitialize(PyObject *self, PyObject *args) {
+static PyObject *_wrap_scfInitialize__SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csPluginPaths *arg1 = (csPluginPaths *) 0 ;
     PyObject * obj0 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"|O:scfInitialize",&obj0)) goto fail;
-    if (obj0) {
-        if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPaths,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    }
+    if(!PyArg_ParseTuple(args,(char *)"O:scfInitialize",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPaths,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     scfInitialize(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_scfInitialize__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    int arg1 ;
+    char **arg2 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:scfInitialize",&obj0)) goto fail;
+    {
+        if (!PyList_Check(obj0))
+        {
+            PyErr_SetString(PyExc_TypeError, "not a list");
+            return 0;
+        }
+        arg1 = PyList_Size(obj0);
+        typedef char * Char_Ptr;
+        arg2 = new Char_Ptr[arg1 + 1];
+        for (int i = 0; i < arg1; ++i)
+        {
+            PyObject * o = PyList_GetItem(obj0, i);
+            if (!PyString_Check(o))
+            {
+                PyErr_SetString(PyExc_TypeError, "list must contain strings");
+                delete [] arg2;
+                return 0;
+            }
+            arg2[i] = PyString_AsString(o);
+        }
+        arg2[arg1] = 0;
+    }
+    scfInitialize(arg1,(char const *const (*))arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    {
+        delete [] arg2;
+    }
+    return resultobj;
+    fail:
+    {
+        delete [] arg2;
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_scfInitialize(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[2];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csPluginPaths, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_scfInitialize__SWIG_0(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            _v = (PyInt_Check(argv[0]) || PyLong_Check(argv[0])) ? 1 : 0;
+        }
+        if (_v) {
+            if (argc <= 1) {
+                return _wrap_scfInitialize__SWIG_1(self,args);
+            }
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_p_char, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_scfInitialize__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'scfInitialize'");
     return NULL;
 }
 
@@ -2658,13 +2733,14 @@ static PyObject *_wrap_iSCF_RegisterClasses__SWIG_2(PyObject *self, PyObject *ar
     iSCF *arg1 = (iSCF *) 0 ;
     char *arg2 ;
     iDocument *arg3 = (iDocument *) 0 ;
+    char *arg4 = (char *) 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OsO:iSCF_RegisterClasses",&obj0,&arg2,&obj2)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OsO|s:iSCF_RegisterClasses",&obj0,&arg2,&obj2,&arg4)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iDocument,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    (arg1)->RegisterClasses((char const *)arg2,arg3);
+    (arg1)->RegisterClasses((char const *)arg2,arg3,(char const *)arg4);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -2675,11 +2751,11 @@ static PyObject *_wrap_iSCF_RegisterClasses__SWIG_2(PyObject *self, PyObject *ar
 
 static PyObject *_wrap_iSCF_RegisterClasses(PyObject *self, PyObject *args) {
     int argc;
-    PyObject *argv[4];
+    PyObject *argv[5];
     int ii;
     
     argc = PyObject_Length(args);
-    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
         argv[ii] = PyTuple_GetItem(args,ii);
     }
     if (argc == 2) {
@@ -2728,7 +2804,7 @@ static PyObject *_wrap_iSCF_RegisterClasses(PyObject *self, PyObject *args) {
             }
         }
     }
-    if (argc == 3) {
+    if ((argc >= 3) && (argc <= 4)) {
         int _v;
         {
             void *ptr;
@@ -2754,7 +2830,15 @@ static PyObject *_wrap_iSCF_RegisterClasses(PyObject *self, PyObject *args) {
                     }
                 }
                 if (_v) {
-                    return _wrap_iSCF_RegisterClasses__SWIG_2(self,args);
+                    if (argc <= 3) {
+                        return _wrap_iSCF_RegisterClasses__SWIG_2(self,args);
+                    }
+                    {
+                        _v = PyString_Check(argv[3]) ? 1 : 0;
+                    }
+                    if (_v) {
+                        return _wrap_iSCF_RegisterClasses__SWIG_2(self,args);
+                    }
                 }
             }
         }
@@ -2863,12 +2947,13 @@ static PyObject *_wrap_iSCF_RegisterClass__SWIG_0(PyObject *self, PyObject *args
     char *arg4 ;
     char *arg5 ;
     char *arg6 = (char *) 0 ;
+    char *arg7 = (char *) 0 ;
     bool result;
     PyObject * obj0 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"Ossss|s:iSCF_RegisterClass",&obj0,&arg2,&arg3,&arg4,&arg5,&arg6)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"Ossss|ss:iSCF_RegisterClass",&obj0,&arg2,&arg3,&arg4,&arg5,&arg6,&arg7)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->RegisterClass((char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5,(char const *)arg6);
+    result = (bool)(arg1)->RegisterClass((char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5,(char const *)arg6,(char const *)arg7);
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -2884,14 +2969,15 @@ static PyObject *_wrap_iSCF_RegisterClass__SWIG_1(PyObject *self, PyObject *args
     char *arg3 ;
     char *arg4 ;
     char *arg5 = (char *) 0 ;
+    char *arg6 = (char *) 0 ;
     bool result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOss|s:iSCF_RegisterClass",&obj0,&obj1,&arg3,&arg4,&arg5)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOss|ss:iSCF_RegisterClass",&obj0,&obj1,&arg3,&arg4,&arg5,&arg6)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_scfFactoryFunc,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->RegisterClass(arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+    result = (bool)(arg1)->RegisterClass(arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5,(char const *)arg6);
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -2902,14 +2988,14 @@ static PyObject *_wrap_iSCF_RegisterClass__SWIG_1(PyObject *self, PyObject *args
 
 static PyObject *_wrap_iSCF_RegisterClass(PyObject *self, PyObject *args) {
     int argc;
-    PyObject *argv[7];
+    PyObject *argv[8];
     int ii;
     
     argc = PyObject_Length(args);
-    for (ii = 0; (ii < argc) && (ii < 6); ii++) {
+    for (ii = 0; (ii < argc) && (ii < 7); ii++) {
         argv[ii] = PyTuple_GetItem(args,ii);
     }
-    if ((argc >= 4) && (argc <= 5)) {
+    if ((argc >= 4) && (argc <= 6)) {
         int _v;
         {
             void *ptr;
@@ -2946,14 +3032,22 @@ static PyObject *_wrap_iSCF_RegisterClass(PyObject *self, PyObject *args) {
                             _v = PyString_Check(argv[4]) ? 1 : 0;
                         }
                         if (_v) {
-                            return _wrap_iSCF_RegisterClass__SWIG_1(self,args);
+                            if (argc <= 5) {
+                                return _wrap_iSCF_RegisterClass__SWIG_1(self,args);
+                            }
+                            {
+                                _v = PyString_Check(argv[5]) ? 1 : 0;
+                            }
+                            if (_v) {
+                                return _wrap_iSCF_RegisterClass__SWIG_1(self,args);
+                            }
                         }
                     }
                 }
             }
         }
     }
-    if ((argc >= 5) && (argc <= 6)) {
+    if ((argc >= 5) && (argc <= 7)) {
         int _v;
         {
             void *ptr;
@@ -2988,7 +3082,15 @@ static PyObject *_wrap_iSCF_RegisterClass(PyObject *self, PyObject *args) {
                                 _v = PyString_Check(argv[5]) ? 1 : 0;
                             }
                             if (_v) {
-                                return _wrap_iSCF_RegisterClass__SWIG_0(self,args);
+                                if (argc <= 6) {
+                                    return _wrap_iSCF_RegisterClass__SWIG_0(self,args);
+                                }
+                                {
+                                    _v = PyString_Check(argv[6]) ? 1 : 0;
+                                }
+                                if (_v) {
+                                    return _wrap_iSCF_RegisterClass__SWIG_0(self,args);
+                                }
                             }
                         }
                     }
@@ -3087,6 +3189,48 @@ static PyObject *_wrap_iSCF_QueryClassList(PyObject *self, PyObject *args) {
     result = (iStrVector *)(arg1)->QueryClassList((char const *)arg2);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iStrVector, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSCF_ScanPluginsPath(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSCF *arg1 = (iSCF *) 0 ;
+    char *arg2 ;
+    bool arg3 = (bool) false ;
+    char *arg4 = (char *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os|Os:iSCF_ScanPluginsPath",&obj0,&arg2,&obj2,&arg4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj2) {
+        arg3 = PyInt_AsLong(obj2) ? true : false;
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    (arg1)->ScanPluginsPath((char const *)arg2,arg3,(char const *)arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSCF_RegisterPlugin(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSCF *arg1 = (iSCF *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:iSCF_RegisterPlugin",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)(arg1)->RegisterPlugin((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -5083,6 +5227,2447 @@ static PyObject * iString_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_csString_SetCapacity(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_SetCapacity",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    (arg1)->SetCapacity(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_GetCapacity(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_GetCapacity",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = ((csString const *)arg1)->GetCapacity();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_SetGrowsBy(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_SetGrowsBy",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    (arg1)->SetGrowsBy(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_GetGrowsBy(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_GetGrowsBy",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = ((csString const *)arg1)->GetGrowsBy();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_SetGrowsExponentially(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    bool arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_SetGrowsExponentially",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = PyInt_AsLong(obj1) ? true : false;
+    if (PyErr_Occurred()) SWIG_fail;
+    (arg1)->SetGrowsExponentially(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_GetGrowsExponentially(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_GetGrowsExponentially",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->GetGrowsExponentially();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Free(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Free",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->Free();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Truncate(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_Truncate",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Truncate(arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Reclaim(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Reclaim",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Reclaim();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Clear(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Clear",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Clear();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_GetData(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_GetData",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (char *)((csString const *)arg1)->GetData();
+    
+    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Length(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Length",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = ((csString const *)arg1)->Length();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_IsEmpty(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_IsEmpty",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->IsEmpty();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_SetAt(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOc:csString_SetAt",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    (arg1)->SetAt(arg2,arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_GetAt(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_GetAt",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (char)((csString const *)arg1)->GetAt(arg2);
+    
+    resultobj = Py_BuildValue((char*)"c",result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_DeleteAt(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    size_t arg3 = (size_t) 1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|O:csString_DeleteAt",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    {
+        csString &_result_ref = (arg1)->DeleteAt(arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Insert__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    csString *arg3 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:csString_Insert",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg3 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    {
+        csString &_result_ref = (arg1)->Insert(arg2,(csString const &)*arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Insert__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOc:csString_Insert",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Insert(arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Insert(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_csString_Insert__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_Insert__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_Insert'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Overwrite(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    csString *arg3 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:csString_Overwrite",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg3 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    {
+        csString &_result_ref = (arg1)->Overwrite(arg2,(csString const &)*arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Append__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os|O:csString_Append",&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    {
+        csString &_result_ref = (arg1)->Append((char const *)arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Append__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|O:csString_Append",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    {
+        csString &_result_ref = (arg1)->Append((csString const &)*arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Append__SWIG_2(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char arg2 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Oc:csString_Append",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Append(arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Append__SWIG_3(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    unsigned char arg2 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_Append",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (unsigned char) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Append(arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Append(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_Append__SWIG_1(self,args);
+                }
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_csString_Append__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString_Append__SWIG_3(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyString_Check(argv[1]) && (PyString_Size(argv[1]) == 1)) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString_Append__SWIG_2(self,args);
+            }
+        }
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_Append__SWIG_0(self,args);
+                }
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_csString_Append__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_Append'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_SubString(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    size_t arg3 ;
+    size_t arg4 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:csString_SubString",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    arg3 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg4 = (size_t) PyInt_AsLong(obj3);
+    if (PyErr_Occurred()) SWIG_fail;
+    (arg1)->SubString(*arg2,arg3,arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_FindFirst(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char arg2 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Oc|O:csString_FindFirst",&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    result = (arg1)->FindFirst(arg2,arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_FindLast(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char arg2 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Oc|O:csString_FindLast",&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    result = (arg1)->FindLast(arg2,arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Replace__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|O:csString_Replace",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    {
+        csString &_result_ref = (arg1)->Replace((csString const &)*arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Replace__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    size_t arg3 = (size_t) (size_t) -1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os|O:csString_Replace",&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj2) {
+        arg3 = (size_t) PyInt_AsLong(obj2);
+        if (PyErr_Occurred()) SWIG_fail;
+    }
+    {
+        csString &_result_ref = (arg1)->Replace((char const *)arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Replace(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_Replace__SWIG_0(self,args);
+                }
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_csString_Replace__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_Replace__SWIG_1(self,args);
+                }
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_csString_Replace__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_Replace'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Compare__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_Compare",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    result = (bool)((csString const *)arg1)->Compare((csString const &)*arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Compare__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString_Compare",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->Compare((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Compare(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString_Compare__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString_Compare__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_Compare'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_CompareNoCase__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_CompareNoCase",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    result = (bool)((csString const *)arg1)->CompareNoCase((csString const &)*arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_CompareNoCase__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString_CompareNoCase",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->CompareNoCase((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_CompareNoCase(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString_CompareNoCase__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString_CompareNoCase__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_CompareNoCase'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":new_csString")) goto fail;
+    result = (csString *)new csString();
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:new_csString",&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (csString *)new csString(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_2(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:new_csString",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg1 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    result = (csString *)new csString((csString const &)*arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_3(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    char *arg1 ;
+    csString *result;
+    
+    if(!PyArg_ParseTuple(args,(char *)"s:new_csString",&arg1)) goto fail;
+    result = (csString *)new csString((char const *)arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_4(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    char arg1 ;
+    csString *result;
+    
+    if(!PyArg_ParseTuple(args,(char *)"c:new_csString",&arg1)) goto fail;
+    result = (csString *)new csString(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString__SWIG_5(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    unsigned char arg1 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:new_csString",&obj0)) goto fail;
+    arg1 = (unsigned char) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (csString *)new csString(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_csString(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[2];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 0) {
+        return _wrap_new_csString__SWIG_0(self,args);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_new_csString__SWIG_1(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_new_csString__SWIG_2(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            _v = (PyInt_Check(argv[0]) || PyLong_Check(argv[0])) ? 1 : 0;
+        }
+        if (_v) {
+            return _wrap_new_csString__SWIG_5(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            _v = (PyString_Check(argv[0]) && (PyString_Size(argv[0]) == 1)) ? 1 : 0;
+        }
+        if (_v) {
+            return _wrap_new_csString__SWIG_4(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            _v = PyString_Check(argv[0]) ? 1 : 0;
+        }
+        if (_v) {
+            return _wrap_new_csString__SWIG_3(self,args);
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'new_csString'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_csString(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:delete_csString",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    delete arg1;
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Clone(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Clone",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = ((csString const *)arg1)->Clone();
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_LTrim(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_LTrim",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->LTrim();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_RTrim(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_RTrim",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->RTrim();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Trim(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Trim",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Trim();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Collapse(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Collapse",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Collapse();
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Format__varargs__(PyObject *self, PyObject *args, PyObject *varargs) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    void *arg3 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString_Format",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->Format((char const *)arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Format(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    PyObject *varargs;
+    PyObject *newargs;
+    
+    newargs = PyTuple_GetSlice(args,0,2);
+    varargs = PyTuple_GetSlice(args,2,PyTuple_Size(args)+1);
+    resultobj = _wrap_csString_Format__varargs__(self,newargs,varargs);
+    Py_XDECREF(newargs);
+    Py_XDECREF(varargs);
+    return resultobj;
+}
+
+
+static PyObject *_wrap_csString_FormatV(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    va_list arg3 ;
+    csString *result;
+    va_list *argp3 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OsO:csString_FormatV",&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &argp3, SWIGTYPE_p_va_list,SWIG_POINTER_EXCEPTION) == -1)) SWIG_fail;
+    arg3 = *argp3; 
+    {
+        csString &_result_ref = (arg1)->FormatV((char const *)arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadLeft__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_PadLeft",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->PadLeft(arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_AsPadLeft(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_AsPadLeft",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (arg1)->AsPadLeft(arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadLeft__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    char *arg1 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"sO|c:csString_PadLeft",&arg1,&obj1,&arg3)) goto fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = csString::PadLeft((char const *)arg1,arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadLeft(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadLeft__SWIG_0(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadLeft__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            _v = PyString_Check(argv[0]) ? 1 : 0;
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadLeft__SWIG_1(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadLeft__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_PadLeft'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadRight__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_PadRight",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->PadRight(arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_AsPadRight(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_AsPadRight",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (arg1)->AsPadRight(arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadRight__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    char *arg1 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"sO|c:csString_PadRight",&arg1,&obj1,&arg3)) goto fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = csString::PadRight((char const *)arg1,arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadRight(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadRight__SWIG_0(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadRight__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            _v = PyString_Check(argv[0]) ? 1 : 0;
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadRight__SWIG_1(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadRight__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_PadRight'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadCenter__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_PadCenter",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->PadCenter(arg2,arg3);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_AsPadCenter(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO|c:csString_AsPadCenter",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (arg1)->AsPadCenter(arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadCenter__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    char *arg1 ;
+    size_t arg2 ;
+    char arg3 = (char) ' ' ;
+    csString result;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"sO|c:csString_PadCenter",&arg1,&obj1,&arg3)) goto fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = csString::PadCenter((char const *)arg1,arg2,arg3);
+    
+    {
+        csString * resultptr;
+        resultptr = new csString((csString &) result);
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_csString, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_PadCenter(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadCenter__SWIG_0(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadCenter__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if ((argc >= 2) && (argc <= 3)) {
+        int _v;
+        {
+            _v = PyString_Check(argv[0]) ? 1 : 0;
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_size_t, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                if (argc <= 2) {
+                    return _wrap_csString_PadCenter__SWIG_1(self,args);
+                }
+                {
+                    _v = (PyString_Check(argv[2]) && (PyString_Size(argv[2]) == 1)) ? 1 : 0;
+                }
+                if (_v) {
+                    return _wrap_csString_PadCenter__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_PadCenter'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_assign__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString_assign",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    {
+        csString const &_result_ref = (arg1)->operator =((csString const &)*arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_assign__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString_assign",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString const &_result_ref = (arg1)->operator =((char const *)arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_assign(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString_assign__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString_assign__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString_assign'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___iadd____SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString___iadd__",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    {
+        csString &_result_ref = (arg1)->operator +=((csString const &)*arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___iadd____SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString___iadd__",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        csString &_result_ref = (arg1)->operator +=((char const *)arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___iadd__(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString___iadd____SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString___iadd____SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString___iadd__'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___add__(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    csString *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString___add__",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    {
+        csString const &_result_ref = ((csString const *)arg1)->operator +((csString const &)*arg2);
+        result = (csString *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csString, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___eq____SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString___eq__",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    result = (bool)((csString const *)arg1)->operator ==((csString const &)*arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___eq____SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString___eq__",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->operator ==((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___eq__(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString___eq____SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString___eq____SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString___eq__'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___ne____SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    csString *arg2 = 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:csString___ne__",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    result = (bool)((csString const *)arg1)->operator !=((csString const &)*arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___ne____SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:csString___ne__",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)((csString const *)arg1)->operator !=((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString___ne__(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                }else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_csString___ne____SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_csString, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = PyString_Check(argv[1]) ? 1 : 0;
+            }
+            if (_v) {
+                return _wrap_csString___ne____SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'csString___ne__'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_Detach(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_Detach",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (char *)(arg1)->Detach();
+    
+    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_csString_strlwr(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    csString *arg1 = (csString *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:csString_strlwr",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csString,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->strlwr();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * csString_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_csString, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_csVector2_x_set(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector2 *arg1 = (csVector2 *) 0 ;
@@ -5560,7 +8145,7 @@ static PyObject *_wrap_csVector2___sub__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csVector2___mul____SWIG_3(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector2___mul____SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector2 *arg1 = (csVector2 *) 0 ;
     csVector2 *arg2 = 0 ;
@@ -5574,7 +8159,7 @@ static PyObject *_wrap_csVector2___mul____SWIG_3(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = (float)csVector2_operator_m_____SWIG_3((csVector2 const *)arg1,(csVector2 const &)*arg2);
+    result = (float)csVector2_operator_m_____SWIG_0((csVector2 const *)arg1,(csVector2 const &)*arg2);
     
     resultobj = PyFloat_FromDouble(result);
     return resultobj;
@@ -5583,7 +8168,7 @@ static PyObject *_wrap_csVector2___mul____SWIG_3(PyObject *self, PyObject *args)
 }
 
 
-static PyObject *_wrap_csVector2___mul____SWIG_4(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector2___mul____SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector2 *arg1 = (csVector2 *) 0 ;
     float arg2 ;
@@ -5592,7 +8177,7 @@ static PyObject *_wrap_csVector2___mul____SWIG_4(PyObject *self, PyObject *args)
     
     if(!PyArg_ParseTuple(args,(char *)"Of:csVector2___mul__",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csVector2,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = csVector2_operator_m_____SWIG_4((csVector2 const *)arg1,arg2);
+    result = csVector2_operator_m_____SWIG_1((csVector2 const *)arg1,arg2);
     
     {
         csVector2 * resultptr;
@@ -5636,7 +8221,7 @@ static PyObject *_wrap_csVector2___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csVector2___mul____SWIG_3(self,args);
+                return _wrap_csVector2___mul____SWIG_0(self,args);
             }
         }
     }
@@ -5656,7 +8241,7 @@ static PyObject *_wrap_csVector2___mul__(PyObject *self, PyObject *args) {
                 _v = (PyFloat_Check(argv[1]) || PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
             }
             if (_v) {
-                return _wrap_csVector2___mul____SWIG_4(self,args);
+                return _wrap_csVector2___mul____SWIG_1(self,args);
             }
         }
     }
@@ -6554,7 +9139,7 @@ static PyObject *_wrap_csVector3___sub__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csVector3___mul____SWIG_7(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector3___mul____SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector3 *arg1 = (csVector3 *) 0 ;
     csVector3 *arg2 = 0 ;
@@ -6568,7 +9153,7 @@ static PyObject *_wrap_csVector3___mul____SWIG_7(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = (float)csVector3_operator_m_____SWIG_7((csVector3 const *)arg1,(csVector3 const &)*arg2);
+    result = (float)csVector3_operator_m_____SWIG_0((csVector3 const *)arg1,(csVector3 const &)*arg2);
     
     resultobj = PyFloat_FromDouble(result);
     return resultobj;
@@ -6577,7 +9162,7 @@ static PyObject *_wrap_csVector3___mul____SWIG_7(PyObject *self, PyObject *args)
 }
 
 
-static PyObject *_wrap_csVector3___mul____SWIG_8(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector3___mul____SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector3 *arg1 = (csVector3 *) 0 ;
     float arg2 ;
@@ -6586,7 +9171,7 @@ static PyObject *_wrap_csVector3___mul____SWIG_8(PyObject *self, PyObject *args)
     
     if(!PyArg_ParseTuple(args,(char *)"Of:csVector3___mul__",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = csVector3_operator_m_____SWIG_8((csVector3 const *)arg1,arg2);
+    result = csVector3_operator_m_____SWIG_1((csVector3 const *)arg1,arg2);
     
     {
         csVector3 * resultptr;
@@ -6630,7 +9215,7 @@ static PyObject *_wrap_csVector3___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csVector3___mul____SWIG_7(self,args);
+                return _wrap_csVector3___mul____SWIG_0(self,args);
             }
         }
     }
@@ -6650,7 +9235,7 @@ static PyObject *_wrap_csVector3___mul__(PyObject *self, PyObject *args) {
                 _v = (PyFloat_Check(argv[1]) || PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
             }
             if (_v) {
-                return _wrap_csVector3___mul____SWIG_8(self,args);
+                return _wrap_csVector3___mul____SWIG_1(self,args);
             }
         }
     }
@@ -6660,7 +9245,7 @@ static PyObject *_wrap_csVector3___mul__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csVector3___div____SWIG_3(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector3___div____SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector3 *arg1 = (csVector3 *) 0 ;
     float arg2 ;
@@ -6669,7 +9254,7 @@ static PyObject *_wrap_csVector3___div____SWIG_3(PyObject *self, PyObject *args)
     
     if(!PyArg_ParseTuple(args,(char *)"Of:csVector3___div__",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = csVector3_operator_d_____SWIG_3((csVector3 const *)arg1,arg2);
+    result = csVector3_operator_d_____SWIG_0((csVector3 const *)arg1,arg2);
     
     {
         csVector3 * resultptr;
@@ -6938,7 +9523,7 @@ static PyObject *_wrap_csVector3___idiv__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csVector3___div____SWIG_4(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csVector3___div____SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csVector3 *arg1 = (csVector3 *) 0 ;
     csReversibleTransform *arg2 = 0 ;
@@ -6952,7 +9537,7 @@ static PyObject *_wrap_csVector3___div____SWIG_4(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csVector3_operator_d_____SWIG_4(arg1,(csReversibleTransform const &)*arg2);
+    result = csVector3_operator_d_____SWIG_1(arg1,(csReversibleTransform const &)*arg2);
     
     {
         csVector3 * resultptr;
@@ -6996,7 +9581,7 @@ static PyObject *_wrap_csVector3___div__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csVector3___div____SWIG_4(self,args);
+                return _wrap_csVector3___div____SWIG_1(self,args);
             }
         }
     }
@@ -7016,7 +9601,7 @@ static PyObject *_wrap_csVector3___div__(PyObject *self, PyObject *args) {
                 _v = (PyFloat_Check(argv[1]) || PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
             }
             if (_v) {
-                return _wrap_csVector3___div____SWIG_3(self,args);
+                return _wrap_csVector3___div____SWIG_0(self,args);
             }
         }
     }
@@ -8894,7 +11479,7 @@ static PyObject *_wrap_csMatrix3___sub__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csMatrix3___mul____SWIG_4(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csMatrix3___mul____SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csMatrix3 *arg1 = (csMatrix3 *) 0 ;
     csMatrix3 *arg2 = 0 ;
@@ -8908,7 +11493,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_4(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csMatrix3_operator_m_____SWIG_4(arg1,(csMatrix3 const &)*arg2);
+    result = csMatrix3_operator_m_____SWIG_0(arg1,(csMatrix3 const &)*arg2);
     
     {
         csMatrix3 * resultptr;
@@ -8921,7 +11506,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_4(PyObject *self, PyObject *args)
 }
 
 
-static PyObject *_wrap_csMatrix3___mul____SWIG_5(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csMatrix3___mul____SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csMatrix3 *arg1 = (csMatrix3 *) 0 ;
     csVector3 *arg2 = 0 ;
@@ -8935,7 +11520,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_5(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csMatrix3_operator_m_____SWIG_5(arg1,(csVector3 const &)*arg2);
+    result = csMatrix3_operator_m_____SWIG_1(arg1,(csVector3 const &)*arg2);
     
     {
         csVector3 * resultptr;
@@ -8948,7 +11533,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_5(PyObject *self, PyObject *args)
 }
 
 
-static PyObject *_wrap_csMatrix3___mul____SWIG_6(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csMatrix3___mul____SWIG_2(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csMatrix3 *arg1 = (csMatrix3 *) 0 ;
     float arg2 ;
@@ -8957,7 +11542,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_6(PyObject *self, PyObject *args)
     
     if(!PyArg_ParseTuple(args,(char *)"Of:csMatrix3___mul__",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csMatrix3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = csMatrix3_operator_m_____SWIG_6(arg1,arg2);
+    result = csMatrix3_operator_m_____SWIG_2(arg1,arg2);
     
     {
         csMatrix3 * resultptr;
@@ -9056,7 +11641,7 @@ static PyObject *_wrap_csMatrix3___lt__(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csMatrix3___mul____SWIG_7(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csMatrix3___mul____SWIG_3(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csMatrix3 *arg1 = (csMatrix3 *) 0 ;
     csTransform *arg2 = 0 ;
@@ -9070,7 +11655,7 @@ static PyObject *_wrap_csMatrix3___mul____SWIG_7(PyObject *self, PyObject *args)
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csMatrix3_operator_m_____SWIG_7((csMatrix3 const *)arg1,(csTransform const &)*arg2);
+    result = csMatrix3_operator_m_____SWIG_3((csMatrix3 const *)arg1,(csTransform const &)*arg2);
     
     {
         csMatrix3 * resultptr;
@@ -9114,7 +11699,7 @@ static PyObject *_wrap_csMatrix3___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csMatrix3___mul____SWIG_4(self,args);
+                return _wrap_csMatrix3___mul____SWIG_0(self,args);
             }
         }
     }
@@ -9140,7 +11725,7 @@ static PyObject *_wrap_csMatrix3___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csMatrix3___mul____SWIG_5(self,args);
+                return _wrap_csMatrix3___mul____SWIG_1(self,args);
             }
         }
     }
@@ -9166,7 +11751,7 @@ static PyObject *_wrap_csMatrix3___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csMatrix3___mul____SWIG_7(self,args);
+                return _wrap_csMatrix3___mul____SWIG_3(self,args);
             }
         }
     }
@@ -9186,7 +11771,7 @@ static PyObject *_wrap_csMatrix3___mul__(PyObject *self, PyObject *args) {
                 _v = (PyFloat_Check(argv[1]) || PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
             }
             if (_v) {
-                return _wrap_csMatrix3___mul____SWIG_6(self,args);
+                return _wrap_csMatrix3___mul____SWIG_2(self,args);
             }
         }
     }
@@ -10248,7 +12833,7 @@ static PyObject *_wrap_csTransform_GetReflect(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csTransform___mul____SWIG_9(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csTransform___mul____SWIG_0(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csTransform *arg1 = (csTransform *) 0 ;
     csVector3 *arg2 = 0 ;
@@ -10262,7 +12847,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_9(PyObject *self, PyObject *arg
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csTransform_operator_m_____SWIG_9((csTransform const *)arg1,(csVector3 const &)*arg2);
+    result = csTransform_operator_m_____SWIG_0((csTransform const *)arg1,(csVector3 const &)*arg2);
     
     {
         csVector3 * resultptr;
@@ -10275,7 +12860,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_9(PyObject *self, PyObject *arg
 }
 
 
-static PyObject *_wrap_csTransform___mul____SWIG_10(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csTransform___mul____SWIG_1(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csTransform *arg1 = (csTransform *) 0 ;
     csPlane3 *arg2 = 0 ;
@@ -10289,7 +12874,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_10(PyObject *self, PyObject *ar
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csTransform_operator_m_____SWIG_10((csTransform const *)arg1,(csPlane3 const &)*arg2);
+    result = csTransform_operator_m_____SWIG_1((csTransform const *)arg1,(csPlane3 const &)*arg2);
     
     {
         csPlane3 * resultptr;
@@ -10302,7 +12887,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_10(PyObject *self, PyObject *ar
 }
 
 
-static PyObject *_wrap_csTransform___mul____SWIG_11(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csTransform___mul____SWIG_2(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csTransform *arg1 = (csTransform *) 0 ;
     csSphere *arg2 = 0 ;
@@ -10316,7 +12901,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_11(PyObject *self, PyObject *ar
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csTransform_operator_m_____SWIG_11((csTransform const *)arg1,(csSphere const &)*arg2);
+    result = csTransform_operator_m_____SWIG_2((csTransform const *)arg1,(csSphere const &)*arg2);
     
     {
         csSphere * resultptr;
@@ -10329,7 +12914,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_11(PyObject *self, PyObject *ar
 }
 
 
-static PyObject *_wrap_csTransform___mul____SWIG_12(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csTransform___mul____SWIG_3(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csTransform *arg1 = (csTransform *) 0 ;
     csMatrix3 *arg2 = 0 ;
@@ -10343,7 +12928,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_12(PyObject *self, PyObject *ar
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csTransform_operator_m_____SWIG_12((csTransform const *)arg1,(csMatrix3 const &)*arg2);
+    result = csTransform_operator_m_____SWIG_3((csTransform const *)arg1,(csMatrix3 const &)*arg2);
     
     {
         csMatrix3 * resultptr;
@@ -10356,7 +12941,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_12(PyObject *self, PyObject *ar
 }
 
 
-static PyObject *_wrap_csTransform___mul____SWIG_13(PyObject *self, PyObject *args) {
+static PyObject *_wrap_csTransform___mul____SWIG_4(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csTransform *arg1 = (csTransform *) 0 ;
     csReversibleTransform *arg2 = 0 ;
@@ -10370,7 +12955,7 @@ static PyObject *_wrap_csTransform___mul____SWIG_13(PyObject *self, PyObject *ar
     if (arg2 == NULL) {
         PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
     }
-    result = csTransform_operator_m_____SWIG_13((csTransform const *)arg1,(csReversibleTransform const &)*arg2);
+    result = csTransform_operator_m_____SWIG_4((csTransform const *)arg1,(csReversibleTransform const &)*arg2);
     
     {
         csTransform * resultptr;
@@ -10414,7 +12999,7 @@ static PyObject *_wrap_csTransform___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csTransform___mul____SWIG_9(self,args);
+                return _wrap_csTransform___mul____SWIG_0(self,args);
             }
         }
     }
@@ -10440,7 +13025,7 @@ static PyObject *_wrap_csTransform___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csTransform___mul____SWIG_10(self,args);
+                return _wrap_csTransform___mul____SWIG_1(self,args);
             }
         }
     }
@@ -10466,7 +13051,7 @@ static PyObject *_wrap_csTransform___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csTransform___mul____SWIG_11(self,args);
+                return _wrap_csTransform___mul____SWIG_2(self,args);
             }
         }
     }
@@ -10492,7 +13077,7 @@ static PyObject *_wrap_csTransform___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csTransform___mul____SWIG_12(self,args);
+                return _wrap_csTransform___mul____SWIG_3(self,args);
             }
         }
     }
@@ -10518,7 +13103,7 @@ static PyObject *_wrap_csTransform___mul__(PyObject *self, PyObject *args) {
                 }
             }
             if (_v) {
-                return _wrap_csTransform___mul____SWIG_13(self,args);
+                return _wrap_csTransform___mul____SWIG_4(self,args);
             }
         }
     }
@@ -23996,14 +26581,45 @@ static PyObject *_wrap_csInitializer_CreateEnvironment(PyObject *self, PyObject 
 
 static PyObject *_wrap_csInitializer_InitializeSCF(PyObject *self, PyObject *args) {
     PyObject *resultobj;
+    int arg1 ;
+    char **arg2 ;
     bool result;
+    PyObject * obj0 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)":csInitializer_InitializeSCF")) goto fail;
-    result = (bool)csInitializer::InitializeSCF();
+    if(!PyArg_ParseTuple(args,(char *)"O:csInitializer_InitializeSCF",&obj0)) goto fail;
+    {
+        if (!PyList_Check(obj0))
+        {
+            PyErr_SetString(PyExc_TypeError, "not a list");
+            return 0;
+        }
+        arg1 = PyList_Size(obj0);
+        typedef char * Char_Ptr;
+        arg2 = new Char_Ptr[arg1 + 1];
+        for (int i = 0; i < arg1; ++i)
+        {
+            PyObject * o = PyList_GetItem(obj0, i);
+            if (!PyString_Check(o))
+            {
+                PyErr_SetString(PyExc_TypeError, "list must contain strings");
+                delete [] arg2;
+                return 0;
+            }
+            arg2[i] = PyString_AsString(o);
+        }
+        arg2[arg1] = 0;
+    }
+    result = (bool)csInitializer::InitializeSCF(arg1,(char const *const (*))arg2);
     
     resultobj = PyInt_FromLong((long)result);
+    {
+        delete [] arg2;
+    }
     return resultobj;
     fail:
+    {
+        delete [] arg2;
+    }
     return NULL;
 }
 
@@ -66071,29 +68687,6 @@ static PyObject *_wrap_csStreamDescription_codec_get(PyObject *self, PyObject *a
 }
 
 
-static PyObject *_wrap_csStreamDescription_name_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csStreamDescription *arg1 = (csStreamDescription *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:csStreamDescription_name_set",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csStreamDescription,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        if (arg2) {
-            arg1->name = (char const *) (new char[strlen(arg2)+1]);
-            strcpy((char *) arg1->name,arg2);
-        }else {
-            arg1->name = 0;
-        }
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_csStreamDescription_name_get(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csStreamDescription *arg1 = (csStreamDescription *) 0 ;
@@ -67798,29 +70391,6 @@ static PyObject *_wrap_iImageIO_VERSION_get() {
 }
 
 
-static PyObject *_wrap_csImageIOFileFormatDescription_mime_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csImageIOFileFormatDescription *arg1 = (csImageIOFileFormatDescription *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:csImageIOFileFormatDescription_mime_set",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csImageIOFileFormatDescription,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        if (arg2) {
-            arg1->mime = (char const *) (new char[strlen(arg2)+1]);
-            strcpy((char *) arg1->mime,arg2);
-        }else {
-            arg1->mime = 0;
-        }
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_csImageIOFileFormatDescription_mime_get(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     csImageIOFileFormatDescription *arg1 = (csImageIOFileFormatDescription *) 0 ;
@@ -67832,29 +70402,6 @@ static PyObject *_wrap_csImageIOFileFormatDescription_mime_get(PyObject *self, P
     result = (char *) ((arg1)->mime);
     
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csImageIOFileFormatDescription_subtype_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csImageIOFileFormatDescription *arg1 = (csImageIOFileFormatDescription *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:csImageIOFileFormatDescription_subtype_set",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csImageIOFileFormatDescription,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        if (arg2) {
-            arg1->subtype = (char const *) (new char[strlen(arg2)+1]);
-            strcpy((char *) arg1->subtype,arg2);
-        }else {
-            arg1->subtype = 0;
-        }
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -82957,7 +85504,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csWrapPtr_Ref_get", _wrap_csWrapPtr_Ref_get, METH_VARARGS },
 	 { (char *)"csWrapPtr_VoidPtr_set", _wrap_csWrapPtr_VoidPtr_set, METH_VARARGS },
 	 { (char *)"csWrapPtr_VoidPtr_get", _wrap_csWrapPtr_VoidPtr_get, METH_VARARGS },
-	 { (char *)"csWrapPtr_Type_set", _wrap_csWrapPtr_Type_set, METH_VARARGS },
 	 { (char *)"csWrapPtr_Type_get", _wrap_csWrapPtr_Type_get, METH_VARARGS },
 	 { (char *)"new_csWrapPtr", _wrap_new_csWrapPtr, METH_VARARGS },
 	 { (char *)"delete_csWrapPtr", _wrap_delete_csWrapPtr, METH_VARARGS },
@@ -82991,6 +85537,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSCF_GetInterfaceID", _wrap_iSCF_GetInterfaceID, METH_VARARGS },
 	 { (char *)"iSCF_Finish", _wrap_iSCF_Finish, METH_VARARGS },
 	 { (char *)"iSCF_QueryClassList", _wrap_iSCF_QueryClassList, METH_VARARGS },
+	 { (char *)"iSCF_ScanPluginsPath", _wrap_iSCF_ScanPluginsPath, METH_VARARGS },
+	 { (char *)"iSCF_RegisterPlugin", _wrap_iSCF_RegisterPlugin, METH_VARARGS },
 	 { (char *)"delete_iSCF", _wrap_delete_iSCF, METH_VARARGS },
 	 { (char *)"iSCF_swigregister", iSCF_swigregister, METH_VARARGS },
 	 { (char *)"iDebugHelper_GetSupportedTests", _wrap_iDebugHelper_GetSupportedTests, METH_VARARGS },
@@ -83069,6 +85617,54 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iString___eq__", _wrap_iString___eq__, METH_VARARGS },
 	 { (char *)"delete_iString", _wrap_delete_iString, METH_VARARGS },
 	 { (char *)"iString_swigregister", iString_swigregister, METH_VARARGS },
+	 { (char *)"csString_SetCapacity", _wrap_csString_SetCapacity, METH_VARARGS },
+	 { (char *)"csString_GetCapacity", _wrap_csString_GetCapacity, METH_VARARGS },
+	 { (char *)"csString_SetGrowsBy", _wrap_csString_SetGrowsBy, METH_VARARGS },
+	 { (char *)"csString_GetGrowsBy", _wrap_csString_GetGrowsBy, METH_VARARGS },
+	 { (char *)"csString_SetGrowsExponentially", _wrap_csString_SetGrowsExponentially, METH_VARARGS },
+	 { (char *)"csString_GetGrowsExponentially", _wrap_csString_GetGrowsExponentially, METH_VARARGS },
+	 { (char *)"csString_Free", _wrap_csString_Free, METH_VARARGS },
+	 { (char *)"csString_Truncate", _wrap_csString_Truncate, METH_VARARGS },
+	 { (char *)"csString_Reclaim", _wrap_csString_Reclaim, METH_VARARGS },
+	 { (char *)"csString_Clear", _wrap_csString_Clear, METH_VARARGS },
+	 { (char *)"csString_GetData", _wrap_csString_GetData, METH_VARARGS },
+	 { (char *)"csString_Length", _wrap_csString_Length, METH_VARARGS },
+	 { (char *)"csString_IsEmpty", _wrap_csString_IsEmpty, METH_VARARGS },
+	 { (char *)"csString_SetAt", _wrap_csString_SetAt, METH_VARARGS },
+	 { (char *)"csString_GetAt", _wrap_csString_GetAt, METH_VARARGS },
+	 { (char *)"csString_DeleteAt", _wrap_csString_DeleteAt, METH_VARARGS },
+	 { (char *)"csString_Insert", _wrap_csString_Insert, METH_VARARGS },
+	 { (char *)"csString_Overwrite", _wrap_csString_Overwrite, METH_VARARGS },
+	 { (char *)"csString_Append", _wrap_csString_Append, METH_VARARGS },
+	 { (char *)"csString_SubString", _wrap_csString_SubString, METH_VARARGS },
+	 { (char *)"csString_FindFirst", _wrap_csString_FindFirst, METH_VARARGS },
+	 { (char *)"csString_FindLast", _wrap_csString_FindLast, METH_VARARGS },
+	 { (char *)"csString_Replace", _wrap_csString_Replace, METH_VARARGS },
+	 { (char *)"csString_Compare", _wrap_csString_Compare, METH_VARARGS },
+	 { (char *)"csString_CompareNoCase", _wrap_csString_CompareNoCase, METH_VARARGS },
+	 { (char *)"new_csString", _wrap_new_csString, METH_VARARGS },
+	 { (char *)"delete_csString", _wrap_delete_csString, METH_VARARGS },
+	 { (char *)"csString_Clone", _wrap_csString_Clone, METH_VARARGS },
+	 { (char *)"csString_LTrim", _wrap_csString_LTrim, METH_VARARGS },
+	 { (char *)"csString_RTrim", _wrap_csString_RTrim, METH_VARARGS },
+	 { (char *)"csString_Trim", _wrap_csString_Trim, METH_VARARGS },
+	 { (char *)"csString_Collapse", _wrap_csString_Collapse, METH_VARARGS },
+	 { (char *)"csString_Format", _wrap_csString_Format, METH_VARARGS },
+	 { (char *)"csString_FormatV", _wrap_csString_FormatV, METH_VARARGS },
+	 { (char *)"csString_AsPadLeft", _wrap_csString_AsPadLeft, METH_VARARGS },
+	 { (char *)"csString_PadLeft", _wrap_csString_PadLeft, METH_VARARGS },
+	 { (char *)"csString_AsPadRight", _wrap_csString_AsPadRight, METH_VARARGS },
+	 { (char *)"csString_PadRight", _wrap_csString_PadRight, METH_VARARGS },
+	 { (char *)"csString_AsPadCenter", _wrap_csString_AsPadCenter, METH_VARARGS },
+	 { (char *)"csString_PadCenter", _wrap_csString_PadCenter, METH_VARARGS },
+	 { (char *)"csString_assign", _wrap_csString_assign, METH_VARARGS },
+	 { (char *)"csString___iadd__", _wrap_csString___iadd__, METH_VARARGS },
+	 { (char *)"csString___add__", _wrap_csString___add__, METH_VARARGS },
+	 { (char *)"csString___eq__", _wrap_csString___eq__, METH_VARARGS },
+	 { (char *)"csString___ne__", _wrap_csString___ne__, METH_VARARGS },
+	 { (char *)"csString_Detach", _wrap_csString_Detach, METH_VARARGS },
+	 { (char *)"csString_strlwr", _wrap_csString_strlwr, METH_VARARGS },
+	 { (char *)"csString_swigregister", csString_swigregister, METH_VARARGS },
 	 { (char *)"csVector2_x_set", _wrap_csVector2_x_set, METH_VARARGS },
 	 { (char *)"csVector2_x_get", _wrap_csVector2_x_get, METH_VARARGS },
 	 { (char *)"csVector2_y_set", _wrap_csVector2_y_set, METH_VARARGS },
@@ -85511,7 +88107,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csStreamDescription_type_get", _wrap_csStreamDescription_type_get, METH_VARARGS },
 	 { (char *)"csStreamDescription_codec_set", _wrap_csStreamDescription_codec_set, METH_VARARGS },
 	 { (char *)"csStreamDescription_codec_get", _wrap_csStreamDescription_codec_get, METH_VARARGS },
-	 { (char *)"csStreamDescription_name_set", _wrap_csStreamDescription_name_set, METH_VARARGS },
 	 { (char *)"csStreamDescription_name_get", _wrap_csStreamDescription_name_get, METH_VARARGS },
 	 { (char *)"new_csStreamDescription", _wrap_new_csStreamDescription, METH_VARARGS },
 	 { (char *)"delete_csStreamDescription", _wrap_delete_csStreamDescription, METH_VARARGS },
@@ -85606,9 +88201,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iImage_HasMipmaps", _wrap_iImage_HasMipmaps, METH_VARARGS },
 	 { (char *)"delete_iImage", _wrap_delete_iImage, METH_VARARGS },
 	 { (char *)"iImage_swigregister", iImage_swigregister, METH_VARARGS },
-	 { (char *)"csImageIOFileFormatDescription_mime_set", _wrap_csImageIOFileFormatDescription_mime_set, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_mime_get", _wrap_csImageIOFileFormatDescription_mime_get, METH_VARARGS },
-	 { (char *)"csImageIOFileFormatDescription_subtype_set", _wrap_csImageIOFileFormatDescription_subtype_set, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_subtype_get", _wrap_csImageIOFileFormatDescription_subtype_get, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_cap_set", _wrap_csImageIOFileFormatDescription_cap_set, METH_VARARGS },
 	 { (char *)"csImageIOFileFormatDescription_cap_get", _wrap_csImageIOFileFormatDescription_cap_get, METH_VARARGS },
@@ -87107,8 +89700,8 @@ static swig_type_info _swigt__p_csEventCommandData[] = {{"_p_csEventCommandData"
 static swig_type_info _swigt__p_iSoundData[] = {{"_p_iSoundData", 0, "iSoundData *", 0},{"_p_iSoundData"},{0}};
 static swig_type_info _swigt__p_iCelPropertyClass[] = {{"_p_iCelPropertyClass", 0, "iCelPropertyClass *", 0},{"_p_iCelPropertyClass"},{0}};
 static swig_type_info _swigt__p_iProgressMeter[] = {{"_p_iProgressMeter", 0, "iProgressMeter *", 0},{"_p_iProgressMeter"},{0}};
-static swig_type_info _swigt__p_iString[] = {{"_p_iString", 0, "iString *", 0},{"_p_iString"},{0}};
 static swig_type_info _swigt__p_csString[] = {{"_p_csString", 0, "csString *", 0},{"_p_csString"},{0}};
+static swig_type_info _swigt__p_iString[] = {{"_p_iString", 0, "iString *", 0},{"_p_iString"},{0}};
 static swig_type_info _swigt__p_iPcCharacteristics[] = {{"_p_iPcCharacteristics", 0, "iPcCharacteristics *", 0},{"_p_iPcCharacteristics"},{0}};
 static swig_type_info _swigt__p_iKeyboardDriver[] = {{"_p_iKeyboardDriver", 0, "iKeyboardDriver *", 0},{"_p_iKeyboardDriver"},{0}};
 static swig_type_info _swigt__p_iSoundDriver[] = {{"_p_iSoundDriver", 0, "iSoundDriver *", 0},{"_p_iSoundDriver"},{0}};
@@ -87487,8 +90080,8 @@ _swigt__p_csEventCommandData,
 _swigt__p_iSoundData, 
 _swigt__p_iCelPropertyClass, 
 _swigt__p_iProgressMeter, 
-_swigt__p_iString, 
 _swigt__p_csString, 
+_swigt__p_iString, 
 _swigt__p_iPcCharacteristics, 
 _swigt__p_iKeyboardDriver, 
 _swigt__p_iSoundDriver, 
