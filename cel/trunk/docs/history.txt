@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Jul-2003
+	- Jorrit fixed the problem with GetPythonObject(). It now calls
+	  Py_INCREF() on the returned python object so that it is
+	  reference counted correctly.
 4-Jul-2003
 	- Jorrit added iCelBehaviour->GetInternalObject(). This slightly
 	  dirty function is intended for implementations of behaviour layers

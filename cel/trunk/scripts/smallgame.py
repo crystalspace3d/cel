@@ -34,5 +34,5 @@ class smallgame:
 		# Create an actor
 		actor = celCreateEntity(physicallayer_ptr,"actor")
 		actor_behaviour = actor.CreateBehaviour(bl,"actor")
-		#actor_python = actor_behaviour.GetPythonObject()
-		#actor_python.real_init(actor,room)
+		actor_python = actor_behaviour.GetPythonObject()
+		actor_python.real_init(actor,room)

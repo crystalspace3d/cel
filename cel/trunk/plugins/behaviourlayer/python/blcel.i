@@ -154,7 +154,9 @@ struct iCelBehaviour : public iBase
   %extend {
     PyObject *GetPythonObject()
     {
-      return (PyObject*)(self->GetInternalObject());
+      PyObject* obj = (PyObject*)(self->GetInternalObject());
+      Py_INCREF (obj);
+      return obj;
     }
   }
 };
