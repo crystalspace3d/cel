@@ -978,6 +978,57 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_STRSPLIT:
+        {
+	  CHECK_STACK
+	  celXmlArg a_right = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_del = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_left = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_str = stack.Pop ();
+          DUMP_EXEC ((":%04d: strsplit string=%s left=%d del=%s right=%s\n", i-1,
+	  	A2S (a_str), A2S (a_left), A2S (a_del), A2S (a_right)));
+	  const char* str = ArgToString (a_str);
+	  const char* leftvar = ArgToString (a_left);
+	  const char* del = ArgToString (a_del);
+	  const char* rightvar = ArgToString (a_right);
+	  char* s = strstr (str, del);
+	  iPcProperties* props = behave->GetProperties ();
+	  if (s)
+	  {
+	    char old = *s;
+	    *s = 0;
+	    props->SetProperty (leftvar, str);
+	    *s = old;
+	    props->SetProperty (rightvar, s+strlen (del));
+	  }
+	  else
+	  {
+	    props->SetProperty (leftvar, "");
+	    props->SetProperty (rightvar, "");
+	  }
+	}
+	break;
+      case CEL_OPERATION_STRIDX:
+        {
+	  CHECK_STACK
+	  celXmlArg a_sub = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_str = stack.Pop ();
+          DUMP_EXEC ((":%04d: stridx(%s,%s)\n", i-1, A2S (a_str),
+	  	A2S (a_sub)));
+	  int si = stack.Push (celXmlArg ());
+	  const char* str = ArgToString (a_str);
+	  const char* sub = ArgToString (a_sub);
+	  char* rc = strstr (str, sub);
+	  if (rc)
+	    stack[si].SetInt32 (rc-str);
+	  else
+	    stack[si].SetInt32 (-1);
+	}
+        break;
       case CEL_OPERATION_STRSUB:
         {
 	  CHECK_STACK

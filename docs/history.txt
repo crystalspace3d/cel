@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+28-Dec-2003
+	- Jorrit added new 'stridx' function to the XML behaviour layer.
+	- Jorrit added new 'strsplit' operation to the XML behaviour layer.
 23-Dec-2003
 	- Jorrit added a 'switch' command to the XML behaviour layer.
 	  Complete with 'case' and 'default'. One difference with
