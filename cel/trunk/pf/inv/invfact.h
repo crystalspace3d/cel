@@ -191,6 +191,10 @@ private:
   {
     char* name;
     float value;
+    float factor;	// For inherited properties
+    float add;		// For inherited properties
+
+    charact () : name (NULL), value (0), factor (0), add (0) { }
   };
   
   charact* FindCharact (const char* name) const;
@@ -202,6 +206,7 @@ public:
   virtual ~celPcCharacteristics ();
 
   bool SetCharProperty (const char* name, float value);
+  void SetInheritedProperty (const char* name, float factor, float add);
   float GetCharProperty (const char* name) const;
   float GetLocalCharProperty (const char* name) const;
   float GetInheritedCharProperty (const char* name) const;
@@ -210,6 +215,7 @@ public:
   void ClearAll ();
   void AddToInventory (iPcInventory* inv);
   void RemoveFromInventory (iPcInventory* inv);
+  void Dump ();
 
   SCF_DECLARE_IBASE;
 
@@ -223,6 +229,11 @@ public:
     virtual bool SetCharProperty (const char* name, float value)
     {
       return scfParent->SetCharProperty (name, value);
+    }
+    virtual void SetInheritedProperty (const char* name,
+		  float factor, float add)
+    {
+      scfParent->SetInheritedProperty (name, factor, add);
     }
     virtual float GetCharProperty (const char* name) const
     {
@@ -255,6 +266,10 @@ public:
     virtual void RemoveFromInventory (iPcInventory* inv)
     {
       scfParent->RemoveFromInventory (inv);
+    }
+    virtual void Dump ()
+    {
+      scfParent->Dump ();
     }
   } scfiPcCharacteristics;
 };

@@ -41,6 +41,21 @@ struct iPcCharacteristics : public iBase
   virtual bool SetCharProperty (const char* name, float value) = 0;
 
   /**
+   * Indicate how this characteristic is inherited if this object
+   * contains an inventory. The default is to ignore contents
+   * of inventory for a characteristic ('factor' and 'add' equal to 0).
+   * The value of this characteristic of the inventory will
+   * be multiplied with 'factor' and added to 'add'.
+   * <p>
+   * WARNING! Changing this
+   * with an already filled inventory may cause the inventory
+   * constraints to be invalidated! This function is usually only
+   * called at initialization.
+   */
+  virtual void SetInheritedProperty (const char* name,
+		  float factor, float add) = 0;
+
+  /**
    * Get characteristic property. This includes inherited
    * characteristics.
    */
@@ -88,6 +103,11 @@ struct iPcCharacteristics : public iBase
    * implementations!
    */
   virtual void RemoveFromInventory (iPcInventory* inv) = 0;
+
+  /**
+   * Debug dump information.
+   */
+  virtual void Dump () = 0;
 };
 
 #endif // __CEL_PF_CHARS__

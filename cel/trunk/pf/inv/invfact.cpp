@@ -351,6 +351,7 @@ void celPcInventory::UpdateCharacteristic (iCelEntity* entity, const char* charN
 void celPcInventory::Dump ()
 {
   int i;
+  printf ("Inventory for entity '%s'\n", entity->GetName ());
   printf ("Constraints:\n");
   for (i = 0 ; i < constraints.Length () ; i++)
   {
@@ -409,7 +410,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (const char* na
 bool celPcCharacteristics::SetCharProperty (const char* name, float value)
 {
   charact* c = FindCharact (name);
-  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); c->value = 0; }
+  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
   // Test if the inventories are not violated.
   int i;
   for (i = 0 ; i < inventories.Length () ; i++)
@@ -428,6 +429,14 @@ bool celPcCharacteristics::SetCharProperty (const char* name, float value)
   return true;
 }
 
+void celPcCharacteristics::SetInheritedProperty (const char* name, float factor, float add)
+{
+  charact* c = FindCharact (name);
+  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
+  c->factor = factor;
+  c->add = add;
+}
+
 float celPcCharacteristics::GetCharProperty (const char* name) const
 {
   return GetLocalCharProperty (name) + GetInheritedCharProperty (name);
@@ -442,8 +451,19 @@ float celPcCharacteristics::GetLocalCharProperty (const char* name) const
 
 float celPcCharacteristics::GetInheritedCharProperty (const char* name) const
 {
-  // @@@ NOT YET IMPLEMENTED
-  return 0;
+  charact* c = FindCharact (name);
+  float factor = 0, add = 0;
+  if (c) { factor = c->factor; add = c->add; }
+
+  iPcInventory* pcinv = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcInventory);
+  if (pcinv)
+  {
+    float invval = pcinv->GetCurrentCharacteristic (name);
+    pcinv->DecRef ();
+    return invval * factor + add;
+  }
+  return add;
 }
 
 bool celPcCharacteristics::HasProperty (const char* name) const
@@ -504,6 +524,30 @@ void celPcCharacteristics::RemoveFromInventory (iPcInventory* inv)
   int idx = inventories.Find (inv);
   if (idx == -1) return;
   inventories.Delete (idx);
+}
+
+void celPcCharacteristics::Dump ()
+{
+  printf ("Characteristics for entity '%s'\n", entity->GetName ());
+  printf ("Characteristics:\n");
+  int i;
+  for (i = 0 ; i < chars.Length () ; i++)
+  {
+    charact* c = (charact*)chars[i];
+    printf ("  '%s' value=%g, local value=%g factor=%g add=%g\n", c->name,
+		    GetCharProperty (c->name), c->value, c->factor, c->add);
+  }
+  printf ("Inventories:\n");
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (inv, iCelPropertyClass);
+    if (pc)
+    {
+      printf ("  '%s'\n", pc->GetEntity ()->GetName ());
+      pc->DecRef ();
+    }
+  }
 }
 
 //---------------------------------------------------------------------------
