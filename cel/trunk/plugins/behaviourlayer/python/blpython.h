@@ -152,6 +152,7 @@ public:
   virtual iCelBlLayer* GetBehaviourLayer () const { return scripter; }
   virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
   virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual void* GetInternalObject () { return (void*)py_object; }
 };
 
 void InitPytocel();

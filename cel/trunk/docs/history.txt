@@ -3,6 +3,17 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Jul-2003
+	- Jorrit added iCelBehaviour->GetInternalObject(). This slightly
+	  dirty function is intended for implementations of behaviour layers
+	  so they can get the internal object that represents the behaviour.
+	  For example, in case of the python behaviour layer this will return
+	  a pointer to the Python object handle (PyObject pointer). This is
+	  a rather dirty solutions. Feel free to suggest me cleaner approaches.
+	- Using the above function Jorrit added a GetPythonObject() function
+	  which you can use from inside Python scripts to get access to the
+	  real Python object that belongs with a Python iCelBehaviour.
+	  This avoids the global variable 'room' in the smallgame.py script.
 3-Jul-2003
 	- Jorrit cleaned up the python plugin a bit.
 	- Box in smallgame now has gravity.

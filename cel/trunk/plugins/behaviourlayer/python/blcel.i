@@ -141,6 +141,12 @@ struct iCelBehaviour : public iBase
   virtual iCelBlLayer* GetBehaviourLayer () const = 0;
 
   virtual bool SendMessage(const char* msg_id, iBase *msg_info) = 0;
+
+  %extend {
+    PyObject *GetPythonObject() {
+      return (PyObject*)self->GetInternalObject();
+    }
+  }
 };
 
 struct iCelPropertyClass : public iBase

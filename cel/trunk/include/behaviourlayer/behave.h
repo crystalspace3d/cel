@@ -26,7 +26,7 @@
 
 struct iCelBlLayer;
 
-SCF_VERSION (iCelBehaviour, 0, 0, 1);
+SCF_VERSION (iCelBehaviour, 0, 0, 2);
 
 /**
  * This is an entity in the CEL layer at the BL (behaviour layer) side.
@@ -55,6 +55,16 @@ struct iCelBehaviour : public iBase
    * message was understood and handled by the entity.
    */
   virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg) = 0;
+
+  /**
+   * This is a function intended for implementations of behaviour layers.
+   * It returns a pointer to an internal object. For example, in case of a
+   * Python behaviour layer it would return a pointer to the actual Python
+   * object handle (PyObject pointer). Some behaviour layers may not need
+   * this and return 0 in that case. User-code should NEVER call this
+   * function or depend on it!
+   */
+  virtual void* GetInternalObject () = 0;
 };
 
 #endif // __CEL_BL_BEHAVE__
