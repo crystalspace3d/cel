@@ -5956,38 +5956,38 @@ class iConfigManagerPtr(iConfigManager):
 _blcelc.iConfigManager_swigregister(iConfigManagerPtr)
 iConfigManager_VERSION = cvar.iConfigManager_VERSION
 
-class iStrVector(iBase):
+class iStringArray(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iStrVector, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iStringArray, name, value)
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iStrVector, name)
-    def Length(*args): return apply(_blcelc.iStrVector_Length,args)
-    def Push(*args): return apply(_blcelc.iStrVector_Push,args)
-    def Pop(*args): return apply(_blcelc.iStrVector_Pop,args)
-    def Get(*args): return apply(_blcelc.iStrVector_Get,args)
-    def Find(*args): return apply(_blcelc.iStrVector_Find,args)
-    def FindSorted(*args): return apply(_blcelc.iStrVector_FindSorted,args)
-    def QuickSort(*args): return apply(_blcelc.iStrVector_QuickSort,args)
-    def Delete(*args): return apply(_blcelc.iStrVector_Delete,args)
-    def Insert(*args): return apply(_blcelc.iStrVector_Insert,args)
-    def DeleteAll(*args): return apply(_blcelc.iStrVector_DeleteAll,args)
-    def __del__(self, destroy= _blcelc.delete_iStrVector):
+    __getattr__ = lambda self, name: _swig_getattr(self, iStringArray, name)
+    def Length(*args): return apply(_blcelc.iStringArray_Length,args)
+    def Push(*args): return apply(_blcelc.iStringArray_Push,args)
+    def Pop(*args): return apply(_blcelc.iStringArray_Pop,args)
+    def Get(*args): return apply(_blcelc.iStringArray_Get,args)
+    def Find(*args): return apply(_blcelc.iStringArray_Find,args)
+    def FindSorted(*args): return apply(_blcelc.iStringArray_FindSorted,args)
+    def Sort(*args): return apply(_blcelc.iStringArray_Sort,args)
+    def Delete(*args): return apply(_blcelc.iStringArray_Delete,args)
+    def Insert(*args): return apply(_blcelc.iStringArray_Insert,args)
+    def DeleteAll(*args): return apply(_blcelc.iStringArray_DeleteAll,args)
+    def __del__(self, destroy= _blcelc.delete_iStringArray):
         try:
             if self.thisown: destroy(self)
         except: pass
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
-        return "<C iStrVector instance at %s>" % (self.this,)
+        return "<C iStringArray instance at %s>" % (self.this,)
 
-class iStrVectorPtr(iStrVector):
+class iStringArrayPtr(iStringArray):
     def __init__(self,this):
-        _swig_setattr(self, iStrVector, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iStrVector, 'thisown', 0)
-        _swig_setattr(self, iStrVector,self.__class__,iStrVector)
-_blcelc.iStrVector_swigregister(iStrVectorPtr)
-iStrVector_VERSION = cvar.iStrVector_VERSION
+        _swig_setattr(self, iStringArray, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iStringArray, 'thisown', 0)
+        _swig_setattr(self, iStringArray,self.__class__,iStringArray)
+_blcelc.iStringArray_swigregister(iStringArrayPtr)
+iStringArray_VERSION = cvar.iStringArray_VERSION
 
 CS_NODE_DOCUMENT = _blcelc.CS_NODE_DOCUMENT
 CS_NODE_ELEMENT = _blcelc.CS_NODE_ELEMENT

@@ -58968,18 +58968,16 @@ static PyObject *_wrap_iStringArray_Find(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iStringArray_FindSortedKey(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iStringArray_FindSorted(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iStringArray *arg1 = (iStringArray *) 0 ;
-    void *arg2 = (void *) 0 ;
+    char *arg2 ;
     int result;
     PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:iStringArray_FindSortedKey",&obj0,&obj1)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"Os:iStringArray_FindSorted",&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iStringArray,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, 0, SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)((iStringArray const *)arg1)->FindSortedKey(arg2);
+    result = (int)((iStringArray const *)arg1)->FindSorted((char const *)arg2);
     
     resultobj = PyInt_FromLong((long)result);
     return resultobj;
@@ -92391,7 +92389,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iStringArray_Pop", _wrap_iStringArray_Pop, METH_VARARGS },
 	 { (char *)"iStringArray_Get", _wrap_iStringArray_Get, METH_VARARGS },
 	 { (char *)"iStringArray_Find", _wrap_iStringArray_Find, METH_VARARGS },
-	 { (char *)"iStringArray_FindSortedKey", _wrap_iStringArray_FindSortedKey, METH_VARARGS },
+	 { (char *)"iStringArray_FindSorted", _wrap_iStringArray_FindSorted, METH_VARARGS },
 	 { (char *)"iStringArray_Sort", _wrap_iStringArray_Sort, METH_VARARGS },
 	 { (char *)"iStringArray_Delete", _wrap_iStringArray_Delete, METH_VARARGS },
 	 { (char *)"iStringArray_Insert", _wrap_iStringArray_Insert, METH_VARARGS },
