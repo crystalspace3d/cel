@@ -105,7 +105,7 @@ iCelEntity* celPlLayer::CreateEntity ()
   CS_ID objid;
   
   celEntity* entity = new celEntity (this);
-  iCelEntity* ientity = SCF_QUERY_INTERFACE(entity, iCelEntity);
+  iCelEntity* ientity = SCF_QUERY_INTERFACE_FAST(entity, iCelEntity);
   entity->DecRef();
   objid = idlist.Register(ientity);
   if (objid == 0)
@@ -128,6 +128,14 @@ void celPlLayer::RemoveEntity(celEntity *entity)
 	"crystalspace.cel.pllayer",
 	"error while removing Entity with ID %d (%s)", entity->GetEntityID(),
 	entity->GetName());
+    return;
+  }
+
+  for (int i = 0; i < removecallbacks.Length(); i++)
+  {
+    iCelEntityRemoveCallback* callback =
+      (iCelEntityRemoveCallback*) removecallbacks[i];
+    callback->RemoveEntity(&entity->scfiCelEntity);
   }
 }
 
@@ -457,4 +465,17 @@ iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
   return NULL;
 }
 
+void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)
+{
+  int idx = removecallbacks.Find (callback);
+  if (idx != -1) return;
+  printf ("RegCallback!\n");
+  bl_list.Push (callback);
+}
 
+void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
+{
+  if (bl_list.Find (callback) == -1) return;
+  printf ("DelCAllback!\n");
+  bl_list.Delete (callback);
+}

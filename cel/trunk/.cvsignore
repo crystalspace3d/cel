@@ -2,4 +2,6 @@
 *.dll
 csconfig.mak
 cs-config
+savefile
+debug.txt
 

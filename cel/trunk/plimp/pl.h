@@ -39,6 +39,7 @@ class celPlLayer : public iCelPlLayer
 private:
   csVector pf_list;
   csVector bl_list;
+  csVector removecallbacks;
   csPlLayerCache cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
@@ -84,6 +85,9 @@ public:
   virtual int GetBehaviourLayerCount () const;
   virtual iCelBlLayer* GetBehaviourLayer (int idx) const;
   virtual iCelBlLayer* FindBehaviourLayer (const char* name) const;
+
+  virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* callback);
+  virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* callback);
 
   virtual void Cache (iBase* object);
   virtual void Uncache (iBase* object);
