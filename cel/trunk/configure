@@ -3287,7 +3287,7 @@ fi
 done
 
 if test -n "$INSTALL"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.INSTALL ?= \"$INSTALL\" ;
+  cs_jamconfig_text="${cs_jamconfig_text}INSTALL ?= \"$INSTALL\" ;
 "
 fi
 
@@ -3373,7 +3373,7 @@ else
 fi
 
 if test -n "$RANLIB"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.RANLIB ?= \"$RANLIB\" ;
+  cs_jamconfig_text="${cs_jamconfig_text}RANLIB ?= \"$RANLIB\" ;
 "
 fi
 
@@ -3517,7 +3517,7 @@ fi
 
     # MacOS/X Panther ranlib complains if -s option is omitted.
     if test -n "$RANLIB"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.RANLIB += \"-s\" ;
+  cs_jamconfig_text="${cs_jamconfig_text}RANLIB += \"-s\" ;
 "
 fi
 
