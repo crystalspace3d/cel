@@ -78,13 +78,13 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
-  iMeshWrapper* GetMesh () { return mesh; }
   void MoveMesh (iSector* sector, const csVector3& pos);
 
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
+  virtual iMeshWrapper* GetMesh () { return mesh; }
   virtual void SetEntity (iCelEntity* entity);
 
   struct PcMesh : public iPcMesh
