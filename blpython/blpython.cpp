@@ -27,6 +27,7 @@
 #include "ivaria/reporter.h"
 #include "iutil/objreg.h"
 #include "pl/entity.h"
+#include "pl/pl.h"
 
 CS_IMPLEMENT_PLUGIN
 
@@ -99,6 +100,13 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   Store ("blcel.object_reg_ptr", object_reg, (void*)"_iObjectRegistry_p");
   RunText (
   	"blcel.object_reg=blcel.iObjectRegistryPtr(blcel.object_reg_ptr)");
+
+  iCelPlLayer* pCELPhysicalLayer = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );  
+  // Store the physical layer pointer in 'blcel.physicallayer'.
+  Store ("blcel.physicallayer_ptr", pCELPhysicalLayer, (void*)"_iCelPlLayer_p");
+  RunText (
+  	"blcel.physicallayer=blcel.iCelPlLayerPtr(blcel.physicallayer_ptr)");
+	pCELPhysicalLayer->DecRef();
 
   return true;
 }

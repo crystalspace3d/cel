@@ -14,7 +14,7 @@
   
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 #ifndef __CEL_PF_COMMON_STDPC__
@@ -29,6 +29,14 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+
+
+struct Property {
+	csStringID		id;
+	celDataType		datatype;
+	bool			readonly;
+	const char*		desc;
+};
 
 /**
  * This is a common implementation for a property class
@@ -47,6 +55,12 @@ protected:
 protected:
   void FirePropertyChangeCallback (int propertyId);
 
+	static void UpdateProperties (iObjectRegistry*) { return; }
+
+	void**		propdata;
+	Property*	props;
+	int*			propcount;
+
 public:
   celPcCommon (iObjectRegistry* object_reg);
   virtual ~celPcCommon ();
@@ -59,24 +73,22 @@ public:
   virtual bool RemovePropertyChangeCallback (
   	iCelPropertyChangeCallback* cb);
 
-  virtual bool SetProperty (csStringID, long) { return false; }
-  virtual bool SetProperty (csStringID, float) { return false; }
-  virtual bool SetProperty (csStringID, bool) { return false; }
-  virtual bool SetProperty (csStringID, const char*) { return false; }
-  virtual bool SetProperty (csStringID, const csVector3&) { return false; }
-  virtual celDataType GetPropertyOrActionType (csStringID)
-  {
-    return CEL_DATA_NONE;
-  }
-  virtual bool IsPropertyReadOnly (csStringID) { return false; }
-  virtual long GetPropertyLong (csStringID) { return 0; }
-  virtual float GetPropertyFloat (csStringID) { return 0; }
-  virtual bool GetPropertyBool (csStringID) { return false; }
-  virtual const char* GetPropertyString (csStringID) { return NULL; }
-  virtual bool GetPropertyVector (csStringID, csVector3&) { return false; }
+  virtual bool SetProperty (csStringID, long);
+  virtual bool SetProperty (csStringID, float);
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool SetProperty (csStringID, const char*);
+  virtual bool SetProperty (csStringID, const csVector3&);
+  virtual celDataType GetPropertyOrActionType (csStringID);
+	virtual bool IsPropertyReadOnly (csStringID);
+  virtual long GetPropertyLong (csStringID);
+  virtual float GetPropertyFloat (csStringID);
+  virtual bool GetPropertyBool (csStringID);
+  virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual bool PerformAction (csStringID, const char*) { return false; }
-  virtual int GetPropertyAndActionCount () const { return 0; }
-  virtual csStringID GetPropertyOrActionID (int) { return csInvalidStringID; }
+  virtual const char* GetPropertyOrActionDescription (csStringID);
+	virtual int GetPropertyAndActionCount () const;
+  virtual csStringID GetPropertyOrActionID (int);
 };
 
 #endif // __CEL_PF_COMMON_STDPC__

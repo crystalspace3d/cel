@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 #include "cssysdef.h"
@@ -39,6 +39,8 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
   celPcCommon::object_reg = object_reg;
   DG_ADDI (this, "celPcCommon()");
   entity = NULL;
+
+  propcount = NULL;
 }
 
 celPcCommon::~celPcCommon ()
@@ -77,6 +79,245 @@ bool celPcCommon::RemovePropertyChangeCallback (
   callbacks.Delete (idx);
   return true;
 }
+
+
+bool celPcCommon::SetProperty( csStringID propertyId, long l )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_LONG ) 
+      {
+	((long*)(propdata[i]))[0] = l;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
+bool celPcCommon::SetProperty( csStringID propertyId, float f )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_FLOAT ) 
+      {
+	((float*)(propdata[i]))[0] = f;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
+bool celPcCommon::SetProperty( csStringID propertyId, bool b )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_BOOL ) 
+      {
+	((bool*)(propdata[i]))[0] = b;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
+bool celPcCommon::SetProperty( csStringID propertyId, const char* s )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_STRING ) 
+      {
+	if( ((const char**)(propdata[i]))[0] != s )
+	  delete[] ((void**)(propdata[i]))[0];
+	((const char**)(propdata[i]))[0] = csStrNew( s );
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
+bool celPcCommon::SetProperty( csStringID propertyId, const csVector3& v )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_VECTOR3 ) 
+      {
+	((csVector3*)(propdata[i]))[0] = v;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
+celDataType celPcCommon::GetPropertyOrActionType( csStringID propertyId )
+{
+  UpdateProperties( object_reg ); 
+
+  if( !propcount ) return CEL_DATA_NONE;
+
+  for( int i=0; i<(*propcount); i++ )
+    if( props[i].id == propertyId )
+      return props[i].datatype;
+  return CEL_DATA_NONE;
+}
+
+bool celPcCommon::IsPropertyReadOnly( csStringID propertyId )
+{
+  UpdateProperties( object_reg );
+
+  for( int i=0; i<(*propcount); i++ )
+    if( props[i].id == propertyId )
+      return props[i].readonly;
+  return true;
+}
+
+long celPcCommon::GetPropertyLong( csStringID propertyId )
+{
+  UpdateProperties( object_reg ); 
+
+  if( !propcount ) return 0;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_LONG ) 
+      {
+	return ((long*)(propdata[i]))[0];
+      } else return 0;
+  }
+  return 0;
+}
+
+float celPcCommon::GetPropertyFloat( csStringID propertyId )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return 0;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_FLOAT ) 
+      {
+	return ((float*)(propdata[i]))[0];
+      } else return 0;
+  }
+  return 0; 
+}
+
+bool celPcCommon::GetPropertyBool( csStringID propertyId )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_BOOL ) 
+      {
+	return ((long*)(propdata[i]))[0];
+      } else return false;
+  }
+  return false; 
+}
+
+const char* celPcCommon::GetPropertyString( csStringID propertyId )
+{
+  UpdateProperties( object_reg );
+
+  if( !propcount ) return 0;
+  
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_STRING ) 
+      {
+	return ((const char**)(propdata[i]))[0];
+      }
+      else return 0;
+  }
+  return 0; 
+}
+
+bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v )
+{
+  UpdateProperties( object_reg ); 
+
+  if( !propcount ) return false;
+
+  for( int i=0; i<(*propcount); i++ )
+  {
+    if( props[i].id == propertyId )
+      if( props[i].datatype == CEL_DATA_VECTOR3 ) 
+      {
+	v = ((csVector3*)(propdata[i]))[0];
+	return true;
+      }
+      else return false;
+  }
+  return false;
+}
+
+const char* celPcCommon::GetPropertyOrActionDescription( csStringID propertyId )
+{
+  UpdateProperties( object_reg ); 
+
+  if( !propcount ) return 0;
+
+  for( int i=0; i<(*propcount); i++ )
+    if( props[i].id == propertyId )
+      return props[i].desc;
+  return 0;
+}
+
+int celPcCommon::GetPropertyAndActionCount() const
+{
+  UpdateProperties( object_reg ); 
+
+  if( !propcount ) return 0;
+
+  return (*propcount);
+}
+
+csStringID celPcCommon::GetPropertyOrActionID( int i ) 
+{ 
+  UpdateProperties( object_reg );
+
+  if( !props ) return csInvalidStringID;
+  
+  return props[i].id; 
+}
+
 
 //---------------------------------------------------------------------------
 

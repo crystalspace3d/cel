@@ -703,10 +703,130 @@ Print(mode,format)
 
 CreateEntity()
 
+CreatePropertyClass(entity,propname)
+
+FetchString(id)
+
+GetBehaviourLayerCount()
+
+GetBehaviourLayer(idx)
+
+FindBehaviourLayer(name)
+
 1.36.  class iCelEntity
 -----------------------
 
 GetName()
 
 SetName(n)
+
+SetBehaviour(ent)
+
+GetBehaviour()
+
+GetID()
+
+GetPropertyClassList()
+
+1.37.  class iCelBlLayer
+------------------------
+
+GetName()
+
+CreateBehaviour(entity,name)
+
+1.38.  class iCelBehaviour
+--------------------------
+
+GetName()
+
+GetBehaviourLayer()
+
+SendMessageV(msg_id,msg_info,arg)
+
+1.39.  class iCelPropertyClass
+------------------------------
+
+GetName()
+
+GetEntity()
+
+SetEntity(entity)
+
+GetPropertyOrActionType(propertyID)
+
+IsPropertyReadOnly(propertyID)
+
+GetPropertyLong(propertyID)
+
+GetPropertyFloat(propertyID)
+
+GetPropertyBool(propertyID)
+
+GetPropertyString(propertyID)
+
+GetPropertyVector(propertyID,v)
+
+GetPropertyAndActionCount()
+
+GetPropertyOrActionID(i)
+
+GetPropertyOrActionDescription(propertyID)
+
+PerformAction(actionID,params)
+
+SetPropertyLong(id,l)
+
+SetPropertyFloat(id,f)
+
+SetPropertyBool(id,b)
+
+SetPropertyString(id,s)
+
+SetPropertyVector3(id,v)
+
+1.40.  class iCelPropertyClassList
+----------------------------------
+
+GetCount()
+
+Get(n)
+
+Find(obj)
+
+FindByName(Name)
+
+FindByInterface(id,version)
+
+----------
+
+CEL_DATA_NONE = CEL_DATA_NONE
+
+CEL_DATA_BOOL = CEL_DATA_BOOL
+
+CEL_DATA_BYTE = CEL_DATA_BYTE
+
+CEL_DATA_WORD = CEL_DATA_WORD
+
+CEL_DATA_LONG = CEL_DATA_LONG
+
+CEL_DATA_UBYTE = CEL_DATA_UBYTE
+
+CEL_DATA_UWORD = CEL_DATA_UWORD
+
+CEL_DATA_ULONG = CEL_DATA_ULONG
+
+CEL_DATA_FLOAT = CEL_DATA_FLOAT
+
+CEL_DATA_VECTOR3 = CEL_DATA_VECTOR3
+
+CEL_DATA_STRING = CEL_DATA_STRING
+
+CEL_DATA_PCLASS = CEL_DATA_PCLASS
+
+CEL_DATA_ENTITY = CEL_DATA_ENTITY
+
+CEL_DATA_BUFFER = CEL_DATA_BUFFER
+
+CEL_DATA_ACTION = CEL_DATA_ACTION
 

@@ -14,7 +14,7 @@
   
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 #ifndef __CEL_PL_PROPCLASS__
@@ -34,7 +34,7 @@ struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
 
-SCF_VERSION (iCelPropertyClass, 0, 0, 3);
+SCF_VERSION (iCelPropertyClass, 0, 0, 4);
 
 /**
  * This is a property class for an entity. A property class
@@ -179,6 +179,11 @@ struct iCelPropertyClass : public iBase
    * Get the ID of the given property or action.
    */
   virtual csStringID GetPropertyOrActionID (int i) = 0;
+
+  /**
+   * Get the description of the given property or action.
+   */
+  virtual const char* GetPropertyOrActionDescription (csStringID) = 0;
 };
 
 
