@@ -88,8 +88,9 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   view->DecRef ();
   g3d->DecRef ();
   SetupEventHandler ();
-  cammode=iPcCamera::freelook;
-  use_cd=false;
+  cammode = iPcCamera::freelook;
+  use_cd = false;
+  rect_set = false;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   CS_ASSERT (kbd != NULL);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
@@ -189,19 +190,30 @@ bool celPcCamera::HandleEvent (iEvent& ev)
   return true;
 }
 
-#define CAMERA_SERIAL 1
+void celPcCamera::SetRectangle (int x, int y, int w, int h)
+{
+  rect_x = x;
+  rect_y = y;
+  rect_w = w;
+  rect_h = h;
+  view->SetRectangle (x, y, w, h);
+  rect_set = true;
+}
+
+#define CAMERA_SERIAL 2
 
 iCelDataBuffer* celPcCamera::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (3+9);
+  databuf->SetDataCount (3+9+7);
   const csTransform& tr = view->GetCamera ()->GetTransform ();
   int j = 0;
   databuf->GetData (j++)->Set (tr.GetO2TTranslation ().x);
   databuf->GetData (j++)->Set (tr.GetO2TTranslation ().y);
   databuf->GetData (j++)->Set (tr.GetO2TTranslation ().z);
+
   databuf->GetData (j++)->Set (tr.GetO2T ().m11);
   databuf->GetData (j++)->Set (tr.GetO2T ().m12);
   databuf->GetData (j++)->Set (tr.GetO2T ().m13);
@@ -212,6 +224,14 @@ iCelDataBuffer* celPcCamera::Save ()
   databuf->GetData (j++)->Set (tr.GetO2T ().m32);
   databuf->GetData (j++)->Set (tr.GetO2T ().m33);
 
+  databuf->GetData (j++)->Set ((uint8)cammode);
+  databuf->GetData (j++)->Set (use_cd);
+  databuf->GetData (j++)->Set (rect_set);
+  databuf->GetData (j++)->Set ((uint16)rect_x);
+  databuf->GetData (j++)->Set ((uint16)rect_y);
+  databuf->GetData (j++)->Set ((uint16)rect_w);
+  databuf->GetData (j++)->Set ((uint16)rect_h);
+
   return databuf;
 }
 
@@ -219,7 +239,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL) return false;
-  if (databuf->GetDataCount () != 3+9) return false;
+  if (databuf->GetDataCount () != 3+9+7) return false;
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
@@ -251,6 +271,24 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   m_o2t.m33 = cd->value.f;
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
+
+  cd = databuf->GetData (j++); if (!cd) return false;
+  cammode = (iPcCamera::CameraMode)cd->value.ub;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  use_cd = cd->value.bo;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  rect_set = cd->value.bo;
+  int rx, ry, rw, rh;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  rx = cd->value.uw;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  ry = cd->value.uw;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  rw = cd->value.uw;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  rh = cd->value.uw;
+  if (rect_set) view->SetRectangle (rx, ry, rw, rh);
+
   return true;
 }
 
