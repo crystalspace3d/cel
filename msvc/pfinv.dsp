@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\inv\invfact.h
+SOURCE=..\plugins\propclass\inv\invfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,11 +111,11 @@ SOURCE=..\pf\inv\invfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\inv\invfact.cpp
+SOURCE=..\plugins\propclass\inv\invfact.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CS root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\test\testfact.h
+SOURCE=..\plugins\propclass\test\testfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,11 +111,11 @@ SOURCE=..\pf\test\testfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\test\testfact.cpp
+SOURCE=..\plugins\propclass\test\testfact.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

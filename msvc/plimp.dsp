@@ -103,23 +103,23 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plimp\entity.h
+SOURCE=..\plugins\stdphyslayer\entity.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\message.h
+SOURCE=..\plugins\stdphyslayer\message.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\pl.h
+SOURCE=..\plugins\stdphyslayer\numreg.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\propclas.h
+SOURCE=..\plugins\stdphyslayer\pl.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Cs\include\csutil\strset.h
+SOURCE=..\plugins\stdphyslayer\propclas.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -127,23 +127,23 @@ SOURCE=..\..\Cs\include\csutil\strset.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plimp\entity.cpp
+SOURCE=..\plugins\stdphyslayer\entity.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\message.cpp
+SOURCE=..\plugins\stdphyslayer\message.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\numreg.cpp
+SOURCE=..\plugins\stdphyslayer\numreg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\pl.cpp
+SOURCE=..\plugins\stdphyslayer\pl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plimp\propclas.cpp
+SOURCE=..\plugins\stdphyslayer\propclas.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"
