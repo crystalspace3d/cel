@@ -335,7 +335,7 @@ public:
     }
     virtual void SetOnGround (bool onground)
     {
-        return scfParent->SetOnGround (onground);
+      scfParent->SetOnGround (onground);
     }
     virtual bool IsPath() const
     {
@@ -344,7 +344,7 @@ public:
 
     virtual csTicks TimeDiff()
     {
-        return scfParent->TimeDiff();
+      return scfParent->TimeDiff();
     }
 
     virtual void GetDRData(bool& on_ground,

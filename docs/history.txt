@@ -3,10 +3,14 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
-14-Jan-2004
+23-Jan-2005
+	- Eric Sunshine fixed bug in
+	  celPcLinearMovement::PcLinearMovement::SetOnGround() where it was
+	  trying to return a value despite being declared void.
+14-Jan-2005
 	- Eric Sunshine updated Autoconf and Jam files from master copies in
 	  CS repository, and updated configure.ac to reflect new facilities.
-7-Jan-2004
+7-Jan-2005
 	- Jorrit worked further on the entity tracker. Not finished yet.
 	- Jorrit added lots of missing SCF_DESTRUCT_EMBEDDED_IBASE calls.
 	- Jorrit finished the new entity tracker implementation. This is
