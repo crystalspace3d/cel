@@ -36,6 +36,13 @@ The history order is reversed so that new features are at the top.
 	  csInitializer::RequestPlugins(). This allows them to work correctly
 	  even when CEL has been installed. (Previously, they worked only when
 	  run from the development/build directory.)
+	- Eric Sunshine removed non-CEL entries from CEL's local vfs.cfg since
+	  VFS now merges all discovered vfs.cfg files (rather than loading only
+	  the first found), which means that we no longer need to duplicate
+	  entries from CS's master vfs.cfg. (Note, however, that CEL's vfs.cfg
+	  is not yet installed, nor would it work correctly if it was
+	  installed, nor would VFS even discover it at its installed location.
+	  These problems all need still to be addressed.)
 3-Dec-2004
 	- Jorrit did more work on the quest manager:
 	    - Completed implementation of the 'entersector' quest
