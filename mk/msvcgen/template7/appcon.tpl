@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\,c:\CS\include"
+				AdditionalIncludeDirectories="..\include;..\"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,_MT,WIN32,WIN32_VOLATILE,__CRYSTAL_SPACE__"
 				AdditionalOptions="%cflags%"
 				StringPooling="TRUE"
@@ -38,15 +38,16 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386 %lflags%"
+				AdditionalOptions="%lflags%"
 				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\release\temp\%project%/%target%"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csrelease\bin\libs"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD,LIBCMT"
 				ProgramDatabaseFile=".\release\temp\%project%/%project%.pdb"
-				SubSystem="2"/>
+				SubSystem="2"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -82,7 +83,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include,..\,c:\CS\include"
+				AdditionalIncludeDirectories="..\include;..\"
 				PreprocessorDefinitions="_DEBUG,_MT,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
 				AdditionalOptions="%cflags%"
 				BasicRuntimeChecks="3"
@@ -100,15 +101,16 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386 %lflags%"
+				AdditionalOptions="%lflags%"
 				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\debug\temp\%project%/%target%"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csdebug\libs,c:\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\%project%/%project%.pdb"
-				SubSystem="2"/>
+				SubSystem="2"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
