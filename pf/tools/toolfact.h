@@ -22,12 +22,14 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "iutil/eventh.h"
 #include "csutil/scf.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pf/tooltip.h"
 
 struct iCelEntity;
+struct iObjectRegistry;
 
 /**
  * Factory for tools.
@@ -35,6 +37,7 @@ struct iCelEntity;
 class celPfTools : public iCelPropertyClassFactory
 {
 private:
+  iObjectRegistry* object_reg;
 
 public:
   celPfTools (iBase* parent);
@@ -63,18 +66,25 @@ class celPcTooltip : public iCelPropertyClass
 {
 private:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
   bool visible;
   int x, y;
   char* text;
+  int text_r, text_g, text_b;
+  int bg_r, bg_g, bg_b;
 
 public:
-  celPcTooltip ();
+  celPcTooltip (iObjectRegistry* object_reg);
   virtual ~celPcTooltip ();
 
+  bool HandleEvent (iEvent& ev);
+
   void SetText (const char* text);
-  void Show (int x, int y) { visible = true; celPcTooltip::x = x; celPcTooltip::y = y; }
-  void Hide () { visible = false; }
+  void Show (int x, int y);
+  void Hide ();
   bool IsVisible () const { return visible; }
+  void SetTextColor (int r, int g, int b) { text_r = r; text_g = g; text_b = b; }
+  void SetBackgroundColor (int r, int g, int b) { bg_r = r; bg_g = g; bg_b = b; }
 
   SCF_DECLARE_IBASE;
 
@@ -101,7 +111,23 @@ public:
     {
       return scfParent->IsVisible ();
     }
+    virtual void SetTextColor (int r, int g, int b)
+    {
+      scfParent->SetTextColor (r, g, b);
+    }
+    virtual void SetBackgroundColor (int r, int g, int b)
+    {
+      scfParent->SetBackgroundColor (r, g, b);
+    }
   } scfiPcTooltip;
+  struct EventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcTooltip);
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return scfParent->HandleEvent (ev);
+    }
+  } scfiEventHandler;
 };
 
 #endif // __CEL_PF_TOOLFACT__

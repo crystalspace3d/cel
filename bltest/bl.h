@@ -24,6 +24,7 @@
 #include "bl/bl.h"
 
 struct iObjectRegistry;
+struct iCelEntity;
 
 /**
  * This is the Behaviour Layer itself.
@@ -38,7 +39,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual iCelBehaviour* CreateBehaviour (const char* name);
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
   struct Component : public iComponent
   {

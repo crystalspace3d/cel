@@ -56,16 +56,16 @@ bool celBlTest::Initialize (iObjectRegistry* /*object_reg*/)
   return true;
 }
 
-iCelBehaviour* celBlTest::CreateBehaviour (const char* name)
+iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
 {
   if (!strcmp (name, "printer"))
   {
-    iCelBehaviour* ent = new celBehaviourPrinter ();
+    iCelBehaviour* ent = new celBehaviourPrinter (entity);
     return ent;
   }
   else if (!strcmp (name, "room"))
   {
-    iCelBehaviour* ent = new celBehaviourRoom ();
+    iCelBehaviour* ent = new celBehaviourRoom (entity);
     return ent;
   }
   return NULL;

@@ -51,6 +51,17 @@ struct iPcTooltip : public iBase
    * Is tooltip visible?
    */
   virtual bool IsVisible () const = 0;
+
+  /**
+   * Set text color. Default black.
+   */
+  virtual void SetTextColor (int r, int g, int b) = 0;
+
+  /**
+   * Set background color (use -1, -1, -1 for transparent).
+   * Default yellow.
+   */
+  virtual void SetBackgroundColor (int r, int g, int b) = 0;
 };
 
 #endif // __CEL_PF_TOOLTIP__

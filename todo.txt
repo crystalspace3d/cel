@@ -40,3 +40,7 @@ easier.
 Add more optional messages to the behaviour from property
 classes so that more control is possible.
 
+Maybe add SetEntity() to iCelBehaviour so that SetBehaviour
+can set it automatic?
+
+
