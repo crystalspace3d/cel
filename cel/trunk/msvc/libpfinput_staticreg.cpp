@@ -22,7 +22,7 @@ static char const metainfo_pfinput[] =
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.pcfactory.pckeyinput</name>"
+"        <name>cel.pcfactory.pccommandinput</name>"
 "        <implementation>celPfCommandInput</implementation>"
 "	<description>CEL Key Input Property Class Factory</description>"
 "      </class>"
