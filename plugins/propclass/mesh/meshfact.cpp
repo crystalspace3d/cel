@@ -651,6 +651,7 @@ celPcMeshSelect::~celPcMeshSelect ()
     scfiEventHandler->DecRef ();
   }
   SetCamera (0);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
 }
 
 void celPcMeshSelect::SetupEventHandler ()

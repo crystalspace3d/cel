@@ -80,6 +80,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
 celPcSpawn::~celPcSpawn ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
 }
 
 bool celPcSpawn::PerformAction (csStringID /*actionId*/,

@@ -99,6 +99,7 @@ celPcNavLink::celPcNavLink (iObjectRegistry* object_reg)
 
 celPcNavLink::~celPcNavLink ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNavLink);
 }
 
 csPtr<iCelDataBuffer> celPcNavLink::Save ()
@@ -152,6 +153,7 @@ celPcNavNode::celPcNavNode (iObjectRegistry* object_reg)
 
 celPcNavNode::~celPcNavNode ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNavNode);
 }
 
 csPtr<iCelDataBuffer> celPcNavNode::Save ()
@@ -189,6 +191,7 @@ celPcNavGraphRules::celPcNavGraphRules (iObjectRegistry* object_reg)
 
 celPcNavGraphRules::~celPcNavGraphRules ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNavGraphRules);
 }
 
 csPtr<iCelDataBuffer> celPcNavGraphRules::Save ()
@@ -232,6 +235,7 @@ celPcNavGraph::celPcNavGraph (iObjectRegistry* object_reg)
 
 celPcNavGraph::~celPcNavGraph ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNavGraph);
 }
 
 csPtr<iCelDataBuffer> celPcNavGraph::Save ()

@@ -129,6 +129,7 @@ celPcTrigger::~celPcTrigger ()
     pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
   delete params;
   delete[] monitor_entity;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTrigger);
 }
 
 Property* celPcTrigger::properties = 0;

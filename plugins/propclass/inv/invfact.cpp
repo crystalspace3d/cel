@@ -85,6 +85,7 @@ celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcInventory);
 }
 
 #define INVENTORY_SERIAL 1
@@ -603,6 +604,7 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCharacteristics);
 }
 
 #define CHARACTERISTICS_SERIAL 1

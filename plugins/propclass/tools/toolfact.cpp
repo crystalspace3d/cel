@@ -74,6 +74,7 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 celPcTooltip::~celPcTooltip ()
 {
   delete[] text;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
 }
 
 #define TOOLTIP_SERIAL 1
@@ -205,6 +206,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 
 celPcTimer::~celPcTimer ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTimer);
 }
 
 bool celPcTimer::PerformAction (csStringID actionId,
@@ -363,6 +365,7 @@ celPcProperties::~celPcProperties ()
 {
   Clear ();
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcProperties);
 }
 
 size_t celPcProperties::FindProperty (csStringID id)

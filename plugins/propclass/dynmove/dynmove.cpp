@@ -106,6 +106,7 @@ celPcDynamicSystem::celPcDynamicSystem (iObjectRegistry* object_reg)
 
 celPcDynamicSystem::~celPcDynamicSystem ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDynamicSystem);
 }
 
 void celPcDynamicSystem::ProcessForces (float dt)
@@ -317,6 +318,7 @@ celPcDynamicBody::~celPcDynamicBody ()
   delete bdata;
   if (dynsystem)
     dynsystem->ClearForces (&scfiPcDynamicBody);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDynamicBody);
 }
 
 #define DYNBODY_SERIAL 1

@@ -192,6 +192,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
 celPcLinearMovement::~celPcLinearMovement ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 }
 
 #define LINMOVE_SERIAL 2

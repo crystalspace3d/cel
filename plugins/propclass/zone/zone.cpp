@@ -375,6 +375,7 @@ celPcZoneManager::~celPcZoneManager ()
   // Unload everything.
   ActivateRegion (0);
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
 #define ZONEMANAGER_SERIAL 1

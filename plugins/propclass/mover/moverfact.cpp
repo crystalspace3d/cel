@@ -91,6 +91,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 celPcMover::~celPcMover ()
 {
   pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMover);
 }
 
 Property* celPcMover::properties = 0;

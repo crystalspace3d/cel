@@ -121,6 +121,7 @@ celPcMovable::celPcMovable (iObjectRegistry* object_reg)
 celPcMovable::~celPcMovable ()
 {
   RemoveAllConstraints ();
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMovable);
 }
 
 #define MOVABLE_SERIAL 1
@@ -299,6 +300,7 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 
 celPcSolid::~celPcSolid ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSolid);
 }
 
 #define SOLID_SERIAL 1
@@ -444,6 +446,7 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMovableConstraint);
 }
 
 #define MOVABLECONST_CD_SERIAL 1
@@ -612,6 +615,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 celPcGravity::~celPcGravity ()
 {
   ClearForces ();
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcGravity);
 }
 
 #define GRAVITY2_SERIAL 1
