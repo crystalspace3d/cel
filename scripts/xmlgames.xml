@@ -1136,13 +1136,19 @@
 	      - script to set a block. Uses ?x and ?y for the position
 	      - of the block and ?blocktype for the block letter.
 	      - It also uses ?entity to set the entity at the block.
+	      - Uses parameters 'entity', 'blocktype', 'x', and 'y'.
 	      -->
 	    <event name="setblock">
-	    	<var name="mazepos" value="?x+'_'+?y" />
-	        <var name="maze+?mazepos" value="?blocktype" />
-		<var name="mazeent+?mazepos" value="?entity" />
-		<if eval="?blocktype == ' '">
-		    <call event="checkfall" />
+	    	<var name="x" value="param(parid(x))" />
+	    	<var name="y" value="param(parid(y))" />
+	    	<var name="mazepos" value="param(parid(x))+'_'+param(parid(y))" />
+	        <var name="maze+?mazepos" value="param(parid(blocktype))" />
+		<var name="mazeent+?mazepos" value="param(parid(entity))" />
+		<if eval="param(parid(blocktype)) == ' '">
+		    <call event="checkfall">
+		        <par id="parid(x)" value="?x" />
+		        <par id="parid(y)" value="?y" />
+		    </call>
 	    	</if>
 	    </event>
 
@@ -1155,12 +1161,12 @@
 	      - behaviour of the block. It expects that 'falldown' event
 	      - to set the 'fallen' variable to true if it really starts
 	      - falling down.
+	      - Uses parameters 'x' and 'y'.
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
-		<!-- @@@ We really need parameters instead of using global vars! -->
-		<var name="cfx" value="?x" />
-		<var name="cfy" value="?y" />
+		<var name="cfx" value="param(parid(x))" />
+		<var name="cfy" value="param(parid(y))" />
 	    	<var name="mazepos" value="?cfx+'_'+(?cfy-1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
@@ -1236,20 +1242,29 @@
 	    <event name="ifempty_checkfall">
 	    	<var name="mazepos" value="?x+'_'+?y" />
 		<if eval="?(mazeent+?mazepos) == ''">
-		    <call event="checkfall" />
+		    <call event="checkfall">
+		        <par id="parid(x)" value="?x" />
+		        <par id="parid(y)" value="?y" />
+		    </call>
 	    	</if>
 		<var name="below_block" value="?(maze+?mazepos)" />
 		<if eval="?(falloff_+?below_block)">
 	    	    <var name="mazepos" value="(?x-1)+'_'+?y" />
 		    <if eval="?(mazeent+?mazepos) == ''">
 		    	<var name="x" value="(?x-1)" />
-		        <call event="checkfall" />
+		        <call event="checkfall">
+		            <par id="parid(x)" value="?x" />
+		            <par id="parid(y)" value="?y" />
+		        </call>
 			<stop />
 	    	    </if>
 	    	    <var name="mazepos" value="(?x+1)+'_'+?y" />
 		    <if eval="?(mazeent+?mazepos) == ''">
 		    	<var name="x" value="(?x+1)" />
-		        <call event="checkfall" />
+		        <call event="checkfall">
+		            <par id="parid(x)" value="?x" />
+		            <par id="parid(y)" value="?y" />
+		        </call>
 	    	    </if>
 		</if>
 	    </event>
@@ -1335,11 +1350,12 @@
 	    <event name="startmove">
 	    	<var name="oldx" value="?x" />
 	    	<var name="oldy" value="?y" />
-		<var entity="bdash_main" name="blocktype" value="'H'" />
-		<var entity="bdash_main" name="x" value="?x+?dx" />
-		<var entity="bdash_main" name="y" value="?y+?dy" />
-		<var entity="bdash_main" name="entity" value="ent()" />
-		<call entity="bdash_main" event="setblock" />
+		<call entity="bdash_main" event="setblock">
+		    <par id="parid(entity)" value="ent()" />
+		    <par id="parid(blocktype)" value="'H'" />
+		    <par id="parid(x)" value="?x+?dx" />
+		    <par id="parid(y)" value="?y+?dy" />
+		</call>
 	        <super />
 	    </event>
 
@@ -1349,11 +1365,12 @@
 	      -->
 	    <event name="endmove">
 	    	<super />
-		<var entity="bdash_main" name="blocktype" value="' '" />
-		<var entity="bdash_main" name="x" value="?oldx" />
-		<var entity="bdash_main" name="y" value="?oldy" />
-		<var entity="bdash_main" name="entity" value="''" />
-		<call entity="bdash_main" event="setblock" />
+		<call entity="bdash_main" event="setblock">
+		    <par id="parid(entity)" value="''" />
+		    <par id="parid(blocktype)" value="' '" />
+		    <par id="parid(x)" value="?oldx" />
+		    <par id="parid(y)" value="?oldy" />
+	    	</call>
 	    </event>
 
 	    <!--
@@ -1511,20 +1528,22 @@
 	    <event name="startmove">
 	    	<var name="oldx" value="?x" />
 	    	<var name="oldy" value="?y" />
-		<var entity="bdash_main" name="blocktype" value="?blocktype" />
-		<var entity="bdash_main" name="x" value="?x+?dx" />
-		<var entity="bdash_main" name="y" value="?y+?dy" />
-		<var entity="bdash_main" name="entity" value="ent()" />
-		<call entity="bdash_main" event="setblock" />
+		<call entity="bdash_main" event="setblock">
+		    <par id="parid(entity)" value="ent()" />
+		    <par id="parid(blocktype)" value="?blocktype" />
+		    <par id="parid(x)" value="?x+?dx" />
+		    <par id="parid(y)" value="?y+?dy" />
+		</call>
 		<super />
 	    </event>
 	    <event name="endmove">
 		<super />
-		<var entity="bdash_main" name="blocktype" value="' '" />
-		<var entity="bdash_main" name="x" value="?oldx" />
-		<var entity="bdash_main" name="y" value="?oldy" />
-		<var entity="bdash_main" name="entity" value="''" />
-		<call entity="bdash_main" event="setblock" />
+		<call entity="bdash_main" event="setblock">
+		    <par id="parid(entity)" value="''" />
+		    <par id="parid(blocktype)" value="' '" />
+		    <par id="parid(x)" value="?oldx" />
+		    <par id="parid(y)" value="?oldy" />
+		</call>
 		<var entity="bdash_main" name="x" value="?x" />
 		<var entity="bdash_main" name="y" value="?y+1" />
 		<!-- <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
