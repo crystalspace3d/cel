@@ -102,6 +102,12 @@ struct iPcLinearMovement : public iBase
   	const csVector3& shift,iPcCollisionDetection *pc_cd=0)=0;
 
   /**
+   * Get CD box for the object.
+   */
+  virtual void GetCDDimensions (csVector3& body, csVector3& legs,
+	csVector3& shift, iPcCollisionDetection*& pc_cd) = 0;
+
+  /**
    * Initialize CD again?@@@
    */
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;

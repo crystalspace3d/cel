@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 7-Aug-2004
 	- Jorrit finally fixed the python plugin in CEL.
+	- Jorrit added iPcLinearMovement->GetCDDimensions() so that you can
+	  ask the parameters that were used to do initialize the
+	  pclinmove.
 4-Aug-2004
 	- Eric Sunshine copied the latest msvcgen templates from CS repository
 	  and re-generated project files.
