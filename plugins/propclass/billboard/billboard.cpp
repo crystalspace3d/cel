@@ -210,9 +210,9 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_button = pl->FetchStringID ("cel.parameter.button");
   }
   params = new celGenericParameterBlock (3);
-  params->SetParameterDef (0, id_x, "x", CEL_DATA_LONG);
-  params->SetParameterDef (1, id_y, "y", CEL_DATA_LONG);
-  params->SetParameterDef (2, id_button, "button", CEL_DATA_LONG);
+  params->SetParameterDef (0, id_x, "x");
+  params->SetParameterDef (1, id_y, "y");
+  params->SetParameterDef (2, id_button, "button");
 }
 
 celPcBillboard::~celPcBillboard ()

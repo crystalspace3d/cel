@@ -57,11 +57,9 @@ public:
     delete[] names;
   }
 
-  void SetParameterDef (int idx, csStringID id, const char* parname,
-  	celDataType type)
+  void SetParameterDef (int idx, csStringID id, const char* parname)
   {
     ids[idx] = id;
-    data[idx].type = type;
     delete[] names[idx];
     names[idx] = csStrNew (parname);
   }
@@ -114,11 +112,9 @@ public:
     delete[] name;
   }
 
-  void SetParameterDef (csStringID id, const char* parname,
-  	celDataType type)
+  void SetParameterDef (csStringID id, const char* parname)
   {
     celOneParameterBlock::id = id;
-    data.type = type;
     delete[] name;
     name = csStrNew (parname);
   }

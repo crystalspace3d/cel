@@ -236,8 +236,8 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
   }
   params = new celGenericParameterBlock (2);
-  params->SetParameterDef (0, id_elapsedticks, "elapsedticks", CEL_DATA_LONG);
-  params->SetParameterDef (1, id_currentticks, "currentticks", CEL_DATA_LONG);
+  params->SetParameterDef (0, id_elapsedticks, "elapsedticks");
+  params->SetParameterDef (1, id_currentticks, "currentticks");
 }
 
 celPcTimer::~celPcTimer ()
@@ -423,7 +423,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
     id_index = pl->FetchStringID ("cel.parameter.index");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_index, "index", CEL_DATA_LONG);
+  params->SetParameterDef (id_index, "index");
 }
 
 celPcProperties::~celPcProperties ()

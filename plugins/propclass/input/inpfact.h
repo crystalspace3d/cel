@@ -31,6 +31,7 @@
 #include "propclass/input.h"
 
 struct iCelEntity;
+struct iCelPlLayer;
 struct iObjectRegistry;
 
 /**
@@ -56,6 +57,9 @@ class celPcCommandInput : public celPcCommon
 private:
   celKeyMap* maplist;
 
+  csRef<iCelPlLayer> pl;
+  static csStringID action_bind;
+
 public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
@@ -65,6 +69,7 @@ public:
   virtual const char* GetName () const { return "pckeyinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   bool HandleEvent (iEvent& ev);
 
