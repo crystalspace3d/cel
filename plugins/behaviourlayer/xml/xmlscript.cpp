@@ -19,6 +19,41 @@
 
 #include "cssysdef.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/propclas.h"
+
+//---------------------------------------------------------------------------
+
+celXmlArg::celXmlArg (const celXmlArg& other)
+{
+  type = other.type;
+  switch (type)
+  {
+    case CEL_TYPE_STRING: arg.s = csStrNew (other.arg.s); break;
+    case CEL_TYPE_ARGLIST: arg.a = new celXmlArgList (*other.arg.a); break;
+    case CEL_TYPE_UINT32: arg.ui = other.arg.ui; break;
+    case CEL_TYPE_INT32: arg.i = other.arg.i; break;
+    case CEL_TYPE_FLOAT: arg.f = other.arg.f; break;
+    case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
+    case CEL_TYPE_ID: arg.id = other.arg.id; break;
+  }
+}
+
+void celXmlArg::Cleanup ()
+{
+  switch (type)
+  {
+    case CEL_TYPE_STRING: delete[] arg.s; break;
+    case CEL_TYPE_ARGLIST: delete arg.a; break;
+  }
+}
+
+void celXmlArg::SetArgList ()
+{
+  Cleanup ();
+  type = CEL_TYPE_ARGLIST;
+  arg.a = new celXmlArgList ();
+}
 
 //---------------------------------------------------------------------------
 
@@ -30,6 +65,98 @@ celXmlScriptEventHandler::celXmlScriptEventHandler ()
 celXmlScriptEventHandler::~celXmlScriptEventHandler ()
 {
   delete[] name;
+}
+
+void celXmlScriptEventHandler::ResolveParameters (iCelEntity* entity)
+{
+  int i;
+  iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
+  for (i = 0 ; i < resolvers.Length () ; i++)
+    if (!resolvers[i].pc)
+    {
+      resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
+      printf ("Resolve '%s'->%p\n", resolvers[i].pcname, resolvers[i].pc);
+      fflush (stdout);
+    }
+}
+
+void celXmlScriptEventHandler::Execute (iCelEntity* entity)
+{
+  int i;
+  for (i = 0 ; i < operations.Length () ; i++)
+  {
+    celXmlOperation& op = operations[i];
+    switch (op.op)
+    {
+      case CEL_OPERATION_ACTION:
+        {
+	  csArray<celXmlArg>& args = op.arg.arg.a->args;
+          printf ("action pc=%d id=%d s=%s\n", args[0].arg.pc, args[1].arg.id,
+	  	args[2].arg.s);
+	  fflush (stdout);
+	  resolvers[args[0].arg.pc].pc->PerformAction (
+	  	args[1].arg.id, args[2].arg.s);
+	}
+        break;
+      case CEL_OPERATION_PROPERTY:
+        {
+	  csArray<celXmlArg>& args = op.arg.arg.a->args;
+          printf ("property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
+	  fflush (stdout);
+	  resolvers[args[0].arg.pc].pc->SetProperty (
+	  	args[1].arg.id, args[2].arg.f);
+	}
+        break;
+    }
+  }
+}
+
+int celXmlScriptEventHandler::GetResolver (const char* pcname)
+{
+  int i;
+  for (i = 0 ; i < resolvers.Length () ; i++)
+  {
+    if (!strcmp (resolvers[i].pcname, pcname))
+    {
+      return i;
+    }
+  }
+  int idx = resolvers.Push (celXmlPCResolver ());
+  resolvers[idx].pcname = csStrNew (pcname);
+  return idx;
+}
+
+void celXmlScriptEventHandler::AddOperation (int op)
+{
+  operations.Push (celXmlOperation ());
+  celXmlOperation& top_op = operations[operations.Length ()-1];
+  top_op.op = op;
+}
+
+celXmlArg& celXmlScriptEventHandler::AddArgument ()
+{
+  celXmlOperation& op = operations[operations.Length ()-1];
+  switch (op.arg.type)
+  {
+    case CEL_TYPE_NONE:
+      return op.arg;
+      break;
+    default:
+      {
+        celXmlArg copy (op.arg);
+	op.arg.SetArgList ();
+        csArray<celXmlArg>& args = op.arg.arg.a->args;
+	args.Push (copy);
+      }
+      // Fall through...
+    case CEL_TYPE_ARGLIST:
+      {
+        csArray<celXmlArg>& args = op.arg.arg.a->args;
+        args.Push (celXmlArg ());
+        return args[args.Length ()-1];
+      }
+      break;
+  }
 }
 
 //---------------------------------------------------------------------------

@@ -74,6 +74,8 @@ bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
   if (h)
   {
     printf ("Found handler for '%s'\n", msg_id);
+    h->ResolveParameters (entity);
+    h->Execute (entity);
   }
   else
   {

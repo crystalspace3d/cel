@@ -32,6 +32,7 @@
 struct iObjectRegistry;
 struct iCelEntity;
 struct iSyntaxService;
+struct iCelPlLayer;
 class celXmlScript;
 class celXmlScriptEventHandler;
 
@@ -43,10 +44,15 @@ class celBlXml : public iCelBlLayer, public iCelBlLayerGenerate
 private:
   iObjectRegistry* object_reg;
   csRef<iSyntaxService> synldr;
+  csRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
   csHash<celXmlScript*,const char*,csConstCharHashKeyHandler> scripts_hash;
   csStringHash xmltokens;
 
+  const char* GetAttributeValue (iDocumentNode* child,
+	const char* propname);
+  csStringID GetAttributeID (iDocumentNode* child,
+	const char* prefix, const char* propname);
   bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node);
 
 public:

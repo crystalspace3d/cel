@@ -15,6 +15,10 @@ The history order is reversed so that new features are at the top.
 	  from python.
 	- Jorrit notes that all billboard related classes don't yet work.
 	  This is work in progress.
+	- Jorrit implemented the first two operations in the XML behaviour
+	  layer: 'property' and 'action'. These operations can operate
+	  on generic property classes that support generic properties
+	  and action.
 20-Nov-2003
 	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
 	  layers can implement this interface in addition to iCelBlLayer.
