@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+22-Sep-2004
+	- *** RELEASED STABLE 0.98.2 ***
 21-Sep-2004
 	- Eric Sunshine updated msvcgen templates from master copies in CS
 	  respository.
