@@ -18,6 +18,8 @@
 */
 #include "cssysdef.h"
 
+#include "csutil/csstring.h"
+
 #include "numreg.h"
 
 //----------------------- NumRegLists --------------------------------------
@@ -194,64 +196,187 @@ SCF_IMPLEMENT_IBASE(NumRegHash)
   SCF_IMPLEMENTS_INTERFACE(iNumReg)
 SCF_IMPLEMENT_IBASE_END
 
-NumRegHash::NumRegHash()
+NumRegHash::NumRegHash (int size)
 {
-  max_id = 0;
+  current_id = 1;
+  limit = size;
 }
 
-NumRegHash::~NumRegHash()
+NumRegHash::~NumRegHash ()
 {
   Clear();
 }
 
-CS_ID NumRegHash::Register(void* obj)
+CS_ID NumRegHash::Register (void* obj)
 {
-  CS_ID id = max_id;
+  while (reg.Get(current_id, 0))
+    current_id++;
 
-  reg.Put(max_id, obj);
-  max_id++;
-
-  return id;
-}
-
-void NumRegHash::RegisterWithID(void* obj, CS_ID id)
-{
-  CS_ASSERT(Get(id) == 0);
-  
-  reg.Put(id, obj);
-}
-
-bool NumRegHash::Remove(CS_ID id)
-{
-  return reg.DeleteAll(id);
-}
-
-bool NumRegHash::Remove(void* obj)
-{
-  csHash<void*,CS_ID>::GlobalIterator it = reg.GetIterator();
-
-  while (it.HasNext())
+  if (current_id >= limit)
   {
-    if (it.NextNoAdvance() == obj)
+    current_id = 1;
+    while (reg.Get(current_id, 0))
+      current_id++;
+
+    if (current_id >= limit)
+    {
+      fprintf (stderr, "Warning: ID scope full.");
+      return 0;
+    }
+  }
+
+  reg.Put(current_id, obj);
+
+  return current_id;
+}
+
+void NumRegHash::RegisterWithID (void* obj, CS_ID id)
+{
+  CS_ASSERT (Get (id) == 0);
+  CS_ASSERT (id < limit);
+  
+  reg.Put (id, obj);
+}
+
+bool NumRegHash::Remove (CS_ID id)
+{
+  return reg.DeleteAll (id);
+}
+
+bool NumRegHash::Remove (void* obj)
+{
+  csHash<void*,CS_ID>::GlobalIterator it = reg.GetIterator ();
+
+  while (it.HasNext ())
+  {
+    if (it.NextNoAdvance () == obj)
       reg.DeleteElement(it);
 
-    it.Advance();
+    it.Advance ();
   }
 
   return true;
 }
 
-void NumRegHash::Clear()
+void NumRegHash::Clear ()
 {
-  reg.DeleteAll();
+  reg.DeleteAll ();
 }
 
-void* NumRegHash::Get(CS_ID id)
+void* NumRegHash::Get (CS_ID id)
 {
-  return reg.Get(id, 0);
+  return reg.Get (id, 0);
 }
 
-unsigned int NumRegHash::Length()
+unsigned int NumRegHash::Length ()
 {
-  return reg.GetSize();
+  return reg.GetSize ();
+}
+
+//------------------------- celIDRegistry ---------------------------------
+celIDRegistry::celIDRegistry () :
+  regs (2) // Most uses of registry will have either one or two scopes.
+{
+  DefaultScope = AddScope ("cel.numreg.lists", 100000);
+}
+
+celIDRegistry::~celIDRegistry ()
+{
+  for (size_t i = 0; i < regs.Length(); i++)
+    delete regs[i].numreg;
+
+  regs.DeleteAll ();
+}
+
+int celIDRegistry::GetScopeOfID (CS_ID id)
+{
+  for (size_t i = 0; i < regs.Length (); i++)
+  {
+    if (regs[i].start < id && id < regs[i].end)
+      return i;
+  }
+
+  return -1;
+}
+
+int celIDRegistry::AddScope (csString impl, int size)
+{
+  int id = regs.Length ();
+  int start;
+
+  if (id == 0)
+    start = 0;
+  else
+    start = regs[id-1].end;
+
+  iNumReg* nr;
+  if (impl == "cel.numreg.lists")
+    nr = new NumRegLists (size);
+  else if (impl == "cel.numreg.hash")
+    nr = new NumRegHash (size);
+  else
+    fprintf (stderr, 
+	     "celIDRegistry: %s: no such implementation", impl.GetData ());
+
+  struct part p;
+  p.numreg = nr;
+  p.start = start;
+  p.end = size + start;
+
+  regs.Push (p);
+
+  return id;
+}
+
+CS_ID celIDRegistry::Register (void* obj, int scope)
+{
+  CS_ID local_id = regs[scope].numreg->Register (obj);
+
+  if (local_id == 0)
+    return 0;
+  else
+    return local_id + regs[scope].start;
+}
+
+void celIDRegistry::RegisterWithID (void* obj, CS_ID id)
+{
+  int scope = GetScopeOfID (id);
+  CS_ASSERT (scope != -1);
+
+  regs[scope].numreg->RegisterWithID (obj, id - regs[scope].start);
+}
+
+bool celIDRegistry::Remove (CS_ID id)
+{
+  int scope = GetScopeOfID (id);
+  if (scope == -1)
+    return false;
+
+  return regs[scope].numreg->Remove (id - regs[scope].start);
+}
+
+bool celIDRegistry::Remove (void* obj)
+{
+  for (size_t i = 0; i < regs.Length (); i++)
+  {
+    if (regs[i].numreg->Remove (obj))
+      return true;
+  }
+
+  return false;
+}
+
+void celIDRegistry::Clear ()
+{
+  for (size_t i = 0; i < regs.Length (); i++)
+    regs[i].numreg->Clear();
+}
+
+void* celIDRegistry::Get (CS_ID id)
+{
+  int scope = GetScopeOfID (id);
+  if (scope == -1)
+    return 0;
+
+  return regs[scope].numreg->Get (id - regs[scope].start);
 }

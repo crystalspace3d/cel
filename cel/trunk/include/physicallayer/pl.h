@@ -47,7 +47,7 @@ struct iCelEntityRemoveCallback : public iBase
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 };
 
-SCF_VERSION (iCelPlLayer, 0, 1, 2);
+SCF_VERSION (iCelPlLayer, 0, 3, 2);
 
 /**
  * This is the Physical Layer itself.
@@ -60,6 +60,19 @@ struct iCelPlLayer : public iBase
    * to remove the entity.
    */
   virtual csPtr<iCelEntity> CreateEntity () = 0;
+
+  /**
+   * Create a new physical layer entity, with the ID being allocated in the
+   * given scope. 
+   */
+  virtual csPtr<iCelEntity> CreateEntityInScope (int scope) = 0;
+
+  /**
+   * Create a new physical layer entity, with an id provided. You should
+   * ensure that the id provided isn't already used and that you use the
+   * hash implementation of the numreg.
+   */
+  virtual csPtr<iCelEntity> CreateEntity (CS_ID id) = 0;
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -313,10 +326,12 @@ struct iCelPlLayer : public iBase
   virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where) = 0;
 
   /**
-   * Change the numreg registry. You should be sure to call this before any
-   * entity is created.
+   * Add an ID scope to the physical layer.
+   *
+   * Entities are created by propclasses only in the default scope so you can
+   * completely manage the ID allocation of your own scopes. 
    */
-  virtual void ChangeNumReg (csString new_version) = 0;
+  virtual int AddScope (csString version, int size) = 0;
 };
 
 #endif // __CEL_PL_PL__

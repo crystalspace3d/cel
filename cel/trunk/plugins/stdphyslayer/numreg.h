@@ -6,6 +6,8 @@
 
 #include "physicallayer/numreg.h"
 
+class csString;
+
 /**
  * This class stores a list of Objects and assignes a unique ID to them
  *  Note: This class does nearly no error checking  and should be used with
@@ -81,7 +83,7 @@ protected:
 class NumRegHash : public iNumReg
 {
 public:
-  NumRegHash();
+  NumRegHash(int limit);
   virtual ~NumRegHash();
 
   SCF_DECLARE_IBASE;
@@ -99,7 +101,77 @@ public:
 
 private:
   csHash<void*,CS_ID> reg;
-  int max_id;
+  CS_ID current_id;
+  CS_ID limit;
+};
+
+
+/**
+ * Main registry that can be composed of more than one NumReg. Each NumReg 
+ * represents a different scope. The first numreg is the default one, that will
+ * be used for example by iPcRegion to create its dummy entities.
+ */
+class celIDRegistry
+{
+private:
+  struct part
+  {
+    iNumReg* numreg;
+    CS_ID start;
+    CS_ID end;
+  };
+  csArray<struct part> regs;
+
+private:
+  int GetScopeOfID (CS_ID id);
+
+public:
+  celIDRegistry ();
+  ~celIDRegistry ();
+
+  /**
+   * Add a new ID scope to the registry. 
+   * size is the number of IDs in the scope. 
+   * 
+   * This function returns the index of the scope (to use with Register)
+   *
+   * impl is the implementation of the numreg choosed:
+   *  cel.numreg.lists or cel.numreg.hash
+   */
+  int AddScope (csString impl, int size);
+
+  /**
+   * Register an object in the given scope. Error case return 0
+   */
+  CS_ID Register (void* obj, int scope);
+
+  /**
+   * Register an object with the provided ID.
+   */
+  void RegisterWithID (void* obj, CS_ID id);
+
+  /**
+   * Remove an object
+   */
+  bool Remove (CS_ID id);
+
+  /**
+   * Remove an object (slow)
+   */
+  bool Remove (void* obj);
+
+  /**
+   * Remove all objects, doesn't remove scopes.
+   */
+  void Clear ();
+
+  /**
+   * Get an object from its id.
+   */
+  void* Get (CS_ID id);
+
+  // Default scope. 
+  int DefaultScope;
 };
 
 #endif
