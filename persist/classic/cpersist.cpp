@@ -879,7 +879,7 @@ bool celPersistClassicContext::Write (celData* data)
       }
       break;
     case CEL_DATA_STRING:
-      if (!Write (data->value.s)) return false;
+      if (!Write (*data->value.s)) return false;
       break;
     case CEL_DATA_PCLASS:
       if (!Write (data->value.pc)) return false;

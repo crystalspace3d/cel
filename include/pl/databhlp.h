@@ -80,7 +80,6 @@ public:
   DATABHLP_GET(int32,l,CEL_DATA_LONG)
   DATABHLP_GET(uint32,ul,CEL_DATA_ULONG)
   DATABHLP_GET(float,f,CEL_DATA_FLOAT)
-  DATABHLP_GET(const char*,s,CEL_DATA_STRING)
   DATABHLP_GET(iCelEntity*,ent,CEL_DATA_ENTITY)
   DATABHLP_GET(iCelPropertyClass*,pc,CEL_DATA_PCLASS)
   DATABHLP_GET(iCelDataBuffer*,db,CEL_DATA_BUFFER)
@@ -96,11 +95,18 @@ public:
     v.z = data->value.v.z;
     return true;
   }
+  bool Get(const char*& v)
+  {
+    celData* data = databuf->GetData(j++);
+    if (data->type != CEL_DATA_STRING) { rc=false; return false; }
+    v = *data->value.s;
+    return true;
+  }
   bool GetAction(const char*& v)
   {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_ACTION) { rc=false; return false; }
-    v=data->value.s;
+    v=*data->value.s;
     return true;
   }
   

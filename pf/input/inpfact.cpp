@@ -140,8 +140,8 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     newmap->next = maplist;
     newmap->prev = NULL;
     newmap->key = key;
-    newmap->command = new char[strlen (cd->value.s)+2];
-    strcpy (newmap->command, cd->value.s);
+    newmap->command = new char[strlen (*cd->value.s)+2];
+    strcpy (newmap->command, *cd->value.s);
     newmap->command_end = strchr (newmap->command, 0);
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
 

@@ -115,7 +115,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_constraints ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    constraint* c = NewConstraint (cd->value.s);
+    constraint* c = NewConstraint (*cd->value.s);
     if (!c) return false;
     cd = databuf->GetData (j++); if (!cd) return false;
     c->minValue = cd->value.f;
@@ -597,7 +597,7 @@ bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
     charact* c = new charact (); chars.Push (c);
-    c->name = csStrNew (cd->value.s);
+    c->name = csStrNew (*cd->value.s);
     if (!c) return false;
     cd = databuf->GetData (j++); if (!cd) return false;
     c->value = cd->value.f;
