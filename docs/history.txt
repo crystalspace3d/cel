@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a crash in the XML behaviour layer. It is now again
 	  working properly but not all commands are converted to the new
 	  system.
+	- Jorrit converted 'var' operation to the new system.
 30-Nov-2003
 	- Jorrit made attribute parsing in the XML behaviour layer and 
 	  the celentity addon a bit more efficient.

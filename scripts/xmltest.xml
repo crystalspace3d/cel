@@ -107,10 +107,10 @@
 
         <script name="switch_size">
 	    <event name="init">
-	        <var name="normal" bool="1" />
+	        <var name="'normal'" value="true" />
 	    </event>
 	    <event name="makesmall">
-	        <var name="normal" bool="0" />
+	        <var name="'normal'" value="false" />
 		<print value="'makesmall'" />
 	        <getproperty var="w" propclass="pcbillboard"
 			name="pcbillboard.width" />
@@ -122,7 +122,7 @@
 			long="30000" />
 	    </event>
 	    <event name="makelarge">
-	        <var name="normal" bool="1" />
+	        <var name="'normal'" value="true" />
 		<print value="'makelarge'" />
 	        <property propclass="pcbillboard" name="pcbillboard.width"
 			var="w" />
@@ -136,15 +136,15 @@
 
         <script name="lamp">
 	    <event name="init">
-	        <var name="isinit" bool="0" />
-	        <var name="three" float="3" />
+	        <var name="'isinit'" value="false" />
+	        <var name="'three'" value="3.0" />
 		<print value="(3+4*1)+rgb(3,3,3)" />
 		<print value="[1,2,3]/?('thre'+'e')" />
 	    </event>
 	    <event name="findpc">
 	        <getpropclass var="collidetest" entity="table_coffee"
 			propclass="pcbillboard" />
-	        <var name="isinit" bool="1" />
+	        <var name="'isinit'" value="true" />
 	    </event>
 	    <event name="collide">
 	        <property propclass="pcbillboard" name="pcbillboard.color"
