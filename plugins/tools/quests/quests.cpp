@@ -268,6 +268,50 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celQuestStateResponse)
+  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerCallback)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestStateResponse::celQuestStateResponse ()
+{
+  SCF_CONSTRUCT_IBASE (0);
+}
+
+celQuestStateResponse::~celQuestStateResponse ()
+{
+  SCF_DESTRUCT_IBASE ();
+}
+
+void celQuestStateResponse::SetTrigger (iQuestTrigger* trigger)
+{
+  celQuestStateResponse::trigger = trigger;
+  trigger->RegisterCallback (this);
+}
+
+void celQuestStateResponse::AddReward (iQuestReward* reward)
+{
+  rewards.Push (reward);
+}
+
+void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger)
+{
+  size_t i;
+  for (i = 0 ; i < rewards.Length () ; i++)
+    rewards[i]->Reward ();
+}
+
+//---------------------------------------------------------------------------
+
+size_t celQuestState::AddResponse ()
+{
+  celQuestStateResponse* response = new celQuestStateResponse ();
+  size_t idx = responses.Push (response);
+  response->DecRef ();
+  return idx;
+}
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celQuest)
   SCF_IMPLEMENTS_INTERFACE (iQuest)
 SCF_IMPLEMENT_IBASE_END
@@ -291,19 +335,19 @@ bool celQuest::SwitchState (const char* state)
   // THAT often either.
   size_t i, j;
   for (i = 0 ; i < states.Length () ; i++)
-    if (strcmp (state, states[i].name) == 0)
+    if (strcmp (state, states[i].GetName ()) == 0)
     {
       if (i == (size_t)current_state) return true;	// Nothing happens.
       if (current_state != -1)
       {
 	celQuestState& st = states[current_state];
-        for (j = 0 ; j < st.responses.Length () ; j++)
-          st.responses[j].trigger->DeactivateTrigger ();
+        for (j = 0 ; j < st.GetResponseCount () ; j++)
+          st.GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
       }
       current_state = i;
       celQuestState& st = states[current_state];
-      for (j = 0 ; j < st.responses.Length () ; j++)
-        st.responses[j].trigger->ActivateTrigger ();
+      for (j = 0 ; j < st.GetResponseCount () ; j++)
+        st.GetResponse (j)->GetTrigger ()->ActivateTrigger ();
       return true;
     }
   return false;
@@ -312,31 +356,29 @@ bool celQuest::SwitchState (const char* state)
 const char* celQuest::GetCurrentState () const
 {
   if (current_state == -1) return 0;
-  return states[current_state].name;
+  return states[current_state].GetName ();
 }
 
 int celQuest::AddState (const char* name)
 {
-  size_t idx = states.Push (celQuestState ());
-  states[idx].name = csStrNew (name);
-  return idx;
+  return states.Push (celQuestState (name));
 }
 
 int celQuest::AddStateResponse (int stateidx)
 {
-  return states[stateidx].responses.Push (celQuestStateResponse ());
+  return states[stateidx].AddResponse ();
 }
 
 void celQuest::SetStateTrigger (int stateidx, int responseidx,
 	iQuestTrigger* trigger)
 {
-  states[stateidx].responses[responseidx].trigger = trigger;
+  states[stateidx].GetResponse (responseidx)->SetTrigger (trigger);
 }
 
 void celQuest::AddStateReward (int stateidx, int responseidx,
 	iQuestReward* reward)
 {
-  states[stateidx].responses[responseidx].rewards.Push (reward);
+  states[stateidx].GetResponse (responseidx)->AddReward (reward);
 }
 
 //---------------------------------------------------------------------------

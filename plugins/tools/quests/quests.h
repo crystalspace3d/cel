@@ -23,6 +23,7 @@
 #include "csutil/util.h"
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
+#include "csutil/weakref.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -105,25 +106,57 @@ public:
 };
 
 /**
+ * A trigger and rewards. This is basically a response for a quest.
+ */
+struct celQuestStateResponse : public iQuestTriggerCallback
+{
+private:
+  csWeakRef<iQuestTrigger> trigger;
+  csRefArray<iQuestReward> rewards;
+
+public:
+  celQuestStateResponse ();
+  virtual ~celQuestStateResponse ();
+
+  void SetTrigger (iQuestTrigger* trigger);
+  iQuestTrigger* GetTrigger () const { return trigger; }
+  void AddReward (iQuestReward* reward);
+
+  SCF_DECLARE_IBASE;
+
+  virtual void TriggerFired (iQuestTrigger* trigger);
+};
+
+/**
+ * A state in a quest.
+ */
+class celQuestState
+{
+private:
+  char* name;
+  csRefArray<celQuestStateResponse> responses;
+
+public:
+  celQuestState (const char* name)
+  {
+    celQuestState::name = csStrNew (name);
+  }
+  ~celQuestState () { delete[] name; }
+  const char* GetName () const { return name; }
+  size_t AddResponse ();
+  size_t GetResponseCount () const { return responses.Length (); }
+  celQuestStateResponse* GetResponse (size_t idx) const
+  {
+    return responses[idx];
+  }
+};
+
+/**
  * A quest implementation.
  */
 class celQuest : public iQuest
 {
 private:
-  struct celQuestStateResponse
-  {
-    csRef<iQuestTrigger> trigger;
-    csRefArray<iQuestReward> rewards;
-  };
-
-  struct celQuestState
-  {
-    char* name;
-    csArray<celQuestStateResponse> responses;
-    celQuestState () : name (0) { }
-    ~celQuestState () { delete[] name; }
-  };
-
   csArray<celQuestState> states;
   int current_state;
 

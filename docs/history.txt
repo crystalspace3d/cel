@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Dec-2004
+	- Jorrit completed the quest manager. This is all untested. It will
+	  be tested for the first time when there is a quest property
+	  class which is the next task todo.
 16-Dec-2004
 	- Jorrit fixed a bug in the CEL_REMOVE_PROPCLASS macro which would
 	  cause a reference leak because QueryInterface() was used but the
