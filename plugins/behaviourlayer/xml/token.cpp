@@ -130,36 +130,6 @@ const char* celXmlParseToken (const char* input, int& token)
         token = CEL_TOKEN_BOOLTRUE;
 	return input+4;
       }
-      if (!strncmp ("rgb(", input, 4))
-      {
-        token = CEL_TOKEN_COLOR;
-	return input+4;
-      }
-      if (!strncmp ("id(", input, 3))
-      {
-        token = CEL_TOKEN_ID;
-	return input+3;
-      }
-      if (!strncmp ("pc(", input, 3))
-      {
-        token = CEL_TOKEN_PC;
-	return input+3;
-      }
-      if (!strncmp ("propid(", input, 7))
-      {
-        token = CEL_TOKEN_PROPID;
-	return input+7;
-      }
-      if (!strncmp ("entity(", input, 7))
-      {
-        token = CEL_TOKEN_ENTITY;
-	return input+7;
-      }
-      if (!strncmp ("property(", input, 9))
-      {
-        token = CEL_TOKEN_PROPERTY;
-	return input+9;
-      }
       if (*input == '.' && !isdigit (*(input+1)))
       {
         token = CEL_TOKEN_DOT;

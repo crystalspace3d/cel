@@ -46,6 +46,10 @@ The history order is reversed so that new features are at the top.
 	  the prefix 'cel.behaviour.parameter.').
 	- Jorrit fixed a bug in the billboard manager. It was not properly
 	  sending out the x, y, and button information to the behaviour.
+	- Jorrit converted all functions in the XML behaviour layer to be
+	  parsed by the new CEL_TOKEN_FUNCTION.
+	- Jorrit added 'abs', 'min', 'max', 'sign', 'intpol',
+	  'int', and 'float' functions to the XML behaviour layer.
 2-Dec-2003
 	- Jorrit extended the XML behaviour layer to recognize identifiers
 	  as an easier way to make strings consisting only of '_',
