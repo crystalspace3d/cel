@@ -42,7 +42,7 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual void SetName (const char* n);
-  virtual iPropertyClassList* GetPropertyClassList ();
+  virtual iCelPropertyClassList* GetPropertyClassList ();
   virtual void SetBlEntity (iCelBlEntity* ent);
   virtual iCelBlEntity* GetBlEntity ()
   {

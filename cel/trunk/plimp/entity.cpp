@@ -60,8 +60,8 @@ void celEntity::SetBlEntity (iCelBlEntity* ent)
   bl_entity = ent;
 }
 
-iPropertyClassList* celEntity::GetPropertyClassList ()
+iCelPropertyClassList* celEntity::GetPropertyClassList ()
 {
-  return (iPropertyClassList*)plist;
+  return (iCelPropertyClassList*)plist;
 }
 

@@ -23,7 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-struct iPropertyClassList;
+struct iCelPropertyClassList;
 struct iCelBlEntity;
 
 SCF_VERSION (iCelEntity, 0, 0, 1);
@@ -46,7 +46,7 @@ struct iCelEntity : public iBase
   /**
    * Get the list of property classes.
    */
-  virtual iPropertyClassList* GetPropertyClassList () = 0;
+  virtual iCelPropertyClassList* GetPropertyClassList () = 0;
 
   /**
    * Set the behaviour layer entity associated with this entity.
