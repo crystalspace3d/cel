@@ -10,6 +10,12 @@ The history order is reversed so that new features are at the top.
 	  in a different compilation unit in that project.
 	- Jorrit fixed a memory leak in the celentity addon by using
 	  weak references to pl and syntax services instead of a full ref.
+	- Jorrit fixed cally.cal3d so that it no longer uses an absolute
+	  path. Additionally made it a library instead of only a meshfact
+	  so that the materials no longer have to be defined inside the
+	  meshfact file (that usage is deprecated).
+	- Jorrit fixed celtest to use SetPath() so that the relative path
+	  works.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at

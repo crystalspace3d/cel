@@ -307,16 +307,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcactormove->SetJumpingVelocity (6.31f);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  char buf[150];
   bool hascal3d = true;
-  sprintf (buf, "/cel/data/cally.cal3d");
-  hascal3d = pcmesh->SetMesh ("test", buf);
+  pcmesh->SetPath ("/cel/data");
+  hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
   if (hascal3d)
     pcmesh->MoveMesh (room, csVector3(0,-1,0));
   else
   {
-    sprintf (buf, "/cel/data/large");
-    pcmesh->SetMesh ("large", buf);
+    pcmesh->SetMesh ("large", "large");
     pcmesh->MoveMesh (room, csVector3(0,0,0));
   }
 
