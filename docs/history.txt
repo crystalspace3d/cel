@@ -33,6 +33,8 @@ The history order is reversed so that new features are at the top.
 	  iPcRegion.
 	- Jorrit added support for the zone manager to the pccamera property
 	  class (added iPcCamera->SetZoneManager()).
+	- Jorrit implemented dynamic loading in the zone manager by
+	  using the new iCameraSectorListener in CS.
 6-Jul-2004
 	- Jorrit got a patch from Thomas Degris <thomas.degris@lip6.fr>
 	  to set the looking direction of an actor directly through

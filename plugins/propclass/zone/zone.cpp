@@ -81,6 +81,17 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+void cameraSectorListener::NewSector (iCamera* /*camera*/, iSector* sector)
+{
+  zonemgr->ActivateSector (sector);
+}
+
+SCF_IMPLEMENT_IBASE (cameraSectorListener)
+  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
+SCF_IMPLEMENT_IBASE_END
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celMapFile)
   SCF_IMPLEMENTS_INTERFACE (iCelMapFile)
 SCF_IMPLEMENT_IBASE_END
@@ -167,6 +178,14 @@ bool celRegion::Load ()
   while (iter->HasNext ())
   {
     iObject* o = iter->Next ();
+
+    csRef<iSector> sector = SCF_QUERY_INTERFACE (o, iSector);
+    if (sector)
+    {
+      sectors.Add (sector);
+      continue;
+    }
+
     iCelEntity* e = pl->FindAttachedEntity (o);
     if (!e)
     {
@@ -209,6 +228,7 @@ void celRegion::Unload ()
       pl->RemoveEntity (entities[i]);
     }
   entities.DeleteAll ();
+  sectors.DeleteAll ();
 
   cur_region->DeleteAll ();
   engine->GetRegions ()->Remove (cur_region);
@@ -437,10 +457,27 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
   return true;
 }
 
+bool celPcZoneManager::ActivateSector (iSector* sector)
+{
+  size_t i;
+  for (i = 0 ; i < regions.Length () ; i++)
+  {
+    if (regions[i]->ContainsSector (sector))
+      return ActivateRegion (regions[i]);
+  }
+  return true;
+}
+
 int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
   	const char* startname)
 {
+  if (!camlistener)
+    camlistener.AttachNew (new cameraSectorListener (this));
+  if (celPcZoneManager::pccamera)
+    celPcZoneManager::pccamera->GetCamera ()
+    	->RemoveCameraSectorListener (camlistener);
   celPcZoneManager::pccamera = pccamera;
+  pccamera->GetCamera ()->AddCameraSectorListener (camlistener);
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
