@@ -109,7 +109,6 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
     csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pcm, iCelPropertyClass));
     databuf->GetData (j++)->Set (pc);
   }
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -266,7 +265,6 @@ csPtr<iCelDataBuffer> celPcSolid::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -381,7 +379,6 @@ csPtr<iCelDataBuffer> celPcMovableConstraintCD::Save ()
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL));
   databuf->SetDataCount (0);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -625,7 +622,6 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
     db.Set (f->time_remaining);
   }
   
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 

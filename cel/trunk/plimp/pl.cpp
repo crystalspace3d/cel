@@ -116,7 +116,6 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
     return NULL;
   }
   entity->SetEntityID(objid);
-  ientity->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelEntity> (ientity);
 }
 

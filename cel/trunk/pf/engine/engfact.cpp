@@ -387,7 +387,6 @@ csPtr<iCelDataBuffer> celPcCamera::Save ()
   db.Set ((uint16)rect_w);
   db.Set ((uint16)rect_h);
 
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -512,7 +511,6 @@ csPtr<iCelDataBuffer> celPcRegion::Save ()
   db.Set (regionname);
   db.SetBool (loaded);
 
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 

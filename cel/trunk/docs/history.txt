@@ -1,3 +1,5 @@
+17-Sep-2002:
+	- Fixed CEL for the new csPtr(csRef) constructor in CS.
 13-Sep-2002:
 	- Did a full smart pointer fix for entire CEL.
 20-Aug-2002:

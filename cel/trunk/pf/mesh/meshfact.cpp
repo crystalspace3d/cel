@@ -137,7 +137,6 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
   databuf->GetData (j++)->Set (tr.GetO2T ().m32);
   databuf->GetData (j++)->Set (tr.GetO2T ().m33);
 
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -459,7 +458,6 @@ csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
   databuf->GetData (10)->SetBool (do_sendmove);
   databuf->GetData (11)->SetBool (do_sendup);
   databuf->GetData (12)->SetBool (do_senddown);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
