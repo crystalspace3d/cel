@@ -2,6 +2,7 @@
 	- Jorrit fixed the CEL python plugin to latest CS.
 	- Jorrit made celtest use OpenGL by default.
 	- Jorrit removed the <name> from the .csplugin files.
+	- Matze updated jam rules from CS
 20-Jun-2003
 	- Jorrit fixed CEL for recent region related CS changes.
 5-Jun-2003
