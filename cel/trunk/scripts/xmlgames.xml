@@ -387,19 +387,14 @@
 	      - Start a movement in ?dx,?dy direction.
 	      -->
 	    <event name="startmove">
-		<var name="srcx" value="?x*?dim" />
-		<var name="srcy" value="?y*?dim" />
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
-		<var name="dstx" value="?x*?dim" />
-		<var name="dsty" value="?y*?dim" />
-		<var name="delta" value="0.0" />
 		<var name="moving" value="true" />
 		<action propclass="pc(pctimer)" id="propid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
-		<bb_move x="?dstx" y="?dsty" delta="int(1000*?speed)" />
+		<bb_move x="?x*?dim" y="?y*?dim" delta="int(1000*?speed)" />
 	    </event>
 	</script>
 
@@ -1900,6 +1895,7 @@
 		</call>
 		<super />
 	    </event>
+
 	    <event name="endmove">
 		<super />
 		<call entity="bdash_main" event="endmove_block">
