@@ -5,7 +5,7 @@
 AC_PREREQ([2.54])
 
 #----------------------------------------------------------------------------
-# Initialize autoconf
+# Initialize autoconf.
 #----------------------------------------------------------------------------
 AC_INIT([cel], [0.99], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
@@ -16,8 +16,12 @@ AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
 
 #----------------------------------------------------------------------------
-# Check for applications
+# Check for tools.
 #----------------------------------------------------------------------------
+CS_CHECK_MKDIR
+CS_EMIT_BUILD_PROPERTY([CMD.MKDIR], [$MKDIR])
+CS_EMIT_BUILD_PROPERTY([CMD.MKDIRS], [$MKDIRS])
+
 CS_PROG_CC
 AS_IF([test -z "$CC"],
     [AC_MSG_ERROR([Could not find a usable C compiler.])])
@@ -26,7 +30,7 @@ AS_IF([test -z "$CXX"],
     [AC_MSG_ERROR([Could not find a usable C++ compiler.])])
 CS_PROG_LINK
 
-AC_CHECK_PROGS([INSTALL], [install])
+CS_CHECK_PROGS([INSTALL], [install])
 CS_EMIT_BUILD_PROPERTY([INSTALL], [$INSTALL])
 
 # The default RANLIB in Jambase is wrong on some platforms, and is also
@@ -35,31 +39,35 @@ CS_EMIT_BUILD_PROPERTY([INSTALL], [$INSTALL])
 AC_PROG_RANLIB
 CS_EMIT_BUILD_PROPERTY([RANLIB], [$RANLIB], [], [], [], [Y])
 
-AC_CHECK_PROGS([DOXYGEN], [doxygen])
+CS_CHECK_PROGS([DOXYGEN], [doxygen])
 CS_EMIT_BUILD_PROPERTY([CMD.DOXYGEN], [$DOXYGEN])
 
-AC_CHECK_PROGS([MAKEINFO], [makeinfo])
+CS_CHECK_PROGS([MAKEINFO], [makeinfo])
 CS_EMIT_BUILD_PROPERTY([CMD.MAKEINFO], [$MAKEINFO])
 
-AC_CHECK_PROGS([PERL], [perl5 perl])
+CS_CHECK_PROGS([PERL], [perl5 perl])
 CS_EMIT_BUILD_PROPERTY([PERL], [$PERL])
 
-AC_CHECK_PROGS([SWIG], [swig])
+CS_CHECK_TEMPLATE_TOOLKIT2([emit])
+
+CS_CHECK_PROGS([SWIG], [swig])
 AS_IF([test -n "$SWIG"],
     [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.20],
 	[9.9|.9], [CS_EMIT_BUILD_PROPERTY([CMD.SWIG], [$SWIG])])])
 
-CS_CHECK_MKDIR
-CS_EMIT_BUILD_PROPERTY([CMD.MKDIR], [$MKDIR])
-CS_EMIT_BUILD_PROPERTY([CMD.MKDIRS], [$MKDIRS])
-
 #----------------------------------------------------------------------------
-# Determine system type
+# Determine system type.
 #----------------------------------------------------------------------------
 CS_CHECK_HOST
 
 #----------------------------------------------------------------------------
-# Check for external libraries
+# Check for external libraries.
+#----------------------------------------------------------------------------
+CS_CHECK_PYTHON([emit])
+CS_CHECK_CPPUNIT([emit])
+
+#----------------------------------------------------------------------------
+# Check for Crystal Space (CS)
 #----------------------------------------------------------------------------
 AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
   [do not look for an installed Crystal Space SDK; this option is useful only
@@ -76,21 +84,6 @@ AS_IF([test $with_cs != no],
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
 ])], [csgeom csgfx csutil cstool])])
-
-CS_EMIT_CHECK_PYTHON
-
-#------------------------------------------------------------------------------
-# Check if TemplateToolkit2 is installed (needed for MSVC project generation).
-#------------------------------------------------------------------------------
-AS_IF([test -n "$PERL"],
-    [AC_CACHE_CHECK([for TemplateToolkit], [cs_cv_perl_tt2],
-	[AS_IF([AC_RUN_LOG(
-	    [$PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2])],
-	    [cs_cv_perl_tt2=yes],
-	    [cs_cv_perl_tt2=no])])
-    AC_PATH_PROGS([TTREE], [ttree])
-    AS_IF([test $cs_cv_perl_tt2 = yes && test -n "$TTREE"],
-	[CS_EMIT_BUILD_PROPERTY([TTREE], [$TTREE])])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches
