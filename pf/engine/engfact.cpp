@@ -216,7 +216,22 @@ iCelDataBuffer* celPcCamera::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (0);
+  databuf->SetDataCount (3+9);
+  const csTransform& tr = view->GetCamera ()->GetTransform ();
+  int j = 0;
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().x);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().y);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().z);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m11);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m12);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m13);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m21);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m22);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m23);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m31);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m32);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m33);
+
   return databuf;
 }
 
@@ -224,7 +239,38 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
+  if (databuf->GetDataCount () != 3+9) return false;
+
+  csMatrix3 m_o2t;
+  csVector3 v_o2t;
+  int j = 0;
+  celData* cd;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.x = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.y = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.z = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m11 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m12 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m13 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m21 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m22 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m23 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m31 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m32 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m33 = cd->value.f;
+  csOrthoTransform tr (m_o2t, v_o2t);
+  view->GetCamera ()->SetTransform (tr);
   return true;
 }
 

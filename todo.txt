@@ -57,4 +57,6 @@ Add support for KEY/VALUE system for placement of entities.
 Use reporter to report error conditions (especially in persistance
 layer).
 
+Save sector position in pccamera.
+
 
