@@ -144,7 +144,10 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   CS_ASSERT (vfs != NULL);
 
   iDataBuffer* data = vfs->ReadFile (name);
-  vfs->DecRef ();
+  vfs->DecRef();
+  if (!data)
+      return NULL;
+
   csMemFile mf((const char*) data->GetData(), data->GetSize());
   context = new celPersistClassicContext;
   if (!context->Initialize(object_reg, &mf, CEL_PERSIST_MODE_READ, true))
@@ -212,6 +215,7 @@ void celPersistClassicContext::ClearTempRefs()
   for (int i = 0; i < temprefs.Length(); i++)
   {
     iCelEntity* entity = (iCelEntity*) temprefs[i];
+    printf ("Clearing: '%s'\n", entity->GetName());
     entity->DecRef();
   }
   temprefs.DeleteAll (false);
@@ -279,7 +283,10 @@ iCelEntity* celPersistClassicContext::LoadEntity()
 
   ent->IncRef();
   if (performmapping)
+  {
+    printf ("ClearRefs!\n");
     ClearTempRefs();
+  }
 
   return ent;
 }
