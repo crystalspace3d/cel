@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass npcmove ;
-
-Plugin pfnpcmove
-	: npcmove.cpp npcmove.h
-;
-ExternalLibs pfnpcmove : CRYSTAL ;
-LinkWith pfnpcmove : celtool ;
-

@@ -8,6 +8,11 @@
         <implementation>celPfActorMove</implementation>
 	<description>CEL Actor Movement Class Factory</description>
       </class>
+      <class>
+        <name>cel.pcfactory.npcmove</name>
+        <implementation>celPfNpcMove</implementation>
+	<description>CEL NPC Movement Class Factory</description>
+      </class>
     </classes>
   </scf>
 </plugin>

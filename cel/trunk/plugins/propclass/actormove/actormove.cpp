@@ -47,6 +47,7 @@
 CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (ActorMove, "pcactormove")
+CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
 
 //---------------------------------------------------------------------------
 
@@ -285,6 +286,82 @@ void celPcActorMove::ToggleCameraMode ()
     return;
   }
   pccamera->SetMode (pccamera->GetNextMode ());
+}
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE_EXT (celPcNpcMove)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcNpcMove)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNpcMove::PcNpcMove)
+  SCF_IMPLEMENTS_INTERFACE (iPcNpcMove)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
+{
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNpcMove);
+  checked_spritestate = false;
+  pl->CallbackPCOnce (this, 50, cscmdPreProcess);
+}
+
+celPcNpcMove::~celPcNpcMove ()
+{
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNpcMove);
+}
+
+void celPcNpcMove::TickOnce ()
+{
+  FindSiblingPropertyClasses ();
+  GetSpriteStates ();
+
+  if (sprcal3d)
+    sprcal3d->SetAnimCycle ("stand", 1.0);
+  else if (spr3d)
+    spr3d->SetAction ("stand");
+}
+
+#define NPCMOVE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcNpcMove::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (NPCMOVE_SERIAL);
+  databuf->SetDataCount (0);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+
+bool celPcNpcMove::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != NPCMOVE_SERIAL) return false;
+  if (databuf->GetDataCount () != 0) return false;
+  return true;
+}
+
+void celPcNpcMove::FindSiblingPropertyClasses ()
+{
+  if (HavePropertyClassesChanged ())
+  {
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    checked_spritestate = false;
+  }
+}
+
+void celPcNpcMove::GetSpriteStates ()
+{
+  if (checked_spritestate) return;
+  if (!pcmesh) return;
+  iMeshWrapper* m = pcmesh->GetMesh ();
+  if (!m) return;
+  iMeshObject* o = m->GetMeshObject ();
+  if (!o) return;
+  checked_spritestate = true;
+  sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
+  if (sprcal3d) return;
+  spr3d = SCF_QUERY_INTERFACE (o, iSprite3DState);
 }
 
 //---------------------------------------------------------------------------

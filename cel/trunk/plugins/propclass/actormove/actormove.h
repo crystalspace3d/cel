@@ -38,6 +38,7 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/actormove.h"
+#include "propclass/npcmove.h"
 #include "propclass/linmove.h"
 #include "propclass/camera.h"
 #include "propclass/mesh.h"
@@ -47,9 +48,10 @@ struct iCelPlLayer;
 struct iObjectRegistry;
 
 /**
- * Factory for actormove.
+ * Factory for actormove and npcmove.
  */
 CEL_DECLARE_FACTORY(ActorMove)
+CEL_DECLARE_FACTORY(NpcMove)
 
 /**
  * This is a property class that helps with actor movement.
@@ -242,6 +244,42 @@ public:
     }
   } scfiPcActorMove;
   friend struct PcActorMove;
+};
+
+/**
+ * This is a property class that helps with NPC movement.
+ * It knows about pclinmove and can also control
+ * animation in sprcal3d and spr3d mesh objects.
+ */
+class celPcNpcMove : public celPcCommon
+{
+private:
+  csWeakRef<iPcLinearMovement> pclinmove;
+  csWeakRef<iPcMesh> pcmesh;
+
+  bool checked_spritestate;
+  csWeakRef<iSpriteCal3DState> sprcal3d;
+  csWeakRef<iSprite3DState> spr3d;
+
+  void FindSiblingPropertyClasses ();
+  void GetSpriteStates ();
+
+public:
+  celPcNpcMove (iObjectRegistry* object_reg);
+  virtual ~celPcNpcMove ();
+
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pcnpcmove"; }
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void TickOnce ();
+
+  struct PcNpcMove : public iPcNpcMove
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcNpcMove);
+  } scfiPcNpcMove;
+  friend struct PcNpcMove;
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__
