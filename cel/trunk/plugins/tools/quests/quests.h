@@ -22,6 +22,7 @@
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
+#include "csutil/strhash.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -30,6 +31,7 @@
 
 struct iObjectRegistry;
 struct iEvent;
+class celQuestManager;
 
 /**
  * A quest trigger response factory.
@@ -75,12 +77,21 @@ public:
 class celQuestFactory : public iQuestFactory
 {
 private:
+  celQuestManager* questmgr;
   char* name;
   csHash<csRef<celQuestStateFactory>,csStrKey,
   	csConstCharHashKeyHandler> states;
 
+  csStringHash xmltokens;
+#define CS_TOKEN_ITEM_FILE "plugins/tools/quests/quests.tok"
+#include "cstool/tokenlist.h"
+
+  bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
+  	iQuestTriggerFactory* trigfact, iDocumentNode* node);
+  bool LoadState (iQuestStateFactory* statefact, iDocumentNode* node);
+
 public:
-  celQuestFactory (const char* name);
+  celQuestFactory (celQuestManager* questmgr, const char* name);
   virtual ~celQuestFactory ();
 
   SCF_DECLARE_IBASE;
@@ -98,8 +109,10 @@ public:
  */
 class celQuestManager : public iQuestManager
 {
-private:
+public:
   iObjectRegistry* object_reg;
+
+private:
   csHash<csRef<iQuestTriggerType>,csStrKey,
   	csConstCharHashKeyHandler> trigger_types;
   csHash<csRef<iQuestRewardType>,csStrKey,
@@ -115,9 +128,15 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger);
+  virtual iQuestTriggerType* GetTriggerType (const char* name);
   virtual bool RegisterRewardType (iQuestRewardType* reward);
+  virtual iQuestRewardType* GetRewardType (const char* name);
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);
+  virtual const char* ResolveParameter (
+  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+	const char* param);
+  virtual bool Load (iDocumentNode* node);
 
   struct Component : public iComponent
   {

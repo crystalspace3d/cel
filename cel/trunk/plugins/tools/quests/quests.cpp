@@ -23,9 +23,12 @@
 #include "csutil/util.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
+#include "iutil/document.h"
+#include "ivaria/reporter.h"
 
 #include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/trig_entersector.h"
+#include "plugins/tools/quests/reward_debugprint.h"
 
 //---------------------------------------------------------------------------
 
@@ -94,9 +97,10 @@ SCF_IMPLEMENT_IBASE (celQuestFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celQuestFactory::celQuestFactory (const char* name)
+celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name)
 {
   SCF_CONSTRUCT_IBASE (0);
+  celQuestFactory::questmgr = questmgr;
   celQuestFactory::name = csStrNew (name);
 }
 
@@ -112,9 +116,137 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   return 0;
 }
 
+bool celQuestFactory::LoadTriggerResponse (
+	iQuestTriggerResponseFactory* respfact,
+  	iQuestTriggerFactory* trigfact, iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_FIREON:
+	if (!trigfact->Load (child))
+	  return false;
+        break;
+      case XMLTOKEN_REWARD:
+        {
+	  const char* type = child->GetAttributeValue ("type");
+	  iQuestRewardType* rewardtype = questmgr->GetRewardType (type);
+	  if (!rewardtype)
+	  {
+            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown reward type '%s' while loading quest '%s'!",
+		type, name);
+	    return false;
+	  }
+	  csRef<iQuestRewardFactory> rewardfact = rewardtype
+		->CreateRewardFactory ();
+	  if (!rewardfact->Load (child))
+	    return false;
+	  respfact->AddRewardFactory (rewardfact);
+	}
+        break;
+      default:
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown token '%s' while loading trigger in quest '%s'!",
+		value, name);
+        return false;
+    }
+  }
+  return true;
+}
+
+bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
+	iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_TRIGGER:
+        {
+	  const char* type = child->GetAttributeValue ("type");
+	  iQuestTriggerType* triggertype = questmgr->GetTriggerType (type);
+	  if (!triggertype)
+	  {
+            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown trigger type '%s' while loading state '%s/%s'!",
+		type, name, statefact->GetName ());
+	    return false;
+	  }
+	  // First we create a trigger response factory.
+	  csRef<iQuestTriggerResponseFactory> respfact = statefact
+	  	->CreateTriggerResponseFactory ();
+	  // We create the actual trigger factory for that response factory.
+	  csRef<iQuestTriggerFactory> triggerfact = triggertype
+		->CreateTriggerFactory ();
+	  respfact->SetTriggerFactory (triggerfact);
+	  if (!LoadTriggerResponse (respfact, triggerfact, child))
+	    return false;
+	}
+        break;
+      default:
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown token '%s' while loading state '%s/%s'!",
+		value, name, statefact->GetName ());
+        return false;
+    }
+  }
+  return true;
+}
+
 bool celQuestFactory::Load (iDocumentNode* node)
 {
-  return false;
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_STATE:
+        {
+	  const char* statename = child->GetAttributeValue ("name");
+	  iQuestStateFactory* statefact = CreateState (statename);
+	  if (!statefact)
+	  {
+            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Couldn't load state '%s' while loading quest '%s'!",
+		statename, name);
+	    return false;
+	  }
+	  if (!LoadState (statefact, child))
+	    return false;
+	}
+        break;
+      case XMLTOKEN_START:
+        break;
+      default:
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown token '%s' while loading quest '%s'!",
+		value, name);
+        return false;
+    }
+  }
+  return true;
 }
 
 iQuestStateFactory* celQuestFactory::GetState (const char* name)
@@ -161,10 +293,19 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
 
-  celEnterSectorTriggerType* type_es = new celEnterSectorTriggerType (
+  {
+    celEnterSectorTriggerType* type = new celEnterSectorTriggerType (
   	object_reg);
-  RegisterTriggerType (type_es);
-  type_es->DecRef ();
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
+    celDebugPrintRewardType* type = new celDebugPrintRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
 
   return true;
 }
@@ -180,7 +321,7 @@ iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
   iQuestFactory* ifact = GetQuestFactory (name);
   if (ifact) return 0;
 
-  celQuestFactory* fact = new celQuestFactory (name);
+  celQuestFactory* fact = new celQuestFactory (this, name);
   quest_factories.Put (name, fact);
   fact->DecRef ();
   return fact;
@@ -195,12 +336,58 @@ bool celQuestManager::RegisterTriggerType (iQuestTriggerType* trigger)
   return true;
 }
 
+iQuestTriggerType* celQuestManager::GetTriggerType (const char* name)
+{
+  return trigger_types.Get (name, 0);
+}
+
 bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
 {
   const char* name = reward->GetName ();
   if (reward_types.Get (name, 0) != 0)
     return false;
   reward_types.Put (name, reward);
+  return true;
+}
+
+iQuestRewardType* celQuestManager::GetRewardType (const char* name)
+{
+  return reward_types.Get (name, 0);
+}
+
+const char* celQuestManager::ResolveParameter (
+  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+	const char* param)
+{
+  if (param == 0) return param;
+  if (*param != '$') return param;
+  return params.Get (param+1, 0);
+}
+
+bool celQuestManager::Load (iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    if (strcmp ("quest", value) == 0)
+    {
+      const char* questname = child->GetAttributeValue ("name");
+      iQuestFactory* questfact = CreateQuestFactory (questname);
+      if (!questfact->Load (child))
+        return false;
+    }
+    else
+    {
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown token '%s' while loading quests!",
+		value);
+        return false;
+    }
+  }
   return true;
 }
 

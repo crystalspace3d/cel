@@ -28,11 +28,7 @@
 struct iDocumentNode;
 
 /*
-<quest>
-    <params>
-    	<par name="actor_entity" />
-    </params>
-
+<quest name="test">
     <state name="notstarted">
     </state>
 
@@ -92,6 +88,9 @@ SCF_VERSION (iQuestTrigger, 0, 0, 1);
  * be able to use your own trigger implementations you must also make
  * associated trigger factories which you then register with the quest
  * manager. See iQuestTriggerFactory.
+ * <p>
+ * Triggers must start in deactivated state. They will be activated by
+ * the quest when the 'state' containing this trigger is activated.
  */
 struct iQuestTrigger : public iBase
 {
@@ -105,6 +104,16 @@ struct iQuestTrigger : public iBase
    * Clear the callback.
    */
   virtual void ClearCallback () = 0;
+
+  /**
+   * Activate the trigger. Note that triggers start deactivated.
+   */
+  virtual void ActivateTrigger () = 0;
+
+  /**
+   * Deactivate the trigger. Note that triggers start deactivated.
+   */
+  virtual void DeactivateTrigger () = 0;
 };
 
 SCF_VERSION (iQuestTriggerFactory, 0, 0, 1);
@@ -367,6 +376,12 @@ struct iQuestManager : public iBase
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
   /**
+   * Get a trigger type from the quest manager.
+   * Returns 0 if no such trigger type exists.
+   */
+  virtual iQuestTriggerType* GetTriggerType (const char* name) = 0;
+
+  /**
    * Register a quest reward type. Quest rewards can be used
    * by quests to give out some kind of reward to the game.
    * Returns false on failure (reward type with that name
@@ -375,9 +390,17 @@ struct iQuestManager : public iBase
    * The following predefined reward types are automatically
    * registered in the quest manager:
    * <ul>
+   * <li>cel.questreward.debugprint: print a debug message on stdout.
+   *     See iDebugPrintQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
+
+  /**
+   * Get a reward type from the quest manager.
+   * Returns 0 if no such reward type exists.
+   */
+  virtual iQuestRewardType* GetRewardType (const char* name) = 0;
 
   /**
    * Get a quest factory by name.
@@ -390,6 +413,24 @@ struct iQuestManager : public iBase
    * already exists).
    */
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
+
+  /**
+   * This is a conveniance function to resolve a quest parameter during
+   * creation of the rewards and triggers. This routine knows how to
+   * recognize parameter usage (starting with '$') and will in that case
+   * try to resolve the parameter by finding it in 'params'. Otherwise
+   * it will just return the unmodified string.
+   */
+  virtual const char* ResolveParameter (
+  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+	const char* param) = 0;
+
+  /**
+   * Load a bunch of quests from this factory.
+   * \param node is a node containing \<quest\> children.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -405,9 +446,9 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
  * this factory as opposed to loading its definition from an XML
  * document.
  * <p>
- * The predefined name of this trigger type is 'cel.questtype.entersector'.
+ * The predefined name of this trigger type is 'cel.questtrigger.entersector'.
  * <p>
- * In XML factories recognize the following attributes on the 'fireon' node:
+ * In XML, factories recognize the following attributes on the 'fireon' node:
  * <ul>
  * <li><em>entity_name</em>: the name of the entity that contains the
  *     pccamera property class.
@@ -420,14 +461,47 @@ struct iEnterSectorQuestTriggerFactory : public iBase
   /**
    * Set the name of the entity containing the pccamera property class
    * on which this trigger will fire.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityName (const char* entity_name) = 0;
+  virtual void SetEntityNameParameter (const char* entity_name) = 0;
 
   /**
    * Set the name of the sector on which this trigger will fire
    * as soon as the camera enters that sector.
+   * \param sector_name is the name of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetSectorName (const char* sector_name) = 0;
+  virtual void SetSectorNameParameter (const char* sector_name) = 0;
+};
+
+//-------------------------------------------------------------------------
+// Specific reward implementations.
+//-------------------------------------------------------------------------
+
+SCF_VERSION (iDebugPrintQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that prints
+ * debug messages on standard output. You can query this interface
+ * from the reward factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.debugprint'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'reward' node:
+ * <ul>
+ * <li><em>message</em>: the message to print.
+ * </ul>
+ */
+struct iDebugPrintQuestRewardFactory : public iBase
+{
+  /**
+   * Set the message parameter to print (either a message string
+   * or a parameter if it starts with '$').
+   */
+  virtual void SetMessageParameter (const char* msg) = 0;
 };
 
 #endif // __CEL_MGR_QUEST__

@@ -24,6 +24,12 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "ivaria/reporter.h"
+
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/propclas.h"
+#include "propclass/camera.h"
 
 #include "plugins/tools/quests/trig_entersector.h"
 
@@ -48,7 +54,7 @@ celEnterSectorTriggerType::~celEnterSectorTriggerType ()
 csPtr<iQuestTriggerFactory> celEnterSectorTriggerType::CreateTriggerFactory ()
 {
   celEnterSectorTriggerFactory* fact = new
-  	celEnterSectorTriggerFactory ();
+  	celEnterSectorTriggerFactory (this);
   return fact;
 }
 
@@ -59,59 +65,93 @@ SCF_IMPLEMENT_IBASE (celEnterSectorTriggerFactory)
   SCF_IMPLEMENTS_INTERFACE (iEnterSectorQuestTriggerFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celEnterSectorTriggerFactory::celEnterSectorTriggerFactory ()
+celEnterSectorTriggerFactory::celEnterSectorTriggerFactory (
+	celEnterSectorTriggerType* type)
 {
   SCF_CONSTRUCT_IBASE (0);
-  entity_name = 0;
-  sector_name = 0;
+  celEnterSectorTriggerFactory::type = type;
+  entity_name_par = 0;
+  sector_name_par = 0;
 }
 
 celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 {
-  delete[] entity_name;
-  delete[] sector_name;
+  delete[] entity_name_par;
+  delete[] sector_name_par;
   SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
     const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
 {
-  celEnterSectorTrigger* trig = new celEnterSectorTrigger ();
+  celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
+  	params, entity_name_par, sector_name_par);
   return trig;
 }
 
 bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
-  return false;
+  delete[] entity_name_par; entity_name_par = 0;
+  delete[] sector_name_par; sector_name_par = 0;
+  entity_name_par = node->GetAttributeValue ("entity_name");
+  if (!entity_name_par)
+  {
+    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.questtrigger.entersector",
+      "'entity_name' attribute is missing for the entersector trigger!");
+    return false;
+  }
+  sector_name_par = node->GetAttributeValue ("sector_name");
+  if (!sector_name_par)
+  {
+    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.questtrigger.entersector",
+      "'sector_name' attribute is missing for the entersector trigger!");
+    return false;
+  }
+  return true;
 }
 
-void celEnterSectorTriggerFactory::SetEntityName (const char* entity_name)
+void celEnterSectorTriggerFactory::SetEntityNameParameter (
+	const char* entity_name)
 {
-  if (celEnterSectorTriggerFactory::entity_name == entity_name) return;
-  delete[] celEnterSectorTriggerFactory::entity_name;
-  celEnterSectorTriggerFactory::entity_name = csStrNew (entity_name);
+  if (entity_name_par == entity_name) return;
+  delete[] entity_name_par;
+  entity_name_par = csStrNew (entity_name);
 }
 
-void celEnterSectorTriggerFactory::SetSectorName (const char* sector_name)
+void celEnterSectorTriggerFactory::SetSectorNameParameter (
+	const char* sector_name)
 {
-  if (celEnterSectorTriggerFactory::sector_name == sector_name) return;
-  delete[] celEnterSectorTriggerFactory::sector_name;
-  celEnterSectorTriggerFactory::sector_name = csStrNew (sector_name);
+  if (sector_name_par == sector_name) return;
+  delete[] sector_name_par;
+  sector_name_par = csStrNew (sector_name);
 }
 
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celEnterSectorTrigger)
   SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
+  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
 SCF_IMPLEMENT_IBASE_END
 
-celEnterSectorTrigger::celEnterSectorTrigger ()
+celEnterSectorTrigger::celEnterSectorTrigger (
+	celEnterSectorTriggerType* type,
+  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+	const char* entity_name_par, const char* sector_name_par)
 {
   SCF_CONSTRUCT_IBASE (0);
+  celEnterSectorTrigger::type = type;
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  entity_name = csStrNew (qm->ResolveParameter (params, entity_name_par));
+  sector_name = csStrNew (qm->ResolveParameter (params, sector_name_par));
 }
 
 celEnterSectorTrigger::~celEnterSectorTrigger ()
 {
+  DeactivateTrigger ();
+  delete[] entity_name;
+  delete[] sector_name;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -127,7 +167,40 @@ void celEnterSectorTrigger::ClearCallback ()
 
 void celEnterSectorTrigger::NewSector (iCamera* camera, iSector* sector)
 {
-  callback->TriggerFired ((iQuestTrigger*)this);
+  if (celEnterSectorTrigger::sector == sector)
+    callback->TriggerFired ((iQuestTrigger*)this);
+}
+
+void celEnterSectorTrigger::FindSectorAndCamera ()
+{
+  if (camera && sector) return;
+  sector = 0;
+  camera = 0;
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
+  if (!engine) return;
+  sector = engine->FindSector (sector_name);
+  if (!sector) return;
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelEntity* entity = pl->FindEntity (entity_name);
+  if (!entity) return;
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+  if (!pccamera) return;
+  camera = pccamera->GetCamera ();
+}
+
+void celEnterSectorTrigger::ActivateTrigger ()
+{
+  FindSectorAndCamera ();
+  // First remove to make sure we don't register ourselves multiple
+  // times.
+  camera->RemoveCameraSectorListener ((iCameraSectorListener*)this);
+  camera->AddCameraSectorListener ((iCameraSectorListener*)this);
+}
+
+void celEnterSectorTrigger::DeactivateTrigger ()
+{
+  if (!camera) return;
+  camera->RemoveCameraSectorListener ((iCameraSectorListener*)this);
 }
 
 //---------------------------------------------------------------------------
