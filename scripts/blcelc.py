@@ -8464,6 +8464,7 @@ class iSequenceWrapper(iBase):
     def CreateBaseParameterBlock(*args): return apply(_blcelc.iSequenceWrapper_CreateBaseParameterBlock,args)
     def GetBaseParameterBlock(*args): return apply(_blcelc.iSequenceWrapper_GetBaseParameterBlock,args)
     def CreateParameterBlock(*args): return apply(_blcelc.iSequenceWrapper_CreateParameterBlock,args)
+    def AddOperationSetVariable(*args): return apply(_blcelc.iSequenceWrapper_AddOperationSetVariable,args)
     def AddOperationSetMaterial(*args): return apply(_blcelc.iSequenceWrapper_AddOperationSetMaterial,args)
     def AddOperationSetPolygonMaterial(*args): return apply(_blcelc.iSequenceWrapper_AddOperationSetPolygonMaterial,args)
     def AddOperationSetLight(*args): return apply(_blcelc.iSequenceWrapper_AddOperationSetLight,args)
