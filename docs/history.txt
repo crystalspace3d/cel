@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Oct-2004
+	- Jorrit started work on the quest manager. Still the base basics.
 3-Oct-2004
 	- Jorrit added patch from David Bronke which makes several of
 	  the methods in camera and linmove public by also publishing
