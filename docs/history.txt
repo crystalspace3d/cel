@@ -23,7 +23,7 @@ The history order is reversed so that new features are at the top.
 	    - Augmented blpython to include the SWIG stuff from the cspycommon
 	      library.
 	    - Added a small starter script for smallgame.
-	    - Updated smallgame fro blpython changes and some other interface
+	    - Updated smallgame for blpython changes and some other interface
 	      changes.
 	- Jorrit added support for a new SetProperty action to the
 	  iPcProperties property class so that you can set properties from
