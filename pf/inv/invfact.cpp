@@ -45,21 +45,19 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcInventory)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcInventory)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcInventory)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcInventory::PcInventory)
   SCF_IMPLEMENTS_INTERFACE (iPcInventory)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcInventory);
-  celPcInventory::object_reg = object_reg;
-  DG_ADDI (this, "celPcInventory()");
+  DG_TYPE (this, "celPcInventory()");
 }
 
 celPcInventory::~celPcInventory ()
@@ -68,12 +66,6 @@ celPcInventory::~celPcInventory ()
   bool rc = RemoveAll ();
   (void)rc;
   CS_ASSERT (rc);
-  DG_REM (this);
-}
-
-void celPcInventory::SetEntity (iCelEntity* entity)
-{
-  celPcInventory::entity = entity;
 }
 
 #define INVENTORY_SERIAL 1
@@ -545,8 +537,7 @@ void celPcInventory::Dump ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcCharacteristics)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcCharacteristics)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCharacteristics)
 SCF_IMPLEMENT_IBASE_END
 
@@ -555,22 +546,15 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCharacteristics::PcCharacteristics)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCharacteristics);
-  celPcCharacteristics::object_reg = object_reg;
-  DG_ADDI (this, "celPcCharacteristics()");
+  DG_TYPE (this, "celPcCharacteristics()");
 }
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
   ClearAll ();
-  DG_REM (this);
-}
-
-void celPcCharacteristics::SetEntity (iCelEntity* entity)
-{
-  celPcCharacteristics::entity = entity;
 }
 
 #define CHARACTERISTICS_SERIAL 1

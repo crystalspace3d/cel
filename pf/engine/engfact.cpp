@@ -62,10 +62,9 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcCamera)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::PcCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcCamera)
@@ -76,10 +75,9 @@ SCF_IMPLEMENT_IBASE (celPcCamera::EventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcCamera::celPcCamera (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-  celPcCamera::object_reg = object_reg;
   scfiEventHandler = NULL;
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
@@ -94,7 +92,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
 
-  DG_ADDI (this, "celPcCamera()");
+  DG_TYPE (this, "celPcCamera()");
 }
 
 celPcCamera::~celPcCamera ()
@@ -114,7 +112,6 @@ celPcCamera::~celPcCamera ()
     }
     scfiEventHandler->DecRef ();
   }
-  DG_REM (this);
 }
 
 void celPcCamera::SetupEventHandler ()
@@ -160,11 +157,6 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       view->Draw ();
   }
   return true;
-}
-
-void celPcCamera::SetEntity (iCelEntity* entity)
-{
-  celPcCamera::entity = entity;
 }
 
 #define CAMERA_SERIAL 1
@@ -239,27 +231,25 @@ iCamera* celPcCamera::GetCamera () const
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcRegion)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRegion)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRegion::PcRegion)
   SCF_IMPLEMENTS_INTERFACE (iPcRegion)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRegion);
-  celPcRegion::object_reg = object_reg;
   worlddir = NULL;
   worldfile = NULL;
   regionname = NULL;
   loaded = false;
   pointcamera = NULL;
   startname = NULL;
-  DG_ADDI (this, "celPcRegion()");
+  DG_TYPE (this, "celPcRegion()");
 }
 
 celPcRegion::~celPcRegion ()
@@ -270,12 +260,6 @@ celPcRegion::~celPcRegion ()
   delete[] regionname;
   if (pointcamera) pointcamera->DecRef ();
   delete[] startname;
-  DG_REM (this);
-}
-
-void celPcRegion::SetEntity (iCelEntity* entity)
-{
-  celPcRegion::entity = entity;
 }
 
 #define REGION_SERIAL 1

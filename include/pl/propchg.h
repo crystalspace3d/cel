@@ -17,47 +17,30 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_PF_TESTFACT__
-#define __CEL_PF_TESTFACT__
+#ifndef __CEL_PL_PROPCHANGE__
+#define __CEL_PL_PROPCHANGE__
 
 #include "cstypes.h"
-#include "iutil/comp.h"
 #include "csutil/scf.h"
-#include "pl/propclas.h"
-#include "pl/propfact.h"
-#include "pl/facttmpl.h"
-#include "pf/common/stdpcimp.h"
-#include "pf/test.h"
 
-struct iCelEntity;
-struct iObjectRegistry;
+struct iCelPropertyClass;
+
+SCF_VERSION (iCelPropertyChangeCallback, 0, 0, 1);
 
 /**
- * Factory for test.
+ * This is a callback that is called whenever a property
+ * changes for some property class.
  */
-CEL_DECLARE_FACTORY (Test)
-
-/**
- * This is a test property class.
- */
-class celPcTest : public celPcCommon
+struct iCelPropertyChangeCallback : public iBase
 {
-public:
-  celPcTest (iObjectRegistry* object_reg);
-  virtual ~celPcTest ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
-
-  virtual const char* GetName () const { return "pctest"; }
-  virtual iCelDataBuffer* Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcTest : public iPcTest
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTest);
-    virtual void Print (const char* msg);
-  } scfiPcTest;
+  /**
+   * This function will be called when a property changes.
+   * 'propertyId' is a local id (local to the property class)
+   * indicating which property has changed.
+   */
+  virtual void PropertyChanged (int propertyId,
+  	iCelPropertyClass* pclass);
 };
 
-#endif // __CEL_PF_TESTFACT__
+#endif // __CEL_PL_PROPCHANGE__
 

@@ -51,10 +51,9 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcTooltip)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcTooltip)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTooltip)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTooltip::PcTooltip)
   SCF_IMPLEMENTS_INTERFACE (iPcTooltip)
@@ -65,20 +64,19 @@ SCF_IMPLEMENT_IBASE (celPcTooltip::EventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
   scfiEventHandler = NULL;
   visible = false;
   text = NULL;
-  celPcTooltip::object_reg = object_reg;
   text_r = 0;
   text_g = 0;
   text_b = 0;
   bg_r = 255;
   bg_g = 255;
   bg_b = 0;
-  DG_ADDI (this, "celPcTooltip()");
+  DG_TYPE (this, "celPcTooltip()");
 }
 
 celPcTooltip::~celPcTooltip ()
@@ -94,12 +92,6 @@ celPcTooltip::~celPcTooltip ()
     }
     scfiEventHandler->DecRef ();
   }
-  DG_REM (this);
-}
-
-void celPcTooltip::SetEntity (iCelEntity* entity)
-{
-  celPcTooltip::entity = entity;
 }
 
 #define TOOLTIP_SERIAL 1
@@ -219,10 +211,9 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcTimer)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcTimer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTimer)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
   SCF_IMPLEMENTS_INTERFACE (iPcTimer)
@@ -233,15 +224,14 @@ SCF_IMPLEMENT_IBASE (celPcTimer::EventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
   scfiEventHandler = NULL;
   enabled = false;
-  celPcTimer::object_reg = object_reg;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
-  DG_ADDI (this, "celPcTimer()");
+  DG_TYPE (this, "celPcTimer()");
 }
 
 celPcTimer::~celPcTimer ()
@@ -257,12 +247,6 @@ celPcTimer::~celPcTimer ()
     }
     scfiEventHandler->DecRef ();
   }
-  DG_REM (this);
-}
-
-void celPcTimer::SetEntity (iCelEntity* entity)
-{
-  celPcTimer::entity = entity;
 }
 
 #define TIMER_SERIAL 1

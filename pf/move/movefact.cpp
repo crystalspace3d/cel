@@ -68,34 +68,26 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcMovable)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcMovable)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMovable)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMovable::PcMovable)
   SCF_IMPLEMENTS_INTERFACE (iPcMovable)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovable);
   pcmesh = NULL;
-  celPcMovable::object_reg = object_reg;
-  DG_ADDI (this, "celPcMovable()");
+  DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
 {
   if (pcmesh) pcmesh->DecRef ();
   RemoveAllConstraints ();
-  DG_REM (this);
-}
-
-void celPcMovable::SetEntity (iCelEntity* entity)
-{
-  celPcMovable::entity = entity;
 }
 
 #define MOVABLE_SERIAL 1
@@ -248,35 +240,27 @@ void celPcMovable::RemoveAllConstraints ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcSolid)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcSolid)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSolid)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSolid::PcSolid)
   SCF_IMPLEMENTS_INTERFACE (iPcSolid)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSolid);
   pcmesh = NULL;
   collider = NULL;
-  celPcSolid::object_reg = object_reg;
-  DG_ADDI (this, "celPcSolid()");
+  DG_TYPE (this, "celPcSolid()");
 }
 
 celPcSolid::~celPcSolid ()
 {
   if (pcmesh) pcmesh->DecRef ();
   if (collider) collider->DecRef ();
-  DG_REM (this);
-}
-
-void celPcSolid::SetEntity (iCelEntity* entity)
-{
-  celPcSolid::entity = entity;
 }
 
 #define SOLID_SERIAL 1
@@ -379,34 +363,26 @@ SCF_IMPLEMENT_IBASE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcMovableConstraintCD)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcMovableConstraintCD)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMovableConstraint)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMovableConstraintCD::PcMovableConstraintCD)
   SCF_IMPLEMENTS_INTERFACE (iPcMovableConstraint)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovableConstraint);
-  celPcMovableConstraintCD::object_reg = object_reg;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != NULL);
-  DG_ADDI (this, "celPcMovableConstraintCD()");
+  DG_TYPE (this, "celPcMovableConstraintCD()");
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
   if (cdsys) cdsys->DecRef ();
-  DG_REM (this);
-}
-
-void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
-{
-  celPcMovableConstraintCD::entity = entity;
 }
 
 #define MOVABLECONST_CD_SERIAL 1
@@ -581,10 +557,9 @@ SCF_IMPLEMENT_IBASE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcGravity)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcGravity)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcGravity)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcGravity::PcGravity)
   SCF_IMPLEMENTS_INTERFACE (iPcGravity)
@@ -595,14 +570,13 @@ SCF_IMPLEMENT_IBASE (celPcGravity::EventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcGravity);
   scfiEventHandler = NULL;
   pcmovable = NULL;
   pcsolid = NULL;
   gravity_collider = NULL;
-  celPcGravity::object_reg = object_reg;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != NULL);
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -625,7 +599,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
-  DG_ADDI (this, "celPcGravity()");
+  DG_TYPE (this, "celPcGravity()");
 }
 
 celPcGravity::~celPcGravity ()
@@ -646,12 +620,6 @@ celPcGravity::~celPcGravity ()
   if (cdsys) cdsys->DecRef ();
   if (pl) pl->DecRef ();
   if (vc) vc->DecRef ();
-  DG_REM (this);
-}
-
-void celPcGravity::SetEntity (iCelEntity* entity)
-{
-  celPcGravity::entity = entity;
 }
 
 #define GRAVITY_SERIAL 1

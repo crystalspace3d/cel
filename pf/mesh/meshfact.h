@@ -27,6 +27,7 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
+#include "pf/common/stdpcimp.h"
 #include "pf/mesh.h"
 #include "pf/meshsel.h"
 
@@ -48,12 +49,10 @@ CEL_DECLARE_FACTORY (MeshSelect)
 /**
  * This is a mesh property class.
  */
-class celPcMesh : public iCelPropertyClass
+class celPcMesh : public celPcCommon
 {
 private:
-  iCelEntity* entity;
   iMeshWrapper* mesh;
-  iObjectRegistry* object_reg;
   bool visible;
   char* fileName;
   char* factName;
@@ -76,11 +75,9 @@ public:
   void Show ();
   bool IsVisible () const { return visible; }
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmesh"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -133,11 +130,9 @@ public:
 /**
  * This is a mesh selection property class.
  */
-class celPcMeshSelect : public iCelPropertyClass
+class celPcMeshSelect : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iPcCamera* pccamera;
 
   // If the following var is non-NULL then we
@@ -271,11 +266,9 @@ public:
   void SetSenddownEvent (bool sd) { do_senddown = sd; }
   bool HasSenddownEvent () const { return do_senddown; }
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmeshselect"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 

@@ -28,6 +28,7 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
+#include "pf/common/stdpcimp.h"
 #include "pf/camera.h"
 #include "pf/region.h"
 
@@ -48,11 +49,9 @@ CEL_DECLARE_FACTORY(Region)
 /**
  * This is a camera property class.
  */
-class celPcCamera : public iCelPropertyClass
+class celPcCamera : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iGraphics3D* g3d;
   iEngine* engine;
   iKeyboardDriver* kbd;
@@ -71,11 +70,9 @@ public:
   iCamera* GetCamera () const;
   iView* GetView () const { return iview; }
   
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccamera"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -116,11 +113,9 @@ public:
 /**
  * This is a region property class.
  */
-class celPcRegion : public iCelPropertyClass
+class celPcRegion : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   char* worlddir;
   char* worldfile;
   char* regionname;
@@ -148,11 +143,9 @@ public:
   csVector3 GetStartPosition (const char* name);
   void PointCamera (iPcCamera* pccamera, const char* name);
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcregion"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
