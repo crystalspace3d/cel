@@ -1042,7 +1042,7 @@
 		<var name="'behaviour_#'" value="bdash_nonmovable" />
 		<var name="'behaviour_X'" value="bdash_diamond" />
 		<var name="'behaviour_O'" value="bdash_bomb" />
-		<var name="'behaviour_exp_c'" value="bdash_nonmovable" />
+		<var name="'behaviour_exp_c'" value="bdash_explosion" />
 		<var name="'behaviour_exp_t'" value="bdash_explosion" />
 		<var name="'behaviour_exp_l'" value="bdash_explosion" />
 		<var name="'behaviour_exp_b'" value="bdash_explosion" />
@@ -1110,10 +1110,10 @@
 		<var name="row16" value="'B              B   #XHX#     B      #     #                    B'" />
 		<var name="row17" value="'B                  #XXX#     B    X   X                        B'" />
 		<var name="row18" value="'B                  #####     B    B   #                        B'" />
-		<var name="row19" value="'B                            B                                 B'" />
-		<var name="row20" value="'B                            B                                 B'" />
+		<var name="row19" value="'B                 O          B                                 B'" />
+		<var name="row20" value="'B                ###         B                                 B'" />
 		<var name="row21" value="'B                            B                                 B'" />
-		<var name="row22" value="'B                            B                                 B'" />
+		<var name="row22" value="'B                BBB         B                                 B'" />
 		<var name="row23" value="'B       B                    B                                 B'" />
 		<var name="row24" value="'B       B                    B                                 B'" />
 		<var name="row25" value="'B       B                    B                                 B'" />
@@ -1121,19 +1121,19 @@
 		<var name="row27" value="'B       B                                                      B'" />
 		<var name="row28" value="'B       B     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row30" value="'B       B     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row30" value="'B       B     #XXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXOXOOOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row32" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row33" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row33" value="'B             #XXXXXXXXXOXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row35" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row35" value="'B             #XXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row36" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row37" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row38" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row38" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row39" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row40" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row41" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row42" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row42" value="'B             #XXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row43" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row44" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row45" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
@@ -1193,10 +1193,10 @@
 		    <stop />
 		</if>
 	    	<if eval="?blocktype != ' '">
-	            <var name="ent" value="'p'+?x+'_'+?y" />
-		    <createentity name="?ent" behaviour="?(behaviour_+?blocktype)" />
-		    <var name="ent" value="ent(?ent)" />
-		    <var name="mazeent+?x+'_'+?y" value="?ent" />
+	            <var name="entname" value="?x+'_'+?y" />
+		    <createentity name="?entname" behaviour="?(behaviour_+?blocktype)" />
+		    <var name="ent" value="ent(?entname)" />
+		    <var name="mazeent+?entname" value="?ent" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="?ent" />
 		    <stop />
@@ -1234,6 +1234,21 @@
 		<destroyentity name="?ent" />
 	        <var name="maze+?mazepos" value="' '" />
 		<var name="mazeent+?mazepos" value="''" />
+	    </event>
+
+	    <!--
+	      - Clear a block and check if objects will fall down.
+	      - Uses @x and @y parameters.
+	      -->
+	    <event name="clearblock_check">
+	    	<call event="clearblock_nocheck">
+		    <par id="parid(x)" value="@x" />
+		    <par id="parid(y)" value="@y" />
+		</call>
+		<call event="checkfall">
+		    <par id="parid(x)" value="@x" />
+		    <par id="parid(y)" value="@y" />
+		</call>
 	    </event>
 
 	    <!--
@@ -1641,6 +1656,10 @@
 	      - Also uses ?bdash_main.blockdim.
 	      -->
 	    <event name="init">
+		<var name="moving" value="false" />
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+
 	        <createpropclass name="pcbillboard" />
 	        <createpropclass name="pcproperties" />
 		<default propclass="pc(pcbillboard)" />
@@ -1651,11 +1670,9 @@
 	        <property id="propid(restack)" value="false" />
 	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
 	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
-	        <property id="propid(x)" value="?bdash_main.x*?bdash_main.blockdim" />
-	        <property id="propid(y)" value="?bdash_main.y*?bdash_main.blockdim" />
+	        <property id="propid(x)" value="?x*?bdash_main.blockdim" />
+	        <property id="propid(y)" value="?y*?bdash_main.blockdim" />
 	        <property id="propid(layer)" value="game" />
-
-		<var name="moving" value="false" />
 	    </event>
 
 	    <!--
@@ -1745,33 +1762,28 @@
 	    <event name="explodeblock">
 	    	<var name="mazepos" value="@x+'_'+@y" />
 		<var name="oldblocktype" value="?bdash_main.(maze+?mazepos)" />
-		<switch eval="?bdash_main.('explode_'+?oldblocktype)">
-		    <case value="0"> </case>
-		    <case value="1">
-		    	<call entity="bdash_main" event="clearblock_nocheck">
-			    <par id="parid(x)" value="@x" />
-			    <par id="parid(y)" value="@y" />
-			</call>
-		        <call entity="bdash_main" event="createblock">
-			    <par id="parid(blocktype)" value="@blocktype" />
-			    <par id="parid(x)" value="@x" />
-			    <par id="parid(y)" value="@y" />
-		        </call>
-		    </case>
-		    <case value="2">
-		    </case>
-		</switch>
+		<var name="explode" value="?bdash_main.('explode_'+?oldblocktype)" />
+		<if eval="?explode!=0">
+		    <call entity="bdash_main" event="clearblock_nocheck">
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		    </call>
+		    <call entity="bdash_main" event="createblock">
+			<par id="parid(blocktype)" value="@blocktype" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		    </call>
+		    <if eval="?explode==2">
+		    	<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
+			<call entity="?ent" event="explode_later" />
+		    </if>
+		</if>
 	    </event>
 
 	    <event name="endmove">
 		<super />
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
 		    <sound name="explosion" loop="false" />
-		    <call entity="bdash_main" event="createblock">
-			<par id="parid(blocktype)" value="'exp_c'" />
-			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y" />
-		    </call>
 		    <call event="explodeblock">
 			<par id="parid(blocktype)" value="'exp_l'" />
 			<par id="parid(x)" value="?x-1" />
@@ -1803,14 +1815,19 @@
 			<par id="parid(y)" value="?y+1" />
 		    </call>
 		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_b'" />
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y+1" />
+		    </call>
+		    <call event="explodeblock">
 			<par id="parid(blocktype)" value="'exp_t'" />
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y-1" />
 		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_b'" />
+		    <call entity="bdash_main" event="createblock">
+			<par id="parid(blocktype)" value="'exp_c'" />
 			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y+1" />
+			<par id="parid(y)" value="?y" />
 		    </call>
 		</if>
 	    </event>
@@ -1822,6 +1839,41 @@
 	  -  ***************************************************** -->
         <script name="bdash_explosion">
 	    <superscript name="bdash_nonmovable" />
+
+	    <!--
+	      - Initialize.
+	      -->
+	    <event name="init">
+	    	<super />
+	        <createpropclass name="pctimer" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="50" />
+		    <par id="parid(repeat)" value="true" />
+		</action>
+		<var name="counter" value="10" />
+		<var name="explode" value="11" />	<!-- Don't explode -->
+	    </event>
+
+	    <!--
+	      - Call this if you want this block to do a chain explosion
+	      - a bit later.
+	      -->
+	    <event name="explode_later">
+	    	<var name="explode" value="5" />
+	    </event>
+
+	    <event name="pctimer_wakeup">
+	    	<var name="counter" value="?counter-1" />
+		<if eval="?counter == ?explode">
+		</if>
+		<if eval="?counter == 0">
+			<print value="entname()+' '+?x+' '+?y" />
+		    <call entity="bdash_main" event="clearblock_check">
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y" />
+		    </call>
+		</if>
+	    </event>
 	</script>
 
 
