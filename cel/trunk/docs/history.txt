@@ -19,6 +19,7 @@ The history order is reversed so that new features are at the top.
 	  layer: 'property' and 'action'. These operations can operate
 	  on generic property classes that support generic properties
 	  and action.
+        - Mathe added a autoconf detection script for cel
 20-Nov-2003
 	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
 	  layers can implement this interface in addition to iCelBlLayer.
