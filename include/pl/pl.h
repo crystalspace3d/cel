@@ -223,7 +223,7 @@ struct iCelPlLayer : public iBase
   virtual const char* FetchString (csStringID id) = 0;
 
   /**
-   * This resgiters a callback that is called each time when an entity is
+   * This registers a callback that is called each time when an entity is
    * removed
    */
   virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;

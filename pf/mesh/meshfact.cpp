@@ -106,6 +106,7 @@ void celPcMesh::Clear ()
     mesh->DecRef ();
     engine->DecRef ();
     mesh = NULL;
+    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
   if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
 }
@@ -248,6 +249,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
     mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
+    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   if (factname && filename)
@@ -281,6 +283,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
       iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       pl->AttachEntity (mesh->QueryObject (), entity);
       pl->DecRef ();
+      FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
     }
   }
 
@@ -296,6 +299,7 @@ void celPcMesh::SetMesh (iMeshWrapper* m)
     mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
+    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   mesh = m;
@@ -303,6 +307,7 @@ void celPcMesh::SetMesh (iMeshWrapper* m)
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   pl->AttachEntity (mesh->QueryObject (), entity);
   pl->DecRef ();
+  FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 
   engine->DecRef ();
 }
@@ -316,6 +321,7 @@ void celPcMesh::CreateEmptyThing ()
     mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
+    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   iMeshObjectType* thing_type = engine->GetThingType ();
@@ -329,6 +335,7 @@ void celPcMesh::CreateEmptyThing ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   pl->AttachEntity (mesh->QueryObject (), entity);
   pl->DecRef ();
+  FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 
   thing_obj->DecRef ();
 }
