@@ -329,7 +329,14 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
   if (point)
   {
     csRef<iPcCamera> camera (SCF_QUERY_INTERFACE (this, iPcCamera));
-    region->PointCamera(camera, name);
+
+    if (region)
+        region->PointCamera(camera, name);
+    else
+    {
+      // camera->GetCamera ()->SetSector (NULL);
+      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
+    }
   }
 
   return true;
