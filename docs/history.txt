@@ -22,6 +22,17 @@ The history order is reversed so that new features are at the top.
 	    - Re-builds the Swig-generated Python files.
 	    - Publishes generated HTML (manual and API) for online browsing.
 	    - Publishes archives of generated HTML for download.
+	- Eric Sunshine refined the new jobber.cfg file so that it actually
+	  works:
+	    - Now also checks out the Crystal Space headers from CVS since they
+	      are needed by the Swig run.
+	    - Added some missing fake Jamconfig entries specifying compiler and
+	      linker. Without these, Jam complained bitterly.
+	    - Installed local TemplateToolkit2 on SF shell machine and added
+	      fake Jamconfig entries for it. This allows MSVC project file
+	      repair to work.
+	    - Disabled Texinfo @node and @menu repair for now since CEL build
+	      system does not yet provide this feature.
 19-Dec-2004
 	- Jorrit completed the quest manager. This is all untested. It will
 	  be tested for the first time when there is a quest property
