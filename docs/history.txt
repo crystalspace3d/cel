@@ -1,6 +1,11 @@
 26-Mar-2002:
 	- Matze added a RemoveEntity callback, that makes it possible for the
 	  persistance layer contexts to only keep soft refs to entities
+	- Applied a patch from Loic Dachary, it adds autoconf support to cel
+	  which brings a nice install and build system (on platforms that
+	  support autoconf/automake). He also included the license into some
+	  headers that missed it... I just replaced the COPYING file by a
+	  LGPL one...
 6-Mar-2002:
 	- Matze made the internal mapping of persistance (ids from localhost
 	  to ids from other host) accessible through some functions in
