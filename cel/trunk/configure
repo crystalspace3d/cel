@@ -6706,7 +6706,7 @@ fi
 
 if test $with_cs != no; then
   if test $cs_cv_python != no; then
-  cs_opt_libs="cspycommon"
+  cs_opt_libs="crystalspace_python"
 else
   cs_opt_libs=''
 fi
@@ -6909,7 +6909,7 @@ fi
 
 
     if test $cs_sdk = yes; then
-  cs_liblist="cstool csgfx csgeom csutil"
+  cs_liblist="crystalspace"
 	cs_optlibs=`echo x$cs_opt_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	if test -n "$cs_optlibs"; then
   cs_optlibs=`$cfg --available-libs $cs_optlibs`
@@ -7029,16 +7029,11 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <cssysdef.h>
-	    #include <csutil/scf.h>
-	    #include <stdio.h>
-	    #include <stdlib.h>
-	    CS_IMPLEMENT_APPLICATION
+	    #include <csutil/csstring.h>
 int
 main ()
 {
-scfInitialize(0,0);
-	    CS_STATIC_VARIABLE_CLEANUP
-	    iSCF::SCF->Finish();
+csString s; s << "Crystal Space";
   ;
   return 0;
 }
@@ -7186,16 +7181,11 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <cssysdef.h>
-	    #include <csutil/scf.h>
-	    #include <stdio.h>
-	    #include <stdlib.h>
-	    CS_IMPLEMENT_APPLICATION
+	    #include <csutil/csstring.h>
 int
 main ()
 {
-scfInitialize(0,0);
-	    CS_STATIC_VARIABLE_CLEANUP
-	    iSCF::SCF->Finish();
+csString s; s << "Crystal Space";
   ;
   return 0;
 }
@@ -7357,7 +7347,7 @@ if test $cs_cv_python != no; then
 echo $ECHO_N "checking if Crystal Space is built with Python support... $ECHO_C" >&6
     cel_do_python=no
     for m in $CRYSTAL_AVAILABLE_LIBS; do
-	if test cspycommon = "$m"; then
+	if test crystalspace_python = "$m"; then
   cel_do_python=yes
 	    break
 fi

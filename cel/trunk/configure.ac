@@ -78,14 +78,14 @@ AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
     [AS_IF([test $cs_cv_python != no],
-	[cs_opt_libs="cspycommon"], [cs_opt_libs=''])
+	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
     CS_PATH_CRYSTAL_EMIT([0.99], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
-])], [cstool csgfx csgeom csutil], [$cs_opt_libs])])
+])], [crystalspace], [$cs_opt_libs])])
 
 #----------------------------------------------------------------------------
 # We checked for Python earlier, and used that result to adjust the CS test
@@ -97,7 +97,7 @@ AS_IF([test $cs_cv_python != no],
     [AC_MSG_CHECKING([if Crystal Space is built with Python support])
     cel_do_python=no
     for m in $CRYSTAL_AVAILABLE_LIBS; do
-	AS_IF([test cspycommon = "$m"],
+	AS_IF([test crystalspace_python = "$m"],
 	    [cel_do_python=yes
 	    break])
     done
