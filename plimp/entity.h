@@ -45,8 +45,6 @@ public:
 
   CS_ID GetEntityID ()
   { return entity_ID; }
-  // Warning! It is only legal to call this function right after creating the
-  // entity
   void SetEntityID (CS_ID ID)
   { entity_ID = ID; }
     
@@ -62,6 +60,7 @@ public:
     virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }
+    virtual void SetID  (CS_ID n) { scfParent->SetEntityID (n); }
     virtual CS_ID GetID () const
     {
       return scfParent->entity_ID;
