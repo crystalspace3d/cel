@@ -33,8 +33,8 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.7  2003/01/13 08:22:59  jorrit
- * Fixed the python plugin.
+ * Revision 1.8  2003/03/25 11:13:03  jorrit
+ * Fix for latest CS changes.
  *
  ************************************************************************/
 
@@ -6012,26 +6012,34 @@ static void *SwigiThingStateToiBase(void *ptr) {
     return (void *) dest;
 }
 
-#define iThingState_CreatePolygon(_swigobj,_swigarg0)  (_swigobj->CreatePolygon(_swigarg0))
-static PyObject *_wrap_iThingState_CreatePolygon(PyObject *self, PyObject *args) {
+static void *SwigiThingFactoryStateToiBase(void *ptr) {
+    iThingFactoryState *src;
+    iBase *dest;
+    src = (iThingFactoryState *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iThingFactoryState_CreatePolygon(_swigobj,_swigarg0)  (_swigobj->CreatePolygon(_swigarg0))
+static PyObject *_wrap_iThingFactoryState_CreatePolygon(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
-    iPolygon3D * _result;
-    iThingState * _arg0;
+    iPolygon3DStatic * _result;
+    iThingFactoryState * _arg0;
     char * _arg1;
     char * _argc0 = 0;
     char _ptemp[128];
 
     self = self;
-    if(!PyArg_ParseTuple(args,"ss:iThingState_CreatePolygon",&_argc0,&_arg1)) 
+    if(!PyArg_ParseTuple(args,"ss:iThingFactoryState_CreatePolygon",&_argc0,&_arg1)) 
         return NULL;
     if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iThingState_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iThingState_CreatePolygon. Expected _iThingState_p.");
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iThingFactoryState_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iThingFactoryState_CreatePolygon. Expected _iThingFactoryState_p.");
         return NULL;
         }
     }
-    _result = (iPolygon3D *)iThingState_CreatePolygon(_arg0,_arg1);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iPolygon3D_p");
+    _result = (iPolygon3DStatic *)iThingFactoryState_CreatePolygon(_arg0,_arg1);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iPolygon3DStatic_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -6065,6 +6073,31 @@ static PyObject *_wrap_iMeshObject_Query_iThingState(PyObject *self, PyObject *a
     }
     _result = new csPtr< iThingState > (iMeshObject_Query_iThingState(_arg0));
     SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iThingState_>_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+static csPtr< iThingFactoryState >  iMeshObject_Query_iThingFactoryState(iMeshObject *self) {
+      return SCF_QUERY_INTERFACE(self, iThingFactoryState);
+    }
+static PyObject *_wrap_iMeshObject_Query_iThingFactoryState(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    csPtr< iThingFactoryState > * _result;
+    iMeshObject * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iMeshObject_Query_iThingFactoryState",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iMeshObject_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iMeshObject_Query_iThingFactoryState. Expected _iMeshObject_p.");
+        return NULL;
+        }
+    }
+    _result = new csPtr< iThingFactoryState > (iMeshObject_Query_iThingFactoryState(_arg0));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csPtr<_iThingFactoryState_>_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -6333,6 +6366,303 @@ static PyObject *_wrap_iLightMap_GetSize(PyObject *self, PyObject *args) {
     return _resultobj;
 }
 
+static void *SwigiPolygon3DStaticToiBase(void *ptr) {
+    iPolygon3DStatic *src;
+    iBase *dest;
+    src = (iPolygon3DStatic *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iPolygon3DStatic_GetMaterialHandle(_swigobj)  (_swigobj->GetMaterialHandle())
+static PyObject *_wrap_iPolygon3DStatic_GetMaterialHandle(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iMaterialHandle * _result;
+    iPolygon3DStatic * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iPolygon3DStatic_GetMaterialHandle",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_GetMaterialHandle. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    _result = (iMaterialHandle *)iPolygon3DStatic_GetMaterialHandle(_arg0);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iMaterialHandle_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_SetMaterial(_swigobj,_swigarg0)  (_swigobj->SetMaterial(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_SetMaterial(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iPolygon3DStatic * _arg0;
+    iMaterialWrapper * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iPolygon3DStatic_SetMaterial",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_SetMaterial. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iMaterialWrapper_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3DStatic_SetMaterial. Expected _iMaterialWrapper_p.");
+        return NULL;
+        }
+    }
+    iPolygon3DStatic_SetMaterial(_arg0,_arg1);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_GetVertexCount(_swigobj)  (_swigobj->GetVertexCount())
+static PyObject *_wrap_iPolygon3DStatic_GetVertexCount(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iPolygon3DStatic * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iPolygon3DStatic_GetVertexCount",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_GetVertexCount. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iPolygon3DStatic_GetVertexCount(_arg0);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_GetVertex(_swigobj,_swigarg0)  (_swigobj->GetVertex(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_GetVertex(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    csVector3 * _result;
+    iPolygon3DStatic * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iPolygon3DStatic_GetVertex",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_GetVertex. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    const csVector3 & _result_ref = iPolygon3DStatic_GetVertex(_arg0,_arg1);
+    _result = (csVector3 *) &_result_ref;
+    SWIG_MakePtr(_ptemp, (char *) _result,"_csVector3_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_CreateVertexByIndex(_swigobj,_swigarg0)  (_swigobj->CreateVertex(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_CreateVertexByIndex(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iPolygon3DStatic * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iPolygon3DStatic_CreateVertexByIndex",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_CreateVertexByIndex. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iPolygon3DStatic_CreateVertexByIndex(_arg0,_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_CreateVertex(_swigobj,_swigarg0)  (_swigobj->CreateVertex(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_CreateVertex(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iPolygon3DStatic * _arg0;
+    csVector3 * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iPolygon3DStatic_CreateVertex",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_CreateVertex. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3DStatic_CreateVertex. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iPolygon3DStatic_CreateVertex(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_GetAlpha(_swigobj)  (_swigobj->GetAlpha())
+static PyObject *_wrap_iPolygon3DStatic_GetAlpha(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iPolygon3DStatic * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iPolygon3DStatic_GetAlpha",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_GetAlpha. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iPolygon3DStatic_GetAlpha(_arg0);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_SetAlpha(_swigobj,_swigarg0)  (_swigobj->SetAlpha(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_SetAlpha(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iPolygon3DStatic * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iPolygon3DStatic_SetAlpha",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_SetAlpha. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    iPolygon3DStatic_SetAlpha(_arg0,_arg1);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_CreatePlane(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreatePlane(_swigarg0,_swigarg1))
+static PyObject *_wrap_iPolygon3DStatic_CreatePlane(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iPolygon3DStatic * _arg0;
+    csVector3 * _arg1;
+    csMatrix3 * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char * _argc2 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iPolygon3DStatic_CreatePlane",&_argc0,&_argc1,&_argc2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_CreatePlane. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3DStatic_CreatePlane. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    if (_argc2) {
+        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csMatrix3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iPolygon3DStatic_CreatePlane. Expected _csMatrix3_p.");
+        return NULL;
+        }
+    }
+    iPolygon3DStatic_CreatePlane(_arg0,*_arg1,*_arg2);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_SetPlane(_swigobj,_swigarg0)  (_swigobj->SetPlane(_swigarg0))
+static PyObject *_wrap_iPolygon3DStatic_SetPlane(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iPolygon3DStatic * _arg0;
+    char * _arg1;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iPolygon3DStatic_SetPlane",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_SetPlane. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iPolygon3DStatic_SetPlane(_arg0,_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iPolygon3DStatic_SetTextureSpace(_swigobj,_swigarg0,_swigarg1,_swigarg2)  (_swigobj->SetTextureSpace(_swigarg0,_swigarg1,_swigarg2))
+static PyObject *_wrap_iPolygon3DStatic_SetTextureSpace(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iPolygon3DStatic * _arg0;
+    csVector3 * _arg1;
+    csVector3 * _arg2;
+    float  _arg3;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char * _argc2 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sssf:iPolygon3DStatic_SetTextureSpace",&_argc0,&_argc1,&_argc2,&_arg3)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_SetTextureSpace. Expected _iPolygon3DStatic_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3DStatic_SetTextureSpace. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    if (_argc2) {
+        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iPolygon3DStatic_SetTextureSpace. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    iPolygon3DStatic_SetTextureSpace(_arg0,*_arg1,*_arg2,_arg3);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
 static void *SwigiPolygon3DToiBase(void *ptr) {
     iPolygon3D *src;
     iBase *dest;
@@ -6360,104 +6690,6 @@ static PyObject *_wrap_iPolygon3D_GetLightMap(PyObject *self, PyObject *args) {
     }
     _result = (iLightMap *)iPolygon3D_GetLightMap(_arg0);
     SWIG_MakePtr(_ptemp, (char *) _result,"_iLightMap_p");
-    _resultobj = Py_BuildValue("s",_ptemp);
-    return _resultobj;
-}
-
-#define iPolygon3D_GetMaterialHandle(_swigobj)  (_swigobj->GetMaterialHandle())
-static PyObject *_wrap_iPolygon3D_GetMaterialHandle(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iMaterialHandle * _result;
-    iPolygon3D * _arg0;
-    char * _argc0 = 0;
-    char _ptemp[128];
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygon3D_GetMaterialHandle",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_GetMaterialHandle. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    _result = (iMaterialHandle *)iPolygon3D_GetMaterialHandle(_arg0);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iMaterialHandle_p");
-    _resultobj = Py_BuildValue("s",_ptemp);
-    return _resultobj;
-}
-
-#define iPolygon3D_SetMaterial(_swigobj,_swigarg0)  (_swigobj->SetMaterial(_swigarg0))
-static PyObject *_wrap_iPolygon3D_SetMaterial(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygon3D * _arg0;
-    iMaterialWrapper * _arg1;
-    char * _argc0 = 0;
-    char * _argc1 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"ss:iPolygon3D_SetMaterial",&_argc0,&_argc1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_SetMaterial. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    if (_argc1) {
-        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iMaterialWrapper_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3D_SetMaterial. Expected _iMaterialWrapper_p.");
-        return NULL;
-        }
-    }
-    iPolygon3D_SetMaterial(_arg0,_arg1);
-    Py_INCREF(Py_None);
-    _resultobj = Py_None;
-    return _resultobj;
-}
-
-#define iPolygon3D_GetVertexCount(_swigobj)  (_swigobj->GetVertexCount())
-static PyObject *_wrap_iPolygon3D_GetVertexCount(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygon3D * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygon3D_GetVertexCount",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_GetVertexCount. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygon3D_GetVertexCount(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygon3D_GetVertex(_swigobj,_swigarg0)  (_swigobj->GetVertex(_swigarg0))
-static PyObject *_wrap_iPolygon3D_GetVertex(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    csVector3 * _result;
-    iPolygon3D * _arg0;
-    int  _arg1;
-    char * _argc0 = 0;
-    char _ptemp[128];
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"si:iPolygon3D_GetVertex",&_argc0,&_arg1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_GetVertex. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    const csVector3 & _result_ref = iPolygon3D_GetVertex(_arg0,_arg1);
-    _result = (csVector3 *) &_result_ref;
-    SWIG_MakePtr(_ptemp, (char *) _result,"_csVector3_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -6509,197 +6741,6 @@ static PyObject *_wrap_iPolygon3D_GetVertexC(PyObject *self, PyObject *args) {
     _result = (csVector3 *) &_result_ref;
     SWIG_MakePtr(_ptemp, (char *) _result,"_csVector3_p");
     _resultobj = Py_BuildValue("s",_ptemp);
-    return _resultobj;
-}
-
-#define iPolygon3D_CreateVertexByIndex(_swigobj,_swigarg0)  (_swigobj->CreateVertex(_swigarg0))
-static PyObject *_wrap_iPolygon3D_CreateVertexByIndex(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygon3D * _arg0;
-    int  _arg1;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"si:iPolygon3D_CreateVertexByIndex",&_argc0,&_arg1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_CreateVertexByIndex. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygon3D_CreateVertexByIndex(_arg0,_arg1);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygon3D_CreateVertex(_swigobj,_swigarg0)  (_swigobj->CreateVertex(_swigarg0))
-static PyObject *_wrap_iPolygon3D_CreateVertex(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygon3D * _arg0;
-    csVector3 * _arg1;
-    char * _argc0 = 0;
-    char * _argc1 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"ss:iPolygon3D_CreateVertex",&_argc0,&_argc1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_CreateVertex. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    if (_argc1) {
-        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3D_CreateVertex. Expected _csVector3_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygon3D_CreateVertex(_arg0,*_arg1);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygon3D_GetAlpha(_swigobj)  (_swigobj->GetAlpha())
-static PyObject *_wrap_iPolygon3D_GetAlpha(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygon3D * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygon3D_GetAlpha",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_GetAlpha. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygon3D_GetAlpha(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygon3D_SetAlpha(_swigobj,_swigarg0)  (_swigobj->SetAlpha(_swigarg0))
-static PyObject *_wrap_iPolygon3D_SetAlpha(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygon3D * _arg0;
-    int  _arg1;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"si:iPolygon3D_SetAlpha",&_argc0,&_arg1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_SetAlpha. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    iPolygon3D_SetAlpha(_arg0,_arg1);
-    Py_INCREF(Py_None);
-    _resultobj = Py_None;
-    return _resultobj;
-}
-
-#define iPolygon3D_CreatePlane(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreatePlane(_swigarg0,_swigarg1))
-static PyObject *_wrap_iPolygon3D_CreatePlane(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygon3D * _arg0;
-    csVector3 * _arg1;
-    csMatrix3 * _arg2;
-    char * _argc0 = 0;
-    char * _argc1 = 0;
-    char * _argc2 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"sss:iPolygon3D_CreatePlane",&_argc0,&_argc1,&_argc2)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_CreatePlane. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    if (_argc1) {
-        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3D_CreatePlane. Expected _csVector3_p.");
-        return NULL;
-        }
-    }
-    if (_argc2) {
-        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csMatrix3_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iPolygon3D_CreatePlane. Expected _csMatrix3_p.");
-        return NULL;
-        }
-    }
-    iPolygon3D_CreatePlane(_arg0,*_arg1,*_arg2);
-    Py_INCREF(Py_None);
-    _resultobj = Py_None;
-    return _resultobj;
-}
-
-#define iPolygon3D_SetPlane(_swigobj,_swigarg0)  (_swigobj->SetPlane(_swigarg0))
-static PyObject *_wrap_iPolygon3D_SetPlane(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    bool  _result;
-    iPolygon3D * _arg0;
-    char * _arg1;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"ss:iPolygon3D_SetPlane",&_argc0,&_arg1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_SetPlane. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    _result = (bool )iPolygon3D_SetPlane(_arg0,_arg1);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygon3D_SetTextureSpace(_swigobj,_swigarg0,_swigarg1,_swigarg2)  (_swigobj->SetTextureSpace(_swigarg0,_swigarg1,_swigarg2))
-static PyObject *_wrap_iPolygon3D_SetTextureSpace(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygon3D * _arg0;
-    csVector3 * _arg1;
-    csVector3 * _arg2;
-    float  _arg3;
-    char * _argc0 = 0;
-    char * _argc1 = 0;
-    char * _argc2 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"sssf:iPolygon3D_SetTextureSpace",&_argc0,&_argc1,&_argc2,&_arg3)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3D_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3D_SetTextureSpace. Expected _iPolygon3D_p.");
-        return NULL;
-        }
-    }
-    if (_argc1) {
-        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csVector3_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygon3D_SetTextureSpace. Expected _csVector3_p.");
-        return NULL;
-        }
-    }
-    if (_argc2) {
-        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csVector3_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iPolygon3D_SetTextureSpace. Expected _csVector3_p.");
-        return NULL;
-        }
-    }
-    iPolygon3D_SetTextureSpace(_arg0,*_arg1,*_arg2,_arg3);
-    Py_INCREF(Py_None);
-    _resultobj = Py_None;
     return _resultobj;
 }
 
@@ -7188,250 +7229,6 @@ static PyObject *_wrap_iPolygonTexture_GetMaterialHandle(PyObject *self, PyObjec
     }
     _result = (iMaterialHandle *)iPolygonTexture_GetMaterialHandle(_arg0);
     SWIG_MakePtr(_ptemp, (char *) _result,"_iMaterialHandle_p");
-    _resultobj = Py_BuildValue("s",_ptemp);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetFDU(_swigobj)  (_swigobj->GetFDU())
-static PyObject *_wrap_iPolygonTexture_GetFDU(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    float  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetFDU",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetFDU. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (float )iPolygonTexture_GetFDU(_arg0);
-    _resultobj = Py_BuildValue("f",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetFDV(_swigobj)  (_swigobj->GetFDV())
-static PyObject *_wrap_iPolygonTexture_GetFDV(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    float  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetFDV",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetFDV. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (float )iPolygonTexture_GetFDV(_arg0);
-    _resultobj = Py_BuildValue("f",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetWidth(_swigobj)  (_swigobj->GetWidth())
-static PyObject *_wrap_iPolygonTexture_GetWidth(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetWidth",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetWidth. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetWidth(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetHeight(_swigobj)  (_swigobj->GetHeight())
-static PyObject *_wrap_iPolygonTexture_GetHeight(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetHeight",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetHeight. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetHeight(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetShiftU(_swigobj)  (_swigobj->GetShiftU())
-static PyObject *_wrap_iPolygonTexture_GetShiftU(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetShiftU",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetShiftU. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetShiftU(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetIMinU(_swigobj)  (_swigobj->GetIMinU())
-static PyObject *_wrap_iPolygonTexture_GetIMinU(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetIMinU",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetIMinU. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetIMinU(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetIMinV(_swigobj)  (_swigobj->GetIMinV())
-static PyObject *_wrap_iPolygonTexture_GetIMinV(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetIMinV",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetIMinV. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetIMinV(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetTextureBox(_swigobj,_swigarg0,_swigarg1,_swigarg2,_swigarg3)  (_swigobj->GetTextureBox(_swigarg0,_swigarg1,_swigarg2,_swigarg3))
-static PyObject *_wrap_iPolygonTexture_GetTextureBox(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygonTexture * _arg0;
-    float * _arg1;
-    float * _arg2;
-    float * _arg3;
-    float * _arg4;
-    char * _argc0 = 0;
-    char * _argc1 = 0;
-    char * _argc2 = 0;
-    char * _argc3 = 0;
-    char * _argc4 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"sssss:iPolygonTexture_GetTextureBox",&_argc0,&_argc1,&_argc2,&_argc3,&_argc4)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetTextureBox. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    if (_argc1) {
-        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_float_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iPolygonTexture_GetTextureBox. Expected _float_p.");
-        return NULL;
-        }
-    }
-    if (_argc2) {
-        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_float_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iPolygonTexture_GetTextureBox. Expected _float_p.");
-        return NULL;
-        }
-    }
-    if (_argc3) {
-        if (SWIG_GetPtr(_argc3,(void **) &_arg3,"_float_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 4 of iPolygonTexture_GetTextureBox. Expected _float_p.");
-        return NULL;
-        }
-    }
-    if (_argc4) {
-        if (SWIG_GetPtr(_argc4,(void **) &_arg4,"_float_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 5 of iPolygonTexture_GetTextureBox. Expected _float_p.");
-        return NULL;
-        }
-    }
-    iPolygonTexture_GetTextureBox(_arg0,*_arg1,*_arg2,*_arg3,*_arg4);
-    Py_INCREF(Py_None);
-    _resultobj = Py_None;
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetOriginalWidth(_swigobj)  (_swigobj->GetOriginalWidth())
-static PyObject *_wrap_iPolygonTexture_GetOriginalWidth(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    int  _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetOriginalWidth",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetOriginalWidth. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (int )iPolygonTexture_GetOriginalWidth(_arg0);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
-#define iPolygonTexture_GetPolygon(_swigobj)  (_swigobj->GetPolygon())
-static PyObject *_wrap_iPolygonTexture_GetPolygon(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    iPolygon3D * _result;
-    iPolygonTexture * _arg0;
-    char * _argc0 = 0;
-    char _ptemp[128];
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"s:iPolygonTexture_GetPolygon",&_argc0)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygonTexture_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygonTexture_GetPolygon. Expected _iPolygonTexture_p.");
-        return NULL;
-        }
-    }
-    _result = (iPolygon3D *)iPolygonTexture_GetPolygon(_arg0);
-    SWIG_MakePtr(_ptemp, (char *) _result,"_iPolygon3D_p");
     _resultobj = Py_BuildValue("s",_ptemp);
     return _resultobj;
 }
@@ -12227,16 +12024,6 @@ static PyMethodDef blcelcMethods[] = {
 	 { "iPolygonTexture_GetLightMap", _wrap_iPolygonTexture_GetLightMap, 1 },
 	 { "iPolygonTexture_RecalculateDynamicLights", _wrap_iPolygonTexture_RecalculateDynamicLights, 1 },
 	 { "iPolygonTexture_DynamicLightsDirty", _wrap_iPolygonTexture_DynamicLightsDirty, 1 },
-	 { "iPolygonTexture_GetPolygon", _wrap_iPolygonTexture_GetPolygon, 1 },
-	 { "iPolygonTexture_GetOriginalWidth", _wrap_iPolygonTexture_GetOriginalWidth, 1 },
-	 { "iPolygonTexture_GetTextureBox", _wrap_iPolygonTexture_GetTextureBox, 1 },
-	 { "iPolygonTexture_GetIMinV", _wrap_iPolygonTexture_GetIMinV, 1 },
-	 { "iPolygonTexture_GetIMinU", _wrap_iPolygonTexture_GetIMinU, 1 },
-	 { "iPolygonTexture_GetShiftU", _wrap_iPolygonTexture_GetShiftU, 1 },
-	 { "iPolygonTexture_GetHeight", _wrap_iPolygonTexture_GetHeight, 1 },
-	 { "iPolygonTexture_GetWidth", _wrap_iPolygonTexture_GetWidth, 1 },
-	 { "iPolygonTexture_GetFDV", _wrap_iPolygonTexture_GetFDV, 1 },
-	 { "iPolygonTexture_GetFDU", _wrap_iPolygonTexture_GetFDU, 1 },
 	 { "iPolygonTexture_GetMaterialHandle", _wrap_iPolygonTexture_GetMaterialHandle, 1 },
 	 { "iTextureManager_GetTextureFormat", _wrap_iTextureManager_GetTextureFormat, 1 },
 	 { "iTextureManager_SetVerbose", _wrap_iTextureManager_SetVerbose, 1 },
@@ -12257,20 +12044,20 @@ static PyMethodDef blcelcMethods[] = {
 	 { "iImage_GetHeight", _wrap_iImage_GetHeight, 1 },
 	 { "iImage_GetWidth", _wrap_iImage_GetWidth, 1 },
 	 { "iImage_GetImageData", _wrap_iImage_GetImageData, 1 },
-	 { "iPolygon3D_SetTextureSpace", _wrap_iPolygon3D_SetTextureSpace, 1 },
-	 { "iPolygon3D_SetPlane", _wrap_iPolygon3D_SetPlane, 1 },
-	 { "iPolygon3D_CreatePlane", _wrap_iPolygon3D_CreatePlane, 1 },
-	 { "iPolygon3D_SetAlpha", _wrap_iPolygon3D_SetAlpha, 1 },
-	 { "iPolygon3D_GetAlpha", _wrap_iPolygon3D_GetAlpha, 1 },
-	 { "iPolygon3D_CreateVertex", _wrap_iPolygon3D_CreateVertex, 1 },
-	 { "iPolygon3D_CreateVertexByIndex", _wrap_iPolygon3D_CreateVertexByIndex, 1 },
 	 { "iPolygon3D_GetVertexC", _wrap_iPolygon3D_GetVertexC, 1 },
 	 { "iPolygon3D_GetVertexW", _wrap_iPolygon3D_GetVertexW, 1 },
-	 { "iPolygon3D_GetVertex", _wrap_iPolygon3D_GetVertex, 1 },
-	 { "iPolygon3D_GetVertexCount", _wrap_iPolygon3D_GetVertexCount, 1 },
-	 { "iPolygon3D_SetMaterial", _wrap_iPolygon3D_SetMaterial, 1 },
-	 { "iPolygon3D_GetMaterialHandle", _wrap_iPolygon3D_GetMaterialHandle, 1 },
 	 { "iPolygon3D_GetLightMap", _wrap_iPolygon3D_GetLightMap, 1 },
+	 { "iPolygon3DStatic_SetTextureSpace", _wrap_iPolygon3DStatic_SetTextureSpace, 1 },
+	 { "iPolygon3DStatic_SetPlane", _wrap_iPolygon3DStatic_SetPlane, 1 },
+	 { "iPolygon3DStatic_CreatePlane", _wrap_iPolygon3DStatic_CreatePlane, 1 },
+	 { "iPolygon3DStatic_SetAlpha", _wrap_iPolygon3DStatic_SetAlpha, 1 },
+	 { "iPolygon3DStatic_GetAlpha", _wrap_iPolygon3DStatic_GetAlpha, 1 },
+	 { "iPolygon3DStatic_CreateVertex", _wrap_iPolygon3DStatic_CreateVertex, 1 },
+	 { "iPolygon3DStatic_CreateVertexByIndex", _wrap_iPolygon3DStatic_CreateVertexByIndex, 1 },
+	 { "iPolygon3DStatic_GetVertex", _wrap_iPolygon3DStatic_GetVertex, 1 },
+	 { "iPolygon3DStatic_GetVertexCount", _wrap_iPolygon3DStatic_GetVertexCount, 1 },
+	 { "iPolygon3DStatic_SetMaterial", _wrap_iPolygon3DStatic_SetMaterial, 1 },
+	 { "iPolygon3DStatic_GetMaterialHandle", _wrap_iPolygon3DStatic_GetMaterialHandle, 1 },
 	 { "iLightMap_GetSize", _wrap_iLightMap_GetSize, 1 },
 	 { "iLightMap_GetMeanLighting", _wrap_iLightMap_GetMeanLighting, 1 },
 	 { "iLightMap_SetCacheData", _wrap_iLightMap_SetCacheData, 1 },
@@ -12281,8 +12068,9 @@ static PyMethodDef blcelcMethods[] = {
 	 { "iLightMap_GetWidth", _wrap_iLightMap_GetWidth, 1 },
 	 { "iLightMap_GetMapData", _wrap_iLightMap_GetMapData, 1 },
 	 { "iMeshWrapper_GetMeshObject", _wrap_iMeshWrapper_GetMeshObject, 1 },
+	 { "iMeshObject_Query_iThingFactoryState", _wrap_iMeshObject_Query_iThingFactoryState, 1 },
 	 { "iMeshObject_Query_iThingState", _wrap_iMeshObject_Query_iThingState, 1 },
-	 { "iThingState_CreatePolygon", _wrap_iThingState_CreatePolygon, 1 },
+	 { "iThingFactoryState_CreatePolygon", _wrap_iThingFactoryState_CreatePolygon, 1 },
 	 { "iCamera_GetInvFOV", _wrap_iCamera_GetInvFOV, 1 },
 	 { "iCamera_GetFOV", _wrap_iCamera_GetFOV, 1 },
 	 { "iGraphics3D_DrawPixmap", _wrap_iGraphics3D_DrawPixmap, 1 },
@@ -12583,6 +12371,7 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_short","_unsigned_short",0);
 	 SWIG_RegisterMapping("_short","_signed_short",0);
 	 SWIG_RegisterMapping("_struct_iPcCharacteristics","_iPcCharacteristics",0);
+	 SWIG_RegisterMapping("_struct_iThingFactoryState","_iThingFactoryState",0);
 	 SWIG_RegisterMapping("_struct_iFont","_iFont",0);
 	 SWIG_RegisterMapping("_struct_iPolygonTexture","_iPolygonTexture",0);
 	 SWIG_RegisterMapping("_int","_unsigned_int",0);
@@ -12603,12 +12392,15 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_struct_iGraphics2D","_iGraphics2D",0);
 	 SWIG_RegisterMapping("_iCelPropertyClass","_struct_iCelPropertyClass",0);
 	 SWIG_RegisterMapping("_iPcCharacteristics","_struct_iPcCharacteristics",0);
+	 SWIG_RegisterMapping("_iThingFactoryState","_struct_iThingFactoryState",0);
+	 SWIG_RegisterMapping("_struct_iPolygon3DStatic","_iPolygon3DStatic",0);
 	 SWIG_RegisterMapping("_struct_iPcInventory","_iPcInventory",0);
 	 SWIG_RegisterMapping("_struct_iMaterialHandle","_iMaterialHandle",0);
 	 SWIG_RegisterMapping("_iMaterialHandle","_struct_iMaterialHandle",0);
 	 SWIG_RegisterMapping("_struct_iGraphics3D","_iGraphics3D",0);
 	 SWIG_RegisterMapping("_iImage","_struct_iImage",0);
 	 SWIG_RegisterMapping("_iCelPropertyClassList","_struct_iCelPropertyClassList",0);
+	 SWIG_RegisterMapping("_iPolygon3DStatic","_struct_iPolygon3DStatic",0);
 	 SWIG_RegisterMapping("_iThingState","_struct_iThingState",0);
 	 SWIG_RegisterMapping("_iPcInventory","_struct_iPcInventory",0);
 	 SWIG_RegisterMapping("_struct_iCameraPosition","_iCameraPosition",0);
@@ -12664,12 +12456,16 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_struct_iBase","_iImage",SwigiImageToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iPolygon3D",SwigiPolygon3DToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iPolygon3D",SwigiPolygon3DToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iPolygon3DStatic",SwigiPolygon3DStaticToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iPolygon3DStatic",SwigiPolygon3DStaticToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iLightMap",SwigiLightMapToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iLightMap",SwigiLightMapToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iMeshWrapper",SwigiMeshWrapperToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iMeshWrapper",SwigiMeshWrapperToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iMeshObject",SwigiMeshObjectToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iMeshObject",SwigiMeshObjectToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iThingFactoryState",SwigiThingFactoryStateToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iThingFactoryState",SwigiThingFactoryStateToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iThingState",SwigiThingStateToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iThingState",SwigiThingStateToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iSector",SwigiSectorToiBase);
@@ -12756,12 +12552,16 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_iBase","_iImage",SwigiImageToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iPolygon3D",SwigiPolygon3DToiBase);
 	 SWIG_RegisterMapping("_iBase","_iPolygon3D",SwigiPolygon3DToiBase);
+	 SWIG_RegisterMapping("_iBase","_struct_iPolygon3DStatic",SwigiPolygon3DStaticToiBase);
+	 SWIG_RegisterMapping("_iBase","_iPolygon3DStatic",SwigiPolygon3DStaticToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iLightMap",SwigiLightMapToiBase);
 	 SWIG_RegisterMapping("_iBase","_iLightMap",SwigiLightMapToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iMeshWrapper",SwigiMeshWrapperToiBase);
 	 SWIG_RegisterMapping("_iBase","_iMeshWrapper",SwigiMeshWrapperToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iMeshObject",SwigiMeshObjectToiBase);
 	 SWIG_RegisterMapping("_iBase","_iMeshObject",SwigiMeshObjectToiBase);
+	 SWIG_RegisterMapping("_iBase","_struct_iThingFactoryState",SwigiThingFactoryStateToiBase);
+	 SWIG_RegisterMapping("_iBase","_iThingFactoryState",SwigiThingFactoryStateToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iThingState",SwigiThingStateToiBase);
 	 SWIG_RegisterMapping("_iBase","_iThingState",SwigiThingStateToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iSector",SwigiSectorToiBase);
