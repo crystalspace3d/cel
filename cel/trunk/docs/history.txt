@@ -32,4 +32,8 @@
 	  entries suitable for your system.
 	- Changed the executable name for celtest to celtst. Otherwise
 	  it would be the same as the directory name on linux.
+	- Implemented first bl entity in 'bltest'. No functionality yet.
+	- Added definition of iCelMessage.
+	- Added iCelPlLayer::CreateMessage().
+	- Added implementation of iCelMessage to plimp. Unfinished.
 

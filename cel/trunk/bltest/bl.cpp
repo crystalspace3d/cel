@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "bltest/bl.h"
+#include "bltest/entity.h"
 
 //---------------------------------------------------------------------------
 
@@ -59,6 +60,8 @@ iCelBlEntity* celBlTest::CreateBlEntity (const char* name)
 {
   if (!strcmp (name, "printer"))
   {
+    celBlEntity* ent = new celBlEntity ();
+    return ent;
   }
   return NULL;
 }

@@ -24,9 +24,10 @@
 #include "csutil/scf.h"
 
 struct iCelEntity;
+struct iCelMessage;
 struct iCelPropertyClassFactory;
 
-SCF_VERSION (iCelPlLayer, 0, 0, 1);
+SCF_VERSION (iCelPlLayer, 0, 0, 2);
 
 /**
  * This is the Physical Layer itself.
@@ -37,6 +38,11 @@ struct iCelPlLayer : public iBase
    * Create a new physical layer entity.
    */
   virtual iCelEntity* CreateEntity () = 0;
+
+  /**
+   * Create a message.
+   */
+  virtual iCelMessage* CreateMessage (const char* msg_string, ...) = 0;
 
   /**
    * Register a property class factory with this physical layer.
