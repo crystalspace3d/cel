@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "plimp/pl.h"
 #include "plimp/entity.h"
+#include "plimp/message.h"
 #include "pl/propfact.h"
 
 //---------------------------------------------------------------------------
@@ -66,6 +67,15 @@ iCelEntity* celPlLayer::CreateEntity ()
 {
   celEntity* entity = new celEntity ();
   return entity;
+}
+
+iCelMessage* celPlLayer::CreateMessage (const char* msg_string, ...)
+{
+  va_list arg;
+  va_start (arg, msg_string);
+  celMessage* msg = new celMessage (msg_string, arg);
+  va_end (arg);
+  return msg;
 }
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)

@@ -17,28 +17,35 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BLTEST_ENTITY__
-#define __CEL_BLTEST_ENTITY__
+#ifndef __CEL_PL_MESSAGE__
+#define __CEL_PL_MESSAGE__
 
+#include <stdarg.h>
 #include "cstypes.h"
 #include "csutil/scf.h"
-#include "bl/entity.h"
+
+SCF_VERSION (iCelMessage, 0, 0, 1);
 
 /**
- * This is an entity in the CEL layer at the BL (behaviour layer) side.
+ * A message in the CEL framework.
  */
-struct celBlEntity : public iCelBlEntity
+struct iCelMessage : public iBase
 {
-private:
+  /**
+   * Get message string.
+   */
+  virtual const char* GetMessageString () const = 0;
 
-public:
-  celBlEntity ();
-  virtual ~celBlEntity ();
+  /**
+   * Get number of message parameters.
+   */
+  virtual int GetMessageParameterCount () const = 0;
 
-  SCF_DECLARE_IBASE;
-
-  virtual bool SendMessage (iCelMessage* msg);
+  /**
+   * Get message parameter.
+   */
+  virtual const char* GetMessageParameter (int idx) const = 0;
 };
 
-#endif // __CEL_BLTEST_ENTITY__
+#endif // __CEL_PL_MESSAGE__
 

@@ -42,6 +42,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual iCelEntity* CreateEntity ();
+  virtual iCelMessage* CreateMessage (const char* msg_string, ...);
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);
