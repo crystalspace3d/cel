@@ -25,6 +25,9 @@ if test -z "$CELPREFIX"; then
     fi
 else
     AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CELPREFIX/bin)
+    if test -n "$CELCONFIG"; then
+        CELCONFIG="$CELPREFIX/bin/cel-config"
+    fi
 fi
 
 if test -z "$CELCONFIG"; then
