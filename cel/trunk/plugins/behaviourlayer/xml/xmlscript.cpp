@@ -2203,9 +2203,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (behave, "Couldn't find entity '%s'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
-	  action_params->IncRef ();
+	  csRef<celGenericParameterBlock> ref = action_params;
 	  ent->GetBehaviour ()->SendMessage (eventname, action_params);
-	  action_params->DecRef ();
 	}
         break;
       case CEL_OPERATION_CALL:
@@ -2214,9 +2213,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg aevent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: call event=%s\n", i-1, A2S (aevent)));
 	  const char* eventname = ArgToString (aevent);
-	  action_params->IncRef ();
+	  csRef<celGenericParameterBlock> ref = action_params;
 	  behave->SendMessage (eventname, action_params);
-	  action_params->DecRef ();
 	}
         break;
       case CEL_OPERATION_ACTION:
@@ -2229,9 +2227,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
-	  action_params->IncRef ();
+	  csRef<celGenericParameterBlock> ref = action_params;
 	  pc->PerformAction (id, action_params);
-	  action_params->DecRef ();
 	}
         break;
       case CEL_OPERATION_DESTROYENTITY:

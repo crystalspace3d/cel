@@ -1058,22 +1058,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_PAR) cnt++;
 	    else synldr->ReportBadToken (c);
 	  }
-	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-	  h->GetArgument ().SetUInt32 (cnt);
-
-	  child_it = child->GetNodes ();
-	  cnt = 0;
-	  while (child_it->HasNext ())
+	  if (cnt > 0)
 	  {
-	    csRef<iDocumentNode> c = child_it->Next ();
-	    if (c->GetType () != CS_NODE_ELEMENT) continue;
-            if (!ParseExpression (c, h, "id", "call/par"))
-	      return false;
-            if (!ParseExpression (c, h, "value", "call/par"))
-	      return false;
-	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	    h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
 	    h->GetArgument ().SetUInt32 (cnt);
-	    cnt++;
+
+	    child_it = child->GetNodes ();
+	    cnt = 0;
+	    while (child_it->HasNext ())
+	    {
+	      csRef<iDocumentNode> c = child_it->Next ();
+	      if (c->GetType () != CS_NODE_ELEMENT) continue;
+              if (!ParseExpression (c, h, "id", "call/par"))
+	        return false;
+              if (!ParseExpression (c, h, "value", "call/par"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	      h->GetArgument ().SetUInt32 (cnt);
+	      cnt++;
+	    }
 	  }
 
 	  const char* entname = child->GetAttributeValue ("entity");
@@ -1097,22 +1100,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_PAR) cnt++;
 	    else synldr->ReportBadToken (c);
 	  }
-	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-	  h->GetArgument ().SetUInt32 (cnt);
-
-	  child_it = child->GetNodes ();
-	  cnt = 0;
-	  while (child_it->HasNext ())
+	  if (cnt > 0)
 	  {
-	    csRef<iDocumentNode> c = child_it->Next ();
-	    if (c->GetType () != CS_NODE_ELEMENT) continue;
-            if (!ParseExpression (c, h, "id", "action/par"))
-	      return false;
-            if (!ParseExpression (c, h, "value", "action/par"))
-	      return false;
-	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	    h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
 	    h->GetArgument ().SetUInt32 (cnt);
-	    cnt++;
+
+	    child_it = child->GetNodes ();
+	    cnt = 0;
+	    while (child_it->HasNext ())
+	    {
+	      csRef<iDocumentNode> c = child_it->Next ();
+	      if (c->GetType () != CS_NODE_ELEMENT) continue;
+              if (!ParseExpression (c, h, "id", "action/par"))
+	        return false;
+              if (!ParseExpression (c, h, "value", "action/par"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	      h->GetArgument ().SetUInt32 (cnt);
+	      cnt++;
+	    }
 	  }
 
           if (!ParseExpression (child, h, "propclass", "action",
