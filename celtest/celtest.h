@@ -65,11 +65,9 @@ private:
   void SetupFrame ();
   void FinishFrame ();
 
+  bool LoadPcFactory (const char* classname);
   bool LoadTextures ();
   bool LoadTexture (const char* txtName, const char* fileName);
-  iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
-  iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
-  	iCelPropertyClassFactory* pf, const char* name);
   bool CreateRoom ();
   iCelEntity* CreateBoxEntity (const char* name, const char* factName,
   	iPcCamera* pccamera,

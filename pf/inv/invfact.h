@@ -26,6 +26,7 @@
 #include "csutil/csvector.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/inv.h"
 #include "pf/chars.h"
 
@@ -35,30 +36,8 @@ struct iObjectRegistry;
 /**
  * Factory for inventory.
  */
-class celPfInventory : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfInventory (iBase* parent);
-  virtual ~celPfInventory ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pfinventory"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 2; }
-  virtual const char* GetTypeName (int idx) const;
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfInventory);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY (Inventory)
+CEL_DECLARE_FACTORY (Characteristics)   
 
 /**
  * This is an inventory property class.
@@ -112,7 +91,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcinventory"; }
-  virtual const char* GetFactoryName () const { return "pfinventory"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -232,7 +210,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pccharacteristics"; }
-  virtual const char* GetFactoryName () const { return "pfinventory"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

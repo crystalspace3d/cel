@@ -33,56 +33,15 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfInventory)
+CEL_IMPLEMENT_FACTORY (Inventory, "pcinventory")
+CEL_IMPLEMENT_FACTORY (Characteristics, "pccharacteristics")
 
 SCF_EXPORT_CLASS_TABLE (pfinv)
   SCF_EXPORT_CLASS (celPfInventory, "cel.pcfactory.inventory",
   	"CEL Inventory Property Class Factory")
+  SCF_EXPORT_CLASS (celPfCharacteristics, "cel.pcfactory.characteristics",
+	"CEL Characteristics Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfInventory)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfInventory::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfInventory::celPfInventory (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfInventory::~celPfInventory ()
-{
-}
-
-bool celPfInventory::Initialize (iObjectRegistry* object_reg)
-{
-  celPfInventory::object_reg = object_reg;
-  return true;
-}
-
-iCelPropertyClass* celPfInventory::CreatePropertyClass (const char* type)
-{
-  if (!strcmp (type, "pcinventory"))
-    return new celPcInventory (object_reg);
-  else if (!strcmp (type, "pccharacteristics"))
-    return new celPcCharacteristics (object_reg);
-  return NULL;
-}
-
-const char* celPfInventory::GetTypeName (int idx) const
-{
-  switch (idx)
-  {
-    case 0: return "pcinventory";
-    case 1: return "pccharacteristics";
-    default: return NULL;
-  }
-}
 
 //---------------------------------------------------------------------------
 
@@ -182,7 +141,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_contents ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    int idx = contents.Push (cd->value.ent);
+    contents.Push (cd->value.ent);
     DG_LINK (this, cd->value.ent->QueryObject ());
     iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
   	cd->value.ent->GetPropertyClassList (), iPcCharacteristics);

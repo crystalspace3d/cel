@@ -27,7 +27,7 @@ SCF_IMPLEMENT_IBASE (celMessage)
   SCF_IMPLEMENTS_INTERFACE (iCelMessage)
 SCF_IMPLEMENT_IBASE_END
 
-celMessage::celMessage (const char* msg_string, va_list arg)
+celMessage::celMessage (const char* msg_string, va_list /*arg*/)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   celMessage::msg_string = csStrNew (msg_string);

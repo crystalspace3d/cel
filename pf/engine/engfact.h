@@ -27,6 +27,7 @@
 #include "csutil/csvector.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/camera.h"
 #include "pf/region.h"
 
@@ -41,30 +42,8 @@ class csView;
 /**
  * Factory for engine stuff.
  */
-class celPfEngine : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfEngine (iBase* parent);
-  virtual ~celPfEngine ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pfengine"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 2; }
-  virtual const char* GetTypeName (int idx) const;
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfEngine);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY(Camera)
+CEL_DECLARE_FACTORY(Region)
 
 /**
  * This is a camera property class.
@@ -95,7 +74,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pccamera"; }
-  virtual const char* GetFactoryName () const { return "pfengine"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -173,7 +151,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcregion"; }
-  virtual const char* GetFactoryName () const { return "pfengine"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

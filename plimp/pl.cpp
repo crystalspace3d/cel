@@ -25,6 +25,7 @@
 #include "plimp/message.h"
 #include "pl/propfact.h"
 #include "pl/persist.h"
+#include "pl/propclas.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
@@ -32,6 +33,7 @@
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
 #include "iutil/objreg.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -79,6 +81,27 @@ iCelEntity* celPlLayer::CreateEntity ()
 {
   celEntity* entity = new celEntity ();
   return &(entity->scfiCelEntity);
+}
+
+iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
+	const char *propname)
+{
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory(propname);
+  if (!pf)
+  {
+#ifdef CS_DEBUG
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
+#endif
+    return NULL;
+  }
+  iCelPropertyClass* pc = pf->CreatePropertyClass();
+  if (!pc)
+    return NULL;
+  entity->GetPropertyClassList()->Add (pc);
+  pc->DecRef();
+  return pc;
 }
 
 iCelMessage* celPlLayer::CreateMessage (const char* msg_string, ...)
@@ -275,6 +298,7 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
+  printf ("Registered Factory: %s\n", pf->GetName());
   if (pf_list.Find (pf) != -1) return;
   pf_list.Push (pf);
   pf->IncRef ();

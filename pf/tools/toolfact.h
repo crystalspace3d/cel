@@ -26,6 +26,7 @@
 #include "csutil/scf.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/tooltip.h"
 #include "pf/timer.h"
 
@@ -36,30 +37,8 @@ struct iVirtualClock;
 /**
  * Factory for tools.
  */
-class celPfTools : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfTools (iBase* parent);
-  virtual ~celPfTools ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pftools"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 2; }
-  virtual const char* GetTypeName (int idx) const;
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfTools);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY(Tooltip)
+CEL_DECLARE_FACTORY(Timer)
 
 /**
  * This is a tooltip property class.
@@ -93,7 +72,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctooltip"; }
-  virtual const char* GetFactoryName () const { return "pftools"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -174,7 +152,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctimer"; }
-  virtual const char* GetFactoryName () const { return "pftools"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

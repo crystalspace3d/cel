@@ -30,43 +30,12 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfTest)
+CEL_IMPLEMENT_FACTORY (Test, "pctest")
 
 SCF_EXPORT_CLASS_TABLE (pftest)
   SCF_EXPORT_CLASS (celPfTest, "cel.pcfactory.test",
   	"CEL Test Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfTest)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfTest::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfTest::celPfTest (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfTest::~celPfTest ()
-{
-}
-
-bool celPfTest::Initialize (iObjectRegistry* object_reg)
-{
-  celPfTest::object_reg = object_reg;
-  return true;
-}
-
-iCelPropertyClass* celPfTest::CreatePropertyClass (const char* type)
-{
-  if (strcmp (type, "pctest")) return NULL;
-  return new celPcTest (object_reg);
-}
 
 //---------------------------------------------------------------------------
 

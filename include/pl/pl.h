@@ -38,6 +38,7 @@ struct iCelEntity;
 struct iCelEntityList;
 struct iCelDataBuffer;
 struct iCelMessage;
+struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 struct iSector;
 struct iCamera;
@@ -126,6 +127,14 @@ struct iCelPlLayer : public iBase
    */
   virtual iCelPropertyClassFactory* FindPropertyClassFactory (
   	const char* name) const = 0;
+
+  /**
+   * Conveniance function to create a property class from a registered class
+   * factory.
+   * Note that the reference count of the returned class is not turned up.
+   */
+  virtual iCelPropertyClass* CreatePropertyClass
+      (iCelEntity* entity, const char* propname) = 0;
 
   /**
    * Cache an SCF object. This effectively means that the PL will keep

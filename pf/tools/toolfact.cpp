@@ -39,54 +39,15 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfTools)
+CEL_IMPLEMENT_FACTORY (Tooltip, "pctooltip")
+CEL_IMPLEMENT_FACTORY (Timer, "pctimer")
 
 SCF_EXPORT_CLASS_TABLE (pftools)
-  SCF_EXPORT_CLASS (celPfTools, "cel.pcfactory.tools",
-  	"CEL Tools Property Class Factory")
+  SCF_EXPORT_CLASS (celPfTooltip, "cel.pcfactory.tooltip",
+  	"CEL Tooltip Property Class Factory")
+  SCF_EXPORT_CLASS (celPfTimer, "cel.pcfactory.timer",
+	"CEL Timer Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfTools)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfTools::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfTools::celPfTools (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfTools::~celPfTools ()
-{
-}
-
-bool celPfTools::Initialize (iObjectRegistry* object_reg)
-{
-  celPfTools::object_reg = object_reg;
-  return true;
-}
-
-iCelPropertyClass* celPfTools::CreatePropertyClass (const char* type)
-{
-  if (!strcmp (type, "pctooltip")) return new celPcTooltip (object_reg);
-  else if (!strcmp (type, "pctimer")) return new celPcTimer (object_reg);
-  else return NULL;
-}
-
-const char* celPfTools::GetTypeName (int idx) const
-{
-  switch (idx)
-  {
-    case 0: return "pctooltip";
-    case 1: return "pctimer";
-    default: return NULL;
-  }
-}
 
 //---------------------------------------------------------------------------
 

@@ -26,6 +26,7 @@
 #include "csutil/scf.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/mesh.h"
 #include "pf/meshsel.h"
 
@@ -41,30 +42,8 @@ SCF_DECLARE_FAST_INTERFACE (iMeshObject)
 /**
  * Factory for mesh.
  */
-class celPfMesh : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfMesh (iBase* parent);
-  virtual ~celPfMesh ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pfmesh"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 2; }
-  virtual const char* GetTypeName (int idx) const;
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfMesh);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY (Mesh)
+CEL_DECLARE_FACTORY (MeshSelect)   
 
 /**
  * This is a mesh property class.
@@ -100,7 +79,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmesh"; }
-  virtual const char* GetFactoryName () const { return "pfmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -296,7 +274,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmeshselect"; }
-  virtual const char* GetFactoryName () const { return "pfmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
