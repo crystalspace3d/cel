@@ -1,3 +1,7 @@
+30-Oct-2001:
+	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
+	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour
+	  and so on...).
 29-Oct-2001:
 	- Basic inventory handling seems to work now. Celtest demonstrates
 	  (in text form only at the moment) one box entity and four

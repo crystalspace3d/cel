@@ -38,7 +38,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual iCelBlEntity* CreateBlEntity (const char* name);
+  virtual iCelBehaviour* CreateBehaviour (const char* name);
 
   struct Component : public iComponent
   {

@@ -32,7 +32,7 @@ class celEntity : public iCelEntity
 private:
   char* name;
   celPropertyClassList* plist;
-  iCelBlEntity* bl_entity;
+  iCelBehaviour* behaviour;
 
 public:
   celEntity ();
@@ -43,10 +43,10 @@ public:
   virtual const char* GetName () const { return name; }
   virtual void SetName (const char* n);
   virtual iCelPropertyClassList* GetPropertyClassList ();
-  virtual void SetBlEntity (iCelBlEntity* ent);
-  virtual iCelBlEntity* GetBlEntity ()
+  virtual void SetBehaviour (iCelBehaviour* ent);
+  virtual iCelBehaviour* GetBehaviour ()
   {
-    return bl_entity;
+    return behaviour;
   }
 };
 

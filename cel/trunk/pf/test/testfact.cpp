@@ -20,7 +20,7 @@
 #include "cssysdef.h"
 #include "pf/test/testfact.h"
 #include "pl/entity.h"
-#include "bl/entity.h"
+#include "bl/behave.h"
 
 //---------------------------------------------------------------------------
 
@@ -93,8 +93,8 @@ void celPcTest::PcTest::Print (const char* msg)
 {
   printf ("Print: %s\n", msg);
   fflush (stdout);
-  CS_ASSERT (scfParent->GetEntity != NULL);
-  iCelBlEntity* ble = scfParent->GetEntity ()->GetBlEntity ();
+  CS_ASSERT (scfParent->GetEntity () != NULL);
+  iCelBehaviour* ble = scfParent->GetEntity ()->GetBehaviour ();
   CS_ASSERT (ble != NULL);
   ble->SendMessage ("print");
 }

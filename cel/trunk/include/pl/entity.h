@@ -24,7 +24,7 @@
 #include "csutil/scf.h"
 
 struct iCelPropertyClassList;
-struct iCelBlEntity;
+struct iCelBehaviour;
 
 SCF_VERSION (iCelEntity, 0, 0, 1);
 
@@ -51,12 +51,12 @@ struct iCelEntity : public iBase
   /**
    * Set the behaviour layer entity associated with this entity.
    */
-  virtual void SetBlEntity (iCelBlEntity* bl_entity) = 0;
+  virtual void SetBehaviour (iCelBehaviour* behaviour) = 0;
 
   /**
    * Get the behaviour layer entity associated with this entity.
    */
-  virtual iCelBlEntity* GetBlEntity () = 0;
+  virtual iCelBehaviour* GetBehaviour () = 0;
 };
 
 #endif // __CEL_PL_ENTITY__

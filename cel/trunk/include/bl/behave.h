@@ -17,19 +17,19 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BL_ENTITY__
-#define __CEL_BL_ENTITY__
+#ifndef __CEL_BL_BEHAVE__
+#define __CEL_BL_BEHAVE__
 
 #include <stdarg.h>
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iCelBlEntity, 0, 0, 1);
+SCF_VERSION (iCelBehaviour, 0, 0, 1);
 
 /**
  * This is an entity in the CEL layer at the BL (behaviour layer) side.
  */
-struct iCelBlEntity : public iBase
+struct iCelBehaviour : public iBase
 {
   /**
    * Send a message to this entity. Returns true if the
@@ -44,5 +44,5 @@ struct iCelBlEntity : public iBase
   virtual bool SendMessageV (const char* msg_id, va_list arg) = 0;
 };
 
-#endif // __CEL_BL_ENTITY__
+#endif // __CEL_BL_BEHAVE__
 

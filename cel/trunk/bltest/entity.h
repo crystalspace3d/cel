@@ -22,18 +22,18 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
-#include "bl/entity.h"
+#include "bl/behave.h"
 
 /**
  * This is an entity in the CEL layer at the BL (behaviour layer) side.
  */
-struct celBlEntity : public iCelBlEntity
+struct celBehaviour : public iCelBehaviour
 {
 private:
 
 public:
-  celBlEntity ();
-  virtual ~celBlEntity ();
+  celBehaviour ();
+  virtual ~celBehaviour ();
 
   SCF_DECLARE_IBASE;
 
