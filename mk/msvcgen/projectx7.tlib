@@ -43,8 +43,13 @@
 			ConfigurationType="1"
 			CharacterSet="2"
 [% END %]
+[% MACRO global_app_release BLOCK -%]
+			WholeProgramOptimization="TRUE"
+[% END %]
 [% MACRO global_appcon GET global_app %]
+[% MACRO global_appcon_release GET global_app_release %]
 [% MACRO global_appgui GET global_app %]
+[% MACRO global_appgui_release GET global_app_release %]
 
 [% MACRO global_group BLOCK -%]
 			ConfigurationType="4"
@@ -57,6 +62,9 @@
 [% MACRO global_plugin BLOCK -%]
 			ConfigurationType="2"
 [% END %]
+[% MACRO global_plugin_release BLOCK -%]
+			WholeProgramOptimization="TRUE"
+[% END %]
 
 [% MACRO compiler_release BLOCK -%]
 				Optimization="4"
@@ -68,6 +76,8 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
+				BufferSecurityCheck="FALSE"
 [% END %]
 [% MACRO compiler_debug BLOCK -%]
 				Optimization="0"
@@ -80,7 +90,9 @@
 
 [% MACRO linker_release BLOCK -%]
 				LinkIncremental="1"
-				OptimizeReferences="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
 [% END %]
 [% MACRO linker_debug BLOCK -%]
 				LinkIncremental="2"
