@@ -21,6 +21,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in the xml behaviour layer. If the same
 	  behaviour scfript was reused for multiple entities then the
 	  property classes would not be resolved again.
+	- Jorrit changed the billboard manager so that by default the
+	  width and height are set to -1. When this size is used it will
+	  get the size from the texture the first time it is drawn.
+	- Jorrit added some real objects (with keycolor transparency) to
+	  xmltest.xml.
 23-Nov-2003
 	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
 	  by overriding SetProperty() and GetPropertyString() from

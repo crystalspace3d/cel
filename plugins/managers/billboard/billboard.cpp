@@ -23,6 +23,8 @@
 #include "iutil/event.h"
 #include "igraphic/image.h"
 #include "ivideo/graph3d.h"
+#include "ivideo/material.h"
+#include "ivideo/texture.h"
 #include "iengine/engine.h"
 #include "iengine/material.h"
 
@@ -42,7 +44,7 @@ celBillboard::celBillboard ()
   materialname = 0;
   material = 0;
   x = y = 0;
-  w = h = 40;
+  w = h = -1;
 }
 
 celBillboard::~celBillboard ()
@@ -107,8 +109,19 @@ void celBillboard::FireMouseDoubleClick (int x, int y, int button)
 }
 
 
-bool celBillboard::In (int cx, int cy)
+bool celBillboard::In (iEngine* engine, int cx, int cy)
 {
+  if (!material)
+  {
+    material = engine->FindMaterial (materialname);
+    if (!material) return false;
+  }
+  material->Visit ();
+  if (w == -1)
+  {
+    material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
+    	w, h);
+  }
   if (cx >= x && cx < x+w && cy >= y && cy < y+h)
     return true;
   else
@@ -121,11 +134,6 @@ static bool poly_init = false;
 void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
 {
   if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
-  if (!material)
-  {
-    material = engine->FindMaterial (materialname);
-    if (!material) return;
-  }
   if (!poly_init)
   {
     poly_init = true;
@@ -141,7 +149,17 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY;
   }
+  if (!material)
+  {
+    material = engine->FindMaterial (materialname);
+    if (!material) return;
+  }
   material->Visit ();
+  if (w == -1)
+  {
+    material->GetMaterialHandle ()->GetTexture ()->GetMipMapDimensions (
+    	0, w, h);
+  }
   poly.mat_handle = material->GetMaterialHandle ();
   int fh = g3d->GetHeight ();
   poly.vertices[0].Set (x, fh-y);
@@ -236,7 +254,7 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
   {
     csFlags& f = billboards[i]->GetFlags ();
     if (f.Check (CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE))
-      if (billboards[i]->In (x, y))
+      if (billboards[i]->In (engine, x, y))
         return billboards[i];
   }
   return 0;
