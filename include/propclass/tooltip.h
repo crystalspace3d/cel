@@ -23,7 +23,16 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+struct iFont;
+
 SCF_VERSION (iPcTooltip, 0, 0, 1);
+
+enum celTooltipJustify
+{
+  CEL_TOOLTIP_LEFT,
+  CEL_TOOLTIP_CENTER,
+  CEL_TOOLTIP_RIGHT
+};
 
 /**
  * Tooltip property class.
@@ -60,6 +69,18 @@ struct iPcTooltip : public iBase
    * Default yellow.
    */
   virtual void SetBackgroundColor (int r, int g, int b) = 0;
+
+  /**
+   * Set the font for the tooltip.
+   * Defaults to CSFONT_COURIER.
+   */
+  virtual void SetFont (iFont* font) = 0;
+
+  /**
+   * Set the justification of the tooltip.
+   * Defaults to left-aligned.
+   */
+  virtual void SetJustify (celTooltipJustify justify) = 0;
 };
 
 #endif // __CEL_PF_TOOLTIP__

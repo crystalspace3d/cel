@@ -44,6 +44,8 @@ struct iObjectRegistry;
 struct iVirtualClock;
 struct iGraphics2D;
 struct iGraphics3D;
+struct iFont;
+class csStringArray;
 
 /**
  * Factory for tools.
@@ -59,12 +61,18 @@ class celPcTooltip : public celPcCommon
 {
 private:
   bool visible;
+  celTooltipJustify justify;
   int x, y;
-  char* text;
+  int width, height;
+  csStringArray lines;
+  //char* text;
   int text_r, text_g, text_b;
   int bg_r, bg_g, bg_b;
   csRef<iGraphics2D> G2D;
   csRef<iGraphics3D> G3D;
+  csRef<iFont> fnt;
+
+  void CalculateExtents ();
 
 public:
   celPcTooltip (iObjectRegistry* object_reg);
@@ -78,6 +86,9 @@ public:
   { text_r = r; text_g = g; text_b = b; }
   void SetBackgroundColor (int r, int g, int b)
   { bg_r = r; bg_g = g; bg_b = b; }
+  void SetFont(iFont* font);
+  void SetJustify (celTooltipJustify justify)
+  { this->justify = justify; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -112,6 +123,14 @@ public:
     virtual void SetBackgroundColor (int r, int g, int b)
     {
       scfParent->SetBackgroundColor (r, g, b);
+    }
+    virtual void SetFont (iFont* font)
+    {
+      scfParent->SetFont (font);
+    }
+    virtual void SetJustify (celTooltipJustify justify)
+    {
+      scfParent->SetJustify (justify);
     }
   } scfiPcTooltip;
 };
