@@ -26,9 +26,16 @@
 
 struct iCelPropertyClass;
 struct iCelEntity;
+struct iFile;
 struct celData;
 
 SCF_VERSION (iCelDataBuffer, 0, 0, 1);
+
+enum
+{
+    CEL_PERSIST_MODE_READ = 1,
+    CEL_PERSIST_MODE_WRITE = 2
+};
 
 /**
  * This interface describes persistable data.
@@ -59,6 +66,7 @@ struct iCelDataBuffer : public iBase
 };
 
 SCF_VERSION (iCelPersistance, 0, 0, 1);
+struct iCelPersistanceContext;
 
 /**
  * This interface describes a module that can
@@ -78,9 +86,27 @@ struct iCelPersistance : public iBase
    * Save an entity to persistent data.
    */
   virtual bool SaveEntity (iCelEntity* entity, const char* name) = 0;
+
+  /**
+   * Create an persistence context
+   */
+  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode) = 0;
 };
 
+SCF_VERSION (iCelPersistanceContext, 0, 0, 1);
 
+struct iCelPersistanceContext : public iBase
+{
+  /**
+   * Load an entity from the persitent data including all property classes.
+   */
+  virtual iCelEntity* LoadEntity () = 0;
+
+  /**
+   * Save an entity to persistent data.
+   */
+  virtual bool SaveEntity (iCelEntity* entity) = 0;
+};
 
 #endif // __CEL_PL_PERSIST__
 

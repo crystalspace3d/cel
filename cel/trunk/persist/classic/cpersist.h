@@ -26,6 +26,7 @@
 #include "pl/datatype.h"
 
 class csHashSet;
+class celPersistClassic;
 struct iFile;
 struct iObjectRegistry;
 struct iCelPropertyClass;
@@ -35,51 +36,70 @@ struct iCelPlLayer;
 struct iCelBlLayer;
 struct celData;
 
+class celPersistClassicContext : public iCelPersistanceContext
+{
+private:
+  iObjectRegistry* object_reg;
+  iCelPlLayer* pl;
+  iFile* file;
+  csHashSet entities;
+  csHashSet pclasses;
+  csHashMap read_entities;
+
+  bool WriteMarker (const char* s);
+  bool Write (const char* s);
+  bool Write (iCelPropertyClass* pc);
+  bool Write (iCelEntity* entity);
+  bool Write (iCelDataBuffer* db);
+  bool Write (celData* data);
+  bool Write (CS_ID id);
+
+  iCelEntity* FindOrCreateEntity (CS_ID id);
+  bool ReadMarker (char* marker);
+  bool CheckMarker (const char* marker);
+  bool Read (int8& b);
+  bool Read (uint8& ub);
+  bool Read (int16& w);
+  bool Read (uint16& uw);
+  bool Read (int32& l);
+  bool Read (uint32& ul);
+  bool Read (float& f);
+  bool Read (char*& str);
+  bool Read (iCelPropertyClass*& pc);
+  bool Read (iCelEntity*& entity);
+  bool Read (iCelDataBuffer*& db);
+  bool Read (celData* cd);
+
+  void Report (const char* msg, ...);
+public:
+  SCF_DECLARE_IBASE;
+  
+  celPersistClassicContext();
+  virtual ~celPersistClassicContext();
+  bool Initialize (iObjectRegistry* object_reg, iFile* file, int mode);
+
+  virtual iCelEntity* LoadEntity();
+  virtual bool SaveEntity(iCelEntity* entity);
+
+  friend class celPersistClassic;
+};
+
 /**
  * This is the classic persistance layer.
  */
 class celPersistClassic : public iCelPersistance
 {
-private:
-  iObjectRegistry* object_reg;
-  iCelPlLayer* pl;
-  csHashSet entities;
-  csHashSet pclasses;
-  csHashMap read_entities;
-
-  bool WriteMarker (iFile* f, const char* s);
-  bool Write (iFile* f, const char* s);
-  bool Write (iFile* f, iCelPropertyClass* pc);
-  bool Write (iFile* f, iCelEntity* entity);
-  bool Write (iFile* f, iCelDataBuffer* db);
-  bool Write (iFile* f, celData* data);
-
-  iCelEntity* FindOrCreateEntity (const char* name);
-  bool ReadMarker (char*& data, size_t& remaining, char* marker);
-  bool Read (char*& data, size_t& remaining, int8& b);
-  bool Read (char*& data, size_t& remaining, uint8& ub);
-  bool Read (char*& data, size_t& remaining, int16& w);
-  bool Read (char*& data, size_t& remaining, uint16& uw);
-  bool Read (char*& data, size_t& remaining, int32& l);
-  bool Read (char*& data, size_t& remaining, uint32& ul);
-  bool Read (char*& data, size_t& remaining, float& f);
-  bool Read (char*& data, size_t& remaining, char*& str);
-  bool Read (char*& data, size_t& remaining, iCelPropertyClass*& pc);
-  bool Read (char*& data, size_t& remaining, iCelEntity*& entity);
-  bool Read (char*& data, size_t& remaining, iCelDataBuffer*& db);
-  bool Read (char*& data, size_t& remaining, celData* cd);
-
-  void Report (const char* msg, ...);
-
 public:
+  SCF_DECLARE_IBASE;
+  
   celPersistClassic (iBase* parent);
   virtual ~celPersistClassic ();
   bool Initialize (iObjectRegistry* object_reg);
 
-  SCF_DECLARE_IBASE;
-
   virtual iCelEntity* LoadEntity (const char* name);
   virtual bool SaveEntity (iCelEntity* entity, const char* name);
+
+  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode);
 
   struct Component : public iComponent
   {
@@ -87,6 +107,8 @@ public:
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
+protected:
+  iObjectRegistry* object_reg;
 };
 
 #endif // __CEL_PERSIST_CLASSIC__

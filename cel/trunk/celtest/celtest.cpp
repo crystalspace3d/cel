@@ -158,7 +158,7 @@ bool CelTest::HandleEvent (iEvent& ev)
     }
     else if (ev.Key.Code == 's')
     {
-      printf ("Saving to '/this/savefile\n"); fflush (stdout);
+      printf ("Saving to '/this/savefile'\n"); fflush (stdout);
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       bool rc = cp->SaveEntity (game, "/this/savefile");
       printf ("  success %d\n", rc); fflush (stdout);
