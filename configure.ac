@@ -46,6 +46,10 @@ AS_IF([test -n "$SWIG"],
     [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.14],
 	[9.9|.9], [CS_EMIT_BUILD_PROPERTY([CMD.SWIG], [$SWIG])])])
 
+CS_CHECK_MKDIR
+CS_EMIT_BUILD_PROPERTY([CMD.MKDIR], [$MKDIR])
+CS_EMIT_BUILD_PROPERTY([CMD.MKDIRS], [$MKDIRS])
+
 #----------------------------------------------------------------------------
 # Determine system type
 #----------------------------------------------------------------------------
@@ -70,7 +74,7 @@ AS_IF([test $with_cs != no],
 *** CRYSTAL environment variable properly.
 ])], [csgeom csgfx csutil cstool])])
 
-CS_CHECK_PYTHON
+CS_EMIT_CHECK_PYTHON
 
 #----------------------------------------------------------------------------
 # Package configuration switches
@@ -99,7 +103,7 @@ AS_IF([test $enable_new_renderer = yes],
 # Output Installpaths/package info
 #-----------------------------------------------------------------------------
 CS_OUTPUT_INSTALLDIRS
-CS_EMIT_PACKAGEINFO([jam])
+CS_EMIT_PACKAGEINFO
 
 #----------------------------------------------------------------------------
 # Output generated files.  Also create a Jamfile when compiling outside

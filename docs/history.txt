@@ -3,6 +3,21 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-May-2004
+	- Eric Sunshine made the following changes:
+	    - Updated to the latest master copies of the .m4 and .jam files
+	      from the CS repository.
+	    - Removed the custom Python configure check. Now uses the
+	      project-agnostic check from the new checkpython.m4, so the test
+	      is identical to the one used by CS itself.
+	    - configure.ac invokes the new CS_CHECK_MKDIR to glean correct
+	      values for CMD.MKDIR and CMD.MKDIRS.
+	    - Added the missing runmakeinfo.sh, runtexi2dvi.sh, and
+	      runtexi2html.sh scripts to docs/support. These are presently
+	      needed by the Jam system when building documentation (though this
+	      dependence will be eliminated in the future, allowing these files
+	      to be retired).
+	    - Fixed broken @node and @menu directives in cel.txi.
 13-May-2004
 	- Jorrit ported the camera handling code that is used in PlaneShift
 	  to pccamera. This is a very significant change which considerably
@@ -26,12 +41,12 @@ The history order is reversed so that new features are at the top.
 	  and then create all property classes with a single call. This should
 	  make entity creation in code look a bit nicer.
 	- Jorrit added CEL_QUERY_PROPCLASS_ENT() which is a variant of
-	  CEL_QUERY_PROPCLASS() but you don't have to add GetPropertyClassList()
-	  yourselves. Slightly easier to read and use.
-	- Keith committing significant debugging patch to linmove and CD from
-	  Andrew Dai (Khaki).  Improvements include better handling of going up
-	  and down (like on stairs), and corrections to extrapolations of 
-	  movement when moving forward and turning at the same time.
+	  CEL_QUERY_PROPCLASS() but you don't have to add
+	  GetPropertyClassList() yourselves. Slightly easier to read and use.
+	- Keith Fulton committed significant debugging patch to linmove and CD
+	  from Andrew Dai (Khaki).  Improvements include better handling of
+	  going up and down (like on stairs), and corrections to extrapolations
+	  of movement when moving forward and turning at the same time.
 8-May-2004
 	- res made some fixes to the VC project templates; the Release
 	  configuraion was ignored by VC, the templates contained absolute
@@ -922,12 +937,12 @@ The history order is reversed so that new features are at the top.
 	- Keith changed link directories not to be hardcode to his local
 	  machine's paths.
 9-Nov-2003
-	- Chris Matuszewski added SetMaxSelectionDistance() to iPcMeshSelect
-	  to allow the user to specify a maximum distance to use for mesh
-	  selection.  This value is used in the call to HitBeam in meshfact.cpp.
-	  A default max_distance value is set to 100000 in meshfact.cpp.
-	  This change allows meshselect to work for objects that are farther
-	  than the previously arbitrary distance of 60 units.
+	- Chris Matuszewski added SetMaxSelectionDistance() to iPcMeshSelect to
+	  allow the user to specify a maximum distance to use for mesh
+	  selection.  This value is used in the call to HitBeam in
+	  meshfact.cpp.  A default max_distance value is set to 100000 in
+	  meshfact.cpp.  This change allows meshselect to work for objects that
+	  are farther than the previously arbitrary distance of 60 units.
 4-Nov-2003
 	- Chris Matuszewski changed the return value of HandleEvent() in
 	  inpfact.cpp to false to allow other entities that may have
@@ -1354,7 +1369,8 @@ The history order is reversed so that new features are at the top.
 13-Jan-2003:
 	- Fixed the python plugin.
 07-Jan-2003:
- 	- Keith Fulton added a SetReverseAction convenience function to iPcMesh.
+ 	- Keith Fulton added a SetReverseAction convenience function to
+	  iPcMesh.
 05-Jan-2003:
 	- Keith Fulton changed iPcCamera to not always require an iPcRegion.
 30-Dec-2002:

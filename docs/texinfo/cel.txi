@@ -12,7 +12,7 @@
 
 @contents
 
-@node Top
+@node Top, Introduction, (dir), (dir)
 @top Crystal Entity Layer
 
 Crystal Entity Layer is an open-source plugin for Crystal Space.
@@ -56,23 +56,31 @@ into another language, under the above conditions for modified versions,
 except that this permission notice may be stated in a translation approved
 by the copyright holders.
 
-@node Introduction, Building, , Top
+@menu
+* Introduction::                
+* Building::                    
+* Configuring::                 
+* Applications::                
+* Tutorials::                   
+@end menu
+
+@node Introduction, Building, Top, Top
 @chapter Introduction
 
 @menu
-* What Is CEL::What Is Crystal Entity Layer?
-* Concepts::Concepts
-* How To Read::How To Read This Manual
-* Current Status::Current Status
-* Using CEL::Using Crystal Entity Layer For Your Project
-* Guide::A Guide To This Documentation
-* Features::Feature List
-* Where To Get CEL::Where to Get Crystal Entity Layer
-* Mailing Lists::Mailing Lists
-* Licence::LGPL Licence
+* What Is CEL::                 What Is Crystal Entity Layer?
+* Concepts::                    Concepts
+* How To Read::                 How To Read This Manual
+* Current Status::              Current Status
+* Using CEL::                   Using Crystal Entity Layer For Your Project
+* Guide::                       A Guide To This Documentation
+* Features::                    Feature List
+* Where To Get CEL::            Where to Get Crystal Entity Layer
+* Mailing Lists::               Mailing Lists
+* Licence::                     LGPL Licence
 @end menu
 
-@node What Is CEL, Concepts, , Introduction
+@node What Is CEL, Concepts, Introduction, Introduction
 @section What Is Crystal Entity Layer?
 
 Crystal Entity Layer is a plugin developed to be used in conjunction with 
@@ -288,7 +296,7 @@ time a developer updates the source.   You may subscribe to this list at:@*
 You may also view an archive of prior posts to this list at:@*
 @uref{http://sourceforge.net/mailarchive/forum.php?forum_id=33225}
 
-@node Licence, , Mailing Lists, Introduct
+@node Licence,  , Mailing Lists, Introduction
 @section GNU Library General Public License
 
 @noindent
@@ -812,10 +820,10 @@ That's all there is to it!
 This chapter explains how to build and install Crystal Entity Layer.
 
 @menu
-* Directory Hierachy::Directory Hierachy
-* Requirements::Requirements
-* External Libraries::External Libraries
-* Instructions::Platform Specific Instructions
+* Directory Hierachy::          Directory Hierachy
+* Requirements::                Requirements
+* External Libraries::          External Libraries
+* Instructions::                Platform Specific Instructions
 @end menu
 
 It will describe the pre-requisites for building and installing on each
@@ -824,7 +832,7 @@ platform along with specific instructions on how to do this.
 If you have used Crystal Entity Layer on a platform which is not described
 please let us know via the mailing list so we can add instructions.
 
-@node Directory Hierachy, Requirements, , Building
+@node Directory Hierachy, Requirements, Building, Building
 @section Directory Hierachy
 This section will explain the layout of the directory hierachy within
 Crystal Entity Layer.  
@@ -969,7 +977,7 @@ Python in your own Behaviour Layer, or build the blpython example, then you
 will need to download Python from:@*
 @uref{http://www.python.org}
 
-@node Instructions, , External Libraries, Building
+@node Instructions,  , External Libraries, Building
 @section Platform Specific Instructions
 This chapter contains instructions on how to build Crystal Entity Layer on 
 various platforms.
@@ -985,13 +993,13 @@ are experiencing to the mailing list so this can be addressed as soon as
 possible.
 
 @menu
-* Linux::Unix/Linux
-* Windows::Windows using Microsoft Visual C++
-* MinGW::Windows using MinGW
-* Cygwin::Windows using Cygwin
+* Linux::                       Unix/Linux
+* Windows::                     Windows using Microsoft Visual C++
+* MinGW::                       Windows using MinGW
+* Cygwin::                      Windows using Cygwin
 @end menu
 
-@node Linux, Windows, , Instructions
+@node Linux, Windows, Instructions, Instructions
 @subsection Unix/Linux
 This section describes how to build Crystal Entity Layer on Unix style 
 platforms such as Linux, FreeBSD, Solaris, etc.
@@ -1034,7 +1042,7 @@ Python installed then you will wish to remove the ``blpython'' project.
 @end enumerate
 
 
-@node MinGW, Cygwin, MinGW, Instructions
+@node MinGW, Cygwin, Windows, Instructions
 @subsection Windows using MinGW
 
 These instructions detail how to build Crystal Entity Layer under MinGW.  They
@@ -1055,7 +1063,7 @@ example:@*
         jam
 @end enumerate
 
-@node Cygwin, , MinGW, Instructions
+@node Cygwin,  , MinGW, Instructions
 @subsection Windows using Cygwin
 
 These instructions detail how to build Crystal Entity Layer under Cygwin.  They
@@ -1080,10 +1088,10 @@ example:@*
 @chapter Configuring
 
 @menu
-* CEL Environment Variable::CEL Environment Variable
+* CEL Environment Variable::    CEL Environment Variable
 @end menu
 
-@node CEL Environment Variable, , , Configuring
+@node CEL Environment Variable,  , Configuring, Configuring
 @section CEL Environment Variable
 Crystal Entity Layer applications may use the CEL environment variable in 
 order to locate your Crystal Entity Layer installation.
@@ -1098,12 +1106,12 @@ applications in order to test the functionality of Crystal Entity Layer, as
 examples of how to use Crystal Entity Layer or sometimes as both.
 
 @menu
-* AppOverview::Overview
-* AppCeltest::celtest
-* AppBootstrap::bootstrap
+* AppOverview::                 Overview
+* AppCeltest::                  celtest
+* AppBootstrap::                bootstrap
 @end menu
 
-@node AppOverview, AppCeltest, , Applications
+@node AppOverview, AppCeltest, Applications, Applications
 @section Overview
 The applications currently bundled with Crystal Entity Layer are:
 
@@ -1121,11 +1129,11 @@ The applications currently bundled with Crystal Entity Layer are:
 @section celtest
 TODO: Document celtest
 
-@node AppBootstrap, , AppCelTest, Applications
+@node AppBootstrap,  , AppCeltest, Applications
 @section bootstrap
 TODO: Document bootstrap
 
-@node Tutorials, , Applications, Top
+@node Tutorials,  , Applications, Top
 @chapter Tutorials
 TODO: Create tutorials
 
