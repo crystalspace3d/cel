@@ -161,6 +161,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   speed = 1.0f;
 
   deltaLimit = 0;
+  angDeltaLimit = 0.05f;
 
   if (action_initcd == csInvalidStringID)
   {
@@ -565,24 +566,24 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
       float angInterval = 0.05f;
       angDelta += delta;
       bool rc = false;
-      if (angularVelocity.IsZero() || delta < angInterval)
+      if (angularVelocity.IsZero() || delta < angDeltaLimit)
           rc = MoveSprite (delta);
       else if (!vel.IsZero())
       {
-          while (delta >= angInterval)
+          while (delta >= angDeltaLimit)
           {
-              rc = MoveSprite (angInterval) || rc;
-              rc = RotateV (angInterval) || rc;
-              delta -=angInterval;
-              angDelta -=angInterval;
+              rc = MoveSprite (angDeltaLimit) || rc;
+              rc = RotateV (angDeltaLimit) || rc;
+              delta -=angDeltaLimit;
+              angDelta -=angDeltaLimit;
           }
           if (delta)
               rc = MoveSprite(delta) || rc;
       }
-      while (angDelta >= angInterval)
+      while (angDelta >= angDeltaLimit)
       {
-          rc = RotateV(angInterval) || rc;
-          angDelta -= angInterval;
+          rc = RotateV(angDeltaLimit) || rc;
+          angDelta -= angDeltaLimit;
       }
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
