@@ -325,7 +325,7 @@ $(CELPYTHON): $(CELPYTHON_OBJS)
 	$(DO.EXEC) $(CELPYTHON_LINKFLAGS)
 
 clean:
-	$(RM) *.def \
+	$(RM) *.def msvcfrag* \
 	$(BLPYTHON) $(BLPYTHON_OBJS) $(BLPYTHON_INF_OUT) \
 	$(BLTEST) $(BLTEST_OBJS) $(BLTEST_INF_OUT) \
 	$(CPERSIST) $(CPERSIST_OBJS) $(CPERSIST_INF_OUT) \
@@ -381,22 +381,41 @@ $(CSCONFIG.MAK): ./cs-config
 #------
 # MSVC project file generation
 #------
-MSVCGEN_EXT_6=dsp
-MSVCGEN_EXT_7=vcproj
+MSVCGEN_PROJ_EXT_6=dsp
+MSVCGEN_PROJ_EXT_7=vcproj
+MSVCGEN_WS_EXT_6=dsw
+MSVCGEN_WS_EXT_7=sln
+MSVCGEN_EXTRA_OPTS_6=
+MSVCGEN_EXTRA_OPTS_7=--xml-protect
 
-define MSVCGEN
-$(RM) $(SRCDIR)/msvc/$(N_$(r)).$(MSVCGEN_EXT_$(MSVCGEN_VER))
+define MSVCGEN_PROJ
+$(RM) $(SRCDIR)/msvc/$(N_$(r)).$(MSVCGEN_PROJ_EXT_$(MSVCGEN_VER))
 perl $(SRCDIR)/mk/msvcgen/msvcgen.pl \
 --quiet \
 --project \
---project-extension=$(MSVCGEN_EXT_$(MSVCGEN_VER)) \
+--project-extension=$(MSVCGEN_PROJ_EXT_$(MSVCGEN_VER)) \
 --name=$(N_$(r)) \
 --strip-root=$(SRCDIR)/ \
 --template=$(T_$(r)) \
 --template-dir=$(SRCDIR)/mk/msvcgen/template$(MSVCGEN_VER) \
---output=$(SRCDIR)/msvc/$(N_$(r)).$(MSVCGEN_EXT_$(MSVCGEN_VER)) \
+--output=$(SRCDIR)/msvc/$(N_$(r)).$(MSVCGEN_PROJ_EXT_$(MSVCGEN_VER)) \
+--fragment=$(OUT)/msvcfrag$(MSVCGEN_VER)/$(N_$(r)).frag \
 $(foreach m,$($(r)_INF),--meta-file=$m) \
+$(MSVCGEN_EXTRA_OPTS_$(MSVCGEN_VER)) \
 $($(r)_SRC) $($(r)_INC)
+
+endef
+
+define MSVCGEN_WRKSPC
+$(RM) $(SRCDIR)/msvc/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER))
+perl $(SRCDIR)/mk/msvcgen/msvcgen.pl \
+--quiet \
+--workspace \
+--workspace-extension=$(MSVCGEN_WS_EXT_$(MSVCGEN_VER)) \
+--template-dir=$(SRCDIR)/mk/msvcgen/template$(MSVCGEN_VER) \
+--output=$(SRCDIR)/msvc/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER)) \
+$(MSVCGEN_EXTRA_OPTS_$(MSVCGEN_VER)) \
+$(foreach f,$(MODULE_LIST),$(OUT)/msvcfrag$(MSVCGEN_VER)/$(N_$(f)).frag)
 
 endef
 
@@ -407,7 +426,9 @@ msvcgen:
 
 .PHONY: do_msvcgen
 do_msvcgen:
-	$(foreach r,$(MODULE_LIST),$(MSVCGEN))
+	if test \! -d $(OUT)/msvcfrag$(MSVCGEN_VER) ; then mkdir $(OUT)/msvcfrag$(MSVCGEN_VER) ; fi
+	$(foreach r,$(MODULE_LIST),$(MSVCGEN_PROJ))
+	$(MSVCGEN_WRKSPC)
 
 #------
 # Include dependencies

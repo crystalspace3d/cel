@@ -1,0 +1,120 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "blpython", "blpython.vcproj", "{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bltest", "bltest.vcproj", "{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celpyth", "celpyth.vcproj", "{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celtest", "celtest.vcproj", "{C3D1330A-E341-BF52-6340-F3A0040EFA25}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpersist", "cpersist.vcproj", "{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfengine", "pfengine.vcproj", "{8D61D9F4-0F62-51AA-028F-902399A1F0B1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinput", "pfinput.vcproj", "{20CCA5F4-8724-21DF-477F-B302404868B1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinv", "pfinv.vcproj", "{C67FDB0C-B11A-B268-7636-656CDD40E527}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmesh", "pfmesh.vcproj", "{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmove", "pfmove.vcproj", "{C8CEEE66-7806-89D7-4CCE-158C1B96334D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftest", "pftest.vcproj", "{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftools", "pftools.vcproj", "{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdphyslayer", "stdphyslayer.vcproj", "{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = ExtensiveMemDebug
+		ConfigName.2 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Debug.ActiveCfg = Debug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Debug.Build.0 = Debug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Release.ActiveCfg = Release|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Release.Build.0 = Release|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.Debug.ActiveCfg = Debug|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.Debug.Build.0 = Debug|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.Release.ActiveCfg = Release|Win32
+		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.Release.Build.0 = Release|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.Debug.ActiveCfg = Debug|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.Debug.Build.0 = Debug|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.Release.ActiveCfg = Release|Win32
+		{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}.Release.Build.0 = Release|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.Debug.ActiveCfg = Debug|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.Debug.Build.0 = Debug|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.Release.ActiveCfg = Release|Win32
+		{C3D1330A-E341-BF52-6340-F3A0040EFA25}.Release.Build.0 = Release|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.Debug.ActiveCfg = Debug|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.Debug.Build.0 = Debug|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.Release.ActiveCfg = Release|Win32
+		{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}.Release.Build.0 = Release|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.Debug.ActiveCfg = Debug|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.Debug.Build.0 = Debug|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.Release.ActiveCfg = Release|Win32
+		{8D61D9F4-0F62-51AA-028F-902399A1F0B1}.Release.Build.0 = Release|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.Debug.ActiveCfg = Debug|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.Debug.Build.0 = Debug|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.Release.ActiveCfg = Release|Win32
+		{20CCA5F4-8724-21DF-477F-B302404868B1}.Release.Build.0 = Release|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.Debug.ActiveCfg = Debug|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.Debug.Build.0 = Debug|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.Release.ActiveCfg = Release|Win32
+		{C67FDB0C-B11A-B268-7636-656CDD40E527}.Release.Build.0 = Release|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.Debug.ActiveCfg = Debug|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.Debug.Build.0 = Debug|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.Release.ActiveCfg = Release|Win32
+		{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}.Release.Build.0 = Release|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.Debug.ActiveCfg = Debug|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.Debug.Build.0 = Debug|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.Release.ActiveCfg = Release|Win32
+		{C8CEEE66-7806-89D7-4CCE-158C1B96334D}.Release.Build.0 = Release|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.Debug.ActiveCfg = Debug|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.Debug.Build.0 = Debug|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.Release.ActiveCfg = Release|Win32
+		{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}.Release.Build.0 = Release|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.Debug.ActiveCfg = Debug|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.Debug.Build.0 = Debug|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.Release.ActiveCfg = Release|Win32
+		{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}.Release.Build.0 = Release|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Debug.ActiveCfg = Debug|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Debug.Build.0 = Debug|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Release.ActiveCfg = Release|Win32
+		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
