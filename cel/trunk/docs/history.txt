@@ -14,6 +14,7 @@
 	  means that additional references on them will not cause a higher
 	  ref count for the property class.
 	- Enabled persistance again (loading). Still crashes though.
+	- Remove the region in pcregion::Unload().
 14-Nov-2001:
 	- Few changes for debugging using the new graph debug tool in CS.
 13-Nov-2001:
