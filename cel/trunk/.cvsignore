@@ -9,4 +9,6 @@ config.status
 Jamconfig
 autom4te.*
 cel-config
+out
+celtst
 
