@@ -68,6 +68,7 @@ public:
    *       AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], ["$CEL_PLUGIN_DIR"],
    *         [Define with path to CEL plugins.])
    *       \endcode
+   *     </li>
    * </ul>
    */
   static void SetupCelPluginDirs(iObjectRegistry* r)
