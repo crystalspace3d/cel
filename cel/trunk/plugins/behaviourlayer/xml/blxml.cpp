@@ -70,6 +70,7 @@ enum
   XMLTOKEN_SOUND,
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
+  XMLTOKEN_STRSPLIT,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -99,6 +100,7 @@ enum
   XMLFUNCTION_INVENTORY_GET,
   XMLFUNCTION_INVENTORY_COUNT,
   XMLFUNCTION_STRSUB,
+  XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
 
   XMLFUNCTION_LAST
@@ -149,6 +151,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound", XMLTOKEN_SOUND);
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
+  xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -174,6 +177,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("inventory_count", XMLFUNCTION_INVENTORY_COUNT);
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
+  functions.Register ("stridx", XMLFUNCTION_STRIDX);
 
   return true;
 }
@@ -285,6 +289,14 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	if (!SkipComma (input, child, name)) return false;
         if (!ParseExpression (input, child, h, name, 0)) return false;
 	h->AddOperation (CEL_OPERATION_STRSUB);
+      }
+      break;
+    case XMLFUNCTION_STRIDX:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	h->AddOperation (CEL_OPERATION_STRIDX);
       }
       break;
     case XMLFUNCTION_INVENTORY_GET:
@@ -842,6 +854,13 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_STRSPLIT:
+        if (!ParseExpression (child, h, "string", "strsplit")) return false;
+        if (!ParseExpression (child, h, "left", "strsplit")) return false;
+        if (!ParseExpression (child, h, "delimiter", "strsplit")) return false;
+        if (!ParseExpression (child, h, "right", "strsplit")) return false;
+	h->AddOperation (CEL_OPERATION_STRSPLIT);
+        break;
       case XMLTOKEN_BB_MOVELAYER:
         if (!ParseExpression (child, h, "layer", "bb_movelayer")) return false;
         if (!ParseExpression (child, h, "x", "bb_movelayer")) return false;

@@ -62,6 +62,11 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="diamond">
+	    <file>/cellib/images/diamond.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -78,6 +83,7 @@
         <material name="pear"> <texture>pear</texture> </material>
         <material name="banana"> <texture>banana</texture> </material>
         <material name="mushroom"> <texture>mushroom</texture> </material>
+        <material name="diamond"> <texture>diamond</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -265,7 +271,6 @@
 	        <property id="propid(height)" value="?dim" />
 	        <property id="propid(x)" value="?x*?dim" />
 	        <property id="propid(y)" value="?y*?dim" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 		<var name="moving" value="false" />
 	    </event>
 
@@ -312,6 +317,7 @@
 			    <default propclass="pc(pcbillboard)" />
 			    <property id="propid(x)" value="?dstx" />
 			    <property id="propid(y)" value="?dsty" />
+			    <call event="endmove" />
 		        </true>
 		        <false>
 			    <var name="delta"
@@ -319,6 +325,13 @@
 		        </false>
 		    </if>
 		</if>
+	    </event>
+
+	    <!--
+	      - End movement.
+	      -->
+	    <event name="endmove">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 	    </event>
 
 	    <!--
@@ -333,6 +346,7 @@
 		<var name="dsty" value="?y*?dim" />
 		<var name="delta" value="0.0" />
 		<var name="moving" value="true" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 	    </event>
 	</script>
 
@@ -705,6 +719,8 @@
 	    	<!-- Init to one of the four possible directions -->
 	        <var name="dxdy" value="int(rand(4.0))" />
 		<call event="calcdxdy" />
+
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 	    </event>
 
 	    <!--
@@ -870,6 +886,9 @@
 	      - ?x and ?y for current position.
 	      -->
 	    <event name="checkmove">
+	        <if eval="?moving">
+		    <stop />
+		</if>
 		<if eval="?maze_main.(maze+(?x+?dx)+'_'+(?y+?dy))==' '">
 		    <call event="startmove" />
 		</if>
@@ -938,9 +957,10 @@
 
 		<!-- Set some defaults -->
 		<var name="dimension" value="64" />
-		<var name="blockdim" value="18000" />
+		<var name="blockdim" value="19200" />
 		<var name="herospeed" value="0.03" />
-		<var name="boardspeed" value="0.01" />
+		<var name="boardspeed" value="0.003" />
+		<var name="fallspeed" value="0.0006" />
 
 		<!-- Size of the visible area in blocks -->
 		<var name="vis" value="307200/?blockdim" />
@@ -952,29 +972,44 @@
 		<inventory_add child="back_button" />
 
 		<!-- Create a table of materials per block type -->
+		<var name="'material_ '" value="''" />
+		<var name="'material_H'" value="''" />	<!-- Special value for hero -->
 		<var name="'material_B'" value="slanted_stone" />
 		<var name="'material_#'" value="sand_stone" />
+		<var name="'material_X'" value="diamond" />
+		<!-- Create a table of behaviours per block type -->
+		<var name="'behaviour_ '" value="''" />
+		<var name="'behaviour_H'" value="''" />	<!-- Special value for hero -->
+		<var name="'behaviour_B'" value="bdash_nonmovable" />
+		<var name="'behaviour_#'" value="bdash_nonmovable" />
+		<var name="'behaviour_X'" value="bdash_movable" />
+		<!-- Create a table of 'falloff' setting per block type -->
+		<var name="'falloff_ '" value="false" />
+		<var name="'falloff_H'" value="false" />
+		<var name="'falloff_B'" value="true" />
+		<var name="'falloff_#'" value="false" />
+		<var name="'falloff_X'" value="true" />
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
-		<var name="row1"  value="'B #####                                                        B'" />
-		<var name="row2"  value="'B #####                                                        B'" />
-		<var name="row3"  value="'B #####                                                        B'" />
-		<var name="row4"  value="'B #####                                                        B'" />
-		<var name="row5"  value="'B                                                              B'" />
-		<var name="row6"  value="'B                                                              B'" />
-		<var name="row7"  value="'B       BBBBBBBB                                               B'" />
-		<var name="row8"  value="'B              B                                               B'" />
+		<var name="row1"  value="'B #XXX#                                                        B'" />
+		<var name="row2"  value="'B #XXX#                                                        B'" />
+		<var name="row3"  value="'B #XXX#                                                        B'" />
+		<var name="row4"  value="'B #XXX#       #####                                            B'" />
+		<var name="row5"  value="'B #####       #####                                            B'" />
+		<var name="row6"  value="'B         XH X#####                                            B'" />
+		<var name="row7"  value="'B  #    BBBBBBBB###              X   X     X                   B'" />
+		<var name="row8"  value="'B    B         B                ### ###   ###                  B'" />
 		<var name="row9"  value="'B              B                                               B'" />
-		<var name="row10" value="'B              B                                               B'" />
-		<var name="row11" value="'B              B                                               B'" />
-		<var name="row12" value="'B              B                                               B'" />
-		<var name="row13" value="'B              B                                               B'" />
-		<var name="row14" value="'B              B                                               B'" />
+		<var name="row10" value="'B#########     B                 #   B     #                   B'" />
+		<var name="row11" value="'B#########     B                                               B'" />
+		<var name="row12" value="'B#########     B                                               B'" />
+		<var name="row13" value="'B              B                   #       B                   B'" />
+		<var name="row14" value="'B              B                       B  #                    B'" />
 		<var name="row15" value="'B              B                                               B'" />
-		<var name="row16" value="'B              B             B                                 B'" />
-		<var name="row17" value="'B                            B                                 B'" />
-		<var name="row18" value="'B                            B                                 B'" />
+		<var name="row16" value="'B              B             B      #     #                    B'" />
+		<var name="row17" value="'B                            B    X   X                        B'" />
+		<var name="row18" value="'B                            B    B   #                        B'" />
 		<var name="row19" value="'B                            B                                 B'" />
 		<var name="row20" value="'B                            B                                 B'" />
 		<var name="row21" value="'B                            B                                 B'" />
@@ -1025,20 +1060,15 @@
 		    <for var="x" start="0" end="?dimension-1">
 		        <var name="blocktype" value="strsub(?row,?x,1)" />
 		        <var name="maze+?x+'_'+?y" value="?blocktype" />
-		        <if eval="?blocktype != ' '" true="initblock" />
+		        <call event="initblock" />
 		    </for>
 		</for>
 
-		<createentity name="hero" behaviour="bdash_hero" />
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_add child="hero" />
-
 		<!-- Current position of game layer -->
-		<var name="layer_x" value="0" />
-		<var name="layer_y" value="0" />
-		<!-- @@@ Use hero start position below! -->
-		<var name="layer_movetox" value="(?vis/2-1)*?blockdim" />
-		<var name="layer_movetoy" value="(?vis/2-1)*?blockdim" />
+		<var name="layer_movetox" value="(?vis/2-?hero_start_x)*?bdash_main.blockdim" />
+		<var name="layer_movetoy" value="(?vis/2-?hero_start_y)*?bdash_main.blockdim" />
+		<var name="layer_x" value="?layer_movetox" />
+		<var name="layer_y" value="?layer_movetoy" />
 		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
 		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 	    </event>
@@ -1048,15 +1078,161 @@
 	      - the block and it will set it at the right position on the puzzle
 	      - board.
 	      - This event uses ?x and ?y which should be set outside this routine.
-	      - This event also uses ?blocktype and the ?material_ array.
+	      - This event also uses ?blocktype and the ?material_ and ?behaviour_ arrays.
+	      - This event will correctly handle the special 'H' block type (for hero)
+	      - and set the hero start location (?hero_start_x and ?hero_start_y).
 	      -->
 	    <event name="initblock">
-	        <var name="ent" value="'p'+?x+'_'+?y" />
-		<createentity name="?ent" behaviour="bdash_block" />
-		<var name="ent" value="ent(?ent)" />
-		<var name="mazeent+?x+'_'+?y" value="?ent" />
+	    	<if eval="?blocktype == 'H'">
+		    <var name="hero_start_x" value="?x" />
+		    <var name="hero_start_y" value="?y" />
+		    <createentity name="hero" behaviour="bdash_hero" />
+		    <inventory propclass="pc(pcinventory)" />
+		    <inventory_add child="hero" />
+		    <var name="mazeent+?x+'_'+?y" value="ent(hero)" />
+		    <stop />
+		</if>
+	    	<if eval="?blocktype != ' '">
+	            <var name="ent" value="'p'+?x+'_'+?y" />
+		    <createentity name="?ent" behaviour="?(behaviour_+?blocktype)" />
+		    <var name="ent" value="ent(?ent)" />
+		    <var name="mazeent+?x+'_'+?y" value="?ent" />
+		    <inventory propclass="pc(pcinventory)" />
+		    <inventory_add child="?ent" />
+		    <stop />
+	    	</if>
+		<var name="mazeent+?x+'_'+?y" value="''" />
+	    </event>
+
+	    <!--
+	      - Routine used by the checkmove events in the bdash_hero
+	      - script to clear a block. Uses ?mazepos for the position
+	      - of the block to clear. This routine does not do the
+	      - falling object test because it is supposed to be used when
+	      - the hero will move to the cleared block.
+	      -->
+	    <event name="clearblock_nocheck">
+	        <var name="maze+?mazepos" value="' '" />
+		<var name="ent" value="?(mazeent+?mazepos)" />
 		<inventory propclass="pc(pcinventory)" />
-		<inventory_add child="?ent" />
+		<inventory_rem child="?ent" />
+		<destroyentity name="?ent" />
+		<var name="mazeent+?mazepos" value="''" />
+	    </event>
+
+	    <!--
+	      - Routine used by the checkmove events in the bdash_hero
+	      - script to set a block. Uses ?x and ?y for the position
+	      - of the block and ?blocktype for the block letter.
+	      - It also uses ?entity to set the entity at the block.
+	      -->
+	    <event name="setblock">
+	    	<var name="mazepos" value="?x+'_'+?y" />
+	        <var name="maze+?mazepos" value="?blocktype" />
+		<var name="mazeent+?mazepos" value="?entity" />
+		<if eval="?blocktype == ' '">
+		    <call event="checkfall" />
+	    	</if>
+	    </event>
+
+	    <!--
+	      - Check if the block above ?x,?y can fall down and if so
+	      - make sure it will fall down. It will also check if
+	      - blocks left or right of ?x,?y are on a 'falloff' block
+	      - and in that case it will also let those drop.
+	      - Note: this routine will use 'falldown' event in the
+	      - behaviour of the block. It expects that 'falldown' event
+	      - to set the 'fallen' variable to true if it really starts
+	      - falling down.
+	      -->
+	    <event name="checkfall">
+	    	<!-- First check if the block above us can fall down -->
+	    	<var name="mazepos" value="?x+'_'+(?y-1)" />
+		<var name="ent" value="?(mazeent+?mazepos)" />
+		<if eval="?ent != ''">
+		    <true>
+		        <var entity="?ent" name="dx" value="0" />
+		        <var entity="?ent" name="dy" value="1" />
+		        <call entity="?ent" event="falldown" />
+		    </true>
+		    <false>
+		        <!-- Then we check if the block at -1,-1 from us can fall down -->
+	    	        <var name="mazepos" value="(?x-1)+'_'+(?y-1)" />
+		        <var name="ent" value="?(mazeent+?mazepos)" />
+		        <if eval="?ent != ''">
+	    	            <var name="mazepos" value="(?x-1)+'_'+?y" />
+		            <var name="below_block" value="?(maze+?mazepos)" />
+		            <if eval="?(falloff_+?below_block)">
+		                <var entity="?ent" name="dx" value="1" />
+		                <var entity="?ent" name="dy" value="1" />
+		                <call entity="?ent" event="falldown" />
+		            </if>
+		        </if>
+	    	        <var name="mazepos" value="(?x+1)+'_'+(?y-1)" />
+		        <var name="ent" value="?(mazeent+?mazepos)" />
+		        <if eval="?ent != ''">
+	    	            <var name="mazepos" value="(?x+1)+'_'+?y" />
+		            <var name="below_block" value="?(maze+?mazepos)" />
+		            <if eval="?(falloff_+?below_block)">
+		                <var entity="?ent" name="dx" value="-1" />
+		                <var entity="?ent" name="dy" value="1" />
+		                <call entity="?ent" event="falldown" />
+		            </if>
+		        </if>
+		    </false>
+		</if>
+	    	<var name="mazepos" value="?x+'_'+(?y+1)" />
+		<var name="ent" value="?(mazeent+?mazepos)" />
+		<if eval="?ent == ''">
+	    	    <var name="mazepos" value="(?x-1)+'_'+?y" />
+		    <var name="ent" value="?(mazeent+?mazepos)" />
+		    <if eval="?ent != ''">
+	    	        <var name="mazepos" value="(?x-1)+'_'+(?y+1)" />
+		        <var name="below_block" value="?(maze+?mazepos)" />
+		        <if eval="?(falloff_+?below_block)">
+		            <var entity="?ent" name="dx" value="1" />
+		            <var entity="?ent" name="dy" value="1" />
+		            <call entity="?ent" event="falldown" />
+		        </if>
+		    </if>
+	    	    <var name="mazepos" value="(?x+1)+'_'+?y" />
+		    <var name="ent" value="?(mazeent+?mazepos)" />
+		    <if eval="?ent != ''">
+	    	        <var name="mazepos" value="(?x+1)+'_'+(?y+1)" />
+		        <var name="below_block" value="?(maze+?mazepos)" />
+		        <if eval="?(falloff_+?below_block)">
+		            <var entity="?ent" name="dx" value="-1" />
+		            <var entity="?ent" name="dy" value="1" />
+		            <call entity="?ent" event="falldown" />
+		        </if>
+		    </if>
+	    	</if>
+	    </event>
+
+	    <!--
+	      - Same as checkfall but also makes sure the block
+	      - at ?x,?y is really empty. If the block at ?x,?y
+	      - has 'falloff' property then we also proceed.
+	      -->
+	    <event name="ifempty_checkfall">
+	    	<var name="mazepos" value="?x+'_'+?y" />
+		<if eval="?(mazeent+?mazepos) == ''">
+		    <call event="checkfall" />
+	    	</if>
+		<var name="below_block" value="?(maze+?mazepos)" />
+		<if eval="?(falloff_+?below_block)">
+	    	    <var name="mazepos" value="(?x-1)+'_'+?y" />
+		    <if eval="?(mazeent+?mazepos) == ''">
+		    	<var name="x" value="(?x-1)" />
+		        <call event="checkfall" />
+			<stop />
+	    	    </if>
+	    	    <var name="mazepos" value="(?x+1)+'_'+?y" />
+		    <if eval="?(mazeent+?mazepos) == ''">
+		    	<var name="x" value="(?x+1)" />
+		        <call event="checkfall" />
+	    	    </if>
+		</if>
 	    </event>
 
 	    <!--
@@ -1079,10 +1255,12 @@
 
 	    <!--
 	      - Initialize our hero.
+	      - Uses ?bdash_main.hero_start_x and ?bdash_main.hero_start_y for
+	      - the hero start location.
 	      -->
 	    <event name="init">
-		<var name="x" value="1" />
-		<var name="y" value="1" />
+		<var name="x" value="?bdash_main.hero_start_x" />
+		<var name="y" value="?bdash_main.hero_start_y" />
 		<var name="dim" value="?bdash_main.blockdim" />
 		<var name="material" value="hero" />
 		<var name="speed" value="?bdash_main.herospeed" />
@@ -1120,6 +1298,46 @@
 	    </event>
 
 	    <!--
+	      - Routine used by the checkmove events below to clear a block.
+	      - This version does not force a falling object check because
+	      - it is supposed to be used when the player moves to the clear
+	      - block.
+	      - Uses ?mazepos for the position of the block to clear.
+	      -->
+	    <event name="clearblock_nocheck">
+	        <var entity="bdash_main" name="mazepos" value="?mazepos" />
+		<call entity="bdash_main" event="clearblock_nocheck" />
+	    </event>
+
+	    <!--
+	      - Start moving the hero. This will set the block at
+	      - ?x+?dx,?y+?dy to 'H'.
+	      -->
+	    <event name="startmove">
+	    	<var name="oldx" value="?x" />
+	    	<var name="oldy" value="?y" />
+		<var entity="bdash_main" name="blocktype" value="'H'" />
+		<var entity="bdash_main" name="x" value="?x+?dx" />
+		<var entity="bdash_main" name="y" value="?y+?dy" />
+		<var entity="bdash_main" name="entity" value="ent()" />
+		<call entity="bdash_main" event="setblock" />
+	        <super />
+	    </event>
+
+	    <!--
+	      - Our hero has stopped moving. This is called by the superscript
+	      - and we use this to clear the block where the hero started from.
+	      -->
+	    <event name="endmove">
+	    	<super />
+		<var entity="bdash_main" name="blocktype" value="' '" />
+		<var entity="bdash_main" name="x" value="?oldx" />
+		<var entity="bdash_main" name="y" value="?oldy" />
+		<var entity="bdash_main" name="entity" value="''" />
+		<call entity="bdash_main" event="setblock" />
+	    </event>
+
+	    <!--
 	      - Check if a move is possible and perform the move
 	      - if so. Uses ?dx and ?dy to get the move direction and
 	      - ?x and ?y for current position.
@@ -1127,6 +1345,9 @@
 	      - depending on the contents of the block we move too.
 	      -->
 	    <event name="checkmove">
+	        <if eval="?moving">
+		    <stop />
+		</if>
 	    	<var name="mazepos" value="(?x+?dx)+'_'+(?y+?dy)" />
 		<call event="checkmove_+?bdash_main.(maze+?mazepos)" />
 	    </event>
@@ -1135,15 +1356,22 @@
 		<call event="startmove" />
 	    </event>
 	    <event name="checkmove_#">
-	        <var entity="bdash_main" name="maze+?mazepos" value="' '" />
-		<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
-		<inventory propclass="pc(bdash_main,pcinventory)" />
-		<inventory_rem child="?ent" />
-		<destroyentity name="?ent" />
-		<var entity="bdash_main" name="mazeent+?mazepos" value="''" />
+	    	<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
 	    <event name="checkmove_B">
+	    </event>
+	    <event name="checkmove_X">
+		<sound name="bloop" loop="false" />
+	    	<call event="clearblock_nocheck" />
+		<call event="startmove" />
+	    </event>
+
+	    <!--
+	      - This block doesn't support falling down.
+	      -->
+	    <event name="falldown">
+	    	<var entity="bdash_main" name="fallen" value="false" />
 	    </event>
 
 	    <!--
@@ -1192,10 +1420,10 @@
 	</script>
 
 	<!-- *****************************************************
-	  - This script handles all operations on a block in the
+	  - This script handles all operations on a non-movable block in the
 	  - boulderdash game.
 	  -  ***************************************************** -->
-        <script name="bdash_block">
+        <script name="bdash_nonmovable">
 	    <!--
 	      - Initialize this block.
 	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
@@ -1205,17 +1433,87 @@
 	      -->
 	    <event name="init">
 	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(name)" value="block" />
 	        <property id="propid(materialname)" value="?bdash_main.(material_+?bdash_main.blocktype)" />
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="false" />
 	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="500+?bdash_main.blockdim" />
-	        <property id="propid(height)" value="500+?bdash_main.blockdim" />
+	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
+	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
 	        <property id="propid(x)" value="?bdash_main.x*?bdash_main.blockdim" />
 	        <property id="propid(y)" value="?bdash_main.y*?bdash_main.blockdim" />
 	        <property id="propid(layer)" value="game" />
+	    </event>
+
+	    <!--
+	      - This block doesn't support falling down.
+	      -->
+	    <event name="falldown">
+	    	<var entity="bdash_main" name="fallen" value="false" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a movable block in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_movable">
+	    <superscript name="movingobject" />
+
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="init">
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+		<!-- @@@ Should add +640 but movingobject doesn't support this -->
+		<var name="dim" value="?bdash_main.blockdim" />
+	        <var name="blocktype" value="?bdash_main.blocktype" />
+	        <var name="material" value="?bdash_main.(material_+?blocktype)" />
+		<var name="speed" value="?bdash_main.fallspeed" />
+		<super />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(layer)" value="game" />
+	    </event>
+
+	    <event name="startmove">
+	    	<var name="oldx" value="?x" />
+	    	<var name="oldy" value="?y" />
+		<var entity="bdash_main" name="blocktype" value="?blocktype" />
+		<var entity="bdash_main" name="x" value="?x+?dx" />
+		<var entity="bdash_main" name="y" value="?y+?dy" />
+		<var entity="bdash_main" name="entity" value="ent()" />
+		<call entity="bdash_main" event="setblock" />
+		<super />
+	    </event>
+	    <event name="endmove">
+		<super />
+		<var entity="bdash_main" name="blocktype" value="' '" />
+		<var entity="bdash_main" name="x" value="?oldx" />
+		<var entity="bdash_main" name="y" value="?oldy" />
+		<var entity="bdash_main" name="entity" value="''" />
+		<call entity="bdash_main" event="setblock" />
+		<var entity="bdash_main" name="x" value="?x" />
+		<var entity="bdash_main" name="y" value="?y+1" />
+		<call entity="bdash_main" event="ifempty_checkfall" />
+	    </event>
+
+	    <!--
+	      - This block supports falling down. Uses ?dx and ?dy for
+	      - the flal direction.
+	      -->
+	    <event name="falldown">
+	        <if eval="?moving">
+		    <stop />
+		</if>
+		<call event="startmove" />
+	    	<var entity="bdash_main" name="fallen" value="true" />
 	    </event>
 	</script>
 
