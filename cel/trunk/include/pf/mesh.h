@@ -27,6 +27,12 @@ struct iMeshWrapper;
 struct iSector;
 class csVector3;
 
+/**
+ * Property ID used when the mesh changes (for use with
+ * property change callbacks).
+ */
+#define CEL_PCMESH_PROPERTY_MESH 1
+
 SCF_DECLARE_FAST_INTERFACE (iPcMesh)
 
 SCF_VERSION (iPcMesh, 0, 0, 2);

@@ -1,3 +1,7 @@
+28-May-2002:
+	- Fixed include for polymesh.h.
+	- pcmesh property class now fires a callback with ID
+	  CEL_PCMESH_PROPERTY_MESH whenever the mesh changes.
 22-Apr-2002:
 	- Fixed several bad bugs in NumReg:
 	    - In Register() a 'memset' was done with only

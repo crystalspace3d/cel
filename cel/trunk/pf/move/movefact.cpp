@@ -46,7 +46,7 @@
 #include "imap/parser.h"
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
-#include "ivaria/polymesh.h"
+#include "igeom/polymesh.h"
 #include "imesh/object.h"
 
 //---------------------------------------------------------------------------
