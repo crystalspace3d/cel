@@ -241,8 +241,8 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     for (i = 0; i < num_our_cd; i++ )
     {
       csCollisionPair& cd = our_cd_contact[i];
- 		csPlane3 obstacle(cd.a2, cd.b2, cd.c2);
-		csVector3 vec = obstacle.Normal().Unit();
+      csPlane3 obstacle (cd.a2, cd.b2, cd.c2);
+      csVector3 vec = obstacle.Normal().Unit();
 
       if (vec * localvel > 0) continue;
 

@@ -884,8 +884,8 @@ int celPcGravity::TestMove (iCollider* this_collider,
     csVector3& collider_normal)
 {
   csReversibleTransform test (w2o);
-  int rc = cdsys->CollidePath (this_collider, &test, newpos,
-  	num_colliders, colliders, transforms);
+  int rc = csColliderHelper::CollidePath (cdsys, this_collider, &test,
+  	.3/*@@@ Get from bbox!*/, newpos, num_colliders, colliders, transforms);
   if (rc == -1) return -1;	// Stuck!!!
   if (rc == 0)			// Can move partially.
   {
