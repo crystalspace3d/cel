@@ -53,6 +53,10 @@
 	- Added a new behaviour class to bltest for the 'room'. Added
 	  a new pcmeshselect property classes to the room entity which
 	  has follow-always set to true.
+	- Added new 'pftools' factory. This will contain general tools.
+	  The only tool it now contains is a 'pctooltip' property class
+	  for displaying tooltips. This property class is not functional
+	  yet.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the
