@@ -78,6 +78,9 @@ Package=<4>
     Project_Dep_Name plgpfmover
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgpftrigger
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgcpersist
     End Project Dependency
     Begin Project Dependency
@@ -187,6 +190,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftrigger
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgcpersist
@@ -466,6 +472,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpftools"=.\plgpftools.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpftrigger"=.\plgpftrigger.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
