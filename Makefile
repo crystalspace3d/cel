@@ -185,9 +185,9 @@ clean:
 # Run swig for the blpython plugin.
 #------
 blpythonswig:
-	swig -python -I$(CSDIR)/include/ivaria -c++ -shadow \
+	swig -python -I$(CSDIR)/include -I$(CSDIR)/include/ivaria -c++ -shadow \
 		-o blpython/blcel.cpp blpython/blpython.i
-	mv blpython/blcel.py scripts
+	mv blpython/blcelc.py scripts
 
 #------
 # Create dependencies
