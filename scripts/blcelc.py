@@ -4575,6 +4575,7 @@ class iMeshWrapper(iBase):
     def CastHardwareShadow(*args): return _blcelc.iMeshWrapper_CastHardwareShadow(*args)
     def SetDrawAfterShadow(*args): return _blcelc.iMeshWrapper_SetDrawAfterShadow(*args)
     def GetDrawAfterShadow(*args): return _blcelc.iMeshWrapper_GetDrawAfterShadow(*args)
+    def GetSVContext(*args): return _blcelc.iMeshWrapper_GetSVContext(*args)
     def __del__(self, destroy=_blcelc.delete_iMeshWrapper):
         try:
             if self.thisown: destroy(self)
@@ -4623,6 +4624,7 @@ class iMeshFactoryWrapper(iBase):
     def SetRenderPriority(*args): return _blcelc.iMeshFactoryWrapper_SetRenderPriority(*args)
     def GetRenderPriority(*args): return _blcelc.iMeshFactoryWrapper_GetRenderPriority(*args)
     def SetRenderPriorityRecursive(*args): return _blcelc.iMeshFactoryWrapper_SetRenderPriorityRecursive(*args)
+    def GetSVContext(*args): return _blcelc.iMeshFactoryWrapper_GetSVContext(*args)
     def __del__(self, destroy=_blcelc.delete_iMeshFactoryWrapper):
         try:
             if self.thisown: destroy(self)
