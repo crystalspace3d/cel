@@ -1,3 +1,11 @@
+17-Jan-2003:
+	- Keith Fulton fixed circular refcount issue which prevented all
+	  prop class factories from ever being deleted.
+	- Keith Fulton added many specific error msgs for things which 
+	  could go wrong with CEL persistence loading on the client.
+	  Added a Report function to all files involved which should
+	  probably be in a libary, but he cannot create the library on
+	  on Windows himself.
 15-Jan-2003:
 	- Fixed CEL for latest CS changes (growing arrays).
 	- In the mean time fixed some memory leaks while doing that.
