@@ -76,32 +76,34 @@ private:
     float totalMaxValue;
     float currentValue;
     bool strict;
+    bool dirty;
   };
 
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
-  void UpdateConstraints (iCelEntity* entity, bool add);
+  bool TestLocalConstraints (const char* charName);
 
 public:
   celPcInventory ();
   virtual ~celPcInventory ();
 
   bool AddEntity (iCelEntity* entity);
-  void RemoveEntity (iCelEntity* entity);
-  void RemoveAll ();
+  bool RemoveEntity (iCelEntity* entity);
+  bool RemoveAll ();
   int GetEntityCount () const { return contents.Length () ; }
   iCelEntity* GetEntity (int idx) const;
-  void SetStrictCharacteristics (const char* charName, bool strict);
+  bool SetStrictCharacteristics (const char* charName, bool strict);
   bool HasStrictCharacteristics (const char* charName) const;
-  void SetConstraints (const char* charName, float minValue, float maxValue,
+  bool SetConstraints (const char* charName, float minValue, float maxValue,
 		  float totalMaxValue);
   bool GetConstraints (const char* charName, float& minValue, float& maxValue,
 		  float& totalMaxValue) const;
   void RemoveConstraints (const char* charName);
+  void RemoveAllConstraints ();
   float GetCurrentCharacteristic (const char* charName) const;
-  const char* TestAddEntity (iCelEntity* entity);
-  bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue);
-  void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue);
+
+  void MarkDirty (const char* charName);
+  bool TestConstraints (const char* charName);
   void Dump ();
 
   SCF_DECLARE_IBASE;
@@ -117,13 +119,13 @@ public:
     {
       return scfParent->AddEntity (entity);
     }
-    virtual void RemoveEntity (iCelEntity* entity)
+    virtual bool RemoveEntity (iCelEntity* entity)
     {
-      scfParent->RemoveEntity (entity);
+      return scfParent->RemoveEntity (entity);
     }
-    virtual void RemoveAll ()
+    virtual bool RemoveAll ()
     {
-      scfParent->RemoveAll ();
+      return scfParent->RemoveAll ();
     }
     virtual int GetEntityCount () const
     {
@@ -133,18 +135,18 @@ public:
     {
       return scfParent->GetEntity (idx);
     }
-    virtual void SetStrictCharacteristics (const char* charName, bool strict)
+    virtual bool SetStrictCharacteristics (const char* charName, bool strict)
     {
-      scfParent->SetStrictCharacteristics (charName, strict);
+      return scfParent->SetStrictCharacteristics (charName, strict);
     }
     virtual bool HasStrictCharacteristics (const char* charName) const
     {
       return scfParent->HasStrictCharacteristics (charName);
     }
-    virtual void SetConstraints (const char* charName, float minValue, float maxValue,
+    virtual bool SetConstraints (const char* charName, float minValue, float maxValue,
 		  float totalMaxValue)
     {
-      scfParent->SetConstraints (charName, minValue, maxValue, totalMaxValue);
+      return scfParent->SetConstraints (charName, minValue, maxValue, totalMaxValue);
     }
     virtual bool GetConstraints (const char* charName, float& minValue, float& maxValue,
 		  float& totalMaxValue) const
@@ -155,21 +157,21 @@ public:
     {
       scfParent->RemoveConstraints (charName);
     }
+    virtual void RemoveAllConstraints ()
+    {
+      scfParent->RemoveAllConstraints ();
+    }
     virtual float GetCurrentCharacteristic (const char* charName) const
     {
       return scfParent->GetCurrentCharacteristic (charName);
     }
-    virtual const char* TestAddEntity (iCelEntity* entity)
+    virtual void MarkDirty (const char* charName)
     {
-      return scfParent->TestAddEntity (entity);
+      scfParent->MarkDirty (charName);
     }
-    virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue)
+    virtual bool TestConstraints (const char* charName)
     {
-      return scfParent->TestCharacteristicChange (entity, charName, newLocalValue);
-    }
-    virtual void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue)
-    {
-      scfParent->UpdateCharacteristic (entity, charName, newLocalValue);
+      return scfParent->TestConstraints (charName);
     }
     virtual void Dump ()
     {
@@ -205,16 +207,18 @@ public:
   celPcCharacteristics ();
   virtual ~celPcCharacteristics ();
 
-  bool SetCharProperty (const char* name, float value);
-  void SetInheritedProperty (const char* name, float factor, float add);
-  float GetCharProperty (const char* name) const;
-  float GetLocalCharProperty (const char* name) const;
-  float GetInheritedCharProperty (const char* name) const;
-  bool ClearProperty (const char* name);
-  bool HasProperty (const char* name) const;
-  void ClearAll ();
+  bool SetCharacteristic (const char* name, float value);
+  bool SetInheritedCharacteristic (const char* name, float factor, float add);
+  float GetCharacteristic (const char* name) const;
+  float GetLocalCharacteristic (const char* name) const;
+  float GetInheritedCharacteristic (const char* name) const;
+  bool ClearCharacteristic (const char* name);
+  bool HasCharacteristic (const char* name) const;
+  bool ClearAll ();
   void AddToInventory (iPcInventory* inv);
   void RemoveFromInventory (iPcInventory* inv);
+  void MarkDirty (const char* charName);
+  bool TestConstraints (const char* charName);
   void Dump ();
 
   SCF_DECLARE_IBASE;
@@ -226,38 +230,38 @@ public:
   struct PcCharacteristics : public iPcCharacteristics
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCharacteristics);
-    virtual bool SetCharProperty (const char* name, float value)
+    virtual bool SetCharacteristic (const char* name, float value)
     {
-      return scfParent->SetCharProperty (name, value);
+      return scfParent->SetCharacteristic (name, value);
     }
-    virtual void SetInheritedProperty (const char* name,
+    virtual bool SetInheritedCharacteristic (const char* name,
 		  float factor, float add)
     {
-      scfParent->SetInheritedProperty (name, factor, add);
+      return scfParent->SetInheritedCharacteristic (name, factor, add);
     }
-    virtual float GetCharProperty (const char* name) const
+    virtual float GetCharacteristic (const char* name) const
     {
-      return scfParent->GetCharProperty (name);
+      return scfParent->GetCharacteristic (name);
     }
-    virtual float GetLocalCharProperty (const char* name) const
+    virtual float GetLocalCharacteristic (const char* name) const
     {
-      return scfParent->GetLocalCharProperty (name);
+      return scfParent->GetLocalCharacteristic (name);
     }
-    virtual float GetInheritedCharProperty (const char* name) const
+    virtual float GetInheritedCharacteristic (const char* name) const
     {
-      return scfParent->GetInheritedCharProperty (name);
+      return scfParent->GetInheritedCharacteristic (name);
     }
-    virtual bool ClearProperty (const char* name)
+    virtual bool ClearCharacteristic (const char* name)
     {
-      return scfParent->ClearProperty (name);
+      return scfParent->ClearCharacteristic (name);
     }
-    virtual bool HasProperty (const char* name) const
+    virtual bool HasCharacteristic (const char* name) const
     {
-      return scfParent->HasProperty (name);
+      return scfParent->HasCharacteristic (name);
     }
-    virtual void ClearAll ()
+    virtual bool ClearAll ()
     {
-      scfParent->ClearAll ();
+      return scfParent->ClearAll ();
     }
     virtual void AddToInventory (iPcInventory* inv)
     {
@@ -266,6 +270,14 @@ public:
     virtual void RemoveFromInventory (iPcInventory* inv)
     {
       scfParent->RemoveFromInventory (inv);
+    }
+    virtual void MarkDirty (const char* charName)
+    {
+      scfParent->MarkDirty (charName);
+    }
+    virtual bool TestConstraints (const char* charName)
+    {
+      return scfParent->TestConstraints (charName);
     }
     virtual void Dump ()
     {
