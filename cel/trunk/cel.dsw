@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "blpython"=.\msvc\blpython.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "bltest"=.\msvc\bltest.dsp - Package Owner=<4>
 
 Package=<5>
@@ -40,6 +52,18 @@ Package=<4>
 ###############################################################################
 
 Project: "pfengine"=.\msvc\pfengine.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfinput"=.\msvc\pfinput.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
