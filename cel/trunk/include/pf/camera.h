@@ -42,7 +42,8 @@ struct iPcCamera : public iBase
   enum CameraMode
   {
     freelook = 0,
-    follow
+    follow,
+    rotational
   };
 
   /**
