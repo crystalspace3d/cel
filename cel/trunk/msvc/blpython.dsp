@@ -121,5 +121,13 @@ SOURCE=..\blpython\blpython.cpp
 SOURCE=..\blpython\pytocel.cpp
 # End Source File
 # End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\blpython.rc
+# End Source File
+# End Group
 # End Target
 # End Project

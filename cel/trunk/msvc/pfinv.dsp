@@ -118,5 +118,13 @@ SOURCE=..\pf\inv\invfact.cpp
 SOURCE=..\pf\common\stdpcimp.cpp
 # End Source File
 # End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\pfinv.rc
+# End Source File
+# End Group
 # End Target
 # End Project

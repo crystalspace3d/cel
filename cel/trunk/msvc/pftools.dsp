@@ -118,5 +118,13 @@ SOURCE=..\pf\common\stdpcimp.cpp
 SOURCE=..\pf\tools\toolfact.cpp
 # End Source File
 # End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\pftools.rc
+# End Source File
+# End Group
 # End Target
 # End Project
