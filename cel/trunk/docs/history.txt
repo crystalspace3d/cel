@@ -1,3 +1,8 @@
+24-Dec-2002:
+	- Wouter Wijngaards fixed a small compilation error in pf/mesh/
+	  meshfact.cpp, introduced by the separation of Engine and Thing
+	  in CS.
+
 01-Oct-2002:
 	- Keith Fulton added Yaw (Y-axis) adjustment to iPcCamera.  Yaw,
 	  Pitch and Roll together change the camera viewing angle without

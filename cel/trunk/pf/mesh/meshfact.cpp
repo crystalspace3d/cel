@@ -36,6 +36,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/objreg.h"
 #include "iutil/eventq.h"
+#include "iutil/plugin.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
@@ -304,7 +305,12 @@ void celPcMesh::CreateEmptyThing ()
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
-  iMeshObjectType* thing_type = engine->GetThingType ();
+  csRef<iPluginManager> plugin_mgr (CS_QUERY_REGISTRY (object_reg,
+    iPluginManager));
+  CS_ASSERT (plugin_mgr != NULL);
+  csRef<iMeshObjectType> thing_type (CS_QUERY_PLUGIN_CLASS (plugin_mgr,
+    "crystalspace.mesh.object.thing", iMeshObjectType));
+  CS_ASSERT (thing_type != NULL);
   csRef<iMeshObjectFactory> thing_fact (thing_type->NewFactory ());
   csRef<iMeshObject> thing_obj (SCF_QUERY_INTERFACE (thing_fact, iMeshObject));
 
