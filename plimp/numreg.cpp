@@ -61,13 +61,13 @@ CS_ID NumReg::Register (void* obj)
 
   // 2. find holes and fill freelist again
   // note that id number 0 stands for error and is reserved
-  for (CS_ID i=0; i<listsize && freelistend<freelistsize-1 ;i++)
+  for (CS_ID i=0; i<listsize && freelistend<freelistsize ;i++)
   {
     if (list[i]==NULL)
     {
-      freelistend++;
       CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
+      freelistend++;
     }
   }
   if (freelistend>0)
