@@ -60,20 +60,22 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
   visible = false;
-  text = 0;
   text_r = 0;
   text_g = 0;
   text_b = 0;
   bg_r = 255;
   bg_g = 255;
   bg_b = 0;
+  x = 0;
+  y = 0;
+  width = 0;
+  height = 0;
   G3D = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   G2D = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
 }
 
 celPcTooltip::~celPcTooltip ()
 {
-  delete[] text;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
 }
 
@@ -86,7 +88,7 @@ csPtr<iCelDataBuffer> celPcTooltip::Save ()
   databuf->GetData (0)->Set (visible);
   databuf->GetData (1)->Set ((uint16)x);
   databuf->GetData (2)->Set ((uint16)y);
-  databuf->GetData (3)->Set (text);
+  //databuf->GetData (3)->Set (text);
   databuf->GetData (4)->Set ((uint8)text_r);
   databuf->GetData (5)->Set ((uint8)text_g);
   databuf->GetData (6)->Set ((uint8)text_b);
@@ -106,9 +108,9 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (0); if (!cd) return false; visible = cd->value.bo;
   cd = databuf->GetData (1); if (!cd) return false; x = cd->value.uw;
   cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
-  delete[] text; text = 0;
-  cd = databuf->GetData (3); if (!cd) return false;
-  text = csStrNew (*cd->value.s);
+  //delete[] text; text = 0;
+  //cd = databuf->GetData (3); if (!cd) return false;
+  //text = csStrNew (*cd->value.s);
   cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
   cd = databuf->GetData (5); if (!cd) return false; text_g = cd->value.ub;
   cd = databuf->GetData (6); if (!cd) return false; text_b = cd->value.ub;
@@ -121,8 +123,53 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
 
 void celPcTooltip::SetText (const char* t)
 {
-  delete[] text;
-  text = csStrNew (t);
+  lines.DeleteAll ();
+  if (strcmp (t, "") != 0)
+  {
+    csString str (t);
+    size_t lastpos = 0, pos;
+    do
+    {
+      pos = str.FindFirst ('\n', lastpos);
+      lines.Push (str.Slice (lastpos, pos - lastpos));
+      lastpos = pos + 1;
+    }
+    while (pos != (size_t) - 1);
+    CalculateExtents ();
+  } else {
+    Hide ();
+  }
+}
+
+void celPcTooltip::SetFont (iFont* font)
+{
+  fnt = font;
+  CalculateExtents ();
+}
+
+void celPcTooltip::CalculateExtents ()
+{
+  width = 0;
+  height = 0;
+  int linewidth, numlines = 0;
+  csString line;
+  csStringArray::Iterator lineit = lines.GetIterator ();
+  if (!fnt)
+  {
+    iFontServer* fntsvr = G2D->GetFontServer ();
+    CS_ASSERT (fntsvr != 0);
+    fnt = fntsvr->LoadFont (CSFONT_COURIER);
+  }
+  CS_ASSERT (fnt.IsValid ());
+  while (lineit.HasNext ())
+  {
+    line = lineit.Next ();
+    linewidth = fnt->GetLength (line.GetData (), G2D->GetWidth ());
+    if (linewidth > width)
+      width = linewidth;
+    numlines++;
+  }
+  height = numlines * fnt->GetTextHeight ();
 }
 
 void celPcTooltip::Hide ()
@@ -145,19 +192,36 @@ void celPcTooltip::TickEveryFrame ()
 {
   if (!visible) return;
   G3D->BeginDraw (CSDRAW_2DGRAPHICS);
-  iFontServer* fntsvr = G2D->GetFontServer ();
-  CS_ASSERT (fntsvr != 0);
-  csRef<iFont> fnt = fntsvr->LoadFont (CSFONT_COURIER);
+  if (!fnt)
+  {
+    iFontServer* fntsvr = G2D->GetFontServer ();
+    CS_ASSERT (fntsvr != 0);
+    fnt = fntsvr->LoadFont (CSFONT_COURIER);
+  }
   CS_ASSERT (fnt != 0);
-  //int fw, fh;
-  //fnt->GetMaxSize (fw, fh);
-  //int sw = G2D->GetWidth ();
-  //int sh = G2D->GetHeight ();
   int fgcolor = G2D->FindRGB (text_r, text_g, text_b);
   int bgcolor = bg_r == -1 ? 0 : G2D->FindRGB (bg_r, bg_g, bg_b);
-  //G2D->DrawBox (x, y, w, h, bgcolor);
-  //int maxlen = fnt->GetLength (text, w-10);
-  G2D->Write (fnt, x, y, fgcolor, bgcolor, text);
+  if (bg_r != -1)
+  {
+    G2D->DrawBox (x, y, width, height, bgcolor);
+  }
+  csString line;
+  csStringArray::Iterator lineit = lines.GetIterator ();
+  int linenum = 0, offset = 0;
+  while (lineit.HasNext ())
+  {
+    line = lineit.Next ();
+    printf ("printing line: %s\n", line.GetData ());
+    fflush (stdout);
+    if (justify == CEL_TOOLTIP_CENTER)
+      offset = (width - fnt->GetLength (line.GetData (), width)) / 2;
+    else if (justify == CEL_TOOLTIP_RIGHT)
+      offset = (width - fnt->GetLength (line.GetData (), width));
+    printf ("offset: %d\n", offset);
+    fflush (stdout);
+    G2D->Write (fnt, x + offset, y + (linenum * fnt->GetTextHeight ()), fgcolor, bgcolor, line.GetData ());
+    linenum++;
+  }
 }
 
 //---------------------------------------------------------------------------
