@@ -3,11 +3,18 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+30-Aug-2004
+	- Jorrit added two new functions to the zone manager:
+	    - FindStartLocations() will return a list of all region
+	      and start names that are valid for the given world.
+	      You can use any of those for PointCamera(). Note that
+	      this only works for all loaded regions.
+	    - GetLastStartLocation() will return the last used start
+	      region and name for PointCamera().
 28-Aug-2004
 	- Andrew Dai fixed a bug with movement through space warping
 	  portals caused by a change of behaviour in the
 	  iSector::FollowSegment() function.
-
 28-Aug-2004
 	- Jorrit fixed a bug in the physical layer when broadcasting
 	  TickOnce and TickEveryFrame. The problem was when in such

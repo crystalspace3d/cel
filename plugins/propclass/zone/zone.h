@@ -239,6 +239,10 @@ private:
   // loaded or not and avoid doing unneeded work.
   bool ActivateRegion (celRegion* region);
 
+  // Last used region and start name (for PointCamera).
+  csString last_regionname;
+  csString last_startname;
+
 public:
   celPcZoneManager (iObjectRegistry* object_reg);
   virtual ~celPcZoneManager ();
@@ -276,6 +280,8 @@ public:
   bool RemoveRegion (iCelRegion* region);
   void RemoveAllRegions ();
 
+  void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
+  void GetLastStartLocation (iString* regionname, iString* startname);
   int PointCamera (iPcCamera* pccamera, const char* regionname,
   	const char* startname);
   int PointMesh (iPcMesh* pcmesh, const char* regionname,
@@ -331,6 +337,16 @@ public:
     virtual void RemoveAllRegions ()
     {
       scfParent->RemoveAllRegions ();
+    }
+    virtual void FindStartLocations (iStringArray* regionnames,
+  	iStringArray* startnames)
+    {
+      scfParent->FindStartLocations (regionnames, startnames);
+    }
+    virtual void GetLastStartLocation (iString* regionname,
+  	iString* startname)
+    {
+      scfParent->GetLastStartLocation (regionname, startname);
     }
     virtual int PointCamera (iPcCamera* pccamera, const char* regionname,
   	const char* startname = 0)

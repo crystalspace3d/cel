@@ -40,6 +40,8 @@
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
+#include "iutil/string.h"
+#include "iutil/stringarray.h"
 #include "imap/parser.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -541,6 +543,39 @@ bool celPcZoneManager::ActivateSector (iSector* sector)
   return true;
 }
 
+void celPcZoneManager::FindStartLocations (iStringArray* regionnames,
+	iStringArray* startnames)
+{
+  regionnames->DeleteAll ();
+  startnames->DeleteAll ();
+  size_t i;
+  for (i = 0 ; i < regions.Length () ; i++)
+  {
+    celRegion* reg = regions[i];
+    iRegion* cs_reg = engine->CreateRegion (reg->GetName ());
+    int j;
+    for (j = 0 ; j < engine->GetCameraPositions ()->GetCount () ; j++)
+    {
+      iCameraPosition* campos = engine->GetCameraPositions ()->Get (j);
+      iObject* o = campos->QueryObject ();
+      if (cs_reg->IsInRegion (o))
+      {
+        regionnames->Push (reg->GetName ());
+	startnames->Push (o->GetName ());
+      }
+    }
+  }
+}
+
+void celPcZoneManager::GetLastStartLocation (iString* regionname,
+	iString* startname)
+{
+  regionname->Truncate (0);
+  regionname->Append (last_regionname);
+  startname->Truncate (0);
+  startname->Append (last_startname);
+}
+
 int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
   	const char* startname)
 {
@@ -598,6 +633,9 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
       pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
     }
   }
+
+  last_regionname = regionname;
+  last_startname = startname;
 
   return CEL_ZONEERROR_OK;
 }

@@ -28,6 +28,8 @@ struct iSector;
 struct iPcCamera;
 struct iPcMesh;
 struct iCelEntity;
+struct iStringArray;
+struct iString;
 
 SCF_VERSION (iCelMapFile, 0, 1, 0);
 
@@ -265,6 +267,19 @@ struct iPcZoneManager : public iBase
    * Remove all regions from this zone.
    */
   virtual void RemoveAllRegions () = 0;
+
+  /**
+   * Find all valid starting locations in all current loaded regions.
+   */
+  virtual void FindStartLocations (iStringArray* regionnames,
+  	iStringArray* startnames) = 0;
+
+  /**
+   * Return the last used region and startname for PointCamera().
+   * Returns an empty region name if PointCamera() has not been called.
+   */
+  virtual void GetLastStartLocation (iString* regionname,
+  	iString* startname) = 0;
 
   /**
    * Take the specified region (by name), load all zones associated

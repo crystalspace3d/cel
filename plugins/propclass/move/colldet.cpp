@@ -362,7 +362,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
       new_sector = new_sector->FollowSegment (transform_oldpos,
       	newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
-        newpos.y -= height5;
+      newpos.y -= height5;
       if (new_sector != old_sector)
     	movable->SetSector (new_sector);
     }
