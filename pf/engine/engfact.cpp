@@ -209,7 +209,14 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 
   return true;
 }
-  
+
+bool celPcCamera::SetMode (iPcCamera::CameraMode cammode, bool use_cd)
+{
+    celPcCamera::cammode=cammode;
+    celPcCamera::use_cd=use_cd;
+    view->GetCamera()->OnlyPortals(!use_cd);
+    return true;
+}  
 
 void celPcCamera::SetRectangle (int x, int y, int w, int h)
 {

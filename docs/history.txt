@@ -1,3 +1,6 @@
+12-Fev-2002:
+	-Matze changed order of entity saving/loading. behaviour is the last
+	processed piece now.
 20-Jab-2002:
 	- Matze changed ref behaviour for Region: Camera is taken ref to
 	  region now.

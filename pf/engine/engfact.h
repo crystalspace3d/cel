@@ -76,12 +76,7 @@ public:
   iView* GetView () const { return iview; }
   bool SetRegion (iPcRegion* region, bool point, const char* name);
   void SetRectangle (int x, int y, int w, int h);
-  bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true)
-  {
-    celPcCamera::cammode=cammode;
-    celPcCamera::use_cd=use_cd;
-    return true;
-  }
+  bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
   
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
