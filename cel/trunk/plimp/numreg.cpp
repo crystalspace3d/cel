@@ -89,17 +89,18 @@ CS_ID NumReg::Register (void* obj)
       CS_ASSERT(false && "No Memory left");
       return 0;
     }
-    
-    memset (list+listsize,0,newsize-listsize);
+
+    list = newlist;
+
+    memset (list+listsize,0,(newsize-listsize)*sizeof(void*));
     //fill freelist
-    for (CS_ID i=listsize;i<newsize && freelistend<freelistsize-1;i++)
+    for (CS_ID i=listsize;i<newsize && freelistend<freelistsize;i++)
     {
-      freelistend++;	
       CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
+      freelistend++;	
     }
     listsize = newsize;
-    list = newlist;
   }
   if (freelistend>0)
     return intern_Register(obj);
