@@ -41,15 +41,12 @@ celEntity::celEntity (celPlLayer* pl)
   behaviour = 0;
   celEntity::pl = pl;
   entity_ID=0;  
-  DG_LINK (this, plist);
-  DG_TYPE (this, "celEntity");
 }
 
 celEntity::~celEntity ()
 {
-  if (pl)
-    pl->RemoveEntity(this);
-  DG_UNLINK (this, plist);
+  //if (pl)
+    //pl->RemoveEntity(this);
   delete plist;
 }
 
@@ -72,13 +69,11 @@ SCF_IMPLEMENT_IBASE_END
 celEntityList::celEntityList ()
 {
   SCF_CONSTRUCT_IBASE (0);
-  DG_ADDI (this, "celEntityList()");
 }
 
 celEntityList::~celEntityList ()
 {
   RemoveAll ();
-  DG_REM (this);
 }
 
 int celEntityList::GetCount () const
@@ -94,7 +89,6 @@ iCelEntity* celEntityList::Get (int n) const
 
 int celEntityList::Add (iCelEntity* obj)
 {
-  DG_LINK (this, obj);
   return entities.Push (obj);
 }
 
@@ -103,7 +97,6 @@ bool celEntityList::Remove (iCelEntity* obj)
   int idx = entities.Find (obj);
   if (idx != -1)
   {
-    DG_UNLINK (this, obj);
     entities.DeleteIndex (idx);
     return true;
   }
@@ -114,7 +107,6 @@ bool celEntityList::Remove (int n)
 {
   iCelEntity* ent = Get (n);
   (void)ent;
-  DG_UNLINK (this, ent);
   entities.DeleteIndex (n);
   return true;
 }

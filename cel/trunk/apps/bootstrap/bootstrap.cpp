@@ -59,7 +59,11 @@ Bootstrap::Bootstrap ()
 Bootstrap::~Bootstrap ()
 {
   if (pl)
+  {
     pl->CleanCache ();
+    if (bootstrap_entity)
+      pl->RemoveEntity (bootstrap_entity);
+  }
 }
 
 void Bootstrap::SetupFrame ()

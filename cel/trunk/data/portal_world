@@ -17,6 +17,8 @@
     </materials>
     <plugins>
         <plugin name="thing">crystalspace.mesh.loader.thing</plugin>
+        <plugin name="celentity">cel.addons.celentity</plugin>
+	<plugin name="spr3d">crystalspace.mesh.loader.sprite.3d</plugin>
     </plugins>
     <sector name="room">
         <meshobj name="room_walls_portal">
@@ -255,6 +257,25 @@
                 </p>
             </params>
         </meshobj>
+	<meshobj name="box">
+	    <file>/this/data/box</file>
+	    <plugin>spr3d</plugin>
+	    <params>
+	        <factory>box</factory>
+		<action>default</action>
+	    </params>
+	    <move>
+	        <v x="2" y="2" z="5" />
+	    </move>
+	    <zuse />
+	    <priority>object</priority>
+	    <addon plugin="celentity">
+	        <behaviour name="box" />
+		<propclass name="pcsolid" />
+		<propclass name="pcgravity" />
+		<propclass name="pcmovable" />
+	    </addon>
+	</meshobj>
         <light>
             <center x="0" y="0" z="0" />
             <radius>40</radius>
@@ -461,3 +482,4 @@
         </light>
     </sector>
 </world>
+

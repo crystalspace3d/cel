@@ -11,6 +11,7 @@ class smallgame:
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.movable")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.pckeyinput")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.linmove")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.colldet")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.timer")
 
 		region = celCreateRegion(physicallayer_ptr,celEntity,"main")
@@ -24,8 +25,8 @@ class smallgame:
 		bl = physicallayer_ptr.GetBehaviourLayer(0)
 
 		# Create a box
-		box = celCreateEntity(physicallayer_ptr,"box")
-		box_behaviour = box.CreateBehaviour(bl,"box")
+		box = physicallayer_ptr.FindEntity("box")
+		box_behaviour = box.GetBehaviour()
 		box_python = box_behaviour.GetPythonObject ()
 		box_python.real_init(box,room)
 

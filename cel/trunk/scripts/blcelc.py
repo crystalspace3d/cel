@@ -10461,6 +10461,8 @@ class iCelPlLayer(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPlLayer, name)
+    def FindEntity(*args): return apply(_blcelc.iCelPlLayer_FindEntity,args)
+    def RemoveEntity(*args): return apply(_blcelc.iCelPlLayer_RemoveEntity,args)
     def CreatePropertyClass(*args): return apply(_blcelc.iCelPlLayer_CreatePropertyClass,args)
     def FetchString(*args): return apply(_blcelc.iCelPlLayer_FetchString,args)
     def GetBehaviourLayerCount(*args): return apply(_blcelc.iCelPlLayer_GetBehaviourLayerCount,args)
@@ -10698,6 +10700,8 @@ _blcelc.iPcDynamicSystem_swigregister(iPcDynamicSystemPtr)
 
 celCreateDynamicSystem = _blcelc.celCreateDynamicSystem
 
+celGetDynamicSystem = _blcelc.celGetDynamicSystem
+
 scfQuery_iPcDynamicSystem = _blcelc.scfQuery_iPcDynamicSystem
 
 celQueryPC_iPcDynamicSystem = _blcelc.celQueryPC_iPcDynamicSystem
@@ -10743,6 +10747,8 @@ _blcelc.iPcDynamicBody_swigregister(iPcDynamicBodyPtr)
 
 celCreateDynamicBody = _blcelc.celCreateDynamicBody
 
+celGetDynamicBody = _blcelc.celGetDynamicBody
+
 scfQuery_iPcDynamicBody = _blcelc.scfQuery_iPcDynamicBody
 
 celQueryPC_iPcDynamicBody = _blcelc.celQueryPC_iPcDynamicBody
@@ -10784,6 +10790,8 @@ _blcelc.iPcRegion_swigregister(iPcRegionPtr)
 
 celCreateRegion = _blcelc.celCreateRegion
 
+celGetRegion = _blcelc.celGetRegion
+
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
 celQueryPC_iPcRegion = _blcelc.celQueryPC_iPcRegion
@@ -10816,6 +10824,8 @@ class iPcCommandInputPtr(iPcCommandInput):
 _blcelc.iPcCommandInput_swigregister(iPcCommandInputPtr)
 
 celCreateCommandInput = _blcelc.celCreateCommandInput
+
+celGetCommandInput = _blcelc.celGetCommandInput
 
 class iPcLinearMovement(iBase):
     __swig_setmethods__ = {}
@@ -10856,6 +10866,8 @@ class iPcLinearMovementPtr(iPcLinearMovement):
 _blcelc.iPcLinearMovement_swigregister(iPcLinearMovementPtr)
 
 celCreateLinearMovement = _blcelc.celCreateLinearMovement
+
+celGetLinearMovement = _blcelc.celGetLinearMovement
 
 class iPcCamera(iBase):
     __swig_setmethods__ = {}
@@ -10900,6 +10912,8 @@ class iPcCameraPtr(iPcCamera):
 _blcelc.iPcCamera_swigregister(iPcCameraPtr)
 
 celCreateCamera = _blcelc.celCreateCamera
+
+celGetCamera = _blcelc.celGetCamera
 
 scfQuery_iPcCamera = _blcelc.scfQuery_iPcCamera
 
@@ -10949,6 +10963,8 @@ _blcelc.iPcMeshSelect_swigregister(iPcMeshSelectPtr)
 
 celCreateMeshSelect = _blcelc.celCreateMeshSelect
 
+celGetMeshSelect = _blcelc.celGetMeshSelect
+
 class iPcMesh(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -10983,6 +10999,8 @@ _blcelc.iPcMesh_swigregister(iPcMeshPtr)
 
 celCreateMesh = _blcelc.celCreateMesh
 
+celGetMesh = _blcelc.celGetMesh
+
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
 
 class iPcTimer(iBase):
@@ -11010,6 +11028,8 @@ class iPcTimerPtr(iPcTimer):
 _blcelc.iPcTimer_swigregister(iPcTimerPtr)
 
 celCreateTimer = _blcelc.celCreateTimer
+
+celGetTimer = _blcelc.celGetTimer
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
 
@@ -11039,6 +11059,8 @@ class iPcSolidPtr(iPcSolid):
 _blcelc.iPcSolid_swigregister(iPcSolidPtr)
 
 celCreateSolid = _blcelc.celCreateSolid
+
+celGetSolid = _blcelc.celGetSolid
 
 class iPcGravity(iBase):
     __swig_setmethods__ = {}
@@ -11081,6 +11103,10 @@ _blcelc.iPcGravity_swigregister(iPcGravityPtr)
 
 celCreateGravity = _blcelc.celCreateGravity
 
+celGetGravity = _blcelc.celGetGravity
+
+scfQuery_iPcGravity = _blcelc.scfQuery_iPcGravity
+
 class iPcMovable(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -11111,6 +11137,10 @@ class iPcMovablePtr(iPcMovable):
 _blcelc.iPcMovable_swigregister(iPcMovablePtr)
 
 celCreateMovable = _blcelc.celCreateMovable
+
+celGetMovable = _blcelc.celGetMovable
+
+scfQuery_iPcMovable = _blcelc.scfQuery_iPcMovable
 
 class iPcInventory(iBase):
     __swig_setmethods__ = {}
@@ -11151,6 +11181,8 @@ _blcelc.iPcInventory_swigregister(iPcInventoryPtr)
 
 celCreateInventory = _blcelc.celCreateInventory
 
+celGetInventory = _blcelc.celGetInventory
+
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 
 class iPcCharacteristics(iBase):
@@ -11189,6 +11221,8 @@ class iPcCharacteristicsPtr(iPcCharacteristics):
 _blcelc.iPcCharacteristics_swigregister(iPcCharacteristicsPtr)
 
 celCreateCharacteristics = _blcelc.celCreateCharacteristics
+
+celGetCharacteristics = _blcelc.celGetCharacteristics
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL

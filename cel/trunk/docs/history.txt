@@ -7,6 +7,50 @@ The history order is reversed so that new features are at the top.
 	- Jorrit made iPcLinearMovement->IsOnGround() use 'const' again.
 	  For some reason this was changed in Keith's latest commit but
 	  this caused the blpython behaviour layer to not compile.
+	- Jorrit performed a very fundamental change to the physical layer.
+	  Previously if you created an entity using pl->CreateEntity() you
+	  would get back the only reference to that entity. i.e. the physical
+	  layer didn't keep a ref and you were responsible for maintaining
+	  that ref on your own. This is now changed. The physical layer now
+	  maintains its own references. The consequence of this is that it is
+	  no longer sufficient to release your reference to get rid of an
+	  entity but you have to do a manual pl->RemoveEntity() call.
+	- Jorrit fixed smallgame.py for the latest collision detection changes
+	  in linmove.
+	- Jorrit added a new plugin: 'addon_celentity'. This plugin can
+	  be registered as an addon in a map file and you can use it to
+	  attach entities to meshes. You can use a syntax like this:
+	      <meshobj name=...>
+	          ...
+		  <addon plugin="cel.addons.celentity" entityname="bla">
+		    <behaviour layer="python" name="mybehaviour" />
+		    <propclass name="pcsolid"/>
+		    <propclass name="pctimer"/>
+		    ...
+		  </addon>
+	      </meshobj>
+	  Here are a few remarks:
+	      - If you don't specify 'entityname' then the name from the mesh
+	        itself will be used.
+	      - The 'layer' name will be used to query for a behaviour layer
+	        from the object registry. If you don't specify that name
+		then the addon will try to get the default behaviour layer
+		(registered with name "iCelBlLayer").
+	      - You don't have to create a 'pcmesh' as that property class
+	        is automatically created.
+	- Jorrit changed the pcregion property class so that it no longer
+	  creates an entity for a mesh if there is already an entity. This
+	  means you can safely use the cel.addons.celentity addon for meshes
+	  in your map file. Note that pcregion normally creates a 'pcsolid'
+	  property class in addition to the 'pcmesh'.
+	- Jorrit added iCelPlLayer->FindEntity(). This is a slow function so
+	  only use it when you really need it.
+	- Jorrit added scfQuery_iPcGravity and scfQuery_iPcMovable functions
+	  to the python behaviour layer.
+	- Jorrit also added celGet...() to the python behaviour layer for all
+	  property classes. This is similar to the celCreate...() functions.
+	- Jorrit changed 'portal_world' and 'smallgame.py' to use the new
+	  feature of creating an entity through an addon.
 17-Nov-2003
 	- Keith separated pc linmove from collision detection code in
 	  preparation for making a new linmove pc for sprcal3d sprites.
