@@ -38,22 +38,38 @@ struct iPcActorMove : public iBase
 {
   /// Start/stop going forward.
   virtual void Forward (bool start) = 0;
+  /// Returns the toogle value of moving forward.
+  virtual bool IsMovingForward () = 0;
   /// Start/stop going backward.
   virtual void Backward (bool start) = 0;
+  /// Returns the toogle value of moving backward.
+  virtual bool IsMovingBackward () = 0;
   /// Start/stop strafing left.
   virtual void StrafeLeft (bool start) = 0;
+  /// Returns the toogle value of strafing left.
+  virtual bool IsStrafingLeft () = 0;
   /// Start/stop strafing right.
   virtual void StrafeRight (bool start) = 0;
+  /// Returns the toogle value of strafing right.
+  virtual bool IsStrafingRight () = 0;
   /// Start/stop rotating left.
   virtual void RotateLeft (bool start) = 0;
+  /// Returns the toogle value of rotating left.
+  virtual bool IsRotatingLeft () = 0;
   /// Start/stop rotating right.
   virtual void RotateRight (bool start) = 0;
+  /// Returns the toogle value of rotating right.
+  virtual bool IsRotatingRight () = 0;
   /// Rotate to a specified angle.
   virtual void RotateTo (float yrot) = 0;
   /// Start/stop running.
   virtual void Run (bool start) = 0;
+  /// Returns the toogle value of running.
+  virtual bool IsRunning () = 0;
   /// Start/stop auto-running.
   virtual void AutoRun (bool start) = 0;
+  /// Returns the toogle value of autorunning.
+  virtual bool IsAutoRunning () = 0;
   /// Jump.
   virtual void Jump () = 0;
   /// Toggle camera mode.

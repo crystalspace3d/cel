@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Mar-2005
+	- Jorrit added a patch from Manuel A. Fernandez Montecelo which
+	  adds some functions to iPcActorMove so that you can see what
+	  the actor is doing. Also fixes a bug with wrong animation direction
+	  being set after jumping.
 28-Feb-2005
 	- Eric Sunshine updated Autoconf, Jam, and Msvcgen files from master
 	  copies in CS repository.

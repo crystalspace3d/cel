@@ -265,7 +265,7 @@ void celPcActorMove::HandleMovement (bool jump)
   {
     velocity.y = jumping_velocity;
     pclinmove->SetVelocity (velocity);
-    if (sprcal3d) sprcal3d->SetVelocity (velocity.z);
+    if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
     // @@@ do spr3d!
   }
 }
