@@ -105,6 +105,10 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 SOURCE=..\pf\engine\engfact.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\pf\common\stdpcimp.h
+# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -112,6 +116,10 @@ SOURCE=..\pf\engine\engfact.h
 # Begin Source File
 
 SOURCE=..\pf\engine\engfact.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\pf\common\stdpcimp.cpp
 # End Source File
 # End Group
 # End Target

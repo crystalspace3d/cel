@@ -113,6 +113,10 @@ SOURCE=..\pf\move\movefact.h
 
 SOURCE=..\pf\move\movefact.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\pf\common\stdpcimp.cpp
+# End Source File
 # End Group
 # End Target
 # End Project
