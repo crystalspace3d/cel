@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+30-Nov-2003
+	- Eric Sunshine updated very outdated m4 files in cel/mk/autoconf from
+	  master copies in CS/mk/autoconf.
 29-Nov-2003
 	- Jorrit added support for csVector2 properties to the pcproperties
 	  property class, to the generic property system, to the
