@@ -30,6 +30,7 @@
 #include "pf/common/stdpcimp.h"
 #include "pf/tooltip.h"
 #include "pf/timer.h"
+#include "pf/prop.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -40,6 +41,7 @@ struct iVirtualClock;
  */
 CEL_DECLARE_FACTORY(Tooltip)
 CEL_DECLARE_FACTORY(Timer)
+CEL_DECLARE_FACTORY(Properties)
 
 /**
  * This is a tooltip property class.
@@ -183,6 +185,143 @@ public:
       return parent->HandleEvent (ev);
     }
   } *scfiEventHandler;
+};
+
+/**
+ * This is a property property class.
+ */
+class celPcProperties : public celPcCommon
+{
+private:
+  csVector properties;
+
+  struct property
+  {
+    char* propName;
+    int type;
+    union
+    {
+      float f;
+      long l;
+      bool b;
+      char* s;
+    } v;
+  };
+
+  int NewProperty (const char* name);
+  int FindOrNewProperty (const char* name);
+  void ClearPropertyValue (property* p);
+
+public:
+  celPcProperties (iObjectRegistry* object_reg);
+  virtual ~celPcProperties ();
+
+  void SetProperty (const char* name, float value);
+  void SetProperty (const char* name, long value);
+  void SetProperty (const char* name, bool value);
+  void SetProperty (const char* name, const char* value);
+  int GetPropertyIndex (const char* name) const;
+  void SetProperty (int index, float value);
+  void SetProperty (int index, long value);
+  void SetProperty (int index, bool value);
+  void SetProperty (int index, const char* value);
+  int GetPropertyType (int index) const;
+  float GetPropertyFloat (int index) const;
+  long GetPropertyLong (int index) const;
+  bool GetPropertyBool (int index) const;
+  const char* GetPropertyString (int index) const;
+  void ClearProperty (int index);
+  void Clear ();
+  int GetPropertyCount () const;
+  const char* GetPropertyName (int idx) const;
+  void Dump ();
+
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pcproperties"; }
+  virtual iCelDataBuffer* Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
+
+  struct PcProperties : public iPcProperties
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcProperties);
+    virtual void SetProperty (const char* name, float value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual void SetProperty (const char* name, long value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual void SetProperty (const char* name, bool value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual void SetProperty (const char* name, const char* value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual int GetPropertyIndex (const char* name) const
+    {
+      return scfParent->GetPropertyIndex (name);
+    }
+    virtual void SetProperty (int index, float value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, long value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, bool value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, const char* value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual int GetPropertyType (int index) const
+    {
+      return scfParent->GetPropertyType (index);
+    }
+    virtual float GetPropertyFloat (int index) const
+    {
+      return scfParent->GetPropertyFloat (index);
+    }
+    virtual long GetPropertyLong (int index) const
+    {
+      return scfParent->GetPropertyLong (index);
+    }
+    virtual bool GetPropertyBool (int index) const
+    {
+      return scfParent->GetPropertyBool (index);
+    }
+    virtual const char* GetPropertyString (int index) const
+    {
+      return scfParent->GetPropertyString (index);
+    }
+    virtual void ClearProperty (int index)
+    {
+      scfParent->ClearProperty (index);
+    }
+    virtual void Clear ()
+    {
+      scfParent->Clear ();
+    }
+    virtual int GetPropertyCount () const
+    {
+      return scfParent->GetPropertyCount ();
+    }
+    virtual const char* GetPropertyName (int idx) const
+    {
+      return scfParent->GetPropertyName (idx);
+    }
+    virtual void Dump ()
+    {
+      scfParent->Dump ();
+    }
+  } scfiPcProperties;
 };
 
 #endif // __CEL_PF_TOOLFACT__
