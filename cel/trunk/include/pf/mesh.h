@@ -42,6 +42,12 @@ struct iPcMesh : public iBase
   virtual void SetMesh (const char* factname, const char* filename) = 0;
 
   /**
+   * Create an empty thing mesh (use instead of SetMesh()).
+   * After this use GetMesh() to add polygons to the mesh.
+   */
+  virtual void CreateEmptyThing () = 0;
+
+  /**
    * Get the mesh.
    */
   virtual iMeshWrapper* GetMesh () const = 0;

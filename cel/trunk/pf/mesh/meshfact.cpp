@@ -39,6 +39,7 @@
 #include "iengine/engine.h"
 #include "imap/parser.h"
 #include "ivaria/reporter.h"
+#include "imesh/object.h"
 
 //---------------------------------------------------------------------------
 
@@ -94,37 +95,6 @@ const char* celPfMesh::GetTypeName (int idx) const
     default: return NULL;
   }
 }
-
-//---------------------------------------------------------------------------
-
-// Class which is used to attach to an iMeshWrapper so that
-// we can find the iCelEntity again.
-
-SCF_VERSION (celEntityFinder, 0, 0, 1);
-class celEntityFinder : public csObject
-{
-private:
-  celPcMesh* pcmesh;
-
-public:
-  celEntityFinder (celPcMesh* pcmesh)
-  {
-    celEntityFinder::pcmesh = pcmesh;
-  }
-  virtual ~celEntityFinder ()
-  {
-    printf ("Remove entity finder\n");
-    pcmesh->ClearMesh ();
-  }
-  celPcMesh* GetPcMesh () const { return pcmesh; }
-  SCF_DECLARE_IBASE_EXT (csObject);
-};
-
-SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
-  SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_DECLARE_FAST_INTERFACE (celEntityFinder)
 
 //---------------------------------------------------------------------------
 
@@ -198,15 +168,39 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
     if (meshfact)
     {
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
-      celEntityFinder* cef = new celEntityFinder (this);
-      iObject* cef_obj = SCF_QUERY_INTERFACE_FAST (cef, iObject);
-      mesh->QueryObject ()->ObjAdd (cef_obj);
-      cef_obj->DecRef ();
-      cef->DecRef ();
+      iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      pl->AttachEntity (mesh->QueryObject (), entity);
+      pl->DecRef ();
     }
   }
 
   engine->DecRef ();
+}
+
+void celPcMesh::CreateEmptyThing ()
+{
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  if (mesh)
+  {
+    mesh->DecRef ();
+    engine->GetMeshes ()->Remove (mesh);
+    mesh = NULL;
+  }
+
+  iMeshObjectType* thing_type = engine->GetThingType ();
+  iMeshObjectFactory* thing_fact = thing_type->NewFactory ();
+  iMeshObject* thing_obj = SCF_QUERY_INTERFACE_FAST (thing_fact, iMeshObject);
+  thing_fact->DecRef ();
+
+  mesh = engine->CreateMeshWrapper (thing_obj, entity->GetName (), NULL,
+		  csVector3 (0));
+
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl->AttachEntity (mesh->QueryObject (), entity);
+  pl->DecRef ();
+
+  thing_obj->DecRef ();
 }
 
 void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
@@ -345,12 +339,9 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
     iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
     iObject* sel_obj = sel->QueryObject ();
-    celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (sel_obj, celEntityFinder);
-    if (cef)
-    {
-      new_sel = cef->GetPcMesh ()->GetEntity ();
-      cef->DecRef ();
-    }
+    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    new_sel = pl->FindAttachedEntity (sel_obj);
+    pl->DecRef ();
   }
 
   if (do_drag && sel_entity)
@@ -396,7 +387,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   {
     if (mouse_down)
     {
-      sel_entity = new_sel;
+      if (do_global || new_sel == entity)
+        sel_entity = new_sel;
       if (do_senddown && sel_entity)
         SendMessage ("selectmesh_down", sel_entity,
 		mouse_x, mouse_y, mouse_but);
@@ -424,7 +416,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   {
     if (mouse_down)
     {
-      sel_entity = new_sel;
+      if (do_global || new_sel == entity)
+        sel_entity = new_sel;
       if (do_senddown && sel_entity)
         SendMessage ("selectmesh_down", sel_entity,
 		mouse_x, mouse_y, mouse_but);
