@@ -112,11 +112,29 @@ void celBillboard::SetClickMap (int tx, int ty, bool v)
 
 void celBillboard::SetupMaterial ()
 {
+// @@@ OPT with one test!!!
   if (!material)
   {
     material = mgr->engine->FindMaterial (materialname);
     if (!material) return;
     material->Visit ();
+  }
+
+  if (!has_clickmap)
+  {
+    // We don't have a clickmap yet so we try to find our image first.
+    // Later we might get the correct dimensions and then we can
+    // calculate the clickmap.
+    if (!image)
+    {
+      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
+    	  material->GetMaterial (), iMaterialEngine);
+      if (mateng)
+      {
+        iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
+        image = texwrap->GetImageFile ();
+      }
+    }
   }
 
   if (image_w == -1)
@@ -125,6 +143,16 @@ void celBillboard::SetupMaterial ()
     {
       material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
     	image_w, image_h);
+    }
+    else
+    {
+      // Material is not yet prepared. So we get the original image
+      // and try to get the size from that. We assume here that the
+      // renderer only scaled the image to po2 dimensions at Prepare()
+      // time.
+      CS_ASSERT (image != 0);
+      image_w = image->GetWidth ();
+      image_h = image->GetHeight ();
     }
   }
 
@@ -137,50 +165,49 @@ void celBillboard::SetupMaterial ()
     }
   }
 
-  if (!has_clickmap)
+  if (!has_clickmap && image && image_w != -1)
   {
-    csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
-    	material->GetMaterial (), iMaterialEngine);
-    if (mateng)
+    // Some renderers scale the image for the texture. If that happens
+    // then we have to correct for that here in this routine.
+    int scaled_image_w = image->GetWidth ();
+    int scaled_image_h = image->GetHeight ();
+    has_clickmap = true;
+    // Only truecolor supported.
+    clickmap = new uint8 [image_h * (1 + image_w / 8)];
+    memset (clickmap, 0, image_h * (1 + image_w / 8));
+    if ((image->GetFormat () & CS_IMGFMT_MASK) == CS_IMGFMT_TRUECOLOR)
     {
+      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
+    	  material->GetMaterial (), iMaterialEngine);
       iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
-      iImage* image = texwrap->GetImageFile ();
-      if (image)
+      int r, g, b;
+      texwrap->GetKeyColor (r, g, b);
+      csRGBpixel* d;
+      if (r != -1)
       {
-        image_w = image->GetWidth ();
-        image_h = image->GetHeight ();
-        has_clickmap = true;
-        // Only truecolor supported.
-        clickmap = new uint8 [image_h * (1 + image_w / 8)];
-	memset (clickmap, 0, image_h * (1 + image_w / 8));
-        if ((image->GetFormat () & CS_IMGFMT_MASK) == CS_IMGFMT_TRUECOLOR)
-	{
-	  int r, g, b;
-	  texwrap->GetKeyColor (r, g, b);
-          if (r != -1)
+	csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
+	int x, y;
+	for (y = 0 ; y < image_h ; y++)
+	  for (x = 0 ; x < image_w ; x++)
 	  {
-	    csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
-	    int x, y;
-	    for (y = 0 ; y < image_h ; y++)
-	      for (x = 0 ; x < image_w ; x++)
-	      {
-	        SetClickMap (x, y, data->red != r || data->green != g ||
-			data->blue != b);
-	        data++;
-	      }
+	    int sx = x * scaled_image_w / image_w;
+	    int sy = y * scaled_image_h / image_h;
+	    d = data + (sy*scaled_image_w) + sx;
+	    SetClickMap (x, y, d->red != r || d->green != g || d->blue != b);
 	  }
-	  else
+      }
+      else
+      {
+	csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
+	int x, y;
+	for (y = 0 ; y < image_h ; y++)
+	  for (x = 0 ; x < image_w ; x++)
 	  {
-	    csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
-	    int x, y;
-	    for (y = 0 ; y < image_h ; y++)
-	      for (x = 0 ; x < image_w ; x++)
-	      {
-	        SetClickMap (x, y, data->alpha != 0);
-		data++;
-	      }
+	    int sx = x * scaled_image_w / image_w;
+	    int sy = y * scaled_image_h / image_h;
+	    d = data + (sy*scaled_image_w) + sx;
+	    SetClickMap (x, y, d->alpha != 0);
 	  }
-        }
       }
     }
   }
