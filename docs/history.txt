@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Sep-2004
+	- Jorrit changed celPcCamera to use the new csColliderHelper
+	  TraceBeam() function in CS. This should speed up third
+	  person camera handling considerably in combination with
+	  complex models (HitBeamPortals() which was used before would
+	  get very slow with high poly objects).
 30-Aug-2004
 	- Jorrit added two new functions to the zone manager:
 	    - FindStartLocations() will return a list of all region

@@ -49,10 +49,12 @@
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
+#include "cstool/collider.h"
 #include "ivaria/view.h"
+#include "ivaria/collider.h"
+#include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
 #include "csqsqrt.h"
-#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -290,6 +292,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (kbd != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   clear_zbuf = false;
   clear_screen = false;
@@ -571,6 +574,7 @@ csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
     case iPcCamera::lara_thirdperson:
     case iPcCamera::freelook:
     {
+#if 0
       csVector3 isect;
       int sel;
       csVector3 modifiedTarget = pseudoTarget;
@@ -582,6 +586,20 @@ csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
         pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
         return isect;
       }
+#else
+      csVector3 isect;
+      csVector3 modifiedTarget = pseudoTarget;
+
+      csIntersectingTriangle closest_tri;
+      float sqdist = csColliderHelper::TraceBeam (cdsys, sector,
+      	modifiedTarget, pseudoPosition, true, closest_tri, isect);
+
+      if (sqdist >= 0)
+      {
+        pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+        return isect;
+      }
+#endif
       break;
     }
     default:

@@ -43,6 +43,7 @@ struct iEngine;
 struct iVirtualClock;
 struct iKeyboardDriver;
 struct iMouseDriver;
+struct iCollideSystem;
 class csView;
 class celPcCamera;
 class iPcZoneManager;
@@ -186,6 +187,7 @@ private:
   csRef<iKeyboardDriver> kbd;
   csRef<iMouseDriver> mouse;
   csRef<iVirtualClock> vc;
+  csRef<iCollideSystem> cdsys;
   csRef<iView> view;
   bool use_cd;
   bool rect_set;
