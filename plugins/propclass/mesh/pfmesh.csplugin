@@ -11,7 +11,7 @@
       <class>
 	<name>cel.pcfactory.meshselect</name>
 	<implementation>celPfMeshSelect</implementation>
-	<description>CEL Mesh Select Proprty Class Factory</description>
+	<description>CEL Mesh Select Property Class Factory</description>
       </class>
     </classes>
   </scf>

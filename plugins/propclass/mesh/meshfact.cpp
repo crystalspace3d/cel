@@ -54,15 +54,6 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
 CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
 
-#if 0
-SCF_EXPORT_CLASS_TABLE (pfmesh)
-  SCF_EXPORT_CLASS (celPfMesh, "cel.pcfactory.mesh",
-  	"CEL Mesh Property Class Factory")
-  SCF_EXPORT_CLASS (celPfMeshSelect, "cel.pcfactory.meshselect",
-	"CEL Mesh Select Proprty Class Factory")
-SCF_EXPORT_CLASS_TABLE_END
-#endif
-
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;

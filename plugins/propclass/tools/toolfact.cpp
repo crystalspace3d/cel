@@ -44,17 +44,6 @@ CEL_IMPLEMENT_FACTORY (Tooltip, "pctooltip")
 CEL_IMPLEMENT_FACTORY (Timer, "pctimer")
 CEL_IMPLEMENT_FACTORY (Properties, "pcproperties")
 
-#if 0
-SCF_EXPORT_CLASS_TABLE (pftools)
-  SCF_EXPORT_CLASS (celPfTooltip, "cel.pcfactory.tooltip",
-  	"CEL Tooltip Property Class Factory")
-  SCF_EXPORT_CLASS (celPfTimer, "cel.pcfactory.timer",
-	"CEL Timer Property Class Factory")
-  SCF_EXPORT_CLASS (celPfProperties, "cel.pcfactory.properties",
-	"CEL Properties Property Class Factory")
-SCF_EXPORT_CLASS_TABLE_END
-#endif
-
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcTooltip)

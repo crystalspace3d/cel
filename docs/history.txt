@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-Sep-2003
+	- Eric Sunshine removed a bunch of obsolete and useless
+	  SCF_EXPORT_CLASS() invocations from the various plugin modules.
 16-Sep-2003
 	- Eric Sunshine updated the Autoconf files, Jam files, project files,
 	  project templates, etc. to reflect the recent cssys+csutil merge.
