@@ -38,13 +38,13 @@ class celEntity;
 
 struct CallbackPCTiming
 {
-  csWeakRef<iCelPropertyClass> pc;
+  size_t pc_idx;
   csTicks time_to_fire;
 };
 struct CallbackPCInfo
 {
-  csWeakRefArray<iCelPropertyClass> every_frame;
-  csSafeCopyArray<CallbackPCTiming> timed_callbacks;
+  csArray<size_t> every_frame;
+  csArray<CallbackPCTiming> timed_callbacks;
 };
 
 /**
@@ -70,12 +70,16 @@ private:
   csRef<iVirtualClock> vc;
 
   // For timed callbacks:
+  csWeakRefArray<iCelPropertyClass> weak_pcs;	// Weak refs to pcs.
+  csHash<size_t, iCelPropertyClass*> weak_pcs_hash;// Where is pc in weak_pcs.
   CallbackPCInfo callbacks_pre;
   CallbackPCInfo callbacks_process;
   CallbackPCInfo callbacks_post;
   CallbackPCInfo callbacks_final;
   int compress_delay;
   void CompressCallbackPCInfo ();
+  // Register a PC to weak ref table and return index.
+  size_t WeakRegPC (iCelPropertyClass* pc);
   // 'where' is one of the cscmdProcess flags.
   CallbackPCInfo* GetCBInfo (int where);
 
