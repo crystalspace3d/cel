@@ -96053,40 +96053,6 @@ static PyObject *_wrap_iPcBillboard_GetBillboardName(PyObject *self, PyObject *a
 }
 
 
-static PyObject *_wrap_iPcBillboard_SetFilename(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iPcBillboard *arg1 = (iPcBillboard *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:iPcBillboard_SetFilename",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcBillboard,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    (arg1)->SetFilename((char const *)arg2);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iPcBillboard_GetFilename(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iPcBillboard *arg1 = (iPcBillboard *) 0 ;
-    char *result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iPcBillboard_GetFilename",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcBillboard,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (char *)(arg1)->GetFilename();
-    
-    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iPcBillboard_GetBillboard(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPcBillboard *arg1 = (iPcBillboard *) 0 ;
@@ -103516,8 +103482,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboardManager_swigregister", iBillboardManager_swigregister, METH_VARARGS },
 	 { (char *)"iPcBillboard_SetBillboardName", _wrap_iPcBillboard_SetBillboardName, METH_VARARGS },
 	 { (char *)"iPcBillboard_GetBillboardName", _wrap_iPcBillboard_GetBillboardName, METH_VARARGS },
-	 { (char *)"iPcBillboard_SetFilename", _wrap_iPcBillboard_SetFilename, METH_VARARGS },
-	 { (char *)"iPcBillboard_GetFilename", _wrap_iPcBillboard_GetFilename, METH_VARARGS },
 	 { (char *)"iPcBillboard_GetBillboard", _wrap_iPcBillboard_GetBillboard, METH_VARARGS },
 	 { (char *)"delete_iPcBillboard", _wrap_delete_iPcBillboard, METH_VARARGS },
 	 { (char *)"iPcBillboard_swigregister", iPcBillboard_swigregister, METH_VARARGS },

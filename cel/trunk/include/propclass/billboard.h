@@ -43,16 +43,6 @@ struct iPcBillboard : public iBase
   virtual const char* GetBillboardName () = 0;
 
   /**
-   * Set the vfs filename of the billboard image.
-   */
-  virtual void SetFilename (const char* filename) = 0;
-
-  /**
-   * Get the vfs filename of the billboard image.
-   */
-  virtual const char* GetFilename () = 0;
-
-  /**
    * Get the billboard.
    */
   virtual iBillboard* GetBillboard () = 0;
