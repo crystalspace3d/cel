@@ -1819,6 +1819,9 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer(iObjectRegistry *object_reg) {
   return bl;
 }
 
+PyObject *iCelBehaviour_GetPythonObject(iCelBehaviour *self){
+      return (PyObject*)self->GetInternalObject();
+    }
 bool iCelPropertyClass_SetPropertyLong(iCelPropertyClass *self,csStringID id,long l){ return self->SetProperty (id, l); }
 bool iCelPropertyClass_SetPropertyFloat(iCelPropertyClass *self,csStringID id,float f){ return self->SetProperty (id, f); }
 bool iCelPropertyClass_SetPropertyBool(iCelPropertyClass *self,csStringID id,bool b){ return self->SetProperty (id, b); }
@@ -82550,6 +82553,23 @@ static PyObject *_wrap_iCelBehaviour_SendMessage(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *_wrap_iCelBehaviour_GetPythonObject(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iCelBehaviour *arg1 = (iCelBehaviour *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iCelBehaviour_GetPythonObject",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelBehaviour,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)iCelBehaviour_GetPythonObject(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iCelBehaviour(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCelBehaviour *arg1 = (iCelBehaviour *) 0 ;
@@ -88980,6 +89000,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelBehaviour_GetName", _wrap_iCelBehaviour_GetName, METH_VARARGS },
 	 { (char *)"iCelBehaviour_GetBehaviourLayer", _wrap_iCelBehaviour_GetBehaviourLayer, METH_VARARGS },
 	 { (char *)"iCelBehaviour_SendMessage", _wrap_iCelBehaviour_SendMessage, METH_VARARGS },
+	 { (char *)"iCelBehaviour_GetPythonObject", _wrap_iCelBehaviour_GetPythonObject, METH_VARARGS },
 	 { (char *)"delete_iCelBehaviour", _wrap_delete_iCelBehaviour, METH_VARARGS },
 	 { (char *)"iCelBehaviour_swigregister", iCelBehaviour_swigregister, METH_VARARGS },
 	 { (char *)"iCelPropertyClass_GetName", _wrap_iCelPropertyClass_GetName, METH_VARARGS },

@@ -1,9 +1,7 @@
 from blcelc import *
 
-room = 1
 class smallgame:
 	def __init__(self,celEntity):
-		global room
 		print "Initializing game..."
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.region")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.mesh")
@@ -25,5 +23,6 @@ class smallgame:
 		bl = physicallayer_ptr.GetBehaviourLayer(0)
 		box = celCreateEntity(physicallayer_ptr,"box")
 		box_behaviour = box.CreateBehaviour (bl,"box")
-		box_behaviour.SendMessage("real_init",room)
+		box_python = box_behaviour.GetPythonObject ();
+		box_python.real_init(box,room)
 

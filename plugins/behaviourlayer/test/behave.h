@@ -54,6 +54,7 @@ public:
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+  virtual void* GetInternalObject () { return 0; }
 };
 
 /**

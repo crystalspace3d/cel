@@ -3,8 +3,7 @@ from blcelc import *
 class box:
 	def __init__(self,celEntity):
 		print "Initializing box..."
-	def real_init(self,celEntity,args):
-		from smallgame import room
+	def real_init(self,celEntity,room):
 		solid = celCreateSolid(physicallayer_ptr,celEntity)
 		gravity = celCreateGravity(physicallayer_ptr,celEntity)
 		movable = celCreateMovable(physicallayer_ptr,celEntity)

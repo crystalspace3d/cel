@@ -9437,6 +9437,7 @@ class iCelBehaviour(iBase):
     def GetName(*args): return apply(_blcelc.iCelBehaviour_GetName,args)
     def GetBehaviourLayer(*args): return apply(_blcelc.iCelBehaviour_GetBehaviourLayer,args)
     def SendMessage(*args): return apply(_blcelc.iCelBehaviour_SendMessage,args)
+    def GetPythonObject(*args): return apply(_blcelc.iCelBehaviour_GetPythonObject,args)
     def __del__(self, destroy= _blcelc.delete_iCelBehaviour):
         try:
             if self.thisown: destroy(self)
