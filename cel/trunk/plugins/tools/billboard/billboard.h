@@ -126,8 +126,8 @@ private:
   csVector2 uv_botright;
 
   csRef<iImage> image;	// Ref to the image. Is cleared when no longer needed.
-  bool has_clickmap;
-  uint8* clickmap;
+  bool has_clickmap;	// If true we have a clickmap.
+  uint8* clickmap;	// A clickmap. Can be null in case all values are true.
   bool material_ok;
 
   void SetupMaterial ();
@@ -154,6 +154,8 @@ public:
 
   // Check if x,y is in billboard (uses screen space).
   bool In (int sx, int sy);
+  // Return true if clickmap is completely true.
+  bool HasFullClickmap ();
 
   // Fire event handlers (input == screen space).
   void FireMouseUp (int sx, int sy, int button);

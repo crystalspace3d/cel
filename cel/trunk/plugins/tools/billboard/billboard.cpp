@@ -201,6 +201,7 @@ void celBillboard::SetupMaterial ()
       int r, g, b;
       texwrap->GetKeyColor (r, g, b);
       csRGBpixel* d;
+      bool completely_full = true;
       if (r != -1)
       {
 	csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
@@ -216,6 +217,8 @@ void celBillboard::SetupMaterial ()
 	      csRGBpixel* d2 = d+x;
 	      if (d2->red != r || d2->green != g || d2->blue != b)
 	        c[x/8] |= 1<<(x%8);
+	      else
+		completely_full = false;
 	    }
 	  else
 	    for (x = 0 ; x < image_w ; x++)
@@ -224,6 +227,8 @@ void celBillboard::SetupMaterial ()
 	      csRGBpixel* d2 = d+sx;
 	      if (d2->red != r || d2->green != g || d2->blue != b)
 	        c[x/8] |= 1<<(x%8);
+	      else
+		completely_full = false;
 	    }
         }
       }
@@ -240,14 +245,24 @@ void celBillboard::SetupMaterial ()
 	    for (x = 0 ; x < image_w ; x++)
 	    {
 	      if (d[x].alpha != 0) c[x/8] |= 1<<(x%8);
+	      else completely_full = false;
 	    }
 	  else
 	    for (x = 0 ; x < image_w ; x++)
 	    {
 	      int sx = x * scaled_image_w / image_w;
 	      if (d[sx].alpha != 0) c[x/8] |= 1<<(x%8);
+	      else completely_full = false;
 	    }
         }
+      }
+      if (completely_full)
+      {
+        // Optimization. The clickmap is completely full. In
+	// that case we simply remove the clickmap while keeping
+	// has_clickmap true.
+	delete[] clickmap;
+	clickmap = 0;
       }
     }
     image = 0;	// We no longer need the image.
@@ -392,6 +407,15 @@ void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
   firing_messages = false;
 }
 
+bool celBillboard::HasFullClickmap ()
+{
+  if (bb_w == -1 || !has_clickmap)
+  {
+    SetupMaterial ();
+    if (bb_w == -1 || !has_clickmap) return false;
+  }
+  return clickmap == 0;
+}
 
 bool celBillboard::In (int sx, int sy)
 {
@@ -427,21 +451,58 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
   }
+
+  int fw = g3d->GetWidth ();
+  int fh = g3d->GetHeight ();
+  csRect r;
+  GetRect (r);
+  if (r.xmax <= 0 || r.xmin >= fw-1) return;
+  if (r.ymax <= 0 || r.ymin >= fh-1) return;
+
   SetupMaterial ();
   if (!material) return;
   material->Visit ();
   poly.mat_handle = material->GetMaterialHandle ();
-  int fh = g3d->GetHeight ();
-  csRect r;
-  GetRect (r);
-  poly.texels[0] = uv_topleft;
-  poly.texels[1].Set (uv_botright.x, uv_topleft.y);
-  poly.texels[2] = uv_botright;
-  poly.texels[3].Set (uv_topleft.x, uv_botright.y);
+
+  csVector2 uvtl = uv_topleft;
+  csVector2 uvbr = uv_botright;
+  if (r.xmin < 0)
+  {
+    int dx = r.xmax - r.xmin;
+    float rr = float (-r.xmin) / float (dx);
+    uvtl.x = (1-rr) * uvtl.x + uvbr.x * rr;
+    r.xmin = 0;
+  }
+  else if (r.xmax >= fw)
+  {
+    int dx = r.xmax - r.xmin;
+    float rr = float (r.xmax - fw+1) / float (dx);
+    uvbr.x = (1-rr) * uvbr.x + uvtl.x * rr;
+    r.xmax = fw-1;
+  }
+  if (r.ymin < 0)
+  {
+    int dy = r.ymax - r.ymin;
+    float rr = float (-r.ymin) / float (dy);
+    uvtl.y = (1-rr) * uvtl.y + uvbr.y * rr;
+    r.ymin = 0;
+  }
+  else if (r.ymax >= fh)
+  {
+    int dy = r.ymax - r.ymin;
+    float rr = float (r.ymax - fh-1) / float (dy);
+    uvbr.y = (1-rr) * uvbr.y + uvtl.y * rr;
+    r.ymax = fh-1;
+  }
+
   poly.vertices[0].Set (r.xmin, fh-r.ymin);
   poly.vertices[1].Set (r.xmax, fh-r.ymin);
   poly.vertices[2].Set (r.xmax, fh-r.ymax);
   poly.vertices[3].Set (r.xmin, fh-r.ymax);
+  poly.texels[0] = uvtl;
+  poly.texels[1].Set (uvbr.x, uvtl.y);
+  poly.texels[2] = uvbr;
+  poly.texels[3].Set (uvtl.x, uvbr.y);
   poly.colors[0] = color;
   poly.colors[1] = color;
   poly.colors[2] = color;
@@ -786,11 +847,31 @@ bool celBillboardManager::TestCollision (iBillboard* bb1, iBillboard* bb2)
   // Test transparent bits...
   // @@@ Not very optimal. In future we should use some kind of
   // quadtree to help this.
-  int x, y;
-  for (x = r1.xmin ; x <= r1.xmax ; x++)
-    for (y = r1.ymin ; y <= r1.ymax ; y++)
-      if (cbb1->In (x, y) && cbb2->In (x, y))
-        return true;
+  if (cbb1->HasFullClickmap () && cbb2->HasFullClickmap ()) return true;
+  if (cbb1->HasFullClickmap ())
+  {
+    int x, y;
+    for (x = r1.xmin ; x <= r1.xmax ; x++)
+      for (y = r1.ymin ; y <= r1.ymax ; y++)
+        if (cbb2->In (x, y))
+          return true;
+  }
+  else if (cbb2->HasFullClickmap ())
+  {
+    int x, y;
+    for (x = r1.xmin ; x <= r1.xmax ; x++)
+      for (y = r1.ymin ; y <= r1.ymax ; y++)
+        if (cbb1->In (x, y))
+          return true;
+  }
+  else
+  {
+    int x, y;
+    for (x = r1.xmin ; x <= r1.xmax ; x++)
+      for (y = r1.ymin ; y <= r1.ymax ; y++)
+        if (cbb1->In (x, y) && cbb2->In (x, y))
+          return true;
+  }
 
   return false;
 }
