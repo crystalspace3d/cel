@@ -45,6 +45,7 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
  * <li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
  * <li>LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *     and 'factoryname' (string).
+ * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).
  * </ul>
  */
 struct iPcMesh : public iBase

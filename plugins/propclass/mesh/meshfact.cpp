@@ -82,6 +82,9 @@ csStringID celPcMesh::action_loadmeshpath = csInvalidStringID;
 csStringID celPcMesh::id_path = csInvalidStringID;
 csStringID celPcMesh::id_filename = csInvalidStringID;
 csStringID celPcMesh::id_factoryname = csInvalidStringID;
+csStringID celPcMesh::action_movemesh = csInvalidStringID;
+csStringID celPcMesh::id_sector = csInvalidStringID;
+csStringID celPcMesh::id_position = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMesh)
@@ -108,6 +111,9 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_path = pl->FetchStringID ("cel.parameter.path");
     id_filename = pl->FetchStringID ("cel.parameter.filename");
     id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
+    action_movemesh = pl->FetchStringID ("cel.action.MoveMesh");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
   }
 }
 
@@ -162,6 +168,22 @@ bool celPcMesh::PerformAction (csStringID actionId,
     bool rc = SetMesh (factory, file);
     // @@@ Error report!
     (void)rc;
+    return true;
+  }
+  else if (actionId == action_movemesh)
+  {
+    CEL_FETCH_STRING_PAR (sector,params,id_sector);
+    if (!sector) return false;
+    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+    if (!p_position) return false;
+    csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+    iSector* sect = engine->FindSector (sector);
+    if (!sect)
+    {
+      // @@@ Error
+      return false;
+    }
+    MoveMesh (sect, position);
     return true;
   }
   return false;

@@ -66,6 +66,9 @@ private:
   static csStringID id_factoryname;
   static csStringID action_loadmesh;
   static csStringID action_loadmeshpath;
+  static csStringID id_sector;
+  static csStringID id_position;
+  static csStringID action_movemesh;
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
