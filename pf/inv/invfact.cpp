@@ -113,17 +113,12 @@ void celPcInventory::SetEntity (iCelEntity* entity)
   celPcInventory::entity = entity;
 }
 
-iCelDataBuffer* celPcInventory::GetDataBuffer ()
+iCelDataBuffer* celPcInventory::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcInventory::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcInventory::Load (iCelDataBuffer* databuf)
@@ -541,17 +536,12 @@ void celPcCharacteristics::SetEntity (iCelEntity* entity)
   celPcCharacteristics::entity = entity;
 }
 
-iCelDataBuffer* celPcCharacteristics::GetDataBuffer ()
+iCelDataBuffer* celPcCharacteristics::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcCharacteristics::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcCharacteristics::Load (iCelDataBuffer* databuf)

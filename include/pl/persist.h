@@ -25,72 +25,7 @@
 
 struct iCelPropertyClass;
 struct iCelEntity;
-
-enum celDataType
-{
-  CEL_DATA_NONE = 0,
-  CEL_DATA_BOOL,
-  CEL_DATA_BYTE,
-  CEL_DATA_WORD,
-  CEL_DATA_LONG,
-  CEL_DATA_UBYTE,
-  CEL_DATA_UWORD,
-  CEL_DATA_ULONG,
-  CEL_DATA_FLOAT,
-  CEL_DATA_STRING,
-  CEL_DATA_PCLASS,
-  CEL_DATA_ENTITY
-};
-
-struct celData
-{
-  celDataType type;
-  char* name;
-  union
-  {
-    bool bo;
-    int8 b;
-    uint8 ub;
-    int16 w;
-    uint16 uw;
-    int32 l;
-    uint32 ul;
-    float f;
-    char* s;
-    iCelPropertyClass* pc;
-    iCelEntity* ent;
-  } value;
-
-  celData () : type (CEL_DATA_NONE), name (NULL) { }
-  ~celData()
-  {
-    Clear ();
-  }
-  void Clear ()
-  {
-    delete[] name;
-    if (type == CEL_DATA_STRING) delete[] value.s;
-    type = CEL_DATA_NONE;
-  }
-  void New (const char* n)
-  {
-    delete[] name;
-    name = csStrNew (n);
-    if (type == CEL_DATA_STRING) delete[] value.s;
-    type = CEL_DATA_NONE;
-  }
-  void Set (const char* n, bool v) { New (n); type = CEL_DATA_BOOL; value.bo = v; }
-  void Set (const char* n, int8 v) { New (n); type = CEL_DATA_BYTE; value.b = v; }
-  void Set (const char* n, uint8 v) { New (n); type = CEL_DATA_UBYTE; value.ub = v; }
-  void Set (const char* n, int16 v) { New (n); type = CEL_DATA_WORD; value.w = v; }
-  void Set (const char* n, uint16 v) { New (n); type = CEL_DATA_UWORD; value.uw = v; }
-  void Set (const char* n, int32 v) { New (n); type = CEL_DATA_LONG; value.l = v; }
-  void Set (const char* n, uint32 v) { New (n); type = CEL_DATA_ULONG; value.ul = v; }
-  void Set (const char* n, float v) { New (n); type = CEL_DATA_FLOAT; value.f = v; }
-  void Set (const char* n, const char* s) { New (n); type = CEL_DATA_STRING; value.s = csStrNew (s); }
-  void Set (const char* n, iCelPropertyClass* pc) { New (n); type = CEL_DATA_PCLASS; value.pc = pc; }
-  void Set (const char* n, iCelEntity* ent) { New (n); type = CEL_DATA_ENTITY; value.ent = ent; }
-};
+struct celData;
 
 SCF_VERSION (iCelDataBuffer, 0, 0, 1);
 
@@ -99,6 +34,13 @@ SCF_VERSION (iCelDataBuffer, 0, 0, 1);
  */
 struct iCelDataBuffer : public iBase
 {
+  /**
+   * Get a serial number for this data. This can be used
+   * to check validity of the data (i.e. to compare version
+   * numbers).
+   */
+  virtual long GetSerialNumber () const = 0;
+
   /**
    * Set the number of data entries.
    */
@@ -113,11 +55,76 @@ struct iCelDataBuffer : public iBase
    * Get a specific data entry.
    */
   virtual celData* GetData (int idx) const = 0;
+};
 
+/**
+ * Type for celData.
+ */
+enum celDataType
+{
+  CEL_DATA_NONE = 0,
+  CEL_DATA_BOOL,
+  CEL_DATA_BYTE,
+  CEL_DATA_WORD,
+  CEL_DATA_LONG,
+  CEL_DATA_UBYTE,
+  CEL_DATA_UWORD,
+  CEL_DATA_ULONG,
+  CEL_DATA_FLOAT,
+  CEL_DATA_STRING,
+  CEL_DATA_PCLASS,
+  CEL_DATA_ENTITY,
+  CEL_DATA_BUFFER
+};
+
+/**
+ * Typed data for CEL.
+ */
+struct celData
+{
+  celDataType type;
+  union
+  {
+    bool bo;
+    int8 b;
+    uint8 ub;
+    int16 w;
+    uint16 uw;
+    int32 l;
+    uint32 ul;
+    float f;
+    char* s;
+    iCelPropertyClass* pc;
+    iCelEntity* ent;
+    iCelDataBuffer* db;
+  } value;
+
+  celData () : type (CEL_DATA_NONE) { }
+  ~celData()
+  {
+    Clear ();
+  }
+  void Clear ()
+  {
+    if (type == CEL_DATA_STRING) delete[] value.s;
+    else if (type == CEL_DATA_BUFFER && value.db) value.db->DecRef ();
+    type = CEL_DATA_NONE;
+  }
   /**
-   * Get a specific data entry with a name.
+   * Initialize and set the value.
    */
-  virtual celData* GetData (const char* name) const = 0;
+  void Set (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
+  void Set (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }
+  void Set (uint8 v) { Clear (); type = CEL_DATA_UBYTE; value.ub = v; }
+  void Set (int16 v) { Clear (); type = CEL_DATA_WORD; value.w = v; }
+  void Set (uint16 v) { Clear (); type = CEL_DATA_UWORD; value.uw = v; }
+  void Set (int32 v) { Clear (); type = CEL_DATA_LONG; value.l = v; }
+  void Set (uint32 v) { Clear (); type = CEL_DATA_ULONG; value.ul = v; }
+  void Set (float v) { Clear (); type = CEL_DATA_FLOAT; value.f = v; }
+  void Set (const char* s) { Clear (); type = CEL_DATA_STRING; value.s = csStrNew (s); }
+  void Set (iCelPropertyClass* pc) { Clear (); type = CEL_DATA_PCLASS; value.pc = pc; }
+  void Set (iCelEntity* ent) { Clear (); type = CEL_DATA_ENTITY; value.ent = ent; }
+  void Set (iCelDataBuffer* db) { Clear (); type = CEL_DATA_BUFFER; value.db = db; db->IncRef (); }
 };
 
 SCF_VERSION (iCelPersistance, 0, 0, 1);

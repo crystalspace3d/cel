@@ -94,11 +94,13 @@ class celDataBuffer : public iCelDataBuffer
 {
 private:
   csVector data;
+  long serialnr;
 
 public:
-  celDataBuffer ()
+  celDataBuffer (long serialnr)
   {
     SCF_CONSTRUCT_IBASE (NULL);
+    celDataBuffer::serialnr = serialnr;
   }
   virtual ~celDataBuffer ()
   {
@@ -107,6 +109,10 @@ public:
 
   SCF_DECLARE_IBASE;
 
+  virtual long GetSerialNumber () const
+  {
+    return serialnr;
+  }
   virtual void SetDataCount (int cnt)
   {
     for (int i = cnt ; i < data.Length () ; i++)
@@ -125,24 +131,15 @@ public:
     CS_ASSERT (idx >= 0 && idx < data.Length ());
     return (celData*)data[idx];
   }
-  virtual celData* GetData (const char* name) const
-  {
-    for (int i = 0 ; i < data.Length () ; i++)
-    {
-      celData* cd = (celData*)data[i];
-      if (cd->name && !strcmp (cd->name, name)) return cd;
-    }
-    return NULL;
-  }
 };
 
 SCF_IMPLEMENT_IBASE (celDataBuffer)
   SCF_IMPLEMENTS_INTERFACE (iCelDataBuffer)
 SCF_IMPLEMENT_IBASE_END
 
-iCelDataBuffer* celPlLayer::CreateDataBuffer ()
+iCelDataBuffer* celPlLayer::CreateDataBuffer (long serialnr)
 {
-  return new celDataBuffer ();
+  return new celDataBuffer (serialnr);
 }
 
 // Class which is used to attach to an iObject so that

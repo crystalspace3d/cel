@@ -67,7 +67,7 @@ struct iCelPlLayer : public iBase
    * data. The use of this is not required. A property class can just
    * as well make its own implementation of iCelDataBuffer.
    */
-  virtual iCelDataBuffer* CreateDataBuffer () = 0;
+  virtual iCelDataBuffer* CreateDataBuffer (long serialnr) = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).

@@ -130,17 +130,12 @@ void celPcCamera::SetEntity (iCelEntity* entity)
   celPcCamera::entity = entity;
 }
 
-iCelDataBuffer* celPcCamera::GetDataBuffer ()
+iCelDataBuffer* celPcCamera::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcCamera::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcCamera::Load (iCelDataBuffer* databuf)
@@ -189,17 +184,12 @@ void celPcRegion::SetEntity (iCelEntity* entity)
   celPcRegion::entity = entity;
 }
 
-iCelDataBuffer* celPcRegion::GetDataBuffer ()
+iCelDataBuffer* celPcRegion::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcRegion::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcRegion::Load (iCelDataBuffer* databuf)

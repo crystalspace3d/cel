@@ -54,23 +54,12 @@ struct iCelPropertyClass : public iBase
   virtual void SetEntity (iCelEntity* entity) = 0;
 
   /**
-   * Get a pointer to persistable data.
-   * Note that this function will increase the ref count on the
-   * returned data buffer. Call DecRef() when ready (after Load()
-   * or Save()).
+   * Save this object to a data buffer.
    */
-  virtual iCelDataBuffer* GetDataBuffer () = 0;
+  virtual iCelDataBuffer* Save () = 0;
 
   /**
-   * Save this object to the data buffer which you got
-   * from the property class using GetDataBuffer().
-   */
-  virtual void Save (iCelDataBuffer* databuf) = 0;
-
-  /**
-   * Load this object from the data buffer which you got
-   * with GetDataBuffer() and then initialized with the
-   * persistent data.
+   * Load this object from a data buffer.
    */
   virtual bool Load (iCelDataBuffer* databuf) = 0;
 };
