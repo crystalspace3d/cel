@@ -29,6 +29,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed the bootstrap Jamfile so that it again works for
 	  the 'bootstrap_static' target. This doesn't make the target
 	  work fully though. There is still some problem.
+	- Jorrit changed the new timing system in the physical layer by
+	  avoiding realloc of the weak ref arrays. The current way is much
+	  more optimal.
 13-Jul-2004
 	- Eric Sunshine renamed celData::SetBool() to Set(), and
 	  celDataBufHelper::SetBool() to Set() in order to fix numerous

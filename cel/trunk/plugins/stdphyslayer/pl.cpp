@@ -67,7 +67,7 @@ celPlLayer::celPlLayer (iBase* parent)
   entities_hash_dirty = false;
   scfiEventHandler = 0;
 
-  compress_delay = 300;
+  compress_delay = 1000;
 }
 
 celPlLayer::~celPlLayer ()
@@ -104,26 +104,31 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   bool compress = false;
   for (i = 0 ; i < cbinfo->every_frame.Length () ; i++)
   {
-    iCelPropertyClass* pc = cbinfo->every_frame[i];
+    int pc_idx = cbinfo->every_frame[i];
+    iCelPropertyClass* pc = weak_pcs[pc_idx];
     if (pc)
       pc->TickEveryFrame ();
     else
       compress = true;
   }
-  if (compress) CompressCallbackPCInfo ();
 
   // Then fire all property classes that are interested in receiving
   // events if the alloted time has exceeded. The property classes
   // are added in reverse order so that the top of the array is the
   // one that will fire first.
   csTicks current_time = vc->GetCurrentTicks ();
-  csSafeCopyArray<CallbackPCTiming>& cbs = cbinfo->timed_callbacks;
+  csArray<CallbackPCTiming>& cbs = cbinfo->timed_callbacks;
   while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
   {
     CallbackPCTiming pcfire = cbs.Pop ();
-    if (pcfire.pc)
-      pcfire.pc->TickOnce ();
+    iCelPropertyClass* pc = weak_pcs[pcfire.pc_idx];
+    if (pc)
+      pc->TickOnce ();
+    else
+      compress = true;
   }
+
+  if (compress) CompressCallbackPCInfo ();
 
   return true;
 }
@@ -607,12 +612,44 @@ CallbackPCInfo* celPlLayer::GetCBInfo (int where)
   }
 }
 
+struct pc_idx
+{
+  iCelPropertyClass* pc;
+  size_t idx;
+  pc_idx (iCelPropertyClass* p_pc, size_t p_idx) : pc (p_pc), idx (p_idx) { }
+};
+
 void celPlLayer::CompressCallbackPCInfo ()
 {
   compress_delay--;
   if (compress_delay > 0) return;
-  compress_delay = 300;
+  compress_delay = 1000;
 
+  // First copy all weak ref PC's that are still relevant to 'store' and
+  // remember original index.
+  size_t orig_pcs_length = weak_pcs.Length ();
+  csArray<pc_idx> store;
+  size_t i;
+  for (i = 0 ; i < orig_pcs_length ; i++)
+    if (weak_pcs[i])
+      store.Push (pc_idx (weak_pcs[i], i));
+
+  // Delete the weak array and build it again.
+  weak_pcs.DeleteAll ();
+  weak_pcs_hash.DeleteAll ();
+  for (i = 0 ; i < store.Length () ; i++)
+  {
+    weak_pcs.Push (store[i].pc);
+    weak_pcs_hash.Put (store[i].pc, i);
+  }
+
+  // Now create a reverse table to map from original index to new index.
+  size_t* map = new size_t[orig_pcs_length];
+  memset (map, 0xffffffff, sizeof (size_t) * orig_pcs_length);
+  for (i = 0 ; i < store.Length () ; i++)
+    map[store[i].idx] = i;
+
+  // Now change the indices in all lists.
   int p[4] = { cscmdPreProcess, cscmdProcess, cscmdPostProcess,
   	cscmdFinalProcess };
   int where;
@@ -621,11 +658,47 @@ void celPlLayer::CompressCallbackPCInfo ()
     CallbackPCInfo* cbinfo = GetCBInfo (p[where]);
     size_t i;
     for (i = 0 ; i < cbinfo->every_frame.Length () ; )
-      if (cbinfo->every_frame[i] == 0)
+    {
+      size_t newidx = map[cbinfo->every_frame[i]];
+      if (newidx == (size_t)~0)
+      {
         cbinfo->every_frame.DeleteIndex (i);
+      }
       else
+      {
+        cbinfo->every_frame[i] = newidx;
         i++;
+      }
+    }
+
+    for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+    {
+      size_t newidx = map[cbinfo->timed_callbacks[i].pc_idx];
+      if (newidx == (size_t)~0)
+      {
+        cbinfo->timed_callbacks.DeleteIndex (i);
+      }
+      else
+      {
+        cbinfo->timed_callbacks[i].pc_idx = newidx;
+	i++;
+      }
+    }
   }
+
+  delete[] map;
+}
+
+size_t celPlLayer::WeakRegPC (iCelPropertyClass* pc)
+{
+  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
+  if (pc_idx == (size_t)~0)
+  {
+    // Not found yet. Add it.
+    pc_idx = weak_pcs.Push (pc);
+    weak_pcs_hash.Put (pc, pc_idx);
+  }
+  return pc_idx;
 }
 
 void celPlLayer::CallbackPCEveryFrame (iCelPropertyClass* pc, int where)
@@ -633,7 +706,8 @@ void celPlLayer::CallbackPCEveryFrame (iCelPropertyClass* pc, int where)
   RemoveCallbackPCEveryFrame (pc, where);
   CallbackPCInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
-  cbinfo->every_frame.Push (pc);
+  size_t pc_idx = WeakRegPC (pc);
+  cbinfo->every_frame.Push (pc_idx);
 }
 
 static int CompareTimedCallback (CallbackPCTiming const& r1,
@@ -651,7 +725,8 @@ void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
   CallbackPCInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
   CallbackPCTiming cbtime;
-  cbtime.pc = pc;
+  size_t pc_idx = WeakRegPC (pc);
+  cbtime.pc_idx = pc_idx;
   cbtime.time_to_fire = vc->GetCurrentTicks () + delta;
 
   // We insert the lowest times last so that we can easily Pop them
@@ -662,9 +737,10 @@ void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
 void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
 {
   CallbackPCInfo* cbinfo = GetCBInfo (where);
+  size_t pc_idx = WeakRegPC (pc);
   size_t i;
   for (i = 0 ; i < cbinfo->every_frame.Length () ; )
-    if (cbinfo->every_frame[i] == pc)
+    if (cbinfo->every_frame[i] == pc_idx)
       cbinfo->every_frame.DeleteIndex (i);
     else
       i++;
@@ -673,9 +749,10 @@ void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
 void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
 {
   CallbackPCInfo* cbinfo = GetCBInfo (where);
+  size_t pc_idx = WeakRegPC (pc);
   size_t i;
   for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
-    if (cbinfo->timed_callbacks[i].pc == pc)
+    if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
       cbinfo->timed_callbacks.DeleteIndex (i);
     else
       i++;
