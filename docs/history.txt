@@ -1,3 +1,9 @@
+07-Jan-2003:
+ 	- Keith Fulton added a SetReverseAction convenience function to iPcMesh.
+
+05-Jan-2003:
+	- Keith Fulton changed iPcCamera to not always require an iPcRegion.
+
 30-Dec-2002:
 	- Matze fixed several refcount problems introduced by the change to
 	  csRef. But still a leak here :-/
