@@ -34,6 +34,61 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celQuestTriggerResponseFactory)
+  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerResponseFactory)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestTriggerResponseFactory::celQuestTriggerResponseFactory ()
+{
+  SCF_CONSTRUCT_IBASE (0);
+}
+
+celQuestTriggerResponseFactory::~celQuestTriggerResponseFactory ()
+{
+  SCF_DESTRUCT_IBASE ();
+}
+
+void celQuestTriggerResponseFactory::SetTriggerFactory (
+	iQuestTriggerFactory* trigger_fact)
+{
+  trigger_factory = trigger_fact;
+}
+
+void celQuestTriggerResponseFactory::AddRewardFactory (
+	iQuestRewardFactory* reward_fact)
+{
+  reward_factories.Push (reward_fact);
+}
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celQuestStateFactory)
+  SCF_IMPLEMENTS_INTERFACE (iQuestStateFactory)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestStateFactory::celQuestStateFactory (const char* name)
+{
+  SCF_CONSTRUCT_IBASE (0);
+  celQuestStateFactory::name = csStrNew (name);
+}
+
+celQuestStateFactory::~celQuestStateFactory ()
+{
+  delete[] name;
+  SCF_DESTRUCT_IBASE ();
+}
+
+iQuestTriggerResponseFactory* celQuestStateFactory::
+	CreateTriggerResponseFactory ()
+{
+  celQuestTriggerResponseFactory* resp = new celQuestTriggerResponseFactory ();
+  responses.Push (resp);
+  resp->DecRef ();
+  return resp;
+}
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celQuestFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestFactory)
 SCF_IMPLEMENT_IBASE_END
@@ -47,6 +102,7 @@ celQuestFactory::celQuestFactory (const char* name)
 celQuestFactory::~celQuestFactory ()
 {
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuest> celQuestFactory::CreateQuest (
@@ -58,6 +114,23 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
 bool celQuestFactory::Load (iDocumentNode* node)
 {
   return false;
+}
+
+iQuestStateFactory* celQuestFactory::GetState (const char* name)
+{
+  celQuestStateFactory* state = states.Get (name, 0);
+  return (iQuestStateFactory*)state;
+}
+
+iQuestStateFactory* celQuestFactory::CreateState (const char* name)
+{
+  iQuestStateFactory* istate = GetState (name);
+  if (istate) return 0;
+
+  celQuestStateFactory* state = new celQuestStateFactory (name);
+  states.Put (name, state);
+  state->DecRef ();
+  return state;
 }
 
 //---------------------------------------------------------------------------
@@ -79,6 +152,8 @@ celQuestManager::celQuestManager (iBase* parent)
 
 celQuestManager::~celQuestManager ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)
@@ -105,21 +180,21 @@ iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
   return fact;
 }
 
-bool celQuestManager::RegisterTriggerFactory (iQuestTriggerFactory* trigger)
+bool celQuestManager::RegisterTriggerType (iQuestTriggerType* trigger)
 {
   const char* name = trigger->GetName ();
-  if (trigger_factories.Get (name, 0) != 0)
+  if (trigger_types.Get (name, 0) != 0)
     return false;
-  trigger_factories.Put (name, trigger);
+  trigger_types.Put (name, trigger);
   return true;
 }
 
-bool celQuestManager::RegisterRewardFactory (iQuestRewardFactory* reward)
+bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
 {
   const char* name = reward->GetName ();
-  if (reward_factories.Get (name, 0) != 0)
+  if (reward_types.Get (name, 0) != 0)
     return false;
-  reward_factories.Put (name, reward);
+  reward_types.Put (name, reward);
   return true;
 }
 

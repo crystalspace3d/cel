@@ -59,6 +59,9 @@ struct iDocumentNode;
 </quest>
 */
 
+//-------------------------------------------------------------------------
+// Triggers
+//-------------------------------------------------------------------------
 
 struct iQuestTrigger;
 
@@ -82,7 +85,10 @@ SCF_VERSION (iQuestTrigger, 0, 0, 1);
  * This is a trigger for a quest. When a trigger fires the quest
  * can go to another state and/or activate rewards. The quest manager
  * knows a few standard triggers but you can also create your own
- * triggers here.
+ * triggers here. Triggers are created by trigger factories. To
+ * be able to use your own trigger implementations you must also make
+ * associated trigger factories which you then register with the quest
+ * manager. See iQuestTriggerFactory.
  */
 struct iQuestTrigger : public iBase
 {
@@ -101,17 +107,11 @@ struct iQuestTrigger : public iBase
 SCF_VERSION (iQuestTriggerFactory, 0, 0, 1);
 
 /**
- * A factory to create triggers. You register these factories to
- * the quest manager and the quest manager can use these factories
- * to create triggers for a quest.
+ * A factory to create triggers. Trigger factories are created
+ * by an iQuestTriggerType instance.
  */
 struct iQuestTriggerFactory : public iBase
 {
-  /**
-   * Return the name for this trigger factory.
-   */
-  virtual const char* GetName () const = 0;
-  
   /**
    * Create a trigger.
    * \param params are the parameters with which this reward is
@@ -128,11 +128,40 @@ struct iQuestTriggerFactory : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
+SCF_VERSION (iQuestTriggerType, 0, 0, 1);
+
+/**
+ * The trigger type is responsible for the creation of trigger factories.
+ * If you want to define a new type of trigger then you must implement
+ * iQuestTriggerType, iQuestTriggerFactory, and iQuestTrigger.
+ * You register trigger types with the quest manager so that they can
+ * be used by quest factories.
+ */
+struct iQuestTriggerType : public iBase
+{
+  /**
+   * Return the name for this trigger type.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Create a trigger factory.
+   */
+  virtual csPtr<iQuestTriggerFactory> CreateTriggerFactory () = 0;
+};
+
+//-------------------------------------------------------------------------
+// Rewards
+//-------------------------------------------------------------------------
+
 SCF_VERSION (iQuestReward, 0, 0, 1);
 
 /**
  * This is a reward for a quest. The quest manager can issue
- * rewards in response to some trigger.
+ * rewards in response to some trigger. Just like triggers you can
+ * implement your own rewards in addition to the standard rewards
+ * already implemented in the quest manager. You also need to implement
+ * a quest reward factory then (see iQuestRewardFactory).
  */
 struct iQuestReward : public iBase
 {
@@ -145,17 +174,11 @@ struct iQuestReward : public iBase
 SCF_VERSION (iQuestRewardFactory, 0, 0, 1);
 
 /**
- * A factory to create rewards. You register these factories to
- * the quest manager and the quest manager can use these factories
- * to create rewards for a quest.
+ * A factory to create rewards. Reward factories are created
+ * by an iQuestRewardType instance.
  */
 struct iQuestRewardFactory : public iBase
 {
-  /**
-   * Return the name for this reward factory.
-   */
-  virtual const char* GetName () const = 0;
-  
   /**
    * Create a reward.
    * \param params are the parameters with which this reward is
@@ -172,10 +195,37 @@ struct iQuestRewardFactory : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
+SCF_VERSION (iQuestRewardType, 0, 0, 1);
+
+/**
+ * The reward type is responsible for the creation of reward factories.
+ * If you want to define a new type of reward then you must implement
+ * iQuestRewardType, iQuestRewardFactory, and iQuestReward.
+ * You register reward types with the quest manager so that they can
+ * be used by quest factories.
+ */
+struct iQuestRewardType : public iBase
+{
+  /**
+   * Return the name for this reward type.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Create a reward factory.
+   */
+  virtual csPtr<iQuestRewardFactory> CreateRewardFactory () = 0;
+};
+
+//-------------------------------------------------------------------------
+// The Quest
+//-------------------------------------------------------------------------
+
 SCF_VERSION (iQuest, 0, 0, 1);
 
 /**
- * A quest.
+ * A quest instance. This is created (by the quest manager) from a quest
+ * factory using the trigger and reward factories.
  */
 struct iQuest : public iBase
 {
@@ -191,20 +241,74 @@ struct iQuest : public iBase
   virtual const char* GetCurrentState () const = 0;
 };
 
+SCF_VERSION (iQuestTriggerResponseFactory, 0, 0, 1);
+
+/**
+ * A trigger with response as used in a quest state.
+ * This is basically the representation of one trigger and one
+ * or more rewards.
+ */
+struct iQuestTriggerResponseFactory : public iBase
+{
+  /**
+   * Set the trigger factory that is managed by this
+   * response factory.
+   */
+  virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact) = 0;
+
+  /**
+   * Add a reward factory. A reward of this factory will be obtained
+   * when the trigger fires.
+   */
+  virtual void AddRewardFactory (iQuestRewardFactory* reward_fact) = 0;
+};
+
+SCF_VERSION (iQuestStateFactory, 0, 0, 1);
+
+/**
+ * A representation of a quest state in a quest factory.
+ * A state is basically a collection of trigger response factories.
+ */
+struct iQuestStateFactory : public iBase
+{
+  /**
+   * Get the name of this state.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
+   * Create a new trigger response.
+   */
+  virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
+};
+
 SCF_VERSION (iQuestFactory, 0, 0, 1);
 
 /**
- * A quest factory.
+ * A quest factory. A quest factory is a template to create a quest
+ * from. All interfaces ending with 'Factory' are relevant in the concept
+ * of a quest factory.
+ * <ul>
+ * <li>A quest factory is made out of a number of quest state
+ *     factories (iQuestStateFactory) (from which the states in the quest
+ *     are made).
+ * <li>Every quest state factory has one or more trigger response
+ *     factories. These response factories describe how the firing of
+ *     one trigger (as described by a trigger factory) can cause a number
+ *     of rewards (as described by reward factories).
+ * </ul>
  */
 struct iQuestFactory : public iBase
 {
   /**
-   * Get the name of this quest.
+   * Get the name of this factory.
    */
   virtual const char* GetName () const = 0;
   
   /**
-   * Create a quest from this factory.
+   * Instantiate a quest from this factory. This instance will have
+   * the same structure as this factory but it will be made out of
+   * non-factory objects (iQuestTrigger, iQuestReward, ...).
    * \param params are the parameters with which this quest is
    * instantiated.
    */
@@ -217,7 +321,23 @@ struct iQuestFactory : public iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Get a state from this factory.
+   * Return 0 if the state doesn't exist.
+   */
+  virtual iQuestStateFactory* GetState (const char* name) = 0;
+
+  /**
+   * Create a new state in this factory.
+   * Return 0 on failure (name already exists).
+   */
+  virtual iQuestStateFactory* CreateState (const char* name) = 0;
 };
+
+//-------------------------------------------------------------------------
+// The Quest Manager
+//-------------------------------------------------------------------------
 
 SCF_VERSION (iQuestManager, 0, 0, 1);
 
@@ -229,20 +349,20 @@ SCF_VERSION (iQuestManager, 0, 0, 1);
 struct iQuestManager : public iBase
 {
   /**
-   * Register a quest trigger factory. Quest triggers can be used
+   * Register a quest trigger type. Quest triggers can be used
    * by quests to decide when to go to another state or when
    * to activate a reward. Returns false on failure (trigger
-   * factory with that name already exists).
+   * type with that name already exists).
    */
-  virtual bool RegisterTriggerFactory (iQuestTriggerFactory* trigger) = 0;
+  virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
   /**
-   * Register a quest reward factory. Quest rewards can be used
+   * Register a quest reward type. Quest rewards can be used
    * by quests to give out some kind of reward to the game.
-   * Returns false on failure (reward factory with that name
+   * Returns false on failure (reward type with that name
    * already exists).
    */
-  virtual bool RegisterRewardFactory (iQuestRewardFactory* trigger) = 0;
+  virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
 
   /**
    * Get a quest factory by name.
