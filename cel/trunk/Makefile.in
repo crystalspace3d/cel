@@ -88,6 +88,23 @@ T_CELTEST=appgui
 T_CELPYTHON=appgui
 
 #------
+# Target special MSVC CFLAGS
+#------
+C_BLTEST=
+C_BLPYTHON=/D "SWIG_GLOBAL"
+C_PFTEST=
+C_PFMESH=
+C_PFMOVE=
+C_PFTOOLS=
+C_PFENG=
+C_PFINV=
+C_PFINPUT=
+C_STDPL=
+C_CPERSIST=
+C_CELTEST=
+C_CELPYTHON=
+
+#------
 # Names of targets
 #------
 BLTEST=$(OUT)/$(N_BLTEST)$(DLL)
@@ -124,7 +141,7 @@ BLTEST_INF_OUT=$(OUT)/bltest.csplugin
 BLTEST_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(BLTEST_SRC))))
 BLPYTHON_SRC=$(wildcard $(SRCDIR)/plugins/behaviourlayer/python/*.cpp)
 BLPYTHON_INC=$(wildcard $(SRCDIR)/plugins/behaviourlayer/python/*.h)
-BLPYTHON_INF=$(SRCDIR)/plugins/behaviourlayer/python/plpython.csplugin
+BLPYTHON_INF=$(SRCDIR)/plugins/behaviourlayer/python/blpython.csplugin
 BLPYTHON_INF_OUT=$(OUT)/plpython.csplugin
 BLPYTHON_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(BLPYTHON_SRC))))
 PFTEST_SRC=$(wildcard $(SRCDIR)/plugins/propclass/test/*.cpp plugins/propclass/common/*.cpp)
@@ -400,6 +417,7 @@ perl $(SRCDIR)/mk/msvcgen/msvcgen.pl \
 --template-dir=$(SRCDIR)/mk/msvcgen/template$(MSVCGEN_VER) \
 --output=$(SRCDIR)/msvc/$(N_$(r)).$(MSVCGEN_PROJ_EXT_$(MSVCGEN_VER)) \
 --fragment=$(OUT)/msvcfrag$(MSVCGEN_VER)/$(N_$(r)).frag \
+$(subst --cflags='',,--cflags='$(C_$(r))') \
 $(foreach m,$($(r)_INF),--meta-file=$m) \
 $(MSVCGEN_EXTRA_OPTS_$(MSVCGEN_VER)) \
 $($(r)_SRC) $($(r)_INC)

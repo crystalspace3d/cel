@@ -3,6 +3,15 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+17-Aug-2003
+	- Eric Sunshine made the following changes:
+	    - Added missing %cflags%, %lflags%, %libs%, and %delaylibs%
+	      invocations to the msvcgen (6 and 7) template files.
+	    - Added "/D SWIG_GLOBAL" to blpython project files (reported by
+	      Chris Matuszewski <ganamide@yahoo.com>).
+	    - Corrected name of meta-info file reference in makefile and
+	      project files: plpython.csplugin --> blpython.csplugin (reported
+	      by Chris Matuszewski).
 10-Aug-2003
 	- Keith committed patch by Ondrej Hurt to improve key binding
 	  handling.
