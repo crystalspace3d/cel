@@ -159,6 +159,7 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
     data->DecRef();
     return NULL;
   }
+  ent->IncRef();
 
   context->DecRef();
   data->DecRef ();
@@ -178,6 +179,15 @@ celPersistClassicContext::celPersistClassicContext()
 
 celPersistClassicContext::~celPersistClassicContext()
 {
+  // free our references to entities
+  csHashIterator i(&read_entities);
+
+  while (i.HasNext())
+  {
+    iCelEntity* entity = (iCelEntity*) i.Next();
+    entity->DecRef();
+  }
+    
   if (pl)
     pl->DecRef();
   if (file)
@@ -253,10 +263,6 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
     if (entity)
       read_entities.Put (id, entity);
   }
-/*  else
-  {
-      entity->IncRef();
-  }*/
 
   return entity;
 }
@@ -660,7 +666,6 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
       iCelPropertyClass* pc;
       if (!Read (pc))
       {
-        entity->DecRef ();
 	entity = NULL;
 	return false;
       }
