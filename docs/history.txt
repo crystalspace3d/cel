@@ -4,7 +4,7 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 7-Jul-2004
-	- Jorrit stated work on a new property class pczonemanager.
+	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
 	  defined. The idea is that this property class can be used instead
 	  of iPcRegion if your game needs zone handling (bigger maps
