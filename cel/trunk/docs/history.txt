@@ -31,6 +31,8 @@ The history order is reversed so that new features are at the top.
 	  operator.
 	- Jorrit added the 'for' command to the XML behaviour layer.
 	- Jorrit fixed a bug in parsing of the variable deref operator ('?').
+	- Jorrit implemented ==, !=, <, <=, >, and >= operators in XML
+	  behaviour layer.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
