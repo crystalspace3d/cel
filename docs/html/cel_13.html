@@ -11,10 +11,10 @@ Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
 -->
 <HTML>
 <HEAD>
-<TITLE>Crystal Entity Layer: Requirements</TITLE>
+<TITLE>Crystal Entity Layer: Directory Hierachy</TITLE>
 
-<META NAME="description" CONTENT="Crystal Entity Layer: Requirements">
-<META NAME="keywords" CONTENT="Crystal Entity Layer: Requirements">
+<META NAME="description" CONTENT="Crystal Entity Layer: Directory Hierachy">
+<META NAME="keywords" CONTENT="Crystal Entity Layer: Directory Hierachy">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 <META NAME="Generator" CONTENT="texi2html 1.64">
@@ -23,46 +23,166 @@ Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
 
 <BODY LANG="" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#800080" ALINK="#FF0000">
 
-<A NAME="SEC13"></A>
+<A NAME="SEC19"></A>
 <TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
-<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC12"> &lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_14.html#SEC14"> &gt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_11.html#SEC11"> &lt;&lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_11.html#SEC11"> Up </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_20.html#SEC20"> &gt;&gt; </A>]</TD>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_14.html#SEC20"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_21.html#SEC27"> &gt;&gt; </A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top">Top</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_toc.html#SEC_Contents">Contents</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[Index]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_abt.html#SEC_About"> ? </A>]</TD>
 </TR></TABLE>
 <HR SIZE=1>
-<H2> 2.2 Requirements </H2>
-<!--docid::SEC13::-->
+<H2> 2.1 Directory Hierachy </H2>
+<!--docid::SEC19::-->
+This section will explain the layout of the directory hierachy within
+Crystal Entity Layer.  
 <P>
 
-In order to be able to build and install Crystal Entity Layer your
-development environment must meet the requirements for Crystal Space.
-</P><P>
+<DL COMPACT>
+<DT><CODE>cel</CODE>
+<DD>            This is the main directy for Crystal Entity Layer. This can be any
+            path supported by your operating system. 
+            This folder also currently contains the configure scripts and
+            Microsoft Visual C++ workspace and project files.
+<P>
 
-For more information on these please see the Crystal Space documentation.
-</P><P>
+<DT><CODE>cel/apps</CODE>
+<DD>            This is where all the applications shipped with Crystal Entity
+            layer reside.  Please see the manual section entitled Applications
+            for more information on these.
+<P>
 
-If you are planning to use any form of scripting language in conjunction
-with Crystal Entity Layer (currently only Python is supported) then you
-will also need to have this scripting language installed.
-</P><P>
+<DT><CODE>cel/data</CODE>
+<DD>            This is where data for the Crystal Entity Layer applications,
+            as well as any applications you build yourself within the
+            Crystal Entity Layer source tree, reside.
+<P>
 
-TODO: Document requirement for Jam, where and how to get it.
-</P><P>
+<DT><CODE>cel/docs</CODE>
+<DD>            This is where the Crystal Entity Layer documentation resides.
+            It is currently available in HTML and TexInfo formats.
+<P>
 
-<A NAME="External Libraries"></A>
+<DT><CODE>cel/include</CODE>
+<DD>            This is where the header files for the various Crystal Entity
+            Layer modules reside.  
+<P>
+
+<DL COMPACT>
+<DT><CODE>cel/include/behaviourlayer</CODE>
+<DD>            This directory contains the definitions of the Behaviour Layer
+            interfaces.
+<P>
+
+<DT><CODE>cel/include/physicallayer</CODE>
+<DD>            This directory contains the definitions of the Physical Layer
+            interfaces.  Including such things as entities, property classes,
+            messaging and persistance.
+<P>
+
+<DT><CODE>cel/include/propclass</CODE>
+<DD>            This directory contains the definitions of the various property
+            class interfaces.
+<P>
+
+<DT><CODE>cel/include/tools</CODE>
+<DD>            This directory contains definitions for interfaces for various
+            utility classes.
+</DL>
+<P>
+
+<DT><CODE>cel/mk</CODE>
+<DD>            This directory includes various makefiles and build
+            configurations for various platforms.
+<P>
+
+<DT><CODE>cel/msvc</CODE>
+<DD>            This directory contains the project files and resource
+            scripts for building under Microsoft Windows using Microsoft
+            Visual C++.
+<P>
+
+<DT><CODE>cel/plugins</CODE>
+<DD>            This is where the implementations of the plugins that make up
+            Crystal Entity Layer reside.
+<P>
+
+<DL COMPACT>
+<DT><CODE>cel/plugins/addons</CODE>
+<DD>            These are various additional, and optional, Crystal Space plugins.
+<P>
+
+<DL COMPACT>
+<DT><CODE>cel/plugins/addons/celentity</CODE>
+<DD><DT><CODE>cel/plugins/addons/xmlscript</CODE>
+<DD>                These plugins allow the loading of Crystal Entity Layer
+                entities from a standard Crystal Space map file.
+</DL>
+<P>
+
+<DT><CODE>cel/plugins/behaviourlayer</CODE>
+<DD>            These are the various behaviour layers which have been already
+            implemented for use with Crystal Entity Layer.
+<P>
+
+<DL COMPACT>
+<DT><CODE>cel/plugins/behaviourlayer/python</CODE>
+<DD>                This is a behaviour layer that allows entity behaviours
+                to be implemented using the Python scripting language.
+<P>
+
+<DT><CODE>cel/plugins/behaviourlayer/test</CODE>
+<DD>                This is the test behaviourlayer implemented in C++.
+<P>
+
+<DT><CODE>cel/plugins/behaviourlayer/xml</CODE>
+<DD>                This is a behaviour layer that allows entity behavours
+                to be implemented using scripts stored as XML.
+</DL>
+<P>
+
+<DT><CODE>cel/plugins/persist</CODE>
+<DD>            These are the various persistance layers which have already
+            been implemented for use with Crystal Entity Layer.
+<P>
+
+<DL COMPACT>
+<DT><CODE>cel/plugins/persist/classic</CODE>
+<DD>                This is the Crystal Entity Layer Classic Persistance Module.
+                This allows the persisting of Crystal Entity Layer entities
+                to a Crystal Space VFS file.
+</DL>
+<P>
+
+<DT><CODE>cel/plugins/propclass</CODE>
+<DD>            These are the various property classes which have already
+            been implemented for use with Crystal Entity Layer.  For more
+            information on these please see the section entitled Property
+            Classes
+<P>
+
+<DT><CODE>cel/plugins/stdphyslayer</CODE>
+<DD>            This is the Crystal Entity Layer's Standard Physical Layer.
+</DL>
+<P>
+
+<DT><CODE>cel/scripts</CODE>
+<DD>            This is where scripts used by the Crystal Entity Layer
+            applications and examples reside.
+</DL>
+            
+<A NAME="Requirements"></A>
 <HR SIZE=1>
 <TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
-<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC12"> &lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_14.html#SEC14"> &gt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_11.html#SEC11"> &lt;&lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_11.html#SEC11"> Up </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_20.html#SEC20"> &gt;&gt; </A>]</TD>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_14.html#SEC20"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_21.html#SEC27"> &gt;&gt; </A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top">Top</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_toc.html#SEC_Contents">Contents</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[Index]</TD>

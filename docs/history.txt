@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Dec-2002
+        - Daniel made some minor edits to the documentation and added
+          preliminary build instructions for the Windows platform.
 2-Dec-2003
 	- Jorrit extended the XML behaviour layer to recognize identifiers
 	  as an easier way to make strings consisting only of '_',
