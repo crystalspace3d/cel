@@ -30,6 +30,8 @@ struct iObjectRegistry;
 struct iCelPropertyClass;
 struct iCelEntity;
 struct iCelDataBuffer;
+struct iCelPlLayer;
+struct iCelBlLayer;
 struct celData;
 
 /**
@@ -39,15 +41,35 @@ class celPersistClassic : public iCelPersistance
 {
 private:
   iObjectRegistry* object_reg;
+  iCelPlLayer* pl;
+  iCelBlLayer* bl;
   csHashSet entities;
   csHashSet pclasses;
+  csHashMap read_entities;
 
   bool WriteMarker (iFile* f, const char* s);
-  bool WriteString (iFile* f, const char* s);
+  bool Write (iFile* f, const char* s);
   bool Write (iFile* f, iCelPropertyClass* pc);
   bool Write (iFile* f, iCelEntity* entity);
   bool Write (iFile* f, iCelDataBuffer* db);
   bool Write (iFile* f, celData* data);
+
+  iCelEntity* FindOrCreateEntity (const char* name);
+  bool ReadMarker (char*& data, size_t& remaining, char* marker);
+  bool Read (char*& data, size_t& remaining, int8& b);
+  bool Read (char*& data, size_t& remaining, uint8& ub);
+  bool Read (char*& data, size_t& remaining, int16& w);
+  bool Read (char*& data, size_t& remaining, uint16& uw);
+  bool Read (char*& data, size_t& remaining, int32& l);
+  bool Read (char*& data, size_t& remaining, uint32& ul);
+  bool Read (char*& data, size_t& remaining, float& f);
+  bool Read (char*& data, size_t& remaining, char*& str);
+  bool Read (char*& data, size_t& remaining, iCelPropertyClass*& pc);
+  bool Read (char*& data, size_t& remaining, iCelEntity*& entity);
+  bool Read (char*& data, size_t& remaining, iCelDataBuffer*& db);
+  bool Read (char*& data, size_t& remaining, celData* cd);
+
+  void Report (const char* msg, ...);
 
 public:
   celPersistClassic (iBase* parent);

@@ -21,6 +21,7 @@
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "pf/mesh/meshfact.h"
+#include "pf/camera.h"
 #include "pf/move.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
@@ -118,6 +119,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   celPcMesh::object_reg = object_reg;
   visible = true;
   fileName = NULL;
+  factName = NULL;
 }
 
 celPcMesh::~celPcMesh ()
@@ -128,8 +130,16 @@ celPcMesh::~celPcMesh ()
 void celPcMesh::Clear ()
 {
   delete[] fileName; fileName = NULL;
+  delete[] factName; factName = NULL;
   if (mesh)
   {
+    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    if (pl)
+    {
+      pl->UnattachEntity (mesh->QueryObject (), entity);
+      pl->DecRef ();
+    }
+
     iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
     CS_ASSERT (engine != NULL);
     engine->GetMeshes ()->Remove (mesh);
@@ -151,10 +161,11 @@ iCelDataBuffer* celPcMesh::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (MESH_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (3);
-  databuf->GetData (0)->Set (fileName);
-  databuf->GetData (1)->Set (GetAction ());
-  databuf->GetData (2)->Set (visible);
+  databuf->SetDataCount (4);
+  databuf->GetData (0)->Set (factName);
+  databuf->GetData (1)->Set (fileName);
+  databuf->GetData (2)->Set (GetAction ());
+  databuf->GetData (3)->Set (visible);
   return databuf;
 }
 
@@ -162,15 +173,22 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MESH_SERIAL) return false;
-  if (databuf->GetDataCount () != 3) return false;
+  if (databuf->GetDataCount () != 4) return false;
   Clear ();
   visible = true;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
-  fileName = cd->value.s ? csStrNew (cd->value.s) : NULL;
+  char* factn = cd->value.s ? csStrNew (cd->value.s) : NULL;
   cd = databuf->GetData (1); if (!cd) return false;
-  SetAction (cd->value.s);
+  char* filen = cd->value.s ? csStrNew (cd->value.s) : NULL;
+
+  SetMesh (factn, filen);
+  delete[] factn;
+  delete[] filen;
+
   cd = databuf->GetData (2); if (!cd) return false;
+  SetAction (cd->value.s);
+  cd = databuf->GetData (3); if (!cd) return false;
   if (cd->value.bo) Show ();
   else Hide ();
 
@@ -178,10 +196,8 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 }
 
 
-iMeshFactoryWrapper* celPcMesh::LoadMeshFactory (const char* fileName)
+iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  delete [] celPcMesh::fileName;
-  celPcMesh::fileName = csStrNew (fileName);
   iLoader* loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != NULL);
   iMeshFactoryWrapper* imeshfact = loader->LoadMeshObjectFactory (fileName);
@@ -199,6 +215,11 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory (const char* fileName)
 
 void celPcMesh::SetMesh (const char* factname, const char* filename)
 {
+  delete[] fileName;
+  fileName = csStrNew (filename);
+  delete[] factname;
+  factName = csStrNew (factname);
+
   iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != NULL);
   if (mesh)
@@ -212,7 +233,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   {
     iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
     	->FindByName (factname);
-    if (!meshfact) meshfact = LoadMeshFactory (filename);
+    if (!meshfact) meshfact = LoadMeshFactory ();
     if (meshfact)
     {
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
@@ -346,7 +367,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
   celPcMeshSelect::object_reg = object_reg;
-  camera = NULL;
+  pccamera = NULL;
 
   sel_entity = NULL;
   cur_on_top = false;
@@ -375,6 +396,7 @@ celPcMeshSelect::~celPcMeshSelect ()
     q->RemoveListener (&scfiEventHandler);
     q->DecRef ();
   }
+  if (pccamera) pccamera->DecRef ();
 }
 
 void celPcMeshSelect::SetupEventHandler ()
@@ -401,8 +423,10 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   iCelDataBuffer* databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   pl->DecRef ();
   databuf->SetDataCount (15);
-  //@@@ PROBLEM! Save pointer to camera: use pccamera.
-  databuf->GetData (0)->Set ((iCelEntity*)NULL);	// @@@ Camera
+  iCelPropertyClass* pc = NULL;
+  if (pccamera) pc = SCF_QUERY_INTERFACE_FAST (pccamera, iCelPropertyClass);
+  databuf->GetData (0)->Set (pc);
+  if (pc) pc->DecRef ();
   databuf->GetData (1)->Set (sel_entity);
   databuf->GetData (2)->Set (cur_on_top);
   databuf->GetData (3)->Set ((uint32)mouse_buttons);
@@ -427,8 +451,10 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   if (databuf->GetDataCount () != 15) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
-  // @@@ camera!
-  camera = NULL;
+  iPcCamera* pcm = NULL;
+  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcCamera);
+  SetCamera (pcm);
+  if (pcm) pcm->DecRef ();
 
   cd = databuf->GetData (1); if (!cd) return false;
   sel_entity = cd->value.ent;
@@ -476,7 +502,8 @@ void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
 
 bool celPcMeshSelect::HandleEvent (iEvent& ev)
 {
-  if (!camera) return false;
+  if (!pccamera) return false;
+  iCamera* camera = pccamera->GetCamera ();
 
   int mouse_but = ev.Mouse.Button;
   int but = 1<<(mouse_but-1);
@@ -639,9 +666,11 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   return false;
 }
 
-void celPcMeshSelect::SetCamera (iCamera* camera)
+void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 {
-  celPcMeshSelect::camera = camera;
+  if (pccamera) pccamera->IncRef ();
+  if (celPcMeshSelect::pccamera) celPcMeshSelect::pccamera->DecRef ();
+  celPcMeshSelect::pccamera = pccamera;
 }
 
 //---------------------------------------------------------------------------

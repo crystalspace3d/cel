@@ -39,9 +39,9 @@ celEntity::celEntity ()
 
 celEntity::~celEntity ()
 {
-  delete[] name;
   delete plist;
   if (behaviour) behaviour->DecRef ();
+  delete[] name;
 }
 
 void celEntity::SetName (const char* n)

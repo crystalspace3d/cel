@@ -120,32 +120,7 @@ CelTest::~CelTest ()
 
 void CelTest::SetupFrame ()
 {
-  // First get elapsed time from the virtual clock.
-  csTicks elapsed_time = vc->GetElapsedTicks ();
-  
-  // Now rotate the camera according to keyboard state
-  float speed = (elapsed_time / 1000.0) * (0.03 * 20);
-
-  iCamera* c = view->GetCamera();
-  if (kbd->GetKeyState (CSKEY_RIGHT))
-    c->GetTransform ().RotateThis (VEC_ROT_RIGHT, speed);
-  if (kbd->GetKeyState (CSKEY_LEFT))
-    c->GetTransform ().RotateThis (VEC_ROT_LEFT, speed);
-  if (kbd->GetKeyState (CSKEY_PGUP))
-    c->GetTransform ().RotateThis (VEC_TILT_UP, speed);
-  if (kbd->GetKeyState (CSKEY_PGDN))
-    c->GetTransform ().RotateThis (VEC_TILT_DOWN, speed);
-  if (kbd->GetKeyState (CSKEY_UP))
-    c->Move (VEC_FORWARD * 4 * speed);
-  if (kbd->GetKeyState (CSKEY_DOWN))
-    c->Move (VEC_BACKWARD * 4 * speed);
-
-  // Tell 3D driver we're going to display 3D things.
-  if (!g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS))
-    return;
-
-  // Tell the camera to render into the frame buffer.
-  view->Draw ();
+  // We let the entity system do this so there is nothing here.
 }
 
 void CelTest::FinishFrame ()
@@ -186,6 +161,15 @@ bool CelTest::HandleEvent (iEvent& ev)
       printf ("  success %d\n", rc); fflush (stdout);
       cp->DecRef ();
     }
+    else if (ev.Key.Code == 'l')
+    {
+      printf ("Loading from '/this/savefile"); fflush (stdout);
+      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      if (game) game->DecRef ();
+      game = cp->LoadEntity ("/this/savefile");
+      printf ("  success %08lx\n", game); fflush (stdout);
+      cp->DecRef ();
+    }
   }
   return false;
 }
@@ -196,6 +180,7 @@ bool CelTest::CelTestEventHandler (iEvent& ev)
 }
 
 iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
+	iPcCamera* pccamera,
 	float weight, float size,
 	float max_indiv_weight, float max_weight,
 	float max_indiv_size, float max_size,
@@ -216,7 +201,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
   if (!pc) return NULL;
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
-  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
   pcmeshsel->DecRef ();
 
@@ -346,14 +331,12 @@ bool CelTest::CreateRoom ()
   pcregion->SetRegionName ("partsys");
   pcregion->Load ();
   room = pcregion->GetStartSector ();
-  csVector3 startpos = pcregion->GetStartPosition ();
-  pcregion->DecRef ();
 
   pc = CreatePropertyClass (entity_room, pfengine, "pccamera");
   if (!pc) return false;
   iPcCamera* pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
-  view = pccamera->GetView ();
-  pccamera->DecRef ();
+  pcregion->PointCamera (pccamera);
+  pcregion->DecRef ();
 
   pc = CreatePropertyClass (entity_room, pftools, "pctooltip");
   if (!pc) return false;
@@ -361,7 +344,7 @@ bool CelTest::CreateRoom ()
   pc = CreatePropertyClass (entity_room, pfmesh, "pcmeshselect");
   if (!pc) return false;
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
-  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetGlobalSelection (true);
   pcmeshsel->SetFollowMode (false);
   pcmeshsel->SetFollowAlwaysMode (true);
@@ -385,19 +368,16 @@ bool CelTest::CreateRoom ()
   iTextureManager* txtmgr = g3d->GetTextureManager ();
   txtmgr->SetPalette ();
 
-  view->GetCamera ()->SetSector (room);
-  view->GetCamera ()->GetTransform ().SetOrigin (startpos);
-
   //===============================
   // Create the box entities.
   //===============================
-  entity_box = CreateBoxEntity ("box", "box", .9, 200,
+  entity_box = CreateBoxEntity ("box", "box", pccamera, .9, 200,
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
   entity_box->DecRef ();
 
-  entity_box = CreateBoxEntity ("box_small", "smallbox", .3, 50,
+  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
   if (!entity_box) return false;
@@ -444,6 +424,7 @@ bool CelTest::CreateRoom ()
   entity_dummy->DecRef ();
 
   pcinv_room->DecRef ();
+  pccamera->DecRef ();
 
   //===============================
   game = entity_room;
