@@ -47,15 +47,17 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_FACTORY (celBlPython)
 
-SCF_EXPORT_CLASS_TABLE (blpython)
+#if 0
+  SCF_EXPORT_CLASS_TABLE (blpython)
   SCF_EXPORT_CLASS(celBlPython, "cel.behaviourlayer.python",
     "Crystal Entity Layer Python Behaviour Layer")
-SCF_EXPORT_CLASS_TABLE_END
+  SCF_EXPORT_CLASS_TABLE_END
+#endif
 
-celBlPython* celBlPython::shared_instance = NULL;
+celBlPython* celBlPython::shared_instance = 0;
 
 celBlPython::celBlPython (iBase *iParent) :
-	object_reg (NULL)
+	object_reg (0)
 {
   SCF_CONSTRUCT_IBASE (iParent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
@@ -66,7 +68,7 @@ celBlPython::celBlPython (iBase *iParent) :
 celBlPython::~celBlPython ()
 {
   Py_Finalize ();
-  object_reg = NULL;
+  object_reg = 0;
 }
 
 extern "C" {
@@ -98,7 +100,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   csString cmd;
   cmd << "sys.path.append('" << path << "scripts/python/')";
   if (!RunText (cmd)) return false;
-  if (!RunText ("sys.path.append('scripts/')")) return false;
+//  if (!RunText ("sys.path.append('scripts/')")) return false;
 #ifdef TOP_SRCDIR
   if (!RunText ("sys.path.append('" TOP_SRCDIR "/scripts/')")) return false;
 #endif // TOP_SRCDIR
@@ -211,7 +213,7 @@ bool celBlPython::LoadModule (const char *name)
 {
   csString s;
   s << "import " << name;
-  return RunText (s);
+  return RunText (s);  
 }
 
 void celBlPython::Print (bool Error, const char *msg)
