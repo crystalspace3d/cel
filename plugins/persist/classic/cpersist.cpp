@@ -532,6 +532,9 @@ bool celPersistClassicContext::Read (celData* cd)
 	db->DecRef ();
       }
       break;
+    case CEL_DATA_IBASE:
+      Report ("Data type iBase is not allowed for persistance!");
+      return false;
     default:
       Report ("Found unknown Data type!");
       return false;
@@ -960,6 +963,9 @@ bool celPersistClassicContext::Write (celData* data)
     case CEL_DATA_BUFFER:
       if (!Write (data->value.db)) return false;
       break;
+    case CEL_DATA_IBASE:
+      Report ("Data type iBase is not allowed for persistance!");
+      return false;
     default:
       Report("Found a DataType I'm not able to write!");
       CS_ASSERT (false);

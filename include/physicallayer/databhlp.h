@@ -59,6 +59,7 @@ public:
   void Set (iCelPropertyClass* v) { databuf->GetData(j++)->Set(v); }
   void Set (iCelDataBuffer* v) { databuf->GetData(j++)->Set(v); }
   void SetAction (const char* v) { databuf->GetData(j++)->SetAction(v); }
+  void SetIBase (iBase* v) { databuf->GetData(j++)->SetIBase(v); }
   void SetBool (bool v) { databuf->GetData(j++)->SetBool(v); }
 
   // the following functions work with reference parameters, because c++
@@ -82,6 +83,7 @@ public:
   DATABHLP_GET(iCelPropertyClass*,pc,CEL_DATA_PCLASS)
   DATABHLP_GET(iCelDataBuffer*,db,CEL_DATA_BUFFER)
   DATABHLP_GET(bool,bo,CEL_DATA_BOOL)
+  DATABHLP_GET(iBase*,ibase,CEL_DATA_IBASE)
 #undef DATABHLP_GET
   
   bool Get (csColor& v)

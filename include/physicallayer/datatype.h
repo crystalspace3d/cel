@@ -49,6 +49,7 @@ enum celDataType
   CEL_DATA_BUFFER,
   CEL_DATA_ACTION,
   CEL_DATA_COLOR,
+  CEL_DATA_IBASE,
 
   CEL_DATA_LAST
 };
@@ -81,6 +82,7 @@ struct celData
     iCelPropertyClass* pc;
     iCelEntity* ent;
     iCelDataBuffer* db;
+    iBase* ibase;
   } value;
 
   celData () : type (CEL_DATA_NONE) { }
@@ -158,6 +160,12 @@ struct celData
     Clear ();
     type = CEL_DATA_ACTION;
     value.s = new scfString (s);
+  }
+  void SetIBase (iBase* b)
+  {
+    Clear ();
+    type = CEL_DATA_IBASE;
+    value.ibase = b;
   }
 };
 
