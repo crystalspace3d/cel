@@ -26,14 +26,17 @@ include csconfig.mak
 #------
 # Name of targets
 #------
-CELTEST=celtest${EXE}
+BLTEST=bltest${DLL}
 PLIMP=plimp${DLL}
+CELTEST=celtest${EXE}
 
 #------
 # Location of sources and object files
 #------
 PLIMP_SRC=$(wildcard plimp/*.cpp)
 PLIMP_OBJS=$(addsuffix .o, $(basename $(PLIMP_SRC)))
+BLTEST_SRC=$(wildcard bltest/*.cpp)
+BLTEST_OBJS=$(addsuffix .o, $(basename $(BLTEST_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 
@@ -52,6 +55,7 @@ CEL_INCLUDES=-I. -Iinclude
 CFLAGS = $(shell ./cs-config --cflags) $(CEL_INCLUDES)
 CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
 PLIMP_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+BLTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 
 #------
@@ -62,23 +66,26 @@ CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(PLIMP) $(CELTEST)
+all: $(PLIMP) $(CELTEST) $(BLTEST)
 
 
 $(PLIMP): $(PLIMP_OBJS)
 	$(DO.PLUGIN) $(PLIMP_LINKFLAGS)
 
+$(BLTEST): $(BLTEST_OBJS)
+	$(DO.PLUGIN) $(BLTEST_LINKFLAGS)
+
 $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(PLIMP_OBJS) $(PLIMP) $(CELTEST)
+	$(RM) $(PLIMP_OBJS) $(PLIMP) $(BLTEST) $(CELTEST)
 
 #------
 # Create dependencies
 #------
 depend:
-	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) $(CELTEST_SRC) > makefile.dep
+	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) $(BLTEST_SRC) $(CELTEST_SRC) > makefile.dep
 
 #------
 # Include dependencies
