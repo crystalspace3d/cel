@@ -235,17 +235,18 @@ private:
   // which are used for collision detection.
   csRefArray<iCelEntity> entities;
 
-	enum propids {
-		propid_worlddir = 0,
-		propid_worldfile,
-		propid_regionname,
-		propid_load
-	};
+  enum propids
+  {
+    propid_worlddir = 0,
+    propid_worldfile,
+    propid_regionname,
+    propid_load
+  };
 
-	static Property* properties;
-	static int			 propertycount;
+  static Property* properties;
+  static int propertycount;
 
-	static void UpdateProperties (iObjectRegistry* object_reg);
+  static void UpdateProperties (iObjectRegistry* object_reg);
   
 public:
   celPcRegion (iObjectRegistry* object_reg);

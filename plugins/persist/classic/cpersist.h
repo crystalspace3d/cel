@@ -29,6 +29,7 @@
 class csHashSet;
 class celPersistClassic;
 struct iFile;
+struct iVFS;
 struct iObjectRegistry;
 struct iCelPropertyClass;
 struct iCelEntity;
@@ -122,6 +123,7 @@ class celPersistClassic : public iCelPersistance
 {
 public:
   SCF_DECLARE_IBASE;
+  csRef<iVFS> vfs;
   
   celPersistClassic (iBase* parent);
   virtual ~celPersistClassic ();

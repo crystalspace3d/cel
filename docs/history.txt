@@ -10,6 +10,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added another optimization to stdphyslayer. The engine
 	  from the object registry is now remembered and no longer queried
 	  every time it was needed.
+	- Jorrit optimized cpersist plugin by remembering VFS.
 8-Jul-2003
 	- Jorrit fixed a bug in pclinmove where it would register collisions
 	  with the same object. Now pclinmove ignores collisions from the

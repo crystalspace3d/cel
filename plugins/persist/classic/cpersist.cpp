@@ -79,6 +79,10 @@ celPersistClassic::~celPersistClassic ()
 bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
 {
   celPersistClassic::object_reg = object_reg;
+
+  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  if (!vfs) return false;
+  
   return true;
 }
 
@@ -124,8 +128,6 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   }
   context->DecRef();
 
-  csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (vfs != 0);
   vfs->WriteFile (name, m.GetData (), m.GetSize ());
 
   return true;
@@ -136,9 +138,6 @@ csPtr<iCelEntity> celPersistClassic::LoadEntity (const char* name)
   celPersistClassicContext* context;
   iCelEntity* ent;
   
-  csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (vfs != 0);
-
   csRef<iDataBuffer> data (vfs->ReadFile (name));
   if (!data)
       return 0;
@@ -219,9 +218,8 @@ bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
   celPersistClassicContext::performmapping = performmapping;
   
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  if (!pl)
-    return false;
-  
+  if (!pl) return false;
+
   celPersistClassicContext::file = file;
   (void) mode;
 
