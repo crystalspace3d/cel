@@ -34,10 +34,15 @@ CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_IBASE(celBlPython)
   SCF_IMPLEMENTS_INTERFACE(iCelBlLayer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iComponent)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iScript)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiComponent)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiScript)
+  SCF_IMPLEMENTS_INTERFACE (iScript)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_FACTORY(celBlPython)
@@ -54,6 +59,7 @@ celBlPython::celBlPython (iBase *iParent) :
 {
   SCF_CONSTRUCT_IBASE (iParent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiScript);
   shared_instance = this;
 }
 
@@ -120,7 +126,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   char entityPtr[256];
   SWIG_MakePtr (entityPtr, entity, "_iCelEntity_p");
   // @@@ Don't use GetName() but something more unique...
-  sprintf (cmd, "%s=%s.%s(\"%s\")", entity->GetName (),
+  sprintf (cmd, "%s=%s.%s(blcel.iCelEntityPtr(\"%s\"))", entity->GetName (),
   	name, name, entityPtr);
   LoadModule (name);
   RunText (cmd);

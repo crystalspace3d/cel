@@ -1,3 +1,33 @@
+20-Sep-2002:
+	- Patch from Michael Dale Long for improved Python support
+		- Added embedded iScript interface to celBlPython.  Now
+		  applications can get access to the underlying scripting
+		  interface if one is available.
+		- Modified CreateBehaviour() so it passes an iCelEntity
+		  instead of an iCelEntity * to the behaviour constructor.
+		  This frees the scriptwriter from having to wrap the pointer
+		  before using it.
+		- Added some csQueryRegistry_* functions.  This is to 
+		  facilitate a Python csQueryRegistry() function that performs
+		  CS_QUERY_REGISTRY() type lookups.
+		- Added the LoadBehaviour() method to iCelEntity to simplify
+		  loading and setting behaviours in scripts.  Note that
+		  actions in the behaviour may or may not take affect in the
+		  running environment depending on how you run the interpreter.
+		- Added celCreate* (i.e. celCreateEntity, celCreateCamera) to
+		  simplify creation of these objects in a script.
+		- Removed iCelBehaviour::SendMessageV() wrapper and added a 
+		  wrapper for SendMessage() which excludes the varargs.
+		- Added celQueryPC_iPcRegion() to facilitate a Python
+		  celQueryPC() function that performs CEL_QUERY_PROPCLASS()
+		  type lookups.
+		- Added scfQuery_iPcRegion() to facilitate a Python
+		  scfQuery() function that performs SCF_QUERY_INTERFACE()
+		  type lookups.
+		- Added wrappers for iPcRegion, iPcCamera, iPcMeshSelect, 
+		  iPcMesh, iPcTimer, iPcSolid, iPcGravity, iPcMovable, 
+		  iPcInventory, and iPcCharacteristics.  Each one has a
+		  corresponding celCreate* function.
 17-Sep-2002:
 	- Fixed CEL for the new csPtr(csRef) constructor in CS.
 13-Sep-2002:

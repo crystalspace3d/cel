@@ -21,6 +21,7 @@
 
 #include "iutil/eventh.h"
 #include "iutil/comp.h"
+#include "ivaria/script.h"
 #include "csutil/csinput.h"
 #include "csutil/csvector.h"
 #include "bl/bl.h"
@@ -54,6 +55,20 @@ public:
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
+
+  // Implement iScript interface.
+  struct eiScript : public iScript
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celBlPython);
+    virtual bool Initialize (iObjectRegistry *object_reg)
+    { return scfParent->Initialize(object_reg); }
+    virtual bool RunText (const char *iStr)
+    { return scfParent->RunText(iStr); }
+    virtual bool LoadModule(const char *iStr)
+    { return scfParent->LoadModule(iStr); }
+    virtual bool Store(const char *name, void *data, void *tag)
+    { return scfParent->Store(name, data, tag); }
+  } scfiScript;
 };
 
 class celPythonBehaviour : public iCelBehaviour
