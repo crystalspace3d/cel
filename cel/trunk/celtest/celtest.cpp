@@ -193,6 +193,7 @@ bool CelTest::HandleEvent (iEvent& ev)
 	pl->CleanCache ();
       }
       csDebuggingGraph::Dump (NULL);
+      printf ("%d\n", engine->GetMeshFactories ()->GetCount ());
     }
   }
   return false;

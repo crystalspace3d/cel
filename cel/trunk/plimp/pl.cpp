@@ -322,11 +322,25 @@ void celPlLayer::Uncache (iBase* object)
 {
   int idx = cache.Find (object);
   if (idx != -1)
+  {
+    // @@@ EXTREME HACK! factory wrappers cannot just be removed with
+    // DecRef(). They have to be removed from the engine.
+    // Need to find a better solution for this.
+    iMeshFactoryWrapper* fact = SCF_QUERY_INTERFACE (object, iMeshFactoryWrapper);
+    if (fact)
+    {
+      iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+      CS_ASSERT (engine != NULL);
+      engine->GetMeshFactories ()->Remove (fact);
+      engine->DecRef ();
+    }
     cache.Delete (idx);
+  }
 }
 
 void celPlLayer::CleanCache ()
 {
-  cache.DeleteAll ();
+  while (cache.Length () > 0)
+    Uncache ((iBase*)cache[0]);
 }
 
