@@ -353,7 +353,7 @@ private:
     iCollider** colliders,
     csReversibleTransform** transforms,
     const csReversibleTransform& w2o,
-    const csVector3& relmove,
+    csVector3& newpos,
     csVector3& collider_normal);
   bool HandleForce (float delta_t, iCollider* this_collider,
     iCelEntityList* cd_list, const csVector3& force);

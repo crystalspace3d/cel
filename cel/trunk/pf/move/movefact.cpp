@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "qsqrt.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "pf/move/movefact.h"
@@ -1286,11 +1287,10 @@ int celPcGravity2::TestMove (iCollider* this_collider,
     iCollider** colliders,
     csReversibleTransform** transforms,
     const csReversibleTransform& w2o,
-    const csVector3& relmove,
+    csVector3& newpos,
     csVector3& collider_normal)
 {
   csReversibleTransform test (w2o);
-  csVector3 newpos = test.GetOrigin () + relmove;
   int rc = cdsys->CollidePath (this_collider, &test, newpos,
   	num_colliders, colliders, transforms);
   if (rc == -1) return -1;	// Stuck!!!
@@ -1317,11 +1317,14 @@ bool celPcGravity2::HandleForce (float delta_t, iCollider* this_collider,
   GetMovable ();
   iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
   csReversibleTransform& w2o = movable->GetTransform ();
+  const csVector3& oldpos = w2o.GetOrigin ();
 
   csVector3 acceleration = force / weight;
-  const csVector3& oldpos = w2o.GetOrigin ();
-  csVector3 relmove;
-  csVector3 relspeed;
+  csVector3 relmove = acceleration;
+  relmove *= delta_t;
+  csVector3 relspeed = relmove;
+  relmove += current_speed;
+  relmove *= delta_t;
 
   iCollider** colliders;
   csReversibleTransform** transforms;
@@ -1331,48 +1334,45 @@ bool celPcGravity2::HandleForce (float delta_t, iCollider* this_collider,
     delete[] colliders;
     delete[] transforms;
     // Since there are no colliders we can surely move.
-    relmove = acceleration;
-    relmove *=  delta_t;
-    relspeed = relmove;
-    relmove += current_speed;
-    relmove *= delta_t;
     current_speed += relspeed;
     pcmovable->Move (relmove);
     return true;
   }
 
-  float dt = delta_t;
-  while (dt > EPSILON)
-  {
-    relmove = acceleration;
-    relmove *= dt;
-    relspeed = relmove;
-    relmove += current_speed;
-    relmove *= dt;
-
-    csVector3 collider_normal;
-    int rc = TestMove (this_collider, num_colliders, colliders, transforms,
-    	w2o, relmove, collider_normal);
-    if (rc == -1)
-    {
-      // Stuck at start position...
-      return false;
-    }
-    else if (rc == 0)
-    {
-      dt /= 2.0;
-    }
-    else break;
-  }
-
+  csVector3 newpos = oldpos + relmove;
+  csVector3 desired_endpos = newpos;
+  csVector3 collider_normal;
+  int rc = TestMove (this_collider, num_colliders, colliders, transforms,
+  	w2o, newpos, collider_normal);
   delete[] colliders;
   delete[] transforms;
-  
-  if (dt <= EPSILON) return false;	// Movement not possible.
-  else
+
+  if (rc == -1)
   {
+    // Stuck at start position...
+    return false;
+  }
+  else if (rc == 1)
+  {
+    // Can move without obstruction.
     current_speed += relspeed;
     pcmovable->Move (relmove);
+    return true;
+  }
+  else
+  {
+    // We can move but there is some obstruction.
+    // Here we have to find out where exactly.
+    // @@@ Here we also have to calculate impuse: for later...
+    float disttot = qsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
+    float dist = qsqrt (csSquaredDist::PointPoint (oldpos, newpos));
+    delta_t = delta_t * dist / disttot;
+
+    relspeed = acceleration;
+    relspeed *= delta_t;
+    current_speed += relspeed;
+    pcmovable->Move (newpos-oldpos);
+
     return true;
   }
 }
