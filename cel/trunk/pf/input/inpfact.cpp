@@ -197,8 +197,6 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   if (shift != 0)
       return false;
 
-  printf ("Bind: %s -> %s, %d \n",triggername, command, key);
-
   celKeyMap* newmap;
   if (!(newmap = GetMap (key)))
   {
@@ -293,7 +291,6 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
       *(p->command_end) = '0';
-      printf ("DeActivate: %s\n", p->command);
       bh->SendMessage (p->command, NULL);
       *(p->command_end) = 0;
     }
@@ -306,7 +303,6 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
       *(p->command_end) = '1';
-      printf ("Activate: %s\n", p->command);
       bh->SendMessage (p->command, NULL);
       *(p->command_end) = 0;
     }
