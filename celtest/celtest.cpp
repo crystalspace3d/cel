@@ -109,7 +109,11 @@ CelTest::~CelTest ()
   if (pftools) pftools->DecRef ();
   if (pfengine) pfengine->DecRef ();
   if (game) game->DecRef ();
-  if (pl) pl->DecRef ();
+  if (pl)
+  {
+    pl->CleanCache ();
+    pl->DecRef ();
+  }
   if (bl) bl->DecRef ();
   if (vc) vc->DecRef ();
   if (engine) engine->DecRef ();
@@ -165,12 +169,20 @@ bool CelTest::HandleEvent (iEvent& ev)
     else if (ev.Key.Code == 'l')
     {
       printf ("Loading from '/this/savefile\n"); fflush (stdout);
-      //iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
-      if (game) { game->DecRef (); game = NULL; }
+      if (game)
+      {
+        game->DecRef ();
+	game = NULL;
+	pl->CleanCache ();
+      }
       csDebuggingGraph::Dump (NULL);
-      //game = cp->LoadEntity ("/this/savefile");
-      //printf ("  success %08lx\n", game); fflush (stdout);
-      //cp->DecRef ();
+
+      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      game = cp->LoadEntity ("/this/savefile");
+      printf ("  success %08lx\n", game); fflush (stdout);
+      cp->DecRef ();
+
+      csDebuggingGraph::Dump (NULL);
     }
   }
   return false;
@@ -484,7 +496,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
 
-  csDebuggingGraph::SetupGraph (object_reg, true);
+  csDebuggingGraph::SetupGraph (object_reg);
 
   // @@@ The code below is temporary until we have a general solution
   // in CS for having plugins outside the CS hierarchy (by an additional

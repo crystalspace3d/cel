@@ -78,6 +78,7 @@ private:
   bool visible;
   char* fileName;
   char* factName;
+  iMeshFactoryWrapper* factory_ptr;
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 

@@ -32,7 +32,6 @@ SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
 SCF_DECLARE_FAST_INTERFACE (iCelDataBuffer)
 SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
-SCF_DECLARE_FAST_INTERFACE (iObject)
 
 struct iObject;
 struct iCelEntity;
@@ -127,6 +126,25 @@ struct iCelPlLayer : public iBase
    */
   virtual iCelPropertyClassFactory* FindPropertyClassFactory (
   	const char* name) const = 0;
+
+  /**
+   * Cache an SCF object. This effectively means that the PL will keep
+   * a references to this object. This function will not add the object
+   * if it is already cached so it is safe to call multiple times.
+   */
+  virtual void Cache (iBase* object) = 0;
+
+  /**
+   * Uncache an SCF object.
+   */
+  virtual void Uncache (iBase* object) = 0;
+
+  /**
+   * Clean up the cache. This will decrease the ref count of all
+   * objects in the cache. Possibly this will remove them unless
+   * some other object still has a reference.
+   */
+  virtual void CleanCache () = 0;
 };
 
 #endif // __CEL_PL_PL__

@@ -1,3 +1,19 @@
+16-Nov-2001:
+	- Implemented a cache in the physical layer. This cache will hold
+	  objects of type iBase and keeps a reference to them. This cache
+	  can be used to store pointers to objects that are useful in the
+	  game and that you don't want to be removed while the game is
+	  in progress even if the object is not used at some specific point.
+	  A good example is mesh factories. Even though there may be no
+	  mesh object using a particular mesh factory you still do not
+	  want to delete the loaded mesh factory. Otherwise there would be
+	  a delay when the factory is suddenly needed.
+	- 'pcmesh' now uses this cache to store a reference to the factory
+	  that is used. In addition every mesh that uses a mesh factory
+	  will also increase the ref count. Added CleanCache() to celtest
+	  so that the cache will be cleaned if a new game starts. This
+	  solves another memory leak with the mesh object factories this
+	  time.
 15-Nov-2001:
 	- Fixed a memory leak in 'pctooltip' and 'pctimer' with event queue.
 	- Added lots of DG_... lines to help debugging.

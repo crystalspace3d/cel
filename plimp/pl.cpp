@@ -60,6 +60,7 @@ celPlLayer::celPlLayer (iBase* parent)
 
 celPlLayer::~celPlLayer ()
 {
+  CleanCache ();
   int i;
   for (i = 0 ; i < pf_list.Length () ; i++)
   {
@@ -308,5 +309,24 @@ iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
       return pf;
   }
   return NULL;
+}
+
+void celPlLayer::Cache (iBase* object)
+{
+  int idx = cache.Find (object);
+  if (idx == -1)
+    cache.Push (object);
+}
+
+void celPlLayer::Uncache (iBase* object)
+{
+  int idx = cache.Find (object);
+  if (idx != -1)
+    cache.Delete (idx);
+}
+
+void celPlLayer::CleanCache ()
+{
+  cache.DeleteAll ();
 }
 
