@@ -5,6 +5,7 @@
 	  up a python script then. The python script will take over from there
 	  and set up the game entities and everything related to the game.
 	  Note that this does not work correctly!
+	- Matze added Jam rules to rebuild the swig files
 26-Jun-2003
 	- Jorrit added iCelPlLayer->GetBehaviour() as a convenience function
 	  to directly get the behaviour associated with an entity ID.

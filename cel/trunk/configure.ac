@@ -35,6 +35,11 @@ CS_PROG_LINK
 AC_CHECK_PROGS([INSTALL], [install])
 AS_IF([test -n "$INSTALL"], [CS_JAMCONFIG_PROPERTY([CMD.INSTALL], [$INSTALL])])
 
+AC_CHECK_PROGS([SWIG], [swig])
+AS_IF([test -n "$SWIG"],
+    [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.14],
+	[9.9|.9], [CS_JAMCONFIG_PROPERTY([CMD.SWIG], [$SWIG])])])
+
 #----------------------------------------------------------------------------
 # Determine system type
 #----------------------------------------------------------------------------
