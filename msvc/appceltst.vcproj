@@ -119,7 +119,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				OutputFile="..\celtst.exe"
-				SubSystem="2"
+				SubSystem="1"
 				AdditionalOptions=""
 				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
