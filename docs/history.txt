@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+17-Jul-2003
+	- Jorrit fixed a stupid bug in the collider creation of pclinmove.
+	  It was using a plane instead of a box for the collider. Thanks
+	  to Hudbrog <hudbrog@mail.ru> for spotting that.
 13-Jul-2003
 	- Keith fixed crash in new collider code for meshes without
 	  associated entities.
