@@ -645,8 +645,23 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	}
 	// Restore.
 	input = pinput;
-	h->AddOperation (CEL_OPERATION_CALL_RETSTACK);
-	h->GetArgument ().SetString (str, true);
+
+	//  First check if we have a scoped function (::).
+	char* scope = strstr (str, "::");
+	if (scope)
+	{
+	  *scope = 0;
+	  h->AddOperation (CEL_OPERATION_PUSHSTR);
+	  h->GetArgument ().SetString (str, true);
+	  h->AddOperation (CEL_OPERATION_CALLENT_RETSTACK);
+	  h->GetArgument ().SetString (scope+2, true);
+	  *scope = ':';
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_CALL_RETSTACK);
+	  h->GetArgument ().SetString (str, true);
+        }
       }
       break;
   }
@@ -778,6 +793,10 @@ bool celBlXml::ParseExpressionInt (
       }
       break;
     case CEL_TOKEN_FUNCTION:
+      if (!ParseFunction (input, pinput, local_vars, child, h, name))
+        return false;
+      break;
+    case CEL_TOKEN_FUNCTIONSCO:
       if (!ParseFunction (input, pinput, local_vars, child, h, name))
         return false;
       break;

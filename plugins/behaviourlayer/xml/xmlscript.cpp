@@ -333,49 +333,40 @@ static const char* EntityNameForError (const celXmlArg& a)
 
 static iCelPropertyClass* ArgToPClass (const celXmlArg& a)
 {
-  switch (a.type)
-  {
-    case CEL_DATA_PCLASS: return a.arg.pc;
-    default: return 0;
-  }
+  if (a.type == CEL_DATA_PCLASS) return a.arg.pc;
+  else return 0;
 }
 
 static csStringID ArgToID (const celXmlArg& a)
 {
-  switch (a.type)
-  {
-    case CEL_DATA_ID: return a.arg.id;
-    default: return csInvalidStringID;
-  }
+  if (a.type == CEL_DATA_ID) return a.arg.id;
+  else return csInvalidStringID;
 }
 
 static csColor ArgToColor (const celXmlArg& a)
 {
-  switch (a.type)
-  {
-    case CEL_DATA_COLOR: return csColor (a.arg.col.red, a.arg.col.green,
+  if (a.type == CEL_DATA_COLOR)
+    return csColor (a.arg.col.red, a.arg.col.green,
     	a.arg.col.blue);
-    default: return csColor (0, 0, 0);
-  }
+  else
+    return csColor (0, 0, 0);
 }
 
 static csVector3 ArgToVector3 (const celXmlArg& a)
 {
-  switch (a.type)
-  {
-    case CEL_DATA_VECTOR3: return csVector3 (a.arg.vec.x, a.arg.vec.y,
+  if (a.type == CEL_DATA_VECTOR3)
+    return csVector3 (a.arg.vec.x, a.arg.vec.y,
     	a.arg.vec.z);
-    default: return csVector3 (0, 0, 0);
-  }
+  else
+    return csVector3 (0);
 }
 
 static csVector2 ArgToVector2 (const celXmlArg& a)
 {
-  switch (a.type)
-  {
-    case CEL_DATA_VECTOR2: return csVector2 (a.arg.vec.x, a.arg.vec.y);
-    default: return csVector2 (0, 0);
-  }
+  if (a.type == CEL_DATA_VECTOR2)
+    return csVector2 (a.arg.vec.x, a.arg.vec.y);
+  else
+    return csVector2 (0, 0);
 }
 
 static bool ArgToBool (const celXmlArg& a)
@@ -682,6 +673,282 @@ static const char* D2S (const celData& a)
   }
 }
 
+static bool prop2celXmlArg (iPcProperties* props, int idx, celXmlArg& out)
+{
+  switch (props->GetPropertyType (idx))
+  {
+    case CEL_DATA_ULONG:
+      {
+	long l = props->GetPropertyLong (idx);
+	out.SetUInt32 ((uint32)l);
+      }
+      break;
+    case CEL_DATA_LONG:
+      {
+	long l = props->GetPropertyLong (idx);
+	out.SetInt32 (l);
+      }
+      break;
+    case CEL_DATA_FLOAT:
+      {
+	float l = props->GetPropertyFloat (idx);
+	out.SetFloat (l);
+      }
+      break;
+    case CEL_DATA_BOOL:
+      {
+	bool l = props->GetPropertyBool (idx);
+	out.SetBool (l);
+      }
+      break;
+    case CEL_DATA_STRING:
+      {
+	const char* l = props->GetPropertyString (idx);
+	out.SetString (l, true);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v;
+	props->GetPropertyVector (idx, v);
+	out.SetVector (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 v;
+	props->GetPropertyVector (idx, v);
+	out.SetVector (v);
+      }
+      break;
+    case CEL_DATA_COLOR:
+      {
+	csColor v;
+	props->GetPropertyColor (idx, v);
+	out.SetColor (v);
+      }
+      break;
+    case CEL_DATA_PCLASS:
+      {
+	iCelPropertyClass* l = props->GetPropertyPClass (idx);
+	out.SetPC (l);
+      }
+      break;
+    case CEL_DATA_ENTITY:
+      {
+	iCelEntity* l = props->GetPropertyEntity (idx);
+	out.SetEntity (l);
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
+static bool celData2celXmlArg (const celData& in, celXmlArg& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: out.SetBool (in.value.b); break;
+    case CEL_DATA_FLOAT: out.SetFloat (in.value.f); break;
+    case CEL_DATA_STRING: out.SetString (in.value.s->GetData (), true); break;
+    case CEL_DATA_LONG: out.SetInt32 (in.value.l); break;
+    case CEL_DATA_ULONG: out.SetUInt32 (in.value.ul); break;
+    case CEL_DATA_PCLASS: out.SetPC (in.value.pc); break;
+    case CEL_DATA_ENTITY: out.SetEntity (in.value.ent); break;
+    case CEL_DATA_COLOR:
+      {
+        csColor col (in.value.col.red, in.value.col.green,
+	  in.value.col.blue);
+        out.SetColor (col);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v (in.value.v.x, in.value.v.y);
+	out.SetVector (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 v (in.value.v.x, in.value.v.y, in.value.v.z);
+	out.SetVector (v);
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
+static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id, celXmlArg& out)
+{
+  celDataType t = pc->GetPropertyOrActionType (id);
+  switch (t)
+  {
+    case CEL_DATA_BOOL:
+      out.SetBool (pc->GetPropertyBool (id));
+      break;
+    case CEL_DATA_FLOAT:
+      out.SetFloat (pc->GetPropertyFloat (id));
+      break;
+    case CEL_DATA_STRING:
+      out.SetString (pc->GetPropertyString (id), true);
+      break;
+    case CEL_DATA_LONG:
+      out.SetInt32 (pc->GetPropertyLong (id));
+      break;
+    case CEL_DATA_ULONG:
+      out.SetUInt32 ((uint32)pc->GetPropertyLong (id));
+      break;
+    case CEL_DATA_PCLASS:
+      out.SetPC (pc->GetPropertyPClass (id));
+      break;
+    case CEL_DATA_ENTITY:
+      out.SetEntity (pc->GetPropertyEntity (id));
+      break;
+    case CEL_DATA_COLOR:
+      {
+	csColor col;
+	pc->GetPropertyColor (id, col);
+	out.SetColor (col);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v;
+	pc->GetPropertyVector (id, v);
+	out.SetVector (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 v;
+	pc->GetPropertyVector (id, v);
+	out.SetVector (v);
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
+static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props, const char* varname)
+{
+  switch (val.type)
+  {
+    case CEL_DATA_BOOL:
+      props->SetProperty (varname, val.arg.b);
+      break;
+    case CEL_DATA_FLOAT:
+      props->SetProperty (varname, val.arg.f);
+      break;
+    case CEL_DATA_STRING:
+      props->SetProperty (varname, val.arg.str.s);
+      break;
+    case CEL_DATA_ULONG:
+      props->SetProperty (varname, (long)val.arg.ui);
+      break;
+    case CEL_DATA_LONG:
+      props->SetProperty (varname, (long)val.arg.i);
+      break;
+    case CEL_DATA_COLOR:
+      {
+	csColor col;
+	col.red = val.arg.col.red;
+	col.green = val.arg.col.green;
+	col.blue = val.arg.col.blue;
+	props->SetProperty (varname, col);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 vec;
+	vec.x = val.arg.vec.x;
+	vec.y = val.arg.vec.y;
+	props->SetProperty (varname, vec);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 vec;
+	vec.x = val.arg.vec.x;
+	vec.y = val.arg.vec.y;
+	vec.z = val.arg.vec.z;
+	props->SetProperty (varname, vec);
+      }
+      break;
+    case CEL_DATA_ENTITY:
+      props->SetProperty (varname, val.arg.entity);
+      break;
+    case CEL_DATA_PCLASS:
+      props->SetProperty (varname, val.arg.pc);
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
+static bool celData2prop (const celData& val, iPcProperties* props, const char* varname)
+{
+  switch (val.type)
+  {
+    case CEL_DATA_BOOL:
+      props->SetProperty (varname, val.value.bo);
+      break;
+    case CEL_DATA_FLOAT:
+      props->SetProperty (varname, val.value.f);
+      break;
+    case CEL_DATA_STRING:
+      props->SetProperty (varname, (const char*)(*val.value.s));
+      break;
+    case CEL_DATA_ULONG:
+      props->SetProperty (varname, (long)val.value.ul);
+      break;
+    case CEL_DATA_LONG:
+      props->SetProperty (varname, (long)val.value.l);
+      break;
+    case CEL_DATA_COLOR:
+      {
+	csColor col;
+	col.red = val.value.col.red;
+	col.green = val.value.col.green;
+	col.blue = val.value.col.blue;
+	props->SetProperty (varname, col);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 vec;
+	vec.x = val.value.v.x;
+	vec.y = val.value.v.y;
+	props->SetProperty (varname, vec);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 vec;
+	vec.x = val.value.v.x;
+	vec.y = val.value.v.y;
+	vec.z = val.value.v.z;
+	props->SetProperty (varname, vec);
+      }
+      break;
+    case CEL_DATA_ENTITY:
+      props->SetProperty (varname, val.value.ent);
+      break;
+    case CEL_DATA_PCLASS:
+      props->SetProperty (varname, val.value.pc);
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
 void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 {
   celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
@@ -841,54 +1108,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: param %s\n", i-1, A2S (a_arg)));
 	  csStringID id = ArgToID (a_arg);
 	  int si = stack.Push (celXmlArg ());
-	  const celData* data = params ? params->GetParameter (id) : 0;
+	  if (!params)
+	    return ReportError (behave, "No parameters were supplied while calling this event!");
+	  const celData* data = params->GetParameter (id);
 	  if (!data)
 	    return ReportError (behave, "Can't find parameter!");
-	  switch (data->type)
-	  {
-	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (data->value.b);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (data->value.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      stack[si].SetString (data->value.s->GetData (), true);
-	      break;
-	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (data->value.l);
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (data->value.ul);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      stack[si].SetPC (data->value.pc);
-	      break;
-	    case CEL_DATA_ENTITY:
-	      stack[si].SetEntity (data->value.ent);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col (data->value.col.red, data->value.col.green,
-			data->value.col.blue);
-	        stack[si].SetColor (col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v (data->value.v.x, data->value.v.y);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v (data->value.v.x, data->value.v.y, data->value.v.z);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Type not supported for 'arg'!");
-	  }
+	  if (!celData2celXmlArg (*data, stack[si]))
+	    return ReportError (behave, "Type not supported for 'param'!");
 	}
 	break;
       case CEL_OPERATION_PUSH:
@@ -908,76 +1134,70 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_PCTHIS:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC ((":%04d: pcthis %s\n", i-1, A2S (a_pc)));
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: pcthis %s\n", i-1, A2S (top)));
 
-	  int si = stack.Push (celXmlArg ());
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
-	  	FindByName (ArgToString (a_pc));
-	  stack[si].SetPC (other_pc);	// Can be 0.
+	  	FindByName (ArgToString (top));
+	  top.SetPC (other_pc);	// Can be 0.
 	}
 	break;
       case CEL_OPERATION_CALCPARID:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC ((":%04d: calcparid %s\n", i-1, A2S (a_id)));
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: calcparid %s\n", i-1, A2S (top)));
 	  csString str = "cel.parameter.";
-	  str += ArgToString (a_id);
+	  str += ArgToString (top);
 	  csStringID id = pl->FetchStringID ((const char*)str);
-	  stack[si].SetID (id);
+	  top.SetID (id);
 	}
 	break;
       case CEL_OPERATION_CALCPROPID:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC ((":%04d: calcpropid %s\n", i-1, A2S (a_id)));
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: calcpropid %s\n", i-1, A2S (top)));
 	  csString str = "cel.property.";
-	  str += ArgToString (a_id);
+	  str += ArgToString (top);
 	  csStringID id = pl->FetchStringID ((const char*)str);
-	  stack[si].SetID (id);
+	  top.SetID (id);
 	}
 	break;
       case CEL_OPERATION_CALCID:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC ((":%04d: calcid %s\n", i-1, A2S (a_id)));
-	  int si = stack.Push (celXmlArg ());
-	  csStringID id = pl->FetchStringID (ArgToString (a_id));
-	  stack[si].SetID (id);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: calcid %s\n", i-1, A2S (top)));
+	  csStringID id = pl->FetchStringID (ArgToString (top));
+	  top.SetID (id);
 	}
 	break;
       case CEL_OPERATION_PC:
         {
 	  CHECK_STACK(2)
 	  celXmlArg a_pc = stack.Pop ();
-	  celXmlArg a_ent = stack.Pop ();
-          DUMP_EXEC ((":%04d: pc %s %s\n", i-1, A2S (a_ent), A2S (a_pc)));
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: pc ent=%s pc=%s\n", i-1, A2S (top), A2S (a_pc)));
 
-	  int si = stack.Push (celXmlArg ());
-	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
 	  {
-	    stack[si].SetPC ((iCelPropertyClass*)0);
+	    top.SetPC ((iCelPropertyClass*)0);
 	    break;
 	  }
           iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
 	  	FindByName (ArgToString (a_pc));
-	  stack[si].SetPC (other_pc);	// Can be 0.
+	  top.SetPC (other_pc);	// Can be 0.
 	}
         break;
       case CEL_OPERATION_VECTOR2:
         {
 	  CHECK_STACK(2)
 	  celXmlArg ely = stack.Pop ();
-	  celXmlArg elx = stack.Pop ();
-          DUMP_EXEC ((":%04d: vector2 %s, %s\n", i-1, A2S (elx), A2S (ely)));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetVector (csVector2 (ArgToFloat (elx), ArgToFloat (ely)));
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: vector2 %s, %s\n", i-1, A2S (top), A2S (ely)));
+	  top.SetVector (csVector2 (ArgToFloat (top), ArgToFloat (ely)));
 	}
 	break;
       case CEL_OPERATION_VECTOR3:
@@ -985,11 +1205,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(3)
 	  celXmlArg elz = stack.Pop ();
 	  celXmlArg ely = stack.Pop ();
-	  celXmlArg elx = stack.Pop ();
-          DUMP_EXEC ((":%04d: vector3 %s, %s, %s\n", i-1, A2S (elx),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: vector3 %s, %s, %s\n", i-1, A2S (top),
 	  	A2S (ely), A2S (elz)));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetVector (csVector3 (ArgToFloat (elx),
+	  top.SetVector (csVector3 (ArgToFloat (top),
 	  	ArgToFloat (ely), ArgToFloat (elz)));
 	}
 	break;
@@ -998,11 +1217,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(3)
 	  celXmlArg elb = stack.Pop ();
 	  celXmlArg elg = stack.Pop ();
-	  celXmlArg elr = stack.Pop ();
-          DUMP_EXEC ((":%04d: color %s, %s, %s\n", i-1, A2S (elr),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: color %s, %s, %s\n", i-1, A2S (top),
 	  	A2S (elg), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetColor (csColor (ArgToFloat (elr),
+	  top.SetColor (csColor (ArgToFloat (top),
 	  	ArgToFloat (elg), ArgToFloat (elb)));
 	}
 	break;
@@ -1016,38 +1234,31 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_RAND:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: rand (%s)\n", i-1, A2S (stack[si])));
-	  float f = ArgToFloat (stack[si]);
-	  stack[si].SetFloat (float (rand () % 10000) * f / 10000.0);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: rand (%s)\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (float (rand () % 10000) * f / 10000.0);
 	}
 	break;
       case CEL_OPERATION_FLOAT:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: float %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: float %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG:
-	      stack[si].SetFloat (float (stack[si].arg.i));
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetFloat (float (stack[si].arg.ui));
-	      break;
-	    case CEL_DATA_FLOAT:
-	      break;
-	    case CEL_DATA_BOOL:
-	      stack[si].SetFloat (float (stack[si].arg.b));
-	      break;
+	    case CEL_DATA_LONG: top.SetFloat (float (top.arg.i)); break;
+	    case CEL_DATA_ULONG: top.SetFloat (float (top.arg.ui)); break;
+	    case CEL_DATA_FLOAT: break;
+	    case CEL_DATA_BOOL: top.SetFloat (float (top.arg.b)); break;
 	    case CEL_DATA_STRING:
 	      {
 	        float i;
-		if (stack[si].arg.str.s)
-		  sscanf (stack[si].arg.str.s, "%f", &i);
+		if (top.arg.str.s)
+		  sscanf (top.arg.str.s, "%f", &i);
 		else
 		  i = 0.0;
-	        stack[si].SetFloat (i);
+	        top.SetFloat (i);
 	      }
 	      break;
 	    default:
@@ -1059,27 +1270,27 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_INT:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: int %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: int %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
 	    case CEL_DATA_LONG:
 	    case CEL_DATA_ULONG:
 	      break;
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetInt32 (int32 (stack[si].arg.f));
+	      top.SetInt32 (int32 (top.arg.f));
 	      break;
 	    case CEL_DATA_BOOL:
-	      stack[si].SetInt32 (int32 (stack[si].arg.b));
+	      top.SetInt32 (int32 (top.arg.b));
 	      break;
 	    case CEL_DATA_STRING:
 	      {
 	        int i;
-		if (stack[si].arg.str.s)
-		  sscanf (stack[si].arg.str.s, "%d", &i);
+		if (top.arg.str.s)
+		  sscanf (top.arg.str.s, "%d", &i);
 		else
 		  i = 0;
-	        stack[si].SetInt32 ((int32)i);
+	        top.SetInt32 ((int32)i);
 	      }
 	      break;
 	    default:
@@ -1091,19 +1302,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_SIGN:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: sign %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: sign %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG:
-	      stack[si].arg.i = SIGN (stack[si].arg.i);
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetInt32 (stack[si].arg.ui > 0 ? 1 : 0);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      stack[si].SetInt32 (SIGN (stack[si].arg.f));
-	      break;
+	    case CEL_DATA_LONG: top.arg.i = SIGN (top.arg.i); break;
+	    case CEL_DATA_ULONG: top.SetInt32 (top.arg.ui > 0 ? 1 : 0); break;
+	    case CEL_DATA_FLOAT: top.SetInt32 (SIGN (top.arg.f)); break;
 	    default:
 	      return ReportError (behave,
 	      	"Can't calculate 'sign' for element on stack!");
@@ -1113,13 +1318,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_ABS:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: abs %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: abs %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG: stack[si].arg.i = ABS (stack[si].arg.i); break;
+	    case CEL_DATA_LONG: top.arg.i = ABS (top.arg.i); break;
 	    case CEL_DATA_ULONG: break;
-	    case CEL_DATA_FLOAT: stack[si].arg.f = ABS (stack[si].arg.f); break;
+	    case CEL_DATA_FLOAT: top.arg.f = ABS (top.arg.f); break;
 	    default:
 	      return ReportError (behave,
 	      	"Can't calculate 'abs' for element on stack!");
@@ -1129,13 +1334,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_BITNOT:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: ~ %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: ~ %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG: stack[si].arg.i = ~stack[si].arg.i; break;
-	    case CEL_DATA_ULONG: stack[si].arg.ui = ~stack[si].arg.ui; break;
-	    case CEL_DATA_BOOL: stack[si].arg.b = !stack[si].arg.b; break;
+	    case CEL_DATA_LONG: top.arg.i = ~top.arg.i; break;
+	    case CEL_DATA_ULONG: top.arg.ui = ~top.arg.ui; break;
+	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    default:
 	      return ReportError (behave, "Can't bit-not element on stack!");
 	  }
@@ -1144,27 +1349,27 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_UNARYMINUS:
         {
 	  CHECK_STACK(1)
-	  int si = stack.Length ()-1;
-          DUMP_EXEC ((":%04d: unaryminus %s\n", i-1, A2S (stack[si])));
-	  switch (stack[si].type)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: unaryminus %s\n", i-1, A2S (top)));
+	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG: stack[si].arg.i = -stack[si].arg.i; break;
-	    case CEL_DATA_ULONG: stack[si].arg.ui = -stack[si].arg.ui; break;
-	    case CEL_DATA_FLOAT: stack[si].arg.f = -stack[si].arg.f; break;
-	    case CEL_DATA_BOOL: stack[si].arg.b = !stack[si].arg.b; break;
+	    case CEL_DATA_LONG: top.arg.i = -top.arg.i; break;
+	    case CEL_DATA_ULONG: top.arg.ui = -top.arg.ui; break;
+	    case CEL_DATA_FLOAT: top.arg.f = -top.arg.f; break;
+	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_COLOR:
-	      stack[si].arg.col.red = -stack[si].arg.col.red;
-	      stack[si].arg.col.green = -stack[si].arg.col.green;
-	      stack[si].arg.col.blue = -stack[si].arg.col.blue;
+	      top.arg.col.red = -top.arg.col.red;
+	      top.arg.col.green = -top.arg.col.green;
+	      top.arg.col.blue = -top.arg.col.blue;
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].arg.vec.x = -stack[si].arg.vec.x;
-	      stack[si].arg.vec.y = -stack[si].arg.vec.y;
-	      stack[si].arg.vec.z = -stack[si].arg.vec.z;
+	      top.arg.vec.x = -top.arg.vec.x;
+	      top.arg.vec.y = -top.arg.vec.y;
+	      top.arg.vec.z = -top.arg.vec.z;
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].arg.vec.x = -stack[si].arg.vec.x;
-	      stack[si].arg.vec.y = -stack[si].arg.vec.y;
+	      top.arg.vec.x = -top.arg.vec.x;
+	      top.arg.vec.y = -top.arg.vec.y;
 	      break;
 	    default:
 	      return ReportError (behave, "Can't negate element on stack!");
@@ -1205,17 +1410,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg a_sub = stack.Pop ();
-	  celXmlArg a_str = stack.Pop ();
-          DUMP_EXEC ((":%04d: stridx (%s,%s)\n", i-1, A2S (a_str),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: stridx (%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_sub)));
-	  int si = stack.Push (celXmlArg ());
-	  const char* str = ArgToString (a_str);
+	  const char* str = ArgToString (top);
 	  const char* sub = ArgToString (a_sub);
 	  char* rc = strstr (str, sub);
 	  if (rc)
-	    stack[si].SetInt32 (rc-str);
+	    top.SetInt32 (rc-str);
 	  else
-	    stack[si].SetInt32 (-1);
+	    top.SetInt32 (-1);
 	}
         break;
       case CEL_OPERATION_STRSUB:
@@ -1223,11 +1427,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(3)
 	  celXmlArg a_len = stack.Pop ();
 	  celXmlArg a_pos = stack.Pop ();
-	  celXmlArg a_str = stack.Pop ();
-          DUMP_EXEC ((":%04d: strsub (%s,%s,%s)\n", i-1, A2S (a_str),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: strsub (%s,%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_pos), A2S (a_len)));
-	  int si = stack.Push (celXmlArg ());
-	  const char* str = ArgToString (a_str);
+	  const char* str = ArgToString (top);
 	  int32 pos = ArgToInt32 (a_pos);
 	  int32 len = ArgToInt32 (a_len);
 	  int real_len = strlen (str) - pos;
@@ -1236,18 +1439,17 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (real_len)
 	    strncpy (newstr, str+pos, real_len);
 	  newstr[real_len] = 0;
-	  stack[si].SetStringPrealloc (newstr);
+	  top.SetStringPrealloc (newstr);
 	}
         break;
       case CEL_OPERATION_STRLEN:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_str = stack.Pop ();
-          DUMP_EXEC ((":%04d: strlen (%s)\n", i-1, A2S (a_str)));
-	  int si = stack.Push (celXmlArg ());
-	  const char* str = ArgToString (a_str);
-	  if (str) stack[si].SetInt32 (strlen (str));
-	  else stack[si].SetInt32 (0);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: strlen (%s)\n", i-1, A2S (top)));
+	  const char* str = ArgToString (top);
+	  if (str) top.SetInt32 (strlen (str));
+	  else top.SetInt32 (0);
 	}
 	break;
       case CEL_OPERATION_INTPOL:
@@ -1255,26 +1457,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(3)
 	  celXmlArg elb = stack.Pop ();
 	  celXmlArg ela = stack.Pop ();
-	  celXmlArg a_int = stack.Pop ();
-          DUMP_EXEC ((":%04d: intpol (%s,%s,%s)\n", i-1, A2S (a_int),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: intpol (%s,%s,%s)\n", i-1, A2S (top),
 	  	A2S (ela), A2S (elb)));
-	  float delta = ArgToFloat (a_int);
+	  float delta = ArgToFloat (top);
 	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
 	      {
 	        float fa = ArgToFloat (ela);
 	        float fb = ArgToFloat (elb);
-	        stack[si].SetFloat ((1.0-delta)*fa + delta*fb);
+	        top.SetFloat ((1.0-delta)*fa + delta*fb);
 	      }
 	      break;
 	    case CEL_DATA_LONG:
 	      {
 	        int32 fa = ArgToInt32 (ela);
 	        int32 fb = ArgToInt32 (elb);
-	        stack[si].SetInt32 (int32 (
+	        top.SetInt32 (int32 (
 			(1.0-delta)*float (fa) + delta*float (fb)));
 	      }
 	      break;
@@ -1282,7 +1483,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 	        uint32 fa = ArgToUInt32 (ela);
 	        uint32 fb = ArgToUInt32 (elb);
-	        stack[si].SetUInt32 (uint32 (
+	        top.SetUInt32 (uint32 (
 			(1.0-delta)*float (fa) + delta*float (fb)));
 	      }
 	      break;
@@ -1290,21 +1491,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 	        csVector2 fa = ArgToVector2 (ela);
 	        csVector2 fb = ArgToVector2 (elb);
-	        stack[si].SetVector ((1.0-delta)*fa + delta*fb);
+	        top.SetVector ((1.0-delta)*fa + delta*fb);
 	      }
 	      break;
 	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 fa = ArgToVector3 (ela);
 	        csVector3 fb = ArgToVector3 (elb);
-	        stack[si].SetVector ((1.0-delta)*fa + delta*fb);
+	        top.SetVector ((1.0-delta)*fa + delta*fb);
 	      }
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor fa = ArgToColor (ela);
 	        csColor fb = ArgToColor (elb);
-	        stack[si].SetColor ((1.0-delta)*fa + delta*fb);
+	        top.SetColor ((1.0-delta)*fa + delta*fb);
 	      }
 	      break;
 	    default:
@@ -1317,41 +1518,40 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: min (%s,%s)\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: min (%s,%s)\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (ela);
+	        const char* sa = ArgToString (top);
 	        const char* sb = ArgToString (elb);
 	        if (strcmp (sa, sb) < 0)
-	          stack[si].SetString (sa, true);
+	          top.SetString (sa, true);
 	        else
-	          stack[si].SetString (sb, true);
+	          top.SetString (sb, true);
 	      }
 	      break;
 	    case CEL_DATA_FLOAT:
 	      {
-	        float fa = ArgToFloat (ela);
+	        float fa = ArgToFloat (top);
 	        float fb = ArgToFloat (elb);
-	        stack[si].SetFloat (MIN (fa, fb));
+	        top.SetFloat (MIN (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_LONG:
 	      {
-	        int32 fa = ArgToInt32 (ela);
+	        int32 fa = ArgToInt32 (top);
 	        int32 fb = ArgToInt32 (elb);
-	        stack[si].SetInt32 (MIN (fa, fb));
+	        top.SetInt32 (MIN (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_ULONG:
 	      {
-	        uint32 fa = ArgToUInt32 (ela);
+	        uint32 fa = ArgToUInt32 (top);
 	        uint32 fb = ArgToUInt32 (elb);
-	        stack[si].SetUInt32 (MIN (fa, fb));
+	        top.SetUInt32 (MIN (fa, fb));
 	      }
 	      break;
 	    default:
@@ -1364,41 +1564,40 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: max (%s,%s)\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: max (%s,%s)\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (ela);
+	        const char* sa = ArgToString (top);
 	        const char* sb = ArgToString (elb);
 	        if (strcmp (sa, sb) > 0)
-	          stack[si].SetString (sa, true);
+	          top.SetString (sa, true);
 	        else
-	          stack[si].SetString (sb, true);
+	          top.SetString (sb, true);
 	      }
 	      break;
 	    case CEL_DATA_FLOAT:
 	      {
-	        float fa = ArgToFloat (ela);
+	        float fa = ArgToFloat (top);
 	        float fb = ArgToFloat (elb);
-	        stack[si].SetFloat (MAX (fa, fb));
+	        top.SetFloat (MAX (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_LONG:
 	      {
-	        int32 fa = ArgToInt32 (ela);
+	        int32 fa = ArgToInt32 (top);
 	        int32 fb = ArgToInt32 (elb);
-	        stack[si].SetInt32 (MAX (fa, fb));
+	        top.SetInt32 (MAX (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_ULONG:
 	      {
-	        uint32 fa = ArgToUInt32 (ela);
+	        uint32 fa = ArgToUInt32 (top);
 	        uint32 fb = ArgToUInt32 (elb);
-	        stack[si].SetUInt32 (MAX (fa, fb));
+	        top.SetUInt32 (MAX (fa, fb));
 	      }
 	      break;
 	    default:
@@ -1411,10 +1610,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s - %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s - %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_NONE:
@@ -1424,22 +1622,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_STRING:
 	      return ReportError (behave, "Can't subtract strings!");
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (ArgToFloat (ela) - ArgToFloat (elb));
+	      top.SetFloat (ArgToFloat (top) - ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) - ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) - ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) - ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) - ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].SetVector (ArgToVector2 (ela) - ArgToVector2 (elb));
+	      top.SetVector (ArgToVector2 (top) - ArgToVector2 (elb));
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetVector (ArgToVector3 (ela) - ArgToVector3 (elb));
+	      top.SetVector (ArgToVector3 (top) - ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_COLOR:
-	      stack[si].SetColor (ArgToColor (ela) - ArgToColor (elb));
+	      top.SetColor (ArgToColor (top) - ArgToColor (elb));
 	      break;
 	  }
 	}
@@ -1448,56 +1646,55 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s + %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s + %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
 	      return ReportError (behave, "Can't add booleans!");
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (ArgToFloat (ela) + ArgToFloat (elb));
+	      top.SetFloat (ArgToFloat (top) + ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) + ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) + ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) + ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) + ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].SetVector (ArgToVector2 (ela) + ArgToVector2 (elb));
+	      top.SetVector (ArgToVector2 (top) + ArgToVector2 (elb));
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetVector (ArgToVector3 (ela) + ArgToVector3 (elb));
+	      top.SetVector (ArgToVector3 (top) + ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_COLOR:
-	      stack[si].SetColor (ArgToColor (ela) + ArgToColor (elb));
+	      top.SetColor (ArgToColor (top) + ArgToColor (elb));
 	      break;
 	    case CEL_DATA_NONE:
 	    case CEL_DATA_STRING:
 	      {
-		const char* astr = ArgToString (ela);
+		const char* astr = ArgToString (top);
 		const char* bstr = ArgToString (elb);
 		int alen = astr ? strlen (astr) : 0;
 		int blen = bstr ? strlen (bstr) : 0;
 		if (alen || blen)
 		{
 		  if (!blen)
-	            stack[si].SetString (astr, true);
+	            top.SetString (astr, true);
 		  else if (!alen)
-	            stack[si].SetString (bstr, true);
+	            top.SetString (bstr, true);
 		  else
 		  {
 		    char* str = new char[alen+blen+1];
 		    strcpy (str, astr);
 		    strcpy (str+alen, bstr);
-	            stack[si].SetStringPrealloc (str);
+	            top.SetStringPrealloc (str);
 		  }
 	        }
 		else
 		{
-	          stack[si].SetString ("", true);
+	          top.SetString ("", true);
 		}
 	      }
 	      break;
@@ -1508,40 +1705,39 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s * %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s * %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_NONE:
-	      if (IsNumericType (ela) && IsVectorType (elb))
+	      if (IsNumericType (top) && IsVectorType (elb))
 	      {
 	        switch (elb.type)
 		{
 		  case CEL_DATA_VECTOR2:
-		    stack[si].SetVector (ArgToFloat (ela) * ArgToVector2 (elb));
+		    top.SetVector (ArgToFloat (top) * ArgToVector2 (elb));
 		    break;
 		  case CEL_DATA_VECTOR3:
-		    stack[si].SetVector (ArgToFloat (ela) * ArgToVector3 (elb));
+		    top.SetVector (ArgToFloat (top) * ArgToVector3 (elb));
 		    break;
 		  case CEL_DATA_COLOR:
-		    stack[si].SetColor (ArgToFloat (ela) * ArgToColor (elb));
+		    top.SetColor (ArgToFloat (top) * ArgToColor (elb));
 		    break;
 		}
 	      }
-	      else if (IsVectorType (ela) && IsNumericType (elb))
+	      else if (IsVectorType (top) && IsNumericType (elb))
 	      {
-	        switch (ela.type)
+	        switch (top.type)
 		{
 		  case CEL_DATA_VECTOR2:
-		    stack[si].SetVector (ArgToFloat (elb) * ArgToVector2 (ela));
+		    top.SetVector (ArgToFloat (elb) * ArgToVector2 (top));
 		    break;
 		  case CEL_DATA_VECTOR3:
-		    stack[si].SetVector (ArgToFloat (elb) * ArgToVector3 (ela));
+		    top.SetVector (ArgToFloat (elb) * ArgToVector3 (top));
 		    break;
 		  case CEL_DATA_COLOR:
-		    stack[si].SetColor (ArgToFloat (elb) * ArgToColor (ela));
+		    top.SetColor (ArgToFloat (elb) * ArgToColor (top));
 		    break;
 		}
 	      }
@@ -1553,22 +1749,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_COLOR:
 	      return ReportError (behave, "Can't multiply colors!");
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (ArgToFloat (ela) * ArgToFloat (elb));
+	      top.SetFloat (ArgToFloat (top) * ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) * ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) * ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) * ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) * ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].SetFloat (ArgToVector2 (ela) * ArgToVector2 (elb));
+	      top.SetFloat (ArgToVector2 (top) * ArgToVector2 (elb));
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetFloat (ArgToVector3 (ela) * ArgToVector3 (elb));
+	      top.SetFloat (ArgToVector3 (top) * ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (bool (int (ArgToBool (ela))
+	      top.SetBool (bool (int (ArgToBool (top))
 	      	* int (ArgToBool (elb))));
 	      break;
 	    default:
@@ -1580,20 +1776,19 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s %% %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s %% %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetVector (ArgToVector3 (ela) % ArgToVector3 (elb));
+	      top.SetVector (ArgToVector3 (top) % ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) % ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) % ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) % ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) % ArgToUInt32 (elb));
 	      break;
 	    default:
 	      return ReportError (behave,
@@ -1605,22 +1800,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s / %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s / %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_NONE:
-	      if (IsVectorType (ela) && IsNumericType (elb))
+	      if (IsVectorType (top) && IsNumericType (elb))
 	      {
-	        switch (ela.type)
+	        switch (top.type)
 		{
 		  case CEL_DATA_VECTOR2:
-		    stack[si].SetVector (ArgToVector2 (ela) / ArgToFloat (elb));
+		    top.SetVector (ArgToVector2 (top) / ArgToFloat (elb));
 		    break;
 		  case CEL_DATA_VECTOR3:
-		    stack[si].SetVector (ArgToVector3 (ela) / ArgToFloat (elb));
+		    top.SetVector (ArgToVector3 (top) / ArgToFloat (elb));
 		    break;
 		  default:
 	            return ReportError (behave, "Can't divide these types!");
@@ -1640,13 +1834,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_COLOR:
 	      return ReportError (behave, "Can't divide colors!");
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (ArgToFloat (ela) / ArgToFloat (elb));
+	      top.SetFloat (ArgToFloat (top) / ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) / ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) / ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) / ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) / ArgToUInt32 (elb));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't divide these types!");
@@ -1657,20 +1851,19 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s & %s\n", i-1, A2S (ela), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  int t = GetCalculationType (ela, elb);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s & %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ArgToBool (ela) & ArgToBool (elb));
+	      top.SetBool (ArgToBool (top) & ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) & ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) & ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) & ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) & ArgToUInt32 (elb));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't bit-and these types!");
@@ -1681,20 +1874,19 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s | %s\n", i-1, A2S (ela), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  int t = GetCalculationType (ela, elb);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s | %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ArgToBool (ela) | ArgToBool (elb));
+	      top.SetBool (ArgToBool (top) | ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) | ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) | ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) | ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) | ArgToUInt32 (elb));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't bit-or these types!");
@@ -1705,20 +1897,19 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s ^ %s\n", i-1, A2S (ela), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  int t = GetCalculationType (ela, elb);
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s ^ %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ArgToBool (ela) ^ ArgToBool (elb));
+	      top.SetBool (ArgToBool (top) ^ ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (ArgToInt32 (ela) ^ ArgToInt32 (elb));
+	      top.SetInt32 (ArgToInt32 (top) ^ ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 (ArgToUInt32 (ela) ^ ArgToUInt32 (elb));
+	      top.SetUInt32 (ArgToUInt32 (top) ^ ArgToUInt32 (elb));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't bit-or these types!");
@@ -1729,73 +1920,70 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s && %s\n", i-1, A2S (ela), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetBool (ArgToBool (ela) && ArgToBool (elb));
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s && %s\n", i-1, A2S (top), A2S (elb)));
+	  top.SetBool (ArgToBool (top) && ArgToBool (elb));
 	}
 	break;
       case CEL_OPERATION_LOGOR:
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s || %s\n", i-1, A2S (ela), A2S (elb)));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetBool (ArgToBool (ela) || ArgToBool (elb));
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s || %s\n", i-1, A2S (top), A2S (elb)));
+	  top.SetBool (ArgToBool (top) || ArgToBool (elb));
 	}
 	break;
       case CEL_OPERATION_NE:
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s != %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s != %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ArgToBool (ela) != ArgToBool (elb));
+	      top.SetBool (ArgToBool (top) != ArgToBool (elb));
 	      break;
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
+	      top.SetBool (ABS (ArgToFloat (top) - ArgToFloat (elb))
 	      	>= SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) != ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) != ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) != ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) != ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].SetBool (!((ArgToVector2 (ela) - ArgToVector2 (elb))
+	      top.SetBool (!((ArgToVector2 (top) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON));
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetBool (!((ArgToVector3 (ela) - ArgToVector3 (elb))
+	      top.SetBool (!((ArgToVector3 (top) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON));
 	      break;
 	    case CEL_DATA_ENTITY:
-	      stack[si].SetBool (ela.arg.entity != elb.arg.entity);
+	      top.SetBool (top.arg.entity != elb.arg.entity);
 	      break;
 	    case CEL_DATA_PCLASS:
-	      stack[si].SetBool (ArgToPClass (ela) != ArgToPClass (elb));
+	      top.SetBool (ArgToPClass (top) != ArgToPClass (elb));
 	      break;
 	    case CEL_DATA_ID:
-	      stack[si].SetBool (ArgToID (ela) != ArgToID (elb));
+	      top.SetBool (ArgToID (top) != ArgToID (elb));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
-	        csColor c1 = ArgToColor (ela);
+	        csColor c1 = ArgToColor (top);
 	        csColor c2 = ArgToColor (elb);
-	        stack[si].SetBool (!(ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        top.SetBool (!(ABS (c1.red-c2.red) < SMALL_EPSILON &&
 	        		     ABS (c1.green-c2.green) < SMALL_EPSILON &&
 	        		     ABS (c1.blue-c2.blue) < SMALL_EPSILON));
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      top.SetBool (strcmp (ArgToString (top),
 	      	ArgToString (elb)));
 	      break;
 	    default:
@@ -1807,53 +1995,52 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s == %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s == %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ArgToBool (ela) == ArgToBool (elb));
+	      top.SetBool (ArgToBool (top) == ArgToBool (elb));
 	      break;
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
+	      top.SetBool (ABS (ArgToFloat (top) - ArgToFloat (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) == ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) == ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) == ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) == ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      stack[si].SetBool ((ArgToVector2 (ela) - ArgToVector2 (elb))
+	      top.SetBool ((ArgToVector2 (top) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      stack[si].SetBool ((ArgToVector3 (ela) - ArgToVector3 (elb))
+	      top.SetBool ((ArgToVector3 (top) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_PCLASS:
-	      stack[si].SetBool (ArgToPClass (ela) == ArgToPClass (elb));
+	      top.SetBool (ArgToPClass (top) == ArgToPClass (elb));
 	      break;
 	    case CEL_DATA_ENTITY:
-	      stack[si].SetBool (ela.arg.entity ==  elb.arg.entity);
+	      top.SetBool (top.arg.entity ==  elb.arg.entity);
 	      break;
 	    case CEL_DATA_ID:
-	      stack[si].SetBool (ArgToID (ela) == ArgToID (elb));
+	      top.SetBool (ArgToID (top) == ArgToID (elb));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
-	        csColor c1 = ArgToColor (ela);
+	        csColor c1 = ArgToColor (top);
 	        csColor c2 = ArgToColor (elb);
-	        stack[si].SetBool (ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        top.SetBool (ABS (c1.red-c2.red) < SMALL_EPSILON &&
 	        		   ABS (c1.green-c2.green) < SMALL_EPSILON &&
 	        		   ABS (c1.blue-c2.blue) < SMALL_EPSILON);
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (!strcmp (ArgToString (ela),
+	      top.SetBool (!strcmp (ArgToString (top),
 	      	ArgToString (elb)));
 	      break;
 	    default:
@@ -1865,23 +2052,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s < %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s < %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ArgToFloat (ela) < ArgToFloat (elb));
+	      top.SetBool (ArgToFloat (top) < ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) < ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) < ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) < ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) < ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      top.SetBool (strcmp (ArgToString (top),
 	      	ArgToString (elb)) < 0);
 	      break;
 	    default:
@@ -1893,23 +2079,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s <= %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s <= %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ArgToFloat (ela) <= ArgToFloat (elb));
+	      top.SetBool (ArgToFloat (top) <= ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) <= ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) <= ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) <= ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) <= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      top.SetBool (strcmp (ArgToString (top),
 	      	ArgToString (elb)) <= 0);
 	      break;
 	    default:
@@ -1921,23 +2106,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s > %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s > %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ArgToFloat (ela) > ArgToFloat (elb));
+	      top.SetBool (ArgToFloat (top) > ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) > ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) > ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) > ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) > ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      top.SetBool (strcmp (ArgToString (top),
 	      	ArgToString (elb)) > 0);
 	      break;
 	    default:
@@ -1949,23 +2133,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg elb = stack.Pop ();
-	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC ((":%04d: %s >= %s\n", i-1, A2S (ela), A2S (elb)));
-	  int t = GetCalculationType (ela, elb);
-	  int si = stack.Push (celXmlArg ());
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s >= %s\n", i-1, A2S (top), A2S (elb)));
+	  int t = GetCalculationType (top, elb);
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      stack[si].SetBool (ArgToFloat (ela) >= ArgToFloat (elb));
+	      top.SetBool (ArgToFloat (top) >= ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      stack[si].SetBool (ArgToInt32 (ela) >= ArgToInt32 (elb));
+	      top.SetBool (ArgToInt32 (top) >= ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      stack[si].SetBool (ArgToUInt32 (ela) >= ArgToUInt32 (elb));
+	      top.SetBool (ArgToUInt32 (top) >= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      top.SetBool (strcmp (ArgToString (top),
 	      	ArgToString (elb)) >= 0);
 	      break;
 	    default:
@@ -2011,81 +2194,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (idx == -1)
 	    return ReportError (behave, "Can't find variable '%s'!", varname);
 	  int si = stack.Push (celXmlArg ());
-	  switch (props->GetPropertyType (idx))
-	  {
-	    case CEL_DATA_ULONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetUInt32 ((uint32)l);
-	      }
-	      break;
-	    case CEL_DATA_LONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetInt32 (l);
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-		float l = props->GetPropertyFloat (idx);
-		stack[si].SetFloat (l);
-	      }
-	      break;
-	    case CEL_DATA_BOOL:
-	      {
-		bool l = props->GetPropertyBool (idx);
-		stack[si].SetBool (l);
-	      }
-	      break;
-	    case CEL_DATA_STRING:
-	      {
-		const char* l = props->GetPropertyString (idx);
-		stack[si].SetString (l, true);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-	        props->GetPropertyColor (idx, v);
-		stack[si].SetColor (v);
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      {
-		iCelPropertyClass* l = props->GetPropertyPClass (idx);
-		stack[si].SetPC (l);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		stack[si].SetEntity (l);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	varname);
-	  }
+	  if (!prop2celXmlArg (props, idx, stack[si]))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVAR:
         {
 	  CHECK_STACK(1)
-	  celXmlArg top = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefvar %s\n", i-1, A2S (top)));
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -2093,265 +2209,61 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int idx = props->GetPropertyIndex (varname);
 	  if (idx == -1)
 	    return ReportError (behave, "Can't find variable '%s'!", varname);
-	  int si = stack.Push (celXmlArg ());
-	  switch (props->GetPropertyType (idx))
-	  {
-	    case CEL_DATA_ULONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetUInt32 ((uint32)l);
-	      }
-	      break;
-	    case CEL_DATA_LONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetInt32 (l);
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-		float l = props->GetPropertyFloat (idx);
-		stack[si].SetFloat (l);
-	      }
-	      break;
-	    case CEL_DATA_BOOL:
-	      {
-		bool l = props->GetPropertyBool (idx);
-		stack[si].SetBool (l);
-	      }
-	      break;
-	    case CEL_DATA_STRING:
-	      {
-		const char* l = props->GetPropertyString (idx);
-		stack[si].SetString (l, true);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-	        props->GetPropertyColor (idx, v);
-		stack[si].SetColor (v);
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      {
-		iCelPropertyClass* l = props->GetPropertyPClass (idx);
-		stack[si].SetPC (l);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		stack[si].SetEntity (l);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	varname);
-	  }
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVARENT_STR:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_ent = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefvarent_str ent=%s var=%s\n", i-1,
-		A2S (a_ent), A2S (op.arg)));
-	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+		A2S (top), A2S (op.arg)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
 	    return ReportError (behave,
 	    	"Couldn't find entity '%s' for 'derefvarent_str'!",
-	    	EntityNameForError (a_ent));
+	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
 	    return ReportError (behave,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
-	    	EntityNameForError (a_ent));
+	    	EntityNameForError (top));
 	  const char* varname = op.arg.arg.str.s;
 	  int idx = props->GetPropertyIndex (varname);
 	  if (idx == -1)
 	    return ReportError (behave,
 	    	"Entity doesn't have variable '%s'!", varname);
-	  int si = stack.Push (celXmlArg ());
-	  switch (props->GetPropertyType (idx))
-	  {
-	    case CEL_DATA_LONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetInt32 (l);
-	      }
-	      break;
-	    case CEL_DATA_ULONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetUInt32 ((uint32)l);
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-		float l = props->GetPropertyFloat (idx);
-		stack[si].SetFloat (l);
-	      }
-	      break;
-	    case CEL_DATA_BOOL:
-	      {
-		bool l = props->GetPropertyBool (idx);
-		stack[si].SetBool (l);
-	      }
-	      break;
-	    case CEL_DATA_STRING:
-	      {
-		const char* l = props->GetPropertyString (idx);
-		stack[si].SetString (l, true);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-	        props->GetPropertyColor (idx, v);
-		stack[si].SetColor (v);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		stack[si].SetEntity (l);
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      {
-		iCelPropertyClass* l = props->GetPropertyPClass (idx);
-		stack[si].SetPC (l);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	varname);
-	  }
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVARENT:
         {
 	  CHECK_STACK(2)
 	  celXmlArg a_var = stack.Pop ();
-	  celXmlArg a_ent = stack.Pop ();
-          DUMP_EXEC ((":%04d: derefvarent ent=%s var=%s\n", i-1, A2S (a_ent),
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: derefvarent ent=%s var=%s\n", i-1, A2S (top),
 	  	A2S (a_var)));
-	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
 	    return ReportError (behave,
 	    	"Couldn't find entity '%s' for 'derefvarent'!",
-	    	EntityNameForError (a_ent));
+	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
 	    return ReportError (behave,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
-	    	EntityNameForError (a_ent));
+	    	EntityNameForError (top));
 	  const char* varname = ArgToString (a_var);
 	  int idx = props->GetPropertyIndex (varname);
 	  if (idx == -1)
 	    return ReportError (behave,
 	    	"Entity doesn't have variable '%s'!", varname);
-	  int si = stack.Push (celXmlArg ());
-	  switch (props->GetPropertyType (idx))
-	  {
-	    case CEL_DATA_LONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetInt32 (l);
-	      }
-	      break;
-	    case CEL_DATA_ULONG:
-	      {
-		long l = props->GetPropertyLong (idx);
-		stack[si].SetUInt32 ((uint32)l);
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-		float l = props->GetPropertyFloat (idx);
-		stack[si].SetFloat (l);
-	      }
-	      break;
-	    case CEL_DATA_BOOL:
-	      {
-		bool l = props->GetPropertyBool (idx);
-		stack[si].SetBool (l);
-	      }
-	      break;
-	    case CEL_DATA_STRING:
-	      {
-		const char* l = props->GetPropertyString (idx);
-		stack[si].SetString (l, true);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-	        props->GetPropertyVector (idx, v);
-		stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-	        props->GetPropertyColor (idx, v);
-		stack[si].SetColor (v);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		stack[si].SetEntity (l);
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      {
-		iCelPropertyClass* l = props->GetPropertyPClass (idx);
-		stack[si].SetPC (l);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	varname);
-	  }
+	  if (!prop2celXmlArg (props, idx, top))
+	    return ReportError (behave, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_ENTTHIS:
@@ -2364,13 +2276,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_ENT:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_entname = stack.Pop ();
-	  iCelEntity* ent = ArgToEntity (a_entname, pl);
+	  celXmlArg& top = stack.Top ();
+	  iCelEntity* ent = ArgToEntity (top, pl);
 	  if (!ent)
 	    return ReportError (behave, "Can't find entity '%s'!",
-	    	EntityNameForError (a_entname));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetEntity (ent);
+	    	EntityNameForError (top));
+	  top.SetEntity (ent);
 	}
 	break;
 
@@ -2479,58 +2390,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (ret.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, ret.value.bo);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, ret.value.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, (const char*)(*ret.value.s));
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)ret.value.ul);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)ret.value.l);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = ret.value.col.red;
-		col.green = ret.value.col.green;
-		col.blue = ret.value.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-		vec.z = ret.value.v.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, ret.value.ent);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, ret.value.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for call/return!");
-	  }
+	  if (!celData2prop (ret, props, varname))
+	    return ReportError (behave, "Bad type of value for call/return!");
 	}
         break;
       case CEL_OPERATION_CALL:
@@ -2544,66 +2405,35 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  behave->SendMessage (eventname, ret, action_params);
 	}
         break;
+      case CEL_OPERATION_CALLENT_RETSTACK:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: callent_retstack entity=%s event=%s\n", i-1,
+	  	A2S (top), A2S (op.arg)));
+	  iCelEntity* ent = ArgToEntity (top, pl);
+	  if (!ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'callent_restack'!",
+	    	EntityNameForError (top));
+	  const char* eventname = op.arg.arg.str.s;
+	  csRef<celVariableParameterBlock> ref = action_params;
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  if (!celData2celXmlArg (ret, top))
+	      return ReportError (behave, "Type not supported for event function call!");
+	}
+        break;
       case CEL_OPERATION_CALL_RETSTACK:
         {
-	  DUMP_EXEC ((":%04d: call_ret event=%s\n", i-1, A2S (op.arg)));
+	  DUMP_EXEC ((":%04d: call_retstack event=%s\n", i-1, A2S (op.arg)));
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<celVariableParameterBlock> ref = action_params;
 	  celData ret;
 	  behave->SendMessage (eventname, ret, action_params);
 	  int si = stack.Push (celXmlArg ());
-	  switch (ret.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (ret.value.bo);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (ret.value.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      stack[si].SetString ((const char*)(*ret.value.s), true);
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 ((long)ret.value.ul);
-	      break;
-	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 ((long)ret.value.l);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = ret.value.col.red;
-		col.green = ret.value.col.green;
-		col.blue = ret.value.col.blue;
-	        stack[si].SetColor (col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-	        stack[si].SetVector (vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-		vec.z = ret.value.v.z;
-	        stack[si].SetVector (vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      stack[si].SetEntity (ret.value.ent);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      stack[si].SetPC (ret.value.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for event function call!");
-	  }
+	  if (!celData2celXmlArg (ret, stack[si]))
+	      return ReportError (behave, "Type not supported for event function call!");
 	}
         break;
       case CEL_OPERATION_CALL_RET:
@@ -2622,58 +2452,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (ret.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, ret.value.bo);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, ret.value.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, (const char*)(*ret.value.s));
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)ret.value.ul);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)ret.value.l);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = ret.value.col.red;
-		col.green = ret.value.col.green;
-		col.blue = ret.value.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = ret.value.v.x;
-		vec.y = ret.value.v.y;
-		vec.z = ret.value.v.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, ret.value.ent);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, ret.value.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for call/return!");
-	  }
+	  if (!celData2prop (ret, props, varname))
+	    return ReportError (behave, "Bad type of value for call/return!");
 	}
         break;
       case CEL_OPERATION_RETURN:
@@ -2788,9 +2568,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_BB_TESTCOLLIDE:
         {
 	  CHECK_STACK(1)
-	  celXmlArg apc = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (apc)));
-	  iCelPropertyClass* pc = ArgToPClass (apc);
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (top)));
+	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (behave, "Bad property class!\n");
 
@@ -2809,8 +2589,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!bbmgr)
 	    return ReportError (behave,
 	    	"Billboard manager is missing!\n");
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetBool (bbmgr->TestCollision (bb->GetBillboard (),
+	  top.SetBool (bbmgr->TestCollision (bb->GetBillboard (),
 	  	other_bb->GetBillboard ()));
 	}
 	break;
@@ -2887,13 +2666,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  bool rc = false;
 	  if (!EvaluateTrue (eval, behave, rc)) return false;
 	  if (rc)
-	  {
 	    stack.Push (ela);
-	  }
 	  else
-	  {
 	    stack.Push (elb);
-	  }
 	}
 	break;
       case CEL_OPERATION_DROP:
@@ -3055,58 +2830,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = op.arg.arg.str.s;
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (val.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, val.arg.b);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, val.arg.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, val.arg.str.s);
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)val.arg.ui);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)val.arg.i);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = val.arg.col.red;
-		col.green = val.arg.col.green;
-		col.blue = val.arg.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-		vec.z = val.arg.vec.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, val.arg.entity);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, val.arg.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for var!");
-	  }
+	  if (!celXmlArg2prop (val, props, varname))
+	    return ReportError (behave, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VARENT:
@@ -3140,58 +2865,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (var);
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (val.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, val.arg.b);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, val.arg.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, val.arg.str.s);
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)val.arg.ui);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)val.arg.i);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = val.arg.col.red;
-		col.green = val.arg.col.green;
-		col.blue = val.arg.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-		vec.z = val.arg.vec.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, val.arg.entity);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, val.arg.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for var!");
-	  }
+	  if (!celXmlArg2prop (val, props, varname))
+	    return ReportError (behave, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VAR_STR:
@@ -3213,58 +2888,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = op.arg.arg.str.s;
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (val.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, val.arg.b);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, val.arg.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, val.arg.str.s);
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)val.arg.ui);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)val.arg.i);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = val.arg.col.red;
-		col.green = val.arg.col.green;
-		col.blue = val.arg.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-		vec.z = val.arg.vec.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, val.arg.entity);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, val.arg.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for var!");
-	  }
+	  if (!celXmlArg2prop (val, props, varname))
+	    return ReportError (behave, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VAR:
@@ -3287,58 +2912,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (var);
 	  if (!varname)
 	    return ReportError (behave, "Illegal variable name!");
-	  switch (val.type)
-	  {
-	    case CEL_DATA_BOOL:
-	      props->SetProperty (varname, val.arg.b);
-	      break;
-	    case CEL_DATA_FLOAT:
-	      props->SetProperty (varname, val.arg.f);
-	      break;
-	    case CEL_DATA_STRING:
-	      props->SetProperty (varname, val.arg.str.s);
-	      break;
-	    case CEL_DATA_ULONG:
-	      props->SetProperty (varname, (long)val.arg.ui);
-	      break;
-	    case CEL_DATA_LONG:
-	      props->SetProperty (varname, (long)val.arg.i);
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		col.red = val.arg.col.red;
-		col.green = val.arg.col.green;
-		col.blue = val.arg.col.blue;
-	        props->SetProperty (varname, col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 vec;
-		vec.x = val.arg.vec.x;
-		vec.y = val.arg.vec.y;
-		vec.z = val.arg.vec.z;
-	        props->SetProperty (varname, vec);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      props->SetProperty (varname, val.arg.entity);
-	      break;
-	    case CEL_DATA_PCLASS:
-	      props->SetProperty (varname, val.arg.pc);
-	      break;
-	    default:
-	      return ReportError (behave, "Bad type of value for var!");
-	  }
+	  if (!celXmlArg2prop (val, props, varname))
+	    return ReportError (behave, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_GETPROPERTY1:
@@ -3352,117 +2927,24 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!pc)
 	    return ReportError (behave, "Default property class is 0!");
 	  csStringID id = ArgToID (a_id);
-	  celDataType t = pc->GetPropertyOrActionType (id);
-	  switch (t)
-	  {
-	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (pc->GetPropertyBool (id));
-	      break;
-	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (pc->GetPropertyFloat (id));
-	      break;
-	    case CEL_DATA_STRING:
-	      stack[si].SetString (pc->GetPropertyString (id), true);
-	      break;
-	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (pc->GetPropertyLong (id));
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
-	      break;
-	    case CEL_DATA_PCLASS:
-	      stack[si].SetPC (pc->GetPropertyPClass (id));
-	      break;
-	    case CEL_DATA_ENTITY:
-	      stack[si].SetEntity (pc->GetPropertyEntity (id));
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		pc->GetPropertyColor (id, col);
-	        stack[si].SetColor (col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-		pc->GetPropertyVector (id, v);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-		pc->GetPropertyVector (id, v);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Type not supported!");
-	  }
+	  if (!pcProp2celXmlArg (pc, id, stack[si]))
+	    return ReportError (behave, "Type not supported for getproperty1!");
 	}
 	break;
       case CEL_OPERATION_GETPROPERTY:
         {
 	  CHECK_STACK(2)
 	  celXmlArg a_id = stack.Pop ();
-	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC ((":%04d: getproperty pc=%s id=%s\n", i-1, A2S (a_pc),
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: getproperty pc=%s id=%s\n", i-1, A2S (top),
 	  	A2S (a_id)));
-	  int si = stack.Push (celXmlArg ());
 
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (behave, "Property class is 0!");
 	  csStringID id = ArgToID (a_id);
-	  celDataType t = pc->GetPropertyOrActionType (id);
-	  switch (t)
-	  {
-	    case CEL_DATA_BOOL:
-	      stack[si].SetBool (pc->GetPropertyBool (id));
-	      break;
-	    case CEL_DATA_FLOAT:
-	      stack[si].SetFloat (pc->GetPropertyFloat (id));
-	      break;
-	    case CEL_DATA_STRING:
-	      stack[si].SetString (pc->GetPropertyString (id), true);
-	      break;
-	    case CEL_DATA_LONG:
-	      stack[si].SetInt32 (pc->GetPropertyLong (id));
-	      break;
-	    case CEL_DATA_ULONG:
-	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
-	      break;
-	    case CEL_DATA_PCLASS:
-	      stack[si].SetPC (pc->GetPropertyPClass (id));
-	      break;
-	    case CEL_DATA_ENTITY:
-	      stack[si].SetEntity (pc->GetPropertyEntity (id));
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor col;
-		pc->GetPropertyColor (id, col);
-	        stack[si].SetColor (col);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-		pc->GetPropertyVector (id, v);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-		pc->GetPropertyVector (id, v);
-	        stack[si].SetVector (v);
-	      }
-	      break;
-	    default:
-	      return ReportError (behave, "Type not supported!");
-	  }
+	  if (!pcProp2celXmlArg (pc, id, top))
+	    return ReportError (behave, "Type not supported for getproperty!");
 	}
 	break;
       case CEL_OPERATION_INVENTORY_ADD:
@@ -3523,12 +3005,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_INVENTORY_GET:
         {
 	  CHECK_STACK(1)
-	  celXmlArg a_idx = stack.Pop ();
-	  DUMP_EXEC ((":%04d: inventory_get idx=%s\n", i-1, A2S (a_idx)));
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: inventory_get idx=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (behave, "Default inventory isn't set!");
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetEntity (default_inv->GetEntity (ArgToInt32 (a_idx)));
+	  top.SetEntity (default_inv->GetEntity (ArgToInt32 (top)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:

@@ -61,6 +61,7 @@ enum
   CEL_TOKEN_VECTORCLOSE,// ]
   CEL_TOKEN_IDENTIFIER,	// identifier
   CEL_TOKEN_FUNCTION,	// <identifier>(
+  CEL_TOKEN_FUNCTIONSCO,// <identifier>::<identifier>(
 
   CEL_TOKEN_LAST
 };

@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-Jan-2004
+	- Jorrit added support for scoped functions to the XML behaviour
+	  layer (i.e. calling a function from another entity script using
+	  :: operator).
+	- Jorrit cleaned up the XML scripter a bit.
 12-Jan-2004
 	- Jorrit fixed a memory leak bug in the XML behaviour layer. The
 	  behaviour was using csRef's to property classes which
