@@ -277,17 +277,46 @@ public:
   celPcRegion (iObjectRegistry* object_reg);
   virtual ~celPcRegion ();
 
+  /// Set the worldfile directory on VFS and filename.
   void SetWorldFile (const char* vfsdir, const char* name);
+  /// Get the worldfile directory name.
   const char* GetWorldDir () const { return worlddir; }
+  /// Get the worldfile filename.
   const char* GetWorldFile () const { return worldfile; }
+  /// Set a name for this region.
   void SetRegionName (const char* name);
+  /// Get the name of this region.
   const char* GetRegionName () const { return regionname; }
+  /// Create an empty sector.
   void CreateEmptySector (const char* name);
+  /**
+   * Load an entire region according to worldfile, worlddir,
+   * regionname and create entities for all meshes in this region
+   * unless there is already an entity for them (an addon may have
+   * created them for example).
+   */
   bool Load ();
+  /**
+   * Unload the region by removing all entities from this region
+   * and removing it from the engines region list.
+   */
   void Unload ();
+  /**
+   * Get the start sector by searching for the given "name"
+   * in all camerapositions within this world, if the position
+   * is found it returns the belonging sector, otherwise it's
+   * searching for the sector "room".
+   */
   iSector* GetStartSector (const char* name);
+  /**
+   * Get the startposition queried by "name" searching through
+   * all camerapositions within this world.
+   * Otherwise returns first cameraposition. 
+   */
   csVector3 GetStartPosition (const char* name);
+  /// Points the given camera to the startingposition named "name".
   void PointCamera (iPcCamera* pccamera, const char* name);
+  /// Find a sector named "name".
   iSector* FindSector (const char* name);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
