@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 28-Feb-2005
 	- Eric Sunshine updated Autoconf, Jam, and Msvcgen files from master
 	  copies in CS repository.
+	- res copied some doxygen settings changes over from CS.
 29-Jan-2005
 	- Jorrit added a patch from David Bronke to support bool, long,
 	  and float attributes for the CEL entity loader addon.
