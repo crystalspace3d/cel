@@ -53,8 +53,16 @@ public:
  
   celAddOnCelEntity (iBase* parent);
   virtual ~celAddOnCelEntity ();
+  /**
+   * Initialize this plugin. Register XML tokens for behaviour, propclass
+   * and property.
+   */
   bool Initialize (iObjectRegistry* object_reg);
-
+  /**
+   * Parses a document/script and assigns behaviour and/or property class to
+   * an entity. If the context is not a mesh, a standalone entity will be
+   * created. For meshes an additional pcmesh property class will be assigned.
+   */
   virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
   	iBase* context);
 
