@@ -6,7 +6,7 @@ AC_REQUIRE([AM_CHECK_PYTHON_HEADERS])
 AC_MSG_CHECKING(for python libraries)
 dnl py_prefix=`$PYTHON -c "import sys; print sys.prefix"`
 py_exec_prefix=`$PYTHON -c "import sys; print sys.exec_prefix"`
-PYTHON_LIBS="-L${py_prefix}/lib -lpython${PYTHON_VERSION}"
+PYTHON_LIBS="-L${py_exec_prefix}/lib/python${PYTHON_VERSION} -L${py_exec_prefix}/lib/python${PYTHON_VERSION}/config -lpython${PYTHON_VERSION}"
 
 AC_SUBST(PYTHON_LIBS)
 dnl do a test compile

@@ -3070,7 +3070,7 @@ CPPFLAGS="$save_CPPFLAGS"
 echo "$as_me:$LINENO: checking for python libraries" >&5
 echo $ECHO_N "checking for python libraries... $ECHO_C" >&6
 py_exec_prefix=`$PYTHON -c "import sys; print sys.exec_prefix"`
-PYTHON_LIBS="-L${py_prefix}/lib -lpython${PYTHON_VERSION}"
+PYTHON_LIBS="-L${py_exec_prefix}/lib/python${PYTHON_VERSION} -L${py_exec_prefix}/lib/python${PYTHON_VERSION}/config -lpython${PYTHON_VERSION}"
 
 
 save_CFLAGS="$CPPFLAGS"
