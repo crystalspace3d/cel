@@ -17,7 +17,7 @@ AC_PATH_CRYSTAL(0.94,,
 *** be also sure that you've either installed CS or set the CRYSTAL var right.
 *** You also have to compile the cs-config script in CS. Do this with the
 *** following command in your CS dir:
-***	make csconfig]), csengine csgeom csgfx csutil cstool cssys)
+***	make csconfig]), csgeom csgfx csutil cstool cssys)
 
 AC_PATH_PYTHON(1.5,,
   AC_MSG_WARN([

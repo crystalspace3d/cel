@@ -28,8 +28,9 @@
 class csVector3;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
-  csPtr<Interface> ((Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
-		    (#Interface), VERSION_##Interface)))
+  csPtr<Interface> (							    \
+  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
+		    (#Interface), Interface##_VERSION)))
 
 struct iCelEntity;
 struct iCelDataBuffer;
