@@ -22,7 +22,7 @@
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "plugins/propclass/move/movefact.h"
-#include "pf/mesh.h"
+#include "propclass/mesh.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "pl/datatype.h"

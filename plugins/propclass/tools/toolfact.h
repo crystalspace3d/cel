@@ -29,9 +29,9 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/tooltip.h"
-#include "pf/timer.h"
-#include "pf/prop.h"
+#include "propclass/tooltip.h"
+#include "propclass/timer.h"
+#include "propclass/prop.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

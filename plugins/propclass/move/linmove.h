@@ -39,8 +39,8 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
-#include "pf/mesh.h"
-#include "pf/linmove.h"
+#include "propclass/mesh.h"
+#include "propclass/linmove.h"
 #include "plugins/propclass/common/stdpcimp.h"
 
 #define CEL_LINMOVE_FOLLOW_ONLY_PORTALS true

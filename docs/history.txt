@@ -14,6 +14,8 @@
 				- test (bltest)
 				- python (blpython)
 		- celtest
+	- Jorrit renamed include/pf to include/propclass. This will break
+	  all games that use CEL. The change is easy though.
 25-Jun-2003
 	- Jorrit ported pslinmove from the PlaneShift project to CEL. The
 	  code is currently mostly unchanged except for a few things:

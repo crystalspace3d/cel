@@ -30,9 +30,9 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/move.h"
-#include "pf/solid.h"
-#include "pf/gravity.h"
+#include "propclass/move.h"
+#include "propclass/solid.h"
+#include "propclass/gravity.h"
 
 struct iVirtualClock;
 struct iCelPlLayer;
