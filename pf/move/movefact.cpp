@@ -333,6 +333,8 @@ public:
   virtual int GetPolygonCount () { return 1; }
   virtual csMeshedPolygon* GetPolygons () { return polygons; }
   virtual void Cleanup () { }
+  virtual bool IsDeformable () const { return false; }
+  virtual uint32 GetChangeNumber () const { return 0; }
 };
 
 SCF_IMPLEMENT_IBASE (celPolygonMeshTriangle)
@@ -519,6 +521,8 @@ public:
   virtual int GetPolygonCount () { return 6; }
   virtual csMeshedPolygon* GetPolygons () { return polygons; }
   virtual void Cleanup () { }
+  virtual bool IsDeformable () const { return false; }
+  virtual uint32 GetChangeNumber () const { return 0; }
 };
 
 SCF_IMPLEMENT_IBASE (celPolygonMeshCube)
