@@ -1018,6 +1018,8 @@
 		<var entity="back_button" name="game_entity" value="ent()" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="back_button" />
+		<!-- Every entity we create will get a name made from a unique number -->
+		<var name="entity_number" value="0" />
 
 		<!-- Create a table of materials per block type -->
 		<var name="'material_ '" value="''" />
@@ -1118,8 +1120,8 @@
 		<var name="row24" value="'B       B                    B                                 B'" />
 		<var name="row25" value="'B       B                    B                                 B'" />
 		<var name="row26" value="'B       B                                                      B'" />
-		<var name="row27" value="'B       B                                                      B'" />
-		<var name="row28" value="'B       B     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row27" value="'B       B    O                                                 B'" />
+		<var name="row28" value="'B       B    ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row30" value="'B       B     #XXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXOXOOOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
@@ -1128,8 +1130,8 @@
 		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXX#  B'" />
 		<var name="row35" value="'B             #XXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXX#  B'" />
 		<var name="row36" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row37" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row38" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row37" value="'B            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOXXXXXXX#  B'" />
+		<var name="row38" value="'B            ##XXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row39" value="'B             #XXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row40" value="'B             #XXXXXXXXXXXXXXOXOXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row41" value="'B             #XXXXXXXXXXXXXOXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
@@ -1183,25 +1185,27 @@
 	      - and set the hero start location (?hero_start_x and ?hero_start_y).
 	      -->
 	    <event name="initblock">
-	        <var name="entname" value="?x+'_'+?y" />
+	        <var name="mazepos" value="?x+'_'+?y" />
 	    	<if eval="?blocktype == 'H'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
 		    <createentity name="hero" behaviour="bdash_hero" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="hero" />
-		    <var name="mazeent+?entname" value="ent(hero)" />
+		    <var name="mazeent+?mazepos" value="ent(hero)" />
 		    <stop />
 		</if>
 	    	<if eval="?blocktype != ' '">
+		    <var name="entname" value="?mazepos+'_'+?entity_number" />
+		    <var name="entity_number" value="?entity_number+1" />
 		    <createentity name="?entname" behaviour="?(behaviour_+?blocktype)" />
 		    <var name="ent" value="ent(?entname)" />
-		    <var name="mazeent+?entname" value="?ent" />
+		    <var name="mazeent+?mazepos" value="?ent" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="?ent" />
 		    <stop />
 	    	</if>
-		<var name="mazeent+?entname" value="''" />
+		<var name="mazeent+?mazepos" value="''" />
 	    </event>
 
 	    <!--
@@ -1215,7 +1219,6 @@
 	      -->
 	    <event name="clearblock_nocheck">
 		<var name="mazepos" value="@x+'_'+@y" />
-<if eval="@y>=63"><print value="'*** mazepos '+?mazepos"/> <variables /> <callstack /> </if>
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent==''"> <stop /> </if>
 		<if eval="?(?ent).moving">
@@ -1228,7 +1231,6 @@
 		    </if>
 		    <var name="old_mazepos" value="?oldx+'_'+?oldy" />
 		    <var name="maze+?old_mazepos" value="' '" />
-<if eval="?oldy>=63"><print value="'*** old_mazepos '+?old_mazepos"/> <variables /> <callstack /> </if>
 		    <var name="mazeent+?old_mazepos" value="''" />
 		</if>
 		<inventory propclass="pc(pcinventory)" />
@@ -1278,7 +1280,6 @@
 	    	<var name="y" value="@y" />
 	    	<var name="mazepos" value="@x+'_'+@y" />
 	        <var name="maze+?mazepos" value="@blocktype" />
-<if eval="@y>=63"><print value="'*** setblock mazepos '+?mazepos"/> <variables /> <callstack /> </if>
 		<var name="mazeent+?mazepos" value="@entity" />
 		<if eval="@blocktype == ' '">
 		    <call event="checkfall">
@@ -1449,6 +1450,90 @@
 	    	    </if>
 		</if>
 	    </event>
+
+	    <!--
+	      - Handle the explosion of a single block.
+	      - Parameters: @x, @y, and @blocktype.
+	      -->
+	    <event name="explodeblock">
+	    	<var name="mazepos" value="@x+'_'+@y" />
+		<var name="oldblocktype" value="?(maze+?mazepos)" />
+		<var name="explode" value="?('explode_'+?oldblocktype)" />
+		<if eval="?explode!=0">
+		    <call event="clearblock_nocheck">
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		    </call>
+		    <call event="createblock">
+			<par id="parid(blocktype)" value="@blocktype" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		    </call>
+		    <if eval="?explode==2">
+		    	<var name="ent" value="?(mazeent+?mazepos)" />
+			<call entity="?ent" event="explode_later" />
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Fire an explosion. Parameters are @x and @y.
+	      -->
+	    <event name="bang">
+		<sound name="explosion" loop="false" />
+
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_l'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_r'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_tl'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_tr'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_bl'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_br'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_b'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_t'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="clearblock_nocheck">
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<call event="createblock">
+			<par id="parid(blocktype)" value="'exp_c'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<stop />
+	    </event>
+
 
 	    <!--
 	      - Move the board slowly so the hero is centered.
@@ -1761,38 +1846,8 @@
         <script name="bdash_bomb">
 	    <superscript name="bdash_movable" />
 
-	    <!--
-	      - Handle the explosion of a single block.
-	      - Parameters: @x, @y, and @blocktype.
-	      -->
-	    <event name="explodeblock">
-	    	<var name="mazepos" value="@x+'_'+@y" />
-		<var name="oldblocktype" value="?bdash_main.(maze+?mazepos)" />
-		<var name="explode" value="?bdash_main.('explode_'+?oldblocktype)" />
-		<if eval="?explode!=0">
-		    <call entity="bdash_main" event="clearblock_nocheck">
-			<par id="parid(x)" value="@x" />
-			<par id="parid(y)" value="@y" />
-		    </call>
-<!--
-		    <call entity="bdash_main" event="createblock">
-			<par id="parid(blocktype)" value="@blocktype" />
-			<par id="parid(x)" value="@x" />
-			<par id="parid(y)" value="@y" />
-		    </call>
-		    <if eval="?explode==2">
-		    	<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
-			<call entity="?ent" event="explode_later" />
-		    </if>
--->
-		</if>
-	    </event>
-
 	    <event name="endmove">
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
-		    <traceon />
-		    <sound name="explosion" loop="false" />
-
 		    <!--
 		      - First we need to end movement of the bomb without
 		      - restarting it.
@@ -1803,59 +1858,10 @@
 			<par id="parid(x)" value="?oldx" />
 			<par id="parid(y)" value="?oldy" />
 		    </call>
-
-<!--
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_l'" />
-			<par id="parid(x)" value="?x-1" />
-			<par id="parid(y)" value="?y" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_r'" />
-			<par id="parid(x)" value="?x+1" />
-			<par id="parid(y)" value="?y" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_tl'" />
-			<par id="parid(x)" value="?x-1" />
-			<par id="parid(y)" value="?y-1" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_tr'" />
-			<par id="parid(x)" value="?x+1" />
-			<par id="parid(y)" value="?y-1" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_bl'" />
-			<par id="parid(x)" value="?x-1" />
-			<par id="parid(y)" value="?y+1" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_br'" />
-			<par id="parid(x)" value="?x+1" />
-			<par id="parid(y)" value="?y+1" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_b'" />
-			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y+1" />
-		    </call>
-		    <call event="explodeblock">
-			<par id="parid(blocktype)" value="'exp_t'" />
-			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y-1" />
-		    </call>
--->
-		    <call entity="bdash_main" event="clearblock_nocheck">
+		    <call entity="bdash_main" event="bang">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
 		    </call>
-		    <call entity="bdash_main" event="createblock">
-			<par id="parid(blocktype)" value="'exp_c'" />
-			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y" />
-		    </call>
-		    <traceoff />
 		    <stop />
 		</if>
 		<!--
@@ -1878,15 +1884,13 @@
 	      -->
 	    <event name="init">
 	    	<super />
-		<!--
 	        <createpropclass name="pctimer" />
 		<action propclass="pc(pctimer)" id="propid(WakeUp)">
-		    <par id="parid(time)" value="50" />
+		    <par id="parid(time)" value="20" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 		<var name="counter" value="10" />
 		<var name="explode" value="11" />	<!-- Don't explode -->
-		-->
 	    </event>
 
 	    <!--
@@ -1900,9 +1904,12 @@
 	    <event name="pctimer_wakeup">
 	    	<var name="counter" value="?counter-1" />
 		<if eval="?counter == ?explode">
+		    <call entity="bdash_main" event="bang">
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y" />
+		    </call>
 		</if>
 		<if eval="?counter == 0">
-			<print value="entname()+' '+?x+' '+?y" />
 		    <call entity="bdash_main" event="clearblock_check">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
