@@ -31,6 +31,9 @@
   (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
 	(#Interface), scfInterface<Interface>::GetVersion())))
 
+#define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
+  CEL_QUERY_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
+
 class csVector3;
 class csColor;
 struct iCelEntity;

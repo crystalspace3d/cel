@@ -105,6 +105,52 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   return csPtr<iCelEntity> (ientity);
 }
 
+csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
+	iCelBlLayer* bl, const char* bhname, ...)
+{
+  csRef<iCelEntity> ent = CreateEntity ();
+  if (!ent)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Error creating entity '%s'!", entname);
+    return 0;
+  }
+  if (entname) ent->SetName (entname);
+  if (bl && bhname)
+  {
+    iCelBehaviour* behave = bl->CreateBehaviour (ent, bhname);
+    if (!behave)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Error creating behaviour '%s' for entity '%s'!", bhname, entname);
+      RemoveEntity (ent);
+      return 0;
+    }
+  }
+
+  va_list args;
+  va_start (args, bhname);
+  char const* pcname = va_arg (args, char*);
+  while (pcname != 0)
+  {
+    iCelPropertyClass* pc = CreatePropertyClass (ent, pcname);
+    if (!pc)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Error creating property class '%s' for entity '%s'!", pcname, entname);
+      RemoveEntity (ent);
+      return 0;
+    }
+    pcname = va_arg (args, char*);
+  }
+  va_end (args);
+
+  return csPtr<iCelEntity> (ent);
+}
+
 void celPlLayer::RemoveEntityName (celEntity* ent)
 {
   if (!entities_hash_dirty)
