@@ -59,6 +59,7 @@ enum
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
   XMLTOKEN_DEFAULT,
+  XMLTOKEN_STOP,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -102,6 +103,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
   xmltokens.Register ("default", XMLTOKEN_DEFAULT);
+  xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -649,6 +651,9 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_STOP:
+        h->AddOperation (CEL_OPERATION_END);
+        break;
       case XMLTOKEN_CREATEPROPCLASS:
         {
           if (!ParseExpression (child, h, "name", "createpropclass"))

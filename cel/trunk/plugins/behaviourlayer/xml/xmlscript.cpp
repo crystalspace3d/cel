@@ -1612,30 +1612,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
-	  switch (a_val.type)
+	  celDataType t = pc->GetPropertyOrActionType (id);
+	  switch (t)
 	  {
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      pc->SetProperty (id, (long)ArgToInt32 (a_val));
 	      break;
-	    case CEL_TYPE_UINT32:
-	      pc->SetProperty (id, (long)ArgToUInt32 (a_val));
-	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      pc->SetProperty (id, ArgToFloat (a_val));
 	      break;
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      pc->SetProperty (id, ArgToBool (a_val));
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      pc->SetProperty (id, ArgToString (a_val));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      pc->SetProperty (id, ArgToVector2 (a_val));
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      pc->SetProperty (id, ArgToVector3 (a_val));
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      pc->SetProperty (id, ArgToColor (a_val));
 	      break;
 	    default:

@@ -25,6 +25,7 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/scanstr.h"
 #include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
@@ -208,15 +209,27 @@ SCF_IMPLEMENT_IBASE (celPcTimer::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
+csStringID celPcTimer::action_wakeup = csInvalidStringID;
+csStringID celPcTimer::action_wakeupframe = csInvalidStringID;
+csStringID celPcTimer::action_clear = csInvalidStringID;
+
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
   scfiEventHandler = 0;
   enabled = false;
+  wakeupframe = false;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
+  if (action_wakeup == csInvalidStringID)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    action_wakeup = pl->FetchStringID ("cel.property.pctimer.WakeUp");
+    action_wakeupframe = pl->FetchStringID ("cel.property.pctimer.WakeUpFrame");
+    action_clear = pl->FetchStringID ("cel.property.pctimer.Clear");
+  }
 }
 
 celPcTimer::~celPcTimer ()
@@ -230,17 +243,41 @@ celPcTimer::~celPcTimer ()
   }
 }
 
-#define TIMER_SERIAL 1
+bool celPcTimer::PerformAction (csStringID actionId, const char* params)
+{
+  if (actionId == action_wakeup)
+  {
+    csTicks t;
+    int repeat;
+    csScanStr (params, "%d,%d", &t, &repeat);
+    WakeUp (t, bool (repeat));
+    return true;
+  }
+  else if (actionId == action_wakeupframe)
+  {
+    WakeUpFrame ();
+    return true;
+  }
+  else if (actionId == action_clear)
+  {
+    Clear ();
+    return true;
+  }
+  return false;
+}
+
+#define TIMER_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcTimer::Save ()
 {
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TIMER_SERIAL));
-  databuf->SetDataCount (4);
+  databuf->SetDataCount (5);
   databuf->GetData (0)->SetBool (enabled);
   databuf->GetData (1)->Set ((int32)wakeup);
   databuf->GetData (2)->Set ((int32)wakeup_todo);
   databuf->GetData (3)->SetBool (repeat);
+  databuf->GetData (4)->SetBool (wakeupframe);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -248,7 +285,7 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TIMER_SERIAL) return false;
-  if (databuf->GetDataCount () != 4) return false;
+  if (databuf->GetDataCount () != 5) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
   enabled = cd->value.bo;
@@ -258,6 +295,8 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
   wakeup_todo = cd->value.l;
   cd = databuf->GetData (3); if (!cd) return false;
   repeat = cd->value.bo;
+  cd = databuf->GetData (4); if (!cd) return false;
+  wakeupframe = cd->value.bo;
 
   return true;
 }
@@ -265,6 +304,7 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 void celPcTimer::Clear ()
 {
   enabled = false;
+  wakeupframe = false;
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
@@ -276,6 +316,7 @@ void celPcTimer::Clear ()
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
+  wakeupframe = false;
   if (!scfiEventHandler)
   {
     scfiEventHandler = new EventHandler (this);
@@ -291,25 +332,50 @@ void celPcTimer::WakeUp (csTicks t, bool repeat)
   wakeup_todo = 0;
 }
 
+void celPcTimer::WakeUpFrame ()
+{
+  if (wakeupframe) return;
+  enabled = true;
+  wakeupframe = true;
+  if (!scfiEventHandler)
+  {
+    scfiEventHandler = new EventHandler (this);
+  }
+  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+  CS_ASSERT (q != 0);
+  q->RemoveListener (scfiEventHandler);
+  unsigned int trigger = CSMASK_Nothing;
+  q->RegisterListener (scfiEventHandler, trigger);
+}
+
 bool celPcTimer::HandleEvent (iEvent& ev)
 {
   if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
   {
-    csTicks elapsed = vc->GetElapsedTicks ();
-    wakeup_todo += elapsed;
-    if (wakeup_todo >= wakeup)
+    if (wakeupframe)
     {
-      if (repeat)
-      {
-        wakeup_todo = 0;
-      }
-      else
-      {
-        Clear ();
-      }
       iCelBehaviour* bh = entity->GetBehaviour ();
       CS_ASSERT (bh != 0);
-      bh->SendMessage ("pctimer_wakeup", 0);
+      bh->SendMessage ("pctimer_wakeupframe", 0);
+    }
+    else
+    {
+      csTicks elapsed = vc->GetElapsedTicks ();
+      wakeup_todo += elapsed;
+      if (wakeup_todo >= wakeup)
+      {
+        if (repeat)
+        {
+          wakeup_todo = 0;
+        }
+        else
+        {
+          Clear ();
+        }
+        iCelBehaviour* bh = entity->GetBehaviour ();
+        CS_ASSERT (bh != 0);
+        bh->SendMessage ("pctimer_wakeup", 0);
+      }
     }
   }
   return false;

@@ -547,7 +547,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 
 Property* celPcGravity::properties = 0;
 int celPcGravity::propertycount = 0;
-csStringID celPcGravity::action_applypermanentforce = 0;
+csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
 
 void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
 {

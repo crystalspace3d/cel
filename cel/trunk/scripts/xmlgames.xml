@@ -1,0 +1,127 @@
+<world>
+    <textures>
+        <texture name="picture1">
+	    <file>/this/data/Nwn077.jpg</file>
+        </texture>
+    </textures>
+    <materials>
+	<material name="picture1"> <texture>picture1</texture> </material>
+    </materials>
+    <settings>
+        <clearscreen>yes</clearscreen>
+        <clearzbuf>yes</clearzbuf>
+    </settings>
+    <plugins>
+        <plugin name="celentity">cel.addons.celentity</plugin>
+        <plugin name="xmlscripts">cel.addons.xmlscripts</plugin>
+    </plugins>
+
+    <addon plugin="xmlscripts">
+        <pcfactory>cel.pcfactory.mesh</pcfactory>
+        <pcfactory>cel.pcfactory.solid</pcfactory>
+        <pcfactory>cel.pcfactory.gravity</pcfactory>
+        <pcfactory>cel.pcfactory.movable</pcfactory>
+        <pcfactory>cel.pcfactory.billboard</pcfactory>
+        <pcfactory>cel.pcfactory.properties</pcfactory>
+        <pcfactory>cel.pcfactory.timer</pcfactory>
+
+	<script name="puzzle_main">
+	    <event name="initcel">
+	        <var name="ent" value="'p'+?x+'_'+?y" />
+		<print value="'Creating '+?ent" />
+		<createentity name="?ent" behaviour="moving_object" />
+		<default propclass="pc(?ent,pcbillboard)" />
+	        <property id="propid(pcbillboard.x)" value="1000+50000*?x" />
+	        <property id="propid(pcbillboard.y)" value="1000+50000*?y" />
+	        <property id="propid(pcbillboard.uv_topleft)"
+			value="[?x*.25,?y*.25]" />
+	        <property id="propid(pcbillboard.uv_botright)"
+			value="[?x*.25+.25,?y*.25+.25]" />
+	    </event>
+	    <event name="initrow">
+		<for var="x" start="0" end="3" exec="initcel" />
+	    </event>
+	    <event name="init">
+	        <var name="uvtl" value="[0,0]" />
+		<for var="y" start="0" end="3" exec="initrow" />
+		<property propclass="pc(p3_3,pcbillboard)"
+			id="propid(pcbillboard.visible)" value="false" />
+	        <var name="emptyx" value="3" />
+	        <var name="emptyy" value="3" />
+		<var name="allowmove" value="true" />
+	    </event>
+	</script>
+
+        <script name="moving_object">
+	    <event name="init">
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(pcbillboard.name)" value="picture1" />
+	        <property id="propid(pcbillboard.materialname)" value="picture1" />
+	        <property id="propid(pcbillboard.movable)" value="false" />
+	        <property id="propid(pcbillboard.clickable)" value="true" />
+	        <property id="propid(pcbillboard.restack)" value="true" />
+	        <property id="propid(pcbillboard.width)" value="50000" />
+	        <property id="propid(pcbillboard.height)" value="50000" />
+		<default propclass="pc(puzzle_main,pcproperties)" />
+		<var name="rightx" value="property(propid(pcproperties.x))" />
+		<var name="righty" value="property(propid(pcproperties.y))" />
+		<var name="curx" value="?rightx" />
+		<var name="cury" value="?righty" />
+	    </event>
+
+	    <event name="pctimer_wakeupframe">
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(pcbillboard.x)"
+			value="1000+((1-?delta)*?intx1+?delta*?intx2)*50000" />
+	        <property id="propid(pcbillboard.y)"
+			value="1000+((1-?delta)*?inty1+?delta*?inty2)*50000" />
+		<if eval="?delta>=1" true="stoptimer" />
+		<var name="delta" value="?delta+.01" />
+	    </event>
+	    <event name="stoptimer">
+		<action propclass="pc(pctimer)" id="propid(pctimer.Clear)" />
+		<default propclass="pc(puzzle_main,pcproperties)" />
+		<property id="propid(pcproperties.allowmove)" value="true" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(pcbillboard.x)" value="1000+?curx*50000" />
+	        <property id="propid(pcbillboard.y)" value="1000+?cury*50000" />
+	    </event>
+
+	    <event name="moveright">
+	        <print value="moveright" />
+		<default propclass="pc(puzzle_main,pcproperties)" />
+		<property id="propid(pcproperties.allowmove)" value="false" />
+		<property id="propid(pcproperties.emptyx)" value="?curx" />
+		<var name="intx1" value="?curx" />
+		<var name="intx2" value="?curx+1" />
+		<var name="inty1" value="?cury" />
+		<var name="inty2" value="?cury" />
+		<var name="curx" value="?curx+1" />
+		<var name="delta" value="0.0" />
+		<action propclass="pc(pctimer)"
+			id="propid(pctimer.WakeUpFrame)" />
+	    </event>
+	    <event name="checkmove">
+		<default propclass="pc(puzzle_main,pcproperties)" />
+		<var name="emptyx" value="property(propid(pcproperties.emptyx))" />
+		<var name="emptyy" value="property(propid(pcproperties.emptyy))" />
+		<if eval="?curx+1==?emptyx && ?cury==?emptyy"
+			true="moveright" />
+	    </event>
+
+	    <event name="pcbillboard_select">
+		<default propclass="pc(puzzle_main,pcproperties)" />
+	        <if eval="property(propid(pcproperties.allowmove))"
+			true="checkmove"/>
+	    </event>
+	</script>
+
+    </addon>
+
+    <addon plugin="celentity" entityname="puzzle_main">
+        <behaviour name="puzzle_main" />
+    </addon>
+</world>
+
