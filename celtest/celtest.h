@@ -62,10 +62,9 @@ private:
   void FinishFrame ();
 
   bool LoadTexture (const char* txtName, const char* fileName);
-  bool LoadMeshFactory (const char* fileName);
   iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
-  iCelPropertyClass* CreatePropertyClass (iCelEntity* entity, iCelPropertyClassFactory* pf,
-		const char* name);
+  iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
+  	iCelPropertyClassFactory* pf, const char* name);
   void CreateObject (int x, int y, int z, const char* obj);
   bool CreateRoom ();
 

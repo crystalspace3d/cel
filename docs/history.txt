@@ -1,3 +1,35 @@
+5-Nov-2001:
+	- Added a box mesh object for celtest.
+	- Made four dummy objects visible. Changed selection code in
+	  celtest so that the room behaviour will now control selection
+	  and dragging of all other objects.
+	- Added conveniance iPcMesh::SetAction() function which will
+	  work if the mesh is a 3D sprite.
+	- Added 'box' behaviour to 'bltest'.
+	- Fixed a bug in 'pcmeshsel' where it would not deselect the entity
+	  if follow mode is unset (the default).
+	- Added Show(), Hide(), and IsVisible() to iPcMesh.
+	- Added iCelPlLayer::GetHitEntity() to find the entity on a specific
+	  screen position.
+	- Added iPcCamera for a property class representation of a camera.
+	- Added 'pfengine' factory with engine related property classes.
+	  Currently it only contains 'pccamera'.
+	- Added general superclass for all behaviours in bltest.
+	- It is now possible to drag objects on the box. If they fit they
+	  will be added. It is not yet possible to get them out the box
+	  and they will also be added if the box is closed.
+4-Nov-2001:
+	- Wouter Wijngaards did the following:
+	    - CEL makefile now uses the new cs-config --makevars option.
+	      This should make the conf_*.maks superfluous.
+	    - The makefile is also updated to be an adapted copy of the
+	      new template makefile in CS.
+	    - Tested on linux, and removed conf_linux.mak.
+	    - If it works on mingw too that .mak can also be removed.
+	  How to work with the new makefile?
+	  Simply update your CS, and copy the new (make csconfig) cs-config
+	  script to the cel directory. csconfig.mak depends on the cs-config
+	  script, so it should be remade when you next make depend or make all.
 3-Nov-2001:
 	- 'pcinventory' sends an 'inv_addchild' messages to the entity
 	  containing the inventory when an entity is added.

@@ -17,39 +17,34 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BLTEST_BL__
-#define __CEL_BLTEST_BL__
+#ifndef __CEL_PF_CAMERA__
+#define __CEL_PF_CAMERA__
 
-#include "iutil/comp.h"
-#include "bl/bl.h"
+#include "cstypes.h"
+#include "csutil/scf.h"
 
-struct iObjectRegistry;
-struct iCelEntity;
+struct iCamera;
+struct iView;
+
+SCF_DECLARE_FAST_INTERFACE (iPcCamera)
+
+SCF_VERSION (iPcCamera, 0, 0, 1);
 
 /**
- * This is the Behaviour Layer itself.
+ * The representation of a camera.
  */
-class celBlTest : public iCelBlLayer
+struct iPcCamera : public iBase
 {
-private:
-  iObjectRegistry* object_reg;
+  /**
+   * Get the camera.
+   */
+  virtual iCamera* GetCamera () const = 0;
 
-public:
-  celBlTest (iBase* parent);
-  virtual ~celBlTest ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBlTest);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
+  /**
+   * Get the view.
+   */
+  virtual iView* GetView () const = 0;
 };
 
-#endif // __CEL_BLTEST_BL__
+#endif // __CEL_PF_CAMERA__
 

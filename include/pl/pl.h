@@ -39,6 +39,7 @@ struct iCelEntityList;
 struct iCelMessage;
 struct iCelPropertyClassFactory;
 struct iSector;
+struct iCamera;
 class csVector3;
 
 SCF_VERSION (iCelPlLayer, 0, 0, 2);
@@ -80,8 +81,15 @@ struct iCelPlLayer : public iBase
    * a given object. This uses the attached entities from above.
    * Do DecRef() on the returned list when ready.
    */
-  virtual iCelEntityList* FindNearbyEntities (iSector* sector, const csVector3& pos,
-		  float radius) = 0;
+  virtual iCelEntityList* FindNearbyEntities (iSector* sector,
+  	const csVector3& pos, float radius) = 0;
+
+  /**
+   * Given a position on screen find the nearest entity to the camera.
+   * Returns NULL if no entity found. This function depends on the
+   * attached entities.
+   */
+  virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y) = 0;
 
   /**
    * Register a property class factory with this physical layer.

@@ -25,40 +25,56 @@
 #include "bl/behave.h"
 
 struct iCelEntity;
+struct iObjectRegistry;
 
 /**
- * 'printer' behaviour.
+ * General behaviour class.
  */
-struct celBehaviourPrinter : public iCelBehaviour
+class celBehaviourGeneral : public iCelBehaviour
 {
-private:
+protected:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
 
 public:
-  celBehaviourPrinter (iCelEntity* entity);
-  virtual ~celBehaviourPrinter ();
+  celBehaviourGeneral (iCelEntity* entity, iObjectRegistry* object_reg);
+  virtual ~celBehaviourGeneral ();
 
   SCF_DECLARE_IBASE;
 
   virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+};
+
+/**
+ * 'printer' behaviour.
+ */
+class celBehaviourPrinter : public celBehaviourGeneral
+{
+public:
+  celBehaviourPrinter (iCelEntity* entity, iObjectRegistry* object_reg);
+
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+};
+
+/**
+ * 'box' behaviour.
+ */
+class celBehaviourBox : public celBehaviourGeneral
+{
+public:
+  celBehaviourBox (iCelEntity* entity, iObjectRegistry* object_reg);
+
   virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
 };
 
 /**
  * 'room' behaviour.
  */
-struct celBehaviourRoom : public iCelBehaviour
+class celBehaviourRoom : public celBehaviourGeneral
 {
-private:
-  iCelEntity* entity;
-
 public:
-  celBehaviourRoom (iCelEntity* entity);
-  virtual ~celBehaviourRoom ();
+  celBehaviourRoom (iCelEntity* entity, iObjectRegistry* object_reg);
 
-  SCF_DECLARE_IBASE;
-
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
   virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
 };
 

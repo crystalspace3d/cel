@@ -51,8 +51,9 @@ celBlTest::~celBlTest ()
 {
 }
 
-bool celBlTest::Initialize (iObjectRegistry* /*object_reg*/)
+bool celBlTest::Initialize (iObjectRegistry* object_reg)
 {
+  celBlTest::object_reg = object_reg;
   return true;
 }
 
@@ -60,12 +61,17 @@ iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
 {
   if (!strcmp (name, "printer"))
   {
-    iCelBehaviour* ent = new celBehaviourPrinter (entity);
+    iCelBehaviour* ent = new celBehaviourPrinter (entity, object_reg);
     return ent;
   }
   else if (!strcmp (name, "room"))
   {
-    iCelBehaviour* ent = new celBehaviourRoom (entity);
+    iCelBehaviour* ent = new celBehaviourRoom (entity, object_reg);
+    return ent;
+  }
+  else if (!strcmp (name, "box"))
+  {
+    iCelBehaviour* ent = new celBehaviourBox (entity, object_reg);
     return ent;
   }
   return NULL;

@@ -18,12 +18,17 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/vector2.h"
+#include "csgeom/vector3.h"
 #include "plimp/pl.h"
 #include "plimp/entity.h"
 #include "plimp/message.h"
 #include "pl/propfact.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
+#include "iengine/camera.h"
+#include "iengine/sector.h"
+#include "iengine/mesh.h"
 #include "iutil/objreg.h"
 
 //---------------------------------------------------------------------------
@@ -146,8 +151,8 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
   return NULL;
 }
 
-iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector, const csVector3& pos,
-		  float radius)
+iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector,
+	const csVector3& pos, float radius)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -163,6 +168,34 @@ iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector, const csVector3
   objit->DecRef ();
   engine->DecRef ();
   return list;
+}
+
+iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
+{
+  // Vector from (0,0,0) to 'vc' in camera space corresponding to 
+  // the point we clicked on.
+  csVector3 vc;
+  // Vector from 'vo' to 'vw' in world space corresponding to
+  // same vector.
+  csVector3 vo, vw;
+
+  // Setup perspective vertex, invert mouse Y axis.
+  csVector2 p (x, camera->GetShiftY() * 2 - y);
+
+  camera->InvPerspective (p, 1, vc);
+  vw = camera->GetTransform ().This2Other (vc);
+
+  iSector* sector = camera->GetSector ();
+  vo = camera->GetTransform ().GetO2TTranslation ();
+  csVector3 isect, end = vo + (vw - vo) * 60;
+
+  iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
+  if (sel)
+  {
+    iObject* sel_obj = sel->QueryObject ();
+    return FindAttachedEntity (sel_obj);
+  }
+  return NULL;
 }
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
