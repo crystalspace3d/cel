@@ -220,10 +220,10 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     csVector3 temppos = oldpos;
     //temppos.y+=0.1f;
 
-	csOrthoTransform transform_oldpos = csReversibleTransform (
-		csMatrix3(), temppos);
+    csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
+    	temppos);
 
-	    num_our_cd = hits = 0;
+    num_our_cd = hits = 0;
 
     // Part1: find body collisions => movement
     // Find possible colliding sectors.
@@ -243,24 +243,24 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
  		csPlane3 obstacle(cd.a2, cd.b2, cd.c2);
 		csVector3 vec = obstacle.Normal().Unit();
 
-      if (vec * localvel > 0 )
-		  continue;
+      if (vec * localvel > 0) continue;
 
-	  	csVector3 line[2];
-		if (FindIntersection (cd,line))
-		{
-			// Hit above head?
-			if (vel.y > 0 && ABS(newpos.y- MAX(line[0].y,line[1].y)) > topSize.y + bottomSize.y)
-				// Ouch
-				vel.y = 0;
-		}
+      csVector3 line[2];
+      if (FindIntersection (cd, line))
+      {
+	// Hit above head?
+	if (vel.y > 0 && ABS(newpos.y - MAX(line[0].y,line[1].y)) >
+			topSize.y + bottomSize.y)
+	  // Ouch
+	  vel.y = 0;
+      }
 
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
-	if (localvel.y == 0)
-		// Hit a vertical obstacle!
-		vel.y = 0;
+    if (localvel.y == 0)
+      // Hit a vertical obstacle!
+      vel.y = 0;
 
     // Part2: legs
     num_our_cd = hits = 0;
@@ -272,32 +272,32 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     hits += CollisionDetect (bottomCollider, current_sector,
     	&transform_newpos, &transform_oldpos);
 
-	// Falling unless proven otherwise
-	onground = false;
-	bool downstairs;
+    // Falling unless proven otherwise
+    onground = false;
+    bool downstairs;
 
-	// Only able to step down if we aren't jumping or falling
+    // Only able to step down if we aren't jumping or falling
     if (hits > 0 || vel.y != 0)
-		downstairs = false;
-	else
-	{
-		downstairs = true;
+      downstairs = false;
+    else
+    {
+      downstairs = true;
 
-		// Try testing going down
-		newpos.y -= bottomSize.y / 2;
-	    transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+      // Try testing going down
+      newpos.y -= bottomSize.y / 2;
+      transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
-		num_our_cd = hits = 0;
+      num_our_cd = hits = 0;
 
-		cdsys->SetOneHitOnly (false);
-		cdsys->ResetCollisionPairs ();	
+      cdsys->SetOneHitOnly (false);
+      cdsys->ResetCollisionPairs ();	
 
-		hits += CollisionDetect (bottomCollider, current_sector,
+      hits += CollisionDetect (bottomCollider, current_sector,
 			&transform_newpos, &transform_oldpos);
-	}
-	if (hits > 0)
-	{
-		float max_y = -1e9;
+    }
+    if (hits > 0)
+    {
+      float max_y = -1e9;
       for (i = 0; i < num_our_cd; i++ )
       {
     	csCollisionPair cd = our_cd_contact[i];
@@ -309,22 +309,23 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     	if (-n.y < 0.7)
     	  continue;
 
-		// Hit a ground polygon so we are not falling
-		onground = true;
-		csVector3 line[2];
-		if (FindIntersection (cd,line))
-			max_y = MAX(MAX(line[0].y, line[1].y),max_y);
-	  }
-	  if(onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
-		  newpos.y = max_y - 0.01f;
+	// Hit a ground polygon so we are not falling
+	onground = true;
+	csVector3 line[2];
+	if (FindIntersection (cd,line))
+	  max_y = MAX(MAX(line[0].y, line[1].y),max_y);
+      }
+      if (onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
+	newpos.y = max_y - 0.01f;
 
-	  if (vel.y < 0 )
-		  vel.y = 0;
+      if (vel.y < 0 )
+	vel.y = 0;
     }
-	if (!onground)
-	{
-		if (downstairs)
-			newpos.y += bottomSize.y / 2;	// No steps here, so readjust position back up
+    if (!onground)
+    {
+      if (downstairs)
+	// No steps here, so readjust position back up
+	newpos.y += bottomSize.y / 2;
 
       // gravity! move down!
       vel.y  -= 19.6 * delta;
@@ -335,7 +336,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
        */
       if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
     	vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
-	}
+    }
 
     // Part 2.5: check top again and revert move if we're still in a wall.
     num_our_cd = hits = 0;
@@ -478,142 +479,141 @@ int celPcCollisionDetection::CollisionDetect (
 	csReversibleTransform* transform,
 	csReversibleTransform* old_transform)
 {
-    int hits = 0;
-    int j;
-    // This never changes during this function, calculate it early
-    csVector3 newpos=transform->GetO2TTranslation ();
-	csVector3 oldpos=old_transform->GetO2TTranslation ();
+  int hits = 0;
+  int j;
+  // This never changes during this function, calculate it early
+  csVector3 newpos=transform->GetO2TTranslation ();
 
-    csCollisionPair* CD_contact;
+  csCollisionPair* CD_contact;
 
-    csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
+  csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
         old_transform->GetOrigin (),
         radiusCD,
         true);
 
-    while (objectIter->HasNext ())
+  while (objectIter->HasNext ())
+  {
+    iMeshWrapper* meshWrapper = objectIter->Next ();
+    // Avoid hitting the mesh from this entity itself.
+    if (meshWrapper != pcmesh->GetMesh ())
     {
-      iMeshWrapper* meshWrapper = objectIter->Next ();
-      // Avoid hitting the mesh from this entity itself.
-      if (meshWrapper != pcmesh->GetMesh ())
-      {
-        cdsys->ResetCollisionPairs ();
-        csReversibleTransform tr = meshWrapper->GetMovable ()
+      cdsys->ResetCollisionPairs ();
+      csReversibleTransform tr = meshWrapper->GetMovable ()
                 ->GetFullTransform ();
-        iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
-        if (othercollider && cdsys->Collide (collider,
+      iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
+      if (othercollider && cdsys->Collide (collider,
                 transform, othercollider, &tr))
-        {
-          bool reallycollided = false;
+      {
+        bool reallycollided = false;
 
 #ifdef SHOW_COLLIDER_MESH_DEBUG
-          //@@@
-          printf("Player in Sector  : %s", sector->QueryObject ()->GetName ());
-          printf("Collider Mesh Name  : %s",
+        //@@@
+        printf("Player in Sector  : %s", sector->QueryObject ()->GetName ());
+        printf("Collider Mesh Name  : %s",
               meshWrapper->QueryObject ()->GetName ());
-          printf("Collider Mesh Sector: %s",
+        printf("Collider Mesh Sector: %s",
               meshWrapper->GetMovable ()->GetSectors ()->Get (0)->QueryObject ()
               ->GetName ());
 #endif
-          CD_contact = cdsys->GetCollisionPairs ();
-          for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
+        CD_contact = cdsys->GetCollisionPairs ();
+        for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
+        {
+          /*
+           * Here we follow a segment from our current position to the
+           * position of the collision. If the sector the collision occured
+           * in is not the sector of the mesh we collided with,
+           * this is invalid.
+           */
+          int sector_idx, sector_max;
+          iSector* CollisionSector;
+          bool mirror=false;
+          csVector3 testpos;
+          csVector3 line[2];
+          csCollisionPair temppair;
+
+          // Move the triangles from object space into world space
+          temppair.a1 = transform->This2Other (CD_contact[j].a1+shift);
+          temppair.b1 = transform->This2Other (CD_contact[j].b1+shift);
+          temppair.c1 = transform->This2Other (CD_contact[j].c1+shift);
+	  if (meshWrapper->GetMovable()->IsFullTransformIdentity())
+	  {
+	    temppair.a2 = CD_contact[j].a2;
+	    temppair.b2 = CD_contact[j].b2;
+	    temppair.c2 = CD_contact[j].c2;
+	  }
+	  else
+	  {
+	    temppair.a2 = tr.This2Other (CD_contact[j].a2);
+	    temppair.b2 = tr.This2Other (CD_contact[j].b2);
+	    temppair.c2 = tr.This2Other (CD_contact[j].c2);
+	  }
+	  if (FindIntersection (temppair, line))
+	  {
+	    // Collided at this line segment. Pick a point in the middle of
+	    // the segment to test.
+            testpos=(line[0]+line[1])/2;
+          }
+          else
           {
-            /*
-             * Here we follow a segment from our current position to the
-             * position of the collision. If the sector the collision occured
-             * in is not the sector of the mesh we collided with,
-             * this is invalid.
-             */
-            int sector_idx, sector_max;
-            iSector* CollisionSector;
-            bool mirror=false;
-            csVector3 testpos;
-            csVector3 line[2];
-            csCollisionPair temppair;
+            // No collision found, use the destination of the move.
+            testpos=newpos;
+          }
 
-            // Move the triangles from object space into world space
-            temppair.a1 = transform->This2Other (CD_contact[j].a1+shift);
-            temppair.b1 = transform->This2Other (CD_contact[j].b1+shift);
-            temppair.c1 = transform->This2Other (CD_contact[j].c1+shift);
-	    if (meshWrapper->GetMovable()->IsFullTransformIdentity())
-	    {
-	      temppair.a2 = CD_contact[j].a2;
-	      temppair.b2 = CD_contact[j].b2;
-	      temppair.c2 = CD_contact[j].c2;
-	    }
-	    else
-	    {
-	      temppair.a2 = tr.This2Other (CD_contact[j].a2);
-	      temppair.b2 = tr.This2Other (CD_contact[j].b2);
-	      temppair.c2 = tr.This2Other (CD_contact[j].c2);
-	    }
-	    if (FindIntersection (temppair, line))
-	    {
-	      // Collided at this line segment. Pick a point in the middle of
-	      // the segment to test.
-              testpos=(line[0]+line[1])/2;
-            }
-            else
-            {
-              // No collision found, use the destination of the move.
-              testpos=newpos;
-            }
-
-            // This follows a line segment from start to finish and returns
-            // the sector you are ultimately in.
-            CollisionSector = sector->FollowSegment (*old_transform,
+          // This follows a line segment from start to finish and returns
+          // the sector you are ultimately in.
+          CollisionSector = sector->FollowSegment (*old_transform,
                         testpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
 
-            // Iterate through all the sectors of the destination mesh,
-            // incase it's in multiple sectors.
-            sector_max = meshWrapper->GetMovable ()->GetSectors ()->GetCount ();
-            for (sector_idx=0 ; sector_idx<sector_max ; sector_idx++)
-            {
-              // Check to see if this sector is the sector of the collision.
-              if (CollisionSector == meshWrapper->GetMovable ()->GetSectors ()
-                            ->Get (sector_idx))
-              {
-                reallycollided = true;
-                our_cd_contact[num_our_cd++] = temppair;
-                // One valid sector is enough
-                break;
-              }
-#ifdef LINMOVE_CD_FOLLOWSEG_DEBUG
-              else
-              {
-                printf ("Failed FollowSegment test on mesh %s in sector %s."
-                    " FollowSegment ended in sector %s\n",
-                    meshWrapper->QueryObject ()->GetName (),
-                    meshWrapper->GetMovable ()->GetSectors ()->Get (sector_idx)
-                    ->QueryObject ()->GetName (),
-                    CollisionSector->QueryObject ()->GetName ());
-                csVector3 cv_oldpos, cv_newpos;
-                cv_oldpos = old_transform->GetO2TTranslation ();
-                cv_newpos = transform->GetO2TTranslation ();
-                printf ("Followed from sector %s position: %f,%f,%f"
-                    "  to sector %s position: %f,%f,%f\n",
-                    sector->QueryObject ()->GetName (),
-                    cv_oldpos.x, cv_oldpos.y, cv_oldpos.z,
-                    CollisionSector->QueryObject ()->GetName (),
-                    cv_newpos.x, cv_newpos.y, cv_newpos.z);
-              }
-#endif
-            }
-          }
-
-          // We don't increase hits unless a collision really occurred after
-          // all tests.
-          if (reallycollided)
+          // Iterate through all the sectors of the destination mesh,
+          // incase it's in multiple sectors.
+          sector_max = meshWrapper->GetMovable ()->GetSectors ()->GetCount ();
+          for (sector_idx=0 ; sector_idx<sector_max ; sector_idx++)
           {
-            hits++;
+            // Check to see if this sector is the sector of the collision.
+            if (CollisionSector == meshWrapper->GetMovable ()->GetSectors ()
+                          ->Get (sector_idx))
+            {
+              reallycollided = true;
+              our_cd_contact[num_our_cd++] = temppair;
+              // One valid sector is enough
+              break;
+            }
+#ifdef LINMOVE_CD_FOLLOWSEG_DEBUG
+            else
+            {
+              printf ("Failed FollowSegment test on mesh %s in sector %s."
+                  " FollowSegment ended in sector %s\n",
+                  meshWrapper->QueryObject ()->GetName (),
+                  meshWrapper->GetMovable ()->GetSectors ()->Get (sector_idx)
+                  ->QueryObject ()->GetName (),
+                  CollisionSector->QueryObject ()->GetName ());
+              csVector3 cv_oldpos, cv_newpos;
+              cv_oldpos = old_transform->GetO2TTranslation ();
+              cv_newpos = transform->GetO2TTranslation ();
+              printf ("Followed from sector %s position: %f,%f,%f"
+                  "  to sector %s position: %f,%f,%f\n",
+                  sector->QueryObject ()->GetName (),
+                  cv_oldpos.x, cv_oldpos.y, cv_oldpos.z,
+                  CollisionSector->QueryObject ()->GetName (),
+                  cv_newpos.x, cv_newpos.y, cv_newpos.z);
+            }
+#endif
           }
-
-          if (cdsys->GetOneHitOnly () && hits) return 1;
         }
+
+        // We don't increase hits unless a collision really occurred after
+        // all tests.
+        if (reallycollided)
+        {
+          hits++;
+        }
+
+        if (cdsys->GetOneHitOnly () && hits) return 1;
       }
     }
+  }
 
-    return hits;
+  return hits;
 }
 
 #define MAXSECTORSOCCUPIED  20
@@ -629,7 +629,8 @@ int celPcCollisionDetection::FindSectors (const csVector3& pos, float radius,
 {
   int numsector = 0;
 
-  iSector *curr_sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  iSector *curr_sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()
+  	->Get (0);
 
   csRef<iSectorIterator> sectorit =
     engine->GetNearbySectors (curr_sector, pos, radius);
