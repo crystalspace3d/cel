@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+12-Jul-2004
+	- Jorrit fixed a dependency for addon_celentity plugin (with
+	  celtool).
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the
