@@ -430,17 +430,17 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   if (!pc) return NULL;
   pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (.3);
-  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
+  //pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
   if (!pc) return NULL;
-  //pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
-  //pc = pl->CreatePropertyClass (entity_cam, "pcmovableconst_cd");
-  //if (!pc) return NULL;
-  //pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
-  //pcmovable->AddConstraint (pcmovableconst);
-  //pcmovableconst->DecRef ();
-  //pcmovable->DecRef ();
+  pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
+  pc = pl->CreatePropertyClass (entity_cam, "pcmovableconst_cd");
+  if (!pc) return NULL;
+  pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
+  pcmovable->AddConstraint (pcmovableconst);
+  pcmovableconst->DecRef ();
+  pcmovable->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_cam, "pctooltip");
   if (!pc) return NULL;
