@@ -52,7 +52,8 @@ rule CelConfigGen
   SEARCH on $(>) = $(SUBDIR) ;
   MakeLocate $(<) : $(LOCATE.TARGETS) ;
   Depends $(<) : $(>) ;
-  Clean clean : $(<) ;
+  Clean $(<)clean : $(<) ;
+  Depends clean : $(<)clean ;
 }
 
 rule CelLocalLinkName
@@ -83,7 +84,7 @@ actions CelConfigGen
 
 prefix="$(prefix)"
 exec_prefix="$(exec_prefix)"
-includedir="$(includedir)"
+includedir="$(appincdir)"
 libdir="$(libdir)"
 plugindir="$(plugindir)"
 version="$(PACKAGE_VERSION)"
