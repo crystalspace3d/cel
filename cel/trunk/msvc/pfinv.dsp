@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\pfinv\pfinv.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CS root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pfinv - Win32 Debug"
@@ -89,7 +89,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\debug\temp\pfinv\pfinv.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CS root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # End Special Build Tool
 
 !ENDIF 
