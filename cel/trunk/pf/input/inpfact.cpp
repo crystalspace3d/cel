@@ -60,7 +60,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
   celPcCommandInput::object_reg = object_reg;
-  DG_ADDI (this, "celPcCommandInput()");
+  DG_TYPE (this, "celPcCommandInput()");
 
   maplist=NULL;
   scfiEventHandler=NULL;
