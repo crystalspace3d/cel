@@ -847,7 +847,7 @@
 		<for var="i" start="1" end="?maze_main.monstercnt">
 		    <var name="pc" value="?maze_main.(bb_monster+?i)" />
 		    <if eval="property(?pc,propid(visible))==true">
-		        <if eval="testcollide(?pc)">
+		        <if eval="bb_testcollide(?pc)">
 			    <sound name="bloop" loop="false" />
 			    <property propclass="?pc" id="propid(visible)" value="false" />
 			</if>

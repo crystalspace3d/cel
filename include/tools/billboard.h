@@ -29,6 +29,35 @@ struct iBillboard;
 class csColor;
 class csVector2;
 
+SCF_VERSION (iBillboardLayer, 0, 0, 1);
+
+/**
+ * A layer of billboards. You can add several billboards on one
+ * layer and then you can move the layer.
+ */
+struct iBillboardLayer : public iBase
+{
+  /**
+   * Get current offset of layer in billboard space.
+   */
+  virtual void GetOffset (int& x, int& y) const = 0;
+
+  /**
+   * Set offset of layer in billboard space.
+   */
+  virtual void SetOffset (int x, int y) = 0;
+
+  /**
+   * Relative move of layer.
+   */
+  virtual void Move (int dx, int dy) = 0;
+
+  /**
+   * Get the name of this layer.
+   */
+  virtual const char* GetName () const = 0;
+};
+
 SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
 
 /**
@@ -185,6 +214,16 @@ struct iBillboard : public iBase
   virtual const csColor& GetColor () const = 0;
 
   /**
+   * Set the layer to use for this billboard.
+   */
+  virtual void SetLayer (iBillboardLayer* layer) = 0;
+
+  /**
+   * Get the layer that is used by this billboard.
+   */
+  virtual iBillboardLayer* GetLayer () const = 0;
+
+  /**
    * Add an event handler to this billboard.
    */
   virtual void AddEventHandler (iBillboardEventHandler* evh) = 0;
@@ -228,6 +267,35 @@ struct iBillboardManager : public iBase
    * Get a billboard by index.
    */
   virtual iBillboard* GetBillboard (int idx) const = 0;
+
+  /**
+   * Create a new billboard layer with the given name. Returns 0 on failure.
+   * Note that there is always a layer with name 'default'
+   * which is used for new billboards.
+   */
+  virtual iBillboardLayer* CreateBillboardLayer (const char* name) = 0;
+
+  /**
+   * Find a billboard layer with a given name.
+   */
+  virtual iBillboardLayer* FindBillboardLayer (const char* name) const = 0;
+
+  /**
+   * Remove a billboard layer. Note that all billboards that use this
+   * layer will be put back on the default layer. Also note that
+   * you can't remove the default layer.
+   */
+  virtual void RemoveBillboardLayer (iBillboardLayer* layer) = 0;
+
+  /**
+   * Get the number of all billboard layers.
+   */
+  virtual int GetBillboardLayerCount () const = 0;
+
+  /**
+   * Get a billboard layer by index.
+   */
+  virtual iBillboardLayer* GetBillboardLayer (int idx) const = 0;
 
   /**
    * Remove all billboards.

@@ -32,11 +32,17 @@
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celBillboardLayer)
+  SCF_IMPLEMENTS_INTERFACE (iBillboardLayer)
+SCF_IMPLEMENT_IBASE_END
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celBillboard)
   SCF_IMPLEMENTS_INTERFACE (iBillboard)
 SCF_IMPLEMENT_IBASE_END
 
-celBillboard::celBillboard (celBillboardManager* mgr)
+celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
 {
   SCF_CONSTRUCT_IBASE (0);
   name = 0;
@@ -56,6 +62,8 @@ celBillboard::celBillboard (celBillboardManager* mgr)
 
   firing_messages = false;
   delete_me = false;
+
+  celBillboard::layer = layer;
 }
 
 celBillboard::~celBillboard ()
@@ -67,8 +75,8 @@ celBillboard::~celBillboard ()
 
 void celBillboard::GetRect (csRect& r)
 {
-  int x = bb_x;
-  int y = bb_y;
+  int x = bb_x + layer->bb_layer_x;
+  int y = bb_y + layer->bb_layer_y;
   mgr->BillboardToScreenspace (x, y);
   int w = bb_w;
   int h = bb_h;
@@ -78,8 +86,8 @@ void celBillboard::GetRect (csRect& r)
 
 void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 {
-  int x = bb_x;
-  int y = bb_y;
+  int x = bb_x + layer->bb_layer_x;
+  int y = bb_y + layer->bb_layer_y;
   mgr->BillboardToScreenspace (x, y);
   int w = bb_w;
   int h = bb_h;
@@ -299,14 +307,14 @@ void celBillboard::GetPosition (int& x, int& y) const
 void celBillboard::SetPositionScreen (int x, int y)
 {
   mgr->ScreenToBillboardSpace (x, y);
-  bb_x = x;
-  bb_y = y;
+  bb_x = x - layer->bb_layer_x;
+  bb_y = y - layer->bb_layer_y;
 }
 
 void celBillboard::GetPositionScreen (int& x, int& y) const
 {
-  x = bb_x;
-  y = bb_y;
+  x = bb_x + layer->bb_layer_x;
+  y = bb_y + layer->bb_layer_y;
   mgr->BillboardToScreenspace (x, y);
 }
 
@@ -485,6 +493,8 @@ celBillboardManager::celBillboardManager (iBase* parent)
 
   z_min = 1;
   z_max = 10;
+  default_layer = new celBillboardLayer ("default");
+  layers.Push (default_layer);
 }
 
 celBillboardManager::~celBillboardManager ()
@@ -691,7 +701,7 @@ void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)
 {
-  celBillboard* bb = new celBillboard (this);
+  celBillboard* bb = new celBillboard (this, default_layer);
   bb->SetName (name);
   billboards.Push (bb);
   billboards_hash.Put (name, bb);
@@ -719,6 +729,34 @@ void celBillboardManager::RemoveBillboard (iBillboard* billboard)
     billboards.Delete ((celBillboard*)billboard);
   }
   if (billboard == moving_billboard) moving_billboard = 0;
+}
+
+iBillboardLayer* celBillboardManager::CreateBillboardLayer (const char* name)
+{
+  celBillboardLayer* layer = new celBillboardLayer (name);
+  layers.Push (layer);
+  return layer;
+}
+
+iBillboardLayer* celBillboardManager::FindBillboardLayer (const char* name) const
+{
+  int i;
+  for (i = 0 ; i < layers.Length () ; i++)
+    if (!strcmp (layers[i]->GetName (), name))
+      return layers[i];
+  return 0;
+}
+
+void celBillboardManager::RemoveBillboardLayer (iBillboardLayer* layer)
+{
+  if (layer == default_layer) return;	// Not allowed!
+  int i;
+  for (i = 0 ; i < billboards.Length () ; i++)
+  {
+    if (billboards[i]->GetLayer () == layer)
+      billboards[i]->SetLayer (default_layer);
+  }
+  layers.Delete ((celBillboardLayer*)layer);
 }
 
 void celBillboardManager::RemoveAll ()

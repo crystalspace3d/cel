@@ -9,23 +9,33 @@ The history order is reversed so that new features are at the top.
 	  C++ is that the case values don't have to be constant.
 	  At runtime this switch simply translates to a series of
 	  'if'/'else' statements so it is not that efficient.
-	- Jorrit did a huge optimization to the XML behaviour layer
-	  by making sure that the A2S() statements are not evaluated
-	  in case script-debugging is not enabled. The problem was
-	  that the #if to disable debugging was inside the routine
-	  that prints out the debug info. but the A2S() calls where
-	  done in the calls and this means that the compiler still
-	  generated code for them. Current solution does some
-	  preprocessing magic but it has the unfortunate consequence
-	  that there are a huge amount of warnings in case the
+	- Jorrit did a huge optimization to the XML behaviour layer by
+	  making sure that the A2S() statements are not evaluated in case
+	  script-debugging is not enabled. The problem was that the #if to
+	  disable debugging was inside the routine that prints out the debug
+	  info. but the A2S() calls were done in the calls and this means
+	  that the compiler still generated code for them. Current solution
+	  does some preprocessing magic but it has the unfortunate
+	  consequence that there are a huge amount of warnings in case the
 	  script debugger is enabled:
 		plugins/behaviourlayer/xml/xmlscript.cpp:2590:57:
 		warning: pasting "dump_exec" and "(" does not give
 		a valid preprocessing token
-	  I don't know how to avoid those. Luckily the warnings are
-	  not present in the default build.
-	  BTW, this optimization increases fps with 100 (from 320
-	  to 420) for one of the games in xmlgames :-)
+	  I don't know how to avoid those. Luckily the warnings are not
+	  present in the default build.
+	  BTW, this optimization increases fps with 100 (from 320 to 420)
+	  for one of the games in xmlgames :-)
+	- Jorrit renamed the 'testcollide' function in the XML behaviour
+	  layer to 'bb_testcollide' to make it clearer that this function
+	  is specific to billboards.
+	- Jorrit added the notion of layers to the billboard manager. Every
+	  billboard can be associated with some layer and you can move a
+	  layer which has the effect that all billboards on that layer will
+	  move. This is nice for scrolling games. You can use the
+	  iBillboardLayer interface to access layers.
+	- Jorrit added the 'layer' property to the billboard property class.
+	- Jorrit added 'bb_movelayer' command to the XML behaviour layer.
+	  With this comment you can move layers.
 22-Dec-2003
 	- Daniel added comments to iCelEntity and iCelEntityList.
 	- Jorrit added the 'super' keyword to the XML behaviour

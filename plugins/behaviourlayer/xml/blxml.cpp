@@ -51,6 +51,7 @@ enum
 {
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
+  XMLTOKEN_BB_MOVELAYER,
   XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_IF,
@@ -91,7 +92,7 @@ enum
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
   XMLFUNCTION_RAND,
-  XMLFUNCTION_TESTCOLLIDE,
+  XMLFUNCTION_BB_TESTCOLLIDE,
   XMLFUNCTION_IF,
   XMLFUNCTION_ENTNAME,
   XMLFUNCTION_ENT,
@@ -129,6 +130,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
+  xmltokens.Register ("bb_movelayer", XMLTOKEN_BB_MOVELAYER);
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("while", XMLTOKEN_WHILE);
@@ -164,7 +166,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
   functions.Register ("rand", XMLFUNCTION_RAND);
-  functions.Register ("testcollide", XMLFUNCTION_TESTCOLLIDE);
+  functions.Register ("bb_testcollide", XMLFUNCTION_BB_TESTCOLLIDE);
   functions.Register ("if", XMLFUNCTION_IF);
   functions.Register ("entname", XMLFUNCTION_ENTNAME);
   functions.Register ("ent", XMLFUNCTION_ENT);
@@ -318,10 +320,10 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	}
       }
       break;
-    case XMLFUNCTION_TESTCOLLIDE:
+    case XMLFUNCTION_BB_TESTCOLLIDE:
       {
         if (!ParseExpression (input, child, h, name, 0)) return false;
-	h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
+	h->AddOperation (CEL_OPERATION_BB_TESTCOLLIDE);
       }
       break;
     case XMLFUNCTION_ABS:
@@ -840,6 +842,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_BB_MOVELAYER:
+        if (!ParseExpression (child, h, "layer", "bb_movelayer")) return false;
+        if (!ParseExpression (child, h, "x", "bb_movelayer")) return false;
+        if (!ParseExpression (child, h, "y", "bb_movelayer")) return false;
+	h->AddOperation (CEL_OPERATION_BB_MOVELAYER);
+        break;
       case XMLTOKEN_SOUND:
         if (!ParseExpression (child, h, "name", "sound")) return false;
 	if (child->GetAttributeValue ("loop"))
