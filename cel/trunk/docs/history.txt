@@ -5,14 +5,12 @@ The history order is reversed so that new features are at the top.
 
 17-Oct-2004
 	- Remi Bonnet added a basic hash implementation of the num reg.
-
 16-Oct-2004
 	- Andrew Dai made some performance improvements to
 	  iPcCollisionDetection.
 	- Remi Bonnet made the auto rendering of pccamera optional (with
 	  default yes). Also added a REMOVE macro to ease the removal of
 	  specific propclass types (by interface).
-
 14-Oct-2004
 	- Eric Sunshine updated Autoconf and Jam utility files from master
 	  copies in CS repository.
