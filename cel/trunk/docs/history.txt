@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-Dec-2004
+	- Jorrit removed the OLD_RENDERER ifdef in CEL now that the old
+	  renderer has been removed from CS.
 11-Dec-2004
 	- Andrew Dai added a SetOnGround(bool) function to iPcLinearMovement
 	  which will be needed in future as a result of removing gravity from
