@@ -22,7 +22,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", CS_VERSION_W_DATE
       VALUE "FileVersion", CS_VERSION_NUMBER
       VALUE "LegalCopyright", "(C)1998-2003 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "CEL Mesh Property Class Factory, CEL Mesh Select Proprty Class Factory plug-in"
+      VALUE "FileDescription", "CEL Mesh Property Class Factory, CEL Mesh Select Property Class Factory plug-in"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else

@@ -32,13 +32,6 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Test, "pctest")
 
-#if 0
-SCF_EXPORT_CLASS_TABLE (pftest)
-  SCF_EXPORT_CLASS (celPfTest, "cel.pcfactory.test",
-  	"CEL Test Property Class Factory")
-SCF_EXPORT_CLASS_TABLE_END
-#endif
-
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcTest)

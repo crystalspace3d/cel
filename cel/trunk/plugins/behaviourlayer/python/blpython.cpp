@@ -45,13 +45,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_FACTORY (celBlPython)
 
-#if 0
-  SCF_EXPORT_CLASS_TABLE (blpython)
-  SCF_EXPORT_CLASS(celBlPython, "cel.behaviourlayer.python",
-    "Crystal Entity Layer Python Behaviour Layer")
-  SCF_EXPORT_CLASS_TABLE_END
-#endif
-
 celBlPython* celBlPython::shared_instance = 0;
 
 celBlPython::celBlPython (iBase *iParent) :

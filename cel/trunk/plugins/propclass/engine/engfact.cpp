@@ -59,15 +59,6 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Camera, "pccamera")
 CEL_IMPLEMENT_FACTORY (Region, "pcregion")
 
-#if 0
-SCF_EXPORT_CLASS_TABLE (pfengine)
-  SCF_EXPORT_CLASS (celPfCamera, "cel.pcfactory.camera",
-  	"CEL Camera Property Class Factory")
-  SCF_EXPORT_CLASS (celPfRegion, "cel.pcfactory.region",
-  "CEL Region Property Class Factory")
-SCF_EXPORT_CLASS_TABLE_END
-#endif
-
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
