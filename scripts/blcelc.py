@@ -1882,41 +1882,7 @@ csPrintfV = _blcelc.csPrintfV
 
 csGetTicks = _blcelc.csGetTicks
 
-csGetConfigPath = _blcelc.csGetConfigPath
-
-class csPluginPath(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csPluginPath, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csPluginPath, name)
-    __swig_setmethods__["path"] = _blcelc.csPluginPath_path_set
-    __swig_getmethods__["path"] = _blcelc.csPluginPath_path_get
-    if _newclass:path = property(_blcelc.csPluginPath_path_get,_blcelc.csPluginPath_path_set)
-    __swig_setmethods__["scanRecursive"] = _blcelc.csPluginPath_scanRecursive_set
-    __swig_getmethods__["scanRecursive"] = _blcelc.csPluginPath_scanRecursive_get
-    if _newclass:scanRecursive = property(_blcelc.csPluginPath_scanRecursive_get,_blcelc.csPluginPath_scanRecursive_set)
-    def __init__(self,*args):
-        _swig_setattr(self, csPluginPath, 'this', apply(_blcelc.new_csPluginPath,args))
-        _swig_setattr(self, csPluginPath, 'thisown', 1)
-    def __del__(self, destroy= _blcelc.delete_csPluginPath):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __repr__(self):
-        return "<C csPluginPath instance at %s>" % (self.this,)
-
-class csPluginPathPtr(csPluginPath):
-    def __init__(self,this):
-        _swig_setattr(self, csPluginPath, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csPluginPath, 'thisown', 0)
-        _swig_setattr(self, csPluginPath,self.__class__,csPluginPath)
-_blcelc.csPluginPath_swigregister(csPluginPathPtr)
-
-csGetPluginPaths = _blcelc.csGetPluginPaths
-
 csSleep = _blcelc.csSleep
-
-csFindSystemRoots = _blcelc.csFindSystemRoots
 
 csGetUsername = _blcelc.csGetUsername
 

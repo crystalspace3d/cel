@@ -1007,10 +1007,10 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_iThingFactoryState swig_types[350] 
 #define  SWIGTYPE_p_iSprite3DFactoryState swig_types[351] 
 #define  SWIGTYPE_p_iSprite2DFactoryState swig_types[352] 
-#define  SWIGTYPE_p_csPluginPath swig_types[353] 
-#define  SWIGTYPE_p_csPoly3D swig_types[354] 
-#define  SWIGTYPE_p_iSkeletonState swig_types[355] 
-#define  SWIGTYPE_p_G3DFogInfo swig_types[356] 
+#define  SWIGTYPE_p_csPoly3D swig_types[353] 
+#define  SWIGTYPE_p_iSkeletonState swig_types[354] 
+#define  SWIGTYPE_p_G3DFogInfo swig_types[355] 
+#define  SWIGTYPE_p_csPluginPaths swig_types[356] 
 #define  SWIGTYPE_p_iPcSolid swig_types[357] 
 #define  SWIGTYPE_p_csMatrix2 swig_types[358] 
 #define  SWIGTYPE_p_csZScaleMatrix3 swig_types[359] 
@@ -1436,7 +1436,7 @@ csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		return csWrapPtr(to_name, ptr);
 	}
 void delete_iFactory(iFactory *self){ {if (self) {self->DecRef();}}; }
-extern void scfInitialize(csPluginPath *);
+extern void scfInitialize(csPluginPaths *);
 void delete_iSCF(iSCF *self){ {if (self) {self->DecRef();}}; }
 void delete_iDebugHelper(iDebugHelper *self){ {if (self) {self->DecRef();}}; }
 csColor csColor_operator_a___(csColor const *self,csColor const &c){ return *self + c; }
@@ -2564,12 +2564,12 @@ static PyObject * iFactory_swigregister(PyObject *self, PyObject *args) {
 }
 static PyObject *_wrap_scfInitialize(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
+    csPluginPaths *arg1 = (csPluginPaths *) 0 ;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"|O:scfInitialize",&obj0)) goto fail;
     if (obj0) {
-        if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+        if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPaths,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     }
     scfInitialize(arg1);
     
@@ -23917,149 +23917,6 @@ static PyObject *_wrap_csGetTicks(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csGetConfigPath(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    char *result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":csGetConfigPath")) goto fail;
-    result = (char *)csGetConfigPath();
-    
-    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csPluginPath_path_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
-    char *arg2 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"Os:csPluginPath_path_set",&obj0,&arg2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        if (arg1->path) delete [] arg1->path;
-        if (arg2) {
-            arg1->path = (char *) (new char[strlen(arg2)+1]);
-            strcpy((char *) arg1->path,arg2);
-        }else {
-            arg1->path = 0;
-        }
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csPluginPath_path_get(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
-    char *result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:csPluginPath_path_get",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (char *) ((arg1)->path);
-    
-    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csPluginPath_scanRecursive_set(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
-    bool arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"OO:csPluginPath_scanRecursive_set",&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = PyInt_AsLong(obj1) ? true : false;
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->scanRecursive = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csPluginPath_scanRecursive_get(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
-    bool result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:csPluginPath_scanRecursive_get",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool) ((arg1)->scanRecursive);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_new_csPluginPath(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":new_csPluginPath")) goto fail;
-    result = (csPluginPath *)new csPluginPath();
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csPluginPath, 1);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_delete_csPluginPath(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *arg1 = (csPluginPath *) 0 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:delete_csPluginPath",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_csPluginPath,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    delete arg1;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject * csPluginPath_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_csPluginPath, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static PyObject *_wrap_csGetPluginPaths(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    csPluginPath *result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":csGetPluginPaths")) goto fail;
-    result = (csPluginPath *)csGetPluginPaths();
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csPluginPath, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_csSleep(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     int arg1 ;
@@ -24068,26 +23925,6 @@ static PyObject *_wrap_csSleep(PyObject *self, PyObject *args) {
     csSleep(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_csFindSystemRoots(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    SwigValueWrapper< csRef<iStrVector > > result;
-    
-    if(!PyArg_ParseTuple(args,(char *)":csFindSystemRoots")) goto fail;
-    result = csFindSystemRoots();
-    
-    {
-        /*@e:\CS\include/ivaria/pythpre.i,46,TYPEMAP_OUT_csRef_BODY@*/
-        csRef<iStrVector> ref(result);
-        resultobj = _csRef_to_Python(csRef<iBase>(
-        (iStrVector *)ref), (void *)(iStrVector *)ref, "iStrVector" " *");
-        /*@@*/
-    }
     return resultobj;
     fail:
     return NULL;
@@ -83780,17 +83617,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csPrintf", _wrap_csPrintf, METH_VARARGS },
 	 { (char *)"csPrintfV", _wrap_csPrintfV, METH_VARARGS },
 	 { (char *)"csGetTicks", _wrap_csGetTicks, METH_VARARGS },
-	 { (char *)"csGetConfigPath", _wrap_csGetConfigPath, METH_VARARGS },
-	 { (char *)"csPluginPath_path_set", _wrap_csPluginPath_path_set, METH_VARARGS },
-	 { (char *)"csPluginPath_path_get", _wrap_csPluginPath_path_get, METH_VARARGS },
-	 { (char *)"csPluginPath_scanRecursive_set", _wrap_csPluginPath_scanRecursive_set, METH_VARARGS },
-	 { (char *)"csPluginPath_scanRecursive_get", _wrap_csPluginPath_scanRecursive_get, METH_VARARGS },
-	 { (char *)"new_csPluginPath", _wrap_new_csPluginPath, METH_VARARGS },
-	 { (char *)"delete_csPluginPath", _wrap_delete_csPluginPath, METH_VARARGS },
-	 { (char *)"csPluginPath_swigregister", csPluginPath_swigregister, METH_VARARGS },
-	 { (char *)"csGetPluginPaths", _wrap_csGetPluginPaths, METH_VARARGS },
 	 { (char *)"csSleep", _wrap_csSleep, METH_VARARGS },
-	 { (char *)"csFindSystemRoots", _wrap_csFindSystemRoots, METH_VARARGS },
 	 { (char *)"csGetUsername", _wrap_csGetUsername, METH_VARARGS },
 	 { (char *)"csInitializer_CreateEnvironment", _wrap_csInitializer_CreateEnvironment, METH_VARARGS },
 	 { (char *)"csInitializer_InitializeSCF", _wrap_csInitializer_InitializeSCF, METH_VARARGS },
@@ -87480,10 +87307,10 @@ static swig_type_info _swigt__p_iSpriteAction[] = {{"_p_iSpriteAction", 0, "iSpr
 static swig_type_info _swigt__p_iThingFactoryState[] = {{"_p_iThingFactoryState", 0, "iThingFactoryState *", 0},{"_p_iThingFactoryState"},{0}};
 static swig_type_info _swigt__p_iSprite3DFactoryState[] = {{"_p_iSprite3DFactoryState", 0, "iSprite3DFactoryState *", 0},{"_p_iSprite3DFactoryState"},{0}};
 static swig_type_info _swigt__p_iSprite2DFactoryState[] = {{"_p_iSprite2DFactoryState", 0, "iSprite2DFactoryState *", 0},{"_p_iSprite2DState", _p_iSprite2DStateTo_p_iSprite2DFactoryState},{"_p_iSprite2DFactoryState"},{0}};
-static swig_type_info _swigt__p_csPluginPath[] = {{"_p_csPluginPath", 0, "csPluginPath *", 0},{"_p_csPluginPath"},{0}};
 static swig_type_info _swigt__p_csPoly3D[] = {{"_p_csPoly3D", 0, "csPoly3D *", 0},{"_p_csPoly3D"},{"_p_csVector3Array", _p_csVector3ArrayTo_p_csPoly3D},{0}};
 static swig_type_info _swigt__p_iSkeletonState[] = {{"_p_iSkeletonState", 0, "iSkeletonState *", 0},{"_p_iSkeletonState"},{0}};
 static swig_type_info _swigt__p_G3DFogInfo[] = {{"_p_G3DFogInfo", 0, "G3DFogInfo *", 0},{"_p_G3DFogInfo"},{0}};
+static swig_type_info _swigt__p_csPluginPaths[] = {{"_p_csPluginPaths", 0, "csPluginPaths *", 0},{"_p_csPluginPaths"},{0}};
 static swig_type_info _swigt__p_iPcSolid[] = {{"_p_iPcSolid", 0, "iPcSolid *", 0},{"_p_iPcSolid"},{0}};
 static swig_type_info _swigt__p_csMatrix2[] = {{"_p_csMatrix2", 0, "csMatrix2 *", 0},{"_p_csMatrix2"},{0}};
 static swig_type_info _swigt__p_csZScaleMatrix3[] = {{"_p_csZScaleMatrix3", 0, "csZScaleMatrix3 *", 0},{"_p_csZScaleMatrix3"},{0}};
@@ -87860,10 +87687,10 @@ _swigt__p_iSpriteAction,
 _swigt__p_iThingFactoryState, 
 _swigt__p_iSprite3DFactoryState, 
 _swigt__p_iSprite2DFactoryState, 
-_swigt__p_csPluginPath, 
 _swigt__p_csPoly3D, 
 _swigt__p_iSkeletonState, 
 _swigt__p_G3DFogInfo, 
+_swigt__p_csPluginPaths, 
 _swigt__p_iPcSolid, 
 _swigt__p_csMatrix2, 
 _swigt__p_csZScaleMatrix3, 
