@@ -213,6 +213,12 @@ struct iCelPropertyClassList : public iBase
 struct iPcDynamicSystem : public iBase
 {
   virtual iDynamicSystem* GetDynamicSystem () = 0;
+  virtual void AddForceDuration (iPcDynamicBody* pcbody,
+  	const csVector3& force, int ms) = 0;
+  virtual void AddForceFrame (iPcDynamicBody* pcbody,
+  	const csVector3& force) = 0;
+  virtual void ClearForces (iPcDynamicBody* pcbody) = 0;
+  virtual void ClearAllForces () = 0;
 };
 
 %{
@@ -268,6 +274,10 @@ struct iPcDynamicBody : public iBase
   	const csOrthoTransform& trans) = 0;
   virtual void AttachColliderPlane (const csPlane3& plane) = 0;
   virtual void AttachColliderMesh () = 0;
+  virtual void AddForceOnce (const csVector3& force) = 0;
+  virtual void AddForceDuration (const csVector3& force, int ms) = 0;
+  virtual void AddForceFrame (const csVector3& force) = 0;
+  virtual void ClearForces () = 0;
 };
 
 %{

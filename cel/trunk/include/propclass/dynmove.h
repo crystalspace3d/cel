@@ -30,6 +30,7 @@ class csPlane3;
 struct iDynamicSystem;
 struct iRigidBody;
 struct iPcMesh;
+struct iPcDynamicBody;
 
 SCF_VERSION (iPcDynamicSystem, 0, 0, 1);
 
@@ -46,9 +47,35 @@ struct iPcDynamicSystem : public iBase
   virtual void SetStepTime (float delta) = 0;
   /// Get the step time.
   virtual float GetStepTime () const = 0;
+
+  /**
+   * During the specified time (in milliseconds) add the force every
+   * step to the given body. This function is called if you do
+   * pcbody->AddForceDuration().
+   */
+  virtual void AddForceDuration (iPcDynamicBody* pcbody,
+  	const csVector3& force, float ms) = 0;
+
+  /**
+   * During the next frame add the force every step. This function is called
+   * if you do pcbody->AddForceFrame().
+   */
+  virtual void AddForceFrame (iPcDynamicBody* pcbody,
+  	const csVector3& force) = 0;
+
+  /**
+   * Remove the given body from the force queues (filled with AddForceFrame()
+   * and AddForceDuration()).
+   */
+  virtual void ClearForces (iPcDynamicBody* pcbody) = 0;
+
+  /**
+   * Clear all forces.
+   */
+  virtual void ClearAllForces () = 0;
 };
 
-SCF_VERSION (iPcDynamicBody, 0, 0, 1);
+SCF_VERSION (iPcDynamicBody, 0, 1, 0);
 
 /**
  * A dynamic body.
@@ -107,6 +134,27 @@ struct iPcDynamicBody : public iBase
 
   /// Create a mesh rigid body.
   virtual void AttachColliderMesh () = 0;
+
+  /**
+   * Add a force once to the given object.
+   */
+  virtual void AddForceOnce (const csVector3& force) = 0;
+
+  /**
+   * During the specified time (in milliseconds) add the force every
+   * step.
+   */
+  virtual void AddForceDuration (const csVector3& force, float ms) = 0;
+
+  /**
+   * During the next frame add the force every step.
+   */
+  virtual void AddForceFrame (const csVector3& force) = 0;
+
+  /**
+   * Clear the permanent forces on this body.
+   */
+  virtual void ClearForces () = 0;
 };
 
 #endif // __CEL_PF_DYNMOVE__
