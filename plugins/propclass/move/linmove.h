@@ -126,6 +126,10 @@ protected:
   static csStringID id_legs;
   static csStringID id_offset;
   static csStringID action_initcd;
+  static csStringID id_sector;
+  static csStringID id_position;
+  static csStringID id_yrot;
+  static csStringID action_setposition;
 
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);
