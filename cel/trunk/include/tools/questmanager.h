@@ -114,7 +114,7 @@ struct iQuestTriggerFactory : public iBase
   
   /**
    * Create a trigger.
-   * \params are the parameters with which this reward is
+   * \param params are the parameters with which this reward is
    * instantiated.
    */
   virtual csPtr<iQuestTrigger> CreateTrigger (
@@ -122,7 +122,7 @@ struct iQuestTriggerFactory : public iBase
 
   /**
    * Load this factory from a document node.
-   * \param node is the <fireon> node in a trigger description.
+   * \param node is the \<fireon\> node in a trigger description.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
@@ -158,7 +158,7 @@ struct iQuestRewardFactory : public iBase
   
   /**
    * Create a reward.
-   * \params are the parameters with which this reward is
+   * \param params are the parameters with which this reward is
    * instantiated.
    */
   virtual csPtr<iQuestReward> CreateReward (
@@ -166,7 +166,7 @@ struct iQuestRewardFactory : public iBase
 
   /**
    * Load this factory from a document node.
-   * \param node is the <reward> node in a trigger description.
+   * \param node is the \<reward\> node in a trigger description.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
@@ -205,7 +205,7 @@ struct iQuestFactory : public iBase
   
   /**
    * Create a quest from this factory.
-   * \params are the parameters with which these quest is
+   * \param params are the parameters with which this quest is
    * instantiated.
    */
   virtual csPtr<iQuest> CreateQuest (
@@ -213,7 +213,7 @@ struct iQuestFactory : public iBase
 
   /**
    * Load this factory from a document node.
-   * \param node is the <quest> node in a quest.
+   * \param node is the \<quest\> node in a quest.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;

@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  outdated. Among other issues, this fixes problem where the API
 	  documentation had become unbuildable (the output directory was
 	  incorrectly specified).
+	- Eric Sunshine fixed a number of problems reported by Doxygen in the
+	  public CEL headers.
 26-Oct-2004
 	- Andrew Dai fixed a bug with slopes in which you would always slide
 	  down slopes slowly even though onground == false at that time, this
