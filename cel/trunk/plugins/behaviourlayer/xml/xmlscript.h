@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/util.h"
 #include "csutil/parray.h"
 #include "csutil/hashhandlers.h"
@@ -42,6 +43,7 @@ enum
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
   CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
   CEL_OPERATION_GETPROPERTY,	// A:-		S:PC,ID		OS:?
+  CEL_OPERATION_GETPROPERTY1,	// A:-		S:ID		OS:?
   CEL_OPERATION_ACTION,		// A:-		S:PC,ID,S	OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
@@ -49,6 +51,7 @@ enum
   CEL_OPERATION_TESTCOLLIDE,	// A:E,E	S:S		OS:-
   CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CREATEPROPCLASS,// A:-		S:S		OS:-
+  CEL_OPERATION_DEFAULTPC,	// A:-		S:PC		OS:-
 
   CEL_OPERATION_PUSH,		// A:?		S:-		OS:?
   CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
@@ -77,7 +80,6 @@ enum
   CEL_TYPE_FLOAT,
   CEL_TYPE_STRING,
   CEL_TYPE_BOOL,
-  CEL_TYPE_PC_REF,
   CEL_TYPE_PC,
   CEL_TYPE_ID,
   CEL_TYPE_ARGLIST,
@@ -182,12 +184,6 @@ struct celXmlArg
     Cleanup ();
     type = CEL_TYPE_PC;
     arg.pc = pc;
-  }
-  void SetPC (int pc_ref)
-  {
-    Cleanup ();
-    type = CEL_TYPE_PC_REF;
-    arg.pc_ref = pc_ref;
   }
   void SetID (csStringID id)
   {

@@ -28,6 +28,7 @@
 #include "iutil/comp.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/blgen.h"
+#include "plugins/behaviourlayer/xml/xmlscript.h"
 
 struct iObjectRegistry;
 struct iCelEntity;
@@ -58,7 +59,7 @@ private:
 
   bool ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-	bool optional);
+	int optional_type = CEL_TYPE_NONE);
   bool ParseExpression (const char*& input, iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* name, int stoppri);
 

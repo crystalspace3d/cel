@@ -64,7 +64,6 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_TYPE_INT32: arg.i = other.arg.i; break;
     case CEL_TYPE_FLOAT: arg.f = other.arg.f; break;
     case CEL_TYPE_BOOL: arg.b = other.arg.b; break;
-    case CEL_TYPE_PC_REF: arg.pc_ref = other.arg.pc_ref; break;
     case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
     case CEL_TYPE_ID: arg.id = other.arg.id; break;
     case CEL_TYPE_EVENTHANDLER: arg.h = other.arg.h; break;
@@ -506,6 +505,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 {
   int stack_size = stack.Length ();
   int i = 0;
+  csWeakRef<iCelPropertyClass> default_pc;
+
   for (;;)
   {
     CleanupTemporaryStrings ();
@@ -1134,8 +1135,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC (": action pc=%s id=%d s=%s\n", A2S (a_pc),
 	  	A2S (a_id), A2S (a_val));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc)
-	    return ReportError (behave, "Property class is 0!");
+	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
 	  pc->PerformAction (id, ArgToString (a_val));
 	}
@@ -1204,6 +1204,58 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_GETPROPERTY1:
+        {
+	  CHECK_STACK
+	  celXmlArg a_id = stack.Pop ();
+	  DUMP_EXEC (": getproperty1 id=%s\n", A2S (a_id));
+	  int si = stack.Push (celXmlArg ());
+
+	  iCelPropertyClass* pc = default_pc;
+	  if (!pc)
+	    return ReportError (behave, "Default property class is 0!");
+	  csStringID id = ArgToID (a_id);
+	  celDataType t = pc->GetPropertyOrActionType (id);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      stack[si].SetBool (pc->GetPropertyBool (id));
+	      break;
+	    case CEL_DATA_FLOAT:
+	      stack[si].SetFloat (pc->GetPropertyFloat (id));
+	      break;
+	    case CEL_DATA_STRING:
+	      stack[si].SetString (pc->GetPropertyString (id), true);
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (pc->GetPropertyLong (id));
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor col;
+		pc->GetPropertyColor (id, col);
+	        stack[si].SetColor (col);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+		pc->GetPropertyVector (id, v);
+	        stack[si].SetVector (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v;
+		pc->GetPropertyVector (id, v);
+	        stack[si].SetVector (v);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Type not supported!");
+	  }
+	}
+	break;
       case CEL_OPERATION_GETPROPERTY:
         {
 	  CHECK_STACK
@@ -1258,6 +1310,17 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_DEFAULTPC:
+        {
+	  CHECK_STACK
+	  celXmlArg a_pc = stack.Pop ();
+	  DUMP_EXEC (": defaultpc pc=%s\n", A2S (a_pc));
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc)
+	    return ReportError (behave, "Property class is 0!");
+	  default_pc = pc;
+	}
+	break;
       case CEL_OPERATION_PROPERTY:
         {
 	  CHECK_STACK
@@ -1269,8 +1332,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC (": property pc=%s id=%s val=%s\n", A2S (a_pc),
 	  	A2S (a_id), A2S (a_val));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc)
-	    return ReportError (behave, "Property class is 0!");
+	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
 	  switch (a_val.type)
 	  {

@@ -57,6 +57,7 @@ enum
   XMLTOKEN_PRINT,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
+  XMLTOKEN_DEFAULT,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -98,6 +99,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
+  xmltokens.Register ("default", XMLTOKEN_DEFAULT);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -140,19 +142,24 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
 
 bool celBlXml::ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-	bool optional)
+	int optional_type)
 {
   const char* input = child->GetAttributeValue (attrname);
-  if (!input && !optional)
+  if (!input && optional_type == CEL_TYPE_NONE)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
 		"Can't find attribute '%s' for '%s'!", attrname, name);
     return false;
   }
-  if (!input && optional)
+  if (!input && optional_type != CEL_TYPE_NONE)
   {
     h->AddOperation (CEL_OPERATION_PUSH);
-    h->AddArgument ().SetString (0, false);
+    switch (optional_type)
+    {
+      case CEL_TYPE_STRING: h->AddArgument ().SetString (0, false); break;
+      case CEL_TYPE_PC: h->AddArgument ().SetPC (0); break;
+      default: CS_ASSERT (false);
+    }
     return true;
   }
   char buf[100];
@@ -196,22 +203,30 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         if (!ParseExpression (input, child, h, name, 0))
           return false;
 	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_COMMA)
+	if (token == CEL_TOKEN_CLOSE)
 	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		      "Expected ',' while parsing property for '%s'!", name);
-          return false;
+	  // Use default property class.
+          h->AddOperation (CEL_OPERATION_GETPROPERTY1);
 	}
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_CLOSE)
+	else
 	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-	      "Expected ')' while parsing property for '%s'!", name);
-          return false;
-	}
-        h->AddOperation (CEL_OPERATION_GETPROPERTY);
+	  if (token != CEL_TOKEN_COMMA)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		        "Expected ',' while parsing property for '%s'!", name);
+            return false;
+	  }
+          if (!ParseExpression (input, child, h, name, 0))
+	    return false;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_CLOSE)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+	        "Expected ')' while parsing property for '%s'!", name);
+            return false;
+	  }
+          h->AddOperation (CEL_OPERATION_GETPROPERTY);
+        }
       }
       break;
     case CEL_TOKEN_PROPID:
@@ -602,32 +617,32 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     {
       case XMLTOKEN_CREATEPROPCLASS:
         {
-          if (!ParseExpression (child, h, "name", "createpropclass", false))
+          if (!ParseExpression (child, h, "name", "createpropclass"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
 	}
 	break;
       case XMLTOKEN_CREATEENTITY:
         {
-          if (!ParseExpression (child, h, "name", "createentity", false))
+          if (!ParseExpression (child, h, "name", "createentity"))
 	    return false;
-          if (!ParseExpression (child, h, "behaviour", "createentity", false))
+          if (!ParseExpression (child, h, "behaviour", "createentity"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_CREATEENTITY);
 	}
 	break;
       case XMLTOKEN_VAR:
         {
-          if (!ParseExpression (child, h, "name", "var", false))
+          if (!ParseExpression (child, h, "name", "var"))
 	    return false;
-          if (!ParseExpression (child, h, "value", "var", false))
+          if (!ParseExpression (child, h, "value", "var"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_VAR);
 	}
 	break;
       case XMLTOKEN_TESTCOLLIDE:
         {
-          if (!ParseExpression (child, h, "pcbillboard", "testcollide", false))
+          if (!ParseExpression (child, h, "pcbillboard", "testcollide"))
 	    return false;
 	  const char* truename = GetAttributeString (child, "true", 0);
           celXmlScriptEventHandler* truehandler = truename
@@ -644,7 +659,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_IF:
         {
-          if (!ParseExpression (child, h, "eval", "if", false))
+          if (!ParseExpression (child, h, "eval", "if"))
 	    return false;
 	  const char* truename = GetAttributeString (child, "true", 0);
           celXmlScriptEventHandler* truehandler = truename
@@ -660,28 +675,33 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
         break;
       case XMLTOKEN_PRINT:
-        if (!ParseExpression (child, h, "value", "print", false))
+        if (!ParseExpression (child, h, "value", "print"))
 	  return false;
         h->AddOperation (CEL_OPERATION_PRINT);
         break;
+      case XMLTOKEN_DEFAULT:
+        if (!ParseExpression (child, h, "propclass", "default"))
+	  return false;
+        h->AddOperation (CEL_OPERATION_DEFAULTPC);
+        break;
       case XMLTOKEN_PROPERTY:
         {
-          if (!ParseExpression (child, h, "propclass", "property", false))
+          if (!ParseExpression (child, h, "propclass", "property", CEL_TYPE_PC))
 	    return false;
-          if (!ParseExpression (child, h, "id", "property", false))
+          if (!ParseExpression (child, h, "id", "property"))
 	    return false;
-          if (!ParseExpression (child, h, "value", "property", false))
+          if (!ParseExpression (child, h, "value", "property"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_PROPERTY);
 	}
 	break;
       case XMLTOKEN_ACTION:
         {
-          if (!ParseExpression (child, h, "propclass", "action", false))
+          if (!ParseExpression (child, h, "propclass", "action", CEL_TYPE_PC))
 	    return false;
-          if (!ParseExpression (child, h, "id", "action", false))
+          if (!ParseExpression (child, h, "id", "action"))
 	    return false;
-          if (!ParseExpression (child, h, "params", "action", true))
+          if (!ParseExpression (child, h, "params", "action", CEL_TYPE_STRING))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_ACTION);
 	}

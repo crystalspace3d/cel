@@ -25,6 +25,10 @@ The history order is reversed so that new features are at the top.
 	  XML behaviour layer.
 	- Jorrit removed the property class resolver system from the XML
 	  behaviour layer. This is no longer needed.
+	- Jorrit added new 'default' keyword for the XML behaviour layer so
+	  that you can now set a default property class to use for the
+	  'property' and 'action' operations and also for the 'property'
+	  operator.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
