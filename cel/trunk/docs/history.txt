@@ -10,6 +10,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for local variables to the XML behaviour
 	  layer. These are a lot faster, use less memory, and can prevent
 	  programming errors in recursive functions.
+	- Jorrit added celVariableParameterBlock conveniance class to
+	  celtool library.
+	- Jorrit added the ability to call events as functions from
+	  within an expression in the XML behaviour layer.
 11-Jan-2004
 	- Jorrit did the following XML behaviour layer changes:
 	    - Added the ability to return values through a

@@ -310,7 +310,7 @@ bool celBlXml::ParseID (const char*& input, const csStringArray& local_vars,
   input = celXmlSkipWhiteSpace (input);
   const char* i = input;
   bool idconstant = true;
-  while (*i && *i != ')')
+  while (*i && *i != ')' && *i != '=')
   {
     if (!isalnum (*i) && *i != '_' && *i != '.')
     {
@@ -604,9 +604,51 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       h->AddOperation (CEL_OPERATION_PARAM);
       break;
     default:
-      synldr->ReportError ("cel.behaviour.xml", child,
-	  "Unknown function '%s' for '%s'!", str, name);
-      return false;
+      {
+        // We have an unknown function. Try to parse it as an event handler
+	// that we can call.
+	h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	input = pinput;	// Restore.
+	uint32 cnt = 0;
+	while (token != CEL_TOKEN_CLOSE)
+	{
+	  // Get parameter name.
+          if (!ParseID (input, local_vars, child, h, name, str, XMLFUNCTION_PARID))
+	    return false;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_ASSIGN)
+	  {
+	    synldr->ReportError ("cel.behaviour.xml", child,
+		"Expected '=' after parameter for '%s'!", name);
+	    return false;
+	  }
+	  // Get parameter value.
+	  if (!ParseExpression (input, local_vars, child, h,
+		name, CEL_PRIORITY_NORMAL))
+	    return false;
+
+	  h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	  h->GetArgument ().SetUInt32 (cnt);
+	  cnt++;
+
+	  pinput = input;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
+	  {
+	    synldr->ReportError ("cel.behaviour.xml", child,
+		"Expected ')' or '=' after parameter value for '%s'!", name);
+	    return false;
+	  }
+	}
+	// Restore.
+	input = pinput;
+	h->AddOperation (CEL_OPERATION_CALL_RETSTACK);
+	h->GetArgument ().SetString (str, true);
+      }
+      break;
   }
   input = celXmlParseToken (input, token);
   if (token != CEL_TOKEN_CLOSE)
@@ -1189,7 +1231,6 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (cnt > 0)
 	  {
 	    h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-	    h->GetArgument ().SetUInt32 (cnt);
 
 	    child_it = child->GetNodes ();
 	    cnt = 0;
@@ -1242,7 +1283,6 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (cnt > 0)
 	  {
 	    h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-	    h->GetArgument ().SetUInt32 (cnt);
 
 	    child_it = child->GetNodes ();
 	    cnt = 0;

@@ -114,7 +114,7 @@ const char* celXmlParseToken (const char* input, int& token)
         token = CEL_TOKEN_EQ;
 	return input+2;
       }
-      token = CEL_TOKEN_ERROR;
+      token = CEL_TOKEN_ASSIGN;
       return input+1;
     case '!':
       if (*(input+1) == '=')

@@ -41,7 +41,7 @@ struct iCelParameterBlock;
 struct iPcInventory;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
-class celGenericParameterBlock;
+class celVariableParameterBlock;
 
 // ?: various types possible
 // -: nothing
@@ -64,7 +64,7 @@ enum
   CEL_OPERATION_TRACEOFF,	// A:-		S:-		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:?		OS:-
 
-  CEL_OPERATION_ACTIONPARAMS,	// A:UL		S:-		OS:-
+  CEL_OPERATION_ACTIONPARAMS,	// A:-		S:-		OS:-
   CEL_OPERATION_ACTIONPARAM,	// A:UL		S:ID,?		OS:-
   CEL_OPERATION_ACTION,		// A:-		S:PC,ID		OS:-
   CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
@@ -81,6 +81,7 @@ enum
   CEL_OPERATION_RETURN,		// A:-		S:?		OS:-
   CEL_OPERATION_CALL,		// A:-		S:S		OS:-
   CEL_OPERATION_CALL_RET,	// A:-		S:S,S		OS:-
+  CEL_OPERATION_CALL_RETSTACK,	// A:S		S:-		OS:?
   CEL_OPERATION_CALLI,		// A:EH		S:-		OS:-
   CEL_OPERATION_CALLENT,	// A:-		S:E,S		OS:-
   CEL_OPERATION_CALLENT_RET,	// A:-		S:E,S,S		OS:-
@@ -329,7 +330,7 @@ private:
   csWeakRef<iPcInventory> default_inv;
 
   // Temporary variable to keep parameters for actions.
-  csRef<celGenericParameterBlock> action_params;
+  csRef<celVariableParameterBlock> action_params;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);

@@ -24,6 +24,8 @@
 #include "csutil/scf.h"
 #include "csutil/strhash.h"
 #include "csutil/util.h"
+#include "csutil/array.h"
+#include "csutil/stringarray.h"
 #include "behaviourlayer/behave.h"
 
 /**
@@ -85,6 +87,58 @@ public:
   {
     int i;
     for (i = 0 ; i < count ; i++)
+      if (id == ids[i])
+        return &data[i];
+    return 0;
+  }
+};
+
+/**
+ * Variable parameter block implementation.
+ */
+class celVariableParameterBlock : public iCelParameterBlock
+{
+private:
+  csArray<csStringID> ids;
+  csArray<celData> data;
+  csStringArray names;
+
+public:
+  celVariableParameterBlock ()
+  {
+    SCF_CONSTRUCT_IBASE (0);
+  }
+  virtual ~celVariableParameterBlock ()
+  {
+  }
+
+  void SetParameterDef (int idx, csStringID id, const char* parname)
+  {
+    ids.GetExtend (idx) = id;
+    names.GetExtend (idx) = parname;
+  }
+  celData& GetParameter (int idx) { return data.GetExtend (idx); }
+
+  SCF_DECLARE_IBASE;
+
+  virtual int GetParameterCount () const { return data.Length (); }
+  virtual const char* GetParameter (int idx, csStringID& id,
+  	celDataType& t) const
+  {
+    if (idx < 0 || idx >= data.Length ())
+    {
+      id = csInvalidStringID;
+      t = CEL_DATA_NONE;
+      return 0;
+    }
+    id = ids[idx];
+    t = data[idx].type;
+    return names[idx];
+  }
+  virtual const celData* GetParameter (csStringID id) const
+  {
+    int i;
+    for (i = 0 ; i < data.Length () ; i++)
       if (id == ids[i])
         return &data[i];
     return 0;
