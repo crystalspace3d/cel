@@ -65,3 +65,80 @@ iCelPropertyClassList* celEntity::GetPropertyClassList ()
   return (iCelPropertyClassList*)plist;
 }
 
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celEntityList)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntityList)
+SCF_IMPLEMENT_IBASE_END
+
+celEntityList::celEntityList ()
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+}
+
+celEntityList::~celEntityList ()
+{
+  RemoveAll ();
+}
+
+int celEntityList::GetCount () const
+{
+  return entities.Length ();
+}
+
+iCelEntity* celEntityList::Get (int n) const
+{
+  CS_ASSERT (n >= 0 && n < entities.Length ());
+  return (iCelEntity*)entities[n];
+}
+
+int celEntityList::Add (iCelEntity* obj)
+{
+  obj->IncRef ();
+  return entities.Push (obj);
+}
+
+bool celEntityList::Remove (iCelEntity* obj)
+{
+  int idx = entities.Find (obj);
+  if (idx != -1)
+  {
+    entities.Delete (idx);
+    obj->DecRef ();
+    return true;
+  }
+  return false;
+}
+
+bool celEntityList::Remove (int n)
+{
+  iCelEntity* ent = Get (n);
+  ent->DecRef ();
+  entities.Delete (n);
+  return true;
+}
+
+void celEntityList::RemoveAll ()
+{
+  while (entities.Length () > 0)
+    Remove (0);
+}
+
+int celEntityList::Find (iCelEntity* obj) const
+{
+  return entities.Find (obj);
+}
+
+iCelEntity* celEntityList::FindByName (const char *Name) const
+{
+  int i;
+  for (i = 0 ; i < entities.Length () ; i++)
+  {
+    iCelEntity* ent = (iCelEntity*)entities[i];
+    if (!strcmp (ent->GetName (), Name)) return ent;
+  }
+  return NULL;
+}
+
+//---------------------------------------------------------------------------
+

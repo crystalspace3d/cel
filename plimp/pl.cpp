@@ -23,6 +23,8 @@
 #include "plimp/message.h"
 #include "pl/propfact.h"
 #include "csutil/csobject.h"
+#include "iengine/engine.h"
+#include "iutil/objreg.h"
 
 //---------------------------------------------------------------------------
 
@@ -59,8 +61,9 @@ celPlLayer::~celPlLayer ()
   }
 }
 
-bool celPlLayer::Initialize (iObjectRegistry* /*object_reg*/)
+bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
+  celPlLayer::object_reg = object_reg;
   return true;
 }
 
@@ -141,6 +144,25 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
     return cef->GetEntity ();
   }
   return NULL;
+}
+
+iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector, const csVector3& pos,
+		  float radius)
+{
+  // @@@ Some kind of optimization to cache entity lists?
+  celEntityList* list = new celEntityList ();
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  iObjectIterator* objit = engine->GetNearbyObjects (sector, pos, radius);
+  while (objit->Next ())
+  {
+    iObject* obj = objit->GetObject ();
+    iCelEntity* ent = FindAttachedEntity (obj);
+    if (ent) list->Add (ent);
+  }
+  objit->DecRef ();
+  engine->DecRef ();
+  return list;
 }
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)

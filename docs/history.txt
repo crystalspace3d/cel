@@ -28,6 +28,20 @@
 	  iPcMovableConstraint which uses iPcSolid to implement a constraint
 	  based on collision detection. This implementation is currently
 	  not operational yet.
+	- Added iCelEntityList and celEntityList implementation in plimp.
+	- Added iCelPlLayer::FindNearbyEntities() which will return a list
+	  of all entities within a certain radius of a given position.
+	  This function will use the attached entities to find the
+	  entities from the engine objects.
+	- Partially implemented 'pcmovableconst_cd' so that it actually
+	  uses collision detection but it has the following two shortcomings:
+	    - Movement either succeeds or fails. There is no partial result.
+	    - A path between start and end should be used for collision
+	      detection. Now only the end position is checked which means
+	      that objects at high speed may actually pass through walls.
+	  In practice this limitation means that in celtest when you drag
+	  the object, it will only temporarily be blocked by the walls. If
+	  you drag further it will go through.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the

@@ -59,5 +59,53 @@ struct iCelEntity : public iBase
   virtual iCelBehaviour* GetBehaviour () = 0;
 };
 
+SCF_VERSION (iCelEntityList, 0, 0, 1);
+
+/**
+ * A list of entities.
+ */
+struct iCelEntityList : public iBase
+{
+  /**
+   * Return the number of entities in this list.
+   */
+  virtual int GetCount () const = 0;
+
+  /**
+   * Return an entity class by index.
+   */
+  virtual iCelEntity* Get (int n) const = 0;
+
+  /**
+   * Add an entity.
+   */
+  virtual int Add (iCelEntity* obj) = 0;
+
+  /**
+   * Remove an entity.
+   */
+  virtual bool Remove (iCelEntity* obj) = 0;
+
+  /**
+   * Remove the nth entity.
+   */
+  virtual bool Remove (int n) = 0;
+
+  /**
+   * Remove all entities.
+   */
+  virtual void RemoveAll () = 0;
+
+  /**
+   * Find an entity and return its index.
+   */
+  virtual int Find (iCelEntity* obj) const = 0;
+
+  /**
+   * Find an entity by name.
+   */
+  virtual iCelEntity* FindByName (const char *Name) const = 0;
+};
+
 #endif // __CEL_PL_ENTITY__
 

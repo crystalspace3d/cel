@@ -20,6 +20,7 @@
 #ifndef __CEL_PLIMP_ENTITY__
 #define __CEL_PLIMP_ENTITY__
 
+#include "csutil/csvector.h"
 #include "pl/entity.h"
 
 class celPropertyClassList;
@@ -48,6 +49,30 @@ public:
   {
     return behaviour;
   }
+};
+
+/**
+ * Implementation of iCelEntityList.
+ */
+class celEntityList : public iCelEntityList
+{
+private:
+  csVector entities;
+
+public:
+  celEntityList ();
+  virtual ~celEntityList ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual int GetCount () const;
+  virtual iCelEntity* Get (int n) const;
+  virtual int Add (iCelEntity* obj);
+  virtual bool Remove (iCelEntity* obj);
+  virtual bool Remove (int n);
+  virtual void RemoveAll ();
+  virtual int Find (iCelEntity* obj) const;
+  virtual iCelEntity* FindByName (const char *Name) const;
 };
 
 #endif // __CEL_PLIMP_ENTITY__

@@ -33,6 +33,7 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csVector pf_list;
+  iObjectRegistry* object_reg;
 
 public:
   celPlLayer (iBase* parent);
@@ -47,6 +48,8 @@ public:
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
   virtual iCelEntity* FindAttachedEntity (iObject* object);
+  virtual iCelEntityList* FindNearbyEntities (iSector* sector, const csVector3& pos,
+		  float radius);
 
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
