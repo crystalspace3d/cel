@@ -578,7 +578,7 @@ iCelPropertyClass* CelTest::CreatePropertyClass (iCelEntity* entity,
 
 bool CelTest::Initialize (int argc, const char* const argv[])
 {
-  object_reg = csInitializer::CreateEnvironment ();
+  object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
 
   // @@@ The code below is temporary until we have a general solution
@@ -593,7 +593,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.pcfactory.engine", "pfengine", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv", NULL);
 
-  csInitializer::SetupCommandLineParser (object_reg, argc, argv);
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_SOFTWARE3D,

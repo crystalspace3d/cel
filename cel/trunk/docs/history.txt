@@ -1,3 +1,5 @@
+9-Nov-2001:
+	- Fixed CELTEST for latest changes in CS (CreateEnvironment...).
 8-Nov-2001:
 	- Started work on persistance. Nothing works yet. Created
 	  iCelDataBuffer which the persistance system will use to save/load
