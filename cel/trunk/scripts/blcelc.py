@@ -412,6 +412,8 @@ class csString(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
+    def __lt__(*args): return _blcelc.csString___lt__(*args)
+    def __gt__(*args): return _blcelc.csString___gt__(*args)
     def __getitem__(*args): return _blcelc.csString___getitem__(*args)
     def __setitem__(*args): return _blcelc.csString___setitem__(*args)
     def __delitem__(*args): return _blcelc.csString___delitem__(*args)
@@ -2282,6 +2284,8 @@ csPrintf = _blcelc.csPrintf
 
 csFPutErr = _blcelc.csFPutErr
 
+csPrintfErr = _blcelc.csPrintfErr
+
 csGetTicks = _blcelc.csGetTicks
 
 csSleep = _blcelc.csSleep
@@ -3629,6 +3633,7 @@ class iLight(iBase):
     def CreateCrossHalo(*args): return _blcelc.iLight_CreateCrossHalo(*args)
     def CreateNovaHalo(*args): return _blcelc.iLight_CreateNovaHalo(*args)
     def CreateFlareHalo(*args): return _blcelc.iLight_CreateFlareHalo(*args)
+    def GetHalo(*args): return _blcelc.iLight_GetHalo(*args)
     def GetBrightnessAtDistance(*args): return _blcelc.iLight_GetBrightnessAtDistance(*args)
     def GetFlags(*args): return _blcelc.iLight_GetFlags(*args)
     def SetLightCallback(*args): return _blcelc.iLight_SetLightCallback(*args)
@@ -3960,6 +3965,7 @@ class iEngine(iBase):
     def GetTextureList(*args): return _blcelc.iEngine_GetTextureList(*args)
     def GetMaterialList(*args): return _blcelc.iEngine_GetMaterialList(*args)
     def GetVariableList(*args): return _blcelc.iEngine_GetVariableList(*args)
+    def AddMeshAndChildren(*args): return _blcelc.iEngine_AddMeshAndChildren(*args)
     def CreateRegion(*args): return _blcelc.iEngine_CreateRegion(*args)
     def GetRegions(*args): return _blcelc.iEngine_GetRegions(*args)
     def FindMaterial(*args): return _blcelc.iEngine_FindMaterial(*args)
@@ -4504,6 +4510,12 @@ class iMeshFactoryWrapper(iBase):
     def GetStaticLOD(*args): return _blcelc.iMeshFactoryWrapper_GetStaticLOD(*args)
     def AddFactoryToStaticLOD(*args): return _blcelc.iMeshFactoryWrapper_AddFactoryToStaticLOD(*args)
     def RemoveFactoryFromStaticLOD(*args): return _blcelc.iMeshFactoryWrapper_RemoveFactoryFromStaticLOD(*args)
+    def SetZBufMode(*args): return _blcelc.iMeshFactoryWrapper_SetZBufMode(*args)
+    def GetZBufMode(*args): return _blcelc.iMeshFactoryWrapper_GetZBufMode(*args)
+    def SetZBufModeRecursive(*args): return _blcelc.iMeshFactoryWrapper_SetZBufModeRecursive(*args)
+    def SetRenderPriority(*args): return _blcelc.iMeshFactoryWrapper_SetRenderPriority(*args)
+    def GetRenderPriority(*args): return _blcelc.iMeshFactoryWrapper_GetRenderPriority(*args)
+    def SetRenderPriorityRecursive(*args): return _blcelc.iMeshFactoryWrapper_SetRenderPriorityRecursive(*args)
     def __del__(self, destroy=_blcelc.delete_iMeshFactoryWrapper):
         try:
             if self.thisown: destroy(self)
@@ -5342,6 +5354,7 @@ class iSprite2DState(iSprite2DFactoryState):
         return "<C iSprite2DState instance at %s>" % (self.this,)
     def CreateRegularVertices(*args): return _blcelc.iSprite2DState_CreateRegularVertices(*args)
     def SetUVAnimation(*args): return _blcelc.iSprite2DState_SetUVAnimation(*args)
+    def GetUVAnimation(*args): return _blcelc.iSprite2DState_GetUVAnimation(*args)
     def StopUVAnimation(*args): return _blcelc.iSprite2DState_StopUVAnimation(*args)
     def PlayUVAnimation(*args): return _blcelc.iSprite2DState_PlayUVAnimation(*args)
     def __del__(self, destroy=_blcelc.delete_iSprite2DState):
@@ -5604,8 +5617,10 @@ class iSpriteCal3DSocket(iBase):
     def GetSecondaryCount(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryCount(*args)
     def GetSecondaryMesh(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryMesh(*args)
     def GetSecondaryTransform(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryTransform(*args)
+    def SetSecondaryTransform(*args): return _blcelc.iSpriteCal3DSocket_SetSecondaryTransform(*args)
     def AttachSecondary(*args): return _blcelc.iSpriteCal3DSocket_AttachSecondary(*args)
     def DetachSecondary(*args): return _blcelc.iSpriteCal3DSocket_DetachSecondary(*args)
+    def FindSecondary(*args): return _blcelc.iSpriteCal3DSocket_FindSecondary(*args)
     def __del__(self, destroy=_blcelc.delete_iSpriteCal3DSocket):
         try:
             if self.thisown: destroy(self)
@@ -6464,6 +6479,7 @@ SOUND_LOOP = _blcelc.SOUND_LOOP
 SOUND3D_DISABLE = _blcelc.SOUND3D_DISABLE
 SOUND3D_RELATIVE = _blcelc.SOUND3D_RELATIVE
 SOUND3D_ABSOLUTE = _blcelc.SOUND3D_ABSOLUTE
+SOUND_DISTANCE_INFINITE = _blcelc.SOUND_DISTANCE_INFINITE
 class iSoundSource(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -6486,6 +6502,10 @@ class iSoundSource(iBase):
     def GetPosition(*args): return _blcelc.iSoundSource_GetPosition(*args)
     def SetVelocity(*args): return _blcelc.iSoundSource_SetVelocity(*args)
     def GetVelocity(*args): return _blcelc.iSoundSource_GetVelocity(*args)
+    def SetMinimumDistance(*args): return _blcelc.iSoundSource_SetMinimumDistance(*args)
+    def SetMaximumDistance(*args): return _blcelc.iSoundSource_SetMaximumDistance(*args)
+    def GetMinimumDistance(*args): return _blcelc.iSoundSource_GetMinimumDistance(*args)
+    def GetMaximumDistance(*args): return _blcelc.iSoundSource_GetMaximumDistance(*args)
     def __del__(self, destroy=_blcelc.delete_iSoundSource):
         try:
             if self.thisown: destroy(self)
@@ -6546,6 +6566,7 @@ class iCacheManager(iBase):
     def CacheData(*args): return _blcelc.iCacheManager_CacheData(*args)
     def ReadCache(*args): return _blcelc.iCacheManager_ReadCache(*args)
     def ClearCache(*args): return _blcelc.iCacheManager_ClearCache(*args)
+    def Flush(*args): return _blcelc.iCacheManager_Flush(*args)
     def __del__(self, destroy=_blcelc.delete_iCacheManager):
         try:
             if self.thisown: destroy(self)
@@ -6684,6 +6705,8 @@ class iVFS(iBase):
     def SetFileTime(*args): return _blcelc.iVFS_SetFileTime(*args)
     def GetFileSize(*args): return _blcelc.iVFS_GetFileSize(*args)
     def GetRealPath(*args): return _blcelc.iVFS_GetRealPath(*args)
+    def GetMounts(*args): return _blcelc.iVFS_GetMounts(*args)
+    def GetRealMountPaths(*args): return _blcelc.iVFS_GetRealMountPaths(*args)
     def __del__(self, destroy=_blcelc.delete_iVFS):
         try:
             if self.thisown: destroy(self)
@@ -8084,6 +8107,9 @@ class csPixelFormat(_object):
     __swig_setmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_set
     __swig_getmethods__["BlueMask"] = _blcelc.csPixelFormat_BlueMask_get
     if _newclass:BlueMask = property(_blcelc.csPixelFormat_BlueMask_get, _blcelc.csPixelFormat_BlueMask_set)
+    __swig_setmethods__["AlphaMask"] = _blcelc.csPixelFormat_AlphaMask_set
+    __swig_getmethods__["AlphaMask"] = _blcelc.csPixelFormat_AlphaMask_get
+    if _newclass:AlphaMask = property(_blcelc.csPixelFormat_AlphaMask_get, _blcelc.csPixelFormat_AlphaMask_set)
     __swig_setmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_set
     __swig_getmethods__["RedShift"] = _blcelc.csPixelFormat_RedShift_get
     if _newclass:RedShift = property(_blcelc.csPixelFormat_RedShift_get, _blcelc.csPixelFormat_RedShift_set)
@@ -8093,6 +8119,9 @@ class csPixelFormat(_object):
     __swig_setmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_set
     __swig_getmethods__["BlueShift"] = _blcelc.csPixelFormat_BlueShift_get
     if _newclass:BlueShift = property(_blcelc.csPixelFormat_BlueShift_get, _blcelc.csPixelFormat_BlueShift_set)
+    __swig_setmethods__["AlphaShift"] = _blcelc.csPixelFormat_AlphaShift_set
+    __swig_getmethods__["AlphaShift"] = _blcelc.csPixelFormat_AlphaShift_get
+    if _newclass:AlphaShift = property(_blcelc.csPixelFormat_AlphaShift_get, _blcelc.csPixelFormat_AlphaShift_set)
     __swig_setmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_set
     __swig_getmethods__["RedBits"] = _blcelc.csPixelFormat_RedBits_get
     if _newclass:RedBits = property(_blcelc.csPixelFormat_RedBits_get, _blcelc.csPixelFormat_RedBits_set)
@@ -8102,6 +8131,9 @@ class csPixelFormat(_object):
     __swig_setmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_set
     __swig_getmethods__["BlueBits"] = _blcelc.csPixelFormat_BlueBits_get
     if _newclass:BlueBits = property(_blcelc.csPixelFormat_BlueBits_get, _blcelc.csPixelFormat_BlueBits_set)
+    __swig_setmethods__["AlphaBits"] = _blcelc.csPixelFormat_AlphaBits_set
+    __swig_getmethods__["AlphaBits"] = _blcelc.csPixelFormat_AlphaBits_get
+    if _newclass:AlphaBits = property(_blcelc.csPixelFormat_AlphaBits_get, _blcelc.csPixelFormat_AlphaBits_set)
     __swig_setmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_set
     __swig_getmethods__["PalEntries"] = _blcelc.csPixelFormat_PalEntries_get
     if _newclass:PalEntries = property(_blcelc.csPixelFormat_PalEntries_get, _blcelc.csPixelFormat_PalEntries_set)
@@ -8208,6 +8240,8 @@ class iGraphics2D(iBase):
     def GetPalette(*args): return _blcelc.iGraphics2D_GetPalette(*args)
     def SetRGB(*args): return _blcelc.iGraphics2D_SetRGB(*args)
     def FindRGB(*args): return _blcelc.iGraphics2D_FindRGB(*args)
+    def GetRGB(*args): return _blcelc.iGraphics2D_GetRGB(*args)
+    def GetRGBA(*args): return _blcelc.iGraphics2D_GetRGBA(*args)
     def SetClipRect(*args): return _blcelc.iGraphics2D_SetClipRect(*args)
     def GetClipRect(*args): return _blcelc.iGraphics2D_GetClipRect(*args)
     def BeginDraw(*args): return _blcelc.iGraphics2D_BeginDraw(*args)
@@ -9331,6 +9365,7 @@ class iShader(iShaderVariableContext):
     def QueryObject(*args): return _blcelc.iShader_QueryObject(*args)
     def GetFileName(*args): return _blcelc.iShader_GetFileName(*args)
     def SetFileName(*args): return _blcelc.iShader_SetFileName(*args)
+    def GetTicket(*args): return _blcelc.iShader_GetTicket(*args)
     def GetNumberOfPasses(*args): return _blcelc.iShader_GetNumberOfPasses(*args)
     def ActivatePass(*args): return _blcelc.iShader_ActivatePass(*args)
     def SetupPass(*args): return _blcelc.iShader_SetupPass(*args)
@@ -9432,6 +9467,7 @@ class iTextureHandle(iBase):
     def GetAlphaMap(*args): return _blcelc.iTextureHandle_GetAlphaMap(*args)
     def GetCanvas(*args): return _blcelc.iTextureHandle_GetCanvas(*args)
     def GetAlphaType(*args): return _blcelc.iTextureHandle_GetAlphaType(*args)
+    def Precache(*args): return _blcelc.iTextureHandle_Precache(*args)
     def __del__(self, destroy=_blcelc.delete_iTextureHandle):
         try:
             if self.thisown: destroy(self)
@@ -10112,7 +10148,9 @@ class iImage(iBase):
     def Clone(*args): return _blcelc.iImage_Clone(*args)
     def Crop(*args): return _blcelc.iImage_Crop(*args)
     def CheckAlpha(*args): return _blcelc.iImage_CheckAlpha(*args)
+    def HasKeyColor(*args): return _blcelc.iImage_HasKeyColor(*args)
     def HasKeycolor(*args): return _blcelc.iImage_HasKeycolor(*args)
+    def GetKeyColor(*args): return _blcelc.iImage_GetKeyColor(*args)
     def GetKeycolor(*args): return _blcelc.iImage_GetKeycolor(*args)
     def Sharpen(*args): return _blcelc.iImage_Sharpen(*args)
     def HasMipmaps(*args): return _blcelc.iImage_HasMipmaps(*args)
