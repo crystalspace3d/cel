@@ -392,9 +392,9 @@ SetMouseCursor(iShape)
         
 ScreenShot()
 
-CreateOffScreenCanvas(width,height,buffer,alone_hint,ipfmt,palette,pal_size)
-
 AllowResize(iAllow)
+
+FindRGB(r,g,b)
 
 1.17.  class iHalo
 ------------------
@@ -592,14 +592,6 @@ PrepareTextures()
 
 FreeImages()
 
-ResetPalette()
-
-ReserveColor(r,g,b)
-
-FindRGB(r,g,b)
-
-SetPalette()
-
 SetVerbose(vb)
 
 GetTextureFormat()
@@ -700,8 +692,8 @@ Print(mode,format)
 
 1.35.  class iCelPlLayer
 ------------------------
+irtual csPtr<iCelEntity> CreateEntity ();
 
-CreateEntity()
 
 CreatePropertyClass(entity,propname)
 
@@ -712,6 +704,10 @@ GetBehaviourLayerCount()
 GetBehaviourLayer(idx)
 
 FindBehaviourLayer(name)
+
+----------
+
+csQueryRegistry_iCelPlLayer(object_reg)
 
 1.36.  class iCelEntity
 -----------------------
@@ -728,12 +724,22 @@ GetID()
 
 GetPropertyClassList()
 
+LoadBehaviour(object_reg,name)
+
+----------
+
+celCreateEntity(object_reg,name)
+
 1.37.  class iCelBlLayer
 ------------------------
 
 GetName()
 
 CreateBehaviour(entity,name)
+
+----------
+
+csQueryRegistry_iCelBlLayer(object_reg)
 
 1.38.  class iCelBehaviour
 --------------------------
@@ -742,7 +748,7 @@ GetName()
 
 GetBehaviourLayer()
 
-SendMessageV(msg_id,msg_info,arg)
+SendMessage(msg_id,msg_info)
 
 1.39.  class iCelPropertyClass
 ------------------------------
@@ -785,6 +791,10 @@ SetPropertyString(id,s)
 
 SetPropertyVector3(id,v)
 
+----------
+
+celQueryPC_iPcRegion(pclist)
+
 1.40.  class iCelPropertyClassList
 ----------------------------------
 
@@ -798,7 +808,313 @@ FindByName(Name)
 
 FindByInterface(id,version)
 
+1.41.  class iPcRegion
+----------------------
+
+SetWorldFile(vfsdir,name)
+
+GetWorldDir()
+
+GetWorldFile()
+
+SetRegionName(name)
+
+GetRegionName()
+
+Load()
+
+Unload()
+
+FindSector(sectorname)
+
+GetStartSector(name)
+
+GetStartPosition(name)
+
+PointCamera(pccamera,name)
+
+LoadWorld(vfsdir,name)
+
 ----------
+
+celCreateRegion(object_reg,entity,name)
+
+scfQuery_iPcRegion(pc)
+
+1.42.  class iPcCamera
+----------------------
+
+self.freelook
+
+self.follow
+
+self.rotational
+
+self.firstperson
+
+SetRegion(region,point,name)
+
+SetMode(m,use_cd)
+
+GetMode()
+
+SetFollowPos(fp,at)
+
+GetFollowPos(fp,at)
+
+SetPitch(angle)
+
+GetPitch()
+
+SetRoll(angle)
+
+GetRoll()
+
+SetRectangle(x,y,w,h)
+
+GetCamera()
+
+GetView()
+
+----------
+
+celCreateCamera(object_reg,world,entity,name)
+
+scfQuery_iPcCamera(pc)
+
+CEL_MOUSE_BUTTON1 = 1
+
+CEL_MOUSE_BUTTON2 = 2
+
+CEL_MOUSE_BUTTON3 = 4
+
+1.43.  class iPcMeshSelect
+--------------------------
+
+SetCamera(camera)
+
+SetMouseButtons(buttons)
+
+GetMouseButtons()
+
+SetGlobalSelection(glob)
+
+HasGlobalSelection()
+
+SetFollowMode(follow)
+
+HasFollowMode()
+
+SetFollowAlwaysMode(followalways)
+
+HasFollowAlwaysMode()
+
+SetDragMode(drag)
+
+HasDragMode()
+
+SetDragPlaneNormal(drag_normal,camera_space)
+
+GetDragPlaneNormal(drag_normal,camera_space)
+
+SetSendmoveEvent(mov)
+
+HasSendmoveEvent()
+
+SetSendupEvent(su)
+
+HasSendupEvent()
+
+SetSenddownEvent(sd)
+
+HasSenddownEvent()
+
+----------
+
+celPcMeshSelect(object_reg,entity)
+
+1.44.  class iPcMesh
+--------------------
+
+LoadMesh(factname,filename)
+
+SetMesh(mesh)
+
+CreateEmptyThing()
+
+GetMesh()
+
+MoveMesh(sector,pos)
+
+SetAction(actionName,reset)
+
+GetAction()
+
+Hide()
+
+Show()
+
+IsVisible()
+
+----------
+
+celPcMesh(object_reg,entity)
+
+1.45.  class iPcTimer
+---------------------
+
+WakeUp(t,repeat)
+
+Clear()
+
+----------
+
+celPcTimer(object_reg,entity)
+
+1.46.  class iPcSolid
+---------------------
+
+SetMesh(mesh)
+
+GetMesh()
+
+GetCollider()
+
+----------
+
+celPcSolid(object_reg,entity)
+
+1.47.  class iPcGravity
+-----------------------
+
+CreateGravityColliderFromMesh(mesh)
+
+CreateGravityCollider(dim,offs)
+
+GetGravityCollider()
+
+SetMovable(movable)
+
+GetMovable()
+
+SetSolid(solid)
+
+GetSolid()
+
+SetWeight(w)
+
+GetWeight()
+
+ClearForces()
+
+ClearPermanentForces()
+
+ResetSpeed()
+
+ApplyForce(force,time)
+
+ApplyPermanentForce(force)
+
+IsResting()
+
+SetActive(activate)
+
+IsActive()
+
+----------
+
+celPcGravity(object_reg,entity)
+
+1.48.  class iPcMovable
+-----------------------
+
+SetMesh(mesh)
+
+GetMesh()
+
+SetPos(sector,pos)
+
+Move(relpos)
+
+AddConstraint(constraint)
+
+RemoveConstraint(constraint)
+
+RemoveAllConstraints()
+
+----------
+
+celPcMovable(object_reg,entity)
+
+1.49.  class iPcInventory
+-------------------------
+
+AddEntity(entity)
+
+RemoveEntity(entity)
+
+RemoveAll()
+
+GetEntityCount()
+
+GetEntity(idx)
+
+SetStrictCharacteristics(charName,strict)
+
+HasStrictCharacteristics(charName)
+
+SetConstraints(charName,minValue,maxValue,totalMaxValue)
+
+GetConstraints(charName,minValue,maxValue,totalMaxValue)
+
+RemoveConstraints(charName)
+
+RemoveAllConstraints()
+
+GetCurrentCharacteristic(charName)
+
+MarkDirty(charName)
+
+TestConstraints(charName)
+
+Dump()
+
+----------
+
+celPcInventory(object_reg,entity)
+
+1.50.  class iPcCharacteristics
+-------------------------------
+
+SetCharacteristic(name,value)
+
+SetInheritedCharacteristic(name,factor,add)
+
+GetCharacteristic(name)
+
+GetLocalCharacteristic(name)
+
+GetInheritedCharacteristic(name)
+
+ClearCharacteristic(name)
+
+HasCharacteristic(name)
+
+ClearAll()
+
+AddToInventory(inv)
+
+RemoveFromInventory(inv)
+
+MarkDirty(charName)
+
+TestConstraints(charName)
+
+Dump()
+
+----------
+
+celPcCharacteristics(object_reg,entity)
 
 CEL_DATA_NONE = CEL_DATA_NONE
 
