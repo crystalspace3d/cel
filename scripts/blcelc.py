@@ -9752,6 +9752,9 @@ CS_IMGFMT_PALETTED8 = _blcelc.CS_IMGFMT_PALETTED8
 CS_IMGFMT_ANY = _blcelc.CS_IMGFMT_ANY
 CS_IMGFMT_ALPHA = _blcelc.CS_IMGFMT_ALPHA
 CS_IMGFMT_INVALID = _blcelc.CS_IMGFMT_INVALID
+csimg2D = _blcelc.csimg2D
+csimg3D = _blcelc.csimg3D
+csimgCube = _blcelc.csimgCube
 class iImage(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9765,6 +9768,7 @@ class iImage(iBase):
     def GetImageData(*args): return _blcelc.iImage_GetImageData(*args)
     def GetWidth(*args): return _blcelc.iImage_GetWidth(*args)
     def GetHeight(*args): return _blcelc.iImage_GetHeight(*args)
+    def GetDepth(*args): return _blcelc.iImage_GetDepth(*args)
     def SetName(*args): return _blcelc.iImage_SetName(*args)
     def GetName(*args): return _blcelc.iImage_GetName(*args)
     def GetFormat(*args): return _blcelc.iImage_GetFormat(*args)
@@ -9776,6 +9780,11 @@ class iImage(iBase):
     def GetKeycolor(*args): return _blcelc.iImage_GetKeycolor(*args)
     def HasMipmaps(*args): return _blcelc.iImage_HasMipmaps(*args)
     def GetMipmap(*args): return _blcelc.iImage_GetMipmap(*args)
+    def GetRawFormat(*args): return _blcelc.iImage_GetRawFormat(*args)
+    def GetRawData(*args): return _blcelc.iImage_GetRawData(*args)
+    def GetImageType(*args): return _blcelc.iImage_GetImageType(*args)
+    def HasSubImages(*args): return _blcelc.iImage_HasSubImages(*args)
+    def GetSubImage(*args): return _blcelc.iImage_GetSubImage(*args)
     def __del__(self, destroy=_blcelc.delete_iImage):
         try:
             if self.thisown: destroy(self)
