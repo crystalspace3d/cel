@@ -47,6 +47,8 @@ public:
   // This is the call stack: useful for debugging.
   csArray<const char*> call_stack;
   csArray<iCelParameterBlock*> call_stack_params;
+  // If true we will trace all changes to variables and properties.
+  bool varprop_trace;
 
 private:
   iObjectRegistry* object_reg;

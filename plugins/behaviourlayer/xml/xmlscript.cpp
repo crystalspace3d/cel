@@ -219,7 +219,6 @@ static const char* ArgToString (const celXmlArg& a)
 }
 
 // For debug reasons.
-#if DO_DUMP
 static const char* A2S (const celXmlArg& a)
 {
   switch (a.type)
@@ -312,7 +311,6 @@ static const char* A2S (const celXmlArg& a)
       }
   }
 }
-#endif
 
 static iCelEntity* ArgToEntity (const celXmlArg& a, iCelPlLayer* pl)
 {
@@ -790,6 +788,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   // We keep a reference to the entity here to prevent
   // deletion of that entity during script execution.
   csRef<iCelEntity> e = entity;
+  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
+  bool varprop_trace = cbl->varprop_trace;
 
   int stack_size = stack.Length ();
   int i = startop;
@@ -817,6 +817,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_VARIABLES:
 	DumpVariables (behave);
+        break;
+      case CEL_OPERATION_TRACEON:
+        {
+	  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
+	  cbl->varprop_trace = true;
+	  varprop_trace = true;
+	}
+        break;
+      case CEL_OPERATION_TRACEOFF:
+        {
+	  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
+	  cbl->varprop_trace = false;
+	  varprop_trace = false;
+	}
         break;
       case CEL_OPERATION_PARAM:
         {
@@ -2336,6 +2350,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg top = stack.Pop ();
           DUMP_EXEC ((":%04d: createpropclass %s\n", i-1, A2S (top)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: createpropclass %s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (top));
+	    fflush (stdout);
+	  }
 	  const char* s = ArgToString (top);
 	  iCelPropertyClass* pc = pl->CreatePropertyClass (entity, s);
 	  if (!pc)
@@ -2351,6 +2372,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg aent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: createentity %s (behaviour=%s)\n", i-1,
 	  	A2S (aent), A2S (abh)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: createentity %s behaviour=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (aent), A2S (abh));
+	    fflush (stdout);
+	  }
 	  csRef<iCelEntity> ent = pl->CreateEntity ();
 	  const char* entname = ArgToString (aent);
 	  if (entname) ent->SetName (entname);
@@ -2423,6 +2451,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg aent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: destroyentity %s\n", i-1, A2S (aent)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: destroyentity %s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (aent));
+	    fflush (stdout);
+	  }
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
 	    return ReportError (behave,
@@ -2437,7 +2472,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_y = stack.Pop ();
 	  celXmlArg a_x = stack.Pop ();
 	  celXmlArg a_layer = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1, A2S (a_layer),
+	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1,
+	  	A2S (a_layer),
 	  	A2S (a_x), A2S (a_y)));
 	  // @@@ Efficiency?
 	  csRef<iBillboardManager> bbmgr = CS_QUERY_REGISTRY (
@@ -2756,8 +2792,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg val = stack.Pop ();
 	  celXmlArg var = stack.Pop ();
 	  celXmlArg a_ent = stack.Pop ();
-	  DUMP_EXEC ((":%04d: varent ent=%s var=%s value=%s\n", i-1, A2S (a_ent),
-	  	A2S (var), A2S (val)));
+	  DUMP_EXEC ((":%04d: varent ent=%s var=%s value=%s\n", i-1,
+	  	A2S (a_ent), A2S (var), A2S (val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: varent ent=%s var=%s value=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (a_ent), A2S (var), A2S (val));
+	    fflush (stdout);
+	  }
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
@@ -2834,6 +2877,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg val = stack.Pop ();
 	  DUMP_EXEC ((":%04d: var_str var=%s value=%s\n", i-1, A2S (op.arg),
 	  	A2S (val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: var_str var=%s value=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (op.arg), A2S (val));
+	    fflush (stdout);
+	  }
 
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -2901,6 +2951,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg var = stack.Pop ();
 	  DUMP_EXEC ((":%04d: var var=%s value=%s\n", i-1, A2S (var),
 	  	A2S (val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: var var=%s value=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (var), A2S (val));
+	    fflush (stdout);
+	  }
 
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -3090,6 +3147,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg a_ent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: inventory_add ent=%s\n", i-1, A2S (a_ent)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: inventory_add ent=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (a_ent));
+	    fflush (stdout);
+	  }
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
@@ -3106,6 +3170,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg a_ent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: inventory_rem ent=%s\n", i-1, A2S (a_ent)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: inventory_rem ent=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (a_ent));
+	    fflush (stdout);
+	  }
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
@@ -3170,6 +3241,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_pc = stack.Pop ();
           DUMP_EXEC ((":%04d: property pc=%s id=%s val=%s\n", i-1, A2S (a_pc),
 	  	A2S (a_id), A2S (a_val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: property pc=%s id=%s val=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (a_pc), A2S (a_id), A2S (a_val));
+	    fflush (stdout);
+	  }
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
