@@ -106,6 +106,11 @@ struct iCelPersistanceContext : public iBase
    * Save an entity to persistent data.
    */
   virtual bool SaveEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Clears internal data and buffers (like list of already saved entities)
+   */
+  virtual void Clear () = 0;
 };
 
 #endif // __CEL_PL_PERSIST__
