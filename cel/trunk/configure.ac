@@ -54,13 +54,21 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 # Check for external libraries
 #----------------------------------------------------------------------------
-CS_PATH_CRYSTAL_JAM([0.97], [],
+AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
+  [do not look for an installed Crystal Space SDK; this option is useful only
+  if you need to perform routine maintenance tasks, such as generating
+  project files or converting documentation, without having the Crystal Space
+  SDK installed])])
+AS_IF([test -z "$with_cs"], [with_cs=yes])
+
+AS_IF([test $with_cs != no],
+[CS_PATH_CRYSTAL_JAM([0.97], [],
   [AC_MSG_ERROR([
 *** Crystal Space could not be found. The latest version is always available
 *** from http://crystal.sourceforge.net/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
-])], [csgeom csgfx csutil cstool])
+])], [csgeom csgfx csutil cstool])])
 
 CS_CHECK_PYTHON
 

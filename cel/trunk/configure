@@ -830,6 +830,11 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --without-cs            do not look for an installed Crystal Space SDK; this
+                          option is useful only if you need to perform routine
+                          maintenance tasks, such as generating project files
+                          or converting documentation, without having the
+                          Crystal Space SDK installed
   --with-cs-prefix=PFX    Prefix where Crystal Space is installed (optional)
   --with-python           use Python scripting interface (default YES)
 
@@ -3791,6 +3796,18 @@ fi
 # Check for external libraries
 #----------------------------------------------------------------------------
 
+# Check whether --with-cs or --without-cs was given.
+if test "${with_cs+set}" = set; then
+  withval="$with_cs"
+
+fi;
+if test -z "$with_cs"; then
+  with_cs=yes
+fi
+
+
+if test $with_cs != no; then
+
 # Get the cflags, libraries, and include-dir from the cs-config script.
 
 # Check whether --with-cs-prefix or --without-cs-prefix was given.
@@ -4099,6 +4116,8 @@ cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
 "
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE_DIR\" ;
 "
+
+fi
 
 
 for ac_prog in python

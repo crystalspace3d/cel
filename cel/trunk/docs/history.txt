@@ -35,6 +35,14 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine fixed Jamfile so that it invokes MsvcGenConfig with
 	  appropriate keys and values to prevent Unix-specific Python build
 	  flags from polluting the generated MSVC project files.
+	- Eric Sunshine updated to the latest Jam files from CS/mk/jam. This
+	  fixes a problem with path munging in generated icon .rc files and
+	  adds a manifest entry to .rc files for applications.
+	- Eric Sunshine added a --without-cs option to configure.ac which
+	  allows the project to be configured without having a Crystal Space
+	  SDK available. This is useful only for cases when one needs to
+	  perform maintenance tasks, such as generating project files or
+	  converting documentation, when a Crystal Space SDK is not available.
 9-Apr-2004
 	- Keith Fulton added function from Ondrej Hurt to dynamically set
 	  the max extrapolation interval in linmove instead of hardcoding
