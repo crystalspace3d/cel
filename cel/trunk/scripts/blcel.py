@@ -1926,6 +1926,11 @@ def scfQuery_iPcCamera(arg0):
     val = iPcCameraPtr(val)
     return val
 
+def scfQuery_iPcMesh(arg0):
+    val = blcelc.scfQuery_iPcMesh(arg0.this)
+    val = iPcMeshPtr(val)
+    return val
+
 def celPcMeshSelect(arg0,arg1):
     val = blcelc.celPcMeshSelect(arg0.this,arg1.this)
     val = iPcMeshSelectPtr(val)
