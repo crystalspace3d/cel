@@ -1040,7 +1040,7 @@ iBillboard* celBillboardManager::CreateBillboard (const char* name)
 
 iBillboard* celBillboardManager::FindBillboard (const char* name) const
 {
-  return billboards_hash.Get (name, 0);
+  return billboards_hash.Fetch (name, 0);
 }
 
 void celBillboardManager::RemoveBillboard (iBillboard* billboard)

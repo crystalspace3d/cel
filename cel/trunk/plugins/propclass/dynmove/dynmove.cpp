@@ -64,6 +64,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_end (arg);
 }
 
+#ifdef NOTIFY_UNUSED
 static void Notify (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
@@ -82,6 +83,7 @@ static void Notify (iObjectRegistry* object_reg, const char* msg, ...)
 
   va_end (arg);
 }
+#endif
 
 //---------------------------------------------------------------------------
 
