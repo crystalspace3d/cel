@@ -59,9 +59,7 @@ public:
   void Set(iCelPropertyClass* v) { databuf->GetData(j++)->Set(v); }
   void Set(iCelDataBuffer* v) { databuf->GetData(j++)->Set(v); }
   void SetAction(const char* v) { databuf->GetData(j++)->SetAction(v); }
-#ifndef CS_USE_FAKE_BOOL_TYPE
-  void Set(bool v) { databuf->GetData(j++)->Set(v); }
-#endif
+  void SetBool(bool v) { databuf->GetData(j++)->SetBool(v); }
 
   // the following functions work with reference parameters, because c++
   // doesn't allow overriding based on return type
@@ -86,12 +84,11 @@ public:
   DATABHLP_GET(iCelEntity*,ent,CEL_DATA_ENTITY)
   DATABHLP_GET(iCelPropertyClass*,pc,CEL_DATA_PCLASS)
   DATABHLP_GET(iCelDataBuffer*,db,CEL_DATA_BUFFER)
-#ifndef CS_USE_FAKE_BOOL_TYPE
   DATABHLP_GET(bool,bo,CEL_DATA_BOOL)
-#endif
 #undef DATABHLP_GET
   
-  bool Get(csVector3& v) {
+  bool Get(csVector3& v)
+  {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_VECTOR3) { rc=false; return false; }
     v.x = data->value.v.x;
@@ -99,7 +96,8 @@ public:
     v.z = data->value.v.z;
     return true;
   }
-  bool GetAction(const char*& v) {
+  bool GetAction(const char*& v)
+  {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_ACTION) { rc=false; return false; }
     v=data->value.s;

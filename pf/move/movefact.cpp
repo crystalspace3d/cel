@@ -641,7 +641,7 @@ iCelDataBuffer* celPcGravity::Save ()
   iCelPropertyClass* pc;
   if (pcmovable) pc = SCF_QUERY_INTERFACE_FAST (pcmovable, iCelPropertyClass);
   else pc = NULL;
-  db.Set(pc);
+  db.Set (pc);
   if (pc) pc->DecRef ();
   if (pcsolid) pc = SCF_QUERY_INTERFACE_FAST (pcsolid, iCelPropertyClass);
   else pc = NULL;
@@ -651,8 +651,8 @@ iCelDataBuffer* celPcGravity::Save ()
   db.Set (weight);
   db.Set (current_speed);
   db.Set (infinite_forces);
-  db.Set (is_resting);
-  db.Set (active);
+  db.SetBool (is_resting);
+  db.SetBool (active);
 
   db.Set ((uint16)forces.Length ());
   int i;

@@ -57,9 +57,7 @@ struct celData
   celDataType type;
   union
   {
-#ifndef CS_USE_FAKE_BOOL_TYPE
     bool bo;
-#endif
     int i;
     unsigned int ui;
     int8 b;
@@ -93,9 +91,7 @@ struct celData
   /**
    * Initialize and set the value.
    */
-#ifndef CS_USE_FAKE_BOOL_TYPE
-  void Set (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
-#endif
+  void SetBool (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
   void Set (int v) { Clear (); type = CEL_DATA_INT; value.i = v; }
   void Set (unsigned int v) { Clear (); type = CEL_DATA_UINT; value.ui = v; }
   void Set (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }

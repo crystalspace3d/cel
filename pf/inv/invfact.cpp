@@ -88,7 +88,7 @@ iCelDataBuffer* celPcInventory::Save ()
     databuf->GetData (j++)->Set (c->minValue);
     databuf->GetData (j++)->Set (c->maxValue);
     databuf->GetData (j++)->Set (c->totalMaxValue);
-    databuf->GetData (j++)->Set (c->strict);
+    databuf->GetData (j++)->SetBool (c->strict);
   }
   databuf->GetData (j++)->Set ((uint16)contents.Length ());
   for (i = 0 ; i < contents.Length () ; i++)

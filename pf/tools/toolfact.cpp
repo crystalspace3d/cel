@@ -106,7 +106,7 @@ iCelDataBuffer* celPcTooltip::Save ()
   iCelDataBuffer* databuf = pl->CreateDataBuffer (TOOLTIP_SERIAL);
   pl->DecRef ();
   databuf->SetDataCount (10);
-  databuf->GetData (0)->Set (visible);
+  databuf->GetData (0)->SetBool (visible);
   databuf->GetData (1)->Set ((uint16)x);
   databuf->GetData (2)->Set ((uint16)y);
   databuf->GetData (3)->Set (text);
@@ -261,10 +261,10 @@ iCelDataBuffer* celPcTimer::Save ()
   iCelDataBuffer* databuf = pl->CreateDataBuffer (TIMER_SERIAL);
   pl->DecRef ();
   databuf->SetDataCount (4);
-  databuf->GetData (0)->Set (enabled);
+  databuf->GetData (0)->SetBool (enabled);
   databuf->GetData (1)->Set ((int32)wakeup);
   databuf->GetData (2)->Set ((int32)wakeup_todo);
-  databuf->GetData (3)->Set (repeat);
+  databuf->GetData (3)->SetBool (repeat);
   return databuf;
 }
 
@@ -386,7 +386,7 @@ iCelDataBuffer* celPcProperties::Save ()
         databuf->GetData (j++)->Set ((int32)p->v.l);
 	break;
       case CEL_DATA_BOOL:
-        databuf->GetData (j++)->Set (p->v.b);
+        databuf->GetData (j++)->SetBool (p->v.b);
 	break;
       case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);

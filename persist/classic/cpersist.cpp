@@ -413,7 +413,7 @@ bool celPersistClassicContext::Read (celData* cd)
       return false;
     case CEL_DATA_BOOL:
       if (!Read (ub)) return false;
-      cd->Set ((bool)ub);
+      cd->SetBool ((bool)ub);
       break;
     case CEL_DATA_INT:
       if (!Read (l)) return false;
