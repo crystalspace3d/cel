@@ -272,6 +272,7 @@ class csColor4(csColor):
     def __init__(self, *args):
         _swig_setattr(self, csColor4, 'this', _blcelc.new_csColor4(*args))
         _swig_setattr(self, csColor4, 'thisown', 1)
+    def Set(*args): return _blcelc.csColor4_Set(*args)
     def __del__(self, destroy=_blcelc.delete_csColor4):
         try:
             if self.thisown: destroy(self)
@@ -2428,7 +2429,9 @@ class csPluginRequestArray(_object):
     def Truncate(*args): return _blcelc.csPluginRequestArray_Truncate(*args)
     def Empty(*args): return _blcelc.csPluginRequestArray_Empty(*args)
     def DeleteIndex(*args): return _blcelc.csPluginRequestArray_DeleteIndex(*args)
+    def DeleteIndexFast(*args): return _blcelc.csPluginRequestArray_DeleteIndexFast(*args)
     def DeleteRange(*args): return _blcelc.csPluginRequestArray_DeleteRange(*args)
+    def DeleteFast(*args): return _blcelc.csPluginRequestArray_DeleteFast(*args)
 
 class csPluginRequestArrayPtr(csPluginRequestArray):
     def __init__(self, this):
@@ -4809,6 +4812,7 @@ class iVisibilityCuller(iBase):
     def UnregisterVisObject(*args): return _blcelc.iVisibilityCuller_UnregisterVisObject(*args)
     def PrecacheCulling(*args): return _blcelc.iVisibilityCuller_PrecacheCulling(*args)
     def VisTest(*args): return _blcelc.iVisibilityCuller_VisTest(*args)
+    def IntersectSegmentSloppy(*args): return _blcelc.iVisibilityCuller_IntersectSegmentSloppy(*args)
     def IntersectSegment(*args): return _blcelc.iVisibilityCuller_IntersectSegment(*args)
     def CastShadows(*args): return _blcelc.iVisibilityCuller_CastShadows(*args)
     def __del__(self, destroy=_blcelc.delete_iVisibilityCuller):
@@ -4983,30 +4987,54 @@ _blcelc.iPortalContainer_swigregister(iPortalContainerPtr)
 
 iPortalContainer_scfGetVersion = _blcelc.iPortalContainer_scfGetVersion
 
-class iGeneralMeshState(iBase):
+class iGeneralMeshCommonState(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralMeshState, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralMeshCommonState, name, value)
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGeneralMeshCommonState, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGeneralMeshCommonState instance at %s>" % (self.this,)
+    def SetMaterialWrapper(*args): return _blcelc.iGeneralMeshCommonState_SetMaterialWrapper(*args)
+    def GetMaterialWrapper(*args): return _blcelc.iGeneralMeshCommonState_GetMaterialWrapper(*args)
+    def SetMixMode(*args): return _blcelc.iGeneralMeshCommonState_SetMixMode(*args)
+    def GetMixMode(*args): return _blcelc.iGeneralMeshCommonState_GetMixMode(*args)
+    def SetLighting(*args): return _blcelc.iGeneralMeshCommonState_SetLighting(*args)
+    def IsLighting(*args): return _blcelc.iGeneralMeshCommonState_IsLighting(*args)
+    def SetColor(*args): return _blcelc.iGeneralMeshCommonState_SetColor(*args)
+    def GetColor(*args): return _blcelc.iGeneralMeshCommonState_GetColor(*args)
+    def SetManualColors(*args): return _blcelc.iGeneralMeshCommonState_SetManualColors(*args)
+    def IsManualColors(*args): return _blcelc.iGeneralMeshCommonState_IsManualColors(*args)
+    def SetShadowCasting(*args): return _blcelc.iGeneralMeshCommonState_SetShadowCasting(*args)
+    def IsShadowCasting(*args): return _blcelc.iGeneralMeshCommonState_IsShadowCasting(*args)
+    def SetShadowReceiving(*args): return _blcelc.iGeneralMeshCommonState_SetShadowReceiving(*args)
+    def IsShadowReceiving(*args): return _blcelc.iGeneralMeshCommonState_IsShadowReceiving(*args)
+    def __del__(self, destroy=_blcelc.delete_iGeneralMeshCommonState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iGeneralMeshCommonStatePtr(iGeneralMeshCommonState):
+    def __init__(self, this):
+        _swig_setattr(self, iGeneralMeshCommonState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGeneralMeshCommonState, 'thisown', 0)
+        _swig_setattr(self, iGeneralMeshCommonState,self.__class__,iGeneralMeshCommonState)
+_blcelc.iGeneralMeshCommonState_swigregister(iGeneralMeshCommonStatePtr)
+
+class iGeneralMeshState(iGeneralMeshCommonState):
+    __swig_setmethods__ = {}
+    for _s in [iGeneralMeshCommonState]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralMeshState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iGeneralMeshCommonState]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iGeneralMeshState, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iGeneralMeshState instance at %s>" % (self.this,)
-    def SetMaterialWrapper(*args): return _blcelc.iGeneralMeshState_SetMaterialWrapper(*args)
-    def GetMaterialWrapper(*args): return _blcelc.iGeneralMeshState_GetMaterialWrapper(*args)
-    def SetMixMode(*args): return _blcelc.iGeneralMeshState_SetMixMode(*args)
-    def GetMixMode(*args): return _blcelc.iGeneralMeshState_GetMixMode(*args)
-    def SetLighting(*args): return _blcelc.iGeneralMeshState_SetLighting(*args)
-    def IsLighting(*args): return _blcelc.iGeneralMeshState_IsLighting(*args)
-    def SetColor(*args): return _blcelc.iGeneralMeshState_SetColor(*args)
-    def GetColor(*args): return _blcelc.iGeneralMeshState_GetColor(*args)
-    def SetManualColors(*args): return _blcelc.iGeneralMeshState_SetManualColors(*args)
-    def IsManualColors(*args): return _blcelc.iGeneralMeshState_IsManualColors(*args)
-    def SetShadowCasting(*args): return _blcelc.iGeneralMeshState_SetShadowCasting(*args)
-    def IsShadowCasting(*args): return _blcelc.iGeneralMeshState_IsShadowCasting(*args)
-    def SetShadowReceiving(*args): return _blcelc.iGeneralMeshState_SetShadowReceiving(*args)
-    def IsShadowReceiving(*args): return _blcelc.iGeneralMeshState_IsShadowReceiving(*args)
+    def SetAnimationControl(*args): return _blcelc.iGeneralMeshState_SetAnimationControl(*args)
+    def GetAnimationControl(*args): return _blcelc.iGeneralMeshState_GetAnimationControl(*args)
     def __del__(self, destroy=_blcelc.delete_iGeneralMeshState):
         try:
             if self.thisown: destroy(self)
@@ -5023,12 +5051,12 @@ _blcelc.iGeneralMeshState_swigregister(iGeneralMeshStatePtr)
 
 iGeneralMeshState_scfGetVersion = _blcelc.iGeneralMeshState_scfGetVersion
 
-class iGeneralFactoryState(iGeneralMeshState):
+class iGeneralFactoryState(iGeneralMeshCommonState):
     __swig_setmethods__ = {}
-    for _s in [iGeneralMeshState]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    for _s in [iGeneralMeshCommonState]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralFactoryState, name, value)
     __swig_getmethods__ = {}
-    for _s in [iGeneralMeshState]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    for _s in [iGeneralMeshCommonState]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iGeneralFactoryState, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -5067,7 +5095,10 @@ class iGeneralFactoryState(iGeneralMeshState):
     def CalculateNormals(*args): return _blcelc.iGeneralFactoryState_CalculateNormals(*args)
     def GenerateBox(*args): return _blcelc.iGeneralFactoryState_GenerateBox(*args)
     def SetBack2Front(*args): return _blcelc.iGeneralFactoryState_SetBack2Front(*args)
+    def IsAutoNormals(*args): return _blcelc.iGeneralFactoryState_IsAutoNormals(*args)
     def IsBack2Front(*args): return _blcelc.iGeneralFactoryState_IsBack2Front(*args)
+    def SetAnimationControlFactory(*args): return _blcelc.iGeneralFactoryState_SetAnimationControlFactory(*args)
+    def GetAnimationControlFactory(*args): return _blcelc.iGeneralFactoryState_GetAnimationControlFactory(*args)
     def AddRenderBuffer(*args): return _blcelc.iGeneralFactoryState_AddRenderBuffer(*args)
     def SetRenderBufferComponent(*args): return _blcelc.iGeneralFactoryState_SetRenderBufferComponent(*args)
     def SetRenderBuffer(*args): return _blcelc.iGeneralFactoryState_SetRenderBuffer(*args)
@@ -5091,6 +5122,84 @@ class iGeneralFactoryStatePtr(iGeneralFactoryState):
 _blcelc.iGeneralFactoryState_swigregister(iGeneralFactoryStatePtr)
 
 iGeneralFactoryState_scfGetVersion = _blcelc.iGeneralFactoryState_scfGetVersion
+
+class iGenMeshAnimationControl(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGenMeshAnimationControl, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGenMeshAnimationControl, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGenMeshAnimationControl instance at %s>" % (self.this,)
+    def AnimatesVertices(*args): return _blcelc.iGenMeshAnimationControl_AnimatesVertices(*args)
+    def AnimatesTexels(*args): return _blcelc.iGenMeshAnimationControl_AnimatesTexels(*args)
+    def AnimatesNormals(*args): return _blcelc.iGenMeshAnimationControl_AnimatesNormals(*args)
+    def AnimatesColors(*args): return _blcelc.iGenMeshAnimationControl_AnimatesColors(*args)
+    def UpdateVertices(*args): return _blcelc.iGenMeshAnimationControl_UpdateVertices(*args)
+    def UpdateTexels(*args): return _blcelc.iGenMeshAnimationControl_UpdateTexels(*args)
+    def UpdateNormals(*args): return _blcelc.iGenMeshAnimationControl_UpdateNormals(*args)
+    def UpdateColors(*args): return _blcelc.iGenMeshAnimationControl_UpdateColors(*args)
+    def __del__(self, destroy=_blcelc.delete_iGenMeshAnimationControl):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iGenMeshAnimationControlPtr(iGenMeshAnimationControl):
+    def __init__(self, this):
+        _swig_setattr(self, iGenMeshAnimationControl, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGenMeshAnimationControl, 'thisown', 0)
+        _swig_setattr(self, iGenMeshAnimationControl,self.__class__,iGenMeshAnimationControl)
+_blcelc.iGenMeshAnimationControl_swigregister(iGenMeshAnimationControlPtr)
+
+class iGenMeshAnimationControlFactory(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGenMeshAnimationControlFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGenMeshAnimationControlFactory, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGenMeshAnimationControlFactory instance at %s>" % (self.this,)
+    def CreateAnimationControl(*args): return _blcelc.iGenMeshAnimationControlFactory_CreateAnimationControl(*args)
+    def Load(*args): return _blcelc.iGenMeshAnimationControlFactory_Load(*args)
+    def Save(*args): return _blcelc.iGenMeshAnimationControlFactory_Save(*args)
+    def __del__(self, destroy=_blcelc.delete_iGenMeshAnimationControlFactory):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iGenMeshAnimationControlFactoryPtr(iGenMeshAnimationControlFactory):
+    def __init__(self, this):
+        _swig_setattr(self, iGenMeshAnimationControlFactory, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGenMeshAnimationControlFactory, 'thisown', 0)
+        _swig_setattr(self, iGenMeshAnimationControlFactory,self.__class__,iGenMeshAnimationControlFactory)
+_blcelc.iGenMeshAnimationControlFactory_swigregister(iGenMeshAnimationControlFactoryPtr)
+
+class iGenMeshAnimationControlType(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGenMeshAnimationControlType, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGenMeshAnimationControlType, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGenMeshAnimationControlType instance at %s>" % (self.this,)
+    def CreateAnimationControlFactory(*args): return _blcelc.iGenMeshAnimationControlType_CreateAnimationControlFactory(*args)
+    def __del__(self, destroy=_blcelc.delete_iGenMeshAnimationControlType):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iGenMeshAnimationControlTypePtr(iGenMeshAnimationControlType):
+    def __init__(self, this):
+        _swig_setattr(self, iGenMeshAnimationControlType, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGenMeshAnimationControlType, 'thisown', 0)
+        _swig_setattr(self, iGenMeshAnimationControlType,self.__class__,iGenMeshAnimationControlType)
+_blcelc.iGenMeshAnimationControlType_swigregister(iGenMeshAnimationControlTypePtr)
 
 class csSprite2DVertex(_object):
     __swig_setmethods__ = {}
@@ -5490,6 +5599,13 @@ class iSpriteCal3DSocket(iBase):
     def GetSubmeshIndex(*args): return _blcelc.iSpriteCal3DSocket_GetSubmeshIndex(*args)
     def SetMeshIndex(*args): return _blcelc.iSpriteCal3DSocket_SetMeshIndex(*args)
     def GetMeshIndex(*args): return _blcelc.iSpriteCal3DSocket_GetMeshIndex(*args)
+    def SetTransform(*args): return _blcelc.iSpriteCal3DSocket_SetTransform(*args)
+    def GetTransform(*args): return _blcelc.iSpriteCal3DSocket_GetTransform(*args)
+    def GetSecondaryCount(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryCount(*args)
+    def GetSecondaryMesh(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryMesh(*args)
+    def GetSecondaryTransform(*args): return _blcelc.iSpriteCal3DSocket_GetSecondaryTransform(*args)
+    def AttachSecondary(*args): return _blcelc.iSpriteCal3DSocket_AttachSecondary(*args)
+    def DetachSecondary(*args): return _blcelc.iSpriteCal3DSocket_DetachSecondary(*args)
     def __del__(self, destroy=_blcelc.delete_iSpriteCal3DSocket):
         try:
             if self.thisown: destroy(self)
@@ -6094,6 +6210,7 @@ class iLoader(iBase):
     def LoadLibraryFile(*args): return _blcelc.iLoader_LoadLibraryFile(*args)
     def LoadMeshObjectFactory(*args): return _blcelc.iLoader_LoadMeshObjectFactory(*args)
     def LoadMeshObject(*args): return _blcelc.iLoader_LoadMeshObject(*args)
+    def Load(*args): return _blcelc.iLoader_Load(*args)
     def __del__(self, destroy=_blcelc.delete_iLoader):
         try:
             if self.thisown: destroy(self)
@@ -9128,6 +9245,7 @@ class iShaderVariableContext(iBase):
     def AddVariable(*args): return _blcelc.iShaderVariableContext_AddVariable(*args)
     def GetVariable(*args): return _blcelc.iShaderVariableContext_GetVariable(*args)
     def GetVariableAdd(*args): return _blcelc.iShaderVariableContext_GetVariableAdd(*args)
+    def GetShaderVariables(*args): return _blcelc.iShaderVariableContext_GetShaderVariables(*args)
     def PushVariables(*args): return _blcelc.iShaderVariableContext_PushVariables(*args)
     def PopVariables(*args): return _blcelc.iShaderVariableContext_PopVariables(*args)
     def __del__(self, destroy=_blcelc.delete_iShaderVariableContext):
@@ -9211,6 +9329,8 @@ class iShader(iShaderVariableContext):
     def __repr__(self):
         return "<C iShader instance at %s>" % (self.this,)
     def QueryObject(*args): return _blcelc.iShader_QueryObject(*args)
+    def GetFileName(*args): return _blcelc.iShader_GetFileName(*args)
+    def SetFileName(*args): return _blcelc.iShader_SetFileName(*args)
     def GetNumberOfPasses(*args): return _blcelc.iShader_GetNumberOfPasses(*args)
     def ActivatePass(*args): return _blcelc.iShader_ActivatePass(*args)
     def SetupPass(*args): return _blcelc.iShader_SetupPass(*args)
@@ -9600,6 +9720,7 @@ class iMaterial(iShaderVariableContext):
         return "<C iMaterial instance at %s>" % (self.this,)
     def SetShader(*args): return _blcelc.iMaterial_SetShader(*args)
     def GetShader(*args): return _blcelc.iMaterial_GetShader(*args)
+    def GetShaders(*args): return _blcelc.iMaterial_GetShaders(*args)
     def GetTexture(*args): return _blcelc.iMaterial_GetTexture(*args)
     def GetTextureLayerCount(*args): return _blcelc.iMaterial_GetTextureLayerCount(*args)
     def GetTextureLayer(*args): return _blcelc.iMaterial_GetTextureLayer(*args)
@@ -10386,6 +10507,37 @@ class csCollisionPairPtr(csCollisionPair):
         _swig_setattr(self, csCollisionPair,self.__class__,csCollisionPair)
 _blcelc.csCollisionPair_swigregister(csCollisionPairPtr)
 
+class csIntersectingTriangle(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csIntersectingTriangle, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csIntersectingTriangle, name)
+    def __repr__(self):
+        return "<C csIntersectingTriangle instance at %s>" % (self.this,)
+    __swig_setmethods__["a"] = _blcelc.csIntersectingTriangle_a_set
+    __swig_getmethods__["a"] = _blcelc.csIntersectingTriangle_a_get
+    if _newclass:a = property(_blcelc.csIntersectingTriangle_a_get, _blcelc.csIntersectingTriangle_a_set)
+    __swig_setmethods__["b"] = _blcelc.csIntersectingTriangle_b_set
+    __swig_getmethods__["b"] = _blcelc.csIntersectingTriangle_b_get
+    if _newclass:b = property(_blcelc.csIntersectingTriangle_b_get, _blcelc.csIntersectingTriangle_b_set)
+    __swig_setmethods__["c"] = _blcelc.csIntersectingTriangle_c_set
+    __swig_getmethods__["c"] = _blcelc.csIntersectingTriangle_c_get
+    if _newclass:c = property(_blcelc.csIntersectingTriangle_c_get, _blcelc.csIntersectingTriangle_c_set)
+    def __init__(self, *args):
+        _swig_setattr(self, csIntersectingTriangle, 'this', _blcelc.new_csIntersectingTriangle(*args))
+        _swig_setattr(self, csIntersectingTriangle, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_csIntersectingTriangle):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class csIntersectingTrianglePtr(csIntersectingTriangle):
+    def __init__(self, this):
+        _swig_setattr(self, csIntersectingTriangle, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csIntersectingTriangle, 'thisown', 0)
+        _swig_setattr(self, csIntersectingTriangle,self.__class__,csIntersectingTriangle)
+_blcelc.csIntersectingTriangle_swigregister(csIntersectingTrianglePtr)
+
 class iCollider(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -10427,6 +10579,8 @@ class iCollideSystem(iBase):
     def GetCollisionPairs(*args): return _blcelc.iCollideSystem_GetCollisionPairs(*args)
     def GetCollisionPairCount(*args): return _blcelc.iCollideSystem_GetCollisionPairCount(*args)
     def ResetCollisionPairs(*args): return _blcelc.iCollideSystem_ResetCollisionPairs(*args)
+    def CollideRay(*args): return _blcelc.iCollideSystem_CollideRay(*args)
+    def GetIntersectingTriangles(*args): return _blcelc.iCollideSystem_GetIntersectingTriangles(*args)
     def SetOneHitOnly(*args): return _blcelc.iCollideSystem_SetOneHitOnly(*args)
     def GetOneHitOnly(*args): return _blcelc.iCollideSystem_GetOneHitOnly(*args)
     def __del__(self, destroy=_blcelc.delete_iCollideSystem):
@@ -10500,6 +10654,9 @@ class iDynamicSystem(iBase):
     def GetLinearDampener(*args): return _blcelc.iDynamicSystem_GetLinearDampener(*args)
     def SetRollingDampener(*args): return _blcelc.iDynamicSystem_SetRollingDampener(*args)
     def GetRollingDampener(*args): return _blcelc.iDynamicSystem_GetRollingDampener(*args)
+    def EnableAutoDisable(*args): return _blcelc.iDynamicSystem_EnableAutoDisable(*args)
+    def AutoDisableEnabled(*args): return _blcelc.iDynamicSystem_AutoDisableEnabled(*args)
+    def SetAutoDisableParams(*args): return _blcelc.iDynamicSystem_SetAutoDisableParams(*args)
     def Step(*args): return _blcelc.iDynamicSystem_Step(*args)
     def CreateBody(*args): return _blcelc.iDynamicSystem_CreateBody(*args)
     def RemoveBody(*args): return _blcelc.iDynamicSystem_RemoveBody(*args)
@@ -11169,6 +11326,8 @@ class csColliderHelper(_object):
     if _newclass:CollideArray = staticmethod(_blcelc.csColliderHelper_CollideArray)
     __swig_getmethods__["CollidePath"] = lambda x: _blcelc.csColliderHelper_CollidePath
     if _newclass:CollidePath = staticmethod(_blcelc.csColliderHelper_CollidePath)
+    __swig_getmethods__["TraceBeam"] = lambda x: _blcelc.csColliderHelper_TraceBeam
+    if _newclass:TraceBeam = staticmethod(_blcelc.csColliderHelper_TraceBeam)
     def __init__(self, *args):
         _swig_setattr(self, csColliderHelper, 'this', _blcelc.new_csColliderHelper(*args))
         _swig_setattr(self, csColliderHelper, 'thisown', 1)
@@ -11191,6 +11350,8 @@ csColliderHelper_InitializeCollisionWrappers = _blcelc.csColliderHelper_Initiali
 csColliderHelper_CollideArray = _blcelc.csColliderHelper_CollideArray
 
 csColliderHelper_CollidePath = _blcelc.csColliderHelper_CollidePath
+
+csColliderHelper_TraceBeam = _blcelc.csColliderHelper_TraceBeam
 
 
 csfxInterference = _blcelc.csfxInterference
