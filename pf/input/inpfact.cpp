@@ -27,6 +27,7 @@
 #include "pf/input/inpfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/datatype.h"
 #include "pl/persist.h"
 #include "bl/behave.h"
 

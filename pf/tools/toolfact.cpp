@@ -21,6 +21,7 @@
 #include "pf/tools/toolfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/datatype.h"
 #include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
@@ -378,16 +379,16 @@ iCelDataBuffer* celPcProperties::Save ()
     databuf->GetData (j++)->Set ((uint8)p->type);
     switch (p->type)
     {
-      case CEL_PROPERTY_FLOAT:
+      case CEL_DATA_FLOAT:
         databuf->GetData (j++)->Set (p->v.f);
 	break;
-      case CEL_PROPERTY_LONG:
+      case CEL_DATA_LONG:
         databuf->GetData (j++)->Set ((int32)p->v.l);
 	break;
-      case CEL_PROPERTY_BOOL:
+      case CEL_DATA_BOOL:
         databuf->GetData (j++)->Set (p->v.b);
 	break;
-      case CEL_PROPERTY_STRING:
+      case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);
 	break;
       default:
@@ -412,19 +413,19 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
     int idx = NewProperty (cd->value.s);
     cd = databuf->GetData (j++); if (!cd) return false;
     property* p = (property*)properties[idx];
-    p->type = (int)cd->value.ub;
+    p->type = (celDataType)cd->value.ub;
     switch (p->type)
     {
-      case CEL_PROPERTY_FLOAT:
+      case CEL_DATA_FLOAT:
         p->v.f = cd->value.f;
 	break;
-      case CEL_PROPERTY_LONG:
+      case CEL_DATA_LONG:
         p->v.l = cd->value.l;
 	break;
-      case CEL_PROPERTY_BOOL:
+      case CEL_DATA_BOOL:
         p->v.b = cd->value.bo;
 	break;
-      case CEL_PROPERTY_STRING:
+      case CEL_DATA_STRING:
         p->v.s = csStrNew (cd->value.s);
 	break;
       default:
@@ -439,7 +440,7 @@ int celPcProperties::NewProperty (const char* name)
 {
   property* p = new property ();
   p->propName = csStrNew (name);
-  p->type = CEL_PROPERTY_NONE;
+  p->type = CEL_DATA_NONE;
   int idx = properties.Length ();
   properties.Push (p);
   return idx;
@@ -454,8 +455,8 @@ int celPcProperties::FindOrNewProperty (const char* name)
 
 void celPcProperties::ClearPropertyValue (property* p)
 {
-  if (p->type == CEL_PROPERTY_STRING) delete[] p->v.s;
-  p->type = CEL_PROPERTY_NONE;
+  if (p->type == CEL_DATA_STRING) delete[] p->v.s;
+  p->type = CEL_DATA_NONE;
 }
 
 void celPcProperties::SetProperty (const char* name, float value)
@@ -495,7 +496,7 @@ void celPcProperties::SetProperty (int index, float value)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
-  p->type = CEL_PROPERTY_FLOAT;
+  p->type = CEL_DATA_FLOAT;
   p->v.f = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -507,7 +508,7 @@ void celPcProperties::SetProperty (int index, long value)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
-  p->type = CEL_PROPERTY_LONG;
+  p->type = CEL_DATA_LONG;
   p->v.l = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -519,7 +520,7 @@ void celPcProperties::SetProperty (int index, bool value)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
-  p->type = CEL_PROPERTY_BOOL;
+  p->type = CEL_DATA_BOOL;
   p->v.b = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -531,14 +532,14 @@ void celPcProperties::SetProperty (int index, const char* value)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
-  p->type = CEL_PROPERTY_STRING;
+  p->type = CEL_DATA_STRING;
   p->v.s = csStrNew (value);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
     bh->SendMessage ("prop_setproperty", NULL, index);
 }
 
-int celPcProperties::GetPropertyType (int index) const
+celDataType celPcProperties::GetPropertyType (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
@@ -549,7 +550,7 @@ float celPcProperties::GetPropertyFloat (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
-  if (p->type == CEL_PROPERTY_FLOAT)
+  if (p->type == CEL_DATA_FLOAT)
     return p->v.f;
   else
     return 0;
@@ -559,7 +560,7 @@ long celPcProperties::GetPropertyLong (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
-  if (p->type == CEL_PROPERTY_LONG)
+  if (p->type == CEL_DATA_LONG)
     return p->v.l;
   else
     return 0;
@@ -569,7 +570,7 @@ bool celPcProperties::GetPropertyBool (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
-  if (p->type == CEL_PROPERTY_BOOL)
+  if (p->type == CEL_DATA_BOOL)
     return p->v.b;
   else
     return false;
@@ -579,7 +580,7 @@ const char* celPcProperties::GetPropertyString (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = (property*)properties[index];
-  if (p->type == CEL_PROPERTY_STRING)
+  if (p->type == CEL_DATA_STRING)
     return p->v.s;
   else
     return NULL;

@@ -22,14 +22,9 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "pl/datatype.h"
 
 SCF_DECLARE_FAST_INTERFACE (iPcProperties)
-
-#define CEL_PROPERTY_NONE 0
-#define CEL_PROPERTY_FLOAT 1
-#define CEL_PROPERTY_LONG 2
-#define CEL_PROPERTY_BOOL 3
-#define CEL_PROPERTY_STRING 4
 
 SCF_VERSION (iPcProperties, 0, 0, 1);
 
@@ -85,10 +80,17 @@ struct iPcProperties : public iBase
   virtual void SetProperty (int index, const char* value) = 0;
 
   /**
-   * Get the type of a property. Returns CEL_PROPERTY_NONE if the
-   * property is undefined.
+   * Get the type of a property. Returns CEL_DATA_NONE if the
+   * property is undefined. Note that only the following data types
+   * are supported:
+   * <ul>
+   * <li>CEL_DATA_LONG
+   * <li>CEL_DATA_FLOAT
+   * <li>CEL_DATA_BOOL
+   * <li>CEL_DATA_STRING
+   * </ul>
    */
-  virtual int GetPropertyType (int index) const = 0;
+  virtual celDataType GetPropertyType (int index) const = 0;
 
   /**
    * Get property as float. Returns 0 if wrong type.

@@ -24,6 +24,7 @@
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "pl/persist.h"
+#include "pl/datatype.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -207,12 +208,10 @@ iCelDataBuffer* celPcCamera::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (3+9+7);
+  databuf->SetDataCount (1+9+7);
   const csTransform& tr = view->GetCamera ()->GetTransform ();
   int j = 0;
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().x);
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().y);
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().z);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ());
 
   databuf->GetData (j++)->Set (tr.GetO2T ().m11);
   databuf->GetData (j++)->Set (tr.GetO2T ().m12);
@@ -239,18 +238,16 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL) return false;
-  if (databuf->GetDataCount () != 3+9+7) return false;
+  if (databuf->GetDataCount () != 1+9+7) return false;
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
   int j = 0;
   celData* cd;
   cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.x = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.y = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.z = cd->value.f;
+  v_o2t.x = cd->value.v.x;
+  v_o2t.y = cd->value.v.y;
+  v_o2t.z = cd->value.v.z;
   cd = databuf->GetData (j++); if (!cd) return false;
   m_o2t.m11 = cd->value.f;
   cd = databuf->GetData (j++); if (!cd) return false;
@@ -427,14 +424,13 @@ bool celPcRegion::SetProperty (csStringID propertyID, const char* value)
   return false;
 }
 
-celPropertyActionType celPcRegion::GetPropertyOrActionType (
-	csStringID propertyID)
+celDataType celPcRegion::GetPropertyOrActionType (csStringID propertyID)
 {
   UpdatePropIDS (object_reg);
-  if (propertyID == propid_worldfile) return type_string;
-  else if (propertyID == propid_worlddir) return type_string;
-  else if (propertyID == propid_regionname) return type_string;
-  return type_none;
+  if (propertyID == propid_worldfile) return CEL_DATA_STRING;
+  else if (propertyID == propid_worlddir) return CEL_DATA_STRING;
+  else if (propertyID == propid_regionname) return CEL_DATA_STRING;
+  return CEL_DATA_NONE;
 }
 
 bool celPcRegion::IsPropertyReadOnly (csStringID propertyID)

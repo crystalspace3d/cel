@@ -198,7 +198,7 @@ private:
   struct property
   {
     char* propName;
-    int type;
+    celDataType type;
     union
     {
       float f;
@@ -225,7 +225,7 @@ public:
   void SetProperty (int index, long value);
   void SetProperty (int index, bool value);
   void SetProperty (int index, const char* value);
-  int GetPropertyType (int index) const;
+  celDataType GetPropertyType (int index) const;
   float GetPropertyFloat (int index) const;
   long GetPropertyLong (int index) const;
   bool GetPropertyBool (int index) const;
@@ -281,7 +281,7 @@ public:
     {
       scfParent->SetProperty (index, value);
     }
-    virtual int GetPropertyType (int index) const
+    virtual celDataType GetPropertyType (int index) const
     {
       return scfParent->GetPropertyType (index);
     }

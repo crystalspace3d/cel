@@ -64,9 +64,9 @@ public:
   virtual bool SetProperty (csStringID, bool) { return false; }
   virtual bool SetProperty (csStringID, const char*) { return false; }
   virtual bool SetProperty (csStringID, const csVector3&) { return false; }
-  virtual celPropertyActionType GetPropertyOrActionType (csStringID)
+  virtual celDataType GetPropertyOrActionType (csStringID)
   {
-    return type_none;
+    return CEL_DATA_NONE;
   }
   virtual bool IsPropertyReadOnly (csStringID) { return false; }
   virtual long GetPropertyLong (csStringID) { return 0; }

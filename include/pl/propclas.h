@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/strset.h"
+#include "pl/datatype.h"
 class csVector3;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)		\
@@ -32,17 +33,6 @@ class csVector3;
 struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
-
-enum celPropertyActionType
-{
-  type_none = 0,
-  type_long,
-  type_float,
-  type_bool,
-  type_string,
-  type_vector,
-  type_action
-};
 
 SCF_VERSION (iCelPropertyClass, 0, 0, 3);
 
@@ -131,10 +121,18 @@ struct iCelPropertyClass : public iBase
   virtual bool SetProperty (csStringID propertyID, const csVector3& value) = 0;
 
   /**
-   * Get the type of the given property or action. Returns type_none
-   * if property is not supported.
+   * Get the type of the given property or action. Returns CEL_DATA_NONE
+   * if property is not supported. Only the following types are supported:
+   * <ul>
+   * <li>CEL_DATA_LONG
+   * <li>CEL_DATA_FLOAT
+   * <li>CEL_DATA_BOOL
+   * <li>CEL_DATA_STRING
+   * <li>CEL_DATA_VECTOR3
+   * <li>CEL_DATA_ACTION
+   * </ul>
    */
-  virtual celPropertyActionType GetPropertyOrActionType (
+  virtual celDataType GetPropertyOrActionType (
   	csStringID propertyID) = 0;
 
   /**

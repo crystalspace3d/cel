@@ -23,6 +23,7 @@
 #include "csutil/hashmap.h"
 #include "iutil/comp.h"
 #include "pl/persist.h"
+#include "pl/datatype.h"
 
 class csHashSet;
 struct iFile;

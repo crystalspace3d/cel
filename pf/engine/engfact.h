@@ -174,7 +174,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool SetProperty (csStringID, const char*);
-  virtual celPropertyActionType GetPropertyOrActionType (csStringID);
+  virtual celDataType GetPropertyOrActionType (csStringID);
   virtual bool IsPropertyReadOnly (csStringID);
   virtual const char* GetPropertyString (csStringID);
   virtual int GetPropertyAndActionCount () const { return 3; }
