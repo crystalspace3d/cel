@@ -1,4 +1,4 @@
-SubDir TOP plugins managers billboard ;
+SubDir TOP plugins tools billboard ;
 
 Plugin mgr_billboard
 	: billboard.cpp billboard.h

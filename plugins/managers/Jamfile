@@ -1,4 +1,0 @@
-SubDir TOP plugins managers ;
-
-SubInclude TOP plugins managers billboard ;
-

@@ -26,6 +26,11 @@ The history order is reversed so that new features are at the top.
 	  get the size from the texture the first time it is drawn.
 	- Jorrit added some real objects (with keycolor transparency) to
 	  xmltest.xml.
+	- Jorrit renamed the 'managers' directory to 'tools' so that it is
+	  more general.
+	- Jorrit enhanced the celentity addon plugin so it can now also
+	  be used to set properties for the created property classes.
+	  See scripts/xmltest.xml for some examples.
 23-Nov-2003
 	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
 	  by overriding SetProperty() and GetPropertyString() from
