@@ -3,7 +3,7 @@
 	- Added lots of DG_... lines to help debugging.
 	- Fixed a bad memory leak in pcgravity. It was leaking the list
 	  of entities returned by FindNearbyEntities().
-	- Fixed huge memory leaks with the property classes called by
+	- Fixed huge memory leaks with the property classes caused by
 	  the event handlers being embedded interfaces of the property classes.
 	  The problem is that the event handlers were being unregistered
 	  in the destructor of the property class. But since the event
@@ -13,6 +13,7 @@
 	  Fixed this by making the event handlers seperate objects. This
 	  means that additional references on them will not cause a higher
 	  ref count for the property class.
+	- Enabled persistance again (loading). Still crashes though.
 14-Nov-2001:
 	- Few changes for debugging using the new graph debug tool in CS.
 13-Nov-2001:
