@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit raised the version check for Crystal Space in configure
 	  from 0.97 to 0.99 since CEL now requires latest CVS of CS
 	  again.
+	- Jorrit extended the CEL API docs so that the supported properties
+	  are now also documented for every property class.
 10-Jul-2004
 	- Jorrit started working on the new pcspawn property class. This
 	  property class is responsible for spawning new entities at

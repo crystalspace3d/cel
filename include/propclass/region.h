@@ -37,6 +37,13 @@ SCF_VERSION (iPcRegion, 0, 1, 0);
  * <ul>
  * <li>Load: no parameters.
  * </ul>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>worlddir (string, read/write): the VFS directory of the world file.
+ * <li>worldfile (string, read/write): the world filename.
+ * <li>regionname (string, read/write): region name.
+ * </ul>
  */
 struct iPcRegion : public iBase
 {
