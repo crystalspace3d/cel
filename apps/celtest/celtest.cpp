@@ -17,7 +17,7 @@
 */
 #include "cssysdef.h"
 
-#include "cssys/sysfunc.h"
+#include "csutil/sysfunc.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
 #include "csutil/cscolor.h"
@@ -59,7 +59,7 @@
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/debug.h"
-#include "cssys/csshlib.h"
+#include "csutil/csshlib.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
