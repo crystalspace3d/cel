@@ -1,4 +1,4 @@
-SubDir TOP celtest ;
+SubDir TOP apps celtest ;
 
 Application celtst
 	: celtest.cpp
