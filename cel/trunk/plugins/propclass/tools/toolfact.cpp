@@ -176,11 +176,7 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
     G3D->BeginDraw (CSDRAW_2DGRAPHICS);
     iFontServer* fntsvr = G2D->GetFontServer ();
     CS_ASSERT (fntsvr != 0);
-    csRef<iFont> fnt = fntsvr->GetFont (0);
-    if (fnt == 0)
-    {
-      fnt = fntsvr->LoadFont (CSFONT_COURIER);
-    }
+    csRef<iFont> fnt = fntsvr->LoadFont (CSFONT_COURIER);
     CS_ASSERT (fnt != 0);
     //int fw, fh;
     //fnt->GetMaxSize (fw, fh);
@@ -821,7 +817,7 @@ int celPcProperties::GetPropertyIndex (const char* name)
     }
   }
 
-  return properties_hash.Get (name)-1;
+  return properties_hash.Get (name,0)-1;
 }
 
 void celPcProperties::SetProperty (int index, float value)
