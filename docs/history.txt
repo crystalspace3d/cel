@@ -51,6 +51,9 @@ The history order is reversed so that new features are at the top.
 	  then moving it back.
 	  Note that you MUST mark portals between regions with <autoresolve/>
 	  for this feature to work!
+	- Jorrit fixed the bug with too much region loading by letting the
+	  pczonemanager look at the location of the mesh (if there is one)
+	  instead of the camera.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

@@ -45,6 +45,7 @@ struct iLoader;
 struct iVFS;
 struct iCelPlLayer;
 struct iPcCamera;
+struct iPcMesh;
 class celPcZoneManager;
 
 /**
@@ -195,6 +196,7 @@ private:
 
   csRef<cameraSectorListener> camlistener;
   csWeakRef<iPcCamera> pccamera;
+  csWeakRef<iPcMesh> pcmesh;
 
   csRefArray<celZone> zones;
   csRefArray<celRegion> regions;
