@@ -373,23 +373,23 @@ public:
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
 
-  void AddOperation (int op);
+  void AddOperation (size_t op);
   int GetLastOperation () { return operations.Top ().op; }
-  int GetOperation (int idx) { return operations[idx].op; }
-  void ChangeOperation (int idx, int newop) { operations[idx].op = newop; }
+  size_t GetOperation (size_t idx) { return operations[idx].op; }
+  void ChangeOperation (size_t idx, int newop) { operations[idx].op = newop; }
   void ReplaceLastOperation (int op) { operations.Top ().op = op; }
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();
   // Get argument index for last operation.
-  int GetLastArgumentIndex () { return operations.Length ()-1; }
+  size_t GetLastArgumentIndex () { return operations.Length ()-1; }
   // Get argument with index.
-  celXmlArg& GetArgument (int idx);
+  celXmlArg& GetArgument (size_t idx);
 
   // Add a local variable. Return index.
-  int AddLocalVariable ();
+  size_t AddLocalVariable ();
   // Get a local variable with index.
-  celXmlArg& GetLocalVariable (int idx) { return local_vars[idx]; }
+  celXmlArg& GetLocalVariable (size_t idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
   	celData& ret, iCelParameterBlock* params, int startop = 0,

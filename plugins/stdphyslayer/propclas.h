@@ -40,13 +40,13 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual int GetCount () const;
-  virtual iCelPropertyClass* Get (int n) const;
-  virtual int Add (iCelPropertyClass* obj);
+  virtual size_t GetCount () const;
+  virtual iCelPropertyClass* Get (size_t n) const;
+  virtual size_t Add (iCelPropertyClass* obj);
   virtual bool Remove (iCelPropertyClass* obj);
-  virtual bool Remove (int n);
+  virtual bool Remove (size_t n);
   virtual void RemoveAll ();
-  virtual int Find (iCelPropertyClass* obj) const;
+  virtual size_t Find (iCelPropertyClass* obj) const;
   virtual iCelPropertyClass* FindByName (const char* name) const;
   virtual iBase* FindByInterface (scfInterfaceID id, int version) const;
 };

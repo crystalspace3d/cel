@@ -177,12 +177,12 @@ struct iCelPlLayer : public iBase
   /**
    * Get the number of registered property class factories.
    */
-  virtual int GetPropertyClassFactoryCount () const = 0;
+  virtual size_t GetPropertyClassFactoryCount () const = 0;
 
   /**
    * Get the specificied property class factory.
    */
-  virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const = 0;
+  virtual iCelPropertyClassFactory* GetPropertyClassFactory (size_t idx) const = 0;
 
   /**
    * Find a property class factory by name.
@@ -213,12 +213,12 @@ struct iCelPlLayer : public iBase
   /**
    * Get the number of registered behaviour layers.
    */
-  virtual int GetBehaviourLayerCount () const = 0;
+  virtual size_t GetBehaviourLayerCount () const = 0;
 
   /**
    * Get the specificied behaviour layer.
    */
-  virtual iCelBlLayer* GetBehaviourLayer (int idx) const = 0;
+  virtual iCelBlLayer* GetBehaviourLayer (size_t idx) const = 0;
 
   /**
    * Find a behaviour layer by name.

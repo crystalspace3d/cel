@@ -42,13 +42,13 @@ struct iCelParameterBlock : public iBase
   /**
    * Get number of parameters.
    */
-  virtual int GetParameterCount () const = 0;
+  virtual size_t GetParameterCount () const = 0;
 
   /**
    * Get parameter with index. Returns the name and sets 'id'
    * and 'type' to the appropriate values.
    */
-  virtual const char* GetParameter (int idx, csStringID& id,
+  virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const = 0;
 
   /**

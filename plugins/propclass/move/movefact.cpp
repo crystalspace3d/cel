@@ -129,7 +129,7 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLE_SERIAL));
   databuf->SetDataCount (1+1+constraints.Length ());
-  int i, j = 0;
+  size_t i, j = 0;
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (j++)->Set (pc);
@@ -223,7 +223,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   }
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
-  int i;
+  size_t i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
@@ -249,7 +249,7 @@ int celPcMovable::Move (const csVector3& relpos)
   csVector3 end = start + relpos;
   csVector3 realpos = end;
   bool partial = false;
-  int i;
+  size_t i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
@@ -508,7 +508,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     CS_ASSERT (pl != 0);
     csRef<iCelEntityList> list (
     	pl->FindNearbyEntities (sector, start, 10/*@@@*/));
-    int i;
+    size_t i;
     for (i = 0 ; i < list->GetCount () ; i++)
     {
       iCelEntity* ent = list->Get (i);
@@ -656,7 +656,7 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   db.SetBool (active);
 
   db.Set ((uint16)forces.Length ());
-  int i;
+  size_t i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce* f = forces[i];
@@ -885,7 +885,7 @@ int celPcGravity::TestMove (iCollider* this_collider,
 {
   csReversibleTransform test (w2o);
   int rc = csColliderHelper::CollidePath (cdsys, this_collider, &test,
-  	.3/*@@@ Get from bbox!*/, newpos, num_colliders, colliders, transforms);
+  	.3f/*@@@ Get from bbox!*/, newpos, num_colliders, colliders, transforms);
   if (rc == -1) return -1;	// Stuck!!!
   if (rc == 0)			// Can move partially.
   {
@@ -979,7 +979,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Find the smallest force duration we still have.
     csVector3 force (infinite_forces);
     float smallest_time = 1000000000;
-    int i;
+    size_t i;
     for (i = 0 ; i < forces.Length () ; i++)
     {
       celForce* f = forces[i];

@@ -63,12 +63,12 @@ struct iPcInventory : public iBase
   /**
    * Get the number of entities in this inventory.
    */
-  virtual int GetEntityCount () const = 0;
+  virtual size_t GetEntityCount () const = 0;
 
   /**
    * Get some entity.
    */
-  virtual iCelEntity* GetEntity (int idx) const = 0;
+  virtual iCelEntity* GetEntity (size_t idx) const = 0;
 
   /**
    * If true reject any entities that don't have this

@@ -68,7 +68,7 @@ celPlLayer::~celPlLayer ()
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
 
-  for (int j = 0 ; j < removecallbacks.Length() ; j++)
+  for (size_t j = 0 ; j < removecallbacks.Length() ; j++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[j];
     delete callback;
@@ -168,7 +168,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
   if (entities_hash_dirty)
   {
     entities_hash_dirty = false;
-    int i;
+    size_t i;
     entities_hash.DeleteAll ();
     for (i = 0 ; i < entities.Length () ; i++)
     {
@@ -190,7 +190,7 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
     return;
   }
 
-  for (int i = 0; i < removecallbacks.Length(); i++)
+  for (size_t i = 0; i < removecallbacks.Length(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
@@ -268,11 +268,11 @@ public:
   {
     return serialnr;
   }
-  virtual void SetDataCount (int cnt)
+  virtual void SetDataCount (size_t cnt)
   {
-    int old_cnt = data.Length ();
+    size_t old_cnt = data.Length ();
     data.SetLength (cnt);
-    int i;
+    size_t i;
     for (i = old_cnt ; i < cnt ; i++)
     {
       celData* cd = new celData ();
@@ -280,13 +280,13 @@ public:
       data.Put (i, cd);
     }
   }
-  virtual int GetDataCount () const
+  virtual size_t GetDataCount () const
   {
     return data.Length ();
   }
-  virtual celData* GetData (int idx) const
+  virtual celData* GetData (size_t idx) const
   {
-    CS_ASSERT (idx >= 0 && idx < data.Length ());
+    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.Length ());
     return data[idx];
   }
 };
@@ -446,14 +446,14 @@ void celPlLayer::UnregisterPropertyClassFactory (
   pf_list.Delete (pf);
 }
 
-int celPlLayer::GetPropertyClassFactoryCount () const
+size_t celPlLayer::GetPropertyClassFactoryCount () const
 {
   return pf_list.Length ();
 }
 
-iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (int idx) const
+iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (size_t idx) const
 {
-  CS_ASSERT (idx >= 0 && idx < pf_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.Length ());
   iCelPropertyClassFactory* pf = pf_list[idx];
   return pf;
 }
@@ -498,21 +498,21 @@ void celPlLayer::UnregisterBehaviourLayer (iCelBlLayer* bl)
   bl_list.Delete (bl);
 }
 
-int celPlLayer::GetBehaviourLayerCount () const
+size_t celPlLayer::GetBehaviourLayerCount () const
 {
   return bl_list.Length ();
 }
 
-iCelBlLayer* celPlLayer::GetBehaviourLayer (int idx) const
+iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 {
-  CS_ASSERT (idx >= 0 && idx < bl_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.Length ());
   iCelBlLayer* bl = bl_list[idx];
   return bl;
 }
 
 iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < bl_list.Length () ; i++)
   {
     iCelBlLayer* bl = bl_list[i];

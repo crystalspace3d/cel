@@ -67,7 +67,7 @@ void celEntity::SetName (const char *name)
 
 void celEntity::NotifySiblingPropertyClasses ()
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < plist->GetCount () ; i++)
   {
     iCelPropertyClass* pc = plist->Get (i);
@@ -91,26 +91,26 @@ celEntityList::~celEntityList ()
   RemoveAll ();
 }
 
-int celEntityList::GetCount () const
+size_t celEntityList::GetCount () const
 {
   return entities.Length ();
 }
 
-iCelEntity* celEntityList::Get (int n) const
+iCelEntity* celEntityList::Get (size_t n) const
 {
-  CS_ASSERT (n >= 0 && n < entities.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.Length ());
   return entities[n];
 }
 
-int celEntityList::Add (iCelEntity* obj)
+size_t celEntityList::Add (iCelEntity* obj)
 {
   return entities.Push (obj);
 }
 
 bool celEntityList::Remove (iCelEntity* obj)
 {
-  int idx = entities.Find (obj);
-  if (idx != -1)
+  size_t idx = entities.Find (obj);
+  if (idx != csArrayItemNotFound)
   {
     entities.DeleteIndex (idx);
     return true;
@@ -118,7 +118,7 @@ bool celEntityList::Remove (iCelEntity* obj)
   return false;
 }
 
-bool celEntityList::Remove (int n)
+bool celEntityList::Remove (size_t n)
 {
   iCelEntity* ent = Get (n);
   (void)ent;
@@ -132,14 +132,14 @@ void celEntityList::RemoveAll ()
     Remove ((int) 0);
 }
 
-int celEntityList::Find (iCelEntity* obj) const
+size_t celEntityList::Find (iCelEntity* obj) const
 {
   return entities.Find (obj);
 }
 
 iCelEntity* celEntityList::FindByName (const char *Name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < entities.Length () ; i++)
   {
     iCelEntity* ent = entities[i];

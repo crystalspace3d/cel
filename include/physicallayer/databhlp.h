@@ -29,10 +29,10 @@ public:
     : databuf(databuf), j(0), rc(true)
   { }
 
-  void SetDataCount (int cnt)
+  void SetDataCount (size_t cnt)
   { databuf->SetDataCount(cnt); }
   
-  void SetPos(int idx)
+  void SetPos(size_t idx)
   {
     if (j>=databuf->GetDataCount())
       return;
@@ -42,7 +42,7 @@ public:
 
   bool AllOk()	{ return rc; }
 
-  int GetPos()
+  size_t GetPos()
   {  return j; }
 
   void Set (int8 v) { databuf->GetData(j++)->Set(v); }
@@ -127,7 +127,7 @@ public:
   
 protected:
   iCelDataBuffer* databuf;
-  int j;
+  size_t j;
   bool rc;
 };
 

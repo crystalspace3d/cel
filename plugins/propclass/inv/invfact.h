@@ -77,8 +77,8 @@ public:
   bool AddEntity (iCelEntity* entity);
   bool RemoveEntity (iCelEntity* entity);
   bool RemoveAll ();
-  int GetEntityCount () const { return contents.Length () ; }
-  iCelEntity* GetEntity (int idx) const;
+  size_t GetEntityCount () const { return contents.Length () ; }
+  iCelEntity* GetEntity (size_t idx) const;
   bool SetStrictCharacteristics (const char* charName, bool strict);
   bool HasStrictCharacteristics (const char* charName) const;
   bool SetConstraints (const char* charName, float minValue, float maxValue,
@@ -114,11 +114,11 @@ public:
     {
       return scfParent->RemoveAll ();
     }
-    virtual int GetEntityCount () const
+    virtual size_t GetEntityCount () const
     {
       return scfParent->GetEntityCount ();
     }
-    virtual iCelEntity* GetEntity (int idx) const
+    virtual iCelEntity* GetEntity (size_t idx) const
     {
       return scfParent->GetEntity (idx);
     }

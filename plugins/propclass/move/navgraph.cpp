@@ -279,7 +279,7 @@ int celPcNavGraph::Dump()  // Debug info
    * world.
    */
 
-  int i;
+  size_t i;
 
   MoveNotify (object_reg, "Graph Dump ============================",
     aLinks.Length());
@@ -470,7 +470,8 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
    * largest entity that will try to move through the sector.
    */
 
-  int i, itraversable;
+  size_t i;
+  int itraversable;
 
   ResetLinksPaths();    // Clear all the link and path data
 

@@ -787,15 +787,15 @@ bool celBlXml::ParseExpressionInt (
 		    "Local variables cannot use expressions for the name!");
           return false;
 	}
-	int i;
-	int varidx = -1;
+	size_t i;
+	size_t varidx = (size_t)-1;
 	for (i = 0 ; i < local_vars.Length () ; i++)
 	  if (!strcmp (str, local_vars[i]))
 	  {
 	    varidx = i;
 	    break;
 	  }
-	if (varidx == -1)
+	if (varidx == (size_t)-1)
 	{
           synldr->ReportError ("cel.behaviour.xml", child,
 		    "Local variable '%s' is not defined!", str);
@@ -1608,15 +1608,15 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 		"Missing 'name' for lvar!");
 	    return false;
 	  }
-	  int varidx = -1;
-	  int i;
+	  size_t varidx = (size_t)-1;
+	  size_t i;
 	  for (i = 0 ; i < local_vars.Length () ; i++)
 	    if (!strcmp (varname, local_vars[i]))
 	    {
 	      varidx = i;
 	      break;
 	    }
-	  if (varidx == -1)
+	  if (varidx == (size_t)-1)
 	  {
 	    varidx = local_vars.Push (varname);
 	  }
@@ -1747,8 +1747,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    if (!ParseEventHandler (h, local_vars, def, script))
 	      return false;
 	  }
-	  int end_idx = h->GetLastArgumentIndex ()+1;
-	  int i;
+	  size_t end_idx = h->GetLastArgumentIndex ()+1;
+	  size_t i;
 	  for (i = 0 ; i < goto_end_idx.Length () ; i++)
 	  {
 	    h->GetArgument (goto_end_idx[i]).SetCodeLocation (end_idx);

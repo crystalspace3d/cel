@@ -102,13 +102,13 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual int GetCount () const;
-  virtual iCelEntity* Get (int n) const;
-  virtual int Add (iCelEntity* obj);
+  virtual size_t GetCount () const;
+  virtual iCelEntity* Get (size_t n) const;
+  virtual size_t Add (iCelEntity* obj);
   virtual bool Remove (iCelEntity* obj);
-  virtual bool Remove (int n);
+  virtual bool Remove (size_t n);
   virtual void RemoveAll ();
-  virtual int Find (iCelEntity* obj) const;
+  virtual size_t Find (iCelEntity* obj) const;
   virtual iCelEntity* FindByName (const char *Name) const;
 };
 

@@ -99,7 +99,7 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
   databuf->SetDataCount (
   	1+constraints.Length ()*5 +
   	1+contents.Length ());
-  int i, j = 0;
+  size_t i, j = 0;
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
@@ -323,9 +323,9 @@ bool celPcInventory::RemoveAll ()
   return true;
 }
 
-iCelEntity* celPcInventory::GetEntity (int idx) const
+iCelEntity* celPcInventory::GetEntity (size_t idx) const
 {
-  CS_ASSERT (idx >= 0 && idx < contents.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < contents.Length ());
   iCelEntity* ent = (iCelEntity*)contents[idx];
   return ent;
 }
@@ -333,7 +333,7 @@ iCelEntity* celPcInventory::GetEntity (int idx) const
 celPcInventory::constraint* celPcInventory::FindConstraint (
 	const char* name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
@@ -419,7 +419,7 @@ bool celPcInventory::GetConstraints (const char* charName,
 
 void celPcInventory::RemoveConstraints (const char* charName)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
@@ -442,7 +442,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
   if (!c) return 0.;
   if (c->dirty)
   {
-    int i;
+    size_t i;
     c->currentValue = 0;
     for (i = 0 ; i < contents.Length () ; i++)
     {
@@ -485,7 +485,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
       strict = false;
     }
     float curValue = 0;
-    int i;
+    size_t i;
     for (i = 0 ; i < contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
@@ -513,7 +513,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     //========
     // This case is for when no characteristic is given.
     //========
-    int i;
+    size_t i;
     for (i = 0 ; i < constraints.Length () ; i++)
     {
       constraint* c = constraints[i];
@@ -553,7 +553,7 @@ void celPcInventory::MarkDirty (const char* name)
   }
   else
   {
-    int i;
+    size_t i;
     for (i = 0 ; i < constraints.Length () ; i++)
     {
       constraint* c = constraints[i];
@@ -569,7 +569,7 @@ void celPcInventory::MarkDirty (const char* name)
 
 void celPcInventory::Dump ()
 {
-  int i;
+  size_t i;
   printf ("Inventory for entity '%s'\n", entity->GetName ());
   printf ("Constraints:\n");
   for (i = 0 ; i < constraints.Length () ; i++)
@@ -617,7 +617,7 @@ csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (CHARACTERISTICS_SERIAL));
   databuf->SetDataCount (
   	1+chars.Length ()*4);
-  int i, j = 0;
+  size_t i, j = 0;
   databuf->GetData (j++)->Set ((uint16)chars.Length ());
   for (i = 0 ; i < chars.Length () ; i++)
   {
@@ -699,7 +699,7 @@ bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
 celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
 	const char* name) const
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
     charact* c = chars[i];
@@ -710,7 +710,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
 
 bool celPcCharacteristics::TestConstraints (const char* charName)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = inventories[i];
@@ -721,7 +721,7 @@ bool celPcCharacteristics::TestConstraints (const char* charName)
 
 void celPcCharacteristics::MarkDirty (const char* charName)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = inventories[i];
@@ -816,7 +816,7 @@ bool celPcCharacteristics::HasCharacteristic (const char* name) const
 
 bool celPcCharacteristics::ClearCharacteristic (const char* name)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
     charact* c = chars[i];
@@ -867,7 +867,7 @@ void celPcCharacteristics::Dump ()
 {
   printf ("Characteristics for entity '%s'\n", entity->GetName ());
   printf ("Characteristics:\n");
-  int i;
+  size_t i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
     charact* c = chars[i];

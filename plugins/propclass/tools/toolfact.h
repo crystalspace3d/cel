@@ -237,13 +237,13 @@ private:
     csWeakRef<iCelPropertyClass> pclass;
   };
   csPDelArray<property> properties;
-  csHash<int,csStrKey,csConstCharHashKeyHandler> properties_hash;
+  csHash<size_t, csStrKey, csConstCharHashKeyHandler> properties_hash;
   bool properties_hash_dirty;
 
-  int NewProperty (const char* name);
-  int FindProperty (csStringID id);
-  int FindOrNewProperty (const char* name);
-  int FindOrNewProperty (csStringID id);
+  size_t NewProperty (const char* name);
+  size_t FindProperty (csStringID id);
+  size_t FindOrNewProperty (const char* name);
+  size_t FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
 
   static csStringID id_index;
@@ -288,30 +288,30 @@ public:
   void SetProperty (const char* name, const csColor& value);
   void SetProperty (const char* name, iCelPropertyClass* pclass);
   void SetProperty (const char* name, iCelEntity* entity);
-  int GetPropertyIndex (const char* name);
-  void SetProperty (int index, float value);
-  void SetProperty (int index, long value);
-  void SetProperty (int index, bool value);
-  void SetProperty (int index, const char* value);
-  void SetProperty (int index, const csVector2& value);
-  void SetProperty (int index, const csVector3& value);
-  void SetProperty (int index, const csColor& value);
-  void SetProperty (int index, iCelPropertyClass* pclass);
-  void SetProperty (int index, iCelEntity* entity);
-  celDataType GetPropertyType (int index) const;
-  float GetPropertyFloatIndex (int index) const;
-  long GetPropertyLongIndex (int index) const;
-  bool GetPropertyBoolIndex (int index) const;
-  bool GetPropertyVectorIndex (int index, csVector2& value) const;
-  bool GetPropertyVectorIndex (int index, csVector3& value) const;
-  bool GetPropertyColorIndex (int index, csColor& value) const;
-  const char* GetPropertyStringIndex (int index) const;
-  iCelPropertyClass* GetPropertyPClassIndex (int index) const;
-  iCelEntity* GetPropertyEntityIndex (int index) const;
-  void ClearProperty (int index);
+  size_t GetPropertyIndex (const char* name);
+  void SetPropertyIndex (size_t index, float value);
+  void SetPropertyIndex (size_t index, long value);
+  void SetPropertyIndex (size_t index, bool value);
+  void SetPropertyIndex (size_t index, const char* value);
+  void SetPropertyIndex (size_t index, const csVector2& value);
+  void SetPropertyIndex (size_t index, const csVector3& value);
+  void SetPropertyIndex (size_t index, const csColor& value);
+  void SetPropertyIndex (size_t index, iCelPropertyClass* pclass);
+  void SetPropertyIndex (size_t index, iCelEntity* entity);
+  celDataType GetPropertyType (size_t index) const;
+  float GetPropertyFloatIndex (size_t index) const;
+  long GetPropertyLongIndex (size_t index) const;
+  bool GetPropertyBoolIndex (size_t index) const;
+  bool GetPropertyVectorIndex (size_t index, csVector2& value) const;
+  bool GetPropertyVectorIndex (size_t index, csVector3& value) const;
+  bool GetPropertyColorIndex (size_t index, csColor& value) const;
+  const char* GetPropertyStringIndex (size_t index) const;
+  iCelPropertyClass* GetPropertyPClassIndex (size_t index) const;
+  iCelEntity* GetPropertyEntityIndex (size_t index) const;
+  void ClearProperty (size_t index);
   void Clear ();
-  int GetPropertyCount () const;
-  const char* GetPropertyName (int idx) const;
+  size_t GetPropertyCount () const;
+  const char* GetPropertyName (size_t idx) const;
   void Dump ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -359,87 +359,87 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
-    virtual int GetPropertyIndex (const char* name)
+    virtual size_t GetPropertyIndex (const char* name)
     {
       return scfParent->GetPropertyIndex (name);
     }
-    virtual void SetProperty (int index, float value)
+    virtual void SetPropertyIndex (size_t index, float value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, long value)
+    virtual void SetPropertyIndex (size_t index, long value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, bool value)
+    virtual void SetPropertyIndex (size_t index, bool value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, const csVector2& value)
+    virtual void SetPropertyIndex (size_t index, const csVector2& value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, const csVector3& value)
+    virtual void SetPropertyIndex (size_t index, const csVector3& value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, const csColor& value)
+    virtual void SetPropertyIndex (size_t index, const csColor& value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, const char* value)
+    virtual void SetPropertyIndex (size_t index, const char* value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, iCelPropertyClass* value)
+    virtual void SetPropertyIndex (size_t index, iCelPropertyClass* value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual void SetProperty (int index, iCelEntity* value)
+    virtual void SetPropertyIndex (size_t index, iCelEntity* value)
     {
-      scfParent->SetProperty (index, value);
+      scfParent->SetPropertyIndex (index, value);
     }
-    virtual celDataType GetPropertyType (int index) const
+    virtual celDataType GetPropertyType (size_t index) const
     {
       return scfParent->GetPropertyType (index);
     }
-    virtual float GetPropertyFloat (int index) const
+    virtual float GetPropertyFloat (size_t index) const
     {
       return scfParent->GetPropertyFloatIndex (index);
     }
-    virtual long GetPropertyLong (int index) const
+    virtual long GetPropertyLong (size_t index) const
     {
       return scfParent->GetPropertyLongIndex (index);
     }
-    virtual bool GetPropertyBool (int index) const
+    virtual bool GetPropertyBool (size_t index) const
     {
       return scfParent->GetPropertyBoolIndex (index);
     }
-    virtual bool GetPropertyVector (int index, csVector2& v) const
+    virtual bool GetPropertyVector (size_t index, csVector2& v) const
     {
       return scfParent->GetPropertyVectorIndex (index, v);
     }
-    virtual bool GetPropertyVector (int index, csVector3& v) const
+    virtual bool GetPropertyVector (size_t index, csVector3& v) const
     {
       return scfParent->GetPropertyVectorIndex (index, v);
     }
-    virtual bool GetPropertyColor (int index, csColor& v) const
+    virtual bool GetPropertyColor (size_t index, csColor& v) const
     {
       return scfParent->GetPropertyColorIndex (index, v);
     }
-    virtual const char* GetPropertyString (int index) const
+    virtual const char* GetPropertyString (size_t index) const
     {
       return scfParent->GetPropertyStringIndex (index);
     }
-    virtual iCelPropertyClass* GetPropertyPClass (int index) const
+    virtual iCelPropertyClass* GetPropertyPClass (size_t index) const
     {
       return scfParent->GetPropertyPClassIndex (index);
     }
-    virtual iCelEntity* GetPropertyEntity (int index) const
+    virtual iCelEntity* GetPropertyEntity (size_t index) const
     {
       return scfParent->GetPropertyEntityIndex (index);
     }
-    virtual void ClearProperty (int index)
+    virtual void ClearProperty (size_t index)
     {
       scfParent->ClearProperty (index);
     }
@@ -447,11 +447,11 @@ public:
     {
       scfParent->Clear ();
     }
-    virtual int GetPropertyCount () const
+    virtual size_t GetPropertyCount () const
     {
       return scfParent->GetPropertyCount ();
     }
-    virtual const char* GetPropertyName (int idx) const
+    virtual const char* GetPropertyName (size_t idx) const
     {
       return scfParent->GetPropertyName (idx);
     }

@@ -52,7 +52,7 @@ void celPcCommon::SetEntity (iCelEntity* entity)
 
 void celPcCommon::FirePropertyChangeCallback (int propertyId)
 {
-  int i;
+  size_t i;
   for (i = 0 ; i < callbacks.Length () ; i++)
   {
     iCelPropertyChangeCallback* cb = callbacks[i];
@@ -63,7 +63,7 @@ void celPcCommon::FirePropertyChangeCallback (int propertyId)
 bool celPcCommon::AddPropertyChangeCallback (iCelPropertyChangeCallback* cb)
 {
   int idx = callbacks.Find (cb);
-  if (idx != -1) return false;
+  if (idx != csArrayItemNotFound) return false;
   callbacks.Push (cb);
   return true;
 }
