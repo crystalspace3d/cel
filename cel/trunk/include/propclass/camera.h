@@ -128,6 +128,18 @@ struct iPcCamera : public iBase
   virtual void SetThirdPersonOffset (const csVector3& offset) = 0;
 
   /**
+   * Center camera in any mode except first person mode. This will
+   * basically force the camera behind the actor.
+   */
+  virtual void CenterCamera () = 0; 
+
+  /**
+   * Control velocity of pitch. This can be useful for looking up or
+   * down.
+   */
+  virtual void SetPitchVelocity (float pitchVel) = 0;
+
+  /**
    * Set the view rectangle to use on screen.
    */
   virtual void SetRectangle (int x, int y, int w, int h) = 0;

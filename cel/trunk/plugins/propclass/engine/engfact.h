@@ -673,6 +673,8 @@ public:
    */
   float GetSwingCoef (int mode = -1) const;
 
+  void CenterCamera ();
+
   /**
    * Sets the swing coefficient of the specific camera mode
    * @param swingCoef the new swing coefficient
@@ -755,6 +757,14 @@ public:
     virtual void SetThirdPersonOffset (const csVector3& offset)
     {
       scfParent->thirdPersonPositionOffset = offset;
+    }
+    virtual void CenterCamera ()
+    {
+      scfParent->CenterCamera ();
+    }
+    virtual void SetPitchVelocity (float pitchVel)
+    {
+      scfParent->SetPitchVelocity (pitchVel);
     }
 
     virtual void SetRectangle (int x, int y, int w, int h)
