@@ -415,14 +415,6 @@ bool celPersistClassicContext::Read (celData* cd)
       if (!Read (ub)) return false;
       cd->SetBool ((bool)ub);
       break;
-    case CEL_DATA_INT:
-      if (!Read (l)) return false;
-      cd->Set((int) l);
-      break;
-    case CEL_DATA_UINT:
-      if (!Read (ul)) return false;
-      cd->Set((unsigned int) ul);
-      break;
     case CEL_DATA_BYTE:
       if (!Read (b)) return false;
       cd->Set (b);
@@ -843,12 +835,6 @@ bool celPersistClassicContext::Write (celData* data)
       break;
     case CEL_DATA_BOOL:
       if (!Write ((uint8)data->value.bo)) return false;
-      break;
-    case CEL_DATA_INT:
-      if (!Write ((int32) data->value.i)) return false;
-      break;
-    case CEL_DATA_UINT:
-      if (!Write ((uint32) data->value.ui)) return false;
       break;
     case CEL_DATA_BYTE:
       if (!Write (data->value.b)) return false;

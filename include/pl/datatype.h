@@ -32,8 +32,6 @@ enum celDataType
 {
   CEL_DATA_NONE = 0,
   CEL_DATA_BOOL,
-  CEL_DATA_INT,
-  CEL_DATA_UINT,
   CEL_DATA_BYTE,
   CEL_DATA_WORD,
   CEL_DATA_LONG,
@@ -58,8 +56,6 @@ struct celData
   union
   {
     bool bo;
-    int i;
-    unsigned int ui;
     int8 b;
     uint8 ub;
     int16 w;
@@ -92,8 +88,6 @@ struct celData
    * Initialize and set the value.
    */
   void SetBool (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
-  void Set (int v) { Clear (); type = CEL_DATA_INT; value.i = v; }
-  void Set (unsigned int v) { Clear (); type = CEL_DATA_UINT; value.ui = v; }
   void Set (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }
   void Set (uint8 v) { Clear (); type = CEL_DATA_UBYTE; value.ub = v; }
   void Set (int16 v) { Clear (); type = CEL_DATA_WORD; value.w = v; }
