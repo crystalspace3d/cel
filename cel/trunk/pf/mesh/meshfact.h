@@ -157,6 +157,11 @@ private:
   // object at release time.
   bool do_follow;
 
+  // If true then additionally also send move messages even
+  // if the object is not selected (but the mouse is over
+  // an entity).
+  bool do_follow_always;
+
   // If true then send mouse-move events.
   bool do_sendmove;
 
@@ -221,6 +226,8 @@ public:
     SetupEventHandler ();
   }
   bool HasFollowMode () const { return do_follow; }
+  void SetFollowAlwaysMode (bool followalways) { do_follow_always = followalways; }
+  bool HasFollowAlwaysMode () const { return do_follow_always; }
   void SetDragMode (bool drag) { do_drag = drag; }
   bool HasDragMode () const { return do_drag; }
   void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
@@ -280,6 +287,14 @@ public:
     virtual bool HasFollowMode () const
     {
       return scfParent->HasFollowMode ();
+    }
+    virtual void SetFollowAlwaysMode (bool followalways)
+    {
+      scfParent->SetFollowAlwaysMode (followalways);
+    }
+    virtual bool HasFollowAlwaysMode () const
+    {
+      return scfParent->HasFollowAlwaysMode ();
     }
     virtual void SetDragMode (bool drag)
     {

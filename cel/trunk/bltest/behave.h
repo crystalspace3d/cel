@@ -25,15 +25,32 @@
 #include "bl/behave.h"
 
 /**
- * This is an entity in the CEL layer at the BL (behaviour layer) side.
+ * 'printer' behaviour.
  */
-struct celBehaviour : public iCelBehaviour
+struct celBehaviourPrinter : public iCelBehaviour
 {
 private:
 
 public:
-  celBehaviour ();
-  virtual ~celBehaviour ();
+  celBehaviourPrinter ();
+  virtual ~celBehaviourPrinter ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+};
+
+/**
+ * 'room' behaviour.
+ */
+struct celBehaviourRoom : public iCelBehaviour
+{
+private:
+
+public:
+  celBehaviourRoom ();
+  virtual ~celBehaviourRoom ();
 
   SCF_DECLARE_IBASE;
 

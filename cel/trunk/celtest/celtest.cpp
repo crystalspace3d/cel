@@ -233,15 +233,26 @@ bool CelTest::CreateRoom ()
   iPcInventory* pcinv, * pcinv_room;
   iPcMovable* pcmovable;
   iPcMovableConstraint* pcmovableconst;
+  iPcMeshSelect* pcmeshsel;
   
   //===============================
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity (); entity_room->SetName ("room");
-  entity_room->SetBehaviour (bl->CreateBehaviour ("printer"));
+  entity_room->SetBehaviour (bl->CreateBehaviour ("room"));
 
   pc = CreatePropertyClass (entity_room, pfmove, "pcsolid");
   if (!pc) return false;
+
+  pc = CreatePropertyClass (entity_room, pfmesh, "pcmeshselect");
+  if (!pc) return false;
+  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetFollowAlwaysMode (true);
+  pcmeshsel->SetSendmoveEvent (true);
+  pcmeshsel->SetMouseButtons (0);
+  pcmeshsel->DecRef ();
 
   pc = CreatePropertyClass (entity_room, pfinv, "pcinventory");
   if (!pc) return false;
@@ -362,7 +373,7 @@ bool CelTest::CreateRoom ()
 
   pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
   if (!pc) return false;
-  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (view->GetCamera ());
   pcmeshsel->SetFollowMode (true);
   pcmeshsel->SetDragMode (true);
