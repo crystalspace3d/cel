@@ -125,11 +125,30 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   PyObject *py_module, *py_dict, *py_func, *py_args;
   PyObject *py_entity, *py_object;
 
-  py_module = PyImport_ImportModule((char *)name);
+  csString realname;
+  char* slash = strrchr (name, '/');
+  if (slash)
+  {
+    realname = slash+1;
+    *slash = 0;
+    csString path = name;
+    *slash = '/';
+
+    csString pythonscript = "sys.path.append('";
+    pythonscript += path;
+    pythonscript += "/')";
+    if (!RunText (pythonscript)) return false;
+  }
+  else
+  {
+    realname = name;
+  }
+
+  py_module = PyImport_ImportModule (realname.GetData ());
   if (py_module != 0) 
   {
     py_dict = PyModule_GetDict (py_module);
-    py_func = PyDict_GetItemString (py_dict, (char *)name);
+    py_func = PyDict_GetItemString (py_dict, realname.GetData ());
     if (py_func && PyCallable_Check(py_func))
     {
       py_args = PyTuple_New(1);
@@ -145,19 +164,19 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
     }
     else    
     {
-      printf ("Error: object \"%s\" is not callable'\n", name);
+      printf ("Error: object \"%s\" is not callable'\n", realname.GetData ());
       return 0;
     }
   }
   else
   {
-    printf ("Error: failed to load module \"%s\"\n", name);
+    printf ("Error: failed to load module \"%s\"\n", realname.GetData ());
     PyRun_SimpleString ("pdb.pm()");
     return 0;
   }
 
   celPythonBehaviour* bh = new celPythonBehaviour (this,
-  	py_entity, py_object, name);
+  	py_entity, py_object, realname.GetData ());
 
   return bh;
 }
