@@ -1,3 +1,21 @@
+27-Dec-2001:
+	- Added a string registry to the physical layer. This can be used
+	  for various things but in the first time it is going to be used
+	  for a generic property setter for all property classes. CEL
+	  convention on string names will be 'cel.xxx.yyy'. With 'xxx' equal
+	  to the type of string (i.e. 'property') and 'yyy' equal to the
+	  name of the given type (i.e. the property name). An example:
+	  'cel.property.num'.
+	- Extended iCelPropertyClass with a number of methods for a generic
+	  property setter. This will allow string based scripting languages
+	  to access all property classes without requiring knowledge
+	  of the SCF interface that is specific to that property class. Of
+	  course it will be less efficient but the efficiency loss is solved
+	  a bit by using the string registry.
+	- celPcCommand already provides empty implementations of all
+	  these new classes so that existing property classes don't have
+	  to be modified. None of the property classes currently implement
+	  the new interface though.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.
