@@ -29,6 +29,7 @@
 #include "iutil/plugin.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
+#include "iutil/cmdline.h"
 #include "iengine/engine.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
@@ -39,6 +40,7 @@
 #include "imap/parser.h"
 
 #include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/bl.h"
 
@@ -46,40 +48,40 @@ CS_IMPLEMENT_APPLICATION
 
 //-----------------------------------------------------------------------------
 
-// The global pointer to celpython
-CelPython* celpython;
+// The global pointer to bootstrap
+Bootstrap* bootstrap;
 
-CelPython::CelPython ()
+Bootstrap::Bootstrap ()
 {
 }
 
-CelPython::~CelPython ()
+Bootstrap::~Bootstrap ()
 {
   if (pl)
     pl->CleanCache ();
 }
 
-void CelPython::SetupFrame ()
+void Bootstrap::SetupFrame ()
 {
   // We let the entity system do this so there is nothing here.
 }
 
-void CelPython::FinishFrame ()
+void Bootstrap::FinishFrame ()
 {
   g3d->FinishDraw ();
   g3d->Print (0);
 }
 
-bool CelPython::HandleEvent (iEvent& ev)
+bool Bootstrap::HandleEvent (iEvent& ev)
 {
   if (ev.Type == csevBroadcast && ev.Command.Code == cscmdProcess)
   {
-    celpython->SetupFrame ();
+    bootstrap->SetupFrame ();
     return true;
   }
   else if (ev.Type == csevBroadcast && ev.Command.Code == cscmdFinalProcess)
   {
-    celpython->FinishFrame ();
+    bootstrap->FinishFrame ();
     return true;
   }
   else if (ev.Type == csevKeyDown)
@@ -95,12 +97,12 @@ bool CelPython::HandleEvent (iEvent& ev)
   return false;
 }
 
-bool CelPython::CelPythonEventHandler (iEvent& ev)
+bool Bootstrap::BootstrapEventHandler (iEvent& ev)
 {
-  return celpython->HandleEvent (ev);
+  return bootstrap->HandleEvent (ev);
 }
 
-bool CelPython::Initialize (int argc, const char* const argv[])
+bool Bootstrap::Initialize (int argc, const char* const argv[])
 {
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
@@ -115,23 +117,21 @@ bool CelPython::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
-		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
 		iCollideSystem),
 	CS_REQUEST_END))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
 	"Can't initialize plugins!");
     return false;
   }
 
-  if (!csInitializer::SetupEventHandler (object_reg, CelPythonEventHandler))
+  if (!csInitializer::SetupEventHandler (object_reg, BootstrapEventHandler))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
 	"Can't initialize event handler!");
     return false;
   }
@@ -148,7 +148,7 @@ bool CelPython::Initialize (int argc, const char* const argv[])
   if (!engine)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
 	"No iEngine plugin!");
     return false;
   }
@@ -157,7 +157,7 @@ bool CelPython::Initialize (int argc, const char* const argv[])
   if (!kbd)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
     	"No iKeyboardDriver plugin!");
     return false;
   }
@@ -166,7 +166,7 @@ bool CelPython::Initialize (int argc, const char* const argv[])
   if (!g3d)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
     	"No iGraphics3D plugin!");
     return false;
   }
@@ -175,30 +175,58 @@ bool CelPython::Initialize (int argc, const char* const argv[])
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
     	"CEL physical layer missing!");
     return false;
   }
-  
-  blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-  	"iCelBlLayer.Python", iCelBlLayer);
-  if (!blpython)
+ 
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
+  const char* plugin = cmdline->GetName (0);
+  const char* behaviour = cmdline->GetName (1);
+  if (plugin == 0 || behaviour == 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
-    	"CEL python behaviour layer missing.");
+    	"crystalspace.application.bootstrap",
+	"This tool expects two parameters. The first parameter is the name\n"
+	"of a behaviour layer plugin (like 'cel.behaviourlayer.python').\n"
+	"The second parameter is the name of a behaviour for that layer.");
     return false;
   }
-  pl->RegisterBehaviourLayer (blpython);
+
+  csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+    	"crystalspace.application.bootstrap",
+  	"Using behaviour layer plugin '%s' to fire up behaviour '%s'.",
+  	plugin, behaviour);
+  fflush (stdout);
+
+  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+  	iPluginManager);
+  bl = CS_LOAD_PLUGIN (plugin_mgr, plugin, iCelBlLayer);
+  if (!bl)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+	"Couldn't load behaviour layer '%s'!",
+	plugin);
+    return false;
+  }
+  object_reg->Register (bl, "iCelBlLayer");
+  pl->RegisterBehaviourLayer (bl);
 
   // Open the main system. This will open all the previously loaded plug-ins.
   if (!csInitializer::OpenApplication (object_reg))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celpython",
+    	"crystalspace.application.bootstrap",
     	"Error opening system!");
     return false;
   }
+
+  bootstrap_entity = pl->CreateEntity ();
+  bootstrap_entity->SetName ("bootstrap");
+  bootstrap_entity->SetBehaviour (bl->CreateBehaviour (bootstrap_entity,
+  	behaviour));
 
 #if 0
   // XXX: This should be in a config file...
@@ -235,7 +263,7 @@ bool CelPython::Initialize (int argc, const char* const argv[])
   return true;
 }
 
-void CelPython::Start ()
+void Bootstrap::Start ()
 {
   csDefaultRunLoop (object_reg);
 }
@@ -245,13 +273,13 @@ void CelPython::Start ()
  *---------------------------------------------------------------------*/
 int main (int argc, char* argv[])
 {
-  celpython = new CelPython ();
+  bootstrap = new Bootstrap ();
 
-  if (celpython->Initialize (argc, argv))
-    celpython->Start ();
+  if (bootstrap->Initialize (argc, argv))
+    bootstrap->Start ();
 
-  iObjectRegistry* object_reg = celpython->object_reg;
-  delete celpython;
+  iObjectRegistry* object_reg = bootstrap->object_reg;
+  delete bootstrap;
 
   csInitializer::DestroyApplication (object_reg);
   return 0;

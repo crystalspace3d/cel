@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	  take any behaviour layer plugin and create a basic entity that
 	  will execute a behaviour from that plugin. This can be used to
 	  fire up a game using CEL.
+	- 'bootstrap' now basically works.
 29-Jun-2003
 	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
 	  up-to-date version from the Crystal Space project.  This fixes the

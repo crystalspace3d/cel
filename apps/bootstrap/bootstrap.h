@@ -16,8 +16,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CELPYTHON_H__
-#define __CELPYTHON_H__
+#ifndef __BOOTSTRAP_H__
+#define __BOOTSTRAP_H__
 
 #include <stdarg.h>
 
@@ -39,30 +39,31 @@ struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
-class CelPython
+class Bootstrap
 {
 public:
   iObjectRegistry* object_reg;
 
 private:
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> blpython;
+  csRef<iCelBlLayer> bl;
   csRef<iEngine> engine;
   csRef<iKeyboardDriver> kbd;
   csRef<iGraphics3D> g3d;
+  csRef<iCelEntity> bootstrap_entity;
  
-  static bool CelPythonEventHandler (iEvent& ev);
+  static bool BootstrapEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
   void SetupFrame ();
   void FinishFrame ();
 
 public:
-  CelPython ();
-  ~CelPython ();
+  Bootstrap ();
+  ~Bootstrap ();
 
   bool Initialize (int argc, const char* const argv[]);
   void Start ();
 };
 
-#endif // __CELPYTHON_H__
+#endif // __BOOTSTRAP_H__
 
