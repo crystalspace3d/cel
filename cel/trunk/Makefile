@@ -28,6 +28,7 @@ include csconfig.mak
 #------
 BLTEST=bltest${DLL}
 PFTEST=pftest${DLL}
+PFMESH=pfmesh${DLL}
 PLIMP=plimp${DLL}
 CELTEST=celtst${EXE}
 
@@ -40,6 +41,8 @@ BLTEST_SRC=$(wildcard bltest/*.cpp)
 BLTEST_OBJS=$(addsuffix .o, $(basename $(BLTEST_SRC)))
 PFTEST_SRC=$(wildcard pf/test/*.cpp)
 PFTEST_OBJS=$(addsuffix .o, $(basename $(PFTEST_SRC)))
+PFMESH_SRC=$(wildcard pf/mesh/*.cpp)
+PFMESH_OBJS=$(addsuffix .o, $(basename $(PFMESH_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 
@@ -60,6 +63,7 @@ CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
 PLIMP_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFMESH_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 
 #------
@@ -70,7 +74,7 @@ CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST)
+all: $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH)
 
 
 $(PLIMP): $(PLIMP_OBJS)
@@ -82,17 +86,24 @@ $(BLTEST): $(BLTEST_OBJS)
 $(PFTEST): $(PFTEST_OBJS)
 	$(DO.PLUGIN) $(PFTEST_LINKFLAGS)
 
+$(PFMESH): $(PFMESH_OBJS)
+	$(DO.PLUGIN) $(PFMESH_LINKFLAGS)
+
 $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(PLIMP_OBJS) $(PLIMP) $(BLTEST) $(PFTEST) $(CELTEST)
+	$(RM) $(PLIMP_OBJS) $(PLIMP) $(BLTEST) $(PFTEST) $(PFMESH) $(CELTEST)
 
 #------
 # Create dependencies
 #------
 depend:
-	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) $(BLTEST_SRC) $(PFTEST_SRC) $(CELTEST_SRC) > makefile.dep
+	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
+	gcc -MM $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
+	gcc -MM $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
+	gcc -MM $(CXXFLAGS) $(PFMESH_SRC) >> makefile.dep
+	gcc -MM $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
 
 #------
 # Include dependencies

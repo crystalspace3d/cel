@@ -33,6 +33,7 @@ struct iView;
 
 struct iCelPlLayer;
 struct iCelBlLayer;
+struct iCelPropertyClassFactory;
 
 #define OBJ_SPARKBOX "sparkbox"
 #define OBJ_MARBLEBOX "marblebox"
@@ -59,6 +60,7 @@ private:
 
   bool LoadTexture (const char* txtName, const char* fileName);
   bool LoadMeshFactory (const char* fileName);
+  iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
   void CreateObject (int x, int y, int z, const char* obj);
   void CreateRoom ();
 

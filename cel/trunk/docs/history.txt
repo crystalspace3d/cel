@@ -40,4 +40,9 @@
 	  no longer use iCelMessage but directly pass the information
 	  to the bl entity.
 	- Further work on bltest and celtest. A message is now printed.
+28-Oct-2001:
+	- Started work on the 'pfmesh' factory. This factory will support
+	  the 'pcmesh' property class so that you can attach a mesh object
+	  with an entity.
+	- 'celtest' now shows an entity that has a mesh attached to it.
 
