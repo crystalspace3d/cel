@@ -75,8 +75,8 @@ private:
   bool Write (int8 v);
   bool Write (float f);
 
-  iCelEntity* FindEntity (CS_ID id);
-  iCelEntity* FindOrCreateEntity (CS_ID id);
+  iCelEntity* FindEntity (uint id);
+  iCelEntity* FindOrCreateEntity (uint id);
   bool ReadMarker (char* marker);
   bool CheckMarker (const char* marker);
   bool Read (int8& b);
@@ -105,8 +105,8 @@ public:
   virtual csPtr<iCelEntity> LoadEntity();
   virtual bool SaveEntity(iCelEntity* entity);
 
-  virtual CS_ID GetMappedID(iCelEntity* entitiy);
-  virtual iCelEntity* GetMappedEntity(CS_ID id);
+  virtual uint GetMappedID(iCelEntity* entitiy);
+  virtual iCelEntity* GetMappedEntity(uint id);
 
   void Clear();
   void RemoveEntity(iCelEntity* entity);

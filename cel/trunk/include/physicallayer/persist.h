@@ -110,10 +110,10 @@ struct iCelPersistenceContext : public iBase
   virtual bool SaveEntity (iCelEntity* entity) = 0;
 
   /* returns the ID mapped to the ID on the other side of the connection */
-  virtual CS_ID GetMappedID(iCelEntity* entity) = 0;
+  virtual uint GetMappedID(iCelEntity* entity) = 0;
 
   /* returns the entitiy after mapping the ID */
-  virtual iCelEntity* GetMappedEntity(CS_ID id) = 0;
+  virtual iCelEntity* GetMappedEntity(uint id) = 0;
 
   /**
    * Clears internal data and buffers (like list of already saved entities)

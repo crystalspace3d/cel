@@ -173,7 +173,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
 
 csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
 {
-  CS_ID objid;
+  uint objid;
 
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   iCelEntity* ientity = &entity->scfiCelEntity;
@@ -192,7 +192,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   return csPtr<iCelEntity> (ientity);
 }
 
-csPtr<iCelEntity> celPlLayer::CreateEntity (CS_ID entity_id)
+csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   iCelEntity* ientity = &entity->scfiCelEntity;
@@ -306,12 +306,12 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
   entities.Delete (entity);
 }
 
-iCelEntity* celPlLayer::GetEntity (CS_ID id)
+iCelEntity* celPlLayer::GetEntity (uint id)
 {
   return (iCelEntity*) idlist.Get (id);
 }
 
-iCelBehaviour* celPlLayer::GetBehaviour (CS_ID id)
+iCelBehaviour* celPlLayer::GetBehaviour (uint id)
 {
   iCelEntity* ent = (iCelEntity*) idlist.Get (id);
   if (ent)

@@ -204,7 +204,7 @@ void celPersistClassicContext::RemoveEntity (iCelEntity* entity)
 {
   // the real entitiy dies, so we have to remove the ref from our mapping
   // tables
-  CS_ID serverid = GetMappedID(entity);
+  uint serverid = GetMappedID(entity);
   if (serverid == 0)
     return;
   read_entities.DeleteAll (serverid);
@@ -268,12 +268,12 @@ bool celPersistClassicContext::SaveEntity(iCelEntity* entity)
   return Write(entity);
 }
 
-iCelEntity* celPersistClassicContext::FindEntity (CS_ID id)
+iCelEntity* celPersistClassicContext::FindEntity (uint id)
 {
   return (iCelEntity*) read_entities.Get (id);
 }
 
-iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
+iCelEntity* celPersistClassicContext::FindOrCreateEntity (uint id)
 {
   csRef<iCelEntity> entity;
   
@@ -292,7 +292,7 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
       if (entity)
       {
 	read_entities.Put (id, entity);
-	CS_ID* tmpid = new CS_ID(id);
+	uint* tmpid = new uint(id);
 	read_ids.Put (entity->GetID(), tmpid);
 	temprefs.Push (entity);
       }
@@ -302,14 +302,14 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
   return entity;
 }
 
-iCelEntity* celPersistClassicContext::GetMappedEntity(CS_ID id)
+iCelEntity* celPersistClassicContext::GetMappedEntity(uint id)
 {
   return FindEntity(id);
 }
 
-CS_ID celPersistClassicContext::GetMappedID(iCelEntity* entity)
+uint celPersistClassicContext::GetMappedID(iCelEntity* entity)
 {
-  CS_ID* id = (CS_ID*) read_ids.Get(entity->GetID());
+  uint* id = (uint*) read_ids.Get(entity->GetID());
   return id ? *id : 0;
 }
 
@@ -608,7 +608,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
   if (marker[3] == 'R')
   {
     // A reference.
-    CS_ID entid;
+    uint entid;
     char* pcname = 0;
     bool rc = true;
     rc = rc && Read (entid);
@@ -634,7 +634,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
   }
   else if (marker[3] == 'I')
   {
-    CS_ID entid;
+    uint entid;
     char* pcname = 0;
     bool rc = true;
     rc = rc && Read (entid);
@@ -707,7 +707,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
   if (marker[3] == 'R')
   {
     // A reference.
-    CS_ID entid;
+    uint entid;
     if (!Read (entid))
     {
       Report ("Expected entity ID, got something else!");
@@ -717,7 +717,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
   }
   else if (marker[3] == 'I')
   {
-    CS_ID entid;
+    uint entid;
     char* entname = 0, * bhname = 0, * bhlayername = 0;
     bool rc = true;
     rc = rc && Read (entid);
@@ -803,7 +803,7 @@ bool celPersistClassicContext::WriteID (iCelEntity* entity)
 {
   if (performmapping)
   {
-    CS_ID id = GetMappedID(entity);
+    uint id = GetMappedID(entity);
     return Write(id);
   }
   else

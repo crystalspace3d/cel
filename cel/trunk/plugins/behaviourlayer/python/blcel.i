@@ -122,7 +122,7 @@ struct iCelEntity : public iBase
   virtual void SetBehaviour (iCelBehaviour* ent);
   virtual iCelBehaviour* GetBehaviour ();
 
-  virtual CS_ID GetID () const = 0;
+  virtual uint GetID () const = 0;
 
   iCelPropertyClassList* GetPropertyClassList ();
 
