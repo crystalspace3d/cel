@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  New Renderer in CS.
 	- Eric Sunshine added a --enable-new-renderer option to configure.ac
 	  so that CEL can be tested against the new renderer.
+	- Jorrit used CS_IMPLEMENT_STATIC_VAR to make sure the global arrays
+	  in the billboard manager are properly constructed on all platforms.
 8-Feb-2004
 	- Eric Sunshine upgraded .m4 and .jam files to latest versions from
 	  Crystal Space CVS repository.  Centralized special-case handling of

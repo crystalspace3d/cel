@@ -481,11 +481,11 @@ bool celBillboard::In (int sx, int sy)
 static csSimpleRenderMesh mesh;
 static bool mesh_init = false;
 
-static csDirtyAccessArray<uint> mesh_indices;
+CS_IMPLEMENT_STATIC_VAR (GetMeshIndices, csDirtyAccessArray<uint>, ());
 static int mesh_indices_count = 0;
-static csDirtyAccessArray<csVector3> mesh_vertices;
-static csDirtyAccessArray<csVector2> mesh_texels;
-static csDirtyAccessArray<csVector4> mesh_colors;
+CS_IMPLEMENT_STATIC_VAR (GetMeshVertices, csDirtyAccessArray<csVector3>, ());
+CS_IMPLEMENT_STATIC_VAR (GetMeshTexels, csDirtyAccessArray<csVector2>, ());
+CS_IMPLEMENT_STATIC_VAR (GetMeshColors, csDirtyAccessArray<csVector4>, ());
 
 static void mesh_reset ()
 {
@@ -497,9 +497,9 @@ static void mesh_reset ()
     mesh.z_buf_mode = CS_ZBUF_FILL;
   }
   mesh_indices_count = 0;
-  mesh_vertices.Empty ();
-  mesh_texels.Empty ();
-  mesh_colors.Empty ();
+  GetMeshVertices ()->Empty ();
+  GetMeshTexels ()->Empty ();
+  GetMeshColors ()->Empty ();
   mesh.texture = 0;
 }
 
@@ -507,11 +507,11 @@ static void mesh_draw (iGraphics3D* g3d)
 {
   if (mesh_indices_count <= 0) return;
   mesh.indexCount = mesh_indices_count;
-  mesh.indices = mesh_indices.GetArray ();
-  mesh.vertexCount = mesh_vertices.Length ();
-  mesh.vertices = mesh_vertices.GetArray ();
-  mesh.texcoords = mesh_texels.GetArray ();
-  mesh.colors = mesh_colors.GetArray ();
+  mesh.indices = GetMeshIndices ()->GetArray ();
+  mesh.vertexCount = GetMeshVertices ()->Length ();
+  mesh.vertices = GetMeshVertices ()->GetArray ();
+  mesh.texcoords = GetMeshTexels ()->GetArray ();
+  mesh.colors = GetMeshColors ()->GetArray ();
   g3d->DrawSimpleMesh (mesh);
   mesh_reset ();
 }
@@ -570,26 +570,17 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
 
   float z_inv_aspect = z / g3d->GetPerspectiveAspect ();
 
-#if 0
-  if (mesh_indices_count >= mesh_indices.Length ())
-  {
-    int idx = mesh_vertices.Length ();
-    mesh_indices.Push (idx);
-    mesh_indices.Push (idx+1);
-    mesh_indices.Push (idx+2);
-    mesh_indices.Push (idx);
-    mesh_indices.Push (idx+2);
-    mesh_indices.Push (idx+3);
-  }
-  mesh_indices_count += 6;
-#else
+  csDirtyAccessArray<uint>& mesh_indices = *GetMeshIndices ();
+  csDirtyAccessArray<csVector3>& mesh_vertices = *GetMeshVertices ();
+  csDirtyAccessArray<csVector2>& mesh_texels = *GetMeshTexels ();
+  csDirtyAccessArray<csVector4>& mesh_colors = *GetMeshColors ();
+  
   mesh_indices_count += 4;
   int i;
   for (i = mesh_indices.Length () ; i < mesh_indices_count ; i++)
   {
     mesh_indices.Put (i, i);
   }
-#endif
 
   csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
   	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
