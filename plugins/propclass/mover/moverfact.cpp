@@ -38,6 +38,7 @@ CEL_IMPLEMENT_FACTORY (Mover, "pcmover")
 
 //---------------------------------------------------------------------------
 
+csStringID celPcMover::id_sectorname = csInvalidStringID;
 csStringID celPcMover::id_position = csInvalidStringID;
 csStringID celPcMover::id_up = csInvalidStringID;
 csStringID celPcMover::id_movespeed = csInvalidStringID;
@@ -62,8 +63,9 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   // For PerformAction.
-  if (id_position == csInvalidStringID)
+  if (id_sectorname == csInvalidStringID)
   {
+    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_up = pl->FetchStringID ("cel.parameter.up");
     id_movespeed = pl->FetchStringID ("cel.parameter.movespeed");
