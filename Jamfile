@@ -17,7 +17,7 @@ Help maintainerclean :
 		"Cleanup all objectfiles, buildconfig and generated files." ;
 
 # include subdirectories
-SubInclude TOP celtest ;
+SubInclude TOP apps ;
 SubInclude TOP include ;
 SubInclude TOP plugins ;
 
