@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-Feb-2004
+	- Norman Kramer reported that the python scripts were still using
+	  VFS path celdata instead of cellib. Jorrit fixed it.
+	- Norman also sent in a patch to the python plugin in CEL.
 17-Feb-2004
 	- Eric Sunshine added a mount for 'partsys' to vfs.cfg since celtest
 	  tries to load it.

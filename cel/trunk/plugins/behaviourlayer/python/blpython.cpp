@@ -97,12 +97,12 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   if (!LoadModule ("blcelc")) return false;
 
   // Store the object registry pointer in 'blcel.object_reg'.
-  Store ("blcelc.object_reg_ptr", object_reg, (void*)"_p_iObjectRegistry");
+  Store ("blcelc.object_reg_ptr", object_reg, "_p_iObjectRegistry");
   RunText ("blcelc.object_reg=blcelc.iObjectRegistryPtr(blcelc.object_reg_ptr)");
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
                                    
   // Store the physical layer pointer in 'blcel.physicallayer'.
-  Store ("blcelc.physicallayer_ptr", pl, (void*)"_p_iCelPlLayer");
+  Store ("blcelc.physicallayer_ptr", pl, "_p_iCelPlLayer");
   RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
 
   return true;
@@ -142,8 +142,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
     if (py_func && PyCallable_Check(py_func))
     {
       py_args = PyTuple_New(1);
-      swig_type_info *ti = SWIG_TypeQuery ("_p_iCelEntity");
-      py_entity = SWIG_NewPointerObj(entity, ti, 0);
+      py_entity = csWrapTypedObject (entity, "_p_iCelEntity", 0);
       PyTuple_SetItem (py_args, 0, py_entity);
       py_object = PyObject_CallObject(py_func, py_args);
       if (!py_object)    
@@ -195,10 +194,9 @@ bool celBlPython::RunText (const char* Text)
   return worked;
 }
 
-bool celBlPython::Store (const char* name, void* data, void* tag)
+bool celBlPython::Store (const char* name, void* data, const char* tag)
 {
-  swig_type_info *ti = SWIG_TypeQuery ((char *)tag);
-  PyObject *obj = SWIG_NewPointerObj (data, ti, 0);
+  PyObject *obj = csWrapTypedObject (data, tag, 0);
   char *mod_name = csStrNew (name);
   char * var_name = strrchr (mod_name, '.');
   if(!var_name)
@@ -253,8 +251,6 @@ celPythonBehaviour::celPythonBehaviour (celBlPython *scripter,
   celPythonBehaviour::py_entity = py_entity;
   celPythonBehaviour::py_object = py_object;
   celPythonBehaviour::name = csStrNew (name);
-  tibase = SWIG_TypeQuery ("_p_iBase");  
-  tiparams = SWIG_TypeQuery ("_p_iCelParameterBlock");  
 }
 
 celPythonBehaviour::~celPythonBehaviour ()
@@ -307,7 +303,7 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
   }
 */
 
-  PyObject *pymessage_info = SWIG_NewPointerObj (params, tiparams, 0);
+  PyObject *pymessage_info = csWrapTypedObject (params, "_p_iCelParameterBlock", 0);
 
   PyObject *method = PyString_FromString (msg_id);
 
