@@ -39,11 +39,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="libceltools_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
 				OutputFile=".\debug\temp\pfinput/pfinput.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories=".\debug\bin\libs,..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfinput/pfinput.pdb"
 				ImportLibrary=".\debug\temp\pfinput/pfinput.lib"/>
@@ -144,12 +144,6 @@ copy &quot;..\plugins\propclass\input\pfinput.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\input\inpfact.h">
 			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -163,12 +157,6 @@ copy &quot;..\plugins\propclass\input\pfinput.csplugin&quot;  ..
 			Filter="">
 			<File
 				RelativePath="..\plugins\propclass\input\inpfact.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
 		</Filter>
 	</Files>
