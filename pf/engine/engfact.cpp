@@ -26,6 +26,7 @@
 #include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
@@ -106,23 +107,22 @@ iCelPropertyClass* celPfEngine::CreatePropertyClass (const char* type)
 SCF_IMPLEMENT_IBASE (celPcCamera)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::PcCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::EventHandler)
+SCF_IMPLEMENT_IBASE (celPcCamera::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
+SCF_IMPLEMENT_IBASE_END
 
 celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
   celPcCamera::object_reg = object_reg;
+  scfiEventHandler = NULL;
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = new csView (engine, g3d);
@@ -135,6 +135,8 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (kbd != NULL);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
+
+  DG_ADDI (this, "celPcCamera()");
 }
 
 celPcCamera::~celPcCamera ()
@@ -144,21 +146,30 @@ celPcCamera::~celPcCamera ()
   if (iview) iview->DecRef ();
   if (engine) engine->DecRef ();
   if (g3d) g3d->DecRef ();
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  if (q)
+  if (scfiEventHandler)
   {
-    q->RemoveListener (&scfiEventHandler);
-    q->DecRef ();
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
   }
+  DG_REM (this);
 }
 
 void celPcCamera::SetupEventHandler ()
 {
+  if (!scfiEventHandler)
+  {
+    scfiEventHandler = new EventHandler (this);
+  }
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
+  q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (&scfiEventHandler, trigger);
+  q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
 }
 
@@ -244,6 +255,7 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   loaded = false;
   pointcamera = NULL;
   startname = NULL;
+  DG_ADDI (this, "celPcRegion()");
 }
 
 celPcRegion::~celPcRegion ()
@@ -254,6 +266,7 @@ celPcRegion::~celPcRegion ()
   delete[] regionname;
   if (pointcamera) pointcamera->DecRef ();
   delete[] startname;
+  DG_REM (this);
 }
 
 void celPcRegion::SetEntity (iCelEntity* entity)

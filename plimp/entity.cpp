@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "plimp/entity.h"
 #include "plimp/propclas.h"
 #include "bl/behave.h"
@@ -35,17 +36,22 @@ celEntity::celEntity ()
   name = NULL;
   plist = new celPropertyClassList (this);
   behaviour = NULL;
+  DG_ADDI (this, "celEntity(NONAME)");
+  DG_LINK (this, plist);
 }
 
 celEntity::~celEntity ()
 {
+  DG_UNLINK (this, plist);
   delete plist;
   if (behaviour) behaviour->DecRef ();
   delete[] name;
+  DG_REM (this);
 }
 
 void celEntity::SetName (const char* n)
 {
+  DG_DESCRIBE1 (this, "celEntity(%s)", n);
   delete[] name;
   if (n)
     name = csStrNew (n);
@@ -74,11 +80,13 @@ SCF_IMPLEMENT_IBASE_END
 celEntityList::celEntityList ()
 {
   SCF_CONSTRUCT_IBASE (NULL);
+  DG_ADDI (this, "celEntityList()");
 }
 
 celEntityList::~celEntityList ()
 {
   RemoveAll ();
+  DG_REM (this);
 }
 
 int celEntityList::GetCount () const
@@ -94,6 +102,7 @@ iCelEntity* celEntityList::Get (int n) const
 
 int celEntityList::Add (iCelEntity* obj)
 {
+  DG_LINK (this, obj);
   obj->IncRef ();
   return entities.Push (obj);
 }
@@ -103,6 +112,7 @@ bool celEntityList::Remove (iCelEntity* obj)
   int idx = entities.Find (obj);
   if (idx != -1)
   {
+    DG_UNLINK (this, obj);
     entities.Delete (idx);
     obj->DecRef ();
     return true;
@@ -113,6 +123,7 @@ bool celEntityList::Remove (iCelEntity* obj)
 bool celEntityList::Remove (int n)
 {
   iCelEntity* ent = Get (n);
+  DG_UNLINK (this, ent);
   ent->DecRef ();
   entities.Delete (n);
   return true;
@@ -121,7 +132,7 @@ bool celEntityList::Remove (int n)
 void celEntityList::RemoveAll ()
 {
   while (entities.Length () > 0)
-    Remove (0);
+    Remove ((int)0);
 }
 
 int celEntityList::Find (iCelEntity* obj) const

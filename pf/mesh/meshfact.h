@@ -383,14 +383,27 @@ public:
       return scfParent->HasSenddownEvent ();
     }
   } scfiPcMeshSelect;
-  struct EventHandler : public iEventHandler
+
+  // This is not an embedded interface in order to avoid
+  // a circular reference between this registered event handler
+  // and the parent object.
+  class EventHandler : public iEventHandler
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
+  private:
+    celPcMeshSelect* parent;
+  public:
+    EventHandler (celPcMeshSelect* parent)
+    {
+      SCF_CONSTRUCT_IBASE (NULL);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
-      return scfParent->HandleEvent (ev);
+      return parent->HandleEvent (ev);
     }
-  } scfiEventHandler;
+  } *scfiEventHandler;
 };
 
 #endif // __CEL_PF_MESHFACT__

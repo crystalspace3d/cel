@@ -323,14 +323,27 @@ public:
       return scfParent->IsOnGround ();
     }
   } scfiPcGravity;
-  struct EventHandler : public iEventHandler
+
+  // Not an embedded event handler to avoid circular references!!!
+  class EventHandler : public iEventHandler
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcGravity);
+  private:
+    celPcGravity* parent;
+
+  public:
+    EventHandler (celPcGravity* parent)
+    {
+      SCF_CONSTRUCT_IBASE (NULL);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
-      return scfParent->HandleEvent (ev);
+      return parent->HandleEvent (ev);
     }
-  } scfiEventHandler;
+  } *scfiEventHandler;
 };
 
 #endif // __CEL_PF_MOVEFACT__

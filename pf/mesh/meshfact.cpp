@@ -28,6 +28,7 @@
 #include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/flags.h"
 #include "iutil/object.h"
@@ -120,11 +121,13 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   fileName = NULL;
   factName = NULL;
+  DG_ADDI (this, "celPcMesh()");
 }
 
 celPcMesh::~celPcMesh ()
 {
   Clear ();
+  DG_REM (this);
 }
 
 void celPcMesh::Clear ()
@@ -413,27 +416,26 @@ void celPcMesh::Show ()
 SCF_IMPLEMENT_IBASE (celPcMeshSelect)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMeshSelect)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::PcMeshSelect)
   SCF_IMPLEMENTS_INTERFACE (iPcMeshSelect)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 SCF_IMPLEMENT_IBASE (celPcMeshSelect::PcMeshSelectData)
   SCF_IMPLEMENTS_INTERFACE (iPcMeshSelectData)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
   celPcMeshSelect::object_reg = object_reg;
+  scfiEventHandler = NULL;
   pccamera = NULL;
 
   sel_entity = NULL;
@@ -453,27 +455,37 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendmove = false;
 
   SetupEventHandler ();
+  DG_ADDI (this, "celPcMeshSelect()");
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
 {
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  if (q)
+  if (scfiEventHandler)
   {
-    q->RemoveListener (&scfiEventHandler);
-    q->DecRef ();
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
   }
-  if (pccamera) pccamera->DecRef ();
+  SetCamera (NULL);
+  DG_REM (this);
 }
 
 void celPcMeshSelect::SetupEventHandler ()
 {
+  if (!scfiEventHandler)
+  {
+    scfiEventHandler = new EventHandler (this);
+  }
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
+  q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
   if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
-  q->RegisterListener (&scfiEventHandler, trigger);
+  q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
 }
 
@@ -735,8 +747,27 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
 void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 {
-  if (pccamera) pccamera->IncRef ();
-  if (celPcMeshSelect::pccamera) celPcMeshSelect::pccamera->DecRef ();
+  if (pccamera == celPcMeshSelect::pccamera) return;
+  if (pccamera)
+  {
+    pccamera->IncRef ();
+#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (pccamera,
+    	iCelPropertyClass);
+    DG_LINK (this, pc);
+    pc->DecRef ();
+#endif
+  }
+  if (celPcMeshSelect::pccamera)
+  {
+#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (celPcMeshSelect::pccamera,
+    	iCelPropertyClass);
+    DG_UNLINK (this, pc);
+    pc->DecRef ();
+#endif
+    celPcMeshSelect::pccamera->DecRef ();
+  }
   celPcMeshSelect::pccamera = pccamera;
 }
 

@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "plimp/propclas.h"
 
 //---------------------------------------------------------------------------
@@ -31,11 +32,13 @@ celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   celPropertyClassList::parent_entity = parent_entity;
+  DG_ADDI (this, "celPCList()");
 }
 
 celPropertyClassList::~celPropertyClassList ()
 {
   RemoveAll ();
+  DG_REM (this);
 }
 
 int celPropertyClassList::GetCount () const
@@ -55,6 +58,7 @@ int celPropertyClassList::Add (iCelPropertyClass* obj)
   int idx = prop_classes.Push (obj);
   obj->IncRef ();
   obj->SetEntity (parent_entity);
+  DG_LINK (this, obj);
   return idx;
 }
 
@@ -63,6 +67,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   int idx = prop_classes.Find (obj);
   if (idx != -1)
   {
+    DG_UNLINK (this, obj);
     prop_classes.Delete (idx);
     obj->SetEntity (NULL);
     obj->DecRef ();
@@ -75,6 +80,7 @@ bool celPropertyClassList::Remove (int n)
 {
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
   iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[n];
+  DG_UNLINK (this, obj);
   prop_classes.Delete (n);
   obj->DecRef ();
   return true;
@@ -107,7 +113,8 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
   return NULL;
 }
 
-iBase* celPropertyClassList::FindByInterface (scfInterfaceID id, int version) const
+iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
+	int version) const
 {
   int i;
   for (i = 0 ; i < prop_classes.Length () ; i++)

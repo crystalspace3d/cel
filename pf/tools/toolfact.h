@@ -127,14 +127,27 @@ public:
       scfParent->SetBackgroundColor (r, g, b);
     }
   } scfiPcTooltip;
-  struct EventHandler : public iEventHandler
+
+  // Not an embedded interface to avoid circular references!!!
+  class EventHandler : public iEventHandler
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTooltip);
+  private:
+    celPcTooltip* parent;
+
+  public:
+    EventHandler (celPcTooltip* parent)
+    {
+      SCF_CONSTRUCT_IBASE (NULL);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
-      return scfParent->HandleEvent (ev);
+      return parent->HandleEvent (ev);
     }
-  } scfiEventHandler;
+  } *scfiEventHandler;
 };
 
 /**
@@ -179,14 +192,27 @@ public:
       scfParent->Clear ();
     }
   } scfiPcTimer;
-  struct EventHandler : public iEventHandler
+
+  // Not an embedded interface to avoid circular references!!!
+  class EventHandler : public iEventHandler
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTimer);
+  private:
+    celPcTimer* parent;
+
+  public:
+    EventHandler (celPcTimer* parent)
+    {
+      SCF_CONSTRUCT_IBASE (NULL);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
-      return scfParent->HandleEvent (ev);
+      return parent->HandleEvent (ev);
     }
-  } scfiEventHandler;
+  } *scfiEventHandler;
 };
 
 #endif // __CEL_PF_TOOLFACT__

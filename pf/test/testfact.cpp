@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "csutil/debug.h"
 #include "pf/test/testfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
@@ -83,10 +84,12 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
   celPcTest::object_reg = object_reg;
+  DG_ADDI (this, "celPcTest()");
 }
 
 celPcTest::~celPcTest ()
 {
+  DG_REM (this);
 }
 
 void celPcTest::SetEntity (iCelEntity* entity)
