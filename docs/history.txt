@@ -3,6 +3,27 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Jul-2003
+	- Jorrit fixed a bug in pclinmove where it would register collisions
+	  with the same object. Now pclinmove ignores collisions from the
+	  object which belongs to the mesh that contains pclinmove.
+	- Jorrit fixed a bug in pclinmove where it would not correctly do
+	  collisions with hierarchical objects. The problem was that
+	  GetTransform() was used instead of GetFullTransform().
+	- Jorrit fixed a bug in pclinmove where it would call PlaceMesh()
+	  AFTER changing the current sector but BEFORE moving the object to
+	  the new position. The result was that the PlaceMesh() function
+	  would fail to find all neighbouring sectors.
+	- Jorrit clarified the InitCD() function in pclinmove. Instead of
+	  'top' and 'bottom' the parameters are now called 'body' and 'legs'
+	  to indicate that these are the dimensions of the body and the
+	  legs of the colliders. Also added a 'shift' parameter so that
+	  you can relocate the collider if the 0,0,0 origin of the actor
+	  mesh is not at the bottom-center of the model.
+	  Note that this 'shift' feature doesn't work yet! So keep it
+	  at 0,0,0 for now.
+	- Unfortunatelly all bug fixes above still don't prevent smallgame.py
+	  from falling through the floor as soon as a portal is traversed.
 7-Jul-2003
 	- Jorrit received a patch from Steve Cook (steve.cook1@excite.com)
 	  for an AI pathfinding property class. I haven't yet got time

@@ -29,8 +29,8 @@ class actor:
 		pos = csVector3 (0, 1, 0)
 		mesh.MoveMesh(room,pos)
 
-		self.linmove.InitCD(csVector3 (-.5,-.5,-.5),csVector3(.5,.5,.5))
-		self.linmove.SetReady(1)
+		self.linmove.InitCD(csVector3(.5,1.0/3.0,.5),csVector3(.5,2.0/3.0,.5),
+			csVector3(0,0,0))
 
 		input.Bind("up", "forward")
 		input.Bind("down", "backward")
@@ -141,6 +141,8 @@ class actor:
 
 	def pckeyinput_jump1(self,celEntity,args):
 		self.handle_movement(1)
+	def pckeyinput_jump0(self,celEntity,args):
+		dummy = 0
 
 	def pckeyinput_run1(self,celEntity,args):
 		if not self.autorun:

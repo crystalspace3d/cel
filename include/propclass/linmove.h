@@ -72,8 +72,14 @@ struct iPcLinearMovement : public iBase
 
   /**
    * Initialize CD box for the object.
+   * The two parameters are the dimensions of the body and the legs
+   * collider boxes.
+   * The 'shift' vector is used to shift the box. By default (with shift
+   * equal to the 0 vector) the colliders are created assuming the 0,0,0
+   * origin is at the bottom center of the actor.
    */
-  virtual bool InitCD (csVector3& top, csVector3& bottom)=0;
+  virtual bool InitCD (const csVector3& body, const csVector3& legs,
+  	const csVector3& shift)=0;
 
   /**
    * Initialize CD again?@@@

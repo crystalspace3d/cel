@@ -135,7 +135,7 @@ celPcCamera::~celPcCamera ()
 {
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
     if (q)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -148,7 +148,7 @@ void celPcCamera::SetupEventHandler ()
   {
     scfiEventHandler = new EventHandler (this);
   }
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
@@ -188,8 +188,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       }
       case iPcCamera::follow:
       {
-	csRef<iPcMesh> pcmesh (
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh));
+	csRef<iPcMesh> pcmesh =
+		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
 	if (!pcmesh) break;
 	iMovable* movable = pcmesh->GetMesh()->GetMovable();
 
@@ -223,8 +223,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       }
       case iPcCamera::firstperson:
       {
-        csRef<iPcMesh> pcmesh (
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh));
+        csRef<iPcMesh> pcmesh =
+		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
         if (!pcmesh) break;
         iMovable* movable = pcmesh->GetMesh()->GetMovable();
 
@@ -254,8 +254,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       }
       case iPcCamera::rotational:
       {
-      	csRef<iPcMesh> pcmesh (
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh));
+      	csRef<iPcMesh> pcmesh =
+		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
 	if (!pcmesh) break;
 	csBox3 b;
 	csVector3 pos;
@@ -350,7 +350,7 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 
   if (point)
   {
-    csRef<iPcCamera> camera (SCF_QUERY_INTERFACE (this, iPcCamera));
+    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
 
     if (region)
         region->PointCamera(camera, name);
@@ -386,8 +386,8 @@ void celPcCamera::SetRectangle (int x, int y, int w, int h)
 
 csPtr<iCelDataBuffer> celPcCamera::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (CAMERA_SERIAL));
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   databuf->SetDataCount (3+11+7);
   celDataBufHelper db(databuf);
 
@@ -446,34 +446,35 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
     Report (object_reg,"Cannot load property class.");
     return false;
   }
-  if (pc) region = SCF_QUERY_INTERFACE (pc, iPcRegion);
+  if (pc)
+    region = SCF_QUERY_INTERFACE (pc, iPcRegion);
   if (region)
-      SetRegion(region, false, 0);
+    SetRegion (region, false, 0);
 
   const char* sectname;
-  db.Get(sectname);
-  iSector* sector = region->FindSector(sectname);
+  db.Get (sectname);
+  iSector* sector = region->FindSector (sectname);
   if (!sector)
   {
     Report (object_reg,"Illegal sector specified.  Cannot load.");
     return false;
   }
-  db.Get(v_o2t);
+  db.Get (v_o2t);
 
-  db.Get(m_o2t.m11);
-  db.Get(m_o2t.m12);
-  db.Get(m_o2t.m13);
-  db.Get(m_o2t.m21);
-  db.Get(m_o2t.m22);
-  db.Get(m_o2t.m23);
-  db.Get(m_o2t.m31);
-  db.Get(m_o2t.m32);
-  db.Get(m_o2t.m33);
+  db.Get (m_o2t.m11);
+  db.Get (m_o2t.m12);
+  db.Get (m_o2t.m13);
+  db.Get (m_o2t.m21);
+  db.Get (m_o2t.m22);
+  db.Get (m_o2t.m23);
+  db.Get (m_o2t.m31);
+  db.Get (m_o2t.m32);
+  db.Get (m_o2t.m33);
 
-  db.Get(followpos);
-  db.Get(followat);
+  db.Get (followpos);
+  db.Get (followat);
 
-  if (!db.AllOk())
+  if (!db.AllOk ())
   {
     Report (object_reg,"transformation matrix badly specified.  Cannot load.");
     return false;
@@ -482,13 +483,13 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
 
-  db.Get((uint8&)cammode);
-  db.Get(use_cd);
-  db.Get(rect_set);
-  db.Get((uint16&)rect_x);
-  db.Get((uint16&)rect_y);
-  db.Get((uint16&)rect_w);
-  db.Get((uint16&)rect_h);
+  db.Get ((uint8&)cammode);
+  db.Get (use_cd);
+  db.Get (rect_set);
+  db.Get ((uint16&)rect_x);
+  db.Get ((uint16&)rect_y);
+  db.Get ((uint16&)rect_w);
+  db.Get ((uint16&)rect_h);
 
   if (!db.AllOk())
   {
@@ -552,8 +553,8 @@ celPcRegion::~celPcRegion ()
 
 csPtr<iCelDataBuffer> celPcRegion::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (REGION_SERIAL));
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
   databuf->SetDataCount (4);
   celDataBufHelper db(databuf);
 
@@ -696,8 +697,6 @@ void celPcRegion::SetRegionName (const char* name)
 
 bool celPcRegion::Load ()
 {
-  bool rc = true;
-
   if (loaded)
   {
     Report (object_reg,"Entity '%s' already loaded.",entity->GetName());
@@ -719,22 +718,21 @@ bool celPcRegion::Load ()
     return false;
   }
 
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
   iRegion* cur_region = engine->CreateRegion (regionname);
   cur_region->DeleteAll ();
 
-  csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
+  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
-  csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
+  csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
   CS_ASSERT (VFS != 0);
   VFS->ChDir (worlddir);
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile (worldfile, false, cur_region, true))
   {
-    rc = false;
     Report (object_reg,"Could not load map file '%s'.", worldfile);
-    goto cleanup;
+    return false;
   }
   cur_region->Prepare ();
   loaded = true;
@@ -749,7 +747,7 @@ bool celPcRegion::Load ()
   while (iter->HasNext ())
   {
     iObject* o = iter->Next ();
-    csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (o, iMeshWrapper));
+    csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
     if (m)
     {
       csRef<iCelEntity> ent (pl->CreateEntity ());
@@ -766,15 +764,14 @@ bool celPcRegion::Load ()
   }
   }
 
-cleanup:
-  return rc;
+  return true;
 }
 
 void celPcRegion::Unload ()
 {
   if (!loaded) return;
   loaded = false;
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
 
   iRegion* cur_region = engine->CreateRegion (regionname);
@@ -790,14 +787,14 @@ void celPcRegion::Unload ()
 
 iSector* celPcRegion::FindSector (const char* name)
 {
-  csRef<iEngine> engine (CS_QUERY_REGISTRY(object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY(object_reg, iEngine);
   iSector* temp = engine->GetSectors()->FindByName (name);
   return temp;
 }
 
 iSector* celPcRegion::GetStartSector (const char* name)
 {
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
   iSector* sector;
   if (engine->GetCameraPositions ()->GetCount () > 0)
@@ -817,7 +814,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
 
 csVector3 celPcRegion::GetStartPosition (const char* name)
 {
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
   csVector3 pos (0);
   if (engine->GetCameraPositions ()->GetCount () > 0)
@@ -834,7 +831,7 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
 {
   CS_ASSERT(pccamera != 0);
 
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (engine->GetCameraPositions()->GetCount() > 0)
   {
     iCameraPosition* campos =

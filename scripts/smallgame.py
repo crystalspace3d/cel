@@ -14,8 +14,9 @@ class smallgame:
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.timer")
 
 		region = celCreateRegion(physicallayer_ptr,celEntity,"main")
-		region.SetWorldFile("/lev/partsys", "world")
-		region.SetRegionName("partsys")
+		# @@@ Ugly hardcoding of path!
+		region.SetWorldFile("/this/apps/celtest/data", "portal_world")
+		region.SetRegionName("portals")
 		rc = region.Load()
 		room = region.GetStartSector()
 
