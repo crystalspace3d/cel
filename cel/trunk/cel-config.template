@@ -24,6 +24,7 @@ Options:
 	[--cflags]
 	[--lflags]
 	[--plugindir]
+	[--includedir]
 	[--help]
 
 Note that you have to also include the output of cs-config when compiling cel
@@ -85,6 +86,10 @@ while test $# -gt 0; do
         ;;
     --plugindir)
 	echo $plugindir
+	exit 0
+	;;
+    --includedir)
+	echo $includedir
 	exit 0
 	;;
     --libs)
