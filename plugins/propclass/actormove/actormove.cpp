@@ -243,7 +243,7 @@ void celPcActorMove::HandleMovement (bool jump)
     velocity.z = 0;
   }
   pclinmove->SetVelocity (velocity);
-  if (sprcal3d) sprcal3d->SetVelocity (velocity.z);
+  if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
   // @@@ do spr3d!
 
   float actual_rotating_speed = 0;

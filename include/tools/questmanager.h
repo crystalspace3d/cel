@@ -25,20 +25,29 @@
 
 /*
 <quest>
+    <params>
+    </params>
+
     <state name="notstarted">
     </state>
+
     <state name="start">
-        <trigger type="in_inventory">
-	    <on>
-	        <entity name="player" />
-	        <new_entity name="computer_part" />
-	    </on>
-	    <action>
-	    	<state>state2</state>
-	    </action>
+        <trigger type="ininventory">
+	    <fireon entity_name="player" new_entity_name="computer_part" />
+	    <reward type="newstate" state="state2" />
+	    <reward type="increasestats" statname="HP" value="3" />
+	</trigger>
+	<trigger type="objectdestroyed">
+	    <fireon entity_name="barrel" />
+	    <reward type="newstate" state="finalstate" />
+	    <reward type="increasestats" statname="HP" value="10" />
 	</trigger>
     </state>
+
     <state name="state2">
+        <trigger type="clickonentity">
+	    <fireon entity_name="" />
+	</trigger>
     </state>
 
     <start>notstarted</start>

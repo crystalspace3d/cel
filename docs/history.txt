@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Oct-2004
+	- Jorrit fixed a problem in actormove. It now uses
+	  sprcal3d->SetVelocity(-z) which for some reasons lets the animations
+	  play right.
 22-Sep-2004
 	- *** RELEASED STABLE 0.98.2 ***
 21-Sep-2004
