@@ -1453,7 +1453,14 @@ bool celPcRegion::Load ()
   {
     iObject* o = iter->Next ();
     iCelEntity* e = pl->FindAttachedEntity (o);
-    if (!e)
+    if (e)
+    {
+      // There was already an entity attached. This entity is probably
+      // created by an addon. We will also register this entity as
+      // one that needs to be deleted when the region is unloaded.
+      entities.Push (e);
+    }
+    else
     {
       csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
       if (m)

@@ -187,7 +187,14 @@ bool celRegion::Load ()
     }
 
     iCelEntity* e = pl->FindAttachedEntity (o);
-    if (!e)
+    if (e)
+    {
+      // There was already an entity attached. This entity is probably
+      // created by an addon. We will also register this entity as
+      // one that needs to be deleted when the region is unloaded.
+      entities.Push (e);
+    }
+    else
     {
       csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
       if (m)
@@ -228,6 +235,29 @@ void celRegion::Unload ()
       pl->RemoveEntity (entities[i]);
     }
   entities.DeleteAll ();
+
+  // We now scan every sector to see if there are entities
+  // in that that are not deleted yet. We will delete them here.
+  csSet<iSector*>::GlobalIterator it = sectors.GetIterator ();
+  while (it.HasNext ())
+  {
+    iSector* s = it.Next ();
+    iMeshList* ml = s->GetMeshes ();
+    int i;
+    for (i = 0 ; i < ml->GetCount () ; i++)
+    {
+      iMeshWrapper* m = ml->Get (i);
+      iCelEntity* e = pl->FindAttachedEntity (m->QueryObject ());
+      if (e)
+      {
+        // Check if the entity is also in other sectors. If so we
+	// will not remove it.
+	if (m->GetMovable ()->GetSectors ()->GetCount () <= 1)
+          pl->RemoveEntity (e);
+      }
+    }
+  }
+
   sectors.DeleteAll ();
 
   cur_region->DeleteAll ();

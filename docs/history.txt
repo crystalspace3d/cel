@@ -30,6 +30,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit extended the API documentation for all property classes
 	  so that every message also shows the parameters that are valid
 	  for that message.
+	- Jorrit fixed pcregion and pczonemanager so that they will also
+	  register entities created by addon's to the list of entities to
+	  remove when the region is removed.
+	- Jorrit fixed pczonemanager so that it also removes entities that
+	  are connected to a mesh and that are not in other sectors (and
+	  were not already removed earlier).
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
