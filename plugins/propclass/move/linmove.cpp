@@ -48,6 +48,8 @@
 #include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
 #include <igeom/objmodel.h>
+#include <igeom/path.h>
+#include <csgeom/path.h>
 
 //CEL includes
 #include "physicallayer/pl.h"
@@ -89,6 +91,8 @@ int celPcLinearMovement::num_our_cd;
 
 // Set this in order to see what meshes the player is colliding with
 //#define SHOW_COLLIDER_MESH_DEBUG
+
+#define LINMOVE_PATH_FLAG (char)0x80
 
 /*
  * This dumps 2 lines for every cross-sector CD that fails a sector-collision
@@ -160,6 +164,9 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   bottomCollider = 0;
 
   pcmesh = 0;
+  path = 0;
+  path_speed = 0;
+  path_time  = 0;
 
   DG_TYPE (this, "celPcLinearMovement ()");
 
@@ -566,13 +573,42 @@ void celPcLinearMovement::UpdateDR (csTicks ticks)
 
 void celPcLinearMovement::ExtrapolatePosition (float delta)
 {
-  bool rc = MoveSprite (delta);
-  rc = RotateV (delta) || rc;
-  if (rc)
+  if (path)
   {
+    path_time += delta;
+    path->CalculateAtTime(path_time);
+    csVector3 pos,look,up;
+    
+    path->GetInterpolatedPosition(pos);
+    path->GetInterpolatedUp(up);
+    path->GetInterpolatedForward(look);
+
+    pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin(pos);
+    pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(look.Unit(),up.Unit());
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
-    pcmesh->GetMesh ()->DeferUpdateLighting (
-    	CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 5);
+
+    pcmesh->GetMesh ()->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
+
+    csRef<iSprite3DState> spstate =
+            SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
+                                 iSprite3DState);
+
+    if (spstate && strcmp(path_actions[path->GetCurrentIndex()],
+	                  spstate->GetCurAction()->GetName() ) )
+    {
+      spstate->SetAction(path_actions[path->GetCurrentIndex()]);
+    }
+  }
+  else
+  {
+    bool rc = MoveSprite (delta);
+    rc = RotateV (delta) || rc;
+    if (rc)
+    {
+      pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+      pcmesh->GetMesh ()->DeferUpdateLighting (
+    	  CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 5);
+    }
   }
 }
 
@@ -890,7 +926,13 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat)
     return false;
   }	
 
-  float* tptr = (float*) data->GetData ();
+  char *ptr = (char *) data->GetData ();
+  if ((*ptr) & LINMOVE_PATH_FLAG)
+    return SetPathDRData (data);
+  else
+    onground = *ptr++;
+
+  float* tptr = (float*) ptr;
 
   /*csXRotMatrix3 matrix (0);*/
   float yangle = *(tptr++);
@@ -912,7 +954,6 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat)
   // Get onground flag
   // Find Action
   char* actionnum = (char*) tptr++;
-  onground = *actionnum++;
   int i = *actionnum++;
 
   csRef<iSprite3DFactoryState> factstate = SCF_QUERY_INTERFACE (
@@ -1017,8 +1058,142 @@ static float Matrix2YRot (const csMatrix3& mat)
   return GetAngle (vec.z, vec.x);
 }
 
+void celPcLinearMovement::SetPathAction (int which, const char *action)
+{
+  path_actions.Put(which,action);
+}
+
+bool celPcLinearMovement::SetPathDRData (iDataBuffer* data)
+{
+  char *ptr = (char *)data->GetData ();
+  ptr++; // skip LINMOVE_PATH_FLAG;
+  
+  // sector name is next.  path must be all in one sector.
+  path_sector = ptr;
+  ptr += path_sector.Length()+1;
+
+  int count = *(ptr++); // add number of points to follow
+
+  if (!path)
+    path = new csPath(count);
+
+  float *fptr = (float *)ptr;
+  path_time = *(fptr++);
+  path_speed = *(fptr++);
+
+  int i;
+  for (i=0; i<count; i++)
+  {
+    csVector3 vec;
+    vec.x = *(fptr++);
+    vec.y = *(fptr++);
+    vec.z = *(fptr++);
+    path->SetPositionVector (i,vec);
+
+    vec.x = *(fptr++);
+    vec.y = *(fptr++);
+    vec.z = *(fptr++);
+    path->SetUpVector (i,vec);
+
+    vec.x = *(fptr++);
+    vec.y = *(fptr++);
+    vec.z = *(fptr++);
+    path->SetForwardVector (i,vec);
+
+    path->SetTime (i,*(fptr++) );
+  }
+  // now add action list
+  ptr = (char *)fptr;
+  for (i=0; i<count; i++)
+  {
+    path_actions.Put(i,ptr);
+    ptr += strlen(ptr)+1;
+  }
+  return true;
+}
+
+csPtr<iDataBuffer> celPcLinearMovement::GetPathDRData()
+{
+  int len = path->Length();
+
+  // width is pos,up,forward vector + time value = 10 floats
+  int width = 10*sizeof(float);
+
+  len *= width;
+
+  len += path_sector.Length () + 1;  // alloc space for sector name
+  len += 1;		 	       // alloc space to specify number of points
+  len += 1;		 	       // leading flag saying this is path
+  len += 2*sizeof(float);	    // alloc for speed and path_time
+
+  for (int j=0; j<path->Length(); j++)
+  {
+    if (path_actions[j])
+    {
+      len += strlen(path_actions[j]) + 1;
+    }
+    else
+      len++; // still add NULL term char for blank actions
+  }
+
+  csRef<iDataBuffer> databuf = csPtr<iDataBuffer> (new csDataBuffer (len));
+
+  char *ptr = (char *)databuf->GetData ();
+  *(ptr++) = LINMOVE_PATH_FLAG;
+  strcpy(ptr,path_sector);
+  ptr += path_sector.Length()+1;
+
+  *(ptr++) = path->Length();   // add number of points to follow
+
+  float *fptr = (float *)ptr;
+  *(fptr++) = path_time;
+  *(fptr++) = path_speed;
+
+  int i;
+  for (i=0; i<path->Length(); i++)
+  {
+    csVector3 vec;
+    path->GetPositionVector(i,vec);
+    *(fptr++) = vec.x;
+    *(fptr++) = vec.y;
+    *(fptr++) = vec.z;
+
+    path->GetUpVector(i,vec);
+    *(fptr++) = vec.x;
+    *(fptr++) = vec.y;
+    *(fptr++) = vec.z;
+
+    path->GetForwardVector(i,vec);
+    *(fptr++) = vec.x;
+    *(fptr++) = vec.y;
+    *(fptr++) = vec.z;
+
+    *(fptr++) = path->GetTime(i);
+  }
+  // now add action list
+  ptr = (char *)fptr;
+  for (i=0; i<path->Length(); i++)
+  {
+    if (path_actions[i])
+    {
+      strcpy(ptr,path_actions[i]);
+      ptr += strlen(path_actions[i])+1;
+    }
+    else
+    {
+      *(ptr++) = 0;
+    }
+  }
+  path_sent = true;
+
+  return csPtr<iDataBuffer> (databuf);
+}
+
 csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
 {
+  if (path)
+      return GetPathDRData ();
+
   // Pack the important stuff into a databuffer.
   const char* sectorName = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()
   	->Get (0)->QueryObject ()->GetName ();
@@ -1031,7 +1206,10 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
   const csMatrix3& transf =
     pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
 
-  float* tptr = (float*) databuf->GetData ();
+  char *ptr = (char *) databuf->GetData ();
+  *ptr++ = (onground)?1:0;
+
+  float* tptr = (float*)ptr;
 
   // rotation
   float yangle = Matrix2YRot (transf);
@@ -1082,7 +1260,6 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
   char* anum = (char*) tptr;
   // Persist onground flag too so each client can do
   // its own gravity for all entities.
-  *anum++ = onground;
   *anum++ = action_number;
 
   // Send sector name.
@@ -1105,6 +1282,12 @@ bool celPcLinearMovement::NeedDRData (uint8& priority)
   // Never send DR messages until player is set to "ready"
   if (!ready)
     return false;
+
+  if (path && !path_sent)
+  {
+    priority = 1;
+    return true;
+  }
 
   float delta = csGetTicks () - lastDRUpdate;
   //@@@priority = PRIORITY_LOW;
