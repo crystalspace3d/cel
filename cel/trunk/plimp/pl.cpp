@@ -27,6 +27,7 @@
 #include "pl/propclas.h"
 #include "pl/datatype.h"
 #include "pl/persist.h"
+#include "bl/bl.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
@@ -69,6 +70,11 @@ celPlLayer::~celPlLayer ()
   {
     iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[i];
     pf->DecRef ();
+  }
+  for (i = 0 ; i < bl_list.Length () ; i++)
+  {
+    iCelBlLayer* bl = (iCelBlLayer*)bl_list[i];
+    bl->DecRef ();
   }
 }
 
@@ -363,4 +369,44 @@ void celPlLayer::CleanCache ()
   while (cache.Length () > 0)
     Uncache ((iBase*)cache[0]);
 }
+
+void celPlLayer::RegisterBehaviourLayer (iCelBlLayer* bl)
+{
+  if (bl_list.Find (bl) != -1) return;
+  bl_list.Push (bl);
+  bl->IncRef ();
+}
+
+void celPlLayer::UnregisterBehaviourLayer (iCelBlLayer* bl)
+{
+  int idx = bl_list.Find (bl);
+  if (idx == -1) return;
+  bl_list.Delete (idx);
+  bl->DecRef ();
+}
+
+int celPlLayer::GetBehaviourLayerCount () const
+{
+  return bl_list.Length ();
+}
+
+iCelBlLayer* celPlLayer::GetBehaviourLayer (int idx) const
+{
+  CS_ASSERT (idx >= 0 && idx < bl_list.Length ());
+  iCelBlLayer* bl = (iCelBlLayer*)bl_list[idx];
+  return bl;
+}
+
+iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
+{
+  int i;
+  for (i = 0 ; i < bl_list.Length () ; i++)
+  {
+    iCelBlLayer* bl = (iCelBlLayer*)bl_list[i];
+    if (!strcmp (bl->GetName (), name))
+      return bl;
+  }
+  return NULL;
+}
+
 

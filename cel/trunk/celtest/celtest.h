@@ -51,7 +51,8 @@ private:
   iSector* room;
 
   iCelPlLayer* pl;
-  iCelBlLayer* bl;
+  iCelBlLayer* bltest;
+  iCelBlLayer* blpython;
   iCelEntity* game;
  
   static bool CelTestEventHandler (iEvent& ev);

@@ -17,5 +17,7 @@ struct iCelPlLayer : public iBase
 
 struct iCelEntity : public iBase
 {
+  const char* GetName () const;
+  void SetName (const char* n);
 };
 

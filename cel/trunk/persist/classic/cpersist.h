@@ -43,7 +43,6 @@ class celPersistClassic : public iCelPersistance
 private:
   iObjectRegistry* object_reg;
   iCelPlLayer* pl;
-  iCelBlLayer* bl;
   csHashSet entities;
   csHashSet pclasses;
   csHashMap read_entities;

@@ -98,7 +98,8 @@ CelTest::CelTest ()
   kbd = NULL;
   vc = NULL;
   pl = NULL;
-  bl = NULL;
+  bltest = NULL;
+  blpython = NULL;
   game = NULL;
 }
 
@@ -110,7 +111,8 @@ CelTest::~CelTest ()
     pl->CleanCache ();
     pl->DecRef ();
   }
-  if (bl) bl->DecRef ();
+  if (bltest) bltest->DecRef ();
+  if (blpython) blpython->DecRef ();
   if (vc) vc->DecRef ();
   if (engine) engine->DecRef ();
   if (loader) loader->DecRef();
@@ -247,7 +249,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   iPcTest* pctest;
 
   iCelEntity* entity_box = pl->CreateEntity (); entity_box->SetName (name);
-  entity_box->SetBehaviour (bl->CreateBehaviour (entity_box, "box"));
+  entity_box->SetBehaviour (bltest->CreateBehaviour (entity_box, "box"));
 
   pc = pl->CreatePropertyClass (entity_box, "pcmeshselect");
   if (!pc) return NULL;
@@ -322,7 +324,8 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
   iCelEntity* entity_dummy = pl->CreateEntity ();
   entity_dummy->SetName (name);
-  entity_dummy->SetBehaviour (bl->CreateBehaviour (entity_dummy, "printer"));
+  entity_dummy->SetBehaviour (bltest->CreateBehaviour (entity_dummy,
+  	"printer"));
   pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
   if (!pc) return NULL;
   pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
@@ -375,7 +378,7 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
 
   iCelEntity* entity_cam = pl->CreateEntity ();
   entity_cam->SetName (name);
-  entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "actor"));
+  entity_cam->SetBehaviour (bltest->CreateBehaviour (entity_cam, "actor"));
 
   pc = pl->CreatePropertyClass (entity_cam, "pckeyinput");
   if (!pc) return NULL;
@@ -451,7 +454,7 @@ bool CelTest::CreateRoom ()
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity (); entity_room->SetName ("room");
-  entity_room->SetBehaviour (bl->CreateBehaviour (entity_room, "room"));
+  entity_room->SetBehaviour (bltest->CreateBehaviour (entity_room, "room"));
 
   pc = pl->CreatePropertyClass (entity_room, "pcregion");
   if (!pc) return false;
@@ -617,6 +620,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   // .csinfo file for every plugin for example).
   iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp");
   iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest");
+  iSCF::SCF->RegisterClass ("cel.behaviourlayer.python", "blpython");
   iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest");
   iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh");
   iSCF::SCF->RegisterClass ("cel.pcfactory.meshselect", "pfmesh");
@@ -643,7 +647,10 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test", iCelBlLayer),
+	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
+		iCelBlLayer),
+	//CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
+		//iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
 		iCollideSystem),
@@ -725,14 +732,26 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"CEL physical layer missing!");
     return false;
   }
-  bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
-  if (!bl)
+  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+  	"iCelBlLayer.Test", iCelBlLayer);
+  if (!bltest)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.celtest",
     	"CEL test behaviour layer missing!");
     return false;
   }
+  pl->RegisterBehaviourLayer (bltest);
+  blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+  	"iCelBlLayer.Python", iCelBlLayer);
+  if (!blpython)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    	"crystalspace.application.celtest",
+    	"CEL python behaviour layer missing.");
+  }
+  else
+    pl->RegisterBehaviourLayer (blpython);
 
   // Open the main system. This will open all the previously loaded plug-ins.
   if (!csInitializer::OpenApplication (object_reg))

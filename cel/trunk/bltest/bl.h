@@ -41,6 +41,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
+  virtual const char* GetName () const { return "bltest"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
   struct Component : public iComponent
