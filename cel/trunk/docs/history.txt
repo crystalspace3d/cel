@@ -14,6 +14,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit revered Eric's change for incorrect printf formatting
 	  directives because those cause lots of warnings like this:
 	    long unsigned int format, unsigned int arg (arg 3)
+	- Jorrit reverted a few changes from SetBool to Set and put them
+	  back to SetBool(). The SetBool() is the SetBool() from csFlags
+	  there which is a totally different function.
 12-Jul-2004
 	- Jorrit fixed a dependency for addon_celentity plugin (with
 	  celtool).

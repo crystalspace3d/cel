@@ -428,19 +428,19 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
   else if (propertyId == properties[propid_movable].id)
   {
     GetBillboard ();
-    if (billboard) billboard->GetFlags ().Set (CEL_BILLBOARD_MOVABLE, b);
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_MOVABLE, b);
     return true;
   }
   else if (propertyId == properties[propid_visible].id)
   {
     GetBillboard ();
-    if (billboard) billboard->GetFlags ().Set (CEL_BILLBOARD_VISIBLE, b);
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
     return true;
   }
   else if (propertyId == properties[propid_restack].id)
   {
     GetBillboard ();
-    if (billboard) billboard->GetFlags ().Set (CEL_BILLBOARD_RESTACK, b);
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
     return true;
   }
   else
