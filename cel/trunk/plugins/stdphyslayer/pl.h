@@ -26,6 +26,7 @@
 #include "plugins/stdphyslayer/numreg.h"
 
 struct iObjectRegistry;
+struct iEngine;
 class celEntity;
 
 /**
@@ -41,6 +42,7 @@ private:
   iObjectRegistry* object_reg;
   csStringSet string_registry;
   NumReg idlist;
+  csRef<iEngine> engine;
 
 public:
   celPlLayer (iBase* parent);
@@ -54,7 +56,7 @@ public:
    * remove an entity from the physical layer ID list.
    * This is called automatically by celEntity destructor.
    */
-  void RemoveEntity(celEntity* entity);
+  void RemoveEntity (celEntity* entity);
   virtual iCelEntity* GetEntity (CS_ID id);
   virtual iCelBehaviour* GetBehaviour (CS_ID id);
   

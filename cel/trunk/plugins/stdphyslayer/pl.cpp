@@ -87,6 +87,8 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
   idlist.Clear();
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  if (!engine) return false;	// Engine is required.
   return true;
 }
 
@@ -95,8 +97,8 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   CS_ID objid;
   
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  csRef<iCelEntity> ientity (SCF_QUERY_INTERFACE (entity, iCelEntity));
-  objid = idlist.Register(ientity);
+  csRef<iCelEntity> ientity = SCF_QUERY_INTERFACE (entity, iCelEntity);
+  objid = idlist.Register (ientity);
   if (objid == 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -105,11 +107,11 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
     delete entity;
     return 0;
   }
-  entity->SetEntityID(objid);
+  entity->SetEntityID (objid);
   return csPtr<iCelEntity> (ientity);
 }
 
-void celPlLayer::RemoveEntity(celEntity *entity)
+void celPlLayer::RemoveEntity (celEntity *entity)
 {
   if (!idlist.Remove(entity->GetEntityID()))
   {
@@ -292,20 +294,15 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != 0);
-  csRef<iObjectIterator> objit (engine->GetNearbyObjects (sector, pos, radius));
+  csRef<iMeshWrapperIterator> objit = engine->GetNearbyMeshes (
+  	sector, pos, radius);
   while (objit->HasNext ())
   {
-    iObject* obj = objit->Next ();
-    csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (obj, iMeshWrapper));
-    if (m)
-    {
-      bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-      if (invisible)       
-        continue;      
-    }
-    iCelEntity* ent = FindAttachedEntity (obj);
+    iMeshWrapper* m = objit->Next ();
+    bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
+    if (invisible)       
+      continue;      
+    iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
       list->Add (ent);
@@ -396,9 +393,7 @@ void celPlLayer::Uncache (iBase* object)
   int idx = cache.Find (object);
   if (idx != -1)
   {
-    csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-    if (engine)
-	engine->RemoveObject (object);
+    engine->RemoveObject (object);
     cache.Delete (idx);
   }
 }
