@@ -99,6 +99,7 @@ enum
   XMLFUNCTION_PROPERTY,
   XMLFUNCTION_ID,
   XMLFUNCTION_PARID,
+  XMLFUNCTION_ACTID,
   XMLFUNCTION_PROPID,
   XMLFUNCTION_RGB,
   XMLFUNCTION_ABS,
@@ -202,6 +203,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("property", XMLFUNCTION_PROPERTY);
   functions.Register ("id", XMLFUNCTION_ID);
   functions.Register ("parid", XMLFUNCTION_PARID);
+  functions.Register ("actid", XMLFUNCTION_ACTID);
   functions.Register ("propid", XMLFUNCTION_PROPID);
   functions.Register ("rgb", XMLFUNCTION_RGB);
   functions.Register ("abs", XMLFUNCTION_ABS);
@@ -361,6 +363,8 @@ bool celBlXml::ParseID (const char*& input, const csStringArray& local_vars,
       prefix = "cel.parameter.";
     else if (fun_id == XMLFUNCTION_PROPID)
       prefix = "cel.property.";
+    else if (fun_id == XMLFUNCTION_ACTID)
+      prefix = "cel.action.";
     else
       prefix = "";
     char* str = new char [strlen (prefix) + i-input+1];
@@ -382,6 +386,8 @@ bool celBlXml::ParseID (const char*& input, const csStringArray& local_vars,
 	  ? CEL_OPERATION_CALCPARID
 	  : fun_id == XMLFUNCTION_PROPID
 	  ? CEL_OPERATION_CALCPROPID
+	  : fun_id == XMLFUNCTION_ACTID
+	  ? CEL_OPERATION_CALCACTID
 	  : CEL_OPERATION_CALCID);
   }
   return true;
@@ -645,6 +651,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       }
       break;
     case XMLFUNCTION_ID:
+    case XMLFUNCTION_ACTID:
     case XMLFUNCTION_PROPID:
     case XMLFUNCTION_PARID:
       {

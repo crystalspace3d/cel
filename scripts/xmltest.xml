@@ -54,7 +54,7 @@
 	        <property propclass="pc(pcgravity)"
 			id="propid(weight)" value="1.0" />
 	        <action propclass="pc(pcgravity)"
-			id="propid(ApplyPermanentForce)">
+			id="actid(ApplyPermanentForce)">
 		    <par id="parid(force)" value="[0,-9.8,0]" />
 	        </action>
 	    </event>

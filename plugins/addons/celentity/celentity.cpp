@@ -211,7 +211,7 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	break;
       case XMLTOKEN_ACTION:
         {
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  csStringID propid = GetAttributeID (child, "cel.action.", "name");
 	  if (propid == csInvalidStringID) return false;
 	  celVariableParameterBlock* params = new celVariableParameterBlock ();
 	  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();

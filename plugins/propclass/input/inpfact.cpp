@@ -91,7 +91,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   pl = (iCelPlLayer*)player;
   if (action_bind == csInvalidStringID)
   {
-    action_bind = pl->FetchStringID ("cel.property.Bind");
+    action_bind = pl->FetchStringID ("cel.action.Bind");
   }
 }
 

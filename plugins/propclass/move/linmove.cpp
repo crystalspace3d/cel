@@ -181,7 +181,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   if (action_initcd == csInvalidStringID)
   {
-    action_initcd = pl->FetchStringID ("cel.property.InitCD");
+    action_initcd = pl->FetchStringID ("cel.action.InitCD");
   }
 }
 
