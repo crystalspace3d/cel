@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="plgblpython" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="plgpfactormove" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=plgblpython - Win32 Debug
+CFG=plgpfactormove - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "plgblpython.mak".
+!MESSAGE NMAKE /f "plgpfactormove.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "plgblpython.mak" CFG="plgblpython - Win32 Debug"
+!MESSAGE NMAKE /f "plgpfactormove.mak" CFG="plgpfactormove - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "plgblpython - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "plgblpython - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfactormove - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfactormove - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "plgblpython - Win32 Release"
+!IF  "$(CFG)" == "plgpfactormove - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -38,29 +38,29 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "release\temp\plgblpython"
-# PROP Intermediate_Dir "release\temp\plgblpython"
+# PROP Output_Dir "release\temp\plgpfactormove"
+# PROP Intermediate_Dir "release\temp\plgpfactormove"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /FD /c
-# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "." /I ".." /I "..\include" /D "NDEBUG" /D "_MT" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /FD /D "SWIG_GLOBAL" /c
+# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "." /I ".." /I "..\include" /D "NDEBUG" /D "_MT" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /FD  /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" 
-# ADD RSC /l 0x409 /d "NDEBUG" /fo".\release\temp\plgblpython\plgblpython.res"
+# ADD RSC /l 0x409 /d "NDEBUG" /fo".\release\temp\plgpfactormove\plgpfactormove.res"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /dll /machine:I386 /out:"release\temp\plgblpython\blpython.dll"  /OPT:NOREF
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /dll /machine:I386 /out:"release\temp\plgpfactormove\pfactormove.dll"  /OPT:NOREF
 # Begin Special Build Tool
-TargetPath=".\release\temp\plgblpython\blpython.dll"
+TargetPath=".\release\temp\plgpfactormove\pfactormove.dll"
 SOURCE="$(InputPath)"
 PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "plgblpython - Win32 Debug"
+!ELSEIF  "$(CFG)" == "plgpfactormove - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -69,26 +69,26 @@ PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "debug\temp\plgblpython"
-# PROP Intermediate_Dir "debug\temp\plgblpython"
+# PROP Output_Dir "debug\temp\plgpfactormove"
+# PROP Intermediate_Dir "debug\temp\plgpfactormove"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GR /GX /G5 /ZI /Od /I "." /I ".." /I "..\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD /D "SWIG_GLOBAL" /c
+# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GR /GX /G5 /ZI /Od /I "." /I ".." /I "..\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD  /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /fo".\debug\temp\plgblpython\plgblpython.res"
+# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /fo".\debug\temp\plgpfactormove\plgpfactormove.res"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:1.0 /subsystem:windows /dll /profile /debug /machine:I386 /out:"debug\temp\plgblpython\blpython.dll" 
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:1.0 /subsystem:windows /dll /profile /debug /machine:I386 /out:"debug\temp\plgpfactormove\pfactormove.dll" 
 # SUBTRACT LINK32 /profile
 # Begin Special Build Tool
-TargetPath=".\debug\temp\plgblpython\blpython.dll"
+TargetPath=".\debug\temp\plgpfactormove\pfactormove.dll"
 SOURCE="$(InputPath)"
 PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
@@ -97,14 +97,14 @@ PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 
 # Begin Target
 
-# Name "plgblpython - Win32 Debug"
-# Name "plgblpython - Win32 Release"
+# Name "plgpfactormove - Win32 Debug"
+# Name "plgpfactormove - Win32 Release"
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\python\blpython.h
+SOURCE=..\plugins\propclass\actormove\actormove.h
 # End Source File
 
 # End Group
@@ -113,7 +113,7 @@ SOURCE=..\plugins\behaviourlayer\python\blpython.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\msvc\plgblpython.rc
+SOURCE=..\msvc\plgpfactormove.rc
 # End Source File
 
 # End Group
@@ -122,15 +122,7 @@ SOURCE=..\msvc\plgblpython.rc
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\python\blcel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\behaviourlayer\python\blpython.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\behaviourlayer\python\pytocel.cpp
+SOURCE=..\plugins\propclass\actormove\actormove.cpp
 # End Source File
 
 # End Group

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgcpersist"
+	Name="plgpfactormove"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgcpersist"
-			IntermediateDirectory=".\release\temp\plgcpersist"
+			OutputDirectory=".\release\temp\plgpfactormove"
+			IntermediateDirectory=".\release\temp\plgpfactormove"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -32,10 +32,10 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgcpersist/plgcpersist.pch"
-				AssemblerListingLocation=".\release\temp\plgcpersist/"
-				ObjectFile=".\release\temp\plgcpersist/"
-				ProgramDataBaseFileName=".\release\temp\plgcpersist/plgcpersist.pdb"
+				PrecompiledHeaderFile=".\release\temp\plgpfactormove/plgpfactormove.pch"
+				AssemblerListingLocation=".\release\temp\plgpfactormove/"
+				ObjectFile=".\release\temp\plgpfactormove/"
+				ProgramDataBaseFileName=".\release\temp\plgpfactormove/plgpfactormove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -45,18 +45,18 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgcpersist\cpersist.dll"
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				OutputFile="release\temp\plgpfactormove\pfactormove.dll"
 				Version="4.0"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgcpersist/plgcpersist.pdb"
+				ProgramDatabaseFile=".\release\temp\plgpfactormove/plgpfactormove.pdb"
 				SubSystem="2"
 				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgcpersist/plgcpersist.lib"
+				ImportLibrary=".\release\temp\plgpfactormove/plgpfactormove.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgcpersist/plgcpersist.tlb"/>
+				TypeLibraryName=".\release\temp\plgpfactormove/plgpfactormove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to build root.
@@ -86,8 +86,8 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgcpersist"
-			IntermediateDirectory=".\debug\temp\plgcpersist"
+			OutputDirectory=".\debug\temp\plgpfactormove"
+			IntermediateDirectory=".\debug\temp\plgpfactormove"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@ copy &quot;$(TargetPath)&quot; ..
 				MinimalRebuild="TRUE"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgcpersist/plgcpersist.pch"
-				AssemblerListingLocation=".\debug\temp\plgcpersist/"
-				ObjectFile=".\debug\temp\plgcpersist/"
-				ProgramDataBaseFileName=".\debug\temp\plgcpersist/plgcpersist.pdb"
+				PrecompiledHeaderFile=".\debug\temp\plgpfactormove/plgpfactormove.pch"
+				AssemblerListingLocation=".\debug\temp\plgpfactormove/"
+				ObjectFile=".\debug\temp\plgpfactormove/"
+				ProgramDataBaseFileName=".\debug\temp\plgpfactormove/plgpfactormove.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -117,7 +117,7 @@ copy &quot;$(TargetPath)&quot; ..
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions=""
 				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgcpersist\cpersist.dll"
+				OutputFile="debug\temp\plgpfactormove\pfactormove.dll"
 				Version="1.0"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -125,9 +125,9 @@ copy &quot;$(TargetPath)&quot; ..
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgcpersist/plgcpersist.pdb"
+				ProgramDatabaseFile=".\debug\temp\plgpfactormove/plgpfactormove.pdb"
 				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgcpersist/plgcpersist.lib"
+				ImportLibrary=".\debug\temp\plgpfactormove/plgpfactormove.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -135,7 +135,7 @@ copy &quot;$(TargetPath)&quot; ..
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgcpersist/plgcpersist.tlb"/>
+				TypeLibraryName=".\debug\temp\plgpfactormove/plgpfactormove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to build root.
@@ -161,7 +161,7 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\persist\classic\cpersist.h">
+				RelativePath="..\plugins\propclass\actormove\actormove.h">
 			</File>
 
 		</Filter>
@@ -169,7 +169,7 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgcpersist.rc">
+				RelativePath="..\msvc\plgpfactormove.rc">
 			</File>
 
 		</Filter>
@@ -177,7 +177,7 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\persist\classic\cpersist.cpp">
+				RelativePath="..\plugins\propclass\actormove\actormove.cpp">
 			</File>
 
 		</Filter>

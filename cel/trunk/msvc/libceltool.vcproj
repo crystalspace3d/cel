@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\bin\libs"
+			OutputDirectory=".\release\temp\libceltool"
 			IntermediateDirectory=".\release\temp\libceltool"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -27,7 +27,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories="..\..;..\"
+				AdditionalIncludeDirectories=".,..,..\include"
 				PreprocessorDefinitions="NDEBUG,_LIB,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -42,14 +42,30 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\release\bin\libs\libceltool.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				OutputFile="release\temp\libceltool\celtool_vc7.dll"
+				Version="4.0"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				DelayLoadDLLs=""
+				ProgramDatabaseFile=".\release\temp\libceltool/libceltool.pdb"
+				SubSystem="2"
+				OptimizeReferences="1"
+				ImportLibrary=".\release\bin\libs\libceltool.lib"
+				TargetMachine="1"
+				BaseAddress="" />
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo File is a lib, Copy skipped."/>
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; ..
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -58,13 +74,13 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="..\..;..\"/>
+				AdditionalIncludeDirectories=""/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\bin\libs"
+			OutputDirectory=".\debug\temp\libceltool"
 			IntermediateDirectory=".\debug\temp\libceltool"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -74,10 +90,11 @@
 				Optimization="0"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories="..\..;..\"
+				AdditionalIncludeDirectories=".,..,..\include"
 				PreprocessorDefinitions="_DEBUG,_LIB,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
 				MinimalRebuild="TRUE"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\debug\temp\libceltool/libceltool.pch"
 				AssemblerListingLocation=".\debug\temp\libceltool/"
 				ObjectFile=".\debug\temp\libceltool/"
@@ -90,14 +107,30 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="debug\bin\libs\libceltool_d.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
+				OutputFile="debug\temp\libceltool\celtool_vc7d.dll"
+				Version="1.0"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
+				DelayLoadDLLs=""
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\libceltool/libceltool.pdb"
+				SubSystem="2"
+				ImportLibrary=".\debug\bin\libs/libceltool_d.lib"
+				TargetMachine="1"
+				BaseAddress="" />
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo File is a lib, Copy skipped."/>
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; ..
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -106,7 +139,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="..\..;..\"/>
+				AdditionalIncludeDirectories=""/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>

@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\bin\libs"
+			OutputDirectory=".\release\temp\%project%"
 			IntermediateDirectory=".\release\temp\%project%"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -27,7 +27,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="1"
 				AdditionalOptions="%cflags%"
-				AdditionalIncludeDirectories="..\..;..\"
+				AdditionalIncludeDirectories=".,%sourceroot%,%sourceroot%\include"
 				PreprocessorDefinitions="NDEBUG,_LIB,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -42,14 +42,30 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\release\bin\libs\%project%.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="%lflags%"
+				AdditionalDependencies="delayimp.lib %libs%"
+				OutputFile="release\temp\%project%\%name%_vc7.dll"
+				Version="4.0"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				DelayLoadDLLs="%delaylibs%"
+				ProgramDatabaseFile=".\release\temp\%project%/%project%.pdb"
+				SubSystem="2"
+				OptimizeReferences="1"
+				ImportLibrary=".\release\bin\libs\%project%.lib"
+				TargetMachine="1"
+				BaseAddress="" />
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo File is a lib, Copy skipped."/>
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; %buildroot%
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -58,13 +74,13 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="..\..;..\"/>
+				AdditionalIncludeDirectories=""/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\bin\libs"
+			OutputDirectory=".\debug\temp\%project%"
 			IntermediateDirectory=".\debug\temp\%project%"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -74,10 +90,11 @@
 				Optimization="0"
 				OptimizeForProcessor="1"
 				AdditionalOptions="%debugcflags%"
-				AdditionalIncludeDirectories="..\..;..\"
+				AdditionalIncludeDirectories=".,%sourceroot%,%sourceroot%\include"
 				PreprocessorDefinitions="_DEBUG,_LIB,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
 				MinimalRebuild="TRUE"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\debug\temp\%project%/%project%.pch"
 				AssemblerListingLocation=".\debug\temp\%project%/"
 				ObjectFile=".\debug\temp\%project%/"
@@ -90,14 +107,30 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="debug\bin\libs\%project%_d.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="%debuglflags%"
+				AdditionalDependencies="delayimp.lib %debuglibs%"
+				OutputFile="debug\temp\%project%\%name%_vc7d.dll"
+				Version="1.0"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
+				DelayLoadDLLs="%delaylibs%"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\%project%/%project%.pdb"
+				SubSystem="2"
+				ImportLibrary=".\debug\bin\libs/%project%_d.lib"
+				TargetMachine="1"
+				BaseAddress="" />
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo File is a lib, Copy skipped."/>
+				CommandLine="echo Moving output to build root.
+copy &quot;$(TargetPath)&quot; %buildroot%
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -106,7 +139,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="..\..;..\"/>
+				AdditionalIncludeDirectories=""/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>
