@@ -37,17 +37,30 @@ struct iCelPropertyClass;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 
-#define CEL_OPERATION_END 0
-#define CEL_OPERATION_PROPERTY 1		// Args: PC, ID, ?
-#define CEL_OPERATION_GETPROPERTY 2		// Args: S, PC, ID
-#define CEL_OPERATION_ACTION 3			// Args: PC, ID, S
-#define CEL_OPERATION_VAR 4			// Args: S, ?
-#define CEL_OPERATION_GETPROPCLASS 5		// Args: S, S S
-#define CEL_OPERATION_PRINT 6			// Args: S
-#define CEL_OPERATION_IF 7			// Args: S, E, E
-#define CEL_OPERATION_TESTCOLLIDE 8		// Args: S, E, E
-#define CEL_OPERATION_CREATEENTITY 9		// Args: S, S
-#define CEL_OPERATION_CREATEPROPCLASS 10	// Args: S
+#define CEL_OPERATION_END 0			// A:-	S:-	OS:-
+#define CEL_OPERATION_PROPERTY 1		// A: PC, ID, ?
+#define CEL_OPERATION_GETPROPERTY 2		// A: S, PC, ID
+#define CEL_OPERATION_ACTION 3			// A: PC, ID, S
+#define CEL_OPERATION_VAR 4			// A: S, ?
+#define CEL_OPERATION_GETPROPCLASS 5		// A: S, S S
+#define CEL_OPERATION_PRINT 6			// A:-		S:S	OS:-
+#define CEL_OPERATION_IF 7			// A:E,E	S:?	OS:-
+#define CEL_OPERATION_TESTCOLLIDE 8		// A:E,E	S:S	OS:-
+#define CEL_OPERATION_CREATEENTITY 9		// A:-		S:S,S	OS:-
+#define CEL_OPERATION_CREATEPROPCLASS 10	// A:-		S:S	OS:-
+
+#define CEL_OPERATION_PUSH 11			// A:?		S:-	OS:?
+#define CEL_OPERATION_DEREFVAR 12		// A:-		S:S	OS:?
+#define CEL_OPERATION_COLOR 13			// A:-		S:F,F,F	OS:C
+#define CEL_OPERATION_VECTOR2 14		// A:-		S:F,F	OS:V2
+#define CEL_OPERATION_VECTOR3 15		// A:-		S:F,F,F	OS:V3
+#define CEL_OPERATION_UNARYMINUS 16		// A:-		S:?	OS:?
+#define CEL_OPERATION_MINUS 17			// A:-		S:?,?	OS:?
+#define CEL_OPERATION_ADD 18			// A:-		S:?,?	OS:?
+#define CEL_OPERATION_MULT 19			// A:-		S:?,?	OS:?
+#define CEL_OPERATION_DIV 20			// A:-		S:?,?	OS:?
+#define CEL_OPERATION_ENTITY 21			// A:-		S:S	OS:EN
+#define CEL_OPERATION_PC 22			// A:-		S:S,S	OS:PC
 
 #define CEL_TYPE_NONE 0
 #define CEL_TYPE_UINT32 1
@@ -55,14 +68,15 @@ class celXmlScriptEventHandler;
 #define CEL_TYPE_FLOAT 3
 #define CEL_TYPE_STRING 4
 #define CEL_TYPE_BOOL 5
-#define CEL_TYPE_PC 6
-#define CEL_TYPE_ID 7
-#define CEL_TYPE_ARGLIST 8
-#define CEL_TYPE_EVENTHANDLER 9
-#define CEL_TYPE_VECTOR2 10
-#define CEL_TYPE_VECTOR3 11
-#define CEL_TYPE_COLOR 12
-#define CEL_TYPE_VAR 13
+#define CEL_TYPE_PC_REF 6
+#define CEL_TYPE_PC 7
+#define CEL_TYPE_ID 8
+#define CEL_TYPE_ARGLIST 9
+#define CEL_TYPE_EVENTHANDLER 10
+#define CEL_TYPE_VECTOR2 11
+#define CEL_TYPE_VECTOR3 12
+#define CEL_TYPE_COLOR 13
+#define CEL_TYPE_VAR 14
 
 // A property class parameter resolver.
 struct celXmlPCResolver
@@ -87,7 +101,8 @@ struct celXmlArg
     float f;
     const char* s;	// Also used for CEL_TYPE_VAR.
     bool b;
-    int pc;
+    int pc_ref;
+    iCelPropertyClass* pc;
     csStringID id;
     celXmlArgList* a;
     celXmlScriptEventHandler* h;
@@ -138,11 +153,17 @@ struct celXmlArg
     type = CEL_TYPE_VAR;
     arg.s = csStrNew (s);
   }
-  void SetPC (int pc)
+  void SetPC (iCelPropertyClass* pc)
   {
     Cleanup ();
     type = CEL_TYPE_PC;
     arg.pc = pc;
+  }
+  void SetPC (int pc_ref)
+  {
+    Cleanup ();
+    type = CEL_TYPE_PC_REF;
+    arg.pc_ref = pc_ref;
   }
   void SetID (csStringID id)
   {
@@ -205,6 +226,10 @@ private:
   csArray<celXmlPCResolver> resolvers;
   csArray<celXmlOperation> operations;
   iCelPlLayer* pl;
+  csArray<celXmlArg> stack;
+
+  bool ReportError (celBehaviourXml* behave, const char* msg, ...);
+  bool CheckStack (celBehaviourXml* behave);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);
@@ -221,7 +246,7 @@ public:
   // Add argument to last operation.
   celXmlArg& AddArgument ();
 
-  void Execute (iCelEntity* entity, celBehaviourXml* behave);
+  bool Execute (iCelEntity* entity, celBehaviourXml* behave);
 };
 
 /**
