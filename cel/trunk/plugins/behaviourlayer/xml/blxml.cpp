@@ -73,6 +73,8 @@ enum
   XMLTOKEN_STRSPLIT,
   XMLTOKEN_CALLSTACK,
   XMLTOKEN_VARIABLES,
+  XMLTOKEN_TRACEON,
+  XMLTOKEN_TRACEOFF,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -112,6 +114,7 @@ celBlXml::celBlXml (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+  varprop_trace = false;
 }
 
 celBlXml::~celBlXml ()
@@ -155,6 +158,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
   xmltokens.Register ("variables", XMLTOKEN_VARIABLES);
+  xmltokens.Register ("traceon", XMLTOKEN_TRACEON);
+  xmltokens.Register ("traceoff", XMLTOKEN_TRACEOFF);
   xmltokens.Register ("callstack", XMLTOKEN_CALLSTACK);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
@@ -1018,6 +1023,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_VARIABLES:
         h->AddOperation (CEL_OPERATION_VARIABLES);
+        break;
+      case XMLTOKEN_TRACEOFF:
+        h->AddOperation (CEL_OPERATION_TRACEOFF);
+        break;
+      case XMLTOKEN_TRACEON:
+        h->AddOperation (CEL_OPERATION_TRACEON);
         break;
       case XMLTOKEN_STOP:
         h->AddOperation (CEL_OPERATION_END);
