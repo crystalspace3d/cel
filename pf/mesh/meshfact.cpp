@@ -135,6 +135,24 @@ void celPcMesh::SetEntity (iCelEntity* entity)
   celPcMesh::entity = entity;
 }
 
+iCelDataBuffer* celPcMesh::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcMesh::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcMesh::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory (const char* fileName)
 {
   iLoader* loader = CS_QUERY_REGISTRY (object_reg, iLoader);
@@ -326,6 +344,24 @@ void celPcMeshSelect::SetupEventHandler ()
 void celPcMeshSelect::SetEntity (iCelEntity* entity)
 {
   celPcMeshSelect::entity = entity;
+}
+
+iCelDataBuffer* celPcMeshSelect::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcMeshSelect::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcMeshSelect::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,

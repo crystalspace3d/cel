@@ -30,6 +30,7 @@
 #include "pf/chars.h"
 
 struct iCelEntity;
+struct iObjectRegistry;
 
 /**
  * Factory for inventory.
@@ -37,6 +38,7 @@ struct iCelEntity;
 class celPfInventory : public iCelPropertyClassFactory
 {
 private:
+  iObjectRegistry* object_reg;
 
 public:
   celPfInventory (iBase* parent);
@@ -65,6 +67,7 @@ class celPcInventory : public iCelPropertyClass
 {
 private:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
   csVector contents;
   csVector constraints;
 
@@ -84,7 +87,7 @@ private:
   bool TestLocalConstraints (const char* charName);
 
 public:
-  celPcInventory ();
+  celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
 
   bool AddEntity (iCelEntity* entity);
@@ -111,9 +114,9 @@ public:
   virtual const char* GetName () const { return "pcinventory"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
-  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save (iCelDataBuffer* databuf) { }
-  virtual void Load (iCelDataBuffer* databuf) { }
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
 
   struct PcInventory : public iPcInventory
   {
@@ -146,15 +149,16 @@ public:
     {
       return scfParent->HasStrictCharacteristics (charName);
     }
-    virtual bool SetConstraints (const char* charName, float minValue, float maxValue,
-		  float totalMaxValue)
+    virtual bool SetConstraints (const char* charName,
+    	float minValue, float maxValue, float totalMaxValue)
     {
-      return scfParent->SetConstraints (charName, minValue, maxValue, totalMaxValue);
-    }
-    virtual bool GetConstraints (const char* charName, float& minValue, float& maxValue,
-		  float& totalMaxValue) const
+      return scfParent->SetConstraints (charName,
+      	minValue, maxValue, totalMaxValue); }
+    virtual bool GetConstraints (const char* charName,
+    	float& minValue, float& maxValue, float& totalMaxValue) const
     {
-      return scfParent->GetConstraints (charName, minValue, maxValue, totalMaxValue);
+      return scfParent->GetConstraints (charName,
+      	minValue, maxValue, totalMaxValue);
     }
     virtual void RemoveConstraints (const char* charName)
     {
@@ -190,6 +194,7 @@ class celPcCharacteristics : public iCelPropertyClass
 {
 private:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
   csVector chars;
 
   struct charact
@@ -207,7 +212,7 @@ private:
   csVector inventories;
 
 public:
-  celPcCharacteristics ();
+  celPcCharacteristics (iObjectRegistry* object_reg);
   virtual ~celPcCharacteristics ();
 
   bool SetCharacteristic (const char* name, float value);
@@ -229,9 +234,9 @@ public:
   virtual const char* GetName () const { return "pccharacteristics"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
-  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save (iCelDataBuffer* databuf) { }
-  virtual void Load (iCelDataBuffer* databuf) { }
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
 
   struct PcCharacteristics : public iPcCharacteristics
   {

@@ -95,9 +95,9 @@ public:
   virtual const char* GetName () const { return "pctooltip"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
-  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save (iCelDataBuffer* databuf) { }
-  virtual void Load (iCelDataBuffer* databuf) { }
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
 
   struct PcTooltip : public iPcTooltip
   {
@@ -163,9 +163,9 @@ public:
   virtual const char* GetName () const { return "pctimer"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
-  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save (iCelDataBuffer* databuf) { }
-  virtual void Load (iCelDataBuffer* databuf) { }
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
 
   struct PcTimer : public iPcTimer
   {

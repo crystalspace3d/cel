@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "pf/engine/engfact.h"
+#include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
@@ -104,6 +105,24 @@ celPcCamera::~celPcCamera ()
 void celPcCamera::SetEntity (iCelEntity* entity)
 {
   celPcCamera::entity = entity;
+}
+
+iCelDataBuffer* celPcCamera::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcCamera::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcCamera::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 iCamera* celPcCamera::GetCamera () const

@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "pf/tools/toolfact.h"
+#include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
@@ -130,6 +131,24 @@ void celPcTooltip::SetEntity (iCelEntity* entity)
   celPcTooltip::entity = entity;
 }
 
+iCelDataBuffer* celPcTooltip::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcTooltip::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcTooltip::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
 void celPcTooltip::SetText (const char* t)
 {
   delete[] text;
@@ -232,6 +251,24 @@ celPcTimer::~celPcTimer ()
 void celPcTimer::SetEntity (iCelEntity* entity)
 {
   celPcTimer::entity = entity;
+}
+
+iCelDataBuffer* celPcTimer::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcTimer::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcTimer::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 void celPcTimer::Clear ()
