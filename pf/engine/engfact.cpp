@@ -409,7 +409,7 @@ bool celPcRegion::Load ()
         pc->DecRef ();
 
         entities.Push (ent);
-
+	DG_LINK (this, ent->QueryObject ());
         m->DecRef ();
       }
       iter->Next ();
@@ -439,6 +439,7 @@ void celPcRegion::Unload ()
   for (i = 0 ; i < entities.Length () ; i++)
   {
     iCelEntity* ent = (iCelEntity*)entities[i];
+    DG_UNLINK (this, ent->QueryObject ());
     ent->DecRef ();
   }
   entities.SetLength (0);

@@ -183,7 +183,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
     int idx = contents.Push (cd->value.ent);
-    DG_LINK (this, cd->value.ent);
+    DG_LINK (this, cd->value.ent->QueryObject ());
     iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
   	cd->value.ent->GetPropertyClassList (), iPcCharacteristics);
     if (pcchar)
@@ -204,7 +204,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   int idx = contents.Push (child);
-  DG_LINK (this, child);
+  DG_LINK (this, child->QueryObject ());
   iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
@@ -219,7 +219,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     // Constraints are not ok. Undo our change.
     MarkDirty (NULL);
     contents.Delete (idx);
-    DG_UNLINK (this, child);
+    DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
     {
       pcchar->RemoveFromInventory (&scfiPcInventory);
@@ -253,7 +253,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // Remove our child. We will later test if this is valid and if
   // not undo this change.
   contents.Delete (idx);
-  DG_UNLINK (this, child);
+  DG_UNLINK (this, child->QueryObject ());
   iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
@@ -268,7 +268,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     // Constraints are not ok. Undo our change.
     MarkDirty (NULL);
     contents.Push (child);
-    DG_LINK (this, child);
+    DG_LINK (this, child->QueryObject ());
     if (pcchar)
     {
       pcchar->AddToInventory (&scfiPcInventory);
