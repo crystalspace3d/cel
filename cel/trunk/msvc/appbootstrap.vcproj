@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD,LIBCMT"
 				ProgramDatabaseFile=".\release\temp\appbootstrap/appbootstrap.pdb"
-				SubSystem="2"/>
+				SubSystem="2"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\appbootstrap/appbootstrap.pdb"
-				SubSystem="2"/>
+				SubSystem="2"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"

@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgstdphyslayer/plgstdphyslayer.pdb"
-				ImportLibrary=".\debug\temp\plgstdphyslayer/plgstdphyslayer.lib"/>
+				ImportLibrary=".\debug\temp\plgstdphyslayer/plgstdphyslayer.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgstdphyslayer/plgstdphyslayer.pdb"
-				ImportLibrary=".\release\temp\plgstdphyslayer/plgstdphyslayer.lib"/>
+				ImportLibrary=".\release\temp\plgstdphyslayer/plgstdphyslayer.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgcpersist/plgcpersist.pdb"
-				ImportLibrary=".\debug\temp\plgcpersist/plgcpersist.lib"/>
+				ImportLibrary=".\debug\temp\plgcpersist/plgcpersist.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgcpersist/plgcpersist.pdb"
-				ImportLibrary=".\release\temp\plgcpersist/plgcpersist.lib"/>
+				ImportLibrary=".\release\temp\plgcpersist/plgcpersist.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

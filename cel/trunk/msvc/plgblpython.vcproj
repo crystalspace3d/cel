@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgblpython/plgblpython.pdb"
-				ImportLibrary=".\debug\temp\plgblpython/plgblpython.lib"/>
+				ImportLibrary=".\debug\temp\plgblpython/plgblpython.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgblpython/plgblpython.pdb"
-				ImportLibrary=".\release\temp\plgblpython/plgblpython.lib"/>
+				ImportLibrary=".\release\temp\plgblpython/plgblpython.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

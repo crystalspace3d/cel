@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.pdb"
-				ImportLibrary=".\debug\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.lib"/>
+				ImportLibrary=".\debug\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.pdb"
-				ImportLibrary=".\release\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.lib"/>
+				ImportLibrary=".\release\temp\plgaddon_xmlscripts/plgaddon_xmlscripts.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

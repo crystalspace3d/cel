@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgpfbillboard/plgpfbillboard.pdb"
-				ImportLibrary=".\debug\temp\plgpfbillboard/plgpfbillboard.lib"/>
+				ImportLibrary=".\debug\temp\plgpfbillboard/plgpfbillboard.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgpfbillboard/plgpfbillboard.pdb"
-				ImportLibrary=".\release\temp\plgpfbillboard/plgpfbillboard.lib"/>
+				ImportLibrary=".\release\temp\plgpfbillboard/plgpfbillboard.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

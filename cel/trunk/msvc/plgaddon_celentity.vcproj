@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgaddon_celentity/plgaddon_celentity.pdb"
-				ImportLibrary=".\debug\temp\plgaddon_celentity/plgaddon_celentity.lib"/>
+				ImportLibrary=".\debug\temp\plgaddon_celentity/plgaddon_celentity.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgaddon_celentity/plgaddon_celentity.pdb"
-				ImportLibrary=".\release\temp\plgaddon_celentity/plgaddon_celentity.lib"/>
+				ImportLibrary=".\release\temp\plgaddon_celentity/plgaddon_celentity.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
