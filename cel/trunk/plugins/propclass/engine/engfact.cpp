@@ -30,6 +30,7 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
+#include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
@@ -80,6 +81,186 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+static float FixAngle (float angle)
+{
+  while (angle >= 3.14159f)
+    angle -= 2*3.14159f;
+  while (angle < -3.14169f)
+    angle += 2*3.14159f;
+  return angle;
+}
+
+static csVector3 CalculateEyePos (const csVector3& actor_pos,
+	float actor_yrot, const csVector3& offset)
+{
+  // Calculate the eye position of the actor according to his eye offset.
+  csVector3 eye_pos = actor_pos + csVector3 (
+    	sin (actor_yrot) * offset.z,
+	offset.y,
+	cos (actor_yrot) * offset.z);
+  return eye_pos;
+}
+
+static float CalculateNewYaw (const csVector3& dir)
+{
+  if (dir.x == 0.0f)
+    return atan2 (-0.00001f, -dir.z);
+  else
+    return atan2 (-dir.x, -dir.z);
+}
+
+static csVector3 CalcElasticPos (const csVector3& currPos,
+	const csVector3& idealPos, const csVector3& deltaIdealPos,
+	float deltaTime, float springCoef, float dampCoef, float springLength)
+{
+  csVector3 deltaPos;
+  csVector3 vel;
+  float force;
+
+  deltaPos = currPos - idealPos;
+  if (deltaPos.SquaredNorm() == 0)
+    return currPos;
+
+  vel = deltaIdealPos * deltaTime;
+  force = springCoef * (springLength - deltaPos.Norm())
+  	+ dampCoef * (deltaPos * vel) / deltaPos.Norm();
+
+  float dist = deltaPos.Norm();
+  if (-dist < force * deltaTime) 
+    deltaPos *= force * deltaTime / dist;
+  else
+    deltaPos *= -1;
+    
+  return currPos + deltaPos;
+}
+
+//---------------------------------------------------------------------------
+
+
+void CAFirstPerson::DoCameraCalculations (const csTicks elapsedTicks,
+	const csVector3& actor_pos, const csVector3& actor_eye,
+	const float actor_yrot)
+{
+  parent->SetPosition (actor_eye);
+  parent->SetYaw (actor_yrot);
+  parent->CalculateFromYawPitchRoll ();
+}
+
+void CAFirstPerson::SetupMode ()
+{
+}
+
+void CAThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
+	const csVector3& actor_pos, const csVector3& actor_eye,
+	const float actor_yrot)
+{
+  parent->SetTarget (actor_eye);
+  parent->SetYaw (actor_yrot);
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CAThirdPerson::SetupMode ()
+{
+  // Try to get position and sector from either linmove or mesh if
+  // linmove is not used.
+  csVector3 actor_pos;
+  float actor_yrot;
+  iSector* actor_sector;
+  parent->GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  parent->SetPosition (CalculateEyePos (actor_pos, actor_yrot,
+    parent->thirdPersonPositionOffset));
+  parent->SetYaw (actor_yrot);
+}
+
+void CAM64ThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
+	const csVector3& actor_pos, const csVector3& actor_eye,
+	const float actor_yrot)
+{
+  parent->SetTarget (actor_eye);
+  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm());
+  parent->EnsureCameraDistance ();
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CAM64ThirdPerson::SetupMode ()
+{
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
+  parent->SetDistance (parent->GetMaxDistance ());
+  parent->EnsureCameraDistance ();
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
+	const csVector3& actor_pos, const csVector3& actor_eye,
+	const float actor_yrot)
+{
+  float velNormSquared;
+  if (parent->GetLinMove ())
+  {
+    csVector3 velocity;
+    parent->GetLinMove ()->GetVelocity (velocity);
+    velNormSquared = velocity.SquaredNorm ();
+  }
+  else
+  {
+    velNormSquared = 0;
+  }
+  parent->SetTarget (actor_eye);
+  if (velNormSquared > 0.01f)
+  {
+    // When the player is running (only), a new position is interpolated.
+    // So with this camera mode, two springs are modelled, but the second
+    // spring is ignored unless the actor is moving.
+
+    // Calculate where the camera would be if there weren't a swing effect.
+    csVector3 newIdealPos = CalculateEyePos (actor_pos, actor_yrot,
+		parent->thirdPersonPositionOffset);
+
+    // Interpolate to the new calculated position.
+    parent->SetPosition (CalcElasticPos (parent->GetPosition (), newIdealPos,
+		0, (float)elapsedTicks/1000.0f, parent->GetSwingCoef (),
+		0.0f, parent->GetSpringLength ()));
+    parent->SetYaw (CalculateNewYaw (parent->GetTarget ()
+    	-parent->GetPosition ()));
+  }
+
+  // Ensure valid distance.
+  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm ());
+  parent->EnsureCameraDistance ();
+            
+  // This allows pitch to work
+  // Note that this doesn't really use the yaw calculation, 
+  // because whenever the position is modified (above), a new yaw that
+  // represents the (position - target) vector is calculated. This ensures
+  // that this function won't change the yaw at all and only handle
+  // the pitch.
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CALaraThirdPerson::SetupMode ()
+{
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
+  parent->SetDistance (parent->GetMaxDistance ());
+  parent->EnsureCameraDistance ();
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CAFreeLook::DoCameraCalculations (const csTicks elapsedTicks,
+	const csVector3& actor_pos, const csVector3& actor_eye,
+	const float actor_yrot)
+{
+  parent->SetTarget (actor_eye);
+  parent->EnsureCameraDistance ();
+  parent->CalculatePositionFromYawPitchRoll ();
+}
+
+void CAFreeLook::SetupMode ()
+{
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
+}
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE_EXT (celPcCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -102,7 +283,11 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = csPtr<iView> (new csView (engine, g3d));
   SetupEventHandler ();
+
+  modeset_needed = false;
   cammode = iPcCamera::freelook;
+  camalgo = 0;
+
   use_cd = false;
   rect_set = false;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
@@ -110,18 +295,68 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (kbd != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
-  followpos.Set(0,0,0);
-  followat.Set(0,0,0);
-
-  // Starting angles to the object (in radians)
-  roll = pitch = yaw = angle_xz = angle_yz = _yz = _xz = 0.0;
-  // starting distance from the object
-  _dist = dist_y = 10.0;
-
-  alter_angle = alter_dist = false;
 
   clear_zbuf = false;
   clear_screen = false;
+
+  pc_checked = false;
+
+  // Most of these are default values that will be overwritten
+  firstPersonPositionOffset = csVector3 (0, 1, 0);
+  thirdPersonPositionOffset = csVector3 (0, 1, 3);
+
+  camData[iPcCamera::firstperson].springCoef = 10.0f;
+  camData[iPcCamera::firstperson].InertialDampeningCoef = 0.1f;
+  camData[iPcCamera::firstperson].springLength = 0.01f;
+
+  camData[iPcCamera::thirdperson].springCoef = 3.5f;
+  camData[iPcCamera::thirdperson].InertialDampeningCoef = 0.25f;
+  camData[iPcCamera::thirdperson].springLength = 0.01f;
+
+  camData[iPcCamera::m64_thirdperson].springCoef = 3.5f;
+  camData[iPcCamera::m64_thirdperson].InertialDampeningCoef = 0.25f;
+  camData[iPcCamera::m64_thirdperson].springLength = 0.01f;
+  camData[iPcCamera::m64_thirdperson].minDistance = 2.0f;
+  camData[iPcCamera::m64_thirdperson].maxDistance = 6.0f;
+  camData[iPcCamera::m64_thirdperson].turnSpeed = 1.0f;
+
+  camData[iPcCamera::lara_thirdperson].springCoef = 3.5f;
+  camData[iPcCamera::lara_thirdperson].InertialDampeningCoef = 0.25f;
+  camData[iPcCamera::lara_thirdperson].springLength = 0.01f;
+  camData[iPcCamera::lara_thirdperson].minDistance = 2.0f;
+  camData[iPcCamera::lara_thirdperson].maxDistance = 6.0f;
+  camData[iPcCamera::lara_thirdperson].turnSpeed = 1.0f;
+  camData[iPcCamera::lara_thirdperson].swingCoef = 0.7f;
+
+  camData[iPcCamera::freelook].springCoef = 3.5f;
+  camData[iPcCamera::freelook].InertialDampeningCoef = 0.25f;
+  camData[iPcCamera::freelook].springLength = 0.01f;
+  camData[iPcCamera::freelook].minDistance = 2.0f;
+  camData[iPcCamera::freelook].maxDistance = 16.0f;
+
+  camData[iPcCamera::transition].springCoef = 3.5f;
+  camData[iPcCamera::transition].InertialDampeningCoef = 0.25f;
+  camData[iPcCamera::transition].springLength = 0.01f;
+
+  int i;
+  csVector3 pos (0);
+  for (i=0 ; i < iPcCamera::CameraMode_count ; i++)
+  {
+    SetPosition (pos, i);
+    SetTarget (pos, i);
+    SetUp (csVector3 (0, 1, 0), i);
+    SetDistance (5.0f, i);
+    SetPitch (0.0f, i);
+    SetDefaultPitch (0.0f, i);
+    SetYaw (0.0f, i);
+  }
+
+  transitionThresholdSquared = 1.0f;
+  cameraHasBeenPositioned = false;
+
+  useCameraCD = false;
+
+  SetMode (iPcCamera::firstperson);
 }
 
 celPcCamera::~celPcCamera ()
@@ -148,186 +383,270 @@ void celPcCamera::SetupEventHandler ()
   q->RegisterListener (scfiEventHandler, trigger);
 }
 
+void celPcCamera::GetPcs ()
+{
+  if (!pc_checked)
+  {
+    if (!entity) return;
+    pc_checked = true;
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  }
+}
+
+void celPcCamera::GetLastPosition (csVector3& actor_pos,
+	float& actor_yrot, iSector*& actor_sector)
+{
+  // Try to get position and sector from either linmove or mesh if
+  // linmove is not used.
+  GetPcs ();
+  if (pclinmove)
+  {
+    pclinmove->GetLastPosition (actor_pos, actor_yrot, actor_sector);
+    actor_yrot = FixAngle (actor_yrot);
+  }
+  else if (pcmesh)
+  {
+    iMovable* movable = pcmesh->GetMesh()->GetMovable();
+    actor_pos = movable->GetPosition ();
+    actor_sector = movable->GetSectors ()->Get (0);
+    actor_yrot = 0;
+  }
+  else
+  {
+    actor_pos.Set (0, 0, 0);
+    actor_yrot = 0;
+    actor_sector = 0;
+  }
+}
+
+void celPcCamera::CalculateFromYawPitchRoll (int mode)
+{
+  float cosYaw, sinYaw;
+  float cosPit, sinPit;
+  float cosRol, sinRol;
+
+  cosYaw = (float)cos(GetYaw(mode));    sinYaw = (float)sin(GetYaw(mode));
+  cosPit = (float)cos(GetPitch(mode));  sinPit = (float)sin(GetPitch(mode));
+  // At this point, our camera doesn't support Roll
+  cosRol = 1.0f;                        sinRol = 0.0f;
+
+  if (cosPit == 0.0f) cosPit = 0.001f;
+
+  SetTarget (GetPosition (mode) + (GetDistance (mode)
+  	* csVector3 (-sinYaw * cosPit, sinPit, cosPit * -cosYaw)));
+}
+
+void celPcCamera::CalculatePositionFromYawPitchRoll (int mode)
+{
+  float cosYaw, sinYaw;
+  float cosPit, sinPit;
+  float cosRol, sinRol;
+
+  cosYaw = (float)cos(GetYaw(mode));    sinYaw = (float)sin(GetYaw(mode));
+  cosPit = (float)cos(GetPitch(mode));  sinPit = (float)sin(GetPitch(mode));
+  // At this point, our camera doesn't support Roll
+  cosRol = 1.0f;                        sinRol = 0.0f;
+
+  if (cosPit == 0.0f) cosPit = 0.001f;
+
+  SetPosition (GetTarget (mode) - (GetDistance (mode)
+  	* csVector3 (-sinYaw * cosPit, sinPit,
+	// we have to reverse the vertical thing
+		cosPit * -cosYaw)));
+}
+
+void celPcCamera::EnsureCameraDistance (int mode)
+{
+  if (GetDistance (mode) > GetMaxDistance (mode))
+    SetDistance (GetMaxDistance (mode), mode);
+  else if (GetDistance (mode) < GetMinDistance (mode))
+    SetDistance (GetMinDistance (mode), mode);
+}
+
+void celPcCamera::ResetActualCameraData ()
+{
+  SetPosition (GetPosition (), iPcCamera::actual_data);
+  SetTarget (GetTarget (), iPcCamera::actual_data);
+  SetUp (GetUp (), iPcCamera::actual_data);
+}
+
+void celPcCamera::DoCameraTransition ()
+{
+  if (inTransitionPhase)
+  {
+    if ((GetPosition () - GetPosition (iPcCamera::actual_data)).SquaredNorm()
+    	< transitionThresholdSquared)
+    {
+      inTransitionPhase = false;
+    }
+  }
+}
+
+csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
+	const csVector3& pseudoPosition, iSector* sector) const
+{
+  if (!useCameraCD)
+    return pseudoPosition; // no collision detection
+
+  if (!pcmesh)
+    return pseudoPosition; // no mesh
+
+  pcmesh->GetMesh()->GetFlags().Set (CS_ENTITY_NOHITBEAM);
+  switch (GetMode ())
+  {
+    case iPcCamera::thirdperson:
+    case iPcCamera::m64_thirdperson:
+    case iPcCamera::lara_thirdperson:
+    case iPcCamera::freelook:
+    {
+      csVector3 isect;
+      int sel;
+      csVector3 modifiedTarget = pseudoTarget;
+
+      iMeshWrapper* mesh = sector->HitBeamPortals (modifiedTarget,
+      	pseudoPosition, isect, &sel);
+      if (mesh)
+      {
+        pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+        return isect;
+      }
+      break;        
+    }
+    default:
+      break;
+  }
+  pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+  return pseudoPosition;
+}
+
+void celPcCamera::DoElasticPhysics (bool isElastic,
+	const csTicks elapsedTicks,
+	const CameraData& deltaIdeal,
+	iSector* sector)
+{
+  // If the camera mode is elastic then progress gradually to the ideal pos
+  if (isElastic)
+  {
+    float cameraSpringCoef, cameraInertialDampeningCoef, cameraSpringLength;
+    if (!inTransitionPhase)
+    {
+      cameraSpringCoef = GetSpringCoef();
+      cameraInertialDampeningCoef = GetDampeningCoef();
+      cameraSpringLength = GetSpringLength();
+    }
+    else
+    {
+      cameraSpringCoef = GetSpringCoef (iPcCamera::transition);
+      cameraInertialDampeningCoef = GetDampeningCoef(iPcCamera::transition);
+      cameraSpringLength = GetSpringLength(iPcCamera::transition);
+    }
+
+    csVector3 newPos, newTar, newUp;
+
+    newPos = CalcElasticPos (GetPosition (iPcCamera::actual_data),
+    	CalcCollisionPos (GetTarget(), GetPosition(), sector),
+	deltaIdeal.worldPos,
+	(float)elapsedTicks/1000.0f, cameraSpringCoef,
+	cameraInertialDampeningCoef, cameraSpringLength);
+    SetPosition (newPos, iPcCamera::actual_data);
+
+    newTar = CalcElasticPos (GetTarget (iPcCamera::actual_data), GetTarget (),
+    	deltaIdeal.worldTar, (float)elapsedTicks/1000.0f, cameraSpringCoef,
+	cameraInertialDampeningCoef, cameraSpringLength);
+    SetTarget(newTar, iPcCamera::actual_data);
+
+    newUp = CalcElasticPos (GetUp (iPcCamera::actual_data), GetUp (),
+    	deltaIdeal.worldUp, (float)elapsedTicks/1000.0f, cameraSpringCoef,
+	cameraInertialDampeningCoef, cameraSpringLength);
+    SetUp (newUp, iPcCamera::actual_data);
+  }
+  else
+  {
+    // Camera isn't elastic, so no interpolation is done between ideal and
+    // actual.
+    SetPosition (CalcCollisionPos (GetTarget (), GetPosition (), sector),
+    	iPcCamera::actual_data);
+    SetTarget (GetTarget (), iPcCamera::actual_data);
+    SetUp (GetUp (), iPcCamera::actual_data);
+  }
+}
+
 bool celPcCamera::HandleEvent (iEvent& ev)
 {
   if (ev.Type == csevBroadcast && ev.Command.Code == cscmdProcess)
   {
+    CheckModeChange ();
+
     // First get elapsed time from the virtual clock.
     csTicks elapsed_time = vc->GetElapsedTicks ();
+    float elapsed_sec = elapsed_time / 1000.0f;
 
-    // Now rotate the camera according to its mode
-    switch (cammode)
+    // Velocity calculations.
+    MovePitch (pitchVelocity * elapsed_sec);
+    MoveYaw (yawVelocity * elapsed_sec);
+
+    // Try to get position and sector from either linmove or mesh if
+    // linmove is not used.
+    csVector3 actor_pos;
+    float actor_yrot;
+    iSector* actor_sector;
+    GetLastPosition (actor_pos, actor_yrot, actor_sector);
+
+    // Store previous frame ideal camera data. It will be compared against
+    // current frame later to become the delta part.
+    CameraData deltaIdeal;
+    deltaIdeal.worldPos = GetPosition ();
+    deltaIdeal.worldTar = GetTarget ();
+    deltaIdeal.worldUp = GetUp ();
+
+    // Calculate the eye position of the actor according to his eye offset.
+    csVector3 actor_eye = CalculateEyePos (actor_pos, actor_yrot,
+    	firstPersonPositionOffset);
+
+    // Calculate the camera data without updating it for real.
+    camalgo->DoCameraCalculations (
+    	elapsed_time, actor_pos, actor_eye, actor_yrot);
+
+    if (!cameraHasBeenPositioned)
     {
-      case iPcCamera::freelook:
-      {
-	float speed = (elapsed_time / 1000.0) * (0.03 * 20);
+      // Start off in an appropriate place.
+      cameraHasBeenPositioned = true;
+      ResetActualCameraData ();
+    }
 
-	iCamera* c = view->GetCamera();
-	if (kbd->GetKeyState (CSKEY_SHIFT))
-	  speed*=2.5;
-	if (kbd->GetKeyState (CSKEY_RIGHT))
-	  c->GetTransform ().RotateThis (CS_VEC_ROT_RIGHT, speed);
-	if (kbd->GetKeyState (CSKEY_LEFT))
-	  c->GetTransform ().RotateThis (CS_VEC_ROT_LEFT, speed);
-	if (kbd->GetKeyState (CSKEY_PGUP))
-	  c->GetTransform ().RotateThis (CS_VEC_TILT_UP, speed);
-	if (kbd->GetKeyState (CSKEY_PGDN))
-	  c->GetTransform ().RotateThis (CS_VEC_TILT_DOWN, speed);
-	if (kbd->GetKeyState (CSKEY_UP))
-	  c->Move (CS_VEC_FORWARD * 4 * speed);
-	if (kbd->GetKeyState (CSKEY_DOWN))
-	  c->Move (CS_VEC_BACKWARD * 4 * speed);
-	break;
+    // Transition phase calculations.
+    DoCameraTransition ();
+
+    // This makes the deltaIdeal data true to it's delta wording by
+    // subtracting the current ideal data.
+    deltaIdeal.worldPos -= GetPosition ();
+    deltaIdeal.worldTar -= GetTarget ();
+    deltaIdeal.worldUp -= GetUp ();
+
+    // Interpolate between ideal and actual camera data.
+    DoElasticPhysics (true, elapsed_time, deltaIdeal, actor_sector);
+
+    if (pcmesh)
+    {
+      if (cammode != iPcCamera::firstperson || inTransitionPhase)
+      {
+        if ((GetPosition (iPcCamera::actual_data)
+		- GetTarget (iPcCamera::actual_data)).SquaredNorm () > 0.3f)
+          pcmesh->GetMesh ()->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
       }
-      case iPcCamera::follow:
+      else
       {
-	csRef<iPcMesh> pcmesh =
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
-	if (!pcmesh) break;
-	iMovable* movable = pcmesh->GetMesh()->GetMovable();
-
-	iCamera* c = view->GetCamera();
-
-	csReversibleTransform rt = movable->GetFullTransform();
-	csMatrix3 mat = rt.GetT2O();
-
-	c->GetTransform().SetOrigin(movable->GetPosition());
-	c->SetSector (movable->GetSectors ()->Get (0));
-	c->GetTransform().SetT2O(mat);
-
-	// move camera to followpos
-	c->OnlyPortals(!use_cd);
-	c->Move (followpos);
-	c->OnlyPortals(true);
-	c->Move (followpos*-0.1);
-
-	// calculate the lookat vector
-	csVector3 lookat = (movable->GetPosition() -
-	    c->GetTransform().GetOrigin()) + (mat * followat);
-
-	// Set in camera and adjust for roll in one step
-	c->GetTransform().LookAt(lookat, csVector3(0,cos(roll),sin(roll) ));
-
-	// rotation to adjust for pitch angle
-	c->GetTransform().RotateThis(csXRotMatrix3(pitch));
-	// rotation to adjust for yaw angle
-	c->GetTransform().RotateThis(csYRotMatrix3(yaw));
-	break;
-      }
-      case iPcCamera::firstperson:
-      {
-        csRef<iPcMesh> pcmesh =
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
-        if (!pcmesh) break;
-        iMovable* movable = pcmesh->GetMesh()->GetMovable();
-
-        iCamera* c = view->GetCamera();
-
-        csReversibleTransform rt = movable->GetFullTransform();
-        csMatrix3 mat = rt.GetT2O();
-
-	c->GetTransform().SetOrigin(movable->GetPosition());
-	c->SetSector(movable->GetSectors()->Get(0));
-        c->GetTransform().SetT2O(mat);
-
-	// move camera to followpos
-	c->OnlyPortals(!use_cd);
-        c->Move (followpos);
-        c->OnlyPortals(true);
-        c->Move (followpos*-0.1);
-
-	//rotate camera 180 degs
-	c->GetTransform().RotateThis(csVector3(0,1,0), 3.14f);
-
-	// rotation to adjust for pitch angle
-	c->GetTransform().RotateThis(csXRotMatrix3(pitch));
-	// rotation to adjust for yaw angle
-	c->GetTransform().RotateThis(csYRotMatrix3(yaw));
-        break;
-      }
-      case iPcCamera::rotational:
-      {
-      	csRef<iPcMesh> pcmesh =
-		CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
-	if (!pcmesh) break;
-	csBox3 b;
-	csVector3 pos;
-	pcmesh->GetMesh()->GetWorldBoundingBox(b);
-	pos = b.GetCenter();
-	float min_dist = qsqrt (pow(pos.x - b.Max().x, 2)
-		+ pow(pos.y - b.Max().y,2) + pow(pos.z - b.Max().z,2));
-
-	iCamera* c = view->GetCamera();
-
-	if (mouse->GetLastButton(1) && mouse->GetLastButton(2))
-	{
-	  int _delta_y, _current_y;
-
-	  if (!alter_dist)
-	  {
-	    alter_dist = true;
-	    base_y_d = _current_y = mouse->GetLastY();
-	  }
-	  else
-	  {
-	    _current_y = mouse->GetLastY();
-	  }
-
-	  _delta_y = base_y_d - _current_y;
-	  float delta_dist = _delta_y/100.0;
-	  _dist = dist_y + delta_dist;
-	  if (_dist < min_dist) _dist = min_dist;
-	}
-	else
-	{
-	  alter_dist = false;
-	  dist_y = _dist;
-	}
-
-	if (!mouse->GetLastButton(1) && mouse->GetLastButton(2))
-	{
-	  int delta_x, delta_y, current_x, current_y;
-
-	  if (!alter_angle)
-	  {
-	    alter_angle = true;
-	    base_x = current_x = mouse->GetLastX();
-	    base_y = current_y = mouse->GetLastY();
-	    //csVector camera = c->GetOrigin();
-	  }
-	  else
-	  {
-	    current_x = mouse->GetLastX();
-	    current_y = mouse->GetLastY();
-	  }
-
-	  delta_x = base_x - current_x;
-	  delta_y = base_y - current_y;
-
-	  float delta_yz = delta_x/200.0;
-	  float delta_xz = delta_y/300.0;
-
-	  _yz = angle_yz + delta_yz;
-	  _xz = angle_xz + delta_xz;
-	}
-	else
-	{
-	  alter_angle = false;
-
-	  angle_xz = _xz;
-	  angle_yz = _yz;
-	}
-
-	if (_xz > 1.3) _xz = 1.3;
-	if (_xz < -1.3) _xz = -1.3;
-
-	csVector3 V(cos(_yz)*cos(_xz),sin(_xz),sin(_yz)*cos(_xz));
-	csVector3 result = pos + V * _dist;
-
-	c->GetTransform().SetOrigin(result);
-	c->GetTransform().LookAt(pos-result,csVector3(0,1,0));
+        pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
       }
     }
+
+
+    iCamera* c = view->GetCamera ();
+    c->MoveWorld (GetPosition (iPcCamera::actual_data) -
+	c->GetTransform ().GetOrigin ());
+    c->GetTransform ().LookAt (GetTarget (iPcCamera::actual_data) -
+    	GetPosition (iPcCamera::actual_data), GetUp (iPcCamera::actual_data));
 
     // Tell 3D driver we're going to display 3D things.
     if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
@@ -338,6 +657,268 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
   return true;
 }
+
+void celPcCamera::SetPosition (const csVector3& pos, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].worldPos = pos;
+}
+
+const csVector3& celPcCamera::GetPosition (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].worldPos;
+}
+
+void celPcCamera::SetTarget (const csVector3& tar, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].worldTar = tar;
+}
+
+const csVector3& celPcCamera::GetTarget (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].worldTar;
+}
+
+void celPcCamera::SetUp (const csVector3& up, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].worldUp = up;
+  camData[mode].worldUp.Normalize();
+}
+
+const csVector3& celPcCamera::GetUp (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].worldUp;
+}
+
+void celPcCamera::SetPitch (float pitch, int mode)
+{
+  if (mode < 0) mode = cammode;
+
+  if (pitch > 3.1415f/2.1f)
+    pitch = 3.1415f/2.1f;
+  if (pitch < -3.1415f/2.1f)
+    pitch = -3.1415f/2.1f;
+
+  camData[mode].pitch = pitch;
+}
+
+void celPcCamera::MovePitch (float deltaPitch, int mode)
+{
+  if (mode < 0) mode = cammode;
+  SetPitch (GetPitch(mode) + deltaPitch, mode);
+}
+
+float celPcCamera::GetPitch (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].pitch;
+}
+
+void celPcCamera::SetPitchVelocity (float pitchVel)
+{
+  pitchVelocity = pitchVel;
+}
+
+float celPcCamera::GetPitchVelocity () const
+{
+  return pitchVelocity;
+}
+
+void celPcCamera::SetYaw (float yaw, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].yaw = FixAngle (yaw);
+}
+
+void celPcCamera::MoveYaw (float deltaYaw, int mode)
+{
+  if (mode < 0) mode = cammode;
+  SetYaw (GetYaw (mode) + deltaYaw, mode);
+}
+
+float celPcCamera::GetYaw (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].yaw;
+}
+
+void celPcCamera::SetYawVelocity (float yawVel)
+{
+  yawVelocity = yawVel;
+}
+
+float celPcCamera::GetYawVelocity () const
+{
+  return yawVelocity;
+}
+
+void celPcCamera::SetDistance (float distance, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].distance = distance;
+}
+
+void celPcCamera::MoveDistance (float deltaDistance, int mode)
+{
+  SetDistance (GetDistance (mode) + deltaDistance, mode);
+}
+
+float celPcCamera::GetDistance (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].distance;
+}
+
+csVector3 celPcCamera::GetForwardVector (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  csVector3 dir = GetTarget (mode) - GetPosition (mode);
+  dir.Normalize();
+  return dir;
+}
+
+csVector3 celPcCamera::GetRightVector (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  csVector3 dir = GetTarget (mode) - GetPosition(mode);
+  csVector3 right = GetUp (mode) % dir;
+  right.Normalize();
+  return right;
+}
+
+float celPcCamera::GetMinDistance (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].minDistance;
+}
+
+void celPcCamera::SetMinDistance (float dist, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].minDistance = dist;
+}
+
+float celPcCamera::GetMaxDistance (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].maxDistance;
+}
+
+void celPcCamera::SetMaxDistance (float dist, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].maxDistance = dist;
+}
+
+float celPcCamera::GetTurnSpeed (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].turnSpeed;
+}
+
+void celPcCamera::SetTurnSpeed (float speed, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].turnSpeed = speed;
+}
+
+float celPcCamera::GetSpringCoef (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].springCoef;
+}
+
+void celPcCamera::SetSpringCoef (float coef, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].springCoef = coef;
+}
+
+float celPcCamera::GetDampeningCoef (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].InertialDampeningCoef;
+}
+
+void celPcCamera::SetDampeningCoef (float coef, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].InertialDampeningCoef = coef;
+}
+
+float celPcCamera::GetSpringLength (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].springLength;
+}
+
+void celPcCamera::SetSpringLength (float length, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].springLength = length;
+}
+
+bool celPcCamera::CheckCameraCD () const
+{
+  return useCameraCD;
+}
+
+void celPcCamera::SetCameraCD (bool useCD)
+{
+  useCameraCD = useCD;
+}
+
+float celPcCamera::GetTransitionThreshold () const
+{
+  return sqrt (transitionThresholdSquared);
+}
+
+void celPcCamera::SetTransitionThreshold (float threshold)
+{
+  transitionThresholdSquared = threshold*threshold;
+}
+
+float celPcCamera::GetDefaultPitch (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].defaultPitch;
+}
+
+void celPcCamera::SetDefaultPitch (float pitch, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].defaultPitch = FixAngle (pitch);
+}
+
+float celPcCamera::GetDefaultYaw (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].defaultYaw;
+}
+
+void celPcCamera::SetDefaultYaw (float yaw, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].defaultYaw = FixAngle (yaw);
+}
+
+float celPcCamera::GetSwingCoef (int mode) const
+{
+  if (mode < 0) mode = cammode;
+  return camData[mode].swingCoef;
+}
+
+void celPcCamera::SetSwingCoef (float swingCoef, int mode)
+{
+  if (mode < 0) mode = cammode;
+  camData[mode].swingCoef = swingCoef;
+}
+
 
 bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 {
@@ -359,11 +940,50 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
   return true;
 }
 
+void celPcCamera::CheckModeChange ()
+{
+  if (!modeset_needed) return;
+  modeset_needed = false;
+  camalgo->SetupMode ();
+  // Enable transition phase.
+  inTransitionPhase = true;
+}
+
 bool celPcCamera::SetMode (iPcCamera::CameraMode cammode, bool use_cd)
 {
-  celPcCamera::cammode=cammode;
-  celPcCamera::use_cd=use_cd;
-  view->GetCamera()->OnlyPortals(!use_cd);
+  // Reset camera velocities.
+  SetYawVelocity (0.0f);
+  SetPitchVelocity (0.0f);
+
+  delete camalgo;
+  switch (cammode)
+  {
+    case iPcCamera::freelook:
+      camalgo = new CAFreeLook (this);
+      break;
+    case iPcCamera::firstperson:
+      camalgo = new CAFirstPerson (this);
+      break;
+    case iPcCamera::thirdperson:
+      camalgo = new CAThirdPerson (this);
+      break;
+    case iPcCamera::m64_thirdperson:
+      camalgo = new CAM64ThirdPerson (this);
+      break;
+    case iPcCamera::lara_thirdperson:
+      camalgo = new CALaraThirdPerson (this);
+      break;
+    default:
+      camalgo = 0;
+      break;
+  }
+
+  if (!modeset_needed) prev_cammode = cammode;
+  celPcCamera::cammode = cammode;
+  celPcCamera::use_cd = use_cd;
+  view->GetCamera ()->OnlyPortals (!use_cd);
+  modeset_needed = true;
+
   return true;
 }
 
@@ -402,9 +1022,6 @@ csPtr<iCelDataBuffer> celPcCamera::Save ()
   db.Set (tr.GetO2T ().m31);
   db.Set (tr.GetO2T ().m32);
   db.Set (tr.GetO2T ().m33);
-
-  db.Set (followat);
-  db.Set (followpos);
 
   db.Set ((uint8)cammode);
   db.SetBool (use_cd);
@@ -468,9 +1085,6 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get (m_o2t.m31);
   db.Get (m_o2t.m32);
   db.Get (m_o2t.m33);
-
-  db.Get (followpos);
-  db.Get (followat);
 
   if (!db.AllOk ())
   {

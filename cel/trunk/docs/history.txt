@@ -3,6 +3,19 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-May-2004
+	- Jorrit ported the camera handling code that is used in PlaneShift
+	  to pccamera. This is a very significant change which considerably
+	  changes the API of iPcCamera (new methods to set the modes, new
+	  modes, and also some removed modes: follow and rotational are
+	  removed). However, it is worth it. The new camera is a LOT
+	  better. There are now four nicely working camera modes:
+	  	- firstperson
+		- thirdperson
+		- m64_thirdperson
+		- lara_thirdperson
+	  Note that temporarily camera persistance is broken. I need
+	  to write out and read the new fields.
 11-May-2004
 	- Jorrit added a new iCelPlLayer->CreateEntity() conveniance function
 	  so you can easily create an entity, set a name, create a behaviour,

@@ -90,7 +90,6 @@ protected:
   csVector3 targAngularVelocity;
   csVector3 targVel;
   float speed;
-  float camera_pitchspeed;
   bool ready;
   bool stationary;
   float angDelta;
@@ -147,10 +146,6 @@ public:
   	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL);
   bool InitCD (iPcCollisionDetection *pc_cd=NULL);
   void SetSpeed ( float speedz );
-  void SetCameraPitchSpeed (float angle)
-  {
-    camera_pitchspeed = angle;
-  }
 
   void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
@@ -265,10 +260,6 @@ public:
     }
 
     virtual void SetSpeed (float speedz) { scfParent->SetSpeed (speedz); }
-    virtual void SetCameraPitchSpeed (float angle)
-    {
-      scfParent->SetCameraPitchSpeed (angle);
-    }
 
     virtual void SetRotation (const csVector3& angle)
     {

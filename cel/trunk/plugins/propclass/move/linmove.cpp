@@ -159,7 +159,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angularVelocity = 0;
   targAngularVelocity = 0;
   angDelta = 0;
-  camera_pitchspeed = 0;
 
   topCollider = 0;
   bottomCollider = 0;
@@ -296,18 +295,6 @@ void celPcLinearMovement::SetSpeed (float speedZ)
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
 {
-  if (camera_pitchspeed)
-  {
-    csRef<iPcCamera> pccamera;
-    pccamera = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcCamera);
-    if (pccamera)
-    {
-      float angle = pccamera->GetPitch ();
-      angle += camera_pitchspeed*speed;
-      pccamera->SetPitch (MIN (MAX (angle,-3.14159/2),3.14159/2) );
-    }
-  }
-
   if (angularVelocity < SMALL_EPSILON)
     return false;
 
@@ -550,7 +537,7 @@ bool celPcLinearMovement::HandleEvent (iEvent& ev)
   if (!pcmesh)
   {
     csRef<iPcMesh> pcmeshref;
-    pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmeshref = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (!pcmeshref)
     {
       MoveReport (object_reg, "No Mesh found on entity!");
@@ -1152,6 +1139,12 @@ bool celPcLinearMovement::NeedDRData (uint8& priority)
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 	iSector*& sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ())
+  {
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return;
+  }
+
   // Position
   pos = pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
 
