@@ -148,9 +148,10 @@ void celPcMesh::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcMesh::Load (iCelDataBuffer* databuf)
+bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory (const char* fileName)
@@ -378,9 +379,10 @@ void celPcMeshSelect::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcMeshSelect::Load (iCelDataBuffer* databuf)
+bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,

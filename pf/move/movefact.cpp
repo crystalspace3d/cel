@@ -148,9 +148,10 @@ void celPcMovable::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcMovable::Load (iCelDataBuffer* databuf)
+bool celPcMovable::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcMovable::SetMesh (iPcMesh* mesh)
@@ -285,9 +286,10 @@ void celPcSolid::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcSolid::Load (iCelDataBuffer* databuf)
+bool celPcSolid::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcSolid::SetMesh (iPcMesh* mesh)
@@ -402,9 +404,10 @@ void celPcMovableConstraintCD::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
+bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 int celPcMovableConstraintCD::CheckMove (iSector* sector,
@@ -631,9 +634,10 @@ void celPcGravity::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcGravity::Load (iCelDataBuffer* databuf)
+bool celPcGravity::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcGravity::CreateGravityCollider (iPcMesh* mesh)

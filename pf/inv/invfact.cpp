@@ -126,9 +126,10 @@ void celPcInventory::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcInventory::Load (iCelDataBuffer* databuf)
+bool celPcInventory::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 bool celPcInventory::AddEntity (iCelEntity* child)
@@ -553,9 +554,10 @@ void celPcCharacteristics::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcCharacteristics::Load (iCelDataBuffer* databuf)
+bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 celPcCharacteristics::charact* celPcCharacteristics::FindCharact (

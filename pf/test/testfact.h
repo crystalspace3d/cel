@@ -78,7 +78,7 @@ public:
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer ();
   virtual void Save (iCelDataBuffer* databuf);
-  virtual void Load (iCelDataBuffer* databuf);
+  virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcTest : public iPcTest
   {

@@ -1,3 +1,5 @@
+10-Nov-2001:
+	- Further work on persistance. Not functional yet.
 9-Nov-2001:
 	- Fixed CELTEST for latest changes in CS (CreateEnvironment...).
 	- Started working on pcregion property class. This property class
