@@ -336,16 +336,16 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   if (hascal3d)
   {
     pclinmove->InitCD (
-      csVector3 (0.5, 0.8, 0.5),
-      csVector3 (0.5, 0.4, 0.5),
-      csVector3 (0, 0.01, 0));
+      csVector3 (0.5f, 0.8f,  0.5f),
+      csVector3 (0.5f, 0.4f,  0.5f),
+      csVector3 (0.0f, 0.01f, 0.0f));
   }
   else
   {
     pclinmove->InitCD (
-      csVector3 (0.5, 0.8, 0.5),
-      csVector3 (0.5, 0.4, 0.5),
-      csVector3 (0, -0.4, 0));
+      csVector3 (0.5f,  0.8f, 0.5f),
+      csVector3 (0.5f,  0.4f, 0.5f),
+      csVector3 (0.0f, -0.4f, 0.0f));
   }
 
 
@@ -387,7 +387,7 @@ bool CelTest::CreateRoom ()
 
   entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
   if (!entity_dummy) return false;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity_dummy, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
@@ -453,8 +453,10 @@ bool CelTest::CreateRoom ()
   csRef<iPcNavGraph> pcgraph = CEL_QUERY_PROPCLASS_ENT (graph, iPcNavGraph);
 
   /* TODO Test Loading Nodes from a file
-  pcgraph->SetRegion( pcregion ); // Tie this graph to the current region object
-  pcgraph->LoadNodesFromRegion( pcregion->GetRegionName() ); // Load all the nodes from this region
+  // Tie this graph to the current region object
+  pcgraph->SetRegion( pcregion );
+  // Load all the nodes from this region
+  pcgraph->LoadNodesFromRegion( pcregion->GetRegionName() );
   */
 
   // Create FPS rules for graph navigation
@@ -517,8 +519,8 @@ bool CelTest::CreateRoom ()
       // Print out full path
       for ( int j=0; j < ipathlength;j++)
       {
-          csReport( object_reg, CS_REPORTER_SEVERITY_NOTIFY, "crystalspace.application.celtest",
-              "..... %d", ipath[j]);
+          csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+	    "crystalspace.application.celtest", "..... %d", ipath[j]);
       }
      */
   }
@@ -543,7 +545,8 @@ bool CelTest::LoadTextures ()
   if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
   if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
   if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
-  if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg")) return false;
+  if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg"))
+    return false;
 #endif
   return true;
 }
@@ -700,4 +703,3 @@ bool CelTest::Application ()
 
   return true;
 }
-
