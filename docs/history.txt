@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Sep-2003
+	- Jorrit fixed CEL for latest iPolygonMesh change in CS.
 5-Sep-2003
 	- Jorrit fixed CEL for latest CS change (python plugin still broken).
 1-Sep-2003
