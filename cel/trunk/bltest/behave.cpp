@@ -218,6 +218,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 		GetTransform ().GetOrigin ()+csVector3 (0, 1.3, 0));
 	if (inv_ent_gravity)
 	{
+	  inv_ent_gravity->ResetSpeed ();
 	  inv_ent_gravity->ClearForces ();
 	  float dx = 3 + 4*float ((rand () >> 3) % 10000) / 10000.;
 	  if (((rand () >> 3) & 1) == 0) dx = -dx;
@@ -278,6 +279,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id+11, "forward0"))
     {
+      pcgravity->ResetSpeed();
       pcgravity->ClearForces();
     }
     else if (!strcmp (msg_id+11, "backward1"))
@@ -286,6 +288,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id+11, "backward0"))
     {
+      pcgravity->ResetSpeed();
       pcgravity->ClearForces();
     }
     else if (!strcmp (msg_id+11, "strafeleft1"))
@@ -294,6 +297,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id+11, "strafeleft0"))
     {
+      pcgravity->ResetSpeed();
       pcgravity->ClearForces();
     }
     else if (!strcmp (msg_id+11, "straferight1"))
@@ -302,6 +306,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id+11, "straferight0"))
     {
+      pcgravity->ResetSpeed();
       pcgravity->ClearForces();
     }
     else if (!strcmp (msg_id+11, "run1"))

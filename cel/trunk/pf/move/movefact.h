@@ -193,7 +193,20 @@ private:
   iCollideSystem* cdsys;
   iCelPlLayer* pl;
   iVirtualClock* vc;
+
+  bool active;
+  bool is_resting;
   float weight;
+  csVector3 current_speed;
+
+  struct celForce
+  {
+    csVector3 force;
+    float time_remaining;
+  };
+  csVector forces;		// Forces plus duration.
+
+  csVector3 infinite_forces;	// Infinite duration forces.
 
   // Information in order to be able to save from what the
   // gravity collider was created.
@@ -201,14 +214,23 @@ private:
   iPcMesh* gravity_mesh;
   csVector3 gravity_dim, gravity_offs;
 
-  bool on_ground;
-  csVector3 accel, speed;
-  csVector3 grav_speed;
-  float force_time;
+  // Generate two arrays of colliders and transforms
+  // given an entity list. Return the number of elements in the
+  // arrays. Free arrays with delete[] after using.
+  int GetColliderArray (iCelEntityList* cd_list,
+  	iCollider**& colliders, csReversibleTransform**& transforms);
 
+  int TestMove (iCollider* this_collider,
+    int num_colliders,
+    iCollider** colliders,
+    csReversibleTransform** transforms,
+    const csReversibleTransform& w2o,
+    csVector3& newpos,
+    csVector3& collider_normal);
   bool HandleForce (float delta_t, iCollider* this_collider,
-    iCelEntityList* cd_list, csVector3& force);
-  void SetOnGround (bool og);
+    iCelEntityList* cd_list, const csVector3& force);
+  bool HandleForce (float delta_t, iCollider* this_collider,
+    iCelEntityList* cd_list);
 
 public:
   celPcGravity (iObjectRegistry* object_reg);
@@ -226,12 +248,14 @@ public:
   void SetWeight (float w) { weight = w; }
   float GetWeight () const { return weight; }
   void ClearForces ();
+  void ClearPermanentForces ();
+  void ResetSpeed () { current_speed.Set (0, 0, 0); }
   void ApplyForce (const csVector3& force, float time);
-  bool IsOnGround () const { return on_ground; }
+  void ApplyPermanentForce (const csVector3& force);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  virtual const char* GetName () const { return "pcgravity"; }
+  virtual const char* GetName () const { return "pcgravity2"; }
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -279,15 +303,36 @@ public:
     {
       scfParent->ClearForces ();
     }
+    virtual void ClearPermanentForces ()
+    {
+      scfParent->ClearPermanentForces ();
+    }
+    virtual void ResetSpeed ()
+    {
+      scfParent->ResetSpeed ();
+    }
     virtual void ApplyForce (const csVector3& force, float time)
     {
       scfParent->ApplyForce (force, time);
     }
-    virtual bool IsOnGround () const
+    virtual void ApplyPermanentForce (const csVector3& force)
     {
-      return scfParent->IsOnGround ();
+      scfParent->ApplyPermanentForce (force);
+    }
+    virtual bool IsResting () const
+    {
+      return scfParent->is_resting;
+    }
+    virtual void SetActive (bool activate)
+    {
+      scfParent->active = activate;
+    }
+    virtual bool IsActive () const
+    {
+      return scfParent->active;
     }
   } scfiPcGravity;
+  friend class PcGravity;
 
   // Not an embedded event handler to avoid circular references!!!
   class EventHandler : public iEventHandler
@@ -297,155 +342,6 @@ public:
 
   public:
     EventHandler (celPcGravity* parent)
-    {
-      SCF_CONSTRUCT_IBASE (NULL);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
-};
-
-/**
- * This is a gravity property class.
- */
-class celPcGravity2 : public celPcCommon
-{
-private:
-  iPcMovable* pcmovable;
-  iPcSolid* pcsolid;
-  iCollider* gravity_collider;
-  iCollideSystem* cdsys;
-  iCelPlLayer* pl;
-  iVirtualClock* vc;
-
-  float weight;
-  csVector3 current_speed;
-
-  struct celForce
-  {
-    csVector3 force;
-    float time_remaining;
-  };
-  csVector forces;		// Forces plus duration.
-
-  csVector3 infinite_forces;	// Infinite duration forces.
-
-  // Information in order to be able to save from what the
-  // gravity collider was created.
-  bool has_gravity_collider;
-  iPcMesh* gravity_mesh;
-  csVector3 gravity_dim, gravity_offs;
-
-  // Generate two arrays of colliders and transforms
-  // given an entity list. Return the number of elements in the
-  // arrays. Free arrays with delete[] after using.
-  int GetColliderArray (iCelEntityList* cd_list,
-  	iCollider**& colliders, csReversibleTransform**& transforms);
-
-  int TestMove (iCollider* this_collider,
-    int num_colliders,
-    iCollider** colliders,
-    csReversibleTransform** transforms,
-    const csReversibleTransform& w2o,
-    csVector3& newpos,
-    csVector3& collider_normal);
-  bool HandleForce (float delta_t, iCollider* this_collider,
-    iCelEntityList* cd_list, const csVector3& force);
-  bool HandleForce (float delta_t, iCollider* this_collider,
-    iCelEntityList* cd_list);
-
-public:
-  celPcGravity2 (iObjectRegistry* object_reg);
-  virtual ~celPcGravity2 ();
-  bool HandleEvent (iEvent& ev);
-
-  void CreateGravityCollider (iPcMesh* mesh);
-  void CreateGravityCollider (const csVector3& dim,
-  	const csVector3& offs);
-  iCollider* GetGravityCollider () { return gravity_collider; }
-  void SetMovable (iPcMovable* movable);
-  iPcMovable* GetMovable ();
-  void SetSolid (iPcSolid* solid);
-  iPcSolid* GetSolid ();
-  void SetWeight (float w) { weight = w; }
-  float GetWeight () const { return weight; }
-  void ClearForces ();
-  void ApplyForce (const csVector3& force, float time);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
-
-  virtual const char* GetName () const { return "pcgravity2"; }
-  virtual iCelDataBuffer* Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcGravity : public iPcGravity
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcGravity2);
-    virtual void CreateGravityCollider (iPcMesh* mesh)
-    {
-      scfParent->CreateGravityCollider (mesh);
-    }
-    virtual void CreateGravityCollider (const csVector3& dim,
-  	const csVector3& offs)
-    {
-      scfParent->CreateGravityCollider (dim, offs);
-    }
-    virtual iCollider* GetGravityCollider ()
-    {
-      return scfParent->GetGravityCollider ();
-    }
-    virtual void SetMovable (iPcMovable* movable)
-    {
-      scfParent->SetMovable (movable);
-    }
-    virtual iPcMovable* GetMovable ()
-    {
-      return scfParent->GetMovable ();
-    }
-    virtual void SetSolid (iPcSolid* solid)
-    {
-      scfParent->SetSolid (solid);
-    }
-    virtual iPcSolid* GetSolid ()
-    {
-      return scfParent->GetSolid ();
-    }
-    virtual void SetWeight (float w)
-    {
-      scfParent->SetWeight (w);
-    }
-    virtual float GetWeight () const
-    {
-      return scfParent->GetWeight ();
-    }
-    virtual void ClearForces ()
-    {
-      scfParent->ClearForces ();
-    }
-    virtual void ApplyForce (const csVector3& force, float time)
-    {
-      scfParent->ApplyForce (force, time);
-    }
-    virtual bool IsOnGround () const
-    {
-      return false;
-    }
-  } scfiPcGravity;
-
-  // Not an embedded event handler to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcGravity2* parent;
-
-  public:
-    EventHandler (celPcGravity2* parent)
     {
       SCF_CONSTRUCT_IBASE (NULL);
       EventHandler::parent = parent;

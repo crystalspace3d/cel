@@ -3,6 +3,17 @@
 	  the new CollidePath() function in CS iCollideSystem. Friction
 	  and proper collision response still have to be implemented though.
 	- Again improved gravity handling a little.
+	- Removed the old celPcGravity and renamed celPcGravity2 to
+	  celPcGravity.
+	- Renamed iPcGravity::IsOnGround() to IsResting() to indicate if
+	  an object is resting.
+	- Added iPcGravity::ApplyPermanentForce() and
+	  iPcGravity::ClearPermanentForces() to work with permanent forces.
+	- Added iPcGravity::SetActive() and IsActive() with which you can
+	  activate/deactivate physics handling for that object temporarily.
+	- Added iPcGravity::ResetSpeed(). This will leave the forces alone
+	  but reset the speed to zero.
+	- iPcGravity::ClearForces() will no longer reset the speed.
 29-Dec-2001:
 	- Philip Wyett updated MSVC project files for CEL.
 28-Dec-2001:

@@ -88,18 +88,40 @@ struct iPcGravity : public iBase
   virtual float GetWeight () const = 0;
 
   /**
-   * Clear all forces.
+   * Clear all non-permanent forces.
    */
   virtual void ClearForces () = 0;
   /**
-   * Apply a force.
+   * Clear all permanent forces.
+   */
+  virtual void ClearPermanentForces () = 0;
+  /**
+   * Reset speed (but leave forces alone).
+   */
+  virtual void ResetSpeed () = 0;
+  /**
+   * Apply a non-permanent force.
    */
   virtual void ApplyForce (const csVector3& force, float time) = 0;
+  /**
+   * Apply an permanent force.
+   */
+  virtual void ApplyPermanentForce (const csVector3& force) = 0;
 
   /**
-   * Return true if object is on ground.
+   * Return true if object is resting. This happens when the
+   * object did not move the last time physics was checked.
    */
-  virtual bool IsOnGround () const = 0;
+  virtual bool IsResting () const = 0;
+
+  /**
+   * Activate/deactivate physics handling for this object.
+   */
+  virtual void SetActive (bool activate) = 0;
+  /**
+   * Check activation status.
+   */
+  virtual bool IsActive () const = 0;
 };
 
 #endif // __CEL_PF_GRAVITY__

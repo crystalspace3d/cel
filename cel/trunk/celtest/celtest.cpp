@@ -263,11 +263,11 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
 
   pc = pl->CreatePropertyClass (entity_box, "pcsolid");
   if (!pc) return NULL;
-  pc = pl->CreatePropertyClass (entity_box, "pcgravity2");
+  pc = pl->CreatePropertyClass (entity_box, "pcgravity");
   if (!pc) return NULL;
   iPcGravity* pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (weight);
-  pcgravity->ApplyForce (csVector3 (0, -9.8, 0), 10000000000.);
+  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_box, "pcmovable");
   if (!pc) return NULL;
@@ -354,11 +354,11 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
   pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
   if (!pc) return NULL;
-  pc = pl->CreatePropertyClass (entity_dummy, "pcgravity2");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcgravity");
   if (!pc) return NULL;
   pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (weight);
-  pcgravity->ApplyForce (csVector3 (0, -9.8, 0), 10000000000.);
+  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
   if (!pc) return NULL;
   //pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
@@ -426,11 +426,11 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
 
   pc = pl->CreatePropertyClass (entity_cam, "pcsolid");
   if (!pc) return NULL;
-  pc = pl->CreatePropertyClass (entity_cam, "pcgravity2");
+  pc = pl->CreatePropertyClass (entity_cam, "pcgravity");
   if (!pc) return NULL;
   pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (.3);
-  pcgravity->ApplyForce (csVector3 (0, -9.8, 0), 10000000000.);
+  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
   if (!pc) return NULL;
@@ -649,7 +649,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.pcfactory.solid", "pfmove");
   iSCF::SCF->RegisterClass ("cel.pcfactory.movableconst_cd", "pfmove");
   iSCF::SCF->RegisterClass ("cel.pcfactory.gravity", "pfmove");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.gravity2", "pfmove");
   iSCF::SCF->RegisterClass ("cel.pcfactory.timer", "pftools");
   iSCF::SCF->RegisterClass ("cel.pcfactory.tooltip", "pftools");
   iSCF::SCF->RegisterClass ("cel.pcfactory.region", "pfengine");
@@ -794,8 +793,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (!LoadPcFactory ("cel.pcfactory.movableconst_cd"))
     return false;
   if (!LoadPcFactory ("cel.pcfactory.gravity"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.gravity2"))
     return false;
   if (!LoadPcFactory ("cel.pcfactory.region"))
     return false;
