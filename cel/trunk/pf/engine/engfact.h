@@ -147,6 +147,11 @@ private:
   // which are used for collision detection.
   csVector entities;
 
+  static csStringID propid_worlddir;
+  static csStringID propid_worldfile;
+  static csStringID propid_regionname;
+  static void UpdatePropIDS (iObjectRegistry* object_reg);
+
 public:
   celPcRegion (iObjectRegistry* object_reg);
   virtual ~celPcRegion ();
@@ -167,6 +172,13 @@ public:
   virtual const char* GetName () const { return "pcregion"; }
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+
+  virtual bool SetProperty (csStringID, const char*);
+  virtual celPropertyActionType GetPropertyOrActionType (csStringID);
+  virtual bool IsPropertyReadOnly (csStringID);
+  virtual const char* GetPropertyString (csStringID);
+  virtual int GetPropertyAndActionCount () const { return 3; }
+  virtual csStringID GetPropertyOrActionID (int);
 
   struct PcRegion : public iPcRegion
   {

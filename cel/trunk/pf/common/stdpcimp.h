@@ -63,14 +63,20 @@ public:
   virtual bool SetProperty (csStringID, float) { return false; }
   virtual bool SetProperty (csStringID, bool) { return false; }
   virtual bool SetProperty (csStringID, const char*) { return false; }
-  virtual bool HasProperty (csStringID) { return false; }
+  virtual bool SetProperty (csStringID, const csVector3&) { return false; }
+  virtual celPropertyActionType GetPropertyOrActionType (csStringID)
+  {
+    return type_none;
+  }
   virtual bool IsPropertyReadOnly (csStringID) { return false; }
   virtual long GetPropertyLong (csStringID) { return 0; }
   virtual float GetPropertyFloat (csStringID) { return 0; }
   virtual bool GetPropertyBool (csStringID) { return false; }
   virtual const char* GetPropertyString (csStringID) { return NULL; }
-  virtual int GetPropertyCount () const { return 0; }
-  virtual csStringID GetPropertyID (int) { return csInvalidStringID; }
+  virtual bool GetPropertyVector (csStringID, csVector3&) { return false; }
+  virtual bool PerformAction (csStringID, const char*) { return false; }
+  virtual int GetPropertyAndActionCount () const { return 0; }
+  virtual csStringID GetPropertyOrActionID (int) { return csInvalidStringID; }
 };
 
 #endif // __CEL_PF_COMMON_STDPC__
