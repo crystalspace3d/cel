@@ -164,7 +164,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   delete[] filen;
 
   cd = databuf->GetData (2); if (!cd) return false;
-  SetAction (*cd->value.s);
+  SetAction (*cd->value.s, true);
   cd = databuf->GetData (3); if (!cd) return false;
   if (cd->value.bo) Show ();
   else Hide ();
@@ -342,7 +342,7 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
   mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
 }
 
-void celPcMesh::SetAction (const char* actionName)
+void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
   CS_ASSERT (mesh != NULL);
@@ -350,7 +350,8 @@ void celPcMesh::SetAction (const char* actionName)
   	iSprite3DState);
   if (state)
   {
-    state->SetAction (actionName);
+    if (resetaction || strcmp (actionName, state->GetCurAction()->GetName ()))
+	state->SetAction (actionName);
     state->DecRef ();
   }
 }
