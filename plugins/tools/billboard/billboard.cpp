@@ -19,7 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/objreg.h"
-#include "csutil/garray.h"
+#include "csutil/dirtyaccessarray.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "igraphic/image.h"
@@ -1145,4 +1145,3 @@ bool celBillboardManager::TestCollision (iBillboard* bb1, iBillboard* bb2)
 }
 
 //---------------------------------------------------------------------------
-

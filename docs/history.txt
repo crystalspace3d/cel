@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Oct-2004
+        - Philip Wyett eliminated garray.h deprecation warnings.
 17-Oct-2004
 	- Remi Bonnet added a basic hash implementation of the num reg.
 16-Oct-2004

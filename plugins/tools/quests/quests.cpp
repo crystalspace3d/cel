@@ -19,7 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/objreg.h"
-#include "csutil/garray.h"
+#include "csutil/dirtyaccessarray.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 
@@ -76,4 +76,3 @@ bool celQuestManager::RegisterRewardFactory (iQuestRewardFactory* reward)
 }
 
 //---------------------------------------------------------------------------
-
