@@ -62,23 +62,71 @@ private:
 public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
+  /**
+   * Unattaches this entity from the physical layer and removes this
+   * mesh from the engine.
+   */
   void Clear ();
+  /**
+   * Assign a mesh created from factname and/or loaded from filename
+   * to this pcmesh.
+   */
   bool SetMesh (const char* factname, const char* filename);
+  /**
+   * Assign a mesh from a meshwrapper to this pcmesh.
+   */
   void SetMesh (iMeshWrapper* mesh);
+  /**
+   * Creates an empty thing mesh for this pcmesh-entity.
+   */
   void CreateEmptyThing ();
+  /**
+   * Get the mesh of this pcmesh-entity.
+   */
   iMeshWrapper* GetMesh () { return mesh; }
+  /**
+   * Move this mesh to the according sector and position.
+   */
   void MoveMesh (iSector* sector, const csVector3& pos);
+  /**
+   * Sets an action for this mesh if different from the current action,
+   * or resetaction is set.
+   */
   void SetAction (const char* actionName, bool reset = false);
+  /**
+   * Returns the name for the current action.
+   */
   const char* GetAction ();
+  /**
+   * Reverse the currently set action.
+   */
   void SetReverseAction (bool reverse = true);
+  /**
+   * Hides this entity.
+   */
   void Hide ();
+  /**
+   * Shows this entity.
+   */
   void Show ();
+  /**
+   * Returns visibility status for this entity.
+   */
   bool IsVisible () const { return visible; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
+  /**
+   * GetName identifies this entity as pcmesh-entity.
+   */
   virtual const char* GetName () const { return "pcmesh"; }
+  /**
+   * Save all properties of this pcmesh to a databuffer.
+   */
   virtual csPtr<iCelDataBuffer> Save ();
+  /**
+   * Load all properties for this pcmesh from a databuffer.
+   */
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMesh : public iPcMesh
