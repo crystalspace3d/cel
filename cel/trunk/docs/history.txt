@@ -14,6 +14,7 @@
 	  so that the cache will be cleaned if a new game starts. This
 	  solves another memory leak with the mesh object factories this
 	  time.
+	- celEntity (as implemented in plimp) is now also a csObject.
 15-Nov-2001:
 	- Fixed a memory leak in 'pctooltip' and 'pctimer' with event queue.
 	- Added lots of DG_... lines to help debugging.

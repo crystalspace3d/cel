@@ -20,6 +20,7 @@
 #ifndef __CEL_PLIMP_ENTITY__
 #define __CEL_PLIMP_ENTITY__
 
+#include "csutil/csobject.h"
 #include "csutil/csvector.h"
 #include "pl/entity.h"
 
@@ -28,27 +29,41 @@ class celPropertyClassList;
 /**
  * Implementation of iCelEntity.
  */
-class celEntity : public iCelEntity
+class celEntity : public csObject
 {
 private:
-  char* name;
   celPropertyClassList* plist;
   iCelBehaviour* behaviour;
 
 public:
   celEntity ();
   virtual ~celEntity ();
+    
+  iCelPropertyClassList* GetPropertyClassList ();
+  void SetBehaviour (iCelBehaviour* ent);
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (csObject);
 
-  virtual const char* GetName () const { return name; }
-  virtual void SetName (const char* n);
-  virtual iCelPropertyClassList* GetPropertyClassList ();
-  virtual void SetBehaviour (iCelBehaviour* ent);
-  virtual iCelBehaviour* GetBehaviour ()
+  //--------------------- iCelEntity implementation --------------------//
+  struct CelEntity : public iCelEntity
   {
-    return behaviour;
-  }
+    SCF_DECLARE_EMBEDDED_IBASE (celEntity);
+    virtual const char* GetName () const { return scfParent->GetName (); }
+    virtual void SetName (const char* n) { scfParent->SetName (n); }
+    virtual iCelPropertyClassList* GetPropertyClassList ()
+    {
+      return scfParent->GetPropertyClassList ();
+    }
+    virtual void SetBehaviour (iCelBehaviour* ent)
+    {
+      scfParent->SetBehaviour (ent);
+    }
+    virtual iCelBehaviour* GetBehaviour ()
+    {
+      return scfParent->behaviour;
+    }
+  } scfiCelEntity;
+  friend class CelEntity;
 };
 
 /**
