@@ -795,6 +795,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     DUMP_EXEC ((":::: entity=%s behave=%s\n", entity->GetName (),
   	behave->GetName ()));
   }
+#ifdef CS_DEBUG
+  // Force cleaning of local variables in debug mode to
+  // ensure they are not being misused.
+  local_vars.Empty ();
+#endif
 
   for (;;)
   {
