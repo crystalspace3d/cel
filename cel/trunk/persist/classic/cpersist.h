@@ -38,6 +38,7 @@ class celPersistClassic : public iCelPersistance
 private:
   iObjectRegistry* object_reg;
 
+  bool WriteMarker (iFile* f, const char* s);
   bool WriteString (iFile* f, const char* s);
   bool Write (iFile* f, iCelPropertyClass* pc);
   bool Write (iFile* f, iCelEntity* entity);

@@ -18,6 +18,17 @@
 	- Added 's' key to save the current world to 'savefile'. Since
 	  saving in general does not work yet I advice you NOT to press
 	  this key :-)
+	- Fixed a bug in implementation of celDataBuffer. It was not
+	  properly allocating new entries when the buffer growed.
+	- Fixed handing of saving NULL property class or entity. Now
+	  a marker is always saved which says what will follow. ENT0
+	  is a NULL entity pointer. ENTI is the definition of an entity.
+	  ENTR (not used yet) will be a reference to an entity.
+	  Similar for property classes: PCL0, PCLI, and PCLR.
+	- Fixed a bad bug in inventory saving.
+	- The three fixes bug make sure that at least saving doesn't crash
+	  anymore. However there is still too many information saved as
+	  duplicate entities/property classes are not detected.
 11-Nov-2001:
 	- Even though persistance is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data

@@ -69,6 +69,12 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   return NULL;
 }
 
+bool celPersistClassic::WriteMarker (iFile* f, const char* s)
+{
+  if (!f->Write (s, 4)) return false;
+  return true;
+}
+
 bool celPersistClassic::WriteString (iFile* f, const char* s)
 {
   int ll = s ? strlen (s) : 0;
@@ -80,6 +86,14 @@ bool celPersistClassic::WriteString (iFile* f, const char* s)
 
 bool celPersistClassic::Write (iFile* f, iCelPropertyClass* pc)
 {
+  if (!pc)
+  {
+    // NULL pc.
+    if (!WriteMarker (f, "PCL0")) return false;
+    return true;
+  }
+  if (!WriteMarker (f, "PCLI")) return false;
+
   if (!WriteString (f, pc->GetName ())) return false;
   if (!WriteString (f, pc->GetFactoryName ())) return false;
   iCelDataBuffer* db = pc->Save ();
@@ -95,6 +109,14 @@ bool celPersistClassic::Write (iFile* f, iCelPropertyClass* pc)
 
 bool celPersistClassic::Write (iFile* f, iCelEntity* entity)
 {
+  if (!entity)
+  {
+    // NULL entity.
+    if (!WriteMarker (f, "ENT0")) return false;
+    return true;
+  }
+  if (!WriteMarker (f, "ENTI")) return false;
+
   if (!WriteString (f, entity->GetName ())) return false;
   if (!WriteString (f, entity->GetBehaviour () ?
   	entity->GetBehaviour ()->GetName () : NULL)) return false;
