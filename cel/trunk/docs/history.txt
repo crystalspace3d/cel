@@ -1,3 +1,12 @@
+Crystal Entity Layer (CEL) detailed change log.
+http://cel.sourceforge.net/
+
+The history order is reversed so that new features are at the top.
+
+29-Jun-2003
+	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
+	  up-to-date version from the Crystal Space project.  This fixes the
+	  Swig version check in the configure script which was failing.
 27-Jun-2003
 	- Jorrit moved celtest to apps/celtest.
 	- Jorrit added apps/celpython. The purpose of this application will
