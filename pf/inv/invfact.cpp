@@ -191,7 +191,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
       pcchar->AddToInventory (&scfiPcInventory);
       pcchar->DecRef ();
     }
-    cd->value.ent->IncRef ();
+    //cd->value.ent->IncRef ();
   }
 
   return true;

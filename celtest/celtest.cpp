@@ -77,6 +77,10 @@
 
 CS_IMPLEMENT_APPLICATION
 
+// Define MINIMAL for a very minimal celtest.
+// Useful for debugging.
+#define MINIMAL 0
+
 //-----------------------------------------------------------------------------
 
 // The global pointer to celtest
@@ -176,6 +180,7 @@ bool CelTest::HandleEvent (iEvent& ev)
 	pl->CleanCache ();
       }
       csDebuggingGraph::Dump (NULL);
+      csDebuggingGraph::Clear (NULL);
 
       LoadTextures ();
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
@@ -353,8 +358,13 @@ bool CelTest::CreateRoom ()
   pc = CreatePropertyClass (entity_room, pfengine, "pcregion");
   if (!pc) return false;
   pcregion = SCF_QUERY_INTERFACE_FAST (pc, iPcRegion);
+#if MINIMAL
+  pcregion->SetWorldFile ("/this/celtest/data", "world");
+  pcregion->SetRegionName ("minimal");
+#else
   pcregion->SetWorldFile ("/lev/partsys", "world");
   pcregion->SetRegionName ("partsys");
+#endif
   pcregion->Load ();
   room = pcregion->GetStartSector ();
 
@@ -397,6 +407,7 @@ bool CelTest::CreateRoom ()
   //===============================
   // Create the box entities.
   //===============================
+#if !MINIMAL
   entity_box = CreateBoxEntity ("box", "box", pccamera, .9, 200,
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;
@@ -409,6 +420,7 @@ bool CelTest::CreateRoom ()
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
   entity_box->DecRef ();
+#endif
 
   //===============================
   // Create dummy entities.
@@ -419,6 +431,7 @@ bool CelTest::CreateRoom ()
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
+#if !MINIMAL
   entity_dummy = CreateDummyEntity ("dummy2", "small",
   	.4, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0));
   if (!entity_dummy) return false;
@@ -448,6 +461,7 @@ bool CelTest::CreateRoom ()
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
+#endif
 
   pcinv_room->DecRef ();
   pccamera->DecRef ();
@@ -460,10 +474,14 @@ bool CelTest::CreateRoom ()
 
 bool CelTest::LoadTextures ()
 {
+#if MINIMAL
+  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
+#else
   if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
   if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
   if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
   if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg")) return false;
+#endif
   return true;
 }
 
