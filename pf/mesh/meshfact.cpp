@@ -20,7 +20,7 @@
 #include "cssysdef.h"
 #include "pf/mesh/meshfact.h"
 #include "pl/entity.h"
-#include "bl/entity.h"
+#include "bl/behave.h"
 #include "csutil/util.h"
 #include "iutil/object.h"
 #include "iutil/event.h"

@@ -20,7 +20,7 @@
 #include "cssysdef.h"
 #include "pf/inv/invfact.h"
 #include "pl/entity.h"
-#include "bl/entity.h"
+#include "bl/behave.h"
 #include "csutil/util.h"
 
 //---------------------------------------------------------------------------

@@ -22,20 +22,20 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBlEntity)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlEntity)
+SCF_IMPLEMENT_IBASE (celBehaviour)
+  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celBlEntity::celBlEntity ()
+celBehaviour::celBehaviour ()
 {
   SCF_CONSTRUCT_IBASE (NULL);
 }
 
-celBlEntity::~celBlEntity ()
+celBehaviour::~celBehaviour ()
 {
 }
 
-bool celBlEntity::SendMessage (const char* msg_id, ...)
+bool celBehaviour::SendMessage (const char* msg_id, ...)
 {
   va_list arg;
   va_start (arg, msg_id);
@@ -44,7 +44,7 @@ bool celBlEntity::SendMessage (const char* msg_id, ...)
   return rc;
 }
 
-bool celBlEntity::SendMessageV (const char* msg_id, va_list arg)
+bool celBehaviour::SendMessageV (const char* msg_id, va_list arg)
 {
   (void)arg;
   printf ("Got message '%s'\n", msg_id);

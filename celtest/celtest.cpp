@@ -497,7 +497,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   // Create the box entity.
   //===============================
   entity_box = pl->CreateEntity (); entity_box->SetName ("box");
-  entity_box->SetBlEntity (bl->CreateBlEntity ("printer"));
+  entity_box->SetBehaviour (bl->CreateBehaviour ("printer"));
 
   pc = CreatePropertyClass (entity_box, pftest, "pctest");
   if (!pc) return false;
@@ -539,7 +539,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   // Create four dummy entities.
   //===============================
   entity_dummy1 = pl->CreateEntity (); entity_dummy1->SetName ("dummy1");
-  entity_dummy1->SetBlEntity (bl->CreateBlEntity ("printer"));
+  entity_dummy1->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy1, pfinv, "pccharacteristics");
   if (!pc) return false;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
@@ -548,7 +548,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcchars->DecRef ();
 
   entity_dummy2 = pl->CreateEntity (); entity_dummy2->SetName ("dummy2");
-  entity_dummy2->SetBlEntity (bl->CreateBlEntity ("printer"));
+  entity_dummy2->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy2, pfinv, "pccharacteristics");
   if (!pc) return false;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
@@ -557,7 +557,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcchars->DecRef ();
  
   entity_dummy3 = pl->CreateEntity (); entity_dummy3->SetName ("dummy3");
-  entity_dummy3->SetBlEntity (bl->CreateBlEntity ("printer"));
+  entity_dummy3->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy3, pfinv, "pccharacteristics");
   if (!pc) return false;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
@@ -565,7 +565,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcchars->DecRef ();
  
   entity_dummy4 = pl->CreateEntity (); entity_dummy4->SetName ("dummy4");
-  entity_dummy4->SetBlEntity (bl->CreateBlEntity ("printer"));
+  entity_dummy4->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy4, pfinv, "pccharacteristics");
   if (!pc) return false;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);

@@ -21,7 +21,7 @@
 #include "csutil/util.h"
 #include "plimp/entity.h"
 #include "plimp/propclas.h"
-#include "bl/entity.h"
+#include "bl/behave.h"
 
 //---------------------------------------------------------------------------
 
@@ -34,14 +34,14 @@ celEntity::celEntity ()
   SCF_CONSTRUCT_IBASE (NULL);
   name = NULL;
   plist = new celPropertyClassList (this);
-  bl_entity = NULL;
+  behaviour = NULL;
 }
 
 celEntity::~celEntity ()
 {
   delete[] name;
   delete plist;
-  if (bl_entity) bl_entity->DecRef ();
+  if (behaviour) behaviour->DecRef ();
 }
 
 void celEntity::SetName (const char* n)
@@ -53,11 +53,11 @@ void celEntity::SetName (const char* n)
     name = NULL;
 }
 
-void celEntity::SetBlEntity (iCelBlEntity* ent)
+void celEntity::SetBehaviour (iCelBehaviour* ent)
 {
   if (ent) ent->IncRef ();
-  if (bl_entity) bl_entity->DecRef ();
-  bl_entity = ent;
+  if (behaviour) behaviour->DecRef ();
+  behaviour = ent;
 }
 
 iCelPropertyClassList* celEntity::GetPropertyClassList ()
