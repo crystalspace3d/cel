@@ -1,3 +1,7 @@
+19-Jul-2002:
+	- MatzeB fixed indentation and an LPVOID issue in engfact.cpp.
+	- Readded the firstperson camera mode that I accidently removed
+	  yesterday by applying's Anders patch.
 18-Jul-2002:
 	- Several months ago I received a patch from Anders Stenberg.
 	  This patch does the following:
