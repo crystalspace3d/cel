@@ -145,6 +145,7 @@ private:
   csTicks wakeup, wakeup_todo;
   bool repeat;
   bool wakeupframe;
+  bool wakeuponce;
 
   static csStringID action_wakeup;
   static csStringID action_wakeupframe;

@@ -8,6 +8,13 @@ The history order is reversed so that new features are at the top.
 	  layer (i.e. calling a function from another entity script using
 	  :: operator).
 	- Jorrit cleaned up the XML scripter a bit.
+	- Jorrit added a new MoveToPosition() method to iBillboard.
+	  This will implement a gradual move (given a certain delta value).
+	- Jorrit added a new version of bb_move to the XML behaviour layer
+	  that actually uses this new function (if 'delta' parameter is
+	  given).
+	- Jorrit changed the pctimer property class so you can now
+	  specify both WakeUpFrame as WakeUp at the same time.
 12-Jan-2004
 	- Jorrit fixed a memory leak bug in the XML behaviour layer. The
 	  behaviour was using csRef's to property classes which

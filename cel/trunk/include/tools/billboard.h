@@ -168,6 +168,16 @@ struct iBillboard : public iBase
   virtual void SetPosition (int x, int y) = 0;
 
   /**
+   * During the given time, slowly move the billboard
+   * to the given position. If 'delta' is 0 then this function
+   * is equivalent to calling SetPosition().
+   * Calling this function while another move is in progress
+   * has the effect of clearing that previous move.
+   * Uses billboard space.
+   */
+  virtual void MoveToPosition (csTicks delta, int x, int y) = 0;
+
+  /**
    * Get the position of the top-left corner of this billboard.
    * Uses billboard space.
    */

@@ -31,6 +31,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
+#include "iutil/virtclk.h"
 #include "tools/billboard.h"
 
 struct iObjectRegistry;
@@ -114,6 +115,7 @@ private:
   celBillboardManager* mgr;
   celBillboardLayer* layer;
   csColor color;
+  bool is_moving;	// Billboard is in the 'moving_billboards' array.
 
   // If the following flag is true an attempt to delete this billboard
   // we instead set the 'delete_me' flag. This is to make sure that
@@ -173,6 +175,7 @@ public:
   virtual void GetSize (int& w, int& h);
   virtual void GetImageSize (int& w, int& h);
   virtual void SetPosition (int x, int y);
+  virtual void MoveToPosition (csTicks delta, int x, int y);
   virtual void GetPosition (int& x, int& y) const;
   virtual void SetPositionScreen (int x, int y);
   virtual void GetPositionScreen (int& x, int& y) const;
@@ -202,6 +205,7 @@ class celBillboardManager : public iBillboardManager
 private:
   iObjectRegistry* object_reg;
   csRef<iGraphics3D> g3d;
+  csRef<iVirtualClock> vc;
 
   // Note: the billboard at the end of the following array is the top of
   // the stack.
@@ -210,6 +214,16 @@ private:
 
   csPDelArray<celBillboardLayer> layers;
   celBillboardLayer* default_layer;
+
+  struct movingBillboard
+  {
+    celBillboard* bb;
+    int delta;
+    csTicks tot_delta;
+    int srcx, srcy;
+    int dstx, dsty;
+  };
+  csArray<movingBillboard> moving_billboards;
 
   celBillboard* moving_billboard;
   int moving_dx;
@@ -235,6 +249,11 @@ public:
     x /= screen_w_fact;
     y /= screen_h_fact;
   }
+
+  int FindMovingBillboard (celBillboard* bb);
+  void RemoveMovingBillboard (celBillboard* bb);
+  void MoveToPosition (celBillboard* bb, csTicks delta, int x, int y);
+  void HandleMovingBillboards (csTicks elapsed);
 
 public:
   celBillboardManager (iBase* parent);
