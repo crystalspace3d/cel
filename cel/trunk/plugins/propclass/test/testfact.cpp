@@ -134,7 +134,7 @@ csPtr<iCelDataBuffer> celPcTest::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
   databuf->SetDataCount (2);
   databuf->GetData (0)->Set (counter);
-  databuf->GetData (1)->Set (max);
+  databuf->GetData (1)->Set (int (max));
   return csPtr<iCelDataBuffer> (databuf);
 }
 
