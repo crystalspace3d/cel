@@ -162,8 +162,8 @@ void celBillboard::SetupMaterial ()
   {
     if (image_w != -1)
     {
-      bb_w = image_w * 1600;
-      bb_h = image_h * 1280;
+      bb_w = image_w * 480;
+      bb_h = image_h * 640;
     }
   }
 
@@ -244,8 +244,8 @@ void celBillboard::GetImageSize (int& iw, int& ih)
   iw = celBillboard::image_w;
   ih = celBillboard::image_h;
   mgr->ScreenToBillboardSpace (iw, ih);
-  iw = iw * 1600 / mgr->screen_w_fact;
-  ih = ih * 1280 / mgr->screen_h_fact;
+  iw = iw * 480 / mgr->screen_w_fact;
+  ih = ih * 640 / mgr->screen_h_fact;
 }
 
 void celBillboard::SetSize (int w, int h)
@@ -447,8 +447,8 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
 
-  screen_w_fact = 1024000 / g3d->GetWidth ();
-  screen_h_fact = 614400 / g3d->GetHeight ();
+  screen_w_fact = BSX / g3d->GetWidth ();
+  screen_h_fact = BSY / g3d->GetHeight ();
 
   return true;
 }

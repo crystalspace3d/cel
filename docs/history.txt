@@ -13,6 +13,11 @@ The history order is reversed so that new features are at the top.
 	  software and OpenGL renderer. This requires fixes on the CS side
 	  too.
 	- Jorrit removed some debug info.
+	- Jorrit changed billboard space to 307200x307200. The reason for this
+	  change is that this number is divisible by 320, 480, 640, 600,
+	  800, 1024, 1280, and 1600 and is thus very suitable for representing
+	  both horizontal and vertical resolutions. It is also square which
+	  is easier to use.
 27-Nov-2003
 	- Jorrit added support for 'width', 'height', 'x', and 'y'
 	  properties to the pcbillboard. Also added persistance for these
