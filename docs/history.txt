@@ -4,8 +4,11 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 28-Jan-2004
-	- Jorrit reverted a change in win32.jam which causes CEL
-	  not to compile.
+	- Jorrit reverted a change in win32.jam which causes CEL not to
+	  compile.
+	- Eric Sunshine updated mk/autoconf and mk/jam from master copies in
+	  Crystal Space repository which contain fixes for build problems
+	  introduced when buggy Jam files were installed on 23-Jan-2004.
 27-Jan-2004
 	- Eric Sunshine fixed bug in cel/Jamfile.  It was incorrectly invoking
 	  InstallApplication rather than InstallShellScript to install

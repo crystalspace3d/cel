@@ -27,12 +27,6 @@
 # - Likewise, provide a generic Resources() rule which allows specification of
 #   additional textual resources for inclusion in generated projects.
 #
-# - Upgrade module Jamfiles to mention headers from the CS/include/module
-#   directory.  This will allow related headers to appear in the generated
-#   project files.  For instance, the libcsengine project should mention
-#   headers from CS/include/csengine, in addition to the ones from
-#   CS/libs/csengine which it currently mentions.
-#
 # - When PERL5.SDK.AVAILABLE is "yes", Jam reports that it doesn't know how to
 #   locate or create <grist>csperlxs.c.
 
@@ -40,9 +34,9 @@ if $(MSVCGEN_CONFIG)
 {
 
 MSVCGEN = "$(PERL) $(TOP)/mk/msvcgen/msvcgen.pl" ;
-MKVERRES = "$(SHELL) $(TOP)/libs/cssys/win32/mkverres.sh" ;
-MKMETADATARES = "$(SHELL) $(TOP)/libs/cssys/win32/mkmetadatares.sh" ;
-MERGERES = "$(SHELL) $(TOP)/libs/cssys/win32/mergeres.sh" ;
+MKVERRES = "$(SHELL) $(TOP)/libs/csutil/win32/mkverres.sh" ;
+MKMETADATARES = "$(SHELL) $(TOP)/libs/csutil/win32/mkmetadatares.sh" ;
+MERGERES = "$(SHELL) $(TOP)/libs/csutil/win32/mergeres.sh" ;
 
 MSVCGEN_BUILD_ROOT = $(BUILDTOP)/out ;
 
@@ -153,15 +147,15 @@ rule MsvcProject
   
     # normalize version list
     local v1, v2, v3, v4 ;
-    v1 = $(PACKAGE.VERSION.LIST[1]) ;
+    v1 = $(PACKAGE_VERSION_LIST[1]) ;
     if ! $(v1) { v1 = 0 ; }
-    v2 = $(PACKAGE.VERSION.LIST[2]) ;
+    v2 = $(PACKAGE_VERSION_LIST[2]) ;
     if ! $(v2) { v2 = 0 ; }
-    v3 = $(PACKAGE.VERSION.LIST[3]) ;
+    v3 = $(PACKAGE_VERSION_LIST[3]) ;
     if ! $(v3) { v3 = 0 ; }
-    v4 = $(PACKAGE.VERSION.LIST[4]) ;
+    v4 = $(PACKAGE_VERSION_LIST[4]) ;
     if ! $(v4) { v4 = 0 ; }
-    PACKAGE.VERSION.LIST on $(versionrc) = $(v1) $(v2) $(v3) $(v4) ;
+    PACKAGE_VERSION_LIST on $(versionrc) = $(v1) $(v2) $(v3) $(v4) ;
 	
     DESCRIPTION on $(versionrc) = $($(<)_help) ;
 	
