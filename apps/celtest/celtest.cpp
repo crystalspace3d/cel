@@ -88,6 +88,8 @@
 // Useful for debugging.
 #define MINIMAL 0
 
+CS_IMPLEMENT_APPLICATION
+
 //-----------------------------------------------------------------------------
 
 CelTest::CelTest ()
