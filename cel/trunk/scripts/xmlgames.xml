@@ -42,6 +42,26 @@
 	    <transparent red="1" green="1" blue="1" />
 	    <keepimage />
         </texture>
+        <texture name="apple">
+	    <file>/cellib/images/apple.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="pear">
+	    <file>/cellib/images/pear.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="banana">
+	    <file>/cellib/images/banana.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="mushroom">
+	    <file>/cellib/images/mushroom.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -54,6 +74,10 @@
         <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
         <material name="hero"> <texture>hero</texture> </material>
         <material name="monster"> <texture>monster</texture> </material>
+        <material name="apple"> <texture>apple</texture> </material>
+        <material name="pear"> <texture>pear</texture> </material>
+        <material name="banana"> <texture>banana</texture> </material>
+        <material name="mushroom"> <texture>mushroom</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -202,6 +226,104 @@
 	    	<sound name="boing" loop="false" />
 		<var entity="menu" name="game" value="?game" />
 	        <call entity="menu" event="startgame" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script is the superclass of moving objects. You cannot
+	  - use this script standalone.
+	  - This script uses the following variables:
+	  -    ?x,?y: block position of object
+	  -    ?speed: speed of movement
+	  -    ?dim: dimension of objects.
+	  -  ***************************************************** -->
+	<script name="movingobject">
+	    <!--
+	      - Initialize. Needs parameter ?material for the material name,
+	      - ?x, ?y for the position, and ?dim for the dimension of the
+	      - objects.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(name)" value="?material" />
+	        <property id="propid(materialname)" value="?material" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="?dim" />
+	        <property id="propid(height)" value="?dim" />
+	        <property id="propid(x)" value="?x*?dim" />
+	        <property id="propid(y)" value="?y*?dim" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<var name="moving" value="false" />
+	    </event>
+
+	    <!--
+	      - Routine to calculate ?dx and ?dy based on ?dxdy.
+	      -->
+	    <event name="calcdxdy">
+		<!-- Set ?dx and ?dy based on the four possible outcomes -->
+		<if eval="?dxdy&2">
+		    <true>
+		        <var name="dx" value="0" />
+		        <var name="dy" value="if(?dxdy&1,1,-1)" />
+		    </true>
+		    <false>
+		        <var name="dx" value="if(?dxdy&1,1,-1)" />
+		        <var name="dy" value="0" />
+		    </false>
+		</if>
+	    </event>
+
+	    <!--
+	      - Do the actual move. Subscripts can override this to
+	      - do additional stuff like check for collisions and so on.
+	      - Uses ?xx and ?yy parameters.
+	      -->
+	    <event name="actualmove">
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(x)" value="?xx" />
+	        <property id="propid(y)" value="?yy" />
+	    </event>
+
+	    <!--
+	      - Do the move transition of this object.
+	      - Uses ?srcx,?srcy, ?dstx,?dsty, and ?delta.
+	      -->
+	    <event name="pctimer_wakeupframe">
+	        <if eval="?moving">
+	            <var name="xx" value="intpol(?delta,?srcx,?dstx)" />
+	            <var name="yy" value="intpol(?delta,?srcy,?dsty)" />
+		    <call event="actualmove" />
+		    <if eval="?delta>=1">
+		        <true>
+			    <var name="moving" value="false" />
+			    <default propclass="pc(pcbillboard)" />
+			    <property id="propid(x)" value="?dstx" />
+			    <property id="propid(y)" value="?dsty" />
+		        </true>
+		        <false>
+			    <var name="delta"
+			    	value="?delta+?speed*param(parid(elapsedticks))" />
+		        </false>
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Start a movement in ?dx,?dy direction.
+	      -->
+	    <event name="startmove">
+		<var name="srcx" value="?x*?dim" />
+		<var name="srcy" value="?y*?dim" />
+		<var name="x" value="?x+?dx" />
+		<var name="y" value="?y+?dy" />
+		<var name="dstx" value="?x*?dim" />
+		<var name="dsty" value="?y*?dim" />
+		<var name="delta" value="0.0" />
+		<var name="moving" value="true" />
 	    </event>
 	</script>
 
@@ -466,13 +588,17 @@
 	    <event name="init">
 	        <print value="MAZE"/>
 	        <createpropclass name="pcinventory" />
+	        <createpropclass name="pctimer" />
 
 		<!-- Set some defaults -->
 		<var name="dimension" value="16" />
 		<var name="blockdim" value="18000" />
 		<var name="herospeed" value="0.03" />
 		<var name="monsterspeed" value="0.003" />
-		<var name="monstercnt" value="20" />
+		<var name="fruitspeed" value="0.002" />
+		<var name="fruitmax" value="5" />
+		<var name="fruitcnt" value="0" />
+		<var name="monstercnt" value="2" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />
@@ -514,6 +640,13 @@
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="monster+?i" />
 		</for>
+
+		<!-- Every second we check if we need to create a piece of fruit -->
+		<var name="fruitidx" value="0" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="1000" />
+		    <par id="parid(repeat)" value="true" />
+		</action>
 	    </event>
 
 	    <!--
@@ -530,118 +663,35 @@
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
 	    </event>
-	</script>
-
-	<!-- *****************************************************
-	  - This script is the superclass of moving objects. You cannot
-	  - use this script standalone.
-	  - This script uses the following variables:
-	  -    ?x,?y: block position of object
-	  -    ?speed: speed of movement
-	  -  ***************************************************** -->
-	<script name="movingobject">
-	    <!--
-	      - Initialize. Needs parameter ?material for the material name
-	      - and ?x, ?y for the position.
-	      -->
-	    <event name="init">
-	        <createpropclass name="pctimer" />
-	        <createpropclass name="pcbillboard" />
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(name)" value="?material" />
-	        <property id="propid(materialname)" value="?material" />
-	        <property id="propid(movable)" value="false" />
-	        <property id="propid(clickable)" value="false" />
-	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="?maze_main.blockdim" />
-	        <property id="propid(height)" value="?maze_main.blockdim" />
-	        <property id="propid(x)" value="?x*?maze_main.blockdim" />
-	        <property id="propid(y)" value="?y*?maze_main.blockdim" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
-		<var name="moving" value="false" />
-	    </event>
 
 	    <!--
-	      - Routine to calculate ?dx and ?dy based on ?dxdy.
+	      - Create a new piece of fruit.
+	      - Uses ?fruitidx to have unique entity names for fruit.
+	      - Also uses ?fruitmax and ?fruitcnt to make sure there is
+	      - not too much fruit on screen.
 	      -->
-	    <event name="calcdxdy">
-		<!-- Set ?dx and ?dy based on the four possible outcomes -->
-		<if eval="?dxdy&2">
-		    <true>
-		        <var name="dx" value="0" />
-		        <var name="dy" value="if(?dxdy&1,1,-1)" />
-		    </true>
-		    <false>
-		        <var name="dx" value="if(?dxdy&1,1,-1)" />
-		        <var name="dy" value="0" />
-		    </false>
+	    <event name="pctimer_wakeup">
+	        <if eval="?fruitcnt<?fruitmax && rand(8)>5">
+		    <createentity name="fruit+?fruitidx" behaviour="fruit" />
+		    <inventory propclass="pc(pcinventory)" />
+		    <inventory_add child="fruit+?fruitidx" />
+		    <var name="fruitidx" value="?fruitidx+1" />
+		    <var name="fruitcnt" value="?fruitcnt+1" />
 		</if>
-	    </event>
-
-	    <!--
-	      - Do the actual move. Subscripts can override this to
-	      - do additional stuff like check for collisions and so on.
-	      - Uses ?xx and ?yy parameters.
-	      -->
-	    <event name="actualmove">
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="?xx" />
-	        <property id="propid(y)" value="?yy" />
-	    </event>
-
-	    <!--
-	      - Do the move transition of this object.
-	      - Uses ?srcx,?srcy, ?dstx,?dsty, and ?delta.
-	      -->
-	    <event name="pctimer_wakeupframe">
-	        <if eval="?moving">
-	            <var name="xx" value="intpol(?delta,?srcx,?dstx)" />
-	            <var name="yy" value="intpol(?delta,?srcy,?dsty)" />
-		    <call event="actualmove" />
-		    <if eval="?delta>=1">
-		        <true>
-			    <var name="moving" value="false" />
-			    <default propclass="pc(pcbillboard)" />
-			    <property id="propid(x)" value="?dstx" />
-			    <property id="propid(y)" value="?dsty" />
-		        </true>
-		        <false>
-			    <var name="delta"
-			    	value="?delta+?speed*param(parid(elapsedticks))" />
-		        </false>
-		    </if>
-		</if>
-	    </event>
-
-	    <!--
-	      - Start a movement in ?dx,?dy direction.
-	      -->
-	    <event name="startmove">
-		<var name="srcx" value="?x*?maze_main.blockdim" />
-		<var name="srcy" value="?y*?maze_main.blockdim" />
-		<var name="x" value="?x+?dx" />
-		<var name="y" value="?y+?dy" />
-		<var name="dstx" value="?x*?maze_main.blockdim" />
-		<var name="dsty" value="?y*?maze_main.blockdim" />
-		<var name="delta" value="0.0" />
-		<var name="moving" value="true" />
 	    </event>
 	</script>
 
 	<!-- *****************************************************
-	  - This script controls the behaviour of a monster.
+	  - This is a superscript for automatic moving objects in the
+	  - maze game.
 	  -  ***************************************************** -->
-	<script name="monster">
+	<script name="automovingobject">
 	    <superscript name="movingobject" />
 
 	    <!--
-	      - Initialize a monster.
+	      - Initialize this moving object.
 	      -->
 	    <event name="init">
-		<var name="x" value="14" />
-		<var name="y" value="14" />
-		<var name="material" value="monster" />
-		<var name="speed" value="?maze_main.monsterspeed" />
 		<super />
 	    	<!-- Init to one of the four possible directions -->
 	        <var name="dxdy" value="int(rand(4.0))" />
@@ -651,7 +701,7 @@
 	    <!--
 	      - Check if a move is possible and perform the move
 	      - if so. Uses ?dx and ?dy to get the move direction and
-	      - ?monstx and ?monsty for current position. If it can't move
+	      - ?x and ?y for current position. If it can't move
 	      - in some direction it will change direction.
 	      -->
 	    <event name="pctimer_wakeupframe">
@@ -696,6 +746,63 @@
 	</script>
 
 	<!-- *****************************************************
+	  - This script controls the behaviour of a piece of fruit.
+	  -  ***************************************************** -->
+	<script name="fruit">
+	    <superscript name="automovingobject" />
+
+	    <!--
+	      - Initialize a piece of fruit.
+	      -->
+	    <event name="init">
+	    	<!-- Random start location -->
+		<switch eval="int(rand(3))">
+		    <case value="0">
+			<var name="x" value="14" />
+			<var name="y" value="14" />
+		    </case>
+		    <case value="1">
+			<var name="x" value="1" />
+			<var name="y" value="14" />
+		    </case>
+		    <case value="2">
+			<var name="x" value="14" />
+			<var name="y" value="1" />
+		    </case>
+		</switch>
+		<var name="dim" value="?maze_main.blockdim" />
+		<!-- Random fruit material -->
+		<switch eval="int(rand(4))">
+		    <case value="0"> <var name="material" value="banana" /> </case>
+		    <case value="1"> <var name="material" value="pear" /> </case>
+		    <case value="2"> <var name="material" value="apple" /> </case>
+		    <case value="3"> <var name="material" value="mushroom" /> </case>
+		</switch>
+		<var name="speed" value="?maze_main.fruitspeed" />
+		<super />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script controls the behaviour of a monster.
+	  -  ***************************************************** -->
+	<script name="monster">
+	    <superscript name="automovingobject" />
+
+	    <!--
+	      - Initialize a monster.
+	      -->
+	    <event name="init">
+		<var name="x" value="14" />
+		<var name="y" value="14" />
+		<var name="dim" value="?maze_main.blockdim" />
+		<var name="material" value="monster" />
+		<var name="speed" value="?maze_main.monsterspeed" />
+		<super />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
 	  - This script controls the behaviour of our hero.
 	  -  ***************************************************** -->
 	<script name="hero">
@@ -707,6 +814,7 @@
 	    <event name="init">
 		<var name="x" value="1" />
 		<var name="y" value="1" />
+		<var name="dim" value="?maze_main.blockdim" />
 		<var name="material" value="hero" />
 		<var name="speed" value="?maze_main.herospeed" />
 		<super />
