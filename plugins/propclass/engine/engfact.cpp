@@ -949,7 +949,7 @@ bool celPcCamera::SetZoneManager (iPcZoneManager* newzonemgr,
   return true;
 }
 
-bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
+bool celPcCamera::SetRegion (iPcRegion* newregion, bool point, const char *name)
 {
   region = newregion;
   zonemgr = 0;
