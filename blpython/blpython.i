@@ -80,7 +80,6 @@ iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
 %}
 iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name);
 
-////////
 %{
 iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
   csRef<iCelEntity> ent(SCF_QUERY_INTERFACE (base, iCelEntity));
@@ -88,7 +87,29 @@ iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
 }
 %}
 iCelEntity *scfQueryInterface_iCelEntity(iBase *base);
-/////////
+
+struct iCelEntityList : public iBase
+{
+  virtual int GetCount () const = 0;
+  virtual iCelEntity* Get (int n) const = 0;
+  virtual int Add (iCelEntity* obj) = 0;
+  virtual bool Remove (iCelEntity* obj) = 0;
+  virtual bool Remove (int n) = 0;
+  virtual void RemoveAll () = 0;
+  virtual int Find (iCelEntity* obj) const = 0;
+  virtual iCelEntity* FindByName (const char *Name) const = 0;
+};
+
+%{
+iCelEntityList *celFindNearbyEntities(iObjectRegistry *object_reg, iSector *sector, csVector3 pos, float radius) {
+  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  if(!pl.IsValid()) return NULL;
+  csRef<iCelEntityList> entlist(pl->FindNearbyEntities(sector, pos, radius));
+  entlist->IncRef();
+  return entlist;
+}
+%}
+iCelEntityList *celFindNearbyEntities(iObjectRegistry *object_reg, iSector *sector, csVector3 pos, float radius);
 
 struct iCelBlLayer : public iBase
 {
