@@ -83,10 +83,12 @@ CelTest::CelTest ()
   view = NULL;
   pl = NULL;
   bl = NULL;
+  game = NULL;
 }
 
 CelTest::~CelTest ()
 {
+  if (game) game->DecRef ();
   if (pl) pl->DecRef ();
   if (bl) bl->DecRef ();
   if (vc) vc->DecRef ();
@@ -609,6 +611,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pftest->DecRef ();
   pfmesh->DecRef ();
   pfinv->DecRef ();
+
+  game = entity_box;
 
   return true;
 }

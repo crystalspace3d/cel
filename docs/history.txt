@@ -2,6 +2,18 @@
 	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
 	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour
 	  and so on...).
+	- Added iBase* parameter to iCelBehaviour::SendMessage(). So a
+	  message from property classes to the behaviour part of an entity
+	  now has three parts:
+	  	- A message id.
+		- An iBase pointer with possible additional arguments
+		  for the message.
+		- A list of additional strings.
+	- Removed several bugs in cleanup of inventory which prevented proper
+	  cleanup. In particular RemoveAll() was not right.
+	- Extended pcmesh property class so that a csObject is attached
+	  to the mesh in the engine with which it is possible to find the
+	  entity again.
 29-Oct-2001:
 	- Basic inventory handling seems to work now. Celtest demonstrates
 	  (in text form only at the moment) one box entity and four

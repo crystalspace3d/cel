@@ -37,8 +37,8 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual bool SendMessage (const char* msg_id, ...);
-  virtual bool SendMessageV (const char* msg_id, va_list arg);
+  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
 };
 
 #endif // __CEL_BLTEST_BEHAVE__

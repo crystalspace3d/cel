@@ -22,6 +22,7 @@
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
+#include "csutil/csobject.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
@@ -87,6 +88,34 @@ const char* celPfMesh::GetTypeName (int idx) const
     default: return NULL;
   }
 }
+
+//---------------------------------------------------------------------------
+
+// Class which is used to attach to an iMeshWrapper so that
+// we can find the iCelEntity again.
+
+SCF_VERSION (celEntityFinder, 0, 0, 1);
+class celEntityFinder : public csObject
+{
+private:
+  celPcMesh* pcmesh;
+
+public:
+  celEntityFinder (celPcMesh* pcmesh)
+  {
+    celEntityFinder::pcmesh = pcmesh;
+  }
+  virtual ~celEntityFinder ()
+  {
+    printf ("Remove entity finder\n");
+    pcmesh->ClearMesh ();
+  }
+  SCF_DECLARE_IBASE_EXT (csObject);
+};
+
+SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
+  SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
+SCF_IMPLEMENT_IBASE_EXT_END
 
 //---------------------------------------------------------------------------
 
@@ -159,6 +188,11 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
     if (meshfact)
     {
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
+      celEntityFinder* cef = new celEntityFinder (this);
+      iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
+      mesh->QueryObject ()->ObjAdd (cef_obj);
+      cef_obj->DecRef ();
+      cef->DecRef ();
     }
   }
 
