@@ -414,7 +414,7 @@ void celPcCamera::SetDistanceClipping (float dist)
 void celPcCamera::AdaptDistanceClipping (csTicks elapsed_time)
 {
   if (!fp.use_farplane) return;
-  if (!fp.fixed_distance > 0.0f) return;
+  if (fp.fixed_distance > 0.0f) return;
 
   float curr_fps;		// FPS calculated from the last frame.
 

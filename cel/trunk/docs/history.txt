@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+12-Nov-2004
+	- Jorrit fixed a bug in the camera class where it would
+	  incorrectly test if fixed distance clipping was needed.
+	  Thanks to propfan for spotting this.
 8-Nov-2004
 	- Eric Sunshine fixed fragility in celIDRegistry::AddScope() where it
 	  would perform an uninitialized registration if the `impl' argument
