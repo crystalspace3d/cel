@@ -175,6 +175,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
    */
   speed = 1.0f;
 
+  deltaLimit = 0;
+
   lastDRUpdate = csGetTicks ();
   accumulatedLag=MAX_ACCUMULATED_LAG;
 }
@@ -497,6 +499,8 @@ bool celPcLinearMovement::HandleEvent (iEvent& ev)
     return false;
 
   float delta = elapsed_time/1000.0;
+  if (deltaLimit != 0)
+      delta = MIN(delta, deltaLimit);
 
   // Adjust the properties.
   ExtrapolatePosition (delta);

@@ -115,6 +115,8 @@ protected:
   csVector3 lastSentVelocity;
   csVector3 lastSentRotation;
   iSpriteAction* lastSentAction;
+
+  float deltaLimit;
   
   bool RotateV (float delta);
   // Move local entity
@@ -238,6 +240,9 @@ public:
   void SetPathSector (const char *sectorname)
   { path_sector = sectorname; }
 
+  void SetDeltaLimit(float deltaLimit)
+  { this->deltaLimit = deltaLimit; }
+
   struct PcLinearMovement : public iPcLinearMovement
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
@@ -341,6 +346,10 @@ public:
       scfParent->SetPathSector (sectorname);
     }
 
+    void SetDeltaLimit(float deltaLimit)
+    {
+      scfParent->SetDeltaLimit(deltaLimit);
+    }
   } scfiPcLinearMovement;
 
   class EventHandler : public iEventHandler
