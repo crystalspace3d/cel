@@ -21,6 +21,7 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "bootstrap.h"
+#include "csutil/event.h"
 #include "csutil/cmdhelp.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
@@ -84,9 +85,11 @@ bool Bootstrap::HandleEvent (iEvent& ev)
     bootstrap->FinishFrame ();
     return true;
   }
-  else if (ev.Type == csevKeyDown)
+  else if (ev.Type == csevKeyboard
+	&& csKeyEventHelper::GetEventType (&ev) == csKeyEventTypeDown)
   {
-    if (ev.Key.Code == CSKEY_ESC)
+    utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
+    if (code == CSKEY_ESC)
     {
       csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
       if (q)
