@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Andrew Robberts fixed a bug with camera going through space
 	  warping portals.
 	- Jorrit fixed CEL to use the new way to parse key names in CS.
+	- Jorrit fixed CEL again due to latest Oktal change.
 8-Aug-2004
 	- Jorrit fixed the cel camera so that it makes the entire mesh
 	  hierarchy invisible instead of only the parent in first person
