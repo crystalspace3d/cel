@@ -37,6 +37,7 @@ struct iSyntaxService;
 struct iCelPlLayer;
 class celXmlScript;
 class celXmlScriptEventHandler;
+class csStringArray;
 
 /**
  * This is the Behaviour Layer itself.
@@ -63,29 +64,33 @@ private:
 	const char* propname);
   const char* GetAttributeString (iDocumentNode* child,
 	const char* attrname, const char* parentname);
-  bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node,
+  bool ParseEventHandler (celXmlScriptEventHandler* h,
+  	csStringArray& local_vars, iDocumentNode* node,
   	celXmlScript* script);
 
   bool SkipComma (const char*& input, iDocumentNode* child,
 	const char* name);
-  bool ParseID (const char*& input, iDocumentNode* child,
-	celXmlScriptEventHandler* h,
+  bool ParseID (const char*& input, const csStringArray& local_vars,
+  	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, char* str, csStringID fun_id);
   bool ParseFunction (const char*& input, const char* pinput,
+  	const csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
-  bool ParseExpression (iDocumentNode* child,
+  bool ParseExpression (const csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
-  bool ParseExpressionOrConstantString (iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-	char*& str);
+  bool ParseExpressionOrConstantString (const csStringArray& local_vars,
+  	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* attrname, const char* name, char*& str);
   bool ParseExpressionInt (const char*& input, const char* pinput,
-	int token, iDocumentNode* child, celXmlScriptEventHandler* h,
+	int token, const csStringArray& local_vars, iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* name, int stoppri);
+  bool ParseExpression (const char*& input, const csStringArray& local_vars,
+  	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, int stoppri);
-  bool ParseExpression (const char*& input, iDocumentNode* child,
-  	celXmlScriptEventHandler* h, const char* name, int stoppri);
   bool ParseExpressionOrConstantString (const char*& input,
-	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const csStringArray& local_vars, iDocumentNode* child,
+	celXmlScriptEventHandler* h,
 	const char* name, int stoppri, char*& str);
   celXmlScriptEventHandler* FindEventHandler (celXmlScript* script,
   	const char* eventname);
