@@ -163,7 +163,7 @@ public:
   virtual ~celPcTimer ();
 
   void WakeUp (csTicks t, bool repeat);
-  void WakeUpFrame ();
+  void WakeUpFrame (int where = cscmdPreProcess);
   void Clear ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -182,9 +182,9 @@ public:
     {
       scfParent->WakeUp (t, repeat);
     }
-    virtual void WakeUpFrame ()
+    virtual void WakeUpFrame (int where = cscmdPreProcess)
     {
-      scfParent->WakeUpFrame ();
+      scfParent->WakeUpFrame (where);
     }
     virtual void Clear ()
     {

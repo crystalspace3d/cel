@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Apr-2005
+	- David Bronke added a "where" parameter to iPcTimer::WakeUpFrame ()
+	  to allow a callback to be called somewhere other than
+	  cscmdPreProcess. Defaults to cscmdPreProcess. (to match old
+	  behaviour)
 1-Apr-2005
 	- Jorrit fixed CEL for the removal of csHashMap and csHashSet in CS.
 25-Mar-2005

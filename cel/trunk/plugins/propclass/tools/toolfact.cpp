@@ -352,12 +352,12 @@ void celPcTimer::WakeUp (csTicks t, bool repeat)
   wakeup = t;
 }
 
-void celPcTimer::WakeUpFrame ()
+void celPcTimer::WakeUpFrame (int where)
 {
   if (wakeupframe) return;
   enabled = true;
   wakeupframe = true;
-  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->CallbackPCEveryFrame (this, where);
 }
 
 void celPcTimer::TickEveryFrame ()

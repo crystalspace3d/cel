@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "iutil/evdefs.h"
 
 SCF_VERSION (iPcTimer, 0, 0, 1);
 
@@ -56,7 +57,7 @@ struct iPcTimer : public iBase
   /**
    * Wake up the Behaviour every frame.
    */
-  virtual void WakeUpFrame () = 0;
+  virtual void WakeUpFrame (int where = cscmdPreProcess) = 0;
 
   /**
    * Clear this timer.
