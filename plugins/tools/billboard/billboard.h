@@ -61,6 +61,7 @@ private:
   csRef<iImage> image;	// Ref to the image. Is cleared when no longer needed.
   bool has_clickmap;
   uint8* clickmap;
+  bool material_ok;
 
   void SetupMaterial ();
   // Input: texture coordinates.
