@@ -252,7 +252,7 @@ struct celXmlArg
     type = CEL_DATA_FLOAT;
     arg.f = f;
   }
-  void SetBool (bool b)
+  void Set (bool b)
   {
     Cleanup ();
     type = CEL_DATA_BOOL;

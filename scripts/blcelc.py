@@ -7381,7 +7381,7 @@ class iConfigFile(iBase):
     def SetStr(*args): return _blcelc.iConfigFile_SetStr(*args)
     def SetInt(*args): return _blcelc.iConfigFile_SetInt(*args)
     def SetFloat(*args): return _blcelc.iConfigFile_SetFloat(*args)
-    def SetBool(*args): return _blcelc.iConfigFile_SetBool(*args)
+    def Set(*args): return _blcelc.iConfigFile_Set(*args)
     def SetComment(*args): return _blcelc.iConfigFile_SetComment(*args)
     def DeleteKey(*args): return _blcelc.iConfigFile_DeleteKey(*args)
     def GetEOFComment(*args): return _blcelc.iConfigFile_GetEOFComment(*args)

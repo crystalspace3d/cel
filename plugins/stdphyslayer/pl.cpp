@@ -185,8 +185,8 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
-	"error while removing Entity with ID %u (%s)", entity->GetID(),
-	entity->GetName());
+	"error while removing Entity with ID %u (%s)",
+	(unsigned int)entity->GetID(), entity->GetName());
     return;
   }
 

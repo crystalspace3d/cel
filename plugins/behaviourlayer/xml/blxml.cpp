@@ -1038,11 +1038,11 @@ bool celBlXml::ParseExpressionInt (
       break;
     case CEL_TOKEN_BOOLTRUE:
       h->AddOperation (CEL_OPERATION_PUSH);
-      h->GetArgument ().SetBool (true);
+      h->GetArgument ().Set (true);
       break;
     case CEL_TOKEN_BOOLFALSE:
       h->AddOperation (CEL_OPERATION_PUSH);
-      h->GetArgument ().SetBool (false);
+      h->GetArgument ().Set (false);
       break;
     case CEL_TOKEN_OPEN:
       if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1428,7 +1428,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	else
 	{
 	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
-	  h->GetArgument ().SetBool (false);
+	  h->GetArgument ().Set (false);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
         break;

@@ -3,6 +3,14 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-Jul-2004
+	- Eric Sunshine renamed celData::SetBool() to Set(), and
+	  celDataBufHelper::SetBool() to Set() in order to fix numerous
+	  ambiguous invocations of Set(bool) throughout the project.  The
+	  SetBool() variations are no longer needed since we no longer support
+	  old compilers lacking a bool type.
+	- Eric Sunshine eliminated numerous warnings about incorrect printf()
+	  formatting directive mismatches.
 12-Jul-2004
 	- Jorrit fixed a dependency for addon_celentity plugin (with
 	  celtool).
@@ -1753,7 +1761,7 @@ The history order is reversed so that new features are at the top.
 	    -the position of the camera relative to the mesh
 	    -the position of the point the camera looks at, rel. to the mesh
 21-Feb-2002:
-	- Renamed celData->Set(bool) to SetBool() to avoid problems on
+	- Renamed celData->Set(bool) to Set() to avoid problems on
 	  platforms that don't have the bool type.
 20-Feb-2002:
 	- Fixed a bug in celPcRegion::SetWorldFile() it would delete

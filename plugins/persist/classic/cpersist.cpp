@@ -449,7 +449,7 @@ bool celPersistClassicContext::Read (celData* cd)
       return false;
     case CEL_DATA_BOOL:
       if (!Read (ub)) return false;
-      cd->SetBool ((bool)ub);
+      cd->Set ((bool)ub);
       break;
     case CEL_DATA_BYTE:
       if (!Read (b)) return false;

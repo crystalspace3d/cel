@@ -45,6 +45,7 @@ public:
   size_t GetPos()
   {  return j; }
 
+  void Set (bool v) { databuf->GetData(j++)->Set(v); }
   void Set (int8 v) { databuf->GetData(j++)->Set(v); }
   void Set (uint8 v) { databuf->GetData(j++)->Set(v); }
   void Set (int16 v) { databuf->GetData(j++)->Set(v); }
@@ -60,7 +61,6 @@ public:
   void Set (iCelDataBuffer* v) { databuf->GetData(j++)->Set(v); }
   void SetAction (const char* v) { databuf->GetData(j++)->SetAction(v); }
   void SetIBase (iBase* v) { databuf->GetData(j++)->SetIBase(v); }
-  void SetBool (bool v) { databuf->GetData(j++)->SetBool(v); }
 
   // the following functions work with reference parameters, because c++
   // doesn't allow overriding based on return type
@@ -72,6 +72,7 @@ public:
     return true;							\
   }
   
+  DATABHLP_GET(bool,bo,CEL_DATA_BOOL)
   DATABHLP_GET(int8,b,CEL_DATA_BYTE)
   DATABHLP_GET(uint8,ub,CEL_DATA_UBYTE)
   DATABHLP_GET(int16,w,CEL_DATA_WORD)
@@ -82,7 +83,6 @@ public:
   DATABHLP_GET(iCelEntity*,ent,CEL_DATA_ENTITY)
   DATABHLP_GET(iCelPropertyClass*,pc,CEL_DATA_PCLASS)
   DATABHLP_GET(iCelDataBuffer*,db,CEL_DATA_BUFFER)
-  DATABHLP_GET(bool,bo,CEL_DATA_BOOL)
   DATABHLP_GET(iBase*,ibase,CEL_DATA_IBASE)
 #undef DATABHLP_GET
   
@@ -134,4 +134,3 @@ protected:
 };
 
 #endif
-

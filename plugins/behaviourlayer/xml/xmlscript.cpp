@@ -149,14 +149,14 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_%d", prefix, prefix2, a.arg.i);
+        str->Format ("%s_%s_%ld", prefix, prefix2, a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_%u", prefix, prefix2, a.arg.ui);
+        str->Format ("%s_%s_%lu", prefix, prefix2, a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -214,7 +214,7 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_id(%d)", prefix, prefix2, a.arg.id);
+        str->Format ("%s_%s_id(%lu)", prefix, prefix2, a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -239,14 +239,14 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%d", prefix, a.arg.i);
+        str->Format ("%s_%ld", prefix, a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%u", prefix, a.arg.ui);
+        str->Format ("%s_%lu", prefix, a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -303,7 +303,7 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_id(%d)", prefix, a.arg.id);
+        str->Format ("%s_id(%lu)", prefix, a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -327,14 +327,14 @@ static const char* ArgToString (const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%d", a.arg.i);
+        str->Format ("%ld", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%u", a.arg.ui);
+        str->Format ("%lu", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -378,7 +378,7 @@ static const char* ArgToString (const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("id(%d)", a.arg.id);
+        str->Format ("id(%lu)", a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -403,14 +403,14 @@ static const char* A2S (const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{int32:%d}", a.arg.i);
+        str->Format ("{int32:%ld}", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{uint32:%u}", a.arg.ui);
+        str->Format ("{uint32:%lu}", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -475,7 +475,7 @@ static const char* A2S (const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{id:%d}", a.arg.id);
+        str->Format ("{id:%lu}", a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -776,14 +776,14 @@ static const char* D2S (const celData& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{int32:%d}", a.value.l);
+        str->Format ("{int32:%ld}", a.value.l);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{uint32:%u}", a.value.ul);
+        str->Format ("{uint32:%lu}", a.value.ul);
 	used_strings.Push (str);
         return *str;
       }
@@ -880,7 +880,7 @@ static bool prop2celXmlArg (iPcProperties* props, int idx, celXmlArg& out)
     case CEL_DATA_BOOL:
       {
 	bool l = props->GetPropertyBool (idx);
-	out.SetBool (l);
+	out.Set (l);
       }
       break;
     case CEL_DATA_STRING:
@@ -932,7 +932,7 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
 {
   switch (in.type)
   {
-    case CEL_DATA_BOOL: out.SetBool (in.value.b); break;
+    case CEL_DATA_BOOL: out.Set (in.value.b); break;
     case CEL_DATA_FLOAT: out.SetFloat (in.value.f); break;
     case CEL_DATA_STRING: out.SetString (in.value.s->GetData (), true); break;
     case CEL_DATA_LONG: out.SetInt32 (in.value.l); break;
@@ -970,7 +970,7 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id, celXmlArg& o
   switch (t)
   {
     case CEL_DATA_BOOL:
-      out.SetBool (pc->GetPropertyBool (id));
+      out.Set (pc->GetPropertyBool (id));
       break;
     case CEL_DATA_FLOAT:
       out.SetFloat (pc->GetPropertyFloat (id));
@@ -1533,14 +1533,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: ! %s\n", i-1, A2S (top)));
 	  switch (top.type)
 	  {
-	    case CEL_DATA_LONG: top.SetBool (!top.arg.i); break;
-	    case CEL_DATA_ULONG: top.SetBool (!top.arg.ui); break;
-	    case CEL_DATA_FLOAT: top.SetBool (ABS (top.arg.f) >= SMALL_EPSILON); break;
+	    case CEL_DATA_LONG: top.Set (!top.arg.i); break;
+	    case CEL_DATA_ULONG: top.Set (!top.arg.ui); break;
+	    case CEL_DATA_FLOAT: top.Set (ABS (top.arg.f) >= SMALL_EPSILON); break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_ENTITY:
 	    case CEL_DATA_PCLASS:
 	    case CEL_DATA_STRING:
-	      top.SetBool (!ArgToBool (top));
+	      top.Set (!ArgToBool (top));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't log-not element on stack!");
@@ -2073,7 +2073,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetFloat (ArgToVector3 (top) * ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_BOOL:
-	      top.SetBool (bool (int (ArgToBool (top))
+	      top.Set (bool (int (ArgToBool (top))
 	      	* int (ArgToBool (elb))));
 	      break;
 	    default:
@@ -2166,7 +2166,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      top.SetBool (ArgToBool (top) & ArgToBool (elb));
+	      top.Set (ArgToBool (top) & ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
 	      top.SetInt32 (ArgToInt32 (top) & ArgToInt32 (elb));
@@ -2189,7 +2189,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      top.SetBool (ArgToBool (top) | ArgToBool (elb));
+	      top.Set (ArgToBool (top) | ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
 	      top.SetInt32 (ArgToInt32 (top) | ArgToInt32 (elb));
@@ -2212,7 +2212,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      top.SetBool (ArgToBool (top) ^ ArgToBool (elb));
+	      top.Set (ArgToBool (top) ^ ArgToBool (elb));
 	      break;
 	    case CEL_DATA_LONG:
 	      top.SetInt32 (ArgToInt32 (top) ^ ArgToInt32 (elb));
@@ -2231,7 +2231,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: %s && %s\n", i-1, A2S (top), A2S (elb)));
-	  top.SetBool (ArgToBool (top) && ArgToBool (elb));
+	  top.Set (ArgToBool (top) && ArgToBool (elb));
 	}
 	break;
       case CEL_OPERATION_LOGOR:
@@ -2240,7 +2240,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: %s || %s\n", i-1, A2S (top), A2S (elb)));
-	  top.SetBool (ArgToBool (top) || ArgToBool (elb));
+	  top.Set (ArgToBool (top) || ArgToBool (elb));
 	}
 	break;
       case CEL_OPERATION_NE:
@@ -2253,46 +2253,46 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      top.SetBool (ArgToBool (top) != ArgToBool (elb));
+	      top.Set (ArgToBool (top) != ArgToBool (elb));
 	      break;
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ABS (ArgToFloat (top) - ArgToFloat (elb))
+	      top.Set (ABS (ArgToFloat (top) - ArgToFloat (elb))
 	      	>= SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) != ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) != ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) != ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) != ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      top.SetBool (!((ArgToVector2 (top) - ArgToVector2 (elb))
+	      top.Set (!((ArgToVector2 (top) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON));
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      top.SetBool (!((ArgToVector3 (top) - ArgToVector3 (elb))
+	      top.Set (!((ArgToVector3 (top) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON));
 	      break;
 	    case CEL_DATA_ENTITY:
-	      top.SetBool (top.arg.entity != elb.arg.entity);
+	      top.Set (top.arg.entity != elb.arg.entity);
 	      break;
 	    case CEL_DATA_PCLASS:
-	      top.SetBool (ArgToPClass (top) != ArgToPClass (elb));
+	      top.Set (ArgToPClass (top) != ArgToPClass (elb));
 	      break;
 	    case CEL_DATA_ID:
-	      top.SetBool (ArgToID (top) != ArgToID (elb));
+	      top.Set (ArgToID (top) != ArgToID (elb));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor c1 = ArgToColor (top);
 	        csColor c2 = ArgToColor (elb);
-	        top.SetBool (!(ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        top.Set (!(ABS (c1.red-c2.red) < SMALL_EPSILON &&
 	        		     ABS (c1.green-c2.green) < SMALL_EPSILON &&
 	        		     ABS (c1.blue-c2.blue) < SMALL_EPSILON));
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (strcmp (ArgToString (top),
+	      top.Set (strcmp (ArgToString (top),
 	      	ArgToString (elb)));
 	      break;
 	    default:
@@ -2310,46 +2310,46 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      top.SetBool (ArgToBool (top) == ArgToBool (elb));
+	      top.Set (ArgToBool (top) == ArgToBool (elb));
 	      break;
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ABS (ArgToFloat (top) - ArgToFloat (elb))
+	      top.Set (ABS (ArgToFloat (top) - ArgToFloat (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) == ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) == ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) == ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) == ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_VECTOR2:
-	      top.SetBool ((ArgToVector2 (top) - ArgToVector2 (elb))
+	      top.Set ((ArgToVector2 (top) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_VECTOR3:
-	      top.SetBool ((ArgToVector3 (top) - ArgToVector3 (elb))
+	      top.Set ((ArgToVector3 (top) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON);
 	      break;
 	    case CEL_DATA_PCLASS:
-	      top.SetBool (ArgToPClass (top) == ArgToPClass (elb));
+	      top.Set (ArgToPClass (top) == ArgToPClass (elb));
 	      break;
 	    case CEL_DATA_ENTITY:
-	      top.SetBool (top.arg.entity ==  elb.arg.entity);
+	      top.Set (top.arg.entity ==  elb.arg.entity);
 	      break;
 	    case CEL_DATA_ID:
-	      top.SetBool (ArgToID (top) == ArgToID (elb));
+	      top.Set (ArgToID (top) == ArgToID (elb));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor c1 = ArgToColor (top);
 	        csColor c2 = ArgToColor (elb);
-	        top.SetBool (ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        top.Set (ABS (c1.red-c2.red) < SMALL_EPSILON &&
 	        		   ABS (c1.green-c2.green) < SMALL_EPSILON &&
 	        		   ABS (c1.blue-c2.blue) < SMALL_EPSILON);
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (!strcmp (ArgToString (top),
+	      top.Set (!strcmp (ArgToString (top),
 	      	ArgToString (elb)));
 	      break;
 	    default:
@@ -2367,16 +2367,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ArgToFloat (top) < ArgToFloat (elb));
+	      top.Set (ArgToFloat (top) < ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) < ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) < ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) < ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) < ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (strcmp (ArgToString (top),
+	      top.Set (strcmp (ArgToString (top),
 	      	ArgToString (elb)) < 0);
 	      break;
 	    default:
@@ -2394,16 +2394,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ArgToFloat (top) <= ArgToFloat (elb));
+	      top.Set (ArgToFloat (top) <= ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) <= ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) <= ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) <= ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) <= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (strcmp (ArgToString (top),
+	      top.Set (strcmp (ArgToString (top),
 	      	ArgToString (elb)) <= 0);
 	      break;
 	    default:
@@ -2421,16 +2421,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ArgToFloat (top) > ArgToFloat (elb));
+	      top.Set (ArgToFloat (top) > ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) > ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) > ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) > ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) > ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (strcmp (ArgToString (top),
+	      top.Set (strcmp (ArgToString (top),
 	      	ArgToString (elb)) > 0);
 	      break;
 	    default:
@@ -2448,16 +2448,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_FLOAT:
-	      top.SetBool (ArgToFloat (top) >= ArgToFloat (elb));
+	      top.Set (ArgToFloat (top) >= ArgToFloat (elb));
 	      break;
 	    case CEL_DATA_LONG:
-	      top.SetBool (ArgToInt32 (top) >= ArgToInt32 (elb));
+	      top.Set (ArgToInt32 (top) >= ArgToInt32 (elb));
 	      break;
 	    case CEL_DATA_ULONG:
-	      top.SetBool (ArgToUInt32 (top) >= ArgToUInt32 (elb));
+	      top.Set (ArgToUInt32 (top) >= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.SetBool (strcmp (ArgToString (top),
+	      top.Set (strcmp (ArgToString (top),
 	      	ArgToString (elb)) >= 0);
 	      break;
 	    default:
@@ -2974,7 +2974,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
-	    case CEL_DATA_BOOL: ret.SetBool (a_val.arg.b); break;
+	    case CEL_DATA_BOOL: ret.Set (a_val.arg.b); break;
 	    case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
 	    case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
 	    case CEL_DATA_VECTOR2:
@@ -3235,7 +3235,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!bbmgr)
 	    return ReportError (behave,
 	    	"Billboard manager is missing!\n");
-	  top.SetBool (bbmgr->TestCollision (bb->GetBillboard (),
+	  top.Set (bbmgr->TestCollision (bb->GetBillboard (),
 	  	other_bb->GetBillboard ()));
 	}
 	break;
@@ -3445,7 +3445,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_PCLASS: data.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
-	    case CEL_DATA_BOOL: data.SetBool (a_val.arg.b); break;
+	    case CEL_DATA_BOOL: data.Set (a_val.arg.b); break;
 	    case CEL_DATA_FLOAT: data.Set (a_val.arg.f); break;
 	    case CEL_DATA_STRING: data.Set (a_val.arg.str.s); break;
 	    case CEL_DATA_VECTOR2:
@@ -3849,7 +3849,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	  bool success = vfs->WriteFile (ArgToString (a_file),
 	  	(const char *)data, data.Length ());
-	  top.SetBool (success);
+	  top.Set (success);
 	}
 	break;
       case CEL_OPERATION_REPORTERROR:
