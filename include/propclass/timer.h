@@ -38,6 +38,11 @@ struct iPcTimer : public iBase
   virtual void WakeUp (csTicks t, bool repeat) = 0;
 
   /**
+   * Wake up the Behaviour every frame.
+   */
+  virtual void WakeUpFrame () = 0;
+
+  /**
    * Clear this timer.
    */
   virtual void Clear () = 0;

@@ -37,6 +37,15 @@ The history order is reversed so that new features are at the top.
 	  are found faster using a hash. This helps the XML behaviour layer
 	  considerably.
 	- Jorrit implemented && and || operators in XML behaviour layer.
+	- Jorrit implemented 'stop' operation in the XML behaviour layer.
+	- Jorrit added iPcTimer->WakeUpFrame() so that you can get a timer
+	  that sends a message every frame. The message that is sent is
+	  'pctimer_wakeupframe'.
+	- Jorrit added three actions to pctimer so that you can control the
+	  timer from the XML behaviour layer.
+	- Jorrit changed the 'property' command in the XML behaviour layer so
+	  that it looks at the type of the property instead of the type
+	  of the item on the stack.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).

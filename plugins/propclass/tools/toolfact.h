@@ -142,6 +142,11 @@ private:
   bool enabled;
   csTicks wakeup, wakeup_todo;
   bool repeat;
+  bool wakeupframe;
+
+  static csStringID action_wakeup;
+  static csStringID action_wakeupframe;
+  static csStringID action_clear;
 
 public:
   celPcTimer (iObjectRegistry* object_reg);
@@ -149,6 +154,7 @@ public:
 
   bool HandleEvent (iEvent& ev);
   void WakeUp (csTicks t, bool repeat);
+  void WakeUpFrame ();
   void Clear ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -156,6 +162,7 @@ public:
   virtual const char* GetName () const { return "pctimer"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, const char* params);
 
   struct PcTimer : public iPcTimer
   {
@@ -163,6 +170,10 @@ public:
     virtual void WakeUp (csTicks t, bool repeat)
     {
       scfParent->WakeUp (t, repeat);
+    }
+    virtual void WakeUpFrame ()
+    {
+      scfParent->WakeUpFrame ();
     }
     virtual void Clear ()
     {
