@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Nov-2004
+	- Keith Fulton fixed a bug which caused entities with a pccolldet
+	  present but CD disabled from ever having their positions updated 
+	  when moving.
 13-Nov-2004
 	- Andrew Dai fixed a bug with the field lastDRUpdate not being
 	  updated in celPcLinearMovement::SetDRData().

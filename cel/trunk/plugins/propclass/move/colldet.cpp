@@ -384,7 +384,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     }
   }
   else
-    return false;
+    return true;
 }
 
 
