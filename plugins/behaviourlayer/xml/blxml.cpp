@@ -54,7 +54,16 @@ enum
   XMLTOKEN_GETPROPCLASS,
   XMLTOKEN_TESTCOLLIDE,
   XMLTOKEN_IF,
-  XMLTOKEN_PRINT
+  XMLTOKEN_PRINT,
+  XMLTOKEN_CREATEENTITY,
+  XMLTOKEN_CREATEPROPCLASS,
+
+  XMLTOKEN_FLOAT,
+  XMLTOKEN_BOOL,
+  XMLTOKEN_STRING,
+  XMLTOKEN_LONG,
+  XMLTOKEN_VECTOR,
+  XMLTOKEN_COLOR
 };
 
 celBlXml::celBlXml (iBase* parent)
@@ -89,6 +98,15 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
+  xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
+  xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
+
+  xmltokens.Register ("float", XMLTOKEN_FLOAT);
+  xmltokens.Register ("bool", XMLTOKEN_BOOL);
+  xmltokens.Register ("string", XMLTOKEN_STRING);
+  xmltokens.Register ("long", XMLTOKEN_LONG);
+  xmltokens.Register ("vector", XMLTOKEN_VECTOR);
+  xmltokens.Register ("color", XMLTOKEN_COLOR);
 
   return true;
 }
@@ -140,67 +158,50 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
 
 bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
 {
-  csRef<iDocumentAttribute> attr;
-  attr = child->GetAttribute ("float");
-  if (attr)
+  csRef<iDocumentAttributeIterator> it = child->GetAttributes ();
+  while (it->HasNext ())
   {
-    h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
-  }
-  else
-  {
-    attr = child->GetAttribute ("string");
-    if (attr)
+    csRef<iDocumentAttribute> attr = it->Next ();
+    const char* attr_name = attr->GetName ();
+    csStringID id = xmltokens.Request (attr_name);
+    switch (id)
     {
-      h->AddArgument ().SetString (attr->GetValue ());
-    }
-    else
-    {
-      attr = child->GetAttribute ("bool");
-      if (attr)
-      {
+      case XMLTOKEN_FLOAT:
+	h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
+	break;
+      case XMLTOKEN_STRING:
+        h->AddArgument ().SetString (attr->GetValue ());
+	break;
+      case XMLTOKEN_BOOL:
         h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
-      }
-      else
-      {
-        attr = child->GetAttribute ("long");
-        if (attr)
+	break;
+      case XMLTOKEN_LONG:
+        h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
+	break;
+      case XMLTOKEN_VECTOR:
         {
-          h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
-        }
-	else
-	{
-          attr = child->GetAttribute ("vector");
-          if (attr)
-          {
-	    csVector3 v;
-	    csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
+	  csVector3 v;
+	  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
+	  if (rc == 3)
             h->AddArgument ().SetVector (v);
-          }
 	  else
 	  {
-            attr = child->GetAttribute ("color");
-            if (attr)
-            {
-	      csColor v;
-	      csScanStr (attr->GetValue (), "%f,%f,%f", &v.red, &v.green,
-	      	&v.blue);
-              h->AddArgument ().SetColor (v);
-            }
-	    else
-	    {
-              attr = child->GetAttribute ("var");
-              if (attr)
-	      {
-		h->AddArgument ().SetVar (attr->GetValue ());
-	      }
-	      else
-	      {
-	        return false;
-	      }
-	    }
+	    csVector2 v2;
+	    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
+            h->AddArgument ().SetVector (v2);
 	  }
-	}
-      }
+        }
+	break;
+      case XMLTOKEN_COLOR:
+        {
+	  csColor v;
+	  csScanStr (attr->GetValue (), "%f,%f,%f", &v.red, &v.green, &v.blue);
+          h->AddArgument ().SetColor (v);
+        }
+	break;
+      case XMLTOKEN_VAR:
+	h->AddArgument ().SetVar (attr->GetValue ());
+	break;
     }
   }
   return true;
@@ -218,6 +219,28 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_CREATEPROPCLASS:
+        {
+	  const char* pcname = GetAttributeString (child, "name",
+	  	"createpropclass");
+	  if (!pcname) return false;
+	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
+	  h->AddArgument ().SetString (pcname);
+	}
+	break;
+      case XMLTOKEN_CREATEENTITY:
+        {
+	  const char* entname = GetAttributeString (child, "name",
+	  	"createentity");
+	  if (!entname) return false;
+	  const char* bhname = GetAttributeString (child, "behaviour",
+	  	"createentity");
+	  if (!bhname) return false;
+	  h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	  h->AddArgument ().SetString (entname);
+	  h->AddArgument ().SetString (bhname);
+	}
+	break;
       case XMLTOKEN_VAR:
         {
 	  const char* varname = GetAttributeString (child, "name", "var");
@@ -294,6 +317,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_GETPROPERTY:
 	{
+	  const char* entname = child->GetAttributeValue ("entity"); // Optional
 	  const char* pcname = GetAttributeValue (child, "propclass");
 	  if (!pcname) return false;
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
@@ -303,19 +327,20 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (!varname) return false;
 	  h->AddOperation (CEL_OPERATION_GETPROPERTY);
 	  h->AddArgument ().SetString (varname);
-	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
 	  h->AddArgument ().SetID (propid);
 	}
 	break;
       case XMLTOKEN_PROPERTY:
         {
+	  const char* entname = child->GetAttributeValue ("entity"); // Optional
 	  const char* pcname = GetAttributeValue (child, "propclass");
 	  if (!pcname) return false;
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
 	  if (propid == csInvalidStringID) return false;
 
 	  h->AddOperation (CEL_OPERATION_PROPERTY);
-	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
 	  h->AddArgument ().SetID (propid);
 	  if (!ParseValueArg (child, h))
 	  {
@@ -328,6 +353,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_ACTION:
         {
+	  const char* entname = child->GetAttributeValue ("entity"); // Optional
 	  const char* pcname = GetAttributeValue (child, "propclass");
 	  if (!pcname) return false;
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
@@ -335,7 +361,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  const char* params = GetAttributeValue (child, "params");
 	  if (!params) return false;
 	  h->AddOperation (CEL_OPERATION_ACTION);
-	  h->AddArgument ().SetPC (h->GetResolver (pcname));
+	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
 	  h->AddArgument ().SetID (propid);
 	  h->AddArgument ().SetString (params);
 	}

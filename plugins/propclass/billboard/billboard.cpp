@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 13;
+    propertycount = 15;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -137,6 +137,18 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_y].datatype = CEL_DATA_LONG;
     properties[propid_y].readonly = false;
     properties[propid_y].desc = "Y position of billboard.";
+
+    properties[propid_uv_topleft].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.uv_topleft");
+    properties[propid_uv_topleft].datatype = CEL_DATA_VECTOR2;
+    properties[propid_uv_topleft].readonly = false;
+    properties[propid_uv_topleft].desc = "Top-left UV coordinate.";
+
+    properties[propid_uv_botright].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.uv_botright");
+    properties[propid_uv_botright].datatype = CEL_DATA_VECTOR2;
+    properties[propid_uv_botright].readonly = false;
+    properties[propid_uv_botright].desc = "Bottom-right UV coordinate.";
   }
 }
 
@@ -178,6 +190,8 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_heightpct] = 0;	// Handled in this class.
   propdata[propid_x] = 0;		// Handled in this class.
   propdata[propid_y] = 0;		// Handled in this class.
+  propdata[propid_uv_topleft] = 0;	// Handled in this class.
+  propdata[propid_uv_botright] = 0;	// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -463,6 +477,64 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
   else
   {
     return celPcCommon::GetPropertyString (propertyId);
+  }
+}
+
+bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_uv_topleft].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetUVTopLeft (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_uv_botright].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetUVBottomRight (c);
+      return true;
+    }
+    return false;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, c);
+  }
+}
+
+bool celPcBillboard::GetPropertyColor (csStringID propertyId, csVector2& c)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_uv_topleft].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      c = billboard->GetUVTopLeft ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_uv_botright].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      c = billboard->GetUVBottomRight ();
+      return true;
+    }
+    return false;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyVector (propertyId, c);
   }
 }
 

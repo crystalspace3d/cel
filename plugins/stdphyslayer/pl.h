@@ -21,6 +21,8 @@
 #define __CEL_PLIMP_PL__
 
 #include "csutil/refarr.h"
+#include "csutil/hashhandlers.h"
+#include "csutil/hash.h"
 #include "iutil/comp.h"
 #include "physicallayer/pl.h"
 #include "plugins/stdphyslayer/numreg.h"
@@ -37,7 +39,10 @@ class celPlLayer : public iCelPlLayer
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
   csRefArray<iCelBlLayer> bl_list;
+
   csRefArray<iCelEntity> entities;
+  csHash<iCelEntity*,csStrKey,csConstCharHashKeyHandler> entities_hash;
+
   csArray<iCelEntityRemoveCallback*> removecallbacks;
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
