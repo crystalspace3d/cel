@@ -29,8 +29,11 @@ CS_PROG_LINK
 AC_CHECK_PROGS([INSTALL], [install])
 CS_EMIT_BUILD_PROPERTY([INSTALL], [$INSTALL])
 
+# The default RANLIB in Jambase is wrong on some platforms, and is also
+# unsuitable during cross-compilation, so we set the value unconditionally
+# (sixth argument of CS_EMIT_BUILD_PROPERTY).
 AC_PROG_RANLIB
-CS_EMIT_BUILD_PROPERTY([RANLIB], [$RANLIB])
+CS_EMIT_BUILD_PROPERTY([RANLIB], [$RANLIB], [], [], [], [Y])
 
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 CS_EMIT_BUILD_PROPERTY([CMD.DOXYGEN], [$DOXYGEN])

@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+15-Sep-2004
+	- Eric Sunshine updated the Autoconf utility files from master copies
+	  in CS repository and augmented configure.ac to emit RANLIB with an
+	  unconditional '=' rather than conditional '?='. This works around
+	  problem where default RANLIB value in Jambase is wrong on some
+	  platforms, and unsuitable for cross-building.
 14-Sep-2004
 	- Eric Sunshine updated Jam and msvcgen utility files from master
 	  copies in CS repository.
