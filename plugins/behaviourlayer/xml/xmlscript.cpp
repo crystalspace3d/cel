@@ -2055,7 +2055,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* layername = ArgToString (a_layer);
 	  iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
 	  if (!layer)
-	    return ReportError (behave, "Can't find layer '%s'!", layername);
+	    layer = bbmgr->CreateBillboardLayer (layername);
 	  layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
 	}
 	break;

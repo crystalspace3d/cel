@@ -125,12 +125,20 @@
 		<var entity="puzzle_button" name="game" value="puzzle_main" />
 
 		<!-- Maze game button -->
-		<var name="material" value="slanted_stone" />
+		<var name="material" value="apple" />
 		<createentity name="maze_button" behaviour="game_button" />
 		<default propclass="pc(maze_button,pcbillboard)" />
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="70000" />
 		<var entity="maze_button" name="game" value="maze_main" />
+
+		<!-- Boulderdash game button -->
+		<var name="material" value="slanted_stone" />
+		<createentity name="bdash_button" behaviour="game_button" />
+		<default propclass="pc(bdash_button,pcbillboard)" />
+	        <property id="propid(x)" value="10000" />
+	        <property id="propid(y)" value="130000" />
+		<var entity="bdash_button" name="game" value="bdash_main" />
 	    </event>
 
 	    <!--
@@ -142,6 +150,7 @@
 	        <print value="'Start destroying menu...'" />
 	        <destroyentity name="puzzle_button" />
 	        <destroyentity name="maze_button" />
+	        <destroyentity name="bdash_button" />
 		<createentity name="?game" behaviour="?game" />
 	    </event>
 	</script>
@@ -631,7 +640,7 @@
 		    </for>
 		</for>
 
-		<createentity name="hero" behaviour="hero" />
+		<createentity name="hero" behaviour="maze_hero" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="hero" />
 		<for var="i" start="1" end="?monstercnt">
@@ -658,7 +667,7 @@
 	    <event name="initblock">
 	        <var name="ent" value="'p'+?x+'_'+?y" />
 		<print value="'Creating '+?ent" />
-		<createentity name="?ent" behaviour="block" />
+		<createentity name="?ent" behaviour="maze_block" />
 		<var name="ent" value="ent(?ent)" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
@@ -805,7 +814,7 @@
 	<!-- *****************************************************
 	  - This script controls the behaviour of our hero.
 	  -  ***************************************************** -->
-	<script name="hero">
+	<script name="maze_hero">
 	    <superscript name="movingobject" />
 
 	    <!--
@@ -894,7 +903,7 @@
 	<!-- *****************************************************
 	  - This script handles all operations on a block in the maze game.
 	  -  ***************************************************** -->
-        <script name="block">
+        <script name="maze_block">
 	    <!--
 	      - Initialize this block.
 	      - It assumes ?maze_main.x and ?maze_main.y are set to the
@@ -915,6 +924,284 @@
 	        <property id="propid(y)" value="?maze_main.y*?maze_main.blockdim" />
 	    </event>
 	</script>
+
+	<!-- *****************************************************
+	  -  *****************************************************
+	  - This is the boulderdash game script.
+	  -  *****************************************************
+	  -  ***************************************************** -->
+	<script name="bdash_main">
+	    <event name="init">
+	        <print value="BOULDERDASH"/>
+	        <createpropclass name="pcinventory" />
+	        <createpropclass name="pctimer" />
+
+		<!-- Set some defaults -->
+		<var name="dimension" value="64" />
+		<var name="blockdim" value="18000" />
+		<var name="herospeed" value="0.03" />
+		<var name="boardspeed" value="0.01" />
+
+		<!-- Size of the visible area in blocks -->
+		<var name="vis" value="307200/?blockdim" />
+
+		<!-- Create the menu back button -->
+		<createentity name="back_button" behaviour="back_button" />
+		<var entity="back_button" name="game_entity" value="ent()" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="back_button" />
+
+		<!-- Create a table of materials per block type -->
+		<var name="'material_B'" value="slanted_stone" />
+		<var name="'material_#'" value="sand_stone" />
+
+		<!--  Create the maze -->
+		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
+		<var name="row1"  value="'B #####                                                        B'" />
+		<var name="row2"  value="'B #####                                                        B'" />
+		<var name="row3"  value="'B #####                                                        B'" />
+		<var name="row4"  value="'B #####                                                        B'" />
+		<var name="row5"  value="'B                                                              B'" />
+		<var name="row6"  value="'B                                                              B'" />
+		<var name="row7"  value="'B       BBBBBBBB                                               B'" />
+		<var name="row8"  value="'B              B                                               B'" />
+		<var name="row9"  value="'B              B                                               B'" />
+		<var name="row10" value="'B              B                                               B'" />
+		<var name="row11" value="'B              B                                               B'" />
+		<var name="row12" value="'B              B                                               B'" />
+		<var name="row13" value="'B              B                                               B'" />
+		<var name="row14" value="'B              B                                               B'" />
+		<var name="row15" value="'B              B                                               B'" />
+		<var name="row16" value="'B              B             B                                 B'" />
+		<var name="row17" value="'B                            B                                 B'" />
+		<var name="row18" value="'B                            B                                 B'" />
+		<var name="row19" value="'B                            B                                 B'" />
+		<var name="row20" value="'B                            B                                 B'" />
+		<var name="row21" value="'B                            B                                 B'" />
+		<var name="row22" value="'B                            B                                 B'" />
+		<var name="row23" value="'B       B                    B                                 B'" />
+		<var name="row24" value="'B       B                    B                                 B'" />
+		<var name="row25" value="'B       B                    B                                 B'" />
+		<var name="row26" value="'B       B                                                      B'" />
+		<var name="row27" value="'B       B                                                      B'" />
+		<var name="row28" value="'B       B                                                      B'" />
+		<var name="row29" value="'B       B                                                      B'" />
+		<var name="row30" value="'B       B                                                      B'" />
+		<var name="row31" value="'BBBBBBBBB                                                      B'" />
+		<var name="row32" value="'B                                                              B'" />
+		<var name="row33" value="'B                                                              B'" />
+		<var name="row34" value="'B                                                              B'" />
+		<var name="row35" value="'B                                                              B'" />
+		<var name="row36" value="'B                                                              B'" />
+		<var name="row37" value="'B                                                              B'" />
+		<var name="row38" value="'B                                                              B'" />
+		<var name="row39" value="'B                                                              B'" />
+		<var name="row40" value="'B                                                              B'" />
+		<var name="row41" value="'B                                                              B'" />
+		<var name="row42" value="'B                                                              B'" />
+		<var name="row43" value="'B                                                              B'" />
+		<var name="row44" value="'B                                                              B'" />
+		<var name="row45" value="'B                                                              B'" />
+		<var name="row46" value="'B                                                              B'" />
+		<var name="row47" value="'B                                                              B'" />
+		<var name="row48" value="'B                                                              B'" />
+		<var name="row49" value="'B                                                              B'" />
+		<var name="row50" value="'B                                                              B'" />
+		<var name="row51" value="'B                                                              B'" />
+		<var name="row52" value="'B                                                              B'" />
+		<var name="row53" value="'B                                                              B'" />
+		<var name="row54" value="'B                                                              B'" />
+		<var name="row55" value="'B                                                              B'" />
+		<var name="row56" value="'B                                                              B'" />
+		<var name="row57" value="'B                                                              B'" />
+		<var name="row58" value="'B                                                              B'" />
+		<var name="row59" value="'B                                                              B'" />
+		<var name="row60" value="'B                                                              B'" />
+		<var name="row61" value="'B                                                              B'" />
+		<var name="row62" value="'B                                                              B'" />
+		<var name="row63" value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
+		<for var="y" start="0" end="?dimension-1">
+		    <var name="row" value="?(row+?y)" />
+		    <for var="x" start="0" end="?dimension-1">
+		        <var name="blocktype" value="strsub(?row,?x,1)" />
+		        <var name="maze+?x+'_'+?y" value="?blocktype" />
+		        <if eval="?blocktype != ' '" true="initblock" />
+		    </for>
+		</for>
+
+		<createentity name="hero" behaviour="bdash_hero" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="hero" />
+
+		<!-- Current position of game layer -->
+		<var name="layer_x" value="0" />
+		<var name="layer_y" value="0" />
+		<!-- @@@ Use hero start position below! -->
+		<var name="layer_movetox" value="(?vis/2-1)*?blockdim" />
+		<var name="layer_movetoy" value="(?vis/2-1)*?blockdim" />
+		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+	    </event>
+
+	    <!--
+	      - Initialize one block. This will create the entity representing
+	      - the block and it will set it at the right position on the puzzle
+	      - board.
+	      - This event uses ?x and ?y which should be set outside this routine.
+	      - This event also uses ?blocktype and the ?material_ array.
+	      -->
+	    <event name="initblock">
+	        <var name="ent" value="'p'+?x+'_'+?y" />
+		<createentity name="?ent" behaviour="bdash_block" />
+		<var name="ent" value="ent(?ent)" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="?ent" />
+	    </event>
+
+	    <!--
+	      - Move the board slowly so the hero is centered.
+	      -->
+	    <event name="pctimer_wakeupframe">
+		<var name="delta" value="?boardspeed*param(parid(elapsedticks))" />
+		<var name="layer_x" value="intpol(?delta,?layer_x,?layer_movetox)" />
+		<var name="layer_y" value="intpol(?delta,?layer_y,?layer_movetoy)" />
+		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
+	    </event>
+
+	</script>
+
+	<!-- *****************************************************
+	  - This script controls the behaviour of our hero.
+	  -  ***************************************************** -->
+	<script name="bdash_hero">
+	    <superscript name="movingobject" />
+
+	    <!--
+	      - Initialize our hero.
+	      -->
+	    <event name="init">
+		<var name="x" value="1" />
+		<var name="y" value="1" />
+		<var name="dim" value="?bdash_main.blockdim" />
+		<var name="material" value="hero" />
+		<var name="speed" value="?bdash_main.herospeed" />
+		<super />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(layer)" value="game" />
+	        <createpropclass name="pckeyinput" />
+		<default propclass="pc(pckeyinput)" />
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="right" />
+		    <par id="parid(command)" value="right" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="left" />
+		    <par id="parid(command)" value="left" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="up" />
+		    <par id="parid(command)" value="up" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="down" />
+		    <par id="parid(command)" value="down" />
+		</action>
+	    </event>
+
+	    <!--
+	      - Override from superscript so that we can check collision
+	      - here.
+	      -->
+	    <event name="actualmove">
+	        <super />
+		<var entity="bdash_main" name="layer_movetox" value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
+		<var entity="bdash_main" name="layer_movetoy" value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
+	    </event>
+
+	    <!--
+	      - Check if a move is possible and perform the move
+	      - if so. Uses ?dx and ?dy to get the move direction and
+	      - ?x and ?y for current position.
+	      -->
+	    <event name="checkmove">
+		<if eval="?bdash_main.(maze+(?x+?dx)+'_'+(?y+?dy))==' '">
+		    <call event="startmove" />
+		</if>
+	    </event>
+
+	    <!--
+	      - Movement events.
+	      -->
+	    <event name="pckeyinput_right1">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_left1">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_down1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_up1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_right_">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_left_">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_down_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_up_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmove" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a block in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_block">
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(name)" value="block" />
+	        <property id="propid(materialname)" value="?bdash_main.(material_+?bdash_main.blocktype)" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="500+?bdash_main.blockdim" />
+	        <property id="propid(height)" value="500+?bdash_main.blockdim" />
+	        <property id="propid(x)" value="?bdash_main.x*?bdash_main.blockdim" />
+	        <property id="propid(y)" value="?bdash_main.y*?bdash_main.blockdim" />
+	        <property id="propid(layer)" value="game" />
+	    </event>
+	</script>
+
 
     </addon>
 

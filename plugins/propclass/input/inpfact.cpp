@@ -372,7 +372,16 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   }
   else
   {
-    if (!p->is_on)
+    if (p->is_on)
+    {
+      // Send auto-repeat message.
+      iCelBehaviour* bh = entity->GetBehaviour();
+      CS_ASSERT(bh != 0);
+      *(p->command_end) = '_';
+      bh->SendMessage (p->command, 0);
+      *(p->command_end) = 0;
+    }
+    else
     {
       p->is_on=true;
       iCelBehaviour* bh = entity->GetBehaviour();
