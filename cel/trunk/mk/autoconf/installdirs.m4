@@ -39,7 +39,7 @@ CS_JAMCONFIG_PROPERTY([prefix], [AS_ESCAPE([$(INSTALLDIR.PREFIX)])])
 CS_JAMCONFIG_PROPERTY([exec_prefix], [AS_ESCAPE([$(INSTALLDIR.EXEC_PREFIX)])])
 
 # Hack: Improve Autoconf's default paths a bit.
-docdir="$datadir/doc/$PACKAGE_NAME";
+docdir="$datadir/doc/$PACKAGE_NAME"
 AS_IF([test "$includedir" = '${prefix}/include'],
       [includedir="AS_ESCAPE([$(prefix)])/include/$PACKAGE_NAME"])
 AS_IF([test "$datadir" = '${prefix}/share'],
@@ -47,8 +47,8 @@ AS_IF([test "$datadir" = '${prefix}/share'],
 AS_IF([test "$sysconfdir" = '${prefix}/etc'],
       [sysconfdir="AS_ESCAPE([$(prefix)])/etc/$PACKAGE_NAME"])
 
-mapdir="$datadir/maps" ;
-plugindir="$libdir/$PACKAGE_NAME" ;
+mapdir="$datadir/maps"
+plugindir="$libdir/$PACKAGE_NAME"
 
 CS_JAMCONFIG_PROPERTY([INSTALLDIR.APPLICATION],[CS_PREPARE_INSTALLPATH([$bindir])])
 CS_JAMCONFIG_PROPERTY([INSTALLDIR.SBIN],[CS_PREPARE_INSTALLPATH([$sbindir])])
