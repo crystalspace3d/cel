@@ -64,7 +64,7 @@ class celDebugPrintRewardFactory :
 {
 private:
   celDebugPrintRewardType* type;
-  const char* msg_par;
+  char* msg_par;
 
 public:
   celDebugPrintRewardFactory (celDebugPrintRewardType* type);

@@ -7,6 +7,15 @@ The history order is reversed so that new features are at the top.
 	- Andrew Dai made it so that it is possible for gravity to be applied
 	  to linear movement even if collision detection is turned off. This
 	  can be done by forcing onground to be false.
+	- Luca removed the constness of 
+	  celEnterSectorTriggerFactory::entity_name_par and
+	  celEnterSectorTriggerFactory::sector_name_par and 
+	  celDebugPrintRewardFactory::msg_par and created a new string using
+	  csStrNew() every time a string is assigned to one of those 
+	  variables. This way we do not try anymore to delete in the destructor
+	  of those classes a string already created and destroyed elsewhere 
+	  (this happened when we were deleting the string returned by
+	  an iDocumentNode::GetAttributeValue() call).
 7-Dec-2004
 	- Eric Sunshine fixed libs/celtool/Jamfile so that its `Library' rule
 	  invocation mentions its related public header files in

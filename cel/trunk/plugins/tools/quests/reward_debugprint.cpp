@@ -76,6 +76,7 @@ celDebugPrintRewardFactory::celDebugPrintRewardFactory (
 celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 {
   delete[] msg_par;
+
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -90,7 +91,8 @@ csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
 bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
 {
   delete[] msg_par; msg_par = 0;
-  msg_par = node->GetAttributeValue ("message");
+  msg_par = csStrNew (node->GetAttributeValue ("message"));
+
   if (!msg_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -103,7 +105,9 @@ bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
 
 void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 {
-  if (msg_par == msg) return;
+  if (msg_par == msg) 
+    return;
+
   delete[] msg_par;
   msg_par = csStrNew (msg);
 }
