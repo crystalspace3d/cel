@@ -211,6 +211,35 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
   return value;
 }
 
+bool celBlXml::ParseExpressionOrConstantString (iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* attrname, const char* name,
+	char*& str)
+{
+  const char* input = child->GetAttributeValue (attrname);
+  if (!input)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+		"Can't find attribute '%s' for '%s'!", attrname, name);
+    return false;
+  }
+  char buf[100];
+  sprintf (buf, "%s(%s)", name, attrname);
+  bool rc = ParseExpressionOrConstantString (input, child, h, buf,
+  	CEL_PRIORITY_NORMAL, str);
+  if (!rc) return false;
+
+  // Check if there are remaining tokens.
+  input = celXmlSkipWhiteSpace (input);
+  if (*input != 0)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+		"Unexpected tokens found for '%s'!", buf);
+    return false;
+  }
+
+  return true;
+}
+
 bool celBlXml::ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type)
@@ -224,11 +253,16 @@ bool celBlXml::ParseExpression (iDocumentNode* child,
   }
   if (!input && optional_type != CEL_DATA_NONE)
   {
-    h->AddOperation (CEL_OPERATION_PUSH);
     switch (optional_type)
     {
-      case CEL_DATA_STRING: h->GetArgument ().SetString (0, false); break;
-      case CEL_DATA_PCLASS: h->GetArgument ().SetPC (0); break;
+      case CEL_DATA_STRING:
+	h->AddOperation (CEL_OPERATION_PUSHSTR);
+	h->GetArgument ().SetString (0, false);
+	break;
+      case CEL_DATA_PCLASS:
+	h->AddOperation (CEL_OPERATION_PUSH);
+      	h->GetArgument ().SetPC (0);
+	break;
       default: CS_ASSERT (false);
     }
     return true;
@@ -534,14 +568,11 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   return true;
 }
 
-bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* name, int stoppri)
+bool celBlXml::ParseExpressionInt (const char*& input, const char* pinput,
+	int token,
+	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name, int stoppri)
 {
-  int token;
-  input = celXmlSkipWhiteSpace (input);
-  const char* pinput = input;
-  input = celXmlParseToken (input, token);
-
   switch (token)
   {
     case CEL_TOKEN_ERROR:
@@ -573,20 +604,53 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       }
       break;
     case CEL_TOKEN_DEREFVAR:
-      if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
-        return false;
-      pinput = input;
-      input = celXmlParseToken (input, token);
-      if (token == CEL_TOKEN_DOT)
       {
-        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
+        char* str;
+        if (!ParseExpressionOrConstantString (input, child, h, name,
+		CEL_PRIORITY_ONETERM, str))
           return false;
-        h->AddOperation (CEL_OPERATION_DEREFVARENT);
-      }
-      else
-      {
-        input = pinput;	// Restore!
-        h->AddOperation (CEL_OPERATION_DEREFVAR);
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_DOT)
+        {
+	  // If we had a constant entity name we convert that to push anyway
+	  // and use check if 'name' is constant instead.
+	  if (str)
+	  {
+	    h->AddOperation (CEL_OPERATION_PUSHSTR);
+	    h->GetArgument ().SetStringPrealloc (str);
+            if (!ParseExpressionOrConstantString (input, child, h, name,
+	    	CEL_PRIORITY_ONETERM, str))
+              return false;
+	  }
+	  else
+	  {
+            if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
+              return false;
+	  }
+	  if (str)
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFVARENT_STR);
+	    h->GetArgument ().SetStringPrealloc (str);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFVARENT);
+	  }
+        }
+        else
+        {
+          input = pinput;	// Restore!
+	  if (str)
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFVAR_STR);
+	    h->GetArgument ().SetStringPrealloc (str);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFVAR);
+	  }
+        }
       }
       break;
     case CEL_TOKEN_FUNCTION:
@@ -599,9 +663,8 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	str = new char[input-pinput+1];
 	strncpy (str, pinput, input-pinput);
 	str[input-pinput] = 0;
-        h->AddOperation (CEL_OPERATION_PUSH);
-        h->GetArgument ().SetString (str, true);
-	delete[] str;
+        h->AddOperation (CEL_OPERATION_PUSHSTR);
+        h->GetArgument ().SetStringPrealloc (str);
       }
       break;
     case CEL_TOKEN_STRINGLIT:
@@ -614,9 +677,8 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 		    "Error parsing string for '%s'!", name);
           return false;
         }
-        h->AddOperation (CEL_OPERATION_PUSH);
-        h->GetArgument ().SetString (str, true);
-        delete[] str;
+        h->AddOperation (CEL_OPERATION_PUSHSTR);
+        h->GetArgument ().SetStringPrealloc (str);
       }
       break;
     case CEL_TOKEN_INT32:
@@ -854,6 +916,40 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
   return true;
 }
 
+bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* name, int stoppri)
+{
+  int token;
+  input = celXmlSkipWhiteSpace (input);
+  const char* pinput = input;
+  input = celXmlParseToken (input, token);
+  return ParseExpressionInt (input, pinput, token, child, h, name, stoppri);
+}
+
+bool celBlXml::ParseExpressionOrConstantString (const char*& input,
+	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name, int stoppri, char*& str)
+{
+  int token;
+  input = celXmlSkipWhiteSpace (input);
+  const char* pinput = input;
+  input = celXmlParseToken (input, token);
+  bool one_token = stoppri == CEL_PRIORITY_ONETERM || *input==0;
+
+  if (one_token && token == CEL_TOKEN_IDENTIFIER)
+  {
+    str = new char[input-pinput+1];
+    strncpy (str, pinput, input-pinput);
+    str[input-pinput] = 0;
+    return true;
+  }
+  else
+  {
+    str = 0;
+    return ParseExpressionInt (input, pinput, token, child, h, name, stoppri);
+  }
+}
+
 celXmlScriptEventHandler* celBlXml::FindEventHandler (
 	celXmlScript* script, const char* eventname)
 {
@@ -1043,11 +1139,24 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (entname)
             if (!ParseExpression (child, h, "entity", "var"))
 	      return false;
-          if (!ParseExpression (child, h, "name", "var"))
+	  char* str;
+          if (!ParseExpressionOrConstantString (child, h, "name", "var", str))
 	    return false;
           if (!ParseExpression (child, h, "value", "var"))
 	    return false;
-	  h->AddOperation (entname ? CEL_OPERATION_VARENT : CEL_OPERATION_VAR);
+	  if (str)
+	  {
+	    h->AddOperation (entname
+	    	? CEL_OPERATION_VARENT_STR
+		: CEL_OPERATION_VAR_STR);
+	    h->GetArgument ().SetStringPrealloc (str);
+	  }
+	  else
+	  {
+	    h->AddOperation (entname
+	    	? CEL_OPERATION_VARENT
+		: CEL_OPERATION_VAR);
+	  }
 	}
 	break;
       case XMLTOKEN_WHILE:
