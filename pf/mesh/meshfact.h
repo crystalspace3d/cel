@@ -78,6 +78,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
+  iMeshWrapper* GetMesh () { return mesh; }
   void MoveMesh (iSector* sector, const csVector3& pos);
 
   SCF_DECLARE_IBASE;
@@ -95,7 +96,7 @@ public:
     }
     virtual iMeshWrapper* GetMesh () const
     {
-      return scfParent->mesh;
+      return scfParent->GetMesh ();
     }
     virtual void MoveMesh (iSector* sector, const csVector3& pos)
     {

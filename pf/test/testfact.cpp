@@ -93,8 +93,8 @@ void celPcTest::PcTest::Print (const char* msg)
 {
   printf ("Print: %s\n", msg);
   fflush (stdout);
-  CS_ASSERT (scfParent->entity != NULL);
-  iCelBlEntity* ble = scfParent->entity->GetBlEntity ();
+  CS_ASSERT (scfParent->GetEntity != NULL);
+  iCelBlEntity* ble = scfParent->GetEntity ()->GetBlEntity ();
   CS_ASSERT (ble != NULL);
   ble->SendMessage ("print");
 }
