@@ -18,7 +18,7 @@
 */
 
 #include "cssysdef.h"
-#include "qsqrt.h"
+#include "csqsqrt.h"
 #include "iutil/plugin.h"
 #include "iutil/virtclk.h"
 #include "iutil/eventq.h"
