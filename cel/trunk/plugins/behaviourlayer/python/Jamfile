@@ -19,5 +19,17 @@ if $(PYTHON.AVAILABLE) = yes
   ;
   ExternalLibs blpython : PYTHON ;
   CFlags blpython : -DSWIG_GLOBAL ;
+
+  if $(CMD.SWIG)
+  {
+    # copy over blcelc.py file
+    LOCATE on blcelc.py = $(SUBDIR) ;
+    SCRIPTFILE = $(TOP)/scripts/blcelc.py ;
+    Move $(SCRIPTFILE) : blcelc.py ;
+    Depends $(SCRIPTFILE) : blcelc.py ;
+    NoCare $(SCRIPTFILE) blcelc.py ;
+    Depends blpython : $(SCRIPTFILE) ;      
+  }
 }
+
 
