@@ -451,6 +451,7 @@ class csVector2(_object):
     def __init__(self, *args):
         _swig_setattr(self, csVector2, 'this', _blcelc.new_csVector2(*args))
         _swig_setattr(self, csVector2, 'thisown', 1)
+    def Description(*args): return _blcelc.csVector2_Description(*args)
     def Set(*args): return _blcelc.csVector2_Set(*args)
     def Get(*args): return _blcelc.csVector2_Get(*args)
     def Norm(*args): return _blcelc.csVector2_Norm(*args)
@@ -510,6 +511,7 @@ class csVector3(_object):
     def __init__(self, *args):
         _swig_setattr(self, csVector3, 'this', _blcelc.new_csVector3(*args))
         _swig_setattr(self, csVector3, 'thisown', 1)
+    def Description(*args): return _blcelc.csVector3_Description(*args)
     def Cross(*args): return _blcelc.csVector3_Cross(*args)
     def __iadd__(*args): return _blcelc.csVector3___iadd__(*args)
     def __isub__(*args): return _blcelc.csVector3___isub__(*args)
@@ -2035,6 +2037,7 @@ class csBox2(_object):
     def Set(*args): return _blcelc.csBox2_Set(*args)
     def SetMin(*args): return _blcelc.csBox2_SetMin(*args)
     def SetMax(*args): return _blcelc.csBox2_SetMax(*args)
+    def Description(*args): return _blcelc.csBox2_Description(*args)
     def __iadd__(*args): return _blcelc.csBox2___iadd__(*args)
     def __imul__(*args): return _blcelc.csBox2___imul__(*args)
     def TestIntersect(*args): return _blcelc.csBox2_TestIntersect(*args)
@@ -2136,6 +2139,7 @@ class csBox3(_object):
     def Set(*args): return _blcelc.csBox3_Set(*args)
     def SetMin(*args): return _blcelc.csBox3_SetMin(*args)
     def SetMax(*args): return _blcelc.csBox3_SetMax(*args)
+    def Description(*args): return _blcelc.csBox3_Description(*args)
     def Split(*args): return _blcelc.csBox3_Split(*args)
     def TestSplit(*args): return _blcelc.csBox3_TestSplit(*args)
     def AdjacentX(*args): return _blcelc.csBox3_AdjacentX(*args)
