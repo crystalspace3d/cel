@@ -765,23 +765,6 @@ void CelTest::Start ()
  *---------------------------------------------------------------------*/
 int main (int argc, char* argv[])
 {
-#ifdef LIBDIR
-  csAddLibraryPath(LIBDIR);
-  csAddLibraryPath("../blpython/.libs/");
-  csAddLibraryPath("../bltest/.libs/");
-  csAddLibraryPath("../celtest/.libs/");
-  csAddLibraryPath("../persist/classic/.libs/");
-  csAddLibraryPath("../pf/common/.libs/");
-  csAddLibraryPath("../pf/engine/.libs/");
-  csAddLibraryPath("../pf/input/.libs/");
-  csAddLibraryPath("../pf/inv/.libs/");
-  csAddLibraryPath("../pf/mesh/.libs/");
-  csAddLibraryPath("../pf/move/.libs/");
-  csAddLibraryPath("../pf/test/.libs/");
-  csAddLibraryPath("../pf/tools/.libs/");
-  csAddLibraryPath("../plimp/.libs/");
-#endif // LIBDIR
-  
   celtest = new CelTest ();
 
   if (celtest->Initialize (argc, argv))
