@@ -18,7 +18,7 @@
 */
 
 #include "cssysdef.h"
-#include "managers/billboard.h"
+#include "tools/billboard.h"
 #include "plugins/propclass/billboard/billboard.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
