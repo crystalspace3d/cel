@@ -1773,14 +1773,22 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer(iObjectRegistry *object_reg) {
   return pl;
 }
 
-iCelBehaviour *iCelEntity_LoadBehaviour(iCelEntity *self,iObjectRegistry *object_reg,char const *name){
-      csRef<iCelBlLayer> bl(   csPtr<iCelBlLayer> ((iCelBlLayer*)(CS_IMPLICIT_PTR_CAST(iObjectRegistry, object_reg)->Get ("iCelBlLayer",      iCelBlLayer_scfGetID (), iCelBlLayer_VERSION))));
-      if(!bl.IsValid()) return 0;
+iCelBehaviour *iCelEntity_CreateBehaviour(iCelEntity *self,iCelBlLayer *bl,char const *name){
       csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
       if(!bh.IsValid()) return 0;
       self->SetBehaviour(bh);
       return bh;
     }
+
+bool celRegisterPCFactory(iObjectRegistry* object_reg,const char* pcfactname) {
+  csRef<iPluginManager> plugin_mgr (
+  	CS_QUERY_REGISTRY (object_reg, iPluginManager));
+  csRef<iBase> pf (CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname));
+  if (!pf)
+    return false;
+  return true;
+}
+
 
 iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name) {
   csRef<iCelEntity> en(pl->CreateEntity());
@@ -82061,19 +82069,19 @@ static PyObject *_wrap_iCelEntity_GetPropertyClassList(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_iCelEntity_LoadBehaviour(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iCelEntity_CreateBehaviour(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCelEntity *arg1 = (iCelEntity *) 0 ;
-    iObjectRegistry *arg2 = (iObjectRegistry *) 0 ;
+    iCelBlLayer *arg2 = (iCelBlLayer *) 0 ;
     char *arg3 ;
     iCelBehaviour *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOs:iCelEntity_LoadBehaviour",&obj0,&obj1,&arg3)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOs:iCelEntity_CreateBehaviour",&obj0,&obj1,&arg3)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (iCelBehaviour *)iCelEntity_LoadBehaviour(arg1,arg2,(char const *)arg3);
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelBlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (iCelBehaviour *)iCelEntity_CreateBehaviour(arg1,arg2,(char const *)arg3);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iCelBehaviour, 0);
     return resultobj;
@@ -82105,6 +82113,24 @@ static PyObject * iCelEntity_swigregister(PyObject *self, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_celRegisterPCFactory(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:celRegisterPCFactory",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)celRegisterPCFactory(arg1,(char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_celCreateEntity(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
@@ -88939,9 +88965,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelEntity_GetBehaviour", _wrap_iCelEntity_GetBehaviour, METH_VARARGS },
 	 { (char *)"iCelEntity_GetID", _wrap_iCelEntity_GetID, METH_VARARGS },
 	 { (char *)"iCelEntity_GetPropertyClassList", _wrap_iCelEntity_GetPropertyClassList, METH_VARARGS },
-	 { (char *)"iCelEntity_LoadBehaviour", _wrap_iCelEntity_LoadBehaviour, METH_VARARGS },
+	 { (char *)"iCelEntity_CreateBehaviour", _wrap_iCelEntity_CreateBehaviour, METH_VARARGS },
 	 { (char *)"delete_iCelEntity", _wrap_delete_iCelEntity, METH_VARARGS },
 	 { (char *)"iCelEntity_swigregister", iCelEntity_swigregister, METH_VARARGS },
+	 { (char *)"celRegisterPCFactory", _wrap_celRegisterPCFactory, METH_VARARGS },
 	 { (char *)"celCreateEntity", _wrap_celCreateEntity, METH_VARARGS },
 	 { (char *)"scfQueryInterface_iCelEntity", _wrap_scfQueryInterface_iCelEntity, METH_VARARGS },
 	 { (char *)"iCelEntityList_GetCount", _wrap_iCelEntityList_GetCount, METH_VARARGS },

@@ -9348,7 +9348,7 @@ class iCelEntity(iBase):
     def GetBehaviour(*args): return apply(_blcelc.iCelEntity_GetBehaviour,args)
     def GetID(*args): return apply(_blcelc.iCelEntity_GetID,args)
     def GetPropertyClassList(*args): return apply(_blcelc.iCelEntity_GetPropertyClassList,args)
-    def LoadBehaviour(*args): return apply(_blcelc.iCelEntity_LoadBehaviour,args)
+    def CreateBehaviour(*args): return apply(_blcelc.iCelEntity_CreateBehaviour,args)
     def __del__(self, destroy= _blcelc.delete_iCelEntity):
         try:
             if self.thisown: destroy(self)
@@ -9363,6 +9363,8 @@ class iCelEntityPtr(iCelEntity):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCelEntity, 'thisown', 0)
         _swig_setattr(self, iCelEntity,self.__class__,iCelEntity)
 _blcelc.iCelEntity_swigregister(iCelEntityPtr)
+
+celRegisterPCFactory = _blcelc.celRegisterPCFactory
 
 celCreateEntity = _blcelc.celCreateEntity
 
