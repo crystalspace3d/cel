@@ -1610,7 +1610,7 @@ void celPcRegion::Unload ()
 iSector* celPcRegion::FindSector (const char* name)
 {
   csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  iSector* temp = engine->GetSectors()->FindByName (name);
+  iSector* temp = engine->FindSector (name, GetRegionInternal(engine));
   return temp;
 }
 
@@ -1620,7 +1620,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
   CS_ASSERT (engine != 0);
   if (empty_sector)
   {
-    iRegion* reg = engine->GetRegions ()->FindByName (regionname);
+    iRegion* reg = GetRegionInternal(engine);
     return engine->FindSector (worldfile, reg);
   }
   iSector* sector;
@@ -1634,7 +1634,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
   }
   else
   {
-    sector = engine->GetSectors ()->FindByName ("room");
+    sector = engine->FindSector("room", GetRegionInternal(engine));
   }
   return sector;
 }
@@ -1675,6 +1675,22 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
   iSector* s = GetStartSector (name);
   pccamera->GetCamera ()->SetSector (s);
   pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
+}
+
+iRegion* celPcRegion::GetRegionInternal(csRef<iEngine> engine)
+{
+  return engine->GetRegions()->FindByName(regionname);
+}
+
+iRegion* celPcRegion::GetRegion()
+{
+  if (!loaded)
+    return 0;
+
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  iRegion* region = GetRegionInternal(engine);
+  CS_ASSERT(region);
+  return region;
 }
 
 //---------------------------------------------------------------------------

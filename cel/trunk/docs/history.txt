@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+24-Aug-2004
+	- Remi Bonnet added a GetRegion() function to the pcregion 
+	  propclass and fixed some functions that searched for sectors
+	  in the whole engine instead of only the region.
 20-Aug-2004
 	- Jorrit changed the zone manager so that it has the notion of
 	  VFS path and file. The optional path is used to set the VFS

@@ -854,6 +854,13 @@ private:
 
   static void UpdateProperties (iObjectRegistry* object_reg);
 
+private:
+  /**
+   * Returns the CS region associated to this entity. No check performed,
+   * the caller of this function is responsable of performing them
+   */
+  iRegion* GetRegionInternal (csRef<iEngine> engine);
+
 public:
   celPcRegion (iObjectRegistry* object_reg);
   virtual ~celPcRegion ();
@@ -899,6 +906,8 @@ public:
   void PointCamera (iPcCamera* pccamera, const char* name);
   /// Find a sector named "name".
   iSector* FindSector (const char* name);
+  /// Get the CS region
+  iRegion* GetRegion ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -958,6 +967,10 @@ public:
     virtual void PointCamera (iPcCamera* pccamera, const char* name = 0)
     {
       scfParent->PointCamera (pccamera, name);
+    }
+    virtual iRegion* GetRegion ()
+    {
+      return scfParent->GetRegion ();
     }
   } scfiPcRegion;
 };
