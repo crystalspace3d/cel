@@ -54,7 +54,7 @@ struct iPcDynamicSystem : public iBase
    * pcbody->AddForceDuration().
    */
   virtual void AddForceDuration (iPcDynamicBody* pcbody,
-  	const csVector3& force, float ms) = 0;
+  	const csVector3& force, float seconds) = 0;
 
   /**
    * During the next frame add the force every step. This function is called
@@ -141,10 +141,10 @@ struct iPcDynamicBody : public iBase
   virtual void AddForceOnce (const csVector3& force) = 0;
 
   /**
-   * During the specified time (in milliseconds) add the force every
+   * During the specified time (in seconds) add the force every
    * step.
    */
-  virtual void AddForceDuration (const csVector3& force, float ms) = 0;
+  virtual void AddForceDuration (const csVector3& force, float seconds) = 0;
 
   /**
    * During the next frame add the force every step.

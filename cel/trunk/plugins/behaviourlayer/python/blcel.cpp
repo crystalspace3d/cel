@@ -88910,12 +88910,12 @@ static PyObject *_wrap_iPcDynamicSystem_AddForceDuration(PyObject *self, PyObjec
     iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
     iPcDynamicBody *arg2 = (iPcDynamicBody *) 0 ;
     csVector3 *arg3 = 0 ;
-    int arg4 ;
+    float arg4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     PyObject * obj2 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOOi:iPcDynamicSystem_AddForceDuration",&obj0,&obj1,&obj2,&arg4)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOOf:iPcDynamicSystem_AddForceDuration",&obj0,&obj1,&obj2,&arg4)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicSystem,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
@@ -89354,11 +89354,11 @@ static PyObject *_wrap_iPcDynamicBody_AddForceDuration(PyObject *self, PyObject 
     PyObject *resultobj;
     iPcDynamicBody *arg1 = (iPcDynamicBody *) 0 ;
     csVector3 *arg2 = 0 ;
-    int arg3 ;
+    float arg3 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOi:iPcDynamicBody_AddForceDuration",&obj0,&obj1,&arg3)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOf:iPcDynamicBody_AddForceDuration",&obj0,&obj1,&arg3)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if (arg2 == NULL) {

@@ -137,11 +137,11 @@ void celPcDynamicSystem::ProcessForces (float dt)
     {
       f.body->GetBody ()->AddForce (f.force);
     }
-    else if (f.ms > 0)
+    else if (f.seconds > 0)
     {
       f.body->GetBody ()->AddForce (f.force);
-      f.ms -= dt;
-      if (f.ms <= 0)
+      f.seconds -= dt;
+      if (f.seconds <= 0)
       {
         forces.DeleteIndex (i);
 	i--;
@@ -176,7 +176,7 @@ bool celPcDynamicSystem::HandleEvent (iEvent& ev)
     for (i = 0 ; i < forces.Length () ; i++)
     {
       celForce& f = forces[i];
-      if (f.frame || f.ms <= 0)
+      if (f.frame || f.seconds <= 0)
       {
         forces.DeleteIndex (i);
         i--;
@@ -266,11 +266,11 @@ bool celPcDynamicSystem::Load (iCelDataBuffer* databuf)
 }
 
 void celPcDynamicSystem::AddForceDuration (iPcDynamicBody* body,
-  	const csVector3& force, float ms)
+  	const csVector3& force, float seconds)
 {
   celForce f;
   f.body = body;
-  f.ms = ms;
+  f.seconds = seconds;
   f.frame = false;
   f.force = force;
   forces.Push (f);
@@ -281,7 +281,7 @@ void celPcDynamicSystem::AddForceFrame (iPcDynamicBody* body,
 {
   celForce f;
   f.body = body;
-  f.ms = 0;
+  f.seconds = 0;
   f.frame = true;
   f.force = force;
   forces.Push (f);
@@ -582,9 +582,9 @@ void celPcDynamicBody::AddForceOnce (const csVector3& force)
   body->AddForce (force);
 }
 
-void celPcDynamicBody::AddForceDuration (const csVector3& force, float ms)
+void celPcDynamicBody::AddForceDuration (const csVector3& force, float seconds)
 {
-  dynsystem->AddForceDuration (&scfiPcDynamicBody, force, ms);
+  dynsystem->AddForceDuration (&scfiPcDynamicBody, force, seconds);
 }
 
 void celPcDynamicBody::AddForceFrame (const csVector3& force)

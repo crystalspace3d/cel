@@ -214,7 +214,7 @@ struct iPcDynamicSystem : public iBase
 {
   virtual iDynamicSystem* GetDynamicSystem () = 0;
   virtual void AddForceDuration (iPcDynamicBody* pcbody,
-  	const csVector3& force, int ms) = 0;
+  	const csVector3& force, float seconds) = 0;
   virtual void AddForceFrame (iPcDynamicBody* pcbody,
   	const csVector3& force) = 0;
   virtual void ClearForces (iPcDynamicBody* pcbody) = 0;
@@ -275,7 +275,7 @@ struct iPcDynamicBody : public iBase
   virtual void AttachColliderPlane (const csPlane3& plane) = 0;
   virtual void AttachColliderMesh () = 0;
   virtual void AddForceOnce (const csVector3& force) = 0;
-  virtual void AddForceDuration (const csVector3& force, int ms) = 0;
+  virtual void AddForceDuration (const csVector3& force, float seconds) = 0;
   virtual void AddForceFrame (const csVector3& force) = 0;
   virtual void ClearForces () = 0;
 };

@@ -22,6 +22,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added a forces system to the new dynmove system. With this
 	  it is possible to add forces to objects that are fired exactly once,
 	  for a given time, or for the next frame.
+	- Jorrit changed the comments in dynmove to reflect that 'ms' is
+	  actually not milliseconds but seconds. Also changed the 'ms'
+	  to 'seconds'.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is

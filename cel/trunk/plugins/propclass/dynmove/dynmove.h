@@ -51,7 +51,7 @@ CEL_DECLARE_FACTORY(DynamicBody)
 struct celForce
 {
   iPcDynamicBody* body;
-  float ms;	// Remaining time. Not used if for entire frame.
+  float seconds;// Remaining time. Not used if for entire frame.
   bool frame;	// True if processing is for entire frame.
   csVector3 force;
 };
@@ -82,7 +82,7 @@ public:
   float GetStepTime () const { return delta; }
 
   void AddForceDuration (iPcDynamicBody* body,
-  	const csVector3& force, float ms);
+  	const csVector3& force, float seconds);
   void AddForceFrame (iPcDynamicBody* body, const csVector3& force);
   void ClearForces (iPcDynamicBody* body);
   void ClearAllForces ();
@@ -111,9 +111,9 @@ public:
       return scfParent->GetStepTime ();
     }
     virtual void AddForceDuration (iPcDynamicBody* body,
-  	const csVector3& force, float ms)
+  	const csVector3& force, float seconds)
     {
-      scfParent->AddForceDuration (body, force, ms);
+      scfParent->AddForceDuration (body, force, seconds);
     }
     virtual void AddForceFrame (iPcDynamicBody* body, const csVector3& force)
     {
@@ -271,7 +271,7 @@ public:
   void AttachColliderMesh ();
 
   void AddForceOnce (const csVector3& force);
-  void AddForceDuration (const csVector3& force, float ms);
+  void AddForceDuration (const csVector3& force, float seconds);
   void AddForceFrame (const csVector3& force);
   void ClearForces ();
 
@@ -344,9 +344,9 @@ public:
     {
       scfParent->AddForceOnce (force);
     }
-    virtual void AddForceDuration (const csVector3& force, float ms)
+    virtual void AddForceDuration (const csVector3& force, float seconds)
     {
-      scfParent->AddForceDuration (force, ms);
+      scfParent->AddForceDuration (force, seconds);
     }
     virtual void AddForceFrame (const csVector3& force)
     {
