@@ -111,8 +111,18 @@ struct iPcInventory : public iBase
   /**
    * Test if changing a characteristic of some entity inside this inventory
    * would violate the inventory constraints. Returns true if ok.
+   * If 'newLocalValue' points to NULL this means that the entity no longer
+   * has that property.<br>
+   * Note that 'newLocalValue' is the new 'local' value of the entity. The
+   * inherited values are not included.
    */
-  virtual bool TestCharacteristicChange (const char* charName, float oldValue, float newValue) = 0;
+  virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue) = 0;
+
+  /**
+   * This is a debugging function to dump the contents of the inventory and
+   * all constraints.
+   */
+  virtual void Dump () = 0;
 };
 
 #endif // __CEL_PF_INV__
