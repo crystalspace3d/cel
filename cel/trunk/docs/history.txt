@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 16-Jan-2004
 	- Jorrit added entity name to the call stack for XML behaviour
 	  layer.
+	- Jorrit fixed CEL for the latest light related CS changes.
 15-Jan-2004
 	- Jorrit fixed another bug reported by valgrind in pctimer.
 	- Jorrit fixed another bug reported by valgrind in XML
