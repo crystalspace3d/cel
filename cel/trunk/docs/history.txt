@@ -17,6 +17,8 @@ The history order is reversed so that new features are at the top.
 	  in python scripts.
 	- Jorrit changed a few other celCreate... functions to also accept
 	  an iCelPlLayer instead of an iObjectRegistry.
+	- Jorrit changed more functions like that. Also renamed all Create
+	  property classes to start with celCreate....
 29-Jun-2003
 	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
 	  up-to-date version from the Crystal Space project.  This fixes the
