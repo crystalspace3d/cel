@@ -21,6 +21,7 @@
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
 #include "iutil/object.h"
+#include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "cstool/sndwrap.h"
 
@@ -3271,6 +3272,100 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
         break;
+      case CEL_OPERATION_READFILE:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_file = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: readfile vararray=%s file=%s\n", i-1, A2S (top),
+	  	A2S (a_file)));
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
+	  	iVFS);
+	  csRef<iDataBuffer> buf = vfs->ReadFile (ArgToString (a_file));
+	  if (!buf)
+	  {
+	    top.SetInt32 (-1);
+	  }
+	  else
+	  {
+	    iPcProperties* props = behave->GetProperties ();
+	    CS_ASSERT (props != 0);
+
+	    const char* vararray = ArgToString (top);
+	    char* var = new char[strlen (vararray)+10];
+	    strcpy (var, vararray);
+	    char* varnum = var+strlen (var);
+
+	    int idx = 0;
+	    char* d = buf->GetData ();
+	    while (d)
+	    {
+	      char* nl = strchr (d, '\n');
+	      if (!nl) nl = d + strlen (d);
+	      char old = *nl;
+	      *nl = 0;
+	      sprintf (varnum, "%d", idx);
+	      idx++;
+	      props->SetProperty (var, d);
+	      *nl = old;
+	      if (*nl == 0) d = 0;
+	      else
+	      {
+	        nl++;
+	        if (*nl == '\n') nl++;
+		if (*nl == 0) d = 0;
+	        else d = nl;
+	      }
+	    }
+	    top.SetInt32 (idx);
+	  }
+	}
+	break;
+      case CEL_OPERATION_WRITEFILE:
+        {
+	  CHECK_STACK(4)
+	  celXmlArg a_end = stack.Pop ();
+	  celXmlArg a_start = stack.Pop ();
+	  celXmlArg a_file = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: writefile vararray=%s file=%s start=%s stop=%s\n",
+	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
+	  	iVFS);
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* vararray = ArgToString (top);
+	  char* var = new char[strlen (vararray)+10];
+	  strcpy (var, vararray);
+	  char* varnum = var+strlen (var);
+
+	  int st = ArgToInt32 (a_start);
+	  int en = ArgToInt32 (a_end);
+	  csString data;
+	  int i;
+	  for (i = st ; i <= en ; i++)
+	  {
+	    sprintf (varnum, "%d", i);
+	    int idx = props->GetPropertyIndex (var);
+	    if (idx == -1)
+	      return ReportError (behave, "Can't find variable '%s'!", var);
+	    const char* l = props->GetPropertyString (idx);
+	    data += l;
+	    data += "\n";
+	  }
+	  bool success = vfs->WriteFile (ArgToString (a_file),
+	  	(const char *)data, data.Length ());
+	  top.SetBool (success);
+	}
+	break;
+      case CEL_OPERATION_REPORTERROR:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg a_msg = stack.Pop ();
+	  DUMP_EXEC ((":%04d: reporterror msg=%s\n", i-1, A2S (a_msg)));
+	  return ReportError (behave, ArgToString (a_msg));
+	}
+	break;
       case CEL_OPERATION_SOUND:
         {
 	  CHECK_STACK(2)

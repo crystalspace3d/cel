@@ -79,6 +79,7 @@ enum
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
   XMLTOKEN_RETURN,
+  XMLTOKEN_REPORTERROR,
   XMLTOKEN_CALLSTACK,
   XMLTOKEN_VARIABLES,
   XMLTOKEN_TRACEON,
@@ -114,6 +115,8 @@ enum
   XMLFUNCTION_STRSUB,
   XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
+  XMLFUNCTION_READFILE,
+  XMLFUNCTION_WRITEFILE,
 
   XMLFUNCTION_LAST
 };
@@ -172,6 +175,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
   xmltokens.Register ("return", XMLTOKEN_RETURN);
+  xmltokens.Register ("reporterror", XMLTOKEN_REPORTERROR);
   xmltokens.Register ("variables", XMLTOKEN_VARIABLES);
   xmltokens.Register ("traceon", XMLTOKEN_TRACEON);
   xmltokens.Register ("traceoff", XMLTOKEN_TRACEOFF);
@@ -202,6 +206,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
+  functions.Register ("readfile", XMLFUNCTION_READFILE);
+  functions.Register ("writefile", XMLFUNCTION_WRITEFILE);
 
   return true;
 }
@@ -391,6 +397,32 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   csStringID fun_id = functions.Request (str);
   switch (fun_id)
   {
+    case XMLFUNCTION_READFILE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_READFILE);
+      }
+      break;
+    case XMLFUNCTION_WRITEFILE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_WRITEFILE);
+      }
+      break;
     case XMLFUNCTION_STRLEN:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1237,6 +1269,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         if (!ParseExpression (local_vars, child, h, "y", "bb_movelayer"))
 	  return false;
 	h->AddOperation (CEL_OPERATION_BB_MOVELAYER);
+        break;
+      case XMLTOKEN_REPORTERROR:
+        if (!ParseExpression (local_vars, child, h, "message", "reporterror"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_REPORTERROR);
         break;
       case XMLTOKEN_SOUND:
         if (!ParseExpression (local_vars, child, h, "name", "sound"))

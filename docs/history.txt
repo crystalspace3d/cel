@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Jan-2004
+	- Jorrit added 'reporterror' command to the XML behaviour
+	  layer and the 'readfile', and 'writefile' functions.
 20-Jan-2004
 	- Jorrit and Eric added a 'bootstrap_static' to CEL so you can
 	  make a static version of boostrap.
