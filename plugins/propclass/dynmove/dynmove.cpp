@@ -95,33 +95,17 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcDynamicSystem::PcDynamicSystem)
   SCF_IMPLEMENTS_INTERFACE (iPcDynamicSystem)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcDynamicSystem::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 celPcDynamicSystem::celPcDynamicSystem (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDynamicSystem);
-  DG_TYPE (this, "celPcDynamicSystem()");
   delta = 0.01f;
-  scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 }
 
 celPcDynamicSystem::~celPcDynamicSystem ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 void celPcDynamicSystem::ProcessForces (float dt)
@@ -151,41 +135,36 @@ void celPcDynamicSystem::ProcessForces (float dt)
   }
 }
 
-bool celPcDynamicSystem::HandleEvent (iEvent& ev)
+void celPcDynamicSystem::TickEveryFrame ()
 {
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
+  GetDynamicSystem ();
+  csTicks elapsed_time = vc->GetElapsedTicks ();
+  float et = float (elapsed_time) / 1000.0;
+  while (et >= delta)
   {
-    GetDynamicSystem ();
-    csTicks elapsed_time = vc->GetElapsedTicks ();
-    float et = float (elapsed_time) / 1000.0;
-    while (et >= delta)
-    {
-      ProcessForces (delta);
-      dynamics->Step (delta);
-      et -= delta;
-    }
-    // Do the remainder.
-    if (et > SMALL_EPSILON)
-    {
-      ProcessForces (et);
-      dynamics->Step (et);
-    }
-
-    // Delete all expired forces and forces that were only
-    // meant to be here for one frame.
-    size_t i;
-    for (i = 0 ; i < forces.Length () ; i++)
-    {
-      celForce& f = forces[i];
-      if (f.frame || f.seconds <= 0)
-      {
-        forces.DeleteIndex (i);
-        i--;
-      }
-    }
+    ProcessForces (delta);
+    dynamics->Step (delta);
+    et -= delta;
+  }
+  // Do the remainder.
+  if (et > SMALL_EPSILON)
+  {
+    ProcessForces (et);
+    dynamics->Step (et);
   }
 
-  return false;
+  // Delete all expired forces and forces that were only
+  // meant to be here for one frame.
+  size_t i;
+  for (i = 0 ; i < forces.Length () ; i++)
+  {
+    celForce& f = forces[i];
+    if (f.frame || f.seconds <= 0)
+    {
+      forces.DeleteIndex (i);
+      i--;
+    }
+  }
 }
 
 iDynamicSystem* celPcDynamicSystem::GetDynamicSystem ()
@@ -219,8 +198,7 @@ iDynamicSystem* celPcDynamicSystem::GetDynamicSystem ()
 
 csPtr<iCelDataBuffer> celPcDynamicSystem::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (DYNSYS_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNSYS_SERIAL);
   databuf->SetDataCount (4);
   int j = 0;
   databuf->GetData (j++)->Set (dynsystem->GetGravity ());
@@ -345,8 +323,7 @@ celPcDynamicBody::~celPcDynamicBody ()
 
 csPtr<iCelDataBuffer> celPcDynamicBody::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (DYNBODY_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNBODY_SERIAL);
   int body_info_cnt = 0;
   switch (btype)
   {

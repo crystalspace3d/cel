@@ -31,12 +31,14 @@
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
 #include "csutil/parray.h"
+#include "csutil/cseventq.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
+#include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
@@ -54,11 +56,18 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPlLayer::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+SCF_IMPLEMENT_IBASE (celPlLayer::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
 celPlLayer::celPlLayer (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   entities_hash_dirty = false;
+  scfiEventHandler = 0;
+
+  compress_delay = 300;
 }
 
 celPlLayer::~celPlLayer ()
@@ -73,14 +82,65 @@ celPlLayer::~celPlLayer ()
     iCelEntityRemoveCallback* callback = removecallbacks[j];
     delete callback;
   }
+
+  if (scfiEventHandler)
+  {
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q != 0)
+      q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
+  }
+}
+
+bool celPlLayer::HandleEvent (iEvent& ev)
+{
+  if (ev.Type != csevBroadcast) return false;
+
+  CallbackPCInfo* cbinfo = GetCBInfo (ev.Command.Code);
+  if (!cbinfo) return false;
+
+  // First fire all property classes that must be fired every frame.
+  size_t i;
+  bool compress = false;
+  for (i = 0 ; i < cbinfo->every_frame.Length () ; i++)
+  {
+    iCelPropertyClass* pc = cbinfo->every_frame[i];
+    if (pc)
+      pc->TickEveryFrame ();
+    else
+      compress = true;
+  }
+  if (compress) CompressCallbackPCInfo ();
+
+  // Then fire all property classes that are interested in receiving
+  // events if the alloted time has exceeded. The property classes
+  // are added in reverse order so that the top of the array is the
+  // one that will fire first.
+  csTicks current_time = vc->GetCurrentTicks ();
+  csSafeCopyArray<CallbackPCTiming>& cbs = cbinfo->timed_callbacks;
+  while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
+  {
+    CallbackPCTiming pcfire = cbs.Pop ();
+    if (pcfire.pc)
+      pcfire.pc->TickOnce ();
+  }
+
+  return true;
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
   idlist.Clear ();
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return false;	// Engine is required.
+
+  scfiEventHandler = new EventHandler (this);
+  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  unsigned int trigger = CSMASK_Nothing;
+  q->RegisterListener (scfiEventHandler, trigger);
+
   return true;
 }
 
@@ -534,3 +594,90 @@ void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
   if (removecallbacks.Find (callback) == csArrayItemNotFound) return;
   removecallbacks.Delete (callback);
 }
+
+CallbackPCInfo* celPlLayer::GetCBInfo (int where)
+{
+  switch (where)
+  {
+    case cscmdPreProcess: return &callbacks_pre;
+    case cscmdProcess: return &callbacks_process;
+    case cscmdPostProcess: return &callbacks_post;
+    case cscmdFinalProcess: return &callbacks_final;
+    default: return 0;
+  }
+}
+
+void celPlLayer::CompressCallbackPCInfo ()
+{
+  compress_delay--;
+  if (compress_delay > 0) return;
+  compress_delay = 300;
+
+  int p[4] = { cscmdPreProcess, cscmdProcess, cscmdPostProcess,
+  	cscmdFinalProcess };
+  int where;
+  for (where = 0 ; where < 4 ; where++)
+  {
+    CallbackPCInfo* cbinfo = GetCBInfo (p[where]);
+    size_t i;
+    for (i = 0 ; i < cbinfo->every_frame.Length () ; )
+      if (cbinfo->every_frame[i] == 0)
+        cbinfo->every_frame.DeleteIndex (i);
+      else
+        i++;
+  }
+}
+
+void celPlLayer::CallbackPCEveryFrame (iCelPropertyClass* pc, int where)
+{
+  RemoveCallbackPCEveryFrame (pc, where);
+  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  if (!cbinfo) return;
+  cbinfo->every_frame.Push (pc);
+}
+
+static int CompareTimedCallback (CallbackPCTiming const& r1,
+	CallbackPCTiming const& r2)
+{
+  // Reverse sort!
+  if (r1.time_to_fire < r2.time_to_fire) return 1;
+  else if (r2.time_to_fire < r1.time_to_fire) return -1;
+  else return 0;
+}
+
+void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
+	int where)
+{
+  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  if (!cbinfo) return;
+  CallbackPCTiming cbtime;
+  cbtime.pc = pc;
+  cbtime.time_to_fire = vc->GetCurrentTicks () + delta;
+
+  // We insert the lowest times last so that we can easily Pop them
+  // from there.
+  cbinfo->timed_callbacks.InsertSorted (cbtime, CompareTimedCallback);
+}
+
+void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
+{
+  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  size_t i;
+  for (i = 0 ; i < cbinfo->every_frame.Length () ; )
+    if (cbinfo->every_frame[i] == pc)
+      cbinfo->every_frame.DeleteIndex (i);
+    else
+      i++;
+}
+
+void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
+{
+  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  size_t i;
+  for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+    if (cbinfo->timed_callbacks[i].pc == pc)
+      cbinfo->timed_callbacks.DeleteIndex (i);
+    else
+      i++;
+}
+

@@ -24,8 +24,10 @@
 #include "iutil/comp.h"
 #include "csutil/scf.h"
 #include "csutil/refarr.h"
+#include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
+#include "physicallayer/pl.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -57,6 +59,7 @@ private:
 protected:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
+  csWeakRef<iCelPlLayer> pl;
 
 protected:
   void FirePropertyChangeCallback (int propertyId);
@@ -114,6 +117,8 @@ public:
   {
     propclasses_dirty = true;
   }
+  virtual void TickEveryFrame () { }
+  virtual void TickOnce () { }
 };
 
 #endif // __CEL_CELTOOL_STDPC__

@@ -24,9 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
-#include "csutil/weakref.h"
 #include "csutil/parray.h"
-#include "csutil/weakref.h"
 #include "csutil/hash.h"
 #include "csutil/hashhandlers.h"
 #include "csutil/stringarray.h"
@@ -72,7 +70,6 @@ struct SpawnInfo
 class celPcSpawn : public celPcCommon
 {
 private:
-  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   bool enabled;
   csTicks mindelay, maxdelay, delay_todo;
@@ -91,7 +88,6 @@ public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
 
-  bool HandleEvent (iEvent& ev);
   void SetEnabled (bool e) { enabled = e; }
   bool IsEnabled () const { return enabled; }
   void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
@@ -108,6 +104,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickOnce ();
 
   struct PcSpawn : public iPcSpawn
   {
@@ -126,7 +123,8 @@ public:
     {
       va_list arg;
       va_start (arg, params);
-      scfParent->AddEntityType (chance, name, bl, behaviour, msg_id, params, arg);
+      scfParent->AddEntityType (chance, name, bl, behaviour, msg_id,
+      	params, arg);
       va_end (arg);
     }
     virtual void ClearEntityList ()
@@ -143,27 +141,6 @@ public:
       scfParent->Reset ();
     }
   } scfiPcSpawn;
-
-  // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcSpawn* parent;
-
-  public:
-    EventHandler (celPcSpawn* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 #endif // __CEL_PF_SPAWNFACT__

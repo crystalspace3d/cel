@@ -10,5 +10,7 @@ SubVariant static ;
 Application bootstrap_static : [ Wildcard *.cpp *.h ] :
   independent noinstall nohelp ;
 LinkStaticPlugins bootstrap_static : $(STATIC.PLUGINLIST) ;
+CFlags bootstrap_static : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+ExternalLibs bootstrap_static : CRYSTAL ;
 SubVariant ;
 }

@@ -75,10 +75,6 @@ SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLinearMovement)
 SCF_IMPLEMENT_IBASE_EXT_END
 
-SCF_IMPLEMENT_IBASE (celPcLinearMovement::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcLinearMovement::PcLinearMovement)
   SCF_IMPLEMENTS_INTERFACE (iPcLinearMovement)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
@@ -134,10 +130,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 
-  scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  q->RegisterListener (scfiEventHandler, ~CSMASK_Broadcast);
-
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc) MoveReport (object_reg, "iVirtualClock Missing!");
 
@@ -145,14 +137,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   if (!engine)
   {
     MoveReport (object_reg, "Engine missing!");
-    return;
-  }
-
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
-  if (!pl)
-  {
-    MoveReport (object_reg, "Physical layer missing!");
     return;
   }
 
@@ -180,20 +164,13 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   deltaLimit = 0;
 
   if (action_initcd == csInvalidStringID)
-  {
     action_initcd = pl->FetchStringID ("cel.action.InitCD");
-  }
+
+  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 }
 
 celPcLinearMovement::~celPcLinearMovement ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 #define LINMOVE_SERIAL 2
@@ -640,30 +617,25 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
 }
 
-bool celPcLinearMovement::HandleEvent (iEvent& ev)
+void celPcLinearMovement::TickEveryFrame ()
 {
   FindSiblingPropertyClasses ();
   if (!pcmesh)
   {
     MoveReport (object_reg, "No Mesh found on entity!");
-    return false;
+    return;
   }
-
-  if (ev.Type != csevBroadcast || ev.Command.Code != cscmdPreProcess)
-    return false;
 
   csTicks elapsed_time = vc->GetElapsedTicks ();
   if (!elapsed_time)
-    return false;
+    return;
 
   float delta = elapsed_time/1000.0;
   if (deltaLimit != 0)
-      delta = MIN(delta, deltaLimit);
+    delta = MIN(delta, deltaLimit);
 
   // Adjust the properties.
   ExtrapolatePosition (delta);
-
-  return false;
 }
 
 bool celPcLinearMovement::InitCD (iPcCollisionDetection *pc_cd)

@@ -46,7 +46,7 @@ struct iCelEntityRemoveCallback : public iBase
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 };
 
-SCF_VERSION (iCelPlLayer, 0, 1, 0);
+SCF_VERSION (iCelPlLayer, 0, 1, 1);
 
 /**
  * This is the Physical Layer itself.
@@ -182,7 +182,8 @@ struct iCelPlLayer : public iBase
   /**
    * Get the specificied property class factory.
    */
-  virtual iCelPropertyClassFactory* GetPropertyClassFactory (size_t idx) const = 0;
+  virtual iCelPropertyClassFactory* GetPropertyClassFactory (size_t idx)
+  	const = 0;
 
   /**
    * Find a property class factory by name.
@@ -276,6 +277,39 @@ struct iCelPlLayer : public iBase
    * Removes an registered RemoveCallback.
    */
   virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
+
+  //-------------------------------------------------------------------------
+
+  /**
+   * Register this property class as one that is interested in getting
+   * an event every frame. This will call iCelPropertyClass->Tick().
+   * \param pc is the property class.
+   * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
+   * or cscmdFinalProcess.
+   */
+  virtual void CallbackPCEveryFrame (iCelPropertyClass* pc, int where) = 0;
+
+  /**
+   * Register this property class as one that is interested in getting
+   * an event in 'delta' milliseconds. This will call iCelPropertyClass->Tick().
+   * \param pc is the property class.
+   * \param delta is the time to wait before firing in milliseconds.
+   * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
+   * or cscmdFinalProcess.
+   */
+  virtual void CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
+  	int where) = 0;
+
+  /**
+   * Remove all 'every-frame' callbacks to a specific pc.
+   */
+  virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc,
+  	int where) = 0;
+
+  /**
+   * Remove all 'once' callbacks to a specific pc.
+   */
+  virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where) = 0;
 };
 
 #endif // __CEL_PL_PL__

@@ -46,7 +46,6 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
-  DG_TYPE (this, "celPcTest()");
 }
 
 celPcTest::~celPcTest ()
@@ -57,8 +56,7 @@ celPcTest::~celPcTest ()
 
 csPtr<iCelDataBuffer> celPcTest::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TEST_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
   databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }

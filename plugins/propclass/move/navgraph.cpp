@@ -373,9 +373,6 @@ int celPcNavGraph::LinkNodes ()
   // region This could be implemented later if it makes sense.
 
   // Iterate through each pair of Nodes
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(object_reg, iCelPlLayer);
-  if(!pl.IsValid()) return 0; // No Physical Layer. This is bad.
-
   iCelPropertyClass* pc;
 
   numnodes = aNodes.Length();

@@ -55,15 +55,10 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTooltip::PcTooltip)
   SCF_IMPLEMENTS_INTERFACE (iPcTooltip)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcTooltip::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
-  scfiEventHandler = 0;
   visible = false;
   text = 0;
   text_r = 0;
@@ -72,27 +67,20 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
   bg_r = 255;
   bg_g = 255;
   bg_b = 0;
-  DG_TYPE (this, "celPcTooltip()");
+  G3D = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  G2D = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
 }
 
 celPcTooltip::~celPcTooltip ()
 {
   delete[] text;
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 #define TOOLTIP_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcTooltip::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TOOLTIP_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TOOLTIP_SERIAL);
   databuf->SetDataCount (10);
   databuf->GetData (0)->Set (visible);
   databuf->GetData (1)->Set ((uint16)x);
@@ -140,12 +128,7 @@ void celPcTooltip::Hide ()
 {
   if (!visible) return;
   visible = false;
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    CS_ASSERT (q != 0);
-    q->RemoveListener (scfiEventHandler);
-  }
+  pl->RemoveCallbackPCEveryFrame (this, cscmdPostProcess);
 }
 
 void celPcTooltip::Show (int x, int y)
@@ -154,41 +137,26 @@ void celPcTooltip::Show (int x, int y)
   celPcTooltip::y = y;
   if (visible) return;
   visible = true;
-  if (!scfiEventHandler)
-  {
-    scfiEventHandler = new EventHandler (this);
-  }
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
+  pl->CallbackPCEveryFrame (this, cscmdPostProcess);
 }
 
-bool celPcTooltip::HandleEvent (iEvent& ev)
+void celPcTooltip::TickEveryFrame ()
 {
-  if (!visible) return false;
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPostProcess)
-  {
-    csRef<iGraphics3D> G3D (CS_QUERY_REGISTRY (object_reg, iGraphics3D));
-    csRef<iGraphics2D> G2D (CS_QUERY_REGISTRY (object_reg, iGraphics2D));
-
-    G3D->BeginDraw (CSDRAW_2DGRAPHICS);
-    iFontServer* fntsvr = G2D->GetFontServer ();
-    CS_ASSERT (fntsvr != 0);
-    csRef<iFont> fnt = fntsvr->LoadFont (CSFONT_COURIER);
-    CS_ASSERT (fnt != 0);
-    //int fw, fh;
-    //fnt->GetMaxSize (fw, fh);
-    //int sw = G2D->GetWidth ();
-    //int sh = G2D->GetHeight ();
-    int fgcolor = G2D->FindRGB (text_r, text_g, text_b);
-    int bgcolor = bg_r == -1 ? 0 : G2D->FindRGB (bg_r, bg_g, bg_b);
-    //G2D->DrawBox (x, y, w, h, bgcolor);
-    //int maxlen = fnt->GetLength (text, w-10);
-    G2D->Write (fnt, x, y, fgcolor, bgcolor, text);
-  }
-  return false;
+  if (!visible) return;
+  G3D->BeginDraw (CSDRAW_2DGRAPHICS);
+  iFontServer* fntsvr = G2D->GetFontServer ();
+  CS_ASSERT (fntsvr != 0);
+  csRef<iFont> fnt = fntsvr->LoadFont (CSFONT_COURIER);
+  CS_ASSERT (fnt != 0);
+  //int fw, fh;
+  //fnt->GetMaxSize (fw, fh);
+  //int sw = G2D->GetWidth ();
+  //int sh = G2D->GetHeight ();
+  int fgcolor = G2D->FindRGB (text_r, text_g, text_b);
+  int bgcolor = bg_r == -1 ? 0 : G2D->FindRGB (bg_r, bg_g, bg_b);
+  //G2D->DrawBox (x, y, w, h, bgcolor);
+  //int maxlen = fnt->GetLength (text, w-10);
+  G2D->Write (fnt, x, y, fgcolor, bgcolor, text);
 }
 
 //---------------------------------------------------------------------------
@@ -201,10 +169,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
   SCF_IMPLEMENTS_INTERFACE (iPcTimer)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcTimer::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 csStringID celPcTimer::action_wakeup = csInvalidStringID;
 csStringID celPcTimer::action_wakeupframe = csInvalidStringID;
 csStringID celPcTimer::action_clear = csInvalidStringID;
@@ -216,15 +180,12 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
-  scfiEventHandler = 0;
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
   if (action_wakeup == csInvalidStringID)
   {
     action_wakeup = pl->FetchStringID ("cel.action.WakeUp");
@@ -240,13 +201,6 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 
 celPcTimer::~celPcTimer ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 bool celPcTimer::PerformAction (csStringID actionId,
@@ -284,15 +238,13 @@ bool celPcTimer::PerformAction (csStringID actionId,
 
 csPtr<iCelDataBuffer> celPcTimer::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TIMER_SERIAL));
-  databuf->SetDataCount (6);
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TIMER_SERIAL);
+  databuf->SetDataCount (5);
   databuf->GetData (0)->Set (enabled);
   databuf->GetData (1)->Set ((int32)wakeup);
-  databuf->GetData (2)->Set ((int32)wakeup_todo);
-  databuf->GetData (3)->Set (repeat);
-  databuf->GetData (4)->Set (wakeupframe);
-  databuf->GetData (5)->Set (wakeuponce);
+  databuf->GetData (2)->Set (repeat);
+  databuf->GetData (3)->Set (wakeupframe);
+  databuf->GetData (4)->Set (wakeuponce);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -300,19 +252,17 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TIMER_SERIAL) return false;
-  if (databuf->GetDataCount () != 6) return false;
+  if (databuf->GetDataCount () != 5) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
   enabled = cd->value.bo;
   cd = databuf->GetData (1); if (!cd) return false;
   wakeup = cd->value.l;
   cd = databuf->GetData (2); if (!cd) return false;
-  wakeup_todo = cd->value.l;
-  cd = databuf->GetData (3); if (!cd) return false;
   repeat = cd->value.bo;
-  cd = databuf->GetData (4); if (!cd) return false;
+  cd = databuf->GetData (3); if (!cd) return false;
   wakeupframe = cd->value.bo;
-  cd = databuf->GetData (5); if (!cd) return false;
+  cd = databuf->GetData (4); if (!cd) return false;
   wakeuponce = cd->value.bo;
 
   return true;
@@ -323,31 +273,19 @@ void celPcTimer::Clear ()
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    CS_ASSERT (q != 0);
-    q->RemoveListener (scfiEventHandler);
-  }
+  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
+  pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
 }
 
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
   wakeuponce = true;
-  if (!scfiEventHandler)
-  {
-    scfiEventHandler = new EventHandler (this);
-  }
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
+  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
+  pl->CallbackPCOnce (this, t, cscmdPreProcess);
 
   celPcTimer::repeat = repeat;
   wakeup = t;
-  wakeup_todo = 0;
 }
 
 void celPcTimer::WakeUpFrame ()
@@ -355,64 +293,48 @@ void celPcTimer::WakeUpFrame ()
   if (wakeupframe) return;
   enabled = true;
   wakeupframe = true;
-  if (!scfiEventHandler)
-  {
-    scfiEventHandler = new EventHandler (this);
-  }
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
+  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 }
 
-bool celPcTimer::HandleEvent (iEvent& ev)
+void celPcTimer::TickEveryFrame ()
 {
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
+  // To prevent the entity from being deleted during
+  // the call of pctimer_wakeupframe we keep a temporary reference
+  // here.
+  csRef<iCelEntity> ref;
+  if (wakeupframe)
   {
-    // To prevent the entity from being deleted during
-    // the call of pctimer_wakeupframe we keep a temporary reference
-    // here.
-    csRef<iCelEntity> ref;
-    if (wakeupframe)
-    {
-      ref = entity;
-      iCelBehaviour* bh = entity->GetBehaviour ();
-      CS_ASSERT (bh != 0);
-      params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
-      params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
-      celData ret;
-      bh->SendMessage ("pctimer_wakeupframe", ret, params);
-    }
-    if (wakeuponce)
-    {
-      csTicks elapsed = vc->GetElapsedTicks ();
-      wakeup_todo += elapsed;
-      if (wakeup_todo >= wakeup)
-      {
-        if (repeat)
-        {
-          wakeup_todo = 0;
-        }
-        else
-        {
-	  if (wakeupframe)
-	  {
-	    wakeuponce = false;
-	  }
-	  else
-	  {
-            Clear ();
-	  }
-        }
-        iCelBehaviour* bh = entity->GetBehaviour ();
-        CS_ASSERT (bh != 0);
-	celData ret;
-        bh->SendMessage ("pctimer_wakeup", ret, 0);
-      }
-    }
+    ref = entity;
+    iCelBehaviour* bh = entity->GetBehaviour ();
+    CS_ASSERT (bh != 0);
+    params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
+    params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
+    celData ret;
+    bh->SendMessage ("pctimer_wakeupframe", ret, params);
   }
-  return false;
+}
+
+void celPcTimer::TickOnce ()
+{
+  // To prevent the entity from being deleted during
+  // the call of pctimer_wakeupframe we keep a temporary reference
+  // here.
+  csRef<iCelEntity> ref;
+  if (wakeuponce)
+  {
+    if (repeat)
+    {
+      pl->CallbackPCOnce (this, wakeup, cscmdPreProcess);
+    }
+    else
+    {
+      wakeuponce = false;
+    }
+    iCelBehaviour* bh = entity->GetBehaviour ();
+    CS_ASSERT (bh != 0);
+    celData ret;
+    bh->SendMessage ("pctimer_wakeup", ret, 0);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -432,13 +354,8 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
-
   if (id_index == csInvalidStringID)
-  {
     id_index = pl->FetchStringID ("cel.parameter.index");
-  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_index, "index");
   properties_hash_dirty = false;
@@ -630,8 +547,7 @@ iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
 
 csPtr<iCelDataBuffer> celPcProperties::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (PROPERTIES_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROPERTIES_SERIAL);
   databuf->SetDataCount (properties.Length ()*3);
   size_t i, j = 0;
   for (i = 0 ; i < properties.Length () ; i++)
