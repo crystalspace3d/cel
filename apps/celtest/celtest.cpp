@@ -37,7 +37,6 @@
 #include "iengine/campos.h"
 #include "iengine/collectn.h"
 #include "iengine/light.h"
-#include "iengine/statlght.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
