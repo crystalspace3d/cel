@@ -631,7 +631,9 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
       iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
       if (pf)
       {
-        pc = pf->CreatePropertyClass();
+        csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
+        pc = pcref;
+	pcref->IncRef ();	// Avoid smart pointer release.
 	if (pc)
 	{
           iCelDataBuffer* db;

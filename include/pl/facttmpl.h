@@ -38,7 +38,7 @@ public:									    \
   bool Initialize (iObjectRegistry* object_reg);			    \
   SCF_DECLARE_IBASE;							    \
   virtual const char* GetName() const;					    \
-  virtual iCelPropertyClass* CreatePropertyClass ();			    \
+  virtual csPtr<iCelPropertyClass> CreatePropertyClass ();		    \
 									    \
   struct Component : public iComponent					    \
   {									    \
@@ -84,9 +84,9 @@ const char* celPf##name::GetName() const				    \
 {									    \
   return strname;							    \
 }									    \
-iCelPropertyClass* celPf##name::CreatePropertyClass()			    \
+csPtr<iCelPropertyClass> celPf##name::CreatePropertyClass()		    \
 {									    \
-  return new celPc##name (object_reg);					    \
+  return csPtr<iCelPropertyClass> (new celPc##name (object_reg));	    \
 }									    \
 bool celPf##name::Component::Initialize (iObjectRegistry* p)		    \
 {									    \
