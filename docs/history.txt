@@ -10,6 +10,8 @@
 	  The code is untested and there are still a few things I'd like to
 	  do with it to make sure it is general enough to be used in games
 	  other than PlaneShift.
+	- Jorrit reports: Conforming to the C++ standard I replaced all NULL
+	  with 0 (like was done in CS some time ago).
 24-Jun-2003
 	- Jorrit fixed the CEL python plugin to latest CS.
 	- Jorrit made celtest use OpenGL by default.

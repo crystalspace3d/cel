@@ -106,7 +106,7 @@ struct iPcProperties : public iBase
   virtual bool GetPropertyBool (int index) const = 0;
 
   /**
-   * Get property as string. Returns NULL if wrong type.
+   * Get property as string. Returns 0 if wrong type.
    */
   virtual const char* GetPropertyString (int index) const = 0;
 

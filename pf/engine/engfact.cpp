@@ -105,7 +105,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-  scfiEventHandler = NULL;
+  scfiEventHandler = 0;
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
@@ -116,9 +116,9 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   rect_set = false;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
-  CS_ASSERT (kbd != NULL);
+  CS_ASSERT (kbd != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  CS_ASSERT (vc != NULL);
+  CS_ASSERT (vc != 0);
   followpos.Set(0,0,0);
   followat.Set(0,0,0);
 
@@ -149,7 +149,7 @@ void celPcCamera::SetupEventHandler ()
     scfiEventHandler = new EventHandler (this);
   }
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != NULL);
+  CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
@@ -356,7 +356,7 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
         region->PointCamera(camera, name);
     else
     {
-      // camera->GetCamera ()->SetSector (NULL);
+      // camera->GetCamera ()->SetSector (0);
       camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
     }
   }
@@ -448,7 +448,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   }
   if (pc) region = SCF_QUERY_INTERFACE (pc, iPcRegion);
   if (region)
-      SetRegion(region, false, NULL);
+      SetRegion(region, false, 0);
 
   const char* sectname;
   db.Get(sectname);
@@ -532,9 +532,9 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   propdata[propid_worldfile] = &worldfile;
   propdata[propid_regionname] = &regionname;
 
-  worlddir = NULL;
-  worldfile = NULL;
-  regionname = NULL;
+  worlddir = 0;
+  worldfile = 0;
+  regionname = 0;
   loaded = false;
 
   DG_TYPE (this, "celPcRegion()");
@@ -581,9 +581,9 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   celDataBufHelper db(databuf);
 
   Unload ();
-  delete[] worlddir; worlddir = NULL;
-  delete[] worldfile; worldfile = NULL;
-  delete[] regionname; regionname = NULL;
+  delete[] worlddir; worlddir = 0;
+  delete[] worldfile; worldfile = 0;
+  delete[] regionname; regionname = 0;
 
   const char* strp;
   if (!db.Get(strp))
@@ -621,14 +621,14 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
 }
 
 int celPcRegion::propertycount = 0;
-Property* celPcRegion::properties = NULL;
+Property* celPcRegion::properties = 0;
 
 void celPcRegion::UpdateProperties( iObjectRegistry* object_reg )
 {
   if( propertycount == 0 )
   {
     csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY( object_reg, iCelPlLayer ));
-    CS_ASSERT( pl != NULL );
+    CS_ASSERT( pl != 0 );
 
     propertycount = 4;
     properties = new Property[propertycount];
@@ -718,14 +718,14 @@ bool celPcRegion::Load ()
   }
 
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   iRegion* cur_region = engine->CreateRegion (regionname);
   cur_region->DeleteAll ();
 
   csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
-  CS_ASSERT (loader != NULL);
+  CS_ASSERT (loader != 0);
   csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (VFS != NULL);
+  CS_ASSERT (VFS != 0);
   VFS->ChDir (worlddir);
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile (worldfile, false, cur_region, true))
@@ -741,7 +741,7 @@ bool celPcRegion::Load ()
   // Create entities for all meshes in this region.
   {
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  CS_ASSERT (pl != NULL);
+  CS_ASSERT (pl != 0);
   iCelPropertyClass* pc;
   csRef<iObjectIterator> iter (cur_region->QueryObject ()->GetIterator ());
   while (iter->HasNext ())
@@ -773,7 +773,7 @@ void celPcRegion::Unload ()
   if (!loaded) return;
   loaded = false;
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
 
   iRegion* cur_region = engine->CreateRegion (regionname);
 
@@ -796,7 +796,7 @@ iSector* celPcRegion::FindSector (const char* name)
 iSector* celPcRegion::GetStartSector (const char* name)
 {
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   iSector* sector;
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
@@ -816,7 +816,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
 csVector3 celPcRegion::GetStartPosition (const char* name)
 {
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   csVector3 pos (0);
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
@@ -830,7 +830,7 @@ csVector3 celPcRegion::GetStartPosition (const char* name)
 
 void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
 {
-  CS_ASSERT(pccamera != NULL);
+  CS_ASSERT(pccamera != 0);
 
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   if (engine->GetCameraPositions()->GetCount() > 0)

@@ -86,8 +86,8 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   celPcCommandInput::object_reg = object_reg;
   DG_TYPE (this, "celPcCommandInput()");
 
-  maplist = NULL;
-  scfiEventHandler = NULL;
+  maplist = 0;
+  scfiEventHandler = 0;
 
   Activate ();
 }
@@ -171,7 +171,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     celKeyMap* newmap = new celKeyMap ();
     // Add a new entry to key mapping list
     newmap->next = maplist;
-    newmap->prev = NULL;
+    newmap->prev = 0;
     newmap->key = key;
     newmap->command = new char[strlen (*cd->value.s)+2];
     strcpy (newmap->command, *cd->value.s);
@@ -207,7 +207,7 @@ void celPcCommandInput::Activate (bool activate)
     CS_ASSERT (q);
     q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
-    scfiEventHandler = NULL;
+    scfiEventHandler = 0;
   }
 }
 
@@ -233,7 +233,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
     newmap->next=maplist;
-    newmap->prev=NULL;
+    newmap->prev=0;
     newmap->key=key;
     newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
     strcpy (newmap->command, "pckeyinput_");
@@ -263,14 +263,14 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
 {
   int key, shift;
   if (!csParseKeyDef (triggername, key, shift, false))
-    return NULL;
+    return 0;
   
   if (shift != 0)
-    return NULL;
+    return 0;
 
   celKeyMap* map;
   if (!(map = GetMap (key)))
-    return NULL;
+    return 0;
 
   return map->command+11;
 }
@@ -319,9 +319,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       p->is_on=false;
       iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != NULL);
+      CS_ASSERT(bh != 0);
       *(p->command_end) = '0';
-      bh->SendMessage (p->command, NULL);
+      bh->SendMessage (p->command, 0);
       *(p->command_end) = 0;
     }
   }
@@ -331,9 +331,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       p->is_on=true;
       iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != NULL);
+      CS_ASSERT(bh != 0);
       *(p->command_end) = '1';
-      bh->SendMessage (p->command, NULL);
+      bh->SendMessage (p->command, 0);
       *(p->command_end) = 0;
     }
   }

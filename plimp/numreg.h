@@ -37,7 +37,7 @@ public:
   void* Get(CS_ID id)
   { 
     if (id>=listsize)
-      return NULL;
+      return 0;
     
     return list[id];
   }

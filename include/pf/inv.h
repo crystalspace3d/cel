@@ -118,14 +118,14 @@ struct iPcInventory : public iBase
   /**
    * Mark this characteristic as dirty for this inventory and
    * all inventories this entity is in.
-   * If 'charName' == NULL then all characteristics
+   * If 'charName' == 0 then all characteristics
    * will be marked dirty.
    */
   virtual void MarkDirty (const char* charName) = 0;
 
   /**
    * Test constraints for this characteristic for this inventory
-   * and all inventories * this entity is in. If 'charName' == NULL
+   * and all inventories * this entity is in. If 'charName' == 0
    * then all characteristics will be tested.
    */
   virtual bool TestConstraints (const char* charName) = 0;

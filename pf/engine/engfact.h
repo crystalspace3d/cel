@@ -141,7 +141,7 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
     virtual bool SetRegion (iPcRegion* region, bool point = true,
-	const char* name = NULL)
+	const char* name = 0)
     {
       return scfParent->SetRegion(region,point,name);
     }
@@ -208,7 +208,7 @@ public:
   public:
     EventHandler (celPcCamera* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler () { }
@@ -306,15 +306,15 @@ public:
     {
       scfParent->Unload ();
     }
-    virtual iSector* GetStartSector (const char* name = NULL)
+    virtual iSector* GetStartSector (const char* name = 0)
     {
       return scfParent->GetStartSector (name);
     }
-    virtual csVector3 GetStartPosition (const char* name = NULL)
+    virtual csVector3 GetStartPosition (const char* name = 0)
     {
       return scfParent->GetStartPosition (name);
     }
-    virtual void PointCamera (iPcCamera* pccamera, const char* name = NULL)
+    virtual void PointCamera (iPcCamera* pccamera, const char* name = 0)
     {
       scfParent->PointCamera (pccamera, name);
     }

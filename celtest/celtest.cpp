@@ -109,7 +109,7 @@ void CelTest::SetupFrame ()
 void CelTest::FinishFrame ()
 {
   g3d->FinishDraw ();
-  g3d->Print (NULL);
+  g3d->Print (0);
 }
 
 bool CelTest::HandleEvent (iEvent& ev)
@@ -159,11 +159,11 @@ bool CelTest::HandleEvent (iEvent& ev)
       printf ("Loading from '/this/savefile\n"); fflush (stdout);
       if (game)
       {
-	game = NULL;
+	game = 0;
 	pl->CleanCache ();
       }
-      csDebuggingGraph::Dump (NULL);
-      csDebuggingGraph::Clear (NULL);
+      csDebuggingGraph::Dump (0);
+      csDebuggingGraph::Clear (0);
 
       printf ("  #sectors=%d\n", engine->GetSectors ()->GetCount ());
       printf ("  #meshes=%d\n", engine->GetMeshes ()->GetCount ());
@@ -177,7 +177,7 @@ bool CelTest::HandleEvent (iEvent& ev)
       LoadTextures ();
       game = cp->LoadEntity ("/this/savefile");
 
-      csDebuggingGraph::Dump (NULL);
+      csDebuggingGraph::Dump (0);
 
       // @@@
 #if 1
@@ -188,10 +188,10 @@ bool CelTest::HandleEvent (iEvent& ev)
     {
       if (game)
       {
-	game = NULL;
+	game = 0;
 	pl->CleanCache ();
       }
-      csDebuggingGraph::Dump (NULL);
+      csDebuggingGraph::Dump (0);
       printf ("  #sectors=%d\n", engine->GetSectors ()->GetCount ());
       printf ("  #meshes=%d\n", engine->GetMeshes ()->GetCount ());
       int i;
@@ -238,36 +238,36 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name, const char* factNa
   entity_box->SetBehaviour (bltest->CreateBehaviour (entity_box, "box"));
 
   pc = pl->CreatePropertyClass (entity_box, "pcmeshselect");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmeshsel = SCF_QUERY_INTERFACE (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
 
   pc = pl->CreatePropertyClass (entity_box, "pctimer");
-  if (!pc) return NULL;
+  if (!pc) return 0;
 
   pc = pl->CreatePropertyClass (entity_box, "pcsolid");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pc = pl->CreatePropertyClass (entity_box, "pcgravity");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   csRef<iPcGravity> pcgravity (SCF_QUERY_INTERFACE (pc, iPcGravity));
   pcgravity->SetWeight (weight);
   pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_box, "pcmovable");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   //pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
   //pc = pl->CreatePropertyClass (entity_box, "pcmovableconst_cd");
-  //if (!pc) return NULL;
+  //if (!pc) return 0;
   //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   //pcmovable->AddConstraint (pcmovableconst);
 
   pc = pl->CreatePropertyClass (entity_box, "pctest");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
   pctest->Print ("Hello world!");
 
   pc = pl->CreatePropertyClass (entity_box, "pcmesh");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
   char buf[150];
   sprintf (buf, "/cel/data/%s", factName);
@@ -275,14 +275,14 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name, const char* factNa
   pcmesh->MoveMesh (room, pos);
 
   pc = pl->CreatePropertyClass (entity_box, "pcinventory");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcinv = SCF_QUERY_INTERFACE (pc, iPcInventory);
   pcinv->SetConstraints ("size", 0, max_indiv_size, max_size);
   pcinv->SetConstraints ("weight", 0, max_indiv_weight, max_weight);
   pcinv->SetStrictCharacteristics ("size", true);
 
   pc = pl->CreatePropertyClass (entity_box, "pccharacteristics");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
@@ -317,33 +317,33 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   }
 
   pc = pl->CreatePropertyClass (entity_dummy, "pctimer");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   csRef<iPcTimer> pctimer (SCF_QUERY_INTERFACE (pc, iPcTimer));
   pctimer->WakeUp (1000, true);
 
   entity_dummy->SetBehaviour (bh);
   pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
 
   pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pc = pl->CreatePropertyClass (entity_dummy, "pcgravity");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
   pcgravity->SetWeight (weight);
   pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   //pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
   //pc = pl->CreatePropertyClass (entity_dummy, "pcmovableconst_cd");
-  //if (!pc) return NULL;
+  //if (!pc) return 0;
   //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   //pcmovable->AddConstraint (pcmovableconst);
   pc = pl->CreatePropertyClass (entity_dummy, "pcmesh");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
   char buf[150];
   sprintf (buf, "/cel/data/%s", factName);
@@ -373,20 +373,20 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name, const char* /*factname
   entity_cam->SetBehaviour (bltest->CreateBehaviour (entity_cam, "actor"));
 
   pc = pl->CreatePropertyClass (entity_cam, "pckeyinput");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   csRef<iPcCommandInput> pcinp (SCF_QUERY_INTERFACE (pc, iPcCommandInput));
-  if (!pcinp) return NULL;
+  if (!pcinp) return 0;
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
   pcinp->Bind ("shift", "run");
   pcinp->Bind ("m", "cammode");
 
   pc = pl->CreatePropertyClass (entity_cam, "pccamera");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pccamera = SCF_QUERY_INTERFACE (pc, iPcCamera);
 
   pc = pl->CreatePropertyClass (entity_cam, "pcmesh");
-  if (!pc) return NULL;
+  if (!pc) return 0;
 
   pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
   char buf[150];
@@ -395,25 +395,25 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name, const char* /*factname
   pcmesh->MoveMesh (room, csVector3(0,0,0));
 
   pc = pl->CreatePropertyClass (entity_cam, "pcsolid");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pc = pl->CreatePropertyClass (entity_cam, "pcgravity");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
   pcgravity->SetWeight (.3);
   //pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
   pc = pl->CreatePropertyClass (entity_cam, "pcmovableconst_cd");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   pcmovable->AddConstraint (pcmovableconst);
 
   pc = pl->CreatePropertyClass (entity_cam, "pctooltip");
-  if (!pc) return NULL;
+  if (!pc) return 0;
 
   pc = pl->CreatePropertyClass (entity_cam, "pcmeshselect");
-  if (!pc) return NULL;
+  if (!pc) return 0;
   pcmeshsel = SCF_QUERY_INTERFACE (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetGlobalSelection (true);
@@ -691,7 +691,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   }
   pl->RegisterBehaviourLayer (bltest);
   csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (vfs != NULL);
+  CS_ASSERT (vfs != 0);
 #if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
   vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/celtest$/");
 #else // VFS_PKGDATADIR
@@ -773,7 +773,7 @@ int main (int argc, char* argv[])
   iObjectRegistry* object_reg = celtest->object_reg;
   delete celtest;
 
-  csDebuggingGraph::Dump (NULL);
+  csDebuggingGraph::Dump (0);
   csInitializer::DestroyApplication (object_reg);
   return 0;
 }

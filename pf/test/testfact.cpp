@@ -82,10 +82,10 @@ void celPcTest::PcTest::Print (const char* msg)
 {
   printf ("Print: %s\n", msg);
   fflush (stdout);
-  CS_ASSERT (scfParent->GetEntity () != NULL);
+  CS_ASSERT (scfParent->GetEntity () != 0);
   iCelBehaviour* ble = scfParent->GetEntity ()->GetBehaviour ();
-  CS_ASSERT (ble != NULL);
-  ble->SendMessage ("pctest_print", NULL);
+  CS_ASSERT (ble != 0);
+  ble->SendMessage ("pctest_print", 0);
 }
 
 //---------------------------------------------------------------------------

@@ -38,7 +38,7 @@ celEntity::celEntity (celPlLayer* pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
   plist = new celPropertyClassList (&scfiCelEntity);
-  behaviour = NULL;
+  behaviour = 0;
   celEntity::pl = pl;
   entity_ID=0;  
   DG_LINK (this, plist);
@@ -71,7 +71,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celEntityList::celEntityList ()
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   DG_ADDI (this, "celEntityList()");
 }
 
@@ -138,7 +138,7 @@ iCelEntity* celEntityList::FindByName (const char *Name) const
     iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;
   }
-  return NULL;
+  return 0;
 }
 
 //---------------------------------------------------------------------------

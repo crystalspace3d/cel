@@ -97,9 +97,9 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
   visible = true;
-  fileName = NULL;
-  factName = NULL;
-  factory_ptr = NULL;
+  fileName = 0;
+  factName = 0;
+  factory_ptr = 0;
   DG_TYPE (this, "celPcMesh()");
 }
 
@@ -110,8 +110,8 @@ celPcMesh::~celPcMesh ()
 
 void celPcMesh::Clear ()
 {
-  delete[] fileName; fileName = NULL;
-  delete[] factName; factName = NULL;
+  delete[] fileName; fileName = 0;
+  delete[] factName; factName = 0;
   if (mesh)
   {
     csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
@@ -119,12 +119,12 @@ void celPcMesh::Clear ()
       pl->UnattachEntity (mesh->QueryObject (), entity);
 
     csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-    CS_ASSERT (engine != NULL);
+    CS_ASSERT (engine != 0);
     engine->RemoveObject (mesh);
-    mesh = NULL;
+    mesh = 0;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
-  factory_ptr = NULL;
+  factory_ptr = 0;
 }
 
 #define MESH_SERIAL 1
@@ -181,14 +181,14 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
     Report (object_reg,"Factory name not specified.  Cannot load.");
     return false;
   }
-  char* factn = cd->value.s ? csStrNew (*cd->value.s) : NULL;
+  char* factn = cd->value.s ? csStrNew (*cd->value.s) : 0;
   cd = databuf->GetData (1);
   if (!cd)
   {
     Report (object_reg,"Filename not specified.  Cannot load.");
     return false;
   }
-  char* filen = cd->value.s ? csStrNew (*cd->value.s) : NULL;
+  char* filen = cd->value.s ? csStrNew (*cd->value.s) : 0;
 
   SetMesh (factn, filen);
   delete[] factn;
@@ -219,7 +219,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   uint16 cnt = cd->value.uw;
   mesh->GetMovable ()->ClearSectors ();
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   int i, j = 5;
   for (i = 0 ; i < cnt ; i++)
   {
@@ -230,7 +230,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
       return false;
     }
     iSector* s = engine->GetSectors ()->FindByName (*cd->value.s);
-    CS_ASSERT (s != NULL);
+    CS_ASSERT (s != 0);
     mesh->GetMovable ()->GetSectors ()->Add (s);
   }
 
@@ -321,15 +321,15 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
   csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
-  CS_ASSERT (loader != NULL);
+  CS_ASSERT (loader != 0);
   csRef<iMeshFactoryWrapper> imeshfact (
   	loader->LoadMeshObjectFactory (fileName));
-  if (imeshfact == NULL)
+  if (imeshfact == 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"cel.pfmesh.loadmeshfactory",
     	"Error loading mesh object factory '%s'!", fileName);
-    return NULL;
+    return 0;
   }
   return imeshfact;
 }
@@ -342,11 +342,11 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   factName = csStrNew (factname);
 
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   if (mesh)
   {
     engine->RemoveObject (mesh);
-    mesh = NULL;
+    mesh = 0;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
@@ -365,7 +365,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
       {
         // Cache the factory.
         csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-        CS_ASSERT (pl != NULL);
+        CS_ASSERT (pl != 0);
 	pl->Cache (meshfact);
       }
     }
@@ -373,7 +373,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 	printf("Found\n");
 
     if (factory_ptr)
-      factory_ptr = NULL;
+      factory_ptr = 0;
     if (meshfact)
     {
       factory_ptr = meshfact;
@@ -389,11 +389,11 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 void celPcMesh::SetMesh (iMeshWrapper* m)
 {
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   if (mesh)
   {
     engine->RemoveObject (mesh);
-    mesh = NULL;
+    mesh = 0;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
@@ -406,11 +406,11 @@ void celPcMesh::SetMesh (iMeshWrapper* m)
 void celPcMesh::CreateEmptyThing ()
 {
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   if (mesh)
   {
     engine->RemoveObject (mesh);
-    mesh = NULL;
+    mesh = 0;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
@@ -427,7 +427,7 @@ void celPcMesh::CreateEmptyThing ()
 
 void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 {
-  CS_ASSERT (mesh != NULL);
+  CS_ASSERT (mesh != 0);
   mesh->GetMovable ()->SetSector (sector);
   mesh->GetMovable ()->SetPosition (pos);
   mesh->GetMovable ()->UpdateMove ();
@@ -437,7 +437,7 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
-  CS_ASSERT (mesh != NULL);
+  CS_ASSERT (mesh != 0);
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -449,7 +449,7 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 
 void celPcMesh::SetReverseAction (bool reverse)
 {
-  CS_ASSERT (mesh != NULL);
+  CS_ASSERT (mesh != 0);
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -460,7 +460,7 @@ void celPcMesh::SetReverseAction (bool reverse)
 
 const char* celPcMesh::GetAction ()
 {
-  CS_ASSERT (mesh != NULL);
+  CS_ASSERT (mesh != 0);
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -468,7 +468,7 @@ const char* celPcMesh::GetAction ()
     const char* act = state->GetCurAction ()->GetName ();
     return act;
   }
-  return NULL;
+  return 0;
 }
 
 void celPcMesh::Hide ()
@@ -507,10 +507,10 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
-  scfiEventHandler = NULL;
-  pccamera = NULL;
+  scfiEventHandler = 0;
+  pccamera = 0;
 
-  sel_entity = NULL;
+  sel_entity = 0;
   cur_on_top = false;
   mouse_buttons = CEL_MOUSE_BUTTON1;
 
@@ -539,7 +539,7 @@ celPcMeshSelect::~celPcMeshSelect ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
-  SetCamera (NULL);
+  SetCamera (0);
 }
 
 void celPcMeshSelect::SetupEventHandler ()
@@ -549,7 +549,7 @@ void celPcMeshSelect::SetupEventHandler ()
     scfiEventHandler = new EventHandler (this);
   }
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != NULL);
+  CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
   if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
@@ -701,7 +701,7 @@ void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
 	int x, int y, int but)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
-  CS_ASSERT (bh != NULL);
+  CS_ASSERT (bh != 0);
   mesh_sel_data.Select (ent, x, y, but);
   bh->SendMessage (msg, &mesh_sel_data);
 }
@@ -728,7 +728,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   int mouse_x = ev.Mouse.x;
   int mouse_y = ev.Mouse.y;
 
-  iCelEntity* new_sel = NULL;
+  iCelEntity* new_sel = 0;
 
   // The following vectors are only set if needed.
 
@@ -753,7 +753,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       vo = camera->GetTransform ().GetO2TTranslation ();
       csVector3 isect, end = vo + (vw - vo) * 60;
 
-      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL, true);
+      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0, true);
       if (sel)
       {
         iObject* sel_obj = sel->QueryObject ();
@@ -773,9 +773,9 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     else
       pcmesh = CEL_QUERY_PROPCLASS (
       	sel_entity->GetPropertyClassList (), iPcMesh);
-    CS_ASSERT (pcmesh != NULL);
+    CS_ASSERT (pcmesh != 0);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
-    CS_ASSERT (mesh != NULL);
+    CS_ASSERT (mesh != 0);
     csVector3 mp = mesh->GetMovable ()->GetPosition ();
 
     csVector3 v0, v1;
@@ -834,7 +834,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       else if (do_sendmove)
         SendMessage ("pcmeshsel_move", sel_entity,
 		mouse_x, mouse_y, mouse_but);
-      if (mouse_up) sel_entity = NULL;
+      if (mouse_up) sel_entity = 0;
     }
     else if (do_follow_always && do_sendmove && new_sel)
       SendMessage ("pcmeshsel_move", new_sel,
@@ -855,7 +855,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_sendup && sel_entity)
         SendMessage ("pcmeshsel_up", sel_entity,
 		mouse_x, mouse_y, mouse_but);
-      sel_entity = NULL;
+      sel_entity = 0;
     }
     else
     {

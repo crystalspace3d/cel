@@ -1157,280 +1157,280 @@ void delete_iBase(iBase *self){ {if (self) {self->DecRef();}}; }
 csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		void * ptr;
 		if (!to_name || !to_name[0] || !self) ptr = 0;
-		/*@c:\proj\cs\CS\include\ivaria/cspace.i,29,APPLY_FOR_EACH_INTERFACE@*/	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+		/*@c:\proj\cs\CS\include\ivaria/cspace.i,29,APPLY_FOR_EACH_INTERFACE@*/	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iAudioStream")) ptr = (void*)(iAudioStream*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBase")) ptr = (void*)(iBase*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBinaryLoaderPlugin")) ptr = (void*)(iBinaryLoaderPlugin*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBodyGroup")) ptr = (void*)(iBodyGroup*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCamera")) ptr = (void*)(iCamera*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCameraPosition")) ptr = (void*)(iCameraPosition*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCacheManager")) ptr = (void*)(iCacheManager*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollider")) ptr = (void*)(iCollider*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollideSystem")) ptr = (void*)(iCollideSystem*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iComponent")) ptr = (void*)(iComponent*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigFile")) ptr = (void*)(iConfigFile*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigIterator")) ptr = (void*)(iConfigIterator*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigManager")) ptr = (void*)(iConfigManager*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDataBuffer")) ptr = (void*)(iDataBuffer*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDebugHelper")) ptr = (void*)(iDebugHelper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocument")) ptr = (void*)(iDocument*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocumentSystem")) ptr = (void*)(iDocumentSystem*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamics")) ptr = (void*)(iDynamics*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamicSystem")) ptr = (void*)(iDynamicSystem*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEngine")) ptr = (void*)(iEngine*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEvent")) ptr = (void*)(iEvent*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventHandler")) ptr = (void*)(iEventHandler*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventQueue")) ptr = (void*)(iEventQueue*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFactory")) ptr = (void*)(iFactory*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFile")) ptr = (void*)(iFile*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFont")) ptr = (void*)(iFont*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFontServer")) ptr = (void*)(iFontServer*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumView")) ptr = (void*)(iFrustumView*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumViewUserdata")) ptr = (void*)(iFrustumViewUserdata*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics3D")) ptr = (void*)(iGraphics3D*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics2D")) ptr = (void*)(iGraphics2D*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iHalo")) ptr = (void*)(iHalo*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImage")) ptr = (void*)(iImage*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImageIO")) ptr = (void*)(iImageIO*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iJoint")) ptr = (void*)(iJoint*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iKeyboardDriver")) ptr = (void*)(iKeyboardDriver*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLightList")) ptr = (void*)(iLightList*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoader")) ptr = (void*)(iLoader*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoaderPlugin")) ptr = (void*)(iLoaderPlugin*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterial")) ptr = (void*)(iMaterial*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterialWrapper")) ptr = (void*)(iMaterialWrapper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshFactoryWrapper")) ptr = (void*)(iMeshFactoryWrapper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObject")) ptr = (void*)(iMeshObject*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectFactory")) ptr = (void*)(iMeshObjectFactory*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectType")) ptr = (void*)(iMeshObjectType*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshWrapper")) ptr = (void*)(iMeshWrapper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iModelConverter")) ptr = (void*)(iModelConverter*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovable")) ptr = (void*)(iMovable*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovableListener")) ptr = (void*)(iMovableListener*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkConnection")) ptr = (void*)(iNetworkConnection*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkDriver")) ptr = (void*)(iNetworkDriver*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkEndPoint")) ptr = (void*)(iNetworkEndPoint*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkListener")) ptr = (void*)(iNetworkListener*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkManager")) ptr = (void*)(iNetworkManager*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkPacket")) ptr = (void*)(iNetworkPacket*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkSocket2")) ptr = (void*)(iNetworkSocket2*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObject")) ptr = (void*)(iObject*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModel")) ptr = (void*)(iObjectModel*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModelListener")) ptr = (void*)(iObjectModelListener*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectRegistry")) ptr = (void*)(iObjectRegistry*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPluginManager")) ptr = (void*)(iPluginManager*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygon3D")) ptr = (void*)(iPolygon3D*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonMesh")) ptr = (void*)(iPolygonMesh*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonTexture")) ptr = (void*)(iPolygonTexture*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSCF")) ptr = (void*)(iSCF*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iScript")) ptr = (void*)(iScript*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSector")) ptr = (void*)(iSector*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSectorList")) ptr = (void*)(iSectorList*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundHandle")) ptr = (void*)(iSoundHandle*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundLoader")) ptr = (void*)(iSoundLoader*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundRender")) ptr = (void*)(iSoundRender*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundWrapper")) ptr = (void*)(iSoundWrapper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundDriver")) ptr = (void*)(iSoundDriver*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundSource")) ptr = (void*)(iSoundSource*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite2DState")) ptr = (void*)(iSprite2DState*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite3DState")) ptr = (void*)(iSprite3DState*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStatLight")) ptr = (void*)(iStatLight*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStream")) ptr = (void*)(iStream*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamIterator")) ptr = (void*)(iStreamIterator*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamFormat")) ptr = (void*)(iStreamFormat*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iString")) ptr = (void*)(iString*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStrVector")) ptr = (void*)(iStrVector*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureHandle")) ptr = (void*)(iTextureHandle*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureList")) ptr = (void*)(iTextureList*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureManager")) ptr = (void*)(iTextureManager*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureWrapper")) ptr = (void*)(iTextureWrapper*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iThingState")) ptr = (void*)(iThingState*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVFS")) ptr = (void*)(iVFS*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVideoStream")) ptr = (void*)(iVideoStream*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iView")) ptr = (void*)(iView*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVirtualClock")) ptr = (void*)(iVirtualClock*)self;
 /*@@*/
-	/*@c:\proj\cs\CS\include\ivaria/cspace.i,861,CAST_FROM_BASE@*/
+	/*@c:\proj\cs\CS\include\ivaria/cspace.i,863,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVisibilityCuller")) ptr = (void*)(iVisibilityCuller*)self;
 /*@@*/
 /*@@*/
@@ -1776,18 +1776,18 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer(iObjectRegistry *object_reg) {
 
 iCelBehaviour *iCelEntity_LoadBehaviour(iCelEntity *self,iObjectRegistry *object_reg,char const *name){
       csRef<iCelBlLayer> bl(   csPtr<iCelBlLayer> ((iCelBlLayer*)(CS_IMPLICIT_PTR_CAST(iObjectRegistry, object_reg)->Get ("iCelBlLayer",      iCelBlLayer_scfGetID (), iCelBlLayer_VERSION))));
-      if(!bl.IsValid()) return NULL;
+      if(!bl.IsValid()) return 0;
       csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
-      if(!bh.IsValid()) return NULL;
+      if(!bh.IsValid()) return 0;
       self->SetBehaviour(bh);
       return bh;
     }
 
 iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY(object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelEntity> en(pl->CreateEntity());
-  if(!en.IsValid()) return NULL;
+  if(!en.IsValid()) return 0;
   en->SetName(name);
   en->IncRef();
   return en;
@@ -1802,7 +1802,7 @@ iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
 
 iCelEntityList *celFindNearbyEntities(iObjectRegistry *object_reg, iSector *sector, csVector3 pos, float radius) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist(pl->FindNearbyEntities(sector, pos, radius));
   entlist->IncRef();
   return entlist;
@@ -1833,11 +1833,11 @@ bool iPcRegion_LoadWorld(iPcRegion *self,char const *vfsdir,char const *name){
 
 iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, const char *name) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcregion"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
-  if(!pcregion.IsValid()) return NULL;
+  if(!pcregion.IsValid()) return 0;
   pcregion->SetRegionName(name);
   return pcregion;
 }
@@ -1852,17 +1852,17 @@ iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) {
 
 iPcCamera *celCreateCamera(iObjectRegistry *object_reg, iCelEntity *world, iCelEntity *entity, const char *name) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, name));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
-  if(!pccam.IsValid()) return NULL;
+  if(!pccam.IsValid()) return 0;
   csRef<iPcRegion> pcregion(CEL_QUERY_PROPCLASS(world->GetPropertyClassList(), iPcRegion));
-  if(!pcregion.IsValid()) return NULL;
+  if(!pcregion.IsValid()) return 0;
   if(pccam->SetRegion(pcregion)) {
     return pccam;
   } else {
-    return NULL;
+    return 0;
   }
 }
 
@@ -1893,88 +1893,88 @@ iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc) {
 
 iPcMeshSelect *celPcMeshSelect(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmeshselect"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcMeshSelect> pcmeshselect(SCF_QUERY_INTERFACE(pc, iPcMeshSelect));
-  if(!pcmeshselect.IsValid()) return NULL;
+  if(!pcmeshselect.IsValid()) return 0;
   return pcmeshselect;
 }
 
 
 iPcMesh *celPcMesh(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmesh"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcMesh> pcmesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
-  if(!pcmesh.IsValid()) return NULL;
+  if(!pcmesh.IsValid()) return 0;
   return pcmesh;
 }
 
 
 iPcTimer *celPcTimer(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pctimer"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcTimer> pctimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
-  if(!pctimer.IsValid()) return NULL;
+  if(!pctimer.IsValid()) return 0;
   return pctimer;
 }
 
 
 iPcSolid *celPcSolid(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcsolid"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcSolid> pcsolid(SCF_QUERY_INTERFACE(pc, iPcSolid));
-  if(!pcsolid.IsValid()) return NULL;
+  if(!pcsolid.IsValid()) return 0;
   return pcsolid;
 }
 
 
 iPcGravity *celPcGravity(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcgravity"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcGravity> pcgravity(SCF_QUERY_INTERFACE(pc, iPcGravity));
-  if(!pcgravity.IsValid()) return NULL;
+  if(!pcgravity.IsValid()) return 0;
   return pcgravity;
 }
 
 
 iPcMovable *celPcMovable(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcmovable"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcMovable> pcmovable(SCF_QUERY_INTERFACE(pc, iPcMovable));
-  if(!pcmovable.IsValid()) return NULL;
+  if(!pcmovable.IsValid()) return 0;
   return pcmovable;
 }
 
 
 iPcInventory *celPcInventory(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcinventory"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcInventory> pcinv(SCF_QUERY_INTERFACE(pc, iPcInventory));
-  if(!pcinv.IsValid()) return NULL;
+  if(!pcinv.IsValid()) return 0;
   return pcinv;
 }
 
 
 iPcCharacteristics *celPcCharacteristics(iObjectRegistry *object_reg, iCelEntity *entity) {
   csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return NULL;
+  if(!pl.IsValid()) return 0;
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccharacteristics"));
-  if(!pc.IsValid()) return NULL;
+  if(!pc.IsValid()) return 0;
   csRef<iPcCharacteristics> pccharacteristics(SCF_QUERY_INTERFACE(pc, iPcCharacteristics));
-  if(!pccharacteristics.IsValid()) return NULL;
+  if(!pccharacteristics.IsValid()) return 0;
   return pccharacteristics;
 }
 
@@ -78814,6 +78814,25 @@ static PyObject *_wrap_iNetworkEndPoint_Terminate(PyObject *self, PyObject *args
 }
 
 
+static PyObject *_wrap_iNetworkEndPoint_SetOption(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iNetworkEndPoint *arg1 = (iNetworkEndPoint *) 0 ;
+    char *arg2 ;
+    int arg3 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Osi:iNetworkEndPoint_SetOption",&obj0,&arg2,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iNetworkEndPoint,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)(arg1)->SetOption((char const *)arg2,arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iNetworkEndPoint_GetLastError(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iNetworkEndPoint *arg1 = (iNetworkEndPoint *) 0 ;
@@ -83275,7 +83294,7 @@ static PyObject *_wrap_iPcRegion_FindSector(PyObject *self, PyObject *args) {
 static PyObject *_wrap_iPcRegion_GetStartSector(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPcRegion *arg1 = (iPcRegion *) 0 ;
-    char *arg2 = (char *) NULL ;
+    char *arg2 = (char *) 0 ;
     iSector *result;
     PyObject * obj0 = 0 ;
     
@@ -83293,7 +83312,7 @@ static PyObject *_wrap_iPcRegion_GetStartSector(PyObject *self, PyObject *args) 
 static PyObject *_wrap_iPcRegion_GetStartPosition(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPcRegion *arg1 = (iPcRegion *) 0 ;
-    char *arg2 = (char *) NULL ;
+    char *arg2 = (char *) 0 ;
     csVector3 result;
     PyObject * obj0 = 0 ;
     
@@ -83316,7 +83335,7 @@ static PyObject *_wrap_iPcRegion_PointCamera(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPcRegion *arg1 = (iPcRegion *) 0 ;
     iPcCamera *arg2 = (iPcCamera *) 0 ;
-    char *arg3 = (char *) NULL ;
+    char *arg3 = (char *) 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
@@ -83417,7 +83436,7 @@ static PyObject *_wrap_iPcCamera_SetRegion(PyObject *self, PyObject *args) {
     iPcCamera *arg1 = (iPcCamera *) 0 ;
     iPcRegion *arg2 = (iPcRegion *) 0 ;
     bool arg3 = (bool) true ;
-    char *arg4 = (char *) NULL ;
+    char *arg4 = (char *) 0 ;
     bool result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -88801,6 +88820,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_csNetworkDriverCapabilities", _wrap_delete_csNetworkDriverCapabilities, METH_VARARGS },
 	 { (char *)"csNetworkDriverCapabilities_swigregister", csNetworkDriverCapabilities_swigregister, METH_VARARGS },
 	 { (char *)"iNetworkEndPoint_Terminate", _wrap_iNetworkEndPoint_Terminate, METH_VARARGS },
+	 { (char *)"iNetworkEndPoint_SetOption", _wrap_iNetworkEndPoint_SetOption, METH_VARARGS },
 	 { (char *)"iNetworkEndPoint_GetLastError", _wrap_iNetworkEndPoint_GetLastError, METH_VARARGS },
 	 { (char *)"delete_iNetworkEndPoint", _wrap_delete_iNetworkEndPoint, METH_VARARGS },
 	 { (char *)"iNetworkEndPoint_swigregister", iNetworkEndPoint_swigregister, METH_VARARGS },
@@ -90897,6 +90917,8 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CS_NET_ERR_CANNOT_GET_VERSION", (long) CS_NET_ERR_CANNOT_GET_VERSION, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_NET_ERR_WRONG_VERSION", (long) CS_NET_ERR_WRONG_VERSION, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_NET_ERR_CANNOT_CLEANUP", (long) CS_NET_ERR_CANNOT_CLEANUP, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_NET_ERR_NO_SUCH_OPTION", (long) CS_NET_ERR_NO_SUCH_OPTION, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_NET_ERR_CANNOT_SET_OPTION", (long) CS_NET_ERR_CANNOT_SET_OPTION, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"iPcCamera_freelook", (long) iPcCamera::freelook, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"iPcCamera_follow", (long) iPcCamera::follow, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"iPcCamera_rotational", (long) iPcCamera::rotational, 0, 0, 0},

@@ -53,7 +53,7 @@ CS_ID NumReg::intern_Register(void* obj)
 
 CS_ID NumReg::Register (void* obj)
 {
-  CS_ASSERT(obj != NULL);
+  CS_ASSERT(obj != 0);
   
   // 1. try to fill up just released positions
   if (freelistend>0)
@@ -63,7 +63,7 @@ CS_ID NumReg::Register (void* obj)
   // note that id number 0 stands for error and is reserved
   for (CS_ID i=1; i<listsize && freelistend<freelistsize ;i++)
   {
-    if (list[i]==NULL)
+    if (list[i]==0)
     {
       CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
@@ -112,19 +112,19 @@ CS_ID NumReg::Register (void* obj)
 bool NumReg::Remove (CS_ID num)
 {
   CS_ASSERT(num<listsize);
-  CS_ASSERT(list[num] != NULL);
+  CS_ASSERT(list[num] != 0);
   
   if (freelistend < freelistsize-1)
     freelist[freelistend++] = num;
 
-  list[num]=NULL;
+  list[num]=0;
 
   return true;
 }
 
 bool NumReg::Remove (void* obj)
 {
-  CS_ASSERT(obj != NULL);
+  CS_ASSERT(obj != 0);
   
   CS_ID i;
   // start loop at 1 because 0 is reserved as error value
@@ -146,7 +146,7 @@ void NumReg::Clear()
 {
   for (CS_ID i=0;i<listsize;i++)
   {
-    list[i]=NULL;
+    list[i]=0;
   }
   freelistend=0;
 } 

@@ -103,7 +103,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
 	"crystalspace.cel.physicallayer",
 	"Failed to register new entity in IDList!");
     delete entity;
-    return NULL;
+    return 0;
   }
   entity->SetEntityID(objid);
   return csPtr<iCelEntity> (ientity);
@@ -141,11 +141,11 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"No factory for type '%s' registered!", propname);
-    return NULL;
+    return 0;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
-    return NULL;
+    return 0;
   entity->GetPropertyClassList()->Add (pc);
   return pc;
 }
@@ -170,7 +170,7 @@ private:
 public:
   celDataBuffer (long serialnr)
   {
-    SCF_CONSTRUCT_IBASE (NULL);
+    SCF_CONSTRUCT_IBASE (0);
     celDataBuffer::serialnr = serialnr;
   }
   virtual ~celDataBuffer ()
@@ -249,7 +249,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 {
   iCelEntity* old_entity = FindAttachedEntity (object);
   if (old_entity == entity) return;
-  if (old_entity != NULL) UnattachEntity (object, old_entity);
+  if (old_entity != 0) UnattachEntity (object, old_entity);
   csRef<celEntityFinder> cef =
     csPtr<celEntityFinder> (new celEntityFinder (entity));
   cef->SetName ("__entfind__");	// @@@ For debugging mostly.
@@ -274,7 +274,7 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
   csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
     return cef->GetEntity ();
-  return NULL;
+  return 0;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
@@ -283,7 +283,7 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != NULL);
+  CS_ASSERT (engine != 0);
   csRef<iObjectIterator> objit (engine->GetNearbyObjects (sector, pos, radius));
   while (objit->HasNext ())
   {
@@ -323,13 +323,13 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
   vo = camera->GetTransform ().GetO2TTranslation ();
   csVector3 isect, end = vo + (vw - vo) * 60;
 
-  iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
+  iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0);
   if (sel)
   {
     iObject* sel_obj = sel->QueryObject ();
     return FindAttachedEntity (sel_obj);
   }
-  return NULL;
+  return 0;
 }
 
 csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
@@ -371,7 +371,7 @@ iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
     if (!strcmp (pf->GetName (), name))
       return pf;
   }
-  return NULL;
+  return 0;
 }
 
 void celPlLayer::Cache (iBase* object)
@@ -431,7 +431,7 @@ iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
     if (!strcmp (bl->GetName (), name))
       return bl;
   }
-  return NULL;
+  return 0;
 }
 
 void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)

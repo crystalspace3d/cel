@@ -69,7 +69,7 @@ celPersistClassic::celPersistClassic (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-  object_reg = NULL;
+  object_reg = 0;
 }
 
 celPersistClassic::~celPersistClassic ()
@@ -87,13 +87,13 @@ iCelPersistanceContext* celPersistClassic::CreateContext(iBase* data, int mode
 {
   csRef<iFile> file (SCF_QUERY_INTERFACE(data, iFile));
   if (!file)
-    return NULL;
+    return 0;
 
   celPersistClassicContext* context = new celPersistClassicContext;
   if (!context->Initialize(object_reg, file, mode, performmapping))
   {
     delete context;
-    return NULL;
+    return 0;
   }
   
   return context;
@@ -125,7 +125,7 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   context->DecRef();
 
   csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (vfs != NULL);
+  CS_ASSERT (vfs != 0);
   vfs->WriteFile (name, m.GetData (), m.GetSize ());
 
   return true;
@@ -137,29 +137,29 @@ csPtr<iCelEntity> celPersistClassic::LoadEntity (const char* name)
   iCelEntity* ent;
   
   csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
-  CS_ASSERT (vfs != NULL);
+  CS_ASSERT (vfs != 0);
 
   csRef<iDataBuffer> data (vfs->ReadFile (name));
   if (!data)
-      return NULL;
+      return 0;
 
   csMemFile mf((const char*) data->GetData(), data->GetSize());
   context = new celPersistClassicContext;
   if (!context->Initialize(object_reg, &mf, CEL_PERSIST_MODE_READ, true))
-    return NULL;
+    return 0;
 
   if (!context->CheckMarker ("CEL0"))
   {
     context->Report ("File is not a CEL file, bad marker '%s'!", "CEL0");
     context->DecRef();
-    return NULL;
+    return 0;
   }
   
   if (!context->Read (ent))
   {
     context->Report ("Failed to load entity!");
     context->DecRef();
-    return NULL;
+    return 0;
   }
   ent->IncRef();
 
@@ -174,7 +174,7 @@ celPersistClassicContext::celPersistClassicContext()
 {
   SCF_CONSTRUCT_IBASE(0);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntityRemoveCallback);
-  object_reg = NULL;
+  object_reg = 0;
 }
 
 celPersistClassicContext::~celPersistClassicContext()
@@ -254,7 +254,7 @@ csPtr<iCelEntity> celPersistClassicContext::LoadEntity()
 {
   iCelEntity* ent;
   if (!Read(ent))
-    return NULL;
+    return 0;
 
   ent->IncRef();
   if (performmapping)
@@ -427,12 +427,12 @@ bool celPersistClassicContext::Read (char*& str)
     str = new char[l+1];
     if (file->Read((char*) str, l) < l) {
       delete [] str;
-      str=NULL;
+      str = 0;
       return false;
     }
     str[l] = 0;
   }
-  else str = NULL;
+  else str = 0;
   return true;
 }
 
@@ -534,7 +534,7 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
 {
   READDEBUG("DTBF");
   int32 ser;
-  db = NULL;
+  db = 0;
   csRef<iCelDataBuffer> dbref;
   if (!Read (ser))
   {
@@ -556,8 +556,8 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
     if (!Read (db->GetData (i)))
     {
       Report ("Error reading data entry %d!", i);
-      db = NULL;
-      dbref = NULL;
+      db = 0;
+      dbref = 0;
       return false;
     }
   }
@@ -569,7 +569,7 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
 bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
 {
   char marker[5];
-  pc = NULL;
+  pc = 0;
   if (!ReadMarker (marker))
   {
     Report ("File truncated while reading property class marker!");
@@ -583,7 +583,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
   }
   if (marker[3] == '0')
   {
-    // NULL entity.
+    // 0 entity.
     Report ("Read 0 Propclass!");
     return true;
   }
@@ -591,7 +591,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
   {
     // A reference.
     CS_ID entid;
-    char* pcname = NULL;
+    char* pcname = 0;
     bool rc = true;
     rc = rc && Read (entid);
     rc = rc && Read (pcname);
@@ -617,7 +617,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
   else if (marker[3] == 'I')
   {
     CS_ID entid;
-    char* pcname = NULL;
+    char* pcname = 0;
     bool rc = true;
     rc = rc && Read (entid);
     rc = rc && Read (pcname);
@@ -658,7 +658,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
         Report ("Cannot find property class factory for '%s'!", pcname);
     }
     delete[] pcname;
-    if (!rc) pc = NULL;
+    if (!rc) pc = 0;
     return rc;
   }
   else
@@ -673,7 +673,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
 bool celPersistClassicContext::Read (iCelEntity*& entity)
 {
   char marker[5];
-  entity = NULL;
+  entity = 0;
   if (!ReadMarker (marker))
   {
     Report ("File truncated while reading entity marker!");
@@ -685,7 +685,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     Report ("Expected entity, got something else: %s",marker);
     return false;
   }
-  if (marker[3] == '0') return true;	// NULL entity.
+  if (marker[3] == '0') return true;	// 0 entity.
   if (marker[3] == 'R')
   {
     // A reference.
@@ -700,7 +700,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
   else if (marker[3] == 'I')
   {
     CS_ID entid;
-    char* entname = NULL, * bhname = NULL, * bhlayername = NULL;
+    char* entname = 0, * bhname = 0, * bhlayername = 0;
     bool rc = true;
     rc = rc && Read (entid);
     rc = rc && Read (entname);
@@ -725,7 +725,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
       iCelPropertyClass* pc;
       if (!Read (pc))
       {
-	entity = NULL;
+	entity = 0;
 	return false;
       }
     }
@@ -797,7 +797,7 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
 {
   if (!pc)
   {
-    // NULL pc.
+    // 0 pc.
     if (!WriteMarker ("PCL0")) return false;
     return true;
   }
@@ -831,7 +831,7 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
 {
   if (!entity)
   {
-    // NULL entity.
+    // 0 entity.
     if (!WriteMarker ("ENT0")) return false;
     return true;
   }
@@ -867,7 +867,7 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
   }
   else
   {
-    if (!Write ((char*)NULL)) return false;
+    if (!Write ((char*)0)) return false;
   }  
   return true;
 }

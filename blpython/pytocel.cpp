@@ -55,7 +55,7 @@ extern "C" PyObject* pytocel_printerr (PyObject *self, PyObject* args)
 PyMethodDef PytocelMethods[]={
   {"printout", pytocel_printout, METH_VARARGS, ""},
   {"printerr", pytocel_printerr, METH_VARARGS, ""},
-  {NULL, NULL, 0, ""}
+  {0, 0, 0, ""}
 };
 
 extern "C" void init_blcelc();

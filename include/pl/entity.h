@@ -36,7 +36,7 @@ struct iCelEntity : public iBase
 {
   /**
    * Get the iObject for this entity (if supported). Otherwise
-   * return NULL.
+   * return 0.
    */
   virtual iObject* QueryObject () = 0;
 
