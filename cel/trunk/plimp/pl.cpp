@@ -469,13 +469,11 @@ void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)
 {
   int idx = removecallbacks.Find (callback);
   if (idx != -1) return;
-  printf ("RegCallback!\n");
-  bl_list.Push (callback);
+  removecallbacks.Push (callback);
 }
 
 void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
 {
-  if (bl_list.Find (callback) == -1) return;
-  printf ("DelCAllback!\n");
-  bl_list.Delete (callback);
+  if (removecallbacks.Find (callback) == -1) return;
+  removecallbacks.Delete (callback);
 }
