@@ -26,60 +26,84 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a0">Forward</a> (bool start)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop going forward.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a1">Backward</a> (bool start)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a1">IsMovingForward</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop going backward.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a2">StrafeLeft</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of moving forward.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a2">Backward</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop strafing left.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a3">StrafeRight</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop going backward.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a3">IsMovingBackward</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop strafing right.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a4">RotateLeft</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of moving backward.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a4">StrafeLeft</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop rotating left.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a5">RotateRight</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop strafing left.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a5">IsStrafingLeft</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop rotating right.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a6">RotateTo</a> (float yrot)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of strafing left.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a6">StrafeRight</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Rotate to a specified angle.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a7">Run</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop strafing right.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a7">IsStrafingRight</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop running.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a8">AutoRun</a> (bool start)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of strafing right.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a8">RotateLeft</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop auto-running.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a9">Jump</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop rotating left.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a9">IsRotatingLeft</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Jump.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a10">ToggleCameraMode</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of rotating left.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a10">RotateRight</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Toggle camera mode.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a11">SetMovementSpeed</a> (float speed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop rotating right.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a11">IsRotatingRight</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the movement speed (default 2.0).  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a12">GetMovementSpeed</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of rotating right.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a12">RotateTo</a> (float yrot)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the movement speed (default 2.0).  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a13">SetRunningSpeed</a> (float speed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Rotate to a specified angle.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a13">Run</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the running speed (default 5.0).  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a14">GetRunningSpeed</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop running.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a14">IsRunning</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the running speed (default 5.0).  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a15">SetRotationSpeed</a> (float speed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of running.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a15">AutoRun</a> (bool start)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the rotation speed (default 1.75).  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a16">GetRotationSpeed</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Start/stop auto-running.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a16">IsAutoRunning</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the rotation speed (default 1.75).  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a17">SetJumpingVelocity</a> (float speed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the toogle value of autorunning.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a17">Jump</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the jumping velocity (default 6.31).  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a18">GetJumpingVelocity</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Jump.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a18">ToggleCameraMode</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the jumping velocity (default 6.31).  <a href="#a18"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Toggle camera mode.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a19">SetMovementSpeed</a> (float speed)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the movement speed (default 2.0).  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a20">GetMovementSpeed</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the movement speed (default 2.0).  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a21">SetRunningSpeed</a> (float speed)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the running speed (default 5.0).  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a22">GetRunningSpeed</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the running speed (default 5.0).  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a23">SetRotationSpeed</a> (float speed)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the rotation speed (default 1.75).  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a24">GetRotationSpeed</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the rotation speed (default 1.75).  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a25">SetJumpingVelocity</a> (float speed)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the jumping velocity (default 6.31).  <a href="#a25"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcActorMove.html#a26">GetJumpingVelocity</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the jumping velocity (default 6.31).  <a href="#a26"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 ActorMove property class. 
@@ -89,7 +113,7 @@ This property class makes a connection between pclinmove and pccamera and makes 
 
 <p>
 Definition at line <a class="el" href="actormove_8h-source.html#l00037">37</a> of file <a class="el" href="actormove_8h-source.html">actormove.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a8" doxytag="iPcActorMove::AutoRun"></a><p>
+<a class="anchor" name="a15" doxytag="iPcActorMove::AutoRun"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -119,7 +143,7 @@ Start/stop auto-running.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1" doxytag="iPcActorMove::Backward"></a><p>
+<a class="anchor" name="a2" doxytag="iPcActorMove::Backward"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -179,7 +203,7 @@ Start/stop going forward.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18" doxytag="iPcActorMove::GetJumpingVelocity"></a><p>
+<a class="anchor" name="a26" doxytag="iPcActorMove::GetJumpingVelocity"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -208,7 +232,7 @@ Get the jumping velocity (default 6.31).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12" doxytag="iPcActorMove::GetMovementSpeed"></a><p>
+<a class="anchor" name="a20" doxytag="iPcActorMove::GetMovementSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -237,7 +261,7 @@ Get the movement speed (default 2.0).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16" doxytag="iPcActorMove::GetRotationSpeed"></a><p>
+<a class="anchor" name="a24" doxytag="iPcActorMove::GetRotationSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -266,7 +290,7 @@ Get the rotation speed (default 1.75).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14" doxytag="iPcActorMove::GetRunningSpeed"></a><p>
+<a class="anchor" name="a22" doxytag="iPcActorMove::GetRunningSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -295,7 +319,239 @@ Get the running speed (default 5.0).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="iPcActorMove::Jump"></a><p>
+<a class="anchor" name="a16" doxytag="iPcActorMove::IsAutoRunning"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsAutoRunning           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of autorunning. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a3" doxytag="iPcActorMove::IsMovingBackward"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsMovingBackward           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of moving backward. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a1" doxytag="iPcActorMove::IsMovingForward"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsMovingForward           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of moving forward. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a9" doxytag="iPcActorMove::IsRotatingLeft"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsRotatingLeft           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of rotating left. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a11" doxytag="iPcActorMove::IsRotatingRight"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsRotatingRight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of rotating right. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a14" doxytag="iPcActorMove::IsRunning"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsRunning           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of running. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a5" doxytag="iPcActorMove::IsStrafingLeft"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsStrafingLeft           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of strafing left. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a7" doxytag="iPcActorMove::IsStrafingRight"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcActorMove::IsStrafingRight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the toogle value of strafing right. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a17" doxytag="iPcActorMove::Jump"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -324,7 +580,7 @@ Jump.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iPcActorMove::RotateLeft"></a><p>
+<a class="anchor" name="a8" doxytag="iPcActorMove::RotateLeft"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -354,7 +610,7 @@ Start/stop rotating left.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iPcActorMove::RotateRight"></a><p>
+<a class="anchor" name="a10" doxytag="iPcActorMove::RotateRight"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -384,7 +640,7 @@ Start/stop rotating right.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6" doxytag="iPcActorMove::RotateTo"></a><p>
+<a class="anchor" name="a12" doxytag="iPcActorMove::RotateTo"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -414,7 +670,7 @@ Rotate to a specified angle.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="iPcActorMove::Run"></a><p>
+<a class="anchor" name="a13" doxytag="iPcActorMove::Run"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -444,7 +700,7 @@ Start/stop running.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17" doxytag="iPcActorMove::SetJumpingVelocity"></a><p>
+<a class="anchor" name="a25" doxytag="iPcActorMove::SetJumpingVelocity"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -474,7 +730,7 @@ Set the jumping velocity (default 6.31).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11" doxytag="iPcActorMove::SetMovementSpeed"></a><p>
+<a class="anchor" name="a19" doxytag="iPcActorMove::SetMovementSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -504,7 +760,7 @@ Set the movement speed (default 2.0).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15" doxytag="iPcActorMove::SetRotationSpeed"></a><p>
+<a class="anchor" name="a23" doxytag="iPcActorMove::SetRotationSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -534,7 +790,7 @@ Set the rotation speed (default 1.75).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13" doxytag="iPcActorMove::SetRunningSpeed"></a><p>
+<a class="anchor" name="a21" doxytag="iPcActorMove::SetRunningSpeed"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -564,7 +820,7 @@ Set the running speed (default 5.0).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="iPcActorMove::StrafeLeft"></a><p>
+<a class="anchor" name="a4" doxytag="iPcActorMove::StrafeLeft"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -594,7 +850,7 @@ Start/stop strafing left.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="iPcActorMove::StrafeRight"></a><p>
+<a class="anchor" name="a6" doxytag="iPcActorMove::StrafeRight"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -624,7 +880,7 @@ Start/stop strafing right.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="iPcActorMove::ToggleCameraMode"></a><p>
+<a class="anchor" name="a18" doxytag="iPcActorMove::ToggleCameraMode"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
