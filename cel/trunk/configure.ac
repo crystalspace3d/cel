@@ -48,7 +48,60 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 # Check for syntax problems / header files
 #----------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# CS_EMIT_BUILD_FLAGS(MESSAGE, CACHE-VAR, FLAGS, [LANGUAGE],
+#                     MAKEFILE-VARIABLE, [APPEND], [CACHE-VALUE],
+#                     [ACTION-IF-RECOGNIED], [ACTION-IF-NOT-RECOGNIED])
+#       Check if the compiler or linker recognizes a command-line option.
+#       MESSAGE is the "checking" message.  CACHE-VAR is the shell cache
+#       variable which receives the flag recognized by the compiler or linker,
+#       or "no" if the flag was not recognized.  FLAGS is a
+#       whitespace-delimited list of build tuples created with
+#       CS_CREATE_TUPLE().  Each tuple from FLAGS is attempted in order until
+#       one is found which is recognized by the compiler.  After that, no
+#       further flags are checked.  LANGUAGE is typically either C or C++ and
+#       specifies which compiler to use for the test.  If LANGUAGE is omitted,
+#       C is used.  MAKEFILE-VARIABLE is the name of the makefile variable to
+#       insert into the makefile and Jam text caches if a usable flag is
+#       encountered.  CACHE-VALUE is the value to assign to the makefile
+#       variable.  If omitted, it defaults to $cs_build_cflags.  If you are
+#       checking linker flags, rather than compiler flags, then you should
+#       specify $cs_build_lflags for this argument.  If APPEND is not the empty
+#       string, then CACHE-VALUE is appended to the existing value of the
+#       makefile variable.  If the command-line option was recognized, then
+#       ACTION-IF-RECOGNIZED is invoked, otherwise ACTION-IF-NOT-RECOGNIZED is
+#       invoked.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_EMIT_BUILD_FLAGS],
+    [AC_CACHE_CHECK([$1], [$2],
+        [CS_BUILD_IFELSE([], [$3], [$4],
+            [$2=m4_default([$7],[$cs_build_cflags])], [$2=no])])
+    AS_IF([test "$$2" != no],
+        [$8
+        CS_JAMCONFIG_PROPERTY([$5], [$$2], [$6])],
+        [m4_default([$9],[:])])])
+
+#------------------------------------------------------------------------------
+# Check if Mingw compiler recognizes -fvtable-thunks.  As of gcc 3.x, this
+# option is no longer supported.  Unfortunately, rather than returning an error
+# code (as it does with other unrecognized options), the compiler merely prints
+# a warning message when -fvtable-thunks is used, thus we use -Werror to turn
+# the warning into an error.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_CHECK_MINGW_VTABLE_THUNKS],
+    [AC_REQUIRE([AC_CANONICAL_HOST])
+    case $host_os in
+        mingw*)
+            CS_EMIT_BUILD_FLAGS([if -fvtable-thunks is needed],
+                [cs_cv_prog_cxx_vtable_thunks],
+                [CS_CREATE_TUPLE([-fvtable-thunks -Werror])],
+                [C++], [COMPILER.C++FLAGS], [+=], [-fvtable-thunks])
+            ;;
+    esac])
                                                                                 
+CS_CHECK_MINGW_VTABLE_THUNKS
+                               
 #nothing yet
                                                                                 
 #----------------------------------------------------------------------------
