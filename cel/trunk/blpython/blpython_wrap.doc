@@ -486,19 +486,24 @@ GetInvFOV()
 1.21.  class iThingState
 ------------------------
 
+1.22.  class iThingFactoryState
+-------------------------------
+
 CreatePolygon(name)
 
-1.22.  class iMeshObject
+1.23.  class iMeshObject
 ------------------------
 
 Query_iThingState()
 
-1.23.  class iMeshWrapper
+Query_iThingFactoryState()
+
+1.24.  class iMeshWrapper
 -------------------------
 
 GetMeshObject()
 
-1.24.  class iLightMap
+1.25.  class iLightMap
 ----------------------
 
 GetMapData()
@@ -519,24 +524,16 @@ GetMeanLighting(r,g,b)
 
 GetSize()
 
-1.25.  class iPolygon3D
------------------------
-
-GetLightMap()
+1.26.  class iPolygon3DStatic
+-----------------------------
 
 GetMaterialHandle()
 
 SetMaterial(material)
-        PolygonTexture *GetTexture ();
-        TextureHandle *GetTextureHandle ();
-        
+
 GetVertexCount()
 
 GetVertex(idx)
-
-GetVertexW(idx)
-
-GetVertexC(idx)
 
 CreateVertexByIndex(idx)
 
@@ -552,7 +549,16 @@ SetPlane(iName)
 
 SetTextureSpace(v_orig,v1,len1)
 
-1.26.  class iImage
+1.27.  class iPolygon3D
+-----------------------
+
+GetLightMap()
+
+GetVertexW(idx)
+
+GetVertexC(idx)
+
+1.28.  class iImage
 -------------------
 
 GetImageData()
@@ -583,7 +589,7 @@ Clone()
 
 Crop(x,y,width,height)
 
-1.27.  class iTextureManager
+1.29.  class iTextureManager
 ----------------------------
 
 RegisterTexture(image,flags)
@@ -596,32 +602,22 @@ SetVerbose(vb)
 
 GetTextureFormat()
 
-1.28.  class iPolygonTexture
+1.30.  class iPolygonTexture
 ----------------------------
 
 GetMaterialHandle()
         TextureHandle *GetTextureHandle ();
+        loat GetFDU ();
+        loat GetFDV ();
+        nt GetWidth ();
+        nt GetHeight ();
+        nt GetShiftU ();
+        nt GetIMinU ();
+        nt GetIMinV ();
+        oid GetTextureBox (float& fMinU, float& fMinV,
+         float& fMaxU, float& fMaxV);
+        nt GetOriginalWidth ();
         
-GetFDU()
-
-GetFDV()
-
-GetWidth()
-
-GetHeight()
-
-GetShiftU()
-
-GetIMinU()
-
-GetIMinV()
-
-GetTextureBox(fMinU,fMinV,fMaxU,fMaxV)
-
-GetOriginalWidth()
-
-GetPolygon()
-
 DynamicLightsDirty()
 
 RecalculateDynamicLights()
@@ -636,10 +632,10 @@ GetCacheData(idx)
 
 SetCacheData(idx,d)
 
-1.29.  class iCameraPosition
+1.31.  class iCameraPosition
 ----------------------------
 
-1.30.  class iSectorList
+1.32.  class iSectorList
 ------------------------
 
 GetCount()
@@ -652,17 +648,17 @@ Remove(sec)
 
 FindByName(name)
 
-1.31.  class iMaterialList
+1.33.  class iMaterialList
 --------------------------
 
 FindByName(name)
 
-1.32.  class iTextureList
+1.34.  class iTextureList
 -------------------------
 
 FindByName(name)
 
-1.33.  class iEngine
+1.35.  class iEngine
 --------------------
 
 GetTextureFormat()
@@ -681,7 +677,7 @@ GetMaterialList()
 
 GetTextureList()
 
-1.34.  class iObjectRegistry
+1.36.  class iObjectRegistry
 ----------------------------
 
 Query_iEngine()
@@ -690,7 +686,7 @@ Query_iGraphics3D()
 
 Print(mode,format)
 
-1.35.  class iCelPlLayer
+1.37.  class iCelPlLayer
 ------------------------
 irtual csPtr<iCelEntity> CreateEntity ();
 
@@ -709,7 +705,7 @@ FindBehaviourLayer(name)
 
 csQueryRegistry_iCelPlLayer(object_reg)
 
-1.36.  class iCelEntity
+1.38.  class iCelEntity
 -----------------------
 
 GetName()
@@ -730,7 +726,7 @@ LoadBehaviour(object_reg,name)
 
 celCreateEntity(object_reg,name)
 
-1.37.  class iCelBlLayer
+1.39.  class iCelBlLayer
 ------------------------
 
 GetName()
@@ -741,7 +737,7 @@ CreateBehaviour(entity,name)
 
 csQueryRegistry_iCelBlLayer(object_reg)
 
-1.38.  class iCelBehaviour
+1.40.  class iCelBehaviour
 --------------------------
 
 GetName()
@@ -750,7 +746,7 @@ GetBehaviourLayer()
 
 SendMessage(msg_id,msg_info)
 
-1.39.  class iCelPropertyClass
+1.41.  class iCelPropertyClass
 ------------------------------
 
 GetName()
@@ -795,7 +791,7 @@ SetPropertyVector3(id,v)
 
 celQueryPC_iPcRegion(pclist)
 
-1.40.  class iCelPropertyClassList
+1.42.  class iCelPropertyClassList
 ----------------------------------
 
 GetCount()
@@ -808,7 +804,7 @@ FindByName(Name)
 
 FindByInterface(id,version)
 
-1.41.  class iPcRegion
+1.43.  class iPcRegion
 ----------------------
 
 SetWorldFile(vfsdir,name)
@@ -841,7 +837,7 @@ celCreateRegion(object_reg,entity,name)
 
 scfQuery_iPcRegion(pc)
 
-1.42.  class iPcCamera
+1.44.  class iPcCamera
 ----------------------
 
 self.freelook
@@ -888,7 +884,7 @@ CEL_MOUSE_BUTTON2 = 2
 
 CEL_MOUSE_BUTTON3 = 4
 
-1.43.  class iPcMeshSelect
+1.45.  class iPcMeshSelect
 --------------------------
 
 SetCamera(camera)
@@ -933,7 +929,7 @@ HasSenddownEvent()
 
 celPcMeshSelect(object_reg,entity)
 
-1.44.  class iPcMesh
+1.46.  class iPcMesh
 --------------------
 
 LoadMesh(factname,filename)
@@ -960,7 +956,7 @@ IsVisible()
 
 celPcMesh(object_reg,entity)
 
-1.45.  class iPcTimer
+1.47.  class iPcTimer
 ---------------------
 
 WakeUp(t,repeat)
@@ -971,7 +967,7 @@ Clear()
 
 celPcTimer(object_reg,entity)
 
-1.46.  class iPcSolid
+1.48.  class iPcSolid
 ---------------------
 
 SetMesh(mesh)
@@ -984,7 +980,7 @@ GetCollider()
 
 celPcSolid(object_reg,entity)
 
-1.47.  class iPcGravity
+1.49.  class iPcGravity
 -----------------------
 
 CreateGravityColliderFromMesh(mesh)
@@ -1025,7 +1021,7 @@ IsActive()
 
 celPcGravity(object_reg,entity)
 
-1.48.  class iPcMovable
+1.50.  class iPcMovable
 -----------------------
 
 SetMesh(mesh)
@@ -1046,7 +1042,7 @@ RemoveAllConstraints()
 
 celPcMovable(object_reg,entity)
 
-1.49.  class iPcInventory
+1.51.  class iPcInventory
 -------------------------
 
 AddEntity(entity)
@@ -1083,7 +1079,7 @@ Dump()
 
 celPcInventory(object_reg,entity)
 
-1.50.  class iPcCharacteristics
+1.52.  class iPcCharacteristics
 -------------------------------
 
 SetCharacteristic(name,value)

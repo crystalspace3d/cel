@@ -743,13 +743,26 @@ class iThingStatePtr(iBasePtr):
     def __init__(self,this):
         self.this = this
         self.thisown = 0
-    def CreatePolygon(self,arg0):
-        val = blcelc.iThingState_CreatePolygon(self.this,arg0)
-        val = iPolygon3DPtr(val)
-        return val
     def __repr__(self):
         return "<C iThingState instance>"
 class iThingState(iThingStatePtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iThingFactoryStatePtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def CreatePolygon(self,arg0):
+        val = blcelc.iThingFactoryState_CreatePolygon(self.this,arg0)
+        val = iPolygon3DStaticPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iThingFactoryState instance>"
+class iThingFactoryState(iThingFactoryStatePtr):
     def __init__(self,this):
         self.this = this
 
@@ -762,6 +775,9 @@ class iMeshObjectPtr(iBasePtr):
         self.thisown = 0
     def Query_iThingState(self):
         val = blcelc.iMeshObject_Query_iThingState(self.this)
+        return val
+    def Query_iThingFactoryState(self):
+        val = blcelc.iMeshObject_Query_iThingFactoryState(self.this)
         return val
     def __repr__(self):
         return "<C iMeshObject instance>"
@@ -829,6 +845,54 @@ class iLightMap(iLightMapPtr):
 
 
 
+class iPolygon3DStaticPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetMaterialHandle(self):
+        val = blcelc.iPolygon3DStatic_GetMaterialHandle(self.this)
+        val = iMaterialHandlePtr(val)
+        return val
+    def SetMaterial(self,arg0):
+        val = blcelc.iPolygon3DStatic_SetMaterial(self.this,arg0.this)
+        return val
+    def GetVertexCount(self):
+        val = blcelc.iPolygon3DStatic_GetVertexCount(self.this)
+        return val
+    def GetVertex(self,arg0):
+        val = blcelc.iPolygon3DStatic_GetVertex(self.this,arg0)
+        val = csVector3Ptr(val)
+        return val
+    def CreateVertexByIndex(self,arg0):
+        val = blcelc.iPolygon3DStatic_CreateVertexByIndex(self.this,arg0)
+        return val
+    def CreateVertex(self,arg0):
+        val = blcelc.iPolygon3DStatic_CreateVertex(self.this,arg0.this)
+        return val
+    def GetAlpha(self):
+        val = blcelc.iPolygon3DStatic_GetAlpha(self.this)
+        return val
+    def SetAlpha(self,arg0):
+        val = blcelc.iPolygon3DStatic_SetAlpha(self.this,arg0)
+        return val
+    def CreatePlane(self,arg0,arg1):
+        val = blcelc.iPolygon3DStatic_CreatePlane(self.this,arg0.this,arg1)
+        return val
+    def SetPlane(self,arg0):
+        val = blcelc.iPolygon3DStatic_SetPlane(self.this,arg0)
+        return val
+    def SetTextureSpace(self,arg0,arg1,arg2):
+        val = blcelc.iPolygon3DStatic_SetTextureSpace(self.this,arg0.this,arg1.this,arg2)
+        return val
+    def __repr__(self):
+        return "<C iPolygon3DStatic instance>"
+class iPolygon3DStatic(iPolygon3DStaticPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
 class iPolygon3DPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
@@ -837,20 +901,6 @@ class iPolygon3DPtr(iBasePtr):
         val = blcelc.iPolygon3D_GetLightMap(self.this)
         val = iLightMapPtr(val)
         return val
-    def GetMaterialHandle(self):
-        val = blcelc.iPolygon3D_GetMaterialHandle(self.this)
-        val = iMaterialHandlePtr(val)
-        return val
-    def SetMaterial(self,arg0):
-        val = blcelc.iPolygon3D_SetMaterial(self.this,arg0.this)
-        return val
-    def GetVertexCount(self):
-        val = blcelc.iPolygon3D_GetVertexCount(self.this)
-        return val
-    def GetVertex(self,arg0):
-        val = blcelc.iPolygon3D_GetVertex(self.this,arg0)
-        val = csVector3Ptr(val)
-        return val
     def GetVertexW(self,arg0):
         val = blcelc.iPolygon3D_GetVertexW(self.this,arg0)
         val = csVector3Ptr(val)
@@ -858,27 +908,6 @@ class iPolygon3DPtr(iBasePtr):
     def GetVertexC(self,arg0):
         val = blcelc.iPolygon3D_GetVertexC(self.this,arg0)
         val = csVector3Ptr(val)
-        return val
-    def CreateVertexByIndex(self,arg0):
-        val = blcelc.iPolygon3D_CreateVertexByIndex(self.this,arg0)
-        return val
-    def CreateVertex(self,arg0):
-        val = blcelc.iPolygon3D_CreateVertex(self.this,arg0.this)
-        return val
-    def GetAlpha(self):
-        val = blcelc.iPolygon3D_GetAlpha(self.this)
-        return val
-    def SetAlpha(self,arg0):
-        val = blcelc.iPolygon3D_SetAlpha(self.this,arg0)
-        return val
-    def CreatePlane(self,arg0,arg1):
-        val = blcelc.iPolygon3D_CreatePlane(self.this,arg0.this,arg1)
-        return val
-    def SetPlane(self,arg0):
-        val = blcelc.iPolygon3D_SetPlane(self.this,arg0)
-        return val
-    def SetTextureSpace(self,arg0,arg1,arg2):
-        val = blcelc.iPolygon3D_SetTextureSpace(self.this,arg0.this,arg1.this,arg2)
         return val
     def __repr__(self):
         return "<C iPolygon3D instance>"
@@ -980,37 +1009,6 @@ class iPolygonTexturePtr(iBasePtr):
     def GetMaterialHandle(self):
         val = blcelc.iPolygonTexture_GetMaterialHandle(self.this)
         val = iMaterialHandlePtr(val)
-        return val
-    def GetFDU(self):
-        val = blcelc.iPolygonTexture_GetFDU(self.this)
-        return val
-    def GetFDV(self):
-        val = blcelc.iPolygonTexture_GetFDV(self.this)
-        return val
-    def GetWidth(self):
-        val = blcelc.iPolygonTexture_GetWidth(self.this)
-        return val
-    def GetHeight(self):
-        val = blcelc.iPolygonTexture_GetHeight(self.this)
-        return val
-    def GetShiftU(self):
-        val = blcelc.iPolygonTexture_GetShiftU(self.this)
-        return val
-    def GetIMinU(self):
-        val = blcelc.iPolygonTexture_GetIMinU(self.this)
-        return val
-    def GetIMinV(self):
-        val = blcelc.iPolygonTexture_GetIMinV(self.this)
-        return val
-    def GetTextureBox(self,arg0,arg1,arg2,arg3):
-        val = blcelc.iPolygonTexture_GetTextureBox(self.this,arg0,arg1,arg2,arg3)
-        return val
-    def GetOriginalWidth(self):
-        val = blcelc.iPolygonTexture_GetOriginalWidth(self.this)
-        return val
-    def GetPolygon(self):
-        val = blcelc.iPolygonTexture_GetPolygon(self.this)
-        val = iPolygon3DPtr(val)
         return val
     def DynamicLightsDirty(self):
         val = blcelc.iPolygonTexture_DynamicLightsDirty(self.this)
