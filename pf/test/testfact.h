@@ -17,46 +17,65 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_PLIMP_PL__
-#define __CEL_PLIMP_PL__
+#ifndef __CEL_PF_TESTFACT__
+#define __CEL_PF_TESTFACT__
 
-#include "csutil/csvector.h"
+#include "cstypes.h"
 #include "iutil/comp.h"
-#include "pl/pl.h"
-
-struct iObjectRegistry;
+#include "csutil/scf.h"
+#include "pl/propclas.h"
+#include "pl/propfact.h"
+#include "pf/test.h"
 
 /**
- * Implementation of the physical layer.
+ * Factory for test.
  */
-class celPlLayer : public iCelPlLayer
+class celPfTest : public iCelPropertyClassFactory
 {
 private:
-  csVector pf_list;
 
 public:
-  celPlLayer (iBase* parent);
-  virtual ~celPlLayer ();
+  celPfTest (iBase* parent);
+  virtual ~celPfTest ();
   bool Initialize (iObjectRegistry* object_reg);
 
   SCF_DECLARE_IBASE;
 
-  virtual iCelEntity* CreateEntity ();
-  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
-  virtual void UnregisterPropertyClassFactory (
-  	iCelPropertyClassFactory* pf);
-  virtual int GetPropertyClassFactoryCount () const;
-  virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const;
-  virtual iCelPropertyClassFactory* FindPropertyClassFactory (
-  	const char* name) const;
+  virtual const char* GetName () const { return "pftest"; }
+  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
+  virtual int GetTypeCount () const { return 1; }
+  virtual const char* GetTypeName (int idx) const { return "pctest"; }
 
   struct Component : public iComponent
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);
+    SCF_DECLARE_EMBEDDED_IBASE (celPfTest);
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
 };
 
-#endif // __CEL_PLIMP_PL__
+/**
+ * This is a test property class.
+ */
+class celPcTest : public iCelPropertyClass
+{
+private:
+
+public:
+  celPcTest ();
+  virtual ~celPcTest ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return "pctest"; }
+  virtual iCelEntity* GetEntity () { return NULL; }
+
+  struct PcTest : public iPcTest
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcTest);
+    virtual void Print (const char* msg);
+  } scfiPcTest;
+};
+
+#endif // __CEL_PF_TESTFACT__
 

@@ -24,6 +24,7 @@
 #include "csutil/scf.h"
 
 struct iCelEntity;
+struct iCelPropertyClassFactory;
 
 SCF_VERSION (iCelPlLayer, 0, 0, 1);
 
@@ -36,6 +37,33 @@ struct iCelPlLayer : public iBase
    * Create a new physical layer entity.
    */
   virtual iCelEntity* CreateEntity () = 0;
+
+  /**
+   * Register a property class factory with this physical layer.
+   */
+  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf) = 0;
+
+  /**
+   * Unregister a property class factory.
+   */
+  virtual void UnregisterPropertyClassFactory (
+  	iCelPropertyClassFactory* pf) = 0;
+
+  /**
+   * Get the number of registered property class factories.
+   */
+  virtual int GetPropertyClassFactoryCount () const = 0;
+
+  /**
+   * Get the specificied property class factory.
+   */
+  virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const = 0;
+
+  /**
+   * Find a property class factory by name.
+   */
+  virtual iCelPropertyClassFactory* FindPropertyClassFactory (
+  	const char* name) const = 0;
 };
 
 #endif // __CEL_PL_PL__
