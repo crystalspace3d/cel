@@ -40,6 +40,7 @@ celEntity::celEntity ()
   plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = NULL;
   DG_LINK (this, plist);
+  DG_TYPE (this, "celEntity");
 }
 
 celEntity::~celEntity ()
