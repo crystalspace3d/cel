@@ -48,6 +48,7 @@ public:
   virtual void RemoveAll ();
   virtual int Find (iCelPropertyClass* obj) const;
   virtual iCelPropertyClass* FindByName (const char* name) const;
+  virtual iBase* FindByInterface (scfInterfaceID id, int version) const;
 };
 
 #endif // __CEL_PLIMP_PROPCLASS__
