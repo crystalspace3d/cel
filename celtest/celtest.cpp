@@ -503,6 +503,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.pcfactory.tools", "pftools", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.engine", "pfengine", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv", NULL);
+  iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist", NULL);
 
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,

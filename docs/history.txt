@@ -1,3 +1,7 @@
+12-Nov-2001:
+	- Created new cpersist plugin. This plugin will implement
+	  'classic persistance' for CEL. This plugin does not do
+	  anything at the moment except compile and register.
 11-Nov-2001:
 	- Even though persistance is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data
