@@ -1,3 +1,5 @@
+14-Nov-2001:
+	- Few changes for debugging using the new graph debug tool in CS.
 13-Nov-2001:
 	- Modified pcmeshsel property class to work through
 	  the pccamera property class instead of using iCamera
