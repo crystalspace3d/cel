@@ -753,289 +753,287 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_iFrustumView swig_types[96] 
 #define  SWIGTYPE_p_iSoundWrapper swig_types[97] 
 #define  SWIGTYPE_p_p_iMeshWrapper swig_types[98] 
-#define  SWIGTYPE_p_csMeshWrapper swig_types[99] 
-#define  SWIGTYPE_p_csMaterialWrapper swig_types[100] 
-#define  SWIGTYPE_p_iMeshWrapper swig_types[101] 
-#define  SWIGTYPE_p_iTextureWrapper swig_types[102] 
-#define  SWIGTYPE_p_p_iTextureWrapper swig_types[103] 
-#define  SWIGTYPE_p_iMaterialWrapper swig_types[104] 
-#define  SWIGTYPE_p_iMeshFactoryWrapper swig_types[105] 
-#define  SWIGTYPE_p_iSequenceWrapper swig_types[106] 
-#define  SWIGTYPE_p_csColliderWrapper swig_types[107] 
-#define  SWIGTYPE_p__csPyEventHandler swig_types[108] 
-#define  SWIGTYPE_p_iNovaHalo swig_types[109] 
-#define  SWIGTYPE_p_iRenderView swig_types[110] 
-#define  SWIGTYPE_p_csEventKeyData swig_types[111] 
-#define  SWIGTYPE_p_iLoaderStatus swig_types[112] 
-#define  SWIGTYPE_p_csVertexStatus swig_types[113] 
-#define  SWIGTYPE_p_iCelBehaviour swig_types[114] 
-#define  SWIGTYPE_p_iMeshList swig_types[115] 
-#define  SWIGTYPE_p_iConsoleWatcher swig_types[116] 
-#define  SWIGTYPE_p_iBase swig_types[117] 
-#define  SWIGTYPE_p_iFontServer swig_types[118] 
-#define  SWIGTYPE_p_G3DPolygonDPFX swig_types[119] 
-#define  SWIGTYPE_p_csPtrTiDynLight_t swig_types[120] 
-#define  SWIGTYPE_p_csPtrTiSequenceTrigger_t swig_types[121] 
-#define  SWIGTYPE_p_csPixelFormat swig_types[122] 
-#define  SWIGTYPE_p_csModelConverterFormat swig_types[123] 
-#define  SWIGTYPE_p_csCollisionPair swig_types[124] 
-#define  SWIGTYPE_p_csView swig_types[125] 
-#define  SWIGTYPE_p_iStreamFormat swig_types[126] 
-#define  SWIGTYPE_p_iVisibilityCuller swig_types[127] 
-#define  SWIGTYPE_p_uint16 swig_types[128] 
-#define  SWIGTYPE_p_iFile swig_types[129] 
-#define  SWIGTYPE_p_csNetworkDriverCapabilities swig_types[130] 
-#define  SWIGTYPE_p_csPtrTiEngineSequenceParameters_t swig_types[131] 
-#define  SWIGTYPE_p_iSoundLoader swig_types[132] 
-#define  SWIGTYPE_p_iLoader swig_types[133] 
-#define  SWIGTYPE_p_iSpriteSocket swig_types[134] 
-#define  SWIGTYPE_p_iPcInventory swig_types[135] 
-#define  SWIGTYPE_p_csTextureLayer swig_types[136] 
-#define  SWIGTYPE_p_iDocumentAttribute swig_types[137] 
-#define  SWIGTYPE_p_iSpriteFrame swig_types[138] 
-#define  SWIGTYPE_p_csEventNetworkData swig_types[139] 
-#define  SWIGTYPE_p_iMaterialEngine swig_types[140] 
-#define  SWIGTYPE_p_iVirtualClock swig_types[141] 
-#define  SWIGTYPE_p_iEngine swig_types[142] 
-#define  SWIGTYPE_p_int16 swig_types[143] 
-#define  SWIGTYPE_p_iNetworkEndPoint swig_types[144] 
-#define  SWIGTYPE_p_scfClassInfo swig_types[145] 
-#define  SWIGTYPE_p_iLightingProcessInfo swig_types[146] 
-#define  SWIGTYPE_p_csPtrTcsFrustum_t swig_types[147] 
-#define  SWIGTYPE_p_iReporter swig_types[148] 
-#define  SWIGTYPE_p_csPtrTiLoaderContext_t swig_types[149] 
-#define  SWIGTYPE_p_csPtrTiShadowBlock_t swig_types[150] 
-#define  SWIGTYPE_p_iVertexBufferManagerClient swig_types[151] 
-#define  SWIGTYPE_p_csEventCommandData swig_types[152] 
-#define  SWIGTYPE_p_iSoundData swig_types[153] 
-#define  SWIGTYPE_p_iCelPropertyClass swig_types[154] 
-#define  SWIGTYPE_p_iProgressMeter swig_types[155] 
-#define  SWIGTYPE_p_iString swig_types[156] 
-#define  SWIGTYPE_p_csString swig_types[157] 
-#define  SWIGTYPE_p_iPcCharacteristics swig_types[158] 
-#define  SWIGTYPE_p_iKeyboardDriver swig_types[159] 
-#define  SWIGTYPE_p_iSoundDriver swig_types[160] 
-#define  SWIGTYPE_p_iShadowBlockList swig_types[161] 
-#define  SWIGTYPE_p_iJoystickDriver swig_types[162] 
-#define  SWIGTYPE_p_iMouseDriver swig_types[163] 
-#define  SWIGTYPE_p_iNetworkDriver swig_types[164] 
-#define  SWIGTYPE_p_iSCF swig_types[165] 
-#define  SWIGTYPE_p_double swig_types[166] 
-#define  SWIGTYPE_p_bool swig_types[167] 
-#define  SWIGTYPE_p_char swig_types[168] 
-#define  SWIGTYPE_p_p_char swig_types[169] 
-#define  SWIGTYPE_p_iModelData swig_types[170] 
-#define  SWIGTYPE_p_csPtrTiVertexBuffer_t swig_types[171] 
-#define  SWIGTYPE_p_iSequenceTimedOperation swig_types[172] 
-#define  SWIGTYPE_p_G3DPolygonDP swig_types[173] 
-#define  SWIGTYPE_p_iJoint swig_types[174] 
-#define  SWIGTYPE_p_iLightingProcessData swig_types[175] 
-#define  SWIGTYPE_p_uint32 swig_types[176] 
-#define  SWIGTYPE_p_iEngineSequenceParameters swig_types[177] 
-#define  SWIGTYPE_p_G3DTexturePlane swig_types[178] 
-#define  SWIGTYPE_p_iBodyGroup swig_types[179] 
-#define  SWIGTYPE_p_csMeshedPolygon swig_types[180] 
-#define  SWIGTYPE_p_iCelEntityList swig_types[181] 
-#define  SWIGTYPE_p_iSprite2DUVAnimationFrame swig_types[182] 
-#define  SWIGTYPE_p_iCollection swig_types[183] 
-#define  SWIGTYPE_p_iNetworkConnection swig_types[184] 
-#define  SWIGTYPE_p_iPcMeshSelect swig_types[185] 
-#define  SWIGTYPE_p_iStatLight swig_types[186] 
-#define  SWIGTYPE_p_csStatLight swig_types[187] 
-#define  SWIGTYPE_p_csPtrTiSoundData_t swig_types[188] 
-#define  SWIGTYPE_p_csPtrTiModelData_t swig_types[189] 
-#define  SWIGTYPE_p_csFlags swig_types[190] 
-#define  SWIGTYPE_p_csLightMapMapping swig_types[191] 
-#define  SWIGTYPE_p_csPtrTiLightingProcessData_t swig_types[192] 
-#define  SWIGTYPE_p_iDocument swig_types[193] 
-#define  SWIGTYPE_p_iNetworkSocket2 swig_types[194] 
-#define  SWIGTYPE_p_csIntersect2 swig_types[195] 
-#define  SWIGTYPE_p_csIntersect3 swig_types[196] 
-#define  SWIGTYPE_p_csFileTime swig_types[197] 
-#define  SWIGTYPE_p_iMaterialList swig_types[198] 
-#define  SWIGTYPE_p_iLight swig_types[199] 
-#define  SWIGTYPE_p_p_iLight swig_types[200] 
-#define  SWIGTYPE_p_csBox2 swig_types[201] 
-#define  SWIGTYPE_p_csMath2 swig_types[202] 
-#define  SWIGTYPE_p_csBox3 swig_types[203] 
-#define  SWIGTYPE_p_csMath3 swig_types[204] 
-#define  SWIGTYPE_p_iMaterial swig_types[205] 
-#define  SWIGTYPE_p_int32 swig_types[206] 
-#define  SWIGTYPE_p_iConfigFile swig_types[207] 
-#define  SWIGTYPE_p_csPtrTiReporterIterator_t swig_types[208] 
-#define  SWIGTYPE_p_csRefTiDocumentAttributeIterator_t swig_types[209] 
-#define  SWIGTYPE_p_csRefTiDocumentNodeIterator_t swig_types[210] 
-#define  SWIGTYPE_p_csPtrTiPluginIterator_t swig_types[211] 
-#define  SWIGTYPE_p_csPtrTiObjectRegistryIterator_t swig_types[212] 
-#define  SWIGTYPE_p_csPtrTiVisibilityObjectIterator_t swig_types[213] 
-#define  SWIGTYPE_p_csPtrTiObjectIterator_t swig_types[214] 
-#define  SWIGTYPE_p_csPtrTiSectorIterator_t swig_types[215] 
-#define  SWIGTYPE_p_csPtrTiLightIterator_t swig_types[216] 
-#define  SWIGTYPE_p__2_basetype swig_types[217] 
-#define  SWIGTYPE_p__1_basetype swig_types[218] 
-#define  SWIGTYPE_p_basetype swig_types[219] 
-#define  SWIGTYPE_p_p_iEvent swig_types[220] 
-#define  SWIGTYPE_p_iEvent swig_types[221] 
-#define  SWIGTYPE_p_csPtrTiObjectWatcher_t swig_types[222] 
-#define  SWIGTYPE_p_iThingState swig_types[223] 
-#define  SWIGTYPE_p_csPtrTiSequenceWrapper_t swig_types[224] 
-#define  SWIGTYPE_p_iHalo swig_types[225] 
-#define  SWIGTYPE_p_p_iCollider swig_types[226] 
-#define  SWIGTYPE_p_iCollider swig_types[227] 
-#define  SWIGTYPE_p_iPcMesh swig_types[228] 
-#define  SWIGTYPE_p_csColor swig_types[229] 
-#define  SWIGTYPE_p_iPcTimer swig_types[230] 
-#define  SWIGTYPE_p_unsigned_char swig_types[231] 
-#define  SWIGTYPE_p_csLight swig_types[232] 
-#define  SWIGTYPE_p_iDocumentNode swig_types[233] 
-#define  SWIGTYPE_p_iSequenceTrigger swig_types[234] 
-#define  SWIGTYPE_p_iGraphics2D swig_types[235] 
-#define  SWIGTYPE_p_iCameraPosition swig_types[236] 
-#define  SWIGTYPE_p_G3DPolygonMesh swig_types[237] 
-#define  SWIGTYPE_p_iPolygonMesh swig_types[238] 
-#define  SWIGTYPE_p_iTextureList swig_types[239] 
-#define  SWIGTYPE_p_iPcMovableConstraint swig_types[240] 
-#define  SWIGTYPE_p_iView swig_types[241] 
-#define  SWIGTYPE_p_csPtrTiLoaderStatus_t swig_types[242] 
-#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[243] 
-#define  SWIGTYPE_p_csRefTiRigidBody_t swig_types[244] 
-#define  SWIGTYPE_p_csRefTiDocumentNode_t swig_types[245] 
-#define  SWIGTYPE_p_iSectorList swig_types[246] 
-#define  SWIGTYPE_p_csWrapPtr swig_types[247] 
-#define  SWIGTYPE_p_iSoundHandle swig_types[248] 
-#define  SWIGTYPE_p_iMaterialHandle swig_types[249] 
-#define  SWIGTYPE_p_iTextureHandle swig_types[250] 
-#define  SWIGTYPE_p_G3DPolygonDFP swig_types[251] 
-#define  SWIGTYPE_p_iCommandLineParser swig_types[252] 
-#define  SWIGTYPE_p_iFontDeleteNotify swig_types[253] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[254] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[255] 
-#define  SWIGTYPE_p_csInitializer swig_types[256] 
-#define  SWIGTYPE_p_int8 swig_types[257] 
-#define  SWIGTYPE_p_iSoundSource swig_types[258] 
-#define  SWIGTYPE_p_iMeshFactoryList swig_types[259] 
-#define  SWIGTYPE_p_csRefTiTextureHandle_t swig_types[260] 
-#define  SWIGTYPE_p_csPtrTiMaterialHandle_t swig_types[261] 
-#define  SWIGTYPE_p_iSoundRender swig_types[262] 
-#define  SWIGTYPE_p_size_t swig_types[263] 
-#define  SWIGTYPE_p_va_list swig_types[264] 
-#define  SWIGTYPE_p_csGraphics3DCaps swig_types[265] 
-#define  SWIGTYPE_p_iGraphics3D swig_types[266] 
-#define  SWIGTYPE_p_iSkeleton swig_types[267] 
-#define  SWIGTYPE_p_iMeshObjectType swig_types[268] 
-#define  SWIGTYPE_p_iRigidBody swig_types[269] 
-#define  SWIGTYPE_p_iNativeWindowManager swig_types[270] 
-#define  SWIGTYPE_p_iVertexBufferManager swig_types[271] 
-#define  SWIGTYPE_p_iTextureManager swig_types[272] 
-#define  SWIGTYPE_p_iCacheManager swig_types[273] 
-#define  SWIGTYPE_p_iPluginManager swig_types[274] 
-#define  SWIGTYPE_p_iConfigManager swig_types[275] 
-#define  SWIGTYPE_p_csRect swig_types[276] 
-#define  SWIGTYPE_p_iDynamics swig_types[277] 
-#define  SWIGTYPE_p_iEngineSequenceManager swig_types[278] 
-#define  SWIGTYPE_p_iSequenceManager swig_types[279] 
-#define  SWIGTYPE_p_iNetworkManager swig_types[280] 
-#define  SWIGTYPE_p_iParameterESM swig_types[281] 
-#define  SWIGTYPE_p_csStringID swig_types[282] 
-#define  SWIGTYPE_p_csRefTiSkeletonBone_t swig_types[283] 
-#define  SWIGTYPE_p_iCrossHalo swig_types[284] 
-#define  SWIGTYPE_p_csReporterHelper swig_types[285] 
-#define  SWIGTYPE_p_csColliderHelper swig_types[286] 
-#define  SWIGTYPE_p_csEventJoystickData swig_types[287] 
-#define  SWIGTYPE_p_csGeomDebugHelper swig_types[288] 
-#define  SWIGTYPE_p_csCommandLineHelper swig_types[289] 
-#define  SWIGTYPE_p_iDebugHelper swig_types[290] 
-#define  SWIGTYPE_p_csPoly2DFactory swig_types[291] 
-#define  SWIGTYPE_p_iFactory swig_types[292] 
-#define  SWIGTYPE_p_iMeshObjectFactory swig_types[293] 
-#define  SWIGTYPE_p_G3DTriangleMesh swig_types[294] 
-#define  SWIGTYPE_p_csFog swig_types[295] 
-#define  SWIGTYPE_p_csPtrTiShadowBlockList_t swig_types[296] 
-#define  SWIGTYPE_p_csPtrTiEventOutlet_t swig_types[297] 
-#define  SWIGTYPE_p_csPixelCoord swig_types[298] 
-#define  SWIGTYPE_p_iCamera swig_types[299] 
-#define  SWIGTYPE_p_iPcCamera swig_types[300] 
-#define  SWIGTYPE_p_uint64 swig_types[301] 
-#define  SWIGTYPE_p_iSharedVariable swig_types[302] 
-#define  SWIGTYPE_p_iShadowReceiver swig_types[303] 
-#define  SWIGTYPE_p_iFrustumViewUserdata swig_types[304] 
-#define  SWIGTYPE_p_csMouseCursorID swig_types[305] 
-#define  SWIGTYPE_p_int swig_types[306] 
-#define  SWIGTYPE_p_iObjectModel swig_types[307] 
-#define  SWIGTYPE_p_csPolygon3D swig_types[308] 
-#define  SWIGTYPE_p_iPolygon3D swig_types[309] 
-#define  SWIGTYPE_p_p_iPolygon3D swig_types[310] 
-#define  SWIGTYPE_p_iModelConverter swig_types[311] 
-#define  SWIGTYPE_p_p_void swig_types[312] 
-#define  SWIGTYPE_p_void swig_types[313] 
-#define  SWIGTYPE_p_f_p_iBase__p_void swig_types[314] 
-#define  SWIGTYPE_p_iStrVector swig_types[315] 
-#define  SWIGTYPE_p_csVector swig_types[316] 
-#define  SWIGTYPE_p_iMovable swig_types[317] 
-#define  SWIGTYPE_p_csPoly2D swig_types[318] 
-#define  SWIGTYPE_p_iPcMovable swig_types[319] 
-#define  SWIGTYPE_p_csSprite2DVertex swig_types[320] 
-#define  SWIGTYPE_p_iNativeWindow swig_types[321] 
-#define  SWIGTYPE_p_iVideoStream swig_types[322] 
-#define  SWIGTYPE_p_iAudioStream swig_types[323] 
-#define  SWIGTYPE_p_iStream swig_types[324] 
-#define  SWIGTYPE_p_csDataStream swig_types[325] 
-#define  SWIGTYPE_p_iBinaryLoaderPlugin swig_types[326] 
-#define  SWIGTYPE_p_iLoaderPlugin swig_types[327] 
-#define  SWIGTYPE_p_csBSpline swig_types[328] 
-#define  SWIGTYPE_p_iNetworkPacket2 swig_types[329] 
-#define  SWIGTYPE_p_csEventMouseData swig_types[330] 
-#define  SWIGTYPE_p_csTriangle swig_types[331] 
-#define  SWIGTYPE_p_csSpline swig_types[332] 
-#define  SWIGTYPE_p_csCubicSpline swig_types[333] 
-#define  SWIGTYPE_p_csCatmullRomSpline swig_types[334] 
-#define  SWIGTYPE_p_iImageIO swig_types[335] 
-#define  SWIGTYPE_p_int64 swig_types[336] 
-#define  SWIGTYPE_p_iSprite2DState swig_types[337] 
-#define  SWIGTYPE_p_iVertexBuffer swig_types[338] 
-#define  SWIGTYPE_p_iPolygonBuffer swig_types[339] 
-#define  SWIGTYPE_p_p_iVertexBuffer swig_types[340] 
-#define  SWIGTYPE_p_iSprite3DState swig_types[341] 
-#define  SWIGTYPE_p_iDataBuffer swig_types[342] 
-#define  SWIGTYPE_p_iLightMap swig_types[343] 
-#define  SWIGTYPE_p_csSphere swig_types[344] 
-#define  SWIGTYPE_p_iPolygonTexture swig_types[345] 
-#define  SWIGTYPE_p_iImageIO__FileFormatDescription swig_types[346] 
-#define  SWIGTYPE_p_csImageIOFileFormatDescription swig_types[347] 
-#define  SWIGTYPE_p_csCodecDescription swig_types[348] 
-#define  SWIGTYPE_p_csAudioStreamDescription swig_types[349] 
-#define  SWIGTYPE_p_csVideoStreamDescription swig_types[350] 
-#define  SWIGTYPE_p_csStreamDescription swig_types[351] 
-#define  SWIGTYPE_p_iComponent swig_types[352] 
-#define  SWIGTYPE_p_iSpriteAction swig_types[353] 
-#define  SWIGTYPE_p_iThingFactoryState swig_types[354] 
-#define  SWIGTYPE_p_iSprite3DFactoryState swig_types[355] 
-#define  SWIGTYPE_p_iSprite2DFactoryState swig_types[356] 
-#define  SWIGTYPE_p_csPoly3D swig_types[357] 
-#define  SWIGTYPE_p_iSkeletonState swig_types[358] 
-#define  SWIGTYPE_p_G3DFogInfo swig_types[359] 
-#define  SWIGTYPE_p_iPcSolid swig_types[360] 
-#define  SWIGTYPE_p_csMatrix2 swig_types[361] 
-#define  SWIGTYPE_p_csZScaleMatrix3 swig_types[362] 
-#define  SWIGTYPE_p_csYScaleMatrix3 swig_types[363] 
-#define  SWIGTYPE_p_csXScaleMatrix3 swig_types[364] 
-#define  SWIGTYPE_p_csZRotMatrix3 swig_types[365] 
-#define  SWIGTYPE_p_csYRotMatrix3 swig_types[366] 
-#define  SWIGTYPE_p_csXRotMatrix3 swig_types[367] 
-#define  SWIGTYPE_p_csMatrix3 swig_types[368] 
-#define  SWIGTYPE_p_iSprite2DUVAnimation swig_types[369] 
-#define  SWIGTYPE_p_iCelEntity swig_types[370] 
-#define  SWIGTYPE_p_csSquaredDist swig_types[371] 
-#define  SWIGTYPE_p_iNetworkPacket swig_types[372] 
-#define  SWIGTYPE_p_csPoint swig_types[373] 
-#define  SWIGTYPE_p_iEventPlug swig_types[374] 
-#define  SWIGTYPE_p_iSequence swig_types[375] 
-#define  SWIGTYPE_p_csPlane2 swig_types[376] 
-#define  SWIGTYPE_p_iEventCord swig_types[377] 
-#define  SWIGTYPE_p_csPlane3 swig_types[378] 
-#define  SWIGTYPE_p_iPcGravity swig_types[379] 
-#define  SWIGTYPE_p_iPortal swig_types[380] 
-static swig_type_info *swig_types[382];
+#define  SWIGTYPE_p_iMeshWrapper swig_types[99] 
+#define  SWIGTYPE_p_iTextureWrapper swig_types[100] 
+#define  SWIGTYPE_p_p_iTextureWrapper swig_types[101] 
+#define  SWIGTYPE_p_iMaterialWrapper swig_types[102] 
+#define  SWIGTYPE_p_iMeshFactoryWrapper swig_types[103] 
+#define  SWIGTYPE_p_iSequenceWrapper swig_types[104] 
+#define  SWIGTYPE_p_csColliderWrapper swig_types[105] 
+#define  SWIGTYPE_p__csPyEventHandler swig_types[106] 
+#define  SWIGTYPE_p_iNovaHalo swig_types[107] 
+#define  SWIGTYPE_p_iRenderView swig_types[108] 
+#define  SWIGTYPE_p_csEventKeyData swig_types[109] 
+#define  SWIGTYPE_p_iLoaderStatus swig_types[110] 
+#define  SWIGTYPE_p_csVertexStatus swig_types[111] 
+#define  SWIGTYPE_p_iCelBehaviour swig_types[112] 
+#define  SWIGTYPE_p_iMeshList swig_types[113] 
+#define  SWIGTYPE_p_iConsoleWatcher swig_types[114] 
+#define  SWIGTYPE_p_iBase swig_types[115] 
+#define  SWIGTYPE_p_iFontServer swig_types[116] 
+#define  SWIGTYPE_p_G3DPolygonDPFX swig_types[117] 
+#define  SWIGTYPE_p_csPtrTiDynLight_t swig_types[118] 
+#define  SWIGTYPE_p_csPtrTiSequenceTrigger_t swig_types[119] 
+#define  SWIGTYPE_p_csPixelFormat swig_types[120] 
+#define  SWIGTYPE_p_csModelConverterFormat swig_types[121] 
+#define  SWIGTYPE_p_csCollisionPair swig_types[122] 
+#define  SWIGTYPE_p_csView swig_types[123] 
+#define  SWIGTYPE_p_iStreamFormat swig_types[124] 
+#define  SWIGTYPE_p_iVisibilityCuller swig_types[125] 
+#define  SWIGTYPE_p_uint16 swig_types[126] 
+#define  SWIGTYPE_p_iFile swig_types[127] 
+#define  SWIGTYPE_p_csNetworkDriverCapabilities swig_types[128] 
+#define  SWIGTYPE_p_csPtrTiEngineSequenceParameters_t swig_types[129] 
+#define  SWIGTYPE_p_iSoundLoader swig_types[130] 
+#define  SWIGTYPE_p_iLoader swig_types[131] 
+#define  SWIGTYPE_p_iSpriteSocket swig_types[132] 
+#define  SWIGTYPE_p_iPcInventory swig_types[133] 
+#define  SWIGTYPE_p_csTextureLayer swig_types[134] 
+#define  SWIGTYPE_p_iDocumentAttribute swig_types[135] 
+#define  SWIGTYPE_p_iSpriteFrame swig_types[136] 
+#define  SWIGTYPE_p_csEventNetworkData swig_types[137] 
+#define  SWIGTYPE_p_iMaterialEngine swig_types[138] 
+#define  SWIGTYPE_p_iVirtualClock swig_types[139] 
+#define  SWIGTYPE_p_iEngine swig_types[140] 
+#define  SWIGTYPE_p_int16 swig_types[141] 
+#define  SWIGTYPE_p_iNetworkEndPoint swig_types[142] 
+#define  SWIGTYPE_p_scfClassInfo swig_types[143] 
+#define  SWIGTYPE_p_iLightingProcessInfo swig_types[144] 
+#define  SWIGTYPE_p_csPtrTcsFrustum_t swig_types[145] 
+#define  SWIGTYPE_p_iReporter swig_types[146] 
+#define  SWIGTYPE_p_csPtrTiLoaderContext_t swig_types[147] 
+#define  SWIGTYPE_p_csPtrTiShadowBlock_t swig_types[148] 
+#define  SWIGTYPE_p_iVertexBufferManagerClient swig_types[149] 
+#define  SWIGTYPE_p_csEventCommandData swig_types[150] 
+#define  SWIGTYPE_p_iSoundData swig_types[151] 
+#define  SWIGTYPE_p_iCelPropertyClass swig_types[152] 
+#define  SWIGTYPE_p_iProgressMeter swig_types[153] 
+#define  SWIGTYPE_p_iString swig_types[154] 
+#define  SWIGTYPE_p_csString swig_types[155] 
+#define  SWIGTYPE_p_iPcCharacteristics swig_types[156] 
+#define  SWIGTYPE_p_iKeyboardDriver swig_types[157] 
+#define  SWIGTYPE_p_iSoundDriver swig_types[158] 
+#define  SWIGTYPE_p_iShadowBlockList swig_types[159] 
+#define  SWIGTYPE_p_iJoystickDriver swig_types[160] 
+#define  SWIGTYPE_p_iMouseDriver swig_types[161] 
+#define  SWIGTYPE_p_iNetworkDriver swig_types[162] 
+#define  SWIGTYPE_p_iSCF swig_types[163] 
+#define  SWIGTYPE_p_double swig_types[164] 
+#define  SWIGTYPE_p_bool swig_types[165] 
+#define  SWIGTYPE_p_char swig_types[166] 
+#define  SWIGTYPE_p_p_char swig_types[167] 
+#define  SWIGTYPE_p_iModelData swig_types[168] 
+#define  SWIGTYPE_p_csPtrTiVertexBuffer_t swig_types[169] 
+#define  SWIGTYPE_p_iSequenceTimedOperation swig_types[170] 
+#define  SWIGTYPE_p_G3DPolygonDP swig_types[171] 
+#define  SWIGTYPE_p_iJoint swig_types[172] 
+#define  SWIGTYPE_p_iLightingProcessData swig_types[173] 
+#define  SWIGTYPE_p_uint32 swig_types[174] 
+#define  SWIGTYPE_p_iEngineSequenceParameters swig_types[175] 
+#define  SWIGTYPE_p_G3DTexturePlane swig_types[176] 
+#define  SWIGTYPE_p_iBodyGroup swig_types[177] 
+#define  SWIGTYPE_p_csMeshedPolygon swig_types[178] 
+#define  SWIGTYPE_p_iCelEntityList swig_types[179] 
+#define  SWIGTYPE_p_iSprite2DUVAnimationFrame swig_types[180] 
+#define  SWIGTYPE_p_iCollection swig_types[181] 
+#define  SWIGTYPE_p_iNetworkConnection swig_types[182] 
+#define  SWIGTYPE_p_iPcMeshSelect swig_types[183] 
+#define  SWIGTYPE_p_iStatLight swig_types[184] 
+#define  SWIGTYPE_p_csStatLight swig_types[185] 
+#define  SWIGTYPE_p_csPtrTiSoundData_t swig_types[186] 
+#define  SWIGTYPE_p_csPtrTiModelData_t swig_types[187] 
+#define  SWIGTYPE_p_csFlags swig_types[188] 
+#define  SWIGTYPE_p_csLightMapMapping swig_types[189] 
+#define  SWIGTYPE_p_csPtrTiLightingProcessData_t swig_types[190] 
+#define  SWIGTYPE_p_iDocument swig_types[191] 
+#define  SWIGTYPE_p_iNetworkSocket2 swig_types[192] 
+#define  SWIGTYPE_p_csIntersect2 swig_types[193] 
+#define  SWIGTYPE_p_csIntersect3 swig_types[194] 
+#define  SWIGTYPE_p_csFileTime swig_types[195] 
+#define  SWIGTYPE_p_iMaterialList swig_types[196] 
+#define  SWIGTYPE_p_p_iLight swig_types[197] 
+#define  SWIGTYPE_p_iLight swig_types[198] 
+#define  SWIGTYPE_p_csBox2 swig_types[199] 
+#define  SWIGTYPE_p_csMath2 swig_types[200] 
+#define  SWIGTYPE_p_csBox3 swig_types[201] 
+#define  SWIGTYPE_p_csMath3 swig_types[202] 
+#define  SWIGTYPE_p_iMaterial swig_types[203] 
+#define  SWIGTYPE_p_int32 swig_types[204] 
+#define  SWIGTYPE_p_iConfigFile swig_types[205] 
+#define  SWIGTYPE_p_csPtrTiReporterIterator_t swig_types[206] 
+#define  SWIGTYPE_p_csRefTiDocumentAttributeIterator_t swig_types[207] 
+#define  SWIGTYPE_p_csRefTiDocumentNodeIterator_t swig_types[208] 
+#define  SWIGTYPE_p_csPtrTiPluginIterator_t swig_types[209] 
+#define  SWIGTYPE_p_csPtrTiObjectRegistryIterator_t swig_types[210] 
+#define  SWIGTYPE_p_csPtrTiVisibilityObjectIterator_t swig_types[211] 
+#define  SWIGTYPE_p_csPtrTiObjectIterator_t swig_types[212] 
+#define  SWIGTYPE_p_csPtrTiSectorIterator_t swig_types[213] 
+#define  SWIGTYPE_p_csPtrTiLightIterator_t swig_types[214] 
+#define  SWIGTYPE_p__2_basetype swig_types[215] 
+#define  SWIGTYPE_p__1_basetype swig_types[216] 
+#define  SWIGTYPE_p_basetype swig_types[217] 
+#define  SWIGTYPE_p_p_iEvent swig_types[218] 
+#define  SWIGTYPE_p_iEvent swig_types[219] 
+#define  SWIGTYPE_p_csPtrTiObjectWatcher_t swig_types[220] 
+#define  SWIGTYPE_p_iThingState swig_types[221] 
+#define  SWIGTYPE_p_csPtrTiSequenceWrapper_t swig_types[222] 
+#define  SWIGTYPE_p_iHalo swig_types[223] 
+#define  SWIGTYPE_p_p_iCollider swig_types[224] 
+#define  SWIGTYPE_p_iCollider swig_types[225] 
+#define  SWIGTYPE_p_iPcMesh swig_types[226] 
+#define  SWIGTYPE_p_csColor swig_types[227] 
+#define  SWIGTYPE_p_iPcTimer swig_types[228] 
+#define  SWIGTYPE_p_unsigned_char swig_types[229] 
+#define  SWIGTYPE_p_csLight swig_types[230] 
+#define  SWIGTYPE_p_iDocumentNode swig_types[231] 
+#define  SWIGTYPE_p_iSequenceTrigger swig_types[232] 
+#define  SWIGTYPE_p_iGraphics2D swig_types[233] 
+#define  SWIGTYPE_p_iCameraPosition swig_types[234] 
+#define  SWIGTYPE_p_G3DPolygonMesh swig_types[235] 
+#define  SWIGTYPE_p_iPolygonMesh swig_types[236] 
+#define  SWIGTYPE_p_iTextureList swig_types[237] 
+#define  SWIGTYPE_p_iPcMovableConstraint swig_types[238] 
+#define  SWIGTYPE_p_iView swig_types[239] 
+#define  SWIGTYPE_p_csPtrTiLoaderStatus_t swig_types[240] 
+#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[241] 
+#define  SWIGTYPE_p_csRefTiRigidBody_t swig_types[242] 
+#define  SWIGTYPE_p_csRefTiDocumentNode_t swig_types[243] 
+#define  SWIGTYPE_p_iSectorList swig_types[244] 
+#define  SWIGTYPE_p_csWrapPtr swig_types[245] 
+#define  SWIGTYPE_p_iSoundHandle swig_types[246] 
+#define  SWIGTYPE_p_iMaterialHandle swig_types[247] 
+#define  SWIGTYPE_p_iTextureHandle swig_types[248] 
+#define  SWIGTYPE_p_G3DPolygonDFP swig_types[249] 
+#define  SWIGTYPE_p_iCommandLineParser swig_types[250] 
+#define  SWIGTYPE_p_iFontDeleteNotify swig_types[251] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[252] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[253] 
+#define  SWIGTYPE_p_csInitializer swig_types[254] 
+#define  SWIGTYPE_p_int8 swig_types[255] 
+#define  SWIGTYPE_p_iSoundSource swig_types[256] 
+#define  SWIGTYPE_p_iMeshFactoryList swig_types[257] 
+#define  SWIGTYPE_p_csRefTiTextureHandle_t swig_types[258] 
+#define  SWIGTYPE_p_csPtrTiMaterialHandle_t swig_types[259] 
+#define  SWIGTYPE_p_iSoundRender swig_types[260] 
+#define  SWIGTYPE_p_size_t swig_types[261] 
+#define  SWIGTYPE_p_va_list swig_types[262] 
+#define  SWIGTYPE_p_csGraphics3DCaps swig_types[263] 
+#define  SWIGTYPE_p_iGraphics3D swig_types[264] 
+#define  SWIGTYPE_p_iSkeleton swig_types[265] 
+#define  SWIGTYPE_p_iMeshObjectType swig_types[266] 
+#define  SWIGTYPE_p_iRigidBody swig_types[267] 
+#define  SWIGTYPE_p_iNativeWindowManager swig_types[268] 
+#define  SWIGTYPE_p_iVertexBufferManager swig_types[269] 
+#define  SWIGTYPE_p_iTextureManager swig_types[270] 
+#define  SWIGTYPE_p_iCacheManager swig_types[271] 
+#define  SWIGTYPE_p_iPluginManager swig_types[272] 
+#define  SWIGTYPE_p_iConfigManager swig_types[273] 
+#define  SWIGTYPE_p_csRect swig_types[274] 
+#define  SWIGTYPE_p_iDynamics swig_types[275] 
+#define  SWIGTYPE_p_iEngineSequenceManager swig_types[276] 
+#define  SWIGTYPE_p_iSequenceManager swig_types[277] 
+#define  SWIGTYPE_p_iNetworkManager swig_types[278] 
+#define  SWIGTYPE_p_iParameterESM swig_types[279] 
+#define  SWIGTYPE_p_csStringID swig_types[280] 
+#define  SWIGTYPE_p_csRefTiSkeletonBone_t swig_types[281] 
+#define  SWIGTYPE_p_iCrossHalo swig_types[282] 
+#define  SWIGTYPE_p_csReporterHelper swig_types[283] 
+#define  SWIGTYPE_p_csColliderHelper swig_types[284] 
+#define  SWIGTYPE_p_csEventJoystickData swig_types[285] 
+#define  SWIGTYPE_p_csGeomDebugHelper swig_types[286] 
+#define  SWIGTYPE_p_csCommandLineHelper swig_types[287] 
+#define  SWIGTYPE_p_iDebugHelper swig_types[288] 
+#define  SWIGTYPE_p_csPoly2DFactory swig_types[289] 
+#define  SWIGTYPE_p_iFactory swig_types[290] 
+#define  SWIGTYPE_p_iMeshObjectFactory swig_types[291] 
+#define  SWIGTYPE_p_G3DTriangleMesh swig_types[292] 
+#define  SWIGTYPE_p_csFog swig_types[293] 
+#define  SWIGTYPE_p_csPtrTiShadowBlockList_t swig_types[294] 
+#define  SWIGTYPE_p_csPtrTiEventOutlet_t swig_types[295] 
+#define  SWIGTYPE_p_csPixelCoord swig_types[296] 
+#define  SWIGTYPE_p_iCamera swig_types[297] 
+#define  SWIGTYPE_p_iPcCamera swig_types[298] 
+#define  SWIGTYPE_p_uint64 swig_types[299] 
+#define  SWIGTYPE_p_iSharedVariable swig_types[300] 
+#define  SWIGTYPE_p_iShadowReceiver swig_types[301] 
+#define  SWIGTYPE_p_iFrustumViewUserdata swig_types[302] 
+#define  SWIGTYPE_p_csMouseCursorID swig_types[303] 
+#define  SWIGTYPE_p_int swig_types[304] 
+#define  SWIGTYPE_p_iObjectModel swig_types[305] 
+#define  SWIGTYPE_p_csPolygon3D swig_types[306] 
+#define  SWIGTYPE_p_iPolygon3D swig_types[307] 
+#define  SWIGTYPE_p_p_iPolygon3D swig_types[308] 
+#define  SWIGTYPE_p_iModelConverter swig_types[309] 
+#define  SWIGTYPE_p_p_void swig_types[310] 
+#define  SWIGTYPE_p_void swig_types[311] 
+#define  SWIGTYPE_p_f_p_iBase__p_void swig_types[312] 
+#define  SWIGTYPE_p_iStrVector swig_types[313] 
+#define  SWIGTYPE_p_csVector swig_types[314] 
+#define  SWIGTYPE_p_iMovable swig_types[315] 
+#define  SWIGTYPE_p_csPoly2D swig_types[316] 
+#define  SWIGTYPE_p_iPcMovable swig_types[317] 
+#define  SWIGTYPE_p_csSprite2DVertex swig_types[318] 
+#define  SWIGTYPE_p_iNativeWindow swig_types[319] 
+#define  SWIGTYPE_p_iVideoStream swig_types[320] 
+#define  SWIGTYPE_p_iAudioStream swig_types[321] 
+#define  SWIGTYPE_p_iStream swig_types[322] 
+#define  SWIGTYPE_p_csDataStream swig_types[323] 
+#define  SWIGTYPE_p_iBinaryLoaderPlugin swig_types[324] 
+#define  SWIGTYPE_p_iLoaderPlugin swig_types[325] 
+#define  SWIGTYPE_p_csBSpline swig_types[326] 
+#define  SWIGTYPE_p_iNetworkPacket2 swig_types[327] 
+#define  SWIGTYPE_p_csEventMouseData swig_types[328] 
+#define  SWIGTYPE_p_csTriangle swig_types[329] 
+#define  SWIGTYPE_p_csSpline swig_types[330] 
+#define  SWIGTYPE_p_csCubicSpline swig_types[331] 
+#define  SWIGTYPE_p_csCatmullRomSpline swig_types[332] 
+#define  SWIGTYPE_p_iImageIO swig_types[333] 
+#define  SWIGTYPE_p_int64 swig_types[334] 
+#define  SWIGTYPE_p_iSprite2DState swig_types[335] 
+#define  SWIGTYPE_p_iVertexBuffer swig_types[336] 
+#define  SWIGTYPE_p_iPolygonBuffer swig_types[337] 
+#define  SWIGTYPE_p_p_iVertexBuffer swig_types[338] 
+#define  SWIGTYPE_p_iSprite3DState swig_types[339] 
+#define  SWIGTYPE_p_iDataBuffer swig_types[340] 
+#define  SWIGTYPE_p_iLightMap swig_types[341] 
+#define  SWIGTYPE_p_csSphere swig_types[342] 
+#define  SWIGTYPE_p_iPolygonTexture swig_types[343] 
+#define  SWIGTYPE_p_iImageIO__FileFormatDescription swig_types[344] 
+#define  SWIGTYPE_p_csImageIOFileFormatDescription swig_types[345] 
+#define  SWIGTYPE_p_csCodecDescription swig_types[346] 
+#define  SWIGTYPE_p_csAudioStreamDescription swig_types[347] 
+#define  SWIGTYPE_p_csVideoStreamDescription swig_types[348] 
+#define  SWIGTYPE_p_csStreamDescription swig_types[349] 
+#define  SWIGTYPE_p_iComponent swig_types[350] 
+#define  SWIGTYPE_p_iSpriteAction swig_types[351] 
+#define  SWIGTYPE_p_iThingFactoryState swig_types[352] 
+#define  SWIGTYPE_p_iSprite3DFactoryState swig_types[353] 
+#define  SWIGTYPE_p_iSprite2DFactoryState swig_types[354] 
+#define  SWIGTYPE_p_csPoly3D swig_types[355] 
+#define  SWIGTYPE_p_iSkeletonState swig_types[356] 
+#define  SWIGTYPE_p_G3DFogInfo swig_types[357] 
+#define  SWIGTYPE_p_iPcSolid swig_types[358] 
+#define  SWIGTYPE_p_csMatrix2 swig_types[359] 
+#define  SWIGTYPE_p_csZScaleMatrix3 swig_types[360] 
+#define  SWIGTYPE_p_csYScaleMatrix3 swig_types[361] 
+#define  SWIGTYPE_p_csXScaleMatrix3 swig_types[362] 
+#define  SWIGTYPE_p_csZRotMatrix3 swig_types[363] 
+#define  SWIGTYPE_p_csYRotMatrix3 swig_types[364] 
+#define  SWIGTYPE_p_csXRotMatrix3 swig_types[365] 
+#define  SWIGTYPE_p_csMatrix3 swig_types[366] 
+#define  SWIGTYPE_p_iSprite2DUVAnimation swig_types[367] 
+#define  SWIGTYPE_p_iCelEntity swig_types[368] 
+#define  SWIGTYPE_p_csSquaredDist swig_types[369] 
+#define  SWIGTYPE_p_iNetworkPacket swig_types[370] 
+#define  SWIGTYPE_p_csPoint swig_types[371] 
+#define  SWIGTYPE_p_iEventPlug swig_types[372] 
+#define  SWIGTYPE_p_iSequence swig_types[373] 
+#define  SWIGTYPE_p_csPlane2 swig_types[374] 
+#define  SWIGTYPE_p_iEventCord swig_types[375] 
+#define  SWIGTYPE_p_csPlane3 swig_types[376] 
+#define  SWIGTYPE_p_iPcGravity swig_types[377] 
+#define  SWIGTYPE_p_iPortal swig_types[378] 
+static swig_type_info *swig_types[380];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -1436,7 +1434,7 @@ csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		return csWrapPtr(to_name, ptr);
 	}
 void delete_iFactory(iFactory *self){ {if (self) {self->DecRef();}}; }
-extern void scfInitialize(iConfigFile *);
+extern void scfInitialize(iDocument *);
 void delete_iSCF(iSCF *self){ {if (self) {self->DecRef();}}; }
 void delete_iDebugHelper(iDebugHelper *self){ {if (self) {self->DecRef();}}; }
 csColor csColor_operator_a___(csColor const *self,csColor const &c){ return *self + c; }
@@ -2759,12 +2757,12 @@ static PyObject * iFactory_swigregister(PyObject *self, PyObject *args) {
 }
 static PyObject *_wrap_scfInitialize(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iConfigFile *arg1 = (iConfigFile *) 0 ;
+    iDocument *arg1 = (iDocument *) 0 ;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"|O:scfInitialize",&obj0)) goto fail;
     if (obj0) {
-        if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iConfigFile,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+        if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iDocument,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     }
     scfInitialize(arg1);
     
@@ -2812,17 +2810,17 @@ static PyObject *_wrap_iSCF_SCF_get() {
 }
 
 
-static PyObject *_wrap_iSCF_RegisterConfigClassList(PyObject *self, PyObject *args) {
+static PyObject *_wrap_iSCF_RegisterClasses(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSCF *arg1 = (iSCF *) 0 ;
-    iConfigFile *arg2 = (iConfigFile *) 0 ;
+    iDocument *arg2 = (iDocument *) 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:iSCF_RegisterConfigClassList",&obj0,&obj1)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:iSCF_RegisterClasses",&obj0,&obj1)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSCF,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iConfigFile,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    (arg1)->RegisterConfigClassList(arg2);
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iDocument,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->RegisterClasses(arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -33052,23 +33050,6 @@ static PyObject *_wrap_iMaterialWrapper_VERSION_get() {
 }
 
 
-static PyObject *_wrap_iMaterialWrapper_GetPrivateObject(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iMaterialWrapper *arg1 = (iMaterialWrapper *) 0 ;
-    csMaterialWrapper *result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iMaterialWrapper_GetPrivateObject",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iMaterialWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (csMaterialWrapper *)(arg1)->GetPrivateObject();
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csMaterialWrapper, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMaterialWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMaterialWrapper *arg1 = (iMaterialWrapper *) 0 ;
@@ -33823,23 +33804,6 @@ static PyObject *_wrap_iMeshWrapper_VERSION_get() {
 }
 
 
-static PyObject *_wrap_iMeshWrapper_GetPrivateObject(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iMeshWrapper *arg1 = (iMeshWrapper *) 0 ;
-    csMeshWrapper *result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iMeshWrapper_GetPrivateObject",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iMeshWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (csMeshWrapper *)(arg1)->GetPrivateObject();
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_csMeshWrapper, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iMeshWrapper_QueryObject(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iMeshWrapper *arg1 = (iMeshWrapper *) 0 ;
@@ -33921,6 +33885,23 @@ static PyObject *_wrap_iMeshWrapper_GetShadowReceiver(PyObject *self, PyObject *
     result = (iShadowReceiver *)((iMeshWrapper const *)arg1)->GetShadowReceiver();
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iShadowReceiver, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iMeshWrapper_GetVisibilityNumber(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iMeshWrapper *arg1 = (iMeshWrapper *) 0 ;
+    uint result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iMeshWrapper_GetVisibilityNumber",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iMeshWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (uint)((iMeshWrapper const *)arg1)->GetVisibilityNumber();
+    
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -42347,6 +42328,22 @@ static PyObject *_wrap_iThingState_Prepare(PyObject *self, PyObject *args) {
     if(!PyArg_ParseTuple(args,(char *)"O:iThingState_Prepare",&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iThingState,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     (arg1)->Prepare();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iThingState_Unprepare(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iThingState *arg1 = (iThingState *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iThingState_Unprepare",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iThingState,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->Unprepare();
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -81640,7 +81637,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iFactory_swigregister", iFactory_swigregister, METH_VARARGS },
 	 { (char *)"scfInitialize", _wrap_scfInitialize, METH_VARARGS },
 	 { (char *)"scfCompatibleVersion", _wrap_scfCompatibleVersion, METH_VARARGS },
-	 { (char *)"iSCF_RegisterConfigClassList", _wrap_iSCF_RegisterConfigClassList, METH_VARARGS },
+	 { (char *)"iSCF_RegisterClasses", _wrap_iSCF_RegisterClasses, METH_VARARGS },
 	 { (char *)"iSCF_ClassRegistered", _wrap_iSCF_ClassRegistered, METH_VARARGS },
 	 { (char *)"iSCF_CreateInstance", _wrap_iSCF_CreateInstance, METH_VARARGS },
 	 { (char *)"iSCF_GetClassDescription", _wrap_iSCF_GetClassDescription, METH_VARARGS },
@@ -82657,7 +82654,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iTextureList_FindByName", _wrap_iTextureList_FindByName, METH_VARARGS },
 	 { (char *)"delete_iTextureList", _wrap_delete_iTextureList, METH_VARARGS },
 	 { (char *)"iTextureList_swigregister", iTextureList_swigregister, METH_VARARGS },
-	 { (char *)"iMaterialWrapper_GetPrivateObject", _wrap_iMaterialWrapper_GetPrivateObject, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_QueryObject", _wrap_iMaterialWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_Clone", _wrap_iMaterialWrapper_Clone, METH_VARARGS },
 	 { (char *)"iMaterialWrapper_SetMaterialHandle", _wrap_iMaterialWrapper_SetMaterialHandle, METH_VARARGS },
@@ -82687,12 +82683,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshDrawCallback_BeforeDrawing", _wrap_iMeshDrawCallback_BeforeDrawing, METH_VARARGS },
 	 { (char *)"delete_iMeshDrawCallback", _wrap_delete_iMeshDrawCallback, METH_VARARGS },
 	 { (char *)"iMeshDrawCallback_swigregister", iMeshDrawCallback_swigregister, METH_VARARGS },
-	 { (char *)"iMeshWrapper_GetPrivateObject", _wrap_iMeshWrapper_GetPrivateObject, METH_VARARGS },
 	 { (char *)"iMeshWrapper_QueryObject", _wrap_iMeshWrapper_QueryObject, METH_VARARGS },
 	 { (char *)"iMeshWrapper_GetMeshObject", _wrap_iMeshWrapper_GetMeshObject, METH_VARARGS },
 	 { (char *)"iMeshWrapper_SetMeshObject", _wrap_iMeshWrapper_SetMeshObject, METH_VARARGS },
 	 { (char *)"iMeshWrapper_GetLightingInfo", _wrap_iMeshWrapper_GetLightingInfo, METH_VARARGS },
 	 { (char *)"iMeshWrapper_GetShadowReceiver", _wrap_iMeshWrapper_GetShadowReceiver, METH_VARARGS },
+	 { (char *)"iMeshWrapper_GetVisibilityNumber", _wrap_iMeshWrapper_GetVisibilityNumber, METH_VARARGS },
 	 { (char *)"iMeshWrapper_GetFactory", _wrap_iMeshWrapper_GetFactory, METH_VARARGS },
 	 { (char *)"iMeshWrapper_SetFactory", _wrap_iMeshWrapper_SetFactory, METH_VARARGS },
 	 { (char *)"iMeshWrapper_DeferUpdateLighting", _wrap_iMeshWrapper_DeferUpdateLighting, METH_VARARGS },
@@ -83066,6 +83062,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iThingState_SetMovingOption", _wrap_iThingState_SetMovingOption, METH_VARARGS },
 	 { (char *)"iThingState_IntersectSegment", _wrap_iThingState_IntersectSegment, METH_VARARGS },
 	 { (char *)"iThingState_Prepare", _wrap_iThingState_Prepare, METH_VARARGS },
+	 { (char *)"iThingState_Unprepare", _wrap_iThingState_Unprepare, METH_VARARGS },
 	 { (char *)"iThingState_ReplaceMaterial", _wrap_iThingState_ReplaceMaterial, METH_VARARGS },
 	 { (char *)"iThingState_ClearReplacedMaterials", _wrap_iThingState_ClearReplacedMaterials, METH_VARARGS },
 	 { (char *)"delete_iThingState", _wrap_delete_iThingState, METH_VARARGS },
@@ -85669,8 +85666,6 @@ static swig_type_info _swigt__p_iEventHandler[] = {{"_p_iEventHandler", 0, "iEve
 static swig_type_info _swigt__p_iFrustumView[] = {{"_p_iFrustumView", 0, "iFrustumView *", 0},{"_p_iFrustumView"},{0}};
 static swig_type_info _swigt__p_iSoundWrapper[] = {{"_p_iSoundWrapper", 0, "iSoundWrapper *", 0},{"_p_iSoundWrapper"},{0}};
 static swig_type_info _swigt__p_p_iMeshWrapper[] = {{"_p_p_iMeshWrapper", 0, "iMeshWrapper **", 0},{"_p_p_iMeshWrapper"},{0}};
-static swig_type_info _swigt__p_csMeshWrapper[] = {{"_p_csMeshWrapper", 0, "csMeshWrapper *", 0},{"_p_csMeshWrapper"},{0}};
-static swig_type_info _swigt__p_csMaterialWrapper[] = {{"_p_csMaterialWrapper", 0, "csMaterialWrapper *", 0},{"_p_csMaterialWrapper"},{0}};
 static swig_type_info _swigt__p_iMeshWrapper[] = {{"_p_iMeshWrapper", 0, "iMeshWrapper *", 0},{"_p_iMeshWrapper"},{0}};
 static swig_type_info _swigt__p_iTextureWrapper[] = {{"_p_iTextureWrapper", 0, "iTextureWrapper *", 0},{"_p_iTextureWrapper"},{0}};
 static swig_type_info _swigt__p_p_iTextureWrapper[] = {{"_p_p_iTextureWrapper", 0, "iTextureWrapper **", 0},{"_p_p_iTextureWrapper"},{0}};
@@ -85769,8 +85764,8 @@ static swig_type_info _swigt__p_csIntersect2[] = {{"_p_csIntersect2", 0, "csInte
 static swig_type_info _swigt__p_csIntersect3[] = {{"_p_csIntersect3", 0, "csIntersect3 *", 0},{"_p_csIntersect3"},{0}};
 static swig_type_info _swigt__p_csFileTime[] = {{"_p_csFileTime", 0, "csFileTime *", 0},{"_p_csFileTime"},{0}};
 static swig_type_info _swigt__p_iMaterialList[] = {{"_p_iMaterialList", 0, "iMaterialList *", 0},{"_p_iMaterialList"},{0}};
-static swig_type_info _swigt__p_iLight[] = {{"_p_iLight", 0, "iLight *", 0},{"_p_iLight"},{0}};
 static swig_type_info _swigt__p_p_iLight[] = {{"_p_p_iLight", 0, "iLight **", 0},{"_p_p_iLight"},{0}};
+static swig_type_info _swigt__p_iLight[] = {{"_p_iLight", 0, "iLight *", 0},{"_p_iLight"},{0}};
 static swig_type_info _swigt__p_csBox2[] = {{"_p_csBox2", 0, "csBox2 *", 0},{"_p_csBox2"},{0}};
 static swig_type_info _swigt__p_csMath2[] = {{"_p_csMath2", 0, "csMath2 *", 0},{"_p_csMath2"},{0}};
 static swig_type_info _swigt__p_csBox3[] = {{"_p_csBox3", 0, "csBox3 *", 0},{"_p_csBox3"},{0}};
@@ -86052,8 +86047,6 @@ _swigt__p_iEventHandler,
 _swigt__p_iFrustumView, 
 _swigt__p_iSoundWrapper, 
 _swigt__p_p_iMeshWrapper, 
-_swigt__p_csMeshWrapper, 
-_swigt__p_csMaterialWrapper, 
 _swigt__p_iMeshWrapper, 
 _swigt__p_iTextureWrapper, 
 _swigt__p_p_iTextureWrapper, 
@@ -86152,8 +86145,8 @@ _swigt__p_csIntersect2,
 _swigt__p_csIntersect3, 
 _swigt__p_csFileTime, 
 _swigt__p_iMaterialList, 
-_swigt__p_iLight, 
 _swigt__p_p_iLight, 
+_swigt__p_iLight, 
 _swigt__p_csBox2, 
 _swigt__p_csMath2, 
 _swigt__p_csBox3, 
