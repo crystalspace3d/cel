@@ -7,6 +7,17 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine fixed libs/celtool/Jamfile so that its `Library' rule
 	  invocation mentions its related public header files in
 	  include/celtool.
+	- Eric Sunshine added cel/data/Jamfile which arranges to have all of
+	  the data files installed by the `install_data' target.
+	- Eric Sunshine augmented cel/Jamfile to install the CEL-specific
+	  vfs.cfg file. (Unfortunately, however, the CEL vfs.cfg does not yet
+	  work correctly since VFS does not look at the CEL installation
+	  directory when scanning for configuration files. Also the installed
+	  CEL vfs.cfg incorrectly mounts directories relative to the
+	  application resource directory ($*) rather than relative to the CEL
+	  installation location, so the mounts are incorrect. We need instead
+	  to install a specially modified vfs.cfg which contains the correct
+	  mounts.)
 6-Dec-2004
 	- Eric Sunshine fixed long-term spelling errors:
 	    iCelPersistance         --> iCelPersistence

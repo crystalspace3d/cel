@@ -43,7 +43,7 @@ if $(PYTHON.AVAILABLE) = yes
     local SUBDIR = [ on $(<) GetVar LOCATE ] ;
     InstallData $(<) : $(>) ;
   }
-  InstallCelPythonPY $(blcelpy) : python ;
+  InstallCelPythonPY $(blcelpy) : bindings python ;
 
 
   #--------

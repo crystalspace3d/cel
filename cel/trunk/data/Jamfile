@@ -1,0 +1,16 @@
+SubDir TOP data ;
+
+InstallData
+  [ Wildcard *.txt ]
+  ball
+  box
+  large
+  medium
+  portal_world
+  small
+  smallbox
+  world
+  : data ;
+
+InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
+InstallData [ Wildcard sounds : *.zip ] : data sounds ;
