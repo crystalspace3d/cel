@@ -1138,7 +1138,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
   printf ("### Callstack ###\n");
   for (i = 0 ; i < cbl->call_stack.Length () ; i++)
   {
-    printf ("%d %s (entity=%s)\n", i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
+    printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
     {
       size_t j;
@@ -1151,7 +1151,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 	parm = p->GetParameter (j, id, t);
 	const char* idstr = pl->FetchString (id);
 	const celData* param = p->GetParameter (id);
-        printf ("  par:%d name=%s id=%s val=%s\n", j, parm, idstr, D2S (*param));
+        printf ("  par:%lu name=%s id=%s val=%s\n", (unsigned long)j, parm, idstr, D2S (*param));
       }
     }
   }
@@ -1166,7 +1166,7 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
   CS_ASSERT (props != 0);
   for (i = 0 ; i < props->GetPropertyCount () ; i++)
   {
-    printf ("%d %s ", i, props->GetPropertyName (i));
+    printf ("%lu %s ", (unsigned long)i, props->GetPropertyName (i));
     switch (props->GetPropertyType (i))
     {
       case CEL_DATA_LONG:
