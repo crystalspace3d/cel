@@ -110,7 +110,7 @@
 		        <var name="ent" value="?('grid'+?bx+'_'+?by)" />
 		        <var entity="?ent" name="dx" value="-?dx" />
 		        <var entity="?ent" name="dy" value="-?dy" />
-		        <print value="'   move '+?dx+' '+?dy" />
+			<call entity="?ent" event="move" />
 		    </true>
 		    <false>
 		        <call event="fast_shuffle" />
