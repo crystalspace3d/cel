@@ -1,3 +1,6 @@
+21-Feb-2002:
+	- Renamed celData->Set(bool) to SetBool() to avoid problems on
+	  platforms that don't have the bool type.
 20-Feb-2002:
 	- Fixed a bug in celPcRegion::SetWorldFile() it would delete
 	  its own copy in some cases.

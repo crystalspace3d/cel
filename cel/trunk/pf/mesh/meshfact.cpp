@@ -124,7 +124,7 @@ iCelDataBuffer* celPcMesh::Save ()
   databuf->GetData (j++)->Set (factName);
   databuf->GetData (j++)->Set (fileName);
   databuf->GetData (j++)->Set (GetAction ());
-  databuf->GetData (j++)->Set (visible);
+  databuf->GetData (j++)->SetBool (visible);
 
   databuf->GetData (j++)->Set ((uint16)(sl->GetCount ()));
   for (i = 0 ; i < sl->GetCount () ; i++)
@@ -471,17 +471,17 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   databuf->GetData (0)->Set (pc);
   if (pc) pc->DecRef ();
   databuf->GetData (1)->Set (sel_entity);
-  databuf->GetData (2)->Set (cur_on_top);
+  databuf->GetData (2)->SetBool (cur_on_top);
   databuf->GetData (3)->Set ((uint32)mouse_buttons);
-  databuf->GetData (4)->Set (do_global);
-  databuf->GetData (5)->Set (do_drag);
+  databuf->GetData (4)->SetBool (do_global);
+  databuf->GetData (5)->SetBool (do_drag);
   databuf->GetData (6)->Set (drag_normal);
-  databuf->GetData (7)->Set (drag_normal_camera);
-  databuf->GetData (8)->Set (do_follow);
-  databuf->GetData (9)->Set (do_follow_always);
-  databuf->GetData (10)->Set (do_sendmove);
-  databuf->GetData (11)->Set (do_sendup);
-  databuf->GetData (12)->Set (do_senddown);
+  databuf->GetData (7)->SetBool (drag_normal_camera);
+  databuf->GetData (8)->SetBool (do_follow);
+  databuf->GetData (9)->SetBool (do_follow_always);
+  databuf->GetData (10)->SetBool (do_sendmove);
+  databuf->GetData (11)->SetBool (do_sendup);
+  databuf->GetData (12)->SetBool (do_senddown);
   return databuf;
 }
 

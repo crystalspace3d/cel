@@ -329,8 +329,8 @@ iCelDataBuffer* celPcCamera::Save ()
   db.Set (tr.GetO2T ().m33);
 
   db.Set ((uint8)cammode);
-  db.Set (use_cd);
-  db.Set (rect_set);
+  db.SetBool (use_cd);
+  db.SetBool (rect_set);
   db.Set ((uint16)rect_x);
   db.Set ((uint16)rect_y);
   db.Set ((uint16)rect_w);
@@ -444,7 +444,7 @@ iCelDataBuffer* celPcRegion::Save ()
   db.Set (worlddir);
   db.Set (worldfile);
   db.Set (regionname);
-  db.Set (loaded);
+  db.SetBool (loaded);
   
   return databuf;
 }
