@@ -34,17 +34,20 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
   SCF_IMPLEMENTS_INTERFACE (iCelEntity)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celEntity::celEntity ()
+celEntity::celEntity (celPlLayer* pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
   plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = NULL;
+  celEntity::pl = pl;
   DG_LINK (this, plist);
   DG_TYPE (this, "celEntity");
 }
 
 celEntity::~celEntity ()
 {
+  if (pl)
+    pl->RemoveEntity(this);
   DG_UNLINK (this, plist);
   delete plist;
   if (behaviour) behaviour->DecRef ();

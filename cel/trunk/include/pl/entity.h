@@ -51,6 +51,11 @@ struct iCelEntity : public iBase
   virtual void SetName (const char* n) = 0;
 
   /**
+   * Return the (unique) ID of the entity.
+   */
+  virtual CS_ID GetID () const = 0;
+
+  /**
    * Get the list of property classes.
    */
   virtual iCelPropertyClassList* GetPropertyClassList () = 0;
