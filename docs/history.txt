@@ -42,6 +42,10 @@
 	  In practice this limitation means that in celtest when you drag
 	  the object, it will only temporarily be blocked by the walls. If
 	  you drag further it will go through.
+	- Collision detection with 'pcmovableconst_cd' works better in the
+	  sense that it is no longer possible to go through walls. A
+	  one-triangle collider with the size of the path is used to
+	  detect collisions along the movement path.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the

@@ -259,6 +259,46 @@ iCollider* celPcSolid::GetCollider ()
 
 //---------------------------------------------------------------------------
 
+// Private class implementing iPolygonMesh for one triangle.
+// This will be used for deting collision in the movement
+// vector.
+class celPolygonMeshTriangle : public iPolygonMesh
+{
+private:
+  csVector3 vertices[3];
+  csMeshedPolygon polygons[1];
+  int vertex_indices[3];
+
+public:
+  celPolygonMeshTriangle (const csVector3& start, const csVector3& end)
+  {
+    SCF_CONSTRUCT_IBASE (NULL);
+    vertices[0] = start;
+    vertices[1] = start;
+    vertices[2] = end;
+    polygons[0].num_vertices = 3;
+    polygons[0].vertices = vertex_indices;
+    vertex_indices[0] = 0;
+    vertex_indices[1] = 1;
+    vertex_indices[2] = 2;
+  }
+  virtual ~celPolygonMeshTriangle () { }
+
+  SCF_DECLARE_IBASE;
+
+  virtual int GetVertexCount () { return 3; }
+  virtual csVector3* GetVertices () { return vertices; }
+  virtual int GetPolygonCount () { return 1; }
+  virtual csMeshedPolygon* GetPolygons () { return polygons; }
+  virtual void Cleanup () { }
+};
+
+SCF_IMPLEMENT_IBASE (celPolygonMeshTriangle)
+  SCF_IMPLEMENTS_INTERFACE (iPolygonMesh)
+SCF_IMPLEMENT_IBASE_END
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celPcMovableConstraintCD)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMovableConstraint)
@@ -273,10 +313,13 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovableConstraint);
   celPcMovableConstraintCD::object_reg = object_reg;
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  CS_ASSERT (cdsys != NULL);
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
+  if (cdsys) cdsys->DecRef ();
 }
 
 void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
@@ -291,15 +334,20 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector, const csVector3& start
   CS_ASSERT (pcmesh != NULL);
   iPcSolid* pcsolid = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcSolid);
   CS_ASSERT (pcsolid != NULL);
+
   int rc = CEL_MOVE_SUCCEED;
   pos = end;
   if (pcsolid->GetCollider ())
   {
+    // Create a collider for detecting collision detection along the movement vector.
+    celPolygonMeshTriangle* pmtri = new celPolygonMeshTriangle (start, end);
+    iCollider* path_collider = cdsys->CreateCollider (pmtri);
+    csReversibleTransform path_trans;	// Identity
+
+    // Change the transform from the mesh to the new position.
     csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetTransform ();
     trans.SetOrigin (end);
 
-    iCollideSystem* cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
-    CS_ASSERT (cdsys != NULL);
     cdsys->ResetCollisionPairs ();
     iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT (pl != NULL);
@@ -316,7 +364,11 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector, const csVector3& start
 	if (pcmesh_ent)
 	{
 	  csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->GetMovable ()->GetTransform ();
-	  bool ret = cdsys->Collide (pcsolid->GetCollider (), &trans, pcsolid_ent->GetCollider (),
+	  bool ret;
+	  ret = cdsys->Collide (path_collider, &path_trans, pcsolid_ent->GetCollider (),
+			  	&trans_ent);
+	  if (!ret)
+	    ret = cdsys->Collide (pcsolid->GetCollider (), &trans, pcsolid_ent->GetCollider (),
 			  	&trans_ent);
 	  pcmesh_ent->DecRef ();
 	  if (ret) rc = CEL_MOVE_FAIL;
@@ -326,7 +378,8 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector, const csVector3& start
     }
     list->DecRef ();
     pl->DecRef ();
-    cdsys->DecRef ();
+    path_collider->DecRef ();
+    pmtri->DecRef ();
   }
   pcsolid->DecRef ();
   pcmesh->DecRef ();
