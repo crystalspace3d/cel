@@ -7,5 +7,6 @@ if $(PYTHON.AVAILABLE) = yes
 	  : [ Wildcard *.cpp *.h ]
   ;
   ExternalLibs blpython : PYTHON ;
+  CFlags blpython : -DSWIG_GLOBAL ;
 }
 
