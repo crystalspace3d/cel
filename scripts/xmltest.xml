@@ -62,14 +62,11 @@
 	</script>
         <script name="bb1">
 	    <event name="init">
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.name)" value="bb_wood" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.materialname)" value="wood" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.clickable)" value="true" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.restack)" value="true" />
+	    	<default propclass="pc(pcbillboard)" />
+	        <property id="propid(pcbillboard.name)" value="bb_wood" />
+	        <property id="propid(pcbillboard.materialname)" value="wood" />
+	        <property id="propid(pcbillboard.clickable)" value="true" />
+	        <property id="propid(pcbillboard.restack)" value="true" />
 	    </event>
 	    <event name="pcbillboard_select">
 	    </event>
@@ -111,14 +108,11 @@
 	    <event name="makesmall">
 	        <var name="normal" value="false" />
 		<print value="makesmall" />
-		<var name="w"
-			value="property(pc(pcbillboard),propid(pcbillboard.width))" />
-		<var name="h"
-			value="property(pc(pcbillboard),propid(pcbillboard.height))" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.width)" value="30000" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.height)" value="30000" />
+	    	<default propclass="pc(pcbillboard)" />
+		<var name="w" value="property(propid(pcbillboard.width))" />
+		<var name="h" value="property(propid(pcbillboard.height))" />
+	        <property id="propid(pcbillboard.width)" value="30000" />
+	        <property id="propid(pcbillboard.height)" value="30000" />
 	    </event>
 	    <event name="makelarge">
 	        <var name="normal" value="true" />
