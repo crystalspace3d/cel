@@ -53,7 +53,11 @@ private:
 	const char* propname);
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
-  bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node);
+  const char* GetAttributeString (iDocumentNode* child,
+	const char* attrname, const char* parentname);
+  bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node,
+  	celXmlScript* script);
+  bool ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h);
 
 public:
   celBlXml (iBase* parent);

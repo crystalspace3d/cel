@@ -115,8 +115,10 @@
 	        <var name="isinit" bool="1" />
 	    </event>
 	    <event name="collide">
+	        <print>Test collide!</print>
 	    </event>
 	    <event name="pcbillboard_unselect">
+	        <print>xxx</print>
 	        <if var="isinit" false="findpc" />
 		<testcollide var="collidetest" true="collide" />
 	    </event>
@@ -409,6 +411,7 @@
             <behaviour name="generic_object" />
 	</addon>
 	<addon plugin="celentity" entityname="lamp_desk">
+	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="lamp_desk" />
 	        <property name="pcbillboard.materialname" string="lamp_desk" />
@@ -430,7 +433,6 @@
             <behaviour name="lamp" />
 	</addon>
 	<addon plugin="celentity" entityname="table_coffee">
-	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="table_coffee" />
 	        <property name="pcbillboard.materialname" string="table_coffee" />

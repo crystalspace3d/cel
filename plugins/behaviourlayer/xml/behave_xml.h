@@ -26,6 +26,7 @@
 #include "behaviourlayer/behave.h"
 
 struct iCelEntity;
+struct iPcProperties;
 struct iObjectRegistry;
 class celXmlScript;
 
@@ -37,6 +38,7 @@ class celBehaviourXml : public iCelBehaviour
 protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
+  csRef<iPcProperties> props;	// Optimization.
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
@@ -54,6 +56,8 @@ public:
   {
     celBehaviourXml::script = script;
   }
+  iPcProperties* GetProperties ();
+  iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
   SCF_DECLARE_IBASE;
 

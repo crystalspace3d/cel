@@ -18,10 +18,15 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/objreg.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
+#include "plugins/behaviourlayer/xml/behave_xml.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "physicallayer/pl.h"
 #include "propclass/prop.h"
+#include "propclass/billboard.h"
+#include "tools/billboard.h"
 
 //---------------------------------------------------------------------------
 
@@ -58,9 +63,10 @@ void celXmlArg::SetArgList ()
 
 //---------------------------------------------------------------------------
 
-celXmlScriptEventHandler::celXmlScriptEventHandler ()
+celXmlScriptEventHandler::celXmlScriptEventHandler (iCelPlLayer* pl)
 {
   name = 0;
+  celXmlScriptEventHandler::pl = pl;
 }
 
 celXmlScriptEventHandler::~celXmlScriptEventHandler ()
@@ -81,56 +87,238 @@ void celXmlScriptEventHandler::ResolveParameters (iCelEntity* entity)
     }
 }
 
-void celXmlScriptEventHandler::Execute (iCelEntity* entity)
+void celXmlScriptEventHandler::Execute (iCelEntity* entity,
+	celBehaviourXml* behave)
 {
-  int i;
-  for (i = 0 ; i < operations.Length () ; i++)
+  int i = 0;
+  for (;;)
   {
     celXmlOperation& op = operations[i];
+    i++;
+    csArray<celXmlArg>& args = op.arg.arg.a->args;
     switch (op.op)
     {
+      case CEL_OPERATION_END:
+        return;
+      case CEL_OPERATION_TESTCOLLIDE:
+        {
+	  iPcProperties* props = behave->GetProperties ();
+	  if (!props) break;	// @@@ Report error!
+	  int idx = props->GetPropertyIndex (args[0].arg.s);
+	  if (idx == -1) break;	// @@@ Report error!
+	  iCelPropertyClass* pc = props->GetPropertyPClass (idx);
+	  if (!pc) break;	// @@@ Report error!
+	  // @@@ Efficiency?
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb) break;	// @@@ Report error!
+	  csRef<iPcBillboard> bb = CEL_QUERY_PROPCLASS (
+	  	entity->GetPropertyClassList (), iPcBillboard);
+	  if (!bb) break;	// @@@ Report error!
+	  csRef<iBillboardManager> bbmgr = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iBillboardManager);
+	  if (!bbmgr) break;	// @@@ Report error!
+	  if (bbmgr->TestCollision (bb->GetBillboard (),
+	  	other_bb->GetBillboard ()))
+	  {
+	    celXmlScriptEventHandler* truebranch = args[1].arg.h;
+	    if (truebranch)
+	    {
+	      truebranch->Execute (entity, behave);
+	    }
+	  }
+	  else
+	  {
+	    celXmlScriptEventHandler* falsebranch = args[2].arg.h;
+	    if (falsebranch)
+	    {
+	      falsebranch->Execute (entity, behave);
+	    }
+	  }
+	}
+	break;
+      case CEL_OPERATION_IF:
+        {
+	  iPcProperties* props = behave->GetProperties ();
+	  if (!props) break;	// @@@ Report error!
+	  int idx = props->GetPropertyIndex (args[0].arg.s);
+	  bool rc = false;
+	  if (idx != -1)
+	    switch (props->GetPropertyType (idx))
+	    {
+	      case CEL_DATA_LONG:
+	        {
+		  long l = props->GetPropertyLong (idx);
+		  rc = (l != 0);
+		  printf (": if var=%s long=%ld rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      case CEL_DATA_FLOAT:
+	        {
+		  float l = props->GetPropertyFloat (idx);
+		  rc = (ABS (l) < SMALL_EPSILON);
+		  printf (": if var=%s flt=%g rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      case CEL_DATA_BOOL:
+	        {
+		  bool l = props->GetPropertyBool (idx);
+		  rc = l;
+		  printf (": if var=%s bool=%d rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      case CEL_DATA_STRING:
+	        {
+		  const char* l = props->GetPropertyString (idx);
+		  rc = l && strlen (l) > 0;
+		  printf (": if var=%s str=%s rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      case CEL_DATA_PCLASS:
+	        {
+		  iCelPropertyClass* l = props->GetPropertyPClass (idx);
+		  rc = (l != 0);
+		  printf (": if var=%s pc=%p rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      case CEL_DATA_ENTITY:
+	        {
+		  iCelEntity* l = props->GetPropertyEntity (idx);
+		  rc = (l != 0);
+		  printf (": if var=%s ent=%p rc=%d\n", args[0].arg.s, l, rc);
+		  fflush (stdout);
+		}
+		break;
+	      default:
+		printf (": if var=%s undefined? rc=0\n", args[0].arg.s);
+		fflush (stdout);
+		rc = false;
+	        break;
+	    }
+	  else
+	  {
+	    printf (": if var=%s value=undefined rc=0\n", args[0].arg.s);
+	    fflush (stdout);
+	    rc = false;
+	  }
+	  if (rc)
+	  {
+	    celXmlScriptEventHandler* truebranch = args[1].arg.h;
+	    if (truebranch)
+	    {
+	      truebranch->Execute (entity, behave);
+	    }
+	  }
+	  else
+	  {
+	    celXmlScriptEventHandler* falsebranch = args[2].arg.h;
+	    if (falsebranch)
+	    {
+	      falsebranch->Execute (entity, behave);
+	    }
+	  }
+	}
+	break;
+      case CEL_OPERATION_PRINT:
+        {
+	  printf (": print %s\n", op.arg.arg.s);
+	  fflush (stdout);
+	}
+	break;
       case CEL_OPERATION_ACTION:
         {
-	  csArray<celXmlArg>& args = op.arg.arg.a->args;
-          printf ("action pc=%d id=%d s=%s\n", args[0].arg.pc, args[1].arg.id,
+          printf (": action pc=%d id=%d s=%s\n", args[0].arg.pc, args[1].arg.id,
 	  	args[2].arg.s);
 	  fflush (stdout);
 	  resolvers[args[0].arg.pc].pc->PerformAction (
 	  	args[1].arg.id, args[2].arg.s);
 	}
         break;
+      case CEL_OPERATION_GETPROPCLASS:
+        {
+	  printf (": getpropclass var=%s %s/%s\n", args[0].arg.s,
+	  	args[1].arg.s, args[2].arg.s);
+	  fflush (stdout);
+	  iPcProperties* props = behave->GetProperties ();
+	  if (!props) break;	// @@@ Report error!
+	  iCelEntity* other_ent = pl->FindEntity (args[1].arg.s);
+	  if (!other_ent)
+	  {
+	    props->SetProperty (args[0].arg.s, (iCelPropertyClass*)0);
+	    break;
+	  }
+          iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
+	  	FindByName (args[2].arg.s);
+	  if (!other_pc)
+	  {
+	    props->SetProperty (args[0].arg.s, (iCelPropertyClass*)0);
+	    break;
+	  }
+	  props->SetProperty (args[0].arg.s, other_pc);
+	}
+	break;
+      case CEL_OPERATION_VAR:
+        {
+	  iPcProperties* props = behave->GetProperties ();
+	  if (!props) break;	// @@@ Report error!
+	  switch (args[1].type)
+	  {
+	    case CEL_TYPE_BOOL:
+	      props->SetProperty (args[0].arg.s, args[1].arg.b);
+              printf (": var %s=%d\n", args[0].arg.s, args[1].arg.b);
+	      fflush (stdout);
+	      break;
+	    case CEL_TYPE_FLOAT:
+	      props->SetProperty (args[0].arg.s, args[1].arg.f);
+              printf (": var %s=%g\n", args[0].arg.s, args[1].arg.f);
+	      fflush (stdout);
+	      break;
+	    case CEL_TYPE_STRING:
+	      props->SetProperty (args[0].arg.s, args[1].arg.s);
+              printf (": var %s=%s\n", args[0].arg.s, args[1].arg.s);
+	      fflush (stdout);
+	      break;
+	    case CEL_TYPE_INT32:
+	      props->SetProperty (args[0].arg.s, (long)args[1].arg.i);
+              printf (": var %s=%d\n", args[0].arg.s, args[1].arg.i);
+	      fflush (stdout);
+	      break;
+	    default:
+	      CS_ASSERT (false);
+	  }
+	}
+	break;
       case CEL_OPERATION_GETPROPERTY:
         {
-	  csArray<celXmlArg>& args = op.arg.arg.a->args;
-	  // @@@ NOT EFFICIENT!
-	  if (!resolvers[args[0].arg.pc].pc) break;	// @@@ Report error!
-	  csRef<iPcProperties> props =
-	  	SCF_QUERY_INTERFACE (resolvers[args[0].arg.pc].pc,
-		iPcProperties);
-	  CS_ASSERT (props != 0);
-	  iCelPropertyClass* pc = resolvers[args[2].arg.pc].pc;
-	  csStringID id = args[3].arg.id;
+	  iPcProperties* props = behave->GetProperties ();
+	  if (!props) break;	// @@@ Report error!
+	  iCelPropertyClass* pc = resolvers[args[1].arg.pc].pc;
+	  csStringID id = args[2].arg.id;
 	  celDataType t = pc->GetPropertyOrActionType (id);
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      props->SetProperty (args[1].arg.s, pc->GetPropertyBool (id));
-	      printf ("set prop %s %d\n", args[1].arg.s,
+	      props->SetProperty (args[0].arg.s, pc->GetPropertyBool (id));
+	      printf (": getproperty %s %d\n", args[0].arg.s,
 	      	pc->GetPropertyBool (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_FLOAT:
-	      props->SetProperty (args[1].arg.s, pc->GetPropertyFloat (id));
-	      printf ("set prop %s %g\n", args[1].arg.s,
+	      props->SetProperty (args[0].arg.s, pc->GetPropertyFloat (id));
+	      printf (": getproperty %s %g\n", args[0].arg.s,
 	      	pc->GetPropertyFloat (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_STRING:
-	      props->SetProperty (args[1].arg.s, pc->GetPropertyString (id));
-	      printf ("set prop %s %s\n", args[1].arg.s,
+	      props->SetProperty (args[0].arg.s, pc->GetPropertyString (id));
+	      printf (": getproperty %s %s\n", args[0].arg.s,
 	      	pc->GetPropertyString (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_LONG:
-	      props->SetProperty (args[1].arg.s, pc->GetPropertyLong (id));
-	      printf ("set prop %s %ld\n", args[1].arg.s,
+	      props->SetProperty (args[0].arg.s, pc->GetPropertyLong (id));
+	      printf (": getproperty %s %ld\n", args[0].arg.s,
 	      	pc->GetPropertyLong (id)); fflush (stdout);
 	      break;
 	    default:
@@ -142,8 +330,7 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity)
 	break;
       case CEL_OPERATION_PROPERTY:
         {
-	  csArray<celXmlArg>& args = op.arg.arg.a->args;
-          printf ("property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
+          printf (": property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
 	  fflush (stdout);
 	  switch (args[2].type)
 	  {
@@ -222,9 +409,10 @@ celXmlArg& celXmlScriptEventHandler::AddArgument ()
 
 //---------------------------------------------------------------------------
 
-celXmlScript::celXmlScript ()
+celXmlScript::celXmlScript (iCelPlLayer* pl)
 {
   name = 0;
+  celXmlScript::pl = pl;
 }
 
 celXmlScript::~celXmlScript ()
@@ -232,9 +420,17 @@ celXmlScript::~celXmlScript ()
   delete[] name;
 }
 
+celXmlScriptEventHandler* celXmlScript::FindOrCreateEventHandler (
+	const char* name)
+{
+  celXmlScriptEventHandler* h = GetEventHandler (name);
+  if (h) return h;
+  return CreateEventHandler (name);
+}
+
 celXmlScriptEventHandler* celXmlScript::CreateEventHandler (const char* name)
 {
-  celXmlScriptEventHandler* h = new celXmlScriptEventHandler ();
+  celXmlScriptEventHandler* h = new celXmlScriptEventHandler (pl);
   h->SetName (name);
   event_handlers.Push (h);
   event_handlers_hash.Put (name, h);
