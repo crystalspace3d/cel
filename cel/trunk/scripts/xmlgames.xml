@@ -86,6 +86,122 @@
 	    <file>/cellib/images/black.png</file>
 	    <keepimage />
         </texture>
+        <texture name="brick_full">
+	    <file>/cellib/images/brick_full.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="brick_broken">
+	    <file>/cellib/images/brick_broken.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+
+        <texture name="explosion_c">
+	    <file>/cellib/images/explosion_c.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_t">
+	    <file>/cellib/images/explosion_t.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_l">
+	    <file>/cellib/images/explosion_l.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_r">
+	    <file>/cellib/images/explosion_r.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_b">
+	    <file>/cellib/images/explosion_b.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_bl">
+	    <file>/cellib/images/explosion_bl.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_br">
+	    <file>/cellib/images/explosion_br.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_tl">
+	    <file>/cellib/images/explosion_tl.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_tr">
+	    <file>/cellib/images/explosion_tr.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lr">
+	    <file>/cellib/images/tube_lr.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_ud">
+	    <file>/cellib/images/tube_ud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lu">
+	    <file>/cellib/images/tube_lu.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_ld">
+	    <file>/cellib/images/tube_ld.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_ru">
+	    <file>/cellib/images/tube_ru.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_rd">
+	    <file>/cellib/images/tube_rd.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lrd">
+	    <file>/cellib/images/tube_lrd.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lru">
+	    <file>/cellib/images/tube_lru.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lud">
+	    <file>/cellib/images/tube_lud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_rud">
+	    <file>/cellib/images/tube_rud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_lrud">
+	    <file>/cellib/images/tube_lrud.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="tube_power">
+	    <file>/cellib/images/tube_power.png</file>
+	    <keepimage />
+        </texture>
+
         <texture name="save">
 	    <file>/cellib/images/save.png</file>
 	    <keepimage />
@@ -140,61 +256,6 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
-        <texture name="brick_full">
-	    <file>/cellib/images/brick_full.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="brick_broken">
-	    <file>/cellib/images/brick_broken.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_c">
-	    <file>/cellib/images/explosion_c.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_t">
-	    <file>/cellib/images/explosion_t.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_l">
-	    <file>/cellib/images/explosion_l.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_r">
-	    <file>/cellib/images/explosion_r.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_b">
-	    <file>/cellib/images/explosion_b.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_bl">
-	    <file>/cellib/images/explosion_bl.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_br">
-	    <file>/cellib/images/explosion_br.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_tl">
-	    <file>/cellib/images/explosion_tl.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
-        <texture name="explosion_tr">
-	    <file>/cellib/images/explosion_tr.png</file>
-	    <transparent red="0" green="0" blue="0" />
-	    <keepimage />
-        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -218,6 +279,27 @@
         <material name="brick_full"> <texture>brick_full</texture> </material>
         <material name="brick_broken"> <texture>brick_broken</texture> </material>
         <material name="black"> <texture>black</texture> </material>
+        <material name="explosion_c"> <texture>explosion_c</texture> </material>
+        <material name="explosion_b"> <texture>explosion_b</texture> </material>
+        <material name="explosion_t"> <texture>explosion_t</texture> </material>
+        <material name="explosion_r"> <texture>explosion_r</texture> </material>
+        <material name="explosion_l"> <texture>explosion_l</texture> </material>
+        <material name="explosion_bl"> <texture>explosion_bl</texture> </material>
+        <material name="explosion_br"> <texture>explosion_br</texture> </material>
+        <material name="explosion_tl"> <texture>explosion_tl</texture> </material>
+        <material name="explosion_tr"> <texture>explosion_tr</texture> </material>
+        <material name="tube_lr"> <texture>tube_lr</texture> </material>
+        <material name="tube_ud"> <texture>tube_ud</texture> </material>
+        <material name="tube_lu"> <texture>tube_lu</texture> </material>
+        <material name="tube_ld"> <texture>tube_ld</texture> </material>
+        <material name="tube_ru"> <texture>tube_ru</texture> </material>
+        <material name="tube_rd"> <texture>tube_rd</texture> </material>
+        <material name="tube_lrd"> <texture>tube_lrd</texture> </material>
+        <material name="tube_lru"> <texture>tube_lru</texture> </material>
+        <material name="tube_lud"> <texture>tube_lud</texture> </material>
+        <material name="tube_rud"> <texture>tube_rud</texture> </material>
+        <material name="tube_lrud"> <texture>tube_lrud</texture> </material>
+        <material name="tube_power"> <texture>tube_power</texture> </material>
         <material name="save"> <texture>save</texture> </material>
         <material name="number_0"> <texture>number_0</texture> </material>
         <material name="number_1"> <texture>number_1</texture> </material>
@@ -229,15 +311,6 @@
         <material name="number_7"> <texture>number_7</texture> </material>
         <material name="number_8"> <texture>number_8</texture> </material>
         <material name="number_9"> <texture>number_9</texture> </material>
-        <material name="explosion_c"> <texture>explosion_c</texture> </material>
-        <material name="explosion_b"> <texture>explosion_b</texture> </material>
-        <material name="explosion_t"> <texture>explosion_t</texture> </material>
-        <material name="explosion_r"> <texture>explosion_r</texture> </material>
-        <material name="explosion_l"> <texture>explosion_l</texture> </material>
-        <material name="explosion_bl"> <texture>explosion_bl</texture> </material>
-        <material name="explosion_br"> <texture>explosion_br</texture> </material>
-        <material name="explosion_tl"> <texture>explosion_tl</texture> </material>
-        <material name="explosion_tr"> <texture>explosion_tr</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -1216,6 +1289,7 @@
 		<var name="blockdim" value="19200" />
 		<var name="herospeed" value="0.07" />
 		<var name="fallspeed" value="0.15" />
+		<var name="pushspeed" value="0.12" />
 		<var name="boardspeed" value="0.003" />
 
 		<!-- Size of the visible area in blocks -->
@@ -1249,6 +1323,18 @@
 		<var name="'entstack_Ma'" value="0" />
 		<var name="'entstack_Mb'" value="0" />
 		<var name="'entstack_Mm'" value="0" />
+		<var name="'entstack_=L'" value="0" />
+		<var name="'entstack_=U'" value="0" />
+		<var name="'entstack_=1'" value="0" />
+		<var name="'entstack_=2'" value="0" />
+		<var name="'entstack_=3'" value="0" />
+		<var name="'entstack_=4'" value="0" />
+		<var name="'entstack_=a'" value="0" />
+		<var name="'entstack_=b'" value="0" />
+		<var name="'entstack_=c'" value="0" />
+		<var name="'entstack_=d'" value="0" />
+		<var name="'entstack_=+'" value="0" />
+		<var name="'entstack_=*'" value="0" />
 		<var name="'entstack_exp_c'" value="0" />
 		<var name="'entstack_exp_t'" value="0" />
 		<var name="'entstack_exp_l'" value="0" />
@@ -1275,6 +1361,18 @@
 		<var name="'material_Ma'" value="apple" />
 		<var name="'material_Mb'" value="banana" />
 		<var name="'material_Mm'" value="mushroom" />
+		<var name="'material_=L'" value="tube_lr" />
+		<var name="'material_=U'" value="tube_ud" />
+		<var name="'material_=1'" value="tube_lu" />
+		<var name="'material_=2'" value="tube_ld" />
+		<var name="'material_=3'" value="tube_ru" />
+		<var name="'material_=4'" value="tube_rd" />
+		<var name="'material_=a'" value="tube_lrd" />
+		<var name="'material_=b'" value="tube_lru" />
+		<var name="'material_=c'" value="tube_lud" />
+		<var name="'material_=d'" value="tube_rud" />
+		<var name="'material_=+'" value="tube_lrud" />
+		<var name="'material_=*'" value="tube_power" />
 		<var name="'material_exp_c'" value="explosion_c" />
 		<var name="'material_exp_t'" value="explosion_t" />
 		<var name="'material_exp_l'" value="explosion_l" />
@@ -1300,6 +1398,18 @@
 		<var name="'behaviour_Ma'" value="bdash_apple_monster" />
 		<var name="'behaviour_Mb'" value="bdash_apple_monster" />
 		<var name="'behaviour_Mm'" value="bdash_mushroom_monster" />
+		<var name="'behaviour_=L'" value="bdash_tube" />
+		<var name="'behaviour_=U'" value="bdash_tube" />
+		<var name="'behaviour_=1'" value="bdash_tube" />
+		<var name="'behaviour_=2'" value="bdash_tube" />
+		<var name="'behaviour_=3'" value="bdash_tube" />
+		<var name="'behaviour_=4'" value="bdash_tube" />
+		<var name="'behaviour_=a'" value="bdash_tube" />
+		<var name="'behaviour_=b'" value="bdash_tube" />
+		<var name="'behaviour_=c'" value="bdash_tube" />
+		<var name="'behaviour_=d'" value="bdash_tube" />
+		<var name="'behaviour_=+'" value="bdash_tube" />
+		<var name="'behaviour_=*'" value="bdash_tube_power" />
 		<var name="'behaviour_exp_c'" value="bdash_explosion" />
 		<var name="'behaviour_exp_t'" value="bdash_explosion" />
 		<var name="'behaviour_exp_l'" value="bdash_explosion" />
@@ -1309,6 +1419,21 @@
 		<var name="'behaviour_exp_br'" value="bdash_explosion" />
 		<var name="'behaviour_exp_tl'" value="bdash_explosion" />
 		<var name="'behaviour_exp_tr'" value="bdash_explosion" />
+
+		<!-- For all tubes we have directional values (4 bits: LRUD) -->
+		<var name="'tube_=L'" value="12" />
+		<var name="'tube_=U'" value="3" />
+		<var name="'tube_=1'" value="10" />
+		<var name="'tube_=2'" value="9" />
+		<var name="'tube_=3'" value="6" />
+		<var name="'tube_=4'" value="5" />
+		<var name="'tube_=a'" value="13" />
+		<var name="'tube_=b'" value="14" />
+		<var name="'tube_=c'" value="11" />
+		<var name="'tube_=d'" value="7" />
+		<var name="'tube_=+'" value="15" />
+		<var name="'tube_=*'" value="15" />
+		
 		<!-- Create a table of 'falloff' setting per block type -->
 		<var name="'falloff_. '" value="false" />
 		<var name="'falloff_HH'" value="false" />
@@ -1325,6 +1450,18 @@
 		<var name="'falloff_Ma'" value="true" />
 		<var name="'falloff_Mb'" value="true" />
 		<var name="'falloff_Mm'" value="true" />
+		<var name="'falloff_=L'" value="false" />
+		<var name="'falloff_=U'" value="false" />
+		<var name="'falloff_=1'" value="false" />
+		<var name="'falloff_=2'" value="false" />
+		<var name="'falloff_=3'" value="false" />
+		<var name="'falloff_=4'" value="false" />
+		<var name="'falloff_=a'" value="false" />
+		<var name="'falloff_=b'" value="false" />
+		<var name="'falloff_=c'" value="false" />
+		<var name="'falloff_=d'" value="false" />
+		<var name="'falloff_=+'" value="false" />
+		<var name="'falloff_=*'" value="false" />
 		<var name="'falloff_exp_c'" value="false" />
 		<var name="'falloff_exp_t'" value="false" />
 		<var name="'falloff_exp_l'" value="false" />
@@ -1357,6 +1494,18 @@
 		<var name="'destroy_Ma'" value="1" />
 		<var name="'destroy_Mb'" value="1" />
 		<var name="'destroy_Mm'" value="1" />
+		<var name="'destroy_=L'" value="1" />
+		<var name="'destroy_=U'" value="1" />
+		<var name="'destroy_=1'" value="1" />
+		<var name="'destroy_=2'" value="1" />
+		<var name="'destroy_=3'" value="1" />
+		<var name="'destroy_=4'" value="1" />
+		<var name="'destroy_=a'" value="1" />
+		<var name="'destroy_=b'" value="1" />
+		<var name="'destroy_=c'" value="1" />
+		<var name="'destroy_=d'" value="1" />
+		<var name="'destroy_=+'" value="1" />
+		<var name="'destroy_=*'" value="2" />
 		<var name="'destroy_exp_c'" value="1" />
 		<var name="'destroy_exp_t'" value="1" />
 		<var name="'destroy_exp_l'" value="1" />
@@ -1395,6 +1544,18 @@
 		<var name="'explode_Ma'" value="0" />
 		<var name="'explode_Mb'" value="0" />
 		<var name="'explode_Mm'" value="0" />
+		<var name="'explode_=L'" value="0" />
+		<var name="'explode_=U'" value="0" />
+		<var name="'explode_=1'" value="0" />
+		<var name="'explode_=2'" value="0" />
+		<var name="'explode_=3'" value="0" />
+		<var name="'explode_=4'" value="0" />
+		<var name="'explode_=a'" value="0" />
+		<var name="'explode_=b'" value="0" />
+		<var name="'explode_=c'" value="0" />
+		<var name="'explode_=d'" value="0" />
+		<var name="'explode_=+'" value="0" />
+		<var name="'explode_=*'" value="1" />
 		<var name="'explode_exp_c'" value="0" />
 		<var name="'explode_exp_t'" value="0" />
 		<var name="'explode_exp_l'" value="0" />
@@ -2050,6 +2211,22 @@
 	      - Perform a push if possible.
 	      -->
 	    <event name="trypush">
+		<if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy+?dy) == ''">
+		    <lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
+		    <if eval="!?(#ent).moving">
+			<var entity="#ent" name="dx" value="?dx" />
+			<var entity="#ent" name="dy" value="?dy" />
+			<call entity="#ent" event="startmove" />
+			<call event="startmove" />
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Perform a push if possible.
+	      - Only horizontal allowed.
+	      -->
+	    <event name="trypush_horizontal">
 	    	<if eval="?dy==0">
 		    <if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy) == ''">
 		    	<lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
@@ -2068,6 +2245,21 @@
 	      - Don't move afterwards.
 	      -->
 	    <event name="trypush_dontmove">
+		<if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy+?dy) == ''">
+		    <lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
+		    <if eval="!?(#ent).moving">
+			<var entity="#ent" name="dx" value="?dx" />
+			<var entity="#ent" name="dy" value="?dy" />
+			<call entity="#ent" event="startmove" />
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Perform a push if possible.
+	      - Don't move afterwards.
+	      -->
+	    <event name="trypush_horizontal_dontmove">
 	    	<if eval="?dy==0">
 		    <if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy) == ''">
 		    	<lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
@@ -2098,6 +2290,9 @@
 		    <par id="parid(y)" value="?y" />
 		</call>
 	    </event>
+	    <event name="enablepower">
+	        <call entity="bdash_main::get_entity(x=?newx,y=?newy)" event="powerup" />
+	    </event>
 
 	    <!--
 	      - Check if a take is possible and perform the take
@@ -2123,15 +2318,51 @@
 	    <event name="checktake_#B">
 	    </event>
 	    <event name="checktake_#R">
-	    	<call event="trypush_dontmove" />
+	    	<call event="trypush_horizontal_dontmove" />
 	    </event>
 	    <event name="checktake_OO">
-	    	<call event="trypush_dontmove" />
+	    	<call event="trypush_horizontal_dontmove" />
 	    </event>
 	    <event name="checktake_Oo">
 	    </event>
-	    <event name="checktake_Xx">
+	    <event name="checktake_=L">
 	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=U">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=1">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=2">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=3">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=4">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=a">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=b">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=c">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=d">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=+">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_=*">
+	    	<call event="enablepower" />
+	    </event>
+	    <event name="checktake_Xx">
+	    	<call event="trypush_horizontal_dontmove" />
 	    </event>
 	    <event name="checktake_XX">
 	    	<call event="takediamond" />
@@ -2176,16 +2407,52 @@
 	    <event name="checkmove_#B">
 	    </event>
 	    <event name="checkmove_#R">
-	    	<call event="trypush" />
+	    	<call event="trypush_horizontal" />
 	    </event>
 	    <event name="checkmove_OO">
-	    	<call event="trypush" />
+	    	<call event="trypush_horizontal" />
 	    </event>
 	    <event name="checkmove_Oo">
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_Xx">
+	    <event name="checkmove_=L">
 	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=U">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=1">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=2">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=3">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=4">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=a">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=b">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=c">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=d">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=+">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_=*">
+	    	<call event="enablepower" />
+	    </event>
+	    <event name="checkmove_Xx">
+	    	<call event="trypush_horizontal" />
 	    </event>
 	    <event name="checkmove_XX">
 	    	<call event="takediamond" />
@@ -2514,6 +2781,181 @@
 		<var name="dy" value="@dy" />
 		<call event="startmove" />
 		<return value="true" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a pushable block in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_pushable">
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="init">
+		<var name="speed" value="?bdash_main.pushspeed" />
+		<var name="dim" value="?bdash_main.blockdim" />
+	        <var name="blocktype" value="?bdash_main.blocktype" />
+		<lvar name="material" value="?bdash_main.(material_+?blocktype)" />
+
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="#material" />
+	        <property id="propid(materialname)" value="#material" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="640+?dim" />
+	        <property id="propid(height)" value="640+?dim" />
+	        <property id="propid(layer)" value="game" />
+	    	<call event="reinit" />
+	    </event>
+
+	    <!--
+	      - Re-initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="reinit">
+		<var name="moving" value="false" />
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+		<default propclass="?pcbb" />
+		<bb_move x="?x*?dim" y="?y*?dim" delta="0" />
+	    </event>
+	    <event name="cleanup">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+	    </event>
+
+	    <!--
+	      - The move ends.
+	      -->
+	    <event name="pctimer_wakeup">
+	        <if eval="?moving">
+		    <var name="moving" value="false" />
+		    <call event="endmove" />
+		</if>
+	    </event>
+
+	    <event name="startmove">
+		<call entity="bdash_main" event="startmove_block">
+		    <par id="parid(entity)" value="ent()" />
+		    <par id="parid(dx)" value="?dx" />
+		    <par id="parid(dy)" value="?dy" />
+		</call>
+		<var name="x" value="?x+?dx" />
+		<var name="y" value="?y+?dy" />
+		<var name="moving" value="true" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="int(1000*?speed)" />
+		    <par id="parid(repeat)" value="false" />
+		</action>
+		<bb_move x="?x*?dim" y="?y*?dim" delta="int(1000*?speed)" />
+	    </event>
+
+	    <event name="endmove">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<call entity="bdash_main" event="endmove_block">
+		    <par id="parid(entity)" value="ent()" />
+		</call>
+	    </event>
+
+	    <!--
+	      - This block does not support falling down.
+	      -->
+	    <event name="falldown">
+		<return value="false" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a tube in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_tube">
+	    <superscript name="bdash_pushable" />
+
+	    <event name="init">
+	        <super />
+		<var name="bitmask" value="?bdash_main.(tube_+?blocktype)" />
+	    </event>
+	    <event name="reinit">
+	    	<super />
+	    	<call event="powerdown" />
+	    </event>
+
+	    <event name="powerup">
+	        <var name="ignite" value="true" />
+	        <property propclass="?pcbb"
+			id="propid(color)" value="rgb(1,1,1)" />
+	    </event>
+
+	    <event name="powerdown">
+	        <var name="ignite" value="false" />
+	        <property propclass="?pcbb"
+			id="propid(color)" value="rgb(.2,.2,.2)" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a tube power station in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_tube_power">
+	    <superscript name="bdash_nonmovable" />
+
+	    <event name="init">
+	        <super />
+		<var name="bitmask" value="?bdash_main.(tube_+?blocktype)" />
+	    </event>
+	    <event name="reinit">
+	    	<super />
+	        <var name="ignite" value="false" />
+	        <property propclass="?pcbb"
+			id="propid(color)" value="rgb(.2,.2,.2)" />
+	    </event>
+
+	    <event name="powerup_dxdy">
+	        <lvar name="ent" value="bdash_main::get_entity(x=?x+@dx,y=?y+@dy)" />
+		<if eval="#ent==''"> <stop /> </if>
+		<if eval="strsub(?#ent.blocktype,0,1)=='='">
+		    <call entity="#ent" event="powerup" />
+		</if>
+	    </event>
+	    <event name="powerdown_dxdy">
+	        <lvar name="ent" value="bdash_main::get_entity(x=?x+@dx,y=?y+@dy)" />
+		<if eval="#ent==''"> <stop /> </if>
+		<if eval="strsub(?#ent.blocktype,0,1)=='='">
+		    <call entity="#ent" event="powerdown" />
+		</if>
+	    </event>
+
+	    <event name="powerup">
+	        <var name="ignite" value="true" />
+	        <property propclass="?pcbb"
+			id="propid(color)" value="rgb(1,1,1)" />
+		<expr eval="powerup_dxdy(dx=1,dy=0)" />
+		<expr eval="powerup_dxdy(dx=-1,dy=0)" />
+		<expr eval="powerup_dxdy(dx=0,dy=1)" />
+		<expr eval="powerup_dxdy(dx=0,dy=-1)" />
+	    </event>
+
+	    <event name="powerdown">
+	        <var name="ignite" value="false" />
+	        <property propclass="?pcbb"
+			id="propid(color)" value="rgb(.2,.2,.2)" />
+		<expr eval="powerdown_dxdy(dx=1,dy=0)" />
+		<expr eval="powerdown_dxdy(dx=-1,dy=0)" />
+		<expr eval="powerdown_dxdy(dx=0,dy=1)" />
+		<expr eval="powerdown_dxdy(dx=0,dy=-1)" />
 	    </event>
 	</script>
 
@@ -3140,22 +3582,43 @@
 	        <print value="EDITOR"/>
 
 		<!-- Create the menu -->
-		<expr eval="createmenuentity(blocktype='. ',x=0,y=0)" />
-		<expr eval="createmenuentity(blocktype='HH',x=1,y=0)" />
-		<expr eval="createmenuentity(blocktype='##',x=2,y=0)" />
-		<expr eval="createmenuentity(blocktype='#B',x=0,y=1)" />
-		<expr eval="createmenuentity(blocktype='#*',x=1,y=1)" />
-		<expr eval="createmenuentity(blocktype='#+',x=2,y=1)" />
-		<expr eval="createmenuentity(blocktype='#R',x=0,y=2)" />
-		<expr eval="createmenuentity(blocktype='XX',x=1,y=2)" />
-		<expr eval="createmenuentity(blocktype='Xx',x=2,y=2)" />
-		<expr eval="createmenuentity(blocktype='OO',x=0,y=3)" />
-		<expr eval="createmenuentity(blocktype='Oo',x=1,y=3)" />
-		<expr eval="createmenuentity(blocktype='Md',x=2,y=3)" />
-		<expr eval="createmenuentity(blocktype='Ma',x=0,y=4)" />
-		<expr eval="createmenuentity(blocktype='Mb',x=1,y=4)" />
-		<expr eval="createmenuentity(blocktype='Mm',x=2,y=4)" />
-		<var name="lasty" value="4" />
+		<lvar name="y" value="0" />
+		<expr eval="createmenuentity(blocktype='. ',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='HH',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='##',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='#B',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='#*',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='#+',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='#R',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='XX',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='Xx',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='OO',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='Oo',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='Md',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='Ma',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='Mb',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='Mm',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='=L',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=U',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=1',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='=2',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=3',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=4',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='=a',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=b',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=c',x=2,y=#y)" />
+		<lvar name="y" value="#y+1" />
+		<expr eval="createmenuentity(blocktype='=d',x=0,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=+',x=1,y=#y)" />
+		<expr eval="createmenuentity(blocktype='=*',x=2,y=#y)" />
+		<var name="lasty" value="#y" />
 
 		<!-- Create the save button -->
 		<inventory propclass="pc(pcinventory)" />
