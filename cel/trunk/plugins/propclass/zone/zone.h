@@ -28,12 +28,14 @@
 #include "csutil/weakrefarr.h"
 #include "csutil/refarr.h"
 #include "csutil/util.h"
+#include "csutil/hash.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "propclass/camera.h"
 #include "propclass/zone.h"
+#include "iengine/camera.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -48,6 +50,26 @@ class celPcZoneManager;
  * Factory for zone manager.
  */
 CEL_DECLARE_FACTORY(ZoneManager)
+
+class cameraSectorListener : public iCameraSectorListener
+{
+private:
+  celPcZoneManager* zonemgr;
+
+public:
+  cameraSectorListener (celPcZoneManager* zonemgr)
+  {
+    SCF_CONSTRUCT_IBASE (0);
+    cameraSectorListener::zonemgr = zonemgr;
+  }
+  virtual ~cameraSectorListener ()
+  {
+    SCF_DESTRUCT_IBASE ();
+  }
+  SCF_DECLARE_IBASE;
+
+  virtual void NewSector (iCamera* /*camera*/, iSector* sector);
+};
 
 class celMapFile : public iCelMapFile
 {
@@ -84,6 +106,7 @@ private:
   char* name;
   bool loaded;
   csRefArray<celMapFile> mapfiles;
+  csSet<iSector*> sectors;
 
   // This property class maintains private child entities.
   csWeakRefArray<iCelEntity> entities;
@@ -104,6 +127,8 @@ public:
 
   bool Load ();
   void Unload ();
+
+  bool ContainsSector (iSector* sector) { return sectors.In (sector); }
 
   SCF_DECLARE_IBASE;
 
@@ -170,6 +195,7 @@ private:
   csRef<iVFS> vfs;
   csRef<iCelPlLayer> pl;
 
+  csRef<cameraSectorListener> camlistener;
   csWeakRef<iPcCamera> pccamera;
 
   csRefArray<iCelZoneCallback> callbacks;
@@ -190,6 +216,10 @@ public:
   iLoader* GetLoader () const { return loader; }
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
+
+  // Activate some sector. This will first find the region that this
+  // sector is in and then it will activate that region.
+  bool ActivateSector (iSector* sector);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
