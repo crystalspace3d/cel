@@ -5,6 +5,8 @@
 	persisted things refer to the same entity. Note that this is only for
 	datatbuffers, the LoadEntity function still returns an IncReffed
 	entity
+	- Matze added Clear to persistace context to clear the internal hash
+	tables of the persistance plugin
 27-Feb-2002:
 	- Matze fixed a wrong return.
 	- Matze removed the persistance Set(int) function.

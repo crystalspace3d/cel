@@ -88,6 +88,8 @@ public:
   virtual iCelEntity* LoadEntity();
   virtual bool SaveEntity(iCelEntity* entity);
 
+  void Clear();
+
   friend class celPersistClassic;
 };
 

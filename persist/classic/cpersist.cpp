@@ -180,18 +180,26 @@ celPersistClassicContext::celPersistClassicContext()
 celPersistClassicContext::~celPersistClassicContext()
 {
   // free our references to entities
-  csHashIterator i(&read_entities);
-
-  while (i.HasNext())
-  {
-    iCelEntity* entity = (iCelEntity*) i.Next();
-    entity->DecRef();
-  }
+  Clear();
     
   if (pl)
     pl->DecRef();
   if (file)
     file->DecRef();
+}
+
+void celPersistClassicContext::Clear()
+{
+  csHashIterator i(&read_entities);
+   
+  while (i.HasNext())
+  {
+    iCelEntity* entitiy = (iCelEntity*) i.Next();
+    entitiy->DecRef();
+  }
+  read_entities.DeleteAll();
+  entities.DeleteAll();
+  pclasses.DeleteAll();
 }
 
 bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
