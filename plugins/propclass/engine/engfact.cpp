@@ -589,6 +589,7 @@ bool celPcCamera::HandleEvent (iEvent& ev)
     float actor_yrot;
     iSector* actor_sector;
     GetLastPosition (actor_pos, actor_yrot, actor_sector);
+    if (!actor_sector) return true;	// Can't do anything.
 
     // Store previous frame ideal camera data. It will be compared against
     // current frame later to become the delta part.
