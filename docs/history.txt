@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Sep-2003
+	- Jorrit fixed SetMesh() so it returns false on failure.
 9-Sep-2003
 	- Jorrit fixed CEL for latest iPolygonMesh change in CS.
 8-Sep-2003

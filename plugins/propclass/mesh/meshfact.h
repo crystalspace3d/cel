@@ -62,7 +62,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void Clear ();
-  void SetMesh (const char* factname, const char* filename);
+  bool SetMesh (const char* factname, const char* filename);
   void SetMesh (iMeshWrapper* mesh);
   void CreateEmptyThing ();
   iMeshWrapper* GetMesh () { return mesh; }
@@ -83,9 +83,9 @@ public:
   struct PcMesh : public iPcMesh
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMesh);
-    virtual void SetMesh (const char* factname, const char* filename)
+    virtual bool SetMesh (const char* factname, const char* filename)
     {
-      scfParent->SetMesh (factname, filename);
+      return scfParent->SetMesh (factname, filename);
     }
     virtual void SetMesh (iMeshWrapper* mesh)
     {

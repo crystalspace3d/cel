@@ -535,7 +535,7 @@ iPcMeshSelect *celCreateMeshSelect (iCelPlLayer *pl, iCelEntity *entity);
 
 struct iPcMesh : public iBase
 {
-  %name(LoadMesh) virtual void SetMesh (const char* factname,
+  %name(LoadMesh) virtual bool SetMesh (const char* factname,
   	const char* filename) = 0;
   virtual void SetMesh (iMeshWrapper* mesh) = 0;
   virtual void CreateEmptyThing () = 0;
