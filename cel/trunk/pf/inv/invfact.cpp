@@ -18,11 +18,12 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/util.h"
+#include "iutil/objreg.h"
 #include "pf/inv/invfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
-#include "csutil/util.h"
 
 //---------------------------------------------------------------------------
 
@@ -56,15 +57,18 @@ celPfInventory::~celPfInventory ()
 {
 }
 
-bool celPfInventory::Initialize (iObjectRegistry* /*object_reg*/)
+bool celPfInventory::Initialize (iObjectRegistry* object_reg)
 {
+  celPfInventory::object_reg = object_reg;
   return true;
 }
 
 iCelPropertyClass* celPfInventory::CreatePropertyClass (const char* type)
 {
-  if (!strcmp (type, "pcinventory")) return new celPcInventory ();
-  else if (!strcmp (type, "pccharacteristics")) return new celPcCharacteristics ();
+  if (!strcmp (type, "pcinventory"))
+    return new celPcInventory (object_reg);
+  else if (!strcmp (type, "pccharacteristics"))
+    return new celPcCharacteristics (object_reg);
   return NULL;
 }
 
@@ -89,10 +93,11 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcInventory::PcInventory)
   SCF_IMPLEMENTS_INTERFACE (iPcInventory)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcInventory::celPcInventory ()
+celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcInventory);
+  celPcInventory::object_reg = object_reg;
 }
 
 celPcInventory::~celPcInventory ()
@@ -108,6 +113,24 @@ void celPcInventory::SetEntity (iCelEntity* entity)
   celPcInventory::entity = entity;
 }
 
+iCelDataBuffer* celPcInventory::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcInventory::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcInventory::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
 bool celPcInventory::AddEntity (iCelEntity* child)
 {
   if (contents.Find (child) != -1) return true;
@@ -115,8 +138,8 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   int idx = contents.Push (child);
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
-		  iPcCharacteristics);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+  	child->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
   {
     pcchar->AddToInventory (&scfiPcInventory);
@@ -162,8 +185,8 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // Remove our child. We will later test if this is valid and if
   // not undo this change.
   contents.Delete (idx);
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
-		  iPcCharacteristics);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+  	child->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
   {
     pcchar->RemoveFromInventory (&scfiPcInventory);
@@ -213,7 +236,8 @@ iCelEntity* celPcInventory::GetEntity (int idx) const
   return ent;
 }
 
-celPcInventory::constraint* celPcInventory::FindConstraint (const char* name) const
+celPcInventory::constraint* celPcInventory::FindConstraint (
+	const char* name) const
 {
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
@@ -238,7 +262,8 @@ celPcInventory::constraint* celPcInventory::NewConstraint (const char* name)
   return c;
 }
 
-bool celPcInventory::SetStrictCharacteristics (const char* charName, bool strict)
+bool celPcInventory::SetStrictCharacteristics (const char* charName,
+	bool strict)
 {
   constraint* c = FindConstraint (charName);
   if (!c) c = NewConstraint (charName);
@@ -263,8 +288,8 @@ bool celPcInventory::HasStrictCharacteristics (const char* charName) const
   else return false;
 }
 
-bool celPcInventory::SetConstraints (const char* charName, float minValue, float maxValue,
-		  float totalMaxValue)
+bool celPcInventory::SetConstraints (const char* charName,
+	float minValue, float maxValue, float totalMaxValue)
 {
   constraint* c = FindConstraint (charName);
   if (!c) c = NewConstraint (charName);
@@ -287,8 +312,8 @@ bool celPcInventory::SetConstraints (const char* charName, float minValue, float
   return true;
 }
 
-bool celPcInventory::GetConstraints (const char* charName, float& minValue, float& maxValue,
-		  float& totalMaxValue) const
+bool celPcInventory::GetConstraints (const char* charName,
+	float& minValue, float& maxValue, float& totalMaxValue) const
 {
   constraint* c = FindConstraint (charName);
   if (!c) return false;
@@ -336,8 +361,8 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
     for (i = 0 ; i < contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
-		      iPcCharacteristics);
+      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+      	child->GetPropertyClassList (), iPcCharacteristics);
       if (pcchar)
       {
 	c->currentValue += pcchar->GetCharacteristic (charName);
@@ -383,8 +408,8 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     for (i = 0 ; i < contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
-		    iPcCharacteristics);
+      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+      	child->GetPropertyClassList (), iPcCharacteristics);
       float child_val = DEF;
       if (pcchar && pcchar->HasCharacteristic (charName))
       {
@@ -427,8 +452,8 @@ bool celPcInventory::TestConstraints (const char* charName)
   // Local contents seems to be ok. No check if this entity
   // also has characteristics and in that case check constraints
   // for that too.
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcCharacteristics);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+  	entity->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
   {
     bool rc = pcchar->TestConstraints (charName);
@@ -457,8 +482,8 @@ void celPcInventory::MarkDirty (const char* name)
     }
   }
   if (!entity) return;
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcCharacteristics);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+  	entity->GetPropertyClassList (), iPcCharacteristics);
   if (pcchar)
   {
     pcchar->MarkDirty (name);
@@ -498,10 +523,11 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCharacteristics::PcCharacteristics)
   SCF_IMPLEMENTS_INTERFACE (iPcCharacteristics)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcCharacteristics::celPcCharacteristics ()
+celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCharacteristics);
+  celPcCharacteristics::object_reg = object_reg;
 }
 
 celPcCharacteristics::~celPcCharacteristics ()
@@ -514,7 +540,26 @@ void celPcCharacteristics::SetEntity (iCelEntity* entity)
   celPcCharacteristics::entity = entity;
 }
 
-celPcCharacteristics::charact* celPcCharacteristics::FindCharact (const char* name) const
+iCelDataBuffer* celPcCharacteristics::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcCharacteristics::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcCharacteristics::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
+	const char* name) const
 {
   int i;
   for (i = 0 ; i < chars.Length () ; i++)
@@ -573,7 +618,8 @@ bool celPcCharacteristics::SetCharacteristic (const char* name, float value)
   return true;
 }
 
-bool celPcCharacteristics::SetInheritedCharacteristic (const char* name, float factor, float add)
+bool celPcCharacteristics::SetInheritedCharacteristic (const char* name,
+	float factor, float add)
 {
   charact* c = FindCharact (name);
   if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }

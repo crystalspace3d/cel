@@ -4,6 +4,7 @@
 	  information.
 	- Slightly changed prototype of Load() and Save() so that they
 	  now expect a pointer to the data buffer on which they must operate.
+	- Added stub code for persistance to all property classes.
 6-Nov-2001:
 	- Started work on 'pcgravity' property class (in 'pfmove' factory).
 	  This property class is an almost exact copy of the movable property

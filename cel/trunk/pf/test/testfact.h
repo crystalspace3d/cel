@@ -28,6 +28,7 @@
 #include "pf/test.h"
 
 struct iCelEntity;
+struct iObjectRegistry;
 
 /**
  * Factory for test.
@@ -35,6 +36,7 @@ struct iCelEntity;
 class celPfTest : public iCelPropertyClassFactory
 {
 private:
+  iObjectRegistry* object_reg;
 
 public:
   celPfTest (iBase* parent);
@@ -63,9 +65,10 @@ class celPcTest : public iCelPropertyClass
 {
 private:
   iCelEntity* entity;
+  iObjectRegistry* object_reg;
 
 public:
-  celPcTest ();
+  celPcTest (iObjectRegistry* object_reg);
   virtual ~celPcTest ();
 
   SCF_DECLARE_IBASE;
@@ -73,9 +76,9 @@ public:
   virtual const char* GetName () const { return "pctest"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
-  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save (iCelDataBuffer* databuf) { }
-  virtual void Load (iCelDataBuffer* databuf) { }
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
 
   struct PcTest : public iPcTest
   {

@@ -135,6 +135,24 @@ void celPcMovable::SetEntity (iCelEntity* entity)
   celPcMovable::entity = entity;
 }
 
+iCelDataBuffer* celPcMovable::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcMovable::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcMovable::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
 void celPcMovable::SetMesh (iPcMesh* mesh)
 {
   if (mesh) mesh->IncRef ();
@@ -254,6 +272,24 @@ void celPcSolid::SetEntity (iCelEntity* entity)
   celPcSolid::entity = entity;
 }
 
+iCelDataBuffer* celPcSolid::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcSolid::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcSolid::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
 void celPcSolid::SetMesh (iPcMesh* mesh)
 {
   if (mesh) mesh->IncRef ();
@@ -351,6 +387,24 @@ celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
 {
   celPcMovableConstraintCD::entity = entity;
+}
+
+iCelDataBuffer* celPcMovableConstraintCD::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcMovableConstraintCD::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 int celPcMovableConstraintCD::CheckMove (iSector* sector,
@@ -562,6 +616,24 @@ celPcGravity::~celPcGravity ()
 void celPcGravity::SetEntity (iCelEntity* entity)
 {
   celPcGravity::entity = entity;
+}
+
+iCelDataBuffer* celPcGravity::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcGravity::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcGravity::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 void celPcGravity::CreateGravityCollider (iPcMesh* mesh)

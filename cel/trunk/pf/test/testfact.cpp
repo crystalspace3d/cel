@@ -18,7 +18,9 @@
 */
 
 #include "cssysdef.h"
+#include "iutil/objreg.h"
 #include "pf/test/testfact.h"
+#include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 
@@ -52,15 +54,16 @@ celPfTest::~celPfTest ()
 {
 }
 
-bool celPfTest::Initialize (iObjectRegistry* /*object_reg*/)
+bool celPfTest::Initialize (iObjectRegistry* object_reg)
 {
+  celPfTest::object_reg = object_reg;
   return true;
 }
 
 iCelPropertyClass* celPfTest::CreatePropertyClass (const char* type)
 {
   if (strcmp (type, "pctest")) return NULL;
-  return new celPcTest ();
+  return new celPcTest (object_reg);
 }
 
 //---------------------------------------------------------------------------
@@ -74,10 +77,11 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTest::PcTest)
   SCF_IMPLEMENTS_INTERFACE (iPcTest)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcTest::celPcTest ()
+celPcTest::celPcTest (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
+  celPcTest::object_reg = object_reg;
 }
 
 celPcTest::~celPcTest ()
@@ -87,6 +91,24 @@ celPcTest::~celPcTest ()
 void celPcTest::SetEntity (iCelEntity* entity)
 {
   celPcTest::entity = entity;
+}
+
+iCelDataBuffer* celPcTest::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcTest::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcTest::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
 }
 
 void celPcTest::PcTest::Print (const char* msg)
