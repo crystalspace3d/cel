@@ -6,6 +6,13 @@ The history order is reversed so that new features are at the top.
 30-Nov-2003
 	- Eric Sunshine updated very outdated m4 files in cel/mk/autoconf from
 	  master copies in CS/mk/autoconf.
+	- Eric Sunshine removed platform-specfic checks from configure.ac which
+	  duplicated checks performed by CS's configure script.  This
+	  duplication is no longer needed since Eric fixed a bug in
+	  CS/scripts/cs-config/Jamfile which caused the generated cs-config's
+	  --cflags and --cxxflags options to always return an empty string.
+	  These options now return proper flags, thus duplicate checking by
+	  cel's configure script is not required.
 29-Nov-2003
 	- Jorrit added support for csVector2 properties to the pcproperties
 	  property class, to the generic property system, to the

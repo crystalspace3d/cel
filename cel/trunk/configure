@@ -1270,7 +1270,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 PACKAGE_LONGNAME="Crystalspace Entity Layer"
     PACKAGE_COPYRIGHT="(c)2002,2003 Jorrit Tyberghein and others."
-    PACKAGE_HOMEPAGE="http://cel.sourceforge.net"
+    PACKAGE_HOMEPAGE="http://cel.sourceforge.net/"
 
 
 ac_aux_dir=
@@ -1352,12 +1352,6 @@ host_vendor=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
 host_os=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 
 
-
-#----------------------------------------------------------------------------
-# Setup for the configuration header
-#----------------------------------------------------------------------------
-
-# nothing
 
 #----------------------------------------------------------------------------
 # Check for applications
@@ -3407,199 +3401,9 @@ fi
 
 
 #----------------------------------------------------------------------------
-# Check for syntax problems / header files
-#----------------------------------------------------------------------------
-
-#------------------------------------------------------------------------------
-# CS_EMIT_BUILD_FLAGS(MESSAGE, CACHE-VAR, FLAGS, [LANGUAGE],
-#                     MAKEFILE-VARIABLE, [APPEND], [CACHE-VALUE],
-#                     [ACTION-IF-RECOGNIED], [ACTION-IF-NOT-RECOGNIED])
-#       Check if the compiler or linker recognizes a command-line option.
-#       MESSAGE is the "checking" message.  CACHE-VAR is the shell cache
-#       variable which receives the flag recognized by the compiler or linker,
-#       or "no" if the flag was not recognized.  FLAGS is a
-#       whitespace-delimited list of build tuples created with
-#       CS_CREATE_TUPLE().  Each tuple from FLAGS is attempted in order until
-#       one is found which is recognized by the compiler.  After that, no
-#       further flags are checked.  LANGUAGE is typically either C or C++ and
-#       specifies which compiler to use for the test.  If LANGUAGE is omitted,
-#       C is used.  MAKEFILE-VARIABLE is the name of the makefile variable to
-#       insert into the makefile and Jam text caches if a usable flag is
-#       encountered.  CACHE-VALUE is the value to assign to the makefile
-#       variable.  If omitted, it defaults to $cs_build_cflags.  If you are
-#       checking linker flags, rather than compiler flags, then you should
-#       specify $cs_build_lflags for this argument.  If APPEND is not the empty
-#       string, then CACHE-VALUE is appended to the existing value of the
-#       makefile variable.  If the command-line option was recognized, then
-#       ACTION-IF-RECOGNIZED is invoked, otherwise ACTION-IF-NOT-RECOGNIZED is
-#       invoked.
-#------------------------------------------------------------------------------
-
-
-#------------------------------------------------------------------------------
-# Check if Mingw compiler recognizes -fvtable-thunks.  As of gcc 3.x, this
-# option is no longer supported.  Unfortunately, rather than returning an error
-# code (as it does with other unrecognized options), the compiler merely prints
-# a warning message when -fvtable-thunks is used, thus we use -Werror to turn
-# the warning into an error.
-#------------------------------------------------------------------------------
-
-
-
-
-    case $host_os in
-        mingw*)
-            echo "$as_me:$LINENO: checking if -fvtable-thunks is needed" >&5
-echo $ECHO_N "checking if -fvtable-thunks is needed... $ECHO_C" >&6
-if test "${cs_cv_prog_cxx_vtable_thunks+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_ext=cc
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-    cs_cflags_save="$CXXFLAGS"
-    cs_lflags_save="$LDFLAGS"
-    cs_libs_save="$LIBS"
-    cs_build_ok=no
-
-    for cs_build_item in `echo @-fvtable-thunks -Werror@@ | sed 'y% %#%'`
-    do
-
-    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
-	{ for (i=1; i <= NF; ++i)
-	    { if ($i == "") print "filler"; else print $i } }'`
-    shift
-    if test $# -eq 0; then
-  cs_dummy=''
-else
-  if test "$1" = filler; then
-  cs_dummy=''
-else
-  cs_dummy=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_cflags_test=''
-else
-  if test "$1" = filler; then
-  cs_cflags_test=''
-else
-  cs_cflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_lflags_test=''
-else
-  if test "$1" = filler; then
-  cs_lflags_test=''
-else
-  cs_lflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_libs_test=''
-else
-  if test "$1" = filler; then
-  cs_libs_test=''
-else
-  cs_libs_test=$1
-fi
-
-	shift
-fi
-
-    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
-    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
-    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
-
-	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
-	LIBS="$cs_libs_test  $cs_libs_save"
-	cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  cs_build_ok=yes
-	    break
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-    done
-
-    CXXFLAGS=$cs_cflags_save
-    LDFLAGS=$cs_lflags_save
-    LIBS=$cs_libs_save
-    ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-    if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_cv_prog_cxx_vtable_thunks=-fvtable-thunks
-else
-  cs_cv_prog_cxx_vtable_thunks=no
-fi
-
-fi
-echo "$as_me:$LINENO: result: $cs_cv_prog_cxx_vtable_thunks" >&5
-echo "${ECHO_T}$cs_cv_prog_cxx_vtable_thunks" >&6
-    if test "$cs_cv_prog_cxx_vtable_thunks" != no; then
-
-        cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += \"$cs_cv_prog_cxx_vtable_thunks\" ;
-"
-else
-  :
-fi
-
-            ;;
-    esac
-
-#nothing yet
-
-#----------------------------------------------------------------------------
 # Check for external libraries
 #----------------------------------------------------------------------------
+
 
 
 # Get the cflags and libraries from the cs-config script
@@ -3831,14 +3635,16 @@ echo "${ECHO_T}no" >&6
    CRYSTAL_VERSION=""
    CRYSTAL_LIBS=""
    { { echo "$as_me:$LINENO: error:
-*** Crystal Space couldn't be found. The latest version is always avaiable
-*** from http://crystal.sourceforge.net
-*** Be also sure that you've either installed CS or set the CRYSTAL var right.
+*** Crystal Space could not be found. The latest version is always avaiable
+*** from http://crystal.sourceforge.net/
+*** Be sure also that you have either installed Crystal Space or set the
+*** CRYSTAL environment variable properly.
 " >&5
 echo "$as_me: error:
-*** Crystal Space couldn't be found. The latest version is always avaiable
-*** from http://crystal.sourceforge.net
-*** Be also sure that you've either installed CS or set the CRYSTAL var right.
+*** Crystal Space could not be found. The latest version is always avaiable
+*** from http://crystal.sourceforge.net/
+*** Be sure also that you have either installed Crystal Space or set the
+*** CRYSTAL environment variable properly.
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -5626,10 +5432,12 @@ fi
 { echo "$as_me:$LINENO:
 Please note that this project uses Jam as its preferred build tool,
 so you can type 'jam' to build it.  (Building the project with GNU
-'make' is also supported, though deprecated.)
+'make' is also supported, though deprecated and not necessarily well
+maintained.)
 " >&5
 echo "$as_me:
 Please note that this project uses Jam as its preferred build tool,
 so you can type 'jam' to build it.  (Building the project with GNU
-'make' is also supported, though deprecated.)
+'make' is also supported, though deprecated and not necessarily well
+maintained.)
 " >&6;}
