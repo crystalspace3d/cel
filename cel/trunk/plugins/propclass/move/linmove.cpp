@@ -45,6 +45,7 @@
 #include <imesh/object.h>
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
+#include <ivaria/reporter.h>
 
 #include <imesh/thing.h>
 #include <csgeom/polymesh.h>
@@ -157,6 +158,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   vel = 0;
   targVel = 0;
   angularVelocity = 0;
+  angleToReachFlag = false;
   targAngularVelocity = 0;
   angDelta = 0;
   lastDRUpdate = 0;
@@ -265,7 +267,17 @@ void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
 {
   //targAngularVelocity = angleVel;
   //if (IsOnGround())
-	angularVelocity = angleVel;
+  angularVelocity = angleVel;
+  angleToReachFlag = false;
+}
+
+void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel, const csVector3& angleToReach)
+{
+  //targAngularVelocity = angleVel;
+  //if (IsOnGround())
+  SetAngularVelocity (angleVel);
+  angleToReachFlag = true;
+  this->angleToReach = angleToReach;
 }
 
 void celPcLinearMovement::SetVelocity (const csVector3& vel)
@@ -292,16 +304,59 @@ void celPcLinearMovement::SetSpeed (float speedZ)
   speed = speedZ;
 }
 
+// --------------------------------------------------------------------------
+
+// Small helper function that returns the angle when given an x and y
+// coordinate.
+static float GetAngle (float x, float y)
+{
+  if (x > 1.0 )  x = 1.0;
+  if (x < -1.0 ) x = -1.0;
+
+  float angle = acos (x);
+  if (y < 0)
+    angle = 2*PI - angle;
+
+  return angle;
+}
+
+static float Matrix2YRot (const csMatrix3& mat)
+{
+  csVector3 vec (0,0,1);
+  vec = mat * vec;
+
+  return GetAngle (vec.z, vec.x);
+}
+
+// --------------------------------------------------------------------------
+
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
 {
+  if (!pcmesh || !pcmesh->GetMesh ())
+  {
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return false;
+  }      
+
+  // rotation
   if (angularVelocity < SMALL_EPSILON)
     return false;
 
   //delta *= speed;
   csVector3 angle = angularVelocity * delta;
-  csMatrix3 rotMat (1,0,0,0,1,0,0,0,1);
+  if (angleToReachFlag)
+  {
+    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
+    float yrot_delta = fabs(atanf (tanf (angleToReach.y - Matrix2YRot (transf))));
+    if (fabs(angle.y) > yrot_delta)
+      {
+	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
+	angularVelocity = 0;
+      }
+  } 
 
+  csMatrix3 rotMat (1,0,0,0,1,0,0,0,1);
   float ca = 0;
   float sa = 0;
 
@@ -690,29 +745,6 @@ iSector* celPcLinearMovement::GetSector ()
 }
 
 // --------------------------------------------------------------------------
-
-
-// Small helper function that returns the angle when given an x and y
-// coordinate.
-static float GetAngle (float x, float y)
-{
-  if (x > 1.0 )  x = 1.0;
-  if (x < -1.0 ) x = -1.0;
-
-  float angle = acos (x);
-  if (y < 0)
-    angle = 2*PI - angle;
-
-  return angle;
-}
-
-static float Matrix2YRot (const csMatrix3& mat)
-{
-  csVector3 vec (0,0,1);
-  vec = mat * vec;
-
-  return GetAngle (vec.z, vec.x);
-}
 
 void celPcLinearMovement::SetPathAction (int which, const char *action)
 {

@@ -71,15 +71,18 @@ private:
   float running_speed;
   float rotating_speed;
   float jumping_velocity;
+  float rotate_to;
   bool forward;
   bool backward;
   bool strafeleft;
   bool straferight;
   bool rotateleft;
   bool rotateright;
+  bool rotatetoreached;
   bool running;
   bool autorun;
 
+  void RotateTo (float yrot);
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
   void GetSpriteStates ();
@@ -111,11 +114,13 @@ public:
   void RotateLeft (bool start)
   {
     rotateleft = start;
+    rotatetoreached = true;
     HandleMovement (false);
   }
   void RotateRight (bool start)
   {
     rotateright = start;
+    rotatetoreached = true;
     HandleMovement (false);
   }
   void Run (bool start)
@@ -178,6 +183,10 @@ public:
     virtual void RotateRight (bool start)
     {
       scfParent->RotateRight (start);
+    }
+    virtual void RotateTo (float yrot)
+    {
+      scfParent->RotateTo (yrot);
     }
     virtual void Run (bool start)
     {

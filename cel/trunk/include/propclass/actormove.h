@@ -48,6 +48,8 @@ struct iPcActorMove : public iBase
   virtual void RotateLeft (bool start) = 0;
   /// Start/stop rotating right.
   virtual void RotateRight (bool start) = 0;
+  /// Rotate to a specified angle.
+  virtual void RotateTo (float yrot) = 0;
   /// Start/stop running.
   virtual void Run (bool start) = 0;
   /// Start/stop auto-running.

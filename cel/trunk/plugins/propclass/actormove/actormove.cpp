@@ -70,6 +70,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   straferight = false;
   rotateleft = false;
   rotateright = false;
+  rotatetoreached = true;
   running = false;
   autorun = false;
   checked_spritestate = false;
@@ -122,6 +123,30 @@ void celPcActorMove::GetSpriteStates ()
   sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
   if (sprcal3d) return;
   spr3d = SCF_QUERY_INTERFACE (o, iSprite3DState);
+}
+
+void celPcActorMove::RotateTo (float yrot)
+{
+  FindSiblingPropertyClasses ();
+  rotate_to = yrot;
+  rotatetoreached = false;
+
+  if (!pclinmove)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+		    "cel.pcactormove", "pclinmove is missing!");
+    return;
+  }
+  csVector3 current_position;
+  iSector* current_sector;
+  float current_yrot;
+  pclinmove->GetLastPosition (current_position, current_yrot, current_sector);
+
+  float angle_gap = atan (tan (rotate_to - current_yrot));
+  rotateleft = (angle_gap > 0);
+  rotateright = (angle_gap < 0);
+
+  HandleMovement (false);
 }
 
 void celPcActorMove::HandleMovement (bool jump)
@@ -205,12 +230,19 @@ void celPcActorMove::HandleMovement (bool jump)
   if (sprcal3d) sprcal3d->SetVelocity (velocity.z);
   // @@@ do spr3d!
 
+  float actual_rotating_speed = 0;
   if (rotateright)
-    pclinmove->SetAngularVelocity (csVector3 (0, -rotating_speed, 0));
+    actual_rotating_speed = -rotating_speed;
   else if (rotateleft)
-    pclinmove->SetAngularVelocity (csVector3 (0, rotating_speed, 0));
-  else
-    pclinmove->SetAngularVelocity (csVector3 (0));
+    actual_rotating_speed = rotating_speed;
+  if (rotatetoreached)
+  {
+    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0));
+  } else 
+  {
+    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0), 
+				   csVector3 (0, rotate_to, 0));    
+  }
 
   if (jump && pclinmove->IsOnGround ())
   {
