@@ -89,7 +89,13 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   csString cmd;
   cmd << "sys.path.append('" << path << "scripts/python/')";
   if (!RunText (cmd)) return false;
-//  if (!RunText ("sys.path.append('scripts/')")) return false;
+  cmd.Clear();
+  cmd << "sys.path.append('" << path << "scripts/')";
+  if (!RunText (cmd)) return false;
+  
+  if (!RunText ("sys.path.append('scripts/python/')")) return false;
+  if (!RunText ("sys.path.append('scripts/')")) return false;
+
 #ifdef TOP_SRCDIR
   if (!RunText ("sys.path.append('" TOP_SRCDIR "/scripts/')")) return false;
 #endif // TOP_SRCDIR
@@ -260,7 +266,36 @@ bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
-{  
+{ 
+
+/*  
+  // Ugly but usefull - not need to restart application, only behaviour sending message "reload" :)
+  if (!strcmp(msg_id, "reload"))
+  {
+    PyObject *py_module, *py_dict, *py_func, *py_args;
+
+    py_module = PyImport_ImportModule((char *)name);
+    py_module = PyImport_ReloadModule(py_module);
+    if (py_module != NULL)
+    {
+      py_dict = PyModule_GetDict (py_module);
+      py_func = PyDict_GetItemString (py_dict, (char *)name);
+      if (py_func && PyCallable_Check(py_func))
+      {
+        py_args = PyTuple_New(1);
+        PyTuple_SetItem (py_args, 0, py_entity);
+        py_object = PyObject_CallObject(py_func, py_args);
+        if (!py_object)    
+        {
+          PyRun_SimpleString ("pdb.pm()");
+          return NULL;
+        }
+      }
+    }
+    return true;
+  }
+*/
+
   PyObject *pymessage_info = SWIG_NewPointerObj (msg_info, tibase, 0);
 
   PyObject *method = PyString_FromString (msg_id);
