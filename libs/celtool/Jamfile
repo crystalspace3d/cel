@@ -2,4 +2,4 @@ SubDir TOP libs celtool ;
 
 Description celtool : "CEL tool library" ;
 Library celtool : [ Wildcard *.cpp *.h ] ;
-# LibDepends celtool : csgeom csutil ;
+ExternalLibs celtool : CRYSTAL ;
