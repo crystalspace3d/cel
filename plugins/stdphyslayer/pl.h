@@ -64,6 +64,8 @@ public:
   void AddEntityName (celEntity* ent);
 
   virtual csPtr<iCelEntity> CreateEntity ();
+  virtual csPtr<iCelEntity> CreateEntity (const char* entname,
+  	iCelBlLayer* bl, const char* bhname, ...);
   virtual iCelEntity* FindEntity (const char* name);
   /**
    * Remove an entity from the physical layer ID list.
