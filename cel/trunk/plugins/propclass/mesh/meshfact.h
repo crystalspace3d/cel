@@ -116,17 +116,8 @@ public:
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  /**
-   * GetName identifies this entity as pcmesh-entity.
-   */
   virtual const char* GetName () const { return "pcmesh"; }
-  /**
-   * Save all properties of this pcmesh to a databuffer.
-   */
   virtual csPtr<iCelDataBuffer> Save ();
-  /**
-   * Load all properties for this pcmesh from a databuffer.
-   */
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMesh : public iPcMesh
