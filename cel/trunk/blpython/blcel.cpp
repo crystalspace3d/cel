@@ -33,8 +33,8 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.8  2003/03/25 11:13:03  jorrit
- * Fix for latest CS changes.
+ * Revision 1.9  2003/03/28 07:12:29  jorrit
+ * Fixed python plugin.
  *
  ************************************************************************/
 
@@ -6603,28 +6603,6 @@ static PyObject *_wrap_iPolygon3DStatic_CreatePlane(PyObject *self, PyObject *ar
     return _resultobj;
 }
 
-#define iPolygon3DStatic_SetPlane(_swigobj,_swigarg0)  (_swigobj->SetPlane(_swigarg0))
-static PyObject *_wrap_iPolygon3DStatic_SetPlane(PyObject *self, PyObject *args) {
-    PyObject * _resultobj;
-    bool  _result;
-    iPolygon3DStatic * _arg0;
-    char * _arg1;
-    char * _argc0 = 0;
-
-    self = self;
-    if(!PyArg_ParseTuple(args,"ss:iPolygon3DStatic_SetPlane",&_argc0,&_arg1)) 
-        return NULL;
-    if (_argc0) {
-        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iPolygon3DStatic_p")) {
-            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iPolygon3DStatic_SetPlane. Expected _iPolygon3DStatic_p.");
-        return NULL;
-        }
-    }
-    _result = (bool )iPolygon3DStatic_SetPlane(_arg0,_arg1);
-    _resultobj = Py_BuildValue("i",_result);
-    return _resultobj;
-}
-
 #define iPolygon3DStatic_SetTextureSpace(_swigobj,_swigarg0,_swigarg1,_swigarg2)  (_swigobj->SetTextureSpace(_swigarg0,_swigarg1,_swigarg2))
 static PyObject *_wrap_iPolygon3DStatic_SetTextureSpace(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
@@ -12048,7 +12026,6 @@ static PyMethodDef blcelcMethods[] = {
 	 { "iPolygon3D_GetVertexW", _wrap_iPolygon3D_GetVertexW, 1 },
 	 { "iPolygon3D_GetLightMap", _wrap_iPolygon3D_GetLightMap, 1 },
 	 { "iPolygon3DStatic_SetTextureSpace", _wrap_iPolygon3DStatic_SetTextureSpace, 1 },
-	 { "iPolygon3DStatic_SetPlane", _wrap_iPolygon3DStatic_SetPlane, 1 },
 	 { "iPolygon3DStatic_CreatePlane", _wrap_iPolygon3DStatic_CreatePlane, 1 },
 	 { "iPolygon3DStatic_SetAlpha", _wrap_iPolygon3DStatic_SetAlpha, 1 },
 	 { "iPolygon3DStatic_GetAlpha", _wrap_iPolygon3DStatic_GetAlpha, 1 },
