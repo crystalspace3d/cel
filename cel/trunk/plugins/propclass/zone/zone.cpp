@@ -341,12 +341,9 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 
   if (id_region == csInvalidStringID)
-  {
     id_region = pl->FetchStringID ("cel.parameter.region");
-  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
 }

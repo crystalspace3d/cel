@@ -217,7 +217,6 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (id_x == csInvalidStringID)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_button = pl->FetchStringID ("cel.parameter.button");
@@ -717,7 +716,6 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
 
 csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
   databuf->SetDataCount (10);
   databuf->GetData (0)->Set (billboard_name);

@@ -87,12 +87,8 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   Activate ();
 
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
   if (action_bind == csInvalidStringID)
-  {
     action_bind = pl->FetchStringID ("cel.action.Bind");
-  }
 }
 
 celPcCommandInput::~celPcCommandInput ()
@@ -142,8 +138,7 @@ bool celPcCommandInput::PerformAction (csStringID actionId,
 
 csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (COMMANDINPUT_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
   int cnt = 0;
   celKeyMap* m = maplist;
   while (m)

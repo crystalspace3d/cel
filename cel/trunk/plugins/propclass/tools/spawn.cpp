@@ -51,10 +51,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSpawn::PcSpawn)
   SCF_IMPLEMENTS_INTERFACE (iPcSpawn)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcSpawn::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 csStringID celPcSpawn::id_entity = csInvalidStringID;
 csStringID celPcSpawn::id_behaviour = csInvalidStringID;
 
@@ -62,7 +58,6 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
-  scfiEventHandler = 0;
   enabled = true;
   repeat = false;
   random = true;
@@ -73,8 +68,6 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
   if (id_entity == csInvalidStringID)
   {
     id_entity = pl->FetchStringID ("cel.parameter.entity");
@@ -87,13 +80,6 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
 celPcSpawn::~celPcSpawn ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 bool celPcSpawn::PerformAction (csStringID /*actionId*/,
@@ -128,91 +114,75 @@ void celPcSpawn::SetTiming (bool repeat, bool random,
   celPcSpawn::mindelay = mindelay;
   celPcSpawn::maxdelay = maxdelay;
   Reset ();
-  if (!scfiEventHandler)
-  {
-    scfiEventHandler = new EventHandler (this);
-  }
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
 }
 
-bool celPcSpawn::HandleEvent (iEvent& ev)
+void celPcSpawn::TickOnce ()
 {
-  if (!enabled) return false;
-  if (delay_todo <= 0) return false;	// Nothing to do.
+  if (!enabled) return;
 
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
+  // To prevent the entity from being deleted during
+  // the call of pcspawn_newentity we keep a temporary reference
+  // here.
+  csRef<iCelEntity> ref;
+  if (repeat)
+    Reset ();
+
+  // First create our entity.
+  size_t idx;
+  if (random)
   {
-    // To prevent the entity from being deleted during
-    // the call of pcspawn_newentity we keep a temporary reference
-    // here.
-    csRef<iCelEntity> ref;
-    csTicks elapsed = vc->GetElapsedTicks ();
-    delay_todo -= elapsed;
-    if (delay_todo <= 0)
+    float c = float (rand () % 10000) * total_chance / 10000.0f;
+    idx = 0;
+    c -= spawninfo[idx].chance;
+    while (c > 0)
     {
-      if (repeat)
-        Reset ();
-
-      // First create our entity.
-      size_t idx;
-      if (random)
-      {
-        float c = float (rand () % 10000) * total_chance / 10000.0f;
-	idx = 0;
-	c -= spawninfo[idx].chance;
-	while (c > 0)
-	{
-	  idx++;
-	  if (idx >= spawninfo.Length ()-1) break;
-	  c -= spawninfo[idx].chance;
-	}
-      }
-      else
-      {
-        idx = sequence_cur;
-	sequence_cur++;
-	if (sequence_cur >= spawninfo.Length ()) sequence_cur = 0;
-      }
-      csRef<iCelEntity> newent = pl->CreateEntity (spawninfo[idx].name,
-      	spawninfo[idx].bl, spawninfo[idx].behaviour, 0);
-      size_t i;
-      csStringArray& pcs = spawninfo[idx].pcs;
-      for (i = 0 ; i < pcs.Length () ; i++)
-      {
-        iCelPropertyClass* pc = pl->CreatePropertyClass (newent, pcs[i]);
-	if (!pc) { /* @@@ Error reporting */ }
-      }
-
-      // First send a message to our new entity if needed.
-      celData ret;
-      if (spawninfo[idx].msg_id && newent->GetBehaviour ())
-      {
-        newent->GetBehaviour ()->SendMessage (spawninfo[idx].msg_id, ret,
-		spawninfo[idx].params);
-      }
-
-      // Then send a message to our own entity.
-      iCelBehaviour* bh = entity->GetBehaviour ();
-      CS_ASSERT (bh != 0);
-      ref = entity;
-      params->GetParameter (0).Set (newent);
-      params->GetParameter (1).Set (spawninfo[idx].behaviour);
-      bh->SendMessage ("pcspawn_newentity", ret, params);
+      idx++;
+      if (idx >= spawninfo.Length ()-1) break;
+      c -= spawninfo[idx].chance;
     }
   }
-  return false;
+  else
+  {
+    idx = sequence_cur;
+    sequence_cur++;
+    if (sequence_cur >= spawninfo.Length ()) sequence_cur = 0;
+  }
+
+  csRef<iCelEntity> newent = pl->CreateEntity (spawninfo[idx].name,
+      	spawninfo[idx].bl, spawninfo[idx].behaviour, 0);
+  size_t i;
+  csStringArray& pcs = spawninfo[idx].pcs;
+  for (i = 0 ; i < pcs.Length () ; i++)
+  {
+    iCelPropertyClass* pc = pl->CreatePropertyClass (newent, pcs[i]);
+    if (!pc) { /* @@@ Error reporting */ }
+  }
+
+  // First send a message to our new entity if needed.
+  celData ret;
+  if (spawninfo[idx].msg_id && newent->GetBehaviour ())
+  {
+    newent->GetBehaviour ()->SendMessage (spawninfo[idx].msg_id, ret,
+		spawninfo[idx].params);
+  }
+
+  // Then send a message to our own entity.
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  CS_ASSERT (bh != 0);
+  ref = entity;
+  params->GetParameter (0).Set (newent);
+  params->GetParameter (1).Set (spawninfo[idx].behaviour);
+  bh->SendMessage ("pcspawn_newentity", ret, params);
 }
 
 void celPcSpawn::Reset ()
 {
   sequence_cur = 0;
   if (maxdelay > mindelay)
-    delay_todo = rand () % (maxdelay-mindelay) + mindelay;
+    pl->CallbackPCOnce (this, rand () % (maxdelay-mindelay) + mindelay,
+    	cscmdPreProcess);
   else
-    delay_todo = mindelay;
+    pl->CallbackPCOnce (this, mindelay, cscmdPreProcess);
 }
 
 void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,

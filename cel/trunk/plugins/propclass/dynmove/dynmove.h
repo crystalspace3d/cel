@@ -89,13 +89,12 @@ public:
   void ClearForces (iPcDynamicBody* body);
   void ClearAllForces ();
 
-  bool HandleEvent (iEvent& ev);
-
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcdynsys"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual void TickEveryFrame ();
 
   struct PcDynamicSystem : public iPcDynamicSystem
   {
@@ -130,27 +129,6 @@ public:
       scfParent->ClearAllForces ();
     }
   } scfiPcDynamicSystem;
-
-  // Not an embedded event handler to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcDynamicSystem* parent;
-
-  public:
-    EventHandler (celPcDynamicSystem* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 #define CEL_BODY_INVALID 0

@@ -246,10 +246,23 @@ struct iCelPropertyClass : public iBase
    * references it keeps internally for other property classes.
    */
   virtual void PropertyClassesHaveChanged () = 0;
+
+  /**
+   * This function is called by the physical layer when a broadcast
+   * is needed. Use iCelPlLayer->CallbackPCEveryFrame() to register a PC
+   * for this.
+   */
+  virtual void TickEveryFrame () = 0;
+
+  /**
+   * This function is called by the physical layer when a broadcast
+   * is needed. Use iCelPlLayer->CallbackPCOnce() to register a PC for this.
+   */
+  virtual void TickOnce () = 0;
 };
 
 
-SCF_VERSION (iCelPropertyClassList, 0, 0, 1);
+SCF_VERSION (iCelPropertyClassList, 0, 0, 2);
 
 /**
  * A list of property classes.

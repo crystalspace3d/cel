@@ -39,6 +39,8 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
   entity = 0;
   propcount = 0;
   propclasses_dirty = true;
+
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 }
 
 celPcCommon::~celPcCommon ()

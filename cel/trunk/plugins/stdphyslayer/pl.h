@@ -21,15 +21,31 @@
 #define __CEL_PLIMP_PL__
 
 #include "csutil/refarr.h"
+#include "csutil/weakrefarr.h"
 #include "csutil/hashhandlers.h"
 #include "csutil/hash.h"
 #include "iutil/comp.h"
+#include "iutil/event.h"
+#include "iutil/eventh.h"
 #include "physicallayer/pl.h"
 #include "plugins/stdphyslayer/numreg.h"
 
 struct iObjectRegistry;
 struct iEngine;
+struct iVirtualClock;
+struct iEvent;
 class celEntity;
+
+struct CallbackPCTiming
+{
+  csWeakRef<iCelPropertyClass> pc;
+  csTicks time_to_fire;
+};
+struct CallbackPCInfo
+{
+  csWeakRefArray<iCelPropertyClass> every_frame;
+  csSafeCopyArray<CallbackPCTiming> timed_callbacks;
+};
 
 /**
  * Implementation of the physical layer.
@@ -51,11 +67,24 @@ private:
   csStringSet string_registry;
   NumReg idlist;
   csRef<iEngine> engine;
+  csRef<iVirtualClock> vc;
+
+  // For timed callbacks:
+  CallbackPCInfo callbacks_pre;
+  CallbackPCInfo callbacks_process;
+  CallbackPCInfo callbacks_post;
+  CallbackPCInfo callbacks_final;
+  int compress_delay;
+  void CompressCallbackPCInfo ();
+  // 'where' is one of the cscmdProcess flags.
+  CallbackPCInfo* GetCBInfo (int where);
 
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
   bool Initialize (iObjectRegistry* object_reg);
+
+  bool HandleEvent (iEvent& ev);
 
   SCF_DECLARE_IBASE;
 
@@ -117,12 +146,38 @@ public:
     return string_registry.Request (id);
   }
 
+  virtual void CallbackPCEveryFrame (iCelPropertyClass* pc, int where);
+  virtual void CallbackPCOnce (iCelPropertyClass* pc, csTicks delta, int where);
+  virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where);
+  virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where);
+
   struct Component : public iComponent
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
+
+  // Not an embedded interface to avoid circular references!!!
+  class EventHandler : public iEventHandler
+  {
+  private:
+    celPlLayer* parent;
+
+  public:
+    EventHandler (celPlLayer* parent)
+    {
+      SCF_CONSTRUCT_IBASE (0);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+
+    SCF_DECLARE_IBASE;
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return parent->HandleEvent (ev);
+    }
+  } *scfiEventHandler;
 };
 
 #endif // __CEL_PLIMP_PL__

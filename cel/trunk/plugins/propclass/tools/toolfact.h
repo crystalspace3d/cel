@@ -42,6 +42,8 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iVirtualClock;
+struct iGraphics2D;
+struct iGraphics3D;
 
 /**
  * Factory for tools.
@@ -61,12 +63,12 @@ private:
   char* text;
   int text_r, text_g, text_b;
   int bg_r, bg_g, bg_b;
+  csRef<iGraphics2D> G2D;
+  csRef<iGraphics3D> G3D;
 
 public:
   celPcTooltip (iObjectRegistry* object_reg);
   virtual ~celPcTooltip ();
-
-  bool HandleEvent (iEvent& ev);
 
   void SetText (const char* text);
   void Show (int x, int y);
@@ -82,6 +84,7 @@ public:
   virtual const char* GetName () const { return "pctooltip"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual void TickEveryFrame ();
 
   struct PcTooltip : public iPcTooltip
   {
@@ -111,27 +114,6 @@ public:
       scfParent->SetBackgroundColor (r, g, b);
     }
   } scfiPcTooltip;
-
-  // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcTooltip* parent;
-
-  public:
-    EventHandler (celPcTooltip* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 /**
@@ -140,10 +122,9 @@ public:
 class celPcTimer : public celPcCommon
 {
 private:
-  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   bool enabled;
-  csTicks wakeup, wakeup_todo;
+  csTicks wakeup;
   bool repeat;
   bool wakeupframe;
   bool wakeuponce;
@@ -160,7 +141,6 @@ public:
   celPcTimer (iObjectRegistry* object_reg);
   virtual ~celPcTimer ();
 
-  bool HandleEvent (iEvent& ev);
   void WakeUp (csTicks t, bool repeat);
   void WakeUpFrame ();
   void Clear ();
@@ -171,6 +151,8 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickOnce ();
+  virtual void TickEveryFrame ();
 
   struct PcTimer : public iPcTimer
   {
@@ -188,27 +170,6 @@ public:
       scfParent->Clear ();
     }
   } scfiPcTimer;
-
-  // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcTimer* parent;
-
-  public:
-    EventHandler (celPcTimer* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 /**
@@ -217,8 +178,6 @@ public:
 class celPcProperties : public celPcCommon
 {
 private:
-  csWeakRef<iCelPlLayer> pl;
-
   struct property
   {
     char* propName;

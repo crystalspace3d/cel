@@ -565,8 +565,6 @@ int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
   MoveNotify (object_reg, "NavrulesFPS - FindNearestNode");
 
   // Get the PL
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(object_reg, iCelPlLayer);
-  if (!pl.IsValid()) return 0; // No Physical Layer. This is bad.
   iCelPropertyClass* pc;
 
   // Create a new node at the point

@@ -80,7 +80,6 @@ protected:
   csWeakRef<iPcCollisionDetection> pccolldet;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
-  csWeakRef<iCelPlLayer> pl;
 
   // Linear vars
   // Actual velocity
@@ -132,8 +131,6 @@ public:
   celPcLinearMovement (iObjectRegistry* object_reg);
   virtual ~celPcLinearMovement ();
 
-  bool HandleEvent (iEvent& ev);
-
   void SetAngularVelocity (const csVector3& angle);
   void SetAngularVelocity (const csVector3& angle,
   	const csVector3& angle_to_reach);
@@ -144,7 +141,7 @@ public:
    */
   void GetAngularVelocity (csVector3& v) const
   {
-      v = angularVelocity;
+    v = angularVelocity;
   }
 
   bool InitCD (const csVector3& body, const csVector3& legs,
@@ -180,6 +177,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickEveryFrame ();
 
   iSector* GetSector ();
 
@@ -273,7 +271,8 @@ public:
       scfParent->SetAngularVelocity (angle);
     }	  
 
-    void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach)
+    void SetAngularVelocity (const csVector3& angle,
+    	const csVector3& angle_to_reach)
     {
       scfParent->SetAngularVelocity (angle, angle_to_reach);
     }
@@ -369,26 +368,6 @@ public:
       scfParent->SetDeltaLimit(deltaLimit);
     }
   } scfiPcLinearMovement;
-
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcLinearMovement* parent;
-  public:
-    EventHandler (celPcLinearMovement* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-
-    virtual ~EventHandler () {}
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 
 protected:
   static csCollisionPair our_cd_contact[1000];

@@ -31,7 +31,6 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
-#include "csutil/weakref.h"
 #include "csutil/strhash.h"
 #include "csutil/stringarray.h"
 #include "cstool/collider.h"
@@ -79,7 +78,6 @@ protected:
   csRef<iCollideSystem> cdsys;
   csRef<iEngine> engine;
 //  csRef<iVirtualClock> vc;
-  csWeakRef<iCelPlLayer> pl;
 
   // This is the distance the CD will use to look for objects to collide with.
   float radiusCD;

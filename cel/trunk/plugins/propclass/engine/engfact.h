@@ -290,13 +290,9 @@ public://@@@
 
   bool clear_zbuf, clear_screen;
 
-  void SetupEventHandler ();
-
 public:
   celPcCamera (iObjectRegistry* object_reg);
   virtual ~celPcCamera ();
-
-  bool HandleEvent (iEvent& ev);
 
   iCamera* GetCamera () const;
   iView* GetView () const { return view; }
@@ -657,6 +653,7 @@ public:
   virtual const char* GetName () const { return "pccamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual void TickEveryFrame ();
 
   struct PcCamera : public iPcCamera
   {
@@ -751,26 +748,6 @@ public:
       return scfParent->GetClearScreen ();
     }
   } scfiPcCamera;
-
-  // Not an embedded interface to avoid circular reference!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcCamera* parent;
-
-  public:
-    EventHandler (celPcCamera* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 /**

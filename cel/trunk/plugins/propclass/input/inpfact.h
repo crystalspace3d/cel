@@ -24,7 +24,6 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
-#include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -57,8 +56,6 @@ class celPcCommandInput : public celPcCommon
 {
 private:
   celKeyMap* maplist;
-
-  csWeakRef<iCelPlLayer> pl;
   static csStringID action_bind;
 
 public:

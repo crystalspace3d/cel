@@ -195,7 +195,6 @@ private:
   csWeakRef<iPcSolid> pcsolid;
   csRef<iCollider> gravity_collider;
   csRef<iCollideSystem> cdsys;
-  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
 
   bool active;
@@ -251,7 +250,6 @@ private:
 public:
   celPcGravity (iObjectRegistry* object_reg);
   virtual ~celPcGravity ();
-  bool HandleEvent (iEvent& ev);
 
   void CreateGravityCollider (iPcMesh* mesh);
   void CreateGravityCollider (const csVector3& dim,
@@ -275,6 +273,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickEveryFrame ();
 
   struct PcGravity : public iPcGravity
   {
@@ -350,27 +349,6 @@ public:
     }
   } scfiPcGravity;
   friend struct PcGravity;
-
-  // Not an embedded event handler to avoid circular references!!!
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcGravity* parent;
-
-  public:
-    EventHandler (celPcGravity* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler () { }
-
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-  } *scfiEventHandler;
 };
 
 #endif // __CEL_PF_MOVEFACT__

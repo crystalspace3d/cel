@@ -85,8 +85,7 @@ celPcActorMove::~celPcActorMove ()
 
 csPtr<iCelDataBuffer> celPcActorMove::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (ACTORMOVE_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ACTORMOVE_SERIAL);
   databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }

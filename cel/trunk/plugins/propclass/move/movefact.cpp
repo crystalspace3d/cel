@@ -126,8 +126,7 @@ celPcMovable::~celPcMovable ()
 
 csPtr<iCelDataBuffer> celPcMovable::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLE_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVABLE_SERIAL);
   databuf->SetDataCount (1+1+constraints.Length ());
   size_t i, j = 0;
   csRef<iCelPropertyClass> pc;
@@ -305,8 +304,7 @@ celPcSolid::~celPcSolid ()
 
 csPtr<iCelDataBuffer> celPcSolid::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (SOLID_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOLID_SERIAL);
   databuf->SetDataCount (1);
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
@@ -448,8 +446,7 @@ celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 
 csPtr<iCelDataBuffer> celPcMovableConstraintCD::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL);
   databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -504,8 +501,6 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     trans.SetOrigin (end);
 
     cdsys->ResetCollisionPairs ();
-    csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-    CS_ASSERT (pl != 0);
     csRef<iCelEntityList> list (
     	pl->FindNearbyEntities (sector, start, 10/*@@@*/));
     size_t i;
@@ -578,20 +573,12 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcGravity::PcGravity)
   SCF_IMPLEMENTS_INTERFACE (iPcGravity)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcGravity::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcGravity);
-  scfiEventHandler = 0;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != 0);
-  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = (iCelPlLayer*)player;
-  CS_ASSERT (pl != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   weight = 1;
@@ -604,12 +591,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   has_gravity_collider = false;
   gravity_mesh = 0;
 
-  scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
-  DG_TYPE (this, "celPcGravity()");
+  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
@@ -623,21 +605,13 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 celPcGravity::~celPcGravity ()
 {
   ClearForces ();
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
 }
 
 #define GRAVITY2_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcGravity::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (GRAVITY2_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAVITY2_SERIAL);
   databuf->SetDataCount (8+forces.Length ()*2);
   celDataBufHelper db(databuf);
 
@@ -799,39 +773,36 @@ void celPcGravity::ApplyForce (const csVector3& force, float time)
   forces.Push (f);
 }
 
-bool celPcGravity::HandleEvent (iEvent& ev)
+void celPcGravity::TickEveryFrame ()
 {
-  if (!active) return false;
+  if (!active) return;
 
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
-  {
-    GetMovable ();
-    iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
-    csReversibleTransform& w2o = movable->GetTransform ();
-    GetSolid ();
-    iCollider* collider = pcsolid->GetCollider ();
+  GetMovable ();
+  iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
+  csReversibleTransform& w2o = movable->GetTransform ();
+  GetSolid ();
+  iCollider* collider = pcsolid->GetCollider ();
 
-    float delta_t1;
-    csTicks elapsed_time = vc->GetElapsedTicks ();
-    if (!elapsed_time) return false;
-    delta_t1 = elapsed_time/1000.0;
+  float delta_t1;
+  csTicks elapsed_time = vc->GetElapsedTicks ();
+  if (!elapsed_time) return;
+  delta_t1 = elapsed_time/1000.0;
 
-    csRef<iCelEntityList> cd_list (pl->FindNearbyEntities (movable->
+  csRef<iCelEntityList> cd_list (pl->FindNearbyEntities (movable->
     	GetSectors ()->Get (0),
     	w2o.GetOrigin (), 10/*@@@*/));
 
-    // Handle physics so that we only call HandleForce for 0.1 second
-    // maximum. This ensures that it will work ok on slower systems.
-    is_resting = true;
-    float dt1 = delta_t1;
-    while (dt1 > 0)
-    {
-      float dt = MIN (dt1, .02);	//@@@ TEMPORARY ONLY! SHOULD BE DONE WITH MORE ACCURATE CD.
-      dt1 -= dt;
-      HandleForce (dt, collider, cd_list);
-    }
+  // Handle physics so that we only call HandleForce for 0.1 second
+  // maximum. This ensures that it will work ok on slower systems.
+  is_resting = true;
+  float dt1 = delta_t1;
+  while (dt1 > 0)
+  {
+    //@@@ TEMPORARY ONLY! SHOULD BE DONE WITH MORE ACCURATE CD.
+    float dt = MIN (dt1, .02);
+    dt1 -= dt;
+    HandleForce (dt, collider, cd_list);
   }
-  return false;
 }
 
 int celPcGravity::GetColliderArray (iCelEntityList* cd_list,

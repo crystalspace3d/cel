@@ -270,20 +270,14 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::PcCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcCamera::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-  scfiEventHandler = 0;
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = csPtr<iView> (new csView (engine, g3d));
-  SetupEventHandler ();
 
   modeset_needed = false;
   cammode = iPcCamera::freelook;
@@ -356,30 +350,12 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   useCameraCD = true;
 
   SetMode (iPcCamera::firstperson);
+
+  pl->CallbackPCEveryFrame (this, cscmdProcess);
 }
 
 celPcCamera::~celPcCamera ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    if (q)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
-}
-
-void celPcCamera::SetupEventHandler ()
-{
-  if (!scfiEventHandler)
-  {
-    scfiEventHandler = new EventHandler (this);
-  }
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
 }
 
 void celPcCamera::FindSiblingPropertyClasses ()
@@ -569,108 +545,103 @@ void celPcCamera::DoElasticPhysics (bool isElastic,
   }
 }
 
-bool celPcCamera::HandleEvent (iEvent& ev)
+void celPcCamera::TickEveryFrame ()
 {
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdProcess)
+  CheckModeChange ();
+
+  // First get elapsed time from the virtual clock.
+  csTicks elapsed_time = vc->GetElapsedTicks ();
+  float elapsed_sec = elapsed_time / 1000.0f;
+
+  // Velocity calculations.
+  MovePitch (pitchVelocity * elapsed_sec);
+  MoveYaw (yawVelocity * elapsed_sec);
+
+  // Try to get position and sector from either linmove or mesh if
+  // linmove is not used.
+  csVector3 actor_pos;
+  float actor_yrot;
+  iSector* actor_sector;
+  GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  if (!actor_sector)
   {
-    CheckModeChange ();
-
-    // First get elapsed time from the virtual clock.
-    csTicks elapsed_time = vc->GetElapsedTicks ();
-    float elapsed_sec = elapsed_time / 1000.0f;
-
-    // Velocity calculations.
-    MovePitch (pitchVelocity * elapsed_sec);
-    MoveYaw (yawVelocity * elapsed_sec);
-
-    // Try to get position and sector from either linmove or mesh if
-    // linmove is not used.
-    csVector3 actor_pos;
-    float actor_yrot;
-    iSector* actor_sector;
-    GetLastPosition (actor_pos, actor_yrot, actor_sector);
-    if (!actor_sector)
-    {
-      // We have no actor, so just display with current camera settings.
-      if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    // We have no actor, so just display with current camera settings.
+    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
     	  | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
 	  | (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
-        view->Draw ();
-      return true;	// Can't do anything.
-    }
-
-    // Store previous frame ideal camera data. It will be compared against
-    // current frame later to become the delta part.
-    CameraData deltaIdeal;
-    deltaIdeal.worldPos = GetPosition ();
-    deltaIdeal.worldTar = GetTarget ();
-    deltaIdeal.worldUp = GetUp ();
-
-    // Calculate the eye position of the actor according to his eye offset.
-    csVector3 actor_eye = CalculateEyePos (actor_pos, actor_yrot,
-    	firstPersonPositionOffset);
-
-    // Calculate the camera data without updating it for real.
-    camalgo->DoCameraCalculations (
-    	elapsed_time, actor_pos, actor_eye, actor_yrot);
-
-    if (!cameraHasBeenPositioned)
-    {
-      // Start off in an appropriate place.
-      cameraHasBeenPositioned = true;
-      ResetActualCameraData ();
-    }
-
-    // Transition phase calculations.
-    DoCameraTransition ();
-
-    // This makes the deltaIdeal data true to it's delta wording by
-    // subtracting the current ideal data.
-    deltaIdeal.worldPos -= GetPosition ();
-    deltaIdeal.worldTar -= GetTarget ();
-    deltaIdeal.worldUp -= GetUp ();
-
-    // Interpolate between ideal and actual camera data.
-    DoElasticPhysics (true, elapsed_time, deltaIdeal, actor_sector);
-
-    if (pcmesh)
-    {
-      if (cammode != iPcCamera::firstperson || inTransitionPhase)
-      {
-        if ((GetPosition (iPcCamera::actual_data)
-		- GetTarget (iPcCamera::actual_data)).SquaredNorm () > 0.3f)
-          pcmesh->GetMesh ()->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
-      }
-      else
-      {
-        pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
-      }
-    }
-
-
-    iCamera* c = view->GetCamera ();
-
-    // First set the camera back on where the sector is.
-    if (c->GetSector () != actor_sector)
-      c->SetSector (actor_sector);
-    //c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
-		    //This2OtherRelative (csVector3 (0, 0, .1)));
-    c->GetTransform ().SetOrigin (actor_pos+csVector3 (0, 0.1f, 0));
-    c->OnlyPortals (true);
-
-    // Now move it to the new position.
-    c->MoveWorld (GetPosition (iPcCamera::actual_data) - actor_pos);
-    c->GetTransform ().LookAt (GetTarget (iPcCamera::actual_data) -
-    	GetPosition (iPcCamera::actual_data), GetUp (iPcCamera::actual_data));
-
-    // Tell 3D driver we're going to display 3D things.
-    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
       view->Draw ();
+    return;	// Can't do anything.
   }
 
-  return true;
+  // Store previous frame ideal camera data. It will be compared against
+  // current frame later to become the delta part.
+  CameraData deltaIdeal;
+  deltaIdeal.worldPos = GetPosition ();
+  deltaIdeal.worldTar = GetTarget ();
+  deltaIdeal.worldUp = GetUp ();
+
+  // Calculate the eye position of the actor according to his eye offset.
+  csVector3 actor_eye = CalculateEyePos (actor_pos, actor_yrot,
+    	firstPersonPositionOffset);
+
+  // Calculate the camera data without updating it for real.
+  camalgo->DoCameraCalculations (
+    	elapsed_time, actor_pos, actor_eye, actor_yrot);
+
+  if (!cameraHasBeenPositioned)
+  {
+    // Start off in an appropriate place.
+    cameraHasBeenPositioned = true;
+    ResetActualCameraData ();
+  }
+
+  // Transition phase calculations.
+  DoCameraTransition ();
+
+  // This makes the deltaIdeal data true to it's delta wording by
+  // subtracting the current ideal data.
+  deltaIdeal.worldPos -= GetPosition ();
+  deltaIdeal.worldTar -= GetTarget ();
+  deltaIdeal.worldUp -= GetUp ();
+
+  // Interpolate between ideal and actual camera data.
+  DoElasticPhysics (true, elapsed_time, deltaIdeal, actor_sector);
+
+  if (pcmesh)
+  {
+    if (cammode != iPcCamera::firstperson || inTransitionPhase)
+    {
+      if ((GetPosition (iPcCamera::actual_data)
+		- GetTarget (iPcCamera::actual_data)).SquaredNorm () > 0.3f)
+        pcmesh->GetMesh ()->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+    }
+    else
+    {
+      pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+    }
+  }
+
+
+  iCamera* c = view->GetCamera ();
+
+  // First set the camera back on where the sector is.
+  if (c->GetSector () != actor_sector)
+    c->SetSector (actor_sector);
+  //c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
+		    //This2OtherRelative (csVector3 (0, 0, .1)));
+  c->GetTransform ().SetOrigin (actor_pos+csVector3 (0, 0.1f, 0));
+  c->OnlyPortals (true);
+
+  // Now move it to the new position.
+  c->MoveWorld (GetPosition (iPcCamera::actual_data) - actor_pos);
+  c->GetTransform ().LookAt (GetTarget (iPcCamera::actual_data) -
+    	GetPosition (iPcCamera::actual_data), GetUp (iPcCamera::actual_data));
+
+  // Tell 3D driver we're going to display 3D things.
+  if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+    view->Draw ();
 }
 
 void celPcCamera::SetPosition (const csVector3& pos, int mode)
@@ -1071,7 +1042,6 @@ void celPcCamera::SetRectangle (int x, int y, int w, int h)
 
 csPtr<iCelDataBuffer> celPcCamera::Save ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   databuf->SetDataCount (3+11+7+2);
   celDataBufHelper db(databuf);
@@ -1238,7 +1208,6 @@ celPcRegion::~celPcRegion ()
 
 csPtr<iCelDataBuffer> celPcRegion::Save ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
   databuf->SetDataCount (5);
   celDataBufHelper db (databuf);
@@ -1455,8 +1424,6 @@ bool celPcRegion::Load ()
   // Create entities for all meshes in this region unless there is already
   // an entity for them (an addon may have created them for example).
   {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  CS_ASSERT (pl != 0);
   iCelPropertyClass* pc;
   csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
   while (iter->HasNext ())
@@ -1501,7 +1468,6 @@ void celPcRegion::Unload ()
 
   iRegion* cur_region = engine->CreateRegion (regionname);
 
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (pl)
   {
     size_t i;

@@ -213,7 +213,6 @@ private:
   csRef<iEngine> engine;
   csRef<iLoader> loader;
   csRef<iVFS> vfs;
-  csWeakRef<iCelPlLayer> pl;
 
   csRef<cameraSectorListener> camlistener;
   csRef<meshmoveListener> meshlistener;

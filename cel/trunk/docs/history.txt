@@ -3,6 +3,32 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-Jul-2004
+	- Jorrit added a weak reference to the physical layer to celPcCommon
+	  so that all property classes have it automatically.
+	- Jorrit implemented a new timing facility in the CEL physical layer.
+	  Basically there are four new functions in iCelPlLayer:
+	      - CallbackPCOnce()
+	      - RemoveCallbackPCOnce()
+	      - CallbackPCEveryFrame()
+	      - RemoveCallbackPCEveryFrame()
+	  Also iCelPropertyClass has been extended with two new functions:
+	      - TickOnce()
+	      - TickEveryFrame()
+	  Using these new functions property classes can now register themselves
+	  as being interested in receiving events once or every frame. This
+	  system has two main advantages:
+	      - A lot easier to use (no longer needed to implement an internal
+	        event handler)
+	      - More efficient as CS only gets to see one event handler instead
+	        of an event handler for every property class that needs
+		that.
+	- Jorrit modified all property classes to use the new system. This
+	  makes the implementation of those property classes a lot easier
+	  to read.
+	- Jorrit fixed the bootstrap Jamfile so that it again works for
+	  the 'bootstrap_static' target. This doesn't make the target
+	  work fully though. There is still some problem.
 13-Jul-2004
 	- Eric Sunshine renamed celData::SetBool() to Set(), and
 	  celDataBufHelper::SetBool() to Set() in order to fix numerous

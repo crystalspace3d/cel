@@ -76,10 +76,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
   DG_TYPE (this, "celPcInventory()");
 
   if (id_entity == csInvalidStringID)
-  {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     id_entity = pl->FetchStringID ("cel.parameter.entity");
-  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_entity, "entity");
 }
@@ -94,8 +91,7 @@ celPcInventory::~celPcInventory ()
 
 csPtr<iCelDataBuffer> celPcInventory::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (INVENTORY_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (INVENTORY_SERIAL);
   databuf->SetDataCount (
   	1+constraints.Length ()*5 +
   	1+contents.Length ());
@@ -613,8 +609,7 @@ celPcCharacteristics::~celPcCharacteristics ()
 
 csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (CHARACTERISTICS_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CHARACTERISTICS_SERIAL);
   databuf->SetDataCount (
   	1+chars.Length ()*4);
   size_t i, j = 0;

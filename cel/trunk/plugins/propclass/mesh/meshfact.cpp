@@ -95,10 +95,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   factory_ptr = 0;
 
   if (action_loadmesh == csInvalidStringID)
-  {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
-  }
 }
 
 celPcMesh::~celPcMesh ()
@@ -112,7 +109,6 @@ void celPcMesh::Clear ()
   delete[] factName; factName = 0;
   if (mesh)
   {
-    csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
     if (pl)
       pl->UnattachEntity (mesh->QueryObject (), entity);
 
@@ -130,7 +126,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
 {
   if (actionId == action_loadmesh)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     const celData* p_file = params->GetParameter (pl->FetchStringID (
     	"cel.parameter.filename"));
     if (!p_file) return false;
@@ -152,8 +147,7 @@ bool celPcMesh::PerformAction (csStringID actionId,
 
 csPtr<iCelDataBuffer> celPcMesh::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MESH_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESH_SERIAL);
   iMovable* mov = mesh->GetMovable ();
   iSectorList* sl = mov->GetSectors ();
   databuf->SetDataCount (4+1+sl->GetCount ()+1+9);
@@ -385,9 +379,7 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
       if (meshfact)
       {
         // Cache the factory.
-        csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-        CS_ASSERT (pl != 0);
-	    pl->Cache (meshfact);
+	pl->Cache (meshfact);
       }
     }
 
@@ -398,7 +390,6 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
       factory_ptr = meshfact;
 
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
-      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       pl->AttachEntity (mesh->QueryObject (), entity);
       FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
       return true;
@@ -420,7 +411,6 @@ void celPcMesh::SetMesh (iMeshWrapper* m)
   }
 
   mesh = m;
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
@@ -438,7 +428,6 @@ void celPcMesh::CreateEmptyThing ()
 
   mesh = engine->CreateThingMesh (0, 0);
 
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
@@ -551,7 +540,6 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 
   if (id_x == csInvalidStringID)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_button = pl->FetchStringID ("cel.parameter.button");
@@ -597,8 +585,7 @@ void celPcMeshSelect::SetupEventHandler ()
 
 csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
 {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MESHSEL_SERIAL));
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   databuf->SetDataCount (13);
   csRef<iCelPropertyClass> pc;
   if (pccamera) pc = SCF_QUERY_INTERFACE (pccamera, iCelPropertyClass);
@@ -798,7 +785,6 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (sel)
       {
         iObject* sel_obj = sel->QueryObject ();
-        csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
         new_sel = pl->FindAttachedEntity (sel_obj);
       }
     } 
