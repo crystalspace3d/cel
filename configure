@@ -4267,18 +4267,21 @@ then
     echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
 
-    CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
-    CRYSTAL_CFLAGS=`echo x$CRYSTAL_CFLAGS | tr '\\\\' '/' | sed 's/^x//'`
-    CRYSTAL_CFLAGS=`echo x$CRYSTAL_CFLAGS | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-
-    CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
-    CRYSTAL_LIBS=`echo x$CRYSTAL_LIBS | tr '\\\\' '/' | sed 's/^x//'`
-    CRYSTAL_LIBS=`echo x$CRYSTAL_LIBS | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-
-    CRYSTAL_INCLUDE_DIR=`$CSCONF --includedir csgeom csgfx csutil cstool`
-    CRYSTAL_INCLUDE_DIR=`echo x$CRYSTAL_INCLUDE_DIR | tr '\\\\' '/' | sed 's/^x//'`
-    CRYSTAL_INCLUDE_DIR=`echo x$CRYSTAL_INCLUDE_DIR | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-
+    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --libs csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir csgeom csgfx csutil cstool") >&5
+  ($CSCONF --includedir csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
 
     cs_major_version=`$CSCONF $cs_args --version | \
@@ -4458,6 +4461,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     for cs_build_item in `echo @@@ | sed 'y% %#%'` \
     `echo @@@-lpthread | sed 'y% %#%'` \
+    `echo @@@-lpthread -lrt | sed 'y% %#%'` \
     `echo @-pthread@-pthread@ | sed 'y% %#%'` \
     `echo @-pthread@-pthread@-lpthread | sed 'y% %#%'` \
     `echo @-pthread@-pthread@-lc_r | sed 'y% %#%'`
@@ -4526,11 +4530,16 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <pthread.h>
+		    #include <semaphore.h>
 		    void* worker(void* p) { (void)p; return p; }
 int
 main ()
 {
-pthread_t tid; pthread_create(&tid, 0, worker, 0);
+pthread_t tid;
+		    pthread_create(&tid, 0, worker, 0);
+		    sem_t sem;
+		    sem_init(&sem, 0, 0);
+		    sem_destroy(&sem);
   ;
   return 0;
 }
@@ -4614,6 +4623,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     for cs_build_item in `echo @@@ | sed 'y% %#%'` \
     `echo @@@-lpthread | sed 'y% %#%'` \
+    `echo @@@-lpthread -lrt | sed 'y% %#%'` \
     `echo @-pthread@-pthread@ | sed 'y% %#%'` \
     `echo @-pthread@-pthread@-lpthread | sed 'y% %#%'` \
     `echo @-pthread@-pthread@-lc_r | sed 'y% %#%'`
@@ -4682,11 +4692,16 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <pthread.h>
+		    #include <semaphore.h>
 		    void* worker(void* p) { (void)p; return p; }
 int
 main ()
 {
-pthread_t tid; pthread_create(&tid, 0, worker, 0);
+pthread_t tid;
+		    pthread_create(&tid, 0, worker, 0);
+		    sem_t sem;
+		    sem_init(&sem, 0, 0);
+		    sem_destroy(&sem);
   ;
   return 0;
 }
@@ -5002,9 +5017,7 @@ else
 		print "-I" + distutils.sysconfig.get_python_inc()') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }`
-	    cs_cv_pybase_cflags=`echo x$cs_cv_pybase_cflags | tr '\\\\' '/' | sed 's/^x//'`
-	    cs_cv_pybase_cflags=`echo x$cs_cv_pybase_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 
 	    # Depending upon platform and installation, link library might
 	    # reside in "${prefix}/lib", "get_python_lib()/config", or
@@ -5021,9 +5034,7 @@ else
 		    " -L"+sys.prefix + "/lib" + " -L"+sys.prefix + "/libs"') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }`
-	    cs_cv_pybase_lflags=`echo x$cs_cv_pybase_lflags | tr '\\\\' '/' | sed 's/^x//'`
-	    cs_cv_pybase_lflags=`echo x$cs_cv_pybase_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 
 	    cs_cv_pybase_libs=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
@@ -5035,9 +5046,7 @@ else
 		      (distutils.sysconfig.get_config_var("SYSLIBS") or "")') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }`
-	    cs_cv_pybase_libs=`echo x$cs_cv_pybase_libs | tr '\\\\' '/' | sed 's/^x//'`
-	    cs_cv_pybase_libs=`echo x$cs_cv_pybase_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 
 	    cs_cv_python_ext=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
