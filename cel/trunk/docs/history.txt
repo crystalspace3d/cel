@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+24-Mar-2004
+	- Jorrit updated CEL for rename of csHash<>::Fetch() to Get().
 15-Mar-2004
 	- Eric Sunshine updated CEL for rename of csHash<>::Get() to Fetch().
 14-Mar-2004

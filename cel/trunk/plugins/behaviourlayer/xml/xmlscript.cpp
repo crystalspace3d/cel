@@ -3923,7 +3923,7 @@ celXmlScriptEventHandler* celXmlScript::CreateEventHandler (const char* name)
 
 celXmlScriptEventHandler* celXmlScript::GetEventHandler (const char* name)
 {
-  return event_handlers_hash.Fetch (name, 0);
+  return event_handlers_hash.Get (name, 0);
 }
 
 //---------------------------------------------------------------------------

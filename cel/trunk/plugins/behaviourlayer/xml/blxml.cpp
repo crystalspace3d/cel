@@ -1900,7 +1900,7 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
     else if (!strcmp (value, "superscript"))
     {
       const char* supername = child->GetAttributeValue ("name");
-      celXmlScript* superscript = supername ? scripts_hash.Fetch (supername, 0) : 0;
+      celXmlScript* superscript = supername ? scripts_hash.Get (supername, 0) : 0;
       if (!superscript)
       {
         delete script;
@@ -1946,7 +1946,7 @@ bool celBlXml::CreateBehaviourScriptFromFile (const char* name,
 
 iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
 {
-  celXmlScript* script = scripts_hash.Fetch (name, 0);
+  celXmlScript* script = scripts_hash.Get (name, 0);
   if (!script)
   {
     // First check if we have the predefined 'bootstrap' script.

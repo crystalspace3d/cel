@@ -338,38 +338,7 @@ class iString(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iString, name)
-    def SetCapacity(*args): return apply(_blcelc.iString_SetCapacity,args)
-    def GetCapacity(*args): return apply(_blcelc.iString_GetCapacity,args)
-    def SetGrowsBy(*args): return apply(_blcelc.iString_SetGrowsBy,args)
-    def GetGrowsBy(*args): return apply(_blcelc.iString_GetGrowsBy,args)
-    def SetGrowsExponentially(*args): return apply(_blcelc.iString_SetGrowsExponentially,args)
-    def GetGrowsExponentially(*args): return apply(_blcelc.iString_GetGrowsExponentially,args)
-    def Truncate(*args): return apply(_blcelc.iString_Truncate,args)
-    def Reclaim(*args): return apply(_blcelc.iString_Reclaim,args)
-    def Clear(*args): return apply(_blcelc.iString_Clear,args)
-    def Clone(*args): return apply(_blcelc.iString_Clone,args)
     def GetData(*args): return apply(_blcelc.iString_GetData,args)
-    def Length(*args): return apply(_blcelc.iString_Length,args)
-    def IsEmpty(*args): return apply(_blcelc.iString_IsEmpty,args)
-    def SetAt(*args): return apply(_blcelc.iString_SetAt,args)
-    def GetAt(*args): return apply(_blcelc.iString_GetAt,args)
-    def Insert(*args): return apply(_blcelc.iString_Insert,args)
-    def Overwrite(*args): return apply(_blcelc.iString_Overwrite,args)
-    def Append(*args): return apply(_blcelc.iString_Append,args)
-    def Slice(*args): return apply(_blcelc.iString_Slice,args)
-    def SubString(*args): return apply(_blcelc.iString_SubString,args)
-    def FindFirst(*args): return apply(_blcelc.iString_FindFirst,args)
-    def FindLast(*args): return apply(_blcelc.iString_FindLast,args)
-    def Format(*args): return apply(_blcelc.iString_Format,args)
-    def FormatV(*args): return apply(_blcelc.iString_FormatV,args)
-    def Replace(*args): return apply(_blcelc.iString_Replace,args)
-    def Compare(*args): return apply(_blcelc.iString_Compare,args)
-    def CompareNoCase(*args): return apply(_blcelc.iString_CompareNoCase,args)
-    def __iadd__(*args): return apply(_blcelc.iString___iadd__,args)
-    def __add__(*args): return apply(_blcelc.iString___add__,args)
-    def __eq__(*args): return apply(_blcelc.iString___eq__,args)
-    def Downcase(*args): return apply(_blcelc.iString_Downcase,args)
-    def Upcase(*args): return apply(_blcelc.iString_Upcase,args)
     def __del__(self, destroy= _blcelc.delete_iString):
         try:
             if self.thisown: destroy(self)
@@ -4295,9 +4264,10 @@ _blcelc.iMaterialList_swigregister(iMaterialListPtr)
 
 CS_ENTITY_DETAIL = _blcelc.CS_ENTITY_DETAIL
 CS_ENTITY_CAMERA = _blcelc.CS_ENTITY_CAMERA
-CS_ENTITY_INVISIBLE = _blcelc.CS_ENTITY_INVISIBLE
+CS_ENTITY_INVISIBLEMESH = _blcelc.CS_ENTITY_INVISIBLEMESH
 CS_ENTITY_NOSHADOWS = _blcelc.CS_ENTITY_NOSHADOWS
 CS_ENTITY_NOLIGHTING = _blcelc.CS_ENTITY_NOLIGHTING
+CS_ENTITY_NOHITBEAM = _blcelc.CS_ENTITY_NOHITBEAM
 CS_LIGHTINGUPDATE_SORTRELEVANCE = _blcelc.CS_LIGHTINGUPDATE_SORTRELEVANCE
 CS_LIGHTINGUPDATE_ALWAYSUPDATE = _blcelc.CS_LIGHTINGUPDATE_ALWAYSUPDATE
 class iMeshDrawCallback(iBase):
@@ -8093,6 +8063,9 @@ class G3DPolygonDP(G3DPolygonDFP):
     __swig_setmethods__["z_value"] = _blcelc.G3DPolygonDP_z_value_set
     __swig_getmethods__["z_value"] = _blcelc.G3DPolygonDP_z_value_get
     if _newclass:z_value = property(_blcelc.G3DPolygonDP_z_value_get,_blcelc.G3DPolygonDP_z_value_set)
+    __swig_setmethods__["txt_handle"] = _blcelc.G3DPolygonDP_txt_handle_set
+    __swig_getmethods__["txt_handle"] = _blcelc.G3DPolygonDP_txt_handle_get
+    if _newclass:txt_handle = property(_blcelc.G3DPolygonDP_txt_handle_get,_blcelc.G3DPolygonDP_txt_handle_set)
     def __init__(self,*args):
         _swig_setattr(self, G3DPolygonDP, 'this', apply(_blcelc.new_G3DPolygonDP,args))
         _swig_setattr(self, G3DPolygonDP, 'thisown', 1)
@@ -8729,7 +8702,6 @@ class iFont(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iFont, name)
     def AddDeleteCallback(*args): return apply(_blcelc.iFont_AddDeleteCallback,args)
     def RemoveDeleteCallback(*args): return apply(_blcelc.iFont_RemoveDeleteCallback,args)
-    def SetSize(*args): return apply(_blcelc.iFont_SetSize,args)
     def GetSize(*args): return apply(_blcelc.iFont_GetSize,args)
     def GetMaxSize(*args): return apply(_blcelc.iFont_GetMaxSize,args)
     def GetGlyphMetrics(*args): return apply(_blcelc.iFont_GetGlyphMetrics,args)
@@ -8767,8 +8739,6 @@ class iFontServer(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iFontServer, name)
     def LoadFont(*args): return apply(_blcelc.iFontServer_LoadFont,args)
-    def GetFontCount(*args): return apply(_blcelc.iFontServer_GetFontCount,args)
-    def GetFont(*args): return apply(_blcelc.iFontServer_GetFont,args)
     def __del__(self, destroy= _blcelc.delete_iFontServer):
         try:
             if self.thisown: destroy(self)
