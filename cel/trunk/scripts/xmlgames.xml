@@ -72,6 +72,51 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="explosion_c">
+	    <file>/cellib/images/explosion_c.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_t">
+	    <file>/cellib/images/explosion_t.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_l">
+	    <file>/cellib/images/explosion_l.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_r">
+	    <file>/cellib/images/explosion_r.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_b">
+	    <file>/cellib/images/explosion_b.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_bl">
+	    <file>/cellib/images/explosion_bl.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_br">
+	    <file>/cellib/images/explosion_br.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_tl">
+	    <file>/cellib/images/explosion_tl.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="explosion_tr">
+	    <file>/cellib/images/explosion_tr.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -90,6 +135,15 @@
         <material name="mushroom"> <texture>mushroom</texture> </material>
         <material name="diamond"> <texture>diamond</texture> </material>
         <material name="bomb"> <texture>bomb</texture> </material>
+        <material name="explosion_c"> <texture>explosion_c</texture> </material>
+        <material name="explosion_b"> <texture>explosion_b</texture> </material>
+        <material name="explosion_t"> <texture>explosion_t</texture> </material>
+        <material name="explosion_r"> <texture>explosion_r</texture> </material>
+        <material name="explosion_l"> <texture>explosion_l</texture> </material>
+        <material name="explosion_bl"> <texture>explosion_bl</texture> </material>
+        <material name="explosion_br"> <texture>explosion_br</texture> </material>
+        <material name="explosion_tl"> <texture>explosion_tl</texture> </material>
+        <material name="explosion_tr"> <texture>explosion_tr</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -972,13 +1026,31 @@
 		<var name="'material_#'" value="sand_stone" />
 		<var name="'material_X'" value="diamond" />
 		<var name="'material_O'" value="bomb" />
+		<var name="'material_exp_c'" value="explosion_c" />
+		<var name="'material_exp_t'" value="explosion_t" />
+		<var name="'material_exp_l'" value="explosion_l" />
+		<var name="'material_exp_b'" value="explosion_b" />
+		<var name="'material_exp_r'" value="explosion_r" />
+		<var name="'material_exp_bl'" value="explosion_bl" />
+		<var name="'material_exp_br'" value="explosion_br" />
+		<var name="'material_exp_tl'" value="explosion_tl" />
+		<var name="'material_exp_tr'" value="explosion_tr" />
 		<!-- Create a table of behaviours per block type -->
 		<var name="'behaviour_ '" value="''" />
 		<var name="'behaviour_H'" value="''" />	<!-- Special value for hero -->
 		<var name="'behaviour_B'" value="bdash_nonmovable" />
 		<var name="'behaviour_#'" value="bdash_nonmovable" />
-		<var name="'behaviour_X'" value="bdash_movable" />
+		<var name="'behaviour_X'" value="bdash_diamond" />
 		<var name="'behaviour_O'" value="bdash_bomb" />
+		<var name="'behaviour_exp_c'" value="bdash_nonmovable" />
+		<var name="'behaviour_exp_t'" value="bdash_explosion" />
+		<var name="'behaviour_exp_l'" value="bdash_explosion" />
+		<var name="'behaviour_exp_b'" value="bdash_explosion" />
+		<var name="'behaviour_exp_r'" value="bdash_explosion" />
+		<var name="'behaviour_exp_bl'" value="bdash_explosion" />
+		<var name="'behaviour_exp_br'" value="bdash_explosion" />
+		<var name="'behaviour_exp_tl'" value="bdash_explosion" />
+		<var name="'behaviour_exp_tr'" value="bdash_explosion" />
 		<!-- Create a table of 'falloff' setting per block type -->
 		<var name="'falloff_ '" value="false" />
 		<var name="'falloff_H'" value="false" />
@@ -986,6 +1058,37 @@
 		<var name="'falloff_#'" value="false" />
 		<var name="'falloff_X'" value="true" />
 		<var name="'falloff_O'" value="false" />
+		<var name="'falloff_exp_c'" value="false" />
+		<var name="'falloff_exp_t'" value="false" />
+		<var name="'falloff_exp_l'" value="false" />
+		<var name="'falloff_exp_b'" value="false" />
+		<var name="'falloff_exp_r'" value="false" />
+		<var name="'falloff_exp_bl'" value="false" />
+		<var name="'falloff_exp_br'" value="false" />
+		<var name="'falloff_exp_tl'" value="false" />
+		<var name="'falloff_exp_tr'" value="false" />
+		<!--
+		  - Create a table of 'explode' setting per block type
+		  - Three possible values:
+		  -	- '0': can't explode.
+		  -	- '1': can explode.
+		  -	- '2': will cause another explosion.
+		  -->
+		<var name="'explode_ '" value="1" />
+		<var name="'explode_H'" value="1" />
+		<var name="'explode_B'" value="0" />
+		<var name="'explode_#'" value="1" />
+		<var name="'explode_X'" value="1" />
+		<var name="'explode_O'" value="2" />
+		<var name="'explode_exp_c'" value="0" />
+		<var name="'explode_exp_t'" value="0" />
+		<var name="'explode_exp_l'" value="0" />
+		<var name="'explode_exp_b'" value="0" />
+		<var name="'explode_exp_r'" value="0" />
+		<var name="'explode_exp_bl'" value="0" />
+		<var name="'explode_exp_br'" value="0" />
+		<var name="'explode_exp_tl'" value="0" />
+		<var name="'explode_exp_tr'" value="0" />
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
@@ -1103,25 +1206,54 @@
 
 	    <!--
 	      - Routine used by the checkmove events in the bdash_hero
-	      - script to clear a block. Uses ?mazepos for the position
-	      - of the block to clear. This routine does not do the
+	      - script to clear a block. This routine does not do the
 	      - falling object test because it is supposed to be used when
 	      - the hero will move to the cleared block.
+	      - Note that this routine will properly take care of falling
+	      - objects.
+	      - Uses @x and @y parameters.
 	      -->
 	    <event name="clearblock_nocheck">
-	        <var name="maze+?mazepos" value="' '" />
+		<var name="mazepos" value="@x+'_'+@y" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
+		<if eval="?ent==''"> <stop /> </if>
+		<if eval="?(?ent).moving">
+		    <!-- Block is moving -->
+		    <var name="oldx" value="?(?ent).oldx" />
+		    <var name="oldy" value="?(?ent).oldy" />
+		    <if eval="?oldx==@x && ?oldy==@y">
+		        <var name="oldx" value="?(?ent).x" />
+		        <var name="oldy" value="?(?ent).y" />
+		    </if>
+		    <var name="old_mazepos" value="?oldx+'_'+?oldy" />
+		    <var name="maze+?old_mazepos" value="' '" />
+		    <var name="mazeent+?old_mazepos" value="''" />
+		</if>
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="?ent" />
 		<destroyentity name="?ent" />
+	        <var name="maze+?mazepos" value="' '" />
 		<var name="mazeent+?mazepos" value="''" />
 	    </event>
 
 	    <!--
+	      - Routine to create a block. Similar to initblock but uses
+	      - parameters @x, @y, and @blocktype.
+	      -->
+	    <event name="createblock">
+	    	<var name="x" value="@x" />
+	    	<var name="y" value="@y" />
+	    	<var name="blocktype" value="@blocktype" />
+	    	<var name="mazepos" value="@x+'_'+@y" />
+	        <var name="maze+?mazepos" value="@blocktype" />
+		<call event="initblock" />
+	    </event>
+
+	    <!--
 	      - Routine used by the checkmove events in the bdash_hero
-	      - script to set a block. Uses ?x and ?y for the position
-	      - of the block and ?blocktype for the block letter.
-	      - It also uses ?entity to set the entity at the block.
+	      - script to set a block. Uses @x and @y for the position
+	      - of the block and @blocktype for the block letter.
+	      - It also uses @entity to set the entity at the block.
 	      - Uses parameters @entity, @blocktype, @x, and @y.
 	      -->
 	    <event name="setblock">
@@ -1136,6 +1268,40 @@
 		        <par id="parid(y)" value="?y" />
 		    </call>
 	    	</if>
+	    </event>
+
+	    <!--
+	      - Start movement of a block in @dx,@dy direction.
+	      - direction. Other parameters: @entity.
+	      -->
+	    <event name="startmove_block">
+	    	<var name="x" value="?(@entity).x" />
+	    	<var name="y" value="?(@entity).y" />
+	    	<var entity="@entity" name="oldx" value="?x" />
+	    	<var entity="@entity" name="oldy" value="?y" />
+		<call event="setblock">
+		    <par id="parid(entity)" value="@entity" />
+		    <par id="parid(blocktype)" value="?(@entity).blocktype" />
+		    <par id="parid(x)" value="?x+@dx" />
+		    <par id="parid(y)" value="?y+@dy" />
+		</call>
+	    </event>
+
+	    <!--
+	      - End movement of a block.
+	      - direction. Paramter: @entity.
+	      -->
+	    <event name="endmove_block">
+		<call event="setblock">
+		    <par id="parid(entity)" value="''" />
+		    <par id="parid(blocktype)" value="' '" />
+		    <par id="parid(x)" value="?(@entity).oldx" />
+		    <par id="parid(y)" value="?(@entity).oldy" />
+		</call>
+		<call event="ifempty_checkfall">
+		    <par id="parid(x)" value="?(@entity).x" />
+		    <par id="parid(y)" value="?(@entity).y+1" />
+		</call>
 	    </event>
 
 	    <!--
@@ -1157,9 +1323,10 @@
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
 		    <true>
-		        <var entity="?ent" name="dx" value="0" />
-		        <var entity="?ent" name="dy" value="1" />
-		        <call entity="?ent" event="falldown" />
+		        <call entity="?ent" event="falldown">
+		            <par id="parid(dx)" value="0" />
+		            <par id="parid(dy)" value="1" />
+			</call>
 			<if eval="?fallen"> <stop/> </if>
 		    </true>
 		    <false>
@@ -1170,9 +1337,10 @@
 	    	            <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
-		                <var entity="?ent" name="dx" value="1" />
-		                <var entity="?ent" name="dy" value="1" />
-		                <call entity="?ent" event="falldown" />
+		                <call entity="?ent" event="falldown">
+				    <par id="parid(dx)" value="1" />
+				    <par id="parid(dy)" value="1" />
+				</call>
 				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
@@ -1182,9 +1350,10 @@
 	    	            <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
-		                <var entity="?ent" name="dx" value="-1" />
-		                <var entity="?ent" name="dy" value="1" />
-		                <call entity="?ent" event="falldown" />
+		                <call entity="?ent" event="falldown">
+				    <par id="parid(dx)" value="-1" />
+				    <par id="parid(dy)" value="1" />
+				</call>
 				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
@@ -1199,9 +1368,10 @@
 	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
-		            <var entity="?ent" name="dx" value="1" />
-		            <var entity="?ent" name="dy" value="1" />
-		            <call entity="?ent" event="falldown" />
+		            <call entity="?ent" event="falldown">
+				<par id="parid(dx)" value="1" />
+				<par id="parid(dy)" value="1" />
+			    </call>
 			    <if eval="?fallen"> <stop/> </if>
 		        </if>
 		    </if>
@@ -1211,9 +1381,10 @@
 	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
-		            <var entity="?ent" name="dx" value="-1" />
-		            <var entity="?ent" name="dy" value="1" />
-		            <call entity="?ent" event="falldown" />
+		            <call entity="?ent" event="falldown">
+				<par id="parid(dx)" value="-1" />
+				<par id="parid(dy)" value="1" />
+			    </call>
 			    <if eval="?fallen"> <stop/> </if>
 		        </if>
 		    </if>
@@ -1270,6 +1441,14 @@
 
 	</script>
 
+	<!--
+	  - All scripts below (for blocks and hero) have the following common
+	  - events:
+	  -	- falldown: Called on the object when it could potentially fall down.
+	  -	  Uses @dx and @dy parameters. Sets ?bdashmain.fallen to
+	  -	  true if object did really started falling.
+	  -->
+
 	<!-- *****************************************************
 	  - This script controls the behaviour of our hero.
 	  -  ***************************************************** -->
@@ -1288,6 +1467,7 @@
 		<var name="material" value="hero" />
 		<var name="speed" value="?bdash_main.herospeed" />
 		<super />
+	        <var name="blocktype" value="'H'" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pckeyinput" />
@@ -1325,11 +1505,13 @@
 	      - This version does not force a falling object check because
 	      - it is supposed to be used when the player moves to the clear
 	      - block.
-	      - Uses ?mazepos for the position of the block to clear.
+	      - Uses ?newx, and ?newy for the position of the block to clear.
 	      -->
 	    <event name="clearblock_nocheck">
-	        <var entity="bdash_main" name="mazepos" value="?mazepos" />
-		<call entity="bdash_main" event="clearblock_nocheck" />
+		<call entity="bdash_main" event="clearblock_nocheck">
+		    <par id="parid(x)" value="?newx" />
+		    <par id="parid(y)" value="?newy" />
+		</call>
 	    </event>
 
 	    <!--
@@ -1337,13 +1519,10 @@
 	      - ?x+?dx,?y+?dy to 'H'.
 	      -->
 	    <event name="startmove">
-	    	<var name="oldx" value="?x" />
-	    	<var name="oldy" value="?y" />
-		<call entity="bdash_main" event="setblock">
+	    	<call entity="bdash_main" event="startmove_block">
 		    <par id="parid(entity)" value="ent()" />
-		    <par id="parid(blocktype)" value="'H'" />
-		    <par id="parid(x)" value="?x+?dx" />
-		    <par id="parid(y)" value="?y+?dy" />
+		    <par id="parid(dx)" value="?dx" />
+		    <par id="parid(dy)" value="?dy" />
 		</call>
 	        <super />
 	    </event>
@@ -1373,7 +1552,9 @@
 	        <if eval="?moving">
 		    <stop />
 		</if>
-	    	<var name="mazepos" value="(?x+?dx)+'_'+(?y+?dy)" />
+		<var name="newx" value="?x+?dx" />
+		<var name="newy" value="?y+?dy" />
+	    	<var name="mazepos" value="?newx+'_'+?newy" />
 		<call event="checkmove_+?bdash_main.(maze+?mazepos)" />
 	    </event>
 
@@ -1390,13 +1571,9 @@
 	    </event>
 	    <event name="checkmove_X">
 		<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
-		<if eval="?(?ent).moving">
-		    <false>
-			<sound name="bloop" loop="false" />
-			<call event="clearblock_nocheck" />
-			<call event="startmove" />
-		    </false>
-		</if>
+		<sound name="bloop" loop="false" />
+		<call event="clearblock_nocheck" />
+		<call event="startmove" />
 	    </event>
 
 	    <!--
@@ -1477,6 +1654,8 @@
 	        <property id="propid(x)" value="?bdash_main.x*?bdash_main.blockdim" />
 	        <property id="propid(y)" value="?bdash_main.y*?bdash_main.blockdim" />
 	        <property id="propid(layer)" value="game" />
+
+		<var name="moving" value="false" />
 	    </event>
 
 	    <!--
@@ -1515,45 +1694,41 @@
 	    </event>
 
 	    <event name="startmove">
-	    	<var name="oldx" value="?x" />
-	    	<var name="oldy" value="?y" />
-		<call entity="bdash_main" event="setblock">
+		<call entity="bdash_main" event="startmove_block">
 		    <par id="parid(entity)" value="ent()" />
-		    <par id="parid(blocktype)" value="?blocktype" />
-		    <par id="parid(x)" value="?x+?dx" />
-		    <par id="parid(y)" value="?y+?dy" />
+		    <par id="parid(dx)" value="?dx" />
+		    <par id="parid(dy)" value="?dy" />
 		</call>
 		<super />
 	    </event>
 	    <event name="endmove">
 		<super />
-		<call entity="bdash_main" event="setblock">
-		    <par id="parid(entity)" value="''" />
-		    <par id="parid(blocktype)" value="' '" />
-		    <par id="parid(x)" value="?oldx" />
-		    <par id="parid(y)" value="?oldy" />
+		<call entity="bdash_main" event="endmove_block">
+		    <par id="parid(entity)" value="ent()" />
 		</call>
-		<call entity="bdash_main" event="ifempty_checkfall">
-		    <par id="parid(x)" value="?x" />
-		    <par id="parid(y)" value="?y+1" />
-		</call>
-		<!-- <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
-		    <sound name="click" loop="false" />
-		</if>
-		-->
 	    </event>
 
 	    <!--
-	      - This block supports falling down. Uses ?dx and ?dy for
-	      - the flal direction.
+	      - This block supports falling down. Uses @dx and @dy for
+	      - the fall direction.
 	      -->
 	    <event name="falldown">
 	        <if eval="?moving">
 		    <stop />
 		</if>
+		<var name="dx" value="@dx" />
+		<var name="dy" value="@dy" />
 		<call event="startmove" />
 	    	<var entity="bdash_main" name="fallen" value="true" />
 	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a diamond in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_diamond">
+	    <superscript name="bdash_movable" />
 	</script>
 
 	<!-- *****************************************************
@@ -1564,34 +1739,89 @@
 	    <superscript name="bdash_movable" />
 
 	    <!--
-	      - Initialize this block.
-	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
-	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
-	      - is set. It also uses the ?bdash_main.material_ array.
-	      - Also uses ?bdash_main.blockdim.
+	      - Handle the explosion of a single block.
+	      - Parameters: @x, @y, and @blocktype.
 	      -->
-	    <event name="init">
-	    	<super />
+	    <event name="explodeblock">
+	    	<var name="mazepos" value="@x+'_'+@y" />
+		<var name="oldblocktype" value="?bdash_main.(maze+?mazepos)" />
+		<switch eval="?bdash_main.('explode_'+?oldblocktype)">
+		    <case value="0"> </case>
+		    <case value="1">
+		    	<call entity="bdash_main" event="clearblock_nocheck">
+			    <par id="parid(x)" value="@x" />
+			    <par id="parid(y)" value="@y" />
+			</call>
+		        <call entity="bdash_main" event="createblock">
+			    <par id="parid(blocktype)" value="@blocktype" />
+			    <par id="parid(x)" value="@x" />
+			    <par id="parid(y)" value="@y" />
+		        </call>
+		    </case>
+		    <case value="2">
+		    </case>
+		</switch>
 	    </event>
 
 	    <event name="endmove">
 		<super />
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
 		    <sound name="explosion" loop="false" />
+		    <call entity="bdash_main" event="createblock">
+			<par id="parid(blocktype)" value="'exp_c'" />
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_l'" />
+			<par id="parid(x)" value="?x-1" />
+			<par id="parid(y)" value="?y" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_r'" />
+			<par id="parid(x)" value="?x+1" />
+			<par id="parid(y)" value="?y" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_tl'" />
+			<par id="parid(x)" value="?x-1" />
+			<par id="parid(y)" value="?y-1" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_tr'" />
+			<par id="parid(x)" value="?x+1" />
+			<par id="parid(y)" value="?y-1" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_bl'" />
+			<par id="parid(x)" value="?x-1" />
+			<par id="parid(y)" value="?y+1" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_br'" />
+			<par id="parid(x)" value="?x+1" />
+			<par id="parid(y)" value="?y+1" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_t'" />
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y-1" />
+		    </call>
+		    <call event="explodeblock">
+			<par id="parid(blocktype)" value="'exp_b'" />
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y+1" />
+		    </call>
 		</if>
 	    </event>
+	</script>
 
-	    <!--
-	      - This block supports falling down. Uses ?dx and ?dy for
-	      - the flal direction.
-	      -->
-	    <event name="falldown">
-	        <if eval="?moving">
-		    <stop />
-		</if>
-		<call event="startmove" />
-	    	<var entity="bdash_main" name="fallen" value="true" />
-	    </event>
+	<!-- *****************************************************
+	  - This script handles all operations on an explosion in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_explosion">
+	    <superscript name="bdash_nonmovable" />
 	</script>
 
 

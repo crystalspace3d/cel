@@ -1946,7 +1946,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		A2S (a_ent), A2S (op.arg)));
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefvarent_str'!",
 	    	EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
@@ -2040,7 +2041,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (a_var)));
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'derefvarent'!",
 	    	EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
@@ -2200,7 +2202,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (aevent)));
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'callent'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
 	  csRef<celGenericParameterBlock> ref = action_params;
@@ -2239,7 +2242,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
 	    return ReportError (behave,
-	    	  "Couldn't find entity with name '%s'!",
+	    	  "Couldn't find entity with name '%s' for 'destroyentity'!",
 		  EntityNameForError (aent));
 	  pl->RemoveEntity (ent);
 	}
@@ -2496,8 +2499,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	  EntityNameForError (a_ent));
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'varent_str'!",
+	    	EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
@@ -2573,8 +2577,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	  EntityNameForError (a_ent));
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'varent'!",
+		EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
@@ -2904,8 +2909,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	  EntityNameForError (a_ent));
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for inventory_add'!",
+		EntityNameForError (a_ent));
 	  if (!default_inv)
 	    return ReportError (behave, "Default inventory isn't set!");
 	  default_inv->AddEntity (other_ent);
@@ -2919,8 +2925,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	  EntityNameForError (a_ent));
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'inventory_rem'!",
+		EntityNameForError (a_ent));
 	  if (!default_inv)
 	    return ReportError (behave, "Default inventory isn't set!");
 	  default_inv->RemoveEntity (other_ent);
