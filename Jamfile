@@ -27,6 +27,7 @@ rule CelConfigGen
   LOCATE on $(>) = $(SUBDIR) ;
   MakeLocate $(<) : $(LOCATE.TARGETS) ;
   Depends $(<) : $(>) ;
+  Clean clean : $(<) ;
 }
 
 actions CelConfigGen
