@@ -52,7 +52,6 @@ enum
   XMLTOKEN_GETPROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_VAR,
-  XMLTOKEN_GETPROPCLASS,
   XMLTOKEN_TESTCOLLIDE,
   XMLTOKEN_IF,
   XMLTOKEN_PRINT,
@@ -95,7 +94,6 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("getproperty", XMLTOKEN_GETPROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("var", XMLTOKEN_VAR);
-  xmltokens.Register ("getpropclass", XMLTOKEN_GETPROPCLASS);
   xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
@@ -171,7 +169,7 @@ bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
 	h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
 	break;
       case XMLTOKEN_STRING:
-        h->AddArgument ().SetString (attr->GetValue ());
+        h->AddArgument ().SetString (attr->GetValue (), true);
 	break;
       case XMLTOKEN_BOOL:
         h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
@@ -244,6 +242,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name, int stoppri)
 {
   int token;
+  input = celXmlSkipWhiteSpace (input);
   const char* pinput = input;
   input = celXmlParseToken (input, token);
 
@@ -254,22 +253,20 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 		"Error parsing expression for '%s'!", name);
       return false;
     case CEL_TOKEN_DEREFVAR:
-      input = celXmlSkipWhiteSpace (input);
-      if (isalpha (*input) || *input == '_')
+      if (!ParseExpression (input, child, h, name, 0))
+        return false;
+      h->AddOperation (CEL_OPERATION_DEREFVAR);
+      break;
+    case CEL_TOKEN_IDENTIFIER:
       {
-        pinput = input;
-	input++;
-        while (isalnum (*input) || *input == '_') input++;
-	char* str = new char [input-pinput+1];
+        char* str;
+	str = new char[input-pinput+1];
 	strncpy (str, pinput, input-pinput);
 	str[input-pinput] = 0;
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetString (str);
-        delete[] str;
+        h->AddArgument ().SetString (str, true);
+	delete[] str;
       }
-      else if (!ParseExpression (input, child, h, name, 0))
-        return false;
-      h->AddOperation (CEL_OPERATION_DEREFVAR);
       break;
     case CEL_TOKEN_STRINGLIT:
       {
@@ -282,7 +279,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
           return false;
         }
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetString (str);
+        h->AddArgument ().SetString (str, true);
         delete[] str;
       }
       break;
@@ -298,15 +295,31 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         if (!ParseExpression (input, child, h, name, 0))
           return false;
 	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_COMMA)
+	if (token == CEL_TOKEN_CLOSE)
 	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing 'pc' for '%s'!", name);
-          return false;
+	  // We have only one argument to pc(). This means we search
+	  // for a property class for the current entity.
+          h->AddOperation (CEL_OPERATION_PCTHIS);
 	}
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-        h->AddOperation (CEL_OPERATION_PC);
+	else
+	{
+	  if (token != CEL_TOKEN_COMMA)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		      "Expected ',' while parsing pc for '%s'!", name);
+            return false;
+	  }
+          if (!ParseExpression (input, child, h, name, 0))
+	    return false;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_CLOSE)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		      "Expected ')' while parsing pc for '%s'!", name);
+            return false;
+	  }
+          h->AddOperation (CEL_OPERATION_PC);
+        }
       }
       break;
     case CEL_TOKEN_INT32:
@@ -561,23 +574,6 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (CEL_OPERATION_VAR);
 	}
 	break;
-      case XMLTOKEN_GETPROPCLASS:
-        {
-	  const char* varname = GetAttributeString (child, "var",
-	  	"getpropclass");
-	  if (!varname) return false;
-	  const char* entityname = GetAttributeString (child, "entity",
-	  	"getpropclass");
-	  if (!entityname) return false;
-	  const char* pclassname = GetAttributeString (child, "propclass",
-	  	"getpropclass");
-	  if (!pclassname) return false;
-	  h->AddOperation (CEL_OPERATION_GETPROPCLASS);
-	  h->AddArgument ().SetString (varname);
-	  h->AddArgument ().SetString (entityname);
-	  h->AddArgument ().SetString (pclassname);
-	}
-        break;
       case XMLTOKEN_TESTCOLLIDE:
         {
           if (!ParseExpression (child, h, "pcbillboard", "testcollide", false))
@@ -628,7 +624,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  	"getproperty");
 	  if (!varname) return false;
 	  h->AddOperation (CEL_OPERATION_GETPROPERTY);
-	  h->AddArgument ().SetString (varname);
+	  h->AddArgument ().SetString (varname, true);
 	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
 	  h->AddArgument ().SetID (propid);
 	}
@@ -665,7 +661,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (CEL_OPERATION_ACTION);
 	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
 	  h->AddArgument ().SetID (propid);
-	  h->AddArgument ().SetString (params);
+	  h->AddArgument ().SetString (params, true);
 	}
 	break;
       default:

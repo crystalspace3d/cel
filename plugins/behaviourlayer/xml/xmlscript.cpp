@@ -34,7 +34,7 @@
 
 inline void DUMP_EXEC (const char* msg, ...)
 {
-#if 1
+#if 0
   va_list arg;
   va_start (arg, msg);
   vprintf (msg, arg);
@@ -51,7 +51,14 @@ celXmlArg::celXmlArg (const celXmlArg& other)
   type = other.type;
   switch (type)
   {
-    case CEL_TYPE_STRING: arg.s = csStrNew (other.arg.s); break;
+    case CEL_TYPE_STRING:
+    case CEL_TYPE_VAR:
+      arg.str.cleanup = other.arg.str.cleanup;
+      if (arg.str.cleanup)
+        arg.str.s = csStrNew (other.arg.str.s);
+      else
+        arg.str.s = other.arg.str.s;
+      break;
     case CEL_TYPE_ARGLIST: arg.a = new celXmlArgList (*other.arg.a); break;
     case CEL_TYPE_UINT32: arg.ui = other.arg.ui; break;
     case CEL_TYPE_INT32: arg.i = other.arg.i; break;
@@ -64,7 +71,6 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_TYPE_VECTOR2: arg.vec = other.arg.vec; break;
     case CEL_TYPE_VECTOR3: arg.vec = other.arg.vec; break;
     case CEL_TYPE_COLOR: arg.col = other.arg.col; break;
-    case CEL_TYPE_VAR: arg.s = csStrNew (other.arg.s); break;
     case CEL_TYPE_NONE: break;
     default:
       CS_ASSERT (false);
@@ -75,9 +81,13 @@ void celXmlArg::Cleanup ()
 {
   switch (type)
   {
-    case CEL_TYPE_VAR: delete[] arg.s; break;
-    case CEL_TYPE_STRING: delete[] arg.s; break;
-    case CEL_TYPE_ARGLIST: delete arg.a; break;
+    case CEL_TYPE_VAR:
+    case CEL_TYPE_STRING:
+      if (arg.str.cleanup) delete[] arg.str.s;
+      break;
+    case CEL_TYPE_ARGLIST:
+      delete arg.a;
+      break;
   }
 }
 
@@ -125,7 +135,6 @@ static csPDelArray<csString> unused_strings;
 
 static csString* GetUnusedString ()
 {
-  return new csString ();
   csString* str;
   if (unused_strings.Length () > 0)
     str = unused_strings.Pop ();
@@ -137,7 +146,6 @@ static csString* GetUnusedString ()
 
 static void CleanupTemporaryStrings ()
 {
-return;
   while (used_strings.Length () > 0)
   {
     csString* str = used_strings.Pop ();
@@ -171,7 +179,7 @@ static const char* ArgToString (const celXmlArg& a)
         return *str;
       }
     case CEL_TYPE_BOOL: return a.arg.b ? "true" : "false";
-    case CEL_TYPE_STRING: return a.arg.s;
+    case CEL_TYPE_STRING: return a.arg.str.s;
     case CEL_TYPE_VECTOR2:
       {
         csString* str = GetUnusedString ();
@@ -235,7 +243,7 @@ static const char* A2S (const celXmlArg& a)
     case CEL_TYPE_STRING:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{str:%s}", a.arg.s);
+        str->Format ("{str:%s}", a.arg.str.s);
 	used_strings.Push (str);
         return *str;
       }
@@ -319,7 +327,8 @@ static bool ArgToBool (const celXmlArg& a)
     case CEL_TYPE_UINT32: return bool (a.arg.ui);
     case CEL_TYPE_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
     case CEL_TYPE_BOOL: return a.arg.b;
-    case CEL_TYPE_STRING: return !strcmp (a.arg.s, "true");
+    case CEL_TYPE_STRING:
+      return a.arg.str.s ? !strcmp (a.arg.str.s, "true") : false;
     default:
       return false;
   }
@@ -335,8 +344,9 @@ static uint32 ArgToUInt32 (const celXmlArg& a)
     case CEL_TYPE_BOOL: return a.arg.b ? 1 : 0;
     case CEL_TYPE_STRING:
       {
+        if (!a.arg.str.s) return 0;
 	uint i;
-        sscanf (a.arg.s, "%u", &i);
+        sscanf (a.arg.str.s, "%u", &i);
 	return i;
       }
     default:
@@ -354,8 +364,9 @@ static int32 ArgToInt32 (const celXmlArg& a)
     case CEL_TYPE_BOOL: return a.arg.b ? 1 : 0;
     case CEL_TYPE_STRING:
       {
+        if (!a.arg.str.s) return 0;
         int i;
-	sscanf (a.arg.s, "%d", &i);
+	sscanf (a.arg.str.s, "%d", &i);
 	return i;
       }
     default:
@@ -373,8 +384,9 @@ static float ArgToFloat (const celXmlArg& a)
     case CEL_TYPE_BOOL: return a.arg.b ? 1.0 : 0.0;
     case CEL_TYPE_STRING:
       {
+        if (!a.arg.str.s) return 0.0;
         float f;
-	sscanf (a.arg.s, "%f", &f);
+	sscanf (a.arg.str.s, "%f", &f);
 	return f;
       }
     default:
@@ -493,7 +505,46 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_PUSH:
         {
           DUMP_EXEC (": push %s\n", A2S (op.arg));
-	  stack.Push (op.arg);
+	  if (op.arg.type == CEL_TYPE_STRING)
+	  {
+	    // Optimization for strings. Don't copy the string.
+	    int si = stack.Push (celXmlArg ());
+	    stack[si].SetString (op.arg.arg.str.s, false);
+	  }
+	  else
+	    stack.Push (op.arg);
+	}
+        break;
+      case CEL_OPERATION_PCTHIS:
+        {
+	  CHECK_STACK
+	  celXmlArg a_pc = stack.Pop ();
+          DUMP_EXEC (": pcthis %s\n", A2S (a_pc));
+
+	  int si = stack.Push (celXmlArg ());
+          iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
+	  	FindByName (ArgToString (a_pc));
+	  stack[si].SetPC (other_pc);	// Can be 0.
+	}
+	break;
+      case CEL_OPERATION_PC:
+        {
+	  CHECK_STACK
+	  celXmlArg a_pc = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_ent = stack.Pop ();
+          DUMP_EXEC (": pc %s %s\n", A2S (a_ent), A2S (a_pc));
+
+	  int si = stack.Push (celXmlArg ());
+	  iCelEntity* other_ent = pl->FindEntity (ArgToString (a_ent));
+	  if (!other_ent)
+	  {
+	    stack[si].SetPC ((iCelPropertyClass*)0);
+	    break;
+	  }
+          iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
+	  	FindByName (ArgToString (a_pc));
+	  stack[si].SetPC (other_pc);	// Can be 0.
 	}
         break;
 #if 0
@@ -656,21 +707,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		if (alen && blen)
 		{
 		  if (!blen)
-	            stack[si].SetString (astr);
+	            stack[si].SetString (astr, true);
 		  else if (!alen)
-	            stack[si].SetString (bstr);
+	            stack[si].SetString (bstr, true);
 		  else
 		  {
 		    char* str = new char[alen+blen];
 		    strcpy (str, astr);
 		    strcpy (str+alen, bstr);
-	            stack[si].SetString (str);
-		    delete[] str;
+	            stack[si].SetStringPrealloc (str);
 		  }
 	        }
 		else
 		{
-	          stack[si].SetString ("");
+	          stack[si].SetString ("", true);
 		}
 	      }
 	      break;
@@ -806,7 +856,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC (": derefvar %s\n", A2S (top));
 	  iPcProperties* props = behave->GetProperties ();
 	  if (!props) break;	// @@@ Report error!
-	  int idx = props->GetPropertyIndex (top.arg.s);
+	  int idx = props->GetPropertyIndex (top.arg.str.s);
 	  if (idx == -1) break;	// @@@ Report error!
 	  int si = stack.Push (celXmlArg ());
 	  switch (props->GetPropertyType (idx))
@@ -832,7 +882,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_STRING:
 	      {
 		const char* l = props->GetPropertyString (idx);
-		stack[si].SetString (l);
+		stack[si].SetString (l, true);
 	      }
 	      break;
 	    case CEL_DATA_VECTOR2:
@@ -870,7 +920,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    default:
 	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	top.arg.s);
+	      	top.arg.str.s);
 	  }
 	}
         break;
@@ -1049,33 +1099,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_ACTION:
         {
           DUMP_EXEC (": action pc=%d id=%d s=%s\n", args[0].arg.pc_ref,
-	  	args[1].arg.id, args[2].arg.s);
+	  	args[1].arg.id, args[2].arg.str.s);
 	  resolvers[args[0].arg.pc_ref].pc->PerformAction (
-	  	args[1].arg.id, args[2].arg.s);
+	  	args[1].arg.id, args[2].arg.str.s);
 	}
         break;
-      case CEL_OPERATION_GETPROPCLASS:
-        {
-	  DUMP_EXEC (": getpropclass var=%s %s/%s\n", args[0].arg.s,
-	  	args[1].arg.s, args[2].arg.s);
-	  iPcProperties* props = behave->GetProperties ();
-	  if (!props) break;	// @@@ Report error!
-	  iCelEntity* other_ent = pl->FindEntity (args[1].arg.s);
-	  if (!other_ent)
-	  {
-	    props->SetProperty (args[0].arg.s, (iCelPropertyClass*)0);
-	    break;
-	  }
-          iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
-	  	FindByName (args[2].arg.s);
-	  if (!other_pc)
-	  {
-	    props->SetProperty (args[0].arg.s, (iCelPropertyClass*)0);
-	    break;
-	  }
-	  props->SetProperty (args[0].arg.s, other_pc);
-	}
-	break;
       case CEL_OPERATION_VAR:
         {
 	  CHECK_STACK
@@ -1098,7 +1126,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      props->SetProperty (varname, val.arg.f);
 	      break;
 	    case CEL_TYPE_STRING:
-	      props->SetProperty (varname, val.arg.s);
+	      props->SetProperty (varname, val.arg.str.s);
 	      break;
 	    case CEL_TYPE_UINT32:
 	      props->SetProperty (varname, (long)val.arg.ui);
@@ -1147,53 +1175,52 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = resolvers[args[1].arg.pc_ref].pc;
 	  csStringID id = args[2].arg.id;
 	  celDataType t = pc->GetPropertyOrActionType (id);
+	  const char* pn = args[0].arg.str.s;
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      DUMP_EXEC (": getproperty %s %d\n", args[0].arg.s,
+	      DUMP_EXEC (": getproperty %s %d\n", pn,
 	      	pc->GetPropertyBool (id));
-	      props->SetProperty (args[0].arg.s, pc->GetPropertyBool (id));
+	      props->SetProperty (pn, pc->GetPropertyBool (id));
 	      break;
 	    case CEL_DATA_FLOAT:
-	      DUMP_EXEC (": getproperty %s %g\n", args[0].arg.s,
+	      DUMP_EXEC (": getproperty %s %g\n", pn,
 	      	pc->GetPropertyFloat (id));
-	      props->SetProperty (args[0].arg.s, pc->GetPropertyFloat (id));
+	      props->SetProperty (pn, pc->GetPropertyFloat (id));
 	      break;
 	    case CEL_DATA_STRING:
-	      DUMP_EXEC (": getproperty %s %s\n", args[0].arg.s,
+	      DUMP_EXEC (": getproperty %s %s\n", pn,
 	      	pc->GetPropertyString (id));
-	      props->SetProperty (args[0].arg.s, pc->GetPropertyString (id));
+	      props->SetProperty (pn, pc->GetPropertyString (id));
 	      break;
 	    case CEL_DATA_LONG:
-	      DUMP_EXEC (": getproperty %s %ld\n", args[0].arg.s,
+	      DUMP_EXEC (": getproperty %s %ld\n", pn,
 	      	pc->GetPropertyLong (id));
-	      props->SetProperty (args[0].arg.s, pc->GetPropertyLong (id));
+	      props->SetProperty (pn, pc->GetPropertyLong (id));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor col;
 		pc->GetPropertyColor (id, col);
-	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", args[0].arg.s,
+	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", pn,
 	      	  col.red, col.green, col.blue);
-	        props->SetProperty (args[0].arg.s, col);
+	        props->SetProperty (pn, col);
 	      }
 	      break;
 	    case CEL_DATA_VECTOR2:
 	      {
 	        csVector2 v;
 		pc->GetPropertyVector (id, v);
-	        DUMP_EXEC (": getproperty %s %g,%g\n", args[0].arg.s,
-	      	  v.x, v.y);
-	        props->SetProperty (args[0].arg.s, v);
+	        DUMP_EXEC (": getproperty %s %g,%g\n", pn, v.x, v.y);
+	        props->SetProperty (pn, v);
 	      }
 	      break;
 	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 v;
 		pc->GetPropertyVector (id, v);
-	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", args[0].arg.s,
-	      	  v.x, v.y, v.z);
-	        props->SetProperty (args[0].arg.s, v);
+	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", pn, v.x, v.y, v.z);
+	        props->SetProperty (pn, v);
 	      }
 	      break;
 	    default:
@@ -1215,7 +1242,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 		iPcProperties* props = behave->GetProperties ();
 		if (!props) break;	// @@@ Report error!
-		int idx = props->GetPropertyIndex (args[2].arg.s);
+		int idx = props->GetPropertyIndex (args[2].arg.str.s);
 		if (idx == -1) break;	// @@@ Report error!
 		switch (props->GetPropertyType (idx))
 		{
@@ -1265,7 +1292,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      pc->SetProperty (id, args[2].arg.f);
 	      break;
 	    case CEL_TYPE_STRING:
-	      pc->SetProperty (id, args[2].arg.s);
+	      pc->SetProperty (id, args[2].arg.str.s);
 	      break;
 	    case CEL_TYPE_INT32:
 	      pc->SetProperty (id, (long)args[2].arg.i);

@@ -3,6 +3,16 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Dec-2003
+	- Jorrit extended the XML behaviour layer to recognize identifiers
+	  as an easier way to make strings consisting only of '_',
+	  alphanumeric characters and digits.
+	- Jorrit re-enabled cleanup of temporary strings in the XML behaviour
+	  layer.
+	- Jorrit optimized string handling a bit in the XML behaviour layer.
+	  It now attempts to minimize string allocation.
+	- Jorrit fixed the pc(entity,propclass) operator in the XML behaviour
+	  layer. Removed 'getpropclass' command since that is now obsolete.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
