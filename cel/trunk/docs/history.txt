@@ -12,6 +12,8 @@
 	  DeferUpdateLighting() after loading from the persistance layer.
 	- Persistance is now ALMOST working. For simple situations I managed
 	  to get it working fully.
+	- Implemented correct persistence for pccamera so that the current
+	  position of the camera is also remembered.
 19-Nov-2001:
 	- CS now has a feature to remove an object from the engine in general.
 	  The plimp Cache will use that new function so that the extreme
