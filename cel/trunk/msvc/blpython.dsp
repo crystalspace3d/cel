@@ -102,7 +102,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\blpython\blpython.h
+SOURCE=..\plugins\behaviourlayer\python\blpython.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -110,15 +110,15 @@ SOURCE=..\blpython\blpython.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\blpython\blcel.cpp
+SOURCE=..\plugins\behaviourlayer\python\blcel.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\blpython\blpython.cpp
+SOURCE=..\plugins\behaviourlayer\python\blpython.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\blpython\pytocel.cpp
+SOURCE=..\plugins\behaviourlayer\python\pytocel.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

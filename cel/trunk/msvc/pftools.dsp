@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\tools\toolfact.h
+SOURCE=..\plugins\propclass\tools\toolfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,11 +111,11 @@ SOURCE=..\pf\tools\toolfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\tools\toolfact.cpp
+SOURCE=..\plugins\propclass\tools\toolfact.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\move\movefact.h
+SOURCE=..\plugins\propclass\move\movefact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,11 +111,11 @@ SOURCE=..\pf\move\movefact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\move\movefact.cpp
+SOURCE=..\plugins\propclass\move\movefact.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

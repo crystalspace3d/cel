@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\persist\classic\cpersist.h
+SOURCE=..\plugins\persist\classic\cpersist.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,7 +111,7 @@ SOURCE=..\persist\classic\cpersist.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\persist\classic\cpersist.cpp
+SOURCE=..\plugins\persist\classic\cpersist.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -103,11 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\engine\engfact.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\pf\common\stdpcimp.h
+SOURCE=..\plugins\propclass\engine\engfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -115,11 +111,11 @@ SOURCE=..\pf\common\stdpcimp.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\engine\engfact.cpp
+SOURCE=..\plugins\propclass\engine\engfact.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

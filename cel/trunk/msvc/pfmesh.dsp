@@ -103,7 +103,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\mesh\meshfact.h
+SOURCE=..\plugins\propclass\mesh\meshfact.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -111,11 +111,11 @@ SOURCE=..\pf\mesh\meshfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\pf\mesh\meshfact.cpp
+SOURCE=..\plugins\propclass\mesh\meshfact.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\pf\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"

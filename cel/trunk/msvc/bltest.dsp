@@ -103,11 +103,11 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\bltest\behave.h
+SOURCE=..\plugins\behaviourlayer\test\behave.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\bltest\bl.h
+SOURCE=..\plugins\behaviourlayer\test\bl.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -115,11 +115,11 @@ SOURCE=..\bltest\bl.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\bltest\behave.cpp
+SOURCE=..\plugins\behaviourlayer\test\behave.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\bltest\bl.cpp
+SOURCE=..\plugins\behaviourlayer\test\bl.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"
