@@ -585,6 +585,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   csDebuggingGraph::SetupGraph (object_reg);
 
+#if 0
   // @@@ The code below is temporary until we have a general solution
   // in CS for having plugins outside the CS hierarchy (by an additional
   // .csinfo file for every plugin for example).
@@ -606,6 +607,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.pcfactory.pckeyinput", "pfinput");
   iSCF::SCF->RegisterClass ("cel.pcfactory.characteristics", "pfinv");
   iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist");
+#endif
 
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,

@@ -39,10 +39,12 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (CommandInput, "pckeyinput")
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (pfinput)
   SCF_EXPORT_CLASS (celPfCommandInput, "cel.pcfactory.pckeyinput",
   	"CEL Key Input Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
+#endif
 
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

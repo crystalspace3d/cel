@@ -59,6 +59,7 @@ CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
 CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
 CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (pfmove)
   SCF_EXPORT_CLASS_DEP (celPfMovable, "cel.pcfactory.movable",
   	"CEL Movable Property Class Factory", "cel.physicallayer")
@@ -69,6 +70,7 @@ SCF_EXPORT_CLASS_TABLE (pfmove)
   SCF_EXPORT_CLASS_DEP (celPfGravity, "cel.pcfactory.gravity",
 	"CEL Gravity Class Factory", "cel.physicallayer")
 SCF_EXPORT_CLASS_TABLE_END
+#endif
 
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
