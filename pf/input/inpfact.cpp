@@ -141,6 +141,12 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   int key,shiftmask;
   if (!csParseKeyDef(triggername, key, shiftmask))
     return false;
+
+  printf ("Bind: %s -> %s, %d %d\n",triggername, command, key, shiftmask);
+
+  //Either bind to a shift key or to another key
+  if (key!=0 && shiftmask!=0)
+    return false;
   
   celKeyMap* newmap;
   if (! (newmap=GetMap(key, shiftmask)))
@@ -151,7 +157,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->prev=NULL;
     newmap->key=key;
     newmap->shiftmask=shiftmask;
-    newmap->command=csStrNew(command);
+    newmap->command=new char[strlen(command)+1];
+    strcpy (newmap->command+1, command);
     newmap->is_on=false;
     if (maplist)
         maplist->prev=newmap;
@@ -161,7 +168,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   {
     if (newmap->command) 
       delete [] newmap->command;
-    newmap->command=csStrNew(command);
+    newmap->command=new char[strlen(command)+1];
+    strcpy (newmap->command+1, command);
   }
   
   return true;
@@ -221,20 +229,24 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
   if (ev.Type == csevKeyUp)
   {
-    if (!p->is_on) {
-      p->is_on=true;
-      iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != NULL);
-      bh->SendMessage ("+%s", NULL, p->command);
-    }
-  }
-  else
-  {
     if (p->is_on) {
       p->is_on=false;
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
-      bh->SendMessage ("-%s", NULL, p->command);
+      p->command[0]='-';
+      printf ("DeActivate: %s\n", p->command);
+      bh->SendMessage (p->command, NULL);
+    }
+  }
+  else
+  {
+    if (!p->is_on) {
+      p->is_on=true;
+      iCelBehaviour* bh = entity->GetBehaviour();
+      CS_ASSERT(bh != NULL);
+      p->command[0]='+';
+      printf ("Activate: %s\n", p->command);
+      bh->SendMessage (p->command, NULL);
     }
   }
 

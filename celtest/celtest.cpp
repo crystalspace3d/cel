@@ -356,7 +356,6 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   iCelEntity* entity_cam = pl->CreateEntity ();
   entity_cam->SetName (name);
   entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "room"));
-  entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "printer"));
   
   pc = pl->CreatePropertyClass (entity_cam, "pccamera");
   if (!pc) return NULL;
@@ -385,6 +384,8 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   iPcCommandInput *pcinp= SCF_QUERY_INTERFACE (pc, iPcCommandInput);
   if (!pcinp) return NULL;
   pcinp->Bind ("up","forward");
+  pcinp->Bind ("down","backward");
+  pcinp->Bind ("shift","run");
 
   pc = pl->CreatePropertyClass (entity_cam, "pcmeshselect");
   if (!pc) return false;
