@@ -315,8 +315,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       if (fpscam)
       {
         printf ("Switching to 3rd person view!\n");
-        pccam->SetMode (iPcCamera::follow, true);
-	pccam->SetFollowPos (csVector3(0,0,-1), csVector3(0,0,0));
+        pccam->SetMode (iPcCamera::thirdperson, true);
       }
       else
       {

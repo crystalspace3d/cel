@@ -21,8 +21,7 @@ class actor:
 		room = region.GetStartSector()
 		self.camera = celCreateCamera(physicallayer_ptr,celEntity)
 		self.camera.SetRegion(region)
-		self.camera.SetMode(self.camera.follow)
-		self.camera.SetFollowPos(csVector3(0,1,3),csVector3(0,0,0))
+		self.camera.SetMode(self.camera.thirdperson)
 
 		# @@@ Ugly hardcoding of path!
 		mesh.LoadMesh("box", "/cellib/objects/box")

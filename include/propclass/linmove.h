@@ -60,11 +60,6 @@ struct iPcLinearMovement : public iBase
   virtual void SetSpeed (float speedZ) = 0;
 
   /**
-   * Set the speed of camera movement.
-   */
-  virtual void SetCameraPitchSpeed (float angle) = 0;
-
-  /**
    * Set the current velocity vector.
    */
   virtual void SetVelocity (const csVector3& vel) = 0;

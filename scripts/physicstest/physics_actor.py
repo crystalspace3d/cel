@@ -39,10 +39,7 @@ class physics_actor:
 
 		self.camera = celCreateCamera(physicallayer_ptr,celEntity)
 		self.camera.SetRegion(region)
-		self.camera.SetMode(self.camera.freelook)
-		self.camera.GetCamera().GetTransform().SetOrigin(csVector3(0,0,-5))
-		self.camera.GetCamera().GetTransform().LookAt(csVector3(0,0,1),csVector3(0,1,0))
-		#self.camera.SetFollowPos(csVector3(0,1,3),csVector3(0,0,0))
+		self.camera.SetMode(self.camera.thirdperson)
 		self.camera.SetClearScreen(1)
 		self.camera.SetClearZBuffer(1)
 

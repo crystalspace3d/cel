@@ -40,9 +40,16 @@ struct iPcCamera : public iBase
   enum CameraMode
   {
     freelook = 0,
-    follow,
-    rotational,
-    firstperson
+    firstperson,
+    thirdperson,
+    m64_thirdperson,
+    lara_thirdperson,
+
+    actual_data,	// The actual camera data
+    last_actual,	// Keep reference to the actual data last frame
+    transition,
+
+    CameraMode_count
   };
 
   /**
@@ -61,43 +68,41 @@ struct iPcCamera : public iBase
   virtual CameraMode GetMode () const = 0;
 
   /**
-   * Set Position and lookat vector for follow mode.
+   * Set spring parameters for the current camera mode.
    */
-  virtual void SetFollowPos (const csVector3& fp, const csVector3& at) = 0;
-  /**
-   * Get position and lookat vector for follow mode.
-   */
-  virtual void GetFollowPos (csVector3& fp, csVector3& at) const = 0;
+  virtual void SetSpringParameters (float springCoef,
+  	float intertialDampeningCoef, float springLength) = 0;
 
   /**
-   * Set LookAt pitch angle (rotation around X axis) for follow and 1st
-   * person modes.
+   * Set the minimum and maximum distance between camera and
+   * player. Only used by m64_thirdperson, lara_thirdperson, and
+   * freelook.
    */
-  virtual void SetPitch (float angle) = 0;
-  /**
-   * Get LookAt pitch for follow and 1st person modes
+  virtual void SetMinMaxCameraDistance (float minDistance,
+  	float maxDistance) = 0;
+
+  /** 
+   * Set the turn speed for the camera. Only used by lara_thirdperson
+   * and m64_thirdperson.
    */
-  virtual float GetPitch () = 0;
+  virtual void SetTurnSpeed (float turnSpeed) = 0;
 
   /**
-   * Set LookAt roll angle (rotation around Z axis) for follow and 1st
-   * person modes.
+   * Set the swing coefficient for the camera. Only used by lara_thirdperson.
    */
-  virtual void SetRoll (float angle) = 0;
-  /**
-   * Get LookAt roll for follow and 1st person modes
-   */
-  virtual float GetRoll () = 0;
+  virtual void SetSwingCoef (float swingCoef) = 0;
 
   /**
-   * Set LookAt yaw angle (rotation around Y axis) for follow and 1st
-   * person modes.
+   * Set offset for first person camera (offset for camera
+   * relative to player model).
    */
-  virtual void SetYaw (float angle) = 0;
+  virtual void SetFirstPersonOffset (const csVector3& offset) = 0;
+
   /**
-   * Get LookAt roll for follow and 1st person modes
+   * Set offset for third person camera (offset for camera
+   * relative to player model).
    */
-  virtual float GetYaw () = 0;
+  virtual void SetThirdPersonOffset (const csVector3& offset) = 0;
 
   /**
    * Set the view rectangle to use on screen.
