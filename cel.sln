@@ -1,29 +1,29 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "blpython", "blpython.vcproj", "{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "blpython", "msvc\blpython.vcproj", "{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bltest", "bltest.vcproj", "{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bltest", "msvc\bltest.vcproj", "{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celpyth", "celpyth.vcproj", "{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celpyth", "msvc\celpyth.vcproj", "{AA5875F2-F1D9-17F6-83A0-E2C827FDEEA6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celtest", "celtest.vcproj", "{C3D1330A-E341-BF52-6340-F3A0040EFA25}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "celtest", "msvc\celtest.vcproj", "{C3D1330A-E341-BF52-6340-F3A0040EFA25}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpersist", "cpersist.vcproj", "{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpersist", "msvc\cpersist.vcproj", "{0DEDB3E8-18D1-64A8-53F2-E3EA819642D2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfengine", "pfengine.vcproj", "{8D61D9F4-0F62-51AA-028F-902399A1F0B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfengine", "msvc\pfengine.vcproj", "{8D61D9F4-0F62-51AA-028F-902399A1F0B1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinput", "pfinput.vcproj", "{20CCA5F4-8724-21DF-477F-B302404868B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinput", "msvc\pfinput.vcproj", "{20CCA5F4-8724-21DF-477F-B302404868B1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinv", "pfinv.vcproj", "{C67FDB0C-B11A-B268-7636-656CDD40E527}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfinv", "msvc\pfinv.vcproj", "{C67FDB0C-B11A-B268-7636-656CDD40E527}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmesh", "pfmesh.vcproj", "{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmesh", "msvc\pfmesh.vcproj", "{FCE5EBA5-1122-D9B4-D6B4-58608BAD9B29}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmove", "pfmove.vcproj", "{C8CEEE66-7806-89D7-4CCE-158C1B96334D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfmove", "msvc\pfmove.vcproj", "{C8CEEE66-7806-89D7-4CCE-158C1B96334D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftest", "pftest.vcproj", "{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftest", "msvc\pftest.vcproj", "{0DBA72E0-3F4A-34AC-AA27-F52D91D045F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftools", "pftools.vcproj", "{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftools", "msvc\pftools.vcproj", "{85ACC44A-A4BB-6FB4-4DE2-91C8E23C8506}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdphyslayer", "stdphyslayer.vcproj", "{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdphyslayer", "msvc\stdphyslayer.vcproj", "{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution

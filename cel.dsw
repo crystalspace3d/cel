@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "blpython"=.\blpython.dsp - Package Owner=<4>
+Project: "blpython"=msvc\blpython.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -16,7 +16,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "bltest"=.\bltest.dsp - Package Owner=<4>
+Project: "bltest"=msvc\bltest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -29,7 +29,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "celpyth"=.\celpyth.dsp - Package Owner=<4>
+Project: "celpyth"=msvc\celpyth.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -42,7 +42,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "celtest"=.\celtest.dsp - Package Owner=<4>
+Project: "celtest"=msvc\celtest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -55,7 +55,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "cpersist"=.\cpersist.dsp - Package Owner=<4>
+Project: "cpersist"=msvc\cpersist.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -68,7 +68,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pfengine"=.\pfengine.dsp - Package Owner=<4>
+Project: "pfengine"=msvc\pfengine.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -81,7 +81,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pfinput"=.\pfinput.dsp - Package Owner=<4>
+Project: "pfinput"=msvc\pfinput.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -94,7 +94,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pfinv"=.\pfinv.dsp - Package Owner=<4>
+Project: "pfinv"=msvc\pfinv.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -107,7 +107,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pfmesh"=.\pfmesh.dsp - Package Owner=<4>
+Project: "pfmesh"=msvc\pfmesh.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -120,7 +120,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pfmove"=.\pfmove.dsp - Package Owner=<4>
+Project: "pfmove"=msvc\pfmove.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -133,7 +133,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pftest"=.\pftest.dsp - Package Owner=<4>
+Project: "pftest"=msvc\pftest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -146,7 +146,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pftools"=.\pftools.dsp - Package Owner=<4>
+Project: "pftools"=msvc\pftools.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -159,7 +159,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "stdphyslayer"=.\stdphyslayer.dsp - Package Owner=<4>
+Project: "stdphyslayer"=msvc\stdphyslayer.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
