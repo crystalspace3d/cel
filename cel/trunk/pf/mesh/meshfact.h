@@ -79,6 +79,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
+  iMeshWrapper* GetMesh () { return mesh; }
   void ClearMesh () { mesh = NULL; }
   void MoveMesh (iSector* sector, const csVector3& pos);
 
@@ -86,7 +87,6 @@ public:
 
   virtual const char* GetName () const { return "pcmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
-  virtual iMeshWrapper* GetMesh () { return mesh; }
   virtual void SetEntity (iCelEntity* entity);
 
   struct PcMesh : public iPcMesh

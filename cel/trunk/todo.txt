@@ -28,3 +28,8 @@ Add the ability to all property classes to explicitely
 set target/companion property classes (i.e. set the mesh to
 use together with mesh select and so on).
 
+Think about the issue with property classes refering
+to other property classes that might get deleted...
+How do we clean that up? iPcMovable currently keeps
+a reference incremented.
+

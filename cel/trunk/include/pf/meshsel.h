@@ -27,6 +27,8 @@ SCF_DECLARE_FAST_INTERFACE (iPcMeshSelectData)
 SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
 
 struct iCamera;
+struct iPcMovable;
+struct iPcMesh;
 class csVector3;
 
 #define CEL_MOUSE_BUTTON1 1

@@ -21,6 +21,7 @@
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "pf/mesh/meshfact.h"
+#include "pf/move.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
@@ -354,9 +355,16 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   if (do_drag && sel_entity)
   {
-    iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMesh);
+    iPcMovable* pcmovable = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMovable);
+    iPcMesh* pcmesh = NULL;
+    if (pcmovable)
+      pcmesh = pcmovable->GetMesh ();
+    else
+      pcmesh = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMesh);
     CS_ASSERT (pcmesh != NULL);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
+    CS_ASSERT (mesh != NULL);
+    iSector* sector = mesh->GetMovable ()->GetSectors ()->Get (0);
     csVector3 mp = mesh->GetMovable ()->GetPosition ();
 
     csVector3 v0, v1;
@@ -376,11 +384,12 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (csIntersect3::Plane (v0, v1, drag_normal, mp, isect, dist))
     {
       if (drag_normal_camera) isect = camera->GetTransform ().This2Other (isect);
-      mesh->GetMovable ()->SetPosition (isect);
-      mesh->GetMovable ()->UpdateMove ();
+      if (pcmovable) pcmovable->Move (sector, isect);
+      else pcmesh->MoveMesh (sector, isect);
     }
 
-    pcmesh->DecRef ();
+    if (pcmovable) pcmovable->DecRef ();
+    else if (pcmesh) pcmesh->DecRef ();
   }
 
   if (do_follow)
