@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+30-Nov-2004
+	- Eric Sunshine worked around problem where MSVC6 barfed when the
+	  embedded celPcLinearMovement::PcLinearMovement::RotateV() attempted
+	  to invoke the private celPcLinearMovement::RotateV().
 29-Nov-2004
 	- Jorrit fixed CEL so that it compiles again after the change
 	  of CS_USE_NEW_RENDERER to CS_USE_OLD_RENDERER.
