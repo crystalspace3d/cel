@@ -4,6 +4,15 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 30-Nov-2003
+	- Jorrit made attribute parsing in the XML behaviour layer and 
+	  the celentity addon a bit more efficient.
+	- Jorrit enhanced 'getproperty', 'property', and 'action' in the XML
+	  behaviour layer so that they have an optional 'entity' parameter
+	  to work on properties and actions in another entity.
+	- Jorrit optimized iCelPlLayer->FindEntity() with an additional
+	  hash to find the entities faster.
+	- Jorrit added 'createentity' to the XML behaviour layer.
+	- Jorrit added 'createpropclass' to the XML behaviour layer.
 	- Eric Sunshine updated very outdated m4 files in cel/mk/autoconf from
 	  master copies in CS/mk/autoconf.
 	- Eric Sunshine removed platform-specfic checks from configure.ac which
@@ -17,6 +26,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for csVector2 properties to the pcproperties
 	  property class, to the generic property system, to the
 	  persistance layer, and the XML behaviour layer.
+	- Jorrit added support for setting different uv ranges for a billboard
+	  so that you can now show part of a texture.
+	- Jorrit completed support for 2D vectors in the XML behaviour layer
+	  and the celentity addon. It is now possible to set 2D vector
+	  properties and variables.
 28-Nov-2003
 	- Jorrit changed the billboard manager internally so that billboard
 	  locations and size are now stored in billboard space instead of

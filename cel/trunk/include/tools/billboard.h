@@ -27,6 +27,7 @@
 struct iImage;
 struct iBillboard;
 class csColor;
+class csVector2;
 
 SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
 
@@ -148,6 +149,30 @@ struct iBillboard : public iBase
    * Uses billboard space.
    */
   virtual void Move (int dx, int dy) = 0;
+
+  /**
+   * Set the top-left coordinate of the texture (default 0,0).
+   * Range from 0,0 - 1,1.
+   */
+  virtual void SetUVTopLeft (const csVector2& uv) = 0;
+
+  /**
+   * Get the top-left coordinate of the texture (default 0,0).
+   * Range from 0,0 - 1,1.
+   */
+  virtual const csVector2& GetUVTopLeft () const = 0;
+
+  /**
+   * Set the bottom-right coordinate of the texture (default 1,1).
+   * Range from 0,0 - 1,1.
+   */
+  virtual void SetUVBottomRight (const csVector2& uv) = 0;
+
+  /**
+   * Get the bottom-right coordinate of the texture (default 1,1).
+   * Range from 0,0 - 1,1.
+   */
+  virtual const csVector2& GetUVBottomRight () const = 0;
 
   /**
    * Set the color for this billboard (default white).

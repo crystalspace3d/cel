@@ -24,6 +24,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/pl.h"
+#include "behaviourlayer/bl.h"
 #include "propclass/prop.h"
 #include "propclass/billboard.h"
 #include "tools/billboard.h"
@@ -100,7 +101,18 @@ void celXmlScriptEventHandler::ResolveParameters (iCelEntity* entity)
   int i;
   iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
   for (i = 0 ; i < resolvers.Length () ; i++)
-    resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
+  {
+    if (resolvers[i].entname)
+    {
+      iCelEntity* ent = pl->FindEntity (resolvers[i].entname);
+      iCelPropertyClassList* pcl= ent->GetPropertyClassList ();
+      resolvers[i].pc = pcl->FindByName (resolvers[i].pcname);
+    }
+    else
+    {
+      resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
+    }
+  }
 }
 
 void celXmlScriptEventHandler::Execute (iCelEntity* entity,
@@ -116,6 +128,28 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
     {
       case CEL_OPERATION_END:
         return;
+      case CEL_OPERATION_CREATEPROPCLASS:
+        {
+	  DUMP_EXEC (": createpropclass %s\n", op.arg.arg.s);
+	  pl->CreatePropertyClass (entity, op.arg.arg.s);
+	  // @@@ Report error
+	  ResolveParameters (entity);
+	}
+        break;
+      case CEL_OPERATION_CREATEENTITY:
+        {
+	  DUMP_EXEC (": createentity %s (behaviour=%s)\n",
+	  	args[0].arg.s, args[1].arg.s);
+	  csRef<iCelEntity> ent = pl->CreateEntity ();
+	  ent->SetName (args[0].arg.s);
+	  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iCelBlLayer);
+	  // @@@ Report error if bl==0
+	  iCelBehaviour* bh = bl->CreateBehaviour (ent, args[1].arg.s);
+	  // @@@ Report error if bh==0
+	  ent->SetBehaviour (bh);
+	}
+        break;
       case CEL_OPERATION_TESTCOLLIDE:
         {
 	  iPcProperties* props = behave->GetProperties ();
@@ -548,7 +582,8 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
   }
 }
 
-int celXmlScriptEventHandler::GetResolver (const char* pcname)
+int celXmlScriptEventHandler::GetResolver (const char* entname,
+	const char* pcname)
 {
   int i;
   for (i = 0 ; i < resolvers.Length () ; i++)
@@ -559,6 +594,7 @@ int celXmlScriptEventHandler::GetResolver (const char* pcname)
     }
   }
   int idx = resolvers.Push (celXmlPCResolver ());
+  resolvers[idx].entname = csStrNew (entname);
   resolvers[idx].pcname = csStrNew (pcname);
   return idx;
 }

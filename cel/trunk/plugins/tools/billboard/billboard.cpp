@@ -51,6 +51,8 @@ celBillboard::celBillboard (celBillboardManager* mgr)
   material_ok = false;
   clickmap = 0;
   color.Set (1, 1, 1);
+  uv_topleft.Set (0, 0);
+  uv_botright.Set (1, 1);
 }
 
 celBillboard::~celBillboard ()
@@ -91,6 +93,9 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
     ty = (ty * image_h) / h;
     if (ty >= image_h) ty = image_h-1;
   }
+
+  tx = tx * (uv_botright.x - uv_topleft.x) + uv_topleft.x * image_w;
+  ty = ty * (uv_botright.y - uv_topleft.y) + uv_topleft.y * image_h;
 }
 
 bool celBillboard::GetFromClickMap (int tx, int ty)
@@ -350,10 +355,6 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   {
     poly_init = true;
     poly.num = 4;
-    poly.texels[0].Set (0, 0);
-    poly.texels[1].Set (1, 0);
-    poly.texels[2].Set (1, 1);
-    poly.texels[3].Set (0, 1);
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
   }
@@ -364,6 +365,10 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   int fh = g3d->GetHeight ();
   csRect r;
   GetRect (r);
+  poly.texels[0] = uv_topleft;
+  poly.texels[1].Set (uv_botright.x, uv_topleft.y);
+  poly.texels[2] = uv_botright;
+  poly.texels[3].Set (uv_topleft.x, uv_botright.y);
   poly.vertices[0].Set (r.xmin, fh-r.ymin);
   poly.vertices[1].Set (r.xmax, fh-r.ymin);
   poly.vertices[2].Set (r.xmax, fh-r.ymax);

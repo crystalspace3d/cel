@@ -96,8 +96,9 @@ struct iCelPlLayer : public iBase
   virtual iCelEntity* GetEntity (CS_ID id) = 0;
 
   /**
-   * Find an entity with a given name. Note that this is a very slow
-   * function. Try to avoid it or only do it during init.
+   * Find an entity with a given name. This function will scan all entities
+   * (at maximum) the first time it is called for a given entity. Later on
+   * it will use a hash for faster finding.
    */
   virtual iCelEntity* FindEntity (const char* name) = 0;
 

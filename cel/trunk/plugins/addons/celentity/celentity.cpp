@@ -53,7 +53,14 @@ enum
 {
   XMLTOKEN_BEHAVIOUR,
   XMLTOKEN_PROPCLASS,
-  XMLTOKEN_PROPERTY
+  XMLTOKEN_PROPERTY,
+
+  XMLTOKEN_FLOAT,
+  XMLTOKEN_BOOL,
+  XMLTOKEN_STRING,
+  XMLTOKEN_LONG,
+  XMLTOKEN_VECTOR,
+  XMLTOKEN_COLOR
 };
 
 
@@ -91,6 +98,13 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
+
+  xmltokens.Register ("float", XMLTOKEN_FLOAT);
+  xmltokens.Register ("bool", XMLTOKEN_BOOL);
+  xmltokens.Register ("string", XMLTOKEN_STRING);
+  xmltokens.Register ("long", XMLTOKEN_LONG);
+  xmltokens.Register ("vector", XMLTOKEN_VECTOR);
+  xmltokens.Register ("color", XMLTOKEN_COLOR);
 
   return true;
 }
@@ -142,55 +156,49 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
 	  if (propid == csInvalidStringID) return false;
 
-	  csRef<iDocumentAttribute> attr;
-	  attr = child->GetAttribute ("float");
-	  if (attr)
+	  csRef<iDocumentAttributeIterator> attr_it = child->GetAttributes ();
+	  while (attr_it->HasNext ())
 	  {
-	    pc->SetProperty (propid, attr->GetValueAsFloat ());
-	  }
-	  else
-	  {
-	    attr = child->GetAttribute ("string");
-	    if (attr)
+	    csRef<iDocumentAttribute> attr = attr_it->Next ();
+	    const char* attr_name = attr->GetName ();
+	    csStringID attr_id = xmltokens.Request (attr_name);
+	    switch (attr_id)
 	    {
-	      pc->SetProperty (propid, attr->GetValue ());
-	    }
-	    else
-	    {
-	      attr = child->GetAttribute ("bool");
-	      if (attr)
-	      {
+	      case XMLTOKEN_FLOAT:
+		pc->SetProperty (propid, attr->GetValueAsFloat ());
+		break;
+	      case XMLTOKEN_STRING:
+		pc->SetProperty (propid, attr->GetValue ());
+		break;
+	      case XMLTOKEN_BOOL:
 	        pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
-	      }
-	      else
-	      {
-	        attr = child->GetAttribute ("long");
-	        if (attr)
+		break;
+	      case XMLTOKEN_LONG:
+	        pc->SetProperty (propid, (long)attr->GetValueAsInt ());
+		break;
+	      case XMLTOKEN_VECTOR:
 	        {
-	          pc->SetProperty (propid, (long)attr->GetValueAsInt ());
-	        }
-		else
-		{
-          	  attr = child->GetAttribute ("vector");
-		  if (attr)
-		  {
-		    csVector3 v;
-		    csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
+		  csVector3 v;
+		  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x,
+		    	&v.y, &v.z);
+		  if (rc == 3)
 		    pc->SetProperty (propid, v);
-		  }
 		  else
 		  {
-		    attr = child->GetAttribute ("color");
-		    if (attr)
-		    {
-		      csColor v;
-		      csScanStr (attr->GetValue (), "%f,%f,%f",
-		      	&v.red, &v.green, &v.blue);
-		      pc->SetProperty (propid, v);
-		    }
+		    csVector2 v2;
+		    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
+		    pc->SetProperty (propid, v2);
 		  }
 		}
-	      }
+		break;
+	      case XMLTOKEN_COLOR:
+		{
+		  csColor v;
+		  csScanStr (attr->GetValue (), "%f,%f,%f",
+		      	&v.red, &v.green, &v.blue);
+		  pc->SetProperty (propid, v);
+		}
+		break;
 	    }
 	  }
 	}

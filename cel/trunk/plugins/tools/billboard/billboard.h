@@ -65,6 +65,9 @@ private:
   celBillboardManager* mgr;
   csColor color;
 
+  csVector2 uv_topleft;
+  csVector2 uv_botright;
+
   csRef<iImage> image;	// Ref to the image. Is cleared when no longer needed.
   bool has_clickmap;
   uint8* clickmap;
@@ -117,6 +120,11 @@ public:
   virtual void Move (int dx, int dy);
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
+
+  virtual void SetUVTopLeft (const csVector2& uv) { uv_topleft = uv; }
+  virtual const csVector2& GetUVTopLeft () const { return uv_topleft; }
+  virtual void SetUVBottomRight (const csVector2& uv) { uv_botright = uv; }
+  virtual const csVector2& GetUVBottomRight () const { return uv_botright; }
 
   virtual void AddEventHandler (iBillboardEventHandler* evh);
   virtual void RemoveEventHandler (iBillboardEventHandler* evh);

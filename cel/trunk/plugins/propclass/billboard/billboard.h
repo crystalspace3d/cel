@@ -66,7 +66,9 @@ private:
     propid_widthpct,
     propid_heightpct,
     propid_x,
-    propid_y
+    propid_y,
+    propid_uv_topleft,
+    propid_uv_botright
   };
 
   static Property* properties;
@@ -96,9 +98,11 @@ public:
   virtual bool SetProperty (csStringID, long);
   virtual bool SetProperty (csStringID, float);
   virtual bool SetProperty (csStringID, const csColor&);
+  virtual bool SetProperty (csStringID, const csVector2&);
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual bool GetPropertyColor (csStringID, csColor&);
+  virtual bool GetPropertyColor (csStringID, csVector2&);
   virtual long GetPropertyLong (csStringID);
   virtual float GetPropertyFloat (csStringID);
 

@@ -65,6 +65,7 @@ celPlLayer::~celPlLayer ()
   CleanCache ();
  
   entities.DeleteAll ();
+  entities_hash.DeleteAll ();
 
   // Print out entities that aren't deleted properly.
   for (CS_ID i = 1 ; i < idlist.Length() ; i++)
@@ -117,12 +118,18 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
 
 iCelEntity* celPlLayer::FindEntity (const char* name)
 {
+  iCelEntity* rc = entities_hash.Get (name);
+  if (rc) return rc;
+
   int i;
   for (i = 0 ; i < entities.Length () ; i++)
   {
     if (entities[i]->GetName ())
       if (!strcmp (name, entities[i]->GetName ()))
+      {
+        entities_hash.Put (name, entities[i]);
         return entities[i];
+      }
   }
   return 0;
 }
@@ -144,6 +151,8 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
     callback->RemoveEntity (entity);
   }
 
+  if (entity->GetName ())
+    entities_hash.Delete (entity->GetName (), entity);
   entities.Delete (entity);
 }
 
