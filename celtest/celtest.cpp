@@ -32,6 +32,8 @@
 #include "iengine/sector.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
+#include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/statlght.h"
 #include "iengine/texture.h"
@@ -182,6 +184,15 @@ bool CelTest::HandleEvent (iEvent& ev)
       csDebuggingGraph::Dump (NULL);
       csDebuggingGraph::Clear (NULL);
 
+      printf ("  #sectors=%d\n", engine->GetSectors ()->GetCount ());
+      printf ("  #meshes=%d\n", engine->GetMeshes ()->GetCount ());
+      printf ("  #factories=%d\n", engine->GetMeshFactories ()->GetCount ());
+      printf ("  #collections=%d\n", engine->GetCollections ()->GetCount ());
+      printf ("  #campos=%d\n", engine->GetCameraPositions ()->GetCount ());
+      printf ("  #textures=%d\n", engine->GetTextureList ()->GetCount ());
+      printf ("  #materials=%d\n", engine->GetMaterialList ()->GetCount ());
+      printf ("  #regions=%d\n", engine->GetRegions ()->GetCount ());
+
       LoadTextures ();
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       game = cp->LoadEntity ("/this/savefile");
@@ -189,6 +200,11 @@ bool CelTest::HandleEvent (iEvent& ev)
       cp->DecRef ();
 
       csDebuggingGraph::Dump (NULL);
+
+      // @@@
+      engine->Prepare ();
+      iTextureManager* txtmgr = g3d->GetTextureManager ();
+      txtmgr->SetPalette ();
     }
     else if (ev.Key.Code == 'c')
     {

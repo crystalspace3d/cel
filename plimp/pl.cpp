@@ -235,7 +235,10 @@ iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector,
       if (invisible) continue;
     }
     iCelEntity* ent = FindAttachedEntity (obj);
-    if (ent) list->Add (ent);
+    if (ent)
+    {
+      list->Add (ent);
+    }
   }
   objit->DecRef ();
   engine->DecRef ();
