@@ -46,7 +46,6 @@ struct iMouseDriver;
 struct iCollideSystem;
 class csView;
 class celPcCamera;
-class iPcZoneManager;
 
 /**
  * Factory for engine stuff.
@@ -216,7 +215,6 @@ public://@@@
   CameraAlgorithm* camalgo;
 
   csWeakRef<iPcRegion> region;
-  csWeakRef<iPcZoneManager> zonemgr;
 
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
@@ -335,8 +333,6 @@ public:
   iCamera* GetCamera () const;
   iView* GetView () const { return view; }
   bool SetRegion (iPcRegion* region, bool point, const char* name);
-  bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-  	const char* regionname, const char* name);
   void SetRectangle (int x, int y, int w, int h);
 
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
@@ -702,11 +698,6 @@ public:
 	const char* name = 0)
     {
       return scfParent->SetRegion (region, point, name);
-    }
-    virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-	const char* regionname, const char* name = 0)
-    {
-      return scfParent->SetZoneManager (zonemgr, point, regionname, name);
     }
     virtual bool SetMode (CameraMode m, bool use_cd = true)
     {

@@ -18,7 +18,7 @@
 */
 
 #include "cssysdef.h"
-#include "csqsqrt.h"
+#include "qsqrt.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "plugins/propclass/move/movefact.h"
@@ -134,7 +134,7 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (j++)->Set (pc);
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
     csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pcm, iCelPropertyClass));
@@ -224,7 +224,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, pos, pos, realpos);
@@ -250,7 +250,7 @@ int celPcMovable::Move (const csVector3& relpos)
   csVector3 realpos = end;
   bool partial = false;
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, start, end, realpos);
@@ -635,7 +635,7 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
 
   db.Set ((uint16)forces.Length ());
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < (size_t)forces.Length () ; i++)
   {
     celForce* f = forces[i];
     db.Set (f->force);
@@ -932,8 +932,8 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // We can move but there is some obstruction.
     // Here we have to find out where exactly.
     // @@@ Here we also have to calculate impuse: for later...
-    float disttot = csQsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
-    float dist = csQsqrt (csSquaredDist::PointPoint (oldpos, newpos));
+    float disttot = qsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
+    float dist = qsqrt (csSquaredDist::PointPoint (oldpos, newpos));
     delta_t = delta_t * dist / disttot;
 
     relspeed = acceleration;
@@ -955,7 +955,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     csVector3 force (infinite_forces);
     float smallest_time = 1000000000;
     size_t i;
-    for (i = 0 ; i < forces.Length () ; i++)
+    for (i = 0 ; i < (size_t)forces.Length () ; i++)
     {
       celForce* f = forces[i];
       if (f->time_remaining < smallest_time)
@@ -974,7 +974,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Remove all forces that are done and update the remaining
     // time of the others.
     i = 0;
-    while (i < forces.Length ())
+    while (i < (size_t)forces.Length ())
     {
       celForce* f = forces[i];
       f->time_remaining -= smallest_time;

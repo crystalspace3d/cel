@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Sep-2004
+	- Jorrit backported CVS/CEL to be compatible with CS 0.98r004.
 9-Sep-2004
 	- Jorrit changed pcmesh so that it uses the new iLoader->Load()
 	  function that is in CS. That means that you can now easily use

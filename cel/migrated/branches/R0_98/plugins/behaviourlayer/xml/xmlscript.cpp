@@ -1136,7 +1136,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
   celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
   size_t i;
   printf ("### Callstack ###\n");
-  for (i = 0 ; i < cbl->call_stack.Length () ; i++)
+  for (i = 0 ; i < (size_t)cbl->call_stack.Length () ; i++)
   {
     printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
@@ -1260,7 +1260,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     switch (op.op)
     {
       case CEL_OPERATION_END:
-        if (stack_size != stack.Length ())
+        if (stack_size != (size_t)stack.Length ())
 	{
 	  return ReportError (behave, "Stack size mismatch!");
 	}

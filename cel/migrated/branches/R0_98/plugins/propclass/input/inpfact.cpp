@@ -24,7 +24,7 @@
 #include "iutil/evdefs.h"
 #include "csutil/event.h"
 #include "csutil/debug.h"
-#include "csutil/inputdef.h"
+#include "csutil/inpnames.h"
 #include "csutil/csevent.h"
 #include "plugins/propclass/input/inpfact.h"
 #include "physicallayer/pl.h"
@@ -240,7 +240,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
   utf32_char key, cooked; 
   csKeyModifiers modifiers; 
-  if (!csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  if (!csParseKeyDef (triggername, &key, &cooked, &modifiers))
     return false;
   uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
 
@@ -285,7 +285,7 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
 {
   utf32_char key, cooked;
   csKeyModifiers modifiers;
-  if (!csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  if (!csParseKeyDef (triggername, &key, &cooked, &modifiers))
     return false;
   
   uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);

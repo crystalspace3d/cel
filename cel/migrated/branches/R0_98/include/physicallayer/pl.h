@@ -38,6 +38,8 @@ struct iSector;
 struct iCamera;
 class csVector3;
 
+const size_t csArrayItemNotFound = (size_t)-1;
+
 SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
 struct iCelEntityRemoveCallback : public iBase

@@ -383,7 +383,7 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.Length () ; i++)
+  for (i = 0 ; i < (size_t)handlers.Length () ; i++)
   {
     handlers[i]->Unselect (this, button, sx, sy);
     if (delete_me)
@@ -400,7 +400,7 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.Length () ; i++)
+  for (i = 0 ; i < (size_t)handlers.Length () ; i++)
   {
     handlers[i]->Select (this, button, sx, sy);
     if (delete_me)
@@ -417,7 +417,7 @@ void celBillboard::FireMouseMove (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.Length () ; i++)
+  for (i = 0 ; i < (size_t)handlers.Length () ; i++)
   {
     handlers[i]->MouseMove (this, button, sx, sy);
     if (delete_me)
@@ -434,7 +434,7 @@ void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.Length () ; i++)
+  for (i = 0 ; i < (size_t)handlers.Length () ; i++)
   {
     handlers[i]->DoubleClick (this, button, sx, sy);
     if (delete_me)
@@ -771,11 +771,11 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 int celBillboardManager::FindMovingBillboard (celBillboard* bb)
 {
   size_t i;
-  for (i = 0 ; i < moving_billboards.Length () ; i++)
+  for (i = 0 ; i < (size_t)moving_billboards.Length () ; i++)
   {
     if (bb == moving_billboards[i].bb) return i;
   }
-  return csArrayItemNotFound;
+  return (size_t)-1;
 }
 
 void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
@@ -888,7 +888,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
           size_t i;
 	  float z = z_max;
 	  float dz = (z_max-z_min) / float (billboards.Length ());
-          for (i = 0 ; i < billboards.Length () ; i++)
+          for (i = 0 ; i < (size_t)billboards.Length () ; i++)
           {
             billboards[i]->Draw (g3d, z);
 	    z -= dz;
@@ -963,8 +963,8 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 void celBillboardManager::StackTop (iBillboard* bb)
 {
   size_t idx = billboards.Find ((celBillboard*)bb);
-  if (idx == csArrayItemNotFound) return;
-  if (idx == billboards.Length ()-1) return;	// Nothing to do.
+  if (idx == (size_t)-1) return;
+  if (idx == (size_t)(billboards.Length ()-1)) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Push (cbb);
 }
@@ -982,8 +982,8 @@ void celBillboardManager::StackUp (iBillboard* bb)
 {
   if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx = billboards.Find ((celBillboard*)bb);
-  if (idx == csArrayItemNotFound) return;
-  if (idx == billboards.Length ()-1) return;	// Nothing to do.
+  if (idx == (size_t)-1) return;
+  if (idx == (size_t)(billboards.Length ()-1)) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Insert (idx+1, cbb);
 }
@@ -1003,12 +1003,12 @@ void celBillboardManager::StackBefore (iBillboard* bb, iBillboard* other)
   if (other == bb) return;
   if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == csArrayItemNotFound) return;
+  if (idx_other == (size_t)-1) return;
   size_t idx = billboards.Find ((celBillboard*)bb);
-  if (idx == csArrayItemNotFound) return;
+  if (idx == (size_t)-1) return;
   celBillboard* cbb = billboards.Extract (idx);
   idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == billboards.Length ()-1)
+  if (idx_other == (size_t)(billboards.Length ()-1))
     billboards.Push (cbb);
   else
     billboards.Insert (idx_other+1, cbb);
@@ -1019,9 +1019,9 @@ void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
   if (other == bb) return;
   if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == csArrayItemNotFound) return;
+  if (idx_other == (size_t)-1) return;
   size_t idx = billboards.Find ((celBillboard*)bb);
-  if (idx == csArrayItemNotFound) return;
+  if (idx == (size_t)-1) return;
   celBillboard* cbb = billboards.Extract (idx);
   idx_other = billboards.Find ((celBillboard*)other);
   billboards.Insert (idx_other, cbb);
@@ -1070,7 +1070,7 @@ iBillboardLayer* celBillboardManager::CreateBillboardLayer (const char* name)
 iBillboardLayer* celBillboardManager::FindBillboardLayer (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < layers.Length () ; i++)
+  for (i = 0 ; i < (size_t)layers.Length () ; i++)
     if (!strcmp (layers[i]->GetName (), name))
       return layers[i];
   return 0;
@@ -1080,7 +1080,7 @@ void celBillboardManager::RemoveBillboardLayer (iBillboardLayer* layer)
 {
   if (layer == default_layer) return;	// Not allowed!
   size_t i;
-  for (i = 0 ; i < billboards.Length () ; i++)
+  for (i = 0 ; i < (size_t)billboards.Length () ; i++)
   {
     if (billboards[i]->GetLayer () == layer)
       billboards[i]->SetLayer (default_layer);
@@ -1098,7 +1098,7 @@ void celBillboardManager::RemoveAll ()
 void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
 {
   size_t i;
-  for (i = 0 ; i < billboards.Length () ; i++)
+  for (i = 0 ; i < (size_t)billboards.Length () ; i++)
     billboards[i]->GetFlags ().Set (flags, mask);
 }
 

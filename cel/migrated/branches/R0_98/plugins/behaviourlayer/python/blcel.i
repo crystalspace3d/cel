@@ -466,8 +466,6 @@ struct iPcCamera : public iBase
   };
   virtual bool SetRegion (iPcRegion* region, bool point = true,
       const char* name = 0) = 0;
-  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-      const char* regionname, const char* name = 0) = 0;
   virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
   virtual CameraMode GetMode () const = 0;
   virtual bool SetModeName (const char* m, bool use_cd = true) = 0;

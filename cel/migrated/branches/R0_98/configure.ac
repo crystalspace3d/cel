@@ -7,7 +7,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf
 #----------------------------------------------------------------------------
-AC_INIT([cel], [0.99], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [0.98], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [(C)2002-2004 Jorrit Tyberghein and others.],
     [http://cel.sourceforge.net/])
@@ -66,7 +66,7 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-[CS_PATH_CRYSTAL_JAM([0.99], [],
+[CS_PATH_CRYSTAL_JAM([0.98], [],
   [AC_MSG_ERROR([
 *** Crystal Space could not be found. The latest version is always available
 *** from http://crystal.sourceforge.net/

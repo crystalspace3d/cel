@@ -21,7 +21,6 @@
 #include "cssysdef.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
-#include "propclass/zone.h"
 #include "plugins/propclass/engine/engfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -54,7 +53,7 @@
 #include "ivaria/collider.h"
 #include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
-#include "csqsqrt.h"
+#include "qsqrt.h"
 
 //---------------------------------------------------------------------------
 
@@ -574,7 +573,6 @@ csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
     case iPcCamera::lara_thirdperson:
     case iPcCamera::freelook:
     {
-#if 0
       csVector3 isect;
       int sel;
       csVector3 modifiedTarget = pseudoTarget;
@@ -586,20 +584,6 @@ csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
         pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
         return isect;
       }
-#else
-      csVector3 isect;
-      csVector3 modifiedTarget = pseudoTarget;
-
-      csIntersectingTriangle closest_tri;
-      float sqdist = csColliderHelper::TraceBeam (cdsys, sector,
-      	modifiedTarget, pseudoPosition, true, closest_tri, isect);
-
-      if (sqdist >= 0)
-      {
-        pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
-        return isect;
-      }
-#endif
       break;
     }
     default:
@@ -1063,32 +1047,9 @@ void celPcCamera::SetSwingCoef (float swingCoef, int mode)
 }
 
 
-bool celPcCamera::SetZoneManager (iPcZoneManager* newzonemgr,
-	bool point, const char* regionname, const char *name)
-{
-  region = 0;
-  zonemgr = newzonemgr;
-
-  if (point)
-  {
-    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
-
-    if (zonemgr)
-      zonemgr->PointCamera (camera, regionname, name);
-    else
-    {
-      // camera->GetCamera ()->SetSector (0);
-      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
-    }
-  }
-
-  return true;
-}
-
 bool celPcCamera::SetRegion (iPcRegion* newregion, bool point, const char *name)
 {
   region = newregion;
-  zonemgr = 0;
 
   if (point)
   {
@@ -1575,7 +1536,7 @@ bool celPcRegion::Load ()
     return false;
   }
   cur_region->Prepare ();
-  engine->PrecacheDraw (cur_region);
+  //engine->PrecacheDraw (cur_region);
   loaded = true;
   printf ("LoadOK!\n");
 
@@ -1629,7 +1590,7 @@ void celPcRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.Length () ; i++)
+    for (i = 0 ; i < (size_t)entities.Length () ; i++)
       if (entities[i])
       {
         pl->RemoveEntity (entities[i]);

@@ -377,41 +377,8 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
   csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
-  iBase* result;
-  bool success = loader->Load (fileName, result, 0, false, true);
-  if (path)
-  {
-    vfs->PopDir ();
-  }
-  if (!success)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pfmesh.loadmeshfactory",
-    	"Error loading mesh object factory or library '%s'!", fileName);
-    return 0;
-  }
-
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-
-  csRef<iMeshFactoryWrapper> imeshfact;
-  if (result == 0)
-  {
-    // We have a library.
-    imeshfact = engine->FindMeshFactory (factName);
-  }
-  else
-  {
-    imeshfact = SCF_QUERY_INTERFACE (result, iMeshFactoryWrapper);
-    if (!imeshfact)
-    {
-      // Perhaps it is a world file?
-      csRef<iEngine> eng = SCF_QUERY_INTERFACE (result, iEngine);
-      if (eng)
-      {
-        imeshfact = engine->FindMeshFactory (factName);
-      }
-    }
-  }
+  csRef<iMeshFactoryWrapper> imeshfact (
+ 	loader->LoadMeshObjectFactory (fileName));
 
   if (imeshfact == 0)
   {

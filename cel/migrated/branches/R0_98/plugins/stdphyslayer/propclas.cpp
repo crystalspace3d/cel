@@ -49,7 +49,7 @@ size_t celPropertyClassList::GetCount () const
 
 iCelPropertyClass* celPropertyClassList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < (size_t)prop_classes.Length ());
   iCelPropertyClass* pclass = prop_classes[n];
   return pclass;
 }
@@ -81,7 +81,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
 
 bool celPropertyClassList::Remove (size_t n)
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < (size_t)prop_classes.Length ());
   DG_UNLINK (this, prop_classes[n]);
   prop_classes.DeleteIndex (n);
   ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
@@ -104,7 +104,7 @@ size_t celPropertyClassList::Find (iCelPropertyClass* obj) const
 iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < prop_classes.Length () ; i++)
+  for (i = 0 ; i < (size_t)prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!strcmp (obj->GetName (), name))
@@ -119,7 +119,7 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
 	int version) const
 {
   size_t i;
-  for (i = 0 ; i < prop_classes.Length () ; i++)
+  for (i = 0 ; i < (size_t)prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!obj) continue;

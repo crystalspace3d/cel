@@ -34,8 +34,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
   SCF_IMPLEMENTS_INTERFACE (iCelEntity)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-CS_LEAKGUARD_IMPLEMENT (celEntity)
-
 celEntity::celEntity (celPlLayer* pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
@@ -100,7 +98,7 @@ size_t celEntityList::GetCount () const
 
 iCelEntity* celEntityList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < (size_t)entities.Length ());
   return entities[n];
 }
 
@@ -142,7 +140,7 @@ size_t celEntityList::Find (iCelEntity* obj) const
 iCelEntity* celEntityList::FindByName (const char *Name) const
 {
   size_t i;
-  for (i = 0 ; i < entities.Length () ; i++)
+  for (i = 0 ; i < (size_t)entities.Length () ; i++)
   {
     iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;

@@ -137,7 +137,7 @@ void celPcSpawn::TickOnce ()
     while (c > 0)
     {
       idx++;
-      if (idx >= spawninfo.Length ()-1) break;
+      if (idx >= (size_t)(spawninfo.Length ()-1)) break;
       c -= spawninfo[idx].chance;
     }
   }
@@ -145,14 +145,14 @@ void celPcSpawn::TickOnce ()
   {
     idx = sequence_cur;
     sequence_cur++;
-    if (sequence_cur >= spawninfo.Length ()) sequence_cur = 0;
+    if (sequence_cur >= (size_t)spawninfo.Length ()) sequence_cur = 0;
   }
 
   csRef<iCelEntity> newent = pl->CreateEntity (spawninfo[idx].name,
       	spawninfo[idx].bl, spawninfo[idx].behaviour, (void*)0);
   size_t i;
   csStringArray& pcs = spawninfo[idx].pcs;
-  for (i = 0 ; i < pcs.Length () ; i++)
+  for (i = 0 ; i < (size_t)pcs.Length () ; i++)
   {
     iCelPropertyClass* pc = pl->CreatePropertyClass (newent, pcs[i]);
     if (!pc) { /* @@@ Error reporting */ }

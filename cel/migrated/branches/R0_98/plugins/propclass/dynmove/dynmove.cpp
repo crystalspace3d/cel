@@ -18,7 +18,7 @@
 */
 
 #include "cssysdef.h"
-#include "csqsqrt.h"
+#include "qsqrt.h"
 #include "iutil/plugin.h"
 #include "iutil/virtclk.h"
 #include "iutil/eventq.h"
@@ -115,7 +115,7 @@ void celPcDynamicSystem::ProcessForces (float dt)
 // remaining time for a force may be smaller than the 'dt' value
 // given here.
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < (size_t)forces.Length () ; i++)
   {
     celForce& f = forces[i];
     if (f.frame)
@@ -156,7 +156,7 @@ void celPcDynamicSystem::TickEveryFrame ()
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < (size_t)forces.Length () ; i++)
   {
     celForce& f = forces[i];
     if (f.frame || f.seconds <= 0)
@@ -269,7 +269,7 @@ void celPcDynamicSystem::AddForceFrame (iPcDynamicBody* body,
 void celPcDynamicSystem::ClearForces (iPcDynamicBody* body)
 {
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < (size_t)forces.Length () ; i++)
   {
     if (forces[i].body == body)
     {

@@ -77,7 +77,7 @@ celPlLayer::~celPlLayer ()
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
 
-  for (size_t j = 0 ; j < removecallbacks.Length() ; j++)
+  for (size_t j = 0 ; j < (size_t)removecallbacks.Length() ; j++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[j];
     delete callback;
@@ -113,7 +113,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
       compress = true;
   }
   size_t i;
-  for (i = 0 ; i < pcs.Length () ; i++)
+  for (i = 0 ; i < (size_t)pcs.Length () ; i++)
     pcs[i]->TickEveryFrame ();
 
   // Then fire all property classes that are interested in receiving
@@ -132,7 +132,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
     else
       compress = true;
   }
-  for (i = 0 ; i < pcs.Length () ; i++)
+  for (i = 0 ; i < (size_t)pcs.Length () ; i++)
     pcs[i]->TickOnce ();
 
   if (compress) CompressCallbackPCInfo ();
@@ -242,7 +242,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
     entities_hash_dirty = false;
     size_t i;
     entities_hash.DeleteAll ();
-    for (i = 0 ; i < entities.Length () ; i++)
+    for (i = 0 ; i < (size_t)entities.Length () ; i++)
     {
       if (entities[i]->GetName ())
         entities_hash.Put (entities[i]->GetName (), entities[i]);
@@ -262,7 +262,7 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
     return;
   }
 
-  for (size_t i = 0; i < removecallbacks.Length(); i++)
+  for (size_t i = 0; i < (size_t)removecallbacks.Length(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
@@ -358,7 +358,7 @@ public:
   }
   virtual celData* GetData (size_t idx) const
   {
-    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.Length ());
+    CS_ASSERT ((idx != csArrayItemNotFound) && idx < (size_t)data.Length ());
     return data[idx];
   }
 };
@@ -506,7 +506,7 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
-  if (pf_list.Find (pf) != csArrayItemNotFound) return;
+  if ((size_t)pf_list.Find (pf) != csArrayItemNotFound) return;
   pf_list.Push (pf);
   pf_hash.Put (pf->GetName (), pf);
 }
@@ -525,7 +525,7 @@ size_t celPlLayer::GetPropertyClassFactoryCount () const
 
 iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < (size_t)pf_list.Length ());
   iCelPropertyClassFactory* pf = pf_list[idx];
   return pf;
 }
@@ -561,7 +561,7 @@ void celPlLayer::CleanCache ()
 
 void celPlLayer::RegisterBehaviourLayer (iCelBlLayer* bl)
 {
-  if (bl_list.Find (bl) != csArrayItemNotFound) return;
+  if ((size_t)bl_list.Find (bl) != csArrayItemNotFound) return;
   bl_list.Push (bl);
 }
 
@@ -577,7 +577,7 @@ size_t celPlLayer::GetBehaviourLayerCount () const
 
 iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < (size_t)bl_list.Length ());
   iCelBlLayer* bl = bl_list[idx];
   return bl;
 }
@@ -585,7 +585,7 @@ iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < bl_list.Length () ; i++)
+  for (i = 0 ; i < (size_t)bl_list.Length () ; i++)
   {
     iCelBlLayer* bl = bl_list[i];
     if (!strcmp (bl->GetName (), name))
@@ -603,7 +603,7 @@ void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)
 
 void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
 {
-  if (removecallbacks.Find (callback) == csArrayItemNotFound) return;
+  if ((size_t)removecallbacks.Find (callback) == csArrayItemNotFound) return;
   removecallbacks.Delete (callback);
 }
 
@@ -644,7 +644,7 @@ void celPlLayer::CompressCallbackPCInfo ()
   // Delete the weak array and build it again.
   weak_pcs.DeleteAll ();
   weak_pcs_hash.DeleteAll ();
-  for (i = 0 ; i < store.Length () ; i++)
+  for (i = 0 ; i < (size_t)store.Length () ; i++)
   {
     weak_pcs.Push (store[i].pc);
     weak_pcs_hash.Put (store[i].pc, i);
@@ -653,7 +653,7 @@ void celPlLayer::CompressCallbackPCInfo ()
   // Now create a reverse table to map from original index to new index.
   size_t* map = new size_t[orig_pcs_length];
   memset (map, 0xffffffff, sizeof (size_t) * orig_pcs_length);
-  for (i = 0 ; i < store.Length () ; i++)
+  for (i = 0 ; i < (size_t)store.Length () ; i++)
     map[store[i].idx] = i;
 
   // Now change the indices in all lists.
@@ -675,7 +675,7 @@ void celPlLayer::CompressCallbackPCInfo ()
     cbinfo->every_frame = newset;
 
     size_t i;
-    for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+    for (i = 0 ; i < (size_t)cbinfo->timed_callbacks.Length () ; )
     {
       size_t newidx = map[cbinfo->timed_callbacks[i].pc_idx];
       if (newidx == (size_t)~0)
@@ -763,7 +763,7 @@ void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
 
   CallbackPCInfo* cbinfo = GetCBInfo (where);
   size_t i;
-  for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+  for (i = 0 ; i < (size_t)cbinfo->timed_callbacks.Length () ; )
     if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
       cbinfo->timed_callbacks.DeleteIndex (i);
     else

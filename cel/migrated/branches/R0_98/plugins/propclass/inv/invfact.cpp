@@ -97,7 +97,7 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
   	1+contents.Length ());
   size_t i, j = 0;
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
     databuf->GetData (j++)->Set (c->charName);
@@ -107,7 +107,7 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
     databuf->GetData (j++)->Set (c->strict);
   }
   databuf->GetData (j++)->Set ((uint16)contents.Length ());
-  for (i = 0 ; i < contents.Length () ; i++)
+  for (i = 0 ; i < (size_t)contents.Length () ; i++)
   {
     iCelEntity* ent = (iCelEntity*)contents[i];
     databuf->GetData (j++)->Set (ent);
@@ -213,7 +213,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
 
 bool celPcInventory::AddEntity (iCelEntity* child)
 {
-  if (contents.Find (child) != csArrayItemNotFound) return true;
+  if ((size_t)contents.Find (child) != csArrayItemNotFound) return true;
 
   // Add our child. We will later test if this is valid and if
   // not undo this change.
@@ -321,7 +321,7 @@ bool celPcInventory::RemoveAll ()
 
 iCelEntity* celPcInventory::GetEntity (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < contents.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < (size_t)contents.Length ());
   iCelEntity* ent = (iCelEntity*)contents[idx];
   return ent;
 }
@@ -330,7 +330,7 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
 	const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
     if (!strcmp (name, c->charName)) return c;
@@ -416,7 +416,7 @@ bool celPcInventory::GetConstraints (const char* charName,
 void celPcInventory::RemoveConstraints (const char* charName)
 {
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
     if (!strcmp (charName, c->charName))
@@ -440,7 +440,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
   {
     size_t i;
     c->currentValue = 0;
-    for (i = 0 ; i < contents.Length () ; i++)
+    for (i = 0 ; i < (size_t)contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
       csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
@@ -482,7 +482,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     }
     float curValue = 0;
     size_t i;
-    for (i = 0 ; i < contents.Length () ; i++)
+    for (i = 0 ; i < (size_t)contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
       csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
@@ -510,7 +510,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     // This case is for when no characteristic is given.
     //========
     size_t i;
-    for (i = 0 ; i < constraints.Length () ; i++)
+    for (i = 0 ; i < (size_t)constraints.Length () ; i++)
     {
       constraint* c = constraints[i];
       if (!TestLocalConstraints (c->charName)) return false;
@@ -550,7 +550,7 @@ void celPcInventory::MarkDirty (const char* name)
   else
   {
     size_t i;
-    for (i = 0 ; i < constraints.Length () ; i++)
+    for (i = 0 ; i < (size_t)constraints.Length () ; i++)
     {
       constraint* c = constraints[i];
       c->dirty = true;
@@ -568,7 +568,7 @@ void celPcInventory::Dump ()
   size_t i;
   printf ("Inventory for entity '%s'\n", entity->GetName ());
   printf ("Constraints:\n");
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < (size_t)constraints.Length () ; i++)
   {
     constraint* c = constraints[i];
     printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
@@ -576,7 +576,7 @@ void celPcInventory::Dump ()
 		    GetCurrentCharacteristic (c->charName), c->strict);
   }
   printf ("Entities:\n");
-  for (i = 0 ; i < contents.Length () ; i++)
+  for (i = 0 ; i < (size_t)contents.Length () ; i++)
   {
     iCelEntity* ent = (iCelEntity*)contents[i];
     printf ("  '%s'\n", ent->GetName ());
@@ -614,7 +614,7 @@ csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
   	1+chars.Length ()*4);
   size_t i, j = 0;
   databuf->GetData (j++)->Set ((uint16)chars.Length ());
-  for (i = 0 ; i < chars.Length () ; i++)
+  for (i = 0 ; i < (size_t)chars.Length () ; i++)
   {
     charact* c = chars[i];
     databuf->GetData (j++)->Set (c->name);
@@ -695,7 +695,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
 	const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < chars.Length () ; i++)
+  for (i = 0 ; i < (size_t)chars.Length () ; i++)
   {
     charact* c = chars[i];
     if (!strcmp (name, c->name)) return c;
@@ -706,7 +706,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
 bool celPcCharacteristics::TestConstraints (const char* charName)
 {
   size_t i;
-  for (i = 0 ; i < inventories.Length () ; i++)
+  for (i = 0 ; i < (size_t)inventories.Length () ; i++)
   {
     iPcInventory* inv = inventories[i];
     if (!inv->TestConstraints (charName)) return false;
@@ -717,7 +717,7 @@ bool celPcCharacteristics::TestConstraints (const char* charName)
 void celPcCharacteristics::MarkDirty (const char* charName)
 {
   size_t i;
-  for (i = 0 ; i < inventories.Length () ; i++)
+  for (i = 0 ; i < (size_t)inventories.Length () ; i++)
   {
     iPcInventory* inv = inventories[i];
     inv->MarkDirty (charName);
@@ -812,7 +812,7 @@ bool celPcCharacteristics::HasCharacteristic (const char* name) const
 bool celPcCharacteristics::ClearCharacteristic (const char* name)
 {
   size_t i;
-  for (i = 0 ; i < chars.Length () ; i++)
+  for (i = 0 ; i < (size_t)chars.Length () ; i++)
   {
     charact* c = chars[i];
     if (!strcmp (name, c->name))
@@ -849,7 +849,7 @@ bool celPcCharacteristics::ClearAll ()
 
 void celPcCharacteristics::AddToInventory (iPcInventory* inv)
 {
-  if (inventories.Find (inv) != csArrayItemNotFound) return;
+  if ((size_t)inventories.Find (inv) != csArrayItemNotFound) return;
   inventories.Push (inv);
 }
 
@@ -863,14 +863,14 @@ void celPcCharacteristics::Dump ()
   printf ("Characteristics for entity '%s'\n", entity->GetName ());
   printf ("Characteristics:\n");
   size_t i;
-  for (i = 0 ; i < chars.Length () ; i++)
+  for (i = 0 ; i < (size_t)chars.Length () ; i++)
   {
     charact* c = chars[i];
     printf ("  '%s' value=%g, local value=%g factor=%g add=%g\n", c->name,
 		    GetCharacteristic (c->name), c->value, c->factor, c->add);
   }
   printf ("Inventories:\n");
-  for (i = 0 ; i < inventories.Length () ; i++)
+  for (i = 0 ; i < (size_t)inventories.Length () ; i++)
   {
     iPcInventory* inv = inventories[i];
     csRef<iCelPropertyClass> pc (

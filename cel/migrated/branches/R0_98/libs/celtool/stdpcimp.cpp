@@ -55,7 +55,7 @@ void celPcCommon::SetEntity (iCelEntity* entity)
 void celPcCommon::FirePropertyChangeCallback (int propertyId)
 {
   size_t i;
-  for (i = 0 ; i < callbacks.Length () ; i++)
+  for (i = 0 ; i < (size_t)callbacks.Length () ; i++)
   {
     iCelPropertyChangeCallback* cb = callbacks[i];
     cb->PropertyChanged (propertyId, this);

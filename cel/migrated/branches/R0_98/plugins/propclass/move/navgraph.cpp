@@ -297,7 +297,7 @@ int celPcNavGraph::Dump()  // Debug info
   MoveNotify (object_reg, "Link Information: %d Links----------", aLinks.Length());
 
     
-  for (i=0; i < aLinks.Length() ; i++)
+  for (i=0; i < (size_t)aLinks.Length() ; i++)
   {
     iPcNavLink* link = aLinks[i];
 
@@ -308,7 +308,7 @@ int celPcNavGraph::Dump()  // Debug info
     
   MoveNotify (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
 
-  for (i=0; i < aNodes.Length() ; i++)
+  for (i=0; i < (size_t)aNodes.Length() ; i++)
   {
     iPcNavNode* node = aNodes[i];
 
@@ -477,7 +477,7 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
   MoveNotify (object_reg, "Traversing %d links", aLinks.Length());
 
   // for all links
-  for (i=0; i < aLinks.Length(); i++)
+  for (i=0; i < (size_t)aLinks.Length(); i++)
   {
     // TODO: Add ability to traverse links with multiple entities and save data
     iPcNavLink* link = aLinks[i]; // Get each link
