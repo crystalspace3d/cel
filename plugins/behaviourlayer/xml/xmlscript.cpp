@@ -2201,7 +2201,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
-	    case CEL_DATA_BOOL: data.Set (a_val.arg.b); break;
+	    case CEL_DATA_BOOL: data.SetBool (a_val.arg.b); break;
 	    case CEL_DATA_FLOAT: data.Set (a_val.arg.f); break;
 	    case CEL_DATA_STRING: data.Set (a_val.arg.str.s); break;
 	    case CEL_DATA_VECTOR2:

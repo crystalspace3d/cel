@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	  to clean up. Fixed this by simply removing the unneeded
 	  type parameter.
 	- Jorrit added 'Bind' action for pckeyinput.
+	- Jorrit fixed a bug in the XML behaviour layer which prevented
+	  boolean parameters from working (for <action> command).
 20-Dec-2003
 	- Jorrit fixed three bugs which prevented a script from deleting
 	  its own entity:
