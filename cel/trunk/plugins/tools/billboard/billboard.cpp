@@ -48,6 +48,7 @@ celBillboard::celBillboard (celBillboardManager* mgr)
   bb_w = bb_h = -1;
   celBillboard::mgr = mgr;
   has_clickmap = false;
+  material_ok = false;
   clickmap = 0;
   color.Set (1, 1, 1);
 }
@@ -112,7 +113,8 @@ void celBillboard::SetClickMap (int tx, int ty, bool v)
 
 void celBillboard::SetupMaterial ()
 {
-// @@@ OPT with one test!!!
+  if (material_ok) return;
+
   if (!material)
   {
     material = mgr->engine->FindMaterial (materialname);
@@ -210,7 +212,10 @@ void celBillboard::SetupMaterial ()
 	  }
       }
     }
+    image = 0;	// We no longer need the image.
   }
+  if (image_w != -1 && has_clickmap && bb_w != -1 && material)
+    material_ok = true;
 }
 
 bool celBillboard::SetMaterialName (const char* matname)
@@ -221,6 +226,7 @@ bool celBillboard::SetMaterialName (const char* matname)
   delete[] clickmap;
   clickmap = 0;
   has_clickmap = false;
+  material_ok = false;
   SetupMaterial ();
   return true;
 }
