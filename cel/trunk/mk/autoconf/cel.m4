@@ -18,13 +18,13 @@ no_cel=no
 if test -z "$CELPREFIX"; then
     AC_CHECK_PROGS(CELCONFIG, cel-config, "")
     if test -z "$CELCONFIG"; then
-        AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CEL/bin)
+        AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CEL)
         if test -n "$CELCONFIG"; then
-            CELCONFIG="$CEL/bin/cel-config"
+            CELCONFIG="$CEL/cel-config"
         fi
     fi
 else
-    AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CELPREFIX)
+    AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CELPREFIX/bin)
 fi
 
 if test -z "$CELCONFIG"; then
