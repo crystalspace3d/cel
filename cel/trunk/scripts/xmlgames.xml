@@ -1275,7 +1275,6 @@
 	    	<var name="x" value="@x" />
 	    	<var name="y" value="@y" />
 	    	<var name="blocktype" value="@blocktype" />
-	    	<lvar name="mazepos" value="@x+'_'+@y" />
 		<call event="initblock" />
 	    </event>
 
@@ -1334,6 +1333,13 @@
 		</call>
 	    </event>
 
+	    <!--
+	      - Get the entity at some position. This uses only the maze information
+	      - Use @x and @y parameters. Returns entity or ''.
+	      -->
+	    <event name="get_entity_nohero">
+		<return value="?(mazeent+@x+'_'+@y)" />
+	    </event>
 	    <!--
 	      - Get the entity at some position. This uses both the maze information
 	      - as the position of the hero. Use @x and @y parameters.
@@ -1641,6 +1647,10 @@
 		    <par id="parid(trigger)" value="down" />
 		    <par id="parid(command)" value="down" />
 		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="space" />
+		    <par id="parid(command)" value="bomb" />
+		</action>
 	    </event>
 
 	    <!--
@@ -1733,6 +1743,15 @@
 	    <!--
 	      - Movement events.
 	      -->
+	    <event name="pckeyinput_bomb1">
+	    	<if eval="bdash_main::get_entity_nohero(x=?x,y=?y)==''">
+		    <call entity="bdash_main" event="createblock">
+		        <par id="parid(blocktype)" value="'o'" />
+		        <par id="parid(x)" value="?x" />
+		        <par id="parid(y)" value="?y" />
+		    </call>
+	        </if>
+	    </event>
 	    <event name="pckeyinput_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />

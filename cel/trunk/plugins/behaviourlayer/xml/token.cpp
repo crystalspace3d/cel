@@ -152,11 +152,21 @@ const char* celXmlParseToken (const char* input, int& token)
 	  token = CEL_TOKEN_FUNCTION;
 	  return input+1;
 	}
-	else
+	else if (*input == ':' && *(input+1) == ':' && (isalpha (*(input+2))) || *(input+2) == '_')
 	{
-          token = CEL_TOKEN_IDENTIFIER;
-	  return input;
-        }
+	  const char* pinput = input;	// Remember.
+	  input += 3;
+          while (isalnum (*input) || *input == '_')
+	    input++;
+	  if (*input == '(')
+	  {
+	    token = CEL_TOKEN_FUNCTIONSCO;
+	    return input+1;
+	  }
+	  input = pinput;
+	}
+        token = CEL_TOKEN_IDENTIFIER;
+	return input;
       }
       token = CEL_TOKEN_ERROR;
       return input;
