@@ -76054,6 +76054,319 @@ static PyObject *_wrap_iSequenceWrapper_CreateParameterBlock(PyObject *self, PyO
 }
 
 
+static PyObject *_wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_0(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
+    csTicks arg2 ;
+    iSharedVariable *arg3 = (iSharedVariable *) 0 ;
+    float arg4 ;
+    float arg5 = (float) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOf|f:iSequenceWrapper_AddOperationSetVariable",&obj0,&obj1,&obj2,&arg4,&arg5)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSequenceWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (csTicks) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->AddOperationSetVariable(arg2,arg3,arg4,arg5);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_1(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
+    csTicks arg2 ;
+    iSharedVariable *arg3 = (iSharedVariable *) 0 ;
+    iSharedVariable *arg4 = (iSharedVariable *) 0 ;
+    iSharedVariable *arg5 = (iSharedVariable *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO|O:iSequenceWrapper_AddOperationSetVariable",&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSequenceWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (csTicks) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (obj4) {
+        if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    }
+    (arg1)->AddOperationSetVariable(arg2,arg3,arg4,arg5);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_2(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
+    csTicks arg2 ;
+    iSharedVariable *arg3 = (iSharedVariable *) 0 ;
+    csVector3 *arg4 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iSequenceWrapper_AddOperationSetVariable",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSequenceWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (csTicks) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg4 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddOperationSetVariable(arg2,arg3,(csVector3 const &)*arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_3(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
+    csTicks arg2 ;
+    iSharedVariable *arg3 = (iSharedVariable *) 0 ;
+    csColor *arg4 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iSequenceWrapper_AddOperationSetVariable",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSequenceWrapper,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (csTicks) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iSharedVariable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_csColor,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg4 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddOperationSetVariable(arg2,arg3,(csColor const &)*arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iSequenceWrapper_AddOperationSetVariable(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[6];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 5); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if ((argc >= 4) && (argc <= 5)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iSequenceWrapper, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
+            }
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        }else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        if (argc <= 4) {
+                            return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_1(self,args);
+                        }
+                        {
+                            void *ptr;
+                            if (SWIG_ConvertPtr(argv[4], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                                _v = 0;
+                                PyErr_Clear();
+                            }else {
+                                _v = 1;
+                            }
+                        }
+                        if (_v) {
+                            return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_1(self,args);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iSequenceWrapper, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
+            }
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], (void **) &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        }else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_2(self,args);
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iSequenceWrapper, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
+            }
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], (void **) &ptr, SWIGTYPE_p_csColor, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        }else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_3(self,args);
+                    }
+                }
+            }
+        }
+    }
+    if ((argc >= 4) && (argc <= 5)) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], (void **) &ptr, SWIGTYPE_p_iSequenceWrapper, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            }else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                _v = (PyInt_Check(argv[1]) || PyLong_Check(argv[1])) ? 1 : 0;
+            }
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], (void **) &ptr, SWIGTYPE_p_iSharedVariable, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    }else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    {
+                        _v = (PyFloat_Check(argv[3]) || PyInt_Check(argv[3]) || PyLong_Check(argv[3])) ? 1 : 0;
+                    }
+                    if (_v) {
+                        if (argc <= 4) {
+                            return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_0(self,args);
+                        }
+                        {
+                            _v = (PyFloat_Check(argv[4]) || PyInt_Check(argv[4]) || PyLong_Check(argv[4])) ? 1 : 0;
+                        }
+                        if (_v) {
+                            return _wrap_iSequenceWrapper_AddOperationSetVariable__SWIG_0(self,args);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_TypeError,"No matching function for overloaded 'iSequenceWrapper_AddOperationSetVariable'");
+    return NULL;
+}
+
+
 static PyObject *_wrap_iSequenceWrapper_AddOperationSetMaterial(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iSequenceWrapper *arg1 = (iSequenceWrapper *) 0 ;
@@ -88387,6 +88700,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iSequenceWrapper_CreateBaseParameterBlock", _wrap_iSequenceWrapper_CreateBaseParameterBlock, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_GetBaseParameterBlock", _wrap_iSequenceWrapper_GetBaseParameterBlock, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_CreateParameterBlock", _wrap_iSequenceWrapper_CreateParameterBlock, METH_VARARGS },
+	 { (char *)"iSequenceWrapper_AddOperationSetVariable", _wrap_iSequenceWrapper_AddOperationSetVariable, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_AddOperationSetMaterial", _wrap_iSequenceWrapper_AddOperationSetMaterial, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_AddOperationSetPolygonMaterial", _wrap_iSequenceWrapper_AddOperationSetPolygonMaterial, METH_VARARGS },
 	 { (char *)"iSequenceWrapper_AddOperationSetLight", _wrap_iSequenceWrapper_AddOperationSetLight, METH_VARARGS },

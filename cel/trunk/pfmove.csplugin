@@ -6,38 +6,47 @@
       <class>
         <name>cel.pcfactory.movable</name>
         <implementation>celPfMovable</implementation>
-	    <description>CEL Movable Property Class Factory</description>
-	    <requires>
-		          <class>cel.physicallayer</class>
+	<description>CEL Movable Property Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
         </requires>
       </class>
       
       <class>
         <name>cel.pcfactory.solid</name>
         <implementation>celPfSolid</implementation>
-	    <description>CEL Solid Property Class Factory</description>
-	    <requires>
-		          <class>cel.physicallayer</class>
+	<description>CEL Solid Property Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
         </requires>	    
       </class>
       
       <class>
         <name>cel.pcfactory.movableconst_cd</name>
         <implementation>celPfMovableConstraintCD</implementation>
-	    <description>CEL MovableConstraintCD Class Factory</description>
-	    <requires>
-		          <class>cel.physicallayer</class>
+	<description>CEL MovableConstraintCD Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
         </requires>	    	    
       </class>
 
       <class>
-	    <name>cel.pcfactory.gravity</name>
-	    <implementation>celPfGravity</implementation>
-	  	<description>CEL MovableConstraintCD Class Factory</description>
-	  	<requires>
-	    	<class>CEL Gravity Class Factory</class>
-	    </requires>	    	    
-	   </class>
+	<name>cel.pcfactory.gravity</name>
+	<implementation>celPfGravity</implementation>
+	<description>CEL MovableConstraintCD Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>	    	    
+      </class>
+
+      <class>
+	<name>cel.pcfactory.linmove</name>
+	<implementation>celPfLinearMovement</implementation>
+	<description>CEL Linear Movement Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>	    	    
+      </class>
 
     </classes>
   </scf>    
