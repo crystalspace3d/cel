@@ -14,6 +14,11 @@
 #       OBJSRC for the location of the sources
 #       LINKFLAGS for all the libraries that your application needs
 #
+# If you want to compile plugins as well edit:
+#       PLUGIN for the name of the plugin
+#       PLUGIN.OBJSRC for the location of the plugin sources
+#       PLUGIN.LINKFLAGS for the libraries that the plugin needs
+#
 # If you installed Crystal Space (usually /usr/local/crystal) then
 # this makefile should already work. If not you need to set the CRYSTAL
 # environment variable to point to the Crystal Space directory.
@@ -21,19 +26,17 @@
 # This makefile supports the following targets: all, clean, depend.
 #======================================================================
 
-include csconfig.mak
-
 #------
 # Name of targets
 #------
-BLTEST=bltest${DLL}
-PFTEST=pftest${DLL}
-PFMESH=pfmesh${DLL}
-PFMOVE=pfmove${DLL}
-PFTOOLS=pftools${DLL}
-PFINV=pfinv${DLL}
-PLIMP=plimp${DLL}
-CELTEST=celtst${EXE}
+BLTEST=bltest$(DLL)
+PFTEST=pftest$(DLL)
+PFMESH=pfmesh$(DLL)
+PFMOVE=pfmove$(DLL)
+PFTOOLS=pftools$(DLL)
+PFINV=pfinv$(DLL)
+PLIMP=plimp$(DLL)
+CELTEST=celtst$(EXE)
 
 #------
 # Location of sources and object files
@@ -61,11 +64,14 @@ CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 CCC=g++ 
 LINK=g++
 RM=rm
+LINK.PLUGIN=$(LINK)
 
 #------
 # Flags for compiler and linker.
 # Make sure to update the required libraries for your own project
 #------
+CSCONFIG.MAK=csconfig.mak
+-include $(CSCONFIG.MAK)
 CEL_INCLUDES=-I. -Iinclude
 CFLAGS = $(shell ./cs-config --cflags) $(CEL_INCLUDES)
 CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
@@ -81,12 +87,17 @@ CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 #------
 # Rules
 #------
+.PHONY: all depend clean
 .SUFFIXES: .cpp
+DO.SHARED.PLUGIN.CORE=$(LINK.PLUGIN) $(LFLAGS.DLL) -o $@ $^ $(PLUGIN.POSTFLAGS)
+DO.PLUGIN = $(DO.SHARED.PLUGIN.PREAMBLE) $(DO.SHARED.PLUGIN.CORE) \
+  $(DO.SHARED.PLUGIN.POSTAMBLE)
+DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFINV)
+all: $(CSCONFIG.MAK) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFINV) 
 
 
 $(PLIMP): $(PLIMP_OBJS)
@@ -121,7 +132,7 @@ clean:
 #------
 # Create dependencies
 #------
-depend:
+depend: $(CSCONFIG.MAK)
 	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
 	gcc -MM $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
@@ -130,6 +141,12 @@ depend:
 	gcc -MM $(CXXFLAGS) $(PFTOOLS_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFINV_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
+
+#------
+# Re-create the config flags include file
+#------
+$(CSCONFIG.MAK): ./cs-config
+	./cs-config --makevars > $(CSCONFIG.MAK)
 
 #------
 # Include dependencies
