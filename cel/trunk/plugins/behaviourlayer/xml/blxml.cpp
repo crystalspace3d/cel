@@ -853,6 +853,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	      int last_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (last_idx+1);
 	    }
+	    else if (falsechild)
+	    {
+	      h->AddOperation (CEL_OPERATION_GOTO);
+	      int goto_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
+	      if (!ParseEventHandler (h, falsechild, script))
+	        return false;
+	      int last_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (goto_idx).SetCodeLocation (last_idx+1);
+	    }
+	    else
+	    {
+	      // No true or false child. Interprete single child as
+	      // true child.
+	      if (!ParseEventHandler (h, child, script))
+	        return false;
+	      int last_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (ifgoto_idx).SetCodeLocation (last_idx+1);
+	    }
 	  }
 	}
         break;

@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  	cel.property.bla
 	  It is redundant and unneeded to specify the property class
 	  there.
+	- Jorrit implemented a new notation in the XML behaviour layer for
+	  'if'. If there is now 'true' or 'false' child or attribute then
+	  the child of 'if' is considered a 'true' child.
 6-Dec-2003
 	- Jorrit implemented cross product and modulo operator for the XML
 	  behaviour layer.
