@@ -73,13 +73,24 @@ celPcCommandInput::~celPcCommandInput ()
 {
   DG_REM (this);
 
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
+  }
+
   //delete list of mappings
   celKeyMap* o,* p=maplist;
   while (p)
   {
-    o=p->next;
+    o = p->next;
     if (p->command)
-	delete [] p->command;
+      delete [] p->command;
     delete p;
     p=o;
   }
@@ -133,14 +144,14 @@ void celPcCommandInput::Activate (bool activate)
 
 bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 {
-    // not implemented
-    return false;
+  // not implemented
+  return false;
 }
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
   int key,shiftmask;
-  if (!csParseKeyDef(triggername, key, shiftmask))
+  if (!csParseKeyDef (triggername, key, shiftmask))
     return false;
 
   printf ("Bind: %s -> %s, %d %d\n",triggername, command, key, shiftmask);
@@ -150,7 +161,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     return false;
   
   celKeyMap* newmap;
-  if (! (newmap=GetMap(key)))
+  if (!(newmap = GetMap (key)))
   {
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
@@ -168,7 +179,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   {
     if (newmap->command) 
       delete [] newmap->command;
-    newmap->command=new char[strlen(command)+2];
+    newmap->command = new char[strlen(command)+2];
     strcpy (newmap->command+1, command);
   }
   
@@ -178,14 +189,14 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
   int key,shiftmask;
-  if (!csParseKeyDef(triggername, key, shiftmask))
+  if (!csParseKeyDef (triggername, key, shiftmask))
     return NULL;
 
   if (shiftmask)
     return NULL;
   
   celKeyMap* map;
-  if (! (map=GetMap(key)))
+  if (!(map = GetMap (key)))
     return NULL;
   
   return map->command;
@@ -231,7 +242,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
   if (ev.Type == csevKeyUp)
   {
-    if (p->is_on) {
+    if (p->is_on)
+    {
       p->is_on=false;
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
@@ -242,7 +254,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   }
   else
   {
-    if (!p->is_on) {
+    if (!p->is_on)
+    {
       p->is_on=true;
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
