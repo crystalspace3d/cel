@@ -140,13 +140,25 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* nam
       swig_type_info *ti = SWIG_TypeQuery ("_p_iCelEntity");
       py_entity = SWIG_NewPointerObj(entity, ti, 0);
       PyTuple_SetItem (py_args, 0, py_entity);
-      py_object = PyObject_CallObject(py_func, py_args);      
+      py_object = PyObject_CallObject(py_func, py_args);
+      if (!py_object)    
+      {
+        PyRun_SimpleString ("pdb.pm()");
+        return NULL;
+      }
     }
-    else
-      printf ("Error: object %s is not callable'\n", name);
+    else    
+    {
+      printf ("Error: object \"%s\" is not callable'\n", name);
+      return NULL;
+    }
   }
   else
-    printf ("Error: failed to load module %s", name);
+  {
+    printf ("Error: failed to load module \"%s\"\n", name);
+    PyRun_SimpleString ("pdb.pm()");
+    return NULL;
+  }
 
   celPythonBehaviour* bh = new celPythonBehaviour (this,
   	py_entity, py_object, name);
