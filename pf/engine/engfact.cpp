@@ -443,8 +443,10 @@ void celPcRegion::Unload ()
   }
   entities.SetLength (0);
 
+  iRegion* cur_region = engine->GetCurrentRegion ();
   engine->GetCurrentRegion ()->DeleteAll ();
   engine->SelectRegion (old_region);
+  engine->GetRegions ()->Remove (cur_region);
 
   engine->DecRef ();
 }
