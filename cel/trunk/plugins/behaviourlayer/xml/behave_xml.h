@@ -27,6 +27,7 @@
 
 struct iCelEntity;
 struct iPcProperties;
+struct iPcBillboard;
 struct iObjectRegistry;
 class celXmlScript;
 
@@ -39,6 +40,7 @@ protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
   csRef<iPcProperties> props;	// Optimization.
+  csRef<iPcBillboard> billboard;// Optimization.
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
@@ -57,6 +59,7 @@ public:
     celBehaviourXml::script = script;
   }
   iPcProperties* GetProperties ();
+  iPcBillboard* GetBillboard ();
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
   SCF_DECLARE_IBASE;
