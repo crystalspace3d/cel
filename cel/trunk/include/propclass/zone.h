@@ -36,14 +36,30 @@ SCF_VERSION (iCelMapFile, 0, 1, 0);
  */
 struct iCelMapFile : public iBase
 {
-  /// Set the VFS path for the world file associated with this map.
+  /**
+   * Set the VFS path for the world file associated with this map.
+   * If not 0 then the VFS current dir will be set to this path and
+   * filename will be relative to that. Otherwise path is ignored.
+   */
   virtual void SetPath (const char* path) = 0;
 
   /**
+   * Set the VFS filename for the world file associated with this map.
+   * This is relative to the path if given.
+   */
+  virtual void SetFile (const char* file) = 0;
+
+  /**
    * Get the VFS path for the world file associated with this map.
-   * Returns 0 if SetSectorName() is used.
+   * Returns 0 if path is not used.
    */
   virtual const char* GetPath () const = 0;
+
+  /**
+   * Get the VFS filename for the world file associated with this map.
+   * Returns 0 if SetSectorName() is used.
+   */
+  virtual const char* GetFile () const = 0;
 
   /**
    * This map file corresponds with a sector instead of a VFS path.
