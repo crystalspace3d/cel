@@ -33,7 +33,7 @@ class csVector3;
  */
 #define CEL_PCMESH_PROPERTY_MESH 1
 
-SCF_VERSION (iPcMesh, 0, 0, 2);
+SCF_VERSION (iPcMesh, 0, 0, 3);
 
 /**
  * This is a property class holding the representation of a mesh.
@@ -41,9 +41,9 @@ SCF_VERSION (iPcMesh, 0, 0, 2);
 struct iPcMesh : public iBase
 {
   /**
-   * Set the mesh filename to use.
+   * Set the mesh filename to use. Returns false on failure.
    */
-  virtual void SetMesh (const char* factname, const char* filename) = 0;
+  virtual bool SetMesh (const char* factname, const char* filename) = 0;
 
   /**
    * Set the mesh to use directly. It is normally not recommended to use

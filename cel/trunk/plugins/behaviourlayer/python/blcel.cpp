@@ -92001,13 +92001,14 @@ static PyObject *_wrap_iPcMesh_LoadMesh(PyObject *self, PyObject *args) {
     iPcMesh *arg1 = (iPcMesh *) 0 ;
     char *arg2 ;
     char *arg3 ;
+    bool result;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"Oss:iPcMesh_LoadMesh",&obj0,&arg2,&arg3)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcMesh,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    (arg1)->SetMesh((char const *)arg2,(char const *)arg3);
+    result = (bool)(arg1)->SetMesh((char const *)arg2,(char const *)arg3);
     
-    Py_INCREF(Py_None); resultobj = Py_None;
+    resultobj = PyInt_FromLong((long)result);
     return resultobj;
     fail:
     return NULL;
@@ -98862,6 +98863,7 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CS_POLYMESH_CONVEX", (long) 4, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_POLYMESH_NOTCONVEX", (long) 8, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_POLYMESH_DEFORMABLE", (long) 16, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_POLYMESH_TRIANGLEMESH", (long) 32, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"MAX_OUTPUT_VERTICES", (long) 64, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_CLIP_OUTSIDE", (long) 0, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_CLIP_INSIDE", (long) 1, 0, 0, 0},
@@ -99058,6 +99060,10 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CS_ZBUF_FILLONLY", (long) CS_ZBUF_FILLONLY, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_ZBUF_EQUAL", (long) CS_ZBUF_EQUAL, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_ZBUF_INVERT", (long) CS_ZBUF_INVERT, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_VATTRIB_GENERIC_FIRST", (long) 0, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_VATTRIB_GENERIC_LAST", (long) 15, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_VATTRIB_SPECIFIC_FIRST", (long) 100, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_VATTRIB_SPECIFIC_LAST", (long) 111, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_VATTRIB_0", (long) CS_VATTRIB_0, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_VATTRIB_1", (long) CS_VATTRIB_1, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_VATTRIB_2", (long) CS_VATTRIB_2, 0, 0, 0},
@@ -99097,6 +99103,7 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CS_FX_ALPHA", (long) 0x40000000, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_FX_TRANSPARENT", (long) 0x50000000, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_FX_DESTALPHAADD", (long) 0x60000000, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CS_FX_SRCALPHAADD", (long) 0x70000000, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_FX_KEYCOLOR", (long) 0x08000000, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_FX_GOURAUD", (long) 0x04000000, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CS_FX_TILING", (long) 0x02000000, 0, 0, 0},

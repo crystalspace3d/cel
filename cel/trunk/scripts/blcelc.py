@@ -2106,7 +2106,10 @@ class iPolygonMesh(iBase):
     def GetVertices(*args): return apply(_blcelc.iPolygonMesh_GetVertices,args)
     def GetPolygonCount(*args): return apply(_blcelc.iPolygonMesh_GetPolygonCount,args)
     def GetPolygons(*args): return apply(_blcelc.iPolygonMesh_GetPolygons,args)
-    def Cleanup(*args): return apply(_blcelc.iPolygonMesh_Cleanup,args)
+    def GetTriangleCount(*args): return apply(_blcelc.iPolygonMesh_GetTriangleCount,args)
+    def GetTriangles(*args): return apply(_blcelc.iPolygonMesh_GetTriangles,args)
+    def Lock(*args): return apply(_blcelc.iPolygonMesh_Lock,args)
+    def Unlock(*args): return apply(_blcelc.iPolygonMesh_Unlock,args)
     def GetFlags(*args): return apply(_blcelc.iPolygonMesh_GetFlags,args)
     def GetChangeNumber(*args): return apply(_blcelc.iPolygonMesh_GetChangeNumber,args)
     def __del__(self, destroy= _blcelc.delete_iPolygonMesh):
@@ -4332,6 +4335,9 @@ class iGeneralFactoryState(iBase):
     def Invalidate(*args): return apply(_blcelc.iGeneralFactoryState_Invalidate,args)
     def CalculateNormals(*args): return apply(_blcelc.iGeneralFactoryState_CalculateNormals,args)
     def GenerateBox(*args): return apply(_blcelc.iGeneralFactoryState_GenerateBox,args)
+    def AddRenderBuffer(*args): return apply(_blcelc.iGeneralFactoryState_AddRenderBuffer,args)
+    def SetRenderBufferComponent(*args): return apply(_blcelc.iGeneralFactoryState_SetRenderBufferComponent,args)
+    def SetRenderBuffer(*args): return apply(_blcelc.iGeneralFactoryState_SetRenderBuffer,args)
     def __del__(self, destroy= _blcelc.delete_iGeneralFactoryState):
         try:
             if self.thisown: destroy(self)
@@ -5938,11 +5944,11 @@ class iKeyboardDriver(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iKeyboardDriver, name)
     def Reset(*args): return apply(_blcelc.iKeyboardDriver_Reset,args)
     def DoKey(*args): return apply(_blcelc.iKeyboardDriver_DoKey,args)
-    def GetKeyState(*args): return apply(_blcelc.iKeyboardDriver_GetKeyState,args)
     def __del__(self, destroy= _blcelc.delete_iKeyboardDriver):
         try:
             if self.thisown: destroy(self)
         except: pass
+    def GetKeyState(*args): return apply(_blcelc.iKeyboardDriver_GetKeyState,args)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iKeyboardDriver instance at %s>" % (self.this,)
@@ -6986,6 +6992,16 @@ class iGraphics3D(iBase):
     def HasNearPlane(*args): return apply(_blcelc.iGraphics3D_HasNearPlane,args)
     def SetRenderState(*args): return apply(_blcelc.iGraphics3D_SetRenderState,args)
     def GetRenderState(*args): return apply(_blcelc.iGraphics3D_GetRenderState,args)
+    def CreateRenderBuffer(*args): return apply(_blcelc.iGraphics3D_CreateRenderBuffer,args)
+    def SetBufferState(*args): return apply(_blcelc.iGraphics3D_SetBufferState,args)
+    def SetTextureState(*args): return apply(_blcelc.iGraphics3D_SetTextureState,args)
+    def DrawMesh(*args): return apply(_blcelc.iGraphics3D_DrawMesh,args)
+    def SetWriteMask(*args): return apply(_blcelc.iGraphics3D_SetWriteMask,args)
+    def GetWriteMask(*args): return apply(_blcelc.iGraphics3D_GetWriteMask,args)
+    def SetZMode(*args): return apply(_blcelc.iGraphics3D_SetZMode,args)
+    def EnableZOffset(*args): return apply(_blcelc.iGraphics3D_EnableZOffset,args)
+    def DisableZOffset(*args): return apply(_blcelc.iGraphics3D_DisableZOffset,args)
+    def SetShadowState(*args): return apply(_blcelc.iGraphics3D_SetShadowState,args)
     def GetZBuffAt(*args): return apply(_blcelc.iGraphics3D_GetZBuffAt,args)
     def GetZBuffValue(*args): return apply(_blcelc.iGraphics3D_GetZBuffValue,args)
     def DrawPolygon(*args): return apply(_blcelc.iGraphics3D_DrawPolygon,args)
@@ -7436,6 +7452,16 @@ class iTextureHandle(iBase):
     def GetKeyColor(*args): return apply(_blcelc.iTextureHandle_GetKeyColor,args)
     def GetMipMapDimensions(*args): return apply(_blcelc.iTextureHandle_GetMipMapDimensions,args)
     def GetOriginalDimensions(*args): return apply(_blcelc.iTextureHandle_GetOriginalDimensions,args)
+    CS_TEX_IMG_1D = _blcelc.iTextureHandle_CS_TEX_IMG_1D
+    CS_TEX_IMG_2D = _blcelc.iTextureHandle_CS_TEX_IMG_2D
+    CS_TEX_IMG_3D = _blcelc.iTextureHandle_CS_TEX_IMG_3D
+    CS_TEX_IMG_CUBEMAP = _blcelc.iTextureHandle_CS_TEX_IMG_CUBEMAP
+    CS_TEXTURE_CUBE_POS_X = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_X
+    CS_TEXTURE_CUBE_NEG_X = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_X
+    CS_TEXTURE_CUBE_POS_Y = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_Y
+    CS_TEXTURE_CUBE_NEG_Y = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Y
+    CS_TEXTURE_CUBE_POS_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_Z
+    CS_TEXTURE_CUBE_NEG_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Z
     def GetMeanColor(*args): return apply(_blcelc.iTextureHandle_GetMeanColor,args)
     def GetCacheData(*args): return apply(_blcelc.iTextureHandle_GetCacheData,args)
     def SetCacheData(*args): return apply(_blcelc.iTextureHandle_SetCacheData,args)
@@ -7463,6 +7489,8 @@ CS_TEXTURE_2D = _blcelc.CS_TEXTURE_2D
 CS_TEXTURE_3D = _blcelc.CS_TEXTURE_3D
 CS_TEXTURE_DITHER = _blcelc.CS_TEXTURE_DITHER
 CS_TEXTURE_NOMIPMAPS = _blcelc.CS_TEXTURE_NOMIPMAPS
+CS_TEXTURE_CLAMP = _blcelc.CS_TEXTURE_CLAMP
+CS_TEXTURE_NOFILTER = _blcelc.CS_TEXTURE_NOFILTER
 iRendererLightmap_scfGetID = _blcelc.iRendererLightmap_scfGetID
 
 class iRendererLightmap(iBase):
@@ -7734,13 +7762,13 @@ class csTextureLayerPtr(csTextureLayer):
         _swig_setattr(self, csTextureLayer,self.__class__,csTextureLayer)
 _blcelc.csTextureLayer_swigregister(csTextureLayerPtr)
 
-class iMaterial(iBase):
+class iMaterial(_object):
     __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iMaterial, name, value)
     __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMaterial, name)
+    def SetShader(*args): return apply(_blcelc.iMaterial_SetShader,args)
+    def GetShader(*args): return apply(_blcelc.iMaterial_GetShader,args)
     def SetEffect(*args): return apply(_blcelc.iMaterial_SetEffect,args)
     def GetEffect(*args): return apply(_blcelc.iMaterial_GetEffect,args)
     def GetTexture(*args): return apply(_blcelc.iMaterial_GetTexture,args)
@@ -7775,6 +7803,7 @@ class iMaterialHandle(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMaterialHandle, name)
+    def GetShader(*args): return apply(_blcelc.iMaterialHandle_GetShader,args)
     def GetTexture(*args): return apply(_blcelc.iMaterialHandle_GetTexture,args)
     def GetFlatColor(*args): return apply(_blcelc.iMaterialHandle_GetFlatColor,args)
     def GetReflection(*args): return apply(_blcelc.iMaterialHandle_GetReflection,args)
@@ -8889,76 +8918,6 @@ class iConsoleOutputPtr(iConsoleOutput):
 _blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
 iConsoleOutput_VERSION = cvar.iConsoleOutput_VERSION
 
-iScriptObject_scfGetID = _blcelc.iScriptObject_scfGetID
-
-class iScriptObject(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iScriptObject, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iScriptObject, name)
-    def IsType(*args): return apply(_blcelc.iScriptObject_IsType,args)
-    def GetPointer(*args): return apply(_blcelc.iScriptObject_GetPointer,args)
-    def SetPointer(*args): return apply(_blcelc.iScriptObject_SetPointer,args)
-    def Call(*args): return apply(_blcelc.iScriptObject_Call,args)
-    def SetFloat(*args): return apply(_blcelc.iScriptObject_SetFloat,args)
-    def Set(*args): return apply(_blcelc.iScriptObject_Set,args)
-    def SetTruth(*args): return apply(_blcelc.iScriptObject_SetTruth,args)
-    def GetFloat(*args): return apply(_blcelc.iScriptObject_GetFloat,args)
-    def Get(*args): return apply(_blcelc.iScriptObject_Get,args)
-    def GetTruth(*args): return apply(_blcelc.iScriptObject_GetTruth,args)
-    def __del__(self, destroy= _blcelc.delete_iScriptObject):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iScriptObject instance at %s>" % (self.this,)
-
-class iScriptObjectPtr(iScriptObject):
-    def __init__(self,this):
-        _swig_setattr(self, iScriptObject, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iScriptObject, 'thisown', 0)
-        _swig_setattr(self, iScriptObject,self.__class__,iScriptObject)
-_blcelc.iScriptObject_swigregister(iScriptObjectPtr)
-iScriptObject_VERSION = cvar.iScriptObject_VERSION
-
-class iScript(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iScript, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iScript, name)
-    def Initialize(*args): return apply(_blcelc.iScript_Initialize,args)
-    def RunText(*args): return apply(_blcelc.iScript_RunText,args)
-    def LoadModule(*args): return apply(_blcelc.iScript_LoadModule,args)
-    def Call(*args): return apply(_blcelc.iScript_Call,args)
-    def NewObject(*args): return apply(_blcelc.iScript_NewObject,args)
-    def StoreFloat(*args): return apply(_blcelc.iScript_StoreFloat,args)
-    def Store(*args): return apply(_blcelc.iScript_Store,args)
-    def SetTruth(*args): return apply(_blcelc.iScript_SetTruth,args)
-    def RetrieveFloat(*args): return apply(_blcelc.iScript_RetrieveFloat,args)
-    def Retrieve(*args): return apply(_blcelc.iScript_Retrieve,args)
-    def GetTruth(*args): return apply(_blcelc.iScript_GetTruth,args)
-    def Remove(*args): return apply(_blcelc.iScript_Remove,args)
-    def __del__(self, destroy= _blcelc.delete_iScript):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iScript instance at %s>" % (self.this,)
-
-class iScriptPtr(iScript):
-    def __init__(self,this):
-        _swig_setattr(self, iScript, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iScript, 'thisown', 0)
-        _swig_setattr(self, iScript,self.__class__,iScript)
-_blcelc.iScript_swigregister(iScriptPtr)
-iScript_VERSION = cvar.iScript_VERSION
-
 iParameterESM_scfGetID = _blcelc.iParameterESM_scfGetID
 
 class iParameterESM(iBase):
@@ -9176,6 +9135,88 @@ class iEngineSequenceManagerPtr(iEngineSequenceManager):
         _swig_setattr(self, iEngineSequenceManager,self.__class__,iEngineSequenceManager)
 _blcelc.iEngineSequenceManager_swigregister(iEngineSequenceManagerPtr)
 iEngineSequenceManager_VERSION = cvar.iEngineSequenceManager_VERSION
+
+class iScriptObject(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iScriptObject, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iScriptObject, name)
+    def IsType(*args): return apply(_blcelc.iScriptObject_IsType,args)
+    def GetPointer(*args): return apply(_blcelc.iScriptObject_GetPointer,args)
+    def SetPointer(*args): return apply(_blcelc.iScriptObject_SetPointer,args)
+    def Call(*args): return apply(_blcelc.iScriptObject_Call,args)
+    def IntCall(*args): return apply(_blcelc.iScriptObject_IntCall,args)
+    def FloatCall(*args): return apply(_blcelc.iScriptObject_FloatCall,args)
+    def DoubleCall(*args): return apply(_blcelc.iScriptObject_DoubleCall,args)
+    def StringCall(*args): return apply(_blcelc.iScriptObject_StringCall,args)
+    def ObjectCall(*args): return apply(_blcelc.iScriptObject_ObjectCall,args)
+    def SetInt(*args): return apply(_blcelc.iScriptObject_SetInt,args)
+    def SetFloat(*args): return apply(_blcelc.iScriptObject_SetFloat,args)
+    def SetDouble(*args): return apply(_blcelc.iScriptObject_SetDouble,args)
+    def Set(*args): return apply(_blcelc.iScriptObject_Set,args)
+    def SetTruth(*args): return apply(_blcelc.iScriptObject_SetTruth,args)
+    def GetFloat(*args): return apply(_blcelc.iScriptObject_GetFloat,args)
+    def Get(*args): return apply(_blcelc.iScriptObject_Get,args)
+    def GetTruth(*args): return apply(_blcelc.iScriptObject_GetTruth,args)
+    def __del__(self, destroy= _blcelc.delete_iScriptObject):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iScriptObject instance at %s>" % (self.this,)
+
+class iScriptObjectPtr(iScriptObject):
+    def __init__(self,this):
+        _swig_setattr(self, iScriptObject, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iScriptObject, 'thisown', 0)
+        _swig_setattr(self, iScriptObject,self.__class__,iScriptObject)
+_blcelc.iScriptObject_swigregister(iScriptObjectPtr)
+iScriptObject_VERSION = cvar.iScriptObject_VERSION
+
+class iScript(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iScript, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iScript, name)
+    def Initialize(*args): return apply(_blcelc.iScript_Initialize,args)
+    def RunText(*args): return apply(_blcelc.iScript_RunText,args)
+    def LoadModule(*args): return apply(_blcelc.iScript_LoadModule,args)
+    def Call(*args): return apply(_blcelc.iScript_Call,args)
+    def IntCall(*args): return apply(_blcelc.iScript_IntCall,args)
+    def FloatCall(*args): return apply(_blcelc.iScript_FloatCall,args)
+    def DoubleCall(*args): return apply(_blcelc.iScript_DoubleCall,args)
+    def StringCall(*args): return apply(_blcelc.iScript_StringCall,args)
+    def ObjectCall(*args): return apply(_blcelc.iScript_ObjectCall,args)
+    def NewObject(*args): return apply(_blcelc.iScript_NewObject,args)
+    def StoreInt(*args): return apply(_blcelc.iScript_StoreInt,args)
+    def StoreFloat(*args): return apply(_blcelc.iScript_StoreFloat,args)
+    def StoreDouble(*args): return apply(_blcelc.iScript_StoreDouble,args)
+    def Store(*args): return apply(_blcelc.iScript_Store,args)
+    def SetTruth(*args): return apply(_blcelc.iScript_SetTruth,args)
+    def RetrieveFloat(*args): return apply(_blcelc.iScript_RetrieveFloat,args)
+    def Retrieve(*args): return apply(_blcelc.iScript_Retrieve,args)
+    def GetTruth(*args): return apply(_blcelc.iScript_GetTruth,args)
+    def Remove(*args): return apply(_blcelc.iScript_Remove,args)
+    def __del__(self, destroy= _blcelc.delete_iScript):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iScript instance at %s>" % (self.this,)
+
+class iScriptPtr(iScript):
+    def __init__(self,this):
+        _swig_setattr(self, iScript, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iScript, 'thisown', 0)
+        _swig_setattr(self, iScript,self.__class__,iScript)
+_blcelc.iScript_swigregister(iScriptPtr)
+iScript_VERSION = cvar.iScript_VERSION
 
 class iNetworkPacket(iBase):
     __swig_setmethods__ = {}

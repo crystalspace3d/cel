@@ -334,14 +334,14 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   return imeshfact;
 }
 
-void celPcMesh::SetMesh (const char* factname, const char* filename)
+bool celPcMesh::SetMesh (const char* factname, const char* filename)
 {
   delete[] fileName;
   fileName = csStrNew (filename);
   delete[] factName;
   factName = csStrNew (factname);
 
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
   if (mesh)
   {
@@ -352,25 +352,25 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 
   if (factname && filename)
   {
-      printf("CEL is searching for meshfact '%s'...",factname);
+    printf("CEL is searching for meshfact '%s'...",factname);
 
     csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
 				        	->FindByName (factname);
     if (!meshfact)
     {
-	printf("Not Found, so loading %s\n",filename);
+      printf("Not Found, so loading %s\n",filename);
 
       meshfact = LoadMeshFactory ();
       if (meshfact)
       {
         // Cache the factory.
-        csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+        csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
         CS_ASSERT (pl != 0);
 	pl->Cache (meshfact);
       }
     }
     else
-	printf("Found\n");
+      printf("Found\n");
 
     if (factory_ptr)
       factory_ptr = 0;
@@ -382,8 +382,11 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
       csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       pl->AttachEntity (mesh->QueryObject (), entity);
       FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
+      return true;
     }
+    return false;
   }
+  return true;
 }
 
 void celPcMesh::SetMesh (iMeshWrapper* m)
