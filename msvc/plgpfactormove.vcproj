@@ -53,7 +53,7 @@
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32;..\..\..\CS\out\debug\libs;$(CRYSTAL)\out\debug\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\release\build\plgpfactormove\plgpfactormove.pdb"
 				TargetMachine="1"/>
@@ -124,7 +124,7 @@
 				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32;..\..\..\CS\out\debug\libs;$(CRYSTAL)\out\debug\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\debug\build\plgpfactormove\plgpfactormove.pdb"
 				TargetMachine="1"/>
