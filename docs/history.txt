@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  csPolygonMeshCube from Crystal Space in the pcmove property class.
 	- Jorrit greatly simplified pclinmove by using the new
 	  csPolygonMeshCube class.
+	- Jorrit renamed csPolygonMeshCube to csPolygonMeshBox.
 10-Jul-2003
 	- Jorrit changed linmove property class to use a beam that is
 	  at 5% height of player to check for portal traversal. That is

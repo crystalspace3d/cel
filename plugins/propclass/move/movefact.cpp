@@ -699,7 +699,7 @@ void celPcGravity::CreateGravityCollider (const csVector3& dim,
 
   csVector3 d = dim * .5;
   csBox3 box (-d + offs, d + offs);
-  csPolygonMeshCube* pmcube = new csPolygonMeshCube (box);
+  csPolygonMeshBox* pmcube = new csPolygonMeshBox (box);
   gravity_collider = cdsys->CreateCollider (pmcube);
   pmcube->DecRef ();
 }
