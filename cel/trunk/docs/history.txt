@@ -1,3 +1,5 @@
+7-Jan-2002:
+	- Updated CEL for new CS.
 2-Jan-2002:
 	- Matze added support for ID's:
 	     Each Entity is assigned a unique ID now, a list of ID's is

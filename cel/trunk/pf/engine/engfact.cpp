@@ -151,17 +151,17 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	if (kbd->GetKeyState (CSKEY_SHIFT))
 	  speed*=2.5;
 	if (kbd->GetKeyState (CSKEY_RIGHT))
-	  c->GetTransform ().RotateThis (VEC_ROT_RIGHT, speed);
+	  c->GetTransform ().RotateThis (CS_VEC_ROT_RIGHT, speed);
 	if (kbd->GetKeyState (CSKEY_LEFT))
-	  c->GetTransform ().RotateThis (VEC_ROT_LEFT, speed);
+	  c->GetTransform ().RotateThis (CS_VEC_ROT_LEFT, speed);
 	if (kbd->GetKeyState (CSKEY_PGUP))
-	  c->GetTransform ().RotateThis (VEC_TILT_UP, speed);
+	  c->GetTransform ().RotateThis (CS_VEC_TILT_UP, speed);
 	if (kbd->GetKeyState (CSKEY_PGDN))
-	  c->GetTransform ().RotateThis (VEC_TILT_DOWN, speed);
+	  c->GetTransform ().RotateThis (CS_VEC_TILT_DOWN, speed);
 	if (kbd->GetKeyState (CSKEY_UP))
-	  c->Move (VEC_FORWARD * 4 * speed);
+	  c->Move (CS_VEC_FORWARD * 4 * speed);
 	if (kbd->GetKeyState (CSKEY_DOWN))
-	  c->Move (VEC_BACKWARD * 4 * speed);
+	  c->Move (CS_VEC_BACKWARD * 4 * speed);
 	break;
       }
       case iPcCamera::follow:
@@ -176,9 +176,9 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	
 	// eventually enable collision detection for camera
 	c->OnlyPortals(!use_cd);
-	c->Move (VEC_BACKWARD*2/*+VEC_UP*2*/);
+	c->Move (CS_VEC_BACKWARD*2/*+CS_VEC_UP*2*/);
 	c->OnlyPortals(true);
-	c->Move (VEC_FORWARD*.2/*+VEC_DOWN*.2*/);
+	c->Move (CS_VEC_FORWARD*.2/*+CS_VEC_DOWN*.2*/);
 	break;
       }
     }
