@@ -100,11 +100,11 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   if (!cbinfo) return false;
 
   // First fire all property classes that must be fired every frame.
-  size_t i;
   bool compress = false;
-  for (i = 0 ; i < cbinfo->every_frame.Length () ; i++)
+  csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
+  while (it.HasNext ())
   {
-    int pc_idx = cbinfo->every_frame[i];
+    size_t pc_idx = it.Next ();
     iCelPropertyClass* pc = weak_pcs[pc_idx];
     if (pc)
       pc->TickEveryFrame ();
@@ -656,21 +656,18 @@ void celPlLayer::CompressCallbackPCInfo ()
   for (where = 0 ; where < 4 ; where++)
   {
     CallbackPCInfo* cbinfo = GetCBInfo (p[where]);
-    size_t i;
-    for (i = 0 ; i < cbinfo->every_frame.Length () ; )
+    csSet<size_t> newset;
+    csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
+    while (it.HasNext ())
     {
-      size_t newidx = map[cbinfo->every_frame[i]];
-      if (newidx == (size_t)~0)
-      {
-        cbinfo->every_frame.DeleteIndex (i);
-      }
-      else
-      {
-        cbinfo->every_frame[i] = newidx;
-        i++;
-      }
+      size_t oldidx = it.Next ();
+      size_t newidx = map[oldidx];
+      if (newidx != (size_t)~0)
+        newset.Add (newidx);
     }
+    cbinfo->every_frame = newset;
 
+    size_t i;
     for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
     {
       size_t newidx = map[cbinfo->timed_callbacks[i].pc_idx];
@@ -703,11 +700,10 @@ size_t celPlLayer::WeakRegPC (iCelPropertyClass* pc)
 
 void celPlLayer::CallbackPCEveryFrame (iCelPropertyClass* pc, int where)
 {
-  RemoveCallbackPCEveryFrame (pc, where);
   CallbackPCInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
   size_t pc_idx = WeakRegPC (pc);
-  cbinfo->every_frame.Push (pc_idx);
+  cbinfo->every_frame.Add (pc_idx);
 }
 
 static int CompareTimedCallback (CallbackPCTiming const& r1,
@@ -742,22 +738,14 @@ void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
   if (pc_idx == (size_t)~0) return;
 
   CallbackPCInfo* cbinfo = GetCBInfo (where);
-  size_t i;
-  for (i = 0 ; i < cbinfo->every_frame.Length () ; )
-    if (cbinfo->every_frame[i] == pc_idx)
-    {
-      cbinfo->every_frame.DeleteIndex (i);
-      return;
-    }
-    else
-      i++;
+  cbinfo->every_frame.Delete (pc_idx);
 }
 
 void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
 {
   size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
   // If our pc is not yet in the weak_pcs table then it can't possibly
-  // be in th every_frame table so we can return here already.
+  // be in the timed_callbacks table so we can return here already.
   if (pc_idx == (size_t)~0) return;
 
   CallbackPCInfo* cbinfo = GetCBInfo (where);
