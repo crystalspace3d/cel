@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Sep-2004
+	- Jorrit fixed a bug in celtest. Because of a misplaced
+	  engine->Prepare() lighting would be bad if -relight was not
+	  given.
 15-Sep-2004
 	- Eric Sunshine updated the Autoconf utility files from master copies
 	  in CS repository and augmented configure.ac to emit RANLIB with an
