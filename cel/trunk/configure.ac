@@ -9,7 +9,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 AC_INIT([cel], [0.99], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
-    [Copyright (C)2002-2004 Jorrit Tyberghein and others.],
+    [Copyright (C)2002-2005 Jorrit Tyberghein and others.],
     [http://cel.sourceforge.net/])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
@@ -63,7 +63,7 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------
-CS_CHECK_PYTHON([emit])
+CS_CHECK_PYTHON()
 CS_CHECK_CPPUNIT([emit])
 
 #----------------------------------------------------------------------------
@@ -77,16 +77,33 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-  [cs_desired_libs='cstool csgfx csgeom csutil'
-  AS_IF([test $cs_cv_python != no],
-    [cs_desired_libs="$cs_desired_libs cspycommon"])
-  CS_PATH_CRYSTAL_JAM([0.99], [],
-    [AC_MSG_ERROR([
-*** Crystal Space could not be found. The latest version is always available
-*** from http://www.crystalspace3d.org/
+    [AS_IF([test $cs_cv_python != no],
+	[cs_opt_libs="cspycommon"], [cs_opt_libs=''])
+    CS_PATH_CRYSTAL_EMIT([0.99], [],
+	[AC_MSG_ERROR([
+*** Crystal Space could not be found or was unusable. The latest version is
+*** always available from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
-])], [$cs_desired_libs])])
+])], [cstool csgfx csgeom csutil], [$cs_opt_libs])])
+
+#----------------------------------------------------------------------------
+# We checked for Python earlier, and used that result to adjust the CS test
+# above, but whether we actually build CEL's Python module depends upon whether
+# CS was built with Python support, which we can only know at this point (after
+# running the CS test).
+#----------------------------------------------------------------------------
+AS_IF([test $cs_cv_python != no],
+    [AC_MSG_CHECKING([if Crystal Space is built with Python support])
+    cel_do_python=no
+    for m in $CRYSTAL_AVAILABLE_LIBS; do
+	AS_IF([test cspycommon = "$m"],
+	    [cel_do_python=yes
+	    break])
+    done
+    AC_MSG_RESULT([$cel_do_python])
+    AS_IF([test $cel_do_python = yes],
+	[CS_EMIT_BUILD_RESULT([cs_cv_python], [PYTHON])])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches

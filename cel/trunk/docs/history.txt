@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Mar-2005
+	- Eric Sunshine updated Autoconf and msvcgen files from master copies
+	  in CS repository.
+	- Eric Sunshine changed configure.ac so that it takes advantage of
+	  CS_PATH_CRYSTAL_EMIT()'s new OPTIONAL-LIBS argument for the
+	  `cspycommon' library. If CS was built without Python support, then
+	  Python support in CEL is now automatically disabled.
 11-Mar-2005
 	- Eric Sunshine fixed `cel-config' so that it takes into account that
 	  the built location of library files is now `$(LOCATE.OBJECTS)/libs'
