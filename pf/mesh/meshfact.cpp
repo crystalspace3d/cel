@@ -118,7 +118,7 @@ void celPcMesh::Clear ()
 
     csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
     CS_ASSERT (engine != NULL);
-    engine->GetMeshes ()->Remove (mesh);
+    engine->RemoveObject (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
@@ -343,17 +343,21 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    engine->GetMeshes ()->Remove (mesh);
+    engine->RemoveObject (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   if (factname && filename)
   {
+      printf("CEL is searching for meshfact '%s'...",factname);
+
     csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
 				        	->FindByName (factname);
     if (!meshfact)
     {
+	printf("Not Found, so loading %s\n",filename);
+
       meshfact = LoadMeshFactory ();
       if (meshfact)
       {
@@ -363,6 +367,8 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 	pl->Cache (meshfact);
       }
     }
+    else
+	printf("Found\n");
 
     if (factory_ptr)
       factory_ptr = NULL;
@@ -384,7 +390,7 @@ void celPcMesh::SetMesh (iMeshWrapper* m)
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    engine->GetMeshes ()->Remove (mesh);
+    engine->RemoveObject (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
@@ -401,7 +407,7 @@ void celPcMesh::CreateEmptyThing ()
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    engine->GetMeshes ()->Remove (mesh);
+    engine->RemoveObject (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }

@@ -1,4 +1,8 @@
-28-Fev-2003
+11-Mar-2003
+	- Keith Fulton committed a fix by Andrew Mann to handle regions
+	  correctly, changing engine->GetMeshes()->Remove(mesh) to
+	  engine->RemoveObject(mesh).
+28-Feb-2003
 	- Matze Braun fixed cel.cex to not report deps which aren't needed.
 	  Esp. -lcsengine isn't needed!
 26-Feb-2003
