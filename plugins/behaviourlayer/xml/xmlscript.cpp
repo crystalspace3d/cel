@@ -1140,15 +1140,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+
       case CEL_OPERATION_DEREFVAR:
         {
 	  CHECK_STACK
 	  celXmlArg top = stack.Pop ();
           DUMP_EXEC (": derefvar %s\n", A2S (top));
 	  iPcProperties* props = behave->GetProperties ();
-	  if (!props) break;	// @@@ Report error!
-	  int idx = props->GetPropertyIndex (top.arg.str.s);
-	  if (idx == -1) break;	// @@@ Report error!
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (top);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave, "Can't find variable '%s'!", varname);
 	  int si = stack.Push (celXmlArg ());
 	  switch (props->GetPropertyType (idx))
 	  {
@@ -1211,7 +1214,95 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    default:
 	      return ReportError (behave, "Property '%s' has wrong type!",
-	      	top.arg.str.s);
+	      	varname);
+	  }
+	}
+        break;
+      case CEL_OPERATION_DEREFVARENT:
+        {
+	  CHECK_STACK
+	  celXmlArg a_var = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_ent = stack.Pop ();
+          DUMP_EXEC (": derefvarent ent=%s var=%s\n", A2S (a_ent), A2S (a_var));
+	  const char* entname = ArgToString (a_ent);
+	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  if (!other_ent)
+	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    	entname);
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!", entname);
+	  const char* varname = ArgToString (a_var);
+	  int idx = props->GetPropertyIndex (varname);
+	  if (idx == -1)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have variable '%s'!", entname, varname);
+	  int si = stack.Push (celXmlArg ());
+	  switch (props->GetPropertyType (idx))
+	  {
+	    case CEL_DATA_LONG:
+	      {
+		long l = props->GetPropertyLong (idx);
+		stack[si].SetInt32 (l);
+	      }
+	      break;
+	    case CEL_DATA_FLOAT:
+	      {
+		float l = props->GetPropertyFloat (idx);
+		stack[si].SetFloat (l);
+	      }
+	      break;
+	    case CEL_DATA_BOOL:
+	      {
+		bool l = props->GetPropertyBool (idx);
+		stack[si].SetBool (l);
+	      }
+	      break;
+	    case CEL_DATA_STRING:
+	      {
+		const char* l = props->GetPropertyString (idx);
+		stack[si].SetString (l, true);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+	        props->GetPropertyVector (idx, v);
+		stack[si].SetVector (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v;
+	        props->GetPropertyVector (idx, v);
+		stack[si].SetVector (v);
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v;
+	        props->GetPropertyColor (idx, v);
+		stack[si].SetColor (v);
+	      }
+	      break;
+	    case CEL_DATA_PCLASS:
+	      {
+		iCelPropertyClass* l = props->GetPropertyPClass (idx);
+		stack[si].SetPC (l);
+	      }
+	      break;
+	    case CEL_DATA_ENTITY:
+	      {
+		iCelEntity* l = props->GetPropertyEntity (idx);
+		//@@@ stack[si].SetEn (l);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Property '%s' has wrong type!",
+	      	varname);
 	  }
 	}
         break;
@@ -1312,7 +1403,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 start = ArgToInt32 (a_start);
 	  int32 end = ArgToInt32 (a_end);
 	  int32 v;
-	  printf ("start=%d end=%d\n", start, end); fflush (stdout);
 	  celXmlScriptEventHandler* truebranch = op.arg.arg.h;
 	  CS_ASSERT (truebranch != 0);
 	  for (v = start ; v <= end ; v++)
@@ -1418,6 +1508,82 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  pc->PerformAction (id, ArgToString (a_val));
 	}
         break;
+      case CEL_OPERATION_VARENT:
+        {
+	  CHECK_STACK
+	  celXmlArg val = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg var = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_ent = stack.Pop ();
+	  DUMP_EXEC (": varent ent=%s var=%s value=%s\n", A2S (a_ent),
+	  	A2S (var), A2S (val));
+
+	  const char* entname = ArgToString (a_ent);
+	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  if (!other_ent)
+	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    	entname);
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
+	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  if (!props)
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!", entname);
+
+	  const char* varname = ArgToString (var);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  switch (val.type)
+	  {
+	    case CEL_TYPE_BOOL:
+	      props->SetProperty (varname, val.arg.b);
+	      break;
+	    case CEL_TYPE_FLOAT:
+	      props->SetProperty (varname, val.arg.f);
+	      break;
+	    case CEL_TYPE_STRING:
+	      props->SetProperty (varname, val.arg.str.s);
+	      break;
+	    case CEL_TYPE_UINT32:
+	      props->SetProperty (varname, (long)val.arg.ui);
+	      break;
+	    case CEL_TYPE_INT32:
+	      props->SetProperty (varname, (long)val.arg.i);
+	      break;
+	    case CEL_TYPE_COLOR:
+	      {
+	        csColor col;
+		col.red = val.arg.col.red;
+		col.green = val.arg.col.green;
+		col.blue = val.arg.col.blue;
+	        props->SetProperty (varname, col);
+	      }
+	      break;
+	    case CEL_TYPE_VECTOR2:
+	      {
+	        csVector2 vec;
+		vec.x = val.arg.vec.x;
+		vec.y = val.arg.vec.y;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_TYPE_VECTOR3:
+	      {
+	        csVector3 vec;
+		vec.x = val.arg.vec.x;
+		vec.y = val.arg.vec.y;
+		vec.z = val.arg.vec.z;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_TYPE_PC:
+	      props->SetProperty (varname, val.arg.pc);
+	      break;
+	    default:
+	      return ReportError (behave, "Bad type of value!");
+	  }
+	}
+	break;
       case CEL_OPERATION_VAR:
         {
 	  CHECK_STACK

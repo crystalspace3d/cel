@@ -64,9 +64,8 @@
 	        <property id="propid(pcbillboard.restack)" value="true" />
 	        <property id="propid(pcbillboard.width)" value="75000" />
 	        <property id="propid(pcbillboard.height)" value="75000" />
-		<default propclass="pc(puzzle_main,pcproperties)" />
-		<var name="rightx" value="property(propid(pcproperties.x))" />
-		<var name="righty" value="property(propid(pcproperties.y))" />
+		<var name="rightx" value="?puzzle_main.x" />
+		<var name="righty" value="?puzzle_main.y" />
 		<var name="curx" value="?rightx" />
 		<var name="cury" value="?righty" />
 	    </event>
@@ -82,18 +81,16 @@
 	    </event>
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(pctimer.Clear)" />
-		<default propclass="pc(puzzle_main,pcproperties)" />
-		<property id="propid(pcproperties.allowmove)" value="true" />
+		<var entity="puzzle_main" name="allowmove" value="true" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(pcbillboard.x)" value="1000+?curx*75000" />
 	        <property id="propid(pcbillboard.y)" value="1000+?cury*75000" />
 	    </event>
 
 	    <event name="move">
-		<default propclass="pc(puzzle_main,pcproperties)" />
-		<property id="propid(pcproperties.allowmove)" value="false" />
-		<property id="propid(pcproperties.emptyx)" value="?curx" />
-		<property id="propid(pcproperties.emptyy)" value="?cury" />
+		<var entity="puzzle_main" name="allowmove" value="false" />
+		<var entity="puzzle_main" name="emptyx" value="?curx" />
+		<var entity="puzzle_main" name="emptyy" value="?cury" />
 		<var name="intx1" value="?curx" />
 		<var name="inty1" value="?cury" />
 		<var name="curx" value="?curx+?dx" />
@@ -105,9 +102,8 @@
 			id="propid(pctimer.WakeUpFrame)" />
 	    </event>
 	    <event name="checkmove">
-		<default propclass="pc(puzzle_main,pcproperties)" />
-		<var name="emptyx" value="property(propid(pcproperties.emptyx))" />
-		<var name="emptyy" value="property(propid(pcproperties.emptyy))" />
+		<var name="emptyx" value="?puzzle_main.emptyx" />
+		<var name="emptyy" value="?puzzle_main.emptyy" />
 		<var name="dx" value="?emptyx-?curx" />
 		<var name="dy" value="?emptyy-?cury" />
 		<if eval="((?dx==1||?dx==-1)&&?dy==0) || ((?dy==1||?dy==-1)&&?dx==0)"
@@ -115,9 +111,7 @@
 	    </event>
 
 	    <event name="pcbillboard_select">
-		<default propclass="pc(puzzle_main,pcproperties)" />
-	        <if eval="property(propid(pcproperties.allowmove))"
-			true="checkmove"/>
+	        <if eval="?puzzle_main.allowmove" true="checkmove"/>
 	    </event>
 	</script>
 

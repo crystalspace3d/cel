@@ -46,6 +46,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed the 'property' command in the XML behaviour layer so
 	  that it looks at the type of the property instead of the type
 	  of the item on the stack.
+	- Jorrit added a new notation to make it easier to access variables
+	  from another entity (XML behaviour layer): use ?entityname.var.
+	- Jorrit added an optional 'entity' parameter to 'var' so that you
+	  can set a variable in another entity.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
