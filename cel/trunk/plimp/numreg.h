@@ -36,7 +36,9 @@ public:
   /** Returns the object with ID id from the list */
   void* Get(CS_ID id)
   { 
-    CS_ASSERT(id<listsize);
+    if (id>=listsize)
+      return NULL;
+    
     return list[id];
   }
   
