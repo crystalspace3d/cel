@@ -20,13 +20,12 @@
 #ifndef __CEL_PERSIST_CLASSIC__
 #define __CEL_PERSIST_CLASSIC__
 
-#include "csutil/hashmap.h"
+#include "csutil/hash.h"
 #include "csutil/refarr.h"
 #include "iutil/comp.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
 
-class csHashSet;
 class celPersistClassic;
 struct iFile;
 struct iVFS;
@@ -54,10 +53,10 @@ private:
   csRef<iCelPlLayer> pl;
   csRef<iFile> file;
   bool performmapping;
-  csHashSet entities;
-  csHashSet pclasses;
-  csHashMap read_entities;
-  csHashMap read_ids;
+  csSet<iCelEntity*> entities;
+  csSet<iCelPropertyClass*> pclasses;
+  csHash<iCelEntity*> read_entities;
+  csHash<uint*> read_ids;
   csRefArray<iCelEntity> temprefs;
 
   bool WriteMarker (const char* s);

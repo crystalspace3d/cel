@@ -270,7 +270,7 @@ bool celPersistClassicContext::SaveEntity(iCelEntity* entity)
 
 iCelEntity* celPersistClassicContext::FindEntity (uint id)
 {
-  return (iCelEntity*) read_entities.Get (id);
+  return read_entities.Get (id, 0);
 }
 
 iCelEntity* celPersistClassicContext::FindOrCreateEntity (uint id)
@@ -285,7 +285,7 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (uint id)
   }
   else
   {
-    entity = (iCelEntity*)read_entities.Get (id);
+    entity = read_entities.Get (id, 0);
     if (!entity)
     {
       entity = pl->CreateEntity ();
@@ -309,7 +309,7 @@ iCelEntity* celPersistClassicContext::GetMappedEntity(uint id)
 
 uint celPersistClassicContext::GetMappedID(iCelEntity* entity)
 {
-  uint* id = (uint*) read_ids.Get(entity->GetID());
+  uint* id = read_ids.Get(entity->GetID(), 0);
   return id ? *id : 0;
 }
 
