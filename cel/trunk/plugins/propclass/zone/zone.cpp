@@ -502,6 +502,10 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
 
 bool celPcZoneManager::ActivateSector (iSector* sector)
 {
+  // If we have a mesh we take the sector from the mesh instead
+  // of the camera. That's more stable.
+  if (pcmesh) sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()
+  	->Get (0);
   size_t i;
   for (i = 0 ; i < regions.Length () ; i++)
   {
@@ -572,6 +576,8 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
 int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
   	const char* startname)
 {
+  celPcZoneManager::pcmesh = pcmesh;
+
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
   if (!ActivateRegion ((celRegion*)region))
