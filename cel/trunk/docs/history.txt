@@ -4,258 +4,245 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 23-Jan-2004
-	- Jorrit added an optional profiler to the XML behaviour
-	  layer.
-	- Jorrit fixed a big memory leak in CEL by replacing a lot
-	  of csRef's to iCelPlLayer with csWeakRef. This avoids
-	  circular references.
-	- Jorrit added a new notation in the XML behaviour layer
-	  to have a faster way to emulate arrays:
-	  	?array[<expr>]
+	- Jorrit added an optional profiler to the XML behaviour layer.
+	- Jorrit fixed a big memory leak in CEL by replacing a lot of csRef's
+	  to iCelPlLayer with csWeakRef.  This avoids circular references.
+	- Jorrit added a new notation in the XML behaviour layer to have a
+	  faster way to emulate arrays:
+	    ?array[<expr>]
 	  is equivalent to:
-	  	?('array_'+<expr>)
+	    ?('array_'+<expr>)
+	- Eric Sunshine updated cel/mk/autoconf and cel/mk/jam from master
+	  copies in Crystal Space CVS repository.
 22-Jan-2004
-	- Jorrit fixed 'expr' in the XML behaviour layer so that
-	  it clear the stack instead of drop.
-	- Jorrit fixed a bug in the XML behaviour layer where the
-	  local variables would be cleared for the inside of
-	  a 'for' loop.
-	- Jorrit added a new iBillboard->SetMaterialNameFast() function
-	  to set a material without recomputing the clickmap.
-	- Jorrit fixed the XML behaviour layer so that 'default' in
-	  'switch' statement works.
+	- Jorrit fixed 'expr' in the XML behaviour layer so that it clear the
+	  stack instead of drop.
+	- Jorrit fixed a bug in the XML behaviour layer where the local
+	  variables would be cleared for the inside of a 'for' loop.
+	- Jorrit added a new iBillboard->SetMaterialNameFast() function to set
+	  a material without recomputing the clickmap.
+	- Jorrit fixed the XML behaviour layer so that 'default' in 'switch'
+	  statement works.
 21-Jan-2004
-	- Jorrit added 'reporterror' command to the XML behaviour
-	  layer and the 'readfile', and 'writefile' functions.
+	- Jorrit added 'reporterror' command to the XML behaviour layer and the
+	  'readfile', and 'writefile' functions.
 20-Jan-2004
-	- Jorrit and Eric added a 'bootstrap_static' to CEL so you can
-	  make a static version of boostrap.
+	- Jorrit and Eric added a 'bootstrap_static' to CEL so you can make a
+	  static version of boostrap.
 	- Jorrit fixed profiling flags for jam.
-	- Jorrit optimized the pcproperties property class considerably.
-	  It now is a lot faster to manipulate properties. This has
-	  a great effect on speed for the XML behaviour layer.
+	- Jorrit optimized the pcproperties property class considerably.  It
+	  now is a lot faster to manipulate properties.  This has a great
+	  effect on speed for the XML behaviour layer.
 	- Jorrit did another similar optimization on entity finding.
 19-Jan-2004
-	- Jorrit added new 'bb_tofront' and 'bb_toback' commands
-	  to the XML behaviour layer.
+	- Jorrit added new 'bb_tofront' and 'bb_toback' commands to the XML
+	  behaviour layer.
 16-Jan-2004
-	- Jorrit added entity name to the call stack for XML behaviour
-	  layer.
+	- Jorrit added entity name to the call stack for XML behaviour layer.
 	- Jorrit fixed CEL for the latest light related CS changes.
 15-Jan-2004
 	- Jorrit fixed another bug reported by valgrind in pctimer.
-	- Jorrit fixed another bug reported by valgrind in XML
-	  behaviour layer.
-	- Keith committed a new set of vc7 project files to make
-	  the new library-based scheme work more easily for new people.
+	- Jorrit fixed another bug reported by valgrind in XML behaviour layer.
+	- Keith committed a new set of vc7 project files to make the new
+	  library-based scheme work more easily for new people.
 14-Jan-2004
-	- Jorrit did the following changes to the XML behaviour
-	  layer:
-	    - Changed the meaning of converting strings to boolean.
-	      An empty string becomes false and a non-empty string
-	      becomes true (as opposed to only the 'true'
-	      string becoming true like it was before).
+	- Jorrit did the following changes to the XML behaviour layer:
+	    - Changed the meaning of converting strings to boolean.  An empty
+	      string becomes false and a non-empty string becomes true (as
+	      opposed to only the 'true' string becoming true like it was
+	      before).
 	    - Fixed logical not for strings. It was working reversed.
-	    - Added the ability to convert entity and pclass to
-	      bool too.
-	    - Added the 'expr' keyword which evaluates an expression
-	      and then throws the result away.
-	    - Added the ability to inherit parameters from the caller
-	      to functions being called.
-	- Jorrit added an optimization to the XML behaviour layer so
-	  that some operations with constants are more efficient.
-	- Jorrit fixed a bug in pckeyinput with relation to modifiers.
-	  Binding keys with modifiers (shift and so on) was simply not
-	  possible.
+	    - Added the ability to convert entity and pclass to bool too.
+	    - Added the 'expr' keyword which evaluates an expression and then
+	      throws the result away.
+	    - Added the ability to inherit parameters from the caller to
+	      functions being called.
+	- Jorrit added an optimization to the XML behaviour layer so that some
+	  operations with constants are more efficient.
+	- Jorrit fixed a bug in pckeyinput with relation to modifiers.  Binding
+	  keys with modifiers (shift and so on) was simply not possible.
 	- Jorrit fixed two bugs as reported by valgrind.
 13-Jan-2004
-	- Jorrit added support for scoped functions to the XML behaviour
-	  layer (i.e. calling a function from another entity script using
-	  :: operator).
+	- Jorrit added support for scoped functions to the XML behaviour layer
+	  (i.e. calling a function from another entity script using ::
+	  operator).
 	- Jorrit cleaned up the XML scripter a bit.
-	- Jorrit added a new MoveToPosition() method to iBillboard.
-	  This will implement a gradual move (given a certain delta value).
-	- Jorrit added a new version of bb_move to the XML behaviour layer
-	  that actually uses this new function (if 'delta' parameter is
-	  given).
-	- Jorrit changed the pctimer property class so you can now
-	  specify both WakeUpFrame as WakeUp at the same time.
+	- Jorrit added a new MoveToPosition() method to iBillboard.  This will
+	  implement a gradual move (given a certain delta value).
+	- Jorrit added a new version of bb_move to the XML behaviour layer that
+	  actually uses this new function (if 'delta' parameter is given).
+	- Jorrit changed the pctimer property class so you can now specify both
+	  WakeUpFrame as WakeUp at the same time.
 	- Jorrit added logical not to the XML behaviour layer.
-	- Jorrit added a new scope operator (::) to the XML behaviour
-	  layer. With this operator you can call functions from other
-	  entities that are not hardcoded.
+	- Jorrit added a new scope operator (::) to the XML behaviour layer.
+	  With this operator you can call functions from other entities that
+	  are not hardcoded.
 12-Jan-2004
-	- Jorrit fixed a memory leak bug in the XML behaviour layer. The
-	  behaviour was using csRef's to property classes which
-	  prevented proper cleanups of the entity.
-	- Jorrit added support for local variables to the XML behaviour
-	  layer. These are a lot faster, use less memory, and can prevent
-	  programming errors in recursive functions.
-	- Jorrit added celVariableParameterBlock conveniance class to
-	  celtool library.
-	- Jorrit added the ability to call events as functions from
-	  within an expression in the XML behaviour layer.
->>>>>>> 1.365
+	- Jorrit fixed a memory leak bug in the XML behaviour layer.  The
+	  behaviour was using csRef's to property classes which prevented
+	  proper cleanups of the entity.
+	- Jorrit added support for local variables to the XML behaviour layer.
+	  These are a lot faster, use less memory, and can prevent programming
+	  errors in recursive functions.
+	- Jorrit added celVariableParameterBlock conveniance class to celtool
+	  library.
+	- Jorrit added the ability to call events as functions from within an
+	  expression in the XML behaviour layer.
 11-Jan-2004
 	- Jorrit did the following XML behaviour layer changes:
 	    - Added the ability to return values through a
 	      behave->SendMessage() call.
-	    - Fixed a bug in callstack so that it now also prints
-	      internal calls.
-	    - Added 'return' statement so it is now possible to
-	      return values through 'call'.
-	- Jorrit added new bb_move conveniance command to the XML
-	  behaviour layer to move a billboard.
+	    - Fixed a bug in callstack so that it now also prints internal
+	      calls.
+	    - Added 'return' statement so it is now possible to return values
+	      through 'call'.
+	- Jorrit added new bb_move conveniance command to the XML behaviour
+	  layer to move a billboard.
 9-Jan-2004
 	- Jorrit added 'traceon' and 'traceoff' commands to the XML behaviour
-	  layer. With these commands you can enable tracing of all changes
-	  to properties and variables.
+	  layer.  With these commands you can enable tracing of all changes to
+	  properties and variables.
 8-Jan-2004
-	- Jorrit added new 'variables' debugging command to the
-	  XML behaviour layer.
-	- Jorrit added new 'callstack' debugging command to the
-	  XML behaviour layer. This command prints out the current
-	  callstack. On error the callstack and variables are also dumped.
+	- Jorrit added new 'variables' debugging command to the XML behaviour
+	  layer.
+	- Jorrit added new 'callstack' debugging command to the XML behaviour
+	  layer.  This command prints out the current callstack.  On error the
+	  callstack and variables are also dumped.
 7-Jan-2004
 	- Keith added velocity handling for sprcal3d to linmove DR msg
 	  handling.
 5-Jan-2004
 	- Eric Sunshine fixed compilation bug.  celPcDynamicBody was trying to
 	  invoke iPcMesh::IncRef() and DecRef() (via csRef<>) before the
-	  compiler had seen the full declaration of iPcMesh (it had only seen
-	  a forward declaration).
+	  compiler had seen the full declaration of iPcMesh (it had only seen a
+	  forward declaration).
 4-Jan-2004
 	- Jorrit did several optimizations on the XML behaviour layer.
 	- Jorrit fixed a bug in the XML behaviour layer which could cause
 	  crashes in some cases.
 3-Jan-2004
-	- Jorrit added an optimization to the billboard manager in case
-	  a clickmap is completely full.
-	- Jorrit added clipping for billboards in the billboard manager.
-	  That way billboards will no longer crash the software renderer
-	  if they go beyond screen boundaries.
+	- Jorrit added an optimization to the billboard manager in case a
+	  clickmap is completely full.
+	- Jorrit added clipping for billboards in the billboard manager.  That
+	  way billboards will no longer crash the software renderer if they go
+	  beyond screen boundaries.
 2-Jan-2004
-	- Jorrit added the ability to use parameters for the
-	  'call' operation in the XML behaviour layer.
-	- Jorrit added a shorthand notation in the XML behaviour
-	  layer: @parameter instead of param(parid(parameter)).
+	- Jorrit added the ability to use parameters for the 'call' operation
+	  in the XML behaviour layer.
+	- Jorrit added a shorthand notation in the XML behaviour layer:
+	  @parameter instead of param(parid(parameter)).
 28-Dec-2003
 	- Jorrit added new 'stridx' function to the XML behaviour layer.
 	- Jorrit added new 'strsplit' operation to the XML behaviour layer.
 23-Dec-2003
-	- Jorrit added a 'switch' command to the XML behaviour layer.
-	  Complete with 'case' and 'default'. One difference with
-	  C++ is that the case values don't have to be constant.
-	  At runtime this switch simply translates to a series of
-	  'if'/'else' statements so it is not that efficient.
-	- Jorrit did a huge optimization to the XML behaviour layer by
-	  making sure that the A2S() statements are not evaluated in case
-	  script-debugging is not enabled. The problem was that the #if to
+	- Jorrit added a 'switch' command to the XML behaviour layer.  Complete
+	  with 'case' and 'default'.  One difference with C++ is that the case
+	  values don't have to be constant.  At runtime this switch simply
+	  translates to a series of 'if'/'else' statements so it is not that
+	  efficient.
+	- Jorrit did a huge optimization to the XML behaviour layer by making
+	  sure that the A2S() statements are not evaluated in case
+	  script-debugging is not enabled.  The problem was that the #if to
 	  disable debugging was inside the routine that prints out the debug
-	  info. but the A2S() calls were done in the calls and this means
-	  that the compiler still generated code for them. Current solution
-	  does some preprocessing magic but it has the unfortunate
-	  consequence that there are a huge amount of warnings in case the
-	  script debugger is enabled:
-		plugins/behaviourlayer/xml/xmlscript.cpp:2590:57:
-		warning: pasting "dump_exec" and "(" does not give
-		a valid preprocessing token
-	  I don't know how to avoid those. Luckily the warnings are not
-	  present in the default build.
-	  BTW, this optimization increases fps with 100 (from 320 to 420)
-	  for one of the games in xmlgames :-)
-	- Jorrit renamed the 'testcollide' function in the XML behaviour
-	  layer to 'bb_testcollide' to make it clearer that this function
-	  is specific to billboards.
-	- Jorrit added the notion of layers to the billboard manager. Every
-	  billboard can be associated with some layer and you can move a
-	  layer which has the effect that all billboards on that layer will
-	  move. This is nice for scrolling games. You can use the
-	  iBillboardLayer interface to access layers.
+	  info.  but the A2S() calls were done in the calls and this means that
+	  the compiler still generated code for them.  Current solution does
+	  some preprocessing magic but it has the unfortunate consequence that
+	  there are a huge amount of warnings in case the script debugger is
+	  enabled:
+	    plugins/behaviourlayer/xml/xmlscript.cpp:2590:57:
+	    warning: pasting "dump_exec" and "(" does not give
+	    a valid preprocessing token
+	  I don't know how to avoid those.  Luckily the warnings are not
+	  present in the default build.  BTW, this optimization increases fps
+	  with 100 (from 320 to 420) for one of the games in xmlgames :-)
+	- Jorrit renamed the 'testcollide' function in the XML behaviour layer
+	  to 'bb_testcollide' to make it clearer that this function is specific
+	  to billboards.
+	- Jorrit added the notion of layers to the billboard manager.  Every
+	  billboard can be associated with some layer and you can move a layer
+	  which has the effect that all billboards on that layer will move.
+	  This is nice for scrolling games.  You can use the iBillboardLayer
+	  interface to access layers.
 	- Jorrit added the 'layer' property to the billboard property class.
-	- Jorrit added 'bb_movelayer' command to the XML behaviour layer.
-	  With this comment you can move layers.
-	- Jorrit fixed the pckeyinput property class so that key repeats
-	  are now also sent to the behaviour layer with '_' appended (i.e.
-	  append of '0' is key press, append of '1' is key release).
-	- Jorrit fixed the XML behaviour layer so that 'bb_movelayer' now
-	  also works if the layer doesn't exist yet. In that case the layer
-	  will be created.
+	- Jorrit added 'bb_movelayer' command to the XML behaviour layer.  With
+	  this comment you can move layers.
+	- Jorrit fixed the pckeyinput property class so that key repeats are
+	  now also sent to the behaviour layer with '_' appended (i.e.  append
+	  of '0' is key press, append of '1' is key release).
+	- Jorrit fixed the XML behaviour layer so that 'bb_movelayer' now also
+	  works if the layer doesn't exist yet.  In that case the layer will be
+	  created.
 22-Dec-2003
 	- Daniel added comments to iCelEntity and iCelEntityList.
-	- Jorrit added the 'super' keyword to the XML behaviour
-	  layer. With this keyword you can call the routine of the
-	  same name in the superscript.
+	- Jorrit added the 'super' keyword to the XML behaviour layer.  With
+	  this keyword you can call the routine of the same name in the
+	  superscript.
 	- Andreas Busch added doxygen targets.
 21-Dec-2003
-	- Jorrit added 'strlen' and 'strsub' functions to the XML
-	  behaviour layer.
-	- Jorrit fixed a bug in standard parameters. By specifying the
-	  type in SetParameterDef() it actually caused crashes when
-	  setting a string later on because the celData expected a string
-	  to clean up. Fixed this by simply removing the unneeded
-	  type parameter.
+	- Jorrit added 'strlen' and 'strsub' functions to the XML behaviour
+	  layer.
+	- Jorrit fixed a bug in standard parameters.  By specifying the type in
+	  SetParameterDef() it actually caused crashes when setting a string
+	  later on because the celData expected a string to clean up.  Fixed
+	  this by simply removing the unneeded type parameter.
 	- Jorrit added 'Bind' action for pckeyinput.
-	- Jorrit fixed a bug in the XML behaviour layer which prevented
-	  boolean parameters from working (for <action> command).
-	- Jorrit added the notion of super-scripts for the XML behaviour
-	  layer. This is a bit similar to a superclass and it allows
-	  scripts to depend on other scripts for common behaviour.
+	- Jorrit fixed a bug in the XML behaviour layer which prevented boolean
+	  parameters from working (for <action> command).
+	- Jorrit added the notion of super-scripts for the XML behaviour layer.
+	  This is a bit similar to a superclass and it allows scripts to depend
+	  on other scripts for common behaviour.
 20-Dec-2003
-	- Jorrit fixed three bugs which prevented a script from deleting
-	  its own entity:
-	        - First while a script is executing we will now keep an
-		  additional reference to the entity to prevent deletion
-		  until the script has finished.
-		- In case a billboard is firing mouse messages we will
-		  set a flag to prevent deletion of that billboard. If
-		  the billboard has to be deleted then that flag is tested
-		  and if true we set another flag so that the billboard
-		  can delete itself later.
-		- In pcbillboard we now remove the event handler on the
-		  billboard before deleting that event handler. This is
-		  now needed since the billboard can actually remain
-		  in memory a little longer because of the previous fix
-		  and then deleting the event handler without first
-		  removing it would cause bad effects.
+	- Jorrit fixed three bugs which prevented a script from deleting its
+	  own entity:
+	    - First while a script is executing we will now keep an additional
+	      reference to the entity to prevent deletion until the script has
+	      finished.
+	    - In case a billboard is firing mouse messages we will set a flag
+	      to prevent deletion of that billboard.  If the billboard has to
+	      be deleted then that flag is tested and if true we set another
+	      flag so that the billboard can delete itself later.
+	    - In pcbillboard we now remove the event handler on the billboard
+	      before deleting that event handler.  This is now needed since the
+	      billboard can actually remain in memory a little longer because
+	      of the previous fix and then deleting the event handler without
+	      first removing it would cause bad effects.
 19-Dec-2003
 	- Jorrit worked a little on xmlgames. Added a new maze game.
 	  Unfinished.
 18-Dec-2003
-	- Jorrit added a local vfs.cfg for CEL to specify the following
-	  CEL mount points:
-	  	- /cellib/sounds
-		- /cellib/images
-		- /cellib/objects
+	- Jorrit added a local vfs.cfg for CEL to specify the following CEL
+	  mount points:
+	    /cellib/sounds
+	    /cellib/images
+	    /cellib/objects
 17-Dec-2003
-	- Jorrit changed the bootstrap loader so that it also attempts to
-	  load the sound plugins now.
+	- Jorrit changed the bootstrap loader so that it also attempts to load
+	  the sound plugins now.
 	- Jorrit added a <sound> keyword to the XML behaviour layer.
 15-Dec-2003
 	- Jorrit did the following to the XML behaviour layer:
-	      - Implemented support for setting entity variables in the
-		XML behaviour layer. So in all commands where you need to
-		specify an entity you can now give both a name or an entity
-		itself.
-	      - Added an 'ent' function to the XML behaviour layer for
-		getting an entity from an entity name.
-	      - Added an inline version of 'for' so that you don't have to
-	        specify the inner code of a for loop in another event
-		(although that is still possible).
-	      - Added inline and none-inline version of 'while'.
-	      - Added 'inventory_count' and 'inventory_get' functions.
+	    - Implemented support for setting entity variables in the XML
+	      behaviour layer.  So in all commands where you need to specify an
+	      entity you can now give both a name or an entity itself.
+	    - Added an 'ent' function to the XML behaviour layer for getting an
+	      entity from an entity name.
+	    - Added an inline version of 'for' so that you don't have to
+	      specify the inner code of a for loop in another event (although
+	      that is still possible).
+	    - Added inline and none-inline version of 'while'.
+	    - Added 'inventory_count' and 'inventory_get' functions.
 	- Jorrit performed an optimization in the physical
-	  layer->CreatePropertyClass(). It will use a hash to find the right
+	  layer->CreatePropertyClass().  It will use a hash to find the right
 	  property class factory instead of scanning a list.
 	- Jorrit did a big optimization in the billboard manager with the
-	  creation of the clickmap for images. For big images this can make
-	  a huge difference in setup time.
+	  creation of the clickmap for images.  For big images this can make a
+	  huge difference in setup time.
 14-Dec-2003
 	- Jorrit added the following commands to the XML behaviour layer:
-	      - 'inventory' to set the current inventory on which further
-	        commands will operate.
-	      - 'inventory_add' to add an entity to a inventory.
-	      - 'inventory_rem' to remove an entity from a inventory.
+	    - 'inventory' to set the current inventory on which further
+	      commands will operate.
+	    - 'inventory_add' to add an entity to a inventory.
+	    - 'inventory_rem' to remove an entity from a inventory.
 	- Eric Sunshine added --with[out]-python option to python.m4 to allow
 	  users to disable this module if desired.
 	- Eric Sunshine fixed python.m4 so that the "Python SDK usable" check
@@ -264,27 +251,26 @@ The history order is reversed so that new features are at the top.
 11-Dec-2003
 	- Eric Sunshine upgraded the Autoconf and Jam utility files to the
 	  latest versions from CS.
-	- Jorrit added a new celtool library. At this moment this library
-	  contains everything that used to be in plugins/propclass/common
-	  (that directory has now been removed): mainly the common code
-	  for making property class factories and also code for making
-	  parameter blocks.
-	- Jorrit modified iCelPropertyClass->PerformAction() to take
-	  an iCelParameterBlock instance to pass the parameters instead of the
-	  old const char* pointer.
-	      - celPcRegion: PerformAction has no parameters.
-	      - celPcGravity: PerformAction takes a parameter with id
-	        'cel.parameter.force' (a vector3).
-	      - celPcTimer: PerformAction for the WakeUp action takes
-	        the parameters 'cel.parameter.time' (a long) and
-		'cel.parameter.repeat' (a bool).
+	- Jorrit added a new celtool library.  At this moment this library
+	  contains everything that used to be in plugins/propclass/common (that
+	  directory has now been removed): mainly the common code for making
+	  property class factories and also code for making parameter blocks.
+	- Jorrit modified iCelPropertyClass->PerformAction() to take an
+	  iCelParameterBlock instance to pass the parameters instead of the old
+	  const char* pointer.
+	    - celPcRegion: PerformAction has no parameters.
+	    - celPcGravity: PerformAction takes a parameter with id
+	      'cel.parameter.force' (a vector3).
+	    - celPcTimer: PerformAction for the WakeUp action takes the
+	      parameters 'cel.parameter.time' (a long) and
+	      'cel.parameter.repeat' (a bool).
 	- Jorrit replaced the prefix id for property class parameters from
 	  'cel.behaviour.parameter.' to 'cel.parameter.'. Modified the
 	  'parid()' function the XML behaviour layer accordingly.
 	- Jorrit modified the XML behaviour layer to support the new parameter
-	  system for PerformAction ('action' command). You can now supply
-	  parameters using <par id="parid(...)" value="..." /> inside
-	  the <action> block.
+	  system for PerformAction ('action' command).  You can now supply
+	  parameters using <par id="parid(...)" value="..." /> inside the
+	  <action> block.
 	- Eric Sunshine upgraded compiler.m4 from CS's master copy.  This fixes
 	  problem where configure's -shared check was failing.
 10-Dec-2003
@@ -294,21 +280,20 @@ The history order is reversed so that new features are at the top.
 	- Jorrit extended 'call' in the XML behaviour layer so that the entity
 	  attribute is now optional. If not given the current entity is
 	  assumed.
-	- Jorrit added the 'entname' function to return the current name of
-	  the entity (XML behaviour layer).
-	- Jorrit fixed two bugs in string handling for the XML behaviour
-	  layer. One of these bugs could cause crashes. The other could cause
-	  wrong computations.
+	- Jorrit added the 'entname' function to return the current name of the
+	  entity (XML behaviour layer).
+	- Jorrit fixed two bugs in string handling for the XML behaviour layer.
+	  One of these bugs could cause crashes.  The other could cause wrong
+	  computations.
 7-Dec-2003
 	- Jorrit renamed the string ID's for properties from
 	    cel.property.pccamera.bla
 	  to
 	    cel.property.bla
-	  It is redundant and unneeded to specify the property class
-	  there.
+	  It is redundant and unneeded to specify the property class there.
 	- Jorrit implemented a new notation in the XML behaviour layer for
-	  'if'. If there is now 'true' or 'false' child or attribute then
-	  the child of 'if' is considered a 'true' child.
+	  'if'.  If there is now 'true' or 'false' child or attribute then the
+	  child of 'if' is considered a 'true' child.
 6-Dec-2003
 	- Jorrit implemented cross product and modulo operator for the XML
 	  behaviour layer.
@@ -316,23 +301,23 @@ The history order is reversed so that new features are at the top.
 	  behaviour layer.
 	- Jorrit fixed operator precedence for the unary operators (! and ~).
 	- Jorrit implemented the 'if' function in the XML behaviour layer.
-	  Works a bit like the C++ ?: operator. An important difference is
-	  that the 'if' function will always evaluate both the true and
-	  the false expression.
+	  Works a bit like the C++ ?: operator.  An important difference is
+	  that the 'if' function will always evaluate both the true and the
+	  false expression.
 	- Eric Sunshine imported newer crystal.m4 from CS/mk/automake.  Also
 	  made minor aesthetic improvements to configure.ac.
 5-Dec-2003
 	- Jorrit changed 'testcollide' to be a function in the XML behaviour
 	  layer.
-	- Jorrit implemented a variant of 'if' in the XML behaviour layer
-	  which supports inlined code instead of the requirement to fire
-	  seperate event handlers.
+	- Jorrit implemented a variant of 'if' in the XML behaviour layer which
+	  supports inlined code instead of the requirement to fire seperate
+	  event handlers.
 	- Jorrit implemented 'destroyentity' in the XML behaviour layer.
 	- Jorrit added new 'call' operation to call events in other entities.
 	- Jorrit fixed a memory leak in pcbillboard caused by an embedded
-	  listener interface. Fixed this by avoiding the embedding.
+	  listener interface.  Fixed this by avoiding the embedding.
 	- Jorrit fixed a bug in the RemoveBillboard() method of the billboard
-	  manager. It crashed.
+	  manager.  It crashed.
 	- Matze fixed Jam rules so that cel-config builds correctly when
 	  building outside of the source tree.
 	- Eric Sunshine updated out-of-date mk/autoconf/*.m4 files, including
@@ -347,61 +332,61 @@ The history order is reversed so that new features are at the top.
 	  cel-config script.
 4-Dec-2003
 	- Jorrit simplified the XML behaviour layer by removing support for
-	  multiple arguments for operations and only allowing one. Also unified
-	  the type system so that the CEL_TYPE_... enum is now gone and instead
-	  CEL_DATA_... is used.
+	  multiple arguments for operations and only allowing one.  Also
+	  unified the type system so that the CEL_TYPE_...  enum is now gone
+	  and instead CEL_DATA_...  is used.
         - Daniel made some minor edits to the documentation and added
-          preliminary build instructions for the Windows platform.
+	  preliminary build instructions for the Windows platform.
 	- Jorrit changed the way parameters are passed through SendMessage
-	  (from the property class to the behaviour). Instead of the generic
+	  (from the property class to the behaviour).  Instead of the generic
 	  iBase there is now a new iCelParameterBlock interface that is
-	  implemented by the property class and that the behaviour can use
-	  to access the parameters from the message.
+	  implemented by the property class and that the behaviour can use to
+	  access the parameters from the message.
 	- Jorrit fixed the python and thest behaviour layers to support this
 	  new system.
 	- Jorrit added celGenericParameterBlock in plugins/propclass/common.
-	  This can be used by property class implementations to make it
-	  easier to implement parameters.
-	- Jorrit added celOneParameterBlock in plugins/propclass/common.
-	  This can be used by property class implementations to make it
-	  easier to implement parameters when only one parameter is needed.
+	  This can be used by property class implementations to make it easier
+	  to implement parameters.
+	- Jorrit added celOneParameterBlock in plugins/propclass/common.  This
+	  can be used by property class implementations to make it easier to
+	  implement parameters when only one parameter is needed.
 	- Jorrit changed the pcbillboard property class to use the new
 	  iCelParameterBlock system (with parameters 'x', 'y', and 'button').
 	- Jorrit changed the pcinventory property class to use the new
 	  iCelParameterBlock system (with parameter 'entity').
 	- Jorrit changed the pcproperties property class to use the new
 	  iCelParameterBlock system (with parameter 'index').
-	- Jorrit removed iPcMeshSelectData (which was previously used to
-	  pass coordinates from pcmesh to behaviour) and changed it to use
+	- Jorrit removed iPcMeshSelectData (which was previously used to pass
+	  coordinates from pcmesh to behaviour) and changed it to use
 	  iCelParameterBlock instead (with parameters 'entity', 'x', 'y', and
 	  'button').
 	- Jorrit extended the XML behaviour layer parser with a more generic
-	  way to handle functions. Now CEL_TOKEN_FUNCTION is returned and
-	  a string hash is used to see which function it is. This is both
-	  faster and more general.
-	- Jorrit extended the XML behaviour layer with a new 'arg' function
-	  to get a parameter from the iCelParameterBlock that is given
-	  by SendMessage. By doing that XML behaviour layer scripts can now
+	  way to handle functions.  Now CEL_TOKEN_FUNCTION is returned and a
+	  string hash is used to see which function it is.  This is both faster
+	  and more general.
+	- Jorrit extended the XML behaviour layer with a new 'arg' function to
+	  get a parameter from the iCelParameterBlock that is given by
+	  SendMessage.  By doing that XML behaviour layer scripts can now
 	  access the parameters from property classes.
-	- Jorrit added a new 'parid' function to the XML behaviour layer
-	  which is a conveniance for getting ids for parameters (it adds
-	  the prefix 'cel.behaviour.parameter.').
+	- Jorrit added a new 'parid' function to the XML behaviour layer which
+	  is a conveniance for getting ids for parameters (it adds the prefix
+	  'cel.behaviour.parameter.').
 	- Jorrit fixed a bug in the billboard manager. It was not properly
 	  sending out the x, y, and button information to the behaviour.
 	- Jorrit converted all functions in the XML behaviour layer to be
 	  parsed by the new CEL_TOKEN_FUNCTION.
-	- Jorrit added 'abs', 'min', 'max', 'sign', 'intpol',
-	  'int', and 'float' functions to the XML behaviour layer.
+	- Jorrit added 'abs', 'min', 'max', 'sign', 'intpol', 'int', and
+	  'float' functions to the XML behaviour layer.
 	- Jorrit added a new 'rand' function to the XML behaviour layer.
 	  Returns a random number.
 	- Jorrit added 'elapsedticks' and 'currentticks' parameters to the
 	  pctimer WakeUpFrame message.
-	- Jorrit replaced 'arg(' with 'param(' to be more consistent with
-	  the rest of CEL where it is called a parameter.
+	- Jorrit replaced 'arg(' with 'param(' to be more consistent with the
+	  rest of CEL where it is called a parameter.
 2-Dec-2003
-	- Jorrit extended the XML behaviour layer to recognize identifiers
-	  as an easier way to make strings consisting only of '_',
-	  alphanumeric characters and digits.
+	- Jorrit extended the XML behaviour layer to recognize identifiers as
+	  an easier way to make strings consisting only of '_', alphanumeric
+	  characters and digits.
 	- Jorrit re-enabled cleanup of temporary strings in the XML behaviour
 	  layer.
 	- Jorrit optimized string handling a bit in the XML behaviour layer.
