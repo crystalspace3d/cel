@@ -407,13 +407,13 @@ $($(r)_SRC) $($(r)_INC)
 endef
 
 define MSVCGEN_WRKSPC
-$(RM) $(SRCDIR)/msvc/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER))
+$(RM) $(SRCDIR)/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER))
 perl $(SRCDIR)/mk/msvcgen/msvcgen.pl \
 --quiet \
 --workspace \
 --workspace-extension=$(MSVCGEN_WS_EXT_$(MSVCGEN_VER)) \
 --template-dir=$(SRCDIR)/mk/msvcgen/template$(MSVCGEN_VER) \
---output=$(SRCDIR)/msvc/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER)) \
+--output=$(SRCDIR)/cel.$(MSVCGEN_WS_EXT_$(MSVCGEN_VER)) \
 $(MSVCGEN_EXTRA_OPTS_$(MSVCGEN_VER)) \
 $(foreach f,$(MODULE_LIST),$(OUT)/msvcfrag$(MSVCGEN_VER)/$(N_$(f)).frag)
 
