@@ -467,6 +467,7 @@
 		<!-- Set some defaults -->
 		<var name="dimension" value="16" />
 		<var name="blockdim" value="18000" />
+		<var name="monsterspeed" value="0.01" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />
@@ -502,9 +503,11 @@
 		<createentity name="hero" behaviour="hero" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="hero" />
-		<createentity name="monster" behaviour="monster" />
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_add child="monster" />
+		<for var="i" start="1" end="20">
+		    <createentity name="monster+?i" behaviour="monster" />
+		    <inventory propclass="pc(pcinventory)" />
+		    <inventory_add child="monster+?i" />
+		</for>
 	    </event>
 
 	    <!--
@@ -545,30 +548,21 @@
 	        <property id="propid(height)" value="?maze_main.blockdim" />
 	        <property id="propid(x)" value="?monstx*?maze_main.blockdim" />
 	        <property id="propid(y)" value="?monsty*?maze_main.blockdim" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
-		    <par id="parid(time)" value="500" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)">
+		    <!--<par id="parid(time)" value="100" />
 		    <par id="parid(repeat)" value="true" />
+		    -->
 		</action>
+	    	<!-- Init to one of the four possible directions -->
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+		<var name="moving" value="false" />
 	    </event>
 
 	    <!--
-	      - Check if a move is possible and perform the move
-	      - if so. Uses ?dx and ?dy to get the move direction and
-	      - ?monstx and ?monsty for current position.
+	      - Routine to calculate ?dx and ?dy based on ?dxdy.
 	      -->
-	    <event name="checkmove">
-		<if eval="?maze_main.(maze+(?monstx+?dx)+'_'+(?monsty+?dy))==' '">
-		    <var name="monstx" value="?monstx+?dx" />
-		    <var name="monsty" value="?monsty+?dy" />
-		    <default propclass="pc(pcbillboard)" />
-	            <property id="propid(x)" value="?monstx*?maze_main.blockdim" />
-	            <property id="propid(y)" value="?monsty*?maze_main.blockdim" />
-		</if>
-	    </event>
-
-	    <event name="pctimer_wakeup">
-	    	<!-- Try one of the four possible directions -->
-	        <var name="dxdy" value="int(rand(4.0))" />
+	    <event name="calcdxdy">
 		<!-- Set ?dx and ?dy based on the four possible outcomes -->
 		<if eval="?dxdy&2">
 		    <true>
@@ -580,7 +574,72 @@
 		        <var name="dy" value="0" />
 		    </false>
 		</if>
-		<call event="checkmove" />
+	    </event>
+
+	    <!--
+	      - Check if a move is possible and perform the move
+	      - if so. Uses ?dx and ?dy to get the move direction and
+	      - ?monstx and ?monsty for current position. If it can't move
+	      - in some direction it will change direction.
+	      -->
+	    <event name="pctimer_wakeupframe">
+	        <if eval="?moving">
+		    <default propclass="pc(pcbillboard)" />
+	            <property id="propid(x)" value="intpol(?delta,?srcx,?dstx)" />
+	            <property id="propid(y)" value="intpol(?delta,?srcy,?dsty)" />
+		    <if eval="?delta>=1">
+		        <true>
+			    <var name="moving" value="false" />
+			    <property id="propid(x)" value="?dstx" />
+			    <property id="propid(y)" value="?dsty" />
+		        </true>
+		        <false>
+			    <var name="delta"
+			    	value="?delta+?maze_main.monsterspeed*param(parid(elapsedticks))" />
+		        </false>
+		    </if>
+		    <stop />
+		</if>
+		<!-- Check if there is a free block sideways. If so we have a random
+		     chance of trying that direction -->
+		<if eval="rand(5)>3">
+		    <var name="t" value="?maze_main.(maze+(?monstx+?dy)+'_'+(?monsty+?dx))==' '" />
+		    <if eval="?t">
+		        <true>
+		            <!-- Swap dx and dy to turn left or right -->
+			    <var name="s" value="?dx" />
+			    <var name="dx" value="?dy" />
+			    <var name="dy" value="?s" />
+		        </true>
+			<false>
+		    	    <var name="t" value="?maze_main.(maze+(?monstx-?dy)+'_'+(?monsty-?dx))==' '" />
+			    <if eval="?t">
+		                <!-- Swap dx and dy to turn left or right -->
+			        <var name="s" value="-?dx" />
+			        <var name="dx" value="-?dy" />
+			        <var name="dy" value="?s" />
+			    </if>
+			</false>
+		    </if>
+		</if>
+		<!-- If our current direction is free we proceed in that direction.
+		     Else we try out a random new direction -->
+		<if eval="?maze_main.(maze+(?monstx+?dx)+'_'+(?monsty+?dy))==' '">
+		    <true>
+		        <var name="srcx" value="?monstx*?maze_main.blockdim" />
+		        <var name="srcy" value="?monsty*?maze_main.blockdim" />
+		        <var name="monstx" value="?monstx+?dx" />
+		        <var name="monsty" value="?monsty+?dy" />
+		        <var name="dstx" value="?monstx*?maze_main.blockdim" />
+		        <var name="dsty" value="?monsty*?maze_main.blockdim" />
+			<var name="delta" value="0.0" />
+			<var name="moving" value="true" />
+		    </true>
+		    <false>
+			<var name="dxdy" value="int(rand(4.0))" />
+			<call event="calcdxdy" />
+		    </false>
+		</if>
 	    </event>
 	</script>
 
