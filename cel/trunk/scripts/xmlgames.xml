@@ -1,7 +1,7 @@
 <world>
     <textures>
         <texture name="picture1">
-	    <file>/this/data/Nwn077.jpg</file>
+	    <file>/this/data/to_the_tavern.jpg</file>
         </texture>
     </textures>
     <materials>
@@ -31,8 +31,8 @@
 		<print value="'Creating '+?ent" />
 		<createentity name="?ent" behaviour="moving_object" />
 		<default propclass="pc(?ent,pcbillboard)" />
-	        <property id="propid(pcbillboard.x)" value="1000+50000*?x" />
-	        <property id="propid(pcbillboard.y)" value="1000+50000*?y" />
+	        <property id="propid(pcbillboard.x)" value="1000+75000*?x" />
+	        <property id="propid(pcbillboard.y)" value="1000+75000*?y" />
 	        <property id="propid(pcbillboard.uv_topleft)"
 			value="[?x*.25,?y*.25]" />
 	        <property id="propid(pcbillboard.uv_botright)"
@@ -62,8 +62,8 @@
 	        <property id="propid(pcbillboard.movable)" value="false" />
 	        <property id="propid(pcbillboard.clickable)" value="true" />
 	        <property id="propid(pcbillboard.restack)" value="true" />
-	        <property id="propid(pcbillboard.width)" value="50000" />
-	        <property id="propid(pcbillboard.height)" value="50000" />
+	        <property id="propid(pcbillboard.width)" value="75000" />
+	        <property id="propid(pcbillboard.height)" value="75000" />
 		<default propclass="pc(puzzle_main,pcproperties)" />
 		<var name="rightx" value="property(propid(pcproperties.x))" />
 		<var name="righty" value="property(propid(pcproperties.y))" />
@@ -74,19 +74,19 @@
 	    <event name="pctimer_wakeupframe">
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(pcbillboard.x)"
-			value="1000+((1-?delta)*?intx1+?delta*?intx2)*50000" />
+			value="1000+((1-?delta)*?intx1+?delta*?intx2)*75000" />
 	        <property id="propid(pcbillboard.y)"
-			value="1000+((1-?delta)*?inty1+?delta*?inty2)*50000" />
+			value="1000+((1-?delta)*?inty1+?delta*?inty2)*75000" />
 		<if eval="?delta>=1" true="stoptimer" />
-		<var name="delta" value="?delta+.01" />
+		<var name="delta" value="?delta+.02" />
 	    </event>
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(pctimer.Clear)" />
 		<default propclass="pc(puzzle_main,pcproperties)" />
 		<property id="propid(pcproperties.allowmove)" value="true" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.x)" value="1000+?curx*50000" />
-	        <property id="propid(pcbillboard.y)" value="1000+?cury*50000" />
+	        <property id="propid(pcbillboard.x)" value="1000+?curx*75000" />
+	        <property id="propid(pcbillboard.y)" value="1000+?cury*75000" />
 	    </event>
 
 	    <event name="move">
