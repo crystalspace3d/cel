@@ -50,6 +50,7 @@
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
 #include "qsqrt.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -64,6 +65,25 @@ SCF_EXPORT_CLASS_TABLE (pfengine)
   SCF_EXPORT_CLASS (celPfRegion, "cel.pcfactory.region",
   "CEL Region Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
+
+void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistance",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
 
 //---------------------------------------------------------------------------
 
@@ -403,15 +423,27 @@ csPtr<iCelDataBuffer> celPcCamera::Save ()
 bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != CAMERA_SERIAL) return false;
-  if (databuf->GetDataCount () != 3+11+7) return false;
+  if (serialnr != CAMERA_SERIAL)
+  {
+    Report (object_reg,"serialnr != CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+  if (databuf->GetDataCount () != 3+11+7)
+  {
+    Report (object_reg,"21 data elements required.  Cannot load.");
+    return false;
+  }
   celDataBufHelper db(databuf);
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
 
   iCelPropertyClass* pc;
-  if (!db.Get(pc)) return false;
+  if (!db.Get(pc))
+  {
+    Report (object_reg,"Cannot load property class.");
+    return false;
+  }
   if (pc) region = SCF_QUERY_INTERFACE (pc, iPcRegion);
   if (region)
       SetRegion(region, false, NULL);
@@ -420,8 +452,10 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get(sectname);
   iSector* sector = region->FindSector(sectname);
   if (!sector)
+  {
+    Report (object_reg,"Illegal sector specified.  Cannot load.");
     return false;
-
+  }
   db.Get(v_o2t);
 
   db.Get(m_o2t.m11);
@@ -438,8 +472,10 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get(followat);
 
   if (!db.AllOk())
+  {
+    Report (object_reg,"transformation matrix badly specified.  Cannot load.");
     return false;
-
+  }
   view->GetCamera ()->SetSector(sector);
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
@@ -453,7 +489,10 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get((uint16&)rect_h);
 
   if (!db.AllOk())
+  {
+    Report (object_reg,"Camera transformation matrix badly specified.  Cannot load.");
     return false;
+  }
 
   if (rect_set)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
@@ -527,8 +566,16 @@ csPtr<iCelDataBuffer> celPcRegion::Save ()
 bool celPcRegion::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != REGION_SERIAL) return false;
-  if (databuf->GetDataCount () != 4) return false;
+  if (serialnr != REGION_SERIAL)
+  {
+    Report (object_reg,"serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
+  if (databuf->GetDataCount () != 4)
+  {
+    Report (object_reg,"4 data elements required, not %d.  Cannot load.",databuf->GetDataCount () );
+    return false;
+  }
   celDataBufHelper db(databuf);
 
   Unload ();
@@ -537,17 +584,36 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   delete[] regionname; regionname = NULL;
 
   const char* strp;
-  if (!db.Get(strp)) return false;
+  if (!db.Get(strp))
+  {
+    Report (object_reg,"Worlddir not specified.  Cannot load.");
+    return false;
+  }
   worlddir = csStrNew(strp);
-  if (!db.Get(strp)) return false;
+  if (!db.Get(strp))
+  {
+    Report (object_reg,"Worldfile not specified.  Cannot load.");
+    return false;
+  }
   worldfile = csStrNew(strp);
-  if (!db.Get(strp)) return false;
+  if (!db.Get(strp)) 
+  {
+    Report (object_reg,"Regionname not specified.  Cannot load.");
+    return false;
+  }
   regionname = csStrNew(strp);
   bool load;
-  if (!db.Get(load)) return false;
+  if (!db.Get(load))
+  {
+    Report (object_reg,"load flag not specified.  Cannot load.");
+    return false;
+  }
 
   if (load && !Load ())
-      return false;
+  {
+    Report (object_reg,"Could not load the specified map into the region.  Cannot load.");
+    return false;
+  }
 
   return true;
 }
@@ -628,10 +694,26 @@ bool celPcRegion::Load ()
 {
   bool rc = true;
 
-  if (loaded) return true;
-  if (!worlddir) return false;
-  if (!worldfile) return false;
-  if (!regionname) return false;
+  if (loaded)
+  {
+    Report (object_reg,"Entity '%s' already loaded.",entity->GetName());
+    return true;
+  }
+  if (!worlddir)
+  {
+    Report (object_reg,"World dir not specified.");
+    return false;
+  }
+  if (!worldfile)
+  {
+    Report (object_reg,"World file not specified.");
+    return false;
+  }
+  if (!regionname)
+  {
+    Report (object_reg,"Region name not specified.");
+    return false;
+  }
 
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
@@ -649,6 +731,7 @@ bool celPcRegion::Load ()
   if (!loader->LoadMapFile (worldfile, false, true))
   {
     rc = false;
+    Report (object_reg,"Could not load map file '%s'.", worldfile);
     goto cleanup;
   }
   cur_region->Prepare ();

@@ -61,6 +61,25 @@ SCF_EXPORT_CLASS_TABLE (pfmesh)
 	"CEL Mesh Select Proprty Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
 
+void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistance",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
@@ -144,27 +163,57 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
 bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != MESH_SERIAL) return false;
+  if (serialnr != MESH_SERIAL)
+  {
+    Report (object_reg,"Serialnr != MESH_SERIAL.  Cannot load.");
+    return false;
+  }
+
   //int cnt_total = databuf->GetDataCount ();
   Clear ();
   visible = true;
   celData* cd;
-  cd = databuf->GetData (0); if (!cd) return false;
+  cd = databuf->GetData (0);
+  if (!cd)
+  {
+    Report (object_reg,"Factory name not specified.  Cannot load.");
+    return false;
+  }
   char* factn = cd->value.s ? csStrNew (*cd->value.s) : NULL;
-  cd = databuf->GetData (1); if (!cd) return false;
+  cd = databuf->GetData (1);
+  if (!cd)
+  {
+    Report (object_reg,"Filename not specified.  Cannot load.");
+    return false;
+  }
   char* filen = cd->value.s ? csStrNew (*cd->value.s) : NULL;
 
   SetMesh (factn, filen);
   delete[] factn;
   delete[] filen;
 
-  cd = databuf->GetData (2); if (!cd) return false;
+  cd = databuf->GetData (2);
+  if (!cd)
+  {
+    Report (object_reg,"Action not specified.  Cannot load.");
+    return false;
+  }
   SetAction (*cd->value.s, true);
-  cd = databuf->GetData (3); if (!cd) return false;
+  cd = databuf->GetData (3); 
+  if (!cd)
+  {
+    Report (object_reg,"Visibility flag not specified.  Cannot load.");
+    return false;
+  }
   if (cd->value.bo) Show ();
   else Hide ();
 
-  cd = databuf->GetData (4); if (!cd) return false;
+  cd = databuf->GetData (4);
+  if (!cd)
+  {
+    Report (object_reg,"# of sectors in sectorlist not specified.  Cannot load.");
+    return false;
+  }
   uint16 cnt = cd->value.uw;
   mesh->GetMovable ()->ClearSectors ();
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
@@ -172,7 +221,12 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   int i, j = 5;
   for (i = 0 ; i < cnt ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Sector name not specified for element %d.  Cannot load.",i);
+      return false;
+    }
     iSector* s = engine->GetSectors ()->FindByName (*cd->value.s);
     CS_ASSERT (s != NULL);
     mesh->GetMovable ()->GetSectors ()->Add (s);
@@ -180,27 +234,78 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"Transform vector not specified.  Cannot load.");
+    return false;
+  }
   v_o2t.x = cd->value.v.x;
   v_o2t.y = cd->value.v.y;
   v_o2t.z = cd->value.v.z;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m11 not specified.  Cannot load.");
+    return false;
+  }
+
   m_o2t.m11 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m12 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m12 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m13 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m13 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m21 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m21 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m22 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m22 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m23 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m23 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m31 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m31 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m32 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m32 = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"o2t.m33 not specified.  Cannot load.");
+    return false;
+  }
   m_o2t.m33 = cd->value.f;
   csReversibleTransform tr (m_o2t, v_o2t);
   mesh->GetMovable ()->SetTransform (tr);
@@ -471,39 +576,112 @@ csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
 bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != MESHSEL_SERIAL) return false;
-  if (databuf->GetDataCount () != 13) return false;
+  if (serialnr != MESHSEL_SERIAL)
+  {
+    Report (object_reg,"serialnr != MESHSEL_SERIAL.  Cannot load.");
+    return false;
+  }
+  if (databuf->GetDataCount () != 13)
+  {
+    Report (object_reg,"Databuf does not have 13 data elements.  Cannot load.");
+    return false;
+  }
   celData* cd;
-  cd = databuf->GetData (0); if (!cd) return false;
+  cd = databuf->GetData (0);
+  if (!cd)
+  {
+    Report (object_reg,"No camera specified.  Cannot load.");
+    return false;
+  }
   csRef<iPcCamera> pcm;
   if (cd->value.pc) pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcCamera);
   SetCamera (pcm);
 
-  cd = databuf->GetData (1); if (!cd) return false;
+  cd = databuf->GetData (1);
+  if (!cd)
+  {
+    Report (object_reg,"Sel_entity not specified.  Cannot load.");
+    return false;
+  }
   sel_entity = cd->value.ent;
-  cd = databuf->GetData (2); if (!cd) return false;
+  cd = databuf->GetData (2);
+  if (!cd)
+  {
+    Report (object_reg,"cur_on_top not specified.  Cannot load.");
+    return false;
+  }
   cur_on_top = cd->value.bo;
-  cd = databuf->GetData (3); if (!cd) return false;
+  cd = databuf->GetData (3);
+  if (!cd) 
+  {
+    Report (object_reg,"mouse_buttons not specified.  Cannot load.");
+    return false;
+  }
   mouse_buttons = cd->value.ul;
-  cd = databuf->GetData (4); if (!cd) return false;
+  cd = databuf->GetData (4);
+  if (!cd)
+  {
+    Report (object_reg,"do_global not specified.  Cannot load.");
+    return false;
+  }
   do_global = cd->value.bo;
-  cd = databuf->GetData (5); if (!cd) return false;
+  cd = databuf->GetData (5);
+  if (!cd)
+  {
+    Report (object_reg,"do_drag not specified.  Cannot load.");
+    return false;
+  }
   do_drag = cd->value.bo;
-  cd = databuf->GetData (6); if (!cd) return false;
+  cd = databuf->GetData (6);
+  if (!cd)
+  {
+    Report (object_reg,"drag_normal not specified.  Cannot load.");
+    return false;
+  }
   drag_normal.x = cd->value.v.x;
   drag_normal.y = cd->value.v.y;
   drag_normal.z = cd->value.v.z;
-  cd = databuf->GetData (7); if (!cd) return false;
+  cd = databuf->GetData (7);
+  if (!cd)
+  {
+    Report (object_reg,"drag_normal_camera not specified.  Cannot load.");
+    return false;
+  }
   drag_normal_camera = cd->value.bo;
-  cd = databuf->GetData (8); if (!cd) return false;
+  cd = databuf->GetData (8);
+  if (!cd)
+  {
+    Report (object_reg,"do_follow not specified.  Cannot load.");
+    return false;
+  }
   do_follow = cd->value.bo;
-  cd = databuf->GetData (9); if (!cd) return false;
+  cd = databuf->GetData (9);
+  if (!cd)
+  {
+    Report (object_reg,"do_follow not specified.  Cannot load.");
+    return false;
+  }
   do_follow_always = cd->value.bo;
-  cd = databuf->GetData (10); if (!cd) return false;
+  cd = databuf->GetData (10);
+  if (!cd)
+  {
+    Report (object_reg,"do_sendmove not specified.  Cannot load.");
+    return false;
+  }
   do_sendmove = cd->value.bo;
-  cd = databuf->GetData (11); if (!cd) return false;
+  cd = databuf->GetData (11);
+  if (!cd)
+  {
+    Report (object_reg,"do_sendup not specified.  Cannot load.");
+    return false;
+  }
   do_sendup = cd->value.bo;
-  cd = databuf->GetData (12); if (!cd) return false;
+  cd = databuf->GetData (12);
+  if (!cd)
+  {
+    Report (object_reg,"do_senddown not specified.  Cannot load.");
+    return false;
+  }
   do_senddown = cd->value.bo;
 
   SetupEventHandler ();
