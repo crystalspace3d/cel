@@ -42,6 +42,12 @@ SCF_VERSION (iPcTimer, 0, 0, 1);
  * <li>WakeUpFrame: no parameters.
  * <li>Clear: no parameters.
  * </ul>
+ * This property class can send out the following messages
+ * to the behaviour:
+ * <ul>
+ * <li>pctimer_wakeup: wakeup message
+ * <li>pctimer_wakeupframe: wakeup message every frame
+ * </ul>
  */
 struct iPcTimer : public iBase
 {
