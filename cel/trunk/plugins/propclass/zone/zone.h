@@ -128,6 +128,7 @@ public:
 
   bool Load ();
   void Unload ();
+  bool IsLoaded () const { return loaded; }
 
   bool ContainsSector (iSector* sector) { return sectors.In (sector); }
 
@@ -169,6 +170,13 @@ public:
 
   bool Load ();
   void Unload ();
+
+  // This function will return true if this zone is loaded.
+  // It will also true if this zone is technically marked as being
+  // unloaded but all regions are loaded anyway. In that case the
+  // zone will automatically be marked as loaded.
+  bool CheckLoaded ();
+
   bool ContainsRegion (celRegion* region);
 
   SCF_DECLARE_IBASE;

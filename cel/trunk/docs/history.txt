@@ -21,6 +21,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit removed the obsolete pczonemanager callback system.
 	  The proper way is now to listen to pczonemanager_addregion and
 	  pczonemanager_remregion.
+	- Jorrit changed the pczonemanager to also send out three new
+	  messages:
+	    pczonemanager_startloading: loading starts
+	    pczonemanager_stoploading: loading stops
+	    pczonemanager_errorloading: loading stops with error
+	  This can be used for setting up a loading screen.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
