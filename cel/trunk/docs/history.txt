@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-Aug-2004
+	- Thomas Degris fixed RotateTo() in iPcActorMove.
 16-Aug-2004
 	- Jorrit added a call to PrecacheDraw() to the zone manager in
 	  CEL. Also for pcregion.
