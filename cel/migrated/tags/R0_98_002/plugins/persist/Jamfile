@@ -1,0 +1,3 @@
+SubDir TOP plugins persist ;
+SubInclude TOP plugins persist classic ;
+
