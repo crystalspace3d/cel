@@ -77,6 +77,8 @@ celPcCommandInput::~celPcCommandInput ()
   while (p)
   {
     o=p->next;
+    if (p->command)
+	delete [] p->command;
     delete p;
     p=o;
   }
