@@ -19,13 +19,14 @@
 #ifndef __BLPYTHON_H__
 #define __BLPYTHON_H__
 
-#include "ivaria/script.h"
 #include "iutil/eventh.h"
 #include "iutil/comp.h"
 #include "csutil/csinput.h"
 #include "csutil/csvector.h"
+#include "bl/bl.h"
+#include "bl/behave.h"
 
-class celBlPython : public iScript
+class celBlPython : public iCelBlLayer
 {
 public:
   celBlPython (iBase *iParent);
@@ -34,7 +35,10 @@ public:
   static celBlPython* shared_instance;
   iObjectRegistry* object_reg;
 
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
+  virtual const char* GetName () const { return "blpython"; }
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+
   bool RunText (const char *Text);
   bool LoadModule (const char *Text);
   bool Store (const char* name, void* data, void* tag);
@@ -52,6 +56,28 @@ public:
   } scfiComponent;
 };
 
+class celPythonBehaviour : public iCelBehaviour
+{
+private:
+  celBlPython* scripter;
+  iCelEntity* entity;
+  char* name;
+  char* entityPtr;
+
+public:
+  celPythonBehaviour (celBlPython* scripter, iCelEntity* entity,
+  	const char* name);
+  virtual ~celPythonBehaviour ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return name; }
+  virtual iCelBlLayer* GetBehaviourLayer () const { return scripter; }
+  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+};
+
 void InitPytocel();
-#endif
+
+#endif // __BLPYTHON_H__
 

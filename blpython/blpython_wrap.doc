@@ -706,3 +706,7 @@ CreateEntity()
 1.36.  class iCelEntity
 -----------------------
 
+GetName()
+
+SetName(n)
+

@@ -36,6 +36,7 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csVector pf_list;
+  csVector bl_list;
   csPlLayerCache cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
@@ -67,6 +68,13 @@ public:
   virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const;
   virtual iCelPropertyClassFactory* FindPropertyClassFactory (
   	const char* name) const;
+
+  virtual void RegisterBehaviourLayer (iCelBlLayer* bl);
+  virtual void UnregisterBehaviourLayer (iCelBlLayer* bl);
+  virtual int GetBehaviourLayerCount () const;
+  virtual iCelBlLayer* GetBehaviourLayer (int idx) const;
+  virtual iCelBlLayer* FindBehaviourLayer (const char* name) const;
+
   virtual void Cache (iBase* object);
   virtual void Uncache (iBase* object);
   virtual void CleanCache ();

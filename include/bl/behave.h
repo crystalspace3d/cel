@@ -24,6 +24,8 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+struct iCelBlLayer;
+
 SCF_VERSION (iCelBehaviour, 0, 0, 1);
 
 /**
@@ -36,6 +38,11 @@ struct iCelBehaviour : public iBase
    * iCelBlLayer::CreateBehaviour()).
    */
   virtual const char* GetName () const = 0;
+
+  /**
+   * Get the behaviour layer that created this behaviour.
+   */
+  virtual iCelBlLayer* GetBehaviourLayer () const = 0;
 
   /**
    * Send a message to this entity. Returns true if the

@@ -35,6 +35,7 @@ class celBehaviourGeneral : public iCelBehaviour
 {
 protected:
   iCelEntity* entity;
+  iCelBlLayer* bl;
   iObjectRegistry* object_reg;
   char* name;
 
@@ -43,10 +44,15 @@ public:
   virtual ~celBehaviourGeneral ();
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
+  void SetBehaviourLayer (iCelBlLayer* bl)
+  {
+    celBehaviourGeneral::bl = bl;
+  }
 
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
+  virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
 };
 

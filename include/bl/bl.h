@@ -34,6 +34,11 @@ SCF_VERSION (iCelBlLayer, 0, 0, 1);
 struct iCelBlLayer : public iBase
 {
   /**
+   * The name of this behaviour layer.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
    * Create a new behaviour layer entity.
    * The given name is specific to the BL implementation. It can
    * be the name of a script for example.

@@ -1232,6 +1232,12 @@ class iCelEntityPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
         self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelEntity_GetName(self.this)
+        return val
+    def SetName(self,arg0):
+        val = blcelc.iCelEntity_SetName(self.this,arg0)
+        return val
     def __repr__(self):
         return "<C iCelEntity instance>"
 class iCelEntity(iCelEntityPtr):

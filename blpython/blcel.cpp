@@ -33,10 +33,19 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.1  2001/12/28 08:37:44  jorrit
- * Added the first version of the 'blpython' plugin. This is
- * a general behaviour layer for python scripting. It compiles
- * and links but it otherwise not functional.
+ * Revision 1.2  2001/12/28 09:55:07  jorrit
+ * - Further work on the blpython layer. It now actually implements
+ *   iCelBlLayer correctly and also returns iCelBehaviour instances.
+ * - Added GetName() to iCelBlLayer. Behaviour layers can now have
+ *   names. This allows CEL to distinguish between different behaviour
+ *   layers that may be loaded at the same time.
+ * - Added a registry of behaviour layers to the physical layer.
+ * - Added GetBehaviourLayer() function to iCelBehaviour.
+ * - Made the persistance plugin independent from the behaviour
+ *   layer that is choosen by also writing and reading the name
+ *   of the behaviour layer. This allows persistance to work correctly
+ *   if multiple behaviour layers are in memory (and behaviours from
+ *   various behaviour layers are used).
  *
  ************************************************************************/
 
@@ -7648,7 +7657,52 @@ static void *SwigiCelEntityToiBase(void *ptr) {
     return (void *) dest;
 }
 
+#define iCelEntity_GetName(_swigobj)  (_swigobj->GetName())
+static PyObject *_wrap_iCelEntity_GetName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelEntity * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelEntity_GetName",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_GetName. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelEntity_GetName(_arg0);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelEntity_SetName(_swigobj,_swigarg0)  (_swigobj->SetName(_swigarg0))
+static PyObject *_wrap_iCelEntity_SetName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelEntity * _arg0;
+    char * _arg1;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelEntity_SetName",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_SetName. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    iCelEntity_SetName(_arg0,_arg1);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
 static PyMethodDef blcelcMethods[] = {
+	 { "iCelEntity_SetName", _wrap_iCelEntity_SetName, 1 },
+	 { "iCelEntity_GetName", _wrap_iCelEntity_GetName, 1 },
 	 { "iCelPlLayer_CreateEntity", _wrap_iCelPlLayer_CreateEntity, 1 },
 	 { "iObjectRegistry_Print", _wrap_iObjectRegistry_Print, 1 },
 	 { "iObjectRegistry_Query_iGraphics3D", _wrap_iObjectRegistry_Query_iGraphics3D, 1 },

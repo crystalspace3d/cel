@@ -23,13 +23,15 @@
 #include "cssys/sysfunc.h"
 #include "blpython/blpython.h"
 #include "csutil/csstring.h"
+#include "csutil/util.h"
 #include "ivaria/reporter.h"
 #include "iutil/objreg.h"
+#include "pl/entity.h"
 
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_IBASE(celBlPython)
-  SCF_IMPLEMENTS_INTERFACE(iScript)
+  SCF_IMPLEMENTS_INTERFACE(iCelBlLayer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iComponent)
 SCF_IMPLEMENT_IBASE_END
 
@@ -78,11 +80,11 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
 
   if (!LoadModule ("sys")) return false;
   csString cmd;
-  cmd << "sys.path.append('" << path << "scripts/python/')";
+  cmd << "sys.path.append('" << path << "scripts/')";
   if (!RunText (cmd)) return false;
   if (!LoadModule ("pdb")) return false;
-  if (!LoadModule ("cspacec")) return false;
-  if (!LoadModule ("cspace")) return false;
+  if (!LoadModule ("celblc")) return false;
+  if (!LoadModule ("celbl")) return false;
 
   // Store the object registry pointer in 'cspace.object_reg'.
   Store ("cspace.object_reg_ptr", object_reg, (void*)"_iObjectRegistry_p");
@@ -92,12 +94,28 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-void celBlPython::ShowError()
+iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
+	const char* name)
+{
+  char cmd[256];
+  char entityPtr[256];
+  SWIG_MakePtr (entityPtr, entity, "_iCelEntity_p");
+  // @@@ Don't use GetName() but something more unique...
+  sprintf (cmd, "%s=%s.%s(\"%s\")", entity->GetName (),
+  	name, name, entityPtr);
+  LoadModule (name);
+  RunText (cmd);
+  celPythonBehaviour* bh = new celPythonBehaviour (this,
+  	entity, name);
+  return bh;
+}
+
+void celBlPython::ShowError ()
 {
   if( PyErr_Occurred ())
   {
     PyErr_Print ();
-    Print (true, "ERROR!\n");
+    Print (true, "ERROR!");
   }
 }
 
@@ -145,4 +163,52 @@ void celBlPython::Print (bool Error, const char *msg)
     rep->DecRef ();
   }
 }
+
+//----------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE(celPythonBehaviour)
+  SCF_IMPLEMENTS_INTERFACE(iCelBehaviour)
+SCF_IMPLEMENT_IBASE_END
+
+celPythonBehaviour::celPythonBehaviour (celBlPython* scripter,
+	iCelEntity* entity, const char* name)
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+  celPythonBehaviour::scripter = scripter;
+  celPythonBehaviour::entity = entity;
+  celPythonBehaviour::name = csStrNew (name);
+  char buf[512];
+  SWIG_MakePtr (buf, entity, "_iCelEntity_p");
+  entityPtr = csStrNew (buf);
+}
+
+celPythonBehaviour::~celPythonBehaviour ()
+{
+  delete[] name;
+  delete[] entityPtr;
+}
+
+bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
+{
+  va_list arg;
+  va_start (arg, msg_info);
+  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_end (arg);
+  return rc;
+}
+
+bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
+	va_list arg)
+{
+  (void)arg;
+  char buf[512];
+  char msg_info_ptr[100];
+  SWIG_MakePtr (msg_info_ptr, msg_info, "_iBase_p");
+  // @@@ 'name' will be replaced with more unique stuff.
+  sprintf (buf, "%s.%s(%s,%s)", name, msg_id, entityPtr, msg_info_ptr);
+  scripter->RunText (buf);
+
+  return true;
+}
+
 

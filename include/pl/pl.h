@@ -41,6 +41,7 @@ struct iCelDataBuffer;
 struct iCelMessage;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
+struct iCelBlLayer;
 struct iSector;
 struct iCamera;
 class csVector3;
@@ -102,6 +103,8 @@ struct iCelPlLayer : public iBase
    */
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y) = 0;
 
+  //-------------------------------------------------------------------------
+
   /**
    * Register a property class factory with this physical layer.
    */
@@ -137,6 +140,35 @@ struct iCelPlLayer : public iBase
   virtual iCelPropertyClass* CreatePropertyClass
       (iCelEntity* entity, const char* propname) = 0;
 
+  //-------------------------------------------------------------------------
+
+  /**
+   * Register a behaviour layer.
+   */
+  virtual void RegisterBehaviourLayer (iCelBlLayer* bl) = 0;
+
+  /**
+   * Unregister a behaviour layer.
+   */
+  virtual void UnregisterBehaviourLayer (iCelBlLayer* bl) = 0;
+
+  /**
+   * Get the number of registered behaviour layers.
+   */
+  virtual int GetBehaviourLayerCount () const = 0;
+
+  /**
+   * Get the specificied behaviour layer.
+   */
+  virtual iCelBlLayer* GetBehaviourLayer (int idx) const = 0;
+
+  /**
+   * Find a behaviour layer by name.
+   */
+  virtual iCelBlLayer* FindBehaviourLayer (const char* name) const = 0;
+
+  //-------------------------------------------------------------------------
+
   /**
    * Cache an SCF object. This effectively means that the PL will keep
    * a references to this object. This function will not add the object
@@ -155,6 +187,8 @@ struct iCelPlLayer : public iBase
    * some other object still has a reference.
    */
   virtual void CleanCache () = 0;
+
+  //-------------------------------------------------------------------------
 
   /**
    * Retreive the unique ID associated with this string or create

@@ -56,13 +56,11 @@ celPersistClassic::celPersistClassic (iBase* parent)
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   pl = NULL;
-  bl = NULL;
 }
 
 celPersistClassic::~celPersistClassic ()
 {
   if (pl) pl->DecRef ();
-  if (bl) bl->DecRef ();
 }
 
 bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
@@ -70,8 +68,6 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
   celPersistClassic::object_reg = object_reg;
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   CS_ASSERT (pl != NULL);
-  bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
-  CS_ASSERT (bl != NULL);
   return true;
 }
 
@@ -436,15 +432,18 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
   }
   else if (marker[3] == 'I')
   {
-    char* entname = NULL, * bhname = NULL;
+    char* entname = NULL, * bhname = NULL, * bhlayername = NULL;
     bool rc = true;
     rc = rc && Read (data, remaining, entname);
-    rc = rc && Read (data, remaining, bhname);
+    rc = rc && Read (data, remaining, bhlayername);
+    if (rc && bhlayername)
+      rc = rc && Read (data, remaining, bhname);
     uint16 c;
     rc = rc && Read (data, remaining, c);
     if (!rc)
     {
       Report ("Missing entity information!");
+      delete[] bhlayername;
       delete[] bhname;
       delete[] entname;
       return false;
@@ -453,13 +452,15 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
     // An entity.
     entity = FindOrCreateEntity (entname);
     delete[] entname;
-    if (bhname)
+    if (bhlayername && bhname)
     {
+      iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
-      delete[] bhname;
       entity->SetBehaviour (bh);
       bh->DecRef ();
     }
+    delete[] bhname;
+    delete[] bhlayername;
 
     int i;
     for (i = 0 ; i < c ; i++)
@@ -589,8 +590,16 @@ bool celPersistClassic::Write (iFile* f, iCelEntity* entity)
   if (!WriteMarker (f, "ENTI")) return false;
 
   if (!Write (f, entity->GetName ())) return false;
-  if (!Write (f, entity->GetBehaviour () ?
-  	entity->GetBehaviour ()->GetName () : NULL)) return false;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    if (!Write (f, bh->GetBehaviourLayer ()->GetName ())) return false;
+    if (!Write (f, bh->GetName ())) return false;
+  }
+  else
+  {
+    if (!Write (f, (char*)NULL)) return false;
+  }
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
   uint16 c = convert_endian (pl->GetCount ());
