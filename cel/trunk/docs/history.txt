@@ -1,3 +1,10 @@
+23-Jan-2003:
+	- Keith Fulton added a SetID to iCelEntity so it is possible
+	  for an external app to override the CS_ID assigned to an
+	  entity.  This is necessary when objects across networks
+	  have different lifespans, to prevent reuse of the same CS_ID
+	  to represent different objects and confusion of the 
+	  underlying entities.
 21-Jan-2003:
 	- Fixed a ref leak on 'view' in the engine property class.
 	  The 'new csView' wasn't properly embedded in a csPtr<iView>.
