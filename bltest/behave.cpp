@@ -263,7 +263,7 @@ celBehaviourActor::~celBehaviourActor()
 bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
             va_list arg)
 {
-  bool pcinput_msg = strncmp (msg_id, "pcinput_", 8) == 0;
+  bool pcinput_msg = strncmp (msg_id, "pckeyinput_", 11) == 0;
 
   if (pcinput_msg)
   {
@@ -272,47 +272,47 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     if (!pcgravity)
       return false;
 
-    if (!strcmp (msg_id+8, "forward1"))
+    if (!strcmp (msg_id+11, "forward1"))
     {
       pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
     }
-    else if (!strcmp (msg_id+8, "forward0"))
+    else if (!strcmp (msg_id+11, "forward0"))
     {
       pcgravity->ClearForces();
     }
-    else if (!strcmp (msg_id+8, "backward1"))
+    else if (!strcmp (msg_id+11, "backward1"))
     {
       pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
     }
-    else if (!strcmp (msg_id+8, "backward0"))
+    else if (!strcmp (msg_id+11, "backward0"))
     {
       pcgravity->ClearForces();
     }
-    else if (!strcmp (msg_id+8, "strafeleft1"))
+    else if (!strcmp (msg_id+11, "strafeleft1"))
     {
       pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
     }
-    else if (!strcmp (msg_id+8, "strafeleft0"))
+    else if (!strcmp (msg_id+11, "strafeleft0"))
     {
       pcgravity->ClearForces();
     }
-    else if (!strcmp (msg_id+8, "straferight1"))
+    else if (!strcmp (msg_id+11, "straferight1"))
     {
       pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
     }
-    else if (!strcmp (msg_id+8, "straferight0"))
+    else if (!strcmp (msg_id+11, "straferight0"))
     {
       pcgravity->ClearForces();
     }
-    else if (!strcmp (msg_id+8, "run1"))
+    else if (!strcmp (msg_id+11, "run1"))
     {
       speed=2.5;
     }
-    else if (!strcmp (msg_id+8, "run0"))
+    else if (!strcmp (msg_id+11, "run0"))
     {
       speed=1;
     }
-    else if (!strcmp (msg_id+8, "cammode1"))
+    else if (!strcmp (msg_id+11, "cammode1"))
     {
       fpscam = fpscam ? 0 : 1;
       iPcCamera* pccam;

@@ -94,14 +94,31 @@ celPcCommandInput::~celPcCommandInput ()
   }
 }
 
-#define COMMANDINPUT_SERIAL 23
+#define COMMANDINPUT_SERIAL 1
 
 iCelDataBuffer* celPcCommandInput::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (0);
+  int cnt = 0;
+  celKeyMap* m = maplist;
+  while (m)
+  {
+    cnt++;
+    m = m->next;
+  }
+  databuf->SetDataCount (cnt * 2);
+
+  int j = 0;
+  m = maplist;
+  while (m)
+  {
+    databuf->GetData (j++)->Set ((uint32)m->key);
+    databuf->GetData (j++)->Set (m->command);
+    m = m->next;
+  }
+
   return databuf;
 }
 
@@ -109,7 +126,30 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != COMMANDINPUT_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
+  int cnt = databuf->GetDataCount ();
+  cnt /= 2;
+  int i, j = 0;
+  celData* cd;
+  for (i = 0 ; i < cnt ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    int key = cd->value.ul;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    celKeyMap* newmap = new celKeyMap ();
+    // Add a new entry to key mapping list
+    newmap->next = maplist;
+    newmap->prev = NULL;
+    newmap->key = key;
+    newmap->command = new char[strlen (cd->value.s)+2];
+    strcpy (newmap->command, cd->value.s);
+    newmap->command_end = strchr (newmap->command, 0);
+    *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
+
+    newmap->is_on = false;
+    if (maplist)
+      maplist->prev = newmap;
+    maplist = newmap;
+  }
   return true;
 }
 
@@ -130,7 +170,7 @@ void celPcCommandInput::Activate (bool activate)
   {
     if (!scfiEventHandler)
       return;
-    
+
     iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
     CS_ASSERT (q);
     q->RemoveListener (scfiEventHandler);
@@ -157,7 +197,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   //Only bid keys - no key combinations
   if (shiftmask)
     return false;
-  
+
   celKeyMap* newmap;
   if (!(newmap = GetMap (key)))
   {
@@ -166,8 +206,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->next=maplist;
     newmap->prev=NULL;
     newmap->key=key;
-    newmap->command = new char[strlen ("pcinput_")+strlen(command)+2];
-    strcpy (newmap->command, "pcinput_");
+    newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
+    strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
     newmap->command_end = strchr (newmap->command, 0);
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
@@ -175,18 +215,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->is_on=false;
     if (maplist)
       maplist->prev = newmap;
-    maplist = newmap;			     
+    maplist = newmap;
   }
   else
   {
     delete [] newmap->command;
-    newmap->command = new char[strlen ("pcinput_")+strlen(command)+2];
-    strcpy (newmap->command, "pcinput_");
+    newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
+    strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
     newmap->command_end = strchr (newmap->command, 0);
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
   }
-  
+
   return true;
 }
 
@@ -198,12 +238,12 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
 
   if (shiftmask)
     return NULL;
-  
+
   celKeyMap* map;
   if (!(map = GetMap (key)))
     return NULL;
-  
-  return map->command+8;
+
+  return map->command+11;
 }
 
 bool celPcCommandInput::RemoveBind (const char* /*triggername*/,
