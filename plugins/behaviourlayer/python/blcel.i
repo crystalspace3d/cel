@@ -268,21 +268,15 @@ struct iPcCamera : public iBase
 };
 
 %{
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *world, iCelEntity *entity, const char *name) {
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char *name) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, name));
   if(!pc.IsValid()) return 0;
   csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
   if(!pccam.IsValid()) return 0;
-  csRef<iPcRegion> pcregion(CEL_QUERY_PROPCLASS(world->GetPropertyClassList(), iPcRegion));
-  if(!pcregion.IsValid()) return 0;
-  if(pccam->SetRegion(pcregion)) {
-    return pccam;
-  } else {
-    return 0;
-  }
+  return pccam;
 }
 %}
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *world, iCelEntity *entity, const char *name);
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char *name);
 
 %{
 iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc) {

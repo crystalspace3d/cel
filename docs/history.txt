@@ -27,6 +27,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit replaced %addmethods with %extends to avoid swig warnings.
 	- Jorrit added scripts/smallgame.py which can be used together with
 	  bootstrap. Doesn't do much yet.
+	- Jorrit removed the code from celCreateCamera (in python behaviour
+	  layer) to set the region. This should be done in the python script
+	  and not there. Also removed the 'world' parameter since this is
+	  no longer needed.
+	- The smallgame.py script now loads partsys and displays it.
 29-Jun-2003
 	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
 	  up-to-date version from the Crystal Space project.  This fixes the
