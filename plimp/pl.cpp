@@ -100,7 +100,7 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-iCelEntity* celPlLayer::CreateEntity ()
+csPtr<iCelEntity> celPlLayer::CreateEntity ()
 {
   CS_ID objid;
   
@@ -165,7 +165,7 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
   return pc;
 }
 
-iCelMessage* celPlLayer::CreateMessage (const char* msg_string, ...)
+csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
 {
   va_list arg;
   va_start (arg, msg_string);
@@ -230,7 +230,7 @@ SCF_IMPLEMENT_IBASE (celDataBuffer)
   SCF_IMPLEMENTS_INTERFACE (iCelDataBuffer)
 SCF_IMPLEMENT_IBASE_END
 
-iCelDataBuffer* celPlLayer::CreateDataBuffer (long serialnr)
+csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 {
   return new celDataBuffer (serialnr);
 }
@@ -298,7 +298,7 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
   return NULL;
 }
 
-iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector,
+csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 	const csVector3& pos, float radius)
 {
   // @@@ Some kind of optimization to cache entity lists?
@@ -355,7 +355,7 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
   return NULL;
 }
 
-iCelEntityList* celPlLayer::CreateEmptyEntityList ()
+csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
 {
   return new celEntityList ();
 }

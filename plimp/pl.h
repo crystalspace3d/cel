@@ -52,7 +52,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual iCelEntity* CreateEntity ();
+  virtual csPtr<iCelEntity> CreateEntity ();
   /**
    * remove an entity from the physical layer ID list.
    * This is called automatically by celEntity destructor.
@@ -62,16 +62,16 @@ public:
   
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);
-  virtual iCelMessage* CreateMessage (const char* msg_string, ...);
-  virtual iCelDataBuffer* CreateDataBuffer (long serialnr);
+  virtual csPtr<iCelMessage> CreateMessage (const char* msg_string, ...);
+  virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
 
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
   virtual iCelEntity* FindAttachedEntity (iObject* object);
-  virtual iCelEntityList* FindNearbyEntities (iSector* sector,
+  virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
-  virtual iCelEntityList* CreateEmptyEntityList ();
+  virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
 
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (

@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/strset.h"
+#include "csutil/ref.h"
 
 struct iObject;
 struct iCelEntity;
@@ -36,7 +37,7 @@ struct iSector;
 struct iCamera;
 class csVector3;
 
-SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 1);
+SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
 struct iCelEntityRemoveCallback : public iBase
 {
@@ -54,12 +55,12 @@ struct iCelPlLayer : public iBase
   /**
    * Create a new physical layer entity.
    */
-  virtual iCelEntity* CreateEntity () = 0;
+  virtual csPtr<iCelEntity> CreateEntity () = 0;
 
   /**
    * Create a message.
    */
-  virtual iCelMessage* CreateMessage (const char* msg_string, ...) = 0;
+  virtual csPtr<iCelMessage> CreateMessage (const char* msg_string, ...) = 0;
 
   /**
    * Create a data buffer. Usually property class implementations
@@ -67,7 +68,7 @@ struct iCelPlLayer : public iBase
    * data. The use of this is not required. A property class can just
    * as well make its own implementation of iCelDataBuffer.
    */
-  virtual iCelDataBuffer* CreateDataBuffer (long serialnr) = 0;
+  virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr) = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).
@@ -96,7 +97,7 @@ struct iCelPlLayer : public iBase
    * a given object. This uses the attached entities from above.
    * Do DecRef() on the returned list when ready.
    */
-  virtual iCelEntityList* FindNearbyEntities (iSector* sector,
+  virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius) = 0;
 
   /**
@@ -109,7 +110,7 @@ struct iCelPlLayer : public iBase
   /**
    * Create an empty entity list for personal use.
    */
-  virtual iCelEntityList* CreateEmptyEntityList () = 0;
+  virtual csPtr<iCelEntityList> CreateEmptyEntityList () = 0;
 
   //-------------------------------------------------------------------------
 
