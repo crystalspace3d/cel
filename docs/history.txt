@@ -2,6 +2,11 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
+
+14-Mar-2004
+	- Jorrit continued to fix CEL for recent CS changes. Apparently
+	  res nor Keith have MSVC project files that include the billboard
+	  manager and the XML behaviour layer.
 12-Mar-2004
 	- Keith Fulton committed a patch from res2k to fix CEL for CS changes.
 28-Feb-2004
