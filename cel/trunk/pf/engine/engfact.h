@@ -85,10 +85,19 @@ public:
   bool SetRegion (iPcRegion* region, bool point, const char* name);
   void SetRectangle (int x, int y, int w, int h);
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
+  iPcCamera::CameraMode GetMode () const
+  {
+    return cammode;
+  }
   void SetFollowPos (const csVector3& pos, const csVector3& at)
   {
-      followpos = pos;
-      followat = at;
+    followpos = pos;
+    followat = at;
+  }
+  void GetFollowPos (csVector3& pos, csVector3& at) const
+  {
+    pos = followpos;
+    at = followat;
   }
   
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -109,9 +118,17 @@ public:
     {
       return scfParent->SetMode(m, use_cd);
     }
+    virtual CameraMode GetMode () const
+    {
+      return scfParent->GetMode ();
+    }
     virtual void SetFollowPos (const csVector3& pos, const csVector3& at)
     {
       scfParent->SetFollowPos(pos, at);
+    }
+    virtual void GetFollowPos (csVector3& fp, csVector3& at) const
+    {
+      scfParent->GetFollowPos (fp, at);
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
