@@ -41,6 +41,7 @@ PFINPUT=pfinput$(DLL)
 STDPL=stdphyslayer$(DLL)
 CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
+CELPYTHON=celpyth$(EXE)
 
 #------
 # Location of sources and object files
@@ -67,8 +68,10 @@ PFINV_SRC=$(wildcard plugins/propclass/inv/*.cpp plugins/propclass/common/*.cpp)
 PFINV_OBJS=$(addsuffix .o, $(basename $(PFINV_SRC)))
 PFINPUT_SRC=$(wildcard plugins/propclass/input/*.cpp plugins/propclass/common/*.cpp)
 PFINPUT_OBJS=$(addsuffix .o, $(basename $(PFINPUT_SRC)))
-CELTEST_SRC=$(wildcard celtest/*.cpp)
+CELTEST_SRC=$(wildcard apps/celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
+CELPYTHON_SRC=$(wildcard apps/celpython/*.cpp)
+CELPYTHON_OBJS=$(addsuffix .o, $(basename $(CELPYTHON_SRC)))
 OUT=.
 
 #------
@@ -116,6 +119,7 @@ PFENG_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFINV_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFINPUT_LINKFLAGS :=  $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 CELTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+CELPYTHON_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 
 #------
 # Rules
@@ -130,8 +134,8 @@ DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 .cpp.o: $<
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-all: $(CSCONFIG.MAK) $(CPERSIST) $(STDPL) $(CELTEST) $(BLTEST) $(PFTEST) \
-	$(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT) \
+all: $(CSCONFIG.MAK) $(CPERSIST) $(STDPL) $(CELTEST) $(CELPYTHON) $(BLTEST)
+	$(PFTEST) $(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT) \
 	$(BLPYTHON)
 
 $(CPERSIST): $(CPERSIST_OBJS)
@@ -173,13 +177,17 @@ $(PFINPUT): $(PFINPUT_OBJS)
 $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
+$(CELPYTHON): $(CELPYTHON_OBJS)
+	$(DO.EXEC) $(CELPYTHON_LINKFLAGS)
+
 clean:
 	$(RM) $(CPERSIST_OBJS) $(STDPL_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) \
 		$(PFMESH_OBJS) $(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) \
 		$(CELTEST_OBJS) $(PFENG_OBJS) $(PFINPUT_OBJS) $(BLPYTHON_OBJS) \
+		$(CELPYTHON_OBJS) \
 		$(CPERSIST) $(STDPL) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST) \
-		$(BLPYTHON) *.def
+		$(CELPYTHON) $(BLPYTHON) *.def
 
 #------
 # Run swig for the blpython plugin.
@@ -205,6 +213,7 @@ depend: $(CSCONFIG.MAK)
 	gcc -M $(CXXFLAGS) $(PFINV_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(PFINPUT_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(CELPYHON_SRC) >> makefile.dep
 
 #------
 # Re-create the config flags include file
