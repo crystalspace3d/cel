@@ -295,7 +295,9 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
 	  _yz = angle_yz + delta_yz;
 	  _xz = angle_xz + delta_xz;
-	} else {
+	}
+	else
+	{
 	  alter_angle = false;
 
 	  angle_xz = _xz;
