@@ -878,9 +878,6 @@ class iPolygon3DStaticPtr(iBasePtr):
     def CreatePlane(self,arg0,arg1):
         val = blcelc.iPolygon3DStatic_CreatePlane(self.this,arg0.this,arg1)
         return val
-    def SetPlane(self,arg0):
-        val = blcelc.iPolygon3DStatic_SetPlane(self.this,arg0)
-        return val
     def SetTextureSpace(self,arg0,arg1,arg2):
         val = blcelc.iPolygon3DStatic_SetTextureSpace(self.this,arg0.this,arg1.this,arg2)
         return val
