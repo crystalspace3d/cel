@@ -1828,9 +1828,7 @@ bool iPcRegion_LoadWorld(iPcRegion *self,char const *vfsdir,char const *name){
       return self->Load();
     }
 
-iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, const char *name) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char *name) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcregion"));
   if(!pc.IsValid()) return 0;
   csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
@@ -1847,9 +1845,7 @@ iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) {
 }
 
 
-iPcCamera *celCreateCamera(iObjectRegistry *object_reg, iCelEntity *world, iCelEntity *entity, const char *name) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *world, iCelEntity *entity, const char *name) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, name));
   if(!pc.IsValid()) return 0;
   csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
@@ -83392,7 +83388,7 @@ static PyObject * iPcRegion_swigregister(PyObject *self, PyObject *args) {
 }
 static PyObject *_wrap_celCreateRegion(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     char *arg3 ;
     iPcRegion *result;
@@ -83400,7 +83396,7 @@ static PyObject *_wrap_celCreateRegion(PyObject *self, PyObject *args) {
     PyObject * obj1 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"OOs:celCreateRegion",&obj0,&obj1,&arg3)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (iPcRegion *)celCreateRegion(arg1,arg2,(char const *)arg3);
     
@@ -83699,7 +83695,7 @@ static PyObject * iPcCamera_swigregister(PyObject *self, PyObject *args) {
 }
 static PyObject *_wrap_celCreateCamera(PyObject *self, PyObject *args) {
     PyObject *resultobj;
-    iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
     iCelEntity *arg3 = (iCelEntity *) 0 ;
     char *arg4 ;
@@ -83709,7 +83705,7 @@ static PyObject *_wrap_celCreateCamera(PyObject *self, PyObject *args) {
     PyObject * obj2 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"OOOs:celCreateCamera",&obj0,&obj1,&obj2,&arg4)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectRegistry,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_iCelEntity,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (iPcCamera *)celCreateCamera(arg1,arg2,arg3,(char const *)arg4);
