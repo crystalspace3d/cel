@@ -47,6 +47,7 @@ class celBlXml : public iCelBlLayer, public iCelBlLayerGenerate
 public:
   // This is the call stack: useful for debugging.
   csArray<const char*> call_stack;
+  csArray<iCelEntity*> call_stack_entity;
   csArray<iCelParameterBlock*> call_stack_params;
   // If true we will trace all changes to variables and properties.
   bool varprop_trace;
