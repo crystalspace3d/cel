@@ -424,7 +424,7 @@ void celPcCamera::AdaptDistanceClipping (csTicks elapsed_time)
   fp.smooth_fps = 0.5*curr_fps + 0.5*fp.smooth_fps;
 
   fp.accumulated_elapsed += elapsed_time;
-  if (fp.accumulated_elapsed > 1000)
+  if (fp.accumulated_elapsed > 500)
   {
     fp.accumulated_elapsed = 0;
     float change;
@@ -435,14 +435,14 @@ void celPcCamera::AdaptDistanceClipping (csTicks elapsed_time)
 
     if (fp.smooth_fps < fp.min_fps)
     {
-      change = 2.0 * (fp.min_fps - fp.smooth_fps);
+      change = (fp.min_fps - fp.smooth_fps);
       curr_dist -= change;
       if (curr_dist < fp.min_dist) curr_dist = fp.min_dist;
       SetDistanceClipping (curr_dist);
     }
     else if (fp.smooth_fps > fp.max_fps)
     {
-      change = 2.0 * (fp.smooth_fps - fp.max_fps);
+      change = (fp.smooth_fps - fp.max_fps);
       curr_dist += change;
       if (curr_dist > FP_MAX_DIST) curr_dist = FP_MAX_DIST;
       SetDistanceClipping (curr_dist);
