@@ -49,7 +49,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctest"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcTest : public iPcTest

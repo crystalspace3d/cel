@@ -433,7 +433,6 @@ class iFontServerPtr(iBasePtr):
         self.thisown = 0
     def LoadFont(self,arg0):
         val = blcelc.iFontServer_LoadFont(self.this,arg0)
-        val = iFontPtr(val)
         return val
     def GetFontCount(self):
         val = blcelc.iFontServer_GetFontCount(self.this)
@@ -769,7 +768,6 @@ class iMeshObjectPtr(iBasePtr):
         self.thisown = 0
     def Query_iThingState(self):
         val = blcelc.iMeshObject_Query_iThingState(self.this)
-        val = iThingStatePtr(val)
         return val
     def __repr__(self):
         return "<C iMeshObject instance>"
@@ -962,7 +960,6 @@ class iTextureManagerPtr(iBasePtr):
         self.thisown = 0
     def RegisterTexture(self,arg0,arg1):
         val = blcelc.iTextureManager_RegisterTexture(self.this,arg0.this,arg1)
-        val = iTextureHandlePtr(val)
         return val
     def PrepareTextures(self):
         val = blcelc.iTextureManager_PrepareTextures(self.this)
@@ -1164,7 +1161,6 @@ class iEnginePtr(iBasePtr):
         return val
     def CreateSectorWallsMesh(self,arg0,arg1):
         val = blcelc.iEngine_CreateSectorWallsMesh(self.this,arg0.this,arg1)
-        val = iMeshWrapperPtr(val)
         return val
     def GetSectors(self):
         val = blcelc.iEngine_GetSectors(self.this)
@@ -1217,7 +1213,6 @@ class iCelPlLayerPtr(iBasePtr):
         self.thisown = 0
     def CreateEntity(self):
         val = blcelc.iCelPlLayer_CreateEntity(self.this)
-        val = iCelEntityPtr(val)
         return val
     def CreatePropertyClass(self,arg0,arg1):
         val = blcelc.iCelPlLayer_CreatePropertyClass(self.this,arg0.this,arg1)

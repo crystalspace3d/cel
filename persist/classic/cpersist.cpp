@@ -83,18 +83,16 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
 iCelPersistanceContext* celPersistClassic::CreateContext(iBase* data, int mode
     , bool performmapping)
 {
-  iFile* file = SCF_QUERY_INTERFACE(data, iFile);
+  csRef<iFile> file (SCF_QUERY_INTERFACE(data, iFile));
   if (!file)
     return NULL;
 
   celPersistClassicContext* context = new celPersistClassicContext;
   if (!context->Initialize(object_reg, file, mode, performmapping))
   {
-    file->DecRef();
     delete context;
     return NULL;
   }
-  file->DecRef();
   
   return context;
 }
@@ -104,7 +102,7 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   celPersistClassicContext* context;
   csMemFile m;
   
-  iFile* mf = SCF_QUERY_INTERFACE (&m, iFile);
+  csRef<iFile> mf (SCF_QUERY_INTERFACE (&m, iFile));
   context = new celPersistClassicContext;
   if (!context->Initialize(object_reg, mf, CEL_PERSIST_MODE_WRITE, false))
   {
@@ -114,23 +112,19 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
 
   if (!context->WriteMarker ("CEL0"))
   {
-    mf->DecRef ();
     context->DecRef();
     return false;
   }
   if (!context->Write (entity))
   {
-    mf->DecRef ();
     context->DecRef();
     return false;
   }
   context->DecRef();
 
-  iVFS* vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
   CS_ASSERT (vfs != NULL);
   vfs->WriteFile (name, m.GetData (), m.GetSize ());
-  mf->DecRef ();
-  vfs->DecRef ();
 
   return true;
 }
@@ -140,11 +134,10 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   celPersistClassicContext* context;
   iCelEntity* ent;
   
-  iVFS* vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
   CS_ASSERT (vfs != NULL);
 
-  iDataBuffer* data = vfs->ReadFile (name);
-  vfs->DecRef();
+  csRef<iDataBuffer> data (vfs->ReadFile (name));
   if (!data)
       return NULL;
 
@@ -157,7 +150,6 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   {
     context->Report ("File is not a CEL file, bad marker '%s'!", "CEL0");
     context->DecRef();
-    data->DecRef ();
     return NULL;
   }
   
@@ -165,13 +157,11 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   {
     context->Report ("Failed to load entity!");
     context->DecRef();
-    data->DecRef();
     return NULL;
   }
   ent->IncRef();
 
   context->DecRef();
-  data->DecRef ();
 
   return ent;
 }
@@ -183,8 +173,6 @@ celPersistClassicContext::celPersistClassicContext()
   SCF_CONSTRUCT_IBASE(0);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntityRemoveCallback);
   object_reg = NULL;
-  pl = NULL;
-  file = NULL; 
 }
 
 celPersistClassicContext::~celPersistClassicContext()
@@ -192,10 +180,6 @@ celPersistClassicContext::~celPersistClassicContext()
   // free our references to entities
   Clear();
     
-  if (pl)
-    pl->DecRef();
-  if (file)
-    file->DecRef();
   if (performmapping)
     pl->UnregisterRemoveCallback(&scfiCelEntityRemoveCallback);
 }
@@ -242,7 +226,6 @@ bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
     return false;
   
   celPersistClassicContext::file = file;
-  file->IncRef();
   (void) mode;
 
   if (performmapping)
@@ -256,13 +239,10 @@ void celPersistClassicContext::Report (const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  iReporter* rep = CS_QUERY_REGISTRY (object_reg, iReporter);
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
-  {
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persist.classic",
     	msg, arg);
-    rep->DecRef ();
-  }
   else
   {
     csPrintfV (msg, arg);
@@ -300,7 +280,7 @@ iCelEntity* celPersistClassicContext::FindEntity (CS_ID id)
 
 iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 {
-  iCelEntity* entity;
+  csRef<iCelEntity> entity;
   
   if (!performmapping)
   {
@@ -320,6 +300,7 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 	CS_ID* tmpid = new CS_ID(id);
 	read_ids.Put (entity->GetID(), tmpid);
 	temprefs.Push (entity);
+	entity->IncRef ();	// IncRef for temprefs.
       }
     }
   }
@@ -558,6 +539,7 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
   READDEBUG("DTBF");
   int32 ser;
   db = NULL;
+  csRef<iCelDataBuffer> dbref;
   if (!Read (ser))
   {
     Report ("File truncated while reading data buffer serial number!");
@@ -569,7 +551,8 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
     Report ("File truncated while reading number of data entries!");
     return false;
   }
-  db = pl->CreateDataBuffer (ser);
+  dbref = pl->CreateDataBuffer (ser);
+  db = dbref;
   db->SetDataCount (cnt);
   int i;
   for (i = 0 ; i < cnt ; i++)
@@ -577,12 +560,13 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
     if (!Read (db->GetData (i)))
     {
       Report ("Error reading data entry %d!", i);
-      db->DecRef ();
       db = NULL;
+      dbref = NULL;
       return false;
     }
   }
 
+  if (dbref) dbref->IncRef (); // Avoid smart pointer release.
   return true;
 }
 
@@ -839,15 +823,9 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
   // First write entity ID, then property class name.
   if (!WriteID (pc_ent)) return false;
   if (!Write (pc->GetName ())) return false;
-  iCelDataBuffer* db = pc->Save ();
+  csRef<iCelDataBuffer> db (pc->Save ());
   if (!db) return false;
-  if (!Write (db))
-  {
-    db->DecRef ();
-    return false;
-  }
-  db->DecRef ();
-  return true;
+  return Write (db);
 }
 
 bool celPersistClassicContext::Write (iCelEntity* entity)

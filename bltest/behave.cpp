@@ -89,7 +89,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
 {
   (void)arg;
-  iPcMeshSelectData* dat = NULL;
+  csRef<iPcMeshSelectData> dat;
   if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
   int x, y, but;
@@ -106,30 +106,24 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
     {
       printf ("  UP '%s' (%d,%d,%d)\n", ent->GetName (),
       	x, y, dat->GetMouseButton ());
-      iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-      	iPcMesh);
-      iPcCamera* pccamera = CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcCamera);
-      iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iPcMesh> pcmesh (
+      	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh));
+      csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcCamera));
+      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       pcmesh->Hide ();
       iCelEntity* drop_ent = pl->GetHitEntity (pccamera->GetCamera (), x, y);
       pcmesh->Show ();
-      pl->DecRef ();
-      pccamera->DecRef ();
       if (drop_ent && !strncmp (drop_ent->GetName (), "box", 3))
       {
-        iPcInventory* pcinv = CEL_QUERY_PROPCLASS (
-		drop_ent->GetPropertyClassList (), iPcInventory);
+        csRef<iPcInventory> pcinv (CEL_QUERY_PROPCLASS (
+		drop_ent->GetPropertyClassList (), iPcInventory));
         if (pcinv)
-	{
 	  if (pcinv->AddEntity (ent))
 	  {
 	    pcmesh->Hide ();
 	  }
-	  pcinv->DecRef ();
-	}
       }
-      pcmesh->DecRef ();
     }
     else if (!strcmp (msg_id, "pcmeshsel_down"))
       printf ("  DOWN '%s' (%d,%d,%d)\n", ent->GetName (),
@@ -138,8 +132,8 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
 
   if (dat && !strcmp (msg_id, "pcmeshsel_move"))
   {
-    iPcTooltip* pctooltip = CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcTooltip);
+    csRef<iPcTooltip> pctooltip (CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcTooltip));
     if (ent)
     {
       pctooltip->SetText (ent->GetName ());
@@ -147,10 +141,8 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else
      pctooltip->Hide ();
-    pctooltip->DecRef ();
   }
 
-  if (dat) dat->DecRef ();
   fflush (stdout);
   return false;
 }
@@ -166,15 +158,15 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
 {
   (void)arg;
-  iPcMeshSelectData* dat = NULL;
+  csRef<iPcMeshSelectData> dat;
   if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
   iCelEntity* ent = NULL;
   if (dat) ent = dat->GetEntity ();
   if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {
-    iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcMesh);
+    csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcMesh));
     CS_ASSERT (pcmesh != NULL);
     const char* curact = pcmesh->GetAction ();
     if (!strcmp (curact, "open"))
@@ -183,33 +175,31 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
     {
       pcmesh->SetAction ("open");
       // If the box is opened we remove everything from it.
-      iPcTimer* pctimer = CEL_QUERY_PROPCLASS (
-		entity->GetPropertyClassList (), iPcTimer);
+      csRef<iPcTimer> pctimer (CEL_QUERY_PROPCLASS (
+		entity->GetPropertyClassList (), iPcTimer));
       CS_ASSERT (pctimer != NULL);
       pctimer->WakeUp (200, false);
-      pctimer->DecRef ();
     }
-    pcmesh->DecRef ();
   }
   else if (!strcmp (msg_id, "pctimer_wakeup"))
   {
-    iPcTimer* pctimer = CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcTimer);
+    csRef<iPcTimer> pctimer (CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcTimer));
     CS_ASSERT (pctimer != NULL);
-    iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcMesh);
+    csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcMesh));
     CS_ASSERT (pcmesh != NULL);
     // Remove one entity from the box.
-    iPcInventory* pcinv = CEL_QUERY_PROPCLASS (
-		entity->GetPropertyClassList (), iPcInventory);
+    csRef<iPcInventory> pcinv (CEL_QUERY_PROPCLASS (
+		entity->GetPropertyClassList (), iPcInventory));
     CS_ASSERT (pcinv != NULL);
     if (pcinv->GetEntityCount () > 0)
     {
       iCelEntity* inv_ent = pcinv->GetEntity (0);
-      iPcGravity* inv_ent_gravity = CEL_QUERY_PROPCLASS (
-	    	inv_ent->GetPropertyClassList (), iPcGravity);
-      iPcMesh* inv_ent_mesh = CEL_QUERY_PROPCLASS (
-	    	inv_ent->GetPropertyClassList (), iPcMesh);
+      csRef<iPcGravity> inv_ent_gravity (CEL_QUERY_PROPCLASS (
+	    	inv_ent->GetPropertyClassList (), iPcGravity));
+      csRef<iPcMesh> inv_ent_mesh (CEL_QUERY_PROPCLASS (
+	    	inv_ent->GetPropertyClassList (), iPcMesh));
       if (inv_ent_mesh)
       {
 	inv_ent_mesh->Show ();
@@ -227,9 +217,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 	  printf ("%g,%g,%g\n", dx, 4.0, dy); fflush (stdout);
 	  inv_ent_gravity->ApplyForce (csVector3 (dx, 4, dy), .5);
 	}
-	inv_ent_mesh->DecRef ();
       }
-      if (inv_ent_gravity) inv_ent_gravity->DecRef ();
       pcinv->RemoveEntity (inv_ent);
     }
     if (pcinv->GetEntityCount () > 0)
@@ -237,12 +225,8 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
       // Restart timer.
       pctimer->WakeUp (200, false);
     }
-    pcinv->DecRef ();
-    pcmesh->DecRef ();
-    pctimer->DecRef ();
   }
 
-  if (dat) dat->DecRef ();
   return false;
 }
 
@@ -268,8 +252,8 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
 
   if (pcinput_msg)
   {
-    iPcGravity *pcgravity = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
-        iPcGravity);
+    csRef<iPcGravity> pcgravity (
+    	CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcGravity));
     if (!pcgravity)
       return false;
 
@@ -320,11 +304,10 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     else if (!strcmp (msg_id+11, "cammode1"))
     {
       fpscam = fpscam ? 0 : 1;
-      iPcCamera* pccam;
-      pccam = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera);
+      csRef<iPcCamera> pccam (
+      	CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera));
       if (!pccam)
       {
-        pcgravity->DecRef ();
         return false;
       }
 
@@ -339,9 +322,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
         printf ("Free look mode\n");
         pccam->SetMode (iPcCamera::freelook, false);
       }
-      pccam->DecRef();
     }
-    pcgravity->DecRef ();
   }
 
   return bhroom->SendMessageV (msg_id, msg_info, arg);

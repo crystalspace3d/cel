@@ -56,7 +56,7 @@ CEL_DECLARE_FACTORY(Gravity2)
 class celPcMovable : public celPcCommon
 {
 private:
-  iPcMesh* pcmesh;
+  csRef<iPcMesh> pcmesh;
   csVector constraints;
 
 public:
@@ -73,7 +73,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmovable"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMovable : public iPcMovable
@@ -116,8 +116,8 @@ public:
 class celPcSolid : public celPcCommon
 {
 private:
-  iPcMesh* pcmesh;
-  iCollider* collider;
+  csRef<iPcMesh> pcmesh;
+  csRef<iCollider> collider;
 
 public:
   celPcSolid (iObjectRegistry* object_reg);
@@ -129,7 +129,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcsolid"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcSolid : public iPcSolid
@@ -156,7 +156,7 @@ public:
 class celPcMovableConstraintCD : public celPcCommon
 {
 private:
-  iCollideSystem* cdsys;
+  csRef<iCollideSystem> cdsys;
 
 public:
   celPcMovableConstraintCD (iObjectRegistry* object_reg);
@@ -167,7 +167,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcMovableConstraintCD : public iPcMovableConstraint
@@ -187,12 +187,12 @@ public:
 class celPcGravity : public celPcCommon
 {
 private:
-  iPcMovable* pcmovable;
-  iPcSolid* pcsolid;
-  iCollider* gravity_collider;
-  iCollideSystem* cdsys;
-  iCelPlLayer* pl;
-  iVirtualClock* vc;
+  csRef<iPcMovable> pcmovable;
+  csRef<iPcSolid> pcsolid;
+  csRef<iCollider> gravity_collider;
+  csRef<iCollideSystem> cdsys;
+  csRef<iCelPlLayer> pl;
+  csRef<iVirtualClock> vc;
 
   bool active;
   bool is_resting;
@@ -256,7 +256,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcgravity"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcGravity : public iPcGravity

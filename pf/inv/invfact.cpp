@@ -71,11 +71,10 @@ celPcInventory::~celPcInventory ()
 
 #define INVENTORY_SERIAL 1
 
-iCelDataBuffer* celPcInventory::Save ()
+csPtr<iCelDataBuffer> celPcInventory::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (INVENTORY_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (INVENTORY_SERIAL));
   databuf->SetDataCount (
   	1+constraints.Length ()*5 +
   	1+contents.Length ());
@@ -96,7 +95,8 @@ iCelDataBuffer* celPcInventory::Save ()
     iCelEntity* ent = (iCelEntity*)contents[i];
     databuf->GetData (j++)->Set (ent);
   }
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcInventory::Load (iCelDataBuffer* databuf)
@@ -137,13 +137,10 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     cd->value.ent->IncRef();
     contents.Push (cd->value.ent);
     DG_LINK (this, cd->value.ent->QueryObject ());
-    iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-  	cd->value.ent->GetPropertyClassList (), iPcCharacteristics);
+    csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+  	cd->value.ent->GetPropertyClassList (), iPcCharacteristics));
     if (pcchar)
-    {
       pcchar->AddToInventory (&scfiPcInventory);
-      pcchar->DecRef ();
-    }
   }
 
   return true;
@@ -157,12 +154,10 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   // not undo this change.
   int idx = contents.Push (child);
   DG_LINK (this, child->QueryObject ());
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-  	child->GetPropertyClassList (), iPcCharacteristics);
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+  	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
-  {
     pcchar->AddToInventory (&scfiPcInventory);
-  }
 
   // First try if everything is ok.
   MarkDirty (NULL);
@@ -173,16 +168,12 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     contents.Delete (idx);
     DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
-    {
       pcchar->RemoveFromInventory (&scfiPcInventory);
-      pcchar->DecRef ();
-    }
     return false;
   }
 
   // Everything ok.
   child->IncRef ();
-  if (pcchar) pcchar->DecRef ();
 
   // Send messages.
   iCelBehaviour* bh;
@@ -206,12 +197,10 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // not undo this change.
   contents.Delete (idx);
   DG_UNLINK (this, child->QueryObject ());
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-  	child->GetPropertyClassList (), iPcCharacteristics);
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+  	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
-  {
     pcchar->RemoveFromInventory (&scfiPcInventory);
-  }
 
   // First try if everything is ok.
   MarkDirty (NULL);
@@ -222,10 +211,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     contents.Push (child);
     DG_LINK (this, child->QueryObject ());
     if (pcchar)
-    {
       pcchar->AddToInventory (&scfiPcInventory);
-      pcchar->DecRef ();
-    }
     return false;
   }
 
@@ -240,7 +226,6 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   if (bh) bh->SendMessage ("pcinventory_removed", entity);
 
   child->DecRef ();
-  if (pcchar) pcchar->DecRef ();
   return true;
 }
 
@@ -383,17 +368,12 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
     for (i = 0 ; i < contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-      	child->GetPropertyClassList (), iPcCharacteristics);
+      csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+      	child->GetPropertyClassList (), iPcCharacteristics));
       if (pcchar)
-      {
 	c->currentValue += pcchar->GetCharacteristic (charName);
-	pcchar->DecRef ();
-      }
       else
-      {
 	c->currentValue += DEF;
-      }
     }
     c->dirty = false;
   }
@@ -430,8 +410,8 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     for (i = 0 ; i < contents.Length () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-      	child->GetPropertyClassList (), iPcCharacteristics);
+      csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+      	child->GetPropertyClassList (), iPcCharacteristics));
       float child_val = DEF;
       if (pcchar && pcchar->HasCharacteristic (charName))
       {
@@ -443,7 +423,6 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
         // child doesn't have this characteristic.
         return false;
       }
-      if (pcchar) pcchar->DecRef ();
 
       if (child_val < minValue || child_val > maxValue) return false;
       curValue += child_val;
@@ -474,12 +453,11 @@ bool celPcInventory::TestConstraints (const char* charName)
   // Local contents seems to be ok. No check if this entity
   // also has characteristics and in that case check constraints
   // for that too.
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-  	entity->GetPropertyClassList (), iPcCharacteristics);
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+  	entity->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
   {
     bool rc = pcchar->TestConstraints (charName);
-    pcchar->DecRef ();
     return rc;
   }
 
@@ -504,13 +482,10 @@ void celPcInventory::MarkDirty (const char* name)
     }
   }
   if (!entity) return;
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
-  	entity->GetPropertyClassList (), iPcCharacteristics);
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+  	entity->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
-  {
     pcchar->MarkDirty (name);
-    pcchar->DecRef ();
-  }
 }
 
 void celPcInventory::Dump ()
@@ -558,11 +533,10 @@ celPcCharacteristics::~celPcCharacteristics ()
 
 #define CHARACTERISTICS_SERIAL 1
 
-iCelDataBuffer* celPcCharacteristics::Save ()
+csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (CHARACTERISTICS_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (CHARACTERISTICS_SERIAL));
   databuf->SetDataCount (
   	1+chars.Length ()*4);
   int i, j = 0;
@@ -575,7 +549,8 @@ iCelDataBuffer* celPcCharacteristics::Save ()
     databuf->GetData (j++)->Set (c->factor);
     databuf->GetData (j++)->Set (c->add);
   }
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
@@ -709,12 +684,12 @@ float celPcCharacteristics::GetInheritedCharacteristic (const char* name) const
 
   if (ABS (factor) < SMALL_EPSILON) return add;
 
-  iPcInventory* pcinv = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcInventory);
+  csRef<iPcInventory> pcinv (
+  	CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+	iPcInventory));
   if (pcinv)
   {
     float invval = pcinv->GetCurrentCharacteristic (name);
-    pcinv->DecRef ();
     return invval * factor + add;
   }
   return add;
@@ -792,12 +767,10 @@ void celPcCharacteristics::Dump ()
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (inv, iCelPropertyClass);
+    csRef<iCelPropertyClass> pc (
+    	SCF_QUERY_INTERFACE (inv, iCelPropertyClass));
     if (pc)
-    {
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());
-      pc->DecRef ();
-    }
   }
 }
 

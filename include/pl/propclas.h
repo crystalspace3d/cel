@@ -62,7 +62,7 @@ struct iCelPropertyClass : public iBase
   /**
    * Save this object to a data buffer.
    */
-  virtual iCelDataBuffer* Save () = 0;
+  virtual csPtr<iCelDataBuffer> Save () = 0;
 
   /**
    * Load this object from a data buffer.

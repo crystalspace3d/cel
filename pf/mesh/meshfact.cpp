@@ -74,7 +74,6 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
-  mesh = NULL;
   visible = true;
   fileName = NULL;
   factName = NULL;
@@ -93,18 +92,13 @@ void celPcMesh::Clear ()
   delete[] factName; factName = NULL;
   if (mesh)
   {
-    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
     if (pl)
-    {
       pl->UnattachEntity (mesh->QueryObject (), entity);
-      pl->DecRef ();
-    }
 
-    iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+    csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
     CS_ASSERT (engine != NULL);
     engine->GetMeshes ()->Remove (mesh);
-    mesh->DecRef ();
-    engine->DecRef ();
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
@@ -113,11 +107,10 @@ void celPcMesh::Clear ()
 
 #define MESH_SERIAL 1
 
-iCelDataBuffer* celPcMesh::Save ()
+csPtr<iCelDataBuffer> celPcMesh::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (MESH_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MESH_SERIAL));
   iMovable* mov = mesh->GetMovable ();
   iSectorList* sl = mov->GetSectors ();
   databuf->SetDataCount (4+1+sl->GetCount ()+1+9);
@@ -144,7 +137,8 @@ iCelDataBuffer* celPcMesh::Save ()
   databuf->GetData (j++)->Set (tr.GetO2T ().m32);
   databuf->GetData (j++)->Set (tr.GetO2T ().m33);
 
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcMesh::Load (iCelDataBuffer* databuf)
@@ -173,7 +167,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (4); if (!cd) return false;
   uint16 cnt = cd->value.uw;
   mesh->GetMovable ()->ClearSectors ();
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   int i, j = 5;
   for (i = 0 ; i < cnt ; i++)
@@ -183,7 +177,6 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
     CS_ASSERT (s != NULL);
     mesh->GetMovable ()->GetSectors ()->Add (s);
   }
-  engine->DecRef ();
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
@@ -220,10 +213,10 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  iLoader* loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
   CS_ASSERT (loader != NULL);
-  iMeshFactoryWrapper* imeshfact = loader->LoadMeshObjectFactory (fileName);
-  loader->DecRef ();
+  csRef<iMeshFactoryWrapper> imeshfact (
+  	loader->LoadMeshObjectFactory (fileName));
   if (imeshfact == NULL)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -231,7 +224,6 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     	"Error loading mesh object factory '%s'!", fileName);
     return NULL;
   }
-  imeshfact->DecRef ();
   return imeshfact;
 }
 
@@ -242,11 +234,10 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   delete[] factName;
   factName = csStrNew (factname);
 
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
@@ -262,10 +253,9 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
       if (meshfact)
       {
         // Cache the factory.
-        iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+        csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
         CS_ASSERT (pl != NULL);
 	pl->Cache (meshfact);
-        pl->DecRef ();
         meshfact->IncRef ();
       }
     }
@@ -280,64 +270,51 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
       factory_ptr = meshfact;
 
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
-      iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       pl->AttachEntity (mesh->QueryObject (), entity);
-      pl->DecRef ();
       FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
     }
   }
-
-  engine->DecRef ();
 }
 
 void celPcMesh::SetMesh (iMeshWrapper* m)
 {
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   mesh = m;
-  mesh->IncRef();
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
-  pl->DecRef ();
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
-
-  engine->DecRef ();
 }
 
 void celPcMesh::CreateEmptyThing ()
 {
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   if (mesh)
   {
-    mesh->DecRef ();
     engine->GetMeshes ()->Remove (mesh);
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
   iMeshObjectType* thing_type = engine->GetThingType ();
-  iMeshObjectFactory* thing_fact = thing_type->NewFactory ();
-  iMeshObject* thing_obj = SCF_QUERY_INTERFACE (thing_fact, iMeshObject);
-  thing_fact->DecRef ();
+  csRef<iMeshObjectFactory> thing_fact (thing_type->NewFactory ());
+  csRef<iMeshObject> thing_obj (SCF_QUERY_INTERFACE (thing_fact, iMeshObject));
 
   mesh = engine->CreateMeshWrapper (thing_obj, entity->GetName (), NULL,
 		  csVector3 (0));
 
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
-  pl->DecRef ();
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
-
-  thing_obj->DecRef ();
 }
 
 void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
@@ -353,25 +330,23 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
   CS_ASSERT (mesh != NULL);
-  iSprite3DState* state = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
-  	iSprite3DState);
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
   if (state)
   {
     if (resetaction || strcmp (actionName, state->GetCurAction()->GetName ()))
 	state->SetAction (actionName);
-    state->DecRef ();
   }
 }
 
 const char* celPcMesh::GetAction ()
 {
   CS_ASSERT (mesh != NULL);
-  iSprite3DState* state = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
-  	iSprite3DState);
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
   if (state)
   {
     const char* act = state->GetCurAction ()->GetName ();
-    state->DecRef ();
     return act;
   }
   return NULL;
@@ -440,12 +415,9 @@ celPcMeshSelect::~celPcMeshSelect ()
 {
   if (scfiEventHandler)
   {
-    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     if (q)
-    {
       q->RemoveListener (scfiEventHandler);
-      q->DecRef ();
-    }
     scfiEventHandler->DecRef ();
   }
   SetCamera (NULL);
@@ -457,27 +429,24 @@ void celPcMeshSelect::SetupEventHandler ()
   {
     scfiEventHandler = new EventHandler (this);
   }
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != NULL);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
   if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
   q->RegisterListener (scfiEventHandler, trigger);
-  q->DecRef ();
 }
 
 #define MESHSEL_SERIAL 1
 
-iCelDataBuffer* celPcMeshSelect::Save ()
+csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (MESHSEL_SERIAL));
   databuf->SetDataCount (13);
-  iCelPropertyClass* pc = NULL;
+  csRef<iCelPropertyClass> pc;
   if (pccamera) pc = SCF_QUERY_INTERFACE (pccamera, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
-  if (pc) pc->DecRef ();
   databuf->GetData (1)->Set (sel_entity);
   databuf->GetData (2)->SetBool (cur_on_top);
   databuf->GetData (3)->Set ((uint32)mouse_buttons);
@@ -490,7 +459,8 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   databuf->GetData (10)->SetBool (do_sendmove);
   databuf->GetData (11)->SetBool (do_sendup);
   databuf->GetData (12)->SetBool (do_senddown);
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
@@ -500,10 +470,9 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   if (databuf->GetDataCount () != 13) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
-  iPcCamera* pcm = NULL;
+  csRef<iPcCamera> pcm;
   if (cd->value.pc) pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcCamera);
   SetCamera (pcm);
-  if (pcm) pcm->DecRef ();
 
   cd = databuf->GetData (1); if (!cd) return false;
   sel_entity = cd->value.ent;
@@ -595,17 +564,16 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (sel)
     {
       iObject* sel_obj = sel->QueryObject ();
-      iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       new_sel = pl->FindAttachedEntity (sel_obj);
-      pl->DecRef ();
     }
   }
 
   if (do_drag && sel_entity)
   {
-    iPcMovable* pcmovable = CEL_QUERY_PROPCLASS (
-    	sel_entity->GetPropertyClassList (), iPcMovable);
-    iPcMesh* pcmesh = NULL;
+    csRef<iPcMovable> pcmovable (CEL_QUERY_PROPCLASS (
+    	sel_entity->GetPropertyClassList (), iPcMovable));
+    csRef<iPcMesh> pcmesh;
     if (pcmovable)
       pcmesh = pcmovable->GetMesh ();
     else
@@ -644,9 +612,6 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
         pcmesh->MoveMesh (sector, isect);
       }
     }
-
-    if (pcmovable) pcmovable->DecRef ();
-    else if (pcmesh) pcmesh->DecRef ();
   }
 
   if (do_follow)
@@ -720,19 +685,18 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   {
     pccamera->IncRef ();
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (pccamera,
-    	iCelPropertyClass);
+    csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pccamera,
+    	iCelPropertyClass));
     DG_LINK (this, pc);
-    pc->DecRef ();
 #endif
   }
   if (celPcMeshSelect::pccamera)
   {
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
-    	iCelPropertyClass);
+    csRef<iCelPropertyClass> pc (
+    	SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
+    	iCelPropertyClass));
     DG_UNLINK (this, pc);
-    pc->DecRef ();
 #endif
     celPcMeshSelect::pccamera->DecRef ();
   }

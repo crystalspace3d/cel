@@ -73,7 +73,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctooltip"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcTooltip : public iPcTooltip
@@ -133,7 +133,7 @@ public:
 class celPcTimer : public celPcCommon
 {
 private:
-  iVirtualClock* vc;
+  csRef<iVirtualClock> vc;
   bool enabled;
   csTicks wakeup, wakeup_todo;
   bool repeat;
@@ -149,7 +149,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctimer"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcTimer : public iPcTimer
@@ -239,7 +239,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcproperties"; }
-  virtual iCelDataBuffer* Save ();
+  virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   struct PcProperties : public iPcProperties

@@ -1,3 +1,5 @@
+13-Sep-2002:
+	- Did a full smart pointer fix for entire CEL.
 20-Aug-2002:
 	- MatzeB removed broken automake system and replaced it with a Jam
 	  and autoconf based one

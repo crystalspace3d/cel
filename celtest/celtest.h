@@ -41,19 +41,21 @@ struct iCelPropertyClassFactory;
 
 class CelTest
 {
-private:
+public:
   iObjectRegistry* object_reg;
-  iEngine* engine;
-  iLoader* loader;
-  iGraphics3D* g3d;
-  iKeyboardDriver* kbd;
-  iVirtualClock* vc;
+
+private:
+  csRef<iEngine> engine;
+  csRef<iLoader> loader;
+  csRef<iGraphics3D> g3d;
+  csRef<iKeyboardDriver> kbd;
+  csRef<iVirtualClock> vc;
   iSector* room;
 
-  iCelPlLayer* pl;
-  iCelBlLayer* bltest;
-  iCelBlLayer* blpython;
-  iCelEntity* game;
+  csRef<iCelPlLayer> pl;
+  csRef<iCelBlLayer> bltest;
+  csRef<iCelBlLayer> blpython;
+  csRef<iCelEntity> game;
  
   static bool CelTestEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);

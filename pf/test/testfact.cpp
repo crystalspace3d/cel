@@ -60,13 +60,13 @@ celPcTest::~celPcTest ()
 
 #define TEST_SERIAL 1
 
-iCelDataBuffer* celPcTest::Save ()
+csPtr<iCelDataBuffer> celPcTest::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TEST_SERIAL));
   databuf->SetDataCount (0);
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcTest::Load (iCelDataBuffer* databuf)

@@ -93,33 +93,12 @@ CelTest* celtest;
 
 CelTest::CelTest ()
 {
-  engine = NULL;
-  loader = NULL;
-  g3d = NULL;
-  kbd = NULL;
-  vc = NULL;
-  pl = NULL;
-  bltest = NULL;
-  blpython = NULL;
-  game = NULL;
 }
 
 CelTest::~CelTest ()
 {
-  if (game) game->DecRef ();
   if (pl)
-  {
     pl->CleanCache ();
-    pl->DecRef ();
-  }
-  if (bltest) bltest->DecRef ();
-  if (blpython) blpython->DecRef ();
-  if (vc) vc->DecRef ();
-  if (engine) engine->DecRef ();
-  if (loader) loader->DecRef();
-  if (g3d) g3d->DecRef ();
-  if (kbd) kbd->DecRef ();
-  csInitializer::DestroyApplication (object_reg);
 }
 
 void CelTest::SetupFrame ()
@@ -149,18 +128,16 @@ bool CelTest::HandleEvent (iEvent& ev)
   {
     if (ev.Key.Code == CSKEY_ESC)
     {
-      iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+      csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
       if (q)
-      {
         q->GetEventOutlet()->Broadcast (cscmdQuit);
-        q->DecRef ();
-      }
       return true;
     }
     else if (ev.Key.Code == 's')
     {
       printf ("Saving to '/this/savefile'\n"); fflush (stdout);
-      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      csRef<iCelPersistance> cp (
+      	CS_QUERY_REGISTRY (object_reg, iCelPersistance));
       if (!cp)
       {
 	printf ("Couldn't find persistance context!\n");
@@ -168,11 +145,11 @@ bool CelTest::HandleEvent (iEvent& ev)
       }
       bool rc = cp->SaveEntity (game, "/this/savefile");
       printf ("  success %d\n", rc); fflush (stdout);
-      cp->DecRef ();
     }
     else if (ev.Key.Code == 'l')
     {
-      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      csRef<iCelPersistance> cp (
+      	CS_QUERY_REGISTRY (object_reg, iCelPersistance));
       if (!cp)
       {
 	printf ("Couldn't find persistance context!\n");
@@ -200,8 +177,6 @@ bool CelTest::HandleEvent (iEvent& ev)
 
       LoadTextures ();
       game = cp->LoadEntity ("/this/savefile");
-      printf ("  success %08lx\n", (unsigned long) game); fflush (stdout);
-      cp->DecRef ();
 
       csDebuggingGraph::Dump (NULL);
 
@@ -254,15 +229,16 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
 	const csVector3& pos)
 {
   iCelPropertyClass* pc;
-  iPcMesh* pcmesh;
-  iPcMeshSelect* pcmeshsel;
-  iPcMovable* pcmovable;
-  iPcMovableConstraint* pcmovableconst;
-  iPcInventory* pcinv;
-  iPcCharacteristics* pcchars;
-  iPcTest* pctest;
+  csRef<iPcMesh> pcmesh;
+  csRef<iPcMeshSelect> pcmeshsel;
+  csRef<iPcMovable> pcmovable;
+  csRef<iPcMovableConstraint> pcmovableconst;
+  csRef<iPcInventory> pcinv;
+  csRef<iPcCharacteristics> pcchars;
+  csRef<iPcTest> pctest;
 
-  iCelEntity* entity_box = pl->CreateEntity (); entity_box->SetName (name);
+  csRef<iCelEntity> entity_box (pl->CreateEntity ());
+  entity_box->SetName (name);
   entity_box->SetBehaviour (bltest->CreateBehaviour (entity_box, "box"));
 
   pc = pl->CreatePropertyClass (entity_box, "pcmeshselect");
@@ -270,7 +246,6 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcmeshsel = SCF_QUERY_INTERFACE (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
-  pcmeshsel->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_box, "pctimer");
   if (!pc) return NULL;
@@ -279,10 +254,9 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   if (!pc) return NULL;
   pc = pl->CreatePropertyClass (entity_box, "pcgravity");
   if (!pc) return NULL;
-  iPcGravity* pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
+  csRef<iPcGravity> pcgravity (SCF_QUERY_INTERFACE (pc, iPcGravity));
   pcgravity->SetWeight (weight);
   pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
-  pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_box, "pcmovable");
   if (!pc) return NULL;
   //pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
@@ -290,14 +264,11 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   //if (!pc) return NULL;
   //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   //pcmovable->AddConstraint (pcmovableconst);
-  //pcmovableconst->DecRef ();
-  //pcmovable->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_box, "pctest");
   if (!pc) return NULL;
   pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
   pctest->Print ("Hello world!");
-  pctest->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_box, "pcmesh");
   if (!pc) return NULL;
@@ -306,7 +277,6 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
-  pcmesh->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_box, "pcinventory");
   if (!pc) return NULL;
@@ -314,7 +284,6 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcinv->SetConstraints ("size", 0, max_indiv_size, max_size);
   pcinv->SetConstraints ("weight", 0, max_indiv_weight, max_weight);
   pcinv->SetStrictCharacteristics ("size", true);
-  pcinv->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_box, "pccharacteristics");
   if (!pc) return NULL;
@@ -323,8 +292,8 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcchars->SetCharacteristic ("weight", weight);
   pcchars->SetInheritedCharacteristic ("size", 0, 0);
   pcchars->SetInheritedCharacteristic ("weight", .5, 0);
-  pcchars->DecRef ();
 
+  entity_box->IncRef ();	// Avoid smart pointer release.
   return entity_box;
 }
 
@@ -334,13 +303,13 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 	const csVector3& force, bool python)
 {
   iCelPropertyClass* pc;
-  iPcMesh* pcmesh;
-  iPcMovable* pcmovable;
-  iPcMovableConstraint* pcmovableconst;
-  iPcCharacteristics* pcchars;
-  iPcGravity* pcgravity;
+  csRef<iPcMesh> pcmesh;
+  csRef<iPcMovable> pcmovable;
+  csRef<iPcMovableConstraint> pcmovableconst;
+  csRef<iPcCharacteristics> pcchars;
+  csRef<iPcGravity> pcgravity;
 
-  iCelEntity* entity_dummy = pl->CreateEntity ();
+  csRef<iCelEntity> entity_dummy (pl->CreateEntity ());
   entity_dummy->SetName (name);
   iCelBehaviour* bh;
   if (python && blpython)
@@ -354,9 +323,8 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
   pc = pl->CreatePropertyClass (entity_dummy, "pctimer");
   if (!pc) return NULL;
-  iPcTimer* pctimer = SCF_QUERY_INTERFACE (pc, iPcTimer);
+  csRef<iPcTimer> pctimer (SCF_QUERY_INTERFACE (pc, iPcTimer));
   pctimer->WakeUp (1000, true);
-  pctimer->DecRef ();
 
   entity_dummy->SetBehaviour (bh);
   pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
@@ -364,7 +332,6 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
-  pcchars->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
   if (!pc) return NULL;
@@ -380,8 +347,6 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   //if (!pc) return NULL;
   //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   //pcmovable->AddConstraint (pcmovableconst);
-  //pcmovableconst->DecRef ();
-  //pcmovable->DecRef ();
   pc = pl->CreatePropertyClass (entity_dummy, "pcmesh");
   if (!pc) return NULL;
   pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
@@ -389,11 +354,10 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
-  pcmesh->DecRef ();
 
   pcgravity->ApplyForce (force, 1);
-  pcgravity->DecRef ();
 
+  entity_dummy->IncRef ();	// Avoid smart pointer release.
   return entity_dummy;
 }
 
@@ -401,28 +365,27 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
     const csVector3& /*pos*/)
 {
   iCelPropertyClass* pc;
-  iPcMesh* pcmesh;
-  iPcCamera* pccamera;
-  iPcMeshSelect* pcmeshsel;
-  iPcMovable* pcmovable;
-  iPcMovableConstraint* pcmovableconst;
-  iPcGravity* pcgravity;
+  csRef<iPcMesh> pcmesh;
+  csRef<iPcCamera> pccamera;
+  csRef<iPcMeshSelect> pcmeshsel;
+  csRef<iPcMovable> pcmovable;
+  csRef<iPcMovableConstraint> pcmovableconst;
+  csRef<iPcGravity> pcgravity;
 
   // The Real Camera
 
-  iCelEntity* entity_cam = pl->CreateEntity ();
+  csRef<iCelEntity> entity_cam (pl->CreateEntity ());
   entity_cam->SetName (name);
   entity_cam->SetBehaviour (bltest->CreateBehaviour (entity_cam, "actor"));
 
   pc = pl->CreatePropertyClass (entity_cam, "pckeyinput");
   if (!pc) return NULL;
-  iPcCommandInput *pcinp= SCF_QUERY_INTERFACE (pc, iPcCommandInput);
+  csRef<iPcCommandInput> pcinp (SCF_QUERY_INTERFACE (pc, iPcCommandInput));
   if (!pcinp) return NULL;
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
   pcinp->Bind ("shift", "run");
   pcinp->Bind ("m", "cammode");
-  pcinp->DecRef();
 
   pc = pl->CreatePropertyClass (entity_cam, "pccamera");
   if (!pc) return NULL;
@@ -436,7 +399,6 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   sprintf (buf, "/cel/data/large");
   pcmesh->SetMesh ("large", buf);
   pcmesh->MoveMesh (room, csVector3(0,0,0));
-  pcmesh->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_cam, "pcsolid");
   if (!pc) return NULL;
@@ -445,7 +407,6 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
   pcgravity->SetWeight (.3);
   //pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
-  pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
   if (!pc) return NULL;
   pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
@@ -453,8 +414,6 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   if (!pc) return NULL;
   pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
   pcmovable->AddConstraint (pcmovableconst);
-  pcmovableconst->DecRef ();
-  pcmovable->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_cam, "pctooltip");
   if (!pc) return NULL;
@@ -470,25 +429,24 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
   pcmeshsel->SetSendmoveEvent (true);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
-  pcmeshsel->DecRef ();
 
-  pccamera->DecRef();
-
+  entity_cam->IncRef ();	// Avoid smart pointer release.
   return entity_cam;
 }
 
 bool CelTest::CreateRoom ()
 {
-  iCelEntity* entity_room;
+  csRef<iCelEntity> entity_room;
   iCelEntity* entity_dummy;
   iCelPropertyClass* pc;
-  iPcInventory* pcinv_room;
-  iPcRegion* pcregion;
+  csRef<iPcInventory> pcinv_room;
+  csRef<iPcRegion> pcregion;
 
   //===============================
   // Create the room entity.
   //===============================
-  entity_room = pl->CreateEntity (); entity_room->SetName ("room");
+  entity_room = pl->CreateEntity ();
+  entity_room->SetName ("room");
   entity_room->SetBehaviour (bltest->CreateBehaviour (entity_room, "room"));
 
   pc = pl->CreatePropertyClass (entity_room, "pcregion");
@@ -512,11 +470,10 @@ bool CelTest::CreateRoom ()
 
   entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
   if (!entity_dummy) return false;
-  iPcCamera *pccamera = CEL_QUERY_PROPCLASS
-    (entity_dummy->GetPropertyClassList(), iPcCamera);
+  csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS
+    (entity_dummy->GetPropertyClassList(), iPcCamera));
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
-  pcregion->DecRef ();
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
@@ -589,9 +546,6 @@ bool CelTest::CreateRoom ()
   entity_dummy->DecRef ();
 #endif
 
-  pcinv_room->DecRef ();
-  pccamera->DecRef ();
-
   //===============================
   game = entity_room;
 
@@ -629,9 +583,9 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
 
 bool CelTest::LoadPcFactory (const char* pcfactname)
 {
-  iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
-  iBase* pf = CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname);
-  plugin_mgr->DecRef();
+  csRef<iPluginManager> plugin_mgr (
+  	CS_QUERY_REGISTRY (object_reg, iPluginManager));
+  csRef<iBase> pf (CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname));
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -640,7 +594,6 @@ bool CelTest::LoadPcFactory (const char* pcfactname)
     return false;
   }
 
-  pf->DecRef ();
   return true;
 }
 
@@ -778,7 +731,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
   pl->RegisterBehaviourLayer (bltest);
-  iVFS* vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
   CS_ASSERT (vfs != NULL);
 #if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
   vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/celtest$/");
@@ -786,7 +739,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   vfs->Mount ("cel", "$.$/");
   vfs->Mount ("cel", "$.$/celtest$/");
 #endif // VFS_PKGDATADIR
-  vfs->DecRef ();
   
   blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
   	"iCelBlLayer.Python", iCelBlLayer);
@@ -876,6 +828,8 @@ int main (int argc, char* argv[])
   if (celtest->Initialize (argc, argv))
     celtest->Start ();
 
+  iObjectRegistry* object_reg = celtest->object_reg;
   delete celtest;
+  csInitializer::DestroyApplication (object_reg);
   return 0;
 }

@@ -74,12 +74,9 @@ celPcCommandInput::~celPcCommandInput ()
 {
   if (scfiEventHandler)
   {
-    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     if (q)
-    {
       q->RemoveListener (scfiEventHandler);
-      q->DecRef ();
-    }
     scfiEventHandler->DecRef ();
   }
 
@@ -97,11 +94,10 @@ celPcCommandInput::~celPcCommandInput ()
 
 #define COMMANDINPUT_SERIAL 1
 
-iCelDataBuffer* celPcCommandInput::Save ()
+csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 {
-  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
-  pl->DecRef ();
+  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (COMMANDINPUT_SERIAL));
   int cnt = 0;
   celKeyMap* m = maplist;
   while (m)
@@ -120,7 +116,8 @@ iCelDataBuffer* celPcCommandInput::Save ()
     m = m->next;
   }
 
-  return databuf;
+  databuf->IncRef ();	// Avoid smart pointer release.
+  return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcCommandInput::Load (iCelDataBuffer* databuf)
@@ -161,21 +158,19 @@ void celPcCommandInput::Activate (bool activate)
     if (scfiEventHandler)
       return;
 
-    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
     q->RegisterListener (scfiEventHandler, CSMASK_KeyUp | CSMASK_KeyDown);
-    q->DecRef ();
   }
   else
   {
     if (!scfiEventHandler)
       return;
 
-    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     q->RemoveListener (scfiEventHandler);
-    q->DecRef ();
     scfiEventHandler->DecRef ();
     scfiEventHandler = NULL;
   }

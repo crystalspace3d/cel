@@ -13,7 +13,7 @@
 
 struct iCelPlLayer : public iBase
 {
-  iCelEntity* CreateEntity ();
+  virtual csPtr<iCelEntity> CreateEntity ();
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity, const char* propname);
   virtual const char* FetchString (csStringID id);
 
