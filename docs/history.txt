@@ -17,6 +17,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit reverted a few changes from SetBool to Set and put them
 	  back to SetBool(). The SetBool() is the SetBool() from csFlags
 	  there which is a totally different function.
+	- Jorrit fixed a problem in pccamera. When there was no associated
+	  mesh or linmove, the camera view wouldn't be updated anymore.
 12-Jul-2004
 	- Jorrit fixed a dependency for addon_celentity plugin (with
 	  celtool).
