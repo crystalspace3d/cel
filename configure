@@ -276,7 +276,7 @@ PACKAGE_STRING='cel 0.99'
 PACKAGE_BUGREPORT='cel-main@lists.sourceforge.net'
 
 ac_unique_file="mk/jam/build.jam"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN MAKEINFO PERL SWIG MKDIR MKDIRS CRYSTAL CSCONF ac_ct_CSCONF PYTHON TTREE LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os MKDIR MKDIRS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN MAKEINFO PERL TTREE SWIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CRYSTAL CSCONF ac_ct_CSCONF LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -828,13 +828,16 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --without-python        do not use Python
+  --with-libcppunit=dir   specify location of libcppunit if not detected
+                          automatically; searches dir/include, dir/lib, and
+                          dir
   --without-cs            do not look for an installed Crystal Space SDK; this
                           option is useful only if you need to perform routine
                           maintenance tasks, such as generating project files
                           or converting documentation, without having the
                           Crystal Space SDK installed
   --with-cs-prefix=PFX    Prefix where Crystal Space is installed (optional)
-  --without-python        do not use Python
 
 Some influential environment variables:
   CC          C compiler command
@@ -1382,8 +1385,112 @@ host_os=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 
 
 #----------------------------------------------------------------------------
-# Check for applications
+# Check for tools.
 #----------------------------------------------------------------------------
+echo "$as_me:$LINENO: checking how to create a directory" >&5
+echo $ECHO_N "checking how to create a directory... $ECHO_C" >&6
+if test "${cs_cv_shell_mkdir+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cs_cv_shell_mkdir='mkdir'
+fi
+echo "$as_me:$LINENO: result: $cs_cv_shell_mkdir" >&5
+echo "${ECHO_T}$cs_cv_shell_mkdir" >&6
+    MKDIR=$cs_cv_shell_mkdir
+
+
+    echo "$as_me:$LINENO: checking how to create a directory tree" >&5
+echo $ECHO_N "checking how to create a directory tree... $ECHO_C" >&6
+if test "${cs_cv_shell_mkdir_p+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if $cs_cv_shell_mkdir -p . 2>/dev/null; then
+	    cs_cv_shell_mkdir_p='mkdir -p'
+	elif mkdirs . 2>/dev/null; then
+	    cs_cv_shell_mkdir_p='mkdirs'
+	fi
+	test -d ./-p && rmdir ./-p
+fi
+echo "$as_me:$LINENO: result: $cs_cv_shell_mkdir_p" >&5
+echo "${ECHO_T}$cs_cv_shell_mkdir_p" >&6
+    if test "${cs_cv_shell_mkdir_p+set}" = set; then
+  MKDIRS=$cs_cv_shell_mkdir_p
+
+else
+  cat >confcache <<\_ACEOF
+# This file is a shell script that caches the results of configure
+# tests run on this system so they can be shared between configure
+# scripts and configure runs, see configure's option --config-cache.
+# It is not useful on other systems.  If it contains results you don't
+# want to keep, you may remove or edit it.
+#
+# config.status only pays attention to the cache file if you give it
+# the --recheck option to rerun configure.
+#
+# `ac_cv_env_foo' variables (set or unset) will be overridden when
+# loading this file, other *unset* `ac_cv_foo' will be assigned the
+# following values.
+
+_ACEOF
+
+# The following way of writing the cache mishandles newlines in values,
+# but we know of no workaround that is simple, portable, and efficient.
+# So, don't put newlines in cache variables' values.
+# Ultrix sh set writes to stderr and can't be redirected directly,
+# and sets the high bit in the cache file unless we assign to the vars.
+{
+  (set) 2>&1 |
+    case `(ac_space=' '; set | grep ac_space) 2>&1` in
+    *ac_space=\ *)
+      # `set' does not quote correctly, so add quotes (double-quote
+      # substitution turns \\\\ into \\, and sed turns \\ into \).
+      sed -n \
+	"s/'/'\\\\''/g;
+	  s/^\\([_$as_cr_alnum]*_cv_[_$as_cr_alnum]*\\)=\\(.*\\)/\\1='\\2'/p"
+      ;;
+    *)
+      # `set' quotes correctly as required by POSIX, so do not add quotes.
+      sed -n \
+	"s/^\\([_$as_cr_alnum]*_cv_[_$as_cr_alnum]*\\)=\\(.*\\)/\\1=\\2/p"
+      ;;
+    esac;
+} |
+  sed '
+     t clear
+     : clear
+     s/^\([^=]*\)=\(.*[{}].*\)$/test "${\1+set}" = set || &/
+     t end
+     /^ac_cv_env/!s/^\([^=]*\)=\(.*\)$/\1=${\1=\2}/
+     : end' >>confcache
+if diff $cache_file confcache >/dev/null 2>&1; then :; else
+  if test -w $cache_file; then
+    test "x$cache_file" != "x/dev/null" && echo "updating cache $cache_file"
+    cat confcache >$cache_file
+  else
+    echo "not updating unwritable cache $cache_file"
+  fi
+fi
+rm -f confcache
+    { { echo "$as_me:$LINENO: error: do not know how to create a directory tree" >&5
+echo "$as_me: error: do not know how to create a directory tree" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+cs_build_prop_val="$MKDIR"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIR ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+cs_build_prop_val="$MKDIRS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIRS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
 
     ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -3412,7 +3519,14 @@ fi
 
 
 
-for ac_prog in install
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in install
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3551,7 +3665,14 @@ cs_build_prop_val="$RANLIB"
 fi
 
 
-for ac_prog in doxygen
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in doxygen
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3599,7 +3720,14 @@ cs_build_prop_val="$DOXYGEN"
 fi
 
 
-for ac_prog in makeinfo
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in makeinfo
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3647,7 +3775,14 @@ cs_build_prop_val="$MAKEINFO"
 fi
 
 
-for ac_prog in perl5 perl
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in perl5 perl
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3695,7 +3830,144 @@ cs_build_prop_val="$PERL"
 fi
 
 
-for ac_prog in swig
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in perl5 perl
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_PERL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$PERL"; then
+  ac_cv_prog_PERL="$PERL" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PERL="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+PERL=$ac_cv_prog_PERL
+if test -n "$PERL"; then
+  echo "$as_me:$LINENO: result: $PERL" >&5
+echo "${ECHO_T}$PERL" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$PERL" && break
+done
+
+    if test -n "$PERL"; then
+  echo "$as_me:$LINENO: checking for TemplateToolkit" >&5
+echo $ECHO_N "checking for TemplateToolkit... $ECHO_C" >&6
+if test "${cs_cv_perl_tt2+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if { (echo "$as_me:$LINENO: \$PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2") >&5
+  ($PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  cs_cv_perl_tt2=yes
+else
+  cs_cv_perl_tt2=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_perl_tt2" >&5
+echo "${ECHO_T}$cs_cv_perl_tt2" >&6
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in ttree
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_path_TTREE+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $TTREE in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_TTREE="$TTREE" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_TTREE="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+  ;;
+esac
+fi
+TTREE=$ac_cv_path_TTREE
+
+if test -n "$TTREE"; then
+  echo "$as_me:$LINENO: result: $TTREE" >&5
+echo "${ECHO_T}$TTREE" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$TTREE" && break
+done
+
+	if test $cs_cv_perl_tt2 = yes && test -n "$TTREE"; then
+  cs_build_prop_val="$TTREE"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}TTREE ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+fi
+
+fi
+
+
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    for ac_prog in swig
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3813,112 +4085,8 @@ fi
 fi
 
 
-echo "$as_me:$LINENO: checking how to create a directory" >&5
-echo $ECHO_N "checking how to create a directory... $ECHO_C" >&6
-if test "${cs_cv_shell_mkdir+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cs_cv_shell_mkdir='mkdir'
-fi
-echo "$as_me:$LINENO: result: $cs_cv_shell_mkdir" >&5
-echo "${ECHO_T}$cs_cv_shell_mkdir" >&6
-    MKDIR=$cs_cv_shell_mkdir
-
-
-    echo "$as_me:$LINENO: checking how to create a directory tree" >&5
-echo $ECHO_N "checking how to create a directory tree... $ECHO_C" >&6
-if test "${cs_cv_shell_mkdir_p+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if $cs_cv_shell_mkdir -p . 2>/dev/null; then
-	    cs_cv_shell_mkdir_p='mkdir -p'
-	elif mkdirs . 2>/dev/null; then
-	    cs_cv_shell_mkdir_p='mkdirs'
-	fi
-	test -d ./-p && rmdir ./-p
-fi
-echo "$as_me:$LINENO: result: $cs_cv_shell_mkdir_p" >&5
-echo "${ECHO_T}$cs_cv_shell_mkdir_p" >&6
-    if test "${cs_cv_shell_mkdir_p+set}" = set; then
-  MKDIRS=$cs_cv_shell_mkdir_p
-
-else
-  cat >confcache <<\_ACEOF
-# This file is a shell script that caches the results of configure
-# tests run on this system so they can be shared between configure
-# scripts and configure runs, see configure's option --config-cache.
-# It is not useful on other systems.  If it contains results you don't
-# want to keep, you may remove or edit it.
-#
-# config.status only pays attention to the cache file if you give it
-# the --recheck option to rerun configure.
-#
-# `ac_cv_env_foo' variables (set or unset) will be overridden when
-# loading this file, other *unset* `ac_cv_foo' will be assigned the
-# following values.
-
-_ACEOF
-
-# The following way of writing the cache mishandles newlines in values,
-# but we know of no workaround that is simple, portable, and efficient.
-# So, don't put newlines in cache variables' values.
-# Ultrix sh set writes to stderr and can't be redirected directly,
-# and sets the high bit in the cache file unless we assign to the vars.
-{
-  (set) 2>&1 |
-    case `(ac_space=' '; set | grep ac_space) 2>&1` in
-    *ac_space=\ *)
-      # `set' does not quote correctly, so add quotes (double-quote
-      # substitution turns \\\\ into \\, and sed turns \\ into \).
-      sed -n \
-	"s/'/'\\\\''/g;
-	  s/^\\([_$as_cr_alnum]*_cv_[_$as_cr_alnum]*\\)=\\(.*\\)/\\1='\\2'/p"
-      ;;
-    *)
-      # `set' quotes correctly as required by POSIX, so do not add quotes.
-      sed -n \
-	"s/^\\([_$as_cr_alnum]*_cv_[_$as_cr_alnum]*\\)=\\(.*\\)/\\1=\\2/p"
-      ;;
-    esac;
-} |
-  sed '
-     t clear
-     : clear
-     s/^\([^=]*\)=\(.*[{}].*\)$/test "${\1+set}" = set || &/
-     t end
-     /^ac_cv_env/!s/^\([^=]*\)=\(.*\)$/\1=${\1=\2}/
-     : end' >>confcache
-if diff $cache_file confcache >/dev/null 2>&1; then :; else
-  if test -w $cache_file; then
-    test "x$cache_file" != "x/dev/null" && echo "updating cache $cache_file"
-    cat confcache >$cache_file
-  else
-    echo "not updating unwritable cache $cache_file"
-  fi
-fi
-rm -f confcache
-    { { echo "$as_me:$LINENO: error: do not know how to create a directory tree" >&5
-echo "$as_me: error: do not know how to create a directory tree" >&2;}
-   { (exit 1); exit 1; }; }
-fi
-
-cs_build_prop_val="$MKDIR"
-    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIR ?= \"$cs_build_prop_val\" ;
-"
-fi
-
-cs_build_prop_val="$MKDIRS"
-    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIRS ?= \"$cs_build_prop_val\" ;
-"
-fi
-
-
 #----------------------------------------------------------------------------
-# Determine system type
+# Determine system type.
 #----------------------------------------------------------------------------
 
 
@@ -4105,336 +4273,8 @@ fi
 
 
 #----------------------------------------------------------------------------
-# Check for external libraries
+# Check for external libraries.
 #----------------------------------------------------------------------------
-
-# Check whether --with-cs or --without-cs was given.
-if test "${with_cs+set}" = set; then
-  withval="$with_cs"
-
-fi;
-if test -z "$with_cs"; then
-  with_cs=yes
-fi
-
-
-if test $with_cs != no; then
-
-# Get the cflags, libraries, and include-dir from the cs-config script.
-
-# Check whether --with-cs-prefix or --without-cs-prefix was given.
-if test "${with_cs_prefix+set}" = set; then
-  withval="$with_cs_prefix"
-  CRYSTAL="$withval"
-fi;
-# Check whether --enable-cstest or --disable-cstest was given.
-if test "${enable_cstest+set}" = set; then
-  enableval="$enable_cstest"
-
-else
-  enable_cstest=yes
-fi;
-
-
-# Try to find an installed cs-config.
-
-if test "x$CRYSTAL" != "x"
-then
-   if test -f $CRYSTAL/cs-config
-   then
-      CSCONF="$CRYSTAL/cs-config"
-   else
-      if test -f $CRYSTAL/bin/cs-config
-      then
-         CSCONF="$CRYSTAL/bin/cs-config"
-      else
-         { echo "$as_me:$LINENO: WARNING: Can not find cs-config in path you provided" >&5
-echo "$as_me: WARNING: Can not find cs-config in path you provided" >&2;}
-	 no_cs=yes
-      fi
-   fi
-fi
-
-if test "x$CRYSTAL" = "x"
-then
-   if test -n "$ac_tool_prefix"; then
-  for ac_prog in cs-config
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=$2
-echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_prog_CSCONF+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$CSCONF"; then
-  ac_cv_prog_CSCONF="$CSCONF" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_CSCONF="$ac_tool_prefix$ac_prog"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-
-fi
-fi
-CSCONF=$ac_cv_prog_CSCONF
-if test -n "$CSCONF"; then
-  echo "$as_me:$LINENO: result: $CSCONF" >&5
-echo "${ECHO_T}$CSCONF" >&6
-else
-  echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-fi
-
-    test -n "$CSCONF" && break
-  done
-fi
-if test -z "$CSCONF"; then
-  ac_ct_CSCONF=$CSCONF
-  for ac_prog in cs-config
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_prog_ac_ct_CSCONF+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$ac_ct_CSCONF"; then
-  ac_cv_prog_ac_ct_CSCONF="$ac_ct_CSCONF" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ac_ct_CSCONF="$ac_prog"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-
-fi
-fi
-ac_ct_CSCONF=$ac_cv_prog_ac_ct_CSCONF
-if test -n "$ac_ct_CSCONF"; then
-  echo "$as_me:$LINENO: result: $ac_ct_CSCONF" >&5
-echo "${ECHO_T}$ac_ct_CSCONF" >&6
-else
-  echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-fi
-
-  test -n "$ac_ct_CSCONF" && break
-done
-
-  CSCONF=$ac_ct_CSCONF
-fi
-
-   if test "x$CSCONF" = "x"
-   then
-      CRYSTAL=/usr/local/crystal
-      if test -f $CRYSTAL/bin/cs-config
-      then
-         CSCONF="$CRYSTAL/bin/cs-config"
-      else
-	 no_result=yes
-	 no_cs=yes
-      fi
-   fi
-fi
-
-# Either we found cs by now, or we caused an error.  Now we define stuff, then
-# check if we are running a new enough version
-
-if test "x$no_cs" = "x"
-then
-    min_cs_version=0.99
-    echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
-echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
-
-    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags csgeom csgfx csutil cstool") >&5
-  ($CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs csgeom csgfx csutil cstool") >&5
-  ($CSCONF $csconf_args --libs csgeom csgfx csutil cstool) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir csgeom csgfx csutil cstool") >&5
-  ($CSCONF --includedir csgeom csgfx csutil cstool) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
-
-    cs_major_version=`$CSCONF $cs_args --version | \
-       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
-    cs_minor_version=`$CSCONF $cs_args --version | \
-       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\2/'`
-
-    if test "x$CRYSTAL_LIBS" = "x"
-    then
-	no_cs=yes
-    fi
-fi
-
-if test "x$no_cs" != "x"
-then
-    enable_cstest=no
-fi
-
-if test x$enable_cstest = xyes
-then
-   ac_save_CXXFLAGS="$CXXFLAGS"
-   ac_save_LIBS="$LIBS"
-   CXXFLAGS="$CXXFLAGS $CRYSTAL_CFLAGS"
-   LIBS="$LIBS $CRYSTAL_LIBS"
-
-
-
-   ac_ext=cc
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-   if test "$cross_compiling" = yes; then
-  echo $ac_n "cross compiling; assumed OK... $ac_c"
-else
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-#include <cssysdef.h>
-#include <stdio.h>
-#include <csutil/util.h>
-
-CS_IMPLEMENT_APPLICATION
-
-int main (int argc, char *argv[])
-{
-  int major, minor, micro;
-  char *tmp_version;
-
-  /* HP/UX 9 writes to sscanf strings */
-  tmp_version = csStrNew ("$min_cs_version");
-  if (sscanf (tmp_version, "%d.%d", &major, &minor) != 2)
-  {
-     printf("%s, bad version string\n", "$min_cs_version");
-     return 1;
-  }
-
-  if (($cs_major_version > major) ||
-     (($cs_major_version == major) && ($cs_minor_version > minor)) ||
-     (($cs_major_version == major) && ($cs_minor_version == minor)))
-  {
-    return 0;
-  }
-  else
-  {
-    printf("\n*** 'cs-config --version' returned %d.%d, but the minimum version\n", $cs_major_version, $cs_minor_version);
-    printf("*** of Crystal Space required is %d.%d. If cs-config is correct, then it is\n", major, minor);
-    printf("*** best to upgrade to the required version.\n");
-    printf("*** If cs-config was wrong, set the environment variable CRYSTAL\n");
-    printf("*** to point to the correct copy of cs-config, and remove the file\n");
-    printf("*** config.cache before re-running configure\n");
-    return 1;
-  }
-}
-
-_ACEOF
-rm -f conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  :
-else
-  echo "$as_me: program exited with status $ac_status" >&5
-echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-( exit $ac_status )
-no_cs=yes
-fi
-rm -f core *.core gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
-fi
-  CXXFLAGS="$ac_save_CXXFLAGS"
-  LIBS="$ac_save_LIBS"
-  ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-fi
-
-if test "x$no_cs" = "x"
-then
-   echo "$as_me:$LINENO: result: $CRYSTAL_VERSION" >&5
-echo "${ECHO_T}$CRYSTAL_VERSION" >&6
-   :
-else
-   if test x$no_result = x
-   then
-     echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-   fi
-   CRYSTAL_CFLAGS=""
-   CRYSTAL_VERSION=""
-   CRYSTAL_LIBS=""
-   CRYSTAL_INCLUDE_DIR=""
-   { { echo "$as_me:$LINENO: error:
-*** Crystal Space could not be found. The latest version is always available
-*** from http://www.crystalspace3d.org/
-*** Also, be sure that you have either installed Crystal Space or set the
-*** CRYSTAL environment variable properly.
-" >&5
-echo "$as_me: error:
-*** Crystal Space could not be found. The latest version is always available
-*** from http://www.crystalspace3d.org/
-*** Also, be sure that you have either installed Crystal Space or set the
-*** CRYSTAL environment variable properly.
-" >&2;}
-   { (exit 1); exit 1; }; }
-fi
-
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$CRYSTAL_CFLAGS\" ;
-"
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$CRYSTAL_LIBS\" ;
-"
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
-"
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE_DIR\" ;
-"
-
-fi
-
-
 
     case $host_os in
 
@@ -4938,6 +4778,162 @@ else
 fi
 
 
+    echo "$as_me:$LINENO: checking how to suppress 'long double' warnings" >&5
+echo $ECHO_N "checking how to suppress 'long double' warnings... $ECHO_C" >&6
+if test "${cs_cv_prog_cxx_ignore_long_double+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in `echo @-Wno-long-double@@ | sed 'y% %#%'`
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_cxx_ignore_long_double=`echo x$cs_build_cflags $cs_build_lflags $cs_build_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+else
+  cs_cv_prog_cxx_ignore_long_double=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_cxx_ignore_long_double" >&5
+echo "${ECHO_T}$cs_cv_prog_cxx_ignore_long_double" >&6
+    if test "$cs_cv_prog_cxx_ignore_long_double" != no; then
+  cs_prog_cxx_ignore_long_double="$cs_cv_prog_cxx_ignore_long_double"
+else
+  cs_prog_cxx_ignore_long_double=''
+fi
+
 
 
 # Check whether --with-python or --without-python was given.
@@ -4949,6 +4945,13 @@ fi;
   with_python=yes
 fi
 
+
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
 
     for ac_prog in python
 do
@@ -4991,6 +4994,13 @@ fi
 done
 
 
+    cs_build_prop_val="$PYTHON"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON ?= \"$cs_build_prop_val\" ;
+"
+fi
+
 
     if test -n "$PYTHON" && test "$with_python" != no; then
   echo "$as_me:$LINENO: checking for python SDK" >&5
@@ -5016,6 +5026,8 @@ else
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	    cs_cv_pybase_cflags="$cs_cv_pybase_cflags \
+		$cs_prog_cxx_ignore_long_double"
 
 	    # Depending upon platform and installation, link library might
 	    # reside in "${prefix}/lib", "get_python_lib()/config", or
@@ -5055,6 +5067,13 @@ else
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
+	    cs_build_prop_val="$cs_cv_python_ext"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.MODULE_EXT ?= \"$cs_build_prop_val\" ;
+"
+fi
+
 
 	    if test -n "$cs_pyver" &&
 		   test -n "$cs_cv_pybase_cflags" &&
@@ -5394,26 +5413,7 @@ echo "${ECHO_T}$cs_cv_python" >&6
 fi
 
     if test $cs_cv_python = yes; then
-  :
-else
-  cs_cv_python_cflags=''
-	cs_cv_python_lflags=''
-	cs_cv_python_libs=''
-
-fi
-
-fi
-
-fi
-
-    cs_build_prop_val="$PYTHON"
-    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON ?= \"$cs_build_prop_val\" ;
-"
-fi
-
-    if test "$cs_cv_python" = yes; then
+  if test "$cs_cv_python" = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
@@ -5437,89 +5437,1112 @@ fi
 
 fi
 
-    cs_build_prop_val="$cs_cv_python_ext"
-    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.MODULE_EXT ?= \"$cs_build_prop_val\" ;
-"
-fi
-
-
-#------------------------------------------------------------------------------
-# Check if TemplateToolkit2 is installed (needed for MSVC project generation).
-#------------------------------------------------------------------------------
-if test -n "$PERL"; then
-  echo "$as_me:$LINENO: checking for TemplateToolkit" >&5
-echo $ECHO_N "checking for TemplateToolkit... $ECHO_C" >&6
-if test "${cs_cv_perl_tt2+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  if { (echo "$as_me:$LINENO: \$PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2") >&5
-  ($PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; then
-  cs_cv_perl_tt2=yes
-else
-  cs_cv_perl_tt2=no
+  cs_cv_python_cflags=''
+	cs_cv_python_lflags=''
+	cs_cv_python_libs=''
+
 fi
 
 fi
-echo "$as_me:$LINENO: result: $cs_cv_perl_tt2" >&5
-echo "${ECHO_T}$cs_cv_perl_tt2" >&6
-    for ac_prog in ttree
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
+
+fi
+
+
+# Check whether --with-libcppunit or --without-libcppunit was given.
+if test "${with_libcppunit+set}" = set; then
+  withval="$with_libcppunit"
+
+fi;
+
+    if test -z "$with_libcppunit"; then
+  with_libcppunit=yes
+fi
+
+    if test "$with_libcppunit" != no; then
+  # If --with-lib value is same as cached value, then assume other
+	 # cached values are also valid; otherwise, ignore all cached values.
+	if test "$with_libcppunit" != "$cs_cv_with_libcppunit"; then
+  cs_ignore_cache=yes
+else
+  cs_ignore_cache=no
+fi
+
+
+	cs_check_lib_flags=''
+	if test $with_libcppunit = yes; then
+  if test "$cs_prog_pkg_config_checked" != yes; then
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  for ac_prog in pkg-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_path_TTREE+set}" = set; then
+if test "${ac_cv_prog_PKG_CONFIG+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  case $TTREE in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_TTREE="$TTREE" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+  if test -n "$PKG_CONFIG"; then
+  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
   for ac_exec_ext in '' $ac_executable_extensions; do
   if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_TTREE="$as_dir/$ac_word$ac_exec_ext"
+    ac_cv_prog_PKG_CONFIG="$ac_tool_prefix$ac_prog"
     echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
 done
 done
 
-  ;;
-esac
 fi
-TTREE=$ac_cv_path_TTREE
-
-if test -n "$TTREE"; then
-  echo "$as_me:$LINENO: result: $TTREE" >&5
-echo "${ECHO_T}$TTREE" >&6
+fi
+PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  echo "$as_me:$LINENO: result: $PKG_CONFIG" >&5
+echo "${ECHO_T}$PKG_CONFIG" >&6
 else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
-  test -n "$TTREE" && break
+    test -n "$PKG_CONFIG" && break
+  done
+fi
+if test -z "$PKG_CONFIG"; then
+  ac_ct_PKG_CONFIG=$PKG_CONFIG
+  for ac_prog in pkg-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_PKG_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_PKG_CONFIG"; then
+  ac_cv_prog_ac_ct_PKG_CONFIG="$ac_ct_PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_PKG_CONFIG="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
 done
 
-    if test $cs_cv_perl_tt2 = yes && test -n "$TTREE"; then
-  cs_build_prop_val="$TTREE"
+fi
+fi
+ac_ct_PKG_CONFIG=$ac_cv_prog_ac_ct_PKG_CONFIG
+if test -n "$ac_ct_PKG_CONFIG"; then
+  echo "$as_me:$LINENO: result: $ac_ct_PKG_CONFIG" >&5
+echo "${ECHO_T}$ac_ct_PKG_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$ac_ct_PKG_CONFIG" && break
+done
+
+  PKG_CONFIG=$ac_ct_PKG_CONFIG
+fi
+
+	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+	cs_prog_pkg_config_checked=yes
+fi
+
+    if test -z "$cs_cv_prog_pkg_config_ok"; then
+  if test -n "$PKG_CONFIG"; then
+  if $PKG_CONFIG --atleast-pkgconfig-version=0.9.0; then
+  cs_cv_prog_pkg_config_ok=yes
+else
+  cs_cv_prog_pkg_config_ok=no
+fi
+
+else
+  cs_cv_prog_pkg_config_ok=no
+fi
+
+fi
+
+    if test $cs_cv_prog_pkg_config_ok = yes; then
+  echo "$as_me:$LINENO: checking if $PKG_CONFIG recognizes cppunit" >&5
+echo $ECHO_N "checking if $PKG_CONFIG recognizes cppunit... $ECHO_C" >&6
+if test "${cs_cv_prog_pkg_config_cppunit+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if $PKG_CONFIG --exists cppunit; then
+  cs_cv_prog_pkg_config_cppunit=yes
+else
+  cs_cv_prog_pkg_config_cppunit=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_pkg_config_cppunit" >&5
+echo "${ECHO_T}$cs_cv_prog_pkg_config_cppunit" >&6
+	if test $cs_cv_prog_pkg_config_cppunit = yes; then
+  if test -z "$cs_cv_prog_pkg_config_cppunit_flags"; then
+  cs_check_lib_cflag=`{ (echo "$as_me:$LINENO: \$PKG_CONFIG --cflags cppunit") >&5
+  ($PKG_CONFIG --cflags cppunit) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_check_lib_lflag=''
+	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$PKG_CONFIG --libs cppunit") >&5
+  ($PKG_CONFIG --libs cppunit) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_pkg_config_cppunit_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
+fi
+
+    cs_check_lib_flags="$cs_check_lib_flags $cs_cv_prog_pkg_config_cppunit_flags"
+fi
+
+fi
+
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  for ac_prog in cppunit-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_CONFIG_CPPUNIT+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$CONFIG_CPPUNIT"; then
+  ac_cv_prog_CONFIG_CPPUNIT="$CONFIG_CPPUNIT" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_CONFIG_CPPUNIT="$ac_tool_prefix$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+CONFIG_CPPUNIT=$ac_cv_prog_CONFIG_CPPUNIT
+if test -n "$CONFIG_CPPUNIT"; then
+  echo "$as_me:$LINENO: result: $CONFIG_CPPUNIT" >&5
+echo "${ECHO_T}$CONFIG_CPPUNIT" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+    test -n "$CONFIG_CPPUNIT" && break
+  done
+fi
+if test -z "$CONFIG_CPPUNIT"; then
+  ac_ct_CONFIG_CPPUNIT=$CONFIG_CPPUNIT
+  for ac_prog in cppunit-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_CONFIG_CPPUNIT+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_CONFIG_CPPUNIT"; then
+  ac_cv_prog_ac_ct_CONFIG_CPPUNIT="$ac_ct_CONFIG_CPPUNIT" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_CONFIG_CPPUNIT="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+ac_ct_CONFIG_CPPUNIT=$ac_cv_prog_ac_ct_CONFIG_CPPUNIT
+if test -n "$ac_ct_CONFIG_CPPUNIT"; then
+  echo "$as_me:$LINENO: result: $ac_ct_CONFIG_CPPUNIT" >&5
+echo "${ECHO_T}$ac_ct_CONFIG_CPPUNIT" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$ac_ct_CONFIG_CPPUNIT" && break
+done
+
+  CONFIG_CPPUNIT=$ac_ct_CONFIG_CPPUNIT
+fi
+
+    if test -n "$CONFIG_CPPUNIT"; then
+  if test -z "$cs_cv_prog_config_cppunit_ok"; then
+  if $CONFIG_CPPUNIT --cflags --libs >/dev/null 2>&1; then
+  cs_cv_prog_config_cppunit_ok=yes
+else
+  cs_cv_prog_config_cppunit_ok=no
+fi
+
+fi
+
+	if test $cs_cv_prog_config_cppunit_ok = yes; then
+  if test -z "$cs_cv_prog_config_cppunit_flags"; then
+  cs_check_lib_cflag=`{ (echo "$as_me:$LINENO: \$CONFIG_CPPUNIT --cflags ") >&5
+  ($CONFIG_CPPUNIT --cflags ) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_check_lib_lflag=''
+	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$CONFIG_CPPUNIT --libs ") >&5
+  ($CONFIG_CPPUNIT --libs ) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_config_cppunit_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
+fi
+
+    cs_check_lib_flags="$cs_check_lib_flags $cs_cv_prog_config_cppunit_flags"
+fi
+
+fi
+
+
+fi
+
+
+	if test $with_libcppunit != yes; then
+  cs_check_lib_paths=$with_libcppunit
+else
+  cs_check_lib_paths="| /usr/local/include|/usr/local/lib /sw/include|/sw/lib "
+fi
+
+	for cs_lib_item in $cs_check_lib_paths
+    do
+	case $cs_lib_item in
+	    *\|*)
+    set filler `echo "$cs_lib_item" | awk 'BEGIN { FS="|" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_check_incdir=''
+else
+  if test "$1" = filler; then
+  cs_check_incdir=''
+else
+  cs_check_incdir=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_check_libdir=''
+else
+  if test "$1" = filler; then
+  cs_check_libdir=''
+else
+  cs_check_libdir=$1
+fi
+
+	shift
+fi
+
+		if test -n "$cs_check_incdir"; then
+  cs_check_lib_cflag="-I$cs_check_incdir"
+else
+  cs_check_lib_cflag=''
+fi
+
+    if test -n "$cs_check_libdir"; then
+  cs_check_lib_lflag="-L$cs_check_libdir"
+else
+  cs_check_lib_lflag=''
+fi
+
+    if test -n "cppunit"; then
+  cs_check_lib_libs="-lcppunit"
+	cs_check_lib_framework="-framework cppunit"
+else
+  cs_check_lib_libs=''
+	cs_check_lib_framework=''
+fi
+
+    cs_check_lib_flags="$cs_check_lib_flags
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_framework | sed 'y% %#%'`
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`"
+		;;
+	    *)  if test -n "$cs_lib_item/include"; then
+  cs_check_lib_cflag="-I$cs_lib_item/include"
+else
+  cs_check_lib_cflag=''
+fi
+
+    if test -n "$cs_lib_item/lib"; then
+  cs_check_lib_lflag="-L$cs_lib_item/lib"
+else
+  cs_check_lib_lflag=''
+fi
+
+    if test -n "cppunit"; then
+  cs_check_lib_libs="-lcppunit"
+	cs_check_lib_framework="-framework cppunit"
+else
+  cs_check_lib_libs=''
+	cs_check_lib_framework=''
+fi
+
+    cs_check_lib_flags="$cs_check_lib_flags
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_framework | sed 'y% %#%'`
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`"
+		if test -n "$cs_lib_item"; then
+  cs_check_lib_cflag="-I$cs_lib_item"
+else
+  cs_check_lib_cflag=''
+fi
+
+    if test -n "$cs_lib_item"; then
+  cs_check_lib_lflag="-L$cs_lib_item"
+else
+  cs_check_lib_lflag=''
+fi
+
+    if test -n "cppunit"; then
+  cs_check_lib_libs="-lcppunit"
+	cs_check_lib_framework="-framework cppunit"
+else
+  cs_check_lib_libs=''
+	cs_check_lib_framework=''
+fi
+
+    cs_check_lib_flags="$cs_check_lib_flags
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_framework | sed 'y% %#%'`
+	`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`"
+		;;
+	esac
+    done
+
+
+	if test "$cs_ignore_cache" != yes; then
+  echo "$as_me:$LINENO: checking for libcppunit" >&5
+echo $ECHO_N "checking for libcppunit... $ECHO_C" >&6
+if test "${cs_cv_libcppunit+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in $cs_check_lib_flags
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <cppunit/ui/text/TestRunner.h>
+int
+main ()
+{
+CppUnit::TextUi::TestRunner r; r.run();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_libcppunit=yes
+		cs_cv_libcppunit_cflags=$cs_build_cflags
+		cs_cv_libcppunit_lflags=$cs_build_lflags
+		cs_cv_libcppunit_libs=$cs_build_libs
+else
+  cs_cv_libcppunit=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_libcppunit" >&5
+echo "${ECHO_T}$cs_cv_libcppunit" >&6
+else
+  echo "$as_me:$LINENO: checking for libcppunit" >&5
+echo $ECHO_N "checking for libcppunit... $ECHO_C" >&6
+	    ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in $cs_check_lib_flags
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <cppunit/ui/text/TestRunner.h>
+int
+main ()
+{
+CppUnit::TextUi::TestRunner r; r.run();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_libcppunit=yes
+		cs_cv_libcppunit_cflags=$cs_build_cflags
+		cs_cv_libcppunit_lflags=$cs_build_lflags
+		cs_cv_libcppunit_libs=$cs_build_libs
+else
+  cs_cv_libcppunit=no
+fi
+
+	    echo "$as_me:$LINENO: result: $cs_cv_libcppunit" >&5
+echo "${ECHO_T}$cs_cv_libcppunit" >&6
+fi
+
+    if test $cs_cv_libcppunit = yes; then
+  :
+else
+  cs_cv_libcppunit_cflags=''
+	cs_cv_libcppunit_lflags=''
+	cs_cv_libcppunit_libs=''
+
+fi
+
+else
+  cs_cv_libcppunit=no
+fi
+
+
+    cs_cv_with_libcppunit="$with_libcppunit"
+    if test "$cs_cv_libcppunit" = yes; then
+  if test "$cs_cv_libcppunit" = yes; then
+  cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}TTREE ?= \"$cs_build_prop_val\" ;
+  cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.AVAILABLE ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+	cs_build_prop_val="$cs_cv_libcppunit_cflags"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.CFLAGS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+	cs_build_prop_val="$cs_cv_libcppunit_lflags $cs_cv_libcppunit_libs"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.LFLAGS ?= \"$cs_build_prop_val\" ;
 "
 fi
 
 fi
+
+fi
+
+
+#----------------------------------------------------------------------------
+# Check for Crystal Space (CS)
+#----------------------------------------------------------------------------
+
+# Check whether --with-cs or --without-cs was given.
+if test "${with_cs+set}" = set; then
+  withval="$with_cs"
+
+fi;
+if test -z "$with_cs"; then
+  with_cs=yes
+fi
+
+
+if test $with_cs != no; then
+
+# Get the cflags, libraries, and include-dir from the cs-config script.
+
+# Check whether --with-cs-prefix or --without-cs-prefix was given.
+if test "${with_cs_prefix+set}" = set; then
+  withval="$with_cs_prefix"
+  CRYSTAL="$withval"
+fi;
+# Check whether --enable-cstest or --disable-cstest was given.
+if test "${enable_cstest+set}" = set; then
+  enableval="$enable_cstest"
+
+else
+  enable_cstest=yes
+fi;
+
+
+# Try to find an installed cs-config.
+
+if test "x$CRYSTAL" != "x"
+then
+   if test -f $CRYSTAL/cs-config
+   then
+      CSCONF="$CRYSTAL/cs-config"
+   else
+      if test -f $CRYSTAL/bin/cs-config
+      then
+         CSCONF="$CRYSTAL/bin/cs-config"
+      else
+         { echo "$as_me:$LINENO: WARNING: Can not find cs-config in path you provided" >&5
+echo "$as_me: WARNING: Can not find cs-config in path you provided" >&2;}
+	 no_cs=yes
+      fi
+   fi
+fi
+
+if test "x$CRYSTAL" = "x"
+then
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  for ac_prog in cs-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_CSCONF+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$CSCONF"; then
+  ac_cv_prog_CSCONF="$CSCONF" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_CSCONF="$ac_tool_prefix$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+CSCONF=$ac_cv_prog_CSCONF
+if test -n "$CSCONF"; then
+  echo "$as_me:$LINENO: result: $CSCONF" >&5
+echo "${ECHO_T}$CSCONF" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+    test -n "$CSCONF" && break
+  done
+fi
+if test -z "$CSCONF"; then
+  ac_ct_CSCONF=$CSCONF
+  for ac_prog in cs-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_CSCONF+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_CSCONF"; then
+  ac_cv_prog_ac_ct_CSCONF="$ac_ct_CSCONF" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_CSCONF="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+ac_ct_CSCONF=$ac_cv_prog_ac_ct_CSCONF
+if test -n "$ac_ct_CSCONF"; then
+  echo "$as_me:$LINENO: result: $ac_ct_CSCONF" >&5
+echo "${ECHO_T}$ac_ct_CSCONF" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$ac_ct_CSCONF" && break
+done
+
+  CSCONF=$ac_ct_CSCONF
+fi
+
+   if test "x$CSCONF" = "x"
+   then
+      CRYSTAL=/usr/local/crystal
+      if test -f $CRYSTAL/bin/cs-config
+      then
+         CSCONF="$CRYSTAL/bin/cs-config"
+      else
+	 no_result=yes
+	 no_cs=yes
+      fi
+   fi
+fi
+
+# Either we found cs by now, or we caused an error.  Now we define stuff, then
+# check if we are running a new enough version
+
+if test "x$no_cs" = "x"
+then
+    min_cs_version=0.99
+    echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
+echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
+
+    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --libs csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir csgeom csgfx csutil cstool") >&5
+  ($CSCONF --includedir csgeom csgfx csutil cstool) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
+
+    cs_major_version=`$CSCONF $cs_args --version | \
+       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
+    cs_minor_version=`$CSCONF $cs_args --version | \
+       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\2/'`
+
+    if test "x$CRYSTAL_LIBS" = "x"
+    then
+	no_cs=yes
+    fi
+fi
+
+if test "x$no_cs" != "x"
+then
+    enable_cstest=no
+fi
+
+if test x$enable_cstest = xyes
+then
+   ac_save_CXXFLAGS="$CXXFLAGS"
+   ac_save_LIBS="$LIBS"
+   CXXFLAGS="$CXXFLAGS $CRYSTAL_CFLAGS"
+   LIBS="$LIBS $CRYSTAL_LIBS"
+
+
+
+   ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+   if test "$cross_compiling" = yes; then
+  echo $ac_n "cross compiling; assumed OK... $ac_c"
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <cssysdef.h>
+#include <stdio.h>
+#include <csutil/util.h>
+
+CS_IMPLEMENT_APPLICATION
+
+int main (int argc, char *argv[])
+{
+  int major, minor, micro;
+  char *tmp_version;
+
+  /* HP/UX 9 writes to sscanf strings */
+  tmp_version = csStrNew ("$min_cs_version");
+  if (sscanf (tmp_version, "%d.%d", &major, &minor) != 2)
+  {
+     printf("%s, bad version string\n", "$min_cs_version");
+     return 1;
+  }
+
+  if (($cs_major_version > major) ||
+     (($cs_major_version == major) && ($cs_minor_version > minor)) ||
+     (($cs_major_version == major) && ($cs_minor_version == minor)))
+  {
+    return 0;
+  }
+  else
+  {
+    printf("\n*** 'cs-config --version' returned %d.%d, but the minimum version\n", $cs_major_version, $cs_minor_version);
+    printf("*** of Crystal Space required is %d.%d. If cs-config is correct, then it is\n", major, minor);
+    printf("*** best to upgrade to the required version.\n");
+    printf("*** If cs-config was wrong, set the environment variable CRYSTAL\n");
+    printf("*** to point to the correct copy of cs-config, and remove the file\n");
+    printf("*** config.cache before re-running configure\n");
+    return 1;
+  }
+}
+
+_ACEOF
+rm -f conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  :
+else
+  echo "$as_me: program exited with status $ac_status" >&5
+echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+( exit $ac_status )
+no_cs=yes
+fi
+rm -f core *.core gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
+fi
+  CXXFLAGS="$ac_save_CXXFLAGS"
+  LIBS="$ac_save_LIBS"
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+fi
+
+if test "x$no_cs" = "x"
+then
+   echo "$as_me:$LINENO: result: $CRYSTAL_VERSION" >&5
+echo "${ECHO_T}$CRYSTAL_VERSION" >&6
+   :
+else
+   if test x$no_result = x
+   then
+     echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+   fi
+   CRYSTAL_CFLAGS=""
+   CRYSTAL_VERSION=""
+   CRYSTAL_LIBS=""
+   CRYSTAL_INCLUDE_DIR=""
+   { { echo "$as_me:$LINENO: error:
+*** Crystal Space could not be found. The latest version is always available
+*** from http://www.crystalspace3d.org/
+*** Also, be sure that you have either installed Crystal Space or set the
+*** CRYSTAL environment variable properly.
+" >&5
+echo "$as_me: error:
+*** Crystal Space could not be found. The latest version is always available
+*** from http://www.crystalspace3d.org/
+*** Also, be sure that you have either installed Crystal Space or set the
+*** CRYSTAL environment variable properly.
+" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$CRYSTAL_CFLAGS\" ;
+"
+cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$CRYSTAL_LIBS\" ;
+"
+cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
+"
+cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE_DIR\" ;
+"
 
 fi
 
@@ -6320,6 +7343,8 @@ s,@host@,$host,;t t
 s,@host_cpu@,$host_cpu,;t t
 s,@host_vendor@,$host_vendor,;t t
 s,@host_os@,$host_os,;t t
+s,@MKDIR@,$MKDIR,;t t
+s,@MKDIRS@,$MKDIRS,;t t
 s,@CC@,$CC,;t t
 s,@CFLAGS@,$CFLAGS,;t t
 s,@LDFLAGS@,$LDFLAGS,;t t
@@ -6336,14 +7361,16 @@ s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
 s,@DOXYGEN@,$DOXYGEN,;t t
 s,@MAKEINFO@,$MAKEINFO,;t t
 s,@PERL@,$PERL,;t t
+s,@TTREE@,$TTREE,;t t
 s,@SWIG@,$SWIG,;t t
-s,@MKDIR@,$MKDIR,;t t
-s,@MKDIRS@,$MKDIRS,;t t
+s,@PYTHON@,$PYTHON,;t t
+s,@PKG_CONFIG@,$PKG_CONFIG,;t t
+s,@ac_ct_PKG_CONFIG@,$ac_ct_PKG_CONFIG,;t t
+s,@CONFIG_CPPUNIT@,$CONFIG_CPPUNIT,;t t
+s,@ac_ct_CONFIG_CPPUNIT@,$ac_ct_CONFIG_CPPUNIT,;t t
 s,@CRYSTAL@,$CRYSTAL,;t t
 s,@CSCONF@,$CSCONF,;t t
 s,@ac_ct_CSCONF@,$ac_ct_CSCONF,;t t
-s,@PYTHON@,$PYTHON,;t t
-s,@TTREE@,$TTREE,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF
