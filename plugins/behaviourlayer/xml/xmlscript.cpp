@@ -682,6 +682,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	ArgToFloat (elg), ArgToFloat (elb)));
 	}
 	break;
+      case CEL_OPERATION_ENTNAME:
+        {
+          DUMP_EXEC (":%04d: entname()\n", i-1);
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetString (entity->GetName (), true);
+	}
+	break;
       case CEL_OPERATION_RAND:
         {
 	  CHECK_STACK
@@ -1784,21 +1791,34 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->SetBehaviour (bh);
 	}
         break;
-      case CEL_OPERATION_CALL:
+      case CEL_OPERATION_CALLENT:
         {
 	  CHECK_STACK
 	  celXmlArg aevent = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg aent = stack.Pop ();
-	  DUMP_EXEC (":%04d: call ent=%s event=%s\n", i-1, A2S (aent),
+	  DUMP_EXEC (":%04d: callent ent=%s event=%s\n", i-1, A2S (aent),
 	  	A2S (aevent));
 	  const char* entname = ArgToString (aent);
 	  const char* eventname = ArgToString (aevent);
-	  iCelEntity* ent = pl->FindEntity (entname);
+	  iCelEntity* ent;
+	  if (!entname)
+	    ent = entity;
+	  else
+	    ent = pl->FindEntity (entname);
 	  if (!ent)
 	    return ReportError (behave,
 	    	"Couldn't find entity with name '%s'!", entname);
 	  ent->GetBehaviour ()->SendMessage (eventname, 0);
+	}
+        break;
+      case CEL_OPERATION_CALL:
+        {
+	  CHECK_STACK
+	  celXmlArg aevent = stack.Pop ();
+	  DUMP_EXEC (":%04d: call event=%s\n", i-1, A2S (aevent));
+	  const char* eventname = ArgToString (aevent);
+	  behave->SendMessage (eventname, 0);
 	}
         break;
       case CEL_OPERATION_DESTROYENTITY:
