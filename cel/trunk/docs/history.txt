@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	  more interfaces in the quest manager.
 	  Additionally added a lot more documentation to the quest
 	  manager interfaces.
+	- Jorrit continued working on the quest manager. The first predefined
+	  trigger (cel.questtrigger.entersector) is created. This trigger
+	  is not functional yet.
 30-Nov-2004
 	- Eric Sunshine worked around problem where MSVC6 barfed when the
 	  embedded celPcLinearMovement::PcLinearMovement::RotateV() attempted

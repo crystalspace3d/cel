@@ -1,7 +1,7 @@
 SubDir TOP plugins tools quests ;
 
 Plugin mgr_quests
-	: quests.cpp quests.h
+	: quests.cpp quests.h trig_entersector.cpp trig_entersector.h
 ;
 ExternalLibs mgr_quests : CRYSTAL ;
 
