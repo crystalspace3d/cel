@@ -144,19 +144,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 
   printf ("Bind: %s -> %s, %d %d\n",triggername, command, key, shiftmask);
 
-  //Either bind to a shift key or to another key
-  if (key!=0 && shiftmask!=0)
+  //Only bid keys - no key combinations
+  if (shiftmask)
     return false;
   
   celKeyMap* newmap;
-  if (! (newmap=GetMap(key, shiftmask)))
+  if (! (newmap=GetMap(key)))
   {
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
     newmap->next=maplist;
     newmap->prev=NULL;
     newmap->key=key;
-    newmap->shiftmask=shiftmask;
     newmap->command=new char[strlen(command)+1];
     strcpy (newmap->command+1, command);
     newmap->is_on=false;
@@ -180,9 +179,12 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
   int key,shiftmask;
   if (!csParseKeyDef(triggername, key, shiftmask))
     return NULL;
+
+  if (shiftmask)
+    return NULL;
   
   celKeyMap* map;
-  if (! (map=GetMap(key, shiftmask)))
+  if (! (map=GetMap(key)))
     return NULL;
   
   return map->command;
@@ -195,12 +197,12 @@ bool celPcCommandInput::RemoveBind (const char* /*triggername*/,
   return false;
 }
 
-celKeyMap* celPcCommandInput::GetMap (int key, int shiftmask) const
+celKeyMap* celPcCommandInput::GetMap (int key) const
 {
   celKeyMap *p=maplist;
   while (p)
   {
-    if (p->key==key && p->shiftmask==shiftmask)
+    if (p->key==key)
       break;
     p=p->next;
   }
@@ -212,13 +214,14 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
   CS_ASSERT(ev.Type==csevKeyUp || ev.Type==csevKeyDown);
   int key = ev.Key.Code;
-  int shiftmask = ev.Key.Modifiers;
+
+  printf ("Key: %d\n",key);
 
   //find mapping
   celKeyMap *p = maplist;
   while (p)
   {
-    if (p->key == key && p->shiftmask == shiftmask)
+    if (p->key == key)
     {
       break;
     }
