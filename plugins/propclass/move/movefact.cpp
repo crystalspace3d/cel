@@ -384,6 +384,7 @@ private:
   csVector3 vertices[3];
   csMeshedPolygon polygons[1];
   int vertex_indices[3];
+  csFlags flags;
 
 public:
   celPolygonMeshTriangle (const csVector3& start, const csVector3& end)
@@ -397,6 +398,7 @@ public:
     vertex_indices[0] = 0;
     vertex_indices[1] = 1;
     vertex_indices[2] = 2;
+    flags.Set (CS_POLYMESH_CONVEX);
   }
   virtual ~celPolygonMeshTriangle () { }
 
@@ -407,7 +409,7 @@ public:
   virtual int GetPolygonCount () { return 1; }
   virtual csMeshedPolygon* GetPolygons () { return polygons; }
   virtual void Cleanup () { }
-  virtual bool IsDeformable () const { return false; }
+  virtual csFlags& GetFlags () { return flags; }
   virtual uint32 GetChangeNumber () const { return 0; }
 };
 
