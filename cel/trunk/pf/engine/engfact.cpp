@@ -719,9 +719,7 @@ bool celPcRegion::Load ()
 
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
-  iRegion* old_region = engine->GetCurrentRegion ();
-  engine->SelectRegion (regionname);
-  iRegion* cur_region = engine->GetCurrentRegion ();
+  iRegion* cur_region = engine->CreateRegion (regionname);
   cur_region->DeleteAll ();
 
   csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
@@ -730,7 +728,7 @@ bool celPcRegion::Load ()
   CS_ASSERT (VFS != NULL);
   VFS->ChDir (worlddir);
   // Load the level file which is called 'world'.
-  if (!loader->LoadMapFile (worldfile, false, true))
+  if (!loader->LoadMapFile (worldfile, false, cur_region, true))
   {
     rc = false;
     Report (object_reg,"Could not load map file '%s'.", worldfile);
@@ -767,7 +765,6 @@ bool celPcRegion::Load ()
   }
 
 cleanup:
-  engine->SelectRegion (old_region);
   return rc;
 }
 
@@ -778,17 +775,14 @@ void celPcRegion::Unload ()
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
 
-  iRegion* old_region = engine->GetCurrentRegion ();
-  engine->SelectRegion (regionname);
+  iRegion* cur_region = engine->CreateRegion (regionname);
 
   int i;
   for (i = 0 ; i < entities.Length () ; i++)
     DG_UNLINK (this, entities[i]);
   entities.DeleteAll ();
 
-  iRegion* cur_region = engine->GetCurrentRegion ();
-  engine->GetCurrentRegion ()->DeleteAll ();
-  engine->SelectRegion (old_region);
+  cur_region->DeleteAll ();
   engine->GetRegions ()->Remove (cur_region);
 }
 

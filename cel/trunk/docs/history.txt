@@ -1,8 +1,10 @@
-05-Jun-2003
+20-Jun-2003
+	- Jorrit fixed CEL for recent region related CS changes.
+5-Jun-2003
 	- Keith Fulton fixed a bunch of broken things resulting from the
 	  CS SCF changes today.  Thanks to Andrew Craig for figuring out
 	  these fixes.
-04-Jun-2003
+4-Jun-2003
 	- Keith Fulton fixed two places in CEL for the new CS iterator
 	  functions.
 27-May-2003
