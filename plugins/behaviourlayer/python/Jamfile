@@ -3,8 +3,19 @@ SubDir TOP plugins behaviourlayer python ;
 # XXX: Need to add swig support to jamrules...
 if $(PYTHON.AVAILABLE) = yes
 {
+  PYTHONFILES = [ Wildcard *.cpp *.h ] ;
+
+  # we can regenerate the .i if swig is installed
+  if $(CMD.SWIG)
+  {
+    PYTHONFILES = [ Filter $(PYTHONFILES) : blcel.cpp ] ;
+    PYTHONFILES += blcel.i ;
+    # we need the CS include dirs...
+    SWIG.FLAGS on [ DoSourceGrist blcel.cpp ] = -python -c++ -shadow $(CRYSTAL.CFLAGS) ;
+  }
+
   Plugin blpython
-	  : [ Wildcard *.cpp *.h ]
+	  : $(PYTHONFILES)
   ;
   ExternalLibs blpython : PYTHON ;
   CFlags blpython : -DSWIG_GLOBAL ;

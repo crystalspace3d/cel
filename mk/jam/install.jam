@@ -205,8 +205,8 @@ rule InstallMapfile
   for m in $(<)
   {
     local dir = [ FDirName $(INSTALLDIR.MAP) $(m) ] ;
-    local target = $(MAP_$(m)_WORLDFILE:R=$(dir)) ; 
-   
+    local target = $(MAP_$(m)_WORLDFILE:R=$(dir):G=install_$(m)) ;
+    
     Install $(target) : $(MAP_$(m)_WORLDFILE) ;
     MODE on $(target) = $(FILEMODE) ;
     Depends install_maps : $(target) ;
