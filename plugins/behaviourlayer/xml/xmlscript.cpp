@@ -604,6 +604,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	celBehaviourXml* behave, iCelParameterBlock* params,
 	int startop)
 {
+  // We keep a reference to the entity here to prevent
+  // deletion of that entity during script execution.
+  csRef<iCelEntity> e = entity;
+
   int stack_size = stack.Length ();
   int i = startop;
   if (startop == 0)
@@ -1978,7 +1982,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
 	    return ReportError (behave,
-	    	  "Couldn't find entity with name '%s'!", EntityNameForError (aent));
+	    	  "Couldn't find entity with name '%s'!",
+		  EntityNameForError (aent));
 	  pl->RemoveEntity (ent);
 	}
         break;

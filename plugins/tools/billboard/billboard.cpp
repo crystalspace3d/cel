@@ -53,6 +53,9 @@ celBillboard::celBillboard (celBillboardManager* mgr)
   color.Set (1, 1, 1);
   uv_topleft.Set (0, 0);
   uv_botright.Set (1, 1);
+
+  firing_messages = false;
+  delete_me = false;
 }
 
 celBillboard::~celBillboard ()
@@ -317,32 +320,68 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
+  firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
+  {
     handlers[i]->Unselect (this, button, sx, sy);
+    if (delete_me)
+    {
+      delete this;
+      return;
+    }
+  }
+  firing_messages = false;
 }
 
 void celBillboard::FireMouseDown (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
+  firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
+  {
     handlers[i]->Select (this, button, sx, sy);
+    if (delete_me)
+    {
+      delete this;
+      return;
+    }
+  }
+  firing_messages = false;
 }
 
 void celBillboard::FireMouseMove (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
+  firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
+  {
     handlers[i]->MouseMove (this, button, sx, sy);
+    if (delete_me)
+    {
+      delete this;
+      return;
+    }
+  }
+  firing_messages = false;
 }
 
 void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
+  firing_messages = true;
   for (i = 0 ; i < handlers.Length () ; i++)
+  {
     handlers[i]->DoubleClick (this, button, sx, sy);
+    if (delete_me)
+    {
+      delete this;
+      return;
+    }
+  }
+  firing_messages = false;
 }
 
 
@@ -667,7 +706,18 @@ iBillboard* celBillboardManager::FindBillboard (const char* name) const
 void celBillboardManager::RemoveBillboard (iBillboard* billboard)
 {
   billboards_hash.Delete (billboard->GetName (), (celBillboard*)billboard);
-  billboards.Delete ((celBillboard*)billboard);
+  celBillboard* celbb = (celBillboard*)billboard;
+  if (celbb->firing_messages)
+  {
+    // We are busy firing messages. Do not immediatelly delete
+    // the billboard but just set the 'delete_me' flag.
+    billboards.Extract (billboards.Find ((celBillboard*)billboard));
+    celbb->delete_me = true;
+  }
+  else
+  {
+    billboards.Delete ((celBillboard*)billboard);
+  }
   if (billboard == moving_billboard) moving_billboard = 0;
 }
 

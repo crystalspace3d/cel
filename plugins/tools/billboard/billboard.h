@@ -53,6 +53,8 @@ class celBillboardManager;
  */
 class celBillboard : public iBillboard
 {
+  friend class celBillboardManager;
+
 private:
   char* name;
   csFlags flags;
@@ -64,6 +66,13 @@ private:
   csRefArray<iBillboardEventHandler> handlers;
   celBillboardManager* mgr;
   csColor color;
+
+  // If the following flag is true an attempt to delete this billboard
+  // we instead set the 'delete_me' flag. This is to make sure that
+  // the routine firing messages will interrupt itself properly as
+  // soon as the billboard wants to be deleted.
+  bool firing_messages;
+  bool delete_me;
 
   csVector2 uv_topleft;
   csVector2 uv_botright;
