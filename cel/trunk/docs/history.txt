@@ -1,3 +1,10 @@
+28-Feb-2002:
+	- Matze changed persistance to not IncRef entities while reading,
+	everyone who reads an entity with persistance has to IncRef this
+	itself now. On the other hand this solves an issue when multiple
+	persisted things refer to the same entity. Note that this is only for
+	datatbuffers, the LoadEntity function still returns an IncReffed
+	entity
 27-Feb-2002:
 	- Matze fixed a wrong return.
 	- Matze removed the persistance Set(int) function.

@@ -134,6 +134,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_contents ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
+    cd->value.ent->IncRef();
     contents.Push (cd->value.ent);
     DG_LINK (this, cd->value.ent->QueryObject ());
     iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
@@ -143,9 +144,6 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
       pcchar->AddToInventory (&scfiPcInventory);
       pcchar->DecRef ();
     }
-    // @@@ Is this valid? If I remove this then there are
-    // problems. However with persistance it seems to create one ref too many?
-    //cd->value.ent->IncRef ();
   }
 
   return true;
