@@ -60,43 +60,6 @@
 	    <event name="pctimer_start">
 	    </event>
 	</script>
-        <script name="bb1">
-	    <event name="init">
-	    	<default propclass="pc(pcbillboard)" />
-	        <property id="propid(pcbillboard.name)" value="bb_wood" />
-	        <property id="propid(pcbillboard.materialname)" value="wood" />
-	        <property id="propid(pcbillboard.clickable)" value="true" />
-	        <property id="propid(pcbillboard.restack)" value="true" />
-	    </event>
-	    <event name="pcbillboard_select">
-	    </event>
-	</script>
-        <script name="bb2">
-	    <event name="init">
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.name)" value="bb_abstract" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.materialname)"
-			value="abstract" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.movable)" value="true" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.restack)" value="true" />
-	    </event>
-	</script>
-        <script name="bb3">
-	    <event name="init">
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.name)" value="bb_abstract_2" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.materialname)"
-			value="abstract" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.movable)" value="true" />
-	        <property propclass="pc(pcbillboard)"
-			id="propid(pcbillboard.restack)" value="true" />
-	    </event>
-	</script>
 
         <script name="generic_object">
 	</script>
@@ -104,6 +67,8 @@
         <script name="switch_size">
 	    <event name="init">
 	        <var name="normal" value="true" />
+	        <var name="dxdy" value="int(rand(4.0)-2.0)" />
+		<print value="'dxdy:'+?dxdy" />
 	    </event>
 	    <event name="makesmall">
 	        <var name="normal" value="false" />
@@ -404,30 +369,6 @@
 	    </addon>
 	</meshobj>
 
-	<addon plugin="celentity">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb1" />
-	</addon>
-	<addon plugin="celentity" entityname="a1">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb2" />
-	</addon>
-	<addon plugin="celentity" entityname="a1">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb2" />
-	</addon>
-	<addon plugin="celentity" entityname="a3">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb2" />
-	</addon>
-	<addon plugin="celentity" entityname="a4">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb2" />
-	</addon>
-	<addon plugin="celentity">
-	    <propclass name="pcbillboard" />
-            <behaviour name="bb3" />
-	</addon>
 	<addon plugin="celentity" entityname="chair">
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="chair" />

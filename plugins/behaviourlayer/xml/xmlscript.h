@@ -74,6 +74,7 @@ enum
   CEL_OPERATION_ADD,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MULT,		// A:-		S:?,?		OS:?
   CEL_OPERATION_DIV,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_MODULO,		// A:-		S:?,?		OS:?
   CEL_OPERATION_EQ,		// A:-		S:?,?		OS:B
   CEL_OPERATION_NE,		// A:-		S:?,?		OS:B
   CEL_OPERATION_LT,		// A:-		S:?,?		OS:B

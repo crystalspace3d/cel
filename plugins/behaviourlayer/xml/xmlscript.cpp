@@ -515,7 +515,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_arg = stack.Pop ();
-          DUMP_EXEC (":%04d: arg %s\n", i-1, A2S (a_arg));
+          DUMP_EXEC (":%04d: param %s\n", i-1, A2S (a_arg));
 	  csStringID id = ArgToID (a_arg);
 	  int si = stack.Push (celXmlArg ());
 	  const celData* data = params->GetParameter (id);
@@ -1151,6 +1151,32 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      stack[si].SetBool (bool (int (ArgToBool (ela))
 	      	* int (ArgToBool (elb))));
 	      break;
+	  }
+	}
+	break;
+      case CEL_OPERATION_MODULO:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (":%04d: %s %% %s\n", i-1, A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_DATA_VECTOR3:
+	      stack[si].SetVector (ArgToVector3 (ela) % ArgToVector3 (elb));
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (ArgToInt32 (ela) % ArgToInt32 (elb));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 (ArgToUInt32 (ela) % ArgToUInt32 (elb));
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't compute modulo or cross of these types!");
 	  }
 	}
 	break;
