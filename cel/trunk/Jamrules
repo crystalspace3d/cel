@@ -11,6 +11,9 @@ if ! $(JAMCONFIG_READ)
   EXIT "Couldn't find config. Please configure the project." ;
 }
 
+#don't scan swig files
+NO_SWIG_HEADER_SCANNING = yes ;
+
 #CFLAGS
 COMPILER.CFLAGS += -Wall ;
 COMPILER.CFLAGS.debug += -g3 -DCS_DEBUG ;
