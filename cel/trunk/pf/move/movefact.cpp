@@ -976,7 +976,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
 {
   int i;
   float maxstep = .15;
-  static const csTransform identity;
+  static const csReversibleTransform identity;
 
   GetMovable ();
   iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
@@ -999,7 +999,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     force = move / delta_t;
     totforce -= force;
 
-    csTransform test (w2o);
+    csReversibleTransform test (w2o);
     test.SetOrigin (test.GetOrigin () + move);
 
     for (i = 0 ; i < cd_list->GetCount () ; i++)
@@ -1010,7 +1010,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
       if (!solid_ent) continue;
       iPcMovable* mov_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
       	iPcMovable);
-      const csTransform* coltrans;
+      const csReversibleTransform* coltrans;
       if (mov_ent) coltrans = &mov_ent->GetMesh ()->GetMesh ()->GetMovable ()->
       	GetTransform ();
       else
