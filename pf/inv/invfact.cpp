@@ -95,7 +95,6 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
     iCelEntity* ent = (iCelEntity*)contents[i];
     databuf->GetData (j++)->Set (ent);
   }
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -549,7 +548,6 @@ csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
     databuf->GetData (j++)->Set (c->factor);
     databuf->GetData (j++)->Set (c->add);
   }
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 

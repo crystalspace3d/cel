@@ -112,7 +112,6 @@ csPtr<iCelDataBuffer> celPcTooltip::Save ()
   databuf->GetData (7)->Set ((int16)bg_r);	// Room for negative.
   databuf->GetData (8)->Set ((int16)bg_g);
   databuf->GetData (9)->Set ((int16)bg_b);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -252,7 +251,6 @@ csPtr<iCelDataBuffer> celPcTimer::Save ()
   databuf->GetData (1)->Set ((int32)wakeup);
   databuf->GetData (2)->Set ((int32)wakeup_todo);
   databuf->GetData (3)->SetBool (repeat);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -381,7 +379,6 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
 	break;
     }
   }
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 

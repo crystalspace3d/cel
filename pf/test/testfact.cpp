@@ -65,7 +65,6 @@ csPtr<iCelDataBuffer> celPcTest::Save ()
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TEST_SERIAL));
   databuf->SetDataCount (0);
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 

@@ -116,7 +116,6 @@ csPtr<iCelDataBuffer> celPcCommandInput::Save ()
     m = m->next;
   }
 
-  databuf->IncRef ();	// Avoid smart pointer release.
   return csPtr<iCelDataBuffer> (databuf);
 }
 
