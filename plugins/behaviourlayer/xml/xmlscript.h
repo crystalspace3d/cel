@@ -66,6 +66,8 @@ enum
   CEL_OPERATION_ACTION,		// A:-		S:PC,ID		OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_VARENT,		// A:-		S:E,S,?		OS:-
+  CEL_OPERATION_VAR_STR,	// A:S		S:?		OS:-
+  CEL_OPERATION_VARENT_STR,	// A:S		S:E,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:?		OS:-
   CEL_OPERATION_DUP,		// A:-		S:?		OS:?,?
   CEL_OPERATION_DROP,		// A:-		S:?		OS:-
@@ -90,8 +92,11 @@ enum
   CEL_OPERATION_INVENTORY_COUNT,// A:-		S:-		OS:I
   CEL_OPERATION_INVENTORY_GET,	// A:-		S:I		OS:E
   CEL_OPERATION_PUSH,		// A:?		S:-		OS:?
+  CEL_OPERATION_PUSHSTR,	// A:S		S:-		OS:S
   CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
   CEL_OPERATION_DEREFVARENT,	// A:-		S:E,S		OS:?
+  CEL_OPERATION_DEREFVAR_STR,	// A:S		S:-		OS:?
+  CEL_OPERATION_DEREFVARENT_STR,// A:S		S:E		OS:?
   CEL_OPERATION_COLOR,		// A:-		S:F,F,F		OS:C
   CEL_OPERATION_VECTOR2,	// A:-		S:F,F		OS:V2
   CEL_OPERATION_VECTOR3,	// A:-		S:F,F,F		OS:V3
@@ -311,7 +316,6 @@ private:
   csRef<celGenericParameterBlock> action_params;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
-  bool CheckStack (celBehaviourXml* behave);
   bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);
 
 public:

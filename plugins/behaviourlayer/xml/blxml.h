@@ -63,13 +63,22 @@ private:
   bool ParseID (const char*& input, iDocumentNode* child,
 	celXmlScriptEventHandler* h,
 	const char* name, char* str, csStringID fun_id);
+  bool ParseFunction (const char*& input, const char* pinput,
+  	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
   bool ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
-  bool ParseFunction (const char*& input, const char* pinput,
-  	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
+  bool ParseExpressionOrConstantString (iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* attrname, const char* name,
+	char*& str);
+  bool ParseExpressionInt (const char*& input, const char* pinput,
+	int token, iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name, int stoppri);
   bool ParseExpression (const char*& input, iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* name, int stoppri);
+  bool ParseExpressionOrConstantString (const char*& input,
+	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name, int stoppri, char*& str);
   celXmlScriptEventHandler* FindEventHandler (celXmlScript* script,
   	const char* eventname);
 

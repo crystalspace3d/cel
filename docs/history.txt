@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Jan-2004
+	- Jorrit did several optimizations on the XML behaviour layer.
 3-Jan-2004
 	- Jorrit added an optimization to the billboard manager in case
 	  a clickmap is completely full.
