@@ -37,3 +37,6 @@ Create an introspection like interface with Get/Set
 attributes for all property classes to making scripting
 easier.
 
+Add more optional messages to the behaviour from property
+classes so that more control is possible.
+
