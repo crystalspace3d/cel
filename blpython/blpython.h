@@ -43,6 +43,7 @@ public:
   bool RunText (const char *Text);
   bool LoadModule (const char *Text);
   bool Store (const char* name, void* data, void* tag);
+  
   void ShowError ();
   void Print (bool Error, const char *msg);
 
@@ -78,6 +79,7 @@ private:
   iCelEntity* entity;
   char* name;
   char* entityPtr;
+  char* entityPythonName;
 
 public:
   celPythonBehaviour (celBlPython* scripter, iCelEntity* entity,
