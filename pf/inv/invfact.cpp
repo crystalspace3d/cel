@@ -191,7 +191,9 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
       pcchar->AddToInventory (&scfiPcInventory);
       pcchar->DecRef ();
     }
-    //cd->value.ent->IncRef ();
+    // @@@ Is this valid? If I remove this then there are
+    // problems. However with persistance it seems to create one ref too many?
+    cd->value.ent->IncRef ();
   }
 
   return true;

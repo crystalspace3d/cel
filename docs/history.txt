@@ -14,6 +14,8 @@
 	  to get it working fully.
 	- Implemented correct persistence for pccamera so that the current
 	  position of the camera is also remembered.
+	- Fixed a crash bug in cel with persistance and inventory.
+	  Related to ref counting again.
 19-Nov-2001:
 	- CS now has a feature to remove an object from the engine in general.
 	  The plimp Cache will use that new function so that the extreme
