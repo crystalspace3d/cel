@@ -1,8 +1,6 @@
 # This file will be processed by the configure script
-TOP = @top_srcdir@ ;
-TOPRULES = ./Jamrules ;
-
 SubDir TOP ;
+
 SubInclude TOP persist ;
 SubInclude TOP pf ;
 SubInclude TOP plimp ;
