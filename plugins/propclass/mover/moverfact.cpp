@@ -152,6 +152,16 @@ bool celPcMover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+bool celPcMover::Start (const csVector3& position, const csVector3& up,
+  	float movespeed, float rotatespeed, float sqradius)
+{
+  return false;
+}
+
+void celPcMover::Interrupt ()
+{
+}
+
 bool celPcMover::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
