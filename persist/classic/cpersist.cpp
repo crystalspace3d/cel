@@ -92,8 +92,19 @@ bool celPersistClassic::Write (iFile* f, iCelPropertyClass* pc)
     if (!WriteMarker (f, "PCL0")) return false;
     return true;
   }
-  if (!WriteMarker (f, "PCLI")) return false;
+  bool ref = pclasses.In (pc);
+  if (ref)
+  {
+    if (!WriteMarker (f, "PCLR")) return false;
+    iCelEntity* pc_ent = pc->GetEntity ();
+    // First write entity name, then property class name.
+    if (!WriteString (f, pc_ent->GetName ())) return false;
+    if (!WriteString (f, pc->GetName ())) return false;
+    return true;
+  }
 
+  pclasses.Add (pc);
+  if (!WriteMarker (f, "PCLI")) return false;
   if (!WriteString (f, pc->GetName ())) return false;
   if (!WriteString (f, pc->GetFactoryName ())) return false;
   iCelDataBuffer* db = pc->Save ();
@@ -115,6 +126,16 @@ bool celPersistClassic::Write (iFile* f, iCelEntity* entity)
     if (!WriteMarker (f, "ENT0")) return false;
     return true;
   }
+  bool ref = entities.In (entity);
+  if (ref)
+  {
+    if (!WriteMarker (f, "ENTR")) return false;
+    // Unique entity name! @@@
+    if (!WriteString (f, entity->GetName ())) return false;
+    return true;
+  }
+
+  entities.Add (entity);
   if (!WriteMarker (f, "ENTI")) return false;
 
   if (!WriteString (f, entity->GetName ())) return false;
@@ -218,6 +239,9 @@ bool celPersistClassic::Write (iFile* f, celData* data)
 
 bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
 {
+  entities.DeleteAll ();
+  pclasses.DeleteAll ();
+
   csMemFile m;
   iFile* mf = SCF_QUERY_INTERFACE (&m, iFile);
   if (!Write (mf, entity))
@@ -231,6 +255,9 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   vfs->WriteFile (name, m.GetData (), m.GetSize ());
   mf->DecRef ();
   vfs->DecRef ();
+
+  entities.DeleteAll ();
+  pclasses.DeleteAll ();
   return true;
 }
 
