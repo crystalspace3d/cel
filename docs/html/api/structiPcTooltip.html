@@ -41,13 +41,19 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a5">SetBackgroundColor</a> (int r, int g, int b)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set background color (use -1, -1, -1 for transparent).  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a6">SetFont</a> (iFont *font)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the font for the tooltip.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a7">SetJustify</a> (celTooltipJustify justify)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the justification of the tooltip.  <a href="#a7"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Tooltip property class. 
 <p>
 
 <p>
-Definition at line <a class="el" href="tooltip_8h-source.html#l00031">31</a> of file <a class="el" href="tooltip_8h-source.html">tooltip.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="tooltip_8h-source.html#l00040">40</a> of file <a class="el" href="tooltip_8h-source.html">tooltip.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a2" doxytag="iPcTooltip::Hide"></a><p>
 <table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
   <tr>
@@ -149,6 +155,66 @@ Is tooltip visible?
 Set background color (use -1, -1, -1 for transparent). 
 <p>
 Default yellow.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a6" doxytag="iPcTooltip::SetFont"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcTooltip::SetFont           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iFont *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>font</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the font for the tooltip. 
+<p>
+Defaults to CSFONT_COURIER.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a7" doxytag="iPcTooltip::SetJustify"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcTooltip::SetJustify           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">celTooltipJustify&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>justify</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the justification of the tooltip. 
+<p>
+Defaults to left-aligned.     </td>
   </tr>
 </table>
 <a class="anchor" name="a0" doxytag="iPcTooltip::SetText"></a><p>
