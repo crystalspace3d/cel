@@ -11,6 +11,12 @@ if ! $(JAMCONFIG_READ)
   EXIT "Couldn't find config. Please configure the project." ;
 }
 
+#CFLAGS
+COMPILER.CFLAGS += -Wall ;
+COMPILER.CFLAGS.debug += -g3 -DCS_DEBUG ;
+COMPILER.LFLAGS.debug += -g3 -DCS_DEBUG ;
+COMPILER.CFLAGS.optimize += -O3 ;
+
 # we use crystal space everywhere
 C++FLAGS += "$(CRYSTAL.CFLAGS)" ;
 LINKLIBS += "$(CRYSTAL.LFLAGS)" ;
