@@ -251,6 +251,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_global = false;
   do_drag = false;
   do_follow = false;
+  do_follow_always = false;
   do_sendup = true;
   do_senddown = true;
   do_sendmove = false;
@@ -325,7 +326,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   // same vector.
   csVector3 vo, vw;
 
-  if (mouse_down || ((do_follow || do_drag) && sel_entity))
+  if (mouse_down || do_follow_always || ((do_follow || do_drag) && sel_entity))
   {
     // Setup perspective vertex, invert mouse Y axis.
     csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
@@ -411,6 +412,9 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 		mouse_x, mouse_y, mouse_but);
       if (mouse_up) sel_entity = NULL;
     }
+    else if (do_follow_always && do_sendmove && new_sel)
+      SendMessage ("selectmesh_move", new_sel,
+		mouse_x, mouse_y, mouse_but);
   }
   else
   {
@@ -430,8 +434,12 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     }
     else
     {
-      if (do_sendmove && sel_entity)
-        SendMessage ("selectmesh_move", sel_entity,
+      if (do_sendmove)
+	if (sel_entity)
+          SendMessage ("selectmesh_move", sel_entity,
+		mouse_x, mouse_y, mouse_but);
+        else if (new_sel)
+          SendMessage ("selectmesh_move", new_sel,
 		mouse_x, mouse_y, mouse_but);
     }
   }

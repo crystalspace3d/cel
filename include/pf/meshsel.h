@@ -110,6 +110,17 @@ struct iPcMeshSelect : public iBase
   virtual bool HasFollowMode () const = 0;
 
   /**
+   * If true then also send move messages when
+   * the entity is not selected but the mouse is positioned
+   * on top of the entity. Default false.
+   */
+  virtual void SetFollowAlwaysMode (bool followalways) = 0;
+  /**
+   * Get the value of follow always mode.
+   */
+  virtual bool HasFollowAlwaysMode () const = 0;
+
+  /**
    * If true then it is possible to drag the selected object.
    * Note that drag mode is usually used in combination with
    * follow mode.

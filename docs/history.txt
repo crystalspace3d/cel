@@ -47,6 +47,12 @@
 	  one-triangle collider with the size of the path is used to
 	  detect collisions along the movement path.
 	- Philip Wyett updated MSVC project files for CEL.
+	- Added iPcMeshSelect::SetFollowAlwaysMode(). When this is true
+	  move messages will be send whenever the mouse is over an entity
+	  regardless of selection.
+	- Added a new behaviour class to bltest for the 'room'. Added
+	  a new pcmeshselect property classes to the room entity which
+	  has follow-always set to true.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the

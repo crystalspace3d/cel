@@ -60,7 +60,12 @@ iCelBehaviour* celBlTest::CreateBehaviour (const char* name)
 {
   if (!strcmp (name, "printer"))
   {
-    celBehaviour* ent = new celBehaviour ();
+    iCelBehaviour* ent = new celBehaviourPrinter ();
+    return ent;
+  }
+  else if (!strcmp (name, "room"))
+  {
+    iCelBehaviour* ent = new celBehaviourRoom ();
     return ent;
   }
   return NULL;

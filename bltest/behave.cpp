@@ -25,20 +25,20 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBehaviour)
+SCF_IMPLEMENT_IBASE (celBehaviourPrinter)
   SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celBehaviour::celBehaviour ()
+celBehaviourPrinter::celBehaviourPrinter ()
 {
   SCF_CONSTRUCT_IBASE (NULL);
 }
 
-celBehaviour::~celBehaviour ()
+celBehaviourPrinter::~celBehaviourPrinter ()
 {
 }
 
-bool celBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
+bool celBehaviourPrinter::SendMessage (const char* msg_id, iBase* msg_info, ...)
 {
   va_list arg;
   va_start (arg, msg_info);
@@ -47,7 +47,7 @@ bool celBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
   return rc;
 }
 
-bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
+bool celBehaviourPrinter::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
 {
   (void)arg;
@@ -79,4 +79,52 @@ bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
   fflush (stdout);
   return false;
 }
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celBehaviourRoom)
+  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
+SCF_IMPLEMENT_IBASE_END
+
+celBehaviourRoom::celBehaviourRoom ()
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+}
+
+celBehaviourRoom::~celBehaviourRoom ()
+{
+}
+
+bool celBehaviourRoom::SendMessage (const char* msg_id, iBase* msg_info, ...)
+{
+  va_list arg;
+  va_start (arg, msg_info);
+  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_end (arg);
+  return rc;
+}
+
+bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
+	va_list arg)
+{
+  (void)arg;
+  if (!strcmp (msg_id, "selectmesh_move"))
+  {
+    iPcMeshSelectData* dat = NULL;
+    if (msg_info) dat = SCF_QUERY_INTERFACE_FAST (msg_info,
+    	iPcMeshSelectData);
+    if (dat)
+    {
+      iCelEntity* ent = dat->GetEntity ();
+      if (ent)
+      {
+	printf ("FOLLOW '%s'\n", ent->GetName ());
+      }
+      dat->DecRef ();
+    }
+  }
+  return false;
+}
+
+//---------------------------------------------------------------------------
 
