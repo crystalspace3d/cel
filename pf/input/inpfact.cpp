@@ -215,8 +215,6 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   CS_ASSERT(ev.Type==csevKeyUp || ev.Type==csevKeyDown);
   int key = ev.Key.Code;
 
-  printf ("Key: %d\n",key);
-
   //find mapping
   celKeyMap *p = maplist;
   while (p)

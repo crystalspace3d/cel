@@ -247,3 +247,71 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 
 //---------------------------------------------------------------------------
 
+celBehaviourActor::celBehaviourActor (iCelEntity* entity,
+    iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
+{
+  bhroom = new celBehaviourRoom (entity, object_reg);
+  fpscam=0;
+  speed=1;
+}
+
+celBehaviourActor::~celBehaviourActor()
+{
+  if (bhroom) bhroom->DecRef();
+}
+
+bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
+            va_list arg)
+{
+  iPcGravity *pcgravity = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(),
+      iPcGravity);
+  if (!pcgravity)
+    return false;
+
+  if (!strcmp (msg_id, "+forward"))
+  {
+    pcgravity->ApplyForce(csVector3(1*speed,0,0), 10000);
+  } else
+  if (!strcmp (msg_id, "-forward"))
+  {
+    pcgravity->ClearForces();
+  } else
+  if (!strcmp (msg_id, "+backward"))
+  {
+    pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
+  } else
+  if (!strcmp (msg_id, "-backward"))
+  {
+    pcgravity->ClearForces();
+  } else
+  if (!strcmp (msg_id, "+run"))
+  {
+    speed=2.5;
+  } else
+  if (!strcmp (msg_id, "-run"))
+  {
+    speed=1;
+  } else
+  if (!strcmp (msg_id, "+cammode"))
+  {
+    fpscam = fpscam ? 0 : 1;
+    iPcCamera* pccam;
+    pccam = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera);
+    if (!pccam)
+      return false;
+       
+    if (fpscam)
+    {
+      printf ("Switching to 3rd person view!\n");
+      pccam->SetMode (iPcCamera::follow, true);	
+    }
+    else
+    {
+      printf ("Free look mode\n");
+      pccam->SetMode (iPcCamera::freelook, false);
+    }
+  }
+  
+  return bhroom->SendMessageV (msg_id, msg_info, arg);
+}
+

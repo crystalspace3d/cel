@@ -1,3 +1,8 @@
+16-Dec-2001:
+	- Matze fixed a memory leak: pllayer was holding references to
+	  factories and these to pl. Now only pllayer holds the ref.
+	- added a mode switch to camera property, in follow mode the camera,
+	  stays behind it's assigned mesh and even does collision detection
 14-Dec-2001:
 	- Keyboard input works now, but for some strange reason CS transmits
        	  each key multiple times, and on the other side when pressing a key
