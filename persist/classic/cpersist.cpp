@@ -353,16 +353,6 @@ bool celPersistClassicContext::Read (uint32& ul)
   return true;
 }
 
-bool celPersistClassicContext::Read (int& i)
-{
-  return Read((int32&) i);
-}
-
-bool celPersistClassicContext::Read (unsigned int& i)
-{
-  return Read((uint32&) i);
-}
-
 bool celPersistClassicContext::Read (float& f)
 {
   READDEBUG("FLT");
@@ -929,14 +919,4 @@ bool celPersistClassicContext::Write (float f)
   WRITEDEBUG("FLT");
   f = convert_endian (f);
   return file->Write ((const char*)&f, 4);
-}
-
-bool celPersistClassicContext::Write (int i)
-{
-  return Write((int32)i);
-}
-
-bool celPersistClassicContext::Write (unsigned int i)
-{
-  return Write((uint32)i);
 }

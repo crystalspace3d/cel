@@ -58,8 +58,6 @@ private:
   bool Write (int32 v);
   bool Write (uint8 v);
   bool Write (int8 v);
-  bool Write (int i);
-  bool Write (unsigned int i);
   bool Write (float f);
 
   iCelEntity* FindEntity (CS_ID id);
@@ -72,8 +70,6 @@ private:
   bool Read (uint16& uw);
   bool Read (int32& l);
   bool Read (uint32& ul);
-  bool Read (int& i);
-  bool Read (unsigned int& i);
   bool Read (float& f);
   bool Read (char*& str);
   bool Read (iCelPropertyClass*& pc);
