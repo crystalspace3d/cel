@@ -1078,106 +1078,65 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_VAR:
         {
+	  CHECK_STACK
+	  celXmlArg val = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg var = stack.Pop ();
+	  DUMP_EXEC (": var var=%s value=%s\n", A2S (var), A2S (val));
+
 	  iPcProperties* props = behave->GetProperties ();
-	  if (!props) break;	// @@@ Report error!
-	  const char* pn = args[0].arg.s;
-	  switch (args[1].type)
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (var);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  switch (val.type)
 	  {
-	    case CEL_TYPE_VAR:
-	      {
-                DUMP_EXEC (": var %s=var %s\n", pn, args[1].arg.s);
-		int idx = props->GetPropertyIndex (args[1].arg.s);
-		if (idx == -1) break;	// @@@ Report error!
-		switch (props->GetPropertyType (idx))
-		{
-		  case CEL_DATA_LONG:
-		    props->SetProperty (pn, props->GetPropertyLong (idx));
-		    break;
-		  case CEL_DATA_FLOAT:
-		    props->SetProperty (pn, props->GetPropertyFloat (idx));
-		    break;
-		  case CEL_DATA_BOOL:
-		    props->SetProperty (pn, props->GetPropertyBool (idx));
-		    break;
-		  case CEL_DATA_STRING:
-		    props->SetProperty (pn, props->GetPropertyString (idx));
-		    break;
-		  case CEL_DATA_VECTOR2:
-		    {
-		      csVector2 v;
-		      props->GetPropertyVector (idx, v);
-		      props->SetProperty (pn, v);
-		    }
-		    break;
-		  case CEL_DATA_VECTOR3:
-		    {
-		      csVector3 v;
-		      props->GetPropertyVector (idx, v);
-		      props->SetProperty (pn, v);
-		    }
-		    break;
-		  case CEL_DATA_COLOR:
-		    {
-		      csColor v;
-		      props->GetPropertyColor (idx, v);
-		      props->SetProperty (pn, v);
-		    }
-		    break;
-		  default:
-		    CS_ASSERT (false);
-		    break;
-		}
-	      }
-	      break;
 	    case CEL_TYPE_BOOL:
-              DUMP_EXEC (": var %s=%d\n", pn, args[1].arg.b);
-	      props->SetProperty (pn, args[1].arg.b);
+	      props->SetProperty (varname, val.arg.b);
 	      break;
 	    case CEL_TYPE_FLOAT:
-              DUMP_EXEC (": var %s=%g\n", pn, args[1].arg.f);
-	      props->SetProperty (pn, args[1].arg.f);
+	      props->SetProperty (varname, val.arg.f);
 	      break;
 	    case CEL_TYPE_STRING:
-              DUMP_EXEC (": var %s=%s\n", pn, args[1].arg.s);
-	      props->SetProperty (pn, args[1].arg.s);
+	      props->SetProperty (varname, val.arg.s);
+	      break;
+	    case CEL_TYPE_UINT32:
+	      props->SetProperty (varname, (long)val.arg.ui);
 	      break;
 	    case CEL_TYPE_INT32:
-              DUMP_EXEC (": var %s=%d\n", pn, args[1].arg.i);
-	      props->SetProperty (pn, (long)args[1].arg.i);
+	      props->SetProperty (varname, (long)val.arg.i);
 	      break;
 	    case CEL_TYPE_COLOR:
 	      {
 	        csColor col;
-		col.red = args[1].arg.col.red;
-		col.green = args[1].arg.col.green;
-		col.blue = args[1].arg.col.blue;
-                DUMP_EXEC (": var %s=%g,%g,%g\n", pn, col.red,
-			col.green, col.blue);
-	        props->SetProperty (pn, col);
+		col.red = val.arg.col.red;
+		col.green = val.arg.col.green;
+		col.blue = val.arg.col.blue;
+	        props->SetProperty (varname, col);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR2:
 	      {
 	        csVector2 vec;
-		vec.x = args[1].arg.vec.x;
-		vec.y = args[1].arg.vec.y;
-                DUMP_EXEC (": var %s=%g,%g\n", pn, vec.x, vec.y);
-	        props->SetProperty (pn, vec);
+		vec.x = val.arg.vec.x;
+		vec.y = val.arg.vec.y;
+	        props->SetProperty (varname, vec);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR3:
 	      {
 	        csVector3 vec;
-		vec.x = args[1].arg.vec.x;
-		vec.y = args[1].arg.vec.y;
-		vec.z = args[1].arg.vec.z;
-                DUMP_EXEC (": var %s=%g,%g,%g\n", pn, vec.x,
-			vec.y, vec.z);
-	        props->SetProperty (pn, vec);
+		vec.x = val.arg.vec.x;
+		vec.y = val.arg.vec.y;
+		vec.z = val.arg.vec.z;
+	        props->SetProperty (varname, vec);
 	      }
 	      break;
+	    case CEL_TYPE_PC:
+	      props->SetProperty (varname, val.arg.pc);
+	      break;
 	    default:
-	      CS_ASSERT (false);
+	      return ReportError (behave, "Bad type of value!");
 	  }
 	}
 	break;

@@ -554,18 +554,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_VAR:
         {
-	  const char* varname = GetAttributeString (child, "name", "var");
-	  if (!varname) return false;
-
-	  h->AddOperation (CEL_OPERATION_VAR);
-	  h->AddArgument ().SetString (varname);
-	  if (!ParseValueArg (child, h))
-	  {
-            synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"Value is missing for <var>!");
+          if (!ParseExpression (child, h, "name", "var", false))
 	    return false;
-	  }
+          if (!ParseExpression (child, h, "value", "var", false))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_VAR);
 	}
 	break;
       case XMLTOKEN_GETPROPCLASS:
