@@ -783,24 +783,21 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
 
   csCollisionPair* CD_contact;
 
-  csRef<iObjectIterator> objectIter = engine->GetNearbyObjects (sector,
+  csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
     	transform->GetOrigin (),
     	COLLISION_DISTANCE,
     	true);
 
   while (objectIter->HasNext ())
   {
-    iObject* meshWrapperObject = objectIter->Next ();
-
-    csRef<iMeshWrapper> meshWrapper =
-      SCF_QUERY_INTERFACE (meshWrapperObject, iMeshWrapper);
-
+    iMeshWrapper* meshWrapper = objectIter->Next ();
     // Avoid hitting the mesh from this entity itself.
-    if (meshWrapper && meshWrapper != pcmesh->GetMesh ())
+    if (meshWrapper != pcmesh->GetMesh ())
     {
       cdsys->ResetCollisionPairs ();
-      csReversibleTransform tr = meshWrapper->GetMovable ()->GetFullTransform ();
-      if (collidewrapper->Collide (meshWrapperObject, transform, &tr))
+      csReversibleTransform tr = meshWrapper->GetMovable ()
+      	->GetFullTransform ();
+      if (collidewrapper->Collide (meshWrapper->QueryObject (), transform, &tr))
       {
     	bool reallycollided = false;
 
