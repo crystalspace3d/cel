@@ -81,8 +81,8 @@ public:
 
   void SetLinMove (iPcLinearMovement* pclinmove) { }
   bool Start (const csVector3& position, const csVector3& up,
-  	float movespeed, float rotatespeed, float sqradius) { return false; }
-  void Interrupt () { }
+  	float movespeed, float rotatespeed, float sqradius);
+  void Interrupt ();
   const csVector3& GetPosition () const { return position; }
   const csVector3& GetUp () const { return up; }
   float GetMoveSpeed () const { return movespeed; }

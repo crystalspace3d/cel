@@ -162,8 +162,14 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 {
   (void)arg;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelEntity* ent = params ? params->GetParameter (pl->FetchStringID (
-  	"cel.parameter.entity"))->value.ent : 0;
+  iCelEntity* ent = 0;
+  if (params)
+  {
+    const celData* cd = params->GetParameter (
+    	pl->FetchStringID ("cel.parameter.entity"));
+    if (cd)
+      ent = cd->value.ent;
+  }
 
   if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {
