@@ -113,14 +113,26 @@ public:
       return scfParent->GetView ();
     }
   } scfiPcCamera;
-  struct EventHandler : public iEventHandler
+
+  // Not an embedded interface to avoid circular reference!!!
+  class EventHandler : public iEventHandler
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
+  private:
+    celPcCamera* parent;
+
+  public:
+    EventHandler (celPcCamera* parent)
+    {
+      SCF_CONSTRUCT_IBASE (NULL);
+      EventHandler::parent = parent;
+    }
+    virtual ~EventHandler () { }
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
-      return scfParent->HandleEvent (ev);
+      return parent->HandleEvent (ev);
     }
-  } scfiEventHandler;
+  } *scfiEventHandler;
 };
 
 /**

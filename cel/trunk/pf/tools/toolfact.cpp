@@ -24,6 +24,7 @@
 #include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -92,22 +93,21 @@ const char* celPfTools::GetTypeName (int idx) const
 SCF_IMPLEMENT_IBASE (celPcTooltip)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTooltip)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTooltip::PcTooltip)
   SCF_IMPLEMENTS_INTERFACE (iPcTooltip)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTooltip::EventHandler)
+SCF_IMPLEMENT_IBASE (celPcTooltip::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
+SCF_IMPLEMENT_IBASE_END
 
 celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
+  scfiEventHandler = NULL;
   visible = false;
   text = NULL;
   celPcTooltip::object_reg = object_reg;
@@ -117,14 +117,23 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
   bg_r = 255;
   bg_g = 255;
   bg_b = 0;
+  DG_ADDI (this, "celPcTooltip()");
 }
 
 celPcTooltip::~celPcTooltip ()
 {
   delete[] text;
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  if (q != NULL)
-    q->RemoveListener (&scfiEventHandler);
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q != NULL)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
+  }
+  DG_REM (this);
 }
 
 void celPcTooltip::SetEntity (iCelEntity* entity)
@@ -186,10 +195,13 @@ void celPcTooltip::Hide ()
 {
   if (!visible) return;
   visible = false;
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
-  q->DecRef ();
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    CS_ASSERT (q != NULL);
+    q->RemoveListener (scfiEventHandler);
+    q->DecRef ();
+  }
 }
 
 void celPcTooltip::Show (int x, int y)
@@ -198,11 +210,15 @@ void celPcTooltip::Show (int x, int y)
   celPcTooltip::y = y;
   if (visible) return;
   visible = true;
+  if (!scfiEventHandler)
+  {
+    scfiEventHandler = new EventHandler (this);
+  }
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
+  q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (&scfiEventHandler, trigger);
+  q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
 }
 
@@ -245,34 +261,42 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
 SCF_IMPLEMENT_IBASE (celPcTimer)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTimer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
   SCF_IMPLEMENTS_INTERFACE (iPcTimer)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::EventHandler)
+SCF_IMPLEMENT_IBASE (celPcTimer::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
+SCF_IMPLEMENT_IBASE_END
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
+  scfiEventHandler = NULL;
   enabled = false;
   celPcTimer::object_reg = object_reg;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
+  DG_ADDI (this, "celPcTimer()");
 }
 
 celPcTimer::~celPcTimer ()
 {
   if (vc) vc->DecRef ();
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  if (q != NULL)
-    q->RemoveListener (&scfiEventHandler);
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q != NULL)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
+  }
+  DG_REM (this);
 }
 
 void celPcTimer::SetEntity (iCelEntity* entity)
@@ -316,20 +340,27 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 void celPcTimer::Clear ()
 {
   enabled = false;
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
-  q->DecRef ();
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    CS_ASSERT (q != NULL);
+    q->RemoveListener (scfiEventHandler);
+    q->DecRef ();
+  }
 }
 
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
+  if (!scfiEventHandler)
+  {
+    scfiEventHandler = new EventHandler (this);
+  }
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RemoveListener (&scfiEventHandler);
+  q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (&scfiEventHandler, trigger);
+  q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
 
   celPcTimer::repeat = repeat;

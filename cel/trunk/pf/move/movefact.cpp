@@ -27,6 +27,7 @@
 #include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
@@ -123,12 +124,14 @@ celPcMovable::celPcMovable (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovable);
   pcmesh = NULL;
   celPcMovable::object_reg = object_reg;
+  DG_ADDI (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
 {
   if (pcmesh) pcmesh->DecRef ();
   RemoveAllConstraints ();
+  DG_REM (this);
 }
 
 void celPcMovable::SetEntity (iCelEntity* entity)
@@ -302,12 +305,14 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
   pcmesh = NULL;
   collider = NULL;
   celPcSolid::object_reg = object_reg;
+  DG_ADDI (this, "celPcSolid()");
 }
 
 celPcSolid::~celPcSolid ()
 {
   if (pcmesh) pcmesh->DecRef ();
   if (collider) collider->DecRef ();
+  DG_REM (this);
 }
 
 void celPcSolid::SetEntity (iCelEntity* entity)
@@ -431,11 +436,13 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
   celPcMovableConstraintCD::object_reg = object_reg;
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != NULL);
+  DG_ADDI (this, "celPcMovableConstraintCD()");
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
   if (cdsys) cdsys->DecRef ();
+  DG_REM (this);
 }
 
 void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
@@ -615,22 +622,21 @@ SCF_IMPLEMENT_IBASE_END
 SCF_IMPLEMENT_IBASE (celPcGravity)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcGravity)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcGravity::PcGravity)
   SCF_IMPLEMENTS_INTERFACE (iPcGravity)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcGravity::EventHandler)
+SCF_IMPLEMENT_IBASE (celPcGravity::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
+SCF_IMPLEMENT_IBASE_END
 
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcGravity);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
+  scfiEventHandler = NULL;
   pcmovable = NULL;
   pcsolid = NULL;
   gravity_collider = NULL;
@@ -651,11 +657,13 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   has_gravity_collider = false;
   gravity_mesh = NULL;
 
+  scfiEventHandler = new EventHandler (this);
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
   unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (&scfiEventHandler, trigger);
+  q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
+  DG_ADDI (this, "celPcGravity()");
 }
 
 celPcGravity::~celPcGravity ()
@@ -663,12 +671,20 @@ celPcGravity::~celPcGravity ()
   if (pcmovable) pcmovable->DecRef ();
   if (pcsolid) pcsolid->DecRef ();
   if (gravity_collider) gravity_collider->DecRef ();
-  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  if (q != NULL)
-    q->RemoveListener (&scfiEventHandler);
+  if (scfiEventHandler)
+  {
+    iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    if (q != NULL)
+    {
+      q->RemoveListener (scfiEventHandler);
+      q->DecRef ();
+    }
+    scfiEventHandler->DecRef ();
+  }
   if (cdsys) cdsys->DecRef ();
   if (pl) pl->DecRef ();
   if (vc) vc->DecRef ();
+  DG_REM (this);
 }
 
 void celPcGravity::SetEntity (iCelEntity* entity)
@@ -902,14 +918,14 @@ bool celPcGravity::HandleEvent (iEvent& ev)
     GetSolid ();
     iCollider* collider = pcsolid->GetCollider ();
 
-    iCelEntityList* cd_list = pl->FindNearbyEntities (movable->
-    	GetSectors ()->Get (0),
-    	w2o.GetOrigin (), 10/*@@@*/);
-
     float delta_t1, delta_t2;
     csTicks elapsed_time = vc->GetElapsedTicks ();
     if (!elapsed_time) return false;
     delta_t1 = elapsed_time/1000.0;
+
+    iCelEntityList* cd_list = pl->FindNearbyEntities (movable->
+    	GetSectors ()->Get (0),
+    	w2o.GetOrigin (), 10/*@@@*/);
 
     grav_speed += csVector3 (0, -9.8, 0) * delta_t1;
     // Handle gravity so that we only call HandleForce for 0.1 second
