@@ -31,6 +31,7 @@
 #include "pf/solid.h"
 
 struct iCelEntity;
+struct iCollideSystem;
 class csVector3;
 
 /**
@@ -168,6 +169,7 @@ class celPcMovableConstraintCD : public iCelPropertyClass
 private:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
+  iCollideSystem* cdsys;
 
 public:
   celPcMovableConstraintCD (iObjectRegistry* object_reg);
