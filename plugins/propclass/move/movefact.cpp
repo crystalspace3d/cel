@@ -47,6 +47,7 @@
 #include "imap/parser.h"
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
+#include "csgeom/polymesh.h"
 #include "igeom/polymesh.h"
 #include "igeom/objmodel.h"
 #include "imesh/object.h"
@@ -538,80 +539,6 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 
 //---------------------------------------------------------------------------
 
-// Private class implementing iPolygonMesh for one cube.
-// This will be used for gravity collider.
-class celPolygonMeshCube : public iPolygonMesh
-{
-private:
-  csVector3 vertices[8];
-  csMeshedPolygon polygons[6];
-  int vertex_indices[4*6];
-
-public:
-  celPolygonMeshCube (const csVector3& dim, const csVector3& offs)
-  {
-    SCF_CONSTRUCT_IBASE (0);
-    csVector3 d = dim * .5;
-    vertices[0].Set (-d.x, -d.y, -d.z);
-    vertices[1].Set ( d.x, -d.y, -d.z);
-    vertices[2].Set (-d.x, -d.y,  d.z);
-    vertices[3].Set ( d.x, -d.y,  d.z);
-    vertices[4].Set (-d.x,  d.y, -d.z);
-    vertices[5].Set ( d.x,  d.y, -d.z);
-    vertices[6].Set (-d.x,  d.y,  d.z);
-    vertices[7].Set ( d.x,  d.y,  d.z);
-    int i;
-    for (i = 0 ; i < 8 ; i++)
-      vertices[i] += offs;
-    for (i = 0 ; i < 6 ; i++)
-    {
-      polygons[i].num_vertices = 4;
-      polygons[i].vertices = &vertex_indices[i*4];
-    }
-    vertex_indices[0*4+0] = 4;
-    vertex_indices[0*4+1] = 5;
-    vertex_indices[0*4+2] = 1;
-    vertex_indices[0*4+3] = 0;
-    vertex_indices[1*4+0] = 5;
-    vertex_indices[1*4+1] = 7;
-    vertex_indices[1*4+2] = 3;
-    vertex_indices[1*4+3] = 1;
-    vertex_indices[2*4+0] = 7;
-    vertex_indices[2*4+1] = 6;
-    vertex_indices[2*4+2] = 2;
-    vertex_indices[2*4+3] = 3;
-    vertex_indices[3*4+0] = 6;
-    vertex_indices[3*4+1] = 4;
-    vertex_indices[3*4+2] = 0;
-    vertex_indices[3*4+3] = 2;
-    vertex_indices[4*4+0] = 6;
-    vertex_indices[4*4+1] = 7;
-    vertex_indices[4*4+2] = 5;
-    vertex_indices[4*4+3] = 4;
-    vertex_indices[5*4+0] = 0;
-    vertex_indices[5*4+1] = 1;
-    vertex_indices[5*4+2] = 3;
-    vertex_indices[5*4+3] = 2;
-  }
-  virtual ~celPolygonMeshCube () { }
-
-  SCF_DECLARE_IBASE;
-
-  virtual int GetVertexCount () { return 8; }
-  virtual csVector3* GetVertices () { return vertices; }
-  virtual int GetPolygonCount () { return 6; }
-  virtual csMeshedPolygon* GetPolygons () { return polygons; }
-  virtual void Cleanup () { }
-  virtual bool IsDeformable () const { return false; }
-  virtual uint32 GetChangeNumber () const { return 0; }
-};
-
-SCF_IMPLEMENT_IBASE (celPolygonMeshCube)
-  SCF_IMPLEMENTS_INTERFACE (iPolygonMesh)
-SCF_IMPLEMENT_IBASE_END
-
-//---------------------------------------------------------------------------
-
 SCF_IMPLEMENT_IBASE_EXT (celPcGravity)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcGravity)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -770,7 +697,9 @@ void celPcGravity::CreateGravityCollider (const csVector3& dim,
   gravity_dim = dim;
   gravity_offs = offs;
 
-  celPolygonMeshCube* pmcube = new celPolygonMeshCube (dim, offs);
+  csVector3 d = dim * .5;
+  csBox3 box (-d + offs, d + offs);
+  csPolygonMeshCube* pmcube = new csPolygonMeshCube (box);
   gravity_collider = cdsys->CreateCollider (pmcube);
   pmcube->DecRef ();
 }

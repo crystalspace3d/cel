@@ -45,6 +45,7 @@
 
 #include <imesh/thing/thing.h>
 #include <imesh/thing/polygon.h>
+#include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
 #include <igeom/objmodel.h>
 
@@ -632,146 +633,31 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   bottomSize = legs;
   celPcLinearMovement::shift = shift;
 
-  csRef<iPolygon3DStatic> p;
   csRef<iPolygonMesh> mesh;
-
-  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-    iPluginManager);
-
-  csRef<iMeshObjectType> ThingType;
-  ThingType = CS_QUERY_PLUGIN_CLASS (plugin_mgr,
-    "crystalspace.mesh.object.thing",
-    iMeshObjectType);
-
-  if (!ThingType)
-    ThingType = CS_LOAD_PLUGIN (plugin_mgr,
-      "crystalspace.mesh.object.thing",
-      iMeshObjectType);
-
-  csRef<iMeshObjectFactory> thingfact = ThingType->NewFactory ();
-  csRef<iMeshObject> meshobject = thingfact->NewInstance ();
-
-  topColliderMesh = engine->CreateMeshWrapper (meshobject,"Top Collider Mesh");
-  csRef<iThingState> ws = SCF_QUERY_INTERFACE (meshobject, iThingState);
-  csRef<iThingFactoryState> thingState = ws->GetFactory ();
 
   float bX2 = body.x / 2.0f;
   float bZ2 = body.z / 2.0f;
   float bYbottom = legs.y;
   float bYtop = legs.y + body.y;
 
-  thingState->CreateVertex (csVector3 (-bX2, bYbottom, -bZ2) + shift);
-  thingState->CreateVertex (csVector3 (-bX2, bYbottom,  bZ2) + shift);
-  thingState->CreateVertex (csVector3 (-bX2, bYtop,   bZ2) + shift);
-  thingState->CreateVertex (csVector3 (-bX2, bYtop,  -bZ2) + shift);
-  thingState->CreateVertex (csVector3 ( bX2, bYbottom, -bZ2) + shift);
-  thingState->CreateVertex (csVector3 ( bX2, bYbottom,  bZ2) + shift);
-  thingState->CreateVertex (csVector3 ( bX2, bYtop,   bZ2) + shift);
-  thingState->CreateVertex (csVector3 ( bX2, bYtop,  -bZ2) + shift);
-
-  //Left side
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (1);
-  p->CreateVertex (2); p->CreateVertex (3);
-
-  //Right side
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (4); p->CreateVertex (5);
-  p->CreateVertex (6); p->CreateVertex (7);
-
-  //Bottom
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (1);
-  p->CreateVertex (5); p->CreateVertex (4);
-
-  //Top
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (3); p->CreateVertex (2);
-  p->CreateVertex (6); p->CreateVertex (7);
-
-  //Front
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (1); p->CreateVertex (5);
-  p->CreateVertex (6); p->CreateVertex (2);
-
-  //Back
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (4);
-  p->CreateVertex (7); p->CreateVertex (3);
-
-  mesh = meshobject->GetObjectModel ()->GetPolygonMeshColldet ();
-  topCollider = csPtr<csColliderWrapper> (
-    new csColliderWrapper (topColliderMesh->QueryObject (), cdsys, mesh));
-
-  topCollider->SetName ("Top Collider");
-
-  thingfact = ThingType->NewFactory ();
-  meshobject = thingfact->NewInstance ();
-
-  bottomColliderMesh = engine->CreateMeshWrapper (meshobject, "Bottom");
-  ws = SCF_QUERY_INTERFACE (meshobject, iThingState);
-  thingState = ws->GetFactory ();
+  mesh = csPtr<iPolygonMesh> (new csPolygonMeshCube (
+	csBox3 (csVector3 (-bX2, bYbottom, -bZ2) + shift,
+		csVector3 (-bX2, bYtop, bZ2) + shift)));
+  topCollider = cdsys->CreateCollider (mesh);
 
   float lX2 = legs.x / 2.0f;
   float lZ2 = legs.z / 2.0f;
 
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET, -lZ2) + shift);
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET,  lZ2) + shift);
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + legs.y,   lZ2) + shift);
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + legs.y,  -lZ2) + shift);
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET, -lZ2) + shift);
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET,  lZ2) + shift);
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + legs.y,   lZ2) + shift);
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + legs.y,  -lZ2) + shift);
-
-  //Left
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (1);
-  p->CreateVertex (2); p->CreateVertex (3);
-
-  //Right
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (4); p->CreateVertex (5);
-  p->CreateVertex (6); p->CreateVertex (7);
-
-  //Bottom
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (1);
-  p->CreateVertex (5); p->CreateVertex (4);
-
-  //Top
-#if 0
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (3); p->CreateVertex (2);
-  p->CreateVertex (6); p->CreateVertex (7);
-#endif
-
-  //Front
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (1); p->CreateVertex (5);
-  p->CreateVertex (6); p->CreateVertex (2);
-
-  //Back
-  p = thingState->CreatePolygon ();
-  p->CreateVertex (0); p->CreateVertex (4);
-  p->CreateVertex (7); p->CreateVertex (3);
-
-  mesh = meshobject->GetObjectModel ()->GetPolygonMeshColldet ();
-  bottomCollider = csPtr<csColliderWrapper> (
-    new csColliderWrapper (bottomColliderMesh->QueryObject (),
-    	cdsys, mesh));
-
-  bottomCollider->SetName ("Bottom Collider");
+  mesh = csPtr<iPolygonMesh> (new csPolygonMeshCube (
+	csBox3 (csVector3 (-lX2, LEGOFFSET, -lZ2) + shift,
+		csVector3 (-lX2, LEGOFFSET + legs.y, lZ2) + shift)));
+  bottomCollider = cdsys->CreateCollider (mesh);
 
   bool result;
   if (topCollider && bottomCollider)
     result = true;
   else
     result = false;
-
-  // now we don't need our temporary meshes anymore
-  engine->RemoveObject (topColliderMesh);
-  engine->RemoveObject (bottomColliderMesh);
 
   if (!result)
   {
@@ -780,7 +666,6 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   }
 
   useCD = true;
-
   return result;
 }
 
@@ -817,7 +702,7 @@ iCollider* celPcLinearMovement::FindCollider (iObject* object)
 /*
  * Iterates over the nearby entities to find collisions
  */
-int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
+int celPcLinearMovement::CollisionDetect (iCollider *collider,
     				  iSector* sector,
     				  csReversibleTransform* transform,
     				  csReversibleTransform* old_transform)
@@ -844,7 +729,7 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
       csReversibleTransform tr = meshWrapper->GetMovable ()
       	->GetFullTransform ();
       iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
-      if (othercollider && cdsys->Collide (collidewrapper->GetCollider (),
+      if (othercollider && cdsys->Collide (collider,
       	transform, othercollider, &tr))
       {
     	bool reallycollided = false;
