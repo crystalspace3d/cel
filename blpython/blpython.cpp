@@ -71,6 +71,7 @@ celBlPython::~celBlPython ()
   object_reg = 0;
 }
 
+/*
 extern "C" {
   struct swig_type_info;
   extern swig_type_info * SWIG_TypeQuery (const char *);
@@ -78,7 +79,7 @@ extern "C" {
   extern char * SWIG_PackData (char *c, void *, int);  
   extern void init_cspace ();
 }
-
+*/
 
 bool celBlPython::Initialize (iObjectRegistry* object_reg)
 {
@@ -249,10 +250,14 @@ celPythonBehaviour::celPythonBehaviour (celBlPython *scripter, PyObject *py_enti
   celPythonBehaviour::py_entity = py_entity;
   celPythonBehaviour::py_object = py_object;
   celPythonBehaviour::name = csStrNew (name);
+  tibase = SWIG_TypeQuery ("_p_iBase");  
 }
 
 celPythonBehaviour::~celPythonBehaviour ()
 {
+  Py_DECREF (py_object);
+  Py_DECREF (py_entity);
+
   delete[] name;
 }
 
@@ -267,10 +272,8 @@ bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
-{
-
-  swig_type_info *ti = SWIG_TypeQuery ("_p_iBase");
-  PyObject *pymessage_info = SWIG_NewPointerObj (msg_info, ti, 0);
+{  
+  PyObject *pymessage_info = SWIG_NewPointerObj (msg_info, tibase, 0);
 
   PyObject *method = PyString_FromString (msg_id);
 
@@ -278,10 +281,12 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 
   if (!result)
     PyRun_SimpleString ("pdb.pm()");
+  else
+    Py_DECREF(result);
 
   Py_DECREF (method);
   Py_DECREF (pymessage_info);
-
+    
   return true;
 }
 

@@ -29,6 +29,14 @@
 
 #include "Python.h"
 
+extern "C" {
+  struct swig_type_info;
+  extern swig_type_info * SWIG_TypeQuery (const char *);
+  extern PyObject * SWIG_NewPointerObj (void *, swig_type_info *, int own);
+  extern char * SWIG_PackData (char *c, void *, int);  
+  extern void init_cspace ();
+}
+
 class celBlPython : public iCelBlLayer
 {
 public:  
@@ -131,7 +139,8 @@ private:
   PyObject* py_entity;
   PyObject* py_object;
   char* name;
-  
+  swig_type_info *tibase;
+
 public:
   celPythonBehaviour (celBlPython* scripter, PyObject* py_ent,
   	PyObject* py_behaviour, const char* name);
