@@ -68,7 +68,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   {
     DG_UNLINK (this, obj);
     obj->SetEntity (0);
-    prop_classes.Delete (idx);
+    prop_classes.DeleteIndex (idx);
     return true;
   }
   else return false;
@@ -78,7 +78,7 @@ bool celPropertyClassList::Remove (int n)
 {
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
   DG_UNLINK (this, prop_classes[n]);
-  prop_classes.Delete (n);
+  prop_classes.DeleteIndex (n);
 
   return true;
 }

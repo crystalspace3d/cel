@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Aug-2003
+	- Jorrit fixed CEL for latest CS changes (DeleteIndex instead
+	  of Delete).
 31-Jul-2003
 	- Keith fixed a couple of compiler warnings.
 29-Jul-2003

@@ -1990,6 +1990,8 @@ class csInitializer(_object):
     if _newclass:CreateInputDrivers = staticmethod(_blcelc.csInitializer_CreateInputDrivers)
     __swig_getmethods__["SetupConfigManager"] = lambda x: _blcelc.csInitializer_SetupConfigManager
     if _newclass:SetupConfigManager = staticmethod(_blcelc.csInitializer_SetupConfigManager)
+    __swig_getmethods__["SetupVFS"] = lambda x: _blcelc.csInitializer_SetupVFS
+    if _newclass:SetupVFS = staticmethod(_blcelc.csInitializer_SetupVFS)
     __swig_getmethods__["OpenApplication"] = lambda x: _blcelc.csInitializer_OpenApplication
     if _newclass:OpenApplication = staticmethod(_blcelc.csInitializer_OpenApplication)
     __swig_getmethods__["CloseApplication"] = lambda x: _blcelc.csInitializer_CloseApplication
@@ -2037,6 +2039,8 @@ csInitializer_CreateConfigManager = _blcelc.csInitializer_CreateConfigManager
 csInitializer_CreateInputDrivers = _blcelc.csInitializer_CreateInputDrivers
 
 csInitializer_SetupConfigManager = _blcelc.csInitializer_SetupConfigManager
+
+csInitializer_SetupVFS = _blcelc.csInitializer_SetupVFS
 
 csInitializer_OpenApplication = _blcelc.csInitializer_OpenApplication
 
@@ -5425,8 +5429,6 @@ class iEvent(iBase):
     def FlattenSize(*args): return apply(_blcelc.iEvent_FlattenSize,args)
     def Flatten(*args): return apply(_blcelc.iEvent_Flatten,args)
     def Unflatten(*args): return apply(_blcelc.iEvent_Unflatten,args)
-    def IncRefIfPooled(*args): return apply(_blcelc.iEvent_IncRefIfPooled,args)
-    def DecRefUnlessPooled(*args): return apply(_blcelc.iEvent_DecRefUnlessPooled,args)
     def __del__(self, destroy= _blcelc.delete_iEvent):
         try:
             if self.thisown: destroy(self)
@@ -5970,7 +5972,7 @@ class iStringArray(iBase):
     def Find(*args): return apply(_blcelc.iStringArray_Find,args)
     def FindSorted(*args): return apply(_blcelc.iStringArray_FindSorted,args)
     def Sort(*args): return apply(_blcelc.iStringArray_Sort,args)
-    def Delete(*args): return apply(_blcelc.iStringArray_Delete,args)
+    def DeleteIndex(*args): return apply(_blcelc.iStringArray_DeleteIndex,args)
     def Insert(*args): return apply(_blcelc.iStringArray_Insert,args)
     def DeleteAll(*args): return apply(_blcelc.iStringArray_DeleteAll,args)
     def __del__(self, destroy= _blcelc.delete_iStringArray):

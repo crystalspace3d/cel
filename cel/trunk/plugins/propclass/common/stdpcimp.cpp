@@ -75,7 +75,7 @@ bool celPcCommon::RemovePropertyChangeCallback (
 {
   int idx = callbacks.Find (cb);
   if (idx == -1) return false;
-  callbacks.Delete (idx);
+  callbacks.DeleteIndex (idx);
   return true;
 }
 

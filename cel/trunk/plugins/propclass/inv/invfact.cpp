@@ -230,7 +230,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   {
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
-    contents.Delete (idx);
+    contents.DeleteIndex (idx);
     DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->RemoveFromInventory (&scfiPcInventory);
@@ -259,7 +259,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // not undo this change.
   // make sure the entity isn't deleted too early
   csRef<iCelEntity> childref = child;
-  contents.Delete (idx);
+  contents.DeleteIndex (idx);
   DG_UNLINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));

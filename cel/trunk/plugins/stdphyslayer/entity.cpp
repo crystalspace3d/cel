@@ -104,7 +104,7 @@ bool celEntityList::Remove (iCelEntity* obj)
   if (idx != -1)
   {
     DG_UNLINK (this, obj);
-    entities.Delete (idx);
+    entities.DeleteIndex (idx);
     return true;
   }
   return false;
@@ -115,7 +115,7 @@ bool celEntityList::Remove (int n)
   iCelEntity* ent = Get (n);
   (void)ent;
   DG_UNLINK (this, ent);
-  entities.Delete (n);
+  entities.DeleteIndex (n);
   return true;
 }
 
