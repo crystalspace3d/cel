@@ -19,6 +19,8 @@
 
 #include "cssysdef.h"
 #include "iutil/document.h"
+#include "imap/services.h"
+#include "ivaria/reporter.h"
 
 #include "plugins/behaviourlayer/xml/blxml.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -40,6 +42,12 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celBlXml::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+enum
+{
+  XMLTOKEN_PROPERTY,
+  XMLTOKEN_ACTION
+};
+
 celBlXml::celBlXml (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
@@ -53,24 +61,47 @@ celBlXml::~celBlXml ()
 bool celBlXml::Initialize (iObjectRegistry* object_reg)
 {
   celBlXml::object_reg = object_reg;
+
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
+  if (!synldr)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.behaviourlayer.xml",
+	"Can't find syntax services!");
+    return false;
+  }
+
+  xmltokens.Register ("property", XMLTOKEN_PROPERTY);
+  xmltokens.Register ("action", XMLTOKEN_ACTION);
+
   return true;
 }
 
-void celBlXml::SetError (const char* error, ...)
-{
-  va_list arg;
-  va_start (arg, error);
-  last_error.FormatV (error, arg);
-  va_end (arg);
-}
-
-const char* celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
+bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	iDocumentNode* node)
 {
-  return 0;
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_PROPERTY:
+	break;
+      case XMLTOKEN_ACTION:
+	break;
+      default:
+        synldr->ReportBadToken (child);
+	return false;
+    }
+  }
+  return true;
 }
 
-const char* celBlXml::CreateBehaviourScriptFromDoc (const char* name,
+bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node)
 {
   celXmlScript* script = new celXmlScript ();
@@ -88,42 +119,42 @@ const char* celBlXml::CreateBehaviourScriptFromDoc (const char* name,
       if (!eventname)
       {
         delete script;
-	SetError ("'name' attribute is missing for the event in script '%s'!",
+        synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"'name' attribute is missing for the event in script '%s'!",
 		name);
-        return last_error;
+        return false;
       }
       celXmlScriptEventHandler* h = script->CreateEventHandler (eventname);
-      const char* error = ParseEventHandler (h, child);
-      if (error)
+      if (!ParseEventHandler (h, child))
       {
         delete script;
-	return error;
+	return false;
       }
     }
     else
     {
       delete script;
-      SetError ("Illegal token '%s' while parsing script '%s'!",
-      	value, name);
-      return last_error;
+      synldr->ReportBadToken (child);
+      return false;
     }
   }
 
   scripts.Push (script);
   scripts_hash.Put (name, script);
-  return 0;
+  return true;
 }
 
-const char* celBlXml::CreateBehaviourScriptFromString (const char* name,
+bool celBlXml::CreateBehaviourScriptFromString (const char* name,
   	const char* string)
 {
-  return CEL_BLERROR_UNSUPPORTED;
+  return false;
 }
 
-const char* celBlXml::CreateBehaviourScriptFromFile (const char* name,
+bool celBlXml::CreateBehaviourScriptFromFile (const char* name,
   	const char* filename)
 {
-  return CEL_BLERROR_UNSUPPORTED;
+  return false;
 }
 
 iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)

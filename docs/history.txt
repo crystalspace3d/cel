@@ -38,6 +38,9 @@ The history order is reversed so that new features are at the top.
 	  class.
 	- Jorrit added a 'ApplyPermanentForce' action to the pcgravity
 	  property class (works with PerformAction()).
+	- Jorrit changed the API of iCelBlLayerGenerate a bit so that it
+	  now returns false on failure. Errors are reported using the error
+	  reporter as usual.
 19-Nov-2003
 	- Jorrit made iPcLinearMovement->IsOnGround() use 'const' again.
 	  For some reason this was changed in Keith's latest commit but

@@ -150,14 +150,11 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
 	  }
 	  GetBlGen (child);
 	  if (!blgen) return 0;
-	  const char* error = blgen->CreateBehaviourScriptFromDoc (
+	  bool rc = blgen->CreateBehaviourScriptFromDoc (
 	  	scriptname, child);
-	  if (error)
+	  if (!rc)
 	  {
-	    synldr->ReportError (
-	        "cel.addons.xmlscripts",
-	        child, "Error '%s' from behaviour layer while defining '%s'!",
-			error, scriptname);
+	    // Already reported.
 	    return 0;
 	  }
 	}
@@ -178,6 +175,9 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
 	  if (!blgen) return 0;
 	}
         break;
+      default:
+        synldr->ReportBadToken (child);
+	return 0;
     }
   }
   // Just return something to indicate success.

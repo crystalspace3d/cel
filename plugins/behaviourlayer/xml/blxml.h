@@ -24,13 +24,14 @@
 #include "csutil/hash.h"
 #include "csutil/hashhandlers.h"
 #include "csutil/parray.h"
-#include "csutil/csstring.h"
+#include "csutil/strhash.h"
 #include "iutil/comp.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/blgen.h"
 
 struct iObjectRegistry;
 struct iCelEntity;
+struct iSyntaxService;
 class celXmlScript;
 class celXmlScriptEventHandler;
 
@@ -41,14 +42,12 @@ class celBlXml : public iCelBlLayer, public iCelBlLayerGenerate
 {
 private:
   iObjectRegistry* object_reg;
+  csRef<iSyntaxService> synldr;
   csPDelArray<celXmlScript> scripts;
   csHash<celXmlScript*,const char*,csConstCharHashKeyHandler> scripts_hash;
-  csString last_error;
+  csStringHash xmltokens;
 
-  void SetError (const char* error, ...);
-
-  const char* ParseEventHandler (celXmlScriptEventHandler* h,
-	iDocumentNode* node);
+  bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node);
 
 public:
   celBlXml (iBase* parent);
@@ -60,11 +59,11 @@ public:
   virtual const char* GetName () const { return "blxml"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
-  virtual const char* CreateBehaviourScriptFromDoc (const char* name,
+  virtual bool CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node);
-  virtual const char* CreateBehaviourScriptFromString (const char* name,
+  virtual bool CreateBehaviourScriptFromString (const char* name,
   	const char* string);
-  virtual const char* CreateBehaviourScriptFromFile (const char* name,
+  virtual bool CreateBehaviourScriptFromFile (const char* name,
   	const char* filename);
 
   struct Component : public iComponent
