@@ -7,5 +7,7 @@ class printer:
 		print "printer.pctimer_wakeup"
 	def pcinventory_added(self,entityptr,args):
 		print "printer.pcinventory_added"
+	def pcinventory_removed(self,entityptr,args):
+		print "printer.pcinventory_removed"
 
 
