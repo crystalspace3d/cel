@@ -17,7 +17,7 @@
 */
 
 //extern "C" {
-#include "Python.h"
+//#include "Python.h"
 //}
 #include "cssysdef.h"
 #include "cssys/sysfunc.h"
@@ -45,9 +45,9 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiScript)
   SCF_IMPLEMENTS_INTERFACE (iScript)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_FACTORY(celBlPython)
+SCF_IMPLEMENT_FACTORY (celBlPython)
 
-SCF_EXPORT_CLASS_TABLE(blpython)
+SCF_EXPORT_CLASS_TABLE (blpython)
   SCF_EXPORT_CLASS(celBlPython, "cel.behaviourlayer.python",
     "Crystal Entity Layer Python Behaviour Layer")
 SCF_EXPORT_CLASS_TABLE_END
@@ -69,35 +69,12 @@ celBlPython::~celBlPython ()
   object_reg = NULL;
 }
 
-//extern "C" {
-//  extern void SWIG_MakePtr(char *_c, const void *_ptr, char *type);
-//}
-
 extern "C" {
   struct swig_type_info;
-  extern swig_type_info * SWIG_TypeQuery(const char *);
-  extern PyObject * SWIG_NewPointerObj(void *, swig_type_info *, int own);
-  extern char * SWIG_PackData(char *c, void *, int);  
-  extern void init_cspace();
-}
-
-bool NameObject (char *buf, void* data, const char * tag)
-{  
-  char *r = buf;
-  strcpy(r, "blcelc._");
-  r += 8;
-  r = SWIG_PackData (r,&data, sizeof(void *));
-  strcpy (r, tag);
-  return true;
-}
-
-bool NameEntity (char *buf, iCelEntity* ent)
-{  
-  char *r = buf;  
-  *(r++) = '_';
-  r = SWIG_PackData (r,&ent, sizeof(iCelEntity*));
-  strcpy (r, ent->GetName());
-  return true;
+  extern swig_type_info * SWIG_TypeQuery (const char *);
+  extern PyObject * SWIG_NewPointerObj (void *, swig_type_info *, int own);
+  extern char * SWIG_PackData (char *c, void *, int);  
+  extern void init_cspace ();
 }
 
 
@@ -149,26 +126,30 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
 
 iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* name)
 {
-  char cmd[256];
+  PyObject *py_name, *py_module, *py_dict, *py_func, *py_args;
+  PyObject *py_entity, *py_object;
 
-  // @@@ Don't use GetName() but something more unique.
-
-  char objname[100];
-  NameObject(objname, entity, "_p_iCelEntity");
-  Store(objname, entity, "_p_iCelEntity");
-
-  // Unique
-  char entityname[100];
-  NameEntity(entityname, entity);
-
-  LoadModule(name);
-  sprintf (cmd, "%s=%s.%s(blcelc.iCelEntityPtr(%s))", entityname,
-  	name, name, objname);
-  
-  RunText (cmd);
+  py_module = PyImport_ImportModule((char *)name);
+  if (py_module != NULL) 
+  {
+    py_dict = PyModule_GetDict (py_module);
+    py_func = PyDict_GetItemString (py_dict, (char *)name);
+    if (py_func && PyCallable_Check(py_func))
+    {
+      py_args = PyTuple_New(1);
+      swig_type_info *ti = SWIG_TypeQuery ("_p_iCelEntity");
+      py_entity = SWIG_NewPointerObj(entity, ti, 0);
+      PyTuple_SetItem (py_args, 0, py_entity);
+      py_object = PyObject_CallObject(py_func, py_args);      
+    }
+    else
+      printf ("Error: object %s is not callable'\n", name);
+  }
+  else
+    printf ("Error: failed to load module %s", name);
 
   celPythonBehaviour* bh = new celPythonBehaviour (this,
-  	entity, entity->GetName ());
+  	py_entity, py_object, name);
 
   return bh;
 }
@@ -187,10 +168,8 @@ bool celBlPython::RunText (const char* Text)
   csString str(Text);
   bool worked = !PyRun_SimpleString (str.GetData ());
   if (!worked) 
-  {
-    printf("-----------------------------------------------------------\n");
-    printf ("Error running text '%s'\n", Text);
-    printf("-----------------------------------------------------------\n");
+  {    
+    printf ("Error running text '%s'\n", Text);    
     fflush (stdout);
     //PyRun_SimpleString ("pdb.pm()");
   }  
@@ -200,23 +179,23 @@ bool celBlPython::RunText (const char* Text)
 
 bool celBlPython::Store (const char* name, void* data, void* tag)
 {
-  swig_type_info * ti = SWIG_TypeQuery((char*)tag);
-  PyObject * obj = SWIG_NewPointerObj(data, ti, 0);
-  char *mod_name = csStrNew(name);
-  char * var_name = strrchr(mod_name, '.');
+  swig_type_info *ti = SWIG_TypeQuery ((char *)tag);
+  PyObject *obj = SWIG_NewPointerObj (data, ti, 0);
+  char *mod_name = csStrNew (name);
+  char * var_name = strrchr (mod_name, '.');
   if(!var_name)
     return false;
   *var_name = 0;
   ++var_name;
-  PyObject * module = PyImport_ImportModule(mod_name);
-  PyModule_AddObject(module, (char*)var_name, obj);
+  PyObject *module = PyImport_ImportModule(mod_name);
+  PyModule_AddObject (module, (char *)var_name, obj);
 
   delete[] mod_name;
 
   return true;
 }
 
-bool celBlPython::LoadModule (const char* name)
+bool celBlPython::LoadModule (const char *name)
 {
   csString s;
   s << "import " << name;
@@ -248,31 +227,19 @@ SCF_IMPLEMENT_IBASE(celPythonBehaviour)
   SCF_IMPLEMENTS_INTERFACE(iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celPythonBehaviour::celPythonBehaviour (celBlPython* scripter,
-	iCelEntity* entity, const char* name)
+celPythonBehaviour::celPythonBehaviour (celBlPython *scripter, PyObject *py_entity,
+  	PyObject *py_object, const char *name)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   celPythonBehaviour::scripter = scripter;
-  celPythonBehaviour::entity = entity;
+  celPythonBehaviour::py_entity = py_entity;
+  celPythonBehaviour::py_object = py_object;
   celPythonBehaviour::name = csStrNew (name);
-  char buf[512];
-  
-  char entityname[100];
-  char objectname[100];
-
-  NameObject(objectname, entity, name);
-  NameEntity(entityname, entity);
-  
-  ((celBlPython *)scripter)->Store (objectname, entity, "_p_iCelEntity");
-    
-  entityPtr = csStrNew (objectname);
-  entityPythonName = csStrNew (entityname);
 }
 
 celPythonBehaviour::~celPythonBehaviour ()
 {
   delete[] name;
-  delete[] entityPtr;
 }
 
 bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
@@ -287,20 +254,19 @@ bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
 bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 	va_list arg)
 {
-  (void)arg;
-  char buf[512];
-  
-  char msg_info_ptr[100];
-  if (msg_info)
-  {    
-    NameObject(msg_info_ptr, msg_info, "_p_iBase");
-    ((celBlPython *)scripter)->Store(msg_info_ptr, entity, "_p_iBase");
-  }
-  else  
-    sprintf(msg_info_ptr, "None");
-  
-  sprintf (buf, "%s.%s(%s,None)", entityPythonName, msg_id, entityPtr, msg_info_ptr);
-  scripter->RunText (buf);
+
+  swig_type_info *ti = SWIG_TypeQuery ("_p_iBase");
+  PyObject *pymessage_info = SWIG_NewPointerObj (msg_info, ti, 0);
+
+  PyObject *method = PyString_FromString (msg_id);
+
+  PyObject *result = PyObject_CallMethodObjArgs (py_object, method, py_entity, pymessage_info, NULL);
+
+  if (!result)
+    PyRun_SimpleString ("pdb.pm()");
+
+  Py_DECREF (method);
+  Py_DECREF (pymessage_info);
 
   return true;
 }

@@ -27,9 +27,11 @@
 #include "bl/bl.h"
 #include "bl/behave.h"
 
+#include "Python.h"
+
 class celBlPython : public iCelBlLayer
 {
-public:
+public:  
   celBlPython (iBase *iParent);
   virtual ~celBlPython ();
 
@@ -76,14 +78,13 @@ class celPythonBehaviour : public iCelBehaviour
 {
 private:
   celBlPython* scripter;
-  iCelEntity* entity;
+  PyObject* py_entity;
+  PyObject* py_object;
   char* name;
-  char* entityPtr;
-  char* entityPythonName;
-
+  
 public:
-  celPythonBehaviour (celBlPython* scripter, iCelEntity* entity,
-  	const char* name);
+  celPythonBehaviour (celBlPython* scripter, PyObject* py_ent,
+  	PyObject* py_behaviour, const char* name);
   virtual ~celPythonBehaviour ();
 
   SCF_DECLARE_IBASE;
