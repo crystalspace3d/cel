@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 %lflags%"
-				AdditionalDependencies="libcssys_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
+				AdditionalDependencies="libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\debug\temp\%project%/%target%"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -102,7 +102,7 @@ copy &quot;..\%metafile%&quot;  ..
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 %lflags%"
-				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				AdditionalDependencies="libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
 				OutputFile=".\release\temp\%project%/%target%"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"

@@ -3692,9 +3692,9 @@ if test "x$no_cs" = "x" ; then
 	min_cs_version=0.97
 	echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
-	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --includes csgeom csgfx csutil cstool cssys`
-	CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool cssys`
-	CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool cssys`
+	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
+	CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
+	CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
 
 	cs_major_version=`$CSCONF $cs_args --version | \
 	   sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
