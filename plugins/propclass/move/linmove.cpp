@@ -347,8 +347,10 @@ bool celPcLinearMovement::RotateV (float delta)
   csVector3 angle = angularVelocity * delta;
   if (angleToReachFlag)
   {
-    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
-    float yrot_delta = fabs(atanf (tanf (angleToReach.y - Matrix2YRot (transf))));
+    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
+    	->GetTransform ().GetT2O ();
+    float yrot_delta = fabs(atanf (tanf (
+    	angleToReach.y - Matrix2YRot (transf))));
     if (fabs(angle.y) > yrot_delta)
       {
 	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
@@ -461,8 +463,8 @@ bool celPcLinearMovement::MoveSprite (float delta)
   }
   if (IsOnGround() && vel != targVel)
   {
-	  vel.x = targVel.x;
-	  vel.z = targVel.z;
+    vel.x = targVel.x;
+    vel.z = targVel.z;
   }
   //if (IsOnGround() && angularVelocity != targAngularVelocity)
 	 //   angularVelocity = targAngularVelocity;
@@ -554,7 +556,8 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     path->GetInterpolatedForward(look);
 
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin(pos);
-    pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(look.Unit(),up.Unit());
+    pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(
+    	look.Unit(),up.Unit());
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
     csRef<iSprite3DState> spstate =

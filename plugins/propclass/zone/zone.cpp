@@ -295,6 +295,17 @@ void celZone::Unload ()
   loaded = false;
 }
 
+bool celZone::CheckLoaded ()
+{
+  if (loaded) return true;
+  size_t i;
+  for (i = 0 ; i < regions.Length () ; i++)
+    if (!regions[i]->IsLoaded ())
+      return false;
+  loaded = true;
+  return true;
+}
+
 bool celZone::ContainsRegion (celRegion* region)
 {
   int idx = regions.Find (region);
@@ -440,17 +451,42 @@ void celPcZoneManager::RemoveAllRegions ()
 
 bool celPcZoneManager::ActivateRegion (celRegion* region)
 {
+  celData ret;
+  iCelBehaviour* bl = entity->GetBehaviour ();
+
+  // The 'first' flag is used to see if we need to do some loading
+  // work. In that case we send a message to the behaviour layer so that
+  // it may possible open up a loading screen or something.
+  bool first = true;
+
   size_t i;
   for (i = 0 ; i < zones.Length () ; i++)
     if (region && zones[i]->ContainsRegion (region))
     {
-      if (!zones[i]->Load ())
-        return false;
+      if (!zones[i]->CheckLoaded ())
+      {
+        if (first)
+	{
+	  first = false;
+	  bl->SendMessage ("pczonemanager_startloading", ret, 0);
+	}
+        if (!zones[i]->Load ())
+	{
+	  bl->SendMessage ("pczonemanager_errorloading", ret, 0);
+          return false;
+        }
+      }
     }
     else
     {
       zones[i]->Unload ();
     }
+  // If first is false that means we sent a message indiciating that loading
+  // started. So we have to send a message indicating that loading finished
+  // too.
+  if (!first)
+    bl->SendMessage ("pczonemanager_stoploading", ret, 0);
+
   return true;
 }
 
