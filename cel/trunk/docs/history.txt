@@ -31,6 +31,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit reverted the SetProperty action change. It is unneeded since
 	  you can already set properties by using the normal property system.
 	  /me needs to wake up.
+	- Jorrit fixed a bug in the pcproperties property class. When a
+	  property was set through the iCelPropertyClass system it wouldn't
+	  work correctly as it was adding the wrong number of bytes to
+	  skip the 'cel.property.' part of the property name.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at

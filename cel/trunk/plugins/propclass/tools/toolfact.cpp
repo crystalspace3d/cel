@@ -459,7 +459,7 @@ size_t celPcProperties::FindOrNewProperty (csStringID id)
   size_t idx = FindProperty (id);
   if (idx != csArrayItemNotFound) return idx;
   const char* propname = pl->FetchString (id);
-  return NewProperty (propname+26);
+  return NewProperty (propname+13);
 }
 
 celDataType celPcProperties::GetPropertyOrActionType (csStringID id)
