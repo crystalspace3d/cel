@@ -33,6 +33,14 @@ The history order is reversed so that new features are at the top.
 	      repair to work.
 	    - Disabled Texinfo @node and @menu repair for now since CEL build
 	      system does not yet provide this feature.
+	- Eric Sunshine published the CEL manual and API reference at the CEL
+	  web site. They are available for online viewing and download.
+	- Eric Sunshine upgraded the CEL web site:
+	    - Added a "Documentation" page which contains links to the manual
+	      and API reference, plus links to offsite tutorials.
+	    - Populated the "Links" page (which was completely empty).
+	    - Removed broken links.
+	    - Cleaned up a number of problems with the site.
 19-Dec-2004
 	- Jorrit completed the quest manager. This is all untested. It will
 	  be tested for the first time when there is a quest property
