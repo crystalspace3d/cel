@@ -60,4 +60,5 @@
 	  constraints to be invalidated. Not fully implemented yet!
 	  We also still have to define hierarchical constraints (i.e. for
 	  nested inventories).
+	- Philip Wyett cretaed/added MSVC project files for the CEL project.
 
