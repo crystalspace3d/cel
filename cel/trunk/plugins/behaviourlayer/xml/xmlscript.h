@@ -73,6 +73,8 @@ enum
   CEL_OPERATION_LE,		// A:-		S:?,?		OS:B
   CEL_OPERATION_GT,		// A:-		S:?,?		OS:B
   CEL_OPERATION_GE,		// A:-		S:?,?		OS:B
+  CEL_OPERATION_LOGAND,		// A:-		S:?,?		OS:B
+  CEL_OPERATION_LOGOR,		// A:-		S:?,?		OS:B
   CEL_OPERATION_CALCID,		// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPROPID,	// A:-		S:S		OS:ID
 

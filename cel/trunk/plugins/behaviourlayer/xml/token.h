@@ -47,6 +47,8 @@ enum
   CEL_TOKEN_GE,		// >=
   CEL_TOKEN_LT,		// <
   CEL_TOKEN_GT,		// >
+  CEL_TOKEN_LOGAND,	// &&
+  CEL_TOKEN_LOGOR,	// ||
   CEL_TOKEN_COMMA,	// ,
   CEL_TOKEN_VECTORCLOSE,// ]
   CEL_TOKEN_ENTITY,	// entity(expr)

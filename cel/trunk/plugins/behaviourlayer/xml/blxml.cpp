@@ -555,6 +555,18 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       case CEL_TOKEN_VECTORCLOSE:
         input = pinput;	// Restore.
         return true;
+      case CEL_TOKEN_LOGAND:
+        if (stoppri >= CEL_PRIORITY_LOGAND) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LOGAND))
+	  return false;
+        h->AddOperation (CEL_OPERATION_LOGAND);
+        break;
+      case CEL_TOKEN_LOGOR:
+        if (stoppri >= CEL_PRIORITY_LOGOR) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LOGOR))
+	  return false;
+        h->AddOperation (CEL_OPERATION_LOGOR);
+        break;
       case CEL_TOKEN_EQ:
         if (stoppri >= CEL_PRIORITY_EQUAL) { input = pinput; return true; }
         if (!ParseExpression (input, child, h, name, CEL_PRIORITY_EQUAL))
