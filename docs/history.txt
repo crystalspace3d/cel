@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+17-Sep-2004
+	- Jorrit started work on a new pctrigger property class. Currently
+	  only the include file is there.
 16-Sep-2004
 	- Jorrit fixed a bug in celtest. Because of a misplaced
 	  engine->Prepare() lighting would be bad if -relight was not
