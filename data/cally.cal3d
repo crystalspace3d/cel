@@ -1,3 +1,28 @@
+<library>
+  <textures>
+    <texture name="rain">
+      <file>/lib/std/raindrop.png</file>
+    </texture>
+    <texture name="sparky">
+      <file>/lib/std/spark.png</file>
+    </texture>
+    <texture name="woody">
+      <file>/lib/std/andrew_wood.gif</file>
+    </texture>
+  </textures>
+  <materials>
+    <material name="rain">
+      <texture>rain</texture>
+    </material>
+    <material name="sparky">
+      <texture>sparky</texture>
+    </material>
+    <material name="woody">
+      <texture>woody</texture>
+    </material>
+  </materials>
+
+
 <!-- the meshfact name is the CS name used to instantiate
      instances of this object -->
 <meshfact name="test">
@@ -11,7 +36,7 @@
 
   <!-- path specifies the OS-dependent directory path to
        where all the other files are located.  optional. -->
-  <path dir="/cel/data/cally/" />
+  <path dir="cally/" />
 
   <!-- the cally model is much to large. -->
   <scale value="0.01" />
@@ -77,14 +102,6 @@
     name="shoot"
     type="action"
     idle_pct="34" />
-
-  <!-- materials are VFS filenames because they are CS
-       materials and not cal3d materials.  optional.  we
-       cannot use the real .xrf files because CS can't load
-       that format.  -->
-  <material file="/lib/std/raindrop.png" name="rain" />
-  <material file="/lib/std/spark.png" name="sparky" />
-  <material file="/lib/std/andrew_wood.gif" name="woody" />
 
   <!-- meshes specify each attachable part of the model.
        the name is the CS-accessible name which will be used
@@ -153,3 +170,6 @@
     rot_angle="180" />
 </params>
 </meshfact>
+
+</library>
+
