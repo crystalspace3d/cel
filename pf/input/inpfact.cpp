@@ -23,7 +23,8 @@
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "csutil/debug.h"
-#include "csutil/cskeys.h"
+#include "csutil/inpnames.h"
+#include "csutil/csevent.h"
 #include "pf/input/inpfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
@@ -188,24 +189,24 @@ bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
-  int key,shiftmask;
-  if (!csParseKeyDef (triggername, key, shiftmask))
+  csEvent ev;
+  if (!csParseInputDef (triggername, &ev, false))
     return false;
 
-  printf ("Bind: %s -> %s, %d %d\n",triggername, command, key, shiftmask);
+  // only bind keys
+  if (ev.Type != csevKeyDown)
+      return false;
 
-  //Only bid keys - no key combinations
-  if (shiftmask)
-    return false;
+  printf ("Bind: %s -> %s, %d \n",triggername, command, ev.Key.Code);
 
   celKeyMap* newmap;
-  if (!(newmap = GetMap (key)))
+  if (!(newmap = GetMap (ev.Key.Code)))
   {
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
     newmap->next=maplist;
     newmap->prev=NULL;
-    newmap->key=key;
+    newmap->key=ev.Key.Code;
     newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
     strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
@@ -232,15 +233,15 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
-  int key,shiftmask;
-  if (!csParseKeyDef (triggername, key, shiftmask))
+  csEvent ev;
+  if (!csParseInputDef (triggername, &ev, false))
     return NULL;
 
-  if (shiftmask)
+  if (ev.Type != csevKeyDown)
     return NULL;
 
   celKeyMap* map;
-  if (!(map = GetMap (key)))
+  if (!(map = GetMap (ev.Key.Code)))
     return NULL;
 
   return map->command+11;

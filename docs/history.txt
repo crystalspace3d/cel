@@ -1,5 +1,6 @@
 5-Mar-2002:
 	- Added iPcCamera::GetFollowPos() and GetMode().
+	- Matze fixed pckeyinput for latest CS changes
 28-Feb-2002:
 	- Matze changed persistance to not IncRef entities while reading,
 	  everyone who reads an entity with persistance has to IncRef this
