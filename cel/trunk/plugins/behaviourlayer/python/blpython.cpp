@@ -97,16 +97,18 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
 #endif // SCRIPTSDIR
 
   if (!LoadModule ("pdb")) return false;  
+  if (!LoadModule ("cspace")) return false;
   if (!LoadModule ("blcelc")) return false;
 
   // Store the object registry pointer in 'blcel.object_reg'.
-  Store ("blcelc.object_reg_ptr", object_reg, "_p_iObjectRegistry");
-  RunText ("blcelc.object_reg=blcelc.iObjectRegistryPtr(blcelc.object_reg_ptr)");
+  Store ("blcelc.object_reg_ptr", object_reg, (void *) "iObjectRegistry *");
+  // Store the object registry pointer in 'blcel.object_reg'.
+  //RunText ("blcelc.object_reg=blcelc.iObjectRegistryPtr(blcelc.object_reg_ptr)");
+
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-                                   
   // Store the physical layer pointer in 'blcel.physicallayer'.
-  Store ("blcelc.physicallayer_ptr", pl, "_p_iCelPlLayer");
-  RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
+  Store ("blcelc.physicallayer_ptr", pl, (void *) "iCelPlLayer *");
+  //RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
 
   return true;
 }
@@ -196,17 +198,17 @@ bool celBlPython::RunText (const char* Text)
   return worked;
 }
 
-bool celBlPython::Store (const char* name, void* data, const char* tag)
+bool celBlPython::Store (const char* name, void* data, void* tag)
 {
-  PyObject *obj = csWrapTypedObject (data, tag, 0);
-  char *mod_name = csStrNew (name);
-  char * var_name = strrchr (mod_name, '.');
+  PyObject * obj = csWrapTypedObject(data, (const char*)tag, 0);
+  char *mod_name = csStrNew(name);
+  char * var_name = strrchr(mod_name, '.');
   if(!var_name)
     return false;
   *var_name = 0;
   ++var_name;
-  PyObject *module = PyImport_ImportModule(mod_name);
-  PyModule_AddObject (module, (char *)var_name, obj);
+  PyObject * module = PyImport_ImportModule(mod_name);
+  PyModule_AddObject(module, (char*)var_name, obj);
 
   delete[] mod_name;
 

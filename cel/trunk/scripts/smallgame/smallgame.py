@@ -1,3 +1,4 @@
+from cspace import *
 from blcelc import *
 
 class smallgame:

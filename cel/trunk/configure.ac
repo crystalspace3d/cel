@@ -83,7 +83,7 @@ AS_IF([test $with_cs != no],
 *** from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
-])], [csgeom csgfx csutil cstool])])
+])], [cspycommon csgeom csgfx csutil cstool])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches

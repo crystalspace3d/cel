@@ -48,7 +48,7 @@ public:
 
   bool RunText (const char *Text);
   bool LoadModule (const char *Text);
-  bool Store (const char* name, void* data, const char* tag);
+  bool Store (const char* name, void* data, void* tag);
   
   void ShowError ();
   void Print (bool Error, const char *msg);
@@ -74,7 +74,7 @@ public:
     virtual bool LoadModule(const char *iStr)
     { return scfParent->LoadModule(iStr); }
     virtual bool Store(const char *name, void *data, void *tag)
-    { return scfParent->Store(name, data, (const char *)tag); }
+    { return scfParent->Store(name, data, tag); }
 
     /*
       @@@ New functions not yet implemented
@@ -104,8 +104,6 @@ public:
     bool Store(const char *name, double data)
       { return false; }
     bool Store(const char *name, const char *data)
-      { return false; }
-    bool Store(const char *name, void *data, const char *type)
       { return false; }
     bool Store(const char *name, iScriptObject *data)
       { return false; }
