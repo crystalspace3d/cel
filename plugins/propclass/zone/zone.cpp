@@ -599,7 +599,7 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
   iRegion* cur_region = engine->CreateRegion (regionname);
 
   // Find the right start position.
-  iCameraPosition* campos;
+  iCameraPosition* campos = 0;
   if (startname)
   {
     campos = cur_region->FindCameraPosition (startname);
@@ -667,7 +667,7 @@ int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
   iRegion* cur_region = engine->CreateRegion (regionname);
 
   // Find the right start position.
-  iCameraPosition* campos;
+  iCameraPosition* campos = 0;
   iSector* sector;
   csVector3 pos;
   if (startname)
