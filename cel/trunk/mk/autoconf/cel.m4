@@ -17,6 +17,12 @@ no_cel=no
 
 if test -z "$CELPREFIX"; then
     AC_CHECK_PROGS(CELCONFIG, cel-config, "")
+    if test -z "$CELCONFIG"; then
+        AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CEL/bin)
+        if test -n "$CELCONFIG"; then
+            CELCONFIG="$CEL/bin/cel-config"
+        fi
+    fi
 else
     AC_CHECK_PROGS(CELCONFIG, cel-config, "", $CELPREFIX)
 fi
@@ -65,7 +71,8 @@ int main(int argc, char** argv)
     // TODO a nice testapp...
     return 0;
 }
-],, no_cel=yes, [echo "$ac_n cross compiling; assumed OK. $ac_c"])
+],, [no_cel=yes
+AC_MSG_RESULT(no)], [echo "$ac_n cross compiling; assumed OK. $ac_c"])
 
     CXXFLAGS="$ac_save_CXXFLAGS"
     LIBS="$ac_save_LIBS"
@@ -76,7 +83,6 @@ if test "$no_cel" = "no"; then
     AC_MSG_RESULT($CEL_VERSION)
     ifelse([$2], , :, [$2])
 else
-    AC_MSG_RESULT(no)
     CEL_CFLAGS=""
     CEL_VERSION=""
     CEL_LIBS=""
@@ -107,10 +113,10 @@ AC_DEFUN([CS_PATH_CEL], [
 
 CS_PATH_CEL_HELPER($1,$2,$3)
 
-CS_SUBST([CEL_CFLAGS])
-CS_SUBST([CEL_LIBS])
-CS_SUBST([CEL_VERSION])
-CS_SUBST([CEL_AVAILABLE])
+CS_JAMCONFIG_PROPERTY([CEL_CFLAGS], [$CEL_CFLAGS])
+CS_JAMCONFIG_PROPERTY([CEL_LIBS], [$CEL_LINS])
+CS_JAMCONFIG_PROPERTY([CEL_VERSION], [$CEL_VERSION])
+CS_JAMCONFIG_PROPERTY([CEL_AVAILABLE], [$CEL_AVAILABLE])
 
 ])
 
