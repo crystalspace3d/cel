@@ -1,3 +1,5 @@
+5-Jun-2002:
+	- Added CreateEmptyEntityList() to the pl in CEL.
 28-May-2002:
 	- Fixed include for polymesh.h.
 	- pcmesh property class now fires a callback with ID

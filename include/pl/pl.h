@@ -116,6 +116,11 @@ struct iCelPlLayer : public iBase
    */
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y) = 0;
 
+  /**
+   * Create an empty entity list for personal use.
+   */
+  virtual iCelEntityList* CreateEmptyEntityList () = 0;
+
   //-------------------------------------------------------------------------
 
   /**

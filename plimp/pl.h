@@ -71,6 +71,7 @@ public:
   virtual iCelEntityList* FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
+  virtual iCelEntityList* CreateEmptyEntityList ();
 
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
