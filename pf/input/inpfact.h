@@ -40,14 +40,14 @@ CEL_DECLARE_FACTORY (CommandInput)
 
 struct celKeyMap
 {
-    celKeyMap* next, *prev;
-    int key;
-    char* command;
-    bool is_on;
+  celKeyMap* next, *prev;
+  int key;
+  char* command;
+  bool is_on;
 };
 
 /**
- * This is a test property class.
+ * This is an input property class.
  */
 class celPcCommandInput : public celPcCommon
 {

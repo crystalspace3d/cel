@@ -52,6 +52,10 @@
 	- Added CEL_DATA_ACTION to celDataType. This is not supported by
 	  the persistance layer though and only needed for iCelPropertyClass.
 	  Added celData->SetAction() to set an action.
+	- Fixed a memory leak in the pcinput property class which was
+	  not deleting the event handler.
+	- Fixed a memory leak in celtest. The actor entity was not added
+	  to the room inventory.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.

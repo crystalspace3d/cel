@@ -19,6 +19,7 @@
 #include "cssysdef.h"
 #include "cssys/sysfunc.h"
 #include "iutil/vfs.h"
+#include "iutil/object.h"
 #include "csutil/cscolor.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
@@ -204,7 +205,21 @@ bool CelTest::HandleEvent (iEvent& ev)
 	pl->CleanCache ();
       }
       csDebuggingGraph::Dump (NULL);
-      printf ("%d\n", engine->GetMeshFactories ()->GetCount ());
+      printf ("  #sectors=%d\n", engine->GetSectors ()->GetCount ());
+      printf ("  #meshes=%d\n", engine->GetMeshes ()->GetCount ());
+      int i;
+      for (i = 0 ; i < engine->GetMeshes ()->GetCount () ; i++)
+      {
+        iMeshWrapper* mesh = engine->GetMeshes ()->Get (i);
+	printf ("  name=%s\n", mesh->QueryObject ()->GetName ());
+      }
+      printf ("  #factories=%d\n", engine->GetMeshFactories ()->GetCount ());
+      printf ("  #collections=%d\n", engine->GetCollections ()->GetCount ());
+      printf ("  #campos=%d\n", engine->GetCameraPositions ()->GetCount ());
+      printf ("  #textures=%d\n", engine->GetTextureList ()->GetCount ());
+      printf ("  #materials=%d\n", engine->GetMaterialList ()->GetCount ());
+      printf ("  #regions=%d\n", engine->GetRegions ()->GetCount ());
+      fflush (stdout);
     }
   }
   return false;
@@ -450,14 +465,6 @@ bool CelTest::CreateRoom ()
   pcregion->Load ();
   room = pcregion->GetStartSector ();
 
-  entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
-  if (!entity_dummy) return false;
-  iPcCamera *pccamera = CEL_QUERY_PROPCLASS
-    (entity_dummy->GetPropertyClassList(), iPcCamera);
-  if (!pccamera) return false;
-  pcregion->PointCamera (pccamera);
-  pcregion->DecRef ();
-
   pc = pl->CreatePropertyClass (entity_room, "pctooltip");
   if (!pc) return false;
 
@@ -465,6 +472,16 @@ bool CelTest::CreateRoom ()
   if (!pc) return false;
   pcinv_room = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
   // Decreffed later.
+
+  entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
+  if (!entity_dummy) return false;
+  iPcCamera *pccamera = CEL_QUERY_PROPCLASS
+    (entity_dummy->GetPropertyClassList(), iPcCamera);
+  if (!pccamera) return false;
+  pcregion->PointCamera (pccamera);
+  pcregion->DecRef ();
+  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  entity_dummy->DecRef ();
 
   //===============================
   // Engine init.
