@@ -21,6 +21,7 @@
 #define __CEL_PERSIST_CLASSIC__
 
 #include "csutil/hashmap.h"
+#include "csutil/refarr.h"
 #include "iutil/comp.h"
 #include "pl/persist.h"
 #include "pl/datatype.h"
@@ -47,7 +48,7 @@ private:
   csHashSet pclasses;
   csHashMap read_entities;
   csHashMap read_ids;
-  csVector temprefs;
+  csRefArray<iCelEntity> temprefs;
 
   bool WriteMarker (const char* s);
   bool WriteID (iCelEntity* entity);

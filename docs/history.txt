@@ -1,3 +1,6 @@
+15-Jan-2003:
+	- Fixed CEL for latest CS changes (growing arrays).
+	- In the mean time fixed some memory leaks while doing that.
 13-Jan-2003:
 	- Fixed the python plugin.
 07-Jan-2003:

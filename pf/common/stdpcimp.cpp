@@ -58,7 +58,7 @@ void celPcCommon::FirePropertyChangeCallback (int propertyId)
   int i;
   for (i = 0 ; i < callbacks.Length () ; i++)
   {
-    iCelPropertyChangeCallback* cb = (iCelPropertyChangeCallback*)callbacks[i];
+    iCelPropertyChangeCallback* cb = callbacks[i];
     cb->PropertyChanged (propertyId, this);
   }
 }
