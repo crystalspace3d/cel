@@ -487,7 +487,8 @@ bool CelTest::CreateRoom ()
   pcregion->SetWorldFile ("/lev/partsys", "world");
   pcregion->SetRegionName ("partsys");
 #endif
-  pcregion->Load ();
+  if (!pcregion->Load ())
+      return false;
   room = pcregion->GetStartSector ();
 
   pc = pl->CreatePropertyClass (entity_room, "pcinventory");
