@@ -41,7 +41,7 @@ CEL_DECLARE_FACTORY (CommandInput)
 struct celKeyMap
 {
   celKeyMap* next, *prev;
-  int key;
+  int key, modifiers;
   char* command;
   char* command_end;	// Points to 0 or 1 to indicate positive/negative cmd
   bool is_on;
@@ -72,6 +72,7 @@ public:
   virtual bool Bind (const char* triggername, const char* command);
   virtual const char* GetBind(const char *triggername) const;
   virtual bool RemoveBind (const char* triggername, const char* command);
+  virtual void RemoveAllBinds ();
 
   struct PcCommandInput : public iPcCommandInput
   {
@@ -86,6 +87,8 @@ public:
     { return scfParent->GetBind(triggername); }
     virtual bool RemoveBind (const char* triggername, const char* command)
     { return scfParent->RemoveBind(triggername, command); }
+    virtual void RemoveAllBinds ()
+    { scfParent->RemoveAllBinds(); }
   } scfiPcCommandInput;
 
   class EventHandler : public iEventHandler
