@@ -1,3 +1,9 @@
+3-Nov-2001:
+	- 'pcinventory' sends an 'inv_addchild' messages to the entity
+	  containing the inventory when an entity is added.
+	- 'pcinventory' sends an 'inv_added' messages to the entity
+	  that is being added.
+	- Also added 'inv_removechild' and 'inv_removed' messages.
 2-Nov-2001:
 	- Added iPcMesh::CreateEmptyThing() which can be used instead
 	  of SetMesh().
