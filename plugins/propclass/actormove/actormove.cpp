@@ -127,7 +127,6 @@ void celPcActorMove::GetSpriteStates ()
 void celPcActorMove::RotateTo (float yrot)
 {
   FindSiblingPropertyClasses ();
-  rotate_to = yrot;
   rotatetoreached = false;
 
   if (!pclinmove)
@@ -141,9 +140,27 @@ void celPcActorMove::RotateTo (float yrot)
   float current_yrot;
   pclinmove->GetLastPosition (current_position, current_yrot, current_sector);
 
-  float angle_gap = atan (tan (rotate_to - current_yrot));
-  rotateleft = (angle_gap < 0);
-  rotateright = (angle_gap > 0);
+  current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
+  rotate_to = atan2f (sin (yrot), cos (yrot));
+  float delta_angle = atan2f (sin (rotate_to - current_yrot), cos (rotate_to - current_yrot));
+
+  if (fabs(delta_angle) < SMALL_EPSILON)
+    {
+      rotateright = false;
+      rotateleft = false;
+      return;
+    }
+
+  if (current_yrot < 0)
+    {
+      rotateright = (rotate_to > current_yrot) && (rotate_to < (current_yrot + M_PI));
+      rotateleft = !rotateright;
+    }
+  else
+    {
+      rotateleft = (rotate_to > (current_yrot - M_PI)) && (rotate_to < current_yrot);
+      rotateright = !rotateleft;
+    }
 
   HandleMovement (false);
 }

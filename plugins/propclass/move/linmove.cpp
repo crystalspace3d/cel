@@ -339,7 +339,6 @@ static float Matrix2YRot (const csMatrix3& mat)
 }
 
 // --------------------------------------------------------------------------
-
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
 {
@@ -357,16 +356,17 @@ bool celPcLinearMovement::RotateV (float delta)
   csVector3 angle = angularVelocity * delta;
   if (angleToReachFlag)
   {
-    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
-    	->GetTransform ().GetT2O ();
-    float yrot_delta = fabs(atanf (tanf (
-    	angleToReach.y - Matrix2YRot (transf))));
+    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
+    float current_yrot = Matrix2YRot (transf);
+    current_yrot = atan2f (sin (current_yrot), cos (current_yrot) );
+    float yrot_delta = fabs (atan2f (sin (angleToReach.y - current_yrot), cos (angleToReach.y - current_yrot)));
     if (fabs(angle.y) > yrot_delta)
       {
-	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
-	angularVelocity = 0;
+  	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
+  	angularVelocity = 0;
+ 	angleToReachFlag = false;
       }
-  } 
+  }
 
   csMatrix3 rotMat (1,0,0,0,1,0,0,0,1);
   float ca = 0;
