@@ -76,7 +76,7 @@ celPlLayer::celPlLayer (iBase* parent)
 celPlLayer::~celPlLayer ()
 {
   CleanCache ();
- 
+
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
 
@@ -174,7 +174,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
 csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
 {
   CS_ID objid;
-  
+
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   iCelEntity* ientity = &entity->scfiCelEntity;
   objid = idlist.Register (ientity, scope);
@@ -196,7 +196,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (CS_ID entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   iCelEntity* ientity = &entity->scfiCelEntity;
-  
+
   entity->SetEntityID (entity_id);
   idlist.RegisterWithID (ientity, entity_id);
   entities.Push(ientity);
@@ -492,8 +492,8 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   {
     iMeshWrapper* m = objit->Next ();
     bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-    if (invisible)       
-      continue;      
+    if (invisible)
+      continue;
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
@@ -526,7 +526,7 @@ void celPlLayer::RemoveEntityTracker (iCelEntityTracker* tracker)
 
 iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 {
-  // Vector from (0,0,0) to 'vc' in camera space corresponding to 
+  // Vector from (0,0,0) to 'vc' in camera space corresponding to
   // the point we clicked on.
   csVector3 vc;
   // Vector from 'vo' to 'vw' in world space corresponding to
