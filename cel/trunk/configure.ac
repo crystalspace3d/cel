@@ -37,7 +37,7 @@ AC_OUTPUT([
 AC_MSG_NOTICE([
 
 Please note that this project uses jam as build tool.
-So you have to type 'jam' now (not 'make').
+So you have to type 'jam' now.
 If you want to use the old make based build copy cs-config from CrystalSpace
 dir into this directory and make sure to set the CRYSTAL environment.
 ])
