@@ -92,7 +92,8 @@ SCF_IMPLEMENT_IBASE_END
 
 void meshmoveListener::MovableChanged (iMovable* movable)
 {
-  zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
+  if (movable->GetSectors ()->GetCount () > 0)
+    zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
 }
 
 SCF_IMPLEMENT_IBASE (meshmoveListener)

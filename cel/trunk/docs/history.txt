@@ -60,6 +60,9 @@ The history order is reversed so that new features are at the top.
 	  the camera will be followed. This fixes a bug where you could go
 	  through a portal and then back a bit and CEL would not know what
 	  the current region was.
+	- Jorrit protected the pczonemanager and pccamera classes so that
+	  they don't crash if they are operating on a mesh for which the
+	  sector is not (yet) set.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
