@@ -3,6 +3,16 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Jul-2004
+	- Jorrit extended pccamera with the option to set the far clipping
+	  plane. There are three modes:
+	    - Don't do this (how it used to be).
+	    - Fixed distance clipping. Just use a plane at a fixed distance
+	      from the camera.
+	    - Adaptive distance clipping. Try to maintain a minimum and
+	      maximum fps by modifying the far clipping plane.
+	  This code is based on a recent change in the equivalent PlaneShift
+	  camera class.
 15-Jul-2004
 	- Jorrit extended the very useless pctest property class so that it
 	  now supports nearly everything a PC can support:

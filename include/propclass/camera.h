@@ -158,6 +158,52 @@ struct iPcCamera : public iBase
 
   /// Get the clear screen flag.
   virtual bool GetClearScreen () const = 0;
+
+  /// Disable distance clipping.
+  virtual void DisableDistanceClipping () = 0;
+  /**
+   * Enable fixed distance clipping.
+   * In this mode there is a fixed plane at the specified distance.
+   * All geometry that is fully behind that plane will not be rendered.
+   * This can speed up rendering.
+   */
+  virtual void EnableFixedDistanceClipping (float dist) = 0;
+  /**
+   * Enable adaptive distance clipping. In this mode the clipping plane
+   * will vary depending on the desired minimum and maximum fps.
+   * \param min_fps is the minimum fps that we would like to have. If we go
+   *        beyond that then we will move the clipping plane closer.
+   * \param max_fps is the maximum fps that is ok. If we go beyond that we
+   *        will move the clipping plane further away.
+   * \param min_dist is the minimum clipping plane distance. We will never
+   *        move the clipping closer to the camera then this distance.
+   */
+  virtual void EnableAdaptiveDistanceClipping (float min_fps,
+	float max_fps, float min_dist) = 0;
+  /**
+   * Returns true if we use distance clipping (either fixed or adaptive).
+   */
+  virtual bool UseDistanceClipping () const = 0;
+  /**
+   * Returns true if we use fixed distance clipping (as opposed to adaptive).
+   */
+  virtual bool UseFixedDistanceClipping () const = 0;
+  /**
+   * Get the fixed distance (returns < 0 if adaptive is used).
+   */
+  virtual float GetFixedDistance () const = 0;
+  /**
+   * Get the minimum fps used for adaptive distance clipping.
+   */
+  virtual float GetAdaptiveMinFPS () const = 0;
+  /**
+   * Get the maximum fps used for adaptive distance clipping.
+   */
+  virtual float GetAdaptiveMaxFPS () const = 0;
+  /**
+   * Get the minimum distance used for adaptive distance clipping.
+   */
+  virtual float GetAdaptiveMinDistance () const = 0;
 };
 
 #endif // __CEL_PF_CAMERA__

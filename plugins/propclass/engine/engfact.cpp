@@ -127,11 +127,11 @@ static csVector3 CalcElasticPos (const csVector3& currPos,
   	+ dampCoef * (deltaPos * vel) / deltaPos.Norm();
 
   float dist = deltaPos.Norm();
-  if (-dist < force * deltaTime) 
+  if (-dist < force * deltaTime)
     deltaPos *= force * deltaTime / dist;
   else
     deltaPos *= -1;
-    
+
   return currPos + deltaPos;
 }
 
@@ -228,9 +228,9 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
   // Ensure valid distance.
   parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm ());
   parent->EnsureCameraDistance ();
-            
+
   // This allows pitch to work
-  // Note that this doesn't really use the yaw calculation, 
+  // Note that this doesn't really use the yaw calculation,
   // because whenever the position is modified (above), a new yaw that
   // represents the (position - target) vector is calculated. This ensures
   // that this function won't change the yaw at all and only handle
@@ -347,6 +347,8 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   transitionThresholdSquared = 1.0f;
   cameraHasBeenPositioned = false;
 
+  DisableDistanceClipping ();
+
   useCameraCD = true;
 
   SetMode (iPcCamera::firstperson);
@@ -356,6 +358,96 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 
 celPcCamera::~celPcCamera ()
 {
+}
+
+void celPcCamera::DisableDistanceClipping ()
+{
+  fp.use_farplane = false;
+  if (view && view->GetCamera ())
+    view->GetCamera ()->SetFarPlane (0);
+}
+
+void celPcCamera::EnableFixedDistanceClipping (float dist)
+{
+  fp.use_farplane = true;
+  fp.fixed_distance = dist;
+  SetDistanceClipping (dist);
+}
+
+void celPcCamera::EnableAdaptiveDistanceClipping (float min_fps,
+	float max_fps, float min_dist)
+{
+  fp.use_farplane = true;
+  fp.fixed_distance = -1.0f;
+  fp.min_fps = min_fps;
+  fp.max_fps = max_fps;
+  fp.min_dist = min_dist;
+  fp.fps_valid = false;
+  fp.smooth_fps = 30.0f;
+  fp.accumulated_elapsed = 0;
+  fp.current_distance = -1.0f;
+}
+
+void celPcCamera::SetDistanceClipping (float dist)
+{
+  csVector3 v1 (0, 0, dist), v2 (0, 1, dist), v3 (1, 0, dist);
+  csPlane3 p (v1, v2, v3);
+  view->GetCamera ()->SetFarPlane (&p);
+  fp.current_distance = dist;
+}
+
+// 1. qsqrt vs sqrt
+// 2. don't use static fields, may conflict with other camera instances
+// 3. use virtual clock and not csGetTicks(), movie recorder, speed, elapsed
+// 4. GetDistanceClipping() is expensive, better remember current distance.
+// 5. Adapts very slow to lower clipping plane.
+
+void celPcCamera::AdaptDistanceClipping (csTicks elapsed_time)
+{
+  if (!fp.use_farplane) return;
+  if (!fp.fixed_distance > 0.0f) return;
+
+  float curr_fps;		// FPS calculated from the last frame.
+
+  // When we are called for the first time, we just initialize some variables
+  // and exit.
+  if (!fp.fps_valid)
+  {
+    fp.fps_valid = true;
+    return;
+  }
+
+  if (!elapsed_time)
+    curr_fps = 1000.0;
+  else
+    curr_fps = 1000.0 / float (elapsed_time);
+  fp.smooth_fps = 0.5*curr_fps + 0.5*fp.smooth_fps;
+
+  fp.accumulated_elapsed += elapsed_time;
+  if (fp.accumulated_elapsed > 1000)
+  {
+    fp.accumulated_elapsed = 0;
+    float change;
+
+    float curr_dist = fp.current_distance;
+    if (curr_dist < 0.0f)
+      curr_dist = FP_INIT_DIST;
+
+    if (fp.smooth_fps < fp.min_fps)
+    {
+      change = 2.0 * (fp.min_fps - fp.smooth_fps);
+      curr_dist -= change;
+      if (curr_dist < fp.min_dist) curr_dist = fp.min_dist;
+      SetDistanceClipping (curr_dist);
+    }
+    else if (fp.smooth_fps > fp.max_fps)
+    {
+      change = 2.0 * (fp.smooth_fps - fp.max_fps);
+      curr_dist += change;
+      if (curr_dist > FP_MAX_DIST) curr_dist = FP_MAX_DIST;
+      SetDistanceClipping (curr_dist);
+    }
+  }
 }
 
 void celPcCamera::FindSiblingPropertyClasses ()
@@ -484,7 +576,7 @@ csVector3 celPcCamera::CalcCollisionPos (const csVector3& pseudoTarget,
         pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
         return isect;
       }
-      break;        
+      break;
     }
     default:
       break;
@@ -552,6 +644,8 @@ void celPcCamera::TickEveryFrame ()
   // First get elapsed time from the virtual clock.
   csTicks elapsed_time = vc->GetElapsedTicks ();
   float elapsed_sec = elapsed_time / 1000.0f;
+
+  AdaptDistanceClipping (elapsed_time);
 
   // Velocity calculations.
   MovePitch (pitchVelocity * elapsed_sec);
@@ -1260,7 +1354,7 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
     return false;
   }
   worldfile = csStrNew (strp);
-  if (!db.Get (strp)) 
+  if (!db.Get (strp))
   {
     Report (object_reg, "Regionname not specified.  Cannot load.");
     return false;
