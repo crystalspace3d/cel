@@ -14,6 +14,8 @@ The history order is reversed so that new features are at the top.
 	  to complain in some cases.
 	- Eric Sunshine eliminated several compilation warnings from the
 	  project.
+	- Eric Sunshine fixed Jamfile so that it cleans up the generated
+	  cel-config script.
 4-Dec-2003
 	- Jorrit simplified the XML behaviour layer by removing support for
 	  multiple arguments for operations and only allowing one. Also unified
