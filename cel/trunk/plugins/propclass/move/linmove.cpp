@@ -199,12 +199,14 @@ celPcLinearMovement::~celPcLinearMovement ()
 csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
-  databuf->SetDataCount (3);
+  databuf->SetDataCount (5);
   int j = 0;
 
   databuf->GetData (j++)->Set (topSize);
   databuf->GetData (j++)->Set (bottomSize);
   databuf->GetData (j++)->Set (shift);
+  databuf->GetData (j++)->Set (vel);
+  databuf->GetData (j++)->Set (angularVelocity);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -214,7 +216,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
     return false;
-  if (databuf->GetDataCount () != 3)
+  if (databuf->GetDataCount () != 5)
     return false;
 
   celData* cd;
@@ -235,6 +237,16 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 
   if (!InitCD (topSize, bottomSize, shift))
     return false;
+
+  cd = databuf->GetData (3);
+  vel.x = cd->value.v.x;
+  vel.y = cd->value.v.y;
+  vel.z = cd->value.v.z;
+
+  cd = databuf->GetData (4);
+  angularVelocity.x = cd->value.v.x;
+  angularVelocity.y = cd->value.v.y;
+  angularVelocity.z = cd->value.v.z;
 
   return true;
 }
