@@ -5812,7 +5812,6 @@ class iLoader(iBase):
     def LoadLibraryFile(*args): return apply(_blcelc.iLoader_LoadLibraryFile,args)
     def LoadMeshObjectFactory(*args): return apply(_blcelc.iLoader_LoadMeshObjectFactory,args)
     def LoadMeshObject(*args): return apply(_blcelc.iLoader_LoadMeshObject,args)
-    def LoadEffectFile(*args): return apply(_blcelc.iLoader_LoadEffectFile,args)
     def __del__(self, destroy= _blcelc.delete_iLoader):
         try:
             if self.thisown: destroy(self)
@@ -9244,8 +9243,6 @@ class iMaterial(iShaderVariableContext):
     __getattr__ = lambda self, name: _swig_getattr(self, iMaterial, name)
     def SetShader(*args): return apply(_blcelc.iMaterial_SetShader,args)
     def GetShader(*args): return apply(_blcelc.iMaterial_GetShader,args)
-    def SetEffect(*args): return apply(_blcelc.iMaterial_SetEffect,args)
-    def GetEffect(*args): return apply(_blcelc.iMaterial_GetEffect,args)
     def GetTexture(*args): return apply(_blcelc.iMaterial_GetTexture,args)
     def GetTextureLayerCount(*args): return apply(_blcelc.iMaterial_GetTextureLayerCount,args)
     def GetTextureLayer(*args): return apply(_blcelc.iMaterial_GetTextureLayer,args)
