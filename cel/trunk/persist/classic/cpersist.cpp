@@ -841,7 +841,7 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
     return true;
   }
 
-  Report (" CEL Persistence writing entity %d ('%s')...\n",entity->GetID(),entity->GetName() );
+//  Report (" CEL Persistence writing entity %d ('%s')...\n",entity->GetID(),entity->GetName() );
 
   entities.Add (entity);
   if (!WriteMarker ("ENTI")) return false;
