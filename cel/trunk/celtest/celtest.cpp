@@ -446,7 +446,7 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   if (!pc) return NULL;
 
   pc = pl->CreatePropertyClass (entity_cam, "pcmeshselect");
-  if (!pc) return false;
+  if (!pc) return NULL;
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetGlobalSelection (true);
