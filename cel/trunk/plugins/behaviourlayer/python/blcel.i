@@ -19,6 +19,7 @@
 #include "propclass/move.h"
 #include "propclass/inv.h"
 #include "propclass/chars.h"
+#include "propclass/linmove.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 %}
 
@@ -244,6 +245,29 @@ iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) {
 %}
 iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc);
 
+struct iPcLinearMovement : public iBase
+{
+  virtual void SetRotation (const csVector3& angle) = 0;
+  virtual void SetSpeed (float speedZ) = 0;
+  virtual void SetCameraPitchSpeed (float angle) = 0;
+  virtual void SetVelocity (const csVector3& vel) = 0;
+  virtual void GetVelocity (csVector3& v) = 0;
+  virtual bool InitCD (csVector3& top, csVector3& bottom)=0;
+  virtual bool InitCD () = 0;
+  virtual csPtr<iDataBuffer> GetDRData() = 0;
+  virtual bool SetDRData (iDataBuffer* data, bool detectcheat) = 0;
+  virtual bool NeedDRData (uint8& priority) = 0;
+  virtual void SetPosition (const csVector3& pos, float yrot,
+  	const iSector* sector) = 0;
+  virtual void GetLastPosition (csVector3& pos, float& yrot,
+  	iSector*& sector) = 0;
+  virtual iSector* GetSector () = 0;
+  virtual void SetReady (bool flag) = 0;    
+  virtual bool IsReady() const = 0;    
+  virtual bool IsOnGround () const = 0;
+  virtual void ExtrapolatePosition (float delta) = 0;
+};
+
 struct iPcCamera : public iBase
 {
   enum CameraMode
@@ -270,19 +294,29 @@ struct iPcCamera : public iBase
   %extend {
 
   }
-
 };
 
 %{
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char *name) {
-  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, name));
+iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
+  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pclinmove"));
+  if(!pc.IsValid()) return 0;
+  csRef<iPcLinearMovement> pclm (SCF_QUERY_INTERFACE(pc, iPcLinearMovement));
+  if(!pclm.IsValid()) return 0;
+  return pclm;
+}
+%}
+iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
+  csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pccamera"));
   if(!pc.IsValid()) return 0;
   csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
   if(!pccam.IsValid()) return 0;
   return pccam;
 }
 %}
-iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char *name);
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity);
 
 %{
 iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc) {

@@ -9561,6 +9561,44 @@ celCreateRegion = _blcelc.celCreateRegion
 
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
+class iPcLinearMovement(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcLinearMovement, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcLinearMovement, name)
+    def SetRotation(*args): return apply(_blcelc.iPcLinearMovement_SetRotation,args)
+    def SetSpeed(*args): return apply(_blcelc.iPcLinearMovement_SetSpeed,args)
+    def SetCameraPitchSpeed(*args): return apply(_blcelc.iPcLinearMovement_SetCameraPitchSpeed,args)
+    def SetVelocity(*args): return apply(_blcelc.iPcLinearMovement_SetVelocity,args)
+    def GetVelocity(*args): return apply(_blcelc.iPcLinearMovement_GetVelocity,args)
+    def InitCD(*args): return apply(_blcelc.iPcLinearMovement_InitCD,args)
+    def GetDRData(*args): return apply(_blcelc.iPcLinearMovement_GetDRData,args)
+    def SetDRData(*args): return apply(_blcelc.iPcLinearMovement_SetDRData,args)
+    def NeedDRData(*args): return apply(_blcelc.iPcLinearMovement_NeedDRData,args)
+    def SetPosition(*args): return apply(_blcelc.iPcLinearMovement_SetPosition,args)
+    def GetLastPosition(*args): return apply(_blcelc.iPcLinearMovement_GetLastPosition,args)
+    def GetSector(*args): return apply(_blcelc.iPcLinearMovement_GetSector,args)
+    def SetReady(*args): return apply(_blcelc.iPcLinearMovement_SetReady,args)
+    def IsReady(*args): return apply(_blcelc.iPcLinearMovement_IsReady,args)
+    def IsOnGround(*args): return apply(_blcelc.iPcLinearMovement_IsOnGround,args)
+    def ExtrapolatePosition(*args): return apply(_blcelc.iPcLinearMovement_ExtrapolatePosition,args)
+    def __del__(self, destroy= _blcelc.delete_iPcLinearMovement):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPcLinearMovement instance at %s>" % (self.this,)
+
+class iPcLinearMovementPtr(iPcLinearMovement):
+    def __init__(self,this):
+        _swig_setattr(self, iPcLinearMovement, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcLinearMovement, 'thisown', 0)
+        _swig_setattr(self, iPcLinearMovement,self.__class__,iPcLinearMovement)
+_blcelc.iPcLinearMovement_swigregister(iPcLinearMovementPtr)
+
 class iPcCamera(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9598,6 +9636,8 @@ class iPcCameraPtr(iPcCamera):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPcCamera, 'thisown', 0)
         _swig_setattr(self, iPcCamera,self.__class__,iPcCamera)
 _blcelc.iPcCamera_swigregister(iPcCameraPtr)
+
+celCreateLinearMovement = _blcelc.celCreateLinearMovement
 
 celCreateCamera = _blcelc.celCreateCamera
 

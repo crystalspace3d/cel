@@ -212,13 +212,13 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	csVector3 lookat = (movable->GetPosition() -
 	    c->GetTransform().GetOrigin()) + (mat * followat);
 
-    // Set in camera and adjust for roll in one step
+	// Set in camera and adjust for roll in one step
 	c->GetTransform().LookAt(lookat, csVector3(0,cos(roll),sin(roll) ));
 
-    // rotation to adjust for pitch angle
-    c->GetTransform().RotateThis(csXRotMatrix3(pitch));
-    // rotation to adjust for yaw angle
-    c->GetTransform().RotateThis(csYRotMatrix3(yaw));
+	// rotation to adjust for pitch angle
+	c->GetTransform().RotateThis(csXRotMatrix3(pitch));
+	// rotation to adjust for yaw angle
+	c->GetTransform().RotateThis(csYRotMatrix3(yaw));
 	break;
       }
       case iPcCamera::firstperson:
@@ -246,10 +246,10 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	//rotate camera 180 degs
 	c->GetTransform().RotateThis(csVector3(0,1,0), 3.14f);
 
-    // rotation to adjust for pitch angle
-    c->GetTransform().RotateThis(csXRotMatrix3(pitch));
-    // rotation to adjust for yaw angle
-    c->GetTransform().RotateThis(csYRotMatrix3(yaw));
+	// rotation to adjust for pitch angle
+	c->GetTransform().RotateThis(csXRotMatrix3(pitch));
+	// rotation to adjust for yaw angle
+	c->GetTransform().RotateThis(csYRotMatrix3(yaw));
         break;
       }
       case iPcCamera::rotational:

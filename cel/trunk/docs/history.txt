@@ -14,6 +14,10 @@ The history order is reversed so that new features are at the top.
 	  which you can use from inside Python scripts to get access to the
 	  real Python object that belongs with a Python iCelBehaviour.
 	  This avoids the global variable 'room' in the smallgame.py script.
+	- Jorrit removed the 'name' parameter from celCreateCamera() in the
+	  Python behaviour layer. It is not needed.
+	- Jorrit added support for pclinmove property class in the Python
+	  behaviour layer.
 3-Jul-2003
 	- Jorrit cleaned up the python plugin a bit.
 	- Box in smallgame now has gravity.
