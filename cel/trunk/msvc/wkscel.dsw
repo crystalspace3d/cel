@@ -102,6 +102,9 @@ Package=<4>
     Project_Dep_Name plgmgr_billboard
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgmgr_quests
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name appceltst
     End Project Dependency
     Begin Project Dependency
@@ -215,6 +218,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name plgmgr_billboard
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_quests
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -310,6 +316,18 @@ Package=<4>
 ###############################################################################
 
 Project: "plgmgr_billboard"=.\plgmgr_billboard.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgmgr_quests"=.\plgmgr_quests.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
