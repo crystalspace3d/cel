@@ -224,7 +224,7 @@ elif mkdirs . 2>/dev/null; then
 else
   as_mkdir_p=''
 fi
-test -r ./-p && rm -rf ./-p
+test -d ./-p && rmdir ./-p
 
 as_executable_p="test -f"
 
@@ -3602,7 +3602,7 @@ fi
 #----------------------------------------------------------------------------
 
 
-
+# Get the cflags and libraries from the cs-config script
 
 # Check whether --with-cs-prefix or --without-cs-prefix was given.
 if test "${with_cs_prefix+set}" = set; then
@@ -3618,22 +3618,27 @@ else
 fi;
 
 
+# Try to find an installed cs-config.
 
-if test "x$CRYSTAL" != x ; then
-   if test -f $CRYSTAL/cs-config ; then
+if test "x$CRYSTAL" != "x"
+then
+   if test -f $CRYSTAL/cs-config
+   then
       CSCONF="$CRYSTAL/cs-config"
    else
-      if test -f $CRYSTAL/bin/cs-config ; then
+      if test -f $CRYSTAL/bin/cs-config
+      then
          CSCONF="$CRYSTAL/bin/cs-config"
       else
-         { echo "$as_me:$LINENO: WARNING: Can't find cs-config in path you provided" >&5
-echo "$as_me: WARNING: Can't find cs-config in path you provided" >&2;}
+         { echo "$as_me:$LINENO: WARNING: Can not find cs-config in path you provided" >&5
+echo "$as_me: WARNING: Can not find cs-config in path you provided" >&2;}
 	 no_cs=yes
       fi
    fi
 fi
 
-if test "x$CRYSTAL" = x ; then
+if test "x$CRYSTAL" = "x"
+then
    for ac_prog in cs-config
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -3674,9 +3679,11 @@ fi
   test -n "$CSCONF" && break
 done
 
-   if test "x$CSCONF" = x ; then
+   if test "x$CSCONF" = "x"
+   then
       CRYSTAL=/usr/local/crystal
-      if test -f $CRYSTAL/bin/cs-config ; then
+      if test -f $CRYSTAL/bin/cs-config
+      then
          CSCONF="$CRYSTAL/bin/cs-config"
       else
 	 no_result=yes
@@ -3685,32 +3692,36 @@ done
    fi
 fi
 
-# Well, either we found cs by now, or we caused an error.
-# Now we define stuff, then check if we are running a new enough version
+# Either we found cs by now, or we caused an error.  Now we define stuff, then
+# check if we are running a new enough version
 
-if test "x$no_cs" = "x" ; then
-	min_cs_version=0.97
-	echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
+if test "x$no_cs" = "x"
+then
+    min_cs_version=0.97
+    echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
-	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
-	CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
-	CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
+    CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
+    CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
+    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
 
-	cs_major_version=`$CSCONF $cs_args --version | \
-	   sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
-	cs_minor_version=`$CSCONF $cs_args --version | \
-	   sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\2/'`
+    cs_major_version=`$CSCONF $cs_args --version | \
+       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
+    cs_minor_version=`$CSCONF $cs_args --version | \
+       sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\2/'`
 
-	if test "x$CRYSTAL_LIBS" = "x" ; then
-		no_cs=yes
-	fi
+    if test "x$CRYSTAL_LIBS" = "x"
+    then
+	no_cs=yes
+    fi
 fi
 
-if test "x$no_cs" != "x" ; then
-	enable_cstest=no
+if test "x$no_cs" != "x"
+then
+    enable_cstest=no
 fi
 
-if test x$enable_cstest = xyes ; then
+if test x$enable_cstest = xyes
+then
    ac_save_CXXFLAGS="$CXXFLAGS"
    ac_save_LIBS="$LIBS"
    CXXFLAGS="$CXXFLAGS $CRYSTAL_CFLAGS"
@@ -3736,9 +3747,7 @@ cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 
 #include <cssysdef.h>
-
 #include <stdio.h>
-
 #include <csutil/util.h>
 
 CS_IMPLEMENT_APPLICATION
@@ -3774,7 +3783,6 @@ int main (int argc, char *argv[])
   }
 }
 
-
 _ACEOF
 rm -f conftest$ac_exeext
 if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
@@ -3808,12 +3816,14 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 fi
 
-if test "x$no_cs" = "x" ; then
+if test "x$no_cs" = "x"
+then
    echo "$as_me:$LINENO: result: $CRYSTAL_VERSION" >&5
 echo "${ECHO_T}$CRYSTAL_VERSION" >&6
    :
 else
-   if test x$no_result = x ; then
+   if test x$no_result = x
+   then
      echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
    fi
@@ -3833,15 +3843,12 @@ echo "$as_me: error:
    { (exit 1); exit 1; }; }
 fi
 
-
-
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$CRYSTAL_CFLAGS\" ;
 "
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$CRYSTAL_LIBS\" ;
 "
 cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
 "
-
 
 
 
@@ -4946,7 +4953,7 @@ elif mkdirs . 2>/dev/null; then
 else
   as_mkdir_p=''
 fi
-test -r ./-p && rm -rf ./-p
+test -d ./-p && rmdir ./-p
 
 as_executable_p="test -f"
 
@@ -5137,7 +5144,8 @@ cat >>$CONFIG_STATUS <<_ACEOF
 # INIT-COMMANDS section.
 #
 
-cs_jamconfig_text='$cs_jamconfig_text' cs_dir=`(dirname Jamconfig) 2>/dev/null ||
+cs_jamconfig_text='$cs_jamconfig_text'
+	cs_dir=`(dirname Jamconfig) 2>/dev/null ||
 $as_expr XJamconfig : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
          XJamconfig : 'X\(//\)[^/]' \| \
          XJamconfig : 'X\(//\)$' \| \
@@ -5149,29 +5157,29 @@ echo XJamconfig |
   	  /^X\(\/\/\)$/{ s//\1/; q; }
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
-	    { if test -n "$as_mkdir_p"; then
-    $as_mkdir_p \$cs_dir
+	{ if test -n "\$as_mkdir_p"; then
+    \$as_mkdir_p \$cs_dir
   else
     as_dir=\$cs_dir
     as_dirs=
-    while test ! -d "$as_dir"; do
-      as_dirs="$as_dir $as_dirs"
-      as_dir=`(dirname "$as_dir") 2>/dev/null ||
-$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-         X"$as_dir" : 'X\(//\)[^/]' \| \
-         X"$as_dir" : 'X\(//\)$' \| \
-         X"$as_dir" : 'X\(/\)' \| \
-         .     : '\(.\)' 2>/dev/null ||
-echo X"$as_dir" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
-  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
-  	  /^X\(\/\/\)$/{ s//\1/; q; }
-  	  /^X\(\/\).*/{ s//\1/; q; }
-  	  s/.*/./; q'`
+    while test ! -d "\$as_dir"; do
+      as_dirs="\$as_dir \$as_dirs"
+      as_dir=\`(dirname "\$as_dir") 2>/dev/null ||
+\$as_expr X"\$as_dir" : 'X\\(.*^/\\)//*^/^/*/*\$' \\| \\
+         X"\$as_dir" : 'X\\(//\\)^/' \\| \\
+         X"\$as_dir" : 'X\\(//\\)\$' \\| \\
+         X"\$as_dir" : 'X\\(/\\)' \\| \\
+         .     : '\\(.\\)' 2>/dev/null ||
+echo X"\$as_dir" |
+    sed '/^X\\(.*^/\\)\\/\\/*^/^/*\\/*\$/{ s//\\1/; q; }
+  	  /^X\\(\\/\\/\\)^/.*/{ s//\\1/; q; }
+  	  /^X\\(\\/\\/\\)\$/{ s//\\1/; q; }
+  	  /^X\\(\\/\\).*/{ s//\\1/; q; }
+  	  s/.*/./; q'\`
     done
-    test ! -n "$as_dirs" || mkdir $as_dirs
-  fi || { { echo "$as_me:$LINENO: error: cannot create directory \$cs_dir" >&5
-echo "$as_me: error: cannot create directory \$cs_dir" >&2;}
+    test ! -n "\$as_dirs" || mkdir \$as_dirs
+  fi || { { echo "\$as_me:\$LINENO: error: cannot create directory \$cs_dir" >&5
+echo "\$as_me: error: cannot create directory \$cs_dir" >&2;}
    { (exit 1); exit 1; }; }; }
 
 
