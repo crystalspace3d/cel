@@ -1024,6 +1024,26 @@
 		<!-- A stack of explosions that need to be done -->
 		<var name="explosion_stack" value="0" />
 
+		<!-- A stack of freed entities to reuse (per type) -->
+		<var name="'entstack_ '" value="0" />
+		<var name="'entstack_H'" value="0" />
+		<var name="'entstack_B'" value="0" />
+		<var name="'entstack_#'" value="0" />
+		<var name="'entstack_X'" value="0" />
+		<var name="'entstack_x'" value="0" />
+		<var name="'entstack_O'" value="0" />
+		<var name="'entstack_o'" value="0" />
+		<var name="'entstack_R'" value="0" />
+		<var name="'entstack_exp_c'" value="0" />
+		<var name="'entstack_exp_t'" value="0" />
+		<var name="'entstack_exp_l'" value="0" />
+		<var name="'entstack_exp_b'" value="0" />
+		<var name="'entstack_exp_r'" value="0" />
+		<var name="'entstack_exp_bl'" value="0" />
+		<var name="'entstack_exp_br'" value="0" />
+		<var name="'entstack_exp_tl'" value="0" />
+		<var name="'entstack_exp_tr'" value="0" />
+
 		<!-- Create a table of materials per block type -->
 		<var name="'material_ '" value="''" />
 		<var name="'material_H'" value="''" />	<!-- Special value for hero -->
@@ -1069,7 +1089,7 @@
 		<var name="'falloff_#'" value="false" />
 		<var name="'falloff_X'" value="true" />
 		<var name="'falloff_x'" value="true" />
-		<var name="'falloff_O'" value="false" />
+		<var name="'falloff_O'" value="true" />
 		<var name="'falloff_o'" value="true" />
 		<var name="'falloff_R'" value="true" />
 		<var name="'falloff_exp_c'" value="false" />
@@ -1136,14 +1156,14 @@
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
 		<var name="row1"  value="'B #XXX#                                                        B'" />
 		<var name="row2"  value="'B #XXX#                                                        B'" />
-		<var name="row3"  value="'B #XXX#                  X                                     B'" />
+		<var name="row3"  value="'B #XXX#         O        X                                     B'" />
 		<var name="row4"  value="'B #XXX#       #####     XXX                                    B'" />
 		<var name="row5"  value="'B #####       #####    XXXXX                                   B'" />
-		<var name="row6"  value="'B         X  X###x#  xXXXXXXX                                  B'" />
-		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXX#  X   Xx    X                   B'" />
-		<var name="row8"  value="'B    B         B     #XXXXXXXX# ### ###   ###                  B'" />
-		<var name="row9"  value="'B              B     #XXXXoXXX#                                B'" />
-		<var name="row10" value="'B#########     B     #XXXXXXXX#  #   B     #                   B'" />
+		<var name="row6"  value="'B         X  X###x#  xXXxxXXX                                  B'" />
+		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXx#  X   Xx    X                   B'" />
+		<var name="row8"  value="'B    B         B     #XXxXXxXX# ### ###   ###                  B'" />
+		<var name="row9"  value="'B   O  O       B     #XXXXxXXX#                                B'" />
+		<var name="row10" value="'B#########     B     #XxXXXXXX#  #   B     #                   B'" />
 		<var name="row11" value="'B#########     B     ##########                                B'" />
 		<var name="row12" value="'B#########     B                                               B'" />
 		<var name="row13" value="'B              B                   #       B                   B'" />
@@ -1152,7 +1172,7 @@
 		<var name="row16" value="'B              B   #XHX#     B#     #     #                    B'" />
 		<var name="row17" value="'B                  #XXX#     B    X   X           X            B'" />
 		<var name="row18" value="'B                  #####     B    B   #         B###B          B'" />
-		<var name="row19" value="'B             R xRO          B                  B#o#B          B'" />
+		<var name="row19" value="'B             R xRO          B                  B###B          B'" />
 		<var name="row20" value="'B            #######         B                  B###B          B'" />
 		<var name="row21" value="'B                            B                  BBBBB          B'" />
 		<var name="row22" value="'B                BBB         B                                 B'" />
@@ -1215,6 +1235,50 @@
 	    </event>
 
 	    <!--
+	      - Create an entity with a given type. Possibly fetch it from the
+	      - free entity stack. Parameter is @blocktype. Returns the entity.
+	      -->
+	    <event name="createentity">
+	    <!--
+	    	<lvar name="sn" value="entstack_+@blocktype" />
+	        <if eval="?#sn > 0">
+		    <lvar name="ent" value="?(#sn+?#sn)" />
+<print value="'fetch from stack:'+#ent+' ('+#sn+'    '+?#sn+')'" />
+		    <property propclass="?(#ent).pcbb" id="propid(visible)" value="true" />
+		    <call entity="#ent" event="reinit" />
+		    <var name="#sn" value="?(#sn)-1" />
+		    <return value="#ent" />
+		</if>
+		-->
+		<lvar name="entname" value="?entity_number" />
+		<var name="entity_number" value="?entity_number+1" />
+		<createentity name="#entname" behaviour="?(behaviour_+@blocktype)" />
+		<inventory propclass="pc(pcinventory)" />
+		<lvar name="ent" value="ent(#entname)" />
+		<inventory_add child="#ent" />
+		<return value="#ent" />
+	    </event>
+
+	    <!--
+	      - Destroy an entity (put it back on the stack).
+	      - Parameter is @entity.
+	      -->
+	    <event name="destroyentity">
+	    <!--
+		<call entity="@entity" event="cleanup" />
+	    	<lvar name="blocktype" value="?(@entity).blocktype" />
+		<property propclass="?(@entity).pcbb" id="propid(visible)" value="false" />
+	    	<lvar name="sn" value="entstack_+#blocktype" />
+		<var name="#sn" value="?(#sn)+1" />
+<print value="'put on stack:'+@entity+' ('+#sn+'    '+?#sn+')'" />
+		<var name="#sn+?#sn" value="@entity" />
+		-->
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_rem child="@entity" />
+		<destroyentity name="@entity" />
+	    </event>
+
+	    <!--
 	      - Initialize one block. This will create the entity representing
 	      - the block and it will set it at the right position on the puzzle
 	      - board.
@@ -1239,6 +1303,8 @@
 		    <stop />
 		</if>
 	    	<if eval="?blocktype != ' '">
+		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
+		    <!--
 		    <lvar name="entname" value="?entity_number" />
 		    <var name="entity_number" value="?entity_number+1" />
 		    <createentity name="#entname" behaviour="?(behaviour_+?blocktype)" />
@@ -1246,6 +1312,7 @@
 		    <var name="#mazepos" value="#ent" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="#ent" />
+		    -->
 		    <stop />
 	    	</if>
 		<var name="#mazepos" value="''" />
@@ -1274,9 +1341,12 @@
 		    </if>
 		    <var name="#oldx+'_'+#oldy" value="''" />
 		</if>
+		<!--
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="#ent" />
 		<destroyentity name="#ent" />
+		-->
+		<expr eval="destroyentity(entity=#ent)" />
 		<var name="#mazepos" value="''" />
 	    </event>
 
@@ -1302,9 +1372,12 @@
 		    	<par id="parid(y)" value="#oldy" />
 		    </call>
 		</if>
+		<!--
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="#ent" />
 		<destroyentity name="#ent" />
+		-->
+		<expr eval="destroyentity(entity=#ent)" />
 		<var name="#mazepos" value="''" />
 		<call event="ifempty_checkfall"> <inherit /> </call>
 	    </event>
@@ -2034,14 +2107,12 @@
 	      - Also uses ?bdash_main.blockdim.
 	      -->
 	    <event name="init">
-		<var name="moving" value="false" />
-	        <var name="x" value="?bdash_main.x" />
-	        <var name="y" value="?bdash_main.y" />
 	        <var name="blocktype" value="?bdash_main.blocktype" />
 
 	        <createpropclass name="pcbillboard" />
 	        <createpropclass name="pcproperties" />
-		<default propclass="pc(pcbillboard)" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="block" />
 	        <property id="propid(materialname)" value="?bdash_main.(material_+?blocktype)" />
 	        <property id="propid(movable)" value="false" />
@@ -2049,9 +2120,26 @@
 	        <property id="propid(restack)" value="false" />
 	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
 	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
+	        <property id="propid(layer)" value="game" />
+	    	<call event="reinit" />
+	    </event>
+
+	    <!--
+	      - Re-initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="reinit">
+		<var name="moving" value="false" />
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+		<default propclass="?pcbb" />
 	        <property id="propid(x)" value="?x*?bdash_main.blockdim" />
 	        <property id="propid(y)" value="?y*?bdash_main.blockdim" />
-	        <property id="propid(layer)" value="game" />
+	    </event>
+	    <event name="cleanup">
 	    </event>
 
 	    <!--
@@ -2075,8 +2163,6 @@
 	      - Also uses ?bdash_main.blockdim.
 	      -->
 	    <event name="init">
-	        <var name="x" value="?bdash_main.x" />
-	        <var name="y" value="?bdash_main.y" />
 		<var name="dim" value="?bdash_main.blockdim" />
 	        <var name="blocktype" value="?bdash_main.blocktype" />
 		<var name="speed" value="?bdash_main.fallspeed" />
@@ -2093,10 +2179,26 @@
 	        <property id="propid(restack)" value="false" />
 	        <property id="propid(width)" value="640+?dim" />
 	        <property id="propid(height)" value="640+?dim" />
+	        <property id="propid(layer)" value="game" />
+	    	<call event="reinit" />
+	    </event>
+
+	    <!--
+	      - Re-initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="reinit">
+		<var name="moving" value="false" />
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+		<default propclass="?pcbb" />
 	        <property id="propid(x)" value="?x*?dim" />
 	        <property id="propid(y)" value="?y*?dim" />
-		<var name="moving" value="false" />
-	        <property id="propid(layer)" value="game" />
+	    </event>
+	    <event name="cleanup">
 	    </event>
 
 	    <!--
@@ -2254,13 +2356,23 @@
 	    
 	    <event name="init">
 	        <super />
+	    </event>
+
+	    <!--
+	      - Re-initialize this block.
+	      -->
+	    <event name="reinit">
+	    	<super />
 		<var name="timeout" value="-1" />
 		<var name="anim" value="200" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
-		<default propclass="?pcbb" />
 		<var name="offset" value="0" />
 		<var name="origx" value="property(?pcbb,propid(x))" />
 		<var name="origy" value="property(?pcbb,propid(y))" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+	    </event>
+	    <event name="cleanup">
+	        <super />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 	    </event>
 
 	    <event name="endmove">
@@ -2312,14 +2424,22 @@
 	      - Initialize.
 	      -->
 	    <event name="init">
-	    	<super />
 	        <createpropclass name="pctimer" />
+	    	<super />
+	    </event>
+
+	    <event name="reinit">
+	    	<super />
+		<var name="counter" value="10" />
+		<var name="explode" value="11" />	<!-- Don't explode -->
 		<action propclass="pc(pctimer)" id="propid(WakeUp)">
 		    <par id="parid(time)" value="20" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
-		<var name="counter" value="10" />
-		<var name="explode" value="11" />	<!-- Don't explode -->
+	    </event>
+	    <event name="cleanup">
+	        <super />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 	    </event>
 
 	    <!--
