@@ -39,30 +39,30 @@ class celXmlScriptEventHandler;
 
 enum
 {
-  CEL_OPERATION_END = 0,	// A:-	S:-	OS:-
-  CEL_OPERATION_PROPERTY,	// A: PC, ID, ?
+  CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
+  CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
   CEL_OPERATION_GETPROPERTY,	// A: S, PC, ID
   CEL_OPERATION_ACTION,		// A: PC, ID, S
-  CEL_OPERATION_GETPROPCLASS,	// A: S, S S
-  CEL_OPERATION_VAR,		// A:-		S:S,?	OS:-
-  CEL_OPERATION_PRINT,		// A:-		S:S	OS:-
-  CEL_OPERATION_IF,		// A:E,E	S:?	OS:-
-  CEL_OPERATION_TESTCOLLIDE,	// A:E,E	S:S	OS:-
-  CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S	OS:-
-  CEL_OPERATION_CREATEPROPCLASS,// A:-		S:S	OS:-
+  CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
+  CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
+  CEL_OPERATION_IF,		// A:E,E	S:?		OS:-
+  CEL_OPERATION_TESTCOLLIDE,	// A:E,E	S:S		OS:-
+  CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
+  CEL_OPERATION_CREATEPROPCLASS,// A:-		S:S		OS:-
 
-  CEL_OPERATION_PUSH,		// A:?		S:-	OS:?
-  CEL_OPERATION_DEREFVAR,	// A:-		S:S	OS:?
-  CEL_OPERATION_COLOR,		// A:-		S:F,F,F	OS:C
-  CEL_OPERATION_VECTOR2,	// A:-		S:F,F	OS:V2
-  CEL_OPERATION_VECTOR3,	// A:-		S:F,F,F	OS:V3
-  CEL_OPERATION_ENTITY,		// A:-		S:S	OS:EN
-  CEL_OPERATION_PC,		// A:-		S:S,S	OS:PC
-  CEL_OPERATION_UNARYMINUS,	// A:-		S:?	OS:?
-  CEL_OPERATION_MINUS,		// A:-		S:?,?	OS:?
-  CEL_OPERATION_ADD,		// A:-		S:?,?	OS:?
-  CEL_OPERATION_MULT,		// A:-		S:?,?	OS:?
-  CEL_OPERATION_DIV,		// A:-		S:?,?	OS:?
+  CEL_OPERATION_PUSH,		// A:?		S:-		OS:?
+  CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
+  CEL_OPERATION_COLOR,		// A:-		S:F,F,F		OS:C
+  CEL_OPERATION_VECTOR2,	// A:-		S:F,F		OS:V2
+  CEL_OPERATION_VECTOR3,	// A:-		S:F,F,F		OS:V3
+  CEL_OPERATION_ENTITY,		// A:-		S:S		OS:EN
+  CEL_OPERATION_PC,		// A:-		S:S,S		OS:PC
+  CEL_OPERATION_PCTHIS,		// A:-		S:S		OS:PC
+  CEL_OPERATION_UNARYMINUS,	// A:-		S:?		OS:?
+  CEL_OPERATION_MINUS,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_ADD,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_MULT,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_DIV,		// A:-		S:?,?		OS:?
 
   CEL_OPERATION_FINALOP
 };
@@ -109,7 +109,11 @@ struct celXmlArg
     uint32 ui;
     int32 i;
     float f;
-    const char* s;	// Also used for CEL_TYPE_VAR.
+    struct
+    {
+      const char* s;	// Also used for CEL_TYPE_VAR.
+      bool cleanup;	// If true string must be cleaned up here.
+    } str;
     bool b;
     int pc_ref;
     iCelPropertyClass* pc;
@@ -151,17 +155,35 @@ struct celXmlArg
     type = CEL_TYPE_BOOL;
     arg.b = b;
   }
-  void SetString (const char* s)
+  // Set a preallocated string.
+  void SetStringPrealloc (const char* s)
   {
     Cleanup ();
     type = CEL_TYPE_STRING;
-    arg.s = csStrNew (s);
+    arg.str.s = s;
+    arg.str.cleanup = true;
+  }
+  void SetString (const char* s, bool copy)
+  {
+    Cleanup ();
+    type = CEL_TYPE_STRING;
+    if (copy)
+    {
+      arg.str.s = csStrNew (s);
+      arg.str.cleanup = true;
+    }
+    else
+    {
+      arg.str.s = s;
+      arg.str.cleanup = false;
+    }
   }
   void SetVar (const char* s)
   {
     Cleanup ();
     type = CEL_TYPE_VAR;
-    arg.s = csStrNew (s);
+    arg.str.s = csStrNew (s);
+    arg.str.cleanup = true;
   }
   void SetPC (iCelPropertyClass* pc)
   {

@@ -99,6 +99,14 @@ const char* celXmlParseToken (const char* input, int& token)
       }
       if (isdigit (*input) || *input == '.')
         return celXmlParseTokenNumeric (input, token);
+      if (isalpha (*input) || *input == '_')
+      {
+        input++;
+        while (isalnum (*input) || *input == '_')
+	  input++;
+        token = CEL_TOKEN_IDENTIFIER;
+	return input;
+      }
       token = CEL_TOKEN_ERROR;
       return input;
   }

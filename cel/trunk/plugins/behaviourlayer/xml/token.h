@@ -22,27 +22,33 @@
 
 #include "cstypes.h"
 
-#define CEL_TOKEN_ERROR -1
-#define CEL_TOKEN_END 0			// End of string
-#define CEL_TOKEN_DEREFVAR 1		// ?expr
-#define CEL_TOKEN_STRINGLIT 2		// 'xxx...'
-#define CEL_TOKEN_VECTOR 3		// [expr,expr] or [expr,expr,expr]
-#define CEL_TOKEN_BOOLTRUE 4		// true
-#define CEL_TOKEN_BOOLFALSE 5		// false
-#define CEL_TOKEN_COLOR 6		// rgb(expr,expr,expr)
-#define CEL_TOKEN_INT32 7		// 348 or -398
-#define CEL_TOKEN_UINT32 8		// 348u
-#define CEL_TOKEN_FLOAT 9		// 342.33 or -2.33e-33
-#define CEL_TOKEN_OPEN 10		// (
-#define CEL_TOKEN_CLOSE 11		// )
-#define CEL_TOKEN_MINUS 12		// -
-#define CEL_TOKEN_ADD 13		// +
-#define CEL_TOKEN_MULT 14		// *
-#define CEL_TOKEN_DIV 15		// /
-#define CEL_TOKEN_COMMA 16		// ,
-#define CEL_TOKEN_VECTORCLOSE 17	// ]
-#define CEL_TOKEN_ENTITY 18		// entity(expr)
-#define CEL_TOKEN_PC 19			// pc(expr,expr)
+enum
+{
+  CEL_TOKEN_ERROR = -1,
+  CEL_TOKEN_END,	// End of string
+  CEL_TOKEN_DEREFVAR,	// ?expr
+  CEL_TOKEN_STRINGLIT,	// 'xxx...'
+  CEL_TOKEN_VECTOR,	// [expr,expr] or [expr,expr,expr]
+  CEL_TOKEN_BOOLTRUE,	// true
+  CEL_TOKEN_BOOLFALSE,	// false
+  CEL_TOKEN_COLOR,	// rgb(expr,expr,expr)
+  CEL_TOKEN_INT32,	// 348 or -398
+  CEL_TOKEN_UINT32,	// 348u
+  CEL_TOKEN_FLOAT,	// 342.33 or -2.33e-33
+  CEL_TOKEN_OPEN,	// (
+  CEL_TOKEN_CLOSE,	// )
+  CEL_TOKEN_MINUS,	// -
+  CEL_TOKEN_ADD,	// +
+  CEL_TOKEN_MULT,	// *
+  CEL_TOKEN_DIV,	// /
+  CEL_TOKEN_COMMA,	// ,
+  CEL_TOKEN_VECTORCLOSE,// ]
+  CEL_TOKEN_ENTITY,	// entity(expr)
+  CEL_TOKEN_PC,		// pc(expr,expr)
+  CEL_TOKEN_IDENTIFIER,	// identifier
+
+  CEL_TOKEN_LAST
+};
 
 #define CEL_PRIORITY_ONETERM -1 
 #define CEL_PRIORITY_NORMAL 0
