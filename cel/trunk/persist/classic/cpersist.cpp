@@ -453,7 +453,6 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
       bh->DecRef ();
     }
 
-    iCelPropertyClassList* pl = entity->GetPropertyClassList ();
     int i;
     for (i = 0 ; i < c ; i++)
     {
@@ -464,7 +463,6 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
 	entity = NULL;
 	return false;
       }
-      pl->Add (pc);
     }
   }
   else
