@@ -211,6 +211,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
     	oldpos);
+    float compare = oldpos.y;
 
     num_our_cd = hits = 0;
 
@@ -223,6 +224,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     // Travel all relevant sectors and do collision detection.
     cdsys->SetOneHitOnly (false);
     cdsys->ResetCollisionPairs ();
+
     hits += CollisionDetect (topCollider, current_sector,
     	&transform_newpos, &transform_oldpos);
 
@@ -249,6 +251,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     newpos = oldpos + localvel;
     
     // Part2: legs
+
     num_our_cd = hits = 0;
 
     transform_newpos = csOrthoTransform (csMatrix3(), newpos);
@@ -281,6 +284,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       hits += CollisionDetect (bottomCollider, current_sector,
 			&transform_newpos, &transform_oldpos);
     }
+
     if (hits > 0)
     {
         float max_y = -1e9;
@@ -351,6 +355,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       // we won't really cross a portal.
       float height5 = (bottomSize.y + topSize.y) / 20.0;
       newpos.y += height5;
+
       transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
       	+ csVector3 (0, height5, 0));
       bool mirror = false;
@@ -515,8 +520,6 @@ int celPcCollisionDetection::CollisionDetect (
 
   int hits = 0;
   int j;
-  // This never changes during this function, calculate it early
-  csVector3 newpos=transform->GetO2TTranslation ();
 
   csCollisionPair* CD_contact;
 
@@ -564,38 +567,41 @@ int celPcCollisionDetection::CollisionDetect (
           csVector3 testpos;
           csVector3 line[2];
           csCollisionPair temppair;
+          csReversibleTransform temptrans(*old_transform);
+
 
           // Move the triangles from object space into world space
           temppair.a1 = transform->This2Other (CD_contact[j].a1+shift);
           temppair.b1 = transform->This2Other (CD_contact[j].b1+shift);
           temppair.c1 = transform->This2Other (CD_contact[j].c1+shift);
-	  if (meshWrapper->GetMovable()->IsFullTransformIdentity())
-	  {
-	    temppair.a2 = CD_contact[j].a2;
-	    temppair.b2 = CD_contact[j].b2;
-	    temppair.c2 = CD_contact[j].c2;
-	  }
-	  else
-	  {
-	    temppair.a2 = tr.This2Other (CD_contact[j].a2);
-	    temppair.b2 = tr.This2Other (CD_contact[j].b2);
-	    temppair.c2 = tr.This2Other (CD_contact[j].c2);
-	  }
-	  if (FindIntersection (temppair, line))
-	  {
-	    // Collided at this line segment. Pick a point in the middle of
-	    // the segment to test.
-            testpos=(line[0]+line[1])/2;
+          if (meshWrapper->GetMovable()->IsFullTransformIdentity())
+          {
+              temppair.a2 = CD_contact[j].a2;
+              temppair.b2 = CD_contact[j].b2;
+              temppair.c2 = CD_contact[j].c2;
           }
           else
           {
-            // No collision found, use the destination of the move.
-            testpos=newpos;
+              temppair.a2 = tr.This2Other (CD_contact[j].a2);
+              temppair.b2 = tr.This2Other (CD_contact[j].b2);
+              temppair.c2 = tr.This2Other (CD_contact[j].c2);
+          }
+          if (FindIntersection (temppair, line))
+          {
+              // Collided at this line segment. Pick a point in the middle of
+              // the segment to test.
+              testpos=(line[0]+line[1])/2;
+          }
+          else
+          {
+              // No collision found, use the destination of the move.
+              testpos=transform->GetO2TTranslation ();
+;
           }
 
           // This follows a line segment from start to finish and returns
           // the sector you are ultimately in.
-          CollisionSector = sector->FollowSegment (*old_transform,
+          CollisionSector = sector->FollowSegment (temptrans,
                         testpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
 
           // Iterate through all the sectors of the destination mesh,
