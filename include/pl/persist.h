@@ -89,5 +89,29 @@ struct iCelDataBuffer : public iBase
   virtual celData* GetData (int idx) const = 0;
 };
 
+SCF_VERSION (iCelPersistance, 0, 0, 1);
+
+/**
+ * This interface describes a module that can
+ * persist CEL data.
+ */
+struct iCelPersistance : public iBase
+{
+  /**
+   * Load an entity from the persistent data including
+   * all property classes. 'name' is a name relevant for
+   * the given type of persistance. It can be a filename
+   * for example (VFS).
+   */
+  virtual iCelEntity* LoadEntity (const char* name) = 0;
+
+  /**
+   * Save an entity to persistent data.
+   */
+  virtual bool SaveEntity (iCelEntity* entity, const char* name) = 0;
+};
+
+
+
 #endif // __CEL_PL_PERSIST__
 
