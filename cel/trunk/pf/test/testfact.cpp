@@ -19,6 +19,8 @@
 
 #include "cssysdef.h"
 #include "pf/test/testfact.h"
+#include "pl/entity.h"
+#include "bl/entity.h"
 
 //---------------------------------------------------------------------------
 
@@ -82,10 +84,19 @@ celPcTest::~celPcTest ()
 {
 }
 
+void celPcTest::SetEntity (iCelEntity* entity)
+{
+  celPcTest::entity = entity;
+}
+
 void celPcTest::PcTest::Print (const char* msg)
 {
-  printf ("%s\n", msg);
+  printf ("Print: %s\n", msg);
   fflush (stdout);
+  CS_ASSERT (scfParent->entity != NULL);
+  iCelBlEntity* ble = scfParent->entity->GetBlEntity ();
+  CS_ASSERT (ble != NULL);
+  ble->SendMessage ("print");
 }
 
 //---------------------------------------------------------------------------

@@ -60,6 +60,7 @@
 #include "pl/propclas.h"
 #include "pl/entity.h"
 #include "bl/bl.h"
+#include "pf/test.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -426,6 +427,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pl->RegisterPropertyClassFactory (pftest);
 
   iCelEntity* entity = pl->CreateEntity ();
+  iCelBlEntity* bl_entity = bl->CreateBlEntity ("printer");
+  entity->SetBlEntity (bl_entity);
   iCelPropertyClass* pc = pftest->CreatePropertyClass ("pctest");
   if (!pc)
   {
@@ -435,6 +438,9 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
   entity->GetPropertyClassList ()->Add (pc);
+  iPcTest* pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
+  pctest->Print ("Hello world!");
+  pctest->DecRef ();
 
   pftest->DecRef ();
   plugin_mgr->DecRef ();

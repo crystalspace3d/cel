@@ -23,16 +23,19 @@
 #include "csutil/csvector.h"
 #include "pl/propclas.h"
 
+struct iCelEntity;
+
 /**
  * A list of property classes.
  */
 class celPropertyClassList : public iCelPropertyClassList
 {
 private:
+  iCelEntity* parent_entity;
   csVector prop_classes;
 
 public:
-  celPropertyClassList ();
+  celPropertyClassList (iCelEntity* parent_entity);
   virtual ~celPropertyClassList ();
 
   SCF_DECLARE_IBASE;

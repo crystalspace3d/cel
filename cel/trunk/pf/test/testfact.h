@@ -27,6 +27,8 @@
 #include "pl/propfact.h"
 #include "pf/test.h"
 
+struct iCelEntity;
+
 /**
  * Factory for test.
  */
@@ -60,6 +62,7 @@ public:
 class celPcTest : public iCelPropertyClass
 {
 private:
+  iCelEntity* entity;
 
 public:
   celPcTest ();
@@ -68,7 +71,8 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctest"; }
-  virtual iCelEntity* GetEntity () { return NULL; }
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
 
   struct PcTest : public iPcTest
   {

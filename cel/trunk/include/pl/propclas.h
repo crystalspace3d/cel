@@ -42,6 +42,11 @@ struct iCelPropertyClass : public iBase
    * Get the parent entity associated with this property class.
    */
   virtual iCelEntity* GetEntity () = 0;
+
+  /**
+   * Set the entity for this property class.
+   */
+  virtual void SetEntity (iCelEntity* entity) = 0;
 };
 
 
