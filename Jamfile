@@ -36,7 +36,7 @@ prefix="$(INSTALLDIR.PREFIX)"
 exec_prefix="\${prefix}"
 version="0.1"
 # test for release/source directory
-if test -e "\${CEL}/include/pl/pl.h"; then
+if test -e "\${CEL}/include/physicallayer/pl.h"; then
   includedir="\${CEL}/include"
 else
   includedir="$(INSTALLDIR.INCLUDE)"
