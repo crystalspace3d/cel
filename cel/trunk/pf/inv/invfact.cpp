@@ -296,10 +296,55 @@ const char* celPcInventory::TestAddEntity (iCelEntity* entity)
   return NULL;
 }
 
-bool celPcInventory::TestCharacteristicChange (const char* charName, float oldValue, float newValue)
+bool celPcInventory::TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue)
 {
-  //@@@@@@@@@@@@@@@@@@@ TODO
+  constraint* c = FindConstraint (charName);
+  if (!c) return true;
+
+  if (!newLocalValue)
+  {
+    // If there is no new value then we allow this setting only if characteristic is not strict.
+    return !c->strict;
+  }
+
+  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
+  CS_ASSERT (pc != NULL);
+  iPcCharacteristics* pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  CS_ASSERT (pcchars != NULL);
+  float inh_val = pcchars->GetInheritedCharProperty (charName);
+  float old_local_value = pcchars->GetLocalCharProperty (charName);
+  pcchars->DecRef ();
+
+  float new_value = inh_val + *newLocalValue;
+  if (new_value < c->minValue || new_value > c->maxValue) return false;
+
+  float old_value = inh_val + old_local_value;
+  float current = c->currentValue;
+  current -= old_value;
+  current += new_value;
+  if (current > c->totalMaxValue) return false;
+
   return true;
+}
+
+void celPcInventory::Dump ()
+{
+  int i;
+  printf ("Constraints:\n");
+  for (i = 0 ; i < constraints.Length () ; i++)
+  {
+    constraint* c = (constraint*)constraints[i];
+    printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
+		    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
+		    c->currentValue, c->strict);
+  }
+  printf ("Entities:\n");
+  for (i = 0 ; i < contents.Length () ; i++)
+  {
+    iCelEntity* ent = (iCelEntity*)contents[i];
+    printf ("  '%s'\n", ent->GetName ());
+  }
+  fflush (stdout);
 }
 
 //---------------------------------------------------------------------------
@@ -349,7 +394,7 @@ bool celPcCharacteristics::SetCharProperty (const char* name, float value)
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
-    if (!inv->TestCharacteristicChange (name, c->value, value)) return false;
+    if (!inv->TestCharacteristicChange (entity, name, &value)) return false;
   }
 
   c->value = value;
@@ -358,8 +403,19 @@ bool celPcCharacteristics::SetCharProperty (const char* name, float value)
 
 float celPcCharacteristics::GetCharProperty (const char* name) const
 {
+  return GetLocalCharProperty (name) + GetInheritedCharProperty (name);
+}
+
+float celPcCharacteristics::GetLocalCharProperty (const char* name) const
+{
   charact* c = FindCharact (name);
   if (c) return c->value;
+  return 0;
+}
+
+float celPcCharacteristics::GetInheritedCharProperty (const char* name) const
+{
+  // @@@ NOT YET IMPLEMENTED
   return 0;
 }
 
@@ -369,9 +425,16 @@ bool celPcCharacteristics::HasProperty (const char* name) const
   return c != NULL;
 }
 
-void celPcCharacteristics::ClearProperty (const char* name)
+bool celPcCharacteristics::ClearProperty (const char* name)
 {
   int i;
+  // Test if the inventories are not violated.
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    if (!inv->TestCharacteristicChange (entity, name, NULL)) return false;
+  }
+
   for (i = 0 ; i < chars.Length () ; i++)
   {
     charact* c = (charact*)chars[i];
@@ -380,9 +443,10 @@ void celPcCharacteristics::ClearProperty (const char* name)
       chars.Delete (i);
       delete[] c->name;
       delete c;
-      return;
+      return true;
     }
   }
+  return true;
 }
 
 void celPcCharacteristics::ClearAll ()

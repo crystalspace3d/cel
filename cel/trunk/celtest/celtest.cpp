@@ -62,6 +62,8 @@
 #include "bl/bl.h"
 #include "pf/test.h"
 #include "pf/mesh.h"
+#include "pf/inv.h"
+#include "pf/chars.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -310,6 +312,22 @@ iCelPropertyClassFactory* CelTest::LoadPcFactory (const char* pcfactname)
   return pf;
 }
 
+iCelPropertyClass* CelTest::CreatePropertyClass (iCelEntity* entity, iCelPropertyClassFactory* pf,
+		const char* name)
+{
+  iCelPropertyClass* pc = pf->CreatePropertyClass (name);
+  if (!pc)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"Factory doesn't seem to support '%s' property class!", name);
+    return NULL;
+  }
+  entity->GetPropertyClassList ()->Add (pc);
+  pc->DecRef ();
+  return pc;
+}
+
 bool CelTest::LoadMeshFactory (const char* fileName)
 {
   iMeshFactoryWrapper* imeshfact = loader->LoadMeshObjectFactory (fileName);
@@ -470,36 +488,93 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   CreateRoom ();
 
-  iCelEntity* entity = pl->CreateEntity ();
-  iCelBlEntity* bl_entity = bl->CreateBlEntity ("printer");
-  entity->SetBlEntity (bl_entity);
-  iCelPropertyClass* pc = pftest->CreatePropertyClass ("pctest");
-  if (!pc)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celtest",
-    	"'pftest' doesn't seem to support 'pctest' property class!");
-    return false;
-  }
-  entity->GetPropertyClassList ()->Add (pc);
+  iCelEntity* entity_box, * entity_dummy1, * entity_dummy2, * entity_dummy3, * entity_dummy4;
+  iCelPropertyClass* pc;
+  iPcCharacteristics* pcchars;
+  
+  //===============================
+  // Create the box entity.
+  //===============================
+  entity_box = pl->CreateEntity ();
+  entity_box->SetBlEntity (bl->CreateBlEntity ("printer"));
+
+  pc = CreatePropertyClass (entity_box, pftest, "pctest");
+  if (!pc) return false;
   iPcTest* pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
   pctest->Print ("Hello world!");
   pctest->DecRef ();
 
-  pc = pfmesh->CreatePropertyClass ("pcmesh");
-  if (!pc)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celtest",
-    	"'pfmesh' doesn't seem to support 'pcmesh' property class!");
-    return false;
-  }
-  entity->GetPropertyClassList ()->Add (pc);
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmesh");
+  if (!pc) return false;
   iPcMesh* pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
   pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
   pcmesh->MoveMesh (room, csVector3 (0));
   pcmesh->DecRef ();
 
+  pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
+  if (!pc) return false;
+  iPcInventory* pcinv = SCF_QUERY_INTERFACE (pc, iPcInventory);
+  pcinv->SetConstraints ("size", 0, 10, 100);
+  pcinv->SetConstraints ("weight", 0, .5, 1000000);
+  pcinv->SetStrictCharacteristics ("size", true);
+
+  //===============================
+  // Create four dummy entities.
+  //===============================
+  entity_dummy1 = pl->CreateEntity (); entity_dummy1->SetName ("dummy1");
+  entity_dummy1->SetBlEntity (bl->CreateBlEntity ("printer"));
+  pc = CreatePropertyClass (entity_dummy1, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars->SetCharProperty ("size", 3);
+  pcchars->SetCharProperty ("weight", .3);
+  pcchars->DecRef ();
+
+  entity_dummy2 = pl->CreateEntity (); entity_dummy2->SetName ("dummy2");
+  entity_dummy2->SetBlEntity (bl->CreateBlEntity ("printer"));
+  pc = CreatePropertyClass (entity_dummy2, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars->SetCharProperty ("size", 3);
+  pcchars->SetCharProperty ("weight", .8);
+  pcchars->DecRef ();
+ 
+  entity_dummy3 = pl->CreateEntity (); entity_dummy3->SetName ("dummy3");
+  entity_dummy3->SetBlEntity (bl->CreateBlEntity ("printer"));
+  pc = CreatePropertyClass (entity_dummy3, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars->SetCharProperty ("weight", .2);
+  pcchars->DecRef ();
+ 
+  entity_dummy4 = pl->CreateEntity (); entity_dummy4->SetName ("dummy4");
+  entity_dummy4->SetBlEntity (bl->CreateBlEntity ("printer"));
+  pc = CreatePropertyClass (entity_dummy4, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars->SetCharProperty ("size", 5);
+  pcchars->SetCharProperty ("weight", .3);
+  pcchars->DecRef ();
+ 
+  //===============================
+  // Try adding them to the inventory.
+  //===============================
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy1)) printf ("Entity 1 added!\n");
+  else printf ("Entity 1 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy2)) printf ("Entity 2 added!\n");
+  else printf ("Entity 2 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy3)) printf ("Entity 3 added!\n");
+  else printf ("Entity 3 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy4)) printf ("Entity 4 added!\n");
+  else printf ("Entity 4 NOT added!\n");
+  pcinv->Dump ();
+  pcinv->DecRef ();
+
+  //===============================
   pftest->DecRef ();
   pfmesh->DecRef ();
   pfinv->DecRef ();

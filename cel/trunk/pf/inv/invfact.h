@@ -100,7 +100,8 @@ public:
   void RemoveConstraints (const char* charName);
   float GetCurrentCharacteristic (const char* charName) const;
   const char* TestAddEntity (iCelEntity* entity);
-  bool TestCharacteristicChange (const char* charName, float oldValue, float newValue);
+  bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue);
+  void Dump ();
 
   SCF_DECLARE_IBASE;
 
@@ -161,9 +162,13 @@ public:
     {
       return scfParent->TestAddEntity (entity);
     }
-    virtual bool TestCharacteristicChange (const char* charName, float oldValue, float newValue)
+    virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue)
     {
-      return scfParent->TestCharacteristicChange (charName, oldValue, newValue);
+      return scfParent->TestCharacteristicChange (entity, charName, newLocalValue);
+    }
+    virtual void Dump ()
+    {
+      scfParent->Dump ();
     }
   } scfiPcInventory;
 };
@@ -193,7 +198,9 @@ public:
 
   bool SetCharProperty (const char* name, float value);
   float GetCharProperty (const char* name) const;
-  void ClearProperty (const char* name);
+  float GetLocalCharProperty (const char* name) const;
+  float GetInheritedCharProperty (const char* name) const;
+  bool ClearProperty (const char* name);
   bool HasProperty (const char* name) const;
   void ClearAll ();
   void AddToInventory (iPcInventory* inv);
@@ -216,9 +223,17 @@ public:
     {
       return scfParent->GetCharProperty (name);
     }
-    virtual void ClearProperty (const char* name)
+    virtual float GetLocalCharProperty (const char* name) const
     {
-      scfParent->ClearProperty (name);
+      return scfParent->GetLocalCharProperty (name);
+    }
+    virtual float GetInheritedCharProperty (const char* name) const
+    {
+      return scfParent->GetInheritedCharProperty (name);
+    }
+    virtual bool ClearProperty (const char* name)
+    {
+      return scfParent->ClearProperty (name);
     }
     virtual bool HasProperty (const char* name) const
     {

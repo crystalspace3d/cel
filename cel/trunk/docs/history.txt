@@ -1,3 +1,9 @@
+29-Oct-2001:
+	- Basic inventory handling seems to work now. Celtest demonstrates
+	  (in text form only at the moment) one box entity and four
+	  dummy entities. Two of them fit and the two others don't.
+	  Some provisions are made for inherited characteristics
+	  but this is not fully implemented yet.
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object

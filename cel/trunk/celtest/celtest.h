@@ -31,8 +31,10 @@ struct iEvent;
 struct iSector;
 struct iView;
 
+struct iCelEntity;
 struct iCelPlLayer;
 struct iCelBlLayer;
+struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
 #define OBJ_SPARKBOX "sparkbox"
@@ -61,6 +63,8 @@ private:
   bool LoadTexture (const char* txtName, const char* fileName);
   bool LoadMeshFactory (const char* fileName);
   iCelPropertyClassFactory* LoadPcFactory (const char* pcfactname);
+  iCelPropertyClass* CreatePropertyClass (iCelEntity* entity, iCelPropertyClassFactory* pf,
+		const char* name);
   void CreateObject (int x, int y, int z, const char* obj);
   void CreateRoom ();
 

@@ -41,14 +41,29 @@ struct iPcCharacteristics : public iBase
   virtual bool SetCharProperty (const char* name, float value) = 0;
 
   /**
-   * Get characteristic property.
+   * Get characteristic property. This includes inherited
+   * characteristics.
    */
   virtual float GetCharProperty (const char* name) const = 0;
 
   /**
-   * Clear a property.
+   * Get local characteristic property. This ignores inherited
+   * characteristics.
    */
-  virtual void ClearProperty (const char* name) = 0;
+  virtual float GetLocalCharProperty (const char* name) const = 0;
+
+  /**
+   * Get inherited characteristic property. This ignores local
+   * characteristic value.
+   */
+  virtual float GetInheritedCharProperty (const char* name) const = 0;
+
+  /**
+   * Clear a characteristic. This can fail if the object is currently
+   * in an inventory which requires strict presence of this
+   * characteristic.
+   */
+  virtual bool ClearProperty (const char* name) = 0;
 
   /**
    * Returns true if a property is present.
