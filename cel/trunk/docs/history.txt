@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+15-Jan-2004
+	- Jorrit fixed another bug reported by valgrind in pctimer.
 14-Jan-2004
 	- Jorrit did the following changes to the XML behaviour
 	  layer:
