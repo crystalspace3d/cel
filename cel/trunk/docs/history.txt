@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+7-Jan-2004
+	- Keith added velocity handling for sprcal3d to linmove DR msg handling.
 5-Jan-2004
 	- Eric Sunshine fixed compilation bug.  celPcDynamicBody was trying to
 	  invoke iPcMesh::IncRef() and DecRef() (via csRef<>) before the
