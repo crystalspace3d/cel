@@ -1797,7 +1797,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		if (alen || blen)
 		{
 		  if (!blen)
-	            top.SetString (astr, true);
+	            ; // top already contains the right string.
 		  else if (!alen)
 	            top.SetString (bstr, true);
 		  else
