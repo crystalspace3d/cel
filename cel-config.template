@@ -1,4 +1,17 @@
 
+showlibs ()
+{
+  echo
+  echo Libraries:
+
+  for lib in $libs ;
+  do
+    echo "  $lib"
+  done
+
+  [ -z "$libs" ] && echo No libraries available.
+}
+
 usage()
 {
   cat <<__EOF__
@@ -9,12 +22,40 @@ Options:
 	[--version]
 	[--libs]
 	[--cflags]
+	[--lflags]
 	[--plugindir]
 	[--help]
 
 Note that you have to also include the output of cs-config when compiling cel
 applications.
 __EOF__
+
+showlibs
+}
+
+linkflags()
+{
+  entry_found="no"
+  result=""
+
+  for entry in ${exportsummary} ;
+  do
+    if test "${entry_found}" = "yes" ; then 
+      result=$entry
+      break
+    fi
+    if test "$1" = "$entry" ; then 
+      entry_found="yes"
+    fi
+  done
+
+  if test "${entry_found}" = "yes" -a -n "${CEL}" ; then
+    result=${CEL}/${result}
+  fi
+
+  if test "${entry_found}" = "yes" ; then
+    result="-L${result} -l$1"
+  fi
 }
 
 if test $# -eq 0; then
@@ -52,6 +93,9 @@ while test $# -gt 0; do
     --cflags)
         show_cflags=true
         ;;
+    --lflags)
+        show_lflags=true
+        ;;
     *)
 	echo "Unknown option $1"
 	usage
@@ -65,5 +109,14 @@ if test -n "$show_cflags"; then
 fi
 if test -n "$show_libs"; then
 	echo "$libs"
+fi
+if test -n "$show_lflags"; then
+	lflags=""
+	for lib in $libs ;
+        do
+	 linkflags $lib
+         lflags="$lflags $result"
+        done
+	echo "$lflags"
 fi
 
