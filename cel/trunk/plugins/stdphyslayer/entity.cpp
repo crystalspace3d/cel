@@ -34,6 +34,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
   SCF_IMPLEMENTS_INTERFACE (iCelEntity)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+CS_LEAKGUARD_IMPLEMENT (celEntity)
+
 celEntity::celEntity (celPlLayer* pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
