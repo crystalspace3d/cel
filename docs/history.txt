@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  a lot more cleanup though. I also seperated the public include
 	  file so that you can actually include from it.
 	  This is untested code (from my point of view at least).
+	- Jorrit did more cleanups to the new AI pathfinding class and
+	  also added a small testcase to celtest.
 6-Jul-2003
 	- Jorrit fixed the problem with GetPythonObject(). It now calls
 	  Py_INCREF() on the returned python object so that it is

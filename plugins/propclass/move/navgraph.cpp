@@ -70,6 +70,7 @@
 
 // Use debugging function from movefact
 extern void Report (iObjectRegistry* object_reg, const char* msg, ...);
+extern void Notify (iObjectRegistry* object_reg, const char* msg, ...);
 
 /*
  * Implement NavLink
@@ -183,7 +184,7 @@ celPcNavGraphRules::celPcNavGraphRules (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraphRules);
   DG_TYPE (this, "celPcNavGraphRules()");
-  Report (object_reg,"Created a Nav Graph Rules object");
+  Notify (object_reg, "Created a Nav Graph Rules object");
 }
 
 celPcNavGraphRules::~celPcNavGraphRules ()
@@ -226,7 +227,7 @@ celPcNavGraph::celPcNavGraph (iObjectRegistry* object_reg)
   navgraphrules = 0;
   region = 0;
 
-  Report (object_reg,"Created a Graph object");
+  Notify (object_reg, "Created a Graph object");
 }
 
 celPcNavGraph::~celPcNavGraph ()
@@ -280,43 +281,43 @@ int celPcNavGraph::Dump()  // Debug info
 
   int i;
 
-  Report (object_reg, "Graph Dump ============================",
+  Notify (object_reg, "Graph Dump ============================",
     aLinks.Length());
 
   if (navgraphrules)
-    Report (object_reg, "NavGraphRules set");
+    Notify (object_reg, "NavGraphRules set");
   else
-    Report (object_reg, "NavGraphRules not set");
+    Notify (object_reg, "NavGraphRules not set");
 
   if (region)
-    Report (object_reg, "Region set");
+    Notify (object_reg, "Region set");
   else
-    Report (object_reg, "Region not set");
+    Notify (object_reg, "Region not set");
 
-  Report (object_reg, "Link Information: %d Links----------", aLinks.Length());
+  Notify (object_reg, "Link Information: %d Links----------", aLinks.Length());
 
     
   for (i=0; i < aLinks.Length() ; i++)
   {
     iPcNavLink* link = aLinks[i];
 
-    Report (object_reg, "link %d - OK? %d, Length: %f, Data %d", i, link != 0, 
+    Notify (object_reg, "link %d - OK? %d, Length: %f, Data %d", i, link != 0, 
                 link->GetLength(), link->GetLinkInfo());
   }
     
     
-  Report (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
+  Notify (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
 
   for (i=0; i < aNodes.Length() ; i++)
   {
     iPcNavNode* node = aNodes[i];
 
     csVector3 pos = node->GetPos();
-    Report (object_reg, "Node %d - OK? %d, Pos: %f, %f, %f Links: %d", i,
+    Notify (object_reg, "Node %d - OK? %d, Pos: %f, %f, %f Links: %d", i,
       node !=0, pos.x, pos.y, pos.z, node->GetLinkCount());
   }
 
-  Report (object_reg, "END Graph Dump ========================",
+  Notify (object_reg, "END Graph Dump ========================",
     aLinks.Length());
 
   return 0;
@@ -342,7 +343,7 @@ int celPcNavGraph::LoadNodesFromRegion( char* regionname )
   while (iter->HasNext ())
   {
     iObject* o = iter->Next ();
-    Report (object_reg, "Found an object in this region: %s", o->GetName());
+    Notify (object_reg, "Found an object in this region: %s", o->GetName());
 
     // Check if object is a PcNavNode type
     csRef<iPcNavNode> navnode = SCF_QUERY_INTERFACE (o, iPcNavNode);
@@ -378,7 +379,7 @@ int celPcNavGraph::LinkNodes ()
   iCelPropertyClass* pc;
 
   numnodes = aNodes.Length();
-  Report (object_reg, "Iterating across %d Nodes", numnodes );
+  Notify (object_reg, "Iterating across %d Nodes", numnodes );
 
   for (i=0; i < numnodes; i++)
   {
@@ -399,13 +400,13 @@ int celPcNavGraph::LinkNodes ()
 
         aLinks.Push (pclink);          // Add the link to the graph
         aNodes[i]->AddLink( pclink );  // Add the link to the source node
-        //Report( object_reg, "Created link between %d, %d dist %f", i, j,
+        //Notify( object_reg, "Created link between %d, %d dist %f", i, j,
 	//  pclink->GetLength() );
       }
     }
   }
 
-  Report (object_reg, "Finished creating links");
+  Notify (object_reg, "Finished creating links");
 
   return 0;
 }
@@ -475,7 +476,7 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
 
   LinkNodes();        // Create the default set of links
 
-  Report (object_reg, "Traversing %d links", aLinks.Length());
+  Notify (object_reg, "Traversing %d links", aLinks.Length());
 
   // for all links
   for (i=0; i < aLinks.Length(); i++)
@@ -502,26 +503,26 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
 int celPcNavGraphRules::TraverseLink (celPcNavGraph* graph, iSector* sector,
 	iPcNavLink* plink, iCelEntity* ent)
 {
-  Report( object_reg, "Navrules - Traverselink");
+  Notify( object_reg, "Navrules - Traverselink");
   return 0; //@@@???
 }
 
 void celPcNavGraphRules::OptimiseGraph (celPcNavGraph* graph)
 {
-  Report (object_reg, "Navrules - OptimiseGraph");
+  Notify (object_reg, "Navrules - OptimiseGraph");
 }
 
 int celPcNavGraphRules::FindShortestPath (celPcNavGraph* graph,
 	int iNodeStart, int iNodeEnd, int* &ipath)
 {
-  Report( object_reg, "Navrules - FindShortestPath");
+  Notify( object_reg, "Navrules - FindShortestPath");
   return 0;
 }
 
 int celPcNavGraphRules::FindNearestNode (celPcNavGraph* graph,
 	csVector3* point, iSector* sector, iCelEntity* ent)
 {
-  Report( object_reg, "Navrules - FindNearestNode");
+  Notify( object_reg, "Navrules - FindNearestNode");
   return 0; //@@@???
 }
 
