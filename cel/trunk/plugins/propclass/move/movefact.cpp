@@ -652,8 +652,8 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   db.Set (weight);
   db.Set (current_speed);
   db.Set (infinite_forces);
-  db.SetBool (is_resting);
-  db.SetBool (active);
+  db.Set (is_resting);
+  db.Set (active);
 
   db.Set ((uint16)forces.Length ());
   size_t i;

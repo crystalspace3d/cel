@@ -94,7 +94,7 @@ csPtr<iCelDataBuffer> celPcTooltip::Save ()
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TOOLTIP_SERIAL));
   databuf->SetDataCount (10);
-  databuf->GetData (0)->SetBool (visible);
+  databuf->GetData (0)->Set (visible);
   databuf->GetData (1)->Set ((uint16)x);
   databuf->GetData (2)->Set ((uint16)y);
   databuf->GetData (3)->Set (text);
@@ -287,12 +287,12 @@ csPtr<iCelDataBuffer> celPcTimer::Save ()
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TIMER_SERIAL));
   databuf->SetDataCount (6);
-  databuf->GetData (0)->SetBool (enabled);
+  databuf->GetData (0)->Set (enabled);
   databuf->GetData (1)->Set ((int32)wakeup);
   databuf->GetData (2)->Set ((int32)wakeup_todo);
-  databuf->GetData (3)->SetBool (repeat);
-  databuf->GetData (4)->SetBool (wakeupframe);
-  databuf->GetData (5)->SetBool (wakeuponce);
+  databuf->GetData (3)->Set (repeat);
+  databuf->GetData (4)->Set (wakeupframe);
+  databuf->GetData (5)->Set (wakeuponce);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -648,7 +648,7 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
         databuf->GetData (j++)->Set ((int32)p->v.l);
 	break;
       case CEL_DATA_BOOL:
-        databuf->GetData (j++)->SetBool (p->v.b);
+        databuf->GetData (j++)->Set (p->v.b);
 	break;
       case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);

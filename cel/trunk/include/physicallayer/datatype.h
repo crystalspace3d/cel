@@ -99,7 +99,7 @@ struct celData
   /**
    * Initialize and set the value.
    */
-  void SetBool (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
+  void Set (bool v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
   void Set (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }
   void Set (uint8 v) { Clear (); type = CEL_DATA_UBYTE; value.ub = v; }
   void Set (int16 v) { Clear (); type = CEL_DATA_WORD; value.w = v; }
