@@ -67,9 +67,7 @@ struct iCelEntity : public iBase
 };
 
 %{
-iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY(object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name) {
   csRef<iCelEntity> en(pl->CreateEntity());
   if(!en.IsValid()) return 0;
   en->SetName(name);
@@ -77,7 +75,7 @@ iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
   return en;
 }
 %}
-iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name);
+iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name);
 
 %{
 iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
