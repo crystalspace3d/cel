@@ -838,6 +838,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-x                use the X Window System
   --with-cs-prefix=PFX    Prefix where Crystal Space is installed (optional)
+  --with-python           use Python scripting interface (default YES)
 
 Some influential environment variables:
   CC          C compiler command
@@ -4146,8 +4147,6 @@ cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE
 "
 
 
-
-
 for ac_prog in python
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -4194,7 +4193,19 @@ if test -n "$PYTHON"; then
 fi
 
 
-if test -n "$PYTHON"; then
+
+# Check whether --with-python or --without-python was given.
+if test "${with_python+set}" = set; then
+  withval="$with_python"
+
+fi;
+if test -z "$with_python"; then
+  with_python=yes
+fi
+
+
+if test "$with_python" != no; then
+  if test -n "$PYTHON"; then
   echo "$as_me:$LINENO: checking for python distutils module" >&5
 echo $ECHO_N "checking for python distutils module... $ECHO_C" >&6
 if test "${cs_cv_python_distutils+set}" = set; then
@@ -4213,7 +4224,7 @@ fi
 fi
 echo "$as_me:$LINENO: result: $cs_cv_python_distutils" >&5
 echo "${ECHO_T}$cs_cv_python_distutils" >&6
-    if test $cs_cv_python_distutils = yes; then
+	if test $cs_cv_python_distutils = yes; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.DISTUTILS ?= \"yes\" ;
 "
 fi
@@ -4223,69 +4234,73 @@ else
 fi
 
 
-echo "$as_me:$LINENO: checking for python SDK" >&5
+    echo "$as_me:$LINENO: checking for python SDK" >&5
 echo $ECHO_N "checking for python SDK... $ECHO_C" >&6
 if test "${cs_cv_python_sdk+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cs_cv_python_sdk=no
-    cs_python_lib_dir=''
-    cs_python_makefile=''
+	cs_pylib_dir=''
+	cs_python_makefile=''
 
-    if test -n "$PYTHON"; then
+	if test -n "$PYTHON"; then
   # Python 2.x?
-	if test $cs_cv_python_distutils = yes; then
-  cs_cv_python_base=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
-		'import distutils.sysconfig ; import os.path ; \\
-		print os.path.basename( \\
-		    distutils.sysconfig.get_python_lib(0,1))'") >&5
+	    if test $cs_cv_python_distutils = yes; then
+  cs_cv_pybase=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
+		    'import distutils.sysconfig ; import os.path ; \\
+		    print os.path.basename( \\
+			distutils.sysconfig.get_python_lib(0,1))'") >&5
   ($PYTHON -c \
-		'import distutils.sysconfig ; import os.path ; \
-		print os.path.basename( \
-		    distutils.sysconfig.get_python_lib(0,1))') 2>&5
+		    'import distutils.sysconfig ; import os.path ; \
+		    print os.path.basename( \
+			distutils.sysconfig.get_python_lib(0,1))') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_cv_python_base_cflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
-		'import distutils.sysconfig ; \\
-		print \"-I\"+distutils.sysconfig.get_python_inc()'") >&5
+		cs_cv_pybase_cflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
+		    'import distutils.sysconfig ; \\
+		    print \"-I\"+distutils.sysconfig.get_python_inc()'") >&5
   ($PYTHON -c \
-		'import distutils.sysconfig ; \
-		print "-I"+distutils.sysconfig.get_python_inc()') 2>&5
+		    'import distutils.sysconfig ; \
+		    print "-I"+distutils.sysconfig.get_python_inc()') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_cv_python_base_lflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
-		'import distutils.sysconfig ; import os.path ; \\
-		print \"-L\"+distutils.sysconfig.get_python_lib(0,1)+\" \"+ \\
-		    \"-L\"+distutils.sysconfig.get_python_lib(0,1)+\"/config\"'") >&5
+		cs_cv_pybase_lflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
+		    'import distutils.sysconfig ; import os.path ; \\
+		    print \"-L\"+distutils.sysconfig.get_python_lib(0,1)+\" \"+ \\
+			\"-L\"+distutils.sysconfig.get_python_lib(0,1)+ \\
+			\"/config\"'") >&5
   ($PYTHON -c \
-		'import distutils.sysconfig ; import os.path ; \
-		print "-L"+distutils.sysconfig.get_python_lib(0,1)+" "+ \
-		    "-L"+distutils.sysconfig.get_python_lib(0,1)+"/config"') 2>&5
+		    'import distutils.sysconfig ; import os.path ; \
+		    print "-L"+distutils.sysconfig.get_python_lib(0,1)+" "+ \
+			"-L"+distutils.sysconfig.get_python_lib(0,1)+ \
+			"/config"') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_cv_python_base_libs=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
-		'import distutils.sysconfig ; \\
-		print distutils.sysconfig.get_config_var(\"LIBS\") + \" \" + \\
-		distutils.sysconfig.get_config_var(\"SYSLIBS\")'") >&5
+		cs_cv_pybase_libs=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
+		    'import distutils.sysconfig ; \\
+		    print (distutils.sysconfig.get_config_var(\"LIBS\") or \"\")+ \\
+			\" \" + (distutils.sysconfig.get_config_var(\"SYSLIBS\") \\
+			or \"\")'") >&5
   ($PYTHON -c \
-		'import distutils.sysconfig ; \
-		print distutils.sysconfig.get_config_var("LIBS") + " " + \
-		distutils.sysconfig.get_config_var("SYSLIBS")') 2>&5
+		    'import distutils.sysconfig ; \
+		    print (distutils.sysconfig.get_config_var("LIBS") or "")+ \
+			" " + (distutils.sysconfig.get_config_var("SYSLIBS") \
+			or "")') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_cv_python_base_cflags=`echo x$cs_cv_python_base_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	    cs_cv_python_base_lflags=`echo x$cs_cv_python_base_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	    cs_cv_python_base_libs=`echo x$cs_cv_python_base_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	    cs_cv_python_sdk=yes
+		cs_cv_pybase_cflags=`echo x$cs_cv_pybase_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		cs_cv_pybase_lflags=`echo x$cs_cv_pybase_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		cs_cv_pybase_libs=`echo x$cs_cv_pybase_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		cs_cv_python_sdk=yes
 fi
 
 
-	# Not Python 2.x; try Python 1.x.
-	if test $cs_cv_python_sdk != yes; then
+	    # Not Python 2.x; try Python 1.x.
+	    if test $cs_cv_python_sdk != yes; then
   cs_python_paths=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 'import sys
 for p in sys.path: print p'") >&5
@@ -4295,108 +4310,108 @@ for p in sys.path: print p') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    if test -n "$cs_python_paths"; then
+		if test -n "$cs_python_paths"; then
   for cs_pypath in $cs_python_paths
-		do
-		    cs_pypath=`echo $cs_pypath | sed 's:/$::'`
-		    if test -f $cs_pypath/config/Makefile; then
-  cs_python_lib_dir=$cs_pypath
-			cs_python_makefile=$cs_pypath/config/Makefile
-			break
+		    do
+			cs_pypath=`echo $cs_pypath | sed 's:/$::'`
+			if test -f $cs_pypath/config/Makefile; then
+  cs_pylib_dir=$cs_pypath
+			    cs_python_makefile=$cs_pypath/config/Makefile
+			    break
 fi
 
-		done
+		    done
 fi
 
 fi
 
 else
-  # Unable to query missing Python executable or query failed, so try
-	# PYTHON_LIB and well-known locations.
-	if test -n "$PYTHON_LIB"; then
-  cs_python_lib_dir=$PYTHON_LIB
-	    if test -f $PYTHON_LIB/config/Makefile; then
+  # Unable to query missing Python executable or query failed, so
+	    # try PYTHON_LIB and well-known locations.
+	    if test -n "$PYTHON_LIB"; then
+  cs_pylib_dir=$PYTHON_LIB
+		if test -f $PYTHON_LIB/config/Makefile; then
   cs_python_makefile=$PYTHON_LIB/config/Makefile
 fi
 
 else
   for cs_pypath in /usr/local/python /usr/local /usr
-	    do
-		# If multiple Python subdirectories exists in a given path,
-		# we choose the last one since it probably has the highest
-		# version number (that is, do not "break" from the loop).
-		for cs_pydir in $cs_pypath/lib/python*
 		do
-		    if test -f $cs_pydir/config/Makefile; then
-  cs_python_lib_dir=$cs_pydir
-			cs_python_makefile=$cs_pydir/config/Makefile
+		    # If multiple Python subdirectories exists in a given path,
+		    # we choose the last one since it probably has the highest
+		    # version number (that is, do not "break" from the loop).
+		    for cs_pydir in $cs_pypath/lib/python*
+		    do
+			if test -f $cs_pydir/config/Makefile; then
+  cs_pylib_dir=$cs_pydir
+			    cs_python_makefile=$cs_pydir/config/Makefile
 fi
 
+		    done
 		done
-	    done
 fi
 
 fi
 
 
-    # If compiler and linker flags not yet determined but resource directory
-    # and makefile located, then try extracting information from Python
-    # makefile.
-    if test $cs_cv_python_sdk != yes; then
+	# If compiler and linker flags not yet determined but resource
+	# directory and makefile located, then try extracting information from
+	# Python makefile.
+	if test $cs_cv_python_sdk != yes; then
   if test -n "$cs_python_makefile"; then
   cs_pylibs=`{ (echo "$as_me:$LINENO: grep '^LIBS[ 	]*=' \$cs_python_makefile | \\
-		    sed 's/LIBS[ 	]*=//'") >&5
+			sed 's/LIBS[ 	]*=//'") >&5
   (grep '^LIBS[ 	]*=' $cs_python_makefile | \
-		    sed 's/LIBS[ 	]*=//') 2>&5
+			sed 's/LIBS[ 	]*=//') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_pylibm=`{ (echo "$as_me:$LINENO: grep '^LIBM[ 	]*=' \$cs_python_makefile | \\
-		    sed 's/LIBM[ 	]*=//'") >&5
+		cs_pylibm=`{ (echo "$as_me:$LINENO: grep '^LIBM[ 	]*=' \$cs_python_makefile | \\
+			sed 's/LIBM[ 	]*=//'") >&5
   (grep '^LIBM[ 	]*=' $cs_python_makefile | \
-		    sed 's/LIBM[ 	]*=//') 2>&5
+			sed 's/LIBM[ 	]*=//') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
-	    cs_pylibc=`{ (echo "$as_me:$LINENO: grep '^LIBC[ 	]*=' \$cs_python_makefile | \\
-		    sed 's/LIBC[ 	]*=//'") >&5
+		cs_pylibc=`{ (echo "$as_me:$LINENO: grep '^LIBC[ 	]*=' \$cs_python_makefile | \\
+			sed 's/LIBC[ 	]*=//'") >&5
   (grep '^LIBC[ 	]*=' $cs_python_makefile | \
-		    sed 's/LIBC[ 	]*=//') 2>&5
+			sed 's/LIBC[ 	]*=//') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
 fi
 
 
-	# Construct CFLAGS and LFLAGS
-	if test -n "$cs_python_lib_dir"; then
-  cs_cv_python_base=`$as_basename $cs_python_lib_dir ||
-$as_expr X/$cs_python_lib_dir : '.*/\([^/][^/]*\)/*$' \| \
-	 X$cs_python_lib_dir : 'X\(//\)$' \| \
-	 X$cs_python_lib_dir : 'X\(/\)$' \| \
+	    # Construct CFLAGS and LFLAGS
+	    if test -n "$cs_pylib_dir"; then
+  cs_cv_pybase=`$as_basename $cs_pylib_dir ||
+$as_expr X/$cs_pylib_dir : '.*/\([^/][^/]*\)/*$' \| \
+	 X$cs_pylib_dir : 'X\(//\)$' \| \
+	 X$cs_pylib_dir : 'X\(/\)$' \| \
 	 .     : '\(.\)' 2>/dev/null ||
-echo X/$cs_python_lib_dir |
+echo X/$cs_pylib_dir |
     sed '/^.*\/\([^/][^/]*\)\/*$/{ s//\1/; q; }
   	  /^X\/\(\/\/\)$/{ s//\1/; q; }
   	  /^X\/\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
-	    if test -n "$cs_cv_python_base"; then
+		if test -n "$cs_cv_pybase"; then
   if test -n "$PYTHON_INC"; then
-  cs_python_inc_dir=$PYTHON_INC
+  cs_pyinc_dir=$PYTHON_INC
 else
-  cs_pyinc=`(dirname $cs_python_lib_dir) 2>/dev/null ||
-$as_expr X$cs_python_lib_dir : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-         X$cs_python_lib_dir : 'X\(//\)[^/]' \| \
-         X$cs_python_lib_dir : 'X\(//\)$' \| \
-         X$cs_python_lib_dir : 'X\(/\)' \| \
+  cs_pyinc=`(dirname $cs_pylib_dir) 2>/dev/null ||
+$as_expr X$cs_pylib_dir : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+         X$cs_pylib_dir : 'X\(//\)[^/]' \| \
+         X$cs_pylib_dir : 'X\(//\)$' \| \
+         X$cs_pylib_dir : 'X\(/\)' \| \
          .     : '\(.\)' 2>/dev/null ||
-echo X$cs_python_lib_dir |
+echo X$cs_pylib_dir |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
   	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
   	  /^X\(\/\/\)$/{ s//\1/; q; }
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
-		     cs_pyinc=`(dirname $cs_pyinc) 2>/dev/null ||
+			cs_pyinc=`(dirname $cs_pyinc) 2>/dev/null ||
 $as_expr X$cs_pyinc : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
          X$cs_pyinc : 'X\(//\)[^/]' \| \
          X$cs_pyinc : 'X\(//\)$' \| \
@@ -4408,19 +4423,19 @@ echo X$cs_pyinc |
   	  /^X\(\/\/\)$/{ s//\1/; q; }
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
-		    cs_python_inc_dir="$cs_pyinc/include/$cs_cv_python_base"
+			cs_pyinc_dir="$cs_pyinc/include/$cs_cv_pybase"
 fi
 
 
-		cs_cv_python_base_cflags="-I$cs_python_inc_dir"
-		cs_cv_python_base_lflags="-L$cs_python_lib_dir
-		    -L$cs_python_lib_dir/config"
-		cs_cv_python_base_libs="$cs_pylibs $cs_pylibm $cs_pylibc"
+		    cs_cv_pybase_cflags="-I$cs_pyinc_dir"
+		    cs_cv_pybase_lflags="-L$cs_pylib_dir
+			-L$cs_pylib_dir/config"
+		    cs_cv_pybase_libs="$cs_pylibs $cs_pylibm $cs_pylibc"
 
-		cs_cv_python_base_cflags=`echo x$cs_cv_python_base_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-		cs_cv_python_base_lflags=`echo x$cs_cv_python_base_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-		cs_cv_python_base_libs=`echo x$cs_cv_python_base_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-		cs_cv_python_sdk=yes
+		    cs_cv_pybase_cflags=`echo x$cs_cv_pybase_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		    cs_cv_pybase_lflags=`echo x$cs_cv_pybase_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		    cs_cv_pybase_libs=`echo x$cs_cv_pybase_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+		    cs_cv_python_sdk=yes
 fi
 
 fi
@@ -4431,15 +4446,16 @@ fi
 echo "$as_me:$LINENO: result: $cs_cv_python_sdk" >&5
 echo "${ECHO_T}$cs_cv_python_sdk" >&6
 
-# Check if Python SDK is usable.  Some distributions (such as the one shipped
-# with MacOS/X Jaguar which is missing the static link library) are broken.
-# The most common library name is the basename with a few decorations (for
-# example, "libpython2.2.a"), however some Windows libraries lack the decimal
-# point (for example, "libpython22.a" or "python22.lib"), so we must check for
-# both variations.
-cs_pylib1="-l$cs_cv_python_base"
-cs_pylib2=`echo "-l$cs_cv_python_base" | sed 's/\.//g'`
-if test "" != yes; then
+    # Check if Python SDK is usable.  Some distributions (such as the one
+    # shipped with MacOS/X Jaguar which is missing the static link library) are
+    # broken.  The most common library name is the basename with a few
+    # decorations (for example, "libpython2.2.a"), however some Windows
+    # libraries lack the decimal point (for example, "libpython22.a" or
+    # "python22.lib"), so we must check for both variations.
+    if test $cs_cv_python_sdk = yes; then
+  cs_pylib1="-l$cs_cv_pybase"
+	cs_pylib2=`echo "-l$cs_cv_pybase" | sed 's/\.//g'`
+	if test "" != yes; then
   echo "$as_me:$LINENO: checking if python SDK is usable" >&5
 echo $ECHO_N "checking if python SDK is usable... $ECHO_C" >&6
 if test "${cs_cv_python+set}" = set; then
@@ -4456,7 +4472,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
     cs_libs_save="$LIBS"
     cs_build_ok=no
 
-    for cs_build_item in `echo @@@$cs_pylib1 | sed 'y% %#%'` `echo @@@$cs_pylib2 | sed 'y% %#%'`
+    for cs_build_item in `echo @@@$cs_pylib1 | sed 'y% %#%'` \
+	    `echo @@@$cs_pylib2 | sed 'y% %#%'`
     do
 
     set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
@@ -4512,9 +4529,9 @@ fi
     cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
     cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
 
-	CFLAGS="$cs_cflags_test $cs_cv_python_base_cflags $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test $cs_cv_python_base_lflags $cs_lflags_save"
-	LIBS="$cs_libs_test $cs_cv_python_base_libs $cs_libs_save"
+	CFLAGS="$cs_cflags_test $cs_cv_pybase_cflags $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test $cs_cv_pybase_lflags $cs_lflags_save"
+	LIBS="$cs_libs_test $cs_cv_pybase_libs $cs_libs_save"
 	cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
@@ -4564,9 +4581,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
     if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test $cs_cv_python_base_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_python_base_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test $cs_cv_python_base_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  cs_build_cflags=`echo x$cs_cflags_test $cs_cv_pybase_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_pybase_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test $cs_cv_pybase_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_cv_python=yes
 		cs_cv_python_cflags=$cs_build_cflags
 		cs_cv_python_lflags=$cs_build_lflags
@@ -4592,7 +4609,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
     cs_libs_save="$LIBS"
     cs_build_ok=no
 
-    for cs_build_item in `echo @@@$cs_pylib1 | sed 'y% %#%'` `echo @@@$cs_pylib2 | sed 'y% %#%'`
+    for cs_build_item in `echo @@@$cs_pylib1 | sed 'y% %#%'` \
+	    `echo @@@$cs_pylib2 | sed 'y% %#%'`
     do
 
     set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
@@ -4648,9 +4666,9 @@ fi
     cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
     cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
 
-	CFLAGS="$cs_cflags_test $cs_cv_python_base_cflags $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test $cs_cv_python_base_lflags $cs_lflags_save"
-	LIBS="$cs_libs_test $cs_cv_python_base_libs $cs_libs_save"
+	CFLAGS="$cs_cflags_test $cs_cv_pybase_cflags $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test $cs_cv_pybase_lflags $cs_lflags_save"
+	LIBS="$cs_libs_test $cs_cv_pybase_libs $cs_libs_save"
 	cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
@@ -4700,9 +4718,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
     if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test $cs_cv_python_base_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_python_base_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test $cs_cv_python_base_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  cs_build_cflags=`echo x$cs_cflags_test $cs_cv_pybase_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_pybase_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test $cs_cv_pybase_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_cv_python=yes
 		cs_cv_python_cflags=$cs_build_cflags
 		cs_cv_python_lflags=$cs_build_lflags
@@ -4740,18 +4758,16 @@ else
 	:
 fi
 
-
-if test "$PYTHON" = yes; then
-
-  :
-
-else
-
-  :
+fi
 
 fi
 
 
+if test "$cs_cv_python" = yes; then
+  :
+else
+  :
+fi
 
 
 #----------------------------------------------------------------------------
