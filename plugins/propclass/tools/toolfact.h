@@ -149,6 +149,10 @@ private:
   static csStringID action_wakeupframe;
   static csStringID action_clear;
 
+  static csStringID id_elapsedticks;
+  static csStringID id_currentticks;
+  celGenericParameterBlock* params;
+
 public:
   celPcTimer (iObjectRegistry* object_reg);
   virtual ~celPcTimer ();

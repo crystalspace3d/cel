@@ -50,6 +50,12 @@ The history order is reversed so that new features are at the top.
 	  parsed by the new CEL_TOKEN_FUNCTION.
 	- Jorrit added 'abs', 'min', 'max', 'sign', 'intpol',
 	  'int', and 'float' functions to the XML behaviour layer.
+	- Jorrit added a new 'rand' function to the XML behaviour layer.
+	  Returns a random number.
+	- Jorrit added 'elapsedticks' and 'currentticks' parameters to the
+	  pctimer WakeUpFrame message.
+	- Jorrit replaced 'arg(' with 'param(' to be more consistent with
+	  the rest of CEL where it is called a parameter.
 2-Dec-2003
 	- Jorrit extended the XML behaviour layer to recognize identifiers
 	  as an easier way to make strings consisting only of '_',

@@ -82,7 +82,7 @@ enum
   CEL_OPERATION_CALCID,		// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPROPID,	// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPARID,	// A:-		S:S		OS:ID
-  CEL_OPERATION_ARG,		// A:-		S:ID		OS:?
+  CEL_OPERATION_PARAM,		// A:-		S:ID		OS:?
   CEL_OPERATION_ABS,		// A:-		S:?		OS:?
   CEL_OPERATION_MIN,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MAX,		// A:-		S:?,?		OS:?
@@ -90,6 +90,7 @@ enum
   CEL_OPERATION_INTPOL,		// A:-		S:F,?,?		OS:?
   CEL_OPERATION_INT,		// A:-		S:?		OS:I
   CEL_OPERATION_FLOAT,		// A:-		S:?		OS:F
+  CEL_OPERATION_RAND,		// A:-		S:?		OS:F
 
   CEL_OPERATION_FINALOP
 };
