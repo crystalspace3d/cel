@@ -207,6 +207,16 @@ struct iBillboard : public iBase
   virtual void StackBottom () = 0;
 
   /**
+   * Bring this billboard one closer to the top of the stack (first visible).
+   */
+  virtual void StackUp () = 0;
+
+  /**
+   * Bring this billboard one closer to the bottom of the stack.
+   */
+  virtual void StackDown () = 0;
+
+  /**
    * Set the top-left coordinate of the texture (default 0,0).
    * Range from 0,0 - 1,1.
    */

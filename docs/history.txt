@@ -8,6 +8,11 @@ The history order is reversed so that new features are at the top.
 	  This function will now automatically set the behaviour in
 	  the entity (i.e. call entity->SetBehaviour()) so it is no
 	  longer necessary to do this yourselves.
+	- Jorrit added iBillboard->StackUp() and iBillboard->StackDown().
+	- Jorrit added bb_up and bb_down commands to the XML behaviour
+	  layer. Also extended bb_up, bb_down, bb_tofront, bb_toback,
+	  and bb_move with an optional 'pc' parameter so you can call
+	  it on other entities with a billboard.
 30-Jan-2004
 	- Jorrit fixed CEL after latest lighting related CS changes
 	  (removal of DeferUpdateLighting).
