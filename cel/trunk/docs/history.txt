@@ -4,6 +4,11 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 28-Aug-2004
+	- Andrew Dai fixed a bug with movement through space warping
+	  portals caused by a change of behaviour in the
+	  iSector::FollowSegment() function.
+
+28-Aug-2004
 	- Jorrit fixed a bug in the physical layer when broadcasting
 	  TickOnce and TickEveryFrame. The problem was when in such
 	  a tick handler entities got removed and this causes the
