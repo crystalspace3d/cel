@@ -10,7 +10,7 @@
 #   properties in the Jamconfig file for them. We deal with stuff like
 #   variable references inside the paths (often the paths contain ${prefix})
 #   and with correct quoting here.
-#   The script will set the INSTALLDIR.PREFIX, INSTALLDIR.EXEC_PREFIX,
+#   The script will set the prefix, exec_prefix,
 #   INSTALLDIR.APPLICATION, INSTALLDIR.SBIN, INSTALLDIR.LIBEXEC,
 #   INSTALLDIR.DATA, INSTALLDIR.MAP, INSTALLDIR.CONFIG, INSTALLDIR.SHAREDSTATE
 #   INSTALLDIR.LOCALSTATE, INSTALLDIR.PLUGIN, INSTALLDIR.DOC
@@ -25,21 +25,18 @@ AS_IF([test $prefix = NONE],
     [jam_prefix="$ac_default_prefix"],
     [jam_prefix=`echo "$prefix" | sed -e 's:///*:/:g'`])
 AS_IF([test $exec_prefix = NONE],
-    [jam_exec_prefix="AS_ESCAPE([$(INSTALLDIR.PREFIX)])"],
+    [jam_exec_prefix="AS_ESCAPE([$(prefix)])"],
     [jam_exec_prefix=`echo "$exec_prefix" | sed -e 's:///*:/:g'`])
-
-CS_JAMCONFIG_PROPERTY([INSTALLDIR.PREFIX],
-    [CS_PREPARE_INSTALLPATH([$jam_prefix])])
-CS_JAMCONFIG_PROPERTY([INSTALLDIR.EXEC_PREFIX],
-    [CS_PREPARE_INSTALLPATH([$jam_exec_prefix])])
 
 # Hack: Unfortunately, values of the other directories often contain references
 # to prefix and exec_prefix in lowercase, thus we duplicate the above values.
-CS_JAMCONFIG_PROPERTY([prefix], [AS_ESCAPE([$(INSTALLDIR.PREFIX)])])
-CS_JAMCONFIG_PROPERTY([exec_prefix], [AS_ESCAPE([$(INSTALLDIR.EXEC_PREFIX)])])
+CS_JAMCONFIG_PROPERTY([prefix],
+    [CS_PREPARE_INSTALLPATH([$jam_prefix])])
+CS_JAMCONFIG_PROPERTY([exec_prefix],
+    [CS_PREPARE_INSTALLPATH([$jam_exec_prefix])])
 
 # Hack: Improve Autoconf's default paths a bit.
-docdir="$datadir/doc/$PACKAGE_NAME"
+docdir="$datadir/doc/$PACKAGE_NAME";
 AS_IF([test "$includedir" = '${prefix}/include'],
       [includedir="AS_ESCAPE([$(prefix)])/include/$PACKAGE_NAME"])
 AS_IF([test "$datadir" = '${prefix}/share'],
@@ -47,8 +44,8 @@ AS_IF([test "$datadir" = '${prefix}/share'],
 AS_IF([test "$sysconfdir" = '${prefix}/etc'],
       [sysconfdir="AS_ESCAPE([$(prefix)])/etc/$PACKAGE_NAME"])
 
-mapdir="$datadir/maps"
-plugindir="$libdir/$PACKAGE_NAME"
+mapdir="$datadir/maps" ;
+plugindir="$libdir/$PACKAGE_NAME" ;
 
 CS_JAMCONFIG_PROPERTY([INSTALLDIR.APPLICATION],[CS_PREPARE_INSTALLPATH([$bindir])])
 CS_JAMCONFIG_PROPERTY([INSTALLDIR.SBIN],[CS_PREPARE_INSTALLPATH([$sbindir])])
