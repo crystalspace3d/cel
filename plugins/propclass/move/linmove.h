@@ -43,7 +43,7 @@
 #include "physicallayer/facttmpl.h"
 #include "propclass/mesh.h"
 #include "propclass/linmove.h"
-#include "plugins/propclass/common/stdpcimp.h"
+#include "celtool/stdpcimp.h"
 
 #define CEL_LINMOVE_FOLLOW_ONLY_PORTALS true
 

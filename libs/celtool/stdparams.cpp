@@ -21,7 +21,7 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
-#include "stdparams.h"
+#include "celtool/stdparams.h"
 
 //---------------------------------------------------------------------------
 

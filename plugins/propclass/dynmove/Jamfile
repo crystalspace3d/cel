@@ -3,5 +3,5 @@ SubDir TOP plugins propclass dynmove ;
 Plugin pfdynmove
 	: [ Wildcard *.cpp *.h ]
 ;
-LinkWith pfdynmove : celcommon ;
+LinkWith pfdynmove : celtool ;
 

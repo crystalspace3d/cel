@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_PF_COMMON_STDPC__
-#define __CEL_PF_COMMON_STDPC__
+#ifndef __CEL_CELTOOL_STDPC__
+#define __CEL_CELTOOL_STDPC__
 
 #include "cstypes.h"
 #include "iutil/comp.h"
@@ -100,5 +100,5 @@ public:
   virtual csStringID GetPropertyOrActionID (int);
 };
 
-#endif // __CEL_PF_COMMON_STDPC__
+#endif // __CEL_CELTOOL_STDPC__
 

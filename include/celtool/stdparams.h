@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_PF_COMMON_PARAMS__
-#define __CEL_PF_COMMON_PARAMS__
+#ifndef __CEL_CELTOOL_PARAMS__
+#define __CEL_CELTOOL_PARAMS__
 
 #include "cstypes.h"
 #include "csutil/scf.h"
@@ -147,5 +147,5 @@ public:
   }
 };
 
-#endif // __CEL_PF_COMMON_PARAMS__
+#endif // __CEL_CELTOOL_PARAMS__
 

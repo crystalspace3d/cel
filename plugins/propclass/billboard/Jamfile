@@ -3,5 +3,5 @@ SubDir TOP plugins propclass billboard ;
 Plugin pfbillboard
 	: billboard.cpp billboard.h
 ;
-LinkWith pfbillboard : celcommon ;
+LinkWith pfbillboard : celtool ;
 

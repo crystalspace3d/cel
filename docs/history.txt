@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+11-Dec-2003
+	- Jorrit added a new celtool library. At this moment this library
+	  contains everything that used to be in plugins/propclass/common
+	  (that directory has now been removed): mainly the common code
+	  for making property class factories and also code for making
+	  parameter blocks.
 10-Dec-2003
 	- Jorrit fixed the physicstest python script so that it works again
 	  (converted to the new thing API in CS).
