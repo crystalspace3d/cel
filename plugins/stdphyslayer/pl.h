@@ -83,6 +83,9 @@ private:
   // 'where' is one of the cscmdProcess flags.
   CallbackPCInfo* GetCBInfo (int where);
 
+  // List of trackers.
+  csRefArray<iCelEntityTracker> trackers;
+
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
@@ -123,7 +126,9 @@ public:
   	const csVector3& pos, float radius);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
-  virtual csPtr<iCelEntityTracker> CreateEntityTracker ();
+  virtual iCelEntityTracker* CreateEntityTracker (const char* name);
+  virtual iCelEntityTracker* FindEntityTracker (const char* name);
+  virtual void RemoveEntityTracker (iCelEntityTracker* tracker);
 
   virtual bool LoadPropertyClassFactory (const char* plugin_id);
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);

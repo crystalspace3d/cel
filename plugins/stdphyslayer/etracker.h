@@ -20,7 +20,8 @@
 #ifndef __CEL_PLIMP_ETRACKER__
 #define __CEL_PLIMP_ETRACKER__
 
-#include "csutil/weakrefarr.h"
+#include "csutil/hash.h"
+
 #include "plugins/stdphyslayer/pl.h"
 
 struct iCelEntity;
@@ -32,18 +33,20 @@ class celEntityTracker : public iCelEntityTracker
 {
 private:
   iCelPlLayer* pl;
-  csWeakRefArray<iCelEntity> entities;
+  csSet<iCelEntity*> entities;
+  char* name;
 
 public:
-  celEntityTracker (celPlLayer* pl);
+  celEntityTracker (celPlLayer* pl, const char* name);
   virtual ~celEntityTracker ();
 
   SCF_DECLARE_IBASE;
 
+  // ---- For iCelEntityTracker -----------------------------------------
+
+  virtual const char* GetName () const { return name; }
   virtual bool AddEntity (iCelEntity* entity);
   virtual void RemoveEntity (iCelEntity* entity);
-  virtual size_t GetEntityCount () const;
-  virtual iCelEntity* GetEntity (size_t idx) const;
   virtual void RemoveEntities ();
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius);

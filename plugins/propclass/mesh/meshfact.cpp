@@ -114,6 +114,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 celPcMesh::~celPcMesh ()
 {
   Clear ();
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMesh);
 }
 
 void celPcMesh::Clear ()
