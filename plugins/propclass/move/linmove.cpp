@@ -557,39 +557,33 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     if (spstate && strcmp(path_actions[path->GetCurrentIndex()],
 	                  spstate->GetCurAction()->GetName() ) )
     {
-      spstate->SetAction(path_actions[path->GetCurrentIndex()]);
+        spstate->SetAction(path_actions[path->GetCurrentIndex()]);
     }
   }
   else
   {
-    float interval = 0.05f;
-    angDelta += delta;
-    bool rc = false;
-    if (delta < interval)
-    {
-      rc = MoveSprite (delta);
-      delta = 0;
-    }
-    else
-    {
-      while (delta >= interval)
+      float angInterval = 0.05f;
+      angDelta += delta;
+      bool rc = false;
+      if (angularVelocity.IsZero() || delta < angInterval)
+          rc = MoveSprite (delta);
+      else if (!vel.IsZero())
       {
-	rc = MoveSprite (interval) || rc;
-	rc = RotateV (interval) || rc;
-	delta -=interval;
-	angDelta -=interval;
+          while (delta >= angInterval)
+          {
+              rc = MoveSprite (angInterval) || rc;
+              rc = RotateV (angInterval) || rc;
+              delta -=angInterval;
+              angDelta -=angInterval;
+          }
+          if (delta)
+              rc = MoveSprite(delta) || rc;
       }
-      if (delta)
+      while (angDelta >= angInterval)
       {
-	rc = MoveSprite(delta) || rc;
-	delta = 0;
+          rc = RotateV(angInterval) || rc;
+          angDelta -= angInterval;
       }
-    }
-    while (angDelta >= interval)
-    {
-      rc = RotateV(interval) || rc;
-      angDelta -= interval;
-    }
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
