@@ -33,6 +33,7 @@
 #include <iutil/virtclk.h>
 
 #include <imesh/sprite3d.h>
+#include <imesh/spritecal3d.h>
 
 #include <csutil/debug.h>
 #include <csutil/databuf.h>
@@ -663,9 +664,20 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStrin
     pcmesh->GetMesh ()->GetFactory ()->GetMeshObjectFactory (),
     iSprite3DFactoryState);
 
-  const char* action;
+  csRef<iSpriteCal3DState> cal3dstate;
   if (!factstate)
+  {
+    cal3dstate = SCF_QUERY_INTERFACE (
+      pcmesh->GetMesh ()->GetMeshObject (),
+      iSpriteCal3DState);
+  }
+
+  const char* action;
+  if (!factstate) // maybe cal3d sprite
+  {
+    cal3dstate->SetVelocity(-vel.z);
     action = 0;
+  }
   else if (i < 0)
     action = factstate->GetAction (-i)->GetName ();
   else
