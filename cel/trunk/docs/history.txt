@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+5-Jul-2004
+	- Jorrit fixed several warnings in CEL caused by a few places
+	  where size_t was not fixed.
+	- Jorrit added a new iEntityLoader interface which is implemented
+	  by the celentity addon. Using that interface one can now
+	  more easilly access the celentity addon to load entities from
+	  XML description files.
 3-Jul-2004
 	- Jorrit fixed a compile error in CEL.
 2-Jul-2004

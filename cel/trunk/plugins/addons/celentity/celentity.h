@@ -24,6 +24,8 @@
 #include "imap/reader.h"
 #include "csutil/strhash.h"
 
+#include "tools/entityloader.h"
+
 struct iObjectRegistry;
 struct iDocumentNode;
 struct iLoaderContext;
@@ -34,7 +36,7 @@ struct iCelPlLayer;
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnCelEntity : public iLoaderPlugin
+class celAddOnCelEntity : public iLoaderPlugin, public iEntityLoader
 {
 private:
   iObjectRegistry* object_reg;
@@ -65,6 +67,8 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
   	iBase* context);
+
+  virtual iCelEntity* Load (iDocumentNode* node, iMeshWrapper* mesh = 0);
 
   struct Component : public iComponent
   {

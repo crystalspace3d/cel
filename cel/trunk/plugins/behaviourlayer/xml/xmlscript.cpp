@@ -1232,7 +1232,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
   bool varprop_trace = cbl->varprop_trace;
 
-  int stack_size = stack.Length ();
+  size_t stack_size = stack.Length ();
   int i = startop;
   if (startop == 0)
   {

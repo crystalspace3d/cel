@@ -434,7 +434,7 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
-  if (pf_list.Find (pf) != -1) return;
+  if (pf_list.Find (pf) != csArrayItemNotFound) return;
   pf_list.Push (pf);
   pf_hash.Put (pf->GetName (), pf);
 }
@@ -489,7 +489,7 @@ void celPlLayer::CleanCache ()
 
 void celPlLayer::RegisterBehaviourLayer (iCelBlLayer* bl)
 {
-  if (bl_list.Find (bl) != -1) return;
+  if (bl_list.Find (bl) != csArrayItemNotFound) return;
   bl_list.Push (bl);
 }
 
@@ -531,6 +531,6 @@ void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)
 
 void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
 {
-  if (removecallbacks.Find (callback) == -1) return;
+  if (removecallbacks.Find (callback) == csArrayItemNotFound) return;
   removecallbacks.Delete (callback);
 }

@@ -217,7 +217,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
 
 bool celPcInventory::AddEntity (iCelEntity* child)
 {
-  if (contents.Find (child) != -1) return true;
+  if (contents.Find (child) != csArrayItemNotFound) return true;
 
   // Add our child. We will later test if this is valid and if
   // not undo this change.
@@ -854,7 +854,7 @@ bool celPcCharacteristics::ClearAll ()
 
 void celPcCharacteristics::AddToInventory (iPcInventory* inv)
 {
-  if (inventories.Find (inv) != -1) return;
+  if (inventories.Find (inv) != csArrayItemNotFound) return;
   inventories.Push (inv);
 }
 
