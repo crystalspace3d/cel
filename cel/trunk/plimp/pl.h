@@ -21,10 +21,13 @@
 #define __CEL_PLIMP_PL__
 
 #include "csutil/csvector.h"
+#include "csutil/nobjvec.h"
 #include "iutil/comp.h"
 #include "pl/pl.h"
 
 struct iObjectRegistry;
+
+CS_DECLARE_OBJECT_VECTOR (csPlLayerCache, iBase);
 
 /**
  * Implementation of the physical layer.
@@ -33,6 +36,7 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csVector pf_list;
+  csPlLayerCache cache;
   iObjectRegistry* object_reg;
 
 public:
@@ -60,6 +64,9 @@ public:
   virtual iCelPropertyClassFactory* GetPropertyClassFactory (int idx) const;
   virtual iCelPropertyClassFactory* FindPropertyClassFactory (
   	const char* name) const;
+  virtual void Cache (iBase* object);
+  virtual void Uncache (iBase* object);
+  virtual void CleanCache ();
 
   struct Component : public iComponent
   {

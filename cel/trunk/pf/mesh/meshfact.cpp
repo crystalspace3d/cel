@@ -121,6 +121,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   fileName = NULL;
   factName = NULL;
+  factory_ptr = NULL;
   DG_ADDI (this, "celPcMesh()");
 }
 
@@ -150,6 +151,7 @@ void celPcMesh::Clear ()
     engine->DecRef ();
     mesh = NULL;
   }
+  if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
 }
 
 void celPcMesh::SetEntity (iCelEntity* entity)
@@ -303,9 +305,28 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   {
     iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
     	->FindByName (factname);
-    if (!meshfact) meshfact = LoadMeshFactory ();
+    if (!meshfact)
+    {
+      meshfact = LoadMeshFactory ();
+      if (meshfact)
+      {
+        // Cache the factory.
+        iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+        CS_ASSERT (pl != NULL);
+	pl->Cache (meshfact);
+        pl->DecRef ();
+      }
+    }
+    else
+    {
+      meshfact->IncRef ();
+    }
+
+    if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
     if (meshfact)
     {
+      factory_ptr = meshfact;
+
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
       iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       pl->AttachEntity (mesh->QueryObject (), entity);
