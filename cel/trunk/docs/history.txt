@@ -24,6 +24,11 @@ The history order is reversed so that new features are at the top.
 	- blcel.i: scfQuery_iPcCamera, scfQuery_iPcMesh, scfQuery_iPcInventory,
 	  and scfQuery_iPcTimer do IncRef() now.
 	- Protected most IncRef()'s in blcel.i with if's.
+	- Jorrit fixed blcel.i for pckeyinput and pclinmove.
+	- Jorrit added names to the meshfactories in celtest so they are
+	  not loaded again all the time.
+	- Report: GetPythonObject() is not yet working properly. It causes
+	  weird crashes later.
 3-Jul-2003
 	- Jorrit cleaned up the python plugin a bit.
 	- Box in smallgame now has gravity.

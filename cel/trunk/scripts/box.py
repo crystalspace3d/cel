@@ -9,7 +9,7 @@ class box:
 		movable = celCreateMovable(physicallayer_ptr,celEntity)
 		mesh = celCreateMesh(physicallayer_ptr,celEntity)
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("fclosed", "/this/apps/celtest/data/box")
+		mesh.LoadMesh("box", "/this/apps/celtest/data/box")
 		pos = csVector3 (2, 2, 5)
 		mesh.MoveMesh(room,pos)
 

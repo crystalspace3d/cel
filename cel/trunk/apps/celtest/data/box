@@ -1,4 +1,4 @@
-<meshfact>
+<meshfact name="box">
     <plugin>crystalspace.mesh.loader.factory.sprite.3d</plugin>
     <params>
         <material>wood</material>
