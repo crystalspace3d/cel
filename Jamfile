@@ -24,6 +24,8 @@ SubInclude TOP plugins ;
 # generate cel-config
 rule CelConfigGen
 {
+  LOCATE on $(>) = $(SUBDIR) ;
+  MakeLocate $(<) : $(LOCATE.TARGETS) ;
   Depends $(<) : $(>) ;
 }
 
