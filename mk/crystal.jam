@@ -42,11 +42,16 @@ rule ApplicationFromObjects
 	{
 		MakeLocate $(_t) : $(LOCATE_TARGET) ;
 	}
+	else
+	{
+		MakeLocate $(_t) : $(BUILDTOP) ;
+	}
 
 	NEEDLIBS on $(_t) += $(4) ;
 	NotFile ($4) ;
 	
 	Clean clean : $(_t) ;
+	Clean $(<)clean : $(_t) ;
 	Link $(_t) : $(_s) ;
 }
 
@@ -92,10 +97,15 @@ rule PluginFromObjects
 	{
 		MakeLocate $(_t) : $(LOCATE_TARGET) ;
 	}
+	else
+	{
+		MakeLocate $(_t) : $(BUILDTOP) ;
+	}
 
 	ADDLIBS on $(_t) += $(4) ;
 
         Clean clean : $(_t) ;
+	Clean $(<)clean : $(_t) ;
 	NAME on $(_t) = $(<) ;
         LinkPlugin $(_t) : $(_s) ;
 }
