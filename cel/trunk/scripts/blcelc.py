@@ -91,6 +91,8 @@ class iBasePtr(iBase):
         if not hasattr(self,"thisown"): _swig_setattr(self, iBase, 'thisown', 0)
         _swig_setattr(self, iBase,self.__class__,iBase)
 _blcelc.iBase_swigregister(iBasePtr)
+cvar = _blcelc.cvar
+csArrayItemNotFound = cvar.csArrayItemNotFound
 
 iBase_QueryInterfaceSafe = _blcelc.iBase_QueryInterfaceSafe
 
@@ -171,7 +173,6 @@ class iSCFPtr(iSCF):
 _blcelc.iSCF_swigregister(iSCFPtr)
 
 scfInitialize = _blcelc.scfInitialize
-cvar = _blcelc.cvar
 
 iSCF_scfGetVersion = _blcelc.iSCF_scfGetVersion
 
@@ -410,6 +411,7 @@ class csVector2(_object):
         _swig_setattr(self, csVector2, 'this', _blcelc.new_csVector2(*args))
         _swig_setattr(self, csVector2, 'thisown', 1)
     def Set(*args): return _blcelc.csVector2_Set(*args)
+    def Get(*args): return _blcelc.csVector2_Get(*args)
     def Norm(*args): return _blcelc.csVector2_Norm(*args)
     def SquaredNorm(*args): return _blcelc.csVector2_SquaredNorm(*args)
     def Rotate(*args): return _blcelc.csVector2_Rotate(*args)
@@ -468,6 +470,7 @@ class csVector3(_object):
     def __pos__(*args): return _blcelc.csVector3___pos__(*args)
     def __neg__(*args): return _blcelc.csVector3___neg__(*args)
     def Set(*args): return _blcelc.csVector3_Set(*args)
+    def Get(*args): return _blcelc.csVector3_Get(*args)
     def Norm(*args): return _blcelc.csVector3_Norm(*args)
     def SquaredNorm(*args): return _blcelc.csVector3_SquaredNorm(*args)
     def Unit(*args): return _blcelc.csVector3_Unit(*args)
@@ -1202,8 +1205,10 @@ class csMath3(_object):
     if _newclass:Between = staticmethod(_blcelc.csMath3_Between)
     __swig_getmethods__["SetMinMax"] = lambda x: _blcelc.csMath3_SetMinMax
     if _newclass:SetMinMax = staticmethod(_blcelc.csMath3_SetMinMax)
-    __swig_getmethods__["Area3"] = lambda x: _blcelc.csMath3_Area3
-    if _newclass:Area3 = staticmethod(_blcelc.csMath3_Area3)
+    __swig_getmethods__["DoubleArea3"] = lambda x: _blcelc.csMath3_DoubleArea3
+    if _newclass:DoubleArea3 = staticmethod(_blcelc.csMath3_DoubleArea3)
+    __swig_getmethods__["Direction3"] = lambda x: _blcelc.csMath3_Direction3
+    if _newclass:Direction3 = staticmethod(_blcelc.csMath3_Direction3)
     __swig_getmethods__["CalcNormal"] = lambda x: _blcelc.csMath3_CalcNormal
     if _newclass:CalcNormal = staticmethod(_blcelc.csMath3_CalcNormal)
     __swig_getmethods__["CalcNormal"] = lambda x: _blcelc.csMath3_CalcNormal
@@ -1245,7 +1250,9 @@ csMath3_Between = _blcelc.csMath3_Between
 
 csMath3_SetMinMax = _blcelc.csMath3_SetMinMax
 
-csMath3_Area3 = _blcelc.csMath3_Area3
+csMath3_DoubleArea3 = _blcelc.csMath3_DoubleArea3
+
+csMath3_Direction3 = _blcelc.csMath3_Direction3
 
 csMath3_CalcNormal = _blcelc.csMath3_CalcNormal
 
@@ -1312,6 +1319,8 @@ class csIntersect3(_object):
     if _newclass:IntersectSegment = staticmethod(_blcelc.csIntersect3_IntersectSegment)
     __swig_getmethods__["IntersectTriangle"] = lambda x: _blcelc.csIntersect3_IntersectTriangle
     if _newclass:IntersectTriangle = staticmethod(_blcelc.csIntersect3_IntersectTriangle)
+    __swig_getmethods__["Planes"] = lambda x: _blcelc.csIntersect3_Planes
+    if _newclass:Planes = staticmethod(_blcelc.csIntersect3_Planes)
     __swig_getmethods__["Plane"] = lambda x: _blcelc.csIntersect3_Plane
     if _newclass:Plane = staticmethod(_blcelc.csIntersect3_Plane)
     __swig_getmethods__["Plane"] = lambda x: _blcelc.csIntersect3_Plane
@@ -1492,7 +1501,7 @@ class csPoly3D(_object):
     __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
     if _newclass:ComputePlane = staticmethod(_blcelc.csPoly3D_ComputePlane)
     def ComputePlane(*args): return _blcelc.csPoly3D_ComputePlane(*args)
-    def GetSignedArea(*args): return _blcelc.csPoly3D_GetSignedArea(*args)
+    def GetArea(*args): return _blcelc.csPoly3D_GetArea(*args)
     def GetCenter(*args): return _blcelc.csPoly3D_GetCenter(*args)
     def __getitem__(*args): return _blcelc.csPoly3D___getitem__(*args)
     def __setitem__ (self, i, v):
@@ -1780,6 +1789,8 @@ class csSpline(_object):
     def SetDimensionValue(*args): return _blcelc.csSpline_SetDimensionValue(*args)
     def GetDimensionValues(*args): return _blcelc.csSpline_GetDimensionValues(*args)
     def GetDimensionValue(*args): return _blcelc.csSpline_GetDimensionValue(*args)
+    def SetIndexValues(*args): return _blcelc.csSpline_SetIndexValues(*args)
+    def GetIndexValues(*args): return _blcelc.csSpline_GetIndexValues(*args)
     def Calculate(*args): return _blcelc.csSpline_Calculate(*args)
     def GetCurrentIndex(*args): return _blcelc.csSpline_GetCurrentIndex(*args)
     def GetInterpolatedDimension(*args): return _blcelc.csSpline_GetInterpolatedDimension(*args)
@@ -2244,7 +2255,6 @@ csGetTicks = _blcelc.csGetTicks
 csSleep = _blcelc.csSleep
 
 csGetUsername = _blcelc.csGetUsername
-CS_REQUEST_END = _blcelc.CS_REQUEST_END
 class csPluginRequest(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csPluginRequest, name, value)
@@ -2693,6 +2703,7 @@ class iAws(iBase):
     def GetObjectRegistry(*args): return _blcelc.iAws_GetObjectRegistry(*args)
     def AllWindowsHidden(*args): return _blcelc.iAws_AllWindowsHidden(*args)
     def ComponentIsInTransition(*args): return _blcelc.iAws_ComponentIsInTransition(*args)
+    def ComponentDestroyed(*args): return _blcelc.iAws_ComponentDestroyed(*args)
     def __del__(self, destroy=_blcelc.delete_iAws):
         try:
             if self.thisown: destroy(self)
@@ -3150,6 +3161,9 @@ class iClipper2D(iBase):
     def IsInside(*args): return _blcelc.iClipper2D_IsInside(*args)
     def GetVertexCount(*args): return _blcelc.iClipper2D_GetVertexCount(*args)
     def GetClipPoly(*args): return _blcelc.iClipper2D_GetClipPoly(*args)
+    clipperPoly = _blcelc.iClipper2D_clipperPoly
+    clipperBox = _blcelc.iClipper2D_clipperBox
+    def GetClipperType(*args): return _blcelc.iClipper2D_GetClipperType(*args)
     def __del__(self, destroy=_blcelc.delete_iClipper2D):
         try:
             if self.thisown: destroy(self)
@@ -3785,6 +3799,7 @@ class iSector(iBase):
     def GetPortalMeshes(*args): return _blcelc.iSector_GetPortalMeshes(*args)
     def RegisterPortalMesh(*args): return _blcelc.iSector_RegisterPortalMesh(*args)
     def UnregisterPortalMesh(*args): return _blcelc.iSector_UnregisterPortalMesh(*args)
+    def UnlinkObjects(*args): return _blcelc.iSector_UnlinkObjects(*args)
     def __del__(self, destroy=_blcelc.delete_iSector):
         try:
             if self.thisown: destroy(self)
@@ -3985,6 +4000,29 @@ _blcelc.iEngine_swigregister(iEnginePtr)
 
 iEngine_scfGetVersion = _blcelc.iEngine_scfGetVersion
 
+class iCameraSectorListener(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCameraSectorListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCameraSectorListener, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iCameraSectorListener instance at %s>" % (self.this,)
+    def NewSector(*args): return _blcelc.iCameraSectorListener_NewSector(*args)
+    def __del__(self, destroy=_blcelc.delete_iCameraSectorListener):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iCameraSectorListenerPtr(iCameraSectorListener):
+    def __init__(self, this):
+        _swig_setattr(self, iCameraSectorListener, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCameraSectorListener, 'thisown', 0)
+        _swig_setattr(self, iCameraSectorListener,self.__class__,iCameraSectorListener)
+_blcelc.iCameraSectorListener_swigregister(iCameraSectorListenerPtr)
+
 class iCamera(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4022,6 +4060,8 @@ class iCamera(iBase):
     def InvPerspective(*args): return _blcelc.iCamera_InvPerspective(*args)
     def OnlyPortals(*args): return _blcelc.iCamera_OnlyPortals(*args)
     def GetOnlyPortals(*args): return _blcelc.iCamera_GetOnlyPortals(*args)
+    def AddCameraSectorListener(*args): return _blcelc.iCamera_AddCameraSectorListener(*args)
+    def RemoveCameraSectorListener(*args): return _blcelc.iCamera_RemoveCameraSectorListener(*args)
     def __del__(self, destroy=_blcelc.delete_iCamera):
         try:
             if self.thisown: destroy(self)
@@ -4619,6 +4659,7 @@ class iRegion(iBase):
         return "<C iRegion instance at %s>" % (self.this,)
     def QueryObject(*args): return _blcelc.iRegion_QueryObject(*args)
     def Add(*args): return _blcelc.iRegion_Add(*args)
+    def Remove(*args): return _blcelc.iRegion_Remove(*args)
     def Clear(*args): return _blcelc.iRegion_Clear(*args)
     def DeleteAll(*args): return _blcelc.iRegion_DeleteAll(*args)
     def PrepareTextures(*args): return _blcelc.iRegion_PrepareTextures(*args)
@@ -5450,6 +5491,7 @@ class iSpriteCal3DFactoryState(iBase):
     def AddMorphAnimation(*args): return _blcelc.iSpriteCal3DFactoryState_AddMorphAnimation(*args)
     def AddMorphTarget(*args): return _blcelc.iSpriteCal3DFactoryState_AddMorphTarget(*args)
     def AddCoreMaterial(*args): return _blcelc.iSpriteCal3DFactoryState_AddCoreMaterial(*args)
+    def CalculateAllBoneBoundingBoxes(*args): return _blcelc.iSpriteCal3DFactoryState_CalculateAllBoneBoundingBoxes(*args)
     def BindMaterials(*args): return _blcelc.iSpriteCal3DFactoryState_BindMaterials(*args)
     def GetMeshCount(*args): return _blcelc.iSpriteCal3DFactoryState_GetMeshCount(*args)
     def GetMorphAnimationCount(*args): return _blcelc.iSpriteCal3DFactoryState_GetMorphAnimationCount(*args)
@@ -5464,6 +5506,7 @@ class iSpriteCal3DFactoryState(iBase):
     def FindSocket(*args): return _blcelc.iSpriteCal3DFactoryState_FindSocket(*args)
     def GetSocketCount(*args): return _blcelc.iSpriteCal3DFactoryState_GetSocketCount(*args)
     def GetSocket(*args): return _blcelc.iSpriteCal3DFactoryState_GetSocket(*args)
+    def GetCal3DCoreModel(*args): return _blcelc.iSpriteCal3DFactoryState_GetCal3DCoreModel(*args)
     def __del__(self, destroy=_blcelc.delete_iSpriteCal3DFactoryState):
         try:
             if self.thisown: destroy(self)
@@ -5504,6 +5547,7 @@ class iSpriteCal3DState(iBase):
     def SetActiveAnims(*args): return _blcelc.iSpriteCal3DState_SetActiveAnims(*args)
     def SetAnimAction(*args): return _blcelc.iSpriteCal3DState_SetAnimAction(*args)
     def SetVelocity(*args): return _blcelc.iSpriteCal3DState_SetVelocity(*args)
+    def SetDefaultIdleAnim(*args): return _blcelc.iSpriteCal3DState_SetDefaultIdleAnim(*args)
     def SetLOD(*args): return _blcelc.iSpriteCal3DState_SetLOD(*args)
     def AttachCoreMesh(*args): return _blcelc.iSpriteCal3DState_AttachCoreMesh(*args)
     def DetachCoreMesh(*args): return _blcelc.iSpriteCal3DState_DetachCoreMesh(*args)
@@ -5513,6 +5557,10 @@ class iSpriteCal3DState(iBase):
     def SetMaterial(*args): return _blcelc.iSpriteCal3DState_SetMaterial(*args)
     def SetTimeFactor(*args): return _blcelc.iSpriteCal3DState_SetTimeFactor(*args)
     def GetTimeFactor(*args): return _blcelc.iSpriteCal3DState_GetTimeFactor(*args)
+    def GetAnimationTime(*args): return _blcelc.iSpriteCal3DState_GetAnimationTime(*args)
+    def GetAnimationDuration(*args): return _blcelc.iSpriteCal3DState_GetAnimationDuration(*args)
+    def SetAnimationTime(*args): return _blcelc.iSpriteCal3DState_SetAnimationTime(*args)
+    def GetCal3DModel(*args): return _blcelc.iSpriteCal3DState_GetCal3DModel(*args)
     def __del__(self, destroy=_blcelc.delete_iSpriteCal3DState):
         try:
             if self.thisown: destroy(self)
@@ -5628,6 +5676,7 @@ class iMeshObject(iBase):
         return "<C iMeshObject instance at %s>" % (self.this,)
     def GetFactory(*args): return _blcelc.iMeshObject_GetFactory(*args)
     def GetFlags(*args): return _blcelc.iMeshObject_GetFlags(*args)
+    def Clone(*args): return _blcelc.iMeshObject_Clone(*args)
     def DrawTest(*args): return _blcelc.iMeshObject_DrawTest(*args)
     def Draw(*args): return _blcelc.iMeshObject_Draw(*args)
     def GetRenderMeshes(*args): return _blcelc.iMeshObject_GetRenderMeshes(*args)
@@ -5675,6 +5724,7 @@ class iMeshObjectFactory(iBase):
         return "<C iMeshObjectFactory instance at %s>" % (self.this,)
     def GetFlags(*args): return _blcelc.iMeshObjectFactory_GetFlags(*args)
     def NewInstance(*args): return _blcelc.iMeshObjectFactory_NewInstance(*args)
+    def Clone(*args): return _blcelc.iMeshObjectFactory_Clone(*args)
     def HardTransform(*args): return _blcelc.iMeshObjectFactory_HardTransform(*args)
     def SupportsHardTransform(*args): return _blcelc.iMeshObjectFactory_SupportsHardTransform(*args)
     def SetLogicalParent(*args): return _blcelc.iMeshObjectFactory_SetLogicalParent(*args)
@@ -6648,9 +6698,31 @@ _blcelc.iVirtualClock_swigregister(iVirtualClockPtr)
 
 iVirtualClock_scfGetVersion = _blcelc.iVirtualClock_scfGetVersion
 
-CS_CRYSTAL_PROTOCOL = _blcelc.CS_CRYSTAL_PROTOCOL
-CS_MUSCLE_PROTOCOL = _blcelc.CS_MUSCLE_PROTOCOL
-CS_XML_PROTOCOL = _blcelc.CS_XML_PROTOCOL
+class iEventAttributeIterator(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iEventAttributeIterator, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iEventAttributeIterator, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iEventAttributeIterator instance at %s>" % (self.this,)
+    def HasNext(*args): return _blcelc.iEventAttributeIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iEventAttributeIterator_Next(*args)
+    def Reset(*args): return _blcelc.iEventAttributeIterator_Reset(*args)
+    def __del__(self, destroy=_blcelc.delete_iEventAttributeIterator):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iEventAttributeIteratorPtr(iEventAttributeIterator):
+    def __init__(self, this):
+        _swig_setattr(self, iEventAttributeIterator, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iEventAttributeIterator, 'thisown', 0)
+        _swig_setattr(self, iEventAttributeIterator,self.__class__,iEventAttributeIterator)
+_blcelc.iEventAttributeIterator_swigregister(iEventAttributeIteratorPtr)
+
 class csKeyEventData(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csKeyEventData, name, value)
@@ -6790,6 +6862,23 @@ class csEventCommandDataPtr(csEventCommandData):
         _swig_setattr(self, csEventCommandData,self.__class__,csEventCommandData)
 _blcelc.csEventCommandData_swigregister(csEventCommandDataPtr)
 
+csEventErrNone = _blcelc.csEventErrNone
+csEventErrLossy = _blcelc.csEventErrLossy
+csEventErrNotFound = _blcelc.csEventErrNotFound
+csEventErrMismatchInt = _blcelc.csEventErrMismatchInt
+csEventErrMismatchUInt = _blcelc.csEventErrMismatchUInt
+csEventErrMismatchFloat = _blcelc.csEventErrMismatchFloat
+csEventErrMismatchBuffer = _blcelc.csEventErrMismatchBuffer
+csEventErrMismatchEvent = _blcelc.csEventErrMismatchEvent
+csEventErrMismatchIBase = _blcelc.csEventErrMismatchIBase
+csEventErrUhOhUnknown = _blcelc.csEventErrUhOhUnknown
+csEventAttrUnknown = _blcelc.csEventAttrUnknown
+csEventAttrInt = _blcelc.csEventAttrInt
+csEventAttrUInt = _blcelc.csEventAttrUInt
+csEventAttrFloat = _blcelc.csEventAttrFloat
+csEventAttrDatabuffer = _blcelc.csEventAttrDatabuffer
+csEventAttrEvent = _blcelc.csEventAttrEvent
+csEventAttriBase = _blcelc.csEventAttriBase
 class iEvent(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -6825,21 +6914,20 @@ class iEvent(iBase):
     def AddDouble(*args): return _blcelc.iEvent_AddDouble(*args)
     def AddBool(*args): return _blcelc.iEvent_AddBool(*args)
     def Add(*args): return _blcelc.iEvent_Add(*args)
-    def FindInt8(*args): return _blcelc.iEvent_FindInt8(*args)
-    def FindUInt8(*args): return _blcelc.iEvent_FindUInt8(*args)
-    def FindInt16(*args): return _blcelc.iEvent_FindInt16(*args)
-    def FindUInt16(*args): return _blcelc.iEvent_FindUInt16(*args)
-    def FindUInt32(*args): return _blcelc.iEvent_FindUInt32(*args)
-    def FindFloat(*args): return _blcelc.iEvent_FindFloat(*args)
-    def FindDouble(*args): return _blcelc.iEvent_FindDouble(*args)
-    def FindBool(*args): return _blcelc.iEvent_FindBool(*args)
-    def Find(*args): return _blcelc.iEvent_Find(*args)
+    def RetrieveInt8(*args): return _blcelc.iEvent_RetrieveInt8(*args)
+    def RetrieveUInt8(*args): return _blcelc.iEvent_RetrieveUInt8(*args)
+    def RetrieveInt16(*args): return _blcelc.iEvent_RetrieveInt16(*args)
+    def RetrieveUInt16(*args): return _blcelc.iEvent_RetrieveUInt16(*args)
+    def RetrieveUInt32(*args): return _blcelc.iEvent_RetrieveUInt32(*args)
+    def RetrieveFloat(*args): return _blcelc.iEvent_RetrieveFloat(*args)
+    def RetrieveDouble(*args): return _blcelc.iEvent_RetrieveDouble(*args)
+    def RetrieveBool(*args): return _blcelc.iEvent_RetrieveBool(*args)
+    def Retrieve(*args): return _blcelc.iEvent_Retrieve(*args)
+    def AttributeExists(*args): return _blcelc.iEvent_AttributeExists(*args)
+    def GetAttributeType(*args): return _blcelc.iEvent_GetAttributeType(*args)
     def Remove(*args): return _blcelc.iEvent_Remove(*args)
     def RemoveAll(*args): return _blcelc.iEvent_RemoveAll(*args)
-    def Print(*args): return _blcelc.iEvent_Print(*args)
-    def FlattenSize(*args): return _blcelc.iEvent_FlattenSize(*args)
-    def Flatten(*args): return _blcelc.iEvent_Flatten(*args)
-    def Unflatten(*args): return _blcelc.iEvent_Unflatten(*args)
+    def GetAttributeIterator(*args): return _blcelc.iEvent_GetAttributeIterator(*args)
     def __del__(self, destroy=_blcelc.delete_iEvent):
         try:
             if self.thisown: destroy(self)
@@ -7381,7 +7469,7 @@ class iConfigFile(iBase):
     def SetStr(*args): return _blcelc.iConfigFile_SetStr(*args)
     def SetInt(*args): return _blcelc.iConfigFile_SetInt(*args)
     def SetFloat(*args): return _blcelc.iConfigFile_SetFloat(*args)
-    def Set(*args): return _blcelc.iConfigFile_Set(*args)
+    def SetBool(*args): return _blcelc.iConfigFile_SetBool(*args)
     def SetComment(*args): return _blcelc.iConfigFile_SetComment(*args)
     def DeleteKey(*args): return _blcelc.iConfigFile_DeleteKey(*args)
     def GetEOFComment(*args): return _blcelc.iConfigFile_GetEOFComment(*args)
@@ -7985,6 +8073,12 @@ class csGraphics3DCaps(_object):
     __swig_setmethods__["SupportsPointSprites"] = _blcelc.csGraphics3DCaps_SupportsPointSprites_set
     __swig_getmethods__["SupportsPointSprites"] = _blcelc.csGraphics3DCaps_SupportsPointSprites_get
     if _newclass:SupportsPointSprites = property(_blcelc.csGraphics3DCaps_SupportsPointSprites_get, _blcelc.csGraphics3DCaps_SupportsPointSprites_set)
+    __swig_setmethods__["DestinationAlpha"] = _blcelc.csGraphics3DCaps_DestinationAlpha_set
+    __swig_getmethods__["DestinationAlpha"] = _blcelc.csGraphics3DCaps_DestinationAlpha_get
+    if _newclass:DestinationAlpha = property(_blcelc.csGraphics3DCaps_DestinationAlpha_get, _blcelc.csGraphics3DCaps_DestinationAlpha_set)
+    __swig_setmethods__["StencilShadows"] = _blcelc.csGraphics3DCaps_StencilShadows_set
+    __swig_getmethods__["StencilShadows"] = _blcelc.csGraphics3DCaps_StencilShadows_get
+    if _newclass:StencilShadows = property(_blcelc.csGraphics3DCaps_StencilShadows_get, _blcelc.csGraphics3DCaps_StencilShadows_set)
     def __init__(self, *args):
         _swig_setattr(self, csGraphics3DCaps, 'this', _blcelc.new_csGraphics3DCaps(*args))
         _swig_setattr(self, csGraphics3DCaps, 'thisown', 1)
@@ -8353,6 +8447,7 @@ CS_MESHTYPE_POINT_SPRITES = _blcelc.CS_MESHTYPE_POINT_SPRITES
 CS_MESHTYPE_LINES = _blcelc.CS_MESHTYPE_LINES
 CS_MESHTYPE_LINESTRIP = _blcelc.CS_MESHTYPE_LINESTRIP
 CS_MESHTYPE_POLYGON = _blcelc.CS_MESHTYPE_POLYGON
+csSimpleMeshScreenspace = _blcelc.csSimpleMeshScreenspace
 class csSimpleRenderMesh(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csSimpleRenderMesh, name, value)
@@ -8399,6 +8494,9 @@ class csSimpleRenderMesh(_object):
     __swig_setmethods__["mixmode"] = _blcelc.csSimpleRenderMesh_mixmode_set
     __swig_getmethods__["mixmode"] = _blcelc.csSimpleRenderMesh_mixmode_get
     if _newclass:mixmode = property(_blcelc.csSimpleRenderMesh_mixmode_get, _blcelc.csSimpleRenderMesh_mixmode_set)
+    __swig_setmethods__["object2camera"] = _blcelc.csSimpleRenderMesh_object2camera_set
+    __swig_getmethods__["object2camera"] = _blcelc.csSimpleRenderMesh_object2camera_get
+    if _newclass:object2camera = property(_blcelc.csSimpleRenderMesh_object2camera_get, _blcelc.csSimpleRenderMesh_object2camera_set)
     def __init__(self, *args):
         _swig_setattr(self, csSimpleRenderMesh, 'this', _blcelc.new_csSimpleRenderMesh(*args))
         _swig_setattr(self, csSimpleRenderMesh, 'thisown', 1)
@@ -8454,7 +8552,9 @@ class iGraphics3D(iBase):
     def HasNearPlane(*args): return _blcelc.iGraphics3D_HasNearPlane(*args)
     def SetRenderState(*args): return _blcelc.iGraphics3D_SetRenderState(*args)
     def GetRenderState(*args): return _blcelc.iGraphics3D_GetRenderState(*args)
+    def SetOption(*args): return _blcelc.iGraphics3D_SetOption(*args)
     def CreateRenderBuffer(*args): return _blcelc.iGraphics3D_CreateRenderBuffer(*args)
+    def CreateIndexRenderBuffer(*args): return _blcelc.iGraphics3D_CreateIndexRenderBuffer(*args)
     def CreateInterleavedRenderBuffers(*args): return _blcelc.iGraphics3D_CreateInterleavedRenderBuffers(*args)
     def SetBufferState(*args): return _blcelc.iGraphics3D_SetBufferState(*args)
     def SetTextureState(*args): return _blcelc.iGraphics3D_SetTextureState(*args)
@@ -8949,6 +9049,9 @@ class iShaderVariableContextPtr(iShaderVariableContext):
         _swig_setattr(self, iShaderVariableContext,self.__class__,iShaderVariableContext)
 _blcelc.iShaderVariableContext_swigregister(iShaderVariableContextPtr)
 
+TagNeutral = _blcelc.TagNeutral
+TagForbidden = _blcelc.TagForbidden
+TagRequired = _blcelc.TagRequired
 class iShaderManager(iShaderVariableContext):
     __swig_setmethods__ = {}
     for _s in [iShaderVariableContext]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8965,6 +9068,9 @@ class iShaderManager(iShaderVariableContext):
     def RegisterCompiler(*args): return _blcelc.iShaderManager_RegisterCompiler(*args)
     def GetCompiler(*args): return _blcelc.iShaderManager_GetCompiler(*args)
     def GetShaderVariableStack(*args): return _blcelc.iShaderManager_GetShaderVariableStack(*args)
+    def SetTagOptions(*args): return _blcelc.iShaderManager_SetTagOptions(*args)
+    def GetTagOptions(*args): return _blcelc.iShaderManager_GetTagOptions(*args)
+    def GetTags(*args): return _blcelc.iShaderManager_GetTags(*args)
     def __del__(self, destroy=_blcelc.delete_iShaderManager):
         try:
             if self.thisown: destroy(self)
@@ -9028,6 +9134,30 @@ class iShaderPtr(iShader):
         _swig_setattr(self, iShader,self.__class__,iShader)
 _blcelc.iShader_swigregister(iShaderPtr)
 
+class iShaderPriorityList(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iShaderPriorityList, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iShaderPriorityList, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iShaderPriorityList instance at %s>" % (self.this,)
+    def GetCount(*args): return _blcelc.iShaderPriorityList_GetCount(*args)
+    def GetPriority(*args): return _blcelc.iShaderPriorityList_GetPriority(*args)
+    def __del__(self, destroy=_blcelc.delete_iShaderPriorityList):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iShaderPriorityListPtr(iShaderPriorityList):
+    def __init__(self, this):
+        _swig_setattr(self, iShaderPriorityList, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iShaderPriorityList, 'thisown', 0)
+        _swig_setattr(self, iShaderPriorityList,self.__class__,iShaderPriorityList)
+_blcelc.iShaderPriorityList_swigregister(iShaderPriorityListPtr)
+
 class iShaderCompiler(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9042,6 +9172,7 @@ class iShaderCompiler(iBase):
     def CompileShader(*args): return _blcelc.iShaderCompiler_CompileShader(*args)
     def ValidateTemplate(*args): return _blcelc.iShaderCompiler_ValidateTemplate(*args)
     def IsTemplateToCompiler(*args): return _blcelc.iShaderCompiler_IsTemplateToCompiler(*args)
+    def GetPriorities(*args): return _blcelc.iShaderCompiler_GetPriorities(*args)
     def __del__(self, destroy=_blcelc.delete_iShaderCompiler):
         try:
             if self.thisown: destroy(self)
@@ -10085,6 +10216,7 @@ class iView(iBase):
     def UpdateClipper(*args): return _blcelc.iView_UpdateClipper(*args)
     def GetClipper(*args): return _blcelc.iView_GetClipper(*args)
     def Draw(*args): return _blcelc.iView_Draw(*args)
+    def SetAutoResize(*args): return _blcelc.iView_SetAutoResize(*args)
     def __del__(self, destroy=_blcelc.delete_iView):
         try:
             if self.thisown: destroy(self)
@@ -10184,7 +10316,6 @@ class iCollideSystem(iBase):
     def ResetCollisionPairs(*args): return _blcelc.iCollideSystem_ResetCollisionPairs(*args)
     def SetOneHitOnly(*args): return _blcelc.iCollideSystem_SetOneHitOnly(*args)
     def GetOneHitOnly(*args): return _blcelc.iCollideSystem_GetOneHitOnly(*args)
-    def CollidePath(*args): return _blcelc.iCollideSystem_CollidePath(*args)
     def __del__(self, destroy=_blcelc.delete_iCollideSystem):
         try:
             if self.thisown: destroy(self)
@@ -10918,6 +11049,7 @@ class csView(iView):
     def ClearView(*args): return _blcelc.csView_ClearView(*args)
     def AddViewVertex(*args): return _blcelc.csView_AddViewVertex(*args)
     def RestrictClipperToScreen(*args): return _blcelc.csView_RestrictClipperToScreen(*args)
+    def SetAutoResize(*args): return _blcelc.csView_SetAutoResize(*args)
     def UpdateClipper(*args): return _blcelc.csView_UpdateClipper(*args)
     def GetClipper(*args): return _blcelc.csView_GetClipper(*args)
     def Draw(*args): return _blcelc.csView_Draw(*args)
@@ -10995,6 +11127,10 @@ class csColliderHelper(_object):
     if _newclass:InitializeCollisionWrapper = staticmethod(_blcelc.csColliderHelper_InitializeCollisionWrapper)
     __swig_getmethods__["InitializeCollisionWrappers"] = lambda x: _blcelc.csColliderHelper_InitializeCollisionWrappers
     if _newclass:InitializeCollisionWrappers = staticmethod(_blcelc.csColliderHelper_InitializeCollisionWrappers)
+    __swig_getmethods__["CollideArray"] = lambda x: _blcelc.csColliderHelper_CollideArray
+    if _newclass:CollideArray = staticmethod(_blcelc.csColliderHelper_CollideArray)
+    __swig_getmethods__["CollidePath"] = lambda x: _blcelc.csColliderHelper_CollidePath
+    if _newclass:CollidePath = staticmethod(_blcelc.csColliderHelper_CollidePath)
     def __init__(self, *args):
         _swig_setattr(self, csColliderHelper, 'this', _blcelc.new_csColliderHelper(*args))
         _swig_setattr(self, csColliderHelper, 'thisown', 1)
@@ -11013,6 +11149,10 @@ _blcelc.csColliderHelper_swigregister(csColliderHelperPtr)
 csColliderHelper_InitializeCollisionWrapper = _blcelc.csColliderHelper_InitializeCollisionWrapper
 
 csColliderHelper_InitializeCollisionWrappers = _blcelc.csColliderHelper_InitializeCollisionWrappers
+
+csColliderHelper_CollideArray = _blcelc.csColliderHelper_CollideArray
+
+csColliderHelper_CollidePath = _blcelc.csColliderHelper_CollidePath
 
 
 csfxInterference = _blcelc.csfxInterference
@@ -12281,4 +12421,5 @@ CEL_DATA_ENTITY = _blcelc.CEL_DATA_ENTITY
 CEL_DATA_BUFFER = _blcelc.CEL_DATA_BUFFER
 CEL_DATA_ACTION = _blcelc.CEL_DATA_ACTION
 CEL_DATA_COLOR = _blcelc.CEL_DATA_COLOR
+CEL_DATA_IBASE = _blcelc.CEL_DATA_IBASE
 
