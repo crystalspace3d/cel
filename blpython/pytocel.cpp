@@ -20,9 +20,9 @@
 #include "csutil/csstring.h"
 #include "blpython/blpython.h"
 
-//extern "C" {
+extern "C" {
 #include "Python.h"
-//}
+}
 
 // The NextStep compiler does not allow C++ expressions in `extern "C"'
 // functions.  This thin cover function works around that limitation.
