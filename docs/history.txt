@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Jul-2003
+	- Jorrit fixed CEL for latest CS changes (iStrVector removal).
 27-Jul-2003
 	- Keith fixed CEL to at least compile now that csPArray<> has
 	  been removed for some reason.

@@ -3418,6 +3418,78 @@ class iMovablePtr(iMovable):
 _blcelc.iMovable_swigregister(iMovablePtr)
 iMovable_VERSION = cvar.iMovable_VERSION
 
+iRegion_scfGetID = _blcelc.iRegion_scfGetID
+
+class iRegion(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iRegion, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iRegion, name)
+    def QueryObject(*args): return apply(_blcelc.iRegion_QueryObject,args)
+    def Add(*args): return apply(_blcelc.iRegion_Add,args)
+    def Clear(*args): return apply(_blcelc.iRegion_Clear,args)
+    def DeleteAll(*args): return apply(_blcelc.iRegion_DeleteAll,args)
+    def PrepareTextures(*args): return apply(_blcelc.iRegion_PrepareTextures,args)
+    def ShineLights(*args): return apply(_blcelc.iRegion_ShineLights,args)
+    def Prepare(*args): return apply(_blcelc.iRegion_Prepare,args)
+    def FindSector(*args): return apply(_blcelc.iRegion_FindSector,args)
+    def FindMeshObject(*args): return apply(_blcelc.iRegion_FindMeshObject,args)
+    def FindMeshFactory(*args): return apply(_blcelc.iRegion_FindMeshFactory,args)
+    def FindTexture(*args): return apply(_blcelc.iRegion_FindTexture,args)
+    def FindMaterial(*args): return apply(_blcelc.iRegion_FindMaterial,args)
+    def FindCameraPosition(*args): return apply(_blcelc.iRegion_FindCameraPosition,args)
+    def FindCollection(*args): return apply(_blcelc.iRegion_FindCollection,args)
+    def IsInRegion(*args): return apply(_blcelc.iRegion_IsInRegion,args)
+    def __del__(self, destroy= _blcelc.delete_iRegion):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iRegion instance at %s>" % (self.this,)
+
+class iRegionPtr(iRegion):
+    def __init__(self,this):
+        _swig_setattr(self, iRegion, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iRegion, 'thisown', 0)
+        _swig_setattr(self, iRegion,self.__class__,iRegion)
+_blcelc.iRegion_swigregister(iRegionPtr)
+iRegion_VERSION = cvar.iRegion_VERSION
+
+iRegionList_scfGetID = _blcelc.iRegionList_scfGetID
+
+class iRegionList(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iRegionList, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iRegionList, name)
+    def GetCount(*args): return apply(_blcelc.iRegionList_GetCount,args)
+    def Get(*args): return apply(_blcelc.iRegionList_Get,args)
+    def Add(*args): return apply(_blcelc.iRegionList_Add,args)
+    def Remove(*args): return apply(_blcelc.iRegionList_Remove,args)
+    def RemoveAll(*args): return apply(_blcelc.iRegionList_RemoveAll,args)
+    def Find(*args): return apply(_blcelc.iRegionList_Find,args)
+    def FindByName(*args): return apply(_blcelc.iRegionList_FindByName,args)
+    def __del__(self, destroy= _blcelc.delete_iRegionList):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iRegionList instance at %s>" % (self.this,)
+
+class iRegionListPtr(iRegionList):
+    def __init__(self,this):
+        _swig_setattr(self, iRegionList, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iRegionList, 'thisown', 0)
+        _swig_setattr(self, iRegionList,self.__class__,iRegionList)
+_blcelc.iRegionList_swigregister(iRegionListPtr)
+iRegionList_VERSION = cvar.iRegionList_VERSION
+
 iVisibilityObjectIterator_scfGetID = _blcelc.iVisibilityObjectIterator_scfGetID
 
 class iVisibilityObjectIterator(iBase):
@@ -4337,78 +4409,100 @@ class iPolygon3DPtr(iPolygon3D):
 _blcelc.iPolygon3D_swigregister(iPolygon3DPtr)
 iPolygon3D_VERSION = cvar.iPolygon3D_VERSION
 
-class csLightMapMapping(_object):
+class csPolyTextureMapping(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, csLightMapMapping, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPolyTextureMapping, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, csLightMapMapping, name)
-    __swig_setmethods__["m_obj2tex"] = _blcelc.csLightMapMapping_m_obj2tex_set
-    __swig_getmethods__["m_obj2tex"] = _blcelc.csLightMapMapping_m_obj2tex_get
-    if _newclass:m_obj2tex = property(_blcelc.csLightMapMapping_m_obj2tex_get,_blcelc.csLightMapMapping_m_obj2tex_set)
-    __swig_setmethods__["v_obj2tex"] = _blcelc.csLightMapMapping_v_obj2tex_set
-    __swig_getmethods__["v_obj2tex"] = _blcelc.csLightMapMapping_v_obj2tex_get
-    if _newclass:v_obj2tex = property(_blcelc.csLightMapMapping_v_obj2tex_get,_blcelc.csLightMapMapping_v_obj2tex_set)
-    __swig_setmethods__["fdu"] = _blcelc.csLightMapMapping_fdu_set
-    __swig_getmethods__["fdu"] = _blcelc.csLightMapMapping_fdu_get
-    if _newclass:fdu = property(_blcelc.csLightMapMapping_fdu_get,_blcelc.csLightMapMapping_fdu_set)
-    __swig_setmethods__["fdv"] = _blcelc.csLightMapMapping_fdv_set
-    __swig_getmethods__["fdv"] = _blcelc.csLightMapMapping_fdv_get
-    if _newclass:fdv = property(_blcelc.csLightMapMapping_fdv_get,_blcelc.csLightMapMapping_fdv_set)
-    __swig_setmethods__["Imin_u"] = _blcelc.csLightMapMapping_Imin_u_set
-    __swig_getmethods__["Imin_u"] = _blcelc.csLightMapMapping_Imin_u_get
-    if _newclass:Imin_u = property(_blcelc.csLightMapMapping_Imin_u_get,_blcelc.csLightMapMapping_Imin_u_set)
-    __swig_setmethods__["Imin_v"] = _blcelc.csLightMapMapping_Imin_v_set
-    __swig_getmethods__["Imin_v"] = _blcelc.csLightMapMapping_Imin_v_get
-    if _newclass:Imin_v = property(_blcelc.csLightMapMapping_Imin_v_get,_blcelc.csLightMapMapping_Imin_v_set)
-    __swig_setmethods__["Fmin_u"] = _blcelc.csLightMapMapping_Fmin_u_set
-    __swig_getmethods__["Fmin_u"] = _blcelc.csLightMapMapping_Fmin_u_get
-    if _newclass:Fmin_u = property(_blcelc.csLightMapMapping_Fmin_u_get,_blcelc.csLightMapMapping_Fmin_u_set)
-    __swig_setmethods__["Fmin_v"] = _blcelc.csLightMapMapping_Fmin_v_set
-    __swig_getmethods__["Fmin_v"] = _blcelc.csLightMapMapping_Fmin_v_get
-    if _newclass:Fmin_v = property(_blcelc.csLightMapMapping_Fmin_v_get,_blcelc.csLightMapMapping_Fmin_v_set)
-    __swig_setmethods__["Fmax_u"] = _blcelc.csLightMapMapping_Fmax_u_set
-    __swig_getmethods__["Fmax_u"] = _blcelc.csLightMapMapping_Fmax_u_get
-    if _newclass:Fmax_u = property(_blcelc.csLightMapMapping_Fmax_u_get,_blcelc.csLightMapMapping_Fmax_u_set)
-    __swig_setmethods__["Fmax_v"] = _blcelc.csLightMapMapping_Fmax_v_set
-    __swig_getmethods__["Fmax_v"] = _blcelc.csLightMapMapping_Fmax_v_get
-    if _newclass:Fmax_v = property(_blcelc.csLightMapMapping_Fmax_v_get,_blcelc.csLightMapMapping_Fmax_v_set)
-    __swig_setmethods__["shf_u"] = _blcelc.csLightMapMapping_shf_u_set
-    __swig_getmethods__["shf_u"] = _blcelc.csLightMapMapping_shf_u_get
-    if _newclass:shf_u = property(_blcelc.csLightMapMapping_shf_u_get,_blcelc.csLightMapMapping_shf_u_set)
-    __swig_setmethods__["w"] = _blcelc.csLightMapMapping_w_set
-    __swig_getmethods__["w"] = _blcelc.csLightMapMapping_w_get
-    if _newclass:w = property(_blcelc.csLightMapMapping_w_get,_blcelc.csLightMapMapping_w_set)
-    __swig_setmethods__["h"] = _blcelc.csLightMapMapping_h_set
-    __swig_getmethods__["h"] = _blcelc.csLightMapMapping_h_get
-    if _newclass:h = property(_blcelc.csLightMapMapping_h_get,_blcelc.csLightMapMapping_h_set)
-    __swig_setmethods__["w_orig"] = _blcelc.csLightMapMapping_w_orig_set
-    __swig_getmethods__["w_orig"] = _blcelc.csLightMapMapping_w_orig_get
-    if _newclass:w_orig = property(_blcelc.csLightMapMapping_w_orig_get,_blcelc.csLightMapMapping_w_orig_set)
-    def GetFDU(*args): return apply(_blcelc.csLightMapMapping_GetFDU,args)
-    def GetFDV(*args): return apply(_blcelc.csLightMapMapping_GetFDV,args)
-    def GetWidth(*args): return apply(_blcelc.csLightMapMapping_GetWidth,args)
-    def GetHeight(*args): return apply(_blcelc.csLightMapMapping_GetHeight,args)
-    def GetShiftU(*args): return apply(_blcelc.csLightMapMapping_GetShiftU,args)
-    def GetIMinU(*args): return apply(_blcelc.csLightMapMapping_GetIMinU,args)
-    def GetIMinV(*args): return apply(_blcelc.csLightMapMapping_GetIMinV,args)
-    def GetTextureBox(*args): return apply(_blcelc.csLightMapMapping_GetTextureBox,args)
-    def GetOriginalWidth(*args): return apply(_blcelc.csLightMapMapping_GetOriginalWidth,args)
+    __getattr__ = lambda self, name: _swig_getattr(self, csPolyTextureMapping, name)
+    __swig_setmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_set
+    __swig_getmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_get
+    if _newclass:m_obj2tex = property(_blcelc.csPolyTextureMapping_m_obj2tex_get,_blcelc.csPolyTextureMapping_m_obj2tex_set)
+    __swig_setmethods__["v_obj2tex"] = _blcelc.csPolyTextureMapping_v_obj2tex_set
+    __swig_getmethods__["v_obj2tex"] = _blcelc.csPolyTextureMapping_v_obj2tex_get
+    if _newclass:v_obj2tex = property(_blcelc.csPolyTextureMapping_v_obj2tex_get,_blcelc.csPolyTextureMapping_v_obj2tex_set)
+    __swig_setmethods__["fdu"] = _blcelc.csPolyTextureMapping_fdu_set
+    __swig_getmethods__["fdu"] = _blcelc.csPolyTextureMapping_fdu_get
+    if _newclass:fdu = property(_blcelc.csPolyTextureMapping_fdu_get,_blcelc.csPolyTextureMapping_fdu_set)
+    __swig_setmethods__["fdv"] = _blcelc.csPolyTextureMapping_fdv_set
+    __swig_getmethods__["fdv"] = _blcelc.csPolyTextureMapping_fdv_get
+    if _newclass:fdv = property(_blcelc.csPolyTextureMapping_fdv_get,_blcelc.csPolyTextureMapping_fdv_set)
+    __swig_setmethods__["Imin_u"] = _blcelc.csPolyTextureMapping_Imin_u_set
+    __swig_getmethods__["Imin_u"] = _blcelc.csPolyTextureMapping_Imin_u_get
+    if _newclass:Imin_u = property(_blcelc.csPolyTextureMapping_Imin_u_get,_blcelc.csPolyTextureMapping_Imin_u_set)
+    __swig_setmethods__["Imin_v"] = _blcelc.csPolyTextureMapping_Imin_v_set
+    __swig_getmethods__["Imin_v"] = _blcelc.csPolyTextureMapping_Imin_v_get
+    if _newclass:Imin_v = property(_blcelc.csPolyTextureMapping_Imin_v_get,_blcelc.csPolyTextureMapping_Imin_v_set)
+    __swig_setmethods__["Fmin_u"] = _blcelc.csPolyTextureMapping_Fmin_u_set
+    __swig_getmethods__["Fmin_u"] = _blcelc.csPolyTextureMapping_Fmin_u_get
+    if _newclass:Fmin_u = property(_blcelc.csPolyTextureMapping_Fmin_u_get,_blcelc.csPolyTextureMapping_Fmin_u_set)
+    __swig_setmethods__["Fmin_v"] = _blcelc.csPolyTextureMapping_Fmin_v_set
+    __swig_getmethods__["Fmin_v"] = _blcelc.csPolyTextureMapping_Fmin_v_get
+    if _newclass:Fmin_v = property(_blcelc.csPolyTextureMapping_Fmin_v_get,_blcelc.csPolyTextureMapping_Fmin_v_set)
+    __swig_setmethods__["Fmax_u"] = _blcelc.csPolyTextureMapping_Fmax_u_set
+    __swig_getmethods__["Fmax_u"] = _blcelc.csPolyTextureMapping_Fmax_u_get
+    if _newclass:Fmax_u = property(_blcelc.csPolyTextureMapping_Fmax_u_get,_blcelc.csPolyTextureMapping_Fmax_u_set)
+    __swig_setmethods__["Fmax_v"] = _blcelc.csPolyTextureMapping_Fmax_v_set
+    __swig_getmethods__["Fmax_v"] = _blcelc.csPolyTextureMapping_Fmax_v_get
+    if _newclass:Fmax_v = property(_blcelc.csPolyTextureMapping_Fmax_v_get,_blcelc.csPolyTextureMapping_Fmax_v_set)
+    __swig_setmethods__["shf_u"] = _blcelc.csPolyTextureMapping_shf_u_set
+    __swig_getmethods__["shf_u"] = _blcelc.csPolyTextureMapping_shf_u_get
+    if _newclass:shf_u = property(_blcelc.csPolyTextureMapping_shf_u_get,_blcelc.csPolyTextureMapping_shf_u_set)
+    def GetShiftU(*args): return apply(_blcelc.csPolyTextureMapping_GetShiftU,args)
+    def GetIMinU(*args): return apply(_blcelc.csPolyTextureMapping_GetIMinU,args)
+    def GetIMinV(*args): return apply(_blcelc.csPolyTextureMapping_GetIMinV,args)
+    def GetTextureBox(*args): return apply(_blcelc.csPolyTextureMapping_GetTextureBox,args)
+    def GetFDU(*args): return apply(_blcelc.csPolyTextureMapping_GetFDU,args)
+    def GetFDV(*args): return apply(_blcelc.csPolyTextureMapping_GetFDV,args)
     def __init__(self,*args):
-        _swig_setattr(self, csLightMapMapping, 'this', apply(_blcelc.new_csLightMapMapping,args))
-        _swig_setattr(self, csLightMapMapping, 'thisown', 1)
-    def __del__(self, destroy= _blcelc.delete_csLightMapMapping):
+        _swig_setattr(self, csPolyTextureMapping, 'this', apply(_blcelc.new_csPolyTextureMapping,args))
+        _swig_setattr(self, csPolyTextureMapping, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csPolyTextureMapping):
         try:
             if self.thisown: destroy(self)
         except: pass
     def __repr__(self):
-        return "<C csLightMapMapping instance at %s>" % (self.this,)
+        return "<C csPolyTextureMapping instance at %s>" % (self.this,)
 
-class csLightMapMappingPtr(csLightMapMapping):
+class csPolyTextureMappingPtr(csPolyTextureMapping):
     def __init__(self,this):
-        _swig_setattr(self, csLightMapMapping, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, csLightMapMapping, 'thisown', 0)
-        _swig_setattr(self, csLightMapMapping,self.__class__,csLightMapMapping)
-_blcelc.csLightMapMapping_swigregister(csLightMapMappingPtr)
+        _swig_setattr(self, csPolyTextureMapping, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPolyTextureMapping, 'thisown', 0)
+        _swig_setattr(self, csPolyTextureMapping,self.__class__,csPolyTextureMapping)
+_blcelc.csPolyTextureMapping_swigregister(csPolyTextureMappingPtr)
+
+class csPolyLightMapMapping(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPolyLightMapMapping, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPolyLightMapMapping, name)
+    __swig_setmethods__["w"] = _blcelc.csPolyLightMapMapping_w_set
+    __swig_getmethods__["w"] = _blcelc.csPolyLightMapMapping_w_get
+    if _newclass:w = property(_blcelc.csPolyLightMapMapping_w_get,_blcelc.csPolyLightMapMapping_w_set)
+    __swig_setmethods__["h"] = _blcelc.csPolyLightMapMapping_h_set
+    __swig_getmethods__["h"] = _blcelc.csPolyLightMapMapping_h_get
+    if _newclass:h = property(_blcelc.csPolyLightMapMapping_h_get,_blcelc.csPolyLightMapMapping_h_set)
+    __swig_setmethods__["w_orig"] = _blcelc.csPolyLightMapMapping_w_orig_set
+    __swig_getmethods__["w_orig"] = _blcelc.csPolyLightMapMapping_w_orig_get
+    if _newclass:w_orig = property(_blcelc.csPolyLightMapMapping_w_orig_get,_blcelc.csPolyLightMapMapping_w_orig_set)
+    def GetWidth(*args): return apply(_blcelc.csPolyLightMapMapping_GetWidth,args)
+    def GetHeight(*args): return apply(_blcelc.csPolyLightMapMapping_GetHeight,args)
+    def GetOriginalWidth(*args): return apply(_blcelc.csPolyLightMapMapping_GetOriginalWidth,args)
+    def __init__(self,*args):
+        _swig_setattr(self, csPolyLightMapMapping, 'this', apply(_blcelc.new_csPolyLightMapMapping,args))
+        _swig_setattr(self, csPolyLightMapMapping, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csPolyLightMapMapping):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csPolyLightMapMapping instance at %s>" % (self.this,)
+
+class csPolyLightMapMappingPtr(csPolyLightMapMapping):
+    def __init__(self,this):
+        _swig_setattr(self, csPolyLightMapMapping, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPolyLightMapMapping, 'thisown', 0)
+        _swig_setattr(self, csPolyLightMapMapping,self.__class__,csPolyLightMapMapping)
+_blcelc.csPolyLightMapMapping_swigregister(csPolyLightMapMappingPtr)
 
 class iPolygonTexture(iBase):
     __swig_setmethods__ = {}
@@ -4418,7 +4512,8 @@ class iPolygonTexture(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPolygonTexture, name)
     def GetMaterialHandle(*args): return apply(_blcelc.iPolygonTexture_GetMaterialHandle,args)
-    def GetMapping(*args): return apply(_blcelc.iPolygonTexture_GetMapping,args)
+    def GetTMapping(*args): return apply(_blcelc.iPolygonTexture_GetTMapping,args)
+    def GetLMapping(*args): return apply(_blcelc.iPolygonTexture_GetLMapping,args)
     def DynamicLightsDirty(*args): return apply(_blcelc.iPolygonTexture_DynamicLightsDirty,args)
     def RecalculateDynamicLights(*args): return apply(_blcelc.iPolygonTexture_RecalculateDynamicLights,args)
     def GetLightMap(*args): return apply(_blcelc.iPolygonTexture_GetLightMap,args)
@@ -5254,6 +5349,14 @@ class csEventNetworkData(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, csEventNetworkData, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csEventNetworkData, name)
+    __swig_getmethods__["From"] = _blcelc.csEventNetworkData_From_get
+    if _newclass:From = property(_blcelc.csEventNetworkData_From_get)
+    __swig_getmethods__["From2"] = _blcelc.csEventNetworkData_From2_get
+    if _newclass:From2 = property(_blcelc.csEventNetworkData_From2_get)
+    __swig_getmethods__["Data"] = _blcelc.csEventNetworkData_Data_get
+    if _newclass:Data = property(_blcelc.csEventNetworkData_Data_get)
+    __swig_getmethods__["Data2"] = _blcelc.csEventNetworkData_Data2_get
+    if _newclass:Data2 = property(_blcelc.csEventNetworkData_Data2_get)
     def __init__(self,*args):
         _swig_setattr(self, csEventNetworkData, 'this', apply(_blcelc.new_csEventNetworkData,args))
         _swig_setattr(self, csEventNetworkData, 'thisown', 1)
@@ -6204,33 +6307,33 @@ class G3DFogInfoPtr(G3DFogInfo):
         _swig_setattr(self, G3DFogInfo,self.__class__,G3DFogInfo)
 _blcelc.G3DFogInfo_swigregister(G3DFogInfoPtr)
 
-class G3DTexturePlane(_object):
+class G3DCam2TextureTransform(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, G3DTexturePlane, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, G3DCam2TextureTransform, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, G3DTexturePlane, name)
-    __swig_setmethods__["m_cam2tex"] = _blcelc.G3DTexturePlane_m_cam2tex_set
-    __swig_getmethods__["m_cam2tex"] = _blcelc.G3DTexturePlane_m_cam2tex_get
-    if _newclass:m_cam2tex = property(_blcelc.G3DTexturePlane_m_cam2tex_get,_blcelc.G3DTexturePlane_m_cam2tex_set)
-    __swig_setmethods__["v_cam2tex"] = _blcelc.G3DTexturePlane_v_cam2tex_set
-    __swig_getmethods__["v_cam2tex"] = _blcelc.G3DTexturePlane_v_cam2tex_get
-    if _newclass:v_cam2tex = property(_blcelc.G3DTexturePlane_v_cam2tex_get,_blcelc.G3DTexturePlane_v_cam2tex_set)
+    __getattr__ = lambda self, name: _swig_getattr(self, G3DCam2TextureTransform, name)
+    __swig_setmethods__["m_cam2tex"] = _blcelc.G3DCam2TextureTransform_m_cam2tex_set
+    __swig_getmethods__["m_cam2tex"] = _blcelc.G3DCam2TextureTransform_m_cam2tex_get
+    if _newclass:m_cam2tex = property(_blcelc.G3DCam2TextureTransform_m_cam2tex_get,_blcelc.G3DCam2TextureTransform_m_cam2tex_set)
+    __swig_setmethods__["v_cam2tex"] = _blcelc.G3DCam2TextureTransform_v_cam2tex_set
+    __swig_getmethods__["v_cam2tex"] = _blcelc.G3DCam2TextureTransform_v_cam2tex_get
+    if _newclass:v_cam2tex = property(_blcelc.G3DCam2TextureTransform_v_cam2tex_get,_blcelc.G3DCam2TextureTransform_v_cam2tex_set)
     def __init__(self,*args):
-        _swig_setattr(self, G3DTexturePlane, 'this', apply(_blcelc.new_G3DTexturePlane,args))
-        _swig_setattr(self, G3DTexturePlane, 'thisown', 1)
-    def __del__(self, destroy= _blcelc.delete_G3DTexturePlane):
+        _swig_setattr(self, G3DCam2TextureTransform, 'this', apply(_blcelc.new_G3DCam2TextureTransform,args))
+        _swig_setattr(self, G3DCam2TextureTransform, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_G3DCam2TextureTransform):
         try:
             if self.thisown: destroy(self)
         except: pass
     def __repr__(self):
-        return "<C G3DTexturePlane instance at %s>" % (self.this,)
+        return "<C G3DCam2TextureTransform instance at %s>" % (self.this,)
 
-class G3DTexturePlanePtr(G3DTexturePlane):
+class G3DCam2TextureTransformPtr(G3DCam2TextureTransform):
     def __init__(self,this):
-        _swig_setattr(self, G3DTexturePlane, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, G3DTexturePlane, 'thisown', 0)
-        _swig_setattr(self, G3DTexturePlane,self.__class__,G3DTexturePlane)
-_blcelc.G3DTexturePlane_swigregister(G3DTexturePlanePtr)
+        _swig_setattr(self, G3DCam2TextureTransform, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, G3DCam2TextureTransform, 'thisown', 0)
+        _swig_setattr(self, G3DCam2TextureTransform,self.__class__,G3DCam2TextureTransform)
+_blcelc.G3DCam2TextureTransform_swigregister(G3DCam2TextureTransformPtr)
 
 class G3DPolygonDPFX(_object):
     __swig_setmethods__ = {}
@@ -6337,12 +6440,18 @@ class G3DPolygonDP(G3DPolygonDFP):
     __swig_setmethods__["mat_handle"] = _blcelc.G3DPolygonDP_mat_handle_set
     __swig_getmethods__["mat_handle"] = _blcelc.G3DPolygonDP_mat_handle_get
     if _newclass:mat_handle = property(_blcelc.G3DPolygonDP_mat_handle_get,_blcelc.G3DPolygonDP_mat_handle_set)
-    __swig_setmethods__["plane"] = _blcelc.G3DPolygonDP_plane_set
-    __swig_getmethods__["plane"] = _blcelc.G3DPolygonDP_plane_get
-    if _newclass:plane = property(_blcelc.G3DPolygonDP_plane_get,_blcelc.G3DPolygonDP_plane_set)
-    __swig_setmethods__["poly_texture"] = _blcelc.G3DPolygonDP_poly_texture_set
-    __swig_getmethods__["poly_texture"] = _blcelc.G3DPolygonDP_poly_texture_get
-    if _newclass:poly_texture = property(_blcelc.G3DPolygonDP_poly_texture_get,_blcelc.G3DPolygonDP_poly_texture_set)
+    __swig_setmethods__["cam2tex"] = _blcelc.G3DPolygonDP_cam2tex_set
+    __swig_getmethods__["cam2tex"] = _blcelc.G3DPolygonDP_cam2tex_get
+    if _newclass:cam2tex = property(_blcelc.G3DPolygonDP_cam2tex_get,_blcelc.G3DPolygonDP_cam2tex_set)
+    __swig_setmethods__["texmap"] = _blcelc.G3DPolygonDP_texmap_set
+    __swig_getmethods__["texmap"] = _blcelc.G3DPolygonDP_texmap_get
+    if _newclass:texmap = property(_blcelc.G3DPolygonDP_texmap_get,_blcelc.G3DPolygonDP_texmap_set)
+    __swig_setmethods__["lmap"] = _blcelc.G3DPolygonDP_lmap_set
+    __swig_getmethods__["lmap"] = _blcelc.G3DPolygonDP_lmap_get
+    if _newclass:lmap = property(_blcelc.G3DPolygonDP_lmap_get,_blcelc.G3DPolygonDP_lmap_set)
+    __swig_setmethods__["rlm"] = _blcelc.G3DPolygonDP_rlm_set
+    __swig_getmethods__["rlm"] = _blcelc.G3DPolygonDP_rlm_get
+    if _newclass:rlm = property(_blcelc.G3DPolygonDP_rlm_get,_blcelc.G3DPolygonDP_rlm_set)
     __swig_setmethods__["do_fullbright"] = _blcelc.G3DPolygonDP_do_fullbright_set
     __swig_getmethods__["do_fullbright"] = _blcelc.G3DPolygonDP_do_fullbright_get
     if _newclass:do_fullbright = property(_blcelc.G3DPolygonDP_do_fullbright_get,_blcelc.G3DPolygonDP_do_fullbright_set)
@@ -7062,6 +7171,62 @@ CS_TEXTURE_2D = _blcelc.CS_TEXTURE_2D
 CS_TEXTURE_3D = _blcelc.CS_TEXTURE_3D
 CS_TEXTURE_DITHER = _blcelc.CS_TEXTURE_DITHER
 CS_TEXTURE_NOMIPMAPS = _blcelc.CS_TEXTURE_NOMIPMAPS
+iRendererLightmap_scfGetID = _blcelc.iRendererLightmap_scfGetID
+
+class iRendererLightmap(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iRendererLightmap, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iRendererLightmap, name)
+    def GetRendererCoords(*args): return apply(_blcelc.iRendererLightmap_GetRendererCoords,args)
+    def GetSLMCoords(*args): return apply(_blcelc.iRendererLightmap_GetSLMCoords,args)
+    def SetData(*args): return apply(_blcelc.iRendererLightmap_SetData,args)
+    def SetLightCellSize(*args): return apply(_blcelc.iRendererLightmap_SetLightCellSize,args)
+    def __del__(self, destroy= _blcelc.delete_iRendererLightmap):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iRendererLightmap instance at %s>" % (self.this,)
+
+class iRendererLightmapPtr(iRendererLightmap):
+    def __init__(self,this):
+        _swig_setattr(self, iRendererLightmap, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iRendererLightmap, 'thisown', 0)
+        _swig_setattr(self, iRendererLightmap,self.__class__,iRendererLightmap)
+_blcelc.iRendererLightmap_swigregister(iRendererLightmapPtr)
+iRendererLightmap_VERSION = cvar.iRendererLightmap_VERSION
+
+iSuperLightmap_scfGetID = _blcelc.iSuperLightmap_scfGetID
+
+class iSuperLightmap(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSuperLightmap, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSuperLightmap, name)
+    def RegisterLightmap(*args): return apply(_blcelc.iSuperLightmap_RegisterLightmap,args)
+    def Dump(*args): return apply(_blcelc.iSuperLightmap_Dump,args)
+    def __del__(self, destroy= _blcelc.delete_iSuperLightmap):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSuperLightmap instance at %s>" % (self.this,)
+
+class iSuperLightmapPtr(iSuperLightmap):
+    def __init__(self,this):
+        _swig_setattr(self, iSuperLightmap, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSuperLightmap, 'thisown', 0)
+        _swig_setattr(self, iSuperLightmap,self.__class__,iSuperLightmap)
+_blcelc.iSuperLightmap_swigregister(iSuperLightmapPtr)
+iSuperLightmap_VERSION = cvar.iSuperLightmap_VERSION
+
 class iTextureManager(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -7077,6 +7242,8 @@ class iTextureManager(iBase):
     def FreeMaterials(*args): return apply(_blcelc.iTextureManager_FreeMaterials,args)
     def SetVerbose(*args): return apply(_blcelc.iTextureManager_SetVerbose,args)
     def GetTextureFormat(*args): return apply(_blcelc.iTextureManager_GetTextureFormat,args)
+    def CreateSuperLightmap(*args): return apply(_blcelc.iTextureManager_CreateSuperLightmap,args)
+    def GetMaxTextureSize(*args): return apply(_blcelc.iTextureManager_GetMaxTextureSize,args)
     def __del__(self, destroy= _blcelc.delete_iTextureManager):
         try:
             if self.thisown: destroy(self)
@@ -7136,18 +7303,18 @@ class iPolygonBuffer(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPolygonBuffer, name)
-    def AddPolygon(*args): return apply(_blcelc.iPolygonBuffer_AddPolygon,args)
     def SetVertexArray(*args): return apply(_blcelc.iPolygonBuffer_SetVertexArray,args)
+    def GetVertexCount(*args): return apply(_blcelc.iPolygonBuffer_GetVertexCount,args)
+    def GetVertices(*args): return apply(_blcelc.iPolygonBuffer_GetVertices,args)
     def AddMaterial(*args): return apply(_blcelc.iPolygonBuffer_AddMaterial,args)
     def GetMaterialCount(*args): return apply(_blcelc.iPolygonBuffer_GetMaterialCount,args)
     def GetMaterial(*args): return apply(_blcelc.iPolygonBuffer_GetMaterial,args)
-    def GetVertexCount(*args): return apply(_blcelc.iPolygonBuffer_GetVertexCount,args)
-    def GetVertices(*args): return apply(_blcelc.iPolygonBuffer_GetVertices,args)
     def SetMaterial(*args): return apply(_blcelc.iPolygonBuffer_SetMaterial,args)
     def Clear(*args): return apply(_blcelc.iPolygonBuffer_Clear,args)
     def Prepare(*args): return apply(_blcelc.iPolygonBuffer_Prepare,args)
     def MarkLightmapsDirty(*args): return apply(_blcelc.iPolygonBuffer_MarkLightmapsDirty,args)
     def GetBoundingBox(*args): return apply(_blcelc.iPolygonBuffer_GetBoundingBox,args)
+    def AddPolygon(*args): return apply(_blcelc.iPolygonBuffer_AddPolygon,args)
     def __del__(self, destroy= _blcelc.delete_iPolygonBuffer):
         try:
             if self.thisown: destroy(self)
@@ -8421,6 +8588,70 @@ class iConsoleOutputPtr(iConsoleOutput):
 _blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
 iConsoleOutput_VERSION = cvar.iConsoleOutput_VERSION
 
+iScriptObject_scfGetID = _blcelc.iScriptObject_scfGetID
+
+class iScriptObject(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iScriptObject, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iScriptObject, name)
+    def IsType(*args): return apply(_blcelc.iScriptObject_IsType,args)
+    def Call(*args): return apply(_blcelc.iScriptObject_Call,args)
+    def Set(*args): return apply(_blcelc.iScriptObject_Set,args)
+    def SetTruth(*args): return apply(_blcelc.iScriptObject_SetTruth,args)
+    def Get(*args): return apply(_blcelc.iScriptObject_Get,args)
+    def GetTruth(*args): return apply(_blcelc.iScriptObject_GetTruth,args)
+    def __del__(self, destroy= _blcelc.delete_iScriptObject):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iScriptObject instance at %s>" % (self.this,)
+
+class iScriptObjectPtr(iScriptObject):
+    def __init__(self,this):
+        _swig_setattr(self, iScriptObject, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iScriptObject, 'thisown', 0)
+        _swig_setattr(self, iScriptObject,self.__class__,iScriptObject)
+_blcelc.iScriptObject_swigregister(iScriptObjectPtr)
+iScriptObject_VERSION = cvar.iScriptObject_VERSION
+
+class iScript(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iScript, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iScript, name)
+    def Initialize(*args): return apply(_blcelc.iScript_Initialize,args)
+    def RunText(*args): return apply(_blcelc.iScript_RunText,args)
+    def LoadModule(*args): return apply(_blcelc.iScript_LoadModule,args)
+    def Call(*args): return apply(_blcelc.iScript_Call,args)
+    def NewObject(*args): return apply(_blcelc.iScript_NewObject,args)
+    def Store(*args): return apply(_blcelc.iScript_Store,args)
+    def SetTruth(*args): return apply(_blcelc.iScript_SetTruth,args)
+    def Retrieve(*args): return apply(_blcelc.iScript_Retrieve,args)
+    def GetTruth(*args): return apply(_blcelc.iScript_GetTruth,args)
+    def Remove(*args): return apply(_blcelc.iScript_Remove,args)
+    def __del__(self, destroy= _blcelc.delete_iScript):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iScript instance at %s>" % (self.this,)
+
+class iScriptPtr(iScript):
+    def __init__(self,this):
+        _swig_setattr(self, iScript, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iScript, 'thisown', 0)
+        _swig_setattr(self, iScript,self.__class__,iScript)
+_blcelc.iScript_swigregister(iScriptPtr)
+iScript_VERSION = cvar.iScript_VERSION
+
 iParameterESM_scfGetID = _blcelc.iParameterESM_scfGetID
 
 class iParameterESM(iBase):
@@ -8744,6 +8975,7 @@ CS_NET_SOCKET_WOULDBLOCK = _blcelc.CS_NET_SOCKET_WOULDBLOCK
 CS_NET_SOCKET_NODATA = _blcelc.CS_NET_SOCKET_NODATA
 CS_NET_SOCKET_CANNOT_RESOLVE = _blcelc.CS_NET_SOCKET_CANNOT_RESOLVE
 CS_NET_SOCKET_CANNOT_CONNECT = _blcelc.CS_NET_SOCKET_CANNOT_CONNECT
+CS_NET_SOCKET_BROADCAST_ERROR = _blcelc.CS_NET_SOCKET_BROADCAST_ERROR
 CS_NET_ERR_NO_ERROR = _blcelc.CS_NET_ERR_NO_ERROR
 CS_NET_ERR_CANNOT_RESOLVE_ADDRESS = _blcelc.CS_NET_ERR_CANNOT_RESOLVE_ADDRESS
 CS_NET_ERR_CANNOT_CONNECT = _blcelc.CS_NET_ERR_CANNOT_CONNECT
@@ -8910,6 +9142,8 @@ class iNetworkSocket2(iBase):
     def LastError(*args): return apply(_blcelc.iNetworkSocket2_LastError,args)
     def SetSocketBlock(*args): return apply(_blcelc.iNetworkSocket2_SetSocketBlock,args)
     def SetSocketReuse(*args): return apply(_blcelc.iNetworkSocket2_SetSocketReuse,args)
+    def SetSocketBroadcast(*args): return apply(_blcelc.iNetworkSocket2_SetSocketBroadcast,args)
+    def SetBroadcastOptions(*args): return apply(_blcelc.iNetworkSocket2_SetBroadcastOptions,args)
     def Connect(*args): return apply(_blcelc.iNetworkSocket2_Connect,args)
     def Send(*args): return apply(_blcelc.iNetworkSocket2_Send,args)
     def Recv(*args): return apply(_blcelc.iNetworkSocket2_Recv,args)
