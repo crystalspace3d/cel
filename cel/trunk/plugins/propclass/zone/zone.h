@@ -151,7 +151,6 @@ class celZone : public iCelZone
 private:
   celPcZoneManager* mgr;
   char* name;
-  bool loaded;
   csRefArray<celRegion> regions;
 
 public:
@@ -160,22 +159,12 @@ public:
     SCF_CONSTRUCT_IBASE (0);
     celZone::mgr = mgr;
     celZone::name = csStrNew (name);
-    loaded = false;
   }
   virtual ~celZone ()
   {
     delete[] name;
     SCF_DESTRUCT_IBASE ();
   }
-
-  bool Load ();
-  void Unload ();
-
-  // This function will return true if this zone is loaded.
-  // It will also true if this zone is technically marked as being
-  // unloaded but all regions are loaded anyway. In that case the
-  // zone will automatically be marked as loaded.
-  bool CheckLoaded ();
 
   bool ContainsRegion (celRegion* region);
 
