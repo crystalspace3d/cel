@@ -225,7 +225,7 @@ iBase* celPropertyClassList::FindByInterfaceAndTag (scfInterfaceID id,
       continue;
     if (tag != 0 && obj->GetTag () == 0)
       continue;
-    if (tag != 0 || strcmp (obj->GetTag (), tag) != 0)
+    if (tag != 0 && strcmp (obj->GetTag (), tag) != 0)
       continue;
     iBase* interf = (iBase*)(obj->QueryInterface (id, version));
     if (interf)
