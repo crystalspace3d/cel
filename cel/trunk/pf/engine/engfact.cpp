@@ -319,7 +319,7 @@ iCelDataBuffer* celPcCamera::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (3+9+7);
+  databuf->SetDataCount (3+11+7);
   celDataBufHelper db(databuf);
 
   iCelPropertyClass* pc = NULL;
