@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in celtest. Because of a misplaced
 	  engine->Prepare() lighting would be bad if -relight was not
 	  given.
+	- Jorrit added functions to iPcCamera to set and get the pitch.
+	  Also added a function to get pitch velocity.
 15-Sep-2004
 	- Eric Sunshine updated the Autoconf utility files from master copies
 	  in CS repository and augmented configure.ac to emit RANLIB with an

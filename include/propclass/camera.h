@@ -28,7 +28,7 @@ struct iView;
 struct iPcRegion;
 struct iPcZoneManager;
 
-SCF_VERSION (iPcCamera, 0, 0, 2);
+SCF_VERSION (iPcCamera, 0, 0, 3);
 
 /**
  * The representation of a camera.
@@ -134,10 +134,23 @@ struct iPcCamera : public iBase
   virtual void CenterCamera () = 0; 
 
   /**
+   * Control pitch.
+   */
+  virtual void SetPitch (float pitch) = 0;
+  /**
+   * Get current pitch.
+   */
+  virtual float GetPitch () const = 0;
+
+  /**
    * Control velocity of pitch. This can be useful for looking up or
    * down.
    */
   virtual void SetPitchVelocity (float pitchVel) = 0;
+  /**
+   * Get current pitch velocity.
+   */
+  virtual float GetPitchVelocity () const = 0;
 
   /**
    * Set the view rectangle to use on screen.
