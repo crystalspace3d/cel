@@ -553,16 +553,25 @@ csStringID celPcRegion::GetPropertyOrActionID (int idx)
 
 void celPcRegion::SetWorldFile (const char* vfsdir, const char* name)
 {
-  delete[] worlddir;
-  delete[] worldfile;
-  worlddir = csStrNew (vfsdir);
-  worldfile = csStrNew (name);
+  if (worlddir != vfsdir)
+  {
+    delete[] worlddir;
+    worlddir = csStrNew (vfsdir);
+  }
+  if (worldfile != name)
+  {
+    delete[] worldfile;
+    worldfile = csStrNew (name);
+  }
 }
 
 void celPcRegion::SetRegionName (const char* name)
 {
-  delete[] regionname;
-  regionname = csStrNew (name);
+  if (regionname != name)
+  {
+    delete[] regionname;
+    regionname = csStrNew (name);
+  }
 }
 
 bool celPcRegion::Load ()

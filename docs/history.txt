@@ -1,14 +1,17 @@
+20-Feb-2002:
+	- Fixed a bug in celPcRegion::SetWorldFile() it would delete
+	  its own copy in some cases.
+	- Did some small reformatting of history.txt.
 19-Feb-2002:
-	-jtarbox added a rotational camera mode a few days back and then
-	changed it so that the distance from the object can be changed as
-	well.
+	- jtarbox added a rotational camera mode a few days back and then
+	  changed it so that the distance from the object can be changed as
+	  well.
 12-Fev-2002:
-	-Matze changed order of entity saving/loading. behaviour is the last
-	processed piece now.
+	- Matze changed order of entity saving/loading. behaviour is the last
+	  processed piece now.
 20-Jab-2002:
 	- Matze changed ref behaviour for Region: Camera is taken ref to
-	  region now.
-	- This allowed to fix camera loading
+	  region now. This fixes camera loading.
 17-Jan-2002:
 	- Matze fixed several bugs/cleaned up/commented in ID registry
 	- introduced celDataBufHelper class to make the Save/Load functions
@@ -21,10 +24,10 @@
 	- reenabled the csMemFile buffer, after fixing a bug in CS
 14-Jan-2002:
 	- Matze changed persistance plugin, to accept streams thourgh iFile
-	  interface
-	- also changed persistance to use ID's instead of entity names
+	  interface.
+	- Also changed persistance to use ID's instead of entity names
 	- Added some macros that help debugging save/load functions
-	- saving seems to work, while loading fails for some reasons... I
+	- Saving seems to work, while loading fails for some reasons... I
 	  suspect a bug in csMemFile (I'll investigate tomorrow), but also
 	  when reading files directly from disk something goes still wrong...
 7-Jan-2002:
@@ -34,8 +37,8 @@
 	     Each Entity is assigned a unique ID now, a list of ID's is
 	     stored in the PhysicalLayer now, so this also has the nice
 	     effect, that you can check if all entities are properly removed
-	     at destruction time
-	- Matze added CEL_DEBUG constant
+	     at destruction time.
+	- Matze added CEL_DEBUG constant.
 31-Dec-2001:
 	- The new 'pcgravity2' property class works a lot better now with
 	  the new CollidePath() function in CS iCollideSystem. Friction
