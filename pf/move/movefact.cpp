@@ -185,6 +185,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
     if (rc == CEL_MOVE_FAIL) return rc;
   }
   pcmesh->MoveMesh (sector, pos);
+  FirePropertyChangeCallback(CEL_PCMOVABLE_PROPERTY_POSITION);
   return CEL_MOVE_SUCCEED;
 }
 
@@ -211,6 +212,7 @@ int celPcMovable::Move (const csVector3& relpos)
     if (rc == CEL_MOVE_PARTIAL) { end = realpos; partial = true; }
   }
   pcmesh->MoveMesh (sector, realpos);
+  FirePropertyChangeCallback(CEL_PCMOVABLE_PROPERTY_POSITION);
   return partial ? CEL_MOVE_PARTIAL : CEL_MOVE_SUCCEED;
 }
 
