@@ -105,7 +105,7 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    iPcMovableConstraint* pcm = (iPcMovableConstraint*)constraints[i];
+    iPcMovableConstraint* pcm = constraints[i];
     csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pcm, iCelPropertyClass));
     databuf->GetData (j++)->Set (pc);
   }
@@ -171,7 +171,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    iPcMovableConstraint* c = (iPcMovableConstraint*)constraints[i];
+    iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, pos, pos, realpos);
     if (rc == CEL_MOVE_FAIL) return rc;
   }
@@ -197,7 +197,7 @@ int celPcMovable::Move (const csVector3& relpos)
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    iPcMovableConstraint* c = (iPcMovableConstraint*)constraints[i];
+    iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, start, end, realpos);
     if (rc == CEL_MOVE_FAIL) return rc;
     if (rc == CEL_MOVE_PARTIAL) { end = realpos; partial = true; }
@@ -212,25 +212,15 @@ void celPcMovable::AddConstraint (iPcMovableConstraint* constraint)
   int idx = constraints.Find (constraint);
   if (idx != -1) return;
   constraints.Push (constraint);
-  constraint->IncRef ();
 }
 
 void celPcMovable::RemoveConstraint (iPcMovableConstraint* constraint)
 {
-  int idx = constraints.Find (constraint);
-  if (idx == -1) return;
-  constraints.Delete (idx);
-  constraint->DecRef ();
+  constraints.Delete (constraint);
 }
 
 void celPcMovable::RemoveAllConstraints ()
 {
-  int i;
-  for (i = 0 ; i < constraints.Length () ; i++)
-  {
-    iPcMovableConstraint* c = (iPcMovableConstraint*)constraints[i];
-    c->DecRef ();
-  }
   constraints.DeleteAll ();
 }
 
@@ -413,9 +403,9 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     csReversibleTransform path_trans;	// Identity
     if (!single_point)
     {
-      celPolygonMeshTriangle* pmtri = new celPolygonMeshTriangle (start, end);
+      csRef<celPolygonMeshTriangle> pmtri =
+	csPtr<celPolygonMeshTriangle> (new celPolygonMeshTriangle (start,end));
       path_collider = cdsys->CreateCollider (pmtri);
-      pmtri->DecRef ();
     }
 
     // Change the transform from the mesh to the new position.
@@ -689,8 +679,6 @@ void celPcGravity::CreateGravityCollider (const csVector3& dim,
 
 void celPcGravity::SetMovable (iPcMovable* movable)
 {
-  if (movable) movable->IncRef ();
-  if (pcmovable) pcmovable->DecRef ();
   pcmovable = movable;
 }
 
@@ -707,8 +695,6 @@ iPcMovable* celPcGravity::GetMovable ()
 
 void celPcGravity::SetSolid (iPcSolid* solid)
 {
-  if (solid) solid->IncRef ();
-  if (pcsolid) pcsolid->DecRef ();
   pcsolid = solid;
 }
 

@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "csutil/refarr.h"
 #include "csutil/scf.h"
 #include "csutil/csvector.h"
 #include "pl/propclas.h"
@@ -46,7 +47,7 @@ CEL_DECLARE_FACTORY (Characteristics)
 class celPcInventory : public celPcCommon
 {
 private:
-  csVector contents;
+  csRefArray<iCelEntity> contents;
   csVector constraints;
 
   struct constraint

@@ -670,7 +670,6 @@ bool celPcRegion::Load ()
       pc = pl->CreatePropertyClass (ent, "pcsolid");
       entities.Push (ent);
       DG_LINK (this, ent->QueryObject ());
-      ent->IncRef ();	// Avoid smart pointer release.
     }
     iter->Next ();
   }
@@ -693,12 +692,8 @@ void celPcRegion::Unload ()
 
   int i;
   for (i = 0 ; i < entities.Length () ; i++)
-  {
-    iCelEntity* ent = (iCelEntity*)entities[i];
-    DG_UNLINK (this, ent->QueryObject ());
-    ent->DecRef ();
-  }
-  entities.SetLength (0);
+    DG_UNLINK (this, entities[i]);
+  entities.DeleteAll ();
 
   iRegion* cur_region = engine->GetCurrentRegion ();
   engine->GetCurrentRegion ()->DeleteAll ();

@@ -9,7 +9,7 @@ PYTHON_CFLAGS = "@PYTHON_CFLAGS@" ;
 C++ = @CXX@ ;
 LINK = $(C++) ;
 
-C++FLAGS += $(CRYSTAL_C++FLAGS) -I@top_srcdir@ -I@top_srcdir@/include ;
+C++FLAGS += $(CRYSTAL_C++FLAGS) -I$(TOP) -I$(TOP)/include ;
 LINKLIBS += $(CRYSTAL_LIBS) ;
 
 #disabled for now (1 source file is ../common/stdpcimp.cpp that doesn't work

@@ -66,17 +66,17 @@ private:
   bool LoadTextures ();
   bool LoadTexture (const char* txtName, const char* fileName);
   bool CreateRoom ();
-  iCelEntity* CreateBoxEntity (const char* name, const char* factName,
+  csPtr<iCelEntity> CreateBoxEntity (const char* name, const char* factName,
   	iPcCamera* pccamera,
   	float weight, float size,
 	float max_indiv_weight, float max_weight,
 	float max_indiv_size, float max_size,
   	const csVector3& pos);
-  iCelEntity* CreateDummyEntity (const char* name, const char* factName,
+  csPtr<iCelEntity> CreateDummyEntity (const char* name, const char* factName,
   	float weight, float size,
   	const csVector3& pos, const csVector3& force,
 	bool python);
-  iCelEntity* CreateActor (const char *name, const char* factName,
+  csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
 	const csVector3& pos);
   
 public:

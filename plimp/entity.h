@@ -21,7 +21,7 @@
 #define __CEL_PLIMP_ENTITY__
 
 #include "csutil/csobject.h"
-#include "csutil/csvector.h"
+#include "csutil/refarr.h"
 #include "pl/entity.h"
 #include "plimp/pl.h"
 
@@ -35,7 +35,7 @@ class celEntity : public csObject
 {
 private:
   celPropertyClassList* plist;
-  iCelBehaviour* behaviour;
+  csRef<iCelBehaviour> behaviour;
   CS_ID entity_ID;
   celPlLayer *pl;
 
@@ -86,7 +86,7 @@ public:
 class celEntityList : public iCelEntityList
 {
 private:
-  csVector entities;
+  csRefArray<iCelEntity> entities;
 
 public:
   celEntityList ();

@@ -24,7 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
-#include "csutil/csvector.h"
+#include "csutil/refarr.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
@@ -233,7 +233,7 @@ private:
 
   // This property class maintains private child entities
   // which are used for collision detection.
-  csVector entities;
+  csRefArray<iCelEntity> entities;
 
 	enum propids {
 		propid_worlddir = 0,

@@ -96,7 +96,7 @@ class celBehaviourActor : public celBehaviourGeneral
 {
   int fpscam;
   float speed;
-  celBehaviourRoom *bhroom;
+  csRef<celBehaviourRoom> bhroom;
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourActor();

@@ -51,14 +51,11 @@ celEntity::~celEntity ()
     pl->RemoveEntity(this);
   DG_UNLINK (this, plist);
   delete plist;
-  if (behaviour) behaviour->DecRef ();
 }
 
-void celEntity::SetBehaviour (iCelBehaviour* ent)
+void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
 {
-  if (ent) ent->IncRef ();
-  if (behaviour) behaviour->DecRef ();
-  behaviour = ent;
+  behaviour = newbehaviour;
 }
 
 iCelPropertyClassList* celEntity::GetPropertyClassList ()
@@ -92,13 +89,12 @@ int celEntityList::GetCount () const
 iCelEntity* celEntityList::Get (int n) const
 {
   CS_ASSERT (n >= 0 && n < entities.Length ());
-  return (iCelEntity*)entities[n];
+  return entities[n];
 }
 
 int celEntityList::Add (iCelEntity* obj)
 {
   DG_LINK (this, obj);
-  obj->IncRef ();
   return entities.Push (obj);
 }
 
@@ -109,7 +105,6 @@ bool celEntityList::Remove (iCelEntity* obj)
   {
     DG_UNLINK (this, obj);
     entities.Delete (idx);
-    obj->DecRef ();
     return true;
   }
   return false;
@@ -118,8 +113,8 @@ bool celEntityList::Remove (iCelEntity* obj)
 bool celEntityList::Remove (int n)
 {
   iCelEntity* ent = Get (n);
+  (void)ent;
   DG_UNLINK (this, ent);
-  ent->DecRef ();
   entities.Delete (n);
   return true;
 }
@@ -127,7 +122,7 @@ bool celEntityList::Remove (int n)
 void celEntityList::RemoveAll ()
 {
   while (entities.Length () > 0)
-    Remove ((int)0);
+    Remove ((int) 0);
 }
 
 int celEntityList::Find (iCelEntity* obj) const
@@ -140,7 +135,7 @@ iCelEntity* celEntityList::FindByName (const char *Name) const
   int i;
   for (i = 0 ; i < entities.Length () ; i++)
   {
-    iCelEntity* ent = (iCelEntity*)entities[i];
+    iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;
   }
   return NULL;

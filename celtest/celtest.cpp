@@ -84,7 +84,7 @@ CS_IMPLEMENT_APPLICATION
 
 // Define MINIMAL for a very minimal celtest.
 // Useful for debugging.
-#define MINIMAL 0
+#define MINIMAL 1
 
 //-----------------------------------------------------------------------------
 
@@ -159,7 +159,6 @@ bool CelTest::HandleEvent (iEvent& ev)
       printf ("Loading from '/this/savefile\n"); fflush (stdout);
       if (game)
       {
-        game->DecRef ();
 	game = NULL;
 	pl->CleanCache ();
       }
@@ -189,7 +188,6 @@ bool CelTest::HandleEvent (iEvent& ev)
     {
       if (game)
       {
-        game->DecRef ();
 	game = NULL;
 	pl->CleanCache ();
       }
@@ -219,7 +217,7 @@ bool CelTest::CelTestEventHandler (iEvent& ev)
   return celtest->HandleEvent (ev);
 }
 
-iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
+csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name, const char* factName,
 	iPcCamera* pccamera,
 	float weight, float size,
 	float max_indiv_weight, float max_weight,
@@ -291,16 +289,15 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcchars->SetInheritedCharacteristic ("size", 0, 0);
   pcchars->SetInheritedCharacteristic ("weight", .5, 0);
 
-  entity_box->IncRef ();	// Avoid smart pointer release.
-  return entity_box;
+  return csPtr<iCelEntity> (entity_box);
 }
 
-iCelEntity* CelTest::CreateDummyEntity (const char* name,
+csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
 	const char* factName,
 	float weight, float size, const csVector3& pos,
 	const csVector3& force, bool python)
 {
-  iCelPropertyClass* pc;
+  csRef<iCelPropertyClass> pc;
   csRef<iPcMesh> pcmesh;
   csRef<iPcMovable> pcmovable;
   csRef<iPcMovableConstraint> pcmovableconst;
@@ -355,14 +352,13 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
   pcgravity->ApplyForce (force, 1);
 
-  entity_dummy->IncRef ();	// Avoid smart pointer release.
-  return entity_dummy;
+  return csPtr<iCelEntity> (entity_dummy);
 }
 
-iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
+csPtr<iCelEntity> CelTest::CreateActor (const char* name, const char* /*factname*/,
     const csVector3& /*pos*/)
 {
-  iCelPropertyClass* pc;
+  csRef<iCelPropertyClass> pc;
   csRef<iPcMesh> pcmesh;
   csRef<iPcCamera> pccamera;
   csRef<iPcMeshSelect> pcmeshsel;
@@ -428,14 +424,13 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   pcmeshsel->SetSendmoveEvent (true);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
 
-  entity_cam->IncRef ();	// Avoid smart pointer release.
-  return entity_cam;
+  return csPtr<iCelEntity> (entity_cam);
 }
 
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
-  iCelEntity* entity_dummy;
+  csRef<iCelEntity> entity_dummy;
   iCelPropertyClass* pc;
   csRef<iPcInventory> pcinv_room;
   csRef<iPcRegion> pcregion;
@@ -464,7 +459,6 @@ bool CelTest::CreateRoom ()
   pc = pl->CreatePropertyClass (entity_room, "pcinventory");
   if (!pc) return false;
   pcinv_room = SCF_QUERY_INTERFACE (pc, iPcInventory);
-  // Decreffed later.
 
   entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
   if (!entity_dummy) return false;
@@ -473,15 +467,12 @@ bool CelTest::CreateRoom ()
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
   //===============================
   // Engine init.
   //===============================
   // @@@ CHECK LATER WHY THIS IS NEEDED!!!
   engine->Prepare ();
-
-  iTextureManager* txtmgr = g3d->GetTextureManager ();
 
   //===============================
   // Create the box entities.
@@ -492,14 +483,12 @@ bool CelTest::CreateRoom ()
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
-  entity_box->DecRef ();
 
   entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
-  entity_box->DecRef ();
 #endif
 
   //===============================
@@ -509,38 +498,32 @@ bool CelTest::CreateRoom ()
   	.3, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
 #if !MINIMAL
   entity_dummy = CreateDummyEntity ("dummy2", "small",
   	.4, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy3", "large",
   	.2, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy4", "medium",
   	.7, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy5", "small",
   	.1, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy6", "medium",
   	.3, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_dummy->DecRef ();
 #endif
 
   //===============================
@@ -572,6 +555,7 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
     	"Error loading texture '%s'!", fileName);
     return false;
   }
+  printf ("txt: %p %d\n", txt, txt->GetRefCount());
   pl->Cache (txt);
   iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName (txtName);
   if (mat) pl->Cache (mat);
@@ -827,6 +811,8 @@ int main (int argc, char* argv[])
 
   iObjectRegistry* object_reg = celtest->object_reg;
   delete celtest;
+
+  csDebuggingGraph::Dump (NULL);
   csInitializer::DestroyApplication (object_reg);
   return 0;
 }
