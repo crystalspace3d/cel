@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Dec-2003
+	- Jorrit fixed the physicstest python script so that it works again
+	  (converted to the new thing API in CS).
 9-Dec-2003
 	- Jorrit extended 'call' in the XML behaviour layer so that the entity
 	  attribute is now optional. If not given the current entity is

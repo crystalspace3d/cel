@@ -11,13 +11,12 @@ class physics_floor:
 		factstate = state.GetFactory()
 		engine = CS_QUERY_REGISTRY(object_reg, iEngine)
 		wood = engine.GetMaterialList().FindByName("wood")
-		p = factstate.CreatePolygon()
-		p.SetMaterial(wood)
-		p.CreateVertex(csVector3 (-100,0,100))
-		p.CreateVertex(csVector3 (100,0,100))
-		p.CreateVertex(csVector3 (100,0,-100))
-		p.CreateVertex(csVector3 (-100,0,-100))
-		p.SetTextureSpace(p.GetVertex(0),p.GetVertex(1),30)
+		pidx = factstate.AddQuad(csVector3 (-100,0,100),
+			csVector3 (100,0,100),
+			csVector3 (100,0,-100),
+			csVector3 (-100,0,-100))
+		factstate.SetPolygonMaterial(csPolygonRange(pidx,pidx),wood)
+		factstate.SetPolygonTextureMapping(csPolygonRange(pidx,pidx),30)
 
 		pos = csVector3 (0,-1,0)
 		mesh.MoveMesh(room,pos)
