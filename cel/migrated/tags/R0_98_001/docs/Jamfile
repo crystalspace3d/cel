@@ -1,0 +1,15 @@
+SubDir TOP docs ;
+
+InstallDoc history.txt ;
+
+SubInclude TOP docs doxygen ;
+SubInclude TOP docs texinfo ;
+
+CSDOCFILES_HTML = .html .jpg .jpeg .png .gif .css ;
+
+SubDir TOP docs html ;
+Recurse InstallDoc : $(CSDOCFILES_HTML) : html ;
+
+# Enable this if API documentation gets committed to CVS repository.
+#SubDir TOP docs api ;
+#Recurse InstallDoc : $(CSDOCFILES_HTML) : api ;

@@ -1,0 +1,179 @@
+cflags="-I${includedir}"
+lflags="-L${libdir}"
+
+showlibs ()
+{
+  echo "Libraries:"
+  for lib in $libs; do
+    echo "  $lib"
+  done
+  [ -z "$libs" ] && echo "No libraries available."
+}
+
+usage()
+{
+  cat <<__EOF__
+Usage: cel-config [OPTIONS]
+Options:
+	[--prefix]
+	[--exec-prefix]
+	[--version]
+	[--libs]
+	[--cflags]
+	[--lflags]
+	[--plugindir]
+	[--includedir]
+	[--help]
+
+__EOF__
+  showlibs
+  cat <<__EOF__
+
+Note that you must also utilize the output of cs-config when compiling
+CEL-using projects.
+__EOF__
+}
+
+linkflags()
+{
+  entry_found="no"
+  result=""
+
+  for entry in ${exportsummary}; do
+    if test "${entry_found}" = "yes" ; then 
+      result=$entry
+      break
+    elif test "$1" = "$entry" ; then 
+      entry_found="yes"
+    fi
+  done
+
+  if test "${entry_found}" = "yes"; then
+    if test -n "${result}"; then
+      if test -n "${CEL}" && test -d "${CEL}/${result}"; then
+        result="-L${CEL}/${result} "
+      elif test -d "${result}"; then
+        result="-L${result} "
+      else
+        result=""
+      fi
+    fi
+    echo "${result}-l$1"
+  fi
+}
+
+# If CEL set, prefer it over configure-time installation directory.
+idir=''
+if test -f "${CEL}/include/cel/physicallayer/pl.h"; then
+    idir="${CEL}/include/cel"
+elif test -f "${CEL}/include/physicallayer/pl.h"; then
+    idir="${CEL}/include"
+fi
+if test -n "${idir}"; then
+    # We purposely prepend the new flag to ensure that older flags appear
+    # toward this end.  This allows the preprocessor to correctly prefer -I
+    # options for the build directory over -I${includedir} for the installation
+    # directory (i.e. prefer the current development version over an installed
+    # version).
+    cflags="-I${idir} ${cflags}"
+    includedir="${idir}"
+fi
+
+# If CEL is set and pointing at build directory, then prefer it over installed
+# version; else if CEL is set and pointing at installed location, then use it;
+# else use configure-time installation directory.
+if test -f "${CEL}/stdphyslayer.so" ||
+   test -f "${CEL}/stdphyslayer.dll" ||
+   test -f "${CEL}/stdphyslayer.csbundle"; then
+    plugindir="${CEL}"
+elif test -f "${CEL}/lib/cel/stdphyslayer.so" ||
+   test -f "${CEL}/lib/cel/stdphyslayer.dll" ||
+   test -f "${CEL}/lib/cel/stdphyslayer.csbundle"; then
+    plugindir="${CEL}/lib/cel"
+fi
+
+if test $# -eq 0; then
+    usage 1>&2
+    exit 1
+fi
+
+show_cflags=""
+show_exec_prefix=""
+show_includedir=""
+show_lflags=""
+show_libs=""
+show_plugindir=""
+show_prefix=""
+show_version=""
+while test $# -gt 0; do
+  case $1 in
+    --help)
+	usage
+	exit 0
+	;;
+    --prefix)
+	show_prefix="yes"
+	;;
+    --exec-prefix)
+	show_exec_prefix="yes"
+	;;
+    --version)
+        show_version="yes"
+        ;;
+    --plugindir)
+	show_plugindir="yes"
+	;;
+    --includedir)
+	show_includedir="yes"
+	;;
+    --libs)
+	show_libs="yes"
+	;;
+    --cflags)
+        show_cflags="yes"
+        ;;
+    --lflags)
+        show_lflags="yes"
+        ;;
+    *)
+	echo "Unknown option $1"
+	echo ""
+	usage
+	exit 1
+	;;
+  esac
+  shift
+done
+
+if test -n "$show_prefix"; then
+    echo "$prefix"
+fi
+if test -n "$show_exec_prefix"; then
+    echo "$exec_prefix"
+fi
+if test -n "$show_version"; then
+    echo "$version"
+fi
+if test -n "$show_plugindir"; then
+    echo "$plugindir"
+fi
+if test -n "$show_includedir"; then
+    echo "$includedir"
+fi
+if test -n "$show_cflags"; then
+    echo "$cflags"
+fi
+if test -n "$show_libs"; then
+    echo "$libs"
+fi
+if test -n "$show_lflags"; then
+    for lib in $libs; do
+	# We purposely prepend the new flags to ensure that older flags appear
+	# toward this end.  This allows the linker to correctly prefer -L
+	# options for the build directory over -L${libdir} for the installation
+	# directory (i.e. prefer the current development version over an
+	# installed version).
+        lflags=`linkflags $lib`" $lflags"
+    done
+    echo "$lflags"
+fi

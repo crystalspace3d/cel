@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfactormove.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.actormove</name>
+        <implementation>celPfActorMove</implementation>
+	<description>CEL Actor Movement Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -1,0 +1,17 @@
+This is the Crystal Entity Layer (CEL).
+http://cel.sourceforge.net/
+
+For Unix, MSYS/Mingw, or Cygwin:
+
+To compile all CEL plugins and applications, perform the following steps:
+
+1. Install Crystal Space (latest CVS version) or else point
+   the CRYSTAL environment variable to where you built Crystal Space.
+2. Type ./configure (./configure --enable-debug if you want debug mode).
+3. Type 'jam'.
+
+Microsoft Visual C++ 7 users need to open "msvc/wkscel.sln" ("msvc/wkscel.dsw"
+for MSVC6). Then, make sure the have set both paths to the CS include and
+library directories.  For more information see the HOWTO into the Crystal Space
+docs "Creating an External MSVC Application".  After doingso, set each of the
+projects as the active one and compile.
