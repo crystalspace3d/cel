@@ -21,6 +21,7 @@
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/input.h"
+#include "propclass/dynmove.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 %}
 
@@ -209,11 +210,107 @@ struct iCelPropertyClassList : public iBase
 
 //=======================================================================
 
+struct iPcDynamicSystem : public iBase
+{
+  virtual iDynamicSystem* GetDynamicSystem () = 0;
+};
+
+%{
+iPcDynamicSystem *celCreateDynamicSystem (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcdynsys");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcDynamicSystem> pcdynsys = SCF_QUERY_INTERFACE(pc, iPcDynamicSystem);
+  if (!pcdynsys.IsValid()) return 0;
+  return pcdynsys;
+}
+%}
+iPcDynamicSystem *celCreateDynamicSystem (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc)
+{ 
+  csRef<iPcDynamicSystem> pcdynsys = SCF_QUERY_INTERFACE(pc, iPcDynamicSystem);
+  if (pcdynsys) pcdynsys->IncRef ();
+  return pcdynsys;
+}
+%}
+iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc);
+
+%{
+iPcDynamicSystem *celQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist)
+{
+  csRef<iPcDynamicSystem> pcdynsys = CEL_QUERY_PROPCLASS(pclist,
+  	iPcDynamicSystem);
+  if (pcdynsys) pcdynsys->IncRef ();
+  return pcdynsys;
+}
+%}
+iPcDynamicSystem *celQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist);
+
+//=======================================================================
+
+struct iPcDynamicBody : public iBase
+{
+  virtual void SetMesh (iPcMesh* mesh) = 0;
+  virtual iPcMesh* GetMesh () = 0;
+  virtual void SetDynamicSystem (iPcDynamicSystem* dynsys) = 0;
+  virtual iPcDynamicSystem* GetDynamicSystem () = 0;
+  virtual iRigidBody* GetBody () = 0;
+  virtual void SetParameters (float friction, float density,
+  	float elasticity, float softness, float mass) = 0;
+  virtual void MakeStatic (bool stat) = 0;
+  virtual bool IsStatic () const = 0;
+  virtual void AttachColliderSphere (float radius, const csVector3& offset) = 0;
+  virtual void AttachColliderCylinder (float length, float radius,
+  	const csOrthoTransform& trans) = 0;
+  virtual void AttachColliderBox (const csVector3& size,
+  	const csOrthoTransform& trans) = 0;
+  virtual void AttachColliderPlane (const csPlane3& plane) = 0;
+  virtual void AttachColliderMesh () = 0;
+};
+
+%{
+iPcDynamicBody *celCreateDynamicBody (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcdynbody");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcDynamicBody> pcdynbody = SCF_QUERY_INTERFACE(pc, iPcDynamicBody);
+  if (!pcdynbody.IsValid()) return 0;
+  return pcdynbody;
+}
+%}
+iPcDynamicBody *celCreateDynamicBody (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc)
+{ 
+  csRef<iPcDynamicBody> pcdynbody = SCF_QUERY_INTERFACE(pc, iPcDynamicBody);
+  if (pcdynbody) pcdynbody->IncRef ();
+  return pcdynbody;
+}
+%}
+iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc);
+
+%{
+iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist)
+{
+  csRef<iPcDynamicBody> pcdynbody = CEL_QUERY_PROPCLASS(pclist,
+  	iPcDynamicBody);
+  if (pcdynbody) pcdynbody->IncRef ();
+  return pcdynbody;
+}
+%}
+iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist);
+
+//=======================================================================
+
 struct iPcRegion : public iBase
 {
   virtual void SetWorldFile (const char* vfsdir, const char* name) = 0;
   virtual const char* GetWorldDir () const = 0;
   virtual const char* GetWorldFile () const = 0;
+  virtual void CreateEmptySector (const char* name) = 0;
   virtual void SetRegionName (const char* name) = 0;
   virtual const char* GetRegionName () const = 0;
   virtual bool Load () = 0;
@@ -353,6 +450,10 @@ struct iPcCamera : public iBase
   virtual void SetRectangle (int x, int y, int w, int h) = 0;
   virtual iCamera* GetCamera () const = 0;
   virtual iView* GetView () const = 0;
+  virtual void SetClearZBuffer (bool flag) = 0;
+  virtual bool GetClearZBuffer () const = 0;
+  virtual void SetClearScreen (bool flag) = 0;
+  virtual bool GetClearScreen () const = 0;
 };
 
 %{

@@ -128,6 +128,10 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   _dist = dist_y = 10.0;
 
   alter_angle = alter_dist = false;
+
+  clear_zbuf = false;
+  clear_screen = false;
+  
   DG_TYPE (this, "celPcCamera()");
 }
 
@@ -337,7 +341,9 @@ bool celPcCamera::HandleEvent (iEvent& ev)
     }
 
     // Tell 3D driver we're going to display 3D things.
-    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS))
+    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
       view->Draw ();
   }
 
@@ -366,10 +372,10 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 
 bool celPcCamera::SetMode (iPcCamera::CameraMode cammode, bool use_cd)
 {
-    celPcCamera::cammode=cammode;
-    celPcCamera::use_cd=use_cd;
-    view->GetCamera()->OnlyPortals(!use_cd);
-    return true;
+  celPcCamera::cammode=cammode;
+  celPcCamera::use_cd=use_cd;
+  view->GetCamera()->OnlyPortals(!use_cd);
+  return true;
 }
 
 void celPcCamera::SetRectangle (int x, int y, int w, int h)
@@ -382,13 +388,13 @@ void celPcCamera::SetRectangle (int x, int y, int w, int h)
   rect_set = true;
 }
 
-#define CAMERA_SERIAL 2
+#define CAMERA_SERIAL 3
 
 csPtr<iCelDataBuffer> celPcCamera::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
-  databuf->SetDataCount (3+11+7);
+  databuf->SetDataCount (3+11+7+2);
   celDataBufHelper db(databuf);
 
   csRef<iCelPropertyClass> pc;
@@ -419,6 +425,9 @@ csPtr<iCelDataBuffer> celPcCamera::Save ()
   db.Set ((uint16)rect_w);
   db.Set ((uint16)rect_h);
 
+  db.Set (clear_zbuf);
+  db.Set (clear_screen);
+
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -427,12 +436,12 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != CAMERA_SERIAL)
   {
-    Report (object_reg,"serialnr != CAMERA_SERIAL.  Cannot load.");
+    Report (object_reg, "serialnr != CAMERA_SERIAL.  Cannot load.");
     return false;
   }
-  if (databuf->GetDataCount () != 3+11+7)
+  if (databuf->GetDataCount () != 3+11+7+2)
   {
-    Report (object_reg,"21 data elements required.  Cannot load.");
+    Report (object_reg, "23 data elements required.  Cannot load.");
     return false;
   }
   celDataBufHelper db(databuf);
@@ -491,9 +500,13 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   db.Get ((uint16&)rect_w);
   db.Get ((uint16&)rect_h);
 
+  db.Get (clear_zbuf);
+  db.Get (clear_screen);
+
   if (!db.AllOk())
   {
-    Report (object_reg,"Camera transformation matrix badly specified.  Cannot load.");
+    Report (object_reg,
+    	"Camera transformation matrix badly specified.  Cannot load.");
     return false;
   }
 
@@ -537,6 +550,7 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   worldfile = 0;
   regionname = 0;
   loaded = false;
+  empty_sector = true;
 
   DG_TYPE (this, "celPcRegion()");
 }
@@ -549,15 +563,16 @@ celPcRegion::~celPcRegion ()
   delete[] regionname;
 }
 
-#define REGION_SERIAL 1
+#define REGION_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcRegion::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
-  databuf->SetDataCount (4);
-  celDataBufHelper db(databuf);
+  databuf->SetDataCount (5);
+  celDataBufHelper db (databuf);
 
+  db.Set (empty_sector);
   db.Set (worlddir);
   db.Set (worldfile);
   db.Set (regionname);
@@ -571,50 +586,57 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != REGION_SERIAL)
   {
-    Report (object_reg,"serialnr != REGION_SERIAL.  Cannot load.");
+    Report (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
     return false;
   }
-  if (databuf->GetDataCount () != 4)
+  if (databuf->GetDataCount () != 5)
   {
-    Report (object_reg,"4 data elements required, not %d.  Cannot load.",databuf->GetDataCount () );
+    Report (object_reg, "5 data elements required, not %d.  Cannot load.",
+    	databuf->GetDataCount () );
     return false;
   }
-  celDataBufHelper db(databuf);
+  celDataBufHelper db (databuf);
 
   Unload ();
   delete[] worlddir; worlddir = 0;
   delete[] worldfile; worldfile = 0;
   delete[] regionname; regionname = 0;
 
+  if (!db.Get (empty_sector))
+  {
+    Report (object_reg, "Empty sector not specified.  Cannot load.");
+    return false;
+  }
   const char* strp;
-  if (!db.Get(strp))
+  if (!db.Get (strp))
   {
-    Report (object_reg,"Worlddir not specified.  Cannot load.");
+    Report (object_reg, "Worlddir not specified.  Cannot load.");
     return false;
   }
-  worlddir = csStrNew(strp);
-  if (!db.Get(strp))
+  worlddir = csStrNew (strp);
+  if (!db.Get (strp))
   {
-    Report (object_reg,"Worldfile not specified.  Cannot load.");
+    Report (object_reg, "Worldfile not specified.  Cannot load.");
     return false;
   }
-  worldfile = csStrNew(strp);
-  if (!db.Get(strp)) 
+  worldfile = csStrNew (strp);
+  if (!db.Get (strp)) 
   {
-    Report (object_reg,"Regionname not specified.  Cannot load.");
+    Report (object_reg, "Regionname not specified.  Cannot load.");
     return false;
   }
-  regionname = csStrNew(strp);
+  regionname = csStrNew (strp);
   bool load;
-  if (!db.Get(load))
+  if (!db.Get (load))
   {
-    Report (object_reg,"load flag not specified.  Cannot load.");
+    Report (object_reg, "load flag not specified.  Cannot load.");
     return false;
   }
 
   if (load && !Load ())
   {
-    Report (object_reg,"Could not load the specified map into the region.  Cannot load.");
+    Report (object_reg,
+    	"Could not load the specified map into the region.  Cannot load.");
     return false;
   }
 
@@ -631,8 +653,14 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );
     CS_ASSERT( pl != 0 );
 
-    propertycount = 4;
+    propertycount = 5;
     properties = new Property[propertycount];
+
+    properties[propid_worlddir].id = pl->FetchStringID (
+    	"cel.property.pcregion.empty_sector");
+    properties[propid_worlddir].datatype = CEL_DATA_BOOL;
+    properties[propid_worlddir].readonly = false;
+    properties[propid_worlddir].desc = "Create an empty sector.";
 
     properties[propid_worlddir].id = pl->FetchStringID (
     	"cel.property.pcregion.worlddir");
@@ -662,10 +690,10 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcRegion::PerformAction (csStringID actionId, const char* params)
 {
-  if( actionId == properties[propid_load].id )
+  if (actionId == properties[propid_load].id)
   {
-    if (worldfile && regionname)
-      Load();
+    if ((empty_sector || worldfile) && regionname)
+      Load ();
     else
     {
       printf ("World filename or region name not set!\n");
@@ -676,8 +704,16 @@ bool celPcRegion::PerformAction (csStringID actionId, const char* params)
   return false;
 }
 
+void celPcRegion::CreateEmptySector (const char* name)
+{
+  empty_sector = true;
+  delete[] worldfile;
+  worldfile = csStrNew (name);
+}
+
 void celPcRegion::SetWorldFile (const char* vfsdir, const char* name)
 {
+  empty_sector = false;
   if (worlddir != vfsdir)
   {
     delete[] worlddir;
@@ -703,22 +739,22 @@ bool celPcRegion::Load ()
 {
   if (loaded)
   {
-    Report (object_reg,"Entity '%s' already loaded.",entity->GetName());
+    Report (object_reg,"Entity '%s' already loaded.", entity->GetName());
     return true;
   }
-  if (!worlddir)
+  if (!empty_sector && !worlddir)
   {
-    Report (object_reg,"World dir not specified.");
+    Report (object_reg, "World dir not specified.");
     return false;
   }
   if (!worldfile)
   {
-    Report (object_reg,"World file not specified.");
+    Report (object_reg, "World file not specified.");
     return false;
   }
   if (!regionname)
   {
-    Report (object_reg,"Region name not specified.");
+    Report (object_reg, "Region name not specified.");
     return false;
   }
 
@@ -726,6 +762,14 @@ bool celPcRegion::Load ()
   CS_ASSERT (engine != 0);
   iRegion* cur_region = engine->CreateRegion (regionname);
   cur_region->DeleteAll ();
+
+  if (empty_sector)
+  {
+    iSector* sector = engine->CreateSector (worldfile);
+    cur_region->Add (sector->QueryObject ());
+    loaded = true;
+    return true;
+  }
 
   csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
@@ -800,6 +844,11 @@ iSector* celPcRegion::GetStartSector (const char* name)
 {
   csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
+  if (empty_sector)
+  {
+    iRegion* reg = engine->GetRegions ()->FindByName (regionname);
+    return engine->FindSector (worldfile, reg);
+  }
   iSector* sector;
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
@@ -818,6 +867,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
 
 csVector3 celPcRegion::GetStartPosition (const char* name)
 {
+  if (empty_sector) return csVector3 (0, 0, 0);
   csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
   csVector3 pos (0);

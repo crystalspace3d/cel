@@ -3,6 +3,23 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+25-Aug-2003
+	- Jorrit added first version of the pfdynmove property class. This
+	  property class supports ODE for physics. This version works but is
+	  not complete yet because it lacks correct persistance.
+	- Jorrit added iPcRegion->CreateEmptySector(). This way it is easy
+	  to create a region that just represents an empty sector (that
+	  will be filled later with other objects).
+	- Jorrit fixed the CEL python plugin to a recent CS change.
+	- Jorrit also extended the CEL python plugin with the new
+	  CreateEmptySector() and the dynamics property classes.
+	- Jorrit added iPcCamera functions to add the possibility to clear
+	  z-buffer and screen every frame. This is used in case the loaded
+	  map itself doesn't specify this. Extended the python plugin with
+	  these new functions.
+	- Jorrit added scripts/physicstest.py which is a small python script
+	  that you can use with 'bootstrap' to test the new dynamics
+	  property classes. This script is not really 100% ok atm.
 21-Aug-2003
 	- Eric Sunshine fixed problems in Makefile.in where SRCDIR was not
 	  always being respected.

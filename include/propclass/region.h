@@ -27,7 +27,7 @@
 struct iSector;
 struct iPcCamera;
 
-SCF_VERSION (iPcRegion, 0, 0, 1);
+SCF_VERSION (iPcRegion, 0, 1, 0);
 
 /**
  * The representation of a region.
@@ -57,7 +57,17 @@ struct iPcRegion : public iBase
   virtual const char* GetRegionName () const = 0;
 
   /**
-   * Load the region.
+   * Create empty sector. Use this instead of SetWorldFile() if you want
+   * the region to have a single empty sector. The given name is the name
+   * of the sector.
+   * Note! In the current implementation you can only call this function
+   * once for a given region!
+   */
+  virtual void CreateEmptySector (const char* name) = 0;
+
+  /**
+   * Load the region. This will create the empty sector if CreateEmptySector()
+   * is used.
    */
   virtual bool Load () = 0;
 

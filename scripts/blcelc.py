@@ -1958,6 +1958,8 @@ csPrintf = _blcelc.csPrintf
 
 csPrintfV = _blcelc.csPrintfV
 
+csFPutErr = _blcelc.csFPutErr
+
 csGetTicks = _blcelc.csGetTicks
 
 csSleep = _blcelc.csSleep
@@ -3090,6 +3092,7 @@ class iMaterialEngine(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMaterialEngine, name)
     def GetTextureWrapper(*args): return apply(_blcelc.iMaterialEngine_GetTextureWrapper,args)
+    def Visit(*args): return apply(_blcelc.iMaterialEngine_Visit,args)
     def __del__(self, destroy= _blcelc.delete_iMaterialEngine):
         try:
             if self.thisown: destroy(self)
@@ -3212,6 +3215,11 @@ class iMeshWrapper(iBase):
     def SetParentContainer(*args): return apply(_blcelc.iMeshWrapper_SetParentContainer,args)
     def GetRadius(*args): return apply(_blcelc.iMeshWrapper_GetRadius,args)
     def Draw(*args): return apply(_blcelc.iMeshWrapper_Draw,args)
+    def CreateStaticLOD(*args): return apply(_blcelc.iMeshWrapper_CreateStaticLOD,args)
+    def DestroyStaticLOD(*args): return apply(_blcelc.iMeshWrapper_DestroyStaticLOD,args)
+    def GetStaticLOD(*args): return apply(_blcelc.iMeshWrapper_GetStaticLOD,args)
+    def AddMeshToStaticLOD(*args): return apply(_blcelc.iMeshWrapper_AddMeshToStaticLOD,args)
+    def RemoveMeshFromStaticLOD(*args): return apply(_blcelc.iMeshWrapper_RemoveMeshFromStaticLOD,args)
     def __del__(self, destroy= _blcelc.delete_iMeshWrapper):
         try:
             if self.thisown: destroy(self)
@@ -3245,6 +3253,12 @@ class iMeshFactoryWrapper(iBase):
     def GetChildren(*args): return apply(_blcelc.iMeshFactoryWrapper_GetChildren,args)
     def GetTransform(*args): return apply(_blcelc.iMeshFactoryWrapper_GetTransform,args)
     def SetTransform(*args): return apply(_blcelc.iMeshFactoryWrapper_SetTransform,args)
+    def CreateStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_CreateStaticLOD,args)
+    def DestroyStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_DestroyStaticLOD,args)
+    def SetStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_SetStaticLOD,args)
+    def GetStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_GetStaticLOD,args)
+    def AddFactoryToStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_AddFactoryToStaticLOD,args)
+    def RemoveFactoryFromStaticLOD(*args): return apply(_blcelc.iMeshFactoryWrapper_RemoveFactoryFromStaticLOD,args)
     def __del__(self, destroy= _blcelc.delete_iMeshFactoryWrapper):
         try:
             if self.thisown: destroy(self)
@@ -3522,6 +3536,32 @@ class iVisibilityObjectIteratorPtr(iVisibilityObjectIterator):
 _blcelc.iVisibilityObjectIterator_swigregister(iVisibilityObjectIteratorPtr)
 iVisibilityObjectIterator_VERSION = cvar.iVisibilityObjectIterator_VERSION
 
+iVisibilityCullerListner_scfGetID = _blcelc.iVisibilityCullerListner_scfGetID
+
+class iVisibilityCullerListner(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iVisibilityCullerListner, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iVisibilityCullerListner, name)
+    def ObjectVisible(*args): return apply(_blcelc.iVisibilityCullerListner_ObjectVisible,args)
+    def __del__(self, destroy= _blcelc.delete_iVisibilityCullerListner):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iVisibilityCullerListner instance at %s>" % (self.this,)
+
+class iVisibilityCullerListnerPtr(iVisibilityCullerListner):
+    def __init__(self,this):
+        _swig_setattr(self, iVisibilityCullerListner, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iVisibilityCullerListner, 'thisown', 0)
+        _swig_setattr(self, iVisibilityCullerListner,self.__class__,iVisibilityCullerListner)
+_blcelc.iVisibilityCullerListner_swigregister(iVisibilityCullerListnerPtr)
+iVisibilityCullerListner_VERSION = cvar.iVisibilityCullerListner_VERSION
+
 class iVisibilityCuller(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3535,7 +3575,6 @@ class iVisibilityCuller(iBase):
     def VisTest(*args): return apply(_blcelc.iVisibilityCuller_VisTest,args)
     def IntersectSegment(*args): return apply(_blcelc.iVisibilityCuller_IntersectSegment,args)
     def CastShadows(*args): return apply(_blcelc.iVisibilityCuller_CastShadows,args)
-    def GetCurrentVisibilityNumber(*args): return apply(_blcelc.iVisibilityCuller_GetCurrentVisibilityNumber,args)
     def __del__(self, destroy= _blcelc.delete_iVisibilityCuller):
         try:
             if self.thisown: destroy(self)
@@ -4162,6 +4201,126 @@ class iSprite3DStatePtr(iSprite3DState):
         _swig_setattr(self, iSprite3DState,self.__class__,iSprite3DState)
 _blcelc.iSprite3DState_swigregister(iSprite3DStatePtr)
 iSprite3DState_VERSION = cvar.iSprite3DState_VERSION
+
+class iBallState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBallState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iBallState, name)
+    def SetRadius(*args): return apply(_blcelc.iBallState_SetRadius,args)
+    def GetRadius(*args): return apply(_blcelc.iBallState_GetRadius,args)
+    def SetShift(*args): return apply(_blcelc.iBallState_SetShift,args)
+    def GetShift(*args): return apply(_blcelc.iBallState_GetShift,args)
+    def SetRimVertices(*args): return apply(_blcelc.iBallState_SetRimVertices,args)
+    def GetRimVertices(*args): return apply(_blcelc.iBallState_GetRimVertices,args)
+    def SetMaterialWrapper(*args): return apply(_blcelc.iBallState_SetMaterialWrapper,args)
+    def GetMaterialWrapper(*args): return apply(_blcelc.iBallState_GetMaterialWrapper,args)
+    def SetMixMode(*args): return apply(_blcelc.iBallState_SetMixMode,args)
+    def GetMixMode(*args): return apply(_blcelc.iBallState_GetMixMode,args)
+    def SetReversed(*args): return apply(_blcelc.iBallState_SetReversed,args)
+    def IsReversed(*args): return apply(_blcelc.iBallState_IsReversed,args)
+    def SetTopOnly(*args): return apply(_blcelc.iBallState_SetTopOnly,args)
+    def IsTopOnly(*args): return apply(_blcelc.iBallState_IsTopOnly,args)
+    def SetLighting(*args): return apply(_blcelc.iBallState_SetLighting,args)
+    def IsLighting(*args): return apply(_blcelc.iBallState_IsLighting,args)
+    def SetColor(*args): return apply(_blcelc.iBallState_SetColor,args)
+    def GetColor(*args): return apply(_blcelc.iBallState_GetColor,args)
+    def SetCylindricalMapping(*args): return apply(_blcelc.iBallState_SetCylindricalMapping,args)
+    def IsCylindricalMapping(*args): return apply(_blcelc.iBallState_IsCylindricalMapping,args)
+    def ApplyVertGradient(*args): return apply(_blcelc.iBallState_ApplyVertGradient,args)
+    def ApplyLightSpot(*args): return apply(_blcelc.iBallState_ApplyLightSpot,args)
+    def PaintSky(*args): return apply(_blcelc.iBallState_PaintSky,args)
+    def __del__(self, destroy= _blcelc.delete_iBallState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iBallState instance at %s>" % (self.this,)
+
+class iBallStatePtr(iBallState):
+    def __init__(self,this):
+        _swig_setattr(self, iBallState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iBallState, 'thisown', 0)
+        _swig_setattr(self, iBallState,self.__class__,iBallState)
+_blcelc.iBallState_swigregister(iBallStatePtr)
+iBallState_VERSION = cvar.iBallState_VERSION
+
+class iGeneralMeshState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralMeshState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGeneralMeshState, name)
+    def SetMaterialWrapper(*args): return apply(_blcelc.iGeneralMeshState_SetMaterialWrapper,args)
+    def GetMaterialWrapper(*args): return apply(_blcelc.iGeneralMeshState_GetMaterialWrapper,args)
+    def SetMixMode(*args): return apply(_blcelc.iGeneralMeshState_SetMixMode,args)
+    def GetMixMode(*args): return apply(_blcelc.iGeneralMeshState_GetMixMode,args)
+    def SetLighting(*args): return apply(_blcelc.iGeneralMeshState_SetLighting,args)
+    def IsLighting(*args): return apply(_blcelc.iGeneralMeshState_IsLighting,args)
+    def SetColor(*args): return apply(_blcelc.iGeneralMeshState_SetColor,args)
+    def GetColor(*args): return apply(_blcelc.iGeneralMeshState_GetColor,args)
+    def SetManualColors(*args): return apply(_blcelc.iGeneralMeshState_SetManualColors,args)
+    def IsManualColors(*args): return apply(_blcelc.iGeneralMeshState_IsManualColors,args)
+    def SetShadowCasting(*args): return apply(_blcelc.iGeneralMeshState_SetShadowCasting,args)
+    def IsShadowCasting(*args): return apply(_blcelc.iGeneralMeshState_IsShadowCasting,args)
+    def SetShadowReceiving(*args): return apply(_blcelc.iGeneralMeshState_SetShadowReceiving,args)
+    def IsShadowReceiving(*args): return apply(_blcelc.iGeneralMeshState_IsShadowReceiving,args)
+    def __del__(self, destroy= _blcelc.delete_iGeneralMeshState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGeneralMeshState instance at %s>" % (self.this,)
+
+class iGeneralMeshStatePtr(iGeneralMeshState):
+    def __init__(self,this):
+        _swig_setattr(self, iGeneralMeshState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGeneralMeshState, 'thisown', 0)
+        _swig_setattr(self, iGeneralMeshState,self.__class__,iGeneralMeshState)
+_blcelc.iGeneralMeshState_swigregister(iGeneralMeshStatePtr)
+iGeneralMeshState_VERSION = cvar.iGeneralMeshState_VERSION
+
+class iGeneralFactoryState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iGeneralFactoryState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iGeneralFactoryState, name)
+    def SetMaterialWrapper(*args): return apply(_blcelc.iGeneralFactoryState_SetMaterialWrapper,args)
+    def GetMaterialWrapper(*args): return apply(_blcelc.iGeneralFactoryState_GetMaterialWrapper,args)
+    def SetVertexCount(*args): return apply(_blcelc.iGeneralFactoryState_SetVertexCount,args)
+    def GetVertexCount(*args): return apply(_blcelc.iGeneralFactoryState_GetVertexCount,args)
+    def GetVertices(*args): return apply(_blcelc.iGeneralFactoryState_GetVertices,args)
+    def GetTexels(*args): return apply(_blcelc.iGeneralFactoryState_GetTexels,args)
+    def GetNormals(*args): return apply(_blcelc.iGeneralFactoryState_GetNormals,args)
+    def SetTriangleCount(*args): return apply(_blcelc.iGeneralFactoryState_SetTriangleCount,args)
+    def GetTriangleCount(*args): return apply(_blcelc.iGeneralFactoryState_GetTriangleCount,args)
+    def GetTriangles(*args): return apply(_blcelc.iGeneralFactoryState_GetTriangles,args)
+    def GetColors(*args): return apply(_blcelc.iGeneralFactoryState_GetColors,args)
+    def Invalidate(*args): return apply(_blcelc.iGeneralFactoryState_Invalidate,args)
+    def CalculateNormals(*args): return apply(_blcelc.iGeneralFactoryState_CalculateNormals,args)
+    def GenerateBox(*args): return apply(_blcelc.iGeneralFactoryState_GenerateBox,args)
+    def __del__(self, destroy= _blcelc.delete_iGeneralFactoryState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iGeneralFactoryState instance at %s>" % (self.this,)
+
+class iGeneralFactoryStatePtr(iGeneralFactoryState):
+    def __init__(self,this):
+        _swig_setattr(self, iGeneralFactoryState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iGeneralFactoryState, 'thisown', 0)
+        _swig_setattr(self, iGeneralFactoryState,self.__class__,iGeneralFactoryState)
+_blcelc.iGeneralFactoryState_swigregister(iGeneralFactoryStatePtr)
+iGeneralFactoryState_VERSION = cvar.iGeneralFactoryState_VERSION
 
 CS_THING_FASTMESH = _blcelc.CS_THING_FASTMESH
 CS_THING_NOCOMPRESS = _blcelc.CS_THING_NOCOMPRESS
@@ -5970,7 +6129,7 @@ class iStringArray(iBase):
     def Pop(*args): return apply(_blcelc.iStringArray_Pop,args)
     def Get(*args): return apply(_blcelc.iStringArray_Get,args)
     def Find(*args): return apply(_blcelc.iStringArray_Find,args)
-    def FindSorted(*args): return apply(_blcelc.iStringArray_FindSorted,args)
+    def FindSortedKey(*args): return apply(_blcelc.iStringArray_FindSortedKey,args)
     def Sort(*args): return apply(_blcelc.iStringArray_Sort,args)
     def DeleteIndex(*args): return apply(_blcelc.iStringArray_DeleteIndex,args)
     def Insert(*args): return apply(_blcelc.iStringArray_Insert,args)
@@ -7018,6 +7177,7 @@ CSFONT_LARGE = _blcelc.CSFONT_LARGE
 CSFONT_ITALIC = _blcelc.CSFONT_ITALIC
 CSFONT_COURIER = _blcelc.CSFONT_COURIER
 CSFONT_SMALL = _blcelc.CSFONT_SMALL
+CS_FONT_DEFAULT_GLYPH = _blcelc.CS_FONT_DEFAULT_GLYPH
 iFontDeleteNotify_scfGetID = _blcelc.iFontDeleteNotify_scfGetID
 
 class iFontDeleteNotify(iBase):
@@ -7044,6 +7204,65 @@ class iFontDeleteNotifyPtr(iFontDeleteNotify):
 _blcelc.iFontDeleteNotify_swigregister(iFontDeleteNotifyPtr)
 iFontDeleteNotify_VERSION = cvar.iFontDeleteNotify_VERSION
 
+class csBitmapMetrics(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csBitmapMetrics, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csBitmapMetrics, name)
+    __swig_setmethods__["width"] = _blcelc.csBitmapMetrics_width_set
+    __swig_getmethods__["width"] = _blcelc.csBitmapMetrics_width_get
+    if _newclass:width = property(_blcelc.csBitmapMetrics_width_get,_blcelc.csBitmapMetrics_width_set)
+    __swig_setmethods__["height"] = _blcelc.csBitmapMetrics_height_set
+    __swig_getmethods__["height"] = _blcelc.csBitmapMetrics_height_get
+    if _newclass:height = property(_blcelc.csBitmapMetrics_height_get,_blcelc.csBitmapMetrics_height_set)
+    __swig_setmethods__["left"] = _blcelc.csBitmapMetrics_left_set
+    __swig_getmethods__["left"] = _blcelc.csBitmapMetrics_left_get
+    if _newclass:left = property(_blcelc.csBitmapMetrics_left_get,_blcelc.csBitmapMetrics_left_set)
+    __swig_setmethods__["top"] = _blcelc.csBitmapMetrics_top_set
+    __swig_getmethods__["top"] = _blcelc.csBitmapMetrics_top_get
+    if _newclass:top = property(_blcelc.csBitmapMetrics_top_get,_blcelc.csBitmapMetrics_top_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csBitmapMetrics, 'this', apply(_blcelc.new_csBitmapMetrics,args))
+        _swig_setattr(self, csBitmapMetrics, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csBitmapMetrics):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csBitmapMetrics instance at %s>" % (self.this,)
+
+class csBitmapMetricsPtr(csBitmapMetrics):
+    def __init__(self,this):
+        _swig_setattr(self, csBitmapMetrics, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csBitmapMetrics, 'thisown', 0)
+        _swig_setattr(self, csBitmapMetrics,self.__class__,csBitmapMetrics)
+_blcelc.csBitmapMetrics_swigregister(csBitmapMetricsPtr)
+
+class csGlyphMetrics(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csGlyphMetrics, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csGlyphMetrics, name)
+    __swig_setmethods__["advance"] = _blcelc.csGlyphMetrics_advance_set
+    __swig_getmethods__["advance"] = _blcelc.csGlyphMetrics_advance_get
+    if _newclass:advance = property(_blcelc.csGlyphMetrics_advance_get,_blcelc.csGlyphMetrics_advance_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csGlyphMetrics, 'this', apply(_blcelc.new_csGlyphMetrics,args))
+        _swig_setattr(self, csGlyphMetrics, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csGlyphMetrics):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csGlyphMetrics instance at %s>" % (self.this,)
+
+class csGlyphMetricsPtr(csGlyphMetrics):
+    def __init__(self,this):
+        _swig_setattr(self, csGlyphMetrics, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csGlyphMetrics, 'thisown', 0)
+        _swig_setattr(self, csGlyphMetrics,self.__class__,csGlyphMetrics)
+_blcelc.csGlyphMetrics_swigregister(csGlyphMetricsPtr)
+
 class iFont(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -7056,13 +7275,14 @@ class iFont(iBase):
     def SetSize(*args): return apply(_blcelc.iFont_SetSize,args)
     def GetSize(*args): return apply(_blcelc.iFont_GetSize,args)
     def GetMaxSize(*args): return apply(_blcelc.iFont_GetMaxSize,args)
-    def GetGlyphSize(*args): return apply(_blcelc.iFont_GetGlyphSize,args)
+    def GetGlyphMetrics(*args): return apply(_blcelc.iFont_GetGlyphMetrics,args)
     def GetGlyphBitmap(*args): return apply(_blcelc.iFont_GetGlyphBitmap,args)
     def GetGlyphAlphaBitmap(*args): return apply(_blcelc.iFont_GetGlyphAlphaBitmap,args)
     def GetDimensions(*args): return apply(_blcelc.iFont_GetDimensions,args)
     def GetLength(*args): return apply(_blcelc.iFont_GetLength,args)
     def GetDescent(*args): return apply(_blcelc.iFont_GetDescent,args)
     def GetAscent(*args): return apply(_blcelc.iFont_GetAscent,args)
+    def HasGlyph(*args): return apply(_blcelc.iFont_HasGlyph,args)
     def __del__(self, destroy= _blcelc.delete_iFont):
         try:
             if self.thisown: destroy(self)
@@ -8600,6 +8820,8 @@ class iScriptObject(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iScriptObject, name)
     def IsType(*args): return apply(_blcelc.iScriptObject_IsType,args)
+    def GetPointer(*args): return apply(_blcelc.iScriptObject_GetPointer,args)
+    def SetPointer(*args): return apply(_blcelc.iScriptObject_SetPointer,args)
     def Call(*args): return apply(_blcelc.iScriptObject_Call,args)
     def Set(*args): return apply(_blcelc.iScriptObject_Set,args)
     def SetTruth(*args): return apply(_blcelc.iScriptObject_SetTruth,args)
@@ -9787,6 +10009,76 @@ class iCelPropertyClassListPtr(iCelPropertyClassList):
         _swig_setattr(self, iCelPropertyClassList,self.__class__,iCelPropertyClassList)
 _blcelc.iCelPropertyClassList_swigregister(iCelPropertyClassListPtr)
 
+class iPcDynamicSystem(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDynamicSystem, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcDynamicSystem, name)
+    def GetDynamicSystem(*args): return apply(_blcelc.iPcDynamicSystem_GetDynamicSystem,args)
+    def __del__(self, destroy= _blcelc.delete_iPcDynamicSystem):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPcDynamicSystem instance at %s>" % (self.this,)
+
+class iPcDynamicSystemPtr(iPcDynamicSystem):
+    def __init__(self,this):
+        _swig_setattr(self, iPcDynamicSystem, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcDynamicSystem, 'thisown', 0)
+        _swig_setattr(self, iPcDynamicSystem,self.__class__,iPcDynamicSystem)
+_blcelc.iPcDynamicSystem_swigregister(iPcDynamicSystemPtr)
+
+celCreateDynamicSystem = _blcelc.celCreateDynamicSystem
+
+scfQuery_iPcDynamicSystem = _blcelc.scfQuery_iPcDynamicSystem
+
+celQueryPC_iPcDynamicSystem = _blcelc.celQueryPC_iPcDynamicSystem
+
+class iPcDynamicBody(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDynamicBody, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcDynamicBody, name)
+    def SetMesh(*args): return apply(_blcelc.iPcDynamicBody_SetMesh,args)
+    def GetMesh(*args): return apply(_blcelc.iPcDynamicBody_GetMesh,args)
+    def SetDynamicSystem(*args): return apply(_blcelc.iPcDynamicBody_SetDynamicSystem,args)
+    def GetDynamicSystem(*args): return apply(_blcelc.iPcDynamicBody_GetDynamicSystem,args)
+    def GetBody(*args): return apply(_blcelc.iPcDynamicBody_GetBody,args)
+    def SetParameters(*args): return apply(_blcelc.iPcDynamicBody_SetParameters,args)
+    def MakeStatic(*args): return apply(_blcelc.iPcDynamicBody_MakeStatic,args)
+    def IsStatic(*args): return apply(_blcelc.iPcDynamicBody_IsStatic,args)
+    def AttachColliderSphere(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderSphere,args)
+    def AttachColliderCylinder(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderCylinder,args)
+    def AttachColliderBox(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderBox,args)
+    def AttachColliderPlane(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderPlane,args)
+    def AttachColliderMesh(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderMesh,args)
+    def __del__(self, destroy= _blcelc.delete_iPcDynamicBody):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPcDynamicBody instance at %s>" % (self.this,)
+
+class iPcDynamicBodyPtr(iPcDynamicBody):
+    def __init__(self,this):
+        _swig_setattr(self, iPcDynamicBody, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcDynamicBody, 'thisown', 0)
+        _swig_setattr(self, iPcDynamicBody,self.__class__,iPcDynamicBody)
+_blcelc.iPcDynamicBody_swigregister(iPcDynamicBodyPtr)
+
+celCreateDynamicBody = _blcelc.celCreateDynamicBody
+
+scfQuery_iPcDynamicBody = _blcelc.scfQuery_iPcDynamicBody
+
+celQueryPC_iPcDynamicBody = _blcelc.celQueryPC_iPcDynamicBody
+
 class iPcRegion(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9797,6 +10089,7 @@ class iPcRegion(iBase):
     def SetWorldFile(*args): return apply(_blcelc.iPcRegion_SetWorldFile,args)
     def GetWorldDir(*args): return apply(_blcelc.iPcRegion_GetWorldDir,args)
     def GetWorldFile(*args): return apply(_blcelc.iPcRegion_GetWorldFile,args)
+    def CreateEmptySector(*args): return apply(_blcelc.iPcRegion_CreateEmptySector,args)
     def SetRegionName(*args): return apply(_blcelc.iPcRegion_SetRegionName,args)
     def GetRegionName(*args): return apply(_blcelc.iPcRegion_GetRegionName,args)
     def Load(*args): return apply(_blcelc.iPcRegion_Load,args)
@@ -9919,6 +10212,10 @@ class iPcCamera(iBase):
     def SetRectangle(*args): return apply(_blcelc.iPcCamera_SetRectangle,args)
     def GetCamera(*args): return apply(_blcelc.iPcCamera_GetCamera,args)
     def GetView(*args): return apply(_blcelc.iPcCamera_GetView,args)
+    def SetClearZBuffer(*args): return apply(_blcelc.iPcCamera_SetClearZBuffer,args)
+    def GetClearZBuffer(*args): return apply(_blcelc.iPcCamera_GetClearZBuffer,args)
+    def SetClearScreen(*args): return apply(_blcelc.iPcCamera_SetClearScreen,args)
+    def GetClearScreen(*args): return apply(_blcelc.iPcCamera_GetClearScreen,args)
     def __del__(self, destroy= _blcelc.delete_iPcCamera):
         try:
             if self.thisown: destroy(self)
