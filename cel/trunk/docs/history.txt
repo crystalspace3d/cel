@@ -12,6 +12,11 @@ The history order is reversed so that new features are at the top.
 	  incorrectly specified).
 	- Eric Sunshine fixed a number of problems reported by Doxygen when
 	  generating the public and developer API documentation.
+	- Eric Sunshine altered the blpython Jamfiles so that it deposits the
+	  generated .py files at the root of the build tree rather than
+	  somewhere deep inside the build tree. This should make it simpler for
+	  developers to test the modules PYTHONLIB can now be pointed at the
+	  top of the build tree.
 26-Oct-2004
 	- Andrew Dai fixed a bug with slopes in which you would always slide
 	  down slopes slowly even though onground == false at that time, this
