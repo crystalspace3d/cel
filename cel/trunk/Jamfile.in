@@ -21,39 +21,44 @@ Clean maintainerclean : configure aclocal.m4 config.h.in ;
 Depends maintainerclean : distclean ;
 
 # Enable msvcgen
-MsvcGenConfig PYTHON.AVAILABLE : yes ;
-MsvcGenConfig PYTHON.CFLAGS : "/D \"SWIG_GLOBAL\"" ;
-MsvcGenConfig PYTHON.LFLAGS ;
-MsvcGenConfig PYTHON.LIBS ;
-MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
-MsvcGenConfig CRYSTAL.CFLAGS ;
-MsvcGenConfig CRYSTAL.LFLAGS ;
-MsvcGenConfig CRYSTAL.LIBS : 
-  "libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib" ;
-MsvcGenConfig CRYSTAL.CFLAGS.DEBUG ;
-MsvcGenConfig CRYSTAL.LFLAGS.DEBUG ;
-MsvcGenConfig CRYSTAL.LIBS.DEBUG : 
-  "libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib" ;
 MsvcGenSubDir TOP msvc : 6 ;
 MsvcGenSubDir TOP msvc : 7 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 MsvcGenWorkspace cel ;
-if [ Property build : projgen ]
-{
-  local hash = "\$" ;
-  IncludeDir .. .. CS include : : literal ;
-  IncludeDir "$(hash)(CRYSTAL)" include : : literal ;
-  IncludeDir "$(hash)(CRYSTAL)" include crystalspace : : literal ;
-}
 
-# include subdirectories
+MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
+MsvcGenConfig CRYSTAL.LIBS : 
+  "libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib" ;
+MsvcGenConfig CRYSTAL.LIBS.DEBUG : 
+  "libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib" ;
+MsvcGenConfig CRYSTAL.INCDIRS :
+  [ ConcatDirs .. .. .. CS include ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS :
+  [ ConcatDirs .. .. .. CS out release libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out release libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
+  [ ConcatDirs .. .. .. CS out debug libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out debug libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
+
+MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenConfig PYTHON.DEFINES : SWIG_GLOBAL ;
+
+# Header subdirectories (order sensitive: libraries before plugins and apps)
 SubInclude TOP docs ;
-SubInclude TOP include ;
+SubInclude TOP "include" ;
 SubInclude TOP libs ;
 SubInclude TOP plugins ;
 SubInclude TOP apps ;
 
-# generate cel-config
+# Generate cel-config
 rule CelConfigGen
 {
   SEARCH on $(>) = $(SUBDIR) ;
@@ -109,6 +114,6 @@ Depends all : cel-config ;
 Depends install_bin :
   [ DoInstall cel-config : $(bindir) : $(INSTALL_PROGRAM) ] ;
 
-# deprecated...
+# Deprecated...
 SEARCH on cel.cex = $(SUBDIR) ;
 Depends install_bin : [ DoInstall cel.cex : $(bindir) : $(INSTALL_PROGRAM) ] ;

@@ -28,10 +28,10 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;SWIG_GLOBAL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D &quot;SWIG_GLOBAL&quot;"
-				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
+				AdditionalOptions="-I\usr\include\python2.3"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
 				PrecompiledHeaderFile="..\out\release\build\plgblpython\plgblpython.pch"
 				AssemblerListingLocation="..\out\release\build\plgblpython\"
 				ObjectFile="..\out\release\build\plgblpython\"
@@ -49,11 +49,11 @@
 				OutputFile="..\blpython.dll"
 				DelayLoadDLLs=""
 				ImportLibrary="..\out\release\build\plgblpython\plgblpython.lib"
-				AdditionalOptions=""
+				AdditionalOptions="-L\usr\lib\python2.3 -L\usr\lib\python2.3\config -L\usr\lib -L\usr\libs -lpython2.3 -lpthread -ldl -lutil -lm -lpthread"
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;out\release\libs;libs;libs\csutil\win32;..\..\..\CS\out\debug\libs;out\debug\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\release\build\plgblpython\plgblpython.pdb"
 				TargetMachine="1"/>
@@ -62,7 +62,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;SWIG_GLOBAL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -76,8 +76,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS"
-				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;SWIG_GLOBAL"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -99,10 +99,10 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;SWIG_GLOBAL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D &quot;SWIG_GLOBAL&quot;"
-				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
+				AdditionalOptions="-I\usr\include\python2.3"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
 				PrecompiledHeaderFile="..\out\debug\build\plgblpython\plgblpython.pch"
 				AssemblerListingLocation="..\out\debug\build\plgblpython\"
 				ObjectFile="..\out\debug\build\plgblpython\"
@@ -120,11 +120,11 @@
 				OutputFile="..\blpython.dll"
 				DelayLoadDLLs=""
 				ImportLibrary="..\out\debug\build\plgblpython\plgblpython.lib"
-				AdditionalOptions=""
+				AdditionalOptions="-L\usr\lib\python2.3 -L\usr\lib\python2.3\config -L\usr\lib -L\usr\libs -lpython2.3 -lpthread -ldl -lutil -lm -lpthread"
 				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;out\release\libs;libs;libs\csutil\win32;..\..\..\CS\out\debug\libs;out\debug\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\debug\build\plgblpython\plgblpython.pdb"
 				TargetMachine="1"/>
@@ -133,7 +133,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;SWIG_GLOBAL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -147,8 +147,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
-				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;SWIG_GLOBAL"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

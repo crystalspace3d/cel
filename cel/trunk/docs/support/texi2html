@@ -532,7 +532,33 @@ $T2H_WORDS_EN =
 #  'About_Button' => 'About'
 };
 
-$T2H_WORD_DE =
+$T2H_WORDS_FR =
+{
+'ToC_Title' => 'Table des mati&egrave;res',
+'Overview_Title' => 'Table des mati&egrave;res abr&eacute;g&eacute;e',
+'Index_Title' => 'Index',
+'About_Title' => 'A propos de ce document',
+'Footnotes_Title' => 'Notes',
+'See' => 'Voyez',
+'see' => 'voyez',
+'section' => 'section',
+'Top_Button' => 'Top',
+'ToC_Button' => 'TdM',
+'Overview_Button' => 'Survol',
+'Index_button' => 'Index',
+'Back_Button' => 'Retour',
+'FastBack_Button' => 'RetourRapide',
+'Prev_Button' => 'Pr&eacute;c&eacute;dent',
+'Up_Button' => 'Haut',
+'Next_Button' => 'Suivant',
+'Forward_Button' =>'Avancer',
+'FastWorward_Button' => 'AvanceRapide',
+'First_Button' => 'Premier',
+'Last_Button' => 'Dernier',
+'About_Button' => 'A propos',
+};
+
+$T2H_WORDS_DE =
 {
  'ToC_Title' => 'Inhaltsverzeichniss',
  'Overview_Title' => 'Kurzes Inhaltsverzeichniss',
@@ -544,7 +570,7 @@ $T2H_WORD_DE =
  'section' => 'Abschnitt',
 };
 
-$T2H_WORD_NL =
+$T2H_WORDS_NL =
 {
  'ToC_Title' => 'Inhoudsopgave',
  'Overview_Title' => 'Korte inhoudsopgave',
@@ -556,7 +582,7 @@ $T2H_WORD_NL =
  'section' => 'sectie',
 };
 
-$T2H_WORD_ES =
+$T2H_WORDS_ES =
 {
  'ToC_Title' => '&iacute;ndice General',
  'Overview_Title' => 'Resumen del Contenido',
@@ -568,7 +594,7 @@ $T2H_WORD_ES =
  'section' => 'secci&oacute;n',
 };
 
-$T2H_WORD_NO =
+$T2H_WORDS_NO =
 {
  'ToC_Title' => 'Innholdsfortegnelse',
  'Overview_Title' => 'Kort innholdsfortegnelse',
@@ -580,7 +606,7 @@ $T2H_WORD_NO =
  'section' => 'avsnitt',
 };
 
-$T2H_WORD_PT =
+$T2H_WORDS_PT =
 {
  'ToC_Title' => 'Sum&aacute;rio',
  'Overview_Title' => 'Breve Sum&aacute;rio',
@@ -595,6 +621,7 @@ $T2H_WORD_PT =
 $T2H_WORDS =
 {
  'en' => $T2H_WORDS_EN,
+ 'fr' => $T2H_WORDS_FR,
  'de' => $T2H_WORDS_DE,
  'nl' => $T2H_WORDS_NL,
  'es' => $T2H_WORDS_ES,
@@ -607,6 +634,13 @@ $T2H_WORDS =
  'January', 'February', 'March', 'April', 'May',
  'June', 'July', 'August', 'September', 'October',
  'November', 'December'
+);
+
+@MONTH_NAMES_FR =
+(
+ 'Janvier', 'F&eacute;vrier', 'Mars', 'Avril', 'Mai',
+ 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre',
+ 'Novembre', 'D&eacute;cembre'
 );
 
 @MONTH_NAMES_DE =
@@ -649,6 +683,7 @@ $T2H_WORDS =
 $MONTH_NAMES =
 {
     'en' => \@MONTH_NAMES_EN,
+    'fr' => \@MONTH_NAMES_FR,
     'de' => \@MONTH_NAMES_DE,
     'es' => \@MONTH_NAMES_ES,
     'nl' => \@MONTH_NAMES_NL,
@@ -1840,10 +1875,10 @@ $index_properties =
 %simple_map = (
 	       # cf. makeinfo.c
 	       "*", "<BR>",		# HTML+
-	       " ", " ",
-	       "\t", " ",
+	       " ", "&nbsp;",
+	       "\t", "&nbsp;",
   	       "-", "&#173;",	# soft hyphen
-	       "\n", "\n",
+	       "\n", "&nbsp;",
 	       "|", "",
 	       'tab', '<\/TD><TD>',
 	       # spacing commands
@@ -1861,7 +1896,7 @@ $index_properties =
 	       'TeX', 'TeX',
 	       'br', '<P>',		# paragraph break
 	       'bullet', '*',
-	       'copyright', '(C)',
+	       'copyright', '&copy;',
 	       'dots', '<small>...<\/small>',
 	       'enddots', '<small>....<\/small>',
 	       'equiv', '==',
@@ -3062,12 +3097,55 @@ INPUT_LINE: while ($_ = &next_line) {
 	my $after = $';
 	my @args;
 	my $args;
-	if ($after =~ /^\s*{(.*?[^\\])}(.*)/)  
+	#####################################################
+	# Support for multi-line macro invocations and nested
+	# '{' and '}' within macro invocations added by
+	# Eric Sunshine <sunshine@sunshineco.com> 2000/09/10.
+	#####################################################
+	if ($after =~ /^\s*{/) # Macro arguments delimited by '{' and '}'?
 	{
-	  $args = $1;
-	  $after = $2;
+	  my ($protect, $start, $end, $depth, $c) = (0, 0, 0, 0, 0);
+	  foreach $c (unpack('C*', $after))
+	  {
+	    if ($protect)
+	    { # Character protected by '\' or '@'; pass through unmolested.
+	      $protect = 0;
+	    }
+	    elsif ($c == ord('\\') || $c == ord('@'))
+	    { # '\' and '@' remove special meaning of next character.
+	      $protect = 1;
+	    }
+	    elsif ($c == ord('{')) # Allow '{' and '}' to nest.
+	    {
+	      $depth++;
+	    }
+	    elsif ($c == ord('}'))
+	    {
+	      $depth--;
+	      last if $depth == 0;
+	    }
+	    $start++ if !$depth; # Position of opening brace.
+	    $end++;              # Position of closing brace.
+	  }
+	
+	  # '{' & '}' did not completely unnest; append next line; try again.
+	  if ($depth > 0)
+	  {
+	    my $paste = &next_line;
+	    die "$ERROR Missing closing brace '}' for invocation of macro " .
+	      "\"\@$name\" on line:\n", substr($_,0,70), "...\n" unless $paste;
+	    s/\n$/ /;
+	    unshift @input_spool, $_ . $paste;
+	    next INPUT_LINE;
+	  }
+	
+	  # Extract macro arguments from within '{' and '}'.
+	  $len = $end - $start - 1;
+	  $args = ($len > 0) ? substr($after, $start + 1, $len) : '';
+	  $after = substr($after, $end + 1);
 	}
-	elsif (@{$macros->{$name}->{Args}} == 1)
+	############ End Sunshine Modifications #############
+	elsif (@{$macros->{$name}->{Args}} == 1) # Macro arg extends to EOL.
 	{
 	  $args = $after;
 	  $args =~ s/^\s*//;
@@ -3234,8 +3312,8 @@ INPUT_LINE: while ($_ = &next_line) {
 	    $in_list++ if $format_map{$tag} eq 'UL' || $format_map{$tag} eq 'OL' ;
 #	    push(@lines, &debug("<BLOCKQUOTE>\n", __LINE__))
 #	      if $tag =~ /example/i;
-	    # sunshine@sunshineco.com: <PRE>bla</PRE> looks better than
-	    # <PRE>\nbla</PRE> (at least on NeXTstep browser
+	    # Eric Sunshine <sunshine@sunshineco.com>: <PRE>blah</PRE> looks
+	    # better than <PRE>\nblah</PRE> on OmniWeb2 NextStep browser.
 	    push(@lines, &debug("<$format_map{$tag}>" . 
 				($in_pre ? '' : "\n"), __LINE__));
 	    next;
@@ -3599,12 +3677,35 @@ INPUT_LINE: while ($_ = &next_line) {
 		      $toplevel = $level;
 		    }
 		    push(@sections, $name);
-		    next_doc() if ($T2H_SPLIT eq 'section' ||
-				   $T2H_SPLIT && $level == $toplevel);
+		    # $docu_doc = next_doc() if ($T2H_SPLIT eq 'section' ||
+		    #		   $T2H_SPLIT && $level == $toplevel);
+		    if ($sec2number{$name} ne "")
+		    {
+		      my $secname = $sec2number{$name};
+		      $secname =~ s/\.*$//;
+		      $docu_doc = "${docu_name}_$secname.$docu_ext"
+		    }
+		    else
+		    {
+		      $docu_doc = next_doc();
+		    }
+		    $sec_num = 0;
 		  }
-		  $sec_num++;
-		  $docid = "SEC$sec_num";
-		  $tocid = (/^\@\w*heading/ ? undef : "TOC$sec_num");
+		  # $docid = "SEC$sec_num";
+		  # $tocid = (/^\@\w*heading/ ? undef : "TOC$sec_num");
+		  if ($sec2number{$name} ne "")
+		  {
+		    my $secname = $sec2number{$name};
+      		    $secname =~ s/\.*$//;
+  		    $docid = "SEC$secname";
+		    $tocid = (/^\@\w*heading/ ? undef : "TOC$secname" );
+		  } 
+		  else 
+		  {
+		    $sec_num++;
+  		    $docid = "SEC_$sec_num";
+		    $tocid = (/^\@\w*heading/ ? undef : "TOC_$sec_num" );
+		  } 
 		  # check biblio and glossary
 		  $in_bibliography = ($name =~ /^([A-Z]|\d+)?(\.\d+)*\s*bibliography$/i);
 		  $in_glossary = ($name =~ /^([A-Z]|\d+)?(\.\d+)*\s*glossary$/i);
@@ -4278,11 +4379,14 @@ while (@lines) {
     {
      my @args = split (/\s*,\s*/, $1);
      my $base = $args[0];
-     my $image = 
-       LocateIncludeFile("$base.png") || 
-       LocateIncludeFile("$base.jpg") ||
-       LocateIncludeFile("$base.gif");
-     warn "$ERROR no image file for $base: $_" unless ($image && -e $image);
+     
+#### Matze modification
+     my $image = 	
+       LocateImageFile("$base.png") || 
+       LocateImageFile("$base.jpg") ||
+       LocateImageFile("$base.gif");
+     warn "$ERROR no image file for $base: $_" unless ($image);
+### end of Matze modification
      "<IMG SRC=\"$image\" ALT=\"$base\">";
      ($T2H_CENTER_IMAGE ?
       "<CENTER><IMG SRC=\"$image\" ALT=\"$base\"></CENTER>" :
@@ -4843,6 +4947,21 @@ sub LocateIncludeFile
   return undef;
 }
 
+#### Matze's modification: Use the image paths as given in the texinfo file
+sub LocateImageFile
+{
+  my $file = shift;
+  my $dir;
+
+  return $file if (-e $file && -r $file);
+  foreach $dir (@T2H_INCLUDE_DIRS)
+  {
+    return "$file" if (-e "$dir/$file" && -r "$dir/$file");
+  }
+  return undef;
+}
+#### end of Matze's modification
+
 sub clean_name 
 {
   local ($_);
@@ -5238,9 +5357,10 @@ sub apply_style {
 
     $style = $style_map{$texi_style};
     if (defined($style)) { # known style
+	my $do_quotes = 0;
 	if ($style =~ /^\"/) { # add quotes
 	    $style = $';
-	    $text = "\`$text\'";
+	    $do_quotes = 1;
 	}
 	if ($style =~ /^\&/) { # custom
 	    $style = $';
@@ -5249,6 +5369,7 @@ sub apply_style {
 	    $text = "<$style>$text</$style>";
 	} else { # no style
 	}
+	$text = "\`$text\'" if $do_quotes;
     } else { # unknown style
 	$text = undef;
     }
@@ -5325,7 +5446,7 @@ sub pretty_date {
 sub doc_href {
     local($num) = @_;
 
-    return("${docu_name}_$num.$docu_ext");
+    return("${docu_name}__$num.$docu_ext");
 }
 
 sub sec_href

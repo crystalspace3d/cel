@@ -90,12 +90,13 @@ properties and behaviours.
 
 Crystal Space is a portable modular 3D SDK, including many components for 
 building various applications and games.  For more information on Crystal 
-Space please see the @uref{http://crystal.sf.net,Crystal Space web page}.
+Space please see the
+@uref{http://www.crystalspace3d.org/,Crystal Space web page}.
 
 Crystal Entity Layer is still in development.  It's development efforts are
 currently hosted by SourceForge.  Anybody wishing to contribute should visit
-the @uref{http://cel.sf.net,Crystal Entity Layer} project page and
-@uref{http://www.sourceforge.net,SourceForge}.
+the @uref{http://cel.sourceforge.net/,Crystal Entity Layer} project page and
+@uref{http://www.sourceforge.net/,SourceForge}.
 
 Crystal Entity Layer is free and should remain free. Crystal Entity Layer 
 falls under the GNU copyleft license for libraries (LGPL). A copy of of the 
@@ -968,14 +969,14 @@ Crystal Entity Layer currently has two external dependencies, the first of
 these of course being Crystal Space.
 
 You may obtain Crystal Space from:@*
-@uref{http://crystal.sf.net}
+@uref{http://www.crystalspace3d.org/}
 
 The second dependency is Python.  Python is a scripting language which is 
 used by the Python Behaviour Layer.  This is not required in order to build
 Crystal Entity Layer (it is an optional module), however if you wish to use
 Python in your own Behaviour Layer, or build the blpython example, then you
 will need to download Python from:@*
-@uref{http://www.python.org}
+@uref{http://www.python.org/}
 
 @node Instructions,  , External Libraries, Building
 @section Platform Specific Instructions

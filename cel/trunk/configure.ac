@@ -72,7 +72,7 @@ AS_IF([test $with_cs != no],
 [CS_PATH_CRYSTAL_JAM([0.99], [],
   [AC_MSG_ERROR([
 *** Crystal Space could not be found. The latest version is always available
-*** from http://crystal.sourceforge.net/
+*** from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
 ])], [csgeom csgfx csutil cstool])])
@@ -104,16 +104,16 @@ AC_MSG_RESULT([$cs_build_mode])
 CS_EMIT_BUILD_PROPERTY([MODE], [$cs_build_mode])
 
 #------------------------------------------------------------------------------
-# Determine whether the new renderer should be activated.
+# Determine whether the old renderer should be activated.
 #------------------------------------------------------------------------------
-AC_MSG_CHECKING([whether to use new renderer])
-AC_ARG_ENABLE([new-renderer], [AC_HELP_STRING([--enable-new-renderer],
-    [enable use of new renderer (_EXPERIMENTAL_!) (default NO)])],
-    [], [enable_new_renderer=no])
-AC_MSG_RESULT([$enable_new_renderer])
-CS_EMIT_BUILD_PROPERTY([USE_NEW_RENDERER], [$enable_new_renderer])
-AS_IF([test $enable_new_renderer = yes], 
-  [CS_EMIT_BUILD_PROPERTY([SWIG.FLAGS], [-DCS_USE_NEW_RENDERER], [+])])
+AC_MSG_CHECKING([whether to use old renderer])
+AC_ARG_ENABLE([old-renderer], [AC_HELP_STRING([--enable-old-renderer],
+    [enable use of legacy renderer technology (default NO)])],
+    [], [enable_old_renderer=no])
+AC_MSG_RESULT([$enable_old_renderer])
+CS_EMIT_BUILD_PROPERTY([USE_OLD_RENDERER], [$enable_old_renderer])
+AS_IF([test $enable_old_renderer = yes], 
+  [CS_EMIT_BUILD_PROPERTY([SWIG.FLAGS], [-DCS_USE_OLD_RENDERER], [+])])
 
 #-----------------------------------------------------------------------------
 # Output Installpaths/package info
