@@ -61,6 +61,7 @@
 #include "pl/entity.h"
 #include "bl/bl.h"
 #include "pf/test.h"
+#include "pf/mesh.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -292,6 +293,23 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
   return true;
 }
 
+iCelPropertyClassFactory* CelTest::LoadPcFactory (const char* pcfactname)
+{
+  iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
+  iCelPropertyClassFactory* pf = CS_LOAD_PLUGIN (plugin_mgr,
+  	pcfactname, iCelPropertyClassFactory);
+  plugin_mgr->DecRef ();
+  if (!pf)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"CEL '%s' factory missing!", pcfactname);
+    return NULL;
+  }
+  pl->RegisterPropertyClassFactory (pf);
+  return pf;
+}
+
 bool CelTest::LoadMeshFactory (const char* fileName)
 {
   iMeshFactoryWrapper* imeshfact = loader->LoadMeshObjectFactory (fileName);
@@ -317,6 +335,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp", NULL);
   iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest", NULL);
+  iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh", NULL);
 
   csInitializer::SetupCommandLineParser (object_reg, argc, argv);
   if (!csInitializer::RequestPlugins (object_reg,
@@ -400,6 +419,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
   pl = CS_LOAD_PLUGIN (plugin_mgr, "cel.physicallayer", iCelPlLayer);
+  bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.test", iCelBlLayer);
+  plugin_mgr->DecRef (); plugin_mgr = NULL;
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -407,7 +428,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"CEL physical layer missing!");
     return false;
   }
-  bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.test", iCelBlLayer);
   if (!bl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -415,16 +435,37 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"CEL test behaviour layer missing!");
     return false;
   }
-  iCelPropertyClassFactory* pftest = CS_LOAD_PLUGIN (plugin_mgr,
-  	"cel.pcfactory.test", iCelPropertyClassFactory);
-  if (!pftest)
+
+  iCelPropertyClassFactory* pftest = LoadPcFactory ("cel.pcfactory.test");
+  if (!pftest) return false;
+  iCelPropertyClassFactory* pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
+  if (!pfmesh) return false;
+
+  // Open the main system. This will open all the previously loaded plug-ins.
+  if (!csInitializer::OpenApplication (object_reg))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.celtest",
-    	"CEL test factory missing!");
+    	"Error opening system!");
     return false;
   }
-  pl->RegisterPropertyClassFactory (pftest);
+
+  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
+  if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
+  if (!LoadTexture ("marble", "/lib/stdtex/andrew_marble4.jpg")) return false;
+
+  // First disable the lighting cache. Our app is simple enough
+  // not to need this.
+  engine->SetLightingCacheMode (0);
+
+  //if (!LoadMeshFactory ("/this/celtest_data/sparkbox")) return false;
+  //if (!LoadMeshFactory ("/this/celtest_data/marblebox")) return false;
+
+  view = new csView (engine, g3d);
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
+
+  CreateRoom ();
 
   iCelEntity* entity = pl->CreateEntity ();
   iCelBlEntity* bl_entity = bl->CreateBlEntity ("printer");
@@ -442,34 +483,23 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pctest->Print ("Hello world!");
   pctest->DecRef ();
 
-  pftest->DecRef ();
-  plugin_mgr->DecRef ();
-
-  // Open the main system. This will open all the previously loaded plug-ins.
-  if (!csInitializer::OpenApplication (object_reg))
+  pc = pfmesh->CreatePropertyClass ("pcmesh");
+  if (!pc)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.celtest",
-    	"Error opening system!");
+    	"'pfmesh' doesn't seem to support 'pcmesh' property class!");
     return false;
   }
+  entity->GetPropertyClassList ()->Add (pc);
+  iPcMesh* pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+  pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
+  pcmesh->MoveMesh (room, csVector3 (0));
+  pcmesh->DecRef ();
 
-  // First disable the lighting cache. Our app is simple enough
-  // not to need this.
-  engine->SetLightingCacheMode (0);
+  pftest->DecRef ();
+  pfmesh->DecRef ();
 
-  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
-  if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
-  if (!LoadTexture ("marble", "/lib/stdtex/andrew_marble4.jpg")) return false;
-
-  //if (!LoadMeshFactory ("/this/celtest_data/sparkbox")) return false;
-  //if (!LoadMeshFactory ("/this/celtest_data/marblebox")) return false;
-
-  view = new csView (engine, g3d);
-  iGraphics2D* g2d = g3d->GetDriver2D ();
-  view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
-
-  CreateRoom ();
   return true;
 }
 
