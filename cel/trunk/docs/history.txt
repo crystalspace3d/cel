@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed billboard image handling so it works correctly in both
 	  software and OpenGL renderer. This requires fixes on the CS side
 	  too.
+	- Jorrit removed some debug info.
 27-Nov-2003
 	- Jorrit added support for 'width', 'height', 'x', and 'y'
 	  properties to the pcbillboard. Also added persistance for these

@@ -28,6 +28,18 @@
 #include "propclass/billboard.h"
 #include "tools/billboard.h"
 
+inline void DUMP_EXEC (const char* msg, ...)
+{
+#if 0
+  va_list arg;
+  va_start (arg, msg);
+  vprintf (msg, arg);
+  va_end (arg);
+  fflush (stdout);
+#endif
+}
+
+
 //---------------------------------------------------------------------------
 
 celXmlArg::celXmlArg (const celXmlArg& other)
@@ -87,12 +99,7 @@ void celXmlScriptEventHandler::ResolveParameters (iCelEntity* entity)
   int i;
   iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
   for (i = 0 ; i < resolvers.Length () ; i++)
-    //if (!resolvers[i].pc)
-    {
-      resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
-      printf ("Resolve '%s'->%p\n", resolvers[i].pcname, resolvers[i].pc);
-      fflush (stdout);
-    }
+    resolvers[i].pc = pclist->FindByName (resolvers[i].pcname);
 }
 
 void celXmlScriptEventHandler::Execute (iCelEntity* entity,
@@ -159,60 +166,58 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        {
 		  long l = props->GetPropertyLong (idx);
 		  rc = (l != 0);
-		  printf (": if var=%s long=%ld rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s long=%ld rc=%d\n",
+		  	args[0].arg.s, l, rc);
 		}
 		break;
 	      case CEL_DATA_FLOAT:
 	        {
 		  float l = props->GetPropertyFloat (idx);
 		  rc = (ABS (l) < SMALL_EPSILON);
-		  printf (": if var=%s flt=%g rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s flt=%g rc=%d\n", args[0].arg.s,
+		  	l, rc);
 		}
 		break;
 	      case CEL_DATA_BOOL:
 	        {
 		  bool l = props->GetPropertyBool (idx);
 		  rc = l;
-		  printf (": if var=%s bool=%d rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s bool=%d rc=%d\n", args[0].arg.s,
+		  	l, rc);
 		}
 		break;
 	      case CEL_DATA_STRING:
 	        {
 		  const char* l = props->GetPropertyString (idx);
 		  rc = l && strlen (l) > 0;
-		  printf (": if var=%s str=%s rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s str=%s rc=%d\n", args[0].arg.s,
+		  	l, rc);
 		}
 		break;
 	      case CEL_DATA_PCLASS:
 	        {
 		  iCelPropertyClass* l = props->GetPropertyPClass (idx);
 		  rc = (l != 0);
-		  printf (": if var=%s pc=%p rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s pc=%p rc=%d\n", args[0].arg.s,
+		  	l, rc);
 		}
 		break;
 	      case CEL_DATA_ENTITY:
 	        {
 		  iCelEntity* l = props->GetPropertyEntity (idx);
 		  rc = (l != 0);
-		  printf (": if var=%s ent=%p rc=%d\n", args[0].arg.s, l, rc);
-		  fflush (stdout);
+		  DUMP_EXEC (": if var=%s ent=%p rc=%d\n", args[0].arg.s,
+		  	l, rc);
 		}
 		break;
 	      default:
-		printf (": if var=%s undefined? rc=0\n", args[0].arg.s);
-		fflush (stdout);
+		DUMP_EXEC (": if var=%s undefined? rc=0\n", args[0].arg.s);
 		rc = false;
 	        break;
 	    }
 	  else
 	  {
-	    printf (": if var=%s value=undefined rc=0\n", args[0].arg.s);
-	    fflush (stdout);
+	    DUMP_EXEC (": if var=%s value=undefined rc=0\n", args[0].arg.s);
 	    rc = false;
 	  }
 	  if (rc)
@@ -237,24 +242,23 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_PRINT:
         {
-	  printf (": print %s\n", op.arg.arg.s);
+	  DUMP_EXEC (": print %s\n", op.arg.arg.s);
+	  printf ("%s\n", op.arg.arg.s);
 	  fflush (stdout);
 	}
 	break;
       case CEL_OPERATION_ACTION:
         {
-          printf (": action pc=%d id=%d s=%s\n", args[0].arg.pc, args[1].arg.id,
-	  	args[2].arg.s);
-	  fflush (stdout);
+          DUMP_EXEC (": action pc=%d id=%d s=%s\n", args[0].arg.pc,
+	  	args[1].arg.id, args[2].arg.s);
 	  resolvers[args[0].arg.pc].pc->PerformAction (
 	  	args[1].arg.id, args[2].arg.s);
 	}
         break;
       case CEL_OPERATION_GETPROPCLASS:
         {
-	  printf (": getpropclass var=%s %s/%s\n", args[0].arg.s,
+	  DUMP_EXEC (": getpropclass var=%s %s/%s\n", args[0].arg.s,
 	  	args[1].arg.s, args[2].arg.s);
-	  fflush (stdout);
 	  iPcProperties* props = behave->GetProperties ();
 	  if (!props) break;	// @@@ Report error!
 	  iCelEntity* other_ent = pl->FindEntity (args[1].arg.s);
@@ -282,8 +286,7 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_TYPE_VAR:
 	      {
-                printf (": var %s=var %s\n", pn, args[1].arg.s);
-	        fflush (stdout);
+                DUMP_EXEC (": var %s=var %s\n", pn, args[1].arg.s);
 		int idx = props->GetPropertyIndex (args[1].arg.s);
 		if (idx == -1) break;	// @@@ Report error!
 		switch (props->GetPropertyType (idx))
@@ -321,24 +324,20 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    case CEL_TYPE_BOOL:
+              DUMP_EXEC (": var %s=%d\n", pn, args[1].arg.b);
 	      props->SetProperty (pn, args[1].arg.b);
-              printf (": var %s=%d\n", pn, args[1].arg.b);
-	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_FLOAT:
+              DUMP_EXEC (": var %s=%g\n", pn, args[1].arg.f);
 	      props->SetProperty (pn, args[1].arg.f);
-              printf (": var %s=%g\n", pn, args[1].arg.f);
-	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_STRING:
+              DUMP_EXEC (": var %s=%s\n", pn, args[1].arg.s);
 	      props->SetProperty (pn, args[1].arg.s);
-              printf (": var %s=%s\n", pn, args[1].arg.s);
-	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_INT32:
+              DUMP_EXEC (": var %s=%d\n", pn, args[1].arg.i);
 	      props->SetProperty (pn, (long)args[1].arg.i);
-              printf (": var %s=%d\n", pn, args[1].arg.i);
-	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_COLOR:
 	      {
@@ -346,10 +345,9 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		col.red = args[1].arg.col.red;
 		col.green = args[1].arg.col.green;
 		col.blue = args[1].arg.col.blue;
-	        props->SetProperty (pn, col);
-                printf (": var %s=%g,%g,%g\n", pn, col.red,
+                DUMP_EXEC (": var %s=%g,%g,%g\n", pn, col.red,
 			col.green, col.blue);
-	        fflush (stdout);
+	        props->SetProperty (pn, col);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR3:
@@ -358,10 +356,9 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		vec.x = args[1].arg.vec.x;
 		vec.y = args[1].arg.vec.y;
 		vec.z = args[1].arg.vec.z;
-	        props->SetProperty (pn, vec);
-                printf (": var %s=%g,%g,%g\n", pn, vec.x,
+                DUMP_EXEC (": var %s=%g,%g,%g\n", pn, vec.x,
 			vec.y, vec.z);
-	        fflush (stdout);
+	        props->SetProperty (pn, vec);
 	      }
 	      break;
 	    default:
@@ -379,41 +376,41 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
+	      DUMP_EXEC (": getproperty %s %d\n", args[0].arg.s,
+	      	pc->GetPropertyBool (id));
 	      props->SetProperty (args[0].arg.s, pc->GetPropertyBool (id));
-	      printf (": getproperty %s %d\n", args[0].arg.s,
-	      	pc->GetPropertyBool (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_FLOAT:
+	      DUMP_EXEC (": getproperty %s %g\n", args[0].arg.s,
+	      	pc->GetPropertyFloat (id));
 	      props->SetProperty (args[0].arg.s, pc->GetPropertyFloat (id));
-	      printf (": getproperty %s %g\n", args[0].arg.s,
-	      	pc->GetPropertyFloat (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_STRING:
+	      DUMP_EXEC (": getproperty %s %s\n", args[0].arg.s,
+	      	pc->GetPropertyString (id));
 	      props->SetProperty (args[0].arg.s, pc->GetPropertyString (id));
-	      printf (": getproperty %s %s\n", args[0].arg.s,
-	      	pc->GetPropertyString (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_LONG:
+	      DUMP_EXEC (": getproperty %s %ld\n", args[0].arg.s,
+	      	pc->GetPropertyLong (id));
 	      props->SetProperty (args[0].arg.s, pc->GetPropertyLong (id));
-	      printf (": getproperty %s %ld\n", args[0].arg.s,
-	      	pc->GetPropertyLong (id)); fflush (stdout);
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor col;
 		pc->GetPropertyColor (id, col);
+	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", args[0].arg.s,
+	      	  col.red, col.green, col.blue);
 	        props->SetProperty (args[0].arg.s, col);
-	        printf (": getproperty %s %g,%g,%g\n", args[0].arg.s,
-	      	  col.red, col.green, col.blue); fflush (stdout);
 	      }
 	      break;
 	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 v;
 		pc->GetPropertyVector (id, v);
+	        DUMP_EXEC (": getproperty %s %g,%g,%g\n", args[0].arg.s,
+	      	  v.x, v.y, v.z);
 	        props->SetProperty (args[0].arg.s, v);
-	        printf (": getproperty %s %g,%g,%g\n", args[0].arg.s,
-	      	  v.x, v.y, v.z); fflush (stdout);
 	      }
 	      break;
 	    default:
@@ -425,8 +422,8 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_PROPERTY:
         {
-          printf (": property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
-	  fflush (stdout);
+          DUMP_EXEC (": property pc=%d id=%d\n", args[0].arg.pc,
+	  	args[1].arg.id);
 	  iCelPropertyClass* pc = resolvers[args[0].arg.pc].pc;
 	  csStringID id = args[1].arg.id;
 	  switch (args[2].type)

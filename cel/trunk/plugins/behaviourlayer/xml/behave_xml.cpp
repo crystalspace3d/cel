@@ -91,10 +91,8 @@ bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
   {
-    printf ("Found handler for '%s'\n", msg_id);
     h->ResolveParameters (entity);
     h->Execute (entity, this);
-    fflush (stdout);
   }
   return h != 0;
 }
