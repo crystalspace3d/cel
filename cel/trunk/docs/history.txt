@@ -36,6 +36,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pczonemanager so that it also removes entities that
 	  are connected to a mesh and that are not in other sectors (and
 	  were not already removed earlier).
+	- Jorrit fixed the pczonemanager so it correctly uses the 'Start'
+	  position if none is specified.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

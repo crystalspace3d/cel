@@ -565,7 +565,8 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
     {
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
-      if (o->GetName () == 0 && cur_region->IsInRegion (o))
+      if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
+      		&& cur_region->IsInRegion (o))
         break;
       campos = 0;
     }
@@ -617,7 +618,8 @@ int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
     {
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
-      if (o->GetName () == 0 && cur_region->IsInRegion (o))
+      if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
+      		&& cur_region->IsInRegion (o))
         break;
       campos = 0;
     }
