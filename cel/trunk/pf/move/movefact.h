@@ -255,7 +255,7 @@ public:
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  virtual const char* GetName () const { return "pcgravity2"; }
+  virtual const char* GetName () const { return "pcgravity"; }
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
