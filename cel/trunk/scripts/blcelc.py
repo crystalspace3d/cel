@@ -5138,6 +5138,8 @@ class iGeneralMeshCommonState(iBase):
     def IsShadowCasting(*args): return _blcelc.iGeneralMeshCommonState_IsShadowCasting(*args)
     def SetShadowReceiving(*args): return _blcelc.iGeneralMeshCommonState_SetShadowReceiving(*args)
     def IsShadowReceiving(*args): return _blcelc.iGeneralMeshCommonState_IsShadowReceiving(*args)
+    def AddRenderBuffer(*args): return _blcelc.iGeneralMeshCommonState_AddRenderBuffer(*args)
+    def RemoveRenderBuffer(*args): return _blcelc.iGeneralMeshCommonState_RemoveRenderBuffer(*args)
     def __del__(self, destroy=_blcelc.delete_iGeneralMeshCommonState):
         try:
             if self.thisown: destroy(self)
@@ -5162,6 +5164,8 @@ class iGeneralMeshState(iGeneralMeshCommonState):
         return "<C iGeneralMeshState instance at %s>" % (self.this,)
     def SetAnimationControl(*args): return _blcelc.iGeneralMeshState_SetAnimationControl(*args)
     def GetAnimationControl(*args): return _blcelc.iGeneralMeshState_GetAnimationControl(*args)
+    def ClearSubMeshes(*args): return _blcelc.iGeneralMeshState_ClearSubMeshes(*args)
+    def AddSubMesh(*args): return _blcelc.iGeneralMeshState_AddSubMesh(*args)
     def __del__(self, destroy=_blcelc.delete_iGeneralMeshState):
         try:
             if self.thisown: destroy(self)
@@ -5221,9 +5225,6 @@ class iGeneralFactoryState(iGeneralMeshCommonState):
     def IsBack2Front(*args): return _blcelc.iGeneralFactoryState_IsBack2Front(*args)
     def SetAnimationControlFactory(*args): return _blcelc.iGeneralFactoryState_SetAnimationControlFactory(*args)
     def GetAnimationControlFactory(*args): return _blcelc.iGeneralFactoryState_GetAnimationControlFactory(*args)
-    def AddRenderBuffer(*args): return _blcelc.iGeneralFactoryState_AddRenderBuffer(*args)
-    def SetRenderBufferComponent(*args): return _blcelc.iGeneralFactoryState_SetRenderBufferComponent(*args)
-    def SetRenderBuffer(*args): return _blcelc.iGeneralFactoryState_SetRenderBuffer(*args)
     def __del__(self, destroy=_blcelc.delete_iGeneralFactoryState):
         try:
             if self.thisown: destroy(self)
@@ -6215,6 +6216,7 @@ class iThingFactoryState(iBase):
     def GetNormals(*args): return _blcelc.iThingFactoryState_GetNormals(*args)
     def GetCosinusFactor(*args): return _blcelc.iThingFactoryState_GetCosinusFactor(*args)
     def SetCosinusFactor(*args): return _blcelc.iThingFactoryState_SetCosinusFactor(*args)
+    def AddPolygonRenderBuffer(*args): return _blcelc.iThingFactoryState_AddPolygonRenderBuffer(*args)
     def __del__(self, destroy=_blcelc.delete_iThingFactoryState):
         try:
             if self.thisown: destroy(self)
