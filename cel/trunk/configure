@@ -5359,13 +5359,6 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= \"$PACKAGE_NAME\" ;
 # Output generated files.  Also create a Jamfile when compiling outside
 # source directory.
 #----------------------------------------------------------------------------
-cs_build_prop_val="yes"
-    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}JAMCONFIG_READ ?= \"$cs_build_prop_val\" ;
-"
-fi
-
           ac_config_commands="$ac_config_commands Jamconfig"
 
           ac_config_files="$ac_config_files Jamfile"

@@ -6,10 +6,6 @@ BUILDTOP = . ;
 # Include config
 JAMCONFIG ?= $(BUILDTOP)/Jamconfig ;
 include $(JAMCONFIG) ;
-if ! $(JAMCONFIG_READ)
-{
-  EXIT "Couldn't find config. Please configure the project." ;
-}
 
 #don't scan swig files
 NO_SWIG_HEADER_SCANNING = yes ;
