@@ -87,9 +87,6 @@ protected:
   csVector3 angleToReach;
   bool angleToReachFlag;
   csVector3 vel;
-  // Target velocity
-  csVector3 targAngularVelocity;
-  csVector3 targVel;
   float speed;
   bool stationary;
   float angDelta;
