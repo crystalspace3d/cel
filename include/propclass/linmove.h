@@ -213,6 +213,8 @@ struct iPcLinearMovement : public iBase
 
   virtual bool IsOnGround () const = 0;
 
+  virtual void SetOnGround (bool onground) = 0;
+
   virtual void SetDeltaLimit(float deltaLimit) = 0;
 
   virtual bool RotateV (float delta) = 0;

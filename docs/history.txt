@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+11-Dec-2004
+	- Andrew Dai added a SetOnGround(bool) function to iPcLinearMovement
+	  which will be needed in future as a result of removing gravity from
+	  iPcCollisionDetection.
 10-Dec-2004
 	- Eric Sunshine disabled generation of the `blpython' MSVC project file
 	  for now since we do not presently support Python plugin building from
