@@ -26,6 +26,8 @@
 #include "csutil/scf.h"
 #include "csutil/parray.h"
 #include "csutil/weakref.h"
+#include "csutil/hash.h"
+#include "csutil/hashhandlers.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -216,6 +218,7 @@ private:
     csWeakRef<iCelPropertyClass> pclass;
   };
   csPDelArray<property> properties;
+  csHash<int,csStrKey,csConstCharHashKeyHandler> properties_hash;
 
   int NewProperty (const char* name);
   int FindProperty (csStringID id);
@@ -262,7 +265,7 @@ public:
   void SetProperty (const char* name, const csColor& value);
   void SetProperty (const char* name, iCelPropertyClass* pclass);
   void SetProperty (const char* name, iCelEntity* entity);
-  int GetPropertyIndex (const char* name) const;
+  int GetPropertyIndex (const char* name);
   void SetProperty (int index, float value);
   void SetProperty (int index, long value);
   void SetProperty (int index, bool value);
@@ -333,7 +336,7 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
-    virtual int GetPropertyIndex (const char* name) const
+    virtual int GetPropertyIndex (const char* name)
     {
       return scfParent->GetPropertyIndex (name);
     }
