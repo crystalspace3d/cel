@@ -156,6 +156,12 @@ public:
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
 
   bool IsOnGround () const;
+
+  void SetOnGround(bool onground) { 
+    if (pccolldet)
+      pccolldet->SetOnGround(onground);
+  }
+
   bool IsPath() const { return (path != 0); }
 
   /// Returns the difference in time between now and when the last DR update or extrapolation took place
@@ -326,6 +332,10 @@ public:
     virtual bool IsOnGround () const
     {
       return scfParent->IsOnGround ();
+    }
+    virtual void SetOnGround (bool onground)
+    {
+        return scfParent->SetOnGround (onground);
     }
     virtual bool IsPath() const
     {
