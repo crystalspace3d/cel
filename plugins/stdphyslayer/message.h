@@ -21,7 +21,7 @@
 #define __CEL_PLIMP_MESSAGE__
 
 #include <stdarg.h>
-#include "pl/message.h"
+#include "physicallayer/message.h"
 
 /**
  * A message in the CEL framework.

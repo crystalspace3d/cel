@@ -22,7 +22,7 @@
 
 #include "csutil/csobject.h"
 #include "csutil/refarr.h"
-#include "pl/entity.h"
+#include "physicallayer/entity.h"
 #include "plugins/stdphyslayer/pl.h"
 
 class celPropertyClassList;

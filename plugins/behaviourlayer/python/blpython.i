@@ -2,13 +2,13 @@
 %module blcelc
 %include cspace.i
 %{
-#include "pl/pl.h"
-#include "pl/propfact.h"
-#include "pl/propclas.h"
-#include "pl/entity.h"
-#include "pl/persist.h"
-#include "bl/bl.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/propfact.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/bl.h"
+#include "behaviourlayer/behave.h"
 #include "propclass/region.h"
 #include "propclass/camera.h"
 #include "propclass/mesh.h"

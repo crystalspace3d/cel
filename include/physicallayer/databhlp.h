@@ -19,8 +19,8 @@
 #ifndef __DATABHLP_H__
 #define __DATABHLP_H__
 
-#include "pl/datatype.h"
-#include "pl/persist.h"
+#include "physicallayer/datatype.h"
+#include "physicallayer/persist.h"
 
 class celDataBufHelper
 {

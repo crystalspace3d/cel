@@ -21,7 +21,7 @@
 #define __CEL_PLIMP_PROPCLASS__
 
 #include "csutil/refarr.h"
-#include "pl/propclas.h"
+#include "physicallayer/propclas.h"
 
 struct iCelEntity;
 

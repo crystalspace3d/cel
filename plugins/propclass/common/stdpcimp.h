@@ -24,8 +24,8 @@
 #include "iutil/comp.h"
 #include "csutil/scf.h"
 #include "csutil/refarr.h"
-#include "pl/propclas.h"
-#include "pl/propfact.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/propfact.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

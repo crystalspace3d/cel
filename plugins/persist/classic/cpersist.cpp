@@ -18,12 +18,12 @@
 */
 
 #include "cssysdef.h"
-#include "pl/pl.h"
-#include "pl/entity.h"
-#include "pl/propclas.h"
-#include "pl/propfact.h"
-#include "bl/bl.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/propfact.h"
+#include "behaviourlayer/bl.h"
+#include "behaviourlayer/behave.h"
 #include "plugins/persist/classic/cpersist.h"
 #include "cssys/csendian.h"
 #include "csutil/memfile.h"

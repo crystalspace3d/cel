@@ -21,11 +21,11 @@
 #include "iutil/objreg.h"
 #include "csutil/debug.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pl/pl.h"
-#include "pl/entity.h"
-#include "pl/propchg.h"
-#include "pl/persist.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/propchg.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/behave.h"
 
 //---------------------------------------------------------------------------
 

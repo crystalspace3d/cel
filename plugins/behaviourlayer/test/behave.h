@@ -23,7 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/util.h"
-#include "bl/behave.h"
+#include "behaviourlayer/behave.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

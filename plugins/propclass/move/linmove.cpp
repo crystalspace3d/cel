@@ -49,10 +49,10 @@
 #include <igeom/objmodel.h>
 
 //CEL includes
-#include "pl/pl.h"
-#include "pl/entity.h"
-#include "pl/persist.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/behave.h"
 #include "propclass/camera.h"
 
 #include "plugins/propclass/move/linmove.h"

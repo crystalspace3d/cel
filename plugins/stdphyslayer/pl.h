@@ -22,7 +22,7 @@
 
 #include "csutil/refarr.h"
 #include "iutil/comp.h"
-#include "pl/pl.h"
+#include "physicallayer/pl.h"
 #include "plugins/stdphyslayer/numreg.h"
 
 struct iObjectRegistry;

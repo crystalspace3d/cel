@@ -24,7 +24,7 @@
 #include "csutil/scf.h"
 #include "csutil/strset.h"
 #include "csutil/ref.h"
-#include "pl/datatype.h"
+#include "physicallayer/datatype.h"
 class csVector3;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \

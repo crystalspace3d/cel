@@ -23,9 +23,9 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "csutil/scf.h"
-#include "pl/propclas.h"
-#include "pl/propfact.h"
-#include "pl/facttmpl.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/propfact.h"
+#include "physicallayer/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
 #include "propclass/test.h"
 

@@ -24,8 +24,8 @@
 #include "ivaria/reporter.h"
 #include "cssys/syspath.h"
 #include "iutil/objreg.h"
-#include "pl/entity.h"
-#include "pl/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/pl.h"
 
 CS_IMPLEMENT_PLUGIN
 
