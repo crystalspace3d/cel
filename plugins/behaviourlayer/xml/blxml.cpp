@@ -54,6 +54,7 @@ enum
   XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_IF,
+  XMLTOKEN_WHILE,
   XMLTOKEN_FOR,
   XMLTOKEN_PRINT,
   XMLTOKEN_CALL,
@@ -89,6 +90,9 @@ enum
   XMLFUNCTION_TESTCOLLIDE,
   XMLFUNCTION_IF,
   XMLFUNCTION_ENTNAME,
+  XMLFUNCTION_ENT,
+  XMLFUNCTION_INVENTORY_GET,
+  XMLFUNCTION_INVENTORY_COUNT,
 
   XMLFUNCTION_LAST
 };
@@ -121,6 +125,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
+  xmltokens.Register ("while", XMLTOKEN_WHILE);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("for", XMLTOKEN_FOR);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
@@ -152,6 +157,9 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("testcollide", XMLFUNCTION_TESTCOLLIDE);
   functions.Register ("if", XMLFUNCTION_IF);
   functions.Register ("entname", XMLFUNCTION_ENTNAME);
+  functions.Register ("ent", XMLFUNCTION_ENT);
+  functions.Register ("inventory_get", XMLFUNCTION_INVENTORY_GET);
+  functions.Register ("inventory_count", XMLFUNCTION_INVENTORY_COUNT);
 
   return true;
 }
@@ -249,9 +257,37 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   csStringID fun_id = functions.Request (str);
   switch (fun_id)
   {
+    case XMLFUNCTION_INVENTORY_GET:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	h->AddOperation (CEL_OPERATION_INVENTORY_GET);
+      }
+      break;
+    case XMLFUNCTION_INVENTORY_COUNT:
+      {
+	h->AddOperation (CEL_OPERATION_INVENTORY_COUNT);
+      }
+      break;
     case XMLFUNCTION_ENTNAME:
       {
 	h->AddOperation (CEL_OPERATION_ENTNAME);
+      }
+      break;
+    case XMLFUNCTION_ENT:
+      {
+	celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_CLOSE)
+	{
+	  // No arguments: that means we want current entity.
+          h->AddOperation (CEL_OPERATION_ENTTHIS);
+	}
+	else
+	{
+	  // One argument.
+          if (!ParseExpression (input, child, h, name, 0))
+	    return false;
+          h->AddOperation (CEL_OPERATION_ENT);
+	}
       }
       break;
     case XMLFUNCTION_TESTCOLLIDE:
@@ -806,17 +842,48 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (entname ? CEL_OPERATION_VARENT : CEL_OPERATION_VAR);
 	}
 	break;
-      case XMLTOKEN_FOR:
+      case XMLTOKEN_WHILE:
         {
+	  int eval_idx = h->GetLastArgumentIndex ()+1;
+          if (!ParseExpression (child, h, "eval", "for"))
+	    return false;
 	  const char* execname = GetAttributeString (child, "exec", 0);
 	  if (execname)
 	  {
-            if (!ParseExpression (child, h, "var", "for"))
+            celXmlScriptEventHandler* handler = execname
+	  	? script->FindOrCreateEventHandler (execname)
+		: 0;
+	    h->AddOperation (CEL_OPERATION_IF);
+	    h->GetArgument ().SetEventHandlers (handler, 0);
+	    h->AddOperation (CEL_OPERATION_GOTO);	// True branch
+	    h->GetArgument ().SetCodeLocation (eval_idx);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_IFGOTO);
+	    int while_idx = h->GetLastArgumentIndex ();
+
+	    if (!ParseEventHandler (h, child, script))
 	      return false;
-            if (!ParseExpression (child, h, "start", "for"))
-	      return false;
-            if (!ParseExpression (child, h, "end", "for"))
-	      return false;
+	    h->AddOperation (CEL_OPERATION_GOTO);	// True branch
+	    h->GetArgument ().SetCodeLocation (eval_idx);
+
+	    int last_idx = h->GetLastArgumentIndex ();
+	    h->GetArgument (while_idx).SetCodeLocation (last_idx+1);
+	  }
+	}
+        break;
+      case XMLTOKEN_FOR:
+        {
+          if (!ParseExpression (child, h, "var", "for"))
+	    return false;
+          if (!ParseExpression (child, h, "start", "for"))
+	    return false;
+          if (!ParseExpression (child, h, "end", "for"))
+	    return false;
+	  const char* execname = GetAttributeString (child, "exec", 0);
+	  if (execname)
+	  {
             celXmlScriptEventHandler* handler = execname
 	  	? script->FindOrCreateEventHandler (execname)
 		: 0;
@@ -825,7 +892,15 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  }
 	  else
 	  {
-	    // @@@ Not yet supported!
+	    h->AddOperation (CEL_OPERATION_FORI);
+	    int for_idx = h->GetLastArgumentIndex ();
+
+	    if (!ParseEventHandler (h, child, script))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_END);
+
+	    int last_idx = h->GetLastArgumentIndex ();
+	    h->GetArgument (for_idx).SetCodeLocation (last_idx+1);
 	  }
 	}
         break;

@@ -49,6 +49,42 @@
 	</script>
 
 	<!-- *****************************************************
+	  - Generic back button handler for returning to the main menu.
+	  - Users of this behaviour should set the 'game_entity' variable
+	  - of the entity which controls this script to the entity controlling
+	  - the game. It will call 'destroy' on that entity as soon as
+	  - the button is clicked.
+	  -  ***************************************************** -->
+        <script name="back_button">
+	    <!--
+	      - Initialize the back button.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(name)" value="picture1" />
+	        <property id="propid(materialname)" value="picture1" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="true" />
+	        <property id="propid(width)" value="20000" />
+	        <property id="propid(height)" value="20000" />
+	        <property id="propid(x)" value="295000" />
+	        <property id="propid(y)" value="100" />
+	    </event>
+
+	    <!--
+	      - Go to the main menu.
+	      -->
+	    <event name="pcbillboard_select">
+		<call entity="?game_entity" event="destroy" />
+		<call entity="menu" event="init" />
+		<destroyentity name="?game_entity" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
 	  - This script handles the button for the puzzle game.
 	  -  ***************************************************** -->
 	<script name="puzzle_button">
@@ -63,8 +99,8 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="75000" />
-	        <property id="propid(height)" value="75000" />
+	        <property id="propid(width)" value="70000" />
+	        <property id="propid(height)" value="70000" />
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="10000" />
 	    </event>
@@ -93,24 +129,17 @@
 	        <var name="ent" value="'p'+?x+'_'+?y" />
 		<print value="'Creating '+?ent" />
 		<createentity name="?ent" behaviour="moving_tile" />
+		<var name="ent" value="ent(?ent)" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
 		<default propclass="pc(?ent,pcbillboard)" />
-	        <property id="propid(x)" value="1000+75000*?x" />
-	        <property id="propid(y)" value="1000+75000*?y" />
+	        <property id="propid(x)" value="1000+70000*?x" />
+	        <property id="propid(y)" value="1000+70000*?y" />
 		<var name="tl" value="[?x,?y]*.25" />
 	        <property id="propid(uv_topleft)" value="?tl" />
-	        <property id="propid(uv_botright)"
-			value="?tl + [.25,.25]" />
+	        <property id="propid(uv_botright)" value="?tl+[.25,.25]" />
 		<!-- Set the 2d grid to contain the current entity -->
 	        <var name="'grid'+?x+'_'+?y" value="?ent" />
-	    </event>
-
-	    <!--
-	      - Initialize one row of the board.
-	      -->
-	    <event name="initrow">
-		<for var="x" start="0" end="3" exec="inittile" />
 	    </event>
 
 	    <!--
@@ -121,14 +150,23 @@
 	      -      at location x,y. Or '' if this is the empty tile.
 	      -    - emptyx, emptyy: the location of the empty tile.
 	      -    - allowmove: if true the player can move tiles.
-	      -    - shuffle_count: if > 0 then we are randomizing the board.
+	      -    - shuffle_count: if greater than 0 then we are randomizing the board.
 	      -    - speed: a float indicating the speed with which tiles should move.
 	      -->
 	    <event name="init">
 	        <createpropclass name="pcinventory" />
 
+		<!-- Create the menu back button -->
+		<createentity name="back_button" behaviour="back_button" />
+		<var entity="back_button" name="game_entity" value="ent()" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="back_button" />
+
+		<!-- Create the tiles of the board -->
 	        <var name="uvtl" value="[0,0]" />
-		<for var="y" start="0" end="3" exec="initrow" />
+		<for var="y" start="0" end="3">
+		    <for var="x" start="0" end="3" exec="inittile" />
+	        </for>
 
 		<!-- Clear the item at 3,3. This is the empty tile -->
 		<property propclass="pc(p3_3,pcbillboard)"
@@ -139,12 +177,26 @@
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
 
-		<var name="speed" value="0.1" />
+		<var name="speed" value="0.03" />
 		<var name="allowmove" value="false" />
 		<!-- Start randomizing -->
 		<var name="prev_dxdy" value="1" />
-		<var name="shuffle_count" value="100" />
+		<var name="shuffle_count" value="30" />
 		<call event="fast_shuffle" />
+	    </event>
+
+	    <!--
+	      - Destroy all resources created by this game.
+	      -->
+	    <event name="destroy">
+	        <print value="'Start destroying game...'" />
+		<inventory propclass="pc(pcinventory)" />
+		<while eval="inventory_count()>0" >
+		    <var name="child" value="inventory_get(0)" />
+		    <print value="'    destroy '+?child" />
+		    <inventory_rem child="?child" />
+		    <destroyentity name="?child" />
+		</while>
 	    </event>
 
 	    <!--
@@ -157,7 +209,8 @@
 	    <event name="fast_shuffle">
 	    	<!-- Try one of the four possible directions -->
 	        <var name="dxdy" value="int(rand(4.0))" />
-		<!-- If the direction is the opposite of the previous direction we change it -->
+		<!-- If the direction is the opposite of the previous direction
+		     we change it -->
 		<var name="dxdy"
 		    value="if(?prev_dxdy==(?dxdy^1),(?dxdy+1)%4,?dxdy)" />
 		<var name="prev_dxdy" value="?dxdy" />
@@ -218,8 +271,8 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="75000" />
-	        <property id="propid(height)" value="75000" />
+	        <property id="propid(width)" value="70000" />
+	        <property id="propid(height)" value="70000" />
 		<var name="rightx" value="?puzzle_main.x" />
 		<var name="righty" value="?puzzle_main.y" />
 		<var name="curx" value="?rightx" />
@@ -237,11 +290,12 @@
 	    <event name="pctimer_wakeupframe">
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(x)"
-			value="1000+intpol(?delta,?intx1,?intx2)*75000" />
+			value="1000+intpol(?delta,?intx1,?intx2)*70000" />
 	        <property id="propid(y)"
-			value="1000+intpol(?delta,?inty1,?inty2)*75000" />
+			value="1000+intpol(?delta,?inty1,?inty2)*70000" />
 		<if eval="?delta>=1" true="stoptimer" />
-		<var name="delta" value="?delta+?puzzle_main.speed*param(parid(elapsedticks))" />
+		<var name="delta" value="?delta+?puzzle_main.speed*
+			param(parid(elapsedticks))" />
 	    </event>
 
 	    <!--
@@ -254,8 +308,8 @@
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="1000+?curx*75000" />
-	        <property id="propid(y)" value="1000+?cury*75000" />
+	        <property id="propid(x)" value="1000+?curx*70000" />
+	        <property id="propid(y)" value="1000+?cury*70000" />
 		<if eval="?puzzle_main.shuffle_count>0">
 		    <true>
 		        <var entity="puzzle_main" name="shuffle_count"
@@ -286,7 +340,7 @@
 		<var name="cury" value="?cury+?dy" />
 		<!-- Fill new grid item with current entity -->
 	        <var entity="puzzle_main" name="'grid'+?curx+'_'+?cury"
-			value="entname()" />
+			value="ent()" />
 		<var name="intx2" value="float(?curx)" />
 		<var name="inty2" value="float(?cury)" />
 		<var name="delta" value="0.0" />
@@ -300,12 +354,10 @@
 	      -->
 	    <event name="pcbillboard_select">
 	        <if eval="?puzzle_main.allowmove">
-		    <true>
-		        <var name="dx" value="?puzzle_main.emptyx-?curx" />
-		        <var name="dy" value="?puzzle_main.emptyy-?cury" />
-		        <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)"
+		    <var name="dx" value="?puzzle_main.emptyx-?curx" />
+		    <var name="dy" value="?puzzle_main.emptyy-?cury" />
+		    <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)"
 			    true="move" />
-		    </true>
 		</if>
 	    </event>
 	</script>
