@@ -238,6 +238,7 @@ celPcBillboard::~celPcBillboard ()
   delete[] billboard_name;
   delete params;
   delete scfiBillboardEventHandler;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcBillboard);
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)

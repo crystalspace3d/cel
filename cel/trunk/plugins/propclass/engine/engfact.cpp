@@ -367,6 +367,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 
 celPcCamera::~celPcCamera ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcCamera::DisableDistanceClipping ()
@@ -1372,6 +1373,7 @@ celPcRegion::~celPcRegion ()
   delete[] worlddir;
   delete[] worldfile;
   delete[] regionname;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRegion);
 }
 
 #define REGION_SERIAL 2

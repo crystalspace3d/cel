@@ -124,6 +124,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
 
 celPcCollisionDetection::~celPcCollisionDetection ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCollisionDetection);
 }
 
 #define COLLDET_SERIAL 27

@@ -71,6 +71,7 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 
 celPcTest::~celPcTest ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTest);
 }
 
 Property* celPcTest::properties = 0;

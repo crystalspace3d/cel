@@ -117,6 +117,7 @@ celPcCommandInput::~celPcCommandInput ()
     delete p;
     p=o;
   }
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
 }
 
 bool celPcCommandInput::PerformAction (csStringID actionId,

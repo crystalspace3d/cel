@@ -207,6 +207,7 @@ celPcNavGraphRulesFPS::celPcNavGraphRulesFPS (iObjectRegistry* object_reg)
 
 celPcNavGraphRulesFPS::~celPcNavGraphRulesFPS ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNavGraphRulesFPS);
 }
 
 csPtr<iCelDataBuffer> celPcNavGraphRulesFPS::Save ()
