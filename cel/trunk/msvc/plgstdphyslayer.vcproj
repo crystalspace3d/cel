@@ -164,6 +164,9 @@
 				RelativePath="..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\stdphyslayer\etracker.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\stdphyslayer\message.cpp">
 			</File>
 			<File
@@ -181,6 +184,9 @@
 			Filter="">
 			<File
 				RelativePath="..\plugins\stdphyslayer\entity.h">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\etracker.h">
 			</File>
 			<File
 				RelativePath="..\plugins\stdphyslayer\message.h">
