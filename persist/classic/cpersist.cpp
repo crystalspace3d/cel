@@ -236,18 +236,28 @@ bool celPersistClassicContext::SaveEntity(iCelEntity* entity)
   return Write(entity);
 }
 
+iCelEntity* celPersistClassicContext::FindEntity (CS_ID id)
+{
+  return (iCelEntity*) read_entities.Get (id);
+}
+
 iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 {
   /* FIXME: hash is very inefficient used that way, as the range of id is
    * probably only between 0 and some hundrets
    */
-  iCelEntity* entity = (iCelEntity*)read_entities.Get (id % 211);
+  iCelEntity* entity = (iCelEntity*)read_entities.Get (id);
   if (!entity)
   {
     entity = pl->CreateEntity ();
     if (entity)
-      read_entities.Put (id % 211, entity);
+      read_entities.Put (id, entity);
   }
+/*  else
+  {
+      entity->IncRef();
+  }*/
+
   return entity;
 }
 
@@ -543,7 +553,12 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
     rc = rc && Read (pcname);
     if (rc)
     {
-      iCelEntity* entity = FindOrCreateEntity (entid);
+      iCelEntity* entity = FindEntity (entid);
+      if (!entity)
+      {
+	Report ("Cannot find entity for '%s'!", pcname);
+	rc = false;
+      }
       pc = entity->GetPropertyClassList ()->FindByName (pcname);
       if (!pc)
       {
@@ -664,7 +679,9 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     if (bhlayername && bhname)
     {
       iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
+      if (!bh) return false;
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
+      if (!bh) return false;
       entity->SetBehaviour (bh);
       bh->DecRef ();
     }

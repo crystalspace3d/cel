@@ -62,6 +62,7 @@ private:
   bool Write (unsigned int i);
   bool Write (float f);
 
+  iCelEntity* FindEntity (CS_ID id);
   iCelEntity* FindOrCreateEntity (CS_ID id);
   bool ReadMarker (char* marker);
   bool CheckMarker (const char* marker);
