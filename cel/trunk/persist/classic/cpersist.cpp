@@ -347,6 +347,16 @@ bool celPersistClassicContext::Read (uint32& ul)
   return true;
 }
 
+bool celPersistClassicContext::Read (int& i)
+{
+  return Read((int32&) i);
+}
+
+bool celPersistClassicContext::Read (unsigned int& i)
+{
+  return Read((uint32&) i);
+}
+
 bool celPersistClassicContext::Read (float& f)
 {
   READDEBUG("FLT");
@@ -365,7 +375,7 @@ bool celPersistClassicContext::Read (char*& str)
   if (l)
   {
     str = new char[l+1];
-    if (!file->Read((char*) str, l) < l) {
+    if (file->Read((char*) str, l) < l) {
       delete [] str;
       str=NULL;
       return false;
@@ -378,9 +388,7 @@ bool celPersistClassicContext::Read (char*& str)
 
 bool celPersistClassicContext::Read (celData* cd)
 {
-  READDEBUG("CLDT");
   uint8 t;
-  if (!Read (t)) return false;
   uint8 ub;
   int8 b;
   uint16 uw;
@@ -389,6 +397,9 @@ bool celPersistClassicContext::Read (celData* cd)
   int32 l;
   float f;
   char* s;
+
+  READDEBUG("CLDT");
+  if (!Read (t)) return false;
   switch (t)
   {
     case CEL_DATA_ACTION:
@@ -689,11 +700,9 @@ bool celPersistClassicContext::WriteMarker (const char* s)
 bool celPersistClassicContext::Write (const char* s)
 {
   WRITEDEBUG("STR");
-  int ll = s ? strlen (s) : 0;
-  uint16 l = convert_endian (ll);
-  WRITEDEBUG("UI16");
-  if (!file->Write ((const char*)&l, 2)) return false;
-  if (s && !file->Write (s, ll)) return false;
+  uint16 l = s ? strlen (s) : 0;
+  if (!Write (l)) return false;
+  if (s && !file->Write (s, l)) return false;
   return true;
 }
 
@@ -710,8 +719,8 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
   {
     if (!WriteMarker ("PCLR")) return false;
     iCelEntity* pc_ent = pc->GetEntity ();
-    // First write entity name, then property class name.
-    if (!Write (pc_ent->GetName ())) return false;
+    // First write entity ID, then property class name.
+    if (!Write (pc_ent->GetID ())) return false;
     if (!Write (pc->GetName ())) return false;
     return true;
   }
@@ -765,8 +774,7 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
   }
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
-  uint16 c = convert_endian (pl->GetCount ());
-  if (!file->Write ((const char*)&c, 2)) return false;
+  if (!Write ((uint16) pl->GetCount())) return false;
   int i;
   for (i = 0 ; i < pl->GetCount () ; i++)
   {
@@ -779,10 +787,8 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
 bool celPersistClassicContext::Write (iCelDataBuffer* db)
 {
   WRITEDEBUG("DTBF");
-  long ser = convert_endian (db->GetSerialNumber ());
-  if (!file->Write ((const char*)&ser, 4)) return false;
-  uint16 cnt = convert_endian (db->GetDataCount ());
-  if (!file->Write ((const char*)&cnt, 2)) return false;
+  if (!Write ((int32) db->GetSerialNumber())) return false;
+  if (!Write ((uint16) db->GetDataCount())) return false;
   int i;
   for (i = 0 ; i < db->GetDataCount () ; i++)
   {
@@ -795,8 +801,7 @@ bool celPersistClassicContext::Write (iCelDataBuffer* db)
 bool celPersistClassicContext::Write (celData* data)
 {
   WRITEDEBUG("CLDT");
-  uint8 t = (uint8)(data->type);
-  if (!file->Write ((const char*)&t, 1)) return false;
+  if (!Write ((uint8) data->type)) return false;
   switch (data->type)
   {
     case CEL_DATA_NONE:
@@ -804,66 +809,34 @@ bool celPersistClassicContext::Write (celData* data)
       CS_ASSERT (false);
       break;
     case CEL_DATA_BOOL:
-      {
-	WRITEDEBUG("UIT8");
-        uint8 v = (uint8)data->value.bo;
-        if (!file->Write ((const char*)&v, 1)) return false;
-      }
+      if (!Write ((uint8)data->value.bo)) return false;
       break;
     case CEL_DATA_BYTE:
-      WRITEDEBUG("INT8");
-      if (!file->Write (&(data->value.b), 1)) return false;
+      if (!Write (data->value.b)) return false;
       break;
     case CEL_DATA_WORD:
-      {
-	WRITEDEBUG("IT16");
-        int16 v = convert_endian (data->value.w);
-        if (!file->Write ((const char*)&v, 2)) return false;
-      }
+      if (!Write (data->value.w)) return false;
       break;
     case CEL_DATA_LONG:
-      {
-	WRITEDEBUG("IT32");
-        int32 v = convert_endian (data->value.l);
-        if (!file->Write ((const char*)&v, 4)) return false;
-      }
+      if (!Write (data->value.l)) return false;
       break;
     case CEL_DATA_UBYTE:
-      WRITEDEBUG("UIT8");
-      if (!file->Write ((const char*)&(data->value.ub), 1)) return false;
+      if (!Write (data->value.ub)) return false;
       break;
     case CEL_DATA_UWORD:
-      {
-	WRITEDEBUG("UI16");
-        uint16 v = convert_endian (data->value.uw);
-        if (!file->Write ((const char*)&v, 2)) return false;
-      }
+      if (!Write (data->value.uw)) return false;
       break;
     case CEL_DATA_ULONG:
-      {
-	WRITEDEBUG("UI32");
-        uint32 v = convert_endian ((unsigned long)data->value.ul);
-        if (!file->Write ((const char*)&v, 4)) return false;
-      }
+      if (!Write (data->value.ul)) return false;
       break;
     case CEL_DATA_FLOAT:
-      {
-	WRITEDEBUG("FLT");
-        float v = convert_endian (data->value.f);
-        if (!file->Write ((const char*)&v, 4)) return false;
-      }
+      if (!Write (data->value.f)) return false;
       break;
     case CEL_DATA_VECTOR3:
       {
-        float v = convert_endian (data->value.v.x);
-	WRITEDEBUG("FLT");
-        if (!file->Write ((const char*)&v, 4)) return false;
-        v = convert_endian (data->value.v.y);
-	WRITEDEBUG("FLT");
-        if (!file->Write ((const char*)&v, 4)) return false;
-        v = convert_endian (data->value.v.z);
-	WRITEDEBUG("FLT");
-        if (!file->Write ((const char*)&v, 4)) return false;
+        if (!Write (data->value.v.x)) return false;
+	if (!Write (data->value.v.y)) return false;
+	if (!Write (data->value.v.z)) return false;
       }
       break;
     case CEL_DATA_STRING:
@@ -885,10 +858,59 @@ bool celPersistClassicContext::Write (celData* data)
   return true;
 }
 
-bool celPersistClassicContext::Write (CS_ID id)
+bool celPersistClassicContext::Write (uint32 v)
 {
   WRITEDEBUG("UI32");
-  uint32 v = convert_endian(id);
+  v = convert_endian(v);
   return file->Write ((const char*) &v, 4);
 }
- 
+
+bool celPersistClassicContext::Write (int32 v)
+{
+  WRITEDEBUG("IT32");
+  v = convert_endian(v);
+  return file->Write ((const char*) &v, 4);
+}
+
+bool celPersistClassicContext::Write (uint16 v)
+{
+  WRITEDEBUG("UI16");
+  v = convert_endian(v);
+  return file->Write ((const char*) &v, 2);
+}
+
+bool celPersistClassicContext::Write (int16 v)
+{
+  WRITEDEBUG("IT16");
+  v = convert_endian(v);
+  return file->Write ((const char*) &v, 2);
+}
+
+bool celPersistClassicContext::Write (uint8 v)
+{
+  WRITEDEBUG("UIT8");
+  return file->Write ((const char*) &v, 1);
+}
+
+bool celPersistClassicContext::Write (int8 v)
+{
+  WRITEDEBUG("INT8");
+  return file->Write ((const char*) &v, 1);
+}
+
+bool celPersistClassicContext::Write (float f)
+{
+  WRITEDEBUG("FLT");
+  f = convert_endian (f);
+  return file->Write ((const char*)&f, 4);
+}
+
+bool celPersistClassicContext::Write (int i)
+{
+  return Write((int32)i);
+}
+
+bool celPersistClassicContext::Write (unsigned int i)
+{
+  return Write((uint32)i);
+}

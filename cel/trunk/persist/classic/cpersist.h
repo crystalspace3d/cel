@@ -52,7 +52,15 @@ private:
   bool Write (iCelEntity* entity);
   bool Write (iCelDataBuffer* db);
   bool Write (celData* data);
-  bool Write (CS_ID id);
+  bool Write (uint32 v);
+  bool Write (uint16 v);
+  bool Write (int16 v);
+  bool Write (int32 v);
+  bool Write (uint8 v);
+  bool Write (int8 v);
+  bool Write (int i);
+  bool Write (unsigned int i);
+  bool Write (float f);
 
   iCelEntity* FindOrCreateEntity (CS_ID id);
   bool ReadMarker (char* marker);
@@ -63,6 +71,8 @@ private:
   bool Read (uint16& uw);
   bool Read (int32& l);
   bool Read (uint32& ul);
+  bool Read (int& i);
+  bool Read (unsigned int& i);
   bool Read (float& f);
   bool Read (char*& str);
   bool Read (iCelPropertyClass*& pc);
