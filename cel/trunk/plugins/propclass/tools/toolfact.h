@@ -209,6 +209,8 @@ private:
       long l;
       bool b;
       char* s;
+      struct { float x, y, z; } vec;
+      struct { float red, green, blue; } col;
     } v;
     csWeakRef<iCelEntity> entity;
     csWeakRef<iCelPropertyClass> pclass;
@@ -229,12 +231,16 @@ public:
   virtual bool SetProperty (csStringID, bool);
   virtual bool SetProperty (csStringID, float);
   virtual bool SetProperty (csStringID, long);
+  virtual bool SetProperty (csStringID, const csVector3&);
+  virtual bool SetProperty (csStringID, const csColor&);
   virtual bool SetProperty (csStringID, iCelPropertyClass*);
   virtual bool SetProperty (csStringID, iCelEntity*);
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual long GetPropertyLong (csStringID);
   virtual float GetPropertyFloat (csStringID);
+  virtual bool GetPropertyVector (csStringID, csVector3&);
+  virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
   virtual iCelEntity* GetPropertyEntity (csStringID);
 
@@ -249,6 +255,8 @@ public:
   void SetProperty (const char* name, long value);
   void SetProperty (const char* name, bool value);
   void SetProperty (const char* name, const char* value);
+  void SetProperty (const char* name, const csVector3& value);
+  void SetProperty (const char* name, const csColor& value);
   void SetProperty (const char* name, iCelPropertyClass* pclass);
   void SetProperty (const char* name, iCelEntity* entity);
   int GetPropertyIndex (const char* name) const;
@@ -256,12 +264,16 @@ public:
   void SetProperty (int index, long value);
   void SetProperty (int index, bool value);
   void SetProperty (int index, const char* value);
+  void SetProperty (int index, const csVector3& value);
+  void SetProperty (int index, const csColor& value);
   void SetProperty (int index, iCelPropertyClass* pclass);
   void SetProperty (int index, iCelEntity* entity);
   celDataType GetPropertyType (int index) const;
   float GetPropertyFloatIndex (int index) const;
   long GetPropertyLongIndex (int index) const;
   bool GetPropertyBoolIndex (int index) const;
+  bool GetPropertyVectorIndex (int index, csVector3& value) const;
+  bool GetPropertyColorIndex (int index, csColor& value) const;
   const char* GetPropertyStringIndex (int index) const;
   iCelPropertyClass* GetPropertyPClassIndex (int index) const;
   iCelEntity* GetPropertyEntityIndex (int index) const;
@@ -296,6 +308,14 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
+    virtual void SetProperty (const char* name, const csVector3& value)
+    {
+      scfParent->SetProperty (name, value);
+    }
+    virtual void SetProperty (const char* name, const csColor& value)
+    {
+      scfParent->SetProperty (name, value);
+    }
     virtual void SetProperty (const char* name, iCelPropertyClass* value)
     {
       scfParent->SetProperty (name, value);
@@ -317,6 +337,14 @@ public:
       scfParent->SetProperty (index, value);
     }
     virtual void SetProperty (int index, bool value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, const csVector3& value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, const csColor& value)
     {
       scfParent->SetProperty (index, value);
     }
@@ -347,6 +375,14 @@ public:
     virtual bool GetPropertyBool (int index) const
     {
       return scfParent->GetPropertyBoolIndex (index);
+    }
+    virtual bool GetPropertyVector (int index, csVector3& v) const
+    {
+      return scfParent->GetPropertyVectorIndex (index, v);
+    }
+    virtual bool GetPropertyColor (int index, csColor& v) const
+    {
+      return scfParent->GetPropertyColorIndex (index, v);
     }
     virtual const char* GetPropertyString (int index) const
     {

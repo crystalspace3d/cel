@@ -40,6 +40,19 @@ The history order is reversed so that new features are at the top.
 	  if there were entities without a name.
 	- Jorrit implemented a new 'testcollide' command in the XML behaviour
 	  layer.
+	- Jorrit implemented a more accurate TestCollision() routine in the
+	  billboard manager. Currently very slow though. It should be optimized
+	  with some quadtree structure.
+	- Jorrit added SetColor/GetColor to iBillboard so that you can change
+	  the color of a billboard.
+	- Jorrit extended pcproperties property class with support for colors
+	  and vectors.
+	- Jorrit extended iCelPropertyClass with functions to get and set
+	  color properties in a generic way.
+	- Jorrit extended the XML behaviour layer with support for color and
+	  vector properties.
+	- Jorrit extended the 'celentity' addon with support for color and
+	  vector properties.
 25-Nov-2003
 	- Jorrit fixed the billboard manager so that it will now ignore
 	  clicks on transparent parts of the objects.

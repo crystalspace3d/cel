@@ -21,6 +21,7 @@
 #include "iutil/document.h"
 #include "imap/services.h"
 #include "ivaria/reporter.h"
+#include "csutil/scanstr.h"
 
 #include "physicallayer/pl.h"
 
@@ -49,7 +50,6 @@ enum
   XMLTOKEN_PROPERTY,
   XMLTOKEN_GETPROPERTY,
   XMLTOKEN_ACTION,
-
   XMLTOKEN_VAR,
   XMLTOKEN_GETPROPCLASS,
   XMLTOKEN_TESTCOLLIDE,
@@ -169,7 +169,28 @@ bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
         }
 	else
 	{
-	  return false;
+          attr = child->GetAttribute ("vector");
+          if (attr)
+          {
+	    csVector3 v;
+	    csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
+            h->AddArgument ().SetVector (v);
+          }
+	  else
+	  {
+            attr = child->GetAttribute ("color");
+            if (attr)
+            {
+	      csColor v;
+	      csScanStr (attr->GetValue (), "%f,%f,%f", &v.red, &v.green,
+	      	&v.blue);
+              h->AddArgument ().SetColor (v);
+            }
+	    else
+	    {
+	      return false;
+	    }
+	  }
 	}
       }
     }

@@ -48,6 +48,7 @@ celBillboard::celBillboard (iEngine* engine)
   w = h = -1;
   celBillboard::engine = engine;
   has_clickmap = false;
+  color.Set (1, 1, 1);
 }
 
 celBillboard::~celBillboard ()
@@ -224,6 +225,8 @@ bool celBillboard::In (int sx, int sy)
   {
     int tx, ty;
     TranslateScreenToTexture (sx, sy, tx, ty);
+    if (tx < 0 || tx >= image_w || ty < 0 || ty >= image_h)
+      return false;
     return GetFromClickMap (tx, ty);
   }
   else
@@ -244,12 +247,8 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     poly.texels[1].Set (1, 0);
     poly.texels[2].Set (1, 1);
     poly.texels[3].Set (0, 1);
-    poly.colors[0].Set (1, 1, 1);
-    poly.colors[1].Set (1, 1, 1);
-    poly.colors[2].Set (1, 1, 1);
-    poly.colors[3].Set (1, 1, 1);
     poly.use_fog = false;
-    poly.mixmode = CS_FX_COPY;
+    poly.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
   }
   SetupMaterial ();
   if (!material) return;
@@ -260,6 +259,10 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   poly.vertices[1].Set (x+w, fh-y);
   poly.vertices[2].Set (x+w, fh-y-h);
   poly.vertices[3].Set (x, fh-y-h);
+  poly.colors[0] = color;
+  poly.colors[1] = color;
+  poly.colors[2] = color;
+  poly.colors[3] = color;
   float invz = 1.0 / z;
   poly.z[0] = invz;
   poly.z[1] = invz;
@@ -545,18 +548,24 @@ void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
 
 bool celBillboardManager::TestCollision (iBillboard* bb1, iBillboard* bb2)
 {
-  int x1, y1, w1, h1;
-  int x2, y2, w2, h2;
-  bb1->GetPosition (x1, y1);
-  bb1->GetSize (w1, h1);
-  bb2->GetPosition (x2, y2);
-  bb2->GetSize (w2, h2);
-  if (x1 >= (x2+w2-1)) return false;
-  if (y1 >= (y2+h2-1)) return false;
-  if ((x1+w1-1) < x2) return false;
-  if ((y1+h1-1) < y2) return false;
+  csRect r1, r2;
+  celBillboard* cbb1 = (celBillboard*)bb1;
+  celBillboard* cbb2 = (celBillboard*)bb2;
+  cbb1->GetRect (r1);
+  cbb2->GetRect (r2);
+  r1.Intersect (r2);
+  if (r1.IsEmpty ()) return false;
+
   // Test transparent bits...
-  return true;
+  // @@@ Not very optimal. In future we should use some kind of
+  // quadtree to help this.
+  int x, y;
+  for (x = r1.xmin ; x <= r1.xmax ; x++)
+    for (y = r1.ymin ; y <= r1.ymax ; y++)
+      if (cbb1->In (x, y) && cbb2->In (x, y))
+        return true;
+
+  return false;
 }
 
 //---------------------------------------------------------------------------

@@ -26,6 +26,7 @@
 #include "csutil/ref.h"
 #include "physicallayer/datatype.h"
 class csVector3;
+class csColor;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
   csPtr<Interface> (							    \
@@ -125,6 +126,11 @@ struct iCelPropertyClass : public iBase
   /**
    * Set a generic property.
    */
+  virtual bool SetProperty (csStringID propertyID, const csColor& value) = 0;
+
+  /**
+   * Set a generic property.
+   */
   virtual bool SetProperty (csStringID propertyID,
   	iCelPropertyClass* value) = 0;
 
@@ -142,6 +148,7 @@ struct iCelPropertyClass : public iBase
    * <li>CEL_DATA_BOOL
    * <li>CEL_DATA_STRING
    * <li>CEL_DATA_VECTOR3
+   * <li>CEL_DATA_COLOR
    * <li>CEL_DATA_ACTION
    * <li>CEL_DATA_PCLASS
    * <li>CEL_DATA_ENTITY
@@ -179,6 +186,11 @@ struct iCelPropertyClass : public iBase
    * Get a property as a 3D vector.
    */
   virtual bool GetPropertyVector (csStringID propertyID, csVector3& v) = 0;
+
+  /**
+   * Get a property as a color.
+   */
+  virtual bool GetPropertyColor (csStringID propertyID, csColor& v) = 0;
 
   /**
    * Get a property as property class.

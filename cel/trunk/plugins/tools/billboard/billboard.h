@@ -26,6 +26,8 @@
 #include "csutil/parray.h"
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
+#include "csutil/cscolor.h"
+#include "csgeom/csrect.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -51,6 +53,7 @@ private:
   int x, y, w, h;
   csRefArray<iBillboardEventHandler> handlers;
   iEngine* engine;
+  csColor color;
 
   bool has_clickmap;
   uint8* clickmap;
@@ -70,6 +73,10 @@ public:
   {
     delete[] name;
     name = csStrNew (n);
+  }
+  void GetRect (csRect& r)
+  {
+    r.Set (x, y, x+w-1, y+h-1);
   }
 
   // Draw billboard (requires 3D mode of g3d).
@@ -103,6 +110,8 @@ public:
     y = celBillboard::y;
   }
   virtual void Move (int dx, int dy);
+  virtual void SetColor (const csColor& c) { color = c; }
+  virtual const csColor& GetColor () const { return color; }
 
   virtual void AddEventHandler (iBillboardEventHandler* evh);
   virtual void RemoveEventHandler (iBillboardEventHandler* evh);
