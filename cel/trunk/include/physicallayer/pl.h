@@ -168,9 +168,19 @@ struct iCelPlLayer : public iBase
 
   /**
    * Create an entity tracker that you can use to keep track of
-   * specific sets of entities.
+   * specific sets of entities. Call RemoveEntityTracker() to remove it.
    */
-  virtual csPtr<iCelEntityTracker> CreateEntityTracker () = 0;
+  virtual iCelEntityTracker* CreateEntityTracker (const char* name) = 0;
+
+  /**
+   * Find a tracker by name.
+   */
+  virtual iCelEntityTracker* FindEntityTracker (const char* name) = 0;
+
+  /**
+   * Remove a tracker.
+   */
+  virtual void RemoveEntityTracker (iCelEntityTracker* tracker) = 0;
 
   //-------------------------------------------------------------------------
 
@@ -359,6 +369,11 @@ SCF_VERSION (iCelEntityTracker, 0, 0, 1);
 struct iCelEntityTracker : public iBase
 {
   /**
+   * Get the name of this tracker.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
    * Add an entity to this tracker. This only works on entities that
    * have a pcmesh property class. It will return false if that property
    * class is missing.
@@ -369,16 +384,6 @@ struct iCelEntityTracker : public iBase
    * Remove an entity from this tracker.
    */
   virtual void RemoveEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Get number of entities registered in this tracker.
-   */
-  virtual size_t GetEntityCount () const = 0;
-
-  /**
-   * Get one registered entity.
-   */
-  virtual iCelEntity* GetEntity (size_t idx) const = 0;
 
   /**
    * Remove all entities from this tracker.

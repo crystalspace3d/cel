@@ -29,10 +29,11 @@ SCF_IMPLEMENT_IBASE (celEntityTracker)
   SCF_IMPLEMENTS_INTERFACE (iCelEntityTracker)
 SCF_IMPLEMENT_IBASE_END
 
-celEntityTracker::celEntityTracker (celPlLayer* pl)
+celEntityTracker::celEntityTracker (celPlLayer* pl, const char* name)
 {
   SCF_CONSTRUCT_IBASE (0);
   celEntityTracker::pl = pl;
+  celEntityTracker::name = csStrNew (name);
 }
 
 celEntityTracker::~celEntityTracker ()
@@ -42,25 +43,18 @@ celEntityTracker::~celEntityTracker ()
 
 bool celEntityTracker::AddEntity (iCelEntity* entity)
 {
-  return false;
+  entities.Add (entity);
+  return true;
 }
 
 void celEntityTracker::RemoveEntity (iCelEntity* entity)
 {
-}
-
-size_t celEntityTracker::GetEntityCount () const
-{
-  return 0;
-}
-
-iCelEntity* celEntityTracker::GetEntity (size_t idx) const
-{
-  return 0;
+  entities.Delete (entity);
 }
 
 void celEntityTracker::RemoveEntities ()
 {
+  entities.DeleteAll ();
 }
 
 csPtr<iCelEntityList> celEntityTracker::FindNearbyEntities (iSector* sector,
@@ -68,4 +62,6 @@ csPtr<iCelEntityList> celEntityTracker::FindNearbyEntities (iSector* sector,
 {
   return 0;
 }
+
+//---------------------------------------------------------------------------
 

@@ -281,6 +281,11 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
 
 void celPlLayer::RemoveEntity (iCelEntity *entity)
 {
+  // First register this entity from all trackers.
+  size_t i;
+  for (i = 0 ; i < trackers.Length () ; i++)
+    trackers[i]->RemoveEntity (entity);
+
   if (!idlist.Remove (entity->GetID ()))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -290,7 +295,7 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
     return;
   }
 
-  for (size_t i = 0; i < removecallbacks.Length(); i++)
+  for (i = 0; i < removecallbacks.Length(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
@@ -498,10 +503,25 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   return list;
 }
 
-csPtr<iCelEntityTracker> celPlLayer::CreateEntityTracker ()
+iCelEntityTracker* celPlLayer::CreateEntityTracker (const char* name)
 {
-  celEntityTracker* tr = new celEntityTracker (this);
+  celEntityTracker* tr = new celEntityTracker (this, name);
+  trackers.Push (tr);
   return tr;
+}
+
+iCelEntityTracker* celPlLayer::FindEntityTracker (const char* name)
+{
+  size_t i;
+  for (i = 0 ; i < trackers.Length () ; i++)
+    if (strcmp (name, trackers[i]->GetName ()) == 0)
+      return trackers[i];
+  return 0;
+}
+
+void celPlLayer::RemoveEntityTracker (iCelEntityTracker* tracker)
+{
+  trackers.Delete (tracker);
 }
 
 iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
