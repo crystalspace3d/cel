@@ -22,10 +22,15 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/hash.h"
+#include "csutil/hashhandlers.h"
+
+struct iDocumentNode;
 
 /*
 <quest>
     <params>
+    	<par name="actor_entity" />
     </params>
 
     <state name="notstarted">
@@ -33,7 +38,7 @@
 
     <state name="start">
         <trigger type="ininventory">
-	    <fireon entity_name="player" new_entity_name="computer_part" />
+	    <fireon entity_name="$actor_entity" new_entity_name="computer_part" />
 	    <reward type="newstate" state="state2" />
 	    <reward type="increasestats" statname="HP" value="3" />
 	</trigger>
@@ -109,8 +114,109 @@ struct iQuestTriggerFactory : public iBase
   
   /**
    * Create a trigger.
+   * \params are the parameters with which this reward is
+   * instantiated.
    */
-  virtual csPtr<iQuestTrigger> CreateTrigger () = 0;
+  virtual csPtr<iQuestTrigger> CreateTrigger (
+      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+
+  /**
+   * Load this factory from a document node.
+   * \param node is the <fireon> node in a trigger description.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+};
+
+SCF_VERSION (iQuestReward, 0, 0, 1);
+
+/**
+ * This is a reward for a quest. The quest manager can issue
+ * rewards in response to some trigger.
+ */
+struct iQuestReward : public iBase
+{
+  /**
+   * Perform this reward.
+   */
+  virtual void Reward () = 0;
+};
+
+SCF_VERSION (iQuestRewardFactory, 0, 0, 1);
+
+/**
+ * A factory to create rewards. You register these factories to
+ * the quest manager and the quest manager can use these factories
+ * to create rewards for a quest.
+ */
+struct iQuestRewardFactory : public iBase
+{
+  /**
+   * Return the name for this reward factory.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Create a reward.
+   * \params are the parameters with which this reward is
+   * instantiated.
+   */
+  virtual csPtr<iQuestReward> CreateReward (
+      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+
+  /**
+   * Load this factory from a document node.
+   * \param node is the <reward> node in a trigger description.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+};
+
+SCF_VERSION (iQuest, 0, 0, 1);
+
+/**
+ * A quest.
+ */
+struct iQuest : public iBase
+{
+  /**
+   * Switch this quest to some specific state.
+   * Returns false if state doesn't exist (nothing happens then).
+   */
+  virtual bool SwitchSate (const char* state) = 0;
+
+  /**
+   * Get current state name of this quest.
+   */
+  virtual const char* GetCurrentState () const = 0;
+};
+
+SCF_VERSION (iQuestFactory, 0, 0, 1);
+
+/**
+ * A quest factory.
+ */
+struct iQuestFactory : public iBase
+{
+  /**
+   * Get the name of this quest.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Create a quest from this factory.
+   * \params are the parameters with which these quest is
+   * instantiated.
+   */
+  virtual csPtr<iQuest> CreateQuest (
+      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+
+  /**
+   * Load this factory from a document node.
+   * \param node is the <quest> node in a quest.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
 };
 
 SCF_VERSION (iQuestManager, 0, 0, 1);
@@ -129,6 +235,14 @@ struct iQuestManager : public iBase
    * factory with that name already exists).
    */
   virtual bool RegisterTriggerFactory (iQuestTriggerFactory* trigger) = 0;
+
+  /**
+   * Register a quest reward factory. Quest rewards can be used
+   * by quests to give out some kind of reward to the game.
+   * Returns false on failure (reward factory with that name
+   * already exists).
+   */
+  virtual bool RegisterRewardFactory (iQuestRewardFactory* trigger) = 0;
 };
 
 #endif // __CEL_MGR_QUEST__
