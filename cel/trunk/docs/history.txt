@@ -7,26 +7,26 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine added ranlib check to configure.ac; needed for MacOS/X.
 27-Aug-2003
 	- Jorrit moved the apps/celtest/data directory to data so that the
-	  python scripts don't have to fetch stuff inside celtest directory.
-	- Jorrit extended the python behaviour layer so that you can now
-	  call CreateBehaviour with a path in front of the behaviour name.
-	  That way you can place scripts inside other directories.
+	  Python scripts don't have to fetch stuff inside celtest directory.
+	- Jorrit extended the python behaviour layer so that you can now call
+	  CreateBehaviour with a path in front of the behaviour name.  That way
+	  you can place scripts inside other directories.
 	- Jorrit moved the physicstest script inside scripts/physicstest. Run
 	  it with:
 	    bootstrap cel.behaviourlayer.python scripts/physicstest/physicstest
 	  (note: do not add the '.py' at the end!).
 	- Jorrit moved smallgame to scripts/smallgame.
-	- Jorrit fixed CreateEmptyThing() in pcmesh. It was broken more
-	  than seven months ago without anyone noticing :-)
+	- Jorrit fixed CreateEmptyThing() in pcmesh.  It was broken more than
+	  seven months ago without anyone noticing :-)
 	- Jorrit reverted an accidental slow-down in the dynmove property
 	  class.
 	- Jorrit added a visible floor to physicstest.py.
-	- Jorrit added a forces system to the new dynmove system. With this
-	  it is possible to add forces to objects that are fired exactly once,
-	  for a given time, or for the next frame.
+	- Jorrit added a forces system to the new dynmove system.  With this it
+	  is possible to add forces to objects that are fired exactly once, for
+	  a given time, or for the next frame.
 	- Jorrit changed the comments in dynmove to reflect that 'ms' is
-	  actually not milliseconds but seconds. Also changed the 'ms'
-	  to 'seconds'.
+	  actually not milliseconds but seconds.  Also changed the 'ms' to
+	  'seconds'.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is
@@ -106,10 +106,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit optimized cpersist plugin by remembering VFS.
 	- Keith fixed a compile error in linmove.h.
 	- Keith added UpdateDR method to linmove.  This function takes a
-	  csTicks value and calls ExtrapolatePosition with delta relative to 
+	  csTicks value and calls ExtrapolatePosition with delta relative to
 	  the last DR update ticks value in the PC already.  This function
 	  allows a server to synchronize positions across many entities as
-	  of a point in time, even when those entities are being updated 
+	  of a point in time, even when those entities are being updated
 	  at all different times by clients.
 8-Jul-2003
 	- Jorrit fixed a bug in pclinmove where it would register collisions
@@ -320,7 +320,7 @@ The history order is reversed so that new features are at the top.
 16-May-2003
         - Boyan added celFindNearbyEntities() function
 12-May-2003
-	- Boyan added some error handlings to blpython and fixed bug in 
+	- Boyan added some error handlings to blpython and fixed bug in
 	  celCreateEntity.
 10-May-2003
 	- Boyan updated Python plugin to use low level Python API.
@@ -330,7 +330,7 @@ The history order is reversed so that new features are at the top.
 	   -added scfQuery_iPcMesh
 	   -added scfQuery_iPcTimer
 06-May-2003
-	- Boyan fixed wrong iterator cycle in FindNearByEntities: 
+	- Boyan fixed wrong iterator cycle in FindNearByEntities:
 	  while (objit->Next ()) changed to while (!objit->IsFinished ()).
 30-Apr-2003
 	- Matze updated jamrules and autoconf macros to latest CS rules.
@@ -364,7 +364,7 @@ The history order is reversed so that new features are at the top.
 	  for an external app to override the CS_ID assigned to an
 	  entity.  This is necessary when objects across networks
 	  have different lifespans, to prevent reuse of the same CS_ID
-	  to represent different objects and confusion of the 
+	  to represent different objects and confusion of the
 	  underlying entities.
 	- Matthias Braun then reverted this change based on design
 	  principles. Jorrit agrees.
@@ -379,7 +379,7 @@ The history order is reversed so that new features are at the top.
 17-Jan-2003:
 	- Keith Fulton fixed circular refcount issue which prevented all
 	  prop class factories from ever being deleted.
-	- Keith Fulton added many specific error msgs for things which 
+	- Keith Fulton added many specific error msgs for things which
 	  could go wrong with CEL persistence loading on the client.
 	  Added a Report function to all files involved which should
 	  probably be in a libary, but he cannot create the library on
@@ -413,7 +413,7 @@ The history order is reversed so that new features are at the top.
 		  instead of an iCelEntity * to the behaviour constructor.
 		  This frees the scriptwriter from having to wrap the pointer
 		  before using it.
-		- Added some csQueryRegistry_* functions.  This is to 
+		- Added some csQueryRegistry_* functions.  This is to
 		  facilitate a Python csQueryRegistry() function that performs
 		  CS_QUERY_REGISTRY() type lookups.
 		- Added the LoadBehaviour() method to iCelEntity to simplify
@@ -422,7 +422,7 @@ The history order is reversed so that new features are at the top.
 		  running environment depending on how you run the interpreter.
 		- Added celCreate* (i.e. celCreateEntity, celCreateCamera) to
 		  simplify creation of these objects in a script.
-		- Removed iCelBehaviour::SendMessageV() wrapper and added a 
+		- Removed iCelBehaviour::SendMessageV() wrapper and added a
 		  wrapper for SendMessage() which excludes the varargs.
 		- Added celQueryPC_iPcRegion() to facilitate a Python
 		  celQueryPC() function that performs CEL_QUERY_PROPCLASS()
@@ -430,8 +430,8 @@ The history order is reversed so that new features are at the top.
 		- Added scfQuery_iPcRegion() to facilitate a Python
 		  scfQuery() function that performs SCF_QUERY_INTERFACE()
 		  type lookups.
-		- Added wrappers for iPcRegion, iPcCamera, iPcMeshSelect, 
-		  iPcMesh, iPcTimer, iPcSolid, iPcGravity, iPcMovable, 
+		- Added wrappers for iPcRegion, iPcCamera, iPcMeshSelect,
+		  iPcMesh, iPcTimer, iPcSolid, iPcGravity, iPcMovable,
 		  iPcInventory, and iPcCharacteristics.  Each one has a
 		  corresponding celCreate* function.
 17-Sep-2002:
@@ -530,7 +530,7 @@ The history order is reversed so that new features are at the top.
 26-Feb-2002:
 	- improved followmode. It now accepts 2 relative positions:
 	    -the position of the camera relative to the mesh
-	    -the position of the point the camera looks at, rel. to the mesh	
+	    -the position of the point the camera looks at, rel. to the mesh
 21-Feb-2002:
 	- Renamed celData->Set(bool) to SetBool() to avoid problems on
 	  platforms that don't have the bool type.
