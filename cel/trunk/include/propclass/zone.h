@@ -275,8 +275,9 @@ struct iPcZoneManager : public iBase
   	iStringArray* startnames) = 0;
 
   /**
-   * Return the last used region and startname for PointCamera().
-   * Returns an empty region name if PointCamera() has not been called.
+   * Return the last used region and startname for PointCamera() or
+   * PointMesh(). Returns an empty region name if those functions
+   * have not been called yet.
    */
   virtual void GetLastStartLocation (iString* regionname,
   	iString* startname) = 0;

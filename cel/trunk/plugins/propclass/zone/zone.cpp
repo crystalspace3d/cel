@@ -604,7 +604,8 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
   {
     campos = cur_region->FindCameraPosition (startname);
     if (!campos) return CEL_ZONEERROR_BADSTART;
-    campos->Load (pccamera->GetCamera (), engine);
+    if (!campos->Load (pccamera->GetCamera (), engine))
+      return CEL_ZONEERROR_LOAD;
   }
   else
   {
@@ -620,7 +621,8 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
     }
     if (campos)
     {
-      campos->Load (pccamera->GetCamera (), engine);
+      if (!campos->Load (pccamera->GetCamera (), engine))
+        return CEL_ZONEERROR_LOAD;
     }
     else
     {
@@ -646,7 +648,8 @@ int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
   if (!meshlistener)
     meshlistener.AttachNew (new meshmoveListener (this));
   if (celPcZoneManager::pcmesh)
-    celPcZoneManager::pcmesh->GetMesh ()->GetMovable ()->RemoveListener (meshlistener);
+    celPcZoneManager::pcmesh->GetMesh ()->GetMovable ()
+    	->RemoveListener (meshlistener);
   celPcZoneManager::pcmesh = pcmesh;
   pcmesh->GetMesh ()->GetMovable ()->AddListener (meshlistener);
   // If there is a pcmesh then we use the mesh movable listener instead of
@@ -704,6 +707,9 @@ int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
   pcmesh->GetMesh ()->GetMovable ()->SetSector (sector);
   pcmesh->GetMesh ()->GetMovable ()->SetPosition (pos);
   pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+
+  last_regionname = regionname;
+  last_startname = startname;
 
   return CEL_ZONEERROR_OK;
 }
