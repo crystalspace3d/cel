@@ -177,6 +177,7 @@ bool CelTest::HandleEvent (iEvent& ev)
       }
       csDebuggingGraph::Dump (NULL);
 
+      LoadTextures ();
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       game = cp->LoadEntity ("/this/savefile");
       printf ("  success %08lx\n", game); fflush (stdout);
@@ -457,15 +458,27 @@ bool CelTest::CreateRoom ()
   return true;
 }
 
+bool CelTest::LoadTextures ()
+{
+  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
+  if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
+  if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
+  if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg")) return false;
+  return true;
+}
+
 bool CelTest::LoadTexture (const char* txtName, const char* fileName)
 {
-  if (!loader->LoadTexture (txtName, fileName))
+  iTextureWrapper* txt = loader->LoadTexture (txtName, fileName);
+  if (!txt)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.celtest",
     	"Error loading texture '%s'!", fileName);
     return false;
   }
+  iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName (txtName);
+  if (mat) pl->Cache (mat);
   return true;
 }
 
@@ -632,11 +645,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
-  if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
-  if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
-  if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg")) return false;
-
   pftest = LoadPcFactory ("cel.pcfactory.test");
   if (!pftest) return false;
   pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
@@ -650,6 +658,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pfengine = LoadPcFactory ("cel.pcfactory.engine");
   if (!pfengine) return false;
 
+  if (!LoadTextures ()) return false;
   if (!CreateRoom ()) return false;
 
   return true;
