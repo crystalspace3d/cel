@@ -1,3 +1,19 @@
+2-Nov-2001:
+	- Added iPcMesh::CreateEmptyThing() which can be used instead
+	  of SetMesh().
+	- Changed celtest so that 'room' is now also an entity and uses
+	  pcmesh property class for the room walls.
+	- Added iCelPlLayer::AttachEntity(), UnattachEntity(), and
+	  FindAttachedEntity(). This functionality used to be present
+	  ad-hoc in the pcmesh property class but it is generally useful.
+	  Using those functions property classes can attach an entity
+	  to some iObject (usually an engine object).
+	- Changed pcmesh to use the new iCelPlLayer::AttachEntity()
+	  functions.
+	- Changed celtest to load the pl/bl plugins using CS_REQUEST_PLUGIN
+	  so that they are registered to the object registry.
+	- Actually implemented the 'global' option in pcmeshselect. I
+	  forgot to do that earlier.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the

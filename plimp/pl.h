@@ -43,6 +43,11 @@ public:
 
   virtual iCelEntity* CreateEntity ();
   virtual iCelMessage* CreateMessage (const char* msg_string, ...);
+
+  virtual void AttachEntity (iObject* object, iCelEntity* entity);
+  virtual void UnattachEntity (iObject* object, iCelEntity* entity);
+  virtual iCelEntity* FindAttachedEntity (iObject* object);
+
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);

@@ -35,6 +35,8 @@ struct iMeshFactoryWrapper;
 struct iCamera;
 class csVector3;
 
+SCF_DECLARE_FAST_INTERFACE (iMeshObject)
+
 /**
  * Factory for mesh.
  */
@@ -79,6 +81,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
+  void CreateEmptyThing ();
   iMeshWrapper* GetMesh () { return mesh; }
   void ClearMesh () { mesh = NULL; }
   void MoveMesh (iSector* sector, const csVector3& pos);
@@ -95,6 +98,10 @@ public:
     virtual void SetMesh (const char* factname, const char* filename)
     {
       scfParent->SetMesh (factname, filename);
+    }
+    virtual void CreateEmptyThing ()
+    {
+      scfParent->CreateEmptyThing ();
     }
     virtual iMeshWrapper* GetMesh () const
     {

@@ -32,6 +32,7 @@ SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
 SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
 SCF_DECLARE_FAST_INTERFACE (iObject)
 
+struct iObject;
 struct iCelEntity;
 struct iCelMessage;
 struct iCelPropertyClassFactory;
@@ -52,6 +53,23 @@ struct iCelPlLayer : public iBase
    * Create a message.
    */
   virtual iCelMessage* CreateMessage (const char* msg_string, ...) = 0;
+
+  /**
+   * Attach an entity to some object (usually an object from the engine).
+   * This function will check if the entity was already attached and
+   * do nothing in that case.
+   */
+  virtual void AttachEntity (iObject* object, iCelEntity* entity) = 0;
+
+  /**
+   * Unattach an entity from some object.
+   */
+  virtual void UnattachEntity (iObject* object, iCelEntity* entity) = 0;
+
+  /**
+   * Given an iObject, find the attached entity (if any).
+   */
+  virtual iCelEntity* FindAttachedEntity (iObject* object) = 0;
 
   /**
    * Register a property class factory with this physical layer.

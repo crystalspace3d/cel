@@ -160,10 +160,6 @@ bool CelTest::HandleEvent (iEvent& ev)
       }
       return true;
     }
-    else if (ev.Key.Code == ' ')
-    {
-      CreateRoom ();
-    }
   }
   return false;
 }
@@ -186,8 +182,16 @@ void CelTest::CreateObject (int x, int y, int z, const char* obj)
   object->DecRef ();
 }
 
-void CelTest::CreateRoom ()
+bool CelTest::CreateRoom ()
 {
+  iCelPropertyClassFactory* pftest = LoadPcFactory ("cel.pcfactory.test");
+  if (!pftest) return false;
+  iCelPropertyClassFactory* pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
+  if (!pfmesh) return false;
+  iCelPropertyClassFactory* pfinv = LoadPcFactory ("cel.pcfactory.inventory");
+  if (!pfinv) return false;
+
+  // @@@@!!!!
   engine->SelectRegion ("room");
   engine->GetCurrentRegion ()->DeleteAll ();
 
@@ -198,7 +202,48 @@ void CelTest::CreateRoom ()
   float ow_dim = 4.5;
 
   room = engine->CreateSector ("room");
-  iMeshWrapper* walls = engine->CreateSectorWallsMesh (room, "walls");
+
+  iStatLight* light;
+  iLightList* ll = room->GetLights ();
+
+  light = engine->CreateLight (NULL, csVector3 (-3, 5, 0), 10,
+  	csColor (1, .6, .6), false);
+  ll->Add (light->QueryLight ());
+  light->DecRef ();
+
+  light = engine->CreateLight (NULL, csVector3 (3, 5,  0), 10,
+  	csColor (.3, .3, 1), false);
+  ll->Add (light->QueryLight ());
+  light->DecRef ();
+
+  light = engine->CreateLight (NULL, csVector3 (0, 5, -3), 10,
+  	csColor (.6, 1, .6), false);
+  ll->Add (light->QueryLight ());
+  light->DecRef ();
+
+  iCelEntity* entity_room;
+  iCelEntity* entity_box, * entity_dummy1, * entity_dummy2, * entity_dummy3, * entity_dummy4;
+  iCelPropertyClass* pc;
+  iPcCharacteristics* pcchars;
+  iPcMesh* pcmesh;
+  iPcInventory* pcinv, * pcinv_room;
+  
+  //===============================
+  // Create the room entity.
+  //===============================
+  entity_room = pl->CreateEntity (); entity_room->SetName ("room");
+  entity_room->SetBehaviour (bl->CreateBehaviour ("printer"));
+
+  pc = CreatePropertyClass (entity_room, pfinv, "pcinventory");
+  if (!pc) return false;
+  pcinv_room = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
+  // Decreffed later.
+
+  pc = CreatePropertyClass (entity_room, pfmesh, "pcmesh");
+  if (!pc) return false;
+  pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+  pcmesh->CreateEmptyThing ();
+  iMeshWrapper* walls = pcmesh->GetMesh ();
   iThingState* walls_state = SCF_QUERY_INTERFACE (walls->GetMeshObject (),
   	iThingState);
   iPolygon3D* p;
@@ -251,31 +296,19 @@ void CelTest::CreateRoom ()
   p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
 
   walls_state->DecRef ();
-  walls->DecRef ();
 
-  iStatLight* light;
-  iLightList* ll = room->GetLights ();
+  walls->GetMovable ()->SetSector (room);
+  walls->GetMovable ()->UpdateMove ();
+  walls->GetFlags ().Set (CS_ENTITY_CONVEX);
+  walls->SetZBufMode (CS_ZBUF_FILL);
+  walls->SetRenderPriority (engine->GetWallRenderPriority ());
 
-  light = engine->CreateLight (NULL, csVector3 (-3, 5, 0), 10,
-  	csColor (1, .6, .6), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
+  pcmesh->DecRef ();
 
-  light = engine->CreateLight (NULL, csVector3 (3, 5,  0), 10,
-  	csColor (.3, .3, 1), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
-
-  light = engine->CreateLight (NULL, csVector3 (0, 5, -3), 10,
-  	csColor (.6, 1, .6), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
-
+  //===============================
+  // Engine init.
+  //===============================
   engine->Prepare ();
-
-  //CreateObject (-3, 0, 3, OBJ_SPARKBOX);
-  //CreateObject (-2, 0, 3, OBJ_MARBLEBOX);
-  //CreateObject (-1, 0, 3, OBJ_SPARKBOX);
 
   iTextureManager* txtmgr = g3d->GetTextureManager ();
   txtmgr->SetPalette ();
@@ -284,6 +317,143 @@ void CelTest::CreateRoom ()
   view->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0, 4, -5));
   view->GetCamera ()->GetTransform ().LookAt (
   	csVector3 (0, -.6, 1), csVector3 (0, 1, 0));
+
+  //===============================
+  // Create the box entity.
+  //===============================
+  entity_box = pl->CreateEntity (); entity_box->SetName ("box");
+  entity_box->SetBehaviour (bl->CreateBehaviour ("printer"));
+  if (!pcinv_room->AddEntity (entity_box)) return false;
+
+  pc = CreatePropertyClass (entity_box, pftest, "pctest");
+  if (!pc) return false;
+  iPcTest* pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
+  pctest->Print ("Hello world!");
+  pctest->DecRef ();
+
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmesh");
+  if (!pc) return false;
+  pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+  pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
+  pcmesh->MoveMesh (room, csVector3 (0));
+  pcmesh->DecRef ();
+
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
+  if (!pc) return false;
+  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetDragMode (true);
+  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
+  pcmeshsel->SetSendmoveEvent (true);
+  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
+  pcmeshsel->DecRef ();
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
+  if (!pc) return false;
+  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
+  pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetDragMode (true);
+  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 0, 1), true);
+  pcmeshsel->DecRef ();
+
+  pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
+  if (!pc) return false;
+  pcinv = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
+  pcinv->SetConstraints ("size", 0, 10, 100);
+  pcinv->SetConstraints ("weight", 0, .5, 1000000);
+  pcinv->SetStrictCharacteristics ("size", true);
+  // pcinv is decreffed later.
+
+  pc = CreatePropertyClass (entity_box, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
+  pcchars->SetCharacteristic ("size", 3);
+  pcchars->SetCharacteristic ("weight", 4);
+  pcchars->SetInheritedCharacteristic ("size", 0, 0);
+  pcchars->SetInheritedCharacteristic ("weight", .5, 0);
+  pcchars->DecRef ();
+
+  //===============================
+  // Create four dummy entities.
+  //===============================
+  entity_dummy1 = pl->CreateEntity (); entity_dummy1->SetName ("dummy1");
+  entity_dummy1->SetBehaviour (bl->CreateBehaviour ("printer"));
+  pc = CreatePropertyClass (entity_dummy1, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
+  pcchars->SetCharacteristic ("size", 3);
+  pcchars->SetCharacteristic ("weight", .3);
+  pcchars->DecRef ();
+
+  entity_dummy2 = pl->CreateEntity (); entity_dummy2->SetName ("dummy2");
+  entity_dummy2->SetBehaviour (bl->CreateBehaviour ("printer"));
+  pc = CreatePropertyClass (entity_dummy2, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
+  pcchars->SetCharacteristic ("size", 3);
+  pcchars->SetCharacteristic ("weight", .8);
+  pcchars->DecRef ();
+ 
+  entity_dummy3 = pl->CreateEntity (); entity_dummy3->SetName ("dummy3");
+  entity_dummy3->SetBehaviour (bl->CreateBehaviour ("printer"));
+  pc = CreatePropertyClass (entity_dummy3, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
+  pcchars->SetCharacteristic ("weight", .2);
+  pcchars->DecRef ();
+ 
+  entity_dummy4 = pl->CreateEntity (); entity_dummy4->SetName ("dummy4");
+  entity_dummy4->SetBehaviour (bl->CreateBehaviour ("printer"));
+  pc = CreatePropertyClass (entity_dummy4, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
+  pcchars->SetCharacteristic ("size", 5);
+  pcchars->SetCharacteristic ("weight", .3);
+  pcchars->DecRef ();
+ 
+  //===============================
+  // Try adding them to the inventory.
+  //===============================
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy1)) printf ("Entity 1 added!\n");
+  else printf ("Entity 1 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy2)) printf ("Entity 2 added!\n");
+  else printf ("Entity 2 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy3)) printf ("Entity 3 added!\n");
+  else printf ("Entity 3 NOT added!\n");
+  pcinv->Dump ();
+  if (pcinv->AddEntity (entity_dummy4)) printf ("Entity 4 added!\n");
+  else printf ("Entity 4 NOT added!\n");
+  pcinv->Dump ();
+
+  pcchars = CEL_QUERY_PROPCLASS (entity_dummy1->GetPropertyClassList (), iPcCharacteristics);
+  if (pcchars->SetCharacteristic ("size", 110)) printf ("Entity 1 resized to 110!\n");
+  else printf ("Entity 1 NOT resized to 110!\n");
+  pcinv->Dump ();
+  if (pcchars->SetCharacteristic ("size", 5)) printf ("Entity 1 resized to 5!\n");
+  else printf ("Entity 1 NOT resized to 5!\n");
+  pcinv->Dump ();
+  pcchars->DecRef ();
+
+  pcchars = CEL_QUERY_PROPCLASS (entity_box->GetPropertyClassList (), iPcCharacteristics);
+  pcchars->Dump ();
+  pcchars->DecRef ();
+
+  pcinv->DecRef ();
+  pcinv_room->DecRef ();
+
+  //===============================
+  pftest->DecRef ();
+  pfmesh->DecRef ();
+  pfinv->DecRef ();
+
+  game = entity_room;
+
+  return true;
 }
 
 bool CelTest::LoadTexture (const char* txtName, const char* fileName)
@@ -370,6 +540,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_LEVELLOADER,
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
+	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test", iCelBlLayer),
 	CS_REQUEST_END))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -440,10 +612,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
-  pl = CS_LOAD_PLUGIN (plugin_mgr, "cel.physicallayer", iCelPlLayer);
-  bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.test", iCelBlLayer);
-  plugin_mgr->DecRef (); plugin_mgr = NULL;
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -451,6 +620,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"CEL physical layer missing!");
     return false;
   }
+  bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
   if (!bl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -458,13 +628,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"CEL test behaviour layer missing!");
     return false;
   }
-
-  iCelPropertyClassFactory* pftest = LoadPcFactory ("cel.pcfactory.test");
-  if (!pftest) return false;
-  iCelPropertyClassFactory* pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
-  if (!pfmesh) return false;
-  iCelPropertyClassFactory* pfinv = LoadPcFactory ("cel.pcfactory.inventory");
-  if (!pfinv) return false;
 
   // Open the main system. This will open all the previously loaded plug-ins.
   if (!csInitializer::OpenApplication (object_reg))
@@ -490,144 +653,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iGraphics2D* g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
-  CreateRoom ();
-
-  iCelEntity* entity_box, * entity_dummy1, * entity_dummy2, * entity_dummy3, * entity_dummy4;
-  iCelPropertyClass* pc;
-  iPcCharacteristics* pcchars;
-  
-  //===============================
-  // Create the box entity.
-  //===============================
-  entity_box = pl->CreateEntity (); entity_box->SetName ("box");
-  entity_box->SetBehaviour (bl->CreateBehaviour ("printer"));
-
-  pc = CreatePropertyClass (entity_box, pftest, "pctest");
-  if (!pc) return false;
-  iPcTest* pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
-  pctest->Print ("Hello world!");
-  pctest->DecRef ();
-
-  pc = CreatePropertyClass (entity_box, pfmesh, "pcmesh");
-  if (!pc) return false;
-  iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
-  pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
-  pcmesh->MoveMesh (room, csVector3 (0));
-  pcmesh->DecRef ();
-
-  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
-  if (!pc) return false;
-  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
-  pcmeshsel->SetCamera (view->GetCamera ());
-  pcmeshsel->SetFollowMode (true);
-  pcmeshsel->SetDragMode (true);
-  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
-  pcmeshsel->SetSendmoveEvent (true);
-  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
-  pcmeshsel->DecRef ();
-  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
-  if (!pc) return false;
-  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
-  pcmeshsel->SetCamera (view->GetCamera ());
-  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
-  pcmeshsel->SetFollowMode (true);
-  pcmeshsel->SetDragMode (true);
-  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 0, 1), true);
-  pcmeshsel->DecRef ();
-
-  pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
-  if (!pc) return false;
-  iPcInventory* pcinv = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
-  pcinv->SetConstraints ("size", 0, 10, 100);
-  pcinv->SetConstraints ("weight", 0, .5, 1000000);
-  pcinv->SetStrictCharacteristics ("size", true);
-  // pcinv is decreffed later.
-
-  pc = CreatePropertyClass (entity_box, pfinv, "pccharacteristics");
-  if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", 3);
-  pcchars->SetCharacteristic ("weight", 4);
-  pcchars->SetInheritedCharacteristic ("size", 0, 0);
-  pcchars->SetInheritedCharacteristic ("weight", .5, 0);
-  pcchars->DecRef ();
-
-  //===============================
-  // Create four dummy entities.
-  //===============================
-  entity_dummy1 = pl->CreateEntity (); entity_dummy1->SetName ("dummy1");
-  entity_dummy1->SetBehaviour (bl->CreateBehaviour ("printer"));
-  pc = CreatePropertyClass (entity_dummy1, pfinv, "pccharacteristics");
-  if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", 3);
-  pcchars->SetCharacteristic ("weight", .3);
-  pcchars->DecRef ();
-
-  entity_dummy2 = pl->CreateEntity (); entity_dummy2->SetName ("dummy2");
-  entity_dummy2->SetBehaviour (bl->CreateBehaviour ("printer"));
-  pc = CreatePropertyClass (entity_dummy2, pfinv, "pccharacteristics");
-  if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", 3);
-  pcchars->SetCharacteristic ("weight", .8);
-  pcchars->DecRef ();
- 
-  entity_dummy3 = pl->CreateEntity (); entity_dummy3->SetName ("dummy3");
-  entity_dummy3->SetBehaviour (bl->CreateBehaviour ("printer"));
-  pc = CreatePropertyClass (entity_dummy3, pfinv, "pccharacteristics");
-  if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
-  pcchars->SetCharacteristic ("weight", .2);
-  pcchars->DecRef ();
- 
-  entity_dummy4 = pl->CreateEntity (); entity_dummy4->SetName ("dummy4");
-  entity_dummy4->SetBehaviour (bl->CreateBehaviour ("printer"));
-  pc = CreatePropertyClass (entity_dummy4, pfinv, "pccharacteristics");
-  if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", 5);
-  pcchars->SetCharacteristic ("weight", .3);
-  pcchars->DecRef ();
- 
-  //===============================
-  // Try adding them to the inventory.
-  //===============================
-  pcinv->Dump ();
-  if (pcinv->AddEntity (entity_dummy1)) printf ("Entity 1 added!\n");
-  else printf ("Entity 1 NOT added!\n");
-  pcinv->Dump ();
-  if (pcinv->AddEntity (entity_dummy2)) printf ("Entity 2 added!\n");
-  else printf ("Entity 2 NOT added!\n");
-  pcinv->Dump ();
-  if (pcinv->AddEntity (entity_dummy3)) printf ("Entity 3 added!\n");
-  else printf ("Entity 3 NOT added!\n");
-  pcinv->Dump ();
-  if (pcinv->AddEntity (entity_dummy4)) printf ("Entity 4 added!\n");
-  else printf ("Entity 4 NOT added!\n");
-  pcinv->Dump ();
-
-  pcchars = CEL_QUERY_PROPCLASS (entity_dummy1->GetPropertyClassList (), iPcCharacteristics);
-  if (pcchars->SetCharacteristic ("size", 110)) printf ("Entity 1 resized to 110!\n");
-  else printf ("Entity 1 NOT resized to 110!\n");
-  pcinv->Dump ();
-  if (pcchars->SetCharacteristic ("size", 5)) printf ("Entity 1 resized to 5!\n");
-  else printf ("Entity 1 NOT resized to 5!\n");
-  pcinv->Dump ();
-  pcchars->DecRef ();
-
-  pcchars = CEL_QUERY_PROPCLASS (entity_box->GetPropertyClassList (), iPcCharacteristics);
-  pcchars->Dump ();
-  pcchars->DecRef ();
-
-  pcinv->DecRef ();
-
-  //===============================
-  pftest->DecRef ();
-  pfmesh->DecRef ();
-  pfinv->DecRef ();
-
-  game = entity_box;
+  if (!CreateRoom ()) return false;
 
   return true;
 }

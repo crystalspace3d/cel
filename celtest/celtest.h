@@ -67,7 +67,7 @@ private:
   iCelPropertyClass* CreatePropertyClass (iCelEntity* entity, iCelPropertyClassFactory* pf,
 		const char* name);
   void CreateObject (int x, int y, int z, const char* obj);
-  void CreateRoom ();
+  bool CreateRoom ();
 
 public:
   CelTest ();
