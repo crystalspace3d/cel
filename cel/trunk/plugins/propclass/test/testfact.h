@@ -27,6 +27,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
+#include "celtool/stdparams.h"
 #include "propclass/test.h"
 
 struct iCelEntity;
@@ -42,20 +43,53 @@ CEL_DECLARE_FACTORY (Test)
  */
 class celPcTest : public celPcCommon
 {
+private:
+  // For SendMessage parameters.
+  static csStringID id_message;
+  celOneParameterBlock* params;
+
+  // For PerformAction.
+  static csStringID action_print;
+
+  // For properties.
+  enum propids
+  {
+    propid_counter = 0,
+    propid_max
+  };
+  static Property* properties;
+  static int propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
+
+  // Other fields.
+  int counter;
+  size_t max;
+
 public:
   celPcTest (iObjectRegistry* object_reg);
   virtual ~celPcTest ();
+
+  void Print (const char* msg);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the 'max' property.
+  virtual bool SetProperty (csStringID, long);
+  virtual long GetPropertyLong (csStringID);
 
   struct PcTest : public iPcTest
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcTest);
-    virtual void Print (const char* msg);
+    virtual void Print (const char* msg)
+    {
+      scfParent->Print (msg);
+    }
   } scfiPcTest;
 };
 

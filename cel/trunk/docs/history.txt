@@ -3,6 +3,16 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+15-Jul-2004
+	- Jorrit extended the very useless pctest property class so that it
+	  now supports nearly everything a PC can support:
+	    - A SendMessage() with one parameter.
+	    - An action.
+	    - One property that is handled automatically.
+	    - One property that is handled manually.
+	    - Working persistance.
+	  This is done to make pctest a good template to start creating a new
+	  property class from.
 14-Jul-2004
 	- Jorrit added a weak reference to the physical layer to celPcCommon
 	  so that all property classes have it automatically.

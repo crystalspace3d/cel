@@ -27,6 +27,26 @@ SCF_VERSION (iPcTest, 0, 0, 1);
 
 /**
  * This is a test property class.
+ * <p>
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * <ul>
+ * <li>pctest_print: a message has been printed (message)
+ * </ul>
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>Print: parameters 'message' (string).
+ * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>counter (long, read/write): how many times something has been printed.
+ * <li>max (long, read/write): maximum length of what was printed.
+ * </ul>
  */
 struct iPcTest : public iBase
 {

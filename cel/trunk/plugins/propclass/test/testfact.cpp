@@ -34,6 +34,9 @@ CEL_IMPLEMENT_FACTORY (Test, "pctest")
 
 //---------------------------------------------------------------------------
 
+csStringID celPcTest::id_message = csInvalidStringID;
+csStringID celPcTest::action_print = csInvalidStringID;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcTest)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTest)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -46,18 +49,92 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
+
+  // For SendMessage parameters.
+  if (id_message == csInvalidStringID)
+    id_message = pl->FetchStringID ("cel.parameter.message");
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_message, "message");
+
+  // For PerformAction.
+  if (action_print == csInvalidStringID)
+    action_print = pl->FetchStringID ("cel.action.Print");
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_counter] = &counter;	// Automatically handled.
+  propdata[propid_max] = 0;		// Handled in this class.
 }
 
 celPcTest::~celPcTest ()
 {
 }
 
-#define TEST_SERIAL 1
+Property* celPcTest::properties = 0;
+int celPcTest::propertycount = 0;
+
+void celPcTest::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT (pl != 0);
+
+    propertycount = 2;
+    properties = new Property[propertycount];
+
+    properties[propid_counter].id = pl->FetchStringID (
+    	"cel.property.counter");
+    properties[propid_counter].datatype = CEL_DATA_LONG;
+    properties[propid_counter].readonly = false;
+    properties[propid_counter].desc = "Print counter.";
+
+    properties[propid_counter].id = pl->FetchStringID (
+    	"cel.property.max");
+    properties[propid_counter].datatype = CEL_DATA_LONG;
+    properties[propid_counter].readonly = false;
+    properties[propid_counter].desc = "Max length.";
+  }
+}
+
+bool celPcTest::SetProperty (csStringID propertyId, long b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_max].id)
+  {
+    max = b;
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+long celPcTest::GetPropertyLong (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_max].id)
+  {
+    return max;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyLong (propertyId);
+  }
+}
+
+#define TEST_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcTest::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  databuf->SetDataCount (0);
+  databuf->SetDataCount (2);
+  databuf->GetData (0)->Set (counter);
+  databuf->GetData (1)->Set (max);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -65,19 +142,46 @@ bool celPcTest::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TEST_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
+  if (databuf->GetDataCount () != 2) return false;
+
+  celData* cd;
+  cd = databuf->GetData (0); if (!cd) return false;
+  counter = cd->value.l;
+  cd = databuf->GetData (1); if (!cd) return false;
+  max = cd->value.l;
+
   return true;
 }
 
-void celPcTest::PcTest::Print (const char* msg)
+bool celPcTest::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_print)
+  {
+    const celData* p_msg = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.message"));
+    if (!p_msg) return false;
+    if (p_msg->type != CEL_DATA_STRING) return false;
+
+    Print ((const char*)*(p_msg->value.s));
+    return true;
+  }
+  return false;
+}
+
+void celPcTest::Print (const char* msg)
 {
   printf ("Print: %s\n", msg);
   fflush (stdout);
-  CS_ASSERT (scfParent->GetEntity () != 0);
-  iCelBehaviour* ble = scfParent->GetEntity ()->GetBehaviour ();
+  iCelBehaviour* ble = entity->GetBehaviour ();
   CS_ASSERT (ble != 0);
   celData ret;
-  ble->SendMessage ("pctest_print", ret, 0);
+  params->GetParameter (0).Set (msg);
+  ble->SendMessage ("pctest_print", ret, params);
+
+  counter++;
+  size_t l = strlen (msg);
+  if (l > max) max = l;
 }
 
 //---------------------------------------------------------------------------
