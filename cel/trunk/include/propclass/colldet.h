@@ -63,6 +63,8 @@ struct iPcCollisionDetection : public iBase
   /// Set on Ground flag
   virtual void SetOnGround (bool flag) = 0;
 
+  virtual void UseCD(bool flag) = 0;
+
   /**
    * This function takes a position vector, checks against all known
    * colliders, and returns the adjusted position in the same variable.

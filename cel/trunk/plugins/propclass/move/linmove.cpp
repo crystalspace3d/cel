@@ -258,8 +258,8 @@ static inline int FindIntersection (const csCollisionPair& cd,
 
 void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
 {
-  targAngularVelocity = angleVel;
-  if (IsOnGround())
+  //targAngularVelocity = angleVel;
+  //if (IsOnGround())
 	angularVelocity = angleVel;
 }
 
@@ -404,8 +404,8 @@ bool celPcLinearMovement::MoveSprite (float delta)
 	  vel.x = targVel.x;
 	  vel.z = targVel.z;
   }
-  if (IsOnGround() && angularVelocity != targAngularVelocity)
-	    angularVelocity = targAngularVelocity;
+  //if (IsOnGround() && angularVelocity != targAngularVelocity)
+	 //   angularVelocity = targAngularVelocity;
 
   return rc;
 }
