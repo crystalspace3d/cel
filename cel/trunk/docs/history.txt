@@ -36,6 +36,8 @@
 	  layer will be notified when a mesh is selected. At this
 	  moment this property class works but doesn't send a
 	  message to the BL yet.
+	- Eric Sunshine enabled CVS update notification via the cel-cvs-update
+	  mailing list.
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object
@@ -99,4 +101,3 @@
 	  than that there is nothing functional yet.
 	- Fixed a bug in factory definition of 'plimp'.
 	- Started work on 'bltest'.
-
