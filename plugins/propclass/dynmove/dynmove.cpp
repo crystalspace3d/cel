@@ -132,7 +132,7 @@ bool celPcDynamicSystem::HandleEvent (iEvent& ev)
     float et = float (elapsed_time) / 1000.0;
     for (float dt = 0 ; dt < et ; dt += delta)
     {
-      dynamics->Step (delta / 10.0);
+      dynamics->Step (delta);
     }
   }
   return false;

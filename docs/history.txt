@@ -14,6 +14,11 @@ The history order is reversed so that new features are at the top.
 	    bootstrap cel.behaviourlayer.python scripts/physicstest/physicstest
 	  (note: do not add the '.py' at the end!).
 	- Jorrit moved smallgame to scripts/smallgame.
+	- Jorrit fixed CreateEmptyThing() in pcmesh. It was broken more
+	  than seven months ago without anyone noticing :-)
+	- Jorrit reverted an accidental slow-down in the dynmove property
+	  class.
+	- Jorrit added a visible floor to physicstest.py.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is

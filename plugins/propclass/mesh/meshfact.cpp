@@ -414,11 +414,7 @@ void celPcMesh::CreateEmptyThing ()
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
-  // XXX: Is this code ok?
-  csRef<iMeshFactoryWrapper> thing_fact =
-    engine->GetMeshFactories ()->FindByName (
-	"crystalspace.mesh.object.thing");
-  mesh = thing_fact->CreateMeshWrapper ();
+  mesh = engine->CreateThingMesh (0, 0);
 
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
