@@ -149,7 +149,7 @@ bool celPcCommon::SetProperty( csStringID propertyId, const char* s )
     if( props[i].id == propertyId )
       if( props[i].datatype == CEL_DATA_STRING ) 
       {
-	const char** ptr = (const char**) propdata[i];
+	char** ptr = (char**) propdata[i];
 	if ( *ptr != s )
 	  delete[] (*ptr);
 	*ptr = csStrNew( s );
