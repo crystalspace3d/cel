@@ -288,6 +288,11 @@ public:
       scfParent->SetVelocity (vel);
     }
 
+    virtual bool RotateV (float delta)
+    {
+      return scfParent->RotateV (delta);
+    }
+
     virtual void GetVelocity (csVector3& v) const
     {
       scfParent->GetVelocity (v);

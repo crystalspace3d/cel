@@ -21,10 +21,8 @@ class physicstest:
 		woodtxt = engine.CreateTexture ("wood", "/lib/stdtex/parket.jpg",col,0)
 
 		woodtxt.Register(txtmgr)
-		woodtxt.GetTextureHandle().Prepare()
 		woodmat = engine.CreateMaterial ("wood", woodtxt)
 		woodmat.Register(txtmgr)
-		woodmat.GetMaterialHandle().Prepare()
 
 		region = celCreateRegion(physicallayer_ptr,celEntity,"main")
 		region.CreateEmptySector("room")
