@@ -256,12 +256,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
-    vel = (mat.GetInverse()*localvel)/delta;
-
-    if (localvel.y == 0)
-      // Hit a vertical obstacle!
-      vel.y = 0;
-
+    
     // Part2: legs
     num_our_cd = hits = 0;
 
@@ -324,6 +319,9 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     if (!onground)
     {
+        // Reaction force
+        vel = (mat.GetInverse()*localvel)/delta;
+
         if (downstairs)
             // No steps here, so readjust position back up
             newpos.y += bottomSize.y / 2;
