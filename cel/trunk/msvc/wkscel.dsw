@@ -48,64 +48,127 @@ Package=<4>
     Project_Dep_Name plgstdphyslayer
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libstdphyslayer_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfengine_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfinput
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfinput_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfinv_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmesh
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfmesh_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmove_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfdynmove
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfdynmove_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftest_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpftools
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpftools_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfbillboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfbillboard_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfactormove
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfactormove_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfzone
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfzone_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmover
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfmover_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpftrigger
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftrigger_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgcpersist
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libcpersist_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgbltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libbltest_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgblxml
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libblxml_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgaddon_celentity
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libaddon_celentity_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgaddon_xmlscripts
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libaddon_xmlscripts_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgmgr_billboard
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libmgr_billboard_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgmgr_quests
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_quests_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name appceltst
@@ -145,6 +208,69 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name libceltool
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libstdphyslayer_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfengine_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfinput_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfinv_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmesh_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfdynmove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftest_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftools_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfbillboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfactormove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfzone_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmover_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftrigger_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libcpersist_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libbltest_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libblxml_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libaddon_celentity_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libaddon_xmlscripts_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_billboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_quests_static
     End Project Dependency
 }}}
 
@@ -225,7 +351,259 @@ Package=<4>
 
 ###############################################################################
 
+Project: "libaddon_celentity_static"=.\libaddon_celentity_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libaddon_xmlscripts_static"=.\libaddon_xmlscripts_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libbltest_static"=.\libbltest_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libblxml_static"=.\libblxml_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "libceltool"=.\libceltool.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libcpersist_static"=.\libcpersist_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmgr_billboard_static"=.\libmgr_billboard_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmgr_quests_static"=.\libmgr_quests_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfactormove_static"=.\libpfactormove_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfbillboard_static"=.\libpfbillboard_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfdynmove_static"=.\libpfdynmove_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfengine_static"=.\libpfengine_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfinput_static"=.\libpfinput_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfinv_static"=.\libpfinv_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfmesh_static"=.\libpfmesh_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfmove_static"=.\libpfmove_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfmover_static"=.\libpfmover_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpftest_static"=.\libpftest_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpftools_static"=.\libpftools_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpftrigger_static"=.\libpftrigger_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfzone_static"=.\libpfzone_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libstdphyslayer_static"=.\libstdphyslayer_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
