@@ -1,3 +1,5 @@
+1-Nov-2001:
+	- Slightly changed the way that csconfig.mak works.
 31-Oct-2001:
 	- Split 'selectmesh' message from 'pcmeshselect' property class
 	  'selectmesh_up' and 'selectmesh_down'.
