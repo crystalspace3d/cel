@@ -88,13 +88,11 @@ protected:
 
   //Collision vars
   csVector3 shift;
-  csRef<csColliderWrapper> topCollider;
+  csRef<iCollider> topCollider;
   csVector3 topSize;
-  csRef<iMeshWrapper> topColliderMesh;
 
-  csRef<csColliderWrapper> bottomCollider;
+  csRef<iCollider> bottomCollider;
   csVector3 bottomSize;
-  csRef<iMeshWrapper> bottomColliderMesh;
 
 //  csVector3     lastKnownPosition;  
 //  csVector3     lastKnownVelocity;
@@ -143,7 +141,7 @@ protected:
    * This catches the case where a peice of world geometry extends into
    * coordinates of another sector, but does not actually exist in that sector.
    */
-  int CollisionDetect (csColliderWrapper *cw, iSector* sect,
+  int CollisionDetect (iCollider *cw, iSector* sect,
   	csReversibleTransform *cdt, csReversibleTransform *cdstart);
 
 public:
