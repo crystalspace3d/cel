@@ -32,6 +32,7 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
+#include "physicallayer/entity.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/camera.h"

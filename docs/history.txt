@@ -15,6 +15,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed all actions to use 'cel.action.' instead of
 	  'cel.property.'.
 	- Jorrit fixed bootstrap to use OPCODE.
+	- Jorrit did a fix to please gcc 3.3 for the pczonemanager.
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the
