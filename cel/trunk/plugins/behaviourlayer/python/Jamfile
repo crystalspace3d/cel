@@ -1,35 +1,50 @@
 SubDir TOP plugins behaviourlayer python ;
 
-# XXX: Need to add swig support to jamrules...
 if $(PYTHON.AVAILABLE) = yes
 {
-  PYTHONFILES = [ Wildcard *.cpp *.h ] ;
+  #--------
+  # Swig-generated files.
+  #--------
+  local blcelcpp = blcel.cpp ;
+  local blcelpy = [ DoSourceGrist blcelc.py ] ;
+  local blcelpydir ;
 
-  # we can regenerate the .i if swig is installed
-  if $(CMD.SWIG)
+  if ! [ Property build : projgen ]
   {
-    PYTHONFILES = [ Filter $(PYTHONFILES) : blcel.cpp ] ;
-    PYTHONFILES += blcel.i ;
-    # we need the CS include dirs...
-    SWIG.FLAGS on [ DoSourceGrist blcel.cpp ] = -python -c++ -shadow -I$(CRYSTAL.INCLUDE_DIR) -I$(TOP)/include ;
+    blcelcpp = [ DoSourceGrist $(blcelcpp) ] ;
+
+    if $(CMD.SWIG)
+    {
+      Swig $(blcelcpp) $(blcelpy) :
+        [ DoSourceGrist blcel.i ] :
+        python :
+	-c++ -shadow :
+	[ ConcatDirs $(TOP) include ] $(CRYSTAL.INCLUDE_DIR) :
+	:
+	$(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts ] :
+	blcel ;
+      Depends blpythonclean : blcelswigclean ;
+      blcelpydir = $(LOCATE_TARGET) ;
+    }
+    else
+    {
+      SEARCH on $(blcelcpp) = $(SEARCH_SOURCE) ;
+      blcelpydir = [ ConcatDirs $(TOP) scripts ] ;
+    }
   }
 
-  Plugin blpython
-	  : $(PYTHONFILES)
-  ;
+  rule InstallCSPythonPY
+  {
+    local SUBDIR = $(2) ; # Temporary override for InstallData.
+    InstallData $(1) : $(3) ;
+  }
+  InstallCSPythonPY $(blcelpy) : $(blcelpydir) : python ;
+
+
+  #--------
+  # blpython plugin.
+  #--------
+  Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp ;
   ExternalLibs blpython : PYTHON ;
-  CFlags blpython : -DSWIG_GLOBAL ;
-
-  if $(CMD.SWIG)
-  {
-    # copy over blcelc.py file
-    LOCATE on blcelc.py = $(SUBDIR) ;
-    SCRIPTFILE = $(TOP)/scripts/blcelc.py ;
-    Move $(SCRIPTFILE) : blcelc.py ;
-    Depends $(SCRIPTFILE) : blcelc.py ;
-    NoCare $(SCRIPTFILE) blcelc.py ;
-    Depends blpython : $(SCRIPTFILE) ;      
-  }
+  CFlags blpython : [ FDefines SWIG_GLOBAL ] ;
 }
-
-

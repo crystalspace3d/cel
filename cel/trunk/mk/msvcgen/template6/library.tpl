@@ -33,18 +33,18 @@ RSC=rc.exe
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "csrelease"
-# PROP BASE Intermediate_Dir "csrelease"
+# PROP BASE Output_Dir "release"
+# PROP BASE Intermediate_Dir "release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "csrelease\bin\libs"
-# PROP Intermediate_Dir "csrelease\temp\%project%"
+# PROP Output_Dir "release\bin\libs"
+# PROP Intermediate_Dir "release\temp\%project%"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "..\.." /I "..\..\include\cssys\win32" /I "..\..\include" /I "..\..\libs" /I "..\..\support" /I "..\..\apps" /I "..\..\plugins" /D "NDEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_STRICT_SMART_POINTERS" %cflags% /FD /c
+# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "..\.." /I "c:\CS\include" /D "NDEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" %cflags% /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG" 
-# ADD RSC /l 0x409 /d "NDEBUG" /i "..\..\include\cssys\win32" /i "..\..\include"
+# ADD RSC /l 0x409 /d "NDEBUG" /i "c:\CS\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -60,51 +60,24 @@ PostBuild_Cmds=echo File is a lib, Copy skipped.
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "csdebug"
-# PROP BASE Intermediate_Dir "csdebug"
+# PROP BASE Output_Dir "debug"
+# PROP BASE Intermediate_Dir "debug"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "csdebug\bin\libs"
-# PROP Intermediate_Dir "csdebug\temp\%project%"
+# PROP Output_Dir "debug\bin\libs"
+# PROP Intermediate_Dir "debug\temp\%project%"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GX /G5 /ZI /Od /I "..\.." /I "..\..\include\cssys\win32" /I "..\..\include" /I "..\..\libs" /I "..\..\support" /I "..\..\apps" /I "..\..\plugins" /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /D "CS_STRICT_SMART_POINTERS" /FD %cflags% /c
+# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GX /G5 /ZI /Od /I "..\.." /I "c:\CS\include" /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD %cflags% /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /i "..\..\include\cssys\win32" /i "..\..\include"
+# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /i "c:\CS\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"csdebug\bin\libs\%project%_d.lib"
-# Begin Special Build Tool
-SOURCE="$(InputPath)"
-PostBuild_Cmds=echo File is a lib, Copy skipped.
-# End Special Build Tool
-
-!ELSEIF  "$(CFG)" == "%project% - Win32 ExtensiveMemDebug"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "csmemdbg"
-# PROP BASE Intermediate_Dir "csmemdbg"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "csmemdbg\bin\libs"
-# PROP Intermediate_Dir "csmemdbg\temp\%project%"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GX /G5 /ZI /Od /I "..\.." /I "..\..\include\cssys\win32" /I "..\..\include" /I "..\..\libs" /I "..\..\support" /I "..\..\apps" /I "..\..\plugins" /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /D "CS_STRICT_SMART_POINTERS" /D "CS_EXTENSIVE_MEMDEBUG" %cflatgs% /FD /c
-# ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /i "..\..\include\cssys\win32" /i "..\..\include"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"csmemdbg\bin\libs\%project%_d.lib"
+# ADD LIB32 /nologo /out:"debug\bin\libs\%project%_d.lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 PostBuild_Cmds=echo File is a lib, Copy skipped.
@@ -114,7 +87,6 @@ PostBuild_Cmds=echo File is a lib, Copy skipped.
 
 # Begin Target
 
-# Name "%project% - Win32 ExtensiveMemDebug"
 # Name "%project% - Win32 Debug"
 # Name "%project% - Win32 Release"
 %groups%

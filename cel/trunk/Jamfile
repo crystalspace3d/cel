@@ -6,16 +6,19 @@ CleanDir clean : out ;
 
 Clean distclean : configure.lineno config.status config.status.lineno
 		  config.log config.cache aclocal.m4
-		  Makefile Jamconfig autom4te.cache ;
+		  Jamconfig autom4te.cache ;
 Depends distclean : clean ;
+Help distclean : "Remove configuration information and built targets" ;
 
 Clean maintainerclean : configure aclocal.m4 config.h.in ;
 Depends maintainerclean : distclean ;
 
-Help clean : "Cleanup objectfiles and targets" ;
-Help distclean : "Cleanup objectfiles and build configuration" ;
-Help maintainerclean :
-		"Cleanup all objectfiles, buildconfig and generated files." ;
+# Enable msvcgen
+MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenSubDir TOP msvc : 6 ;
+MsvcGenSubDir TOP msvc : 7 ;
+MsvcGenTemplateDir TOP mk msvcgen template ;
+MsvcGenWorkspace cel ;
 
 # include subdirectories
 SubInclude TOP docs ;
@@ -27,7 +30,7 @@ SubInclude TOP apps ;
 # generate cel-config
 rule CelConfigGen
 {
-  LOCATE on $(>) = $(SUBDIR) ;
+  SEARCH on $(>) = $(SUBDIR) ;
   MakeLocate $(<) : $(LOCATE.TARGETS) ;
   Depends $(<) : $(>) ;
   Clean clean : $(<) ;
@@ -71,7 +74,6 @@ else
   includedir="$(INSTALLDIR.INCLUDE)"
 fi
 
-
 if test "x $(INSTALLDIR.PLUGIN) " = "x  "; then
   plugindir="\${CEL}"
 else
@@ -82,7 +84,6 @@ fi
 cflags="-I\${includedir}"
 libs="$(exportlibs)"
 
-
 __END__
   cat $(>) >> $(<)
   chmod +x $(<)
@@ -91,7 +92,9 @@ __END__
 CelConfigGen cel-config : cel-config.template ;
 Depends cel-config : Jamfile Jamconfig ;
 Depends all : cel-config ;
-InstallShellScript cel-config ;
+Depends install_bin :
+  [ DoInstall cel-config : $(bindir) : $(INSTALL_PROGRAM) ] ;
 
 # deprecated...
-InstallShellScript cel.cex ;
+SEARCH on cel.cex = $(SUBDIR) ;
+Depends install_bin : [ DoInstall cel.cex : $(bindir) : $(INSTALL_PROGRAM) ] ;

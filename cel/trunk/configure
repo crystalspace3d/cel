@@ -276,7 +276,7 @@ PACKAGE_STRING='cel 0.97'
 PACKAGE_BUGREPORT='cel-main@lists.sourceforge.net'
 
 ac_unique_file="mk/jam/build.jam"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX DOXYGEN INSTALL RANLIB ac_ct_RANLIB SWIG CRYSTAL CSCONF ac_ct_CSCONF PYTHON INSTALLDIR_PLUGIN LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN MAKEINFO PERL SWIG CRYSTAL CSCONF ac_ct_CSCONF PYTHON LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1293,8 +1293,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-PACKAGE_LONGNAME="Crystalspace Entity Layer"
-    PACKAGE_COPYRIGHT="(C)2002,2003 Jorrit Tyberghein and others."
+PACKAGE_LONGNAME="Crystal Entity Layer"
+    PACKAGE_COPYRIGHT="(C)2002-2004 Jorrit Tyberghein and others."
     PACKAGE_HOMEPAGE="http://cel.sourceforge.net/"
 
 
@@ -3202,52 +3202,6 @@ fi
 
 
 
-for ac_prog in doxygen
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_prog_DOXYGEN+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$DOXYGEN"; then
-  ac_cv_prog_DOXYGEN="$DOXYGEN" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_DOXYGEN="$ac_prog"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-
-fi
-fi
-DOXYGEN=$ac_cv_prog_DOXYGEN
-if test -n "$DOXYGEN"; then
-  echo "$as_me:$LINENO: result: $DOXYGEN" >&5
-echo "${ECHO_T}$DOXYGEN" >&6
-else
-  echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-fi
-
-  test -n "$DOXYGEN" && break
-done
-
-if test -n "$DOXYGEN"; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.DOXYGEN ?= \"$DOXYGEN\" ;
-"
-fi
-
-
 for ac_prog in install
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -3288,8 +3242,10 @@ fi
   test -n "$INSTALL" && break
 done
 
-if test -n "$INSTALL"; then
-  cs_jamconfig_text="${cs_jamconfig_text}INSTALL ?= \"$INSTALL\" ;
+cs_build_prop_val="$INSTALL"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}INSTALL ?= \"$cs_build_prop_val\" ;
 "
 fi
 
@@ -3374,8 +3330,154 @@ else
   RANLIB="$ac_cv_prog_RANLIB"
 fi
 
-if test -n "$RANLIB"; then
-  cs_jamconfig_text="${cs_jamconfig_text}RANLIB ?= \"$RANLIB\" ;
+cs_build_prop_val="$RANLIB"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}RANLIB ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
+for ac_prog in doxygen
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_DOXYGEN+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$DOXYGEN"; then
+  ac_cv_prog_DOXYGEN="$DOXYGEN" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_DOXYGEN="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+DOXYGEN=$ac_cv_prog_DOXYGEN
+if test -n "$DOXYGEN"; then
+  echo "$as_me:$LINENO: result: $DOXYGEN" >&5
+echo "${ECHO_T}$DOXYGEN" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$DOXYGEN" && break
+done
+
+cs_build_prop_val="$DOXYGEN"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.DOXYGEN ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
+for ac_prog in makeinfo
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_MAKEINFO+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$MAKEINFO"; then
+  ac_cv_prog_MAKEINFO="$MAKEINFO" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_MAKEINFO="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+MAKEINFO=$ac_cv_prog_MAKEINFO
+if test -n "$MAKEINFO"; then
+  echo "$as_me:$LINENO: result: $MAKEINFO" >&5
+echo "${ECHO_T}$MAKEINFO" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$MAKEINFO" && break
+done
+
+cs_build_prop_val="$MAKEINFO"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.MAKEINFO ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
+for ac_prog in perl5 perl
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_PERL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$PERL"; then
+  ac_cv_prog_PERL="$PERL" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PERL="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+PERL=$ac_cv_prog_PERL
+if test -n "$PERL"; then
+  echo "$as_me:$LINENO: result: $PERL" >&5
+echo "${ECHO_T}$PERL" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$PERL" && break
+done
+
+cs_build_prop_val="$PERL"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PERL ?= \"$cs_build_prop_val\" ;
 "
 fi
 
@@ -3484,8 +3586,13 @@ fi
 echo "$as_me:$LINENO: result: $cs_cv_prog_swig_version_ok_annotated" >&5
 echo "${ECHO_T}$cs_cv_prog_swig_version_ok_annotated" >&6
 if test "$cs_cv_prog_swig_version_ok" = yes; then
-  cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG ?= \"$SWIG\" ;
+  cs_build_prop_val="$SWIG"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG ?= \"$cs_build_prop_val\" ;
 "
+fi
+
 else
   :
 fi
@@ -3828,10 +3935,20 @@ then
     min_cs_version=0.97
     echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
+
     CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool`
+    CRYSTAL_CFLAGS=`echo x$CRYSTAL_CFLAGS | tr '\\\\' '/' | sed 's/^x//'`
+    CRYSTAL_CFLAGS=`echo x$CRYSTAL_CFLAGS | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+
     CRYSTAL_LIBS=`$CSCONF $csconf_args --libs csgeom csgfx csutil cstool`
-    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
+    CRYSTAL_LIBS=`echo x$CRYSTAL_LIBS | tr '\\\\' '/' | sed 's/^x//'`
+    CRYSTAL_LIBS=`echo x$CRYSTAL_LIBS | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+
     CRYSTAL_INCLUDE_DIR=`$CSCONF --includedir csgeom csgfx csutil cstool`
+    CRYSTAL_INCLUDE_DIR=`echo x$CRYSTAL_INCLUDE_DIR | tr '\\\\' '/' | sed 's/^x//'`
+    CRYSTAL_INCLUDE_DIR=`echo x$CRYSTAL_INCLUDE_DIR | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+
+    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
 
     cs_major_version=`$CSCONF $cs_args --version | \
        sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)?/\1/'`
@@ -4655,8 +4772,13 @@ fi
 
 echo "$as_me:$LINENO: result: $cs_build_mode" >&5
 echo "${ECHO_T}$cs_build_mode" >&6
-cs_jamconfig_text="${cs_jamconfig_text}MODE ?= \"$cs_build_mode\" ;
+cs_build_prop_val="$cs_build_mode"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}MODE ?= \"$cs_build_prop_val\" ;
 "
+fi
+
 
 #------------------------------------------------------------------------------
 # Determine whether the new renderer should be activated.
@@ -4672,11 +4794,21 @@ else
 fi;
 echo "$as_me:$LINENO: result: $enable_new_renderer" >&5
 echo "${ECHO_T}$enable_new_renderer" >&6
-cs_jamconfig_text="${cs_jamconfig_text}USE_NEW_RENDERER ?= \"$enable_new_renderer\" ;
+cs_build_prop_val="$enable_new_renderer"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}USE_NEW_RENDERER ?= \"$cs_build_prop_val\" ;
 "
+fi
+
 if test $enable_new_renderer = yes; then
-  cs_jamconfig_text="${cs_jamconfig_text}SWIG.FLAGS += \"-DCS_USE_NEW_RENDERER\" ;
+  cs_build_prop_val="-DCS_USE_NEW_RENDERER"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}SWIG.FLAGS += \"$cs_build_prop_val\" ;
 "
+fi
+
 fi
 
 
@@ -4749,21 +4881,20 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= \"$PACKAGE_NAME\" ;
     cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION_LIST ?= 0 97 ;
 "
 
-# For Makefile.in
-INSTALLDIR_PLUGIN=$libdir/$PACKAGE_NAME
-
-
 #----------------------------------------------------------------------------
 # Output generated files.  Also create a Jamfile when compiling outside
 # source directory.
 #----------------------------------------------------------------------------
-cs_jamconfig_text="${cs_jamconfig_text}JAMCONFIG_READ ?= \"yes\" ;
+cs_build_prop_val="yes"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}JAMCONFIG_READ ?= \"$cs_build_prop_val\" ;
 "
+fi
+
           ac_config_commands="$ac_config_commands Jamconfig"
 
                     ac_config_commands="$ac_config_commands Jamfile test"
-
-          ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -5204,11 +5335,6 @@ Usage: $0 [OPTIONS] [FILE]...
   -q, --quiet      do not print progress messages
   -d, --debug      don't remove temporary files
       --recheck    update $as_me by reconfiguring in the same conditions
-  --file=FILE[:TEMPLATE]
-		   instantiate the configuration file FILE
-
-Configuration files:
-$config_files
 
 Configuration commands:
 $config_commands
@@ -5364,7 +5490,6 @@ for ac_config_target in $ac_config_targets
 do
   case "$ac_config_target" in
   # Handling of arguments.
-  "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "Jamconfig" ) CONFIG_COMMANDS="$CONFIG_COMMANDS Jamconfig" ;;
   "Jamfile" ) CONFIG_COMMANDS="$CONFIG_COMMANDS Jamfile" ;;
   "test" ) CONFIG_COMMANDS="$CONFIG_COMMANDS test" ;;
@@ -5379,7 +5504,6 @@ done
 # We use the long form for the default assignment because of an extremely
 # bizarre bug on SunOS 4.1.3.
 if $ac_need_defaults; then
-  test "${CONFIG_FILES+set}" = set || CONFIG_FILES=$config_files
   test "${CONFIG_COMMANDS+set}" = set || CONFIG_COMMANDS=$config_commands
 fi
 
@@ -5410,311 +5534,6 @@ $debug ||
 
 _ACEOF
 
-cat >>$CONFIG_STATUS <<_ACEOF
-
-#
-# CONFIG_FILES section.
-#
-
-# No need to generate the scripts if there are no CONFIG_FILES.
-# This happens for instance when ./config.status config.h
-if test -n "\$CONFIG_FILES"; then
-  # Protect against being on the right side of a sed subst in config.status.
-  sed 's/,@/@@/; s/@,/@@/; s/,;t t\$/@;t t/; /@;t t\$/s/[\\\\&,]/\\\\&/g;
-   s/@@/,@/; s/@@/@,/; s/@;t t\$/,;t t/' >\$tmp/subs.sed <<\\CEOF
-s,@SHELL@,$SHELL,;t t
-s,@PATH_SEPARATOR@,$PATH_SEPARATOR,;t t
-s,@PACKAGE_NAME@,$PACKAGE_NAME,;t t
-s,@PACKAGE_TARNAME@,$PACKAGE_TARNAME,;t t
-s,@PACKAGE_VERSION@,$PACKAGE_VERSION,;t t
-s,@PACKAGE_STRING@,$PACKAGE_STRING,;t t
-s,@PACKAGE_BUGREPORT@,$PACKAGE_BUGREPORT,;t t
-s,@exec_prefix@,$exec_prefix,;t t
-s,@prefix@,$prefix,;t t
-s,@program_transform_name@,$program_transform_name,;t t
-s,@bindir@,$bindir,;t t
-s,@sbindir@,$sbindir,;t t
-s,@libexecdir@,$libexecdir,;t t
-s,@datadir@,$datadir,;t t
-s,@sysconfdir@,$sysconfdir,;t t
-s,@sharedstatedir@,$sharedstatedir,;t t
-s,@localstatedir@,$localstatedir,;t t
-s,@libdir@,$libdir,;t t
-s,@includedir@,$includedir,;t t
-s,@oldincludedir@,$oldincludedir,;t t
-s,@infodir@,$infodir,;t t
-s,@mandir@,$mandir,;t t
-s,@build_alias@,$build_alias,;t t
-s,@host_alias@,$host_alias,;t t
-s,@target_alias@,$target_alias,;t t
-s,@DEFS@,$DEFS,;t t
-s,@ECHO_C@,$ECHO_C,;t t
-s,@ECHO_N@,$ECHO_N,;t t
-s,@ECHO_T@,$ECHO_T,;t t
-s,@LIBS@,$LIBS,;t t
-s,@build@,$build,;t t
-s,@build_cpu@,$build_cpu,;t t
-s,@build_vendor@,$build_vendor,;t t
-s,@build_os@,$build_os,;t t
-s,@host@,$host,;t t
-s,@host_cpu@,$host_cpu,;t t
-s,@host_vendor@,$host_vendor,;t t
-s,@host_os@,$host_os,;t t
-s,@CC@,$CC,;t t
-s,@CFLAGS@,$CFLAGS,;t t
-s,@LDFLAGS@,$LDFLAGS,;t t
-s,@CPPFLAGS@,$CPPFLAGS,;t t
-s,@ac_ct_CC@,$ac_ct_CC,;t t
-s,@EXEEXT@,$EXEEXT,;t t
-s,@OBJEXT@,$OBJEXT,;t t
-s,@CXX@,$CXX,;t t
-s,@CXXFLAGS@,$CXXFLAGS,;t t
-s,@ac_ct_CXX@,$ac_ct_CXX,;t t
-s,@DOXYGEN@,$DOXYGEN,;t t
-s,@INSTALL@,$INSTALL,;t t
-s,@RANLIB@,$RANLIB,;t t
-s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
-s,@SWIG@,$SWIG,;t t
-s,@CRYSTAL@,$CRYSTAL,;t t
-s,@CSCONF@,$CSCONF,;t t
-s,@ac_ct_CSCONF@,$ac_ct_CSCONF,;t t
-s,@PYTHON@,$PYTHON,;t t
-s,@INSTALLDIR_PLUGIN@,$INSTALLDIR_PLUGIN,;t t
-s,@LIBOBJS@,$LIBOBJS,;t t
-s,@LTLIBOBJS@,$LTLIBOBJS,;t t
-CEOF
-
-_ACEOF
-
-  cat >>$CONFIG_STATUS <<\_ACEOF
-  # Split the substitutions into bite-sized pieces for seds with
-  # small command number limits, like on Digital OSF/1 and HP-UX.
-  ac_max_sed_lines=48
-  ac_sed_frag=1 # Number of current file.
-  ac_beg=1 # First line for current file.
-  ac_end=$ac_max_sed_lines # Line after last line for current file.
-  ac_more_lines=:
-  ac_sed_cmds=
-  while $ac_more_lines; do
-    if test $ac_beg -gt 1; then
-      sed "1,${ac_beg}d; ${ac_end}q" $tmp/subs.sed >$tmp/subs.frag
-    else
-      sed "${ac_end}q" $tmp/subs.sed >$tmp/subs.frag
-    fi
-    if test ! -s $tmp/subs.frag; then
-      ac_more_lines=false
-    else
-      # The purpose of the label and of the branching condition is to
-      # speed up the sed processing (if there are no `@' at all, there
-      # is no need to browse any of the substitutions).
-      # These are the two extra sed commands mentioned above.
-      (echo ':t
-  /@[a-zA-Z_][a-zA-Z_0-9]*@/!b' && cat $tmp/subs.frag) >$tmp/subs-$ac_sed_frag.sed
-      if test -z "$ac_sed_cmds"; then
-	ac_sed_cmds="sed -f $tmp/subs-$ac_sed_frag.sed"
-      else
-	ac_sed_cmds="$ac_sed_cmds | sed -f $tmp/subs-$ac_sed_frag.sed"
-      fi
-      ac_sed_frag=`expr $ac_sed_frag + 1`
-      ac_beg=$ac_end
-      ac_end=`expr $ac_end + $ac_max_sed_lines`
-    fi
-  done
-  if test -z "$ac_sed_cmds"; then
-    ac_sed_cmds=cat
-  fi
-fi # test -n "$CONFIG_FILES"
-
-_ACEOF
-cat >>$CONFIG_STATUS <<\_ACEOF
-for ac_file in : $CONFIG_FILES; do test "x$ac_file" = x: && continue
-  # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
-  case $ac_file in
-  - | *:- | *:-:* ) # input from stdin
-	cat >$tmp/stdin
-	ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
-	ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
-  *:* ) ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
-	ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
-  * )   ac_file_in=$ac_file.in ;;
-  esac
-
-  # Compute @srcdir@, @top_srcdir@, and @INSTALL@ for subdirectories.
-  ac_dir=`(dirname "$ac_file") 2>/dev/null ||
-$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$ac_file" : 'X\(//\)[^/]' \| \
-	 X"$ac_file" : 'X\(//\)$' \| \
-	 X"$ac_file" : 'X\(/\)' \| \
-	 .     : '\(.\)' 2>/dev/null ||
-echo X"$ac_file" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
-  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
-  	  /^X\(\/\/\)$/{ s//\1/; q; }
-  	  /^X\(\/\).*/{ s//\1/; q; }
-  	  s/.*/./; q'`
-  { if test -n "$as_mkdir_p"; then
-    $as_mkdir_p "$ac_dir"
-  else
-    as_dir="$ac_dir"
-    as_dirs=
-    while test ! -d "$as_dir"; do
-      as_dirs="$as_dir $as_dirs"
-      as_dir=`(dirname "$as_dir") 2>/dev/null ||
-$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$as_dir" : 'X\(//\)[^/]' \| \
-	 X"$as_dir" : 'X\(//\)$' \| \
-	 X"$as_dir" : 'X\(/\)' \| \
-	 .     : '\(.\)' 2>/dev/null ||
-echo X"$as_dir" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
-  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
-  	  /^X\(\/\/\)$/{ s//\1/; q; }
-  	  /^X\(\/\).*/{ s//\1/; q; }
-  	  s/.*/./; q'`
-    done
-    test ! -n "$as_dirs" || mkdir $as_dirs
-  fi || { { echo "$as_me:$LINENO: error: cannot create directory \"$ac_dir\"" >&5
-echo "$as_me: error: cannot create directory \"$ac_dir\"" >&2;}
-   { (exit 1); exit 1; }; }; }
-
-  ac_builddir=.
-
-if test "$ac_dir" != .; then
-  ac_dir_suffix=/`echo "$ac_dir" | sed 's,^\.[\\/],,'`
-  # A "../" for each directory in $ac_dir_suffix.
-  ac_top_builddir=`echo "$ac_dir_suffix" | sed 's,/[^\\/]*,../,g'`
-else
-  ac_dir_suffix= ac_top_builddir=
-fi
-
-case $srcdir in
-  .)  # No --srcdir option.  We are building in place.
-    ac_srcdir=.
-    if test -z "$ac_top_builddir"; then
-       ac_top_srcdir=.
-    else
-       ac_top_srcdir=`echo $ac_top_builddir | sed 's,/$,,'`
-    fi ;;
-  [\\/]* | ?:[\\/]* )  # Absolute path.
-    ac_srcdir=$srcdir$ac_dir_suffix;
-    ac_top_srcdir=$srcdir ;;
-  *) # Relative path.
-    ac_srcdir=$ac_top_builddir$srcdir$ac_dir_suffix
-    ac_top_srcdir=$ac_top_builddir$srcdir ;;
-esac
-
-# Do not use `cd foo && pwd` to compute absolute paths, because
-# the directories may not exist.
-case `pwd` in
-.) ac_abs_builddir="$ac_dir";;
-*)
-  case "$ac_dir" in
-  .) ac_abs_builddir=`pwd`;;
-  [\\/]* | ?:[\\/]* ) ac_abs_builddir="$ac_dir";;
-  *) ac_abs_builddir=`pwd`/"$ac_dir";;
-  esac;;
-esac
-case $ac_abs_builddir in
-.) ac_abs_top_builddir=${ac_top_builddir}.;;
-*)
-  case ${ac_top_builddir}. in
-  .) ac_abs_top_builddir=$ac_abs_builddir;;
-  [\\/]* | ?:[\\/]* ) ac_abs_top_builddir=${ac_top_builddir}.;;
-  *) ac_abs_top_builddir=$ac_abs_builddir/${ac_top_builddir}.;;
-  esac;;
-esac
-case $ac_abs_builddir in
-.) ac_abs_srcdir=$ac_srcdir;;
-*)
-  case $ac_srcdir in
-  .) ac_abs_srcdir=$ac_abs_builddir;;
-  [\\/]* | ?:[\\/]* ) ac_abs_srcdir=$ac_srcdir;;
-  *) ac_abs_srcdir=$ac_abs_builddir/$ac_srcdir;;
-  esac;;
-esac
-case $ac_abs_builddir in
-.) ac_abs_top_srcdir=$ac_top_srcdir;;
-*)
-  case $ac_top_srcdir in
-  .) ac_abs_top_srcdir=$ac_abs_builddir;;
-  [\\/]* | ?:[\\/]* ) ac_abs_top_srcdir=$ac_top_srcdir;;
-  *) ac_abs_top_srcdir=$ac_abs_builddir/$ac_top_srcdir;;
-  esac;;
-esac
-
-
-
-  if test x"$ac_file" != x-; then
-    { echo "$as_me:$LINENO: creating $ac_file" >&5
-echo "$as_me: creating $ac_file" >&6;}
-    rm -f "$ac_file"
-  fi
-  # Let's still pretend it is `configure' which instantiates (i.e., don't
-  # use $as_me), people would be surprised to read:
-  #    /* config.h.  Generated by config.status.  */
-  if test x"$ac_file" = x-; then
-    configure_input=
-  else
-    configure_input="$ac_file.  "
-  fi
-  configure_input=$configure_input"Generated from `echo $ac_file_in |
-				     sed 's,.*/,,'` by configure."
-
-  # First look for the input files in the build tree, otherwise in the
-  # src tree.
-  ac_file_inputs=`IFS=:
-    for f in $ac_file_in; do
-      case $f in
-      -) echo $tmp/stdin ;;
-      [\\/$]*)
-	 # Absolute (can't be DOS-style, as IFS=:)
-	 test -f "$f" || { { echo "$as_me:$LINENO: error: cannot find input file: $f" >&5
-echo "$as_me: error: cannot find input file: $f" >&2;}
-   { (exit 1); exit 1; }; }
-	 echo "$f";;
-      *) # Relative
-	 if test -f "$f"; then
-	   # Build tree
-	   echo "$f"
-	 elif test -f "$srcdir/$f"; then
-	   # Source tree
-	   echo "$srcdir/$f"
-	 else
-	   # /dev/null tree
-	   { { echo "$as_me:$LINENO: error: cannot find input file: $f" >&5
-echo "$as_me: error: cannot find input file: $f" >&2;}
-   { (exit 1); exit 1; }; }
-	 fi;;
-      esac
-    done` || { (exit 1); exit 1; }
-_ACEOF
-cat >>$CONFIG_STATUS <<_ACEOF
-  sed "$ac_vpsub
-$extrasub
-_ACEOF
-cat >>$CONFIG_STATUS <<\_ACEOF
-:t
-/@[a-zA-Z_][a-zA-Z_0-9]*@/!b
-s,@configure_input@,$configure_input,;t t
-s,@srcdir@,$ac_srcdir,;t t
-s,@abs_srcdir@,$ac_abs_srcdir,;t t
-s,@top_srcdir@,$ac_top_srcdir,;t t
-s,@abs_top_srcdir@,$ac_abs_top_srcdir,;t t
-s,@builddir@,$ac_builddir,;t t
-s,@abs_builddir@,$ac_abs_builddir,;t t
-s,@top_builddir@,$ac_top_builddir,;t t
-s,@abs_top_builddir@,$ac_abs_top_builddir,;t t
-" $ac_file_inputs | (eval "$ac_sed_cmds") >$tmp/out
-  rm -f $tmp/stdin
-  if test x"$ac_file" != x-; then
-    mv $tmp/out $ac_file
-  else
-    cat $tmp/out
-    rm -f $tmp/out
-  fi
-
-done
-_ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF
 
 #
@@ -5835,9 +5654,10 @@ echo "$as_me: executing $ac_dest commands" >&6;}
 echo "$as_me: Jamconfig is unchanged" >&6;}
 else
   rm -f Jamconfig
-	    mv $tmp/tcache Jamconfig
+	    cp $tmp/tcache Jamconfig
 fi
- ;;
+
+	rm -f $tmp/tcache ;;
     Jamfile ) if test "$ac_top_srcdir" != "."; then
   echo Installing Jamfile wrapper.
 	 echo "# This file was automatically create by config.status" > Jamfile
@@ -5889,14 +5709,18 @@ fi
 
 
 { echo "$as_me:$LINENO:
-Please note that this project uses Jam as its preferred build tool,
-so you can type 'jam' to build it.  (Building the project with GNU
-'make' is also supported, though deprecated and not necessarily well
-maintained.)
+
+Please note that this project uses Jam as its build tool. This means
+that you must type 'jam' to build it.
+
+Jam home: http://www.perforce.com/jam/jam.html
+Jam source: ftp://ftp.perforce.com/jam/
 " >&5
 echo "$as_me:
-Please note that this project uses Jam as its preferred build tool,
-so you can type 'jam' to build it.  (Building the project with GNU
-'make' is also supported, though deprecated and not necessarily well
-maintained.)
+
+Please note that this project uses Jam as its build tool. This means
+that you must type 'jam' to build it.
+
+Jam home: http://www.perforce.com/jam/jam.html
+Jam source: ftp://ftp.perforce.com/jam/
 " >&6;}

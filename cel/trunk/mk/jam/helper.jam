@@ -1,12 +1,38 @@
 #============================================================================
 # Helper rules
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+# Copyright (C)2004 by Eric Sunshine <sunshine@sunshineco.com>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
 
 SED ?= sed ;
 DEEPCOPY ?= "cp -R" ;
 DELTREE ?= "rm -rf" ;
 
-##  IncludeDir [target : ] directories
+# The -f option to `cp' is not supported on older platforms.
+# The convolution of the conditional arises because CP is defined in Jambase as
+# two tokens rather than a single string, so we must check the tokens
+# individually; yet we also check it as a simple string for future robustness.
+if $(CP) = "cp -f" || $(CP[1]) = "cp" && $(CP[2]) = "-f"
+{
+  CP = cp ;
+}
+
+##  IncludeDir [ target : ] directories
 ##    Description: Is used to specify the location of header files for a
 ##    target or the whole project if no target is given.
 ##    This rule will automatically generate the -I compiler flags and makes
@@ -39,11 +65,6 @@ rule IncludeDir
   }   
 }
 
-rule SearchSubdir
-{
-    echo "Warning: SearchSubDir is deprecated now (just delete it from your Jamfile)" ;
-}
-
 ##  Wildcard [ dir : ] patterns
 ##    Create a list of files in a directory which match the pattern. You can
 ##    optionally specify a subdirectory. The files will be returned with
@@ -67,6 +88,109 @@ rule Wildcard
   files = [ GLOB [ ConcatDirs $(SUBDIR) $(dir) ] : $(wildcards) ] ;
 
   return $(files:BSR=$(sdir)) ;
+}
+
+##  Recurse rule : types [ : prefix ]
+##    Recursively scan current directory, $(SUBDIR), for files matching 'types'
+##    and invoke 'rule' for each file which matches one of the 'types'.
+##    'types' is a list of file extensions (with the leading dot).  'rule' will
+##    be invoked with two arguments: (1) the basename of the file including the
+##    extension, (2) a list of the path components from the current directory
+##    to the file's directory.  When 'rule' is invoked, it will see a $(SUBDIR)
+##    value of the directory containing the file (as if the rule had been
+##    invoked from within the file's directory).  'prefix' is an optional list
+##    of path components which will be prepended to rule's second argument.
+rule Recurse
+{
+  local innerrule = $(1) ;
+  local types = $(2) ;
+  local prefix = $(3) ;
+  local files = [ GLOB $(SUBDIR) : * ] ;
+  
+  local i ;
+  for i in $(files)
+  {
+    if [ IsElem $(i:S) : $(types) ]
+    {
+      $(innerrule) $(i:BS) : $(prefix) ;
+    }
+    else
+    {
+      if ! [ IsElem $(i:BS) : $(DOT) $(DOTDOT) ]
+      {
+        local SUBDIR = $(i) ; # Called rules see this new temporary value.
+	Recurse $(innerrule) : $(types) : $(prefix) $(i:BS) ;
+      }
+    }
+  }
+}
+
+##  ResponseFile file : [ items [ : directory ]]
+##    Jam places a fairly restrictive limit on the length of the command string
+##    emitted by an 'actions' block.  If the limit is exceeded, Jam rudely
+##    aborts.  This problem is easily triggered when actions are invoked
+##    'together' but not 'piecemeal'; especially when the command arguments
+##    involve many lengthy pathnames.  To work around this type of problem,
+##    some tools allow the client to furnish a file containing information
+##    which would otherwise be specified via the command-line.  This is often
+##    called a "response file".  The ResponseFile rule can be used to create a
+##    response file named 'file' in 'directory' containing 'items', one per
+##    line.  If 'directory' is not specified, then the file is placed in
+##    $(LOCATE_TARGET).  If there is a possibility that the same 'file' name
+##    might be used in other contexts, be sure to grist it appropriately to
+##    avoid conflicts.  This rule assumes that 'items' contains bound entries.
+##    If this is not the case, then be sure to invoke NotFile for the contained
+##    items.  This rule may be invoked multiple times for the same 'file' in
+##    order to populate the file incrementally.  The rule returns 'file' to
+##    make it convenient to daisy chain with invocations of other rules, such
+##    as Depends or Always.
+rule ResponseFile
+{
+  local file = $(1) ;
+  local items = $(2) ;
+  local dir = $(3) ;
+
+  if ! $(items)
+  {
+    items = "" ; # Force file creation even if list is empty.
+    NotFile $(items) ;
+  }
+
+  if ! $(dir) { dir = $(LOCATE_TARGET) ; }
+  MakeLocate $(file) : $(dir) ;
+
+  local firsttime = no ;
+  if ! [ IsElem $(file) : $(RESPONSE_FILE_REGISTRY) ]
+  {
+    firsttime = yes ;
+    RESPONSE_FILE_REGISTRY += $(file) ;
+  }
+
+  local i ;
+  for i in $(items)
+  {
+    if $(firsttime) = yes
+    {
+      ResponseFile1 $(file) : $(i) ;
+      firsttime = no ;
+    }
+    else
+    {
+      ResponseFile2 $(file) : $(i) ;
+    }
+  }
+
+  return $(file) ;
+}
+
+actions ResponseFile1
+{
+  echo '$(>)' > $(<)
+}
+
+actions quietly ResponseFile2
+{
+  echo '$(>)' >> $(<)
 }
 
 ##  Prefix list : prefix
@@ -155,6 +279,8 @@ rule RemoveDups
   return $(result) ;
 } 
 
+##  Reverse list
+##    Reverse the order of items in the list.
 rule Reverse
 {
   local result ;
@@ -203,14 +329,16 @@ rule ConcatDirs
 }
 
 ##  Copy target : source
-##    Copy source file to target.
+##    Copy source to target.
 actions Copy
 {
+  $(RM) $(<)
   $(CP) $(>) $(<)
 }
 
+##  Move target : source
+##    Move (or rename) source to target.
 actions ignore Move
 {
   $(MV) $(>) $(<)
 }
-

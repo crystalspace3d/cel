@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.00"
+	Name="plgblpython"
+	SccProjectName=""
+	SccLocalPath="">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\debug\temp\plgblpython"
+			IntermediateDirectory=".\debug\temp\plgblpython"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\include,c:\CS\include"
+				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
+				AdditionalOptions="-I/usr/include/python2.2"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\debug\temp\plgblpython/plgblpython.pch"
+				AssemblerListingLocation=".\debug\temp\plgblpython/"
+				ObjectFile=".\debug\temp\plgblpython/"
+				ProgramDataBaseFileName=".\debug\temp\plgblpython/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 -L/usr/lib/python2.2 -L/usr/lib/python2.2/config -lpython2.2 -ldl -lpthread -lutil -lm"
+				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				OutputFile=".\debug\temp\plgblpython/blpython.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csdebug\libs,c:\CS\mk\visualc7\csdebug\bin\libs"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\plgblpython/plgblpython.pdb"
+				ImportLibrary=".\debug\temp\plgblpython/plgblpython.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\debug\temp\plgblpython/plgblpython.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\release\temp\plgblpython"
+			IntermediateDirectory=".\release\temp\plgblpython"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\include,..\,c:\CS\include"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
+				AdditionalOptions="-I/usr/include/python2.2"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\release\temp\plgblpython/plgblpython.pch"
+				AssemblerListingLocation=".\release\temp\plgblpython/"
+				ObjectFile=".\release\temp\plgblpython/"
+				ProgramDataBaseFileName=".\release\temp\plgblpython/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 -L/usr/lib/python2.2 -L/usr/lib/python2.2/config -lpython2.2 -ldl -lpthread -lutil -lm"
+				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				OutputFile=".\release\temp\plgblpython/blpython.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csrelease\bin\libs"
+				IgnoreDefaultLibraryNames="LIBCMTD"
+				ProgramDatabaseFile=".\release\temp\plgblpython/plgblpython.pdb"
+				ImportLibrary=".\release\temp\plgblpython/plgblpython.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\release\temp\plgblpython/plgblpython.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+				<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\behaviourlayer\python\blpython.h">
+			</File>
+
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\msvc\plgblpython.rc">
+			</File>
+
+		</Filter>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\behaviourlayer\python\blcel.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\behaviourlayer\python\blpython.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\behaviourlayer\python\pytocel.cpp">
+			</File>
+
+		</Filter>
+
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
