@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Sep-2003
+	- Eric Sunshine updated the Autoconf files, Jam files, project files,
+	  project templates, etc. to reflect the recent cssys+csutil merge.
 10-Sep-2003
 	- Jorrit fixed SetMesh() so it returns false on failure.
 9-Sep-2003

@@ -111,12 +111,12 @@ CS_CHECK_MINGW_VTABLE_THUNKS
 # Check for external libraries
 #----------------------------------------------------------------------------
 
-CS_PATH_CRYSTAL_JAM(0.97,,
-  AC_MSG_ERROR([
+CS_PATH_CRYSTAL_JAM([0.97], [],
+  [AC_MSG_ERROR([
 *** Crystal Space couldn't be found. The latest version is always avaiable
 *** from http://crystal.sourceforge.net
 *** Be also sure that you've either installed CS or set the CRYSTAL var right.
-]), csgeom csgfx csutil cstool cssys)
+])], [csgeom csgfx csutil cstool])
 
 CS_CHECK_PYTHON
                                                                                 

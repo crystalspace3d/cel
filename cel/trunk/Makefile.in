@@ -221,20 +221,20 @@ CEL_INCLUDES=-I. -Iinclude
 CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES) -DCEL_DEBUG
 CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -DCEL_DEBUG
 
-CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-STDPL_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs python cstool csutil cssys csgfx csgeom)
-BLPYTHON_CXXFLAGS := $(shell ./cs-config --cxxflags python cstool csutil cssys csgfx csgeom) $(CEL_INCLUDES)
-PFTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFMESH_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFMOVE_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFTOOLS_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFENG_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFINV_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFINPUT_LINKFLAGS :=  $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-CELTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-CELPYTHON_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+STDPL_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs python cstool csutil csgfx csgeom)
+BLPYTHON_CXXFLAGS := $(shell ./cs-config --cxxflags python cstool csutil csgfx csgeom) $(CEL_INCLUDES)
+PFTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFMESH_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFMOVE_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFTOOLS_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFENG_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFINV_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+PFINPUT_LINKFLAGS :=  $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+CELTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
+CELPYTHON_LINKFLAGS := $(shell ./cs-config --libs cstool csutil csgfx csgeom)
 
 #------
 # Rules
@@ -286,7 +286,7 @@ $(BLTEST_INF_OUT): $(BLTEST_INF)
 
 $(BLPYTHON_OBJS): %.o: %.cpp
 	$(CXX) $(BLPYTHON_CXXFLAGS) -o $*.o -c $*.cpp
-	
+
 $(BLPYTHON): $(BLPYTHON_OBJS)
 	$(DO.PLUGIN) $(BLPYTHON_LINKFLAGS)
 
