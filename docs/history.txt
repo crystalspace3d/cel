@@ -3,6 +3,25 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Dec-2004
+	- Eric Sunshine relocated the HTML version of the user manual from
+	  docs/html to docs/html/manual.
+	- Eric Sunshine added the API reference to the project at
+	  docs/html/api. The 'jam install' target now also installs the API
+	  reference.
+	- Eric Sunshine added a \mainpage section to docs/doxygen/doxygrps in
+	  order to make the front page of the API reference more friendly and
+	  user-accessible.
+	- Eric Sunshine added a jobber configuration file, jobber.cfg, which
+	  will allow the project's resources to be updated automatically. It
+	  performs the following tasks:
+	    - Repairs broken Texinfo @node directives and @menu blocks.
+	    - Converts Texinfo documentation to HTML format.
+	    - Builds the public API reference manual.
+	    - Re-builds Visual-C++ DSW/DSP and SLN/VCPROJ project files.
+	    - Re-builds the Swig-generated Python files.
+	    - Publishes generated HTML (manual and API) for online browsing.
+	    - Publishes archives of generated HTML for download.
 19-Dec-2004
 	- Jorrit completed the quest manager. This is all untested. It will
 	  be tested for the first time when there is a quest property
