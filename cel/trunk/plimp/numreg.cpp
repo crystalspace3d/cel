@@ -54,11 +54,12 @@ CS_ID NumReg::Register (void* obj)
   }
 
   // 2. find wholes and fill freelist again
-  for (CS_ID i=1;i<listsize && freelistend<=freelistsize;i++)
+  for (CS_ID i=1;i<listsize && freelistend<freelistsize-1;i++)
   {
     if (list[i]==NULL)
     {
-      freelist[freelistend++]=i;
+      freelistend++;
+      freelist[freelistend]=i;
     }
   }
   if (freelistend>0)
@@ -86,9 +87,10 @@ CS_ID NumReg::Register (void* obj)
     
     memset (list+listsize,0,newsize-listsize);
     //fill freelist
-    for (CS_ID i=listsize;i<newsize && freelistend<=freelistsize;i++)
+    for (CS_ID i=listsize;i<newsize && freelistend<freelistsize-1;i++)
     {
-      freelist[freelistend++]=i;
+      freelistend++;	
+      freelist[freelistend]=i;
     }
     listsize = newsize;
     list = newlist;
@@ -109,9 +111,10 @@ bool NumReg::Remove (CS_ID num)
   CS_ASSERT(num<listsize);
   CS_ASSERT(list[num] != NULL);
   
-  if (freelistend<=freelistsize)
+  if (freelistend<freelistsize)
   {
-    freelist[freelistend++]=num;
+    freelistend++;  
+    freelist[freelistend]=num;
   }
   list[num]=NULL;
 

@@ -44,8 +44,6 @@ public:
   int GetPos()
   {  return j; }
 
-  void Set(int v) { databuf->GetData(j++)->Set(v); }
-  void Set(unsigned int v) { databuf->GetData(j++)->Set(v); }
   void Set(int8 v) { databuf->GetData(j++)->Set(v); }
   void Set(uint8 v) { databuf->GetData(j++)->Set(v); }
   void Set(int16 v) { databuf->GetData(j++)->Set(v); }
@@ -71,8 +69,6 @@ public:
     return true;							\
   }
   
-  DATABHLP_GET(int,i,CEL_DATA_INT)
-  DATABHLP_GET(unsigned int,ui,CEL_DATA_UINT)
   DATABHLP_GET(int8,b,CEL_DATA_BYTE)
   DATABHLP_GET(uint8,ub,CEL_DATA_UBYTE)
   DATABHLP_GET(int16,w,CEL_DATA_WORD)

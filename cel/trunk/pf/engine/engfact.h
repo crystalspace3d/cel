@@ -111,7 +111,7 @@ public:
     }
     virtual void SetFollowPos (const csVector3& pos, const csVector3& at)
     {
-      return scfParent->SetFollowPos(pos, at);
+      scfParent->SetFollowPos(pos, at);
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {

@@ -1,5 +1,11 @@
 27-Feb-2002:
-	- Fixed the python behaviour layer.
+	- fixed a wrong return
+	- removed the persistance Set(int) function	
+	- Fixed thy python behaviour layer
+26-Feb-2002:
+	- improved followmode. It now accepts 2 relative positions:
+	    -the position of the camera relative to the mesh
+	    -the position of the point the camera looks at, rel. to the mesh	
 21-Feb-2002:
 	- Renamed celData->Set(bool) to SetBool() to avoid problems on
 	  platforms that don't have the bool type.
