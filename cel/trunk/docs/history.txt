@@ -1,3 +1,6 @@
+28-Fev-2003
+	- Matze Braun fixed cel.cex to not report deps which aren't needed.
+	  Esp. -lcsengine isn't needed!
 26-Feb-2003
 	- Matze Braun added configure to cvs and made the check for
 	  CrystalSpace looking for version 0.96 and above

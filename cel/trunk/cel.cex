@@ -8,7 +8,7 @@ CELDIR=${CEL-/usr/local/cel}
 
 case $1 in
     --libs) echo "";;
-    --deps) echo "-lcsengine -lcsgeom -lcsgfx -lcsutil -lcstool -lcssys";;
+    --deps) echo "";;
     --cflags) echo "-I$CELDIR/include";;
     --cxxflags) echo "-I$CELDIR/include";;
     *) echo "Unknown option"; exit 1;;
