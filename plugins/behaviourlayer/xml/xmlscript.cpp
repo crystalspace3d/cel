@@ -1044,6 +1044,34 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_FOR:
+        {
+	  CHECK_STACK
+	  celXmlArg a_end = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_start = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_var = stack.Pop ();
+	  DUMP_EXEC (": for var=%s start=%s end=%s\n", A2S (a_var),
+	  	A2S (a_start), A2S (a_end));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (a_var);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  int32 start = ArgToInt32 (a_start);
+	  int32 end = ArgToInt32 (a_end);
+	  int32 v;
+	  printf ("start=%d end=%d\n", start, end); fflush (stdout);
+	  celXmlScriptEventHandler* truebranch = op.arg.arg.h;
+	  CS_ASSERT (truebranch != 0);
+	  for (v = start ; v <= end ; v++)
+	  {
+	    props->SetProperty (varname, (long)v);
+	    truebranch->Execute (entity, behave);
+	  }
+	}
+	break;
       case CEL_OPERATION_IF:
         {
 	  CHECK_STACK

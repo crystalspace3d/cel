@@ -54,6 +54,7 @@ enum
   XMLTOKEN_VAR,
   XMLTOKEN_TESTCOLLIDE,
   XMLTOKEN_IF,
+  XMLTOKEN_FOR,
   XMLTOKEN_PRINT,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
@@ -96,6 +97,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
   xmltokens.Register ("if", XMLTOKEN_IF);
+  xmltokens.Register ("for", XMLTOKEN_FOR);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
@@ -194,7 +196,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 		"Error parsing expression for '%s'!", name);
       return false;
     case CEL_TOKEN_DEREFVAR:
-      if (!ParseExpression (input, child, h, name, 0))
+      if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ONETERM))
         return false;
       h->AddOperation (CEL_OPERATION_DEREFVAR);
       break;
@@ -655,6 +657,22 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
 	  h->AddArgument ().SetEventHandler (truehandler);
 	  h->AddArgument ().SetEventHandler (falsehandler);
+	}
+        break;
+      case XMLTOKEN_FOR:
+        {
+          if (!ParseExpression (child, h, "var", "for"))
+	    return false;
+          if (!ParseExpression (child, h, "start", "for"))
+	    return false;
+          if (!ParseExpression (child, h, "end", "for"))
+	    return false;
+	  const char* execname = GetAttributeString (child, "exec", 0);
+          celXmlScriptEventHandler* handler = execname
+	  	? script->FindOrCreateEventHandler (execname)
+		: 0;
+	  h->AddOperation (CEL_OPERATION_FOR);
+	  h->AddArgument ().SetEventHandler (handler);
 	}
         break;
       case XMLTOKEN_IF:

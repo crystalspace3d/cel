@@ -29,6 +29,8 @@ The history order is reversed so that new features are at the top.
 	  that you can now set a default property class to use for the
 	  'property' and 'action' operations and also for the 'property'
 	  operator.
+	- Jorrit added the 'for' command to the XML behaviour layer.
+	- Jorrit fixed a bug in parsing of the variable deref operator ('?').
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
