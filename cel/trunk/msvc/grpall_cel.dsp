@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\grpall_cel"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /YX /FD  /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /YX /FD /I ".." /I "..\include" /c
 # ADD BASE RSC /l 0x407 /d "NDEBUG"
 # ADD RSC /l 0x407 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "debug\temp\grpall_cel"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /Zi /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /Gm /GX /Zi /Od /FR /YX /FD  /c
+# ADD CPP /nologo /W3 /Gm /GX /Zi /Od /FR /YX /FD /I ".." /I "..\include" /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
