@@ -1,6 +1,6 @@
 /*
   Crystal Space Entity Layer
-  Copyright (C) 2001 PlaneShift Team (info@planeshift.it,
+  Copyright (C) 2001 PlaneShift Team <info@planeshift.it>
   Copyright (C) 2001-2003 by Jorrit Tyberghein
 
   This library is free software; you can redistribute it and/or
@@ -211,7 +211,6 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
     	oldpos);
-    float compare = oldpos.y;
 
     num_our_cd = hits = 0;
 
