@@ -332,7 +332,7 @@ public:
       return scfParent->active;
     }
   } scfiPcGravity;
-  friend class PcGravity;
+  friend struct PcGravity;
 
   // Not an embedded event handler to avoid circular references!!!
   class EventHandler : public iEventHandler
