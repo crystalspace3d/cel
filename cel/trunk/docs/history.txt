@@ -3,15 +3,22 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+22-Jun-2004
+	- Eric Sunshine fixed bugs in CelConfigGen rule (Jamfile.in) where it
+	  was using non-existent and obsolete Jam variables, as well as broken
+	  logic for determining installation locations.  The result was that
+	  cel-config was unable to respond correctly to --prefix,
+	  --exec-prefix, --includedir, and --plugindir.
 16-Jun-2004
 	- Andrew Robberts added a patch by Ondrej Hurt that prevents an array
 	  bound to be crossed
 15-Jun-2004
-	- Keith made several fixes to the way time deltas are handled in DR updating.
-	  The first update cannot update for 100's of seconds, because that large
-	  time interval leads to incredibly long update times due to the number of
-	  iterations.  Also, fixed and clarified function name semantics as to what is 
-	  expecting a time delta and what is expecting a clock ticks value.
+	- Keith made several fixes to the way time deltas are handled in DR
+	  updating.  The first update cannot update for 100's of seconds,
+	  because that large time interval leads to incredibly long update
+	  times due to the number of iterations.  Also, fixed and clarified
+	  function name semantics as to what is expecting a time delta and what
+	  is expecting a clock ticks value.
 13-Jun-2004
 	- Eric Sunshine upgraded msvcgen from master copy in CS.
 3-Jun-2004

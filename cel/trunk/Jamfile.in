@@ -80,8 +80,8 @@ actions CelConfigGen
   cat > $(<) << __END__
 #!/bin/sh
 
-prefix="$(INSTALLDIR.PREFIX)"
-exec_prefix="\${prefix}"
+prefix="$(prefix)"
+exec_prefix="$(exec_prefix)"
 version="$(PACKAGE_VERSION)"
 
 exportsummary=" $(exportsummary) "
@@ -89,15 +89,19 @@ exportsummary=" $(exportsummary) "
 if test -e "\${CEL}/include/physicallayer/pl.h"; then
   includedir="\${CEL}/include"
 else
-  includedir="\${CEL}/include"
-  includedir="$(INSTALLDIR.INCLUDE)"
+  includedir="$(includedir)"
 fi
 
-if test "x $(INSTALLDIR.PLUGIN) " = "x  "; then
+if test -f "\${CEL}/lib/cel/stdphyslayer.so" ||
+   test -f "\${CEL}/lib/cel/stdphyslayer.dll" ||
+   test -f "\${CEL}/lib/cel/stdphyslayer.csbundle"; then
+  plugindir="\${CEL}/lib/cel"
+elif test -f "\${CEL}/stdphyslayer.so" ||
+   test -f "\${CEL}/stdphyslayer.dll" ||
+   test -f "\${CEL}/stdphyslayer.csbundle"; then
   plugindir="\${CEL}"
 else
-  plugindir="\${CEL}"
-  plugindir="$(INSTALLDIR.PLUGIN)"
+  plugindir="$(plugindir)"
 fi
 
 cflags="-I\${includedir}"
