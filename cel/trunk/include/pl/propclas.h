@@ -23,12 +23,14 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/strset.h"
+#include "csutil/ref.h"
 #include "pl/datatype.h"
 class csVector3;
 
-#define CEL_QUERY_PROPCLASS(PcList,Interface)		\
-  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID (#Interface), \
-  	VERSION_##Interface))
+#define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
+  csPtr<Interface> (							    \
+  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
+		    (#Interface), VERSION_##Interface)))
 
 struct iCelEntity;
 struct iCelDataBuffer;
