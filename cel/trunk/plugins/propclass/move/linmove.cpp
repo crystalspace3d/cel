@@ -38,9 +38,11 @@
 #include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
-#include <csengine/movable.h>
-#include <csengine/meshobj.h>
-#include <csengine/engine.h>
+#include <iengine/movable.h>
+#include <iengine/mesh.h>
+#include <iengine/engine.h>
+#include <iengine/sector.h>
+#include <imesh/object.h>
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
 

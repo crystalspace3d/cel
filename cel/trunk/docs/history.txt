@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine fixed bug in CelConfigGen action in cel/Jamfile.  It
 	  caused cel-config to fail to emit `celtool' in response to the --libs
 	  option.
+	- Keith fixed header files for csengine changes.
 23-Jan-2004
 	- Jorrit added an optional profiler to the XML behaviour layer.
 	- Jorrit fixed a big memory leak in CEL by replacing a lot of csRef's
