@@ -462,113 +462,28 @@
 		<inventory_add child="back_button" />
 
 		<!--  Create the maze -->
-		<for var="x" start="0" end="?dimension-1">
-		    <for var="y" start="0" end="?dimension-1">
-		        <var name="maze+?x+'_'+?y" value="' '" />
+		<var name="row0"  value="'BBBBBBBBBBBBBBBB'" />
+		<var name="row1"  value="'B      B       B'" />
+		<var name="row2"  value="'B BBBB B BBBBB B'" />
+		<var name="row3"  value="'B B    B B   B B'" />
+		<var name="row4"  value="'B B B BB B B B B'" />
+		<var name="row5"  value="'B B B B    BBB B'" />
+		<var name="row6"  value="'B   B B B      B'" />
+		<var name="row7"  value="'BBBBB   B BBBBBB'" />
+		<var name="row8"  value="'B     BBB B    B'" />
+		<var name="row9"  value="'B BBBBB   BB B B'" />
+		<var name="row10" value="'B B     B  B B B'" />
+		<var name="row11" value="'B BB BB BB B B B'" />
+		<var name="row12" value="'B B   B B    B B'" />
+		<var name="row13" value="'B BBBBB B BBBB B'" />
+		<var name="row14" value="'B       B      B'" />
+		<var name="row15" value="'BBBBBBBBBBBBBBBB'" />
+		<for var="y" start="0" end="?dimension-1">
+		    <var name="row" value="?(row+?y)" />
+		    <for var="x" start="0" end="?dimension-1">
+		        <var name="maze+?x+'_'+?y" value="strsub(?row,?x,1)" />
 		    </for>
 		</for>
-		<for var="x" start="0" end="?dimension-1">
-		    <var name="maze+?x+'_0'" value="B" />
-		    <var name="maze+?x+'_'+(?dimension-1)" value="B" />
-		    <var name="'maze0_'+?x" value="B" />
-		    <var name="'maze'+(?dimension-1)+'_'+?x" value="B" />
-		</for>
-		<var name="maze2_1" value="B" />
-		<var name="maze2_2" value="B" />
-		<var name="maze2_3" value="B" />
-
-		<var name="maze4_2" value="B" />
-		<var name="maze4_3" value="B" />
-		<var name="maze5_3" value="B" />
-		<var name="maze6_1" value="B" />
-		<var name="maze7_3" value="B" />
-
-		<var name="maze8_1" value="B" />
-		<var name="maze8_2" value="B" />
-		<var name="maze8_3" value="B" />
-		<var name="maze9_3" value="B" />
-		<var name="maze11_2" value="B" />
-		<var name="maze11_3" value="B" />
-
-		<var name="maze13_1" value="B" />
-		<var name="maze13_3" value="B" />
-
-		<var name="maze1_5" value="B" />
-		<var name="maze2_5" value="B" />
-		<var name="maze2_7" value="B" />
-		<var name="maze3_5" value="B" />
-		<var name="maze3_7" value="B" />
-
-		<var name="maze4_7" value="B" />
-		<var name="maze5_4" value="B" />
-		<var name="maze5_5" value="B" />
-		<var name="maze5_6" value="B" />
-		<var name="maze5_7" value="B" />
-		<var name="maze7_4" value="B" />
-		<var name="maze7_5" value="B" />
-		<var name="maze7_6" value="B" />
-		<var name="maze7_7" value="B" />
-
-		<var name="maze9_5" value="B" />
-		<var name="maze9_6" value="B" />
-		<var name="maze9_7" value="B" />
-		<var name="maze10_6" value="B" />
-		<var name="maze11_4" value="B" />
-		<var name="maze11_5" value="B" />
-		<var name="maze11_6" value="B" />
-
-		<var name="maze13_4" value="B" />
-		<var name="maze13_5" value="B" />
-		<var name="maze13_6" value="B" />
-		<var name="maze13_7" value="B" />
-		<var name="maze14_7" value="B" />
-
-		<var name="maze1_9" value="B" />
-		<var name="maze2_9" value="B" />
-		<var name="maze3_9" value="B" />
-		<var name="maze2_11" value="B" />
-		<var name="maze3_11" value="B" />
-
-		<var name="maze4_11" value="B" />
-		<var name="maze5_9" value="B" />
-		<var name="maze5_10" value="B" />
-		<var name="maze5_11" value="B" />
-		<var name="maze6_9" value="B" />
-		<var name="maze7_9" value="B" />
-		<var name="maze7_11" value="B" />
-
-		<var name="maze8_9" value="B" />
-		<var name="maze8_11" value="B" />
-		<var name="maze9_8" value="B" />
-		<var name="maze9_9" value="B" />
-		<var name="maze9_11" value="B" />
-		<var name="maze10_11" value="B" />
-		<var name="maze11_8" value="B" />
-		<var name="maze11_9" value="B" />
-		<var name="maze11_10" value="B" />
-		<var name="maze11_11" value="B" />
-
-		<var name="maze12_9" value="B" />
-		<var name="maze13_9" value="B" />
-		<var name="maze13_11" value="B" />
-		<var name="maze14_11" value="B" />
-
-		<var name="maze2_12" value="B" />
-		<var name="maze2_13" value="B" />
-
-		<var name="maze4_13" value="B" />
-		<var name="maze4_14" value="B" />
-		<var name="maze6_13" value="B" />
-		<var name="maze7_13" value="B" />
-
-		<var name="maze8_13" value="B" />
-		<var name="maze9_13" value="B" />
-		<var name="maze10_13" value="B" />
-		<var name="maze11_13" value="B" />
-
-		<var name="maze12_13" value="B" />
-		<var name="maze13_13" value="B" />
-
 
 		<!-- Create billboards for all blocks in the maze -->
 		<for var="x" start="0" end="?dimension-1">

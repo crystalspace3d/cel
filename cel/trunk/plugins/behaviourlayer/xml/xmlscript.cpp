@@ -968,6 +968,40 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_STRSUB:
+        {
+	  CHECK_STACK
+	  celXmlArg a_len = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_pos = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_str = stack.Pop ();
+          DUMP_EXEC (":%04d: strsub(%s,%s,%s)\n", i-1, A2S (a_str),
+	  	A2S (a_pos), A2S (a_len));
+	  int si = stack.Push (celXmlArg ());
+	  const char* str = ArgToString (a_str);
+	  int32 pos = ArgToInt32 (a_pos);
+	  int32 len = ArgToInt32 (a_len);
+	  int real_len = strlen (str) - pos;
+	  real_len = MIN (real_len, len);
+	  char* newstr = new char[real_len+1];
+	  if (real_len)
+	    strncpy (newstr, str+pos, real_len);
+	  newstr[real_len] = 0;
+	  stack[si].SetStringPrealloc (newstr);
+	}
+        break;
+      case CEL_OPERATION_STRLEN:
+        {
+	  CHECK_STACK
+	  celXmlArg a_str = stack.Pop ();
+          DUMP_EXEC (":%04d: strlen(%s)\n", i-1, A2S (a_str));
+	  int si = stack.Push (celXmlArg ());
+	  const char* str = ArgToString (a_str);
+	  if (str) stack[si].SetInt32 (strlen (str));
+	  else stack[si].SetInt32 (0);
+	}
+	break;
       case CEL_OPERATION_INTPOL:
         {
 	  CHECK_STACK
