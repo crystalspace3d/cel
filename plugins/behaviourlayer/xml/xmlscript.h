@@ -213,7 +213,7 @@ struct celXmlArg
     float f;
     struct
     {
-      const char* s;
+      char* s;
       bool cleanup;	// If true string must be cleaned up here.
     } str;
     bool b;
@@ -351,7 +351,7 @@ struct celXmlOperation
 class celXmlScriptEventHandler
 {
 private:
-  const char* name;
+  char* name;
   csArray<celXmlOperation> operations;
   iCelPlLayer* pl;
   csArray<celXmlArg> stack;
@@ -426,4 +426,3 @@ public:
 };
 
 #endif // __CEL_BLXML_SCRIPT__
-
