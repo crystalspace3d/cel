@@ -348,7 +348,8 @@ struct iBillboard : public iBase
   virtual bool SetMaterialName (const char* matname) = 0;
   virtual const char* GetMaterialName () = 0;
   virtual void SetSize (int w, int h) = 0;
-  virtual void GetSize (int& w, int& h) const = 0;
+  virtual void GetImageSize (int& w, int& h) = 0;
+  virtual void GetSize (int& w, int& h) = 0;
   virtual void SetPosition (int x, int y) = 0;
   virtual void GetPosition (int& x, int& y) const = 0;
   virtual void Move (int dx, int dy) = 0;
