@@ -184,6 +184,9 @@ private:
 
   // If true then send mouse-down events.
   bool do_senddown;
+  
+  // The maximum distance to perform mesh selection over
+  uint max_distance;
 
   // Setup the event handler based on settings.
   void SetupEventHandler ();
@@ -268,6 +271,10 @@ public:
   bool HasSendupEvent () const { return do_sendup; }
   void SetSenddownEvent (bool sd) { do_senddown = sd; }
   bool HasSenddownEvent () const { return do_senddown; }
+  void SetMaxSelectionDistance (const uint distance)
+  {
+    max_distance = distance;
+  }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -355,6 +362,10 @@ public:
     virtual bool HasSenddownEvent () const
     {
       return scfParent->HasSenddownEvent ();
+    }
+    virtual void SetMaxSelectionDistance (const uint distance)
+    {
+      scfParent->SetMaxSelectionDistance (distance);      
     }
   } scfiPcMeshSelect;
 

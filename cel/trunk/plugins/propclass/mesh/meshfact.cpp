@@ -511,6 +511,9 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendup = true;
   do_senddown = true;
   do_sendmove = false;
+  
+  // Initialize the maximum selection distance to a very large number
+  max_distance = 100000;
 
   SetupEventHandler ();
   DG_TYPE (this, "celPcMeshSelect()");
@@ -737,7 +740,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (sector)
     {
       vo = camera->GetTransform ().GetO2TTranslation ();
-      csVector3 isect, end = vo + (vw - vo) * 60;
+      csVector3 isect, end = vo + (vw - vo) * (int)max_distance;
 
       iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0, true);
       if (sel)

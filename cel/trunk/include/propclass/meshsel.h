@@ -56,7 +56,7 @@ struct iPcMeshSelectData : public iBase
 };
 
 
-SCF_VERSION (iPcMeshSelect, 0, 0, 1);
+SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 
 /**
  * This is a property class for selecting meshes.
@@ -176,6 +176,12 @@ struct iPcMeshSelect : public iBase
    * Get the value of send down events.
    */
   virtual bool HasSenddownEvent () const = 0;
+
+  /**
+   * Set the maximum distance to use for mesh selection.
+   * This is the distance in world units from the camera, into the scene.
+   */
+  virtual void SetMaxSelectionDistance (const uint distance) = 0;
 };
 
 #endif // __CEL_PF_MESHSEL__
