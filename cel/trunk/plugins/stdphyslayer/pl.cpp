@@ -174,7 +174,7 @@ iCelBehaviour* celPlLayer::GetBehaviour (CS_ID id)
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 	const char *propname)
 {
-  iCelPropertyClassFactory* pf = FindPropertyClassFactory(propname);
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -391,11 +391,13 @@ void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
   if (pf_list.Find (pf) != -1) return;
   pf_list.Push (pf);
+  pf_hash.Put (pf->GetName (), pf);
 }
 
 void celPlLayer::UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf)
 {
+  pf_hash.Delete (pf->GetName (), pf);
   pf_list.Delete (pf);
 }
 
@@ -414,14 +416,7 @@ iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (int idx) const
 iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
   	const char* name) const
 {
-  int i;
-  for (i = 0 ; i < pf_list.Length () ; i++)
-  {
-    iCelPropertyClassFactory* pf = pf_list[i];
-    if (!strcmp (pf->GetName (), name))
-      return pf;
-  }
-  return 0;
+  return pf_hash.Get (name);
 }
 
 void celPlLayer::Cache (iBase* object)

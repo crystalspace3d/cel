@@ -16,6 +16,9 @@ The history order is reversed so that new features are at the top.
 		(although that is still possible).
 	      - Added inline and none-inline version of 'while'.
 	      - Added 'inventory_count' and 'inventory_get' functions.
+	- Jorrit performed an optimization in the physical
+	  layer->CreatePropertyClass(). It will use a hash to find the right
+	  property class factory instead of scanning a list.
 14-Dec-2003
 	- Jorrit added the following commands to the XML behaviour layer:
 	      - 'inventory' to set the current inventory on which further

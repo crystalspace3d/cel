@@ -38,6 +38,7 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
+  csHash<iCelPropertyClassFactory*,csStrKey,csConstCharHashKeyHandler> pf_hash;
   csRefArray<iCelBlLayer> bl_list;
 
   csRefArray<iCelEntity> entities;
