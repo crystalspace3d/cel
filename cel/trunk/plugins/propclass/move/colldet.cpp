@@ -256,6 +256,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
+    vel = (mat.GetInverse()*localvel)/delta;
 
     if (localvel.y == 0)
       // Hit a vertical obstacle!
