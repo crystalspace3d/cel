@@ -157,7 +157,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
     return false;
   }
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = player;
+  pl = (iCelPlLayer*)player;
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);

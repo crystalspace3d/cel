@@ -224,7 +224,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = player;
+  pl = (iCelPlLayer*)player;
   if (action_wakeup == csInvalidStringID)
   {
     action_wakeup = pl->FetchStringID ("cel.property.WakeUp");
@@ -433,7 +433,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = player;
+  pl = (iCelPlLayer*)player;
 
   if (id_index == csInvalidStringID)
   {
