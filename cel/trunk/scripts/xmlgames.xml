@@ -20,6 +20,10 @@
 	    <file>/cellib/images/wood_box.png</file>
 	    <keepimage />
         </texture>
+        <texture name="chocolate">
+	    <file>/cellib/images/chocolate.png</file>
+	    <keepimage />
+        </texture>
         <texture name="hero">
 	    <file>/cellib/images/hero.png</file>
 	    <transparent red="1" green="1" blue="1" />
@@ -453,6 +457,7 @@
         <material name="marble"> <texture>marble</texture> </material>
         <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
         <material name="wood_box"> <texture>wood_box</texture> </material>
+        <material name="chocolate"> <texture>chocolate</texture> </material>
         <material name="hero"> <texture>hero</texture> </material>
         <material name="monster"> <texture>monster</texture> </material>
         <material name="apple"> <texture>apple</texture> </material>
@@ -1012,7 +1017,7 @@
 
 		<!-- All blocktypes -->
 		<var name="blocktypes"
-		  value="'. HH#W#B###R#*#+XXXPXxOOOoMdMaMbMmMs=L=U=1=2=3=4=a=b=c=d=+=O=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO:L:U:1:2:3:4:#:%>R>L>U>DTRTB'" />
+		  value="'. HH#W#B###R#*#+XXXPXxOOOoMdMaMbMmMs=L=U=1=2=3=4=a=b=c=d=+=O=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO:L:U:1:2:3:4:#:%>R>L>U>DTRTBGc'" />
 
 		<!-- A stack of freed entities to reuse (per type) -->
 		<expr eval="inittable(table='entstack_',value=0)" />
@@ -1088,6 +1093,7 @@
 		<var name="'material_>D'" value="arrow_d" />
 		<var name="'material_TR'" value="redteleport1" />
 		<var name="'material_TB'" value="blueteleport1" />
+		<var name="'material_Gc'" value="chocolate" />
 		<!-- Create a table of behaviours per block type -->
 		<expr eval="inittable(table='behaviour_',value='bdash_nonmovable')" />
 		<var name="'behaviour_. '" value="''" />
@@ -1139,6 +1145,7 @@
 		<var name="'behaviour_DY'" value="bdash_door" />
 		<var name="'behaviour_TR'" value="bdash_teleport" />
 		<var name="'behaviour_TB'" value="bdash_teleport" />
+		<var name="'behaviour_Gc'" value="bdash_growing" />
 
 		<!-- For all fat tubes we have directional values (4 bits: LRUD) -->
 		<var name="'fattube_:L'" value="12" />	<!-- LR.. -->
@@ -3197,6 +3204,62 @@
 	</script>
 
 	<!-- *****************************************************
+	  - This script handles all operations on a growing mass.
+	  -  ***************************************************** -->
+        <script name="bdash_growing">
+	    <superscript name="bdash_block" />
+
+	    <event name="init">
+		<!--<var name="speed" value="?bdash_main.pushspeed" />-->
+	        <createpropclass name="pctimer" />
+	        <super />
+	    </event>
+	    <event name="reinit">
+	    	<super />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="4000+int(rand(1000.0))" />
+		    <par id="parid(repeat)" value="true" />
+		</action>
+	    </event>
+	    <event name="cleanup">
+	    	<super />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+	    </event>
+
+	    <!--
+	      - Routine to calculate ?dx and ?dy based on ?dxdy.
+	      -->
+	    <event name="calcdxdy">
+		<!-- Set ?dx and ?dy based on the four possible outcomes -->
+		<if eval="?dxdy&2">
+		    <true>
+		        <var name="dx" value="0" />
+		        <var name="dy" value="if(?dxdy&1,1,-1)" />
+		    </true>
+		    <false>
+		        <var name="dx" value="if(?dxdy&1,1,-1)" />
+		        <var name="dy" value="0" />
+		    </false>
+		</if>
+	    </event>
+
+	    <event name="pctimer_wakeup">
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+		<lvar name="x" value="?x+?dx" />
+		<lvar name="y" value="?y+?dy" />
+		<lvar name="ent" value="bdash_main::get_entity(x=#x,y=#y)" />
+		<if eval="!#ent">
+		    <call entity="bdash_main" event="createblock">
+		        <par id="parid(blocktype)" value="'Gc'" />
+		        <par id="parid(x)" value="#x" />
+		        <par id="parid(y)" value="#y" />
+		    </call>
+		</if>
+	    </event>
+	</script>
+
+	<!-- *****************************************************
 	  - This script handles all operations on a tube in the
 	  - boulderdash game.
 	  -  ***************************************************** -->
@@ -4425,6 +4488,7 @@
 		<expr eval="createmenuentity(blocktype='>U')" />
 		<expr eval="createmenuentity(blocktype='>D')" />
 		<expr eval="createmenuentity(blocktype='#W')" />
+		<expr eval="createmenuentity(blocktype='Gc')" />
 		<var name="lasty" value="?y" />
 		<var name="menu_x" value="0" />
 		<var name="menu_y" value="0" />
