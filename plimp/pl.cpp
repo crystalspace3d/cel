@@ -283,20 +283,25 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   csRef<iObjectIterator> objit (engine->GetNearbyObjects (sector, pos, radius));
-  while (objit->Next ())
+  while (!objit->IsFinished ())
   {
     iObject* obj = objit->GetObject ();
     csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (obj, iMeshWrapper));
     if (m)
     {
       bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-      if (invisible) continue;
+      if (invisible) 
+      {
+        objit->Next();
+        continue;
+      }
     }
     iCelEntity* ent = FindAttachedEntity (obj);
     if (ent)
     {
       list->Add (ent);
     }
+    objit->Next();
   }
   return list;
 }
