@@ -24,7 +24,7 @@
     provide pathfinding information to allow entities to travel through the
     Crystal Space world.
 
-    CLASS HEIRARCHY
+    CLASS HIERARCHY
                                      <  NavNode
     The class heirarchy is: NavGraph < (NavPath)
                                 |    < (NavLink) 
@@ -42,17 +42,18 @@
 
     IMPLEMENTATION
 
-    The user should create the graph entity and assign nodes and a graph rules object.
-    Then use the buildgraph methods to create the path and link entities. 
-    The graph entity can then be queried to request information such as:
+    The user should create the graph entity and assign nodes and a graph rules
+    object. Then use the buildgraph methods to create the path and link
+    entities. The graph entity can then be queried to request information such
+    as:
      * find the shortest path between nodes 
      * find the nearest node to an arbitrary point
 
     EXTENDING THE FUNCTIONALITY
 
     The NavGraphRules class implements the sorting and searching algorithms.
-    To implement your own context-specific optimisations, create a new subclass of NavGraphRules
-    and assign it to the NavGraph.
+    To implement your own context-specific optimisations, create a new
+    subclass of NavGraphRules and assign it to the NavGraph.
 */
 
 #include "cssysdef.h"
@@ -93,8 +94,6 @@ celPcNavLink::celPcNavLink (iObjectRegistry* object_reg)
   DG_TYPE (this, "celPcNavLink()");
 
   iLinkData = 0;
-
-  //Report (object_reg,"Created a Link object");
 }
 
 celPcNavLink::~celPcNavLink ()
@@ -103,26 +102,25 @@ celPcNavLink::~celPcNavLink ()
 
 csPtr<iCelDataBuffer> celPcNavLink::Save ()
 {
-    return 0;
+  return 0;
 }
 
 bool celPcNavLink::Load (iCelDataBuffer* databuf)
 {
-    return true;
+  return true;
 }
 
 void celPcNavLink::RecalcLength()
 {
-    // Recalculate the weighting for this path
-    csVector3 vPath;
+  // Recalculate the weighting for this path
+  csVector3 vPath;
 
-    if (SourceNode != NULL && DestNode != NULL) // These might not both be set yet...
-    {
-        vPath = DestNode->GetPos() - SourceNode->GetPos();
-        fLength = vPath.Norm();
-    }
-    else fLength = 0;
-
+  if (SourceNode != 0 && DestNode != 0) // These might not both be set yet...
+  {
+    vPath = DestNode->GetPos() - SourceNode->GetPos();
+    fLength = vPath.Norm();
+  }
+  else fLength = 0;
 }
 
 
@@ -149,8 +147,6 @@ celPcNavNode::celPcNavNode (iObjectRegistry* object_reg)
   DG_TYPE (this, "celPcNavNode()");
 
   pos = csVector3(0,0,0);
-
-  //Report (object_reg,"Created a Node object");
 }
 
 celPcNavNode::~celPcNavNode ()
@@ -159,12 +155,12 @@ celPcNavNode::~celPcNavNode ()
 
 csPtr<iCelDataBuffer> celPcNavNode::Save ()
 {
-    return 0;
+  return 0;
 }
 
 bool celPcNavNode::Load (iCelDataBuffer* databuf)
 {
-    return true;
+  return true;
 }
 
 /* 
@@ -196,12 +192,12 @@ celPcNavGraphRules::~celPcNavGraphRules ()
 
 csPtr<iCelDataBuffer> celPcNavGraphRules::Save ()
 {
-    return 0;
+  return 0;
 }
 
 bool celPcNavGraphRules::Load (iCelDataBuffer* databuf)
 {
-    return true;
+  return true;
 }
 
 
@@ -227,8 +223,8 @@ celPcNavGraph::celPcNavGraph (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraph);
   DG_TYPE (this, "celPcNavGraph()");
 
-  navgraphrules = NULL;
-  region = NULL;
+  navgraphrules = 0;
+  region = 0;
 
   Report (object_reg,"Created a Graph object");
 }
@@ -239,288 +235,293 @@ celPcNavGraph::~celPcNavGraph ()
 
 csPtr<iCelDataBuffer> celPcNavGraph::Save ()
 {
-    return 0;
+  return 0;
 }
 
 bool celPcNavGraph::Load (iCelDataBuffer* databuf)
 {
-    return true;
+  return true;
 }
 
-int celPcNavGraph::FindNearestNode( csVector3* point, iSector* sector, iCelEntity* ent )
+int celPcNavGraph::FindNearestNode (csVector3* point, iSector* sector,
+	iCelEntity* ent)
 { 
   /*
    * Find the nearest node to this point
    * Just calls the FindNearestNode method on the current NavGraphRules object
-   * (The reason that the implementation is in the Rules class is to allow the rules
-   * to use application specific information such as terrain info to reduce the search time)
+   * (The reason that the implementation is in the Rules class is to allow the
+   * rules to use application specific information such as terrain info to
+   * reduce the search time)
    */
 
-  CS_ASSERT( navgraphrules != NULL);
-  return navgraphrules->FindNearestNode( &scfiPcNavGraph, point, sector, ent );
+  CS_ASSERT( navgraphrules != 0);
+  return navgraphrules->FindNearestNode (&scfiPcNavGraph, point, sector, ent);
 }
 
-int celPcNavGraph::FindShortestPath( int iNodeStart, int iNodeEnd, int* &ipath )
+int celPcNavGraph::FindShortestPath (int iNodeStart, int iNodeEnd, int* &ipath)
 { 
-    /*
-     * Find the shortest path between these two nodes
-     * Just calls the FindShortestPath method on the current NavGraphRules object
-     */
+  /*
+   * Find the shortest path between these two nodes
+   * Just calls the FindShortestPath method on the current NavGraphRules object
+   */
 
-    CS_ASSERT( navgraphrules != NULL);
-    return navgraphrules->FindShortestPath( &scfiPcNavGraph,
-    	iNodeStart, iNodeEnd, ipath );
+  CS_ASSERT( navgraphrules != 0);
+  return navgraphrules->FindShortestPath (&scfiPcNavGraph,
+    	iNodeStart, iNodeEnd, ipath);
 }
 
 int celPcNavGraph::Dump()  // Debug info
 {
-    /*
-     * Dump debug info on the graph and link/node structures
-     * TODO: add an option to display the node, links and paths inside the game world
-     */
+  /*
+   * Dump debug info on the graph and link/node structures
+   * TODO: add an option to display the node, links and paths inside the game
+   * world.
+   */
 
-    int i;
+  int i;
 
-    Report( object_reg, "Graph Dump ============================", aLinks.Length());
+  Report (object_reg, "Graph Dump ============================",
+    aLinks.Length());
 
-    if (navgraphrules)
-        Report( object_reg, "NavGraphRules set");
-    else
-        Report( object_reg, "NavGraphRules not set");
+  if (navgraphrules)
+    Report (object_reg, "NavGraphRules set");
+  else
+    Report (object_reg, "NavGraphRules not set");
 
-    if (region)
-        Report( object_reg, "Region set");
-    else
-        Report( object_reg, "Region not set");
+  if (region)
+    Report (object_reg, "Region set");
+  else
+    Report (object_reg, "Region not set");
 
-    Report( object_reg, "Link Information: %d Links----------", aLinks.Length());
+  Report (object_reg, "Link Information: %d Links----------", aLinks.Length());
 
     
-    for( i=0; i < aLinks.Length() ; i++)
-    {
-        iPcNavLink* link = aLinks[i];
+  for (i=0; i < aLinks.Length() ; i++)
+  {
+    iPcNavLink* link = aLinks[i];
 
-        Report( object_reg, "link %d - OK? %d, Length: %f, Data %d", i, link != NULL, 
+    Report (object_reg, "link %d - OK? %d, Length: %f, Data %d", i, link != 0, 
                 link->GetLength(), link->GetLinkInfo());
-    }
+  }
     
     
-    Report( object_reg, "Node Information: %d Nodes---------", aNodes.Length());
+  Report (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
 
-    for( i=0; i < aNodes.Length() ; i++)
-    {
-        iPcNavNode* node = aNodes[i];
+  for (i=0; i < aNodes.Length() ; i++)
+  {
+    iPcNavNode* node = aNodes[i];
 
-        csVector3 pos = node->GetPos();
-        Report( object_reg, "Node %d - OK? %d, Pos: %f, %f, %f Links: %d", i, node !=NULL, 
-                pos.x, pos.y, pos.z, node->GetLinkCount());
+    csVector3 pos = node->GetPos();
+    Report (object_reg, "Node %d - OK? %d, Pos: %f, %f, %f Links: %d", i,
+      node !=0, pos.x, pos.y, pos.z, node->GetLinkCount());
+  }
 
-    }
+  Report (object_reg, "END Graph Dump ========================",
+    aLinks.Length());
 
-    Report( object_reg, "END Graph Dump ========================", aLinks.Length());
-
-    return 0;
+  return 0;
 }
+
 int celPcNavGraph::LoadNodesFromRegion( char* regionname )
 {
+  /*
+   * Load all the node entities in this particular region
+   * TODO test this..
+   */
 
-    /* Load all the node entities in this particular region
-     * TODO test this..
-     */
+  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  CS_ASSERT (engine != 0);
 
-    csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-    CS_ASSERT (engine != NULL);
+  // Select the region for this graph
+  iRegion* cur_region = engine->CreateRegion ( regionname );
 
-    // Select the region for this graph
-    iRegion* cur_region = engine->CreateRegion ( regionname );
+  // Query Engine for list of all objects in the current region
+  csRef<iObjectIterator> iter = cur_region->QueryObject()->GetIterator();
+  CS_ASSERT( iter != 0);
 
-    // Query Engine for list of all objects in the current region
-    csRef<iObjectIterator> iter (cur_region->QueryObject()->GetIterator());
-    CS_ASSERT( iter != NULL);
+  while (iter->HasNext ())
+  {
+    iObject* o = iter->Next ();
+    Report (object_reg, "Found an object in this region: %s", o->GetName());
 
-    while (iter->HasNext ())
+    // Check if object is a PcNavNode type
+    csRef<iPcNavNode> navnode = SCF_QUERY_INTERFACE (o, iPcNavNode);
+    if (navnode)
     {
-        iObject* o = iter->Next ();
-        Report (object_reg,"Found an object in this region: %s", o->GetName());
-
-        // Check if object is a PcNavNode type
-        csRef<iPcNavNode> navnode (SCF_QUERY_INTERFACE (o, iPcNavNode));
-        if ( navnode )
-        {
-            // Add a reference to the NavNode PC to the graph
-            aNodes.Push( navnode );
-
-        }
-
+      // Add a reference to the NavNode PC to the graph
+      aNodes.Push (navnode);
     }
+  }
 
     return 0;
 }
 
-int celPcNavGraph::LinkNodes()
+int celPcNavGraph::LinkNodes ()
 {
-    /* Creates an array of all link objects from the list of nodes
-     * so there will be two link objects for each adjacent pair of nodes (one in each direction)
-     */
+  /*
+   * Creates an array of all link objects from the list of nodes
+   * so there will be two link objects for each adjacent pair of nodes (one
+   * in each direction)
+   */
 
-    int i,j;
-    int numnodes;
+  int i,j;
+  int numnodes;
 
-    // TODO For now assume that no link entities will be manually created, so that there
-    // is no need to search and load link entities from the current region
-    // This could be implemented later if it makes sense
+  // TODO For now assume that no link entities will be manually created, so
+  // that there is no need to search and load link entities from the current
+  // region This could be implemented later if it makes sense.
 
-    // Iterate through each pair of Nodes
+  // Iterate through each pair of Nodes
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(object_reg, iCelPlLayer);
+  if(!pl.IsValid()) return 0; // No Physical Layer. This is bad.
 
-    csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY(object_reg, iCelPlLayer));
-    if(!pl.IsValid()) return 0; // No Physical Layer. This is bad.
+  iCelPropertyClass* pc;
 
-    iCelPropertyClass* pc;
+  numnodes = aNodes.Length();
+  Report (object_reg, "Iterating across %d Nodes", numnodes );
 
-    numnodes = aNodes.Length();
-    Report( object_reg, "Iterating across %d Nodes", numnodes );
-
-    for( i=0; i < numnodes; i++)
+  for (i=0; i < numnodes; i++)
+  {
+    for (j=0; j < numnodes; j++)
     {
-        for (j=0; j < numnodes; j++)
-        {
-            if( i != j)  // Dont attach the node to itself
-            {
-                // Create Link entity
-                csRef<iCelEntity> link (pl->CreateEntity ());
-                link->SetName ("");
+      if (i != j)  // Dont attach the node to itself
+      {
+        // Create Link entity
+        csRef<iCelEntity> link = pl->CreateEntity ();
+        link->SetName ("");
 
-                // Assign Link PC and set node info
-                pc = pl->CreatePropertyClass (link, "pclink");
-                csRef<iPcNavLink> pclink (SCF_QUERY_INTERFACE (pc, iPcNavLink));
+        // Assign Link PC and set node info
+        pc = pl->CreatePropertyClass (link, "pclink");
+        csRef<iPcNavLink> pclink = SCF_QUERY_INTERFACE (pc, iPcNavLink);
                 
-                pclink->SetSource( aNodes[i] ); 
-                pclink->SetDest( aNodes[j] ); 
+        pclink->SetSource (aNodes[i]);
+        pclink->SetDest (aNodes[j]);
 
-                aLinks.Push (pclink);          // Add the link to the graph
-                aNodes[i]->AddLink( pclink ); // Add the link to the source node
-                //Report( object_reg, "Created link between %d, %d dist %f", i, j, pclink->GetLength() );
-            
-            }
-            
-        }
+        aLinks.Push (pclink);          // Add the link to the graph
+        aNodes[i]->AddLink( pclink );  // Add the link to the source node
+        //Report( object_reg, "Created link between %d, %d dist %f", i, j,
+	//  pclink->GetLength() );
+      }
     }
+  }
 
-    Report( object_reg, "Finished creating links");
+  Report (object_reg, "Finished creating links");
 
-    return 0;
-
+  return 0;
 }
 
 void celPcNavGraph::CreatePaths()
 {
-    /* Create the Path cache, by querying FindShortestPath() for a subset of links
-     * TODO Implement paths
-     */
-
+  /*
+   * Create the Path cache, by querying FindShortestPath() for a subset of links
+   * TODO Implement paths
+   */
 }
 
 void celPcNavGraph::ResetGraph()
 {
-    /* Clear all internal data including nodes
-     *
-     */
+  /*
+   * Clear all internal data including nodes
+   */
+  ResetLinksPaths();
 
-    ResetLinksPaths();
-
-    aNodes.DeleteAll();
-    navgraphrules = NULL;
-    region = NULL;
+  aNodes.DeleteAll();
+  navgraphrules = 0;
+  region = 0;
 }
 
 void celPcNavGraph::ResetLinksPaths()
 {
-    /* Clear all the link and path data
-     *
-     */
+  /*
+   * Clear all the link and path data
+   */
 
-    // Clear all links
-    aLinks.DeleteAll();
-    //aPaths.DeleteAll();  //TODO add paths stuff
-
+  // Clear all links
+  aLinks.DeleteAll();
+  //aPaths.DeleteAll();  //TODO add paths stuff
 }
 void celPcNavGraph::LoadGraph()
 {
-    /* Load graph data from disk
-     *
-     */
+  /*
+   * Load graph data from disk
+   */
 
-    // TODO loading data
+  // TODO loading data
 }
 
 void celPcNavGraph::SaveGraph()
 {
-    /* Save graph data to disk
-     *
-     */
+  /*
+   * Save graph data to disk
+   */
 
-    // TODO saving data
+  // TODO saving data
 }
 
 int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
 {
-    /* Build the Node graph
-     * This calls various internal methods to create the list of nodes, create the links
-     * and check links for validity, optimise and cache the data
-     *
-     * defaultent should be an entity with a hull size that matches the largest entity
-     * that will try to move through the sector
-     */
+  /*
+   * Build the Node graph
+   * This calls various internal methods to create the list of nodes,
+   * create the links and check links for validity, optimise and cache the data.
+   *
+   * defaultent should be an entity with a hull size that matches the
+   * largest entity that will try to move through the sector.
+   */
 
-    int i, itraversable;
+  int i, itraversable;
 
-    ResetLinksPaths();    // Clear all the link and path data
+  ResetLinksPaths();    // Clear all the link and path data
 
-    LinkNodes();        // Create the default set of links
+  LinkNodes();        // Create the default set of links
 
-    Report( object_reg, "Traversing %d links", aLinks.Length() );
+  Report (object_reg, "Traversing %d links", aLinks.Length());
 
-    // for all links
-    for( i=0; i < aLinks.Length(); i++)
-    {
-        // TODO: Add ability to traverse links with multiple entities and save data
-        iPcNavLink* link = aLinks[i];                                                // Get each link
-        itraversable = navgraphrules->TraverseLink(&scfiPcNavGraph,
-		sector, link, defaultent ); // Try to traverse
-        link->SetLinkInfo( itraversable );                                           // Set flag if the link is traverseable
-    }
+  // for all links
+  for (i=0; i < aLinks.Length(); i++)
+  {
+    // TODO: Add ability to traverse links with multiple entities and save data
+    iPcNavLink* link = aLinks[i]; // Get each link
+    itraversable = navgraphrules->TraverseLink (&scfiPcNavGraph,
+		sector, link, defaultent); // Try to traverse
+    link->SetLinkInfo (itraversable); // Set flag if the link is traverseable
+  }
 
-    navgraphrules->OptimiseGraph( &scfiPcNavGraph ); // Sort the graph or otherwise optimise / clear the information
+  // Sort the graph or otherwise optimise / clear the information
+  navgraphrules->OptimiseGraph (&scfiPcNavGraph);
 
-    //CreatePaths();                    // TODO: Create a cache of paths
+  //CreatePaths();                    // TODO: Create a cache of paths
 
-    return 0;
+  return 0;
 }
 
 /*
  * NavGraphRules Base class
  * should never be called directly
  */
-int celPcNavGraphRules::TraverseLink( celPcNavGraph* graph, iSector* sector, iPcNavLink* plink, iCelEntity* ent )
+int celPcNavGraphRules::TraverseLink (celPcNavGraph* graph, iSector* sector,
+	iPcNavLink* plink, iCelEntity* ent)
 {
-    Report( object_reg, "Navrules - Traverselink");
-    return 0; //@@@???
+  Report( object_reg, "Navrules - Traverselink");
+  return 0; //@@@???
 }
 
-void celPcNavGraphRules::OptimiseGraph( celPcNavGraph* graph )
+void celPcNavGraphRules::OptimiseGraph (celPcNavGraph* graph)
 {
-    Report( object_reg, "Navrules - OptimiseGraph");
+  Report (object_reg, "Navrules - OptimiseGraph");
 }
 
-int celPcNavGraphRules::FindShortestPath( celPcNavGraph* graph, int iNodeStart, int iNodeEnd, int* &ipath )
+int celPcNavGraphRules::FindShortestPath (celPcNavGraph* graph,
+	int iNodeStart, int iNodeEnd, int* &ipath)
 {
-    Report( object_reg, "Navrules - FindShortestPath");
-    return 0;
+  Report( object_reg, "Navrules - FindShortestPath");
+  return 0;
 }
 
-int celPcNavGraphRules::FindNearestNode( celPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent  )
+int celPcNavGraphRules::FindNearestNode (celPcNavGraph* graph,
+	csVector3* point, iSector* sector, iCelEntity* ent)
 {
-    Report( object_reg, "Navrules - FindNearestNode");
-    return 0; //@@@???
+  Report( object_reg, "Navrules - FindNearestNode");
+  return 0; //@@@???
 }
 
