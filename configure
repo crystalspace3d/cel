@@ -3517,7 +3517,8 @@ fi
 
     # MacOS/X Panther ranlib complains if -s option is omitted.
     if test -n "$RANLIB"; then
-  CS_BUILD_PROPERTY(CMD.RANLIB, -s, +)
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.RANLIB += \"-s\" ;
+"
 fi
 
 
