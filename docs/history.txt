@@ -1,3 +1,5 @@
+16-May-2003
+        - Boyan added celFindNearbyEntities() function
 12-May-2003
 	- Boyan added some error handlings to blpython and fixed bug in 
 	  celCreateEntity.
