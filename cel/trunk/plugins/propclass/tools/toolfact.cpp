@@ -505,55 +505,55 @@ const char* celPcProperties::GetPropertyOrActionDescription (csStringID id)
 
 bool celPcProperties::SetProperty (csStringID id, const char* v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, bool v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, float v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, long v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, const csVector2& v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, const csVector3& v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, const csColor& v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, iCelPropertyClass* v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
 bool celPcProperties::SetProperty (csStringID id, iCelEntity* v)
 {
-  SetProperty (FindOrNewProperty (id), v);
+  SetPropertyIndex (FindOrNewProperty (id), v);
   return true;
 }
 
