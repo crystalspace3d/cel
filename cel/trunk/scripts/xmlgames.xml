@@ -32,6 +32,11 @@
 	    <file>/cellib/images/slanted_stone.png</file>
 	    <keepimage />
         </texture>
+        <texture name="hero">
+	    <file>/cellib/images/hero.png</file>
+	    <transparent red="1" green="1" blue="1" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -42,6 +47,7 @@
         <material name="marble"> <texture>marble</texture> </material>
         <material name="chocolate"> <texture>chocolate</texture> </material>
         <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
+        <material name="hero"> <texture>hero</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -65,6 +71,7 @@
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
         <pcfactory>cel.pcfactory.inventory</pcfactory>
+        <pcfactory>cel.pcfactory.pckeyinput</pcfactory>
 
 	<!-- *****************************************************
 	  - This script handles the menu system of xmlgames.
@@ -482,15 +489,13 @@
 		    <var name="row" value="?(row+?y)" />
 		    <for var="x" start="0" end="?dimension-1">
 		        <var name="maze+?x+'_'+?y" value="strsub(?row,?x,1)" />
-		    </for>
-		</for>
-
-		<!-- Create billboards for all blocks in the maze -->
-		<for var="x" start="0" end="?dimension-1">
-		    <for var="y" start="0" end="?dimension-1">
 		        <if eval="?(maze+?x+'_'+?y)=='B'" true="initblock" />
 		    </for>
 		</for>
+
+		<createentity name="hero" behaviour="hero" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="?ent" />
 	    </event>
 
 	    <!--
@@ -507,7 +512,87 @@
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
 	    </event>
+	</script>
 
+	<!-- *****************************************************
+	  - This script controls the behaviour of our hero.
+	  -  ***************************************************** -->
+	<script name="hero">
+	    <!--
+	      - Initialize our hero.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pckeyinput" />
+		<default propclass="pc(pcbillboard)" />
+		<var name="herox" value="1" />
+		<var name="heroy" value="1" />
+	        <property id="propid(name)" value="hero" />
+	        <property id="propid(materialname)" value="hero" />
+	        <property id="propid(movable)" value="true" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="true" />
+	        <property id="propid(width)" value="?maze_main.blockdim" />
+	        <property id="propid(height)" value="?maze_main.blockdim" />
+	        <property id="propid(x)" value="?herox*?maze_main.blockdim" />
+	        <property id="propid(y)" value="?heroy*?maze_main.blockdim" />
+		<default propclass="pc(pckeyinput)" />
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="right" />
+		    <par id="parid(command)" value="right" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="left" />
+		    <par id="parid(command)" value="left" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="up" />
+		    <par id="parid(command)" value="up" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="down" />
+		    <par id="parid(command)" value="down" />
+		</action>
+	    </event>
+
+	    <!--
+	      - Check if a move is possible and perform the move
+	      - if so. Uses ?dx and ?dy to get the move direction and
+	      - ?herox and ?heroy for current position.
+	      -->
+	    <event name="checkmove">
+		<if eval="?maze_main.(maze+(?herox+?dx)+'_'+(?heroy+?dy))==' '">
+		    <var name="herox" value="?herox+?dx" />
+		    <var name="heroy" value="?heroy+?dy" />
+		    <default propclass="pc(pcbillboard)" />
+	            <property id="propid(x)" value="?herox*?maze_main.blockdim" />
+	            <property id="propid(y)" value="?heroy*?maze_main.blockdim" />
+		</if>
+	    </event>
+
+	    <!--
+	      - Movement events.
+	      -->
+	    <event name="pckeyinput_right1">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_left1">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_down1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_up1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmove" />
+	    </event>
 	</script>
 
 	<!-- *****************************************************

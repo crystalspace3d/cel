@@ -2183,7 +2183,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  DUMP_EXEC (":%04d: actionparams %s\n", i-1, A2S (op.arg));
           action_params = csPtr<celGenericParameterBlock> (
-		new celGenericParameterBlock (op.arg.arg.ui));
+		new celGenericParameterBlock (ArgToUInt32 (op.arg)));
         }
         break;
       case CEL_OPERATION_ACTIONPARAM:
@@ -2192,11 +2192,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_val = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
-	  DUMP_EXEC (":%04d: param id=%s val=%s\n", i-1,
-	  	A2S (a_id), A2S (a_val));
+	  DUMP_EXEC (":%04d: param idx=%d id=%s val=%s\n", i-1,
+	  	op.arg.arg.ui, A2S (a_id), A2S (a_val));
 	  CS_ASSERT (action_params != 0);
-	  action_params->SetParameterDef (op.arg.arg.ui, ArgToID (a_id),
-	  	"", (celDataType)a_val.type);
+	  action_params->SetParameterDef (op.arg.arg.ui, ArgToID (a_id), "");
 	  celData& data = action_params->GetParameter ((int)op.arg.arg.ui);
 	  switch (a_val.type)
 	  {

@@ -525,10 +525,10 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
     id_entity = pl->FetchStringID ("cel.parameter.entity");
   }
   params = new celGenericParameterBlock (4);
-  params->SetParameterDef (0, id_x, "x", CEL_DATA_LONG);
-  params->SetParameterDef (1, id_y, "y", CEL_DATA_LONG);
-  params->SetParameterDef (2, id_button, "button", CEL_DATA_LONG);
-  params->SetParameterDef (3, id_entity, "entity", CEL_DATA_ENTITY);
+  params->SetParameterDef (0, id_x, "x");
+  params->SetParameterDef (1, id_y, "y");
+  params->SetParameterDef (2, id_button, "button");
+  params->SetParameterDef (3, id_entity, "entity");
 
   SetupEventHandler ();
   DG_TYPE (this, "celPcMeshSelect()");

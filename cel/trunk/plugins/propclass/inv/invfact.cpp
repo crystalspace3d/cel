@@ -81,7 +81,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     id_entity = pl->FetchStringID ("cel.parameter.entity");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity, "entity", CEL_DATA_ENTITY);
+  params->SetParameterDef (id_entity, "entity");
 }
 
 celPcInventory::~celPcInventory ()

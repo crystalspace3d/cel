@@ -6,6 +6,12 @@ The history order is reversed so that new features are at the top.
 21-Dec-2003
 	- Jorrit added 'strlen' and 'strsub' functions to the XML
 	  behaviour layer.
+	- Jorrit fixed a bug in standard parameters. By specifying the
+	  type in SetParameterDef() it actually caused crashes when
+	  setting a string later on because the celData expected a string
+	  to clean up. Fixed this by simply removing the unneeded
+	  type parameter.
+	- Jorrit added 'Bind' action for pckeyinput.
 20-Dec-2003
 	- Jorrit fixed three bugs which prevented a script from deleting
 	  its own entity:

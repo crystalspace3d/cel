@@ -61,6 +61,8 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcCommandInput::action_bind = csInvalidStringID;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcCommandInput)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCommandInput)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -84,6 +86,12 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   scfiEventHandler = 0;
 
   Activate ();
+
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (action_bind == csInvalidStringID)
+  {
+    action_bind = pl->FetchStringID ("cel.property.Bind");
+  }
 }
 
 celPcCommandInput::~celPcCommandInput ()
@@ -106,6 +114,27 @@ celPcCommandInput::~celPcCommandInput ()
     delete p;
     p=o;
   }
+}
+
+bool celPcCommandInput::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_bind)
+  {
+    const celData* p_t = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.trigger"));
+    if (!p_t) return false;
+    if (p_t->type != CEL_DATA_STRING) return false;
+    const celData* p_c = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.command"));
+    if (!p_c) return false;
+    if (p_c->type != CEL_DATA_STRING) return false;
+    iString* trigger = p_t->value.s;
+    iString* command = p_c->value.s;
+    Bind (trigger->GetData (), command->GetData ());
+    return true;
+  }
+  return false;
 }
 
 #define COMMANDINPUT_SERIAL 1
