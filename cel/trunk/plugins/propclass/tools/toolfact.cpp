@@ -213,6 +213,9 @@ csStringID celPcTimer::action_wakeup = csInvalidStringID;
 csStringID celPcTimer::action_wakeupframe = csInvalidStringID;
 csStringID celPcTimer::action_clear = csInvalidStringID;
 
+csStringID celPcTimer::id_elapsedticks = csInvalidStringID;
+csStringID celPcTimer::id_currentticks = csInvalidStringID;
+
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
@@ -229,7 +232,14 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     action_wakeup = pl->FetchStringID ("cel.property.pctimer.WakeUp");
     action_wakeupframe = pl->FetchStringID ("cel.property.pctimer.WakeUpFrame");
     action_clear = pl->FetchStringID ("cel.property.pctimer.Clear");
+    id_elapsedticks = pl->FetchStringID (
+    	"cel.behaviour.parameter.elapsedticks");
+    id_currentticks = pl->FetchStringID (
+    	"cel.behaviour.parameter.currentticks");
   }
+  params = new celGenericParameterBlock (2);
+  params->SetParameterDef (0, id_elapsedticks, "elapsedticks", CEL_DATA_LONG);
+  params->SetParameterDef (1, id_currentticks, "currentticks", CEL_DATA_LONG);
 }
 
 celPcTimer::~celPcTimer ()
@@ -356,7 +366,9 @@ bool celPcTimer::HandleEvent (iEvent& ev)
     {
       iCelBehaviour* bh = entity->GetBehaviour ();
       CS_ASSERT (bh != 0);
-      bh->SendMessage ("pctimer_wakeupframe", 0);
+      params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
+      params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
+      bh->SendMessage ("pctimer_wakeupframe", params);
     }
     else
     {

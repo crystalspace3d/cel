@@ -151,7 +151,8 @@
 			id="propid(pcbillboard.color)" value="rgb(1,1,1)" />
 	    </event>
 	    <event name="pcbillboard_move">
-	        <print value="'x:'+arg(parid(x))+' y:'+arg(parid(y))" />
+	        <print value="'x:'+param(parid(x))+' y:'+param(parid(y))" />
+		<print value="rand(1)" />
 	        <if eval="?isinit" false="findpc" />
 		<testcollide pcbillboard="?collidetest"
 			true="collide"

@@ -67,7 +67,7 @@ enum
 enum
 {
   XMLFUNCTION_PC,
-  XMLFUNCTION_ARG,
+  XMLFUNCTION_PARAM,
   XMLFUNCTION_PROPERTY,
   XMLFUNCTION_ID,
   XMLFUNCTION_PARID,
@@ -81,6 +81,7 @@ enum
   XMLFUNCTION_INTPOL,
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
+  XMLFUNCTION_RAND,
 
   XMLFUNCTION_LAST
 };
@@ -122,7 +123,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
-  functions.Register ("arg", XMLFUNCTION_ARG);
+  functions.Register ("param", XMLFUNCTION_PARAM);
   functions.Register ("property", XMLFUNCTION_PROPERTY);
   functions.Register ("id", XMLFUNCTION_ID);
   functions.Register ("parid", XMLFUNCTION_PARID);
@@ -135,6 +136,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("intpol", XMLFUNCTION_INTPOL);
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
+  functions.Register ("rand", XMLFUNCTION_RAND);
 
   return true;
 }
@@ -270,6 +272,12 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         h->AddOperation (CEL_OPERATION_INTPOL);
       }
       break;
+    case XMLFUNCTION_RAND:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_RAND);
+      }
+      break;
     case XMLFUNCTION_INT:
       {
         if (!ParseExpression (input, child, h, name, 0)) return false;
@@ -383,10 +391,10 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         }
       }
       break;
-    case XMLFUNCTION_ARG:
+    case XMLFUNCTION_PARAM:
       if (!ParseExpression (input, child, h, name, CEL_PRIORITY_NORMAL))
         return false;
-      h->AddOperation (CEL_OPERATION_ARG);
+      h->AddOperation (CEL_OPERATION_PARAM);
       break;
     default:
       synldr->ReportError ("cel.behaviour.xml", child,

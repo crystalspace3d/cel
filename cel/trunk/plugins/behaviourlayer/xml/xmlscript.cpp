@@ -505,7 +505,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  return ReportError (behave, "Stack size mismatch!");
 	}
         return true;
-      case CEL_OPERATION_ARG:
+      case CEL_OPERATION_PARAM:
         {
 	  CHECK_STACK
 	  celXmlArg a_arg = stack.Pop ();
@@ -672,6 +672,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetColor (csColor (ArgToFloat (elr),
 	  	ArgToFloat (elg), ArgToFloat (elb)));
+	}
+	break;
+      case CEL_OPERATION_RAND:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (": rand(%s)\n", A2S (stack[si]));
+	  float f = ArgToFloat (stack[si]);
+	  stack[si].SetFloat (float (rand () % 10000) * f / 10000.0);
 	}
 	break;
       case CEL_OPERATION_FLOAT:
