@@ -37,9 +37,10 @@
 #include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
-#include <csengine/movable.h>
-#include <csengine/meshobj.h>
-#include <csengine/engine.h>
+#include <iengine/movable.h>
+#include <iengine/mesh.h>
+#include <iengine/engine.h>
+#include <iengine/sector.h>
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
 
@@ -446,137 +447,137 @@ iCollider* celPcCollisionDetection::FindCollider (iObject* object)
  * Iterates over the nearby meshes to find collisions
  */
 int celPcCollisionDetection::CollisionDetect (iCollider *collider,
-    				  iSector* sector,
-    				  csReversibleTransform* transform,
-    				  csReversibleTransform* old_transform)
+                                              iSector* sector,
+                                              csReversibleTransform* transform,
+                                              csReversibleTransform* old_transform)
 {
-  int hits = 0;
-  int j;
-  // This never changes during this function, calculate it early
-  csVector3 newpos=transform->GetO2TTranslation ();
+    int hits = 0;
+    int j;
+    // This never changes during this function, calculate it early
+    csVector3 newpos=transform->GetO2TTranslation ();
 
-  csCollisionPair* CD_contact;
+    csCollisionPair* CD_contact;
 
-  csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
-    	transform->GetOrigin (),
-    	COLLISION_DISTANCE,
-    	true);
+    csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
+        transform->GetOrigin (),
+        COLLISION_DISTANCE,
+        true);
 
-  while (objectIter->HasNext ())
-  {
-    iMeshWrapper* meshWrapper = objectIter->Next ();
-    // Avoid hitting the mesh from this entity itself.
-    if (meshWrapper != pcmesh->GetMesh ())
+    while (objectIter->HasNext ())
     {
-      cdsys->ResetCollisionPairs ();
-      csReversibleTransform tr = meshWrapper->GetMovable ()
-      	->GetFullTransform ();
-      iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
-      if (othercollider && cdsys->Collide (collider,
-      	transform, othercollider, &tr))
-      {
-    	bool reallycollided = false;
+        iMeshWrapper* meshWrapper = objectIter->Next ();
+        // Avoid hitting the mesh from this entity itself.
+        if (meshWrapper != pcmesh->GetMesh ())
+        {
+            cdsys->ResetCollisionPairs ();
+            csReversibleTransform tr = meshWrapper->GetMovable ()
+                ->GetFullTransform ();
+            iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
+            if (othercollider && cdsys->Collide (collider,
+                transform, othercollider, &tr))
+            {
+                bool reallycollided = false;
 
 #ifdef SHOW_COLLIDER_MESH_DEBUG
-	//@@@
-    	Notify2("Player in Sector  : %s",
-    	  sector->QueryObject ()->GetName ());
-    	Notify2("Collider Mesh Name  : %s",
-    	  meshWrapper->QueryObject ()->GetName ());
-    	Notify2("Collider Mesh Sector: %s",
-    	  meshWrapper->GetMovable ()->GetSectors ()->Get (0)->QueryObject ()
-	  	->GetName ());
+                //@@@
+                Notify2("Player in Sector  : %s",
+                    sector->QueryObject ()->GetName ());
+                Notify2("Collider Mesh Name  : %s",
+                    meshWrapper->QueryObject ()->GetName ());
+                Notify2("Collider Mesh Sector: %s",
+                    meshWrapper->GetMovable ()->GetSectors ()->Get (0)->QueryObject ()
+                    ->GetName ());
 #endif
 
-    	CD_contact = cdsys->GetCollisionPairs ();
-    	for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
-    	{
-    	  /*
-	   * Here we follow a segment from our current position to the
-	   * position of the collision. If the sector the collision occured
-	   * in is not the sector of the mesh we collided with,
-    	   * this is invalid.
-    	   */
-    	  int sector_idx, sector_max;
-    	  iSector* CollisionSector;
-    	  bool mirror=false;
-    	  csVector3 testpos;
-    	  csVector3 line[2];
-    	  csCollisionPair temppair=CD_contact[j];
+                CD_contact = cdsys->GetCollisionPairs ();
+                for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
+                {
+                    /*
+                    * Here we follow a segment from our current position to the
+                    * position of the collision. If the sector the collision occured
+                    * in is not the sector of the mesh we collided with,
+                    * this is invalid.
+                    */
+                    int sector_idx, sector_max;
+                    iSector* CollisionSector;
+                    bool mirror=false;
+                    csVector3 testpos;
+                    csVector3 line[2];
+                    csCollisionPair temppair=CD_contact[j];
 
-    	  // Move the triangle from our mesh into world space
-    	  temppair.a1 += newpos;
-    	  temppair.b1 += newpos;
-    	  temppair.c1 += newpos;
+                    // Move the triangle from our mesh into world space
+                    temppair.a1 += newpos;
+                    temppair.b1 += newpos;
+                    temppair.c1 += newpos;
 
-    	  if (FindIntersection (temppair, line))
-    	  {
-	    // Collided at this line segment. Pick a point in the middle of
-	    // the segment to test.
-	    testpos=(line[0]+line[1])/2;
-    	  }
-	  else
-	  {
-	    // No collision found, use the destination of the move.
-	    testpos=newpos;
-    	  }
+                    if (FindIntersection (temppair, line))
+                    {
+                        // Collided at this line segment. Pick a point in the middle of
+                        // the segment to test.
+                        testpos=(line[0]+line[1])/2;
+                    }
+                    else
+                    {
+                        // No collision found, use the destination of the move.
+                        testpos=newpos;
+                    }
 
-    	  // This follows a line segment from start to finish and returns
-	  // the sector you are ultimately in.
-    	  CollisionSector = sector->FollowSegment (*old_transform,
-	  	testpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+                    // This follows a line segment from start to finish and returns
+                    // the sector you are ultimately in.
+                    CollisionSector = sector->FollowSegment (*old_transform,
+                        testpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
 
-    	  // Iterate through all the sectors of the destination mesh,
-	  // incase it's in multiple sectors.
-    	  sector_max = meshWrapper->GetMovable ()->GetSectors ()->GetCount ();
-    	  for (sector_idx=0 ; sector_idx<sector_max ; sector_idx++)
-    	  {
-	    // Check to see if this sector is the sector of the collision.
-	    if (CollisionSector == meshWrapper->GetMovable ()->GetSectors ()
-	    	->Get (sector_idx))
-	    {
-	      reallycollided = true;
-	      our_cd_contact[num_our_cd++] = CD_contact[j];
-	      // One valid sector is enough
-	      break;
-	    }
+                    // Iterate through all the sectors of the destination mesh,
+                    // incase it's in multiple sectors.
+                    sector_max = meshWrapper->GetMovable ()->GetSectors ()->GetCount ();
+                    for (sector_idx=0 ; sector_idx<sector_max ; sector_idx++)
+                    {
+                        // Check to see if this sector is the sector of the collision.
+                        if (CollisionSector == meshWrapper->GetMovable ()->GetSectors ()
+                            ->Get (sector_idx))
+                        {
+                            reallycollided = true;
+                            our_cd_contact[num_our_cd++] = CD_contact[j];
+                            // One valid sector is enough
+                            break;
+                        }
 #ifdef LINMOVE_CD_FOLLOWSEG_DEBUG
-	    else
-	    {
-	      printf ("Failed FollowSegment test on mesh %s in sector %s."
-	      	" FollowSegment ended in sector %s\n",
-		meshWrapper->QueryObject ()->GetName (),
-		meshWrapper->GetMovable ()->GetSectors ()->Get (sector_idx)
-			->QueryObject ()->GetName (),
-		CollisionSector->QueryObject ()->GetName ());
-	      csVector3 cv_oldpos, cv_newpos;
-	      cv_oldpos = old_transform->GetO2TTranslation ();
-	      cv_newpos = transform->GetO2TTranslation ();
-	      printf ("Followed from sector %s position: %f,%f,%f"
-	      	"  to sector %s position: %f,%f,%f\n",
-		sector->QueryObject ()->GetName (),
-		cv_oldpos.x, cv_oldpos.y, cv_oldpos.z,
-		CollisionSector->QueryObject ()->GetName (),
-		cv_newpos.x, cv_newpos.y, cv_newpos.z);
-	    }
+                        else
+                        {
+                            printf ("Failed FollowSegment test on mesh %s in sector %s."
+                                " FollowSegment ended in sector %s\n",
+                                meshWrapper->QueryObject ()->GetName (),
+                                meshWrapper->GetMovable ()->GetSectors ()->Get (sector_idx)
+                                ->QueryObject ()->GetName (),
+                                CollisionSector->QueryObject ()->GetName ());
+                            csVector3 cv_oldpos, cv_newpos;
+                            cv_oldpos = old_transform->GetO2TTranslation ();
+                            cv_newpos = transform->GetO2TTranslation ();
+                            printf ("Followed from sector %s position: %f,%f,%f"
+                                "  to sector %s position: %f,%f,%f\n",
+                                sector->QueryObject ()->GetName (),
+                                cv_oldpos.x, cv_oldpos.y, cv_oldpos.z,
+                                CollisionSector->QueryObject ()->GetName (),
+                                cv_newpos.x, cv_newpos.y, cv_newpos.z);
+                        }
 #endif
-    	  }
-    	}
+                    }
+                }
 
-    	// We don't increase hits unless a collision really occurred after
-	// all tests.
-    	if (reallycollided)
-	{
-    	  hits++;
-	}
+                // We don't increase hits unless a collision really occurred after
+                // all tests.
+                if (reallycollided)
+                {
+                    hits++;
+                }
 
-    	if (cdsys->GetOneHitOnly () && hits)
-    	  return 1;
-      }
+                if (cdsys->GetOneHitOnly () && hits)
+                    return 1;
+            }
+        }
     }
-  }
 
-  return hits;
+    return hits;
 }
 
 #define MAXSECTORSOCCUPIED  20
