@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- stdphyslayer.csplugin -->
+<plugin>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.physicallayer</name>
+        <implementation>celPlLayer</implementation>
+	    <description>CEL Layer</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>
