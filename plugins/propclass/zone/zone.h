@@ -37,6 +37,7 @@
 #include "propclass/camera.h"
 #include "propclass/zone.h"
 #include "iengine/camera.h"
+#include "iengine/movable.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -69,8 +70,27 @@ public:
     SCF_DESTRUCT_IBASE ();
   }
   SCF_DECLARE_IBASE;
+  virtual void NewSector (iCamera* camera, iSector* sector);
+};
 
-  virtual void NewSector (iCamera* /*camera*/, iSector* sector);
+class meshmoveListener : public iMovableListener
+{
+private:
+  celPcZoneManager* zonemgr;
+
+public:
+  meshmoveListener (celPcZoneManager* zonemgr)
+  {
+    SCF_CONSTRUCT_IBASE (0);
+    meshmoveListener::zonemgr = zonemgr;
+  }
+  virtual ~meshmoveListener ()
+  {
+    SCF_DESTRUCT_IBASE ();
+  }
+  SCF_DECLARE_IBASE;
+  virtual void MovableChanged (iMovable* movable);
+  virtual void MovableDestroyed (iMovable*) { }
 };
 
 class celMapFile : public iCelMapFile
@@ -195,11 +215,15 @@ private:
   csWeakRef<iCelPlLayer> pl;
 
   csRef<cameraSectorListener> camlistener;
+  csRef<meshmoveListener> meshlistener;
   csWeakRef<iPcCamera> pccamera;
   csWeakRef<iPcMesh> pcmesh;
 
   csRefArray<celZone> zones;
   csRefArray<celRegion> regions;
+
+  // The active sector.
+  csWeakRef<iSector> active_sector;
 
   static csStringID id_region;
   celOneParameterBlock* params;
