@@ -890,6 +890,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_LOGAND:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s && %s\n", A2S (ela), A2S (elb));
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetBool (ArgToBool (ela) && ArgToBool (elb));
+	}
+	break;
+      case CEL_OPERATION_LOGOR:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s || %s\n", A2S (ela), A2S (elb));
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetBool (ArgToBool (ela) || ArgToBool (elb));
+	}
+	break;
       case CEL_OPERATION_NE:
         {
 	  CHECK_STACK

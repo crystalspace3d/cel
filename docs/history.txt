@@ -36,6 +36,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit implemented an optimization in pcproperties so that properties
 	  are found faster using a hash. This helps the XML behaviour layer
 	  considerably.
+	- Jorrit implemented && and || operators in XML behaviour layer.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
