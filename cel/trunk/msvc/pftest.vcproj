@@ -142,6 +142,9 @@ copy &quot;..\plugins\propclass\test\pftest.csplugin&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\test\testfact.h">
 			</File>
 
@@ -157,6 +160,9 @@ copy &quot;..\plugins\propclass\test\pftest.csplugin&quot;  ..
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\test\testfact.cpp">
 			</File>
