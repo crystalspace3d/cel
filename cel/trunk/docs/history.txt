@@ -15,6 +15,8 @@
 	  ref count for the property class.
 	- Enabled persistance again (loading). Still crashes though.
 	- Remove the region in pcregion::Unload().
+	- Fixed another big memory leak in the gravity property class.
+	  It was leaking pcsolid instances.
 14-Nov-2001:
 	- Few changes for debugging using the new graph debug tool in CS.
 13-Nov-2001:
