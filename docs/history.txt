@@ -1,3 +1,5 @@
+27-May-2003
+	- Matze updated jam rules and moved over all improvements made in CS.
 25-May-2003
 	- Jorrit changed pcsolid property class to use GetObjectModel() for
 	  the CD mesh instead of the deprecated SCF_QUERY_INTERFACE.
