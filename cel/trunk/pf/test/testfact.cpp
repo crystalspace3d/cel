@@ -96,7 +96,7 @@ void celPcTest::PcTest::Print (const char* msg)
   CS_ASSERT (scfParent->GetEntity () != NULL);
   iCelBehaviour* ble = scfParent->GetEntity ()->GetBehaviour ();
   CS_ASSERT (ble != NULL);
-  ble->SendMessage ("print");
+  ble->SendMessage ("print", NULL);
 }
 
 //---------------------------------------------------------------------------
