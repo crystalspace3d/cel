@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-Jan-2004
+	- Eric Sunshine fixed bug in cel/Jamfile.  It was incorrectly invoking
+	  InstallApplication rather than InstallShellScript to install
+	  cel.cex.  This caused installation to fail on MacOS/X.
 26-Jan-2004
 	- Eric Sunshine replaced the broken and exceptionally outdated
 	  cs_check_host.m4 with a modern one from the master location at

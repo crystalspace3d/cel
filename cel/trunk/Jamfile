@@ -61,4 +61,4 @@ Depends all : cel-config ;
 InstallShellScript cel-config ;
 
 # deprecated...
-InstallApplication cel.cex ;
+InstallShellScript cel.cex ;
