@@ -73,9 +73,9 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
-  scfiEventHandler = NULL;
+  scfiEventHandler = 0;
   visible = false;
-  text = NULL;
+  text = 0;
   text_r = 0;
   text_g = 0;
   text_b = 0;
@@ -91,7 +91,7 @@ celPcTooltip::~celPcTooltip ()
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != NULL)
+    if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
@@ -127,7 +127,7 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (0); if (!cd) return false; visible = cd->value.bo;
   cd = databuf->GetData (1); if (!cd) return false; x = cd->value.uw;
   cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
-  delete[] text; text = NULL;
+  delete[] text; text = 0;
   cd = databuf->GetData (3); if (!cd) return false;
  text = csStrNew (*cd->value.s);
   cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
@@ -153,7 +153,7 @@ void celPcTooltip::Hide ()
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    CS_ASSERT (q != NULL);
+    CS_ASSERT (q != 0);
     q->RemoveListener (scfiEventHandler);
   }
 }
@@ -169,7 +169,7 @@ void celPcTooltip::Show (int x, int y)
     scfiEventHandler = new EventHandler (this);
   }
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != NULL);
+  CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
@@ -185,13 +185,13 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
 
     G3D->BeginDraw (CSDRAW_2DGRAPHICS);
     iFontServer* fntsvr = G2D->GetFontServer ();
-    CS_ASSERT (fntsvr != NULL);
+    CS_ASSERT (fntsvr != 0);
     csRef<iFont> fnt = fntsvr->GetFont (0);
-    if (fnt == NULL)
+    if (fnt == 0)
     {
       fnt = fntsvr->LoadFont (CSFONT_COURIER);
     }
-    CS_ASSERT (fnt != NULL);
+    CS_ASSERT (fnt != 0);
     //int fw, fh;
     //fnt->GetMaxSize (fw, fh);
     //int sw = G2D->GetWidth ();
@@ -223,10 +223,10 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
-  scfiEventHandler = NULL;
+  scfiEventHandler = 0;
   enabled = false;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  CS_ASSERT (vc != NULL);
+  CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
 }
 
@@ -235,7 +235,7 @@ celPcTimer::~celPcTimer ()
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q != NULL)
+    if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
@@ -279,7 +279,7 @@ void celPcTimer::Clear ()
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    CS_ASSERT (q != NULL);
+    CS_ASSERT (q != 0);
     q->RemoveListener (scfiEventHandler);
   }
 }
@@ -292,7 +292,7 @@ void celPcTimer::WakeUp (csTicks t, bool repeat)
     scfiEventHandler = new EventHandler (this);
   }
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != NULL);
+  CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
@@ -319,8 +319,8 @@ bool celPcTimer::HandleEvent (iEvent& ev)
         Clear ();
       }
       iCelBehaviour* bh = entity->GetBehaviour ();
-      CS_ASSERT (bh != NULL);
-      bh->SendMessage ("pctimer_wakeup", NULL);
+      CS_ASSERT (bh != 0);
+      bh->SendMessage ("pctimer_wakeup", 0);
     }
   }
   return false;
@@ -484,7 +484,7 @@ void celPcProperties::SetProperty (int index, float value)
   p->v.f = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcproperties_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
 }
 
 void celPcProperties::SetProperty (int index, long value)
@@ -496,7 +496,7 @@ void celPcProperties::SetProperty (int index, long value)
   p->v.l = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcproperties_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
 }
 
 void celPcProperties::SetProperty (int index, bool value)
@@ -508,7 +508,7 @@ void celPcProperties::SetProperty (int index, bool value)
   p->v.b = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcproperties_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
 }
 
 void celPcProperties::SetProperty (int index, const char* value)
@@ -520,7 +520,7 @@ void celPcProperties::SetProperty (int index, const char* value)
   p->v.s = csStrNew (value);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcproperties_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
 }
 
 celDataType celPcProperties::GetPropertyType (int index) const
@@ -567,7 +567,7 @@ const char* celPcProperties::GetPropertyString (int index) const
   if (p->type == CEL_DATA_STRING)
     return p->v.s;
   else
-    return NULL;
+    return 0;
 }
 
 void celPcProperties::ClearProperty (int index)
@@ -575,7 +575,7 @@ void celPcProperties::ClearProperty (int index)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcproperties_clearproperty", NULL, index);
+    bh->SendMessage ("pcproperties_clearproperty", 0, index);
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
   properties.Delete (index);

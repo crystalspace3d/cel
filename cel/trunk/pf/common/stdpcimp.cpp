@@ -35,12 +35,11 @@ SCF_IMPLEMENT_IBASE_END
 
 celPcCommon::celPcCommon (iObjectRegistry* object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   celPcCommon::object_reg = object_reg;
   DG_ADDI (this, "celPcCommon()");
-  entity = NULL;
-
-  propcount = NULL;
+  entity = 0;
+  propcount = 0;
 }
 
 celPcCommon::~celPcCommon ()

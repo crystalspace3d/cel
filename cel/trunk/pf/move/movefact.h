@@ -344,7 +344,7 @@ public:
   public:
     EventHandler (celPcGravity* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler () { }

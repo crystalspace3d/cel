@@ -127,7 +127,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* nam
   PyObject *py_entity, *py_object;
 
   py_module = PyImport_ImportModule((char *)name);
-  if (py_module != NULL) 
+  if (py_module != 0) 
   {
     py_dict = PyModule_GetDict (py_module);
     py_func = PyDict_GetItemString (py_dict, (char *)name);
@@ -141,20 +141,20 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity, const char* nam
       if (!py_object)    
       {
         PyRun_SimpleString ("pdb.pm()");
-        return NULL;
+        return 0;
       }
     }
     else    
     {
       printf ("Error: object \"%s\" is not callable'\n", name);
-      return NULL;
+      return 0;
     }
   }
   else
   {
     printf ("Error: failed to load module \"%s\"\n", name);
     PyRun_SimpleString ("pdb.pm()");
-    return NULL;
+    return 0;
   }
 
   celPythonBehaviour* bh = new celPythonBehaviour (this,
@@ -236,10 +236,10 @@ SCF_IMPLEMENT_IBASE(celPythonBehaviour)
   SCF_IMPLEMENTS_INTERFACE(iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celPythonBehaviour::celPythonBehaviour (celBlPython *scripter, PyObject *py_entity,
-  	PyObject *py_object, const char *name)
+celPythonBehaviour::celPythonBehaviour (celBlPython *scripter,
+	PyObject *py_entity, PyObject *py_object, const char *name)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   celPythonBehaviour::scripter = scripter;
   celPythonBehaviour::py_entity = py_entity;
   celPythonBehaviour::py_object = py_object;
@@ -276,7 +276,7 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 
     py_module = PyImport_ImportModule((char *)name);
     py_module = PyImport_ReloadModule(py_module);
-    if (py_module != NULL)
+    if (py_module != 0)
     {
       py_dict = PyModule_GetDict (py_module);
       py_func = PyDict_GetItemString (py_dict, (char *)name);
@@ -288,7 +288,7 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
         if (!py_object)    
         {
           PyRun_SimpleString ("pdb.pm()");
-          return NULL;
+          return 0;
         }
       }
     }
@@ -300,7 +300,8 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
 
   PyObject *method = PyString_FromString (msg_id);
 
-  PyObject *result = PyObject_CallMethodObjArgs (py_object, method, py_entity, pymessage_info, NULL);
+  PyObject *result = PyObject_CallMethodObjArgs (py_object, method,
+  	py_entity, pymessage_info, 0);
 
   if (!result)
     PyRun_SimpleString ("pdb.pm()");

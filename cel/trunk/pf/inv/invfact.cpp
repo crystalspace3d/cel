@@ -150,7 +150,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     constraint* c = NewConstraint (*cd->value.s);
     if (!c)
     {
-      Report (object_reg,"constraint name is NULL for record %d.  Cannot load.",i);
+      Report (object_reg,"constraint name is 0 for record %d.  Cannot load.",i);
       return false;
     }
     cd = databuf->GetData (j++);
@@ -225,11 +225,11 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     pcchar->AddToInventory (&scfiPcInventory);
 
   // First try if everything is ok.
-  MarkDirty (NULL);
-  if (!TestConstraints (NULL))
+  MarkDirty (0);
+  if (!TestConstraints (0))
   {
     // Constraints are not ok. Undo our change.
-    MarkDirty (NULL);
+    MarkDirty (0);
     contents.Delete (idx);
     DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
@@ -267,11 +267,11 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     pcchar->RemoveFromInventory (&scfiPcInventory);
 
   // First try if everything is ok.
-  MarkDirty (NULL);
-  if (!TestConstraints (NULL))
+  MarkDirty (0);
+  if (!TestConstraints (0))
   {
     // Constraints are not ok. Undo our change.
-    MarkDirty (NULL);
+    MarkDirty (0);
     contents.Push (child);
     DG_LINK (this, child->QueryObject ());
     if (pcchar)
@@ -315,7 +315,7 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
     constraint* c = (constraint*)constraints[i];
     if (!strcmp (name, c->charName)) return c;
   }
-  return NULL;
+  return 0;
 }
 
 celPcInventory::constraint* celPcInventory::NewConstraint (const char* name)
@@ -450,7 +450,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     //========
     // This case is for when a characteristic is given.
     //========
-    constraint* c = NULL;
+    constraint* c = 0;
     c = FindConstraint (charName);
     float minValue, maxValue, totalMaxValue;
     bool strict;
@@ -529,7 +529,7 @@ bool celPcInventory::TestConstraints (const char* charName)
 
 void celPcInventory::MarkDirty (const char* name)
 {
-  constraint* c = NULL;
+  constraint* c = 0;
   if (name)
   {
     c = FindConstraint (name);
@@ -695,7 +695,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
     charact* c = (charact*)chars[i];
     if (!strcmp (name, c->name)) return c;
   }
-  return NULL;
+  return 0;
 }
 
 bool celPcCharacteristics::TestConstraints (const char* charName)
@@ -801,7 +801,7 @@ float celPcCharacteristics::GetInheritedCharacteristic (const char* name) const
 bool celPcCharacteristics::HasCharacteristic (const char* name) const
 {
   charact* c = FindCharact (name);
-  return c != NULL;
+  return c != 0;
 }
 
 bool celPcCharacteristics::ClearCharacteristic (const char* name)

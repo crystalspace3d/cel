@@ -115,7 +115,7 @@ public:
   public:
     EventHandler (celPcTooltip* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler () { }
@@ -175,7 +175,7 @@ public:
   public:
     EventHandler (celPcTimer* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler () { }

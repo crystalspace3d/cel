@@ -50,7 +50,7 @@ struct iPcGravity : public iBase
   	const csVector3& offs) = 0;
 
   /**
-   * Get the gravity collider. If this returns NULL we have
+   * Get the gravity collider. If this returns 0 we have
    * no gravity collider.
    */
   virtual iCollider* GetGravityCollider () = 0;

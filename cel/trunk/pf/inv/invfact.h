@@ -178,7 +178,7 @@ private:
     float factor;	// For inherited properties
     float add;		// For inherited properties
 
-    charact () : name (NULL), value (0), factor (0), add (0) { }
+    charact () : name (0), value (0), factor (0), add (0) { }
   };
   
   charact* FindCharact (const char* name) const;

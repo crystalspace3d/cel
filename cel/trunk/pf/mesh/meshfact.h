@@ -138,7 +138,7 @@ class celPcMeshSelect : public celPcCommon
 private:
   csRef<iPcCamera> pccamera;
 
-  // If the following var is non-NULL then we
+  // If the following var is non-0 then we
   // are busy selecting a mesh and are waiting for a mouse up
   // to arrive.
   iCelEntity* sel_entity;
@@ -196,7 +196,7 @@ private:
     iCelEntity* entity;
 
   public:
-    PcMeshSelectData () { SCF_CONSTRUCT_IBASE (NULL); }
+    PcMeshSelectData () { SCF_CONSTRUCT_IBASE (0); }
     virtual ~PcMeshSelectData () { }
 
     void Select (iCelEntity* entity, int mouse_x, int mouse_y,
@@ -368,7 +368,7 @@ public:
   public:
     EventHandler (celPcMeshSelect* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler () { }

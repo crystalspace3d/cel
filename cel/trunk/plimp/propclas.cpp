@@ -30,7 +30,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   celPropertyClassList::parent_entity = parent_entity;
   DG_ADDI (this, "celPCList()");
 }
@@ -67,7 +67,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   if (idx != -1)
   {
     DG_UNLINK (this, obj);
-    obj->SetEntity (NULL);
+    obj->SetEntity (0);
     prop_classes.Delete (idx);
     return true;
   }
@@ -105,7 +105,7 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
       return obj;
     }
   }
-  return NULL;
+  return 0;
 }
 
 iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
@@ -119,6 +119,6 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
     iBase* interf = (iBase*)(obj->QueryInterface (id, version));
     if (interf) return interf;
   }
-  return NULL;
+  return 0;
 }
 

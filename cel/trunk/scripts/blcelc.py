@@ -8729,6 +8729,8 @@ CS_NET_ERR_CANNOT_PARSE_ADDRESS = _blcelc.CS_NET_ERR_CANNOT_PARSE_ADDRESS
 CS_NET_ERR_CANNOT_GET_VERSION = _blcelc.CS_NET_ERR_CANNOT_GET_VERSION
 CS_NET_ERR_WRONG_VERSION = _blcelc.CS_NET_ERR_WRONG_VERSION
 CS_NET_ERR_CANNOT_CLEANUP = _blcelc.CS_NET_ERR_CANNOT_CLEANUP
+CS_NET_ERR_NO_SUCH_OPTION = _blcelc.CS_NET_ERR_NO_SUCH_OPTION
+CS_NET_ERR_CANNOT_SET_OPTION = _blcelc.CS_NET_ERR_CANNOT_SET_OPTION
 class csNetworkDriverCapabilities(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csNetworkDriverCapabilities, name, value)
@@ -8771,6 +8773,7 @@ class iNetworkEndPoint(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iNetworkEndPoint, name)
     def Terminate(*args): return apply(_blcelc.iNetworkEndPoint_Terminate,args)
+    def SetOption(*args): return apply(_blcelc.iNetworkEndPoint_SetOption,args)
     def GetLastError(*args): return apply(_blcelc.iNetworkEndPoint_GetLastError,args)
     def __del__(self, destroy= _blcelc.delete_iNetworkEndPoint):
         try:

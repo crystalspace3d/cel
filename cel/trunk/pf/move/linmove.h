@@ -170,7 +170,7 @@ public:
 
   /**
    * Sets dead reckoning data and moves the entity accordingly
-   * If data is NULL then UpdateDR () is called instead.
+   * If data is 0 then UpdateDR () is called instead.
    */
   bool SetDRData (iDataBuffer* data,bool detectcheat);
   /**
@@ -289,7 +289,7 @@ public:
   public:
     EventHandler (celPcLinearMovement* parent)
     {
-      SCF_CONSTRUCT_IBASE (NULL);
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
 

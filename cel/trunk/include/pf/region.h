@@ -73,25 +73,25 @@ struct iPcRegion : public iBase
 
   /**
    * Get start sector. The given name is the name
-   * of the starting position to use. If NULL is
+   * of the starting position to use. If 0 is
    * given then the default position will be used.
    */
-  virtual iSector* GetStartSector (const char* name = NULL) = 0;
+  virtual iSector* GetStartSector (const char* name = 0) = 0;
 
   /**
    * Get start position. The given name is the name
-   * of the starting position to use. If NULL is
+   * of the starting position to use. If 0 is
    * given then the default position will be used.
    */
-  virtual csVector3 GetStartPosition (const char* name = NULL) = 0;
+  virtual csVector3 GetStartPosition (const char* name = 0) = 0;
 
   /**
    * Update the given pccamera so that it points to the
    * starting position in this region. The given name is
-   * the name of the starting position to use. If NULL
+   * the name of the starting position to use. If 0
    * is given then the default position will be used.
    */
-  virtual void PointCamera (iPcCamera* pccamera, const char* name = NULL) = 0;
+  virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
 };
 
 #endif // __CEL_PF_REGION__

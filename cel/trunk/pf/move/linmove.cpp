@@ -147,10 +147,10 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angularVelocity.x = angularVelocity.y = angularVelocity.z  = 0;
   camera_pitchspeed = 0;
 
-  topCollider = NULL;
-  bottomCollider = NULL;
+  topCollider = 0;
+  bottomCollider = 0;
 
-  pcmesh = NULL;
+  pcmesh = 0;
 
   DG_TYPE (this, "celPcLinearMovement ()");
 
@@ -172,7 +172,7 @@ celPcLinearMovement::~celPcLinearMovement ()
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    if (q != NULL)
+    if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
@@ -1254,7 +1254,7 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
   if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
     sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
   else
-    sector = NULL;
+    sector = 0;
 }
 
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,

@@ -102,7 +102,7 @@ struct iCelPlLayer : public iBase
 
   /**
    * Given a position on screen find the nearest entity to the camera.
-   * Returns NULL if no entity found. This function depends on the
+   * Returns 0 if no entity found. This function depends on the
    * attached entities.
    */
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y) = 0;
@@ -213,7 +213,7 @@ struct iCelPlLayer : public iBase
   virtual csStringID FetchStringID (const char* str) = 0;
 
   /**
-   * Find the string that corresponds with some ID. Returns NULL
+   * Find the string that corresponds with some ID. Returns 0
    * if there is no such string.
    */
   virtual const char* FetchString (csStringID id) = 0;

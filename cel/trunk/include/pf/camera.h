@@ -49,7 +49,7 @@ struct iPcCamera : public iBase
    * Set Camera to a Region
    */
   virtual bool SetRegion (iPcRegion* region, bool point = true,
-      const char* name = NULL) = 0;
+      const char* name = 0) = 0;
 
   /**
    * Set camera mode.

@@ -29,10 +29,10 @@ SCF_IMPLEMENT_IBASE_END
 
 celMessage::celMessage (const char* msg_string, va_list /*arg*/)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   celMessage::msg_string = csStrNew (msg_string);
   num_parms = 0;
-  parm_strings = NULL;
+  parm_strings = 0;
 }
 
 celMessage::~celMessage ()

@@ -48,7 +48,7 @@ struct iPcSolid : public iBase
 
   /**
    * Get (and create if needed) the collider for this
-   * mesh. If this returns NULL it means that the mesh
+   * mesh. If this returns 0 it means that the mesh
    * object on which this property class is being used does
    * not support collision detection.
    */

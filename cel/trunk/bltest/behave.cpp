@@ -43,10 +43,10 @@ SCF_IMPLEMENT_IBASE_END
 celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
 	iObjectRegistry* object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_IBASE (0);
   celBehaviourGeneral::entity = entity;
   celBehaviourGeneral::object_reg = object_reg;
-  name = NULL;
+  name = 0;
 }
 
 celBehaviourGeneral::~celBehaviourGeneral ()
@@ -93,7 +93,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
   if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
   int x, y, but;
-  iCelEntity* ent = NULL;
+  iCelEntity* ent = 0;
   if (dat)
   {
     ent = dat->GetEntity ();
@@ -161,13 +161,13 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
   csRef<iPcMeshSelectData> dat;
   if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
     	iPcMeshSelectData);
-  iCelEntity* ent = NULL;
+  iCelEntity* ent = 0;
   if (dat) ent = dat->GetEntity ();
   if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {
     csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcMesh));
-    CS_ASSERT (pcmesh != NULL);
+    CS_ASSERT (pcmesh != 0);
     const char* curact = pcmesh->GetAction ();
     if (!strcmp (curact, "open"))
       pcmesh->SetAction ("closed");
@@ -177,7 +177,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
       // If the box is opened we remove everything from it.
       csRef<iPcTimer> pctimer (CEL_QUERY_PROPCLASS (
 		entity->GetPropertyClassList (), iPcTimer));
-      CS_ASSERT (pctimer != NULL);
+      CS_ASSERT (pctimer != 0);
       pctimer->WakeUp (200, false);
     }
   }
@@ -185,14 +185,14 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
   {
     csRef<iPcTimer> pctimer (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcTimer));
-    CS_ASSERT (pctimer != NULL);
+    CS_ASSERT (pctimer != 0);
     csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcMesh));
-    CS_ASSERT (pcmesh != NULL);
+    CS_ASSERT (pcmesh != 0);
     // Remove one entity from the box.
     csRef<iPcInventory> pcinv (CEL_QUERY_PROPCLASS (
 		entity->GetPropertyClassList (), iPcInventory));
-    CS_ASSERT (pcinv != NULL);
+    CS_ASSERT (pcinv != 0);
     if (pcinv->GetEntityCount () > 0)
     {
       iCelEntity* inv_ent = pcinv->GetEntity (0);

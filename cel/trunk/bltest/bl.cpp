@@ -61,7 +61,7 @@ bool celBlTest::Initialize (iObjectRegistry* object_reg)
 
 iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
 {
-  celBehaviourGeneral* ent = NULL;
+  celBehaviourGeneral* ent = 0;
   if (!strcmp (name, "printer"))
     ent = new celBehaviourPrinter (entity, object_reg);
   else if (!strcmp (name, "room"))
