@@ -91,7 +91,6 @@ bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
   {
-    h->ResolveParameters (entity);
     h->Execute (entity, this);
   }
   return h != 0;

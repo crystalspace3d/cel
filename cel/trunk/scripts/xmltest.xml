@@ -51,54 +51,53 @@
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <script name="box">
 	    <event name="init">
-	        <property propclass="pcgravity" name="pcgravity.weight"
-			float="1" />
-	        <action propclass="pcgravity"
-			name="pcgravity.ApplyPermanentForce"
-			params="0,-9.8,0" />
+	        <property propclass="pc(pcgravity)"
+			id="propid(pcgravity.weight)" value="1.0" />
+	        <action propclass="pc(pcgravity)"
+			id="propid(pcgravity.ApplyPermanentForce)"
+			params="'0,-9.8,0'" />
 	    </event>
 	    <event name="pctimer_start">
 	    </event>
 	</script>
         <script name="bb1">
 	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb_wood" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="wood" />
-	        <property propclass="pcbillboard" name="pcbillboard.clickable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.name)" value="bb_wood" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.materialname)" value="wood" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.clickable)" value="true" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.restack)" value="true" />
 	    </event>
 	    <event name="pcbillboard_select">
 	    </event>
 	</script>
         <script name="bb2">
 	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb_abstract" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="abstract" />
-	        <property propclass="pcbillboard" name="pcbillboard.movable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.name)" value="bb_abstract" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.materialname)"
+			value="abstract" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.movable)" value="true" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.restack)" value="true" />
 	    </event>
 	</script>
         <script name="bb3">
 	    <event name="init">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb_abstract_2" />
-	        <property propclass="pcbillboard"
-			name="pcbillboard.materialname"
-			string="abstract" />
-	        <property propclass="pcbillboard" name="pcbillboard.movable"
-			bool="1" />
-	        <property propclass="pcbillboard" name="pcbillboard.restack"
-			bool="1" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.name)" value="bb_abstract_2" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.materialname)"
+			value="abstract" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.movable)" value="true" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.restack)" value="true" />
 	    </event>
 	</script>
 
@@ -112,22 +111,22 @@
 	    <event name="makesmall">
 	        <var name="normal" value="false" />
 		<print value="makesmall" />
-	        <getproperty var="w" propclass="pcbillboard"
-			name="pcbillboard.width" />
-	        <getproperty var="h" propclass="pcbillboard"
-			name="pcbillboard.height" />
-	        <property propclass="pcbillboard" name="pcbillboard.width"
-			long="30000" />
-	        <property propclass="pcbillboard" name="pcbillboard.height"
-			long="30000" />
+		<var name="w"
+			value="property(pc(pcbillboard),propid(pcbillboard.width))" />
+		<var name="h"
+			value="property(pc(pcbillboard),propid(pcbillboard.height))" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.width)" value="30000" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.height)" value="30000" />
 	    </event>
 	    <event name="makelarge">
 	        <var name="normal" value="true" />
 		<print value="makelarge" />
-	        <property propclass="pcbillboard" name="pcbillboard.width"
-			var="w" />
-	        <property propclass="pcbillboard" name="pcbillboard.height"
-			var="h" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.width)" value="?w" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.height)" value="?h" />
 	    </event>
 	    <event name="pcbillboard_select">
 	        <if eval="?normal" true="makesmall" false="makelarge" />
@@ -140,18 +139,22 @@
 	        <var name="three" value="3.0" />
 		<print value="(3+4*1)+rgb(3,3,3)" />
 		<print value="[1,2,3]/?('thre'+'e')" />
+		<print value="id(cel.properties.pcbillboard.width)" />
+		<print value="id(cel.properties.pcbillboard.height)" />
+		<print value="propid(pcbillboard.width)" />
+		<print value="1+2*3/2+4-1*10*(1+1+1)" />
 	    </event>
 	    <event name="findpc">
 	    	<var name="collidetest" value="pc(table_coffee, pcbillboard)" />
 	        <var name="isinit" value="true" />
 	    </event>
 	    <event name="collide">
-	        <property propclass="pcbillboard" name="pcbillboard.color"
-			color="0,0,1" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.color)" value="rgb(0,0,1)" />
 	    </event>
 	    <event name="nocollide">
-	        <property propclass="pcbillboard" name="pcbillboard.color"
-			color="1,1,1" />
+	        <property propclass="pc(pcbillboard)"
+			id="propid(pcbillboard.color)" value="rgb(1,1,1)" />
 	    </event>
 	    <event name="pcbillboard_move">
 	        <if eval="?isinit" false="findpc" />
