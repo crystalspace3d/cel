@@ -3,6 +3,23 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+20-Dec-2003
+	- Jorrit fixed three bugs which prevented a script from deleting
+	  its own entity:
+	        - First while a script is executing we will now keep an
+		  additional reference to the entity to prevent deletion
+		  until the script has finished.
+		- In case a billboard is firing mouse messages we will
+		  set a flag to prevent deletion of that billboard. If
+		  the billboard has to be deleted then that flag is tested
+		  and if true we set another flag so that the billboard
+		  can delete itself later.
+		- In pcbillboard we now remove the event handler on the
+		  billboard before deleting that event handler. This is
+		  now needed since the billboard can actually remain
+		  in memory a little longer because of the previous fix
+		  and then deleting the event handler without first
+		  removing it would cause bad effects.
 19-Dec-2003
 	- Jorrit worked a little on xmlgames. Added a new maze game.
 	  Unfinished.

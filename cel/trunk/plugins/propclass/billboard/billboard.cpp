@@ -219,6 +219,8 @@ celPcBillboard::~celPcBillboard ()
 {
   if (billboard_mgr && billboard)
   {
+    if (scfiBillboardEventHandler)
+      billboard->RemoveEventHandler (scfiBillboardEventHandler);
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;

@@ -45,8 +45,6 @@ celEntity::celEntity (celPlLayer* pl)
 
 celEntity::~celEntity ()
 {
-  //if (pl)
-    //pl->RemoveEntity(this);
   delete plist;
 }
 
