@@ -66,11 +66,10 @@ private:
   iPcCamera::CameraMode cammode;
   iPcRegion* region;
 
-  csVector3 original_pos;
-  float angle_xz, angle_yz, _xz, _yz;
-  bool _button2;
-  int base_x, base_y;
-
+  float angle_xz, angle_yz, _xz, _yz, dist_y, _dist;
+  bool alter_angle, alter_dist;
+  int base_x, base_y, base_y_d;
+	
   void SetupEventHandler ();
 
 public:
