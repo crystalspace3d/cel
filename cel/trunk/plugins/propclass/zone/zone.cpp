@@ -90,6 +90,15 @@ SCF_IMPLEMENT_IBASE (cameraSectorListener)
   SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
 SCF_IMPLEMENT_IBASE_END
 
+void meshmoveListener::MovableChanged (iMovable* movable)
+{
+  zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
+}
+
+SCF_IMPLEMENT_IBASE (meshmoveListener)
+  SCF_IMPLEMENTS_INTERFACE (iMovableListener)
+SCF_IMPLEMENT_IBASE_END
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celMapFile)
@@ -502,10 +511,8 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
 
 bool celPcZoneManager::ActivateSector (iSector* sector)
 {
-  // If we have a mesh we take the sector from the mesh instead
-  // of the camera. That's more stable.
-  if (pcmesh) sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()
-  	->Get (0);
+  if (active_sector == sector) return true;	// Nothing to do.
+  active_sector = sector;
   size_t i;
   for (i = 0 ; i < regions.Length () ; i++)
   {
@@ -524,7 +531,10 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
     celPcZoneManager::pccamera->GetCamera ()
     	->RemoveCameraSectorListener (camlistener);
   celPcZoneManager::pccamera = pccamera;
-  pccamera->GetCamera ()->AddCameraSectorListener (camlistener);
+  // If there is a pcmesh then we use the mesh movable listener instead of
+  // the camera listener.
+  if (!pcmesh)
+    pccamera->GetCamera ()->AddCameraSectorListener (camlistener);
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
@@ -576,7 +586,17 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
 int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
   	const char* startname)
 {
+  if (!meshlistener)
+    meshlistener.AttachNew (new meshmoveListener (this));
+  if (celPcZoneManager::pcmesh)
+    celPcZoneManager::pcmesh->GetMesh ()->GetMovable ()->RemoveListener (meshlistener);
   celPcZoneManager::pcmesh = pcmesh;
+  pcmesh->GetMesh ()->GetMovable ()->AddListener (meshlistener);
+  // If there is a pcmesh then we use the mesh movable listener instead of
+  // the camera listener.
+  if (celPcZoneManager::pccamera && camlistener)
+    celPcZoneManager::pccamera->GetCamera ()
+    	->RemoveCameraSectorListener (camlistener);
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;

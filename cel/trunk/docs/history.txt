@@ -54,6 +54,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed the bug with too much region loading by letting the
 	  pczonemanager look at the location of the mesh (if there is one)
 	  instead of the camera.
+	- Jorrit made the zone manager follow the mesh more closely (by
+	  subscribing to the mesh movable as a listener) in case
+	  iPcZoneManager->PointMesh() is used. If PointMesh() is not used then
+	  the camera will be followed. This fixes a bug where you could go
+	  through a portal and then back a bit and CEL would not know what
+	  the current region was.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
