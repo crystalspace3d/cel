@@ -116,7 +116,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
       pcmesh->Show ();
       pl->DecRef ();
       pccamera->DecRef ();
-      if (drop_ent && !strcmp (drop_ent->GetName (), "box"))
+      if (drop_ent && !strncmp (drop_ent->GetName (), "box", 3))
       {
         iPcInventory* pcinv = CEL_QUERY_PROPCLASS (
 		drop_ent->GetPropertyClassList (), iPcInventory);

@@ -27,8 +27,15 @@
 	  Similar for property classes: PCL0, PCLI, and PCLR.
 	- Fixed a bad bug in inventory saving.
 	- The three fixes bug make sure that at least saving doesn't crash
-	  anymore. However there is still too many information saved as
+	  anymore. However there is still too much information saved as
 	  duplicate entities/property classes are not detected.
+	- The current implementation of CEL/persistance assumes that
+	  all entities have a unique name. I have to think more about this
+	  issue (like having a unique name generation utility or something)
+	  but in the mean time I fixed celtest so that the boxes have
+	  a distinct name and also fixed bltest so that it only looks at the
+	  first three letters of the name to see if an entity is a box (here
+	  again we need a different way to detect this, maybe object classes?).
 11-Nov-2001:
 	- Even though persistance is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data

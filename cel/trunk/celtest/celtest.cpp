@@ -397,7 +397,7 @@ bool CelTest::CreateRoom ()
   if (!pcinv_room->AddEntity (entity_box)) return false;
   entity_box->DecRef ();
 
-  entity_box = CreateBoxEntity ("box", "smallbox", .3, 50,
+  entity_box = CreateBoxEntity ("box_small", "smallbox", .3, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
   if (!entity_box) return false;
