@@ -34,6 +34,13 @@
 #define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
   CEL_QUERY_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
 
+#define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \
+  ((PcList)->RemoveByInterface (scfInterface<Interface>::GetID(),           \
+				scfInterface<Interface>::GetVersion()))
+
+#define CEL_REMOVE_PROPCLASS_ENT(Ent, Interface)                            \
+  CEL_REMOVE_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
+
 class csVector3;
 class csColor;
 struct iCelEntity;
@@ -293,6 +300,11 @@ struct iCelPropertyClassList : public iBase
    * Remove the nth property class.
    */
   virtual bool Remove (size_t n) = 0;
+
+  /**
+   * Remove the property class with given interface
+   */
+  virtual bool RemoveByInterface(scfInterfaceID scf_id, int iVersion) = 0;
 
   /**
    * Remove all property classes.

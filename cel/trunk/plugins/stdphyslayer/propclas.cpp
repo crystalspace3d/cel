@@ -79,6 +79,24 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   else return false;
 }
 
+bool celPropertyClassList::RemoveByInterface (scfInterfaceID scf_id, int ver)
+{
+  bool res = false;
+
+  for (size_t i = 0; i < prop_classes.Length (); i++)
+  {
+    if (!prop_classes[i]->QueryInterface(scf_id, ver))
+      continue;
+
+    Remove(i);
+    res = true;
+    // We continue, because some weird devs may want to add more than one
+    // propclass of the same type.
+  }
+
+  return res;
+}
+
 bool celPropertyClassList::Remove (size_t n)
 {
   CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());

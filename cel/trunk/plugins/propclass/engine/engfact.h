@@ -688,6 +688,9 @@ public:
   void SetClearScreen (bool flag) { clear_screen = flag; }
   bool GetClearScreen () const { return clear_screen; }
 
+  void SetAutoDraw (bool auto_draw);
+  void Draw ();
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccamera"; }
@@ -885,6 +888,14 @@ public:
     virtual float GetAdaptiveMinDistance () const
     {
       return scfParent->GetAdaptiveMinDistance ();
+    }
+    virtual void SetAutoDraw (bool auto_draw)
+    {
+      scfParent->SetAutoDraw (auto_draw);
+    }
+    virtual void Draw ()
+    {
+      scfParent->Draw ();
     }
   } scfiPcCamera;
 };
