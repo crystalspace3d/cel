@@ -479,9 +479,9 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     }
     else
     {
-      minValue = -10000000000.;
-      maxValue = 10000000000.;
-      totalMaxValue = 100000000000.;
+      minValue = -10000000000.0f;
+      maxValue = 10000000000.0f;
+      totalMaxValue = 100000000000.0f;
       strict = false;
     }
     float curValue = 0;

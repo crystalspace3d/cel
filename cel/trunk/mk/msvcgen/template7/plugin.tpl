@@ -22,7 +22,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include;..\"
 				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
-				AdditionalOptions="%cflags%"
+				AdditionalOptions="%debugcflags%"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -38,8 +38,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="%lflags%"
-				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
+				AdditionalOptions="%debuglflags%"
+				AdditionalDependencies="%debuglibs%"
 				OutputFile=".\debug\temp\%project%/%target%"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -102,7 +102,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="%lflags%"
-				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				AdditionalDependencies="%libs%"
 				OutputFile=".\release\temp\%project%/%target%"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"

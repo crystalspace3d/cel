@@ -3,5 +3,6 @@ SubDir TOP plugins propclass engine ;
 Plugin pfengine
 	: engfact.cpp engfact.h
 ;
+ExternalLibs pfengine : CRYSTAL ;
 LinkWith pfengine : celtool ;
 

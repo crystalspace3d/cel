@@ -3,4 +3,4 @@ SubDir TOP plugins behaviourlayer test ;
 Plugin bltest
 	: behave.cpp bl.cpp behave.h bl.h
 ;
-
+ExternalLibs bltest : CRYSTAL ;

@@ -207,7 +207,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 	inv_ent_mesh->Show ();
 	inv_ent_mesh->MoveMesh (pcmesh->GetMesh ()->GetMovable ()->
 	      	GetSectors ()->Get (0), pcmesh->GetMesh ()->GetMovable ()->
-		GetTransform ().GetOrigin ()+csVector3 (0, 1.3, 0));
+		GetTransform ().GetOrigin ()+csVector3 (0, 1.3f, 0));
 	if (inv_ent_gravity)
 	{
 	  inv_ent_gravity->ResetSpeed ();

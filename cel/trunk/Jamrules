@@ -22,10 +22,6 @@ COMPILER.CFLAGS.optimize += -O3 ;
 COMPILER.CFLAGS.profile += -g3 -pg ;
 COMPILER.LFLAGS.profile += -g3 -pg ;
 
-# we use crystal space everywhere
-C++FLAGS += "$(CRYSTAL.CFLAGS)" ;
-LINKLIBS += "$(CRYSTAL.LFLAGS)" ;
-
 # we don't link statically
 #NO_STATIC_LINKING = yes ;
 

@@ -41,9 +41,9 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\%project%"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "..\.." /D "NDEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" %cflags% /FD /c
+# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "..\.." /I "..\" /D "NDEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" %cflags% /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG" 
-# ADD RSC /l 0x409 /d "NDEBUG" /i "c:\CS\include"
+# ADD RSC /l 0x409 /d "NDEBUG" 
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -68,9 +68,9 @@ PostBuild_Cmds=echo File is a lib, Copy skipped.
 # PROP Intermediate_Dir "debug\temp\%project%"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GX /G5 /ZI /Od /I "..\.." /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD %cflags% /c
+# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GX /G5 /ZI /Od /I "..\.." /I "..\" /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD %debugcflags% /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /i "c:\CS\include"
+# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" 
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo

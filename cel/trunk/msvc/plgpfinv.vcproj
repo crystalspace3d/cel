@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
-				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				OutputFile=".\debug\temp\plgpfinv/pfinv.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -102,7 +102,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
-				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				AdditionalDependencies="libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				OutputFile=".\release\temp\plgpfinv/pfinv.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
