@@ -208,9 +208,7 @@ struct iPcRegion : public iBase
 };
 
 %{
-iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, const char *name) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char *name) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, "pcregion"));
   if(!pc.IsValid()) return 0;
   csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
@@ -219,7 +217,7 @@ iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, cons
   return pcregion;
 }
 %}
-iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, const char *name);
+iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char *name);
 
 %{
 iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) { 
@@ -260,9 +258,7 @@ struct iPcCamera : public iBase
 };
 
 %{
-iPcCamera *celCreateCamera(iObjectRegistry *object_reg, iCelEntity *world, iCelEntity *entity, const char *name) {
-  csRef<iCelPlLayer> pl(CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-  if(!pl.IsValid()) return 0;
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *world, iCelEntity *entity, const char *name) {
   csRef<iCelPropertyClass> pc(pl->CreatePropertyClass(entity, name));
   if(!pc.IsValid()) return 0;
   csRef<iPcCamera> pccam(SCF_QUERY_INTERFACE(pc, iPcCamera));
@@ -276,7 +272,7 @@ iPcCamera *celCreateCamera(iObjectRegistry *object_reg, iCelEntity *world, iCelE
   }
 }
 %}
-iPcCamera *celCreateCamera(iObjectRegistry *object_reg, iCelEntity *world, iCelEntity *entity, const char *name);
+iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *world, iCelEntity *entity, const char *name);
 
 %{
 iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc) {
