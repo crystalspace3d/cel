@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/util.h"
 #include "iutil/objreg.h"
 #include "celtool/stdpcimp.h"
 #include "physicallayer/pl.h"
@@ -39,12 +40,20 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
   entity = 0;
   propcount = 0;
   propclasses_dirty = true;
+  tag = 0;
 
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 }
 
 celPcCommon::~celPcCommon ()
 {
+  delete[] tag;
+}
+
+void celPcCommon::SetTag (const char* tagname)
+{
+  delete[] tag;
+  tag = csStrNew (tagname);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)

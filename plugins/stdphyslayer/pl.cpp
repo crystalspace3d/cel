@@ -331,6 +331,25 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
   return pc;
 }
 
+iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
+	const char *propname, const char* tagname)
+{
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
+  if (!pf)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
+    return 0;
+  }
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
+  if (!pc)
+    return 0;
+  pc->SetTag (tagname);
+  entity->GetPropertyClassList()->Add (pc);
+  return pc;
+}
+
 csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
 {
   va_list arg;

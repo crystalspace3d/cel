@@ -372,6 +372,9 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  }
 	  if (!ParseProperties (pc, child))
 	    return 0;
+	  const char* tag = child->GetAttributeValue ("tag");
+	  if (tag)
+	    pc->SetTag (tag);
 	}
         break;
       default:

@@ -213,6 +213,14 @@ struct iCelPlLayer : public iBase
   virtual iCelPropertyClass* CreatePropertyClass
       (iCelEntity* entity, const char* propname) = 0;
 
+  /**
+   * Conveniance function to create a property class with a tag from a
+   * registered class factory.
+   * Note that the reference count of the returned class is not turned up.
+   */
+  virtual iCelPropertyClass* CreateTaggedPropertyClass
+      (iCelEntity* entity, const char* propname, const char* tagname) = 0;
+
   //-------------------------------------------------------------------------
 
   /**

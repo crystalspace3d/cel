@@ -26,20 +26,71 @@
 #include "csutil/ref.h"
 #include "physicallayer/datatype.h"
 
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
   csPtr<Interface> (							    \
   (Interface*)((PcList)->FindByInterface (scfInterface<Interface>::GetID(), \
      scfInterface<Interface>::GetVersion())))
 
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+#define CEL_QUERY_PROPCLASS_TAG(PcList,Interface,Tag)			    \
+  csPtr<Interface> (							    \
+  (Interface*)((PcList)->FindByInterfaceAndTag (			    \
+  	scfInterface<Interface>::GetID(),				    \
+        scfInterface<Interface>::GetVersion(), Tag)))
+
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
 #define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
   CEL_QUERY_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
 
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+#define CEL_QUERY_PROPCLASS_TAG_ENT(Ent,Interface,Tag)			    \
+  CEL_QUERY_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
+
+/**
+ * Remove all property classes with given interface (ignores tag).
+ */
 #define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \
   ((PcList)->RemoveByInterface (scfInterface<Interface>::GetID(),           \
 				scfInterface<Interface>::GetVersion()))
 
+/**
+ * Remove all property classes with given interface and with the given tag.
+ * 'tag' can be 0. In that case it will remove property classes with no tag.
+ */
+#define CEL_REMOVE_PROPCLASS_TAG(PcList,Interface,Tag)                      \
+  ((PcList)->RemoveByInterfaceAndTag (					    \
+        scfInterface<Interface>::GetID(),          			    \
+	scfInterface<Interface>::GetVersion(), Tag))
+
+/**
+ * Remove all property classes with given interface (ignores tag).
+ */
 #define CEL_REMOVE_PROPCLASS_ENT(Ent, Interface)                            \
   CEL_REMOVE_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
+
+/**
+ * Remove all property classes with given interface and with the given tag.
+ * 'tag' can be 0. In that case it will remove property classes with no tag.
+ */
+#define CEL_REMOVE_PROPCLASS_TAG_ENT(Ent,Interface,Tag)                     \
+  CEL_REMOVE_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
 
 class csVector3;
 class csColor;
@@ -60,6 +111,20 @@ struct iCelPropertyClass : public iBase
    * Get the name of this property class.
    */
   virtual const char* GetName () const = 0;
+
+  /**
+   * Set the optional tag of this property class. Multiple property
+   * classes of the same type (same name) can be attached to the same
+   * entity. To do that you need to add a tag so that you can uniquely
+   * identify them.
+   */
+  virtual void SetTag (const char* tagname) = 0;
+
+  /**
+   * Get the tag of this property class or return 0 if there is no
+   * tag.
+   */
+  virtual const char* GetTag () const = 0;
 
   /**
    * Get the parent entity associated with this property class.
@@ -302,9 +367,16 @@ struct iCelPropertyClassList : public iBase
   virtual bool Remove (size_t n) = 0;
 
   /**
-   * Remove the property class with given interface
+   * Remove all property classes with given interface (ignores tag).
    */
-  virtual bool RemoveByInterface(scfInterfaceID scf_id, int iVersion) = 0;
+  virtual bool RemoveByInterface (scfInterfaceID scf_id, int iVersion) = 0;
+
+  /**
+   * Remove all property classes with given interface and with the given tag.
+   * 'tag' can be 0. In that case it will remove property classes with no tag.
+   */
+  virtual bool RemoveByInterfaceAndTag (scfInterfaceID scf_id,
+  	int iVersion, const char* tag) = 0;
 
   /**
    * Remove all property classes.
@@ -317,16 +389,36 @@ struct iCelPropertyClassList : public iBase
   virtual size_t Find (iCelPropertyClass* obj) const = 0;
 
   /**
-   * Find a property class by name.
+   * Find a property class by name. This function will first try to find
+   * a property class with the given name that has tag not set (0). If such
+   * a property class is not found it will return a random one with the
+   * given name.
    */
-  virtual iCelPropertyClass* FindByName (const char *Name) const = 0;
+  virtual iCelPropertyClass* FindByName (const char *name) const = 0;
+
+  /**
+   * Find a property class by name and tag. If tag is 0 then it will
+   * find the default property class.
+   */
+  virtual iCelPropertyClass* FindByNameAndTag (const char *name,
+  	const char* tag) const = 0;
 
   /**
    * Find a property class by SCF interface. Return that interface
-   * with ref-count incremented with one.
+   * with ref-count incremented with one. This function will first try
+   * to find a property class that implements the interface but has tag
+   * not set (0). If such a property class cannot be found then it will
+   * return a random one that implements the given interface.
    */
   virtual iBase* FindByInterface (
   	scfInterfaceID id, int version) const = 0;
+
+  /**
+   * Find a property class by SCF interface and tag. If tag is 0 then
+   * it will find the default property class.
+   */
+  virtual iBase* FindByInterfaceAndTag (
+  	scfInterfaceID id, int version, const char* tag) const = 0;
 };
 
 #endif // __CEL_PL_PROPCLASS__
