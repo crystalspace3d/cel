@@ -49,6 +49,8 @@ CS_ID NumReg::Register (void* obj)
   if (freelistend>0)
   {
     freelistend--;
+    CS_ASSERT (freelistend < freelistsize);
+    CS_ASSERT (freelist[freelistend] < listsize);
     list[freelist[freelistend]] = obj;
     return freelist[freelistend];
   }
@@ -59,18 +61,22 @@ CS_ID NumReg::Register (void* obj)
     if (list[i]==NULL)
     {
       freelistend++;
+      CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
     }
   }
   if (freelistend>0)
   {
     freelistend--;
+    CS_ASSERT (freelistend < freelistsize);
+    CS_ASSERT (freelist[freelistend] < listsize);
     list[freelist[freelistend]] = obj;
     return freelist[freelistend];
   }
 
   // 3. extend list and append
-  if (listsize<limit) {
+  if (listsize<limit)
+  {
     CS_ID newsize;
     if (listsize>=limit-ADDSIZE)
       newsize=limit;
@@ -90,6 +96,7 @@ CS_ID NumReg::Register (void* obj)
     for (CS_ID i=listsize;i<newsize && freelistend<freelistsize-1;i++)
     {
       freelistend++;	
+      CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
     }
     listsize = newsize;
@@ -98,6 +105,8 @@ CS_ID NumReg::Register (void* obj)
   if (freelistend>0)
   {
     freelistend--;
+    CS_ASSERT (freelistend < freelistsize);
+    CS_ASSERT (freelist[freelistend] < listsize);
     list[freelist[freelistend]] = obj;
     return freelist[freelistend];
   }
@@ -114,6 +123,7 @@ bool NumReg::Remove (CS_ID num)
   if (freelistend<freelistsize)
   {
     freelistend++;  
+    CS_ASSERT (freelistend < freelistsize);
     freelist[freelistend]=num;
   }
   list[num]=NULL;
@@ -126,6 +136,8 @@ bool NumReg::Remove (void* obj)
   CS_ASSERT(obj != NULL);
   
   CS_ID i;
+  // @@@ Note to MatzeB: start a loop over a
+  // C++ array with 1 instead of 0? That looks weird.
   for (i=1;i<listsize;i++)
   {
     if (list[i] == obj)

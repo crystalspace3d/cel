@@ -1,7 +1,8 @@
 27-Feb-2002:
-	- fixed a wrong return
-	- removed the persistance Set(int) function	
-	- Fixed thy python behaviour layer
+	- Matze fixed a wrong return.
+	- Matze removed the persistance Set(int) function.
+	- Fixed the python behaviour layer.
+	- Added some sanity checks to NumReg code using CS_ASSERT.
 26-Feb-2002:
 	- improved followmode. It now accepts 2 relative positions:
 	    -the position of the camera relative to the mesh
