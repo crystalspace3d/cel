@@ -31,7 +31,7 @@
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				PrecompiledHeaderFile="..\out\release\build\plgpfmove\plgpfmove.pch"
 				AssemblerListingLocation="..\out\release\build\plgpfmove\"
 				ObjectFile="..\out\release\build\plgpfmove\"
@@ -53,7 +53,7 @@
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;out\release\libs;libs;libs\csutil\win32;..\..\..\CS\out\debug\libs;out\debug\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32;..\..\..\CS\out\debug\libs;$(CRYSTAL)\out\debug\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\release\build\plgpfmove\plgpfmove.pdb"
 				TargetMachine="1"/>
@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,7 +102,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				PrecompiledHeaderFile="..\out\debug\build\plgpfmove\plgpfmove.pch"
 				AssemblerListingLocation="..\out\debug\build\plgpfmove\"
 				ObjectFile="..\out\debug\build\plgpfmove\"
@@ -124,7 +124,7 @@
 				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;out\release\libs;libs;libs\csutil\win32;..\..\..\CS\out\debug\libs;out\debug\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32;..\..\..\CS\out\debug\libs;$(CRYSTAL)\out\debug\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				ProgramDatabaseFile="..\out\debug\build\plgpfmove\plgpfmove.pdb"
 				TargetMachine="1"/>
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;include;include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

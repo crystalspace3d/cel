@@ -26,6 +26,7 @@ MsvcGenSubDir TOP msvc : 7 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 MsvcGenWorkspace cel ;
 
+local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
 MsvcGenConfig CRYSTAL.LIBS : 
   "libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib" ;
