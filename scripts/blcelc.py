@@ -2135,6 +2135,8 @@ class csBox3(_object):
     def Set(*args): return _blcelc.csBox3_Set(*args)
     def SetMin(*args): return _blcelc.csBox3_SetMin(*args)
     def SetMax(*args): return _blcelc.csBox3_SetMax(*args)
+    def Split(*args): return _blcelc.csBox3_Split(*args)
+    def TestSplit(*args): return _blcelc.csBox3_TestSplit(*args)
     def AdjacentX(*args): return _blcelc.csBox3_AdjacentX(*args)
     def AdjacentY(*args): return _blcelc.csBox3_AdjacentY(*args)
     def AdjacentZ(*args): return _blcelc.csBox3_AdjacentZ(*args)
