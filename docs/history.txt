@@ -10,7 +10,7 @@ The history order is reversed so that new features are at the top.
 	  there is no distinction between physics engine estimated velocity
 	  and user controlled velocity at the moment.
 	- Andrew Dai improved angular delta calculation in cases where
-	  angularVelocity == 0 or vel == 0
+	  angularVelocity == 0 or vel == 0 and added SetAngularDeltaLimit()
 19-Sep-2004
 	- Eric Sunshine updated msvcgen templates from master copies in CS
 	  respository.

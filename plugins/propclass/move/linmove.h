@@ -109,6 +109,9 @@ protected:
 
   csTicks lastDRUpdate;
   float deltaLimit;
+
+  // Needed for good rotations when moving && turning simultaneously
+  float angDeltaLimit;
   
   bool RotateV (float delta);
   // Move local entity
@@ -249,6 +252,9 @@ public:
   void SetDeltaLimit(float deltaLimit)
   { this->deltaLimit = deltaLimit; }
 
+  void SetAngularDeltaLimit(float deltaLimit)
+  { this->angDeltaLimit = deltaLimit; }
+
   struct PcLinearMovement : public iPcLinearMovement
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
@@ -371,6 +377,11 @@ public:
     void SetDeltaLimit(float deltaLimit)
     {
       scfParent->SetDeltaLimit(deltaLimit);
+    }
+
+    void SetAngularDeltaLimit(float deltaLimit)
+    { 
+      scfParent->SetAngularDeltaLimit(deltaLimit);
     }
   } scfiPcLinearMovement;
 
