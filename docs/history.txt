@@ -19,7 +19,11 @@ The history order is reversed so that new features are at the top.
 	  layer: 'property' and 'action'. These operations can operate
 	  on generic property classes that support generic properties
 	  and action.
-        - Mathe added a autoconf detection script for cel
+        - Matze added a autoconf detection script for cel.
+	- Jorrit changed the API of iBillboard so it now works with materials
+	  instead of iImage.
+	- Jorrit added an event handler to the billboard manager so it will
+	  draw the billboards in the postProcess event.
 20-Nov-2003
 	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
 	  layers can implement this interface in addition to iCelBlLayer.

@@ -345,9 +345,8 @@ struct iBillboard : public iBase
 {
   virtual const char* GetName () const = 0;
   virtual csFlags& GetFlags () = 0;
-  virtual bool SetImage (iImage* image) = 0;
-  virtual bool SetImage (const char* filename) = 0;
-  virtual iImage* GetImage () = 0;
+  virtual bool SetMaterialName (const char* matname) = 0;
+  virtual const char* GetMaterialName () = 0;
   virtual void SetSize (int w, int h) = 0;
   virtual void GetSize (int& w, int& h) const = 0;
   virtual void SetPosition (int x, int y) = 0;
