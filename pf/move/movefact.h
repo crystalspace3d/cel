@@ -94,8 +94,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcMovable : public iPcMovable
   {
@@ -155,8 +155,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcSolid : public iPcSolid
   {
@@ -197,8 +197,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcMovableConstraintCD : public iPcMovableConstraint
   {
@@ -261,8 +261,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcGravity : public iPcGravity
   {

@@ -96,8 +96,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcTooltip : public iPcTooltip
   {
@@ -164,8 +164,8 @@ public:
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
-  virtual void Save () { }
-  virtual void Load () { }
+  virtual void Save (iCelDataBuffer* databuf) { }
+  virtual void Load (iCelDataBuffer* databuf) { }
 
   struct PcTimer : public iPcTimer
   {
