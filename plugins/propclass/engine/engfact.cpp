@@ -589,7 +589,15 @@ bool celPcCamera::HandleEvent (iEvent& ev)
     float actor_yrot;
     iSector* actor_sector;
     GetLastPosition (actor_pos, actor_yrot, actor_sector);
-    if (!actor_sector) return true;	// Can't do anything.
+    if (!actor_sector)
+    {
+      // We have no actor, so just display with current camera settings.
+      if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    	  | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+	  | (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+        view->Draw ();
+      return true;	// Can't do anything.
+    }
 
     // Store previous frame ideal camera data. It will be compared against
     // current frame later to become the delta part.
