@@ -22,7 +22,13 @@
 #include "pl/entity.h"
 #include "bl/entity.h"
 #include "csutil/util.h"
+#include "iutil/object.h"
+#include "iutil/event.h"
+#include "iutil/evdefs.h"
 #include "iutil/objreg.h"
+#include "iutil/eventq.h"
+#include "iengine/camera.h"
+#include "iengine/sector.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/engine.h"
@@ -67,8 +73,19 @@ bool celPfMesh::Initialize (iObjectRegistry* object_reg)
 
 iCelPropertyClass* celPfMesh::CreatePropertyClass (const char* type)
 {
-  if (strcmp (type, "pcmesh")) return NULL;
-  return new celPcMesh (object_reg);
+  if (!strcmp (type, "pcmesh")) return new celPcMesh (object_reg);
+  else if (!strcmp (type, "pcmeshselect")) return new celPcMeshSelect (object_reg);
+  else return NULL;
+}
+
+const char* celPfMesh::GetTypeName (int idx) const
+{
+  switch (idx)
+  {
+    case 0: return "pcmesh";
+    case 1: return "pcmeshselect";
+    default: return NULL;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -155,6 +172,83 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
   mesh->GetMovable ()->SetPosition (pos);
   mesh->GetMovable ()->UpdateMove ();
   mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
+}
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celPcMeshSelect)
+  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMeshSelect)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::PcMeshSelect)
+  SCF_IMPLEMENTS_INTERFACE (iPcMeshSelect)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
+  celPcMeshSelect::object_reg = object_reg;
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != NULL);
+  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown);
+  q->DecRef ();
+  camera = NULL;
+}
+
+celPcMeshSelect::~celPcMeshSelect ()
+{
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  if (q)
+  {
+    q->RemoveListener (&scfiEventHandler);
+  }
+}
+
+void celPcMeshSelect::SetEntity (iCelEntity* entity)
+{
+  celPcMeshSelect::entity = entity;
+}
+
+bool celPcMeshSelect::HandleEvent (iEvent& ev)
+{
+  if (!camera) return false;
+
+  int mouse_x = ev.Mouse.x;
+  int mouse_y = ev.Mouse.y;
+
+  csVector3 v;
+  // Setup perspective vertex, invert mouse Y axis.
+  csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
+
+  camera->InvPerspective (p, 1, v);
+  csVector3 vw = camera->GetTransform ().This2Other (v);
+
+  iSector* sector = camera->GetSector ();
+  csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
+  csVector3 isect, end = origin + (vw - origin) * 60;
+
+  iMeshWrapper* sel = sector->HitBeam (origin, end, isect, NULL);
+  if (sel)
+  {
+    printf ("sel:'%s'\n", sel->QueryObject ()->GetName ());
+  }
+  else
+    printf ("NO\n");
+
+  return false;
+}
+
+void celPcMeshSelect::SetCamera (iCamera* camera)
+{
+  celPcMeshSelect::camera = camera;
 }
 
 //---------------------------------------------------------------------------
