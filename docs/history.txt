@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+11-Mar-2005
+	- Eric Sunshine fixed `cel-config' so that it takes into account that
+	  the built location of library files is now `$(LOCATE.OBJECTS)/libs'
+	  rather than `$(LOCATE_TARGET)'. (This relocation occurred when the
+	  new Jam files were copied over from CS.)
 9-Mar-2005
 	- Eric Sunshine updated Autoconf, Jam, and msvcgen files from master
 	  copies in CS repository.

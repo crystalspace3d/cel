@@ -93,7 +93,7 @@ rule CelConfigGen
 rule CelLocalLinkName
 {
   local lflag = $(<) ;
-  local Lflag = $(LOCATE.OBJECTS)/libs/$(<) ;
+  local Lflag = $(LOCATE.OBJECTS)/libs ;
   exportsummary += $(lflag) ;
   exportsummary += $(Lflag) ;
 }
