@@ -630,7 +630,7 @@ iCelDataBuffer* celPcGravity::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (GRAVITY_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (22);
+  databuf->SetDataCount (12);
 
   iCelPropertyClass* pc;
   if (pcmovable) pc = SCF_QUERY_INTERFACE_FAST (pcmovable, iCelPropertyClass);
@@ -651,24 +651,14 @@ iCelDataBuffer* celPcGravity::Save ()
     pc = NULL;
   databuf->GetData (4)->Set (pc);
   if (pc) pc->DecRef ();
-  databuf->GetData (5)->Set (gravity_dim.x);
-  databuf->GetData (6)->Set (gravity_dim.y);
-  databuf->GetData (7)->Set (gravity_dim.z);
-  databuf->GetData (8)->Set (gravity_offs.x);
-  databuf->GetData (9)->Set (gravity_offs.y);
-  databuf->GetData (10)->Set (gravity_offs.z);
+  databuf->GetData (5)->Set (gravity_dim);
+  databuf->GetData (6)->Set (gravity_offs);
 
-  databuf->GetData (11)->Set (on_ground);
-  databuf->GetData (12)->Set (accel.x);
-  databuf->GetData (13)->Set (accel.y);
-  databuf->GetData (14)->Set (accel.z);
-  databuf->GetData (15)->Set (speed.x);
-  databuf->GetData (16)->Set (speed.y);
-  databuf->GetData (17)->Set (speed.z);
-  databuf->GetData (18)->Set (grav_speed.x);
-  databuf->GetData (19)->Set (grav_speed.y);
-  databuf->GetData (20)->Set (grav_speed.z);
-  databuf->GetData (21)->Set (force_time);
+  databuf->GetData (7)->Set (on_ground);
+  databuf->GetData (8)->Set (accel);
+  databuf->GetData (9)->Set (speed);
+  databuf->GetData (10)->Set (grav_speed);
+  databuf->GetData (11)->Set (force_time);
   
   return databuf;
 }
@@ -677,7 +667,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != GRAVITY_SERIAL) return false;
-  if (databuf->GetDataCount () != 22) return false;
+  if (databuf->GetDataCount () != 12) return false;
   celData* cd;
 
   cd = databuf->GetData (0); if (!cd) return false;
@@ -710,43 +700,33 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
     else
     {
       cd = databuf->GetData (5); if (!cd) return false;
-      gravity_dim.x = cd->value.f;
+      gravity_dim.x = cd->value.v.x;
+      gravity_dim.y = cd->value.v.y;
+      gravity_dim.z = cd->value.v.z;
       cd = databuf->GetData (6); if (!cd) return false;
-      gravity_dim.y = cd->value.f;
-      cd = databuf->GetData (7); if (!cd) return false;
-      gravity_dim.z = cd->value.f;
-      cd = databuf->GetData (8); if (!cd) return false;
-      gravity_offs.x = cd->value.f;
-      cd = databuf->GetData (9); if (!cd) return false;
-      gravity_offs.y = cd->value.f;
-      cd = databuf->GetData (10); if (!cd) return false;
-      gravity_offs.z = cd->value.f;
+      gravity_offs.x = cd->value.v.x;
+      gravity_offs.y = cd->value.v.y;
+      gravity_offs.z = cd->value.v.z;
       CreateGravityCollider (gravity_dim, gravity_offs);
     }
   }
 
-  cd = databuf->GetData (11); if (!cd) return false;
+  cd = databuf->GetData (7); if (!cd) return false;
   on_ground = cd->value.bo;
-  cd = databuf->GetData (12); if (!cd) return false;
-  accel.x = cd->value.f;
-  cd = databuf->GetData (13); if (!cd) return false;
-  accel.y = cd->value.f;
-  cd = databuf->GetData (14); if (!cd) return false;
-  accel.z = cd->value.f;
-  cd = databuf->GetData (15); if (!cd) return false;
-  speed.x = cd->value.f;
-  cd = databuf->GetData (16); if (!cd) return false;
-  speed.y = cd->value.f;
-  cd = databuf->GetData (17); if (!cd) return false;
-  speed.z = cd->value.f;
-  cd = databuf->GetData (18); if (!cd) return false;
-  grav_speed.x = cd->value.f;
-  cd = databuf->GetData (19); if (!cd) return false;
-  grav_speed.y = cd->value.f;
-  cd = databuf->GetData (20); if (!cd) return false;
-  grav_speed.z = cd->value.f;
+  cd = databuf->GetData (8); if (!cd) return false;
+  accel.x = cd->value.v.x;
+  accel.y = cd->value.v.y;
+  accel.z = cd->value.v.z;
+  cd = databuf->GetData (9); if (!cd) return false;
+  speed.x = cd->value.v.x;
+  speed.y = cd->value.v.y;
+  speed.z = cd->value.v.z;
+  cd = databuf->GetData (10); if (!cd) return false;
+  grav_speed.x = cd->value.v.x;
+  grav_speed.y = cd->value.v.y;
+  grav_speed.z = cd->value.v.z;
 
-  cd = databuf->GetData (21); if (!cd) return false;
+  cd = databuf->GetData (11); if (!cd) return false;
   force_time = cd->value.f;
 
   return true;

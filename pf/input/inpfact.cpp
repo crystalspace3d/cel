@@ -63,16 +63,14 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   celPcCommandInput::object_reg = object_reg;
   DG_TYPE (this, "celPcCommandInput()");
 
-  maplist=NULL;
-  scfiEventHandler=NULL;
+  maplist = NULL;
+  scfiEventHandler = NULL;
 
-  Activate();
+  Activate ();
 }
 
 celPcCommandInput::~celPcCommandInput ()
 {
-  DG_REM (this);
-
   if (scfiEventHandler)
   {
     iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
@@ -123,10 +121,10 @@ void celPcCommandInput::Activate (bool activate)
       return;
 
     iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    CS_ASSERT(q);
-    scfiEventHandler = new EventHandler(this);
+    CS_ASSERT (q);
+    scfiEventHandler = new EventHandler (this);
     q->RegisterListener (scfiEventHandler, CSMASK_KeyUp | CSMASK_KeyDown);
-    q->DecRef();
+    q->DecRef ();
   }
   else
   {
@@ -134,11 +132,11 @@ void celPcCommandInput::Activate (bool activate)
       return;
     
     iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    CS_ASSERT(q);
+    CS_ASSERT (q);
     q->RemoveListener (scfiEventHandler);
-    q->DecRef();
-    scfiEventHandler->DecRef();
-    scfiEventHandler=NULL;
+    q->DecRef ();
+    scfiEventHandler->DecRef ();
+    scfiEventHandler = NULL;
   }
 }
 

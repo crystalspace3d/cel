@@ -56,6 +56,8 @@
 	  not deleting the event handler.
 	- Fixed a memory leak in celtest. The actor entity was not added
 	  to the room inventory.
+	- Changed persistance in pcgravity to use the new CEL_DATA_VECTOR3.
+	- Fixed a few memory leaks in bltest.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.
