@@ -69,6 +69,7 @@ PFINPUT_SRC=$(wildcard pf/input/*.cpp pf/common/*.cpp)
 PFINPUT_OBJS=$(addsuffix .o, $(basename $(PFINPUT_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
+OUT=.
 
 #------
 # Tools to use
@@ -79,7 +80,15 @@ endif
 ifndef LINK
 LINK=$(CXX)
 endif
-RM=rm
+RM=rm -f
+
+#------
+# Abstractions
+#------
+LFLAGS.L = -L
+LFLAGS.l = -l
+CFLAGS.D = -D
+CFLAGS.I = -I
 
 #------
 # Flags for compiler and linker.
@@ -170,7 +179,7 @@ clean:
 		$(CELTEST_OBJS) $(PFENG_OBJS) $(PFINPUT_OBJS) $(BLPYTHON_OBJS) \
 		$(CPERSIST) $(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST) \
-		$(BLPYTHON)
+		$(BLPYTHON) *.def
 
 #------
 # Run swig for the blpython plugin.
@@ -207,4 +216,3 @@ $(CSCONFIG.MAK): ./cs-config
 # Include dependencies
 #------
 -include makefile.dep
-
