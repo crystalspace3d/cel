@@ -1,3 +1,17 @@
+12-Dec-2001:
+	- Added iCelPropertyChangeCallback interface. Using this it will
+	  be possible to listen to property changes in all property classes.
+	- Extended iCelPropertyClass with methods to remove and add
+	  callbacks.
+	- Added pf/common directory containing common code for all property
+	  class implementation. There is now a celPcCommon class which can
+	  be used by a property class implementation to make things easier.
+	  This celPcCommon already implements the two functions above
+	  to handle the callbacks. In addition it also implements a
+	  function to fire a callback.
+	- Changed all current property class implementations to inherit
+	  from celPcCommon.
+	- Nothing is using this callback system at the moment.
 10-Dec-2001:
 	- Matze added #defines for template Factories, you can now easily use
 	  CEL_DECLARE_FACTORY(bla) and later CEL_IMPLEMENT_FACTORY(bla). Also

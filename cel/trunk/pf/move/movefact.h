@@ -28,6 +28,7 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
+#include "pf/common/stdpcimp.h"
 #include "pf/move.h"
 #include "pf/solid.h"
 #include "pf/gravity.h"
@@ -50,12 +51,10 @@ CEL_DECLARE_FACTORY(Gravity)
 /**
  * This is a move property class.
  */
-class celPcMovable : public iCelPropertyClass
+class celPcMovable : public celPcCommon
 {
 private:
-  iCelEntity* entity;
   iPcMesh* pcmesh;
-  iObjectRegistry* object_reg;
   csVector constraints;
 
 public:
@@ -69,11 +68,9 @@ public:
   void RemoveConstraint (iPcMovableConstraint* constraint);
   void RemoveAllConstraints ();
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmovable"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -114,11 +111,9 @@ public:
 /**
  * This is a solid property class.
  */
-class celPcSolid : public iCelPropertyClass
+class celPcSolid : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iPcMesh* pcmesh;
   iCollider* collider;
 
@@ -129,11 +124,9 @@ public:
   iPcMesh* GetMesh () const { return pcmesh; }
   virtual iCollider* GetCollider ();
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcsolid"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -158,23 +151,20 @@ public:
 /**
  * This is a movable constraint based on collision detection (iPcSolid).
  */
-class celPcMovableConstraintCD : public iCelPropertyClass
+class celPcMovableConstraintCD : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iCollideSystem* cdsys;
 
 public:
   celPcMovableConstraintCD (iObjectRegistry* object_reg);
   virtual ~celPcMovableConstraintCD ();
-  int CheckMove (iSector* sector, const csVector3& start, const csVector3& end, csVector3& pos);
+  int CheckMove (iSector* sector, const csVector3& start,
+  	const csVector3& end, csVector3& pos);
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -192,11 +182,9 @@ public:
 /**
  * This is a gravity property class.
  */
-class celPcGravity : public iCelPropertyClass
+class celPcGravity : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iPcMovable* pcmovable;
   iPcSolid* pcsolid;
   iCollider* gravity_collider;
@@ -239,11 +227,9 @@ public:
   void ApplyForce (const csVector3& force, float time);
   bool IsOnGround () const { return on_ground; }
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcgravity"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 

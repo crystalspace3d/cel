@@ -17,47 +17,48 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_PF_TESTFACT__
-#define __CEL_PF_TESTFACT__
+#ifndef __CEL_PF_COMMON_STDPC__
+#define __CEL_PF_COMMON_STDPC__
 
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "csutil/scf.h"
+#include "csutil/csobjvec.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
-#include "pl/facttmpl.h"
-#include "pf/common/stdpcimp.h"
-#include "pf/test.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
 
 /**
- * Factory for test.
+ * This is a common implementation for a property class
+ * from which all other property classes can inherit.
+ * This makes it easier to write a property class.
  */
-CEL_DECLARE_FACTORY (Test)
-
-/**
- * This is a test property class.
- */
-class celPcTest : public celPcCommon
+class celPcCommon : public iCelPropertyClass
 {
+private:
+  csObjVector callbacks;
+
+protected:
+  iCelEntity* entity;
+  iObjectRegistry* object_reg;
+
+protected:
+  void FirePropertyChangeCallback (int propertyId);
+
 public:
-  celPcTest (iObjectRegistry* object_reg);
-  virtual ~celPcTest ();
+  celPcCommon (iObjectRegistry* object_reg);
+  virtual ~celPcCommon ();
 
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  SCF_DECLARE_IBASE;
 
-  virtual const char* GetName () const { return "pctest"; }
-  virtual iCelDataBuffer* Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcTest : public iPcTest
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTest);
-    virtual void Print (const char* msg);
-  } scfiPcTest;
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
+  virtual bool AddPropertyChangeCallback (iCelPropertyChangeCallback* cb);
+  virtual bool RemovePropertyChangeCallback (
+  	iCelPropertyChangeCallback* cb);
 };
 
-#endif // __CEL_PF_TESTFACT__
+#endif // __CEL_PF_COMMON_STDPC__
 

@@ -27,6 +27,7 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
+#include "pf/common/stdpcimp.h"
 #include "pf/inv.h"
 #include "pf/chars.h"
 
@@ -42,11 +43,9 @@ CEL_DECLARE_FACTORY (Characteristics)
 /**
  * This is an inventory property class.
  */
-class celPcInventory : public iCelPropertyClass
+class celPcInventory : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   csVector contents;
   csVector constraints;
 
@@ -88,11 +87,9 @@ public:
   bool TestConstraints (const char* charName);
   void Dump ();
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcinventory"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -168,11 +165,9 @@ public:
 /**
  * This is a characteristics property class.
  */
-class celPcCharacteristics : public iCelPropertyClass
+class celPcCharacteristics : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   csVector chars;
 
   struct charact
@@ -207,11 +202,9 @@ public:
   bool TestConstraints (const char* charName);
   void Dump ();
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccharacteristics"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 

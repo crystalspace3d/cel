@@ -27,6 +27,7 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
+#include "pf/common/stdpcimp.h"
 #include "pf/tooltip.h"
 #include "pf/timer.h"
 
@@ -43,11 +44,9 @@ CEL_DECLARE_FACTORY(Timer)
 /**
  * This is a tooltip property class.
  */
-class celPcTooltip : public iCelPropertyClass
+class celPcTooltip : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   bool visible;
   int x, y;
   char* text;
@@ -69,11 +68,9 @@ public:
   void SetBackgroundColor (int r, int g, int b)
   { bg_r = r; bg_g = g; bg_b = b; }
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctooltip"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
@@ -131,11 +128,9 @@ public:
 /**
  * This is a timer property class.
  */
-class celPcTimer : public iCelPropertyClass
+class celPcTimer : public celPcCommon
 {
 private:
-  iCelEntity* entity;
-  iObjectRegistry* object_reg;
   iVirtualClock* vc;
   bool enabled;
   csTicks wakeup, wakeup_todo;
@@ -149,11 +144,9 @@ public:
   void WakeUp (csTicks t, bool repeat);
   void Clear ();
 
-  SCF_DECLARE_IBASE;
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pctimer"; }
-  virtual iCelEntity* GetEntity () { return entity; }
-  virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 

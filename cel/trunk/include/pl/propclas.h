@@ -29,12 +29,13 @@
 
 struct iCelEntity;
 struct iCelDataBuffer;
+struct iCelPropertyChangeCallback;
 
-SCF_VERSION (iCelPropertyClass, 0, 0, 1);
+SCF_VERSION (iCelPropertyClass, 0, 0, 2);
 
 /**
  * This is a property class for an entity. A property class
- * describes this physical attributes of an entity.
+ * describe physical attributes of an entity.
  */
 struct iCelPropertyClass : public iBase
 {
@@ -62,6 +63,24 @@ struct iCelPropertyClass : public iBase
    * Load this object from a data buffer.
    */
   virtual bool Load (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Add a callback which will be fired when a property changes.
+   * Not all property class implementations actually have properties.
+   * It is safe to call this function with the same callback (nothing
+   * will happen in that case and false will be returned). Otherwise this
+   * function will IncRef the callback.
+   */
+  virtual bool AddPropertyChangeCallback (iCelPropertyChangeCallback* cb) = 0;
+
+  /**
+   * Remove a callback. It is safe to call this function for a callback
+   * that is not registered. Nothing will happen in that case (except
+   * that false is returned). This function will DecRef the callback if
+   * it was present.
+   */
+  virtual bool RemovePropertyChangeCallback (
+  	iCelPropertyChangeCallback* cb) = 0;
 };
 
 

@@ -62,33 +62,29 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcMesh)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMesh)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMesh::PcMesh)
   SCF_IMPLEMENTS_INTERFACE (iPcMesh)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
   mesh = NULL;
-  celPcMesh::object_reg = object_reg;
   visible = true;
   fileName = NULL;
   factName = NULL;
   factory_ptr = NULL;
-  entity = NULL;
-  DG_ADDI (this, "celPcMesh()");
+  DG_TYPE (this, "celPcMesh()");
 }
 
 celPcMesh::~celPcMesh ()
 {
   Clear ();
-  DG_REM (this);
 }
 
 void celPcMesh::Clear ()
@@ -112,11 +108,6 @@ void celPcMesh::Clear ()
     mesh = NULL;
   }
   if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
-}
-
-void celPcMesh::SetEntity (iCelEntity* entity)
-{
-  celPcMesh::entity = entity;
 }
 
 #define MESH_SERIAL 1
@@ -397,10 +388,9 @@ void celPcMesh::Show ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcMeshSelect)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcMeshSelect)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMeshSelect)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::PcMeshSelect)
   SCF_IMPLEMENTS_INTERFACE (iPcMeshSelect)
@@ -415,10 +405,9 @@ SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
-  celPcMeshSelect::object_reg = object_reg;
   scfiEventHandler = NULL;
   pccamera = NULL;
 
@@ -439,7 +428,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendmove = false;
 
   SetupEventHandler ();
-  DG_ADDI (this, "celPcMeshSelect()");
+  DG_TYPE (this, "celPcMeshSelect()");
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
@@ -455,7 +444,6 @@ celPcMeshSelect::~celPcMeshSelect ()
     scfiEventHandler->DecRef ();
   }
   SetCamera (NULL);
-  DG_REM (this);
 }
 
 void celPcMeshSelect::SetupEventHandler ()
@@ -471,11 +459,6 @@ void celPcMeshSelect::SetupEventHandler ()
   if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
   q->RegisterListener (scfiEventHandler, trigger);
   q->DecRef ();
-}
-
-void celPcMeshSelect::SetEntity (iCelEntity* entity)
-{
-  celPcMeshSelect::entity = entity;
 }
 
 #define MESHSEL_SERIAL 1

@@ -39,31 +39,23 @@ SCF_EXPORT_CLASS_TABLE_END
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcTest)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+SCF_IMPLEMENT_IBASE_EXT (celPcTest)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTest)
-SCF_IMPLEMENT_IBASE_END
+SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTest::PcTest)
   SCF_IMPLEMENTS_INTERFACE (iPcTest)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcTest::celPcTest (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
 {
-  SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
-  celPcTest::object_reg = object_reg;
-  DG_ADDI (this, "celPcTest()");
+  DG_TYPE (this, "celPcTest()");
 }
 
 celPcTest::~celPcTest ()
 {
-  DG_REM (this);
-}
-
-void celPcTest::SetEntity (iCelEntity* entity)
-{
-  celPcTest::entity = entity;
 }
 
 #define TEST_SERIAL 1
