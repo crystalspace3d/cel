@@ -179,6 +179,13 @@ public:
   void ExtrapolatePosition (float delta);
 
   /**
+   * This function calls ExtrapolatePosition with a certain time
+   * but uses a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  void UpdateDRDelta (csTicks ticksdelta);
+  /**
    * This function calls ExtrapolatePosition with a certain time delta
    * or calculates the delta relative to the last update.
    * This allows all entities linmoves to be
@@ -315,6 +322,10 @@ public:
     virtual void UpdateDR(csTicks ticks)
     {
       scfParent->UpdateDR(ticks);
+    }
+    virtual void UpdateDRDelta (csTicks ticksdelta)
+    {
+      scfParent->UpdateDRDelta(ticksdelta);
     }
     virtual void SetPath (iPath *newpath)
     {

@@ -159,6 +159,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angularVelocity = 0;
   targAngularVelocity = 0;
   angDelta = 0;
+  lastDRUpdate = 0;
 
   topCollider = 0;
   bottomCollider = 0;
@@ -448,20 +449,35 @@ bool celPcLinearMovement::MoveV (float delta)
   return true;
 }
 
-void celPcLinearMovement::UpdateDR (csTicks ticks)
+void celPcLinearMovement::UpdateDRDelta (csTicks ticksdelta)
 {
-  float delta = ticks;
+  float delta = ticksdelta;
   delta /= 1000;
   ExtrapolatePosition (delta);
+  // lastDRUpdate += ticksdelta;  The way this fn is used, it should not update this var
+}
+
+
+void celPcLinearMovement::UpdateDR (csTicks ticks)
+{
+  if (lastDRUpdate) // first time through gives huge deltas without this
+  {
+    float delta = ticks - lastDRUpdate;
+    delta /= 1000;
+    ExtrapolatePosition (delta);
+  }
   lastDRUpdate = ticks;
 }
 
 void celPcLinearMovement::UpdateDR ()
 {
-	csTicks time = csGetTicks();
-  float delta = time - lastDRUpdate;
-  delta /= 1000;
-  ExtrapolatePosition (delta);
+  csTicks time = csGetTicks();
+  if (lastDRUpdate)
+  {
+    float delta = time - lastDRUpdate;
+    delta /= 1000;
+    ExtrapolatePosition (delta);
+  }
   lastDRUpdate = time;
 }
 
@@ -609,7 +625,7 @@ bool celPcLinearMovement::IsOnGround () const
   if (pccolldet)
     return pccolldet->IsOnGround();
 
-  return false;
+  return true;
 }
 
 
@@ -722,6 +738,7 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 	const  iSector* sector)
 {
+  FindSiblingPropertyClasses ();
   // Position
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
 
