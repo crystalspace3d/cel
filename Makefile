@@ -14,7 +14,7 @@
 #       OBJSRC for the location of the sources
 #       LINKFLAGS for all the libraries that your application needs
 #
-# If you want to compile plugins as well edit:
+# If you want to compile plugins as well, edit:
 #       PLUGIN for the name of the plugin
 #       PLUGIN.OBJSRC for the location of the plugin sources
 #       PLUGIN.LINKFLAGS for the libraries that the plugin needs
