@@ -37,7 +37,7 @@ class celPlLayer : public iCelPlLayer
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
   csRefArray<iCelBlLayer> bl_list;
-  csPArray<iCelEntityRemoveCallback> removecallbacks;
+  csArray<iCelEntityRemoveCallback*> removecallbacks;
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
