@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-Dec-2003
+	- Eric Sunshine added --with[out]-python option to python.m4 to allow
+	  users to disable this module if desired.
+	- Eric Sunshine fixed python.m4 so that the "Python SDK usable" check
+	  is run only if the Python SDK is detected.  (Previously the "SDK
+	  usable" check was run even if the SDK was not detected.)
 11-Dec-2003
 	- Eric Sunshine upgraded the Autoconf and Jam utility files to the
 	  latest versions from CS.
