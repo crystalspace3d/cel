@@ -18,7 +18,7 @@ class physics_actor:
 
 		mesh = celCreateMesh(physicallayer_ptr,celEntity)
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("ball", "/celdata/objects/ball")
+		mesh.LoadMesh("ball", "/cellib/objects/ball")
 		ballstate = SCF_QUERY_INTERFACE(mesh.GetMesh().GetMeshObject(),
 			iBallState)
 		ballstate.SetRadius(.5,.5,.5)

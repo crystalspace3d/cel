@@ -16,7 +16,7 @@ class smallgame:
 
 		region = celCreateRegion(physicallayer_ptr,celEntity,"main")
 		# @@@ Ugly hardcoding of path!
-		region.SetWorldFile("/celdata/objects", "portal_world")
+		region.SetWorldFile("/cellib/objects", "portal_world")
 		region.SetRegionName("portals")
 		rc = region.Load()
 		room = region.GetStartSector()

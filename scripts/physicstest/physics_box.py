@@ -6,7 +6,7 @@ class physics_box:
 	def real_init(self,celEntity,room,dynsys):
 		mesh = celCreateMesh(physicallayer_ptr,celEntity)
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("box", "/celdata/objects/box")
+		mesh.LoadMesh("box", "/cellib/objects/box")
 		pos = csVector3 (1, 3, 5)
 		mesh.MoveMesh(room,pos)
 

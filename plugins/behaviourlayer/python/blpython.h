@@ -29,11 +29,8 @@
 #include "Python.h"
 
 extern "C" {
-  struct swig_type_info;
-  extern swig_type_info * SWIG_TypeQuery (const char *);
-  extern PyObject * SWIG_NewPointerObj (void *, swig_type_info *, int own);
-  extern char * SWIG_PackData (char *c, void *, int);  
   extern void init_cspace ();
+  extern PyObject* csWrapTypedObject (void *, const char *, int own);
 }
 
 class celBlPython : public iCelBlLayer
@@ -51,7 +48,7 @@ public:
 
   bool RunText (const char *Text);
   bool LoadModule (const char *Text);
-  bool Store (const char* name, void* data, void* tag);
+  bool Store (const char* name, void* data, const char* tag);
   
   void ShowError ();
   void Print (bool Error, const char *msg);
@@ -77,7 +74,7 @@ public:
     virtual bool LoadModule(const char *iStr)
     { return scfParent->LoadModule(iStr); }
     virtual bool Store(const char *name, void *data, void *tag)
-    { return scfParent->Store(name, data, tag); }
+    { return scfParent->Store(name, data, (const char *)tag); }
 
     /*
       @@@ New functions not yet implemented
@@ -138,8 +135,7 @@ private:
   PyObject* py_entity;
   PyObject* py_object;
   char* name;
-  swig_type_info *tibase;
-  swig_type_info *tiparams;
+
 
 public:
   celPythonBehaviour (celBlPython* scripter, PyObject* py_ent,
