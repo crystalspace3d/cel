@@ -227,8 +227,8 @@ void celPersistClassicContext::RemoveEntity (iCelEntity* entity)
   CS_ID serverid = GetMappedID(entity);
   if (serverid == 0)
     return;
-  read_entities.DeleteAll (entity->GetID());
-  read_ids.DeleteAll (serverid);
+  read_entities.DeleteAll (serverid);
+  read_ids.DeleteAll (entity->GetID());
 }
 
 bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
