@@ -276,7 +276,7 @@ PACKAGE_STRING='cel 0.99'
 PACKAGE_BUGREPORT='cel-main@lists.sourceforge.net'
 
 ac_unique_file="mk/jam/build.jam"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os MKDIR MKDIRS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN MAKEINFO PERL TTREE SWIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CRYSTAL CSCONF ac_ct_CSCONF LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os MKDIR MKDIRS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN MAKEINFO PERL TTREE SWIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CRYSTAL CRYSTAL_CONFIG_TOOL ac_pt_CRYSTAL_CONFIG_TOOL LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -821,8 +821,8 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --disable-cstest        Do not try to compile and run a test Crystal Space
-                          program
+  --enable-cstest         verify that the Crystal Spsace SDK is actually
+                          usable (default YES)
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
@@ -837,7 +837,9 @@ Optional Packages:
                           maintenance tasks, such as generating project files
                           or converting documentation, without having the
                           Crystal Space SDK installed
-  --with-cs-prefix=PFX    Prefix where Crystal Space is installed (optional)
+  --with-cs-prefix=CRYSTAL_PREFIX
+                          specify location of Crystal Space installation; this
+                          is the \$prefix value used when installing the SDK
 
 Some influential environment variables:
   CC          C compiler command
@@ -1300,7 +1302,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 PACKAGE_LONGNAME="Crystal Entity Layer"
-    PACKAGE_COPYRIGHT="Copyright (C)2002-2004 Jorrit Tyberghein and others."
+    PACKAGE_COPYRIGHT="Copyright (C)2002-2005 Jorrit Tyberghein and others."
     PACKAGE_HOMEPAGE="http://cel.sourceforge.net/"
 
 
@@ -4244,8 +4246,6 @@ if test "$cs_cv_prog_swig_version_ok" = yes; then
 "
 fi
 
-else
-  :
 fi
 
 fi
@@ -4941,166 +4941,9 @@ else
   cs_cv_sys_pthread_mutex_recursive=no
 fi
 
-    if test $cs_cv_sys_pthread = yes; then
-  echo "$as_me:$LINENO: checking for pthread timed mutexes" >&5
-echo $ECHO_N "checking for pthread timed mutexes... $ECHO_C" >&6
-if test "${cs_cv_sys_pthread_mutex_timed+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-    cs_cflags_save="$CFLAGS"
-    cs_lflags_save="$LDFLAGS"
-    cs_libs_save="$LIBS"
-    cs_build_ok=no
-
-
-    for cs_build_item in `echo @-DCS_MUTEX_FEATURE=PTHREAD_MUTEX_TIMED@@ | sed 'y% %#%'` \
-		`echo @-DCS_MUTEX_FEATURE=PTHREAD_MUTEX_TIMED_NP@@ | sed 'y% %#%'`
-    do
-
-    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
-	{ for (i=1; i <= NF; ++i)
-	    { if ($i == "") print "filler"; else print $i } }'`
-    shift
-    if test $# -eq 0; then
-  cs_dummy=''
-else
-  if test "$1" = filler; then
-  cs_dummy=''
-else
-  cs_dummy=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_cflags_test=''
-else
-  if test "$1" = filler; then
-  cs_cflags_test=''
-else
-  cs_cflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_lflags_test=''
-else
-  if test "$1" = filler; then
-  cs_lflags_test=''
-else
-  cs_lflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_libs_test=''
-else
-  if test "$1" = filler; then
-  cs_libs_test=''
-else
-  cs_libs_test=$1
-fi
-
-	shift
-fi
-
-    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
-    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
-    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
-
-	CFLAGS="$cs_cflags_test $cs_cv_sys_pthread_cflags -D_GNU_SOURCE $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test $cs_cv_sys_pthread_lflags $cs_lflags_save"
-	LIBS="$cs_libs_test $cs_cv_sys_pthread_libs $cs_libs_save"
-	cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <pthread.h>
-int
-main ()
-{
-pthread_mutexattr_t attr;
-		    pthread_mutexattr_settype(&attr, CS_MUTEX_FEATURE);
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  cs_build_ok=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-	if test $cs_build_ok = yes; then
-  break
-fi
-
-    done
-
-
-    CFLAGS=$cs_cflags_save
-    LDFLAGS=$cs_lflags_save
-    LIBS=$cs_libs_save
-    ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-    if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test $cs_cv_sys_pthread_cflags -D_GNU_SOURCE | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_sys_pthread_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test $cs_cv_sys_pthread_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_cv_sys_pthread_mutex_timed=`echo $cs_build_cflags | sed 's/.*\(PTHREAD_MUTEX_TIMED_*N*P*\).*/\1/'`
-else
-  cs_cv_sys_pthread_mutex_timed=no
-fi
-
-fi
-echo "$as_me:$LINENO: result: $cs_cv_sys_pthread_mutex_timed" >&5
-echo "${ECHO_T}$cs_cv_sys_pthread_mutex_timed" >&6
-else
-  cs_cv_sys_pthread_mutex_timed=no
-fi
-
-
-    echo "$as_me:$LINENO: checking how to suppress 'long double' warnings" >&5
-echo $ECHO_N "checking how to suppress 'long double' warnings... $ECHO_C" >&6
+    echo "$as_me:$LINENO: checking how to suppress C++ \`long double' warnings" >&5
+echo $ECHO_N "checking how to suppress C++ \`long double' warnings... $ECHO_C" >&6
 if test "${cs_cv_prog_cxx_ignore_long_double_ok+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
@@ -5315,8 +5158,8 @@ done
     cs_build_prop_val="$PYTHON"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON ?= \"$cs_build_prop_val\" ;
-"
+  :
+
 fi
 
 
@@ -5388,8 +5231,8 @@ else
 	    cs_build_prop_val="$cs_cv_python_ext"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.MODULE_EXT ?= \"$cs_build_prop_val\" ;
-"
+  :
+
 fi
 
 
@@ -5735,22 +5578,22 @@ fi
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.AVAILABLE ?= \"$cs_build_prop_val\" ;
-"
+  :
+
 fi
 
 	cs_build_prop_val="$cs_cv_python_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.CFLAGS ?= \"$cs_build_prop_val\" ;
-"
+  :
+
 fi
 
 	cs_build_prop_val="$cs_cv_python_lflags $cs_cv_python_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.LFLAGS ?= \"$cs_build_prop_val\" ;
-"
+  :
+
 fi
 
 fi
@@ -6862,19 +6705,20 @@ fi
 
 
 if test $with_cs != no; then
-  cs_desired_libs='cstool csgfx csgeom csutil'
   if test $cs_cv_python != no; then
-  cs_desired_libs="$cs_desired_libs cspycommon"
+  cs_opt_libs="cspycommon"
+else
+  cs_opt_libs=''
 fi
 
-
-# Get the cflags, libraries, and include-dir from the cs-config script.
 
 # Check whether --with-cs-prefix or --without-cs-prefix was given.
 if test "${with_cs_prefix+set}" = set; then
   withval="$with_cs_prefix"
   CRYSTAL="$withval"
+	export CRYSTAL
 fi;
+
 # Check whether --enable-cstest or --disable-cstest was given.
 if test "${enable_cstest+set}" = set; then
   enableval="$enable_cstest"
@@ -6883,319 +6727,670 @@ else
   enable_cstest=yes
 fi;
 
-
 # Try to find an installed cs-config.
-
-if test "x$CRYSTAL" != "x"
-then
-   my_IFS=$IFS; IFS=$PATH_SEPARATOR
-   for cs_dir in $CRYSTAL
-   do
-     if test -f ${cs_dir}/cs-config
-     then
-	CSCONF="${cs_dir}/cs-config"
-	break
-     else
-	if test -f ${cs_dir}/bin/cs-config
-	then
-	   CSCONF="${cs_dir}/bin/cs-config"
-	   break
-	fi
-     fi
-   done
-   IFS=$my_IFS
-
-   if test "x$CSCONF" = "x"
-   then
-     { echo "$as_me:$LINENO: WARNING: Can not find cs-config in path you provided" >&5
-echo "$as_me: WARNING: Can not find cs-config in path you provided" >&2;}
-     no_cs=yes
-   fi
+cs_path=''
+if test -n "$CRYSTAL"; then
+  my_IFS=$IFS; IFS=$PATH_SEPARATOR
+    for cs_dir in $CRYSTAL; do
+	if test -n "$cs_path"; then
+  cs_path="$cs_path$PATH_SEPARATOR"
 fi
 
-if test "x$CRYSTAL" = "x"
-then
-
-    if test "$cs_prog_path_prepared" != yes; then
-  cs_prog_path_prepared=yes
-	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
-	export PATH
+	cs_path="$cs_path$cs_dir$PATH_SEPARATOR$cs_dir/bin"
+    done
+    IFS=$my_IFS
 fi
 
-    if test -n "$ac_tool_prefix"; then
-  for ac_prog in cs-config
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+
+if test -n "$cs_path"; then
+  cs_path="$cs_path$PATH_SEPARATOR"
+fi
+
+cs_path="$cs_path$PATH$PATH_SEPARATOR/usr/local/crystalspace/bin"
+
+if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}cs-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}cs-config; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_prog_CSCONF+set}" = set; then
+if test "${ac_cv_path_CRYSTAL_CONFIG_TOOL+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  if test -n "$CSCONF"; then
-  ac_cv_prog_CSCONF="$CSCONF" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
+  case $CRYSTAL_CONFIG_TOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_CRYSTAL_CONFIG_TOOL="$CRYSTAL_CONFIG_TOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $cs_path
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
   for ac_exec_ext in '' $ac_executable_extensions; do
   if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_CSCONF="$ac_tool_prefix$ac_prog"
+    ac_cv_path_CRYSTAL_CONFIG_TOOL="$as_dir/$ac_word$ac_exec_ext"
     echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
 done
 done
 
+  ;;
+esac
 fi
-fi
-CSCONF=$ac_cv_prog_CSCONF
-if test -n "$CSCONF"; then
-  echo "$as_me:$LINENO: result: $CSCONF" >&5
-echo "${ECHO_T}$CSCONF" >&6
+CRYSTAL_CONFIG_TOOL=$ac_cv_path_CRYSTAL_CONFIG_TOOL
+
+if test -n "$CRYSTAL_CONFIG_TOOL"; then
+  echo "$as_me:$LINENO: result: $CRYSTAL_CONFIG_TOOL" >&5
+echo "${ECHO_T}$CRYSTAL_CONFIG_TOOL" >&6
 else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
-    test -n "$CSCONF" && break
-  done
 fi
-if test -z "$CSCONF"; then
-  ac_ct_CSCONF=$CSCONF
-  for ac_prog in cs-config
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
+if test -z "$ac_cv_path_CRYSTAL_CONFIG_TOOL"; then
+  ac_pt_CRYSTAL_CONFIG_TOOL=$CRYSTAL_CONFIG_TOOL
+  # Extract the first word of "cs-config", so it can be a program name with args.
+set dummy cs-config; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
-if test "${ac_cv_prog_ac_ct_CSCONF+set}" = set; then
+if test "${ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  if test -n "$ac_ct_CSCONF"; then
-  ac_cv_prog_ac_ct_CSCONF="$ac_ct_CSCONF" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
+  case $ac_pt_CRYSTAL_CONFIG_TOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL="$ac_pt_CRYSTAL_CONFIG_TOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $cs_path
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
   for ac_exec_ext in '' $ac_executable_extensions; do
   if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ac_ct_CSCONF="$ac_prog"
+    ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL="$as_dir/$ac_word$ac_exec_ext"
     echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
 done
 done
 
+  ;;
+esac
 fi
-fi
-ac_ct_CSCONF=$ac_cv_prog_ac_ct_CSCONF
-if test -n "$ac_ct_CSCONF"; then
-  echo "$as_me:$LINENO: result: $ac_ct_CSCONF" >&5
-echo "${ECHO_T}$ac_ct_CSCONF" >&6
+ac_pt_CRYSTAL_CONFIG_TOOL=$ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL
+
+if test -n "$ac_pt_CRYSTAL_CONFIG_TOOL"; then
+  echo "$as_me:$LINENO: result: $ac_pt_CRYSTAL_CONFIG_TOOL" >&5
+echo "${ECHO_T}$ac_pt_CRYSTAL_CONFIG_TOOL" >&6
 else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
-  test -n "$ac_ct_CSCONF" && break
-done
-
-  CSCONF=$ac_ct_CSCONF
+  CRYSTAL_CONFIG_TOOL=$ac_pt_CRYSTAL_CONFIG_TOOL
+else
+  CRYSTAL_CONFIG_TOOL="$ac_cv_path_CRYSTAL_CONFIG_TOOL"
 fi
 
-   if test "x$CSCONF" = "x"
-   then
-      CRYSTAL=/usr/local/crystal
-      if test -f $CRYSTAL/bin/cs-config
-      then
-         CSCONF="$CRYSTAL/bin/cs-config"
-      else
-	 no_result=yes
-	 no_cs=yes
-      fi
-   fi
+
+if test -n "$CRYSTAL_CONFIG_TOOL"; then
+  cfg="$CRYSTAL_CONFIG_TOOL"
+
+    echo "$as_me:$LINENO: checking if Crystal Space version >= 0.99" >&5
+echo $ECHO_N "checking if Crystal Space version >= 0.99... $ECHO_C" >&6
+if test "${cs_cv_prog_Crystal_Space_version_ok_annotated+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cs_prog_Crystal_Space_is_version=
+cs_prog_Crystal_Space_min_version=
+cs_prog_Crystal_Space_is_suffix=
+cs_prog_Crystal_Space_min_suffix=
+cs_prog_Crystal_Space_is_suffix_done=
+cs_prog_Crystal_Space_min_suffix_done=
+
+
+
+
+test -z $cs_prog_Crystal_Space_is_version && cs_prog_Crystal_Space_is_version=`$cfg --version | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_Crystal_Space_is_version" && test -z $cs_prog_Crystal_Space_is_suffix_done  && { cs_prog_Crystal_Space_is_suffix_done=yes ; cs_prog_Crystal_Space_is_suffix= ; }
+
+test -z $cs_prog_Crystal_Space_is_version && cs_prog_Crystal_Space_is_version=`$cfg --version | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_Crystal_Space_is_version" && test -z $cs_prog_Crystal_Space_is_suffix_done  && { cs_prog_Crystal_Space_is_suffix_done=yes ; cs_prog_Crystal_Space_is_suffix=.0 ; }
+
+
+
+
+
+
+test -z $cs_prog_Crystal_Space_min_version && cs_prog_Crystal_Space_min_version=`echo 0.99 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_Crystal_Space_min_version" && test -z $cs_prog_Crystal_Space_min_suffix_done  && { cs_prog_Crystal_Space_min_suffix_done=yes ; cs_prog_Crystal_Space_min_suffix= ; }
+
+test -z $cs_prog_Crystal_Space_min_version && cs_prog_Crystal_Space_min_version=`echo 0.99 | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_Crystal_Space_min_version" && test -z $cs_prog_Crystal_Space_min_suffix_done  && { cs_prog_Crystal_Space_min_suffix_done=yes ; cs_prog_Crystal_Space_min_suffix=.0 ; }
+
+
+cs_prog_Crystal_Space_is_ver_1=`echo ${cs_prog_Crystal_Space_is_version}${cs_prog_Crystal_Space_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_Crystal_Space_is_ver_2=`echo ${cs_prog_Crystal_Space_is_version}${cs_prog_Crystal_Space_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_Crystal_Space_is_ver_3=`echo ${cs_prog_Crystal_Space_is_version}${cs_prog_Crystal_Space_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+
+cs_prog_Crystal_Space_min_ver_1=`echo $cs_prog_Crystal_Space_min_version${cs_prog_Crystal_Space_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_Crystal_Space_min_ver_2=`echo $cs_prog_Crystal_Space_min_version${cs_prog_Crystal_Space_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_Crystal_Space_min_ver_3=`echo $cs_prog_Crystal_Space_min_version${cs_prog_Crystal_Space_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+
+cs_cv_prog_Crystal_Space_version_ok=''
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_1" ">=" "$cs_prog_Crystal_Space_min_ver_1" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_1" ">=" "$cs_prog_Crystal_Space_is_ver_1" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_2" ">=" "$cs_prog_Crystal_Space_min_ver_2" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_2" ">=" "$cs_prog_Crystal_Space_is_ver_2" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_3" ">=" "$cs_prog_Crystal_Space_min_ver_3" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_3" ">=" "$cs_prog_Crystal_Space_is_ver_3" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
+
+if test -z "$cs_cv_prog_Crystal_Space_version_ok"; then
+  cs_cv_prog_Crystal_Space_version_ok=yes
 fi
 
-# Either we found cs by now, or we caused an error.  Now we define stuff, then
-# check if we are running a new enough version
+cs_cv_prog_Crystal_Space_version_ok_annotated="$cs_cv_prog_Crystal_Space_version_ok"
+if test -n "$cs_prog_Crystal_Space_is_version"; then
+  cs_cv_prog_Crystal_Space_version_ok_annotated="$cs_cv_prog_Crystal_Space_version_ok_annotated (version $cs_prog_Crystal_Space_is_version)"
+fi
 
-if test "x$no_cs" = "x"
-then
-    min_cs_version=0.99
-    echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
-echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
 
-    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags \$cs_desired_libs") >&5
-  ($CSCONF $csconf_args --cxxflags $cs_desired_libs) 2>&5
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_Crystal_Space_version_ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_Crystal_Space_version_ok_annotated" >&6
+if test "$cs_cv_prog_Crystal_Space_version_ok" = yes; then
+  cs_sdk=yes
+else
+  cs_sdk=no
+fi
+
+
+    if test $cs_sdk = yes; then
+  cs_liblist="cstool csgfx csgeom csutil"
+	cs_optlibs=`echo x$cs_opt_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	if test -n "$cs_optlibs"; then
+  cs_optlibs=`$cfg --available-libs $cs_optlibs`
+	    cs_liblist="$cs_liblist $cs_optlibs"
+fi
+
+	CRYSTAL_VERSION=`$cfg --version $cs_liblist`
+	CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$cfg --cxxflags \$cs_liblist") >&5
+  ($cfg --cxxflags $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs \$cs_desired_libs") >&5
-  ($CSCONF $csconf_args --libs $cs_desired_libs) 2>&5
+	CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$cfg --libs \$cs_liblist") >&5
+  ($cfg --libs $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir \$cs_desired_libs") >&5
-  ($CSCONF --includedir $cs_desired_libs) 2>&5
+	CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$cfg --includedir \$cs_liblist") >&5
+  ($cfg --includedir $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_VERSION=`$CSCONF --version $cs_desired_libs`
-
-    cs_major_version=`$CSCONF $cs_args --version | \
-       awk 'BEGIN { FS="." } { print $1 }'`
-    cs_minor_version=`$CSCONF $cs_args --version | \
-       awk 'BEGIN { FS="." } { print $2 }'`
-
-    if test "x$CRYSTAL_LIBS" = "x"
-    then
-	no_cs=yes
-    fi
+	CRYSTAL_AVAILABLE_LIBS=`$cfg --available-libs`
+	if test -z "$CRYSTAL_LIBS"; then
+  cs_sdk=no
 fi
 
-if test "x$no_cs" != "x"
-then
-    enable_cstest=no
 fi
 
-if test x$enable_cstest = xyes
-then
-   ac_save_CXXFLAGS="$CXXFLAGS"
-   ac_save_LIBS="$LIBS"
-   CXXFLAGS="$CXXFLAGS $CRYSTAL_CFLAGS"
-   LIBS="$LIBS $CRYSTAL_LIBS"
+else
+  cs_sdk=no
+fi
 
 
-
-   ac_ext=cc
+if test "$cs_sdk" = yes && test "$enable_cstest" = yes; then
+  if test "" != yes; then
+  echo "$as_me:$LINENO: checking if Crystal Space SDK is usable" >&5
+echo $ECHO_N "checking if Crystal Space SDK is usable... $ECHO_C" >&6
+if test "${cs_cv_crystal_sdk+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cc
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-   if test "$cross_compiling" = yes; then
-  echo $ac_n "cross compiling; assumed OK... $ac_c"
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in `echo @$CRYSTAL_CFLAGS@@$CRYSTAL_LIBS | sed 'y% %#%'`
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
 else
-  cat >conftest.$ac_ext <<_ACEOF
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-
 #include <cssysdef.h>
-#include <stdio.h>
-#include <csutil/util.h>
-
-CS_IMPLEMENT_APPLICATION
-
-int main (int argc, char *argv[])
+	    #include <csutil/scf.h>
+	    #include <stdio.h>
+	    #include <stdlib.h>
+	    CS_IMPLEMENT_APPLICATION
+int
+main ()
 {
-  int major, minor, micro;
-  char *tmp_version;
-
-  /* HP/UX 9 writes to sscanf strings */
-  tmp_version = csStrNew ("$min_cs_version");
-  if (sscanf (tmp_version, "%d.%d", &major, &minor) != 2)
-  {
-     printf("%s, bad version string\n", "$min_cs_version");
-     return 1;
-  }
-
-  if (($cs_major_version > major) ||
-     (($cs_major_version == major) && ($cs_minor_version > minor)) ||
-     (($cs_major_version == major) && ($cs_minor_version == minor)))
-  {
-    return 0;
-  }
-  else
-  {
-    printf("\n*** 'cs-config --version' returned %d.%d, but the minimum version\n", $cs_major_version, $cs_minor_version);
-    printf("*** of Crystal Space required is %d.%d. If cs-config is correct, then it is\n", major, minor);
-    printf("*** best to upgrade to the required version.\n");
-    printf("*** If cs-config was wrong, set the environment variable CRYSTAL\n");
-    printf("*** to point to the correct copy of cs-config, and remove the file\n");
-    printf("*** config.cache before re-running configure\n");
-    return 1;
-  }
+scfInitialize(0,0);
+	    CS_STATIC_VARIABLE_CLEANUP
+	    iSCF::SCF->Finish();
+  ;
+  return 0;
 }
-
 _ACEOF
-rm -f conftest$ac_exeext
+rm -f conftest.$ac_objext conftest$ac_exeext
 if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  :
+  cs_build_ok=yes
 else
-  echo "$as_me: program exited with status $ac_status" >&5
-echo "$as_me: failed program was:" >&5
+  echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-( exit $ac_status )
-no_cs=yes
 fi
-rm -f core *.core gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
 fi
-  CXXFLAGS="$ac_save_CXXFLAGS"
-  LIBS="$ac_save_LIBS"
-  ac_ext=c
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_crystal_sdk=yes
+		cs_cv_crystal_sdk_cflags=$cs_build_cflags
+		cs_cv_crystal_sdk_lflags=$cs_build_lflags
+		cs_cv_crystal_sdk_libs=$cs_build_libs
+else
+  cs_cv_crystal_sdk=no
 fi
 
-if test "x$no_cs" = "x"
-then
-   echo "$as_me:$LINENO: result: $CRYSTAL_VERSION" >&5
-echo "${ECHO_T}$CRYSTAL_VERSION" >&6
-   :
+fi
+echo "$as_me:$LINENO: result: $cs_cv_crystal_sdk" >&5
+echo "${ECHO_T}$cs_cv_crystal_sdk" >&6
 else
-   if test x$no_result = x
-   then
-     echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-   fi
-   CRYSTAL_CFLAGS=""
-   CRYSTAL_VERSION=""
-   CRYSTAL_LIBS=""
-   CRYSTAL_INCLUDE_DIR=""
+  echo "$as_me:$LINENO: checking if Crystal Space SDK is usable" >&5
+echo $ECHO_N "checking if Crystal Space SDK is usable... $ECHO_C" >&6
+	    ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in `echo @$CRYSTAL_CFLAGS@@$CRYSTAL_LIBS | sed 'y% %#%'`
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <cssysdef.h>
+	    #include <csutil/scf.h>
+	    #include <stdio.h>
+	    #include <stdlib.h>
+	    CS_IMPLEMENT_APPLICATION
+int
+main ()
+{
+scfInitialize(0,0);
+	    CS_STATIC_VARIABLE_CLEANUP
+	    iSCF::SCF->Finish();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_crystal_sdk=yes
+		cs_cv_crystal_sdk_cflags=$cs_build_cflags
+		cs_cv_crystal_sdk_lflags=$cs_build_lflags
+		cs_cv_crystal_sdk_libs=$cs_build_libs
+else
+  cs_cv_crystal_sdk=no
+fi
+
+	    echo "$as_me:$LINENO: result: $cs_cv_crystal_sdk" >&5
+echo "${ECHO_T}$cs_cv_crystal_sdk" >&6
+fi
+
+    if test $cs_cv_crystal_sdk = yes; then
+  :
+else
+  cs_cv_crystal_sdk_cflags=''
+	cs_cv_crystal_sdk_lflags=''
+	cs_cv_crystal_sdk_libs=''
+	cs_sdk=no
+fi
+
+fi
+
+
+if test "$cs_sdk" = yes; then
+  CRYSTAL_AVAILABLE=yes
+
+else
+  CRYSTAL_AVAILABLE=no
+   CRYSTAL_CFLAGS=''
+   CRYSTAL_VERSION=''
+   CRYSTAL_LIBS=''
+   CRYSTAL_INCLUDE_DIR=''
    { { echo "$as_me:$LINENO: error:
-*** Crystal Space could not be found. The latest version is always available
-*** from http://www.crystalspace3d.org/
+*** Crystal Space could not be found or was unusable. The latest version is
+*** always available from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
 " >&5
 echo "$as_me: error:
-*** Crystal Space could not be found. The latest version is always available
-*** from http://www.crystalspace3d.org/
+*** Crystal Space could not be found or was unusable. The latest version is
+*** always available from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
 
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$CRYSTAL_CFLAGS\" ;
+
+cs_build_prop_val="$CRYSTAL_AVAILABLE"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.AVAILABLE ?= \"$cs_build_prop_val\" ;
 "
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$CRYSTAL_LIBS\" ;
+fi
+
+cs_build_prop_val="$CRYSTAL_VERSION"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$cs_build_prop_val\" ;
 "
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= \"$CRYSTAL_VERSION\" ;
+fi
+
+cs_build_prop_val="$CRYSTAL_CFLAGS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= \"$cs_build_prop_val\" ;
 "
-cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$CRYSTAL_INCLUDE_DIR\" ;
+fi
+
+cs_build_prop_val="$CRYSTAL_LIBS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= \"$cs_build_prop_val\" ;
 "
+fi
+
+cs_build_prop_val="$CRYSTAL_INCLUDE_DIR"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+cs_build_prop_val="$CRYSTAL_AVAILABLE_LIBS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.AVAILABLE_LIBS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
+fi
+
+
+#----------------------------------------------------------------------------
+# We checked for Python earlier, and used that result to adjust the CS test
+# above, but whether we actually build CEL's Python module depends upon whether
+# CS was built with Python support, which we can only know at this point (after
+# running the CS test).
+#----------------------------------------------------------------------------
+if test $cs_cv_python != no; then
+  echo "$as_me:$LINENO: checking if Crystal Space is built with Python support" >&5
+echo $ECHO_N "checking if Crystal Space is built with Python support... $ECHO_C" >&6
+    cel_do_python=no
+    for m in $CRYSTAL_AVAILABLE_LIBS; do
+	if test cspycommon = "$m"; then
+  cel_do_python=yes
+	    break
+fi
+
+    done
+    echo "$as_me:$LINENO: result: $cel_do_python" >&5
+echo "${ECHO_T}$cel_do_python" >&6
+    if test $cel_do_python = yes; then
+  if test "$cs_cv_python" = yes; then
+  cs_build_prop_val="yes"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.AVAILABLE ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+	cs_build_prop_val="$cs_cv_python_cflags"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.CFLAGS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+	cs_build_prop_val="$cs_cv_python_lflags $cs_cv_python_libs"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.LFLAGS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+fi
+
+fi
 
 fi
 
@@ -8022,8 +8217,8 @@ s,@ac_ct_PKG_CONFIG@,$ac_ct_PKG_CONFIG,;t t
 s,@CONFIG_CPPUNIT@,$CONFIG_CPPUNIT,;t t
 s,@ac_ct_CONFIG_CPPUNIT@,$ac_ct_CONFIG_CPPUNIT,;t t
 s,@CRYSTAL@,$CRYSTAL,;t t
-s,@CSCONF@,$CSCONF,;t t
-s,@ac_ct_CSCONF@,$ac_ct_CSCONF,;t t
+s,@CRYSTAL_CONFIG_TOOL@,$CRYSTAL_CONFIG_TOOL,;t t
+s,@ac_pt_CRYSTAL_CONFIG_TOOL@,$ac_pt_CRYSTAL_CONFIG_TOOL,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF
