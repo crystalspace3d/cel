@@ -52,7 +52,7 @@ bool celInitializer::RequestPlugins(iObjectRegistry* r, ...)
 {
   va_list args;
   va_start(args, r);
-  bool const ok = celInitializer::RequestPlugins(r, args);
+  bool const ok = celInitializer::RequestPluginsV(r, args);
   va_end(args);
   return ok;
 }
