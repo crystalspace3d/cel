@@ -3,6 +3,19 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+15-Dec-2003
+	- Jorrit did the following to the XML behaviour layer:
+	      - Implemented support for setting entity variables in the
+		XML behaviour layer. So in all commands where you need to
+		specify an entity you can now give both a name or an entity
+		itself.
+	      - Added an 'ent' function to the XML behaviour layer for
+		getting an entity from an entity name.
+	      - Added an inline version of 'for' so that you don't have to
+	        specify the inner code of a for loop in another event
+		(although that is still possible).
+	      - Added inline and none-inline version of 'while'.
+	      - Added 'inventory_count' and 'inventory_get' functions.
 14-Dec-2003
 	- Jorrit added the following commands to the XML behaviour layer:
 	      - 'inventory' to set the current inventory on which further

@@ -65,6 +65,7 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_DATA_FLOAT: arg.f = other.arg.f; break;
     case CEL_DATA_BOOL: arg.b = other.arg.b; break;
     case CEL_DATA_PCLASS: arg.pc = other.arg.pc; break;
+    case CEL_DATA_ENTITY: arg.entity = other.arg.entity; break;
     case CEL_DATA_ID: arg.id = other.arg.id; break;
     case CEL_DATA_EVENTHANDLER: arg.h = other.arg.h; break;
     case CEL_DATA_CODELOCATION:
@@ -174,6 +175,13 @@ static const char* ArgToString (const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("ent(%s)", a.arg.entity ? a.arg.entity->GetName () : "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
@@ -263,6 +271,13 @@ static const char* A2S (const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{ent:%s}", a.arg.entity ? a.arg.entity->GetName () : "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
@@ -277,6 +292,28 @@ static const char* A2S (const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
+  }
+}
+
+static iCelEntity* ArgToEntity (const celXmlArg& a, iCelPlLayer* pl)
+{
+  if (a.type == CEL_DATA_ENTITY)
+    return a.arg.entity;
+  else
+  {
+    const char* entname = ArgToString (a);
+    return pl->FindEntity (entname);
+  }
+}
+
+static const char* EntityNameForError (const celXmlArg& a)
+{
+  if (a.type == CEL_DATA_ENTITY)
+    return a.arg.entity ? a.arg.entity->GetName () : "<null>";
+  else
+  {
+    const char* entname = ArgToString (a);
+    return entname;
   }
 }
 
@@ -438,6 +475,7 @@ static bool IsStringConvertible (const celXmlArg& a)
     case CEL_DATA_COLOR: return true;
     case CEL_DATA_ID: return true;
     case CEL_DATA_PCLASS: return true;
+    case CEL_DATA_ENTITY: return true;
     default: return false;
   }
 }
@@ -480,6 +518,65 @@ bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
   return false;
 }
 
+bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
+	celBehaviourXml* behave, bool& rc)
+{
+  switch (eval.type)
+  {
+    case CEL_DATA_STRING:
+      {
+	const char* s = ArgToString (eval);
+	rc = s ? *s != 0 : false;
+      }
+      break;
+    case CEL_DATA_ENTITY:
+      rc = eval.arg.entity != 0;
+      break;
+    case CEL_DATA_PCLASS:
+      rc = ArgToPClass (eval) != 0;
+      break;
+    case CEL_DATA_BOOL:
+      rc = ArgToBool (eval);
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v = ArgToVector2 (eval);
+	rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+        csVector3 v = ArgToVector3 (eval);
+        rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
+          ABS (v.z) >= SMALL_EPSILON;
+      }
+      break;
+    case CEL_DATA_COLOR:
+      {
+        csColor v = ArgToColor (eval);
+        rc = ABS (v.red) >= SMALL_EPSILON ||
+            ABS (v.green) >= SMALL_EPSILON ||
+            ABS (v.blue) >= SMALL_EPSILON;
+      }
+      break;
+    case CEL_DATA_FLOAT:
+      {
+        float f = ArgToFloat (eval);
+        rc = ABS (f) >= SMALL_EPSILON;
+      }
+      break;
+    case CEL_DATA_LONG:
+      rc = ArgToInt32 (eval) != 0;
+      break;
+    case CEL_DATA_ULONG:
+      rc = ArgToUInt32 (eval) != 0;
+      break;
+    default:
+      return ReportError (behave, "Can't test on this type!");
+  }
+  return true;
+}
+
 bool celXmlScriptEventHandler::CheckStack (celBehaviourXml* behave)
 {
   if (stack.Length () == 0)
@@ -494,14 +591,16 @@ bool celXmlScriptEventHandler::CheckStack (celBehaviourXml* behave)
 #endif
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
-	celBehaviourXml* behave, iCelParameterBlock* params)
+	celBehaviourXml* behave, iCelParameterBlock* params,
+	int startop)
 {
   int stack_size = stack.Length ();
-  int i = 0;
-  csWeakRef<iCelPropertyClass> default_pc;
-  csWeakRef<iPcInventory> default_inv;
-  DUMP_EXEC (":::: entity=%s behave=%s\n", entity->GetName (),
+  int i = startop;
+  if (startop == 0)
+  {
+    DUMP_EXEC (":::: entity=%s behave=%s\n", entity->GetName (),
   	behave->GetName ());
+  }
 
   for (;;)
   {
@@ -542,6 +641,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (data->value.ul);
+	      break;
+	    case CEL_DATA_ENTITY:
+	      stack[si].SetEntity (data->value.ent);
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
@@ -635,7 +737,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC (":%04d: pc %s %s\n", i-1, A2S (a_ent), A2S (a_pc));
 
 	  int si = stack.Push (celXmlArg ());
-	  iCelEntity* other_ent = pl->FindEntity (ArgToString (a_ent));
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
 	  {
 	    stack[si].SetPC ((iCelPropertyClass*)0);
@@ -1393,6 +1495,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      stack[si].SetBool (!((ArgToVector3 (ela) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON));
 	      break;
+	    case CEL_DATA_ENTITY:
+	      stack[si].SetBool (ela.arg.entity != elb.arg.entity);
+	      break;
 	    case CEL_DATA_PCLASS:
 	      stack[si].SetBool (ArgToPClass (ela) != ArgToPClass (elb));
 	      break;
@@ -1451,6 +1556,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_PCLASS:
 	      stack[si].SetBool (ArgToPClass (ela) == ArgToPClass (elb));
+	      break;
+	    case CEL_DATA_ENTITY:
+	      stack[si].SetBool (ela.arg.entity ==  elb.arg.entity);
 	      break;
 	    case CEL_DATA_ID:
 	      stack[si].SetBool (ArgToID (ela) == ArgToID (elb));
@@ -1661,6 +1769,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		stack[si].SetPC (l);
 	      }
 	      break;
+	    case CEL_DATA_ENTITY:
+	      {
+		iCelEntity* l = props->GetPropertyEntity (idx);
+		stack[si].SetEntity (l);
+	      }
+	      break;
 	    default:
 	      return ReportError (behave, "Property '%s' has wrong type!",
 	      	varname);
@@ -1675,21 +1789,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_ent = stack.Pop ();
           DUMP_EXEC (":%04d: derefvarent ent=%s var=%s\n", i-1, A2S (a_ent),
 	  	A2S (a_var));
-	  const char* entname = ArgToString (a_ent);
-	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
 	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	entname);
+	    	EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
-	    	"Entity '%s' doesn't have 'pcproperties'!", entname);
+	    return ReportError (behave, "Entity '%s' doesn't have 'pcproperties'!",
+	    	EntityNameForError (a_ent));
 	  const char* varname = ArgToString (a_var);
 	  int idx = props->GetPropertyIndex (varname);
 	  if (idx == -1)
 	    return ReportError (behave,
-	    	"Entity '%s' doesn't have variable '%s'!", entname, varname);
+	    	"Entity doesn't have variable '%s'!", varname);
 	  int si = stack.Push (celXmlArg ());
 	  switch (props->GetPropertyType (idx))
 	  {
@@ -1744,6 +1857,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		stack[si].SetColor (v);
 	      }
 	      break;
+	    case CEL_DATA_ENTITY:
+	      {
+		iCelEntity* l = props->GetPropertyEntity (idx);
+		stack[si].SetEntity (l);
+	      }
+	      break;
 	    case CEL_DATA_PCLASS:
 	      {
 		iCelPropertyClass* l = props->GetPropertyPClass (idx);
@@ -1756,6 +1875,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
         break;
+      case CEL_OPERATION_ENTTHIS:
+        {
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetEntity (entity);
+	}
+	break;
+
+      case CEL_OPERATION_ENT:
+        {
+	  CHECK_STACK
+	  celXmlArg a_entname = stack.Pop ();
+	  iCelEntity* ent = ArgToEntity (a_entname, pl);
+	  if (!ent)
+	    return ReportError (behave, "Can't find entity '%s'!",
+	    	EntityNameForError (a_entname));
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetEntity (ent);
+	}
+	break;
 
       case CEL_OPERATION_CREATEPROPCLASS:
         {
@@ -1804,16 +1942,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg aent = stack.Pop ();
 	  DUMP_EXEC (":%04d: callent ent=%s event=%s\n", i-1, A2S (aent),
 	  	A2S (aevent));
-	  const char* entname = ArgToString (aent);
-	  const char* eventname = ArgToString (aevent);
-	  iCelEntity* ent;
-	  if (!entname)
-	    ent = entity;
-	  else
-	    ent = pl->FindEntity (entname);
+	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
-	    return ReportError (behave,
-	    	"Couldn't find entity with name '%s'!", entname);
+	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    	EntityNameForError (aent));
+	  const char* eventname = ArgToString (aevent);
 	  ent->GetBehaviour ()->SendMessage (eventname, 0);
 	}
         break;
@@ -1831,11 +1964,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK
 	  celXmlArg aent = stack.Pop ();
 	  DUMP_EXEC (":%04d: destroyentity %s\n", i-1, A2S (aent));
-	  const char* entname = ArgToString (aent);
-	  iCelEntity* ent = pl->FindEntity (entname);
+	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
 	    return ReportError (behave,
-	    	"Couldn't find entity with name '%s'!", entname);
+	    	  "Couldn't find entity with name '%s'!", EntityNameForError (aent));
 	  pl->RemoveEntity (ent);
 	}
         break;
@@ -1895,6 +2027,35 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_FORI:
+        {
+	  CHECK_STACK
+	  celXmlArg a_end = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_start = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_var = stack.Pop ();
+	  DUMP_EXEC (":%04d: fori var=%s start=%s end=%s\n", i-1, A2S (a_var),
+	  	A2S (a_start), A2S (a_end));
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (a_var);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  char* copy_varname = csStrNew (varname);
+	  int32 start = ArgToInt32 (a_start);
+	  int32 end = ArgToInt32 (a_end);
+	  int32 v;
+	  int endlocation = op.arg.arg.codelocation;
+	  for (v = start ; v <= end ; v++)
+	  {
+	    props->SetProperty (copy_varname, (long)v);
+	    Execute (entity, behave, params, i);
+	  }
+	  delete[] copy_varname;
+	  i = endlocation;
+	}
+	break;
       case CEL_OPERATION_IFFUN:
         {
 	  CHECK_STACK
@@ -1906,56 +2067,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC (":%04d: iffun eval=%s true=%s false=%s\n", i-1,
 	  	A2S (eval), A2S (ela), A2S (elb));
 	  bool rc = false;
-	  switch (eval.type)
-	  {
-	    case CEL_DATA_STRING:
-	      {
-	        const char* s = ArgToString (eval);
-	        rc = s ? *s != 0 : false;
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      rc = ArgToPClass (eval) != 0;
-	      break;
-	    case CEL_DATA_BOOL:
-	      rc = ArgToBool (eval);
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v = ArgToVector2 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v = ArgToVector3 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
-			ABS (v.z) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v = ArgToColor (eval);
-		rc = ABS (v.red) >= SMALL_EPSILON ||
-			ABS (v.green) >= SMALL_EPSILON ||
-			ABS (v.blue) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-	        float f = ArgToFloat (eval);
-	        rc = ABS (f) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_LONG:
-	      rc = ArgToInt32 (eval) != 0;
-	      break;
-	    case CEL_DATA_ULONG:
-	      rc = ArgToUInt32 (eval) != 0;
-	      break;
-	    default:
-	      return ReportError (behave, "Can't test on this type!");
-	  }
+	  if (!EvaluateTrue (eval, behave, rc)) return false;
 	  if (rc)
 	  {
 	    stack.Push (ela);
@@ -1979,56 +2091,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC (":%04d: ifgoto %s :%d:\n", i-1, A2S (eval),
 	  	op.arg.arg.codelocation);
 	  bool rc = false;
-	  switch (eval.type)
-	  {
-	    case CEL_DATA_STRING:
-	      {
-	        const char* s = ArgToString (eval);
-	        rc = s ? *s != 0 : false;
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      rc = ArgToPClass (eval) != 0;
-	      break;
-	    case CEL_DATA_BOOL:
-	      rc = ArgToBool (eval);
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v = ArgToVector2 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v = ArgToVector3 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
-			ABS (v.z) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v = ArgToColor (eval);
-		rc = ABS (v.red) >= SMALL_EPSILON ||
-			ABS (v.green) >= SMALL_EPSILON ||
-			ABS (v.blue) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-	        float f = ArgToFloat (eval);
-	        rc = ABS (f) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_LONG:
-	      rc = ArgToInt32 (eval) != 0;
-	      break;
-	    case CEL_DATA_ULONG:
-	      rc = ArgToUInt32 (eval) != 0;
-	      break;
-	    default:
-	      return ReportError (behave, "Can't test on this type!");
-	  }
+	  if (!EvaluateTrue (eval, behave, rc)) return false;
 	  if (!rc)
 	  {
 	    i = op.arg.arg.codelocation;
@@ -2041,56 +2104,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg eval = stack.Pop ();
 	  DUMP_EXEC (":%04d: if %s\n", i-1, A2S (eval));
 	  bool rc = false;
-	  switch (eval.type)
-	  {
-	    case CEL_DATA_STRING:
-	      {
-	        const char* s = ArgToString (eval);
-	        rc = s ? *s != 0 : false;
-	      }
-	      break;
-	    case CEL_DATA_PCLASS:
-	      rc = ArgToPClass (eval) != 0;
-	      break;
-	    case CEL_DATA_BOOL:
-	      rc = ArgToBool (eval);
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v = ArgToVector2 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v = ArgToVector3 (eval);
-		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
-			ABS (v.z) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v = ArgToColor (eval);
-		rc = ABS (v.red) >= SMALL_EPSILON ||
-			ABS (v.green) >= SMALL_EPSILON ||
-			ABS (v.blue) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_FLOAT:
-	      {
-	        float f = ArgToFloat (eval);
-	        rc = ABS (f) >= SMALL_EPSILON;
-	      }
-	      break;
-	    case CEL_DATA_LONG:
-	      rc = ArgToInt32 (eval) != 0;
-	      break;
-	    case CEL_DATA_ULONG:
-	      rc = ArgToUInt32 (eval) != 0;
-	      break;
-	    default:
-	      return ReportError (behave, "Can't test on this type!");
-	  }
+	  if (!EvaluateTrue (eval, behave, rc)) return false;
 	  if (rc)
 	  {
 	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
@@ -2197,16 +2211,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC (":%04d: varent ent=%s var=%s value=%s\n", i-1, A2S (a_ent),
 	  	A2S (var), A2S (val));
 
-	  const char* entname = ArgToString (a_ent);
-	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
 	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	entname);
+	    	  EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
 	    return ReportError (behave,
-	    	"Entity '%s' doesn't have 'pcproperties'!", entname);
+	    	"Entity '%s' doesn't have 'pcproperties'!", EntityNameForError (a_ent));
 
 	  const char* varname = ArgToString (var);
 	  if (!varname)
@@ -2253,6 +2266,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		vec.z = val.arg.vec.z;
 	        props->SetProperty (varname, vec);
 	      }
+	      break;
+	    case CEL_DATA_ENTITY:
+	      props->SetProperty (varname, val.arg.entity);
 	      break;
 	    case CEL_DATA_PCLASS:
 	      props->SetProperty (varname, val.arg.pc);
@@ -2318,6 +2334,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, vec);
 	      }
 	      break;
+	    case CEL_DATA_ENTITY:
+	      props->SetProperty (varname, val.arg.entity);
+	      break;
 	    case CEL_DATA_PCLASS:
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
@@ -2354,6 +2373,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
+	      break;
+	    case CEL_DATA_PCLASS:
+	      stack[si].SetPC (pc->GetPropertyPClass (id));
+	      break;
+	    case CEL_DATA_ENTITY:
+	      stack[si].SetEntity (pc->GetPropertyEntity (id));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
@@ -2413,6 +2438,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
 	      break;
+	    case CEL_DATA_PCLASS:
+	      stack[si].SetPC (pc->GetPropertyPClass (id));
+	      break;
+	    case CEL_DATA_ENTITY:
+	      stack[si].SetEntity (pc->GetPropertyEntity (id));
+	      break;
 	    case CEL_DATA_COLOR:
 	      {
 	        csColor col;
@@ -2445,11 +2476,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_ent = stack.Pop ();
 	  DUMP_EXEC (":%04d: inventory_add ent=%s\n", i-1, A2S (a_ent));
 
-	  const char* entname = ArgToString (a_ent);
-	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
 	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	entname);
+	    	  EntityNameForError (a_ent));
 	  if (!default_inv)
 	    return ReportError (behave, "Default inventory isn't set!");
 	  default_inv->AddEntity (other_ent);
@@ -2461,14 +2491,33 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_ent = stack.Pop ();
 	  DUMP_EXEC (":%04d: inventory_rem ent=%s\n", i-1, A2S (a_ent));
 
-	  const char* entname = ArgToString (a_ent);
-	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
 	    return ReportError (behave, "Couldn't find entity '%s'!",
-	    	entname);
+	    	  EntityNameForError (a_ent));
 	  if (!default_inv)
 	    return ReportError (behave, "Default inventory isn't set!");
 	  default_inv->RemoveEntity (other_ent);
+	}
+	break;
+      case CEL_OPERATION_INVENTORY_COUNT:
+        {
+	  DUMP_EXEC (":%04d: inventory_count()\n", i-1);
+	  if (!default_inv)
+	    return ReportError (behave, "Default inventory isn't set!");
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetInt32 (default_inv->GetEntityCount ());
+	}
+	break;
+      case CEL_OPERATION_INVENTORY_GET:
+        {
+	  CHECK_STACK
+	  celXmlArg a_idx = stack.Pop ();
+	  DUMP_EXEC (":%04d: inventory_get idx=%s\n", i-1, A2S (a_idx));
+	  if (!default_inv)
+	    return ReportError (behave, "Default inventory isn't set!");
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetEntity (default_inv->GetEntity (ArgToInt32 (a_idx)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:
@@ -2535,6 +2584,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_COLOR:
 	      pc->SetProperty (id, ArgToColor (a_val));
+	      break;
+	    case CEL_DATA_PCLASS:
+	      pc->SetProperty (id, ArgToPClass (a_val));
+	      break;
+	    case CEL_DATA_ENTITY:
+	      pc->SetProperty (id, a_val.arg.entity);
 	      break;
 	    default:
 	      return ReportError (behave,

@@ -38,10 +38,23 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iCelPropertyClass;
 struct iCelParameterBlock;
+struct iPcInventory;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 class celGenericParameterBlock;
 
+// ?: various types possible
+// -: nothing
+// PC: pclass
+// ID: ID
+// S: string
+// E: entity (or string for entity name)
+// B: boolean
+// F: float
+// EH: event handler
+// C: code location
+// PC: property class
+// I: integer
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
@@ -49,34 +62,37 @@ enum
   CEL_OPERATION_GETPROPERTY,	// A:-		S:PC,ID		OS:?
   CEL_OPERATION_GETPROPERTY1,	// A:-		S:ID		OS:?
   CEL_OPERATION_ACTIONPARAMS,	// A:UL		S:-		OS:-
-  CEL_OPERATION_ACTIONPARAM,	// A:UL		S:ID,S,?	OS:-
+  CEL_OPERATION_ACTIONPARAM,	// A:UL		S:ID,?		OS:-
   CEL_OPERATION_ACTION,		// A:-		S:PC,ID		OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
-  CEL_OPERATION_VARENT,		// A:-		S:S,S,?		OS:-
-  CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
-  CEL_OPERATION_IF,		// A:E,E	S:B		OS:-
+  CEL_OPERATION_VARENT,		// A:-		S:E,S,?		OS:-
+  CEL_OPERATION_PRINT,		// A:-		S:?		OS:-
+  CEL_OPERATION_IF,		// A:EH,EH	S:B		OS:-
   CEL_OPERATION_IFGOTO,		// A:C		S:B		OS:-
   CEL_OPERATION_IFFUN,		// A:-		S:B,?,?		OS:?
   CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
-  CEL_OPERATION_FOR,		// A:E		S:S,?,?		OS:-
+  CEL_OPERATION_FOR,		// A:EH		S:S,?,?		OS:-
+  CEL_OPERATION_FORI,		// A:C		S:S,?,?		OS:-
   CEL_OPERATION_CALL,		// A:-		S:S		OS:-
-  CEL_OPERATION_CALLENT,	// A:-		S:S,S		OS:-
-  CEL_OPERATION_TESTCOLLIDE,	// A:-		S:S		OS:-
-  CEL_OPERATION_DESTROYENTITY,	// A:-		S:S		OS:-
+  CEL_OPERATION_CALLENT,	// A:-		S:E,S		OS:-
+  CEL_OPERATION_TESTCOLLIDE,	// A:-		S:PC		OS:-
+  CEL_OPERATION_DESTROYENTITY,	// A:-		S:E		OS:-
   CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CREATEPROPCLASS,// A:-		S:S		OS:-
   CEL_OPERATION_DEFAULTPC,	// A:-		S:PC		OS:-
   CEL_OPERATION_DEFAULTINV,	// A:-		S:PC		OS:-
-  CEL_OPERATION_INVENTORY_ADD,	// A:-		S:S		OS:-
-  CEL_OPERATION_INVENTORY_REM,	// A:-		S:S		OS:-
+  CEL_OPERATION_INVENTORY_ADD,	// A:-		S:E		OS:-
+  CEL_OPERATION_INVENTORY_REM,	// A:-		S:E		OS:-
+  CEL_OPERATION_INVENTORY_COUNT,// A:-		S:-		OS:I
+  CEL_OPERATION_INVENTORY_GET,	// A:-		S:I		OS:E
   CEL_OPERATION_PUSH,		// A:?		S:-		OS:?
   CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
-  CEL_OPERATION_DEREFVARENT,	// A:-		S:S,S		OS:?
+  CEL_OPERATION_DEREFVARENT,	// A:-		S:E,S		OS:?
   CEL_OPERATION_COLOR,		// A:-		S:F,F,F		OS:C
   CEL_OPERATION_VECTOR2,	// A:-		S:F,F		OS:V2
   CEL_OPERATION_VECTOR3,	// A:-		S:F,F,F		OS:V3
-  CEL_OPERATION_PC,		// A:-		S:S,S		OS:PC
-  CEL_OPERATION_PCTHIS,		// A:-		S:S		OS:PC
+  CEL_OPERATION_PC,		// A:-		S:E,S		OS:PC
+  CEL_OPERATION_PCTHIS,		// A:-		S:PC		OS:PC
   CEL_OPERATION_UNARYMINUS,	// A:-		S:?		OS:?
   CEL_OPERATION_MINUS,		// A:-		S:?,?		OS:?
   CEL_OPERATION_ADD,		// A:-		S:?,?		OS:?
@@ -108,6 +124,8 @@ enum
   CEL_OPERATION_FLOAT,		// A:-		S:?		OS:F
   CEL_OPERATION_RAND,		// A:-		S:?		OS:F
   CEL_OPERATION_ENTNAME,	// A:-		S:-		OS:S
+  CEL_OPERATION_ENT,		// A:-		S:S		OS:E
+  CEL_OPERATION_ENTTHIS,	// A:-		S:-		OS:E
 
   CEL_OPERATION_FINALOP
 };
@@ -132,8 +150,8 @@ struct celXmlArg
       bool cleanup;	// If true string must be cleaned up here.
     } str;
     bool b;
-    int pc_ref;
     iCelPropertyClass* pc;
+    iCelEntity* entity;
     csStringID id;
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
@@ -201,6 +219,12 @@ struct celXmlArg
     Cleanup ();
     type = CEL_DATA_PCLASS;
     arg.pc = pc;
+  }
+  void SetEntity (iCelEntity* ent)
+  {
+    Cleanup ();
+    type = CEL_DATA_ENTITY;
+    arg.entity = ent;
   }
   void SetID (csStringID id)
   {
@@ -271,12 +295,15 @@ private:
   iCelPlLayer* pl;
   csArray<celXmlArg> stack;
   csArray<celXmlArg> local_vars;
+  csWeakRef<iCelPropertyClass> default_pc;
+  csWeakRef<iPcInventory> default_inv;
 
   // Temporary variable to keep parameters for actions.
   csRef<celGenericParameterBlock> action_params;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool CheckStack (celBehaviourXml* behave);
+  bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);
@@ -300,7 +327,7 @@ public:
   celXmlArg& GetLocalVariable (int idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
-  	iCelParameterBlock* params);
+  	iCelParameterBlock* params, int startop = 0);
 };
 
 /**
