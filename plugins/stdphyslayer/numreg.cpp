@@ -131,6 +131,7 @@ void NumRegLists::RegisterWithID (void* obj, CS_ID id)
       newsize = listsize + ADDSIZE;
 
     list = (void**) realloc((void*)list, newsize*sizeof(void*));
+    memset (list+listsize, 0, sizeof(void*)*(newsize-listsize));
     listsize = newsize;
   }
 
