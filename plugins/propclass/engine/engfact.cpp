@@ -86,10 +86,10 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 static float FixAngle (float angle)
 {
-  while (angle >= 3.14159f)
-    angle -= 2*3.14159f;
-  while (angle < -3.14169f)
-    angle += 2*3.14159f;
+  while (angle >= PI)
+    angle -= 2*PI;
+  while (angle < -PI)
+    angle += 2*PI;
   return angle;
 }
 
