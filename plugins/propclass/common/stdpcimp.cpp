@@ -178,6 +178,25 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
   return false; 
 }
 
+bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
+{
+  UpdateProperties (object_reg);
+
+  if (!propcount) return false;
+
+  for (int i=0; i<(*propcount); i++)
+  {
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_COLOR)
+      {
+	((csColor*)(propdata[i]))[0] = v;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
 bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
 {
   UpdateProperties (object_reg);
@@ -322,6 +341,25 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v )
       if (props[i].datatype == CEL_DATA_VECTOR3)
       {
 	v = ((csVector3*)(propdata[i]))[0];
+	return true;
+      }
+      else return false;
+  }
+  return false;
+}
+
+bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
+{
+  UpdateProperties (object_reg);
+
+  if (!propcount) return false;
+
+  for (int i=0; i<(*propcount); i++)
+  {
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_COLOR)
+      {
+	v = ((csColor*)(propdata[i]))[0];
 	return true;
       }
       else return false;

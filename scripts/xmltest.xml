@@ -115,12 +115,18 @@
 	        <var name="isinit" bool="1" />
 	    </event>
 	    <event name="collide">
-	        <print>Test collide!</print>
+	        <property propclass="pcbillboard" name="pcbillboard.color"
+			color="0,0,1" />
 	    </event>
-	    <event name="pcbillboard_unselect">
-	        <print>xxx</print>
+	    <event name="nocollide">
+	        <property propclass="pcbillboard" name="pcbillboard.color"
+			color="1,1,1" />
+	    </event>
+	    <event name="pcbillboard_move">
 	        <if var="isinit" false="findpc" />
-		<testcollide var="collidetest" true="collide" />
+		<testcollide var="collidetest"
+			true="collide"
+			false="nocollide" />
 	    </event>
 	</script>
     </addon>
@@ -398,6 +404,7 @@
 	        <property name="pcbillboard.materialname" string="chair" />
 	        <property name="pcbillboard.movable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
+		<property name="pcbillboard.color" color="1,0,0" />
 	    </propclass>
             <behaviour name="generic_object" />
 	</addon>

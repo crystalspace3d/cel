@@ -104134,6 +104134,7 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CEL_DATA_ENTITY", (long) CEL_DATA_ENTITY, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_BUFFER", (long) CEL_DATA_BUFFER, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_ACTION", (long) CEL_DATA_ACTION, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CEL_DATA_COLOR", (long) CEL_DATA_COLOR, 0, 0, 0},
 {0}};
 
 #ifdef __cplusplus

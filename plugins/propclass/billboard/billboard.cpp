@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 6;
+    propertycount = 7;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -93,6 +93,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_restack].datatype = CEL_DATA_BOOL;
     properties[propid_restack].readonly = false;
     properties[propid_restack].desc = "Make restackable on selection.";
+
+    properties[propid_color].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.color");
+    properties[propid_color].datatype = CEL_DATA_COLOR;
+    properties[propid_color].readonly = false;
+    properties[propid_color].desc = "Color of this billboard.";
   }
 }
 
@@ -127,6 +133,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_movable] = 0;		// Handled in this class.
   propdata[propid_visible] = 0;		// Handled in this class.
   propdata[propid_restack] = 0;		// Handled in this class.
+  propdata[propid_color] = 0;		// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -239,6 +246,44 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
   }
 }
 
+bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetColor (c);
+      return true;
+    }
+    return false;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, c);
+  }
+}
+
+bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      c = billboard->GetColor ();
+      return true;
+    }
+    return false;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyColor (propertyId, c);
+  }
+}
+
 void celPcBillboard::EnableEvents (bool e)
 {
   if (events_enabled == e) return;
@@ -291,17 +336,20 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (4);
+  databuf->SetDataCount (5);
   databuf->GetData (0)->Set (billboard_name);
   if (billboard)
   {
     databuf->GetData (1)->Set (billboard->GetMaterialName ());
     databuf->GetData (2)->Set ((uint32)billboard->GetFlags ().Get ());
+    databuf->GetData (4)->Set (billboard->GetColor ());
   }
   else
   {
     databuf->GetData (1)->Set ((const char*)0);
     databuf->GetData (2)->Set ((uint32)0);
+    csColor col (0, 0, 0);
+    databuf->GetData (4)->Set (col);
   }
   databuf->GetData (3)->Set (events_enabled);
   return csPtr<iCelDataBuffer> (databuf);
@@ -330,6 +378,15 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 
   cd = databuf->GetData (3); if (!cd) return false;
   EnableEvents (cd->value.b);
+
+  cd = databuf->GetData (4); if (!cd) return false;
+  GetBillboard ();
+  if (billboard)
+  {
+    csColor col (cd->value.col.red, cd->value.col.green,
+    	cd->value.col.blue);
+    billboard->SetColor (col);
+  }
 
   return true;
 }

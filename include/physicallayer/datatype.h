@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scfstr.h"
 #include "csgeom/vector3.h"
+#include "csutil/cscolor.h"
 #include "physicallayer/persist.h"
 
 /**
@@ -44,7 +45,8 @@ enum celDataType
   CEL_DATA_PCLASS,
   CEL_DATA_ENTITY,
   CEL_DATA_BUFFER,
-  CEL_DATA_ACTION
+  CEL_DATA_ACTION,
+  CEL_DATA_COLOR
 };
 
 /**
@@ -68,6 +70,10 @@ struct celData
     {
       float x, y, z;
     } v;
+    struct
+    {
+      float red, green, blue;
+    } col;
     iCelPropertyClass* pc;
     iCelEntity* ent;
     iCelDataBuffer* db;
@@ -102,6 +108,14 @@ struct celData
     value.v.x = v.x;
     value.v.y = v.y;
     value.v.z = v.z;
+  }
+  void Set (const csColor& v)
+  {
+    Clear ();
+    type = CEL_DATA_COLOR;
+    value.col.red = v.red;
+    value.col.green = v.green;
+    value.col.blue = v.blue;
   }
   void Set (const char* s)
   {

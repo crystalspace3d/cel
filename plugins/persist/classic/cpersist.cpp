@@ -27,6 +27,7 @@
 #include "plugins/persist/classic/cpersist.h"
 #include "cssys/csendian.h"
 #include "csutil/memfile.h"
+#include "csutil/cscolor.h"
 #include "iutil/vfs.h"
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"
@@ -483,6 +484,15 @@ bool celPersistClassicContext::Read (celData* cd)
       cd->Set (s);
       delete[] s;
       break;
+    case CEL_DATA_COLOR:
+      {
+        csColor v;
+        if (!Read (v.red)) return false;
+        if (!Read (v.green)) return false;
+        if (!Read (v.blue)) return false;
+        cd->Set (v);
+      }
+      break;
     case CEL_DATA_VECTOR3:
       {
         csVector3 v;
@@ -916,6 +926,13 @@ bool celPersistClassicContext::Write (celData* data)
         if (!Write (data->value.v.x)) return false;
 	if (!Write (data->value.v.y)) return false;
 	if (!Write (data->value.v.z)) return false;
+      }
+      break;
+    case CEL_DATA_COLOR:
+      {
+        if (!Write (data->value.col.red)) return false;
+	if (!Write (data->value.col.green)) return false;
+	if (!Write (data->value.col.blue)) return false;
       }
       break;
     case CEL_DATA_STRING:

@@ -26,6 +26,7 @@
 
 struct iImage;
 struct iBillboard;
+class csColor;
 
 SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
 
@@ -131,6 +132,16 @@ struct iBillboard : public iBase
    * Relative move.
    */
   virtual void Move (int dx, int dy) = 0;
+
+  /**
+   * Set the color for this billboard (default white).
+   */
+  virtual void SetColor (const csColor& c) = 0;
+
+  /**
+   * Get the color for this billboard (default white).
+   */
+  virtual const csColor& GetColor () const = 0;
 
   /**
    * Add an event handler to this billboard.

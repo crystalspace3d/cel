@@ -30,10 +30,11 @@ public:
   { }
 
   void SetDataCount (int cnt)
-  {  databuf->SetDataCount(cnt); }
+  { databuf->SetDataCount(cnt); }
   
   void SetPos(int idx)
-  { if (j>=databuf->GetDataCount())
+  {
+    if (j>=databuf->GetDataCount())
       return;
     j=idx;
     rc=true;
@@ -44,20 +45,21 @@ public:
   int GetPos()
   {  return j; }
 
-  void Set(int8 v) { databuf->GetData(j++)->Set(v); }
-  void Set(uint8 v) { databuf->GetData(j++)->Set(v); }
-  void Set(int16 v) { databuf->GetData(j++)->Set(v); }
-  void Set(uint16 v) { databuf->GetData(j++)->Set(v); }
-  void Set(int32 v) { databuf->GetData(j++)->Set(v); }
-  void Set(uint32 v) { databuf->GetData(j++)->Set(v); }  
-  void Set(float v) { databuf->GetData(j++)->Set(v); }
-  void Set(const csVector3& v) { databuf->GetData(j++)->Set(v); }
-  void Set(const char* v) { databuf->GetData(j++)->Set(v); }
-  void Set(iCelEntity* v) { databuf->GetData(j++)->Set(v); }
-  void Set(iCelPropertyClass* v) { databuf->GetData(j++)->Set(v); }
-  void Set(iCelDataBuffer* v) { databuf->GetData(j++)->Set(v); }
-  void SetAction(const char* v) { databuf->GetData(j++)->SetAction(v); }
-  void SetBool(bool v) { databuf->GetData(j++)->SetBool(v); }
+  void Set (int8 v) { databuf->GetData(j++)->Set(v); }
+  void Set (uint8 v) { databuf->GetData(j++)->Set(v); }
+  void Set (int16 v) { databuf->GetData(j++)->Set(v); }
+  void Set (uint16 v) { databuf->GetData(j++)->Set(v); }
+  void Set (int32 v) { databuf->GetData(j++)->Set(v); }
+  void Set (uint32 v) { databuf->GetData(j++)->Set(v); }  
+  void Set (float v) { databuf->GetData(j++)->Set(v); }
+  void Set (const csVector3& v) { databuf->GetData(j++)->Set(v); }
+  void Set (const csColor& v) { databuf->GetData(j++)->Set(v); }
+  void Set (const char* v) { databuf->GetData(j++)->Set(v); }
+  void Set (iCelEntity* v) { databuf->GetData(j++)->Set(v); }
+  void Set (iCelPropertyClass* v) { databuf->GetData(j++)->Set(v); }
+  void Set (iCelDataBuffer* v) { databuf->GetData(j++)->Set(v); }
+  void SetAction (const char* v) { databuf->GetData(j++)->SetAction(v); }
+  void SetBool (bool v) { databuf->GetData(j++)->SetBool(v); }
 
   // the following functions work with reference parameters, because c++
   // doesn't allow overriding based on return type
@@ -82,7 +84,16 @@ public:
   DATABHLP_GET(bool,bo,CEL_DATA_BOOL)
 #undef DATABHLP_GET
   
-  bool Get(csVector3& v)
+  bool Get (csColor& v)
+  {
+    celData* data = databuf->GetData(j++);
+    if (data->type != CEL_DATA_COLOR) { rc=false; return false; }
+    v.red = data->value.col.red;
+    v.green = data->value.col.green;
+    v.blue = data->value.col.blue;
+    return true;
+  }
+  bool Get (csVector3& v)
   {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_VECTOR3) { rc=false; return false; }
@@ -91,14 +102,14 @@ public:
     v.z = data->value.v.z;
     return true;
   }
-  bool Get(const char*& v)
+  bool Get (const char*& v)
   {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_STRING) { rc=false; return false; }
     v = *data->value.s;
     return true;
   }
-  bool GetAction(const char*& v)
+  bool GetAction (const char*& v)
   {
     celData* data = databuf->GetData(j++);
     if (data->type != CEL_DATA_ACTION) { rc=false; return false; }

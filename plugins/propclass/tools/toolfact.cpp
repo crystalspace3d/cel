@@ -415,6 +415,18 @@ bool celPcProperties::SetProperty (csStringID id, long v)
   return true;
 }
 
+bool celPcProperties::SetProperty (csStringID id, const csVector3& v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, const csColor& v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
 bool celPcProperties::SetProperty (csStringID id, iCelPropertyClass* v)
 {
   SetProperty (FindOrNewProperty (id), v);
@@ -453,6 +465,20 @@ float celPcProperties::GetPropertyFloat (csStringID id)
   int idx = FindProperty (id);
   if (idx == -1) return 0;
   return GetPropertyFloatIndex (idx);
+}
+
+bool celPcProperties::GetPropertyVector (csStringID id, csVector3& v)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyVectorIndex (idx, v);
+}
+
+bool celPcProperties::GetPropertyColor (csStringID id, csColor& v)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyColorIndex (idx, v);
 }
 
 iCelPropertyClass* celPcProperties::GetPropertyPClass (csStringID id)
@@ -496,6 +522,14 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
       case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);
 	break;
+      case CEL_DATA_VECTOR3:
+        databuf->GetData (j++)->Set (csVector3 (p->v.vec.x, p->v.vec.y,
+		p->v.vec.z));
+	break;
+      case CEL_DATA_COLOR:
+        databuf->GetData (j++)->Set (csVector3 (p->v.col.red, p->v.col.green,
+		p->v.col.blue));
+	break;
       case CEL_DATA_PCLASS:
         databuf->GetData (j++)->Set (p->pclass);
 	break;
@@ -538,6 +572,16 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
 	break;
       case CEL_DATA_STRING:
         p->v.s = csStrNew (*cd->value.s);
+	break;
+      case CEL_DATA_VECTOR3:
+        p->v.vec.x = cd->value.v.x;
+        p->v.vec.y = cd->value.v.y;
+        p->v.vec.z = cd->value.v.z;
+	break;
+      case CEL_DATA_COLOR:
+        p->v.col.red = cd->value.col.red;
+        p->v.col.green = cd->value.col.green;
+        p->v.col.blue = cd->value.col.blue;
 	break;
       case CEL_DATA_PCLASS:
         p->pclass = cd->value.pc;
@@ -599,6 +643,16 @@ void celPcProperties::SetProperty (const char* name, const char* value)
   SetProperty (FindOrNewProperty (name), value);
 }
 
+void celPcProperties::SetProperty (const char* name, const csVector3& value)
+{
+  SetProperty (FindOrNewProperty (name), value);
+}
+
+void celPcProperties::SetProperty (const char* name, const csColor& value)
+{
+  SetProperty (FindOrNewProperty (name), value);
+}
+
 void celPcProperties::SetProperty (const char* name, iCelPropertyClass* value)
 {
   SetProperty (FindOrNewProperty (name), value);
@@ -652,6 +706,34 @@ void celPcProperties::SetProperty (int index, bool value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_BOOL;
   p->v.b = value;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
+}
+
+void celPcProperties::SetProperty (int index, const csVector3& value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_VECTOR3;
+  p->v.vec.x = value.x;
+  p->v.vec.y = value.y;
+  p->v.vec.z = value.z;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
+}
+
+void celPcProperties::SetProperty (int index, const csColor& value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_COLOR;
+  p->v.col.red = value.red;
+  p->v.col.green = value.green;
+  p->v.col.blue = value.blue;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
     bh->SendMessage ("pcproperties_setproperty", 0, index);
@@ -726,6 +808,36 @@ bool celPcProperties::GetPropertyBoolIndex (int index) const
   property* p = properties[index];
   if (p->type == CEL_DATA_BOOL)
     return p->v.b;
+  else
+    return false;
+}
+
+bool celPcProperties::GetPropertyVectorIndex (int index, csVector3& v) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_VECTOR3)
+  {
+    v.x = p->v.vec.x;
+    v.y = p->v.vec.y;
+    v.z = p->v.vec.z;
+    return true;
+  }
+  else
+    return false;
+}
+
+bool celPcProperties::GetPropertyColorIndex (int index, csColor& v) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_COLOR)
+  {
+    v.red = p->v.col.red;
+    v.green = p->v.col.green;
+    v.blue = p->v.col.blue;
+    return true;
+  }
   else
     return false;
 }

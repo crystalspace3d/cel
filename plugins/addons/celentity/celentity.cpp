@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/scanstr.h"
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
@@ -168,6 +169,27 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	        {
 	          pc->SetProperty (propid, (long)attr->GetValueAsInt ());
 	        }
+		else
+		{
+          	  attr = child->GetAttribute ("vector");
+		  if (attr)
+		  {
+		    csVector3 v;
+		    csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
+		    pc->SetProperty (propid, v);
+		  }
+		  else
+		  {
+		    attr = child->GetAttribute ("color");
+		    if (attr)
+		    {
+		      csColor v;
+		      csScanStr (attr->GetValue (), "%f,%f,%f",
+		      	&v.red, &v.green, &v.blue);
+		      pc->SetProperty (propid, v);
+		    }
+		  }
+		}
 	      }
 	    }
 	  }
