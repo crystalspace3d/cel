@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  model to celtest instead of the box. If cal3d is not present
 	  then you will get alerts but the program will not fail. Instead
 	  the original box model will be used.
+	- Eric Sunshine fixed 'jam install' so that it installs the new 'cally'
+	  model.
 16-Dec-2004
 	- Jorrit fixed a bug in the CEL_REMOVE_PROPCLASS macro which would
 	  cause a reference leak because QueryInterface() was used but the
@@ -22,26 +24,24 @@ The history order is reversed so that new features are at the top.
 	  can distinguish between different versions of the same property
 	  class for an entity. To support this the following functions
 	  and macros have been added:
-	      - iCelPropertyClassList->RemoveByInterfaceAndTag(): equivalent
-	        to RemoveByInterface() but will only remove with the correct
-		tag.
-	      - iCelPropertyClassList->FindByNameAndTag(): equivalent to
-	        FindByName() but will only find with the given tag.
-	      - iCelPropertyClassList->FindByInterfaceAndTag(): equivalent
-	        to FindByInterface() but will only find with the given
-		tag.
-	      - CEL_QUERY_PROPCLASS_TAG: same as CEL_QUERY_PROPCLASS but
-	        with tag.
-	      - CEL_QUERY_PROPCLASS_TAG_ENT: same as CEL_QUERY_PROPCLASS_ENT
-	        but with tag.
-	      - CEL_REMOVE_PROPCLASS_TAG: same as CEL_REMOVE_PROPCLASS but
-	        with tag.
-	      - CEL_REMOVE_PROPCLASS_TAG_ENT: same as CEL_REMOVE_PROPCLASS_ENT
-	        but with tag.
-	      - Added iCelPlLayer->CreateTaggedPropertyClass() which is
-	        a conveniance function to create a tagged property class.
-	      - Added iCelPropertyClass->SetTag() and GetTag() to set and
-	        get the tag for a property class.
+	    - iCelPropertyClassList->RemoveByInterfaceAndTag(): equivalent to
+	      RemoveByInterface() but will only remove with the correct tag.
+	    - iCelPropertyClassList->FindByNameAndTag(): equivalent to
+	      FindByName() but will only find with the given tag.
+	    - iCelPropertyClassList->FindByInterfaceAndTag(): equivalent to
+	      FindByInterface() but will only find with the given tag.
+	    - CEL_QUERY_PROPCLASS_TAG: same as CEL_QUERY_PROPCLASS but with
+	      tag.
+	    - CEL_QUERY_PROPCLASS_TAG_ENT: same as CEL_QUERY_PROPCLASS_ENT but
+	      with tag.
+	    - CEL_REMOVE_PROPCLASS_TAG: same as CEL_REMOVE_PROPCLASS but with
+	      tag.
+	    - CEL_REMOVE_PROPCLASS_TAG_ENT: same as CEL_REMOVE_PROPCLASS_ENT
+	      but with tag.
+	    - Added iCelPlLayer->CreateTaggedPropertyClass() which is a
+	      conveniance function to create a tagged property class.
+	    - Added iCelPropertyClass->SetTag() and GetTag() to set and get the
+	      tag for a property class.
 	  The celPcCommon class has been extended with a SetTag() and GetTag()
 	  implementation so if your property class implementation uses
 	  celPcCommon it will be ok.

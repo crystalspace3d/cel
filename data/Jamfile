@@ -1,7 +1,7 @@
 SubDir TOP data ;
 
 InstallData
-  [ Wildcard *.txt ]
+  [ Wildcard *.txt *.cal3d ]
   ball
   box
   large
@@ -12,5 +12,6 @@ InstallData
   world
   : data ;
 
+InstallData [ Wildcard cally : *.caf *.cmf *.csf ] : data cally ;
 InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
 InstallData [ Wildcard sounds : *.zip ] : data sounds ;
