@@ -31,6 +31,25 @@ struct iObjectRegistry;
 struct iEvent;
 
 /**
+ * A quest factory.
+ */
+class celQuestFactory : public iQuestFactory
+{
+private:
+  char* name;
+
+public:
+  celQuestFactory (const char* name);
+  virtual ~celQuestFactory ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return name; }
+  virtual csPtr<iQuest> CreateQuest (
+      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params);
+  virtual bool Load (iDocumentNode* node);
+};
+/**
  * This is a manager for quests.
  */
 class celQuestManager : public iQuestManager
@@ -41,6 +60,8 @@ private:
   	csConstCharHashKeyHandler> trigger_factories;
   csHash<csRef<iQuestRewardFactory>,csStrKey,
   	csConstCharHashKeyHandler> reward_factories;
+  csHash<csRef<celQuestFactory>,csStrKey,
+  	csConstCharHashKeyHandler> quest_factories;
 
 public:
   celQuestManager (iBase* parent);
@@ -51,6 +72,8 @@ public:
 
   virtual bool RegisterTriggerFactory (iQuestTriggerFactory* trigger);
   virtual bool RegisterRewardFactory (iQuestRewardFactory* reward);
+  virtual iQuestFactory* GetQuestFactory (const char* name);
+  virtual iQuestFactory* CreateQuestFactory (const char* name);
 
   struct Component : public iComponent
   {

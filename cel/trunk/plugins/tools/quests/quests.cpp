@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
+#include "csutil/util.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 
@@ -30,6 +31,36 @@
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celQuestManager)
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celQuestFactory)
+  SCF_IMPLEMENTS_INTERFACE (iQuestFactory)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestFactory::celQuestFactory (const char* name)
+{
+  SCF_CONSTRUCT_IBASE (0);
+  celQuestFactory::name = csStrNew (name);
+}
+
+celQuestFactory::~celQuestFactory ()
+{
+  delete[] name;
+}
+
+csPtr<iQuest> celQuestFactory::CreateQuest (
+      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+{
+  return 0;
+}
+
+bool celQuestFactory::Load (iDocumentNode* node)
+{
+  return false;
+}
+
+//---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celQuestManager)
   SCF_IMPLEMENTS_INTERFACE (iQuestManager)
@@ -57,10 +88,27 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
+iQuestFactory* celQuestManager::GetQuestFactory (const char* name)
+{
+  celQuestFactory* fact = quest_factories.Get (name, 0);
+  return (iQuestFactory*)fact;
+}
+
+iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
+{
+  iQuestFactory* ifact = GetQuestFactory (name);
+  if (ifact) return 0;
+
+  celQuestFactory* fact = new celQuestFactory (name);
+  quest_factories.Put (name, fact);
+  fact->DecRef ();
+  return fact;
+}
+
 bool celQuestManager::RegisterTriggerFactory (iQuestTriggerFactory* trigger)
 {
   const char* name = trigger->GetName ();
-  if (trigger == trigger_factories.Get (name, 0))
+  if (trigger_factories.Get (name, 0) != 0)
     return false;
   trigger_factories.Put (name, trigger);
   return true;
@@ -69,7 +117,7 @@ bool celQuestManager::RegisterTriggerFactory (iQuestTriggerFactory* trigger)
 bool celQuestManager::RegisterRewardFactory (iQuestRewardFactory* reward)
 {
   const char* name = reward->GetName ();
-  if (reward == reward_factories.Get (name, 0))
+  if (reward_factories.Get (name, 0) != 0)
     return false;
   reward_factories.Put (name, reward);
   return true;

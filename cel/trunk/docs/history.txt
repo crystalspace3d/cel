@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Dec-2004
+	- Jorrit restarted work on the quest manager. Added quest
+	  factory implementation.
 30-Nov-2004
 	- Eric Sunshine worked around problem where MSVC6 barfed when the
 	  embedded celPcLinearMovement::PcLinearMovement::RotateV() attempted

@@ -243,6 +243,18 @@ struct iQuestManager : public iBase
    * already exists).
    */
   virtual bool RegisterRewardFactory (iQuestRewardFactory* trigger) = 0;
+
+  /**
+   * Get a quest factory by name.
+   */
+  virtual iQuestFactory* GetQuestFactory (const char* name) = 0;
+
+  /**
+   * Create an empty quest factory.
+   * Returns 0 on failure (quest factory with that name
+   * already exists).
+   */
+  virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
 };
 
 #endif // __CEL_MGR_QUEST__
