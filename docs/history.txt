@@ -7,6 +7,9 @@
 	- Added iCelPropertyClassList::FindByInterface() to return the
 	  property class implementing some interface. Also added
 	  CEL_QUERY_PROPCLASS which is a define to make this easier.
+	- Changing of property values is now properly restricted by
+	  the parent inventory and the new values are also propagated
+	  to the inventory.
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object

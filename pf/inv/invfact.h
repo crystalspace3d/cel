@@ -101,6 +101,7 @@ public:
   float GetCurrentCharacteristic (const char* charName) const;
   const char* TestAddEntity (iCelEntity* entity);
   bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue);
+  void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue);
   void Dump ();
 
   SCF_DECLARE_IBASE;
@@ -165,6 +166,10 @@ public:
     virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue)
     {
       return scfParent->TestCharacteristicChange (entity, charName, newLocalValue);
+    }
+    virtual void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue)
+    {
+      scfParent->UpdateCharacteristic (entity, charName, newLocalValue);
     }
     virtual void Dump ()
     {
