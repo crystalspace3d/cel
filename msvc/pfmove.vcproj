@@ -39,11 +39,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="libceltools_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
 				OutputFile=".\debug\temp\pfmove/pfmove.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories=".\debug\bin\libs,..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfmove/pfmove.pdb"
 				ImportLibrary=".\debug\temp\pfmove/pfmove.lib"/>
@@ -156,12 +156,6 @@ copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\move\navgraphrulesfps.h">
 			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -187,12 +181,6 @@ copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\navgraphrulesfps.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
 		</Filter>
 	</Files>

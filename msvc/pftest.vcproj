@@ -39,11 +39,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="libceltools_d.lib libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
 				OutputFile=".\debug\temp\pftest/pftest.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories=".\debug\bin\libs,..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pftest/pftest.pdb"
 				ImportLibrary=".\debug\temp\pftest/pftest.lib"/>
@@ -142,9 +142,6 @@ copy &quot;..\plugins\propclass\test\pftest.csplugin&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.h">
-			</File>
-			<File
 				RelativePath="..\plugins\propclass\test\testfact.h">
 			</File>
 		</Filter>
@@ -158,9 +155,6 @@ copy &quot;..\plugins\propclass\test\pftest.csplugin&quot;  ..
 		<Filter
 			Name="Source Files"
 			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
-			</File>
 			<File
 				RelativePath="..\plugins\propclass\test\testfact.cpp">
 			</File>

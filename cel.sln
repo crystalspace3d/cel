@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pftools", "msvc\pftools.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdphyslayer", "msvc\stdphyslayer.vcproj", "{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libceltools", "msvc\libceltools.vcproj", "{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -36,8 +38,8 @@ Global
 	GlobalSection(ProjectConfiguration) = postSolution
 		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Debug.ActiveCfg = Debug|Win32
 		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Debug.Build.0 = Debug|Win32
-		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
-		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.ActiveCfg = Debug|Win32
+		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.ExtensiveMemDebug.Build.0 = Debug|Win32
 		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Release.ActiveCfg = Release|Win32
 		{19D4DAB3-0447-C8A4-B6B6-1FE70DFDAABB}.Release.Build.0 = Release|Win32
 		{4468F804-6BE6-4E3F-6BBB-48EE88783FEE}.Debug.ActiveCfg = Debug|Win32
@@ -112,6 +114,12 @@ Global
 		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
 		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Release.ActiveCfg = Release|Win32
 		{539420D5-39CB-8491-8ACB-5FCD3B99A4FF}.Release.Build.0 = Release|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.Debug.ActiveCfg = Debug|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.Debug.Build.0 = Debug|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.ExtensiveMemDebug.ActiveCfg = ExtensiveMemDebug|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.ExtensiveMemDebug.Build.0 = ExtensiveMemDebug|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.Release.ActiveCfg = Release|Win32
+		{7574A3BB-ED93-4B37-A35B-2A8AA686BE8E}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
