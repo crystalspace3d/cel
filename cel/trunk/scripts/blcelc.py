@@ -403,6 +403,7 @@ class csString(_object):
     def GetDataSafe(*args): return _blcelc.csString_GetDataSafe(*args)
     def Length(*args): return _blcelc.csString_Length(*args)
     def IsEmpty(*args): return _blcelc.csString_IsEmpty(*args)
+    def StartsWith(*args): return _blcelc.csString_StartsWith(*args)
     def __init__(self, *args):
         _swig_setattr(self, csString, 'this', _blcelc.new_csString(*args))
         _swig_setattr(self, csString, 'thisown', 1)
@@ -1524,7 +1525,11 @@ class csPoly3D(_object):
     def SplitWithPlaneZ(*args): return _blcelc.csPoly3D_SplitWithPlaneZ(*args)
     __swig_getmethods__["ComputeNormal"] = lambda x: _blcelc.csPoly3D_ComputeNormal
     if _newclass:ComputeNormal = staticmethod(_blcelc.csPoly3D_ComputeNormal)
+    __swig_getmethods__["ComputeNormal"] = lambda x: _blcelc.csPoly3D_ComputeNormal
+    if _newclass:ComputeNormal = staticmethod(_blcelc.csPoly3D_ComputeNormal)
     def ComputeNormal(*args): return _blcelc.csPoly3D_ComputeNormal(*args)
+    __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
+    if _newclass:ComputePlane = staticmethod(_blcelc.csPoly3D_ComputePlane)
     __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
     if _newclass:ComputePlane = staticmethod(_blcelc.csPoly3D_ComputePlane)
     def ComputePlane(*args): return _blcelc.csPoly3D_ComputePlane(*args)
@@ -3988,6 +3993,7 @@ class iEngine(iBase):
     def LoadMeshWrapper(*args): return _blcelc.iEngine_LoadMeshWrapper(*args)
     def CreatePortalContainer(*args): return _blcelc.iEngine_CreatePortalContainer(*args)
     def CreatePortal(*args): return _blcelc.iEngine_CreatePortal(*args)
+    def PrecacheDraw(*args): return _blcelc.iEngine_PrecacheDraw(*args)
     def Draw(*args): return _blcelc.iEngine_Draw(*args)
     def SetContext(*args): return _blcelc.iEngine_SetContext(*args)
     def GetContext(*args): return _blcelc.iEngine_GetContext(*args)
@@ -4801,6 +4807,7 @@ class iVisibilityCuller(iBase):
     def Setup(*args): return _blcelc.iVisibilityCuller_Setup(*args)
     def RegisterVisObject(*args): return _blcelc.iVisibilityCuller_RegisterVisObject(*args)
     def UnregisterVisObject(*args): return _blcelc.iVisibilityCuller_UnregisterVisObject(*args)
+    def PrecacheCulling(*args): return _blcelc.iVisibilityCuller_PrecacheCulling(*args)
     def VisTest(*args): return _blcelc.iVisibilityCuller_VisTest(*args)
     def IntersectSegment(*args): return _blcelc.iVisibilityCuller_IntersectSegment(*args)
     def CastShadows(*args): return _blcelc.iVisibilityCuller_CastShadows(*args)
@@ -6555,6 +6562,7 @@ class iVFS(iBase):
     def MountRoot(*args): return _blcelc.iVFS_MountRoot(*args)
     def SaveMounts(*args): return _blcelc.iVFS_SaveMounts(*args)
     def LoadMountsFromFile(*args): return _blcelc.iVFS_LoadMountsFromFile(*args)
+    def ChDirAuto(*args): return _blcelc.iVFS_ChDirAuto(*args)
     def GetFileTime(*args): return _blcelc.iVFS_GetFileTime(*args)
     def SetFileTime(*args): return _blcelc.iVFS_SetFileTime(*args)
     def GetFileSize(*args): return _blcelc.iVFS_GetFileSize(*args)
@@ -7086,6 +7094,8 @@ class csKeyEventHelper(_object):
     if _newclass:GetModifiersBits = staticmethod(_blcelc.csKeyEventHelper_GetModifiersBits)
     __swig_getmethods__["GetModifiersBits"] = lambda x: _blcelc.csKeyEventHelper_GetModifiersBits
     if _newclass:GetModifiersBits = staticmethod(_blcelc.csKeyEventHelper_GetModifiersBits)
+    __swig_getmethods__["GetModifiers"] = lambda x: _blcelc.csKeyEventHelper_GetModifiers
+    if _newclass:GetModifiers = staticmethod(_blcelc.csKeyEventHelper_GetModifiers)
     def __init__(self, *args):
         _swig_setattr(self, csKeyEventHelper, 'this', _blcelc.new_csKeyEventHelper(*args))
         _swig_setattr(self, csKeyEventHelper, 'thisown', 1)
@@ -7105,8 +7115,6 @@ csKeyEventHelper_GetRawCode = _blcelc.csKeyEventHelper_GetRawCode
 
 csKeyEventHelper_GetCookedCode = _blcelc.csKeyEventHelper_GetCookedCode
 
-csKeyEventHelper_GetModifiers = _blcelc.csKeyEventHelper_GetModifiers
-
 csKeyEventHelper_GetEventType = _blcelc.csKeyEventHelper_GetEventType
 
 csKeyEventHelper_GetAutoRepeat = _blcelc.csKeyEventHelper_GetAutoRepeat
@@ -7116,6 +7124,8 @@ csKeyEventHelper_GetCharacterType = _blcelc.csKeyEventHelper_GetCharacterType
 csKeyEventHelper_GetEventData = _blcelc.csKeyEventHelper_GetEventData
 
 csKeyEventHelper_GetModifiersBits = _blcelc.csKeyEventHelper_GetModifiersBits
+
+csKeyEventHelper_GetModifiers = _blcelc.csKeyEventHelper_GetModifiers
 
 csevNothing = _blcelc.csevNothing
 csevKeyboard = _blcelc.csevKeyboard
@@ -7397,6 +7407,7 @@ class iKeyboardDriver(iBase):
     def DoKey(*args): return _blcelc.iKeyboardDriver_DoKey(*args)
     def GetModifierState(*args): return _blcelc.iKeyboardDriver_GetModifierState(*args)
     def CreateKeyComposer(*args): return _blcelc.iKeyboardDriver_CreateKeyComposer(*args)
+    def SynthesizeCooked(*args): return _blcelc.iKeyboardDriver_SynthesizeCooked(*args)
     def __del__(self, destroy=_blcelc.delete_iKeyboardDriver):
         try:
             if self.thisown: destroy(self)
@@ -9145,6 +9156,7 @@ class iShaderManager(iShaderVariableContext):
     def __repr__(self):
         return "<C iShaderManager instance at %s>" % (self.this,)
     def RegisterShader(*args): return _blcelc.iShaderManager_RegisterShader(*args)
+    def UnregisterShader(*args): return _blcelc.iShaderManager_UnregisterShader(*args)
     def GetShader(*args): return _blcelc.iShaderManager_GetShader(*args)
     def GetShaders(*args): return _blcelc.iShaderManager_GetShaders(*args)
     def RegisterCompiler(*args): return _blcelc.iShaderManager_RegisterCompiler(*args)
@@ -9198,7 +9210,7 @@ class iShader(iShaderVariableContext):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iShader instance at %s>" % (self.this,)
-    def GetName(*args): return _blcelc.iShader_GetName(*args)
+    def QueryObject(*args): return _blcelc.iShader_QueryObject(*args)
     def GetNumberOfPasses(*args): return _blcelc.iShader_GetNumberOfPasses(*args)
     def ActivatePass(*args): return _blcelc.iShader_ActivatePass(*args)
     def SetupPass(*args): return _blcelc.iShader_SetupPass(*args)
@@ -9281,6 +9293,8 @@ class iTextureHandle(iBase):
     def SetKeyColor(*args): return _blcelc.iTextureHandle_SetKeyColor(*args)
     def GetKeyColorStatus(*args): return _blcelc.iTextureHandle_GetKeyColorStatus(*args)
     def GetKeyColor(*args): return _blcelc.iTextureHandle_GetKeyColor(*args)
+    def GetMipMapDimensions(*args): return _blcelc.iTextureHandle_GetMipMapDimensions(*args)
+    def GetOriginalDimensions(*args): return _blcelc.iTextureHandle_GetOriginalDimensions(*args)
     CS_TEX_IMG_1D = _blcelc.iTextureHandle_CS_TEX_IMG_1D
     CS_TEX_IMG_2D = _blcelc.iTextureHandle_CS_TEX_IMG_2D
     CS_TEX_IMG_3D = _blcelc.iTextureHandle_CS_TEX_IMG_3D
@@ -9291,9 +9305,6 @@ class iTextureHandle(iBase):
     CS_TEXTURE_CUBE_NEG_Y = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Y
     CS_TEXTURE_CUBE_POS_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_Z
     CS_TEXTURE_CUBE_NEG_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Z
-    def GetMipMapDimensions(*args): return _blcelc.iTextureHandle_GetMipMapDimensions(*args)
-    def GetOriginalDimensions(*args): return _blcelc.iTextureHandle_GetOriginalDimensions(*args)
-    def SetTextureTarget(*args): return _blcelc.iTextureHandle_SetTextureTarget(*args)
     def GetMeanColor(*args): return _blcelc.iTextureHandle_GetMeanColor(*args)
     def GetCacheData(*args): return _blcelc.iTextureHandle_GetCacheData(*args)
     def SetCacheData(*args): return _blcelc.iTextureHandle_SetCacheData(*args)
