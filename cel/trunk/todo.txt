@@ -1,0 +1,9 @@
+Give property classes names so you can distinguish between
+property classes with same interface but different purpose.
+
+Implement iPcMovable and iPcMovableConstraint. An iPcMovable
+will be able to have pointers to several constraints.
+Implement iPcMeshSelect so it moves the mesh through
+the iPcMovable if present (if not present use iPcMesh
+directly).
+

@@ -27,6 +27,7 @@ SCF_DECLARE_FAST_INTERFACE (iPcMeshSelectData)
 SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
 
 struct iCamera;
+class csVector3;
 
 #define CEL_MOUSE_BUTTON1 1
 #define CEL_MOUSE_BUTTON2 2
@@ -108,6 +109,8 @@ struct iPcMeshSelect : public iBase
 
   /**
    * If true then it is possible to drag the selected object.
+   * Note that drag mode is usually used in combination with
+   * follow mode.
    * (default false).
    */
   virtual void SetDragMode (bool drag) = 0;
@@ -115,6 +118,21 @@ struct iPcMeshSelect : public iBase
    * Get value of drag mode.
    */
   virtual bool HasDragMode () const = 0;
+
+  /**
+   * Set the normal of the plane on which the dragged object
+   * will move. The actual plane itself will be calculated
+   * depending on the current position of the object and that
+   * given normal. The normal can be given in camera space
+   * or in world space. Default is the 0,0,1 normal in camera
+   * space which means that the object will drag according
+   * to screen coordinates.
+   */
+  virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space) = 0;
+  /**
+   * Get the drag normal and camera space flag.
+   */
+  virtual void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const = 0;
 
   /**
    * If true then also send messages on mouse move (only

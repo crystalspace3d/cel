@@ -519,6 +519,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (view->GetCamera ());
   pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetDragMode (true);
+  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
   pcmeshsel->SetSendmoveEvent (true);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
   pcmeshsel->DecRef ();
@@ -527,6 +529,9 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (view->GetCamera ());
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
+  pcmeshsel->SetFollowMode (true);
+  pcmeshsel->SetDragMode (true);
+  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 0, 1), true);
   pcmeshsel->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");

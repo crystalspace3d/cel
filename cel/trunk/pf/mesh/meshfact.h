@@ -33,6 +33,7 @@ struct iCelEntity;
 struct iMeshWrapper;
 struct iMeshFactoryWrapper;
 struct iCamera;
+class csVector3;
 
 /**
  * Factory for mesh.
@@ -136,6 +137,11 @@ private:
   // If true then it is possible to drag the selected object.
   bool do_drag;
 
+  // Normal of the plane that is used to constrain dragging.
+  csVector3 drag_normal;
+  // If drag_normal is given in camera or world space coordinates.
+  bool drag_normal_camera;
+
   // If true then follow the mouse so that up/down events
   // come through immediatelly when the mouse leaves the object
   // (even if mouse up has not yet happened). Otherwise mouse
@@ -208,12 +214,18 @@ public:
     SetupEventHandler ();
   }
   bool HasFollowMode () const { return do_follow; }
-  void SetDragMode (bool drag)
-  {
-    do_drag = drag;
-    SetupEventHandler ();
-  }
+  void SetDragMode (bool drag) { do_drag = drag; }
   bool HasDragMode () const { return do_drag; }
+  void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
+  {
+    celPcMeshSelect::drag_normal = drag_normal;
+    drag_normal_camera = camera_space;
+  }
+  void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const
+  {
+    drag_normal = celPcMeshSelect::drag_normal;
+    camera_space = drag_normal_camera;
+  }
   void SetSendmoveEvent (bool mov)
   {
     do_sendmove = mov;
@@ -269,6 +281,14 @@ public:
     virtual bool HasDragMode () const
     {
       return scfParent->HasDragMode ();
+    }
+    virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
+    {
+      scfParent->SetDragPlaneNormal (drag_normal, camera_space);
+    }
+    virtual void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const
+    {
+      scfParent->GetDragPlaneNormal (drag_normal, camera_space);
     }
     virtual void SetSendmoveEvent (bool mov)
     {
