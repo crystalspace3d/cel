@@ -33,6 +33,12 @@ SCF_VERSION (iPcCommandInput, 0, 0, 1);
  * <ul>
  * <li>Bind: parameters 'trigger' (string) and 'command' (string).
  * </ul>
+ * This property class can send out the following messages
+ * to the behaviour:
+ * <ul>
+ * <li>pckeyinput_<key>0: key is unpressed
+ * <li>pckeyinput_<key>1: key is pressed
+ * </ul>
  */
 struct iPcCommandInput : public iBase
 {

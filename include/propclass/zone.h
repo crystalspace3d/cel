@@ -201,6 +201,12 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
  * <ul>
  * <li>region
  * </ul>
+ * This property class can send out the following messages
+ * to the behaviour:
+ * <ul>
+ * <li>pczonemanager_addregion: new region has been added
+ * <li>pczonemanager_remregion: region will be removed
+ * </ul>
  */
 struct iPcZoneManager : public iBase
 {

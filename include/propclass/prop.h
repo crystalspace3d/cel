@@ -39,6 +39,12 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
  * <ul>
  * <li>index
  * </ul>
+ * This property class can send out the following messages
+ * to the behaviour:
+ * <ul>
+ * <li>pcproperties_setproperty: sets the property
+ * <li>pcproperties_clearproperty: clears the property
+ * </ul>
  */
 struct iPcProperties : public iBase
 {

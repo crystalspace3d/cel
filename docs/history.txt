@@ -12,6 +12,9 @@ The history order is reversed so that new features are at the top.
 	  when new regions are loaded or unloaded. After Crystal Core
 	  is fixed to use this instead of the callbacks the callback
 	  system will be removed.
+	- Jorrit added doxygen documentation to all property class
+	  headers indicating all SendMessage id's that you can possibly
+	  get for every property class.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

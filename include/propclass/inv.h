@@ -34,6 +34,14 @@ SCF_VERSION (iPcInventory, 0, 0, 1);
  * <ul>
  * <li>entity
  * </ul>
+ * This property class can send out the following messages
+ * to the behaviour (possibly the behaviour of the child entity too):
+ * <ul>
+ * <li>pcinventory_addchild: new child will be added
+ * <li>pcinventory_added: this entity is added as a new child
+ * <li>pcinventory_removechild: new child will be removed
+ * <li>pcinventory_removed: this entity is removed
+ * </ul>
  */
 struct iPcInventory : public iBase
 {
