@@ -1,7 +1,7 @@
 <world>
     <textures>
         <texture name="picture1">
-	    <file>/this/data/to_the_tavern.jpg</file>
+	    <file>/cellib/images/to_the_tavern.jpg</file>
 	    <keepimage />
         </texture>
     </textures>
@@ -9,8 +9,8 @@
 	<material name="picture1"> <texture>picture1</texture> </material>
     </materials>
     <sounds>
-        <sound name="boing"> <file>/this/data/sounds/boing_x.wav</file> </sound>
-        <sound name="click"> <file>/this/data/sounds/click_x.wav</file> </sound>
+        <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
+        <sound name="click"> <file>/cellib/sounds/click_x.wav</file> </sound>
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
@@ -174,7 +174,7 @@
 		<var name="dimension" value="5" />
 		<var name="tiledim" value="56000" />
 		<var name="tiledimuv" value=".2" />
-		<var name="shuffle_count" value="100" />
+		<var name="shuffle_count" value="50" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />

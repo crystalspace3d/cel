@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-Dec-2003
+	- Jorrit added a local vfs.cfg for CEL to specify the following
+	  CEL mount points:
+	  	- /cellib/sounds
+		- /cellib/images
+		- /cellib/objects
 17-Dec-2003
 	- Jorrit changed the bootstrap loader so that it also attempts to
 	  load the sound plugins now.

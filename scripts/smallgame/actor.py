@@ -25,7 +25,7 @@ class actor:
 		self.camera.SetFollowPos(csVector3(0,1,3),csVector3(0,0,0))
 
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("box", "/this/data/box")
+		mesh.LoadMesh("box", "/celdata/objects/box")
 		pos = csVector3 (0, 1, 0)
 		mesh.MoveMesh(room,pos)
 

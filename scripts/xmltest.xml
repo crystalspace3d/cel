@@ -7,22 +7,22 @@
             <file>/lib/stdtex/my_wood.jpg</file>
         </texture>
         <texture name="chair">
-	    <file>/this/data/objects/chair5.gif</file>
+	    <file>/cellib/images/chair5.gif</file>
         </texture>
         <texture name="desk">
-	    <file>/this/data/objects/desk.png</file>
+	    <file>/cellib/images/desk.png</file>
 	    <transparent red="1" green="1" blue="1" />
         </texture>
         <texture name="lamp_desk">
-	    <file>/this/data/objects/lamp_desk.png</file>
+	    <file>/cellib/images/lamp_desk.png</file>
 	    <transparent red="1" green="1" blue="1" />
         </texture>
         <texture name="lamp_table">
-	    <file>/this/data/objects/lamp_table2.gif</file>
+	    <file>/cellib/images/lamp_table2.gif</file>
 	    <transparent red="1" green="1" blue="1" />
         </texture>
         <texture name="table_coffee">
-	    <file>/this/data/objects/table_coffee5.gif</file>
+	    <file>/cellib/images/table_coffee5.gif</file>
 	    <transparent red="1" green="1" blue="1" />
         </texture>
     </textures>
@@ -351,7 +351,7 @@
             </params>
         </meshobj>
 	<meshobj name="box">
-	    <file>/this/data/box</file>
+	    <file>/cellib/objects/box</file>
 	    <plugin>spr3d</plugin>
 	    <params>
 	        <factory>box</factory>
