@@ -145,10 +145,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   }
 
   vel = 0;
-  targVel = 0;
   angularVelocity = 0;
   angleToReachFlag = false;
-  targAngularVelocity = 0;
   angDelta = 0;
   lastDRUpdate = 0;
 
@@ -271,8 +269,6 @@ static inline int FindIntersection (const csCollisionPair& cd,
 
 void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
 {
-  //targAngularVelocity = angleVel;
-  //if (IsOnGround())
   angularVelocity = angleVel;
   angleToReachFlag = false;
 }
@@ -280,8 +276,6 @@ void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
 void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel,
 	const csVector3& angleToReach)
 {
-  //targAngularVelocity = angleVel;
-  //if (IsOnGround())
   SetAngularVelocity (angleVel);
   angleToReachFlag = true;
   this->angleToReach = angleToReach;
@@ -293,11 +287,7 @@ void celPcLinearMovement::SetVelocity (const csVector3& vel)
    * Y movement is jumping, flight (lift) and gravity effects
    * Take care to check IsOnGround () before calling this for jumping
    */
-  targVel  = vel;
-  if (IsOnGround())
-  {
     celPcLinearMovement::vel = vel;
-  }
 }
 
 void celPcLinearMovement::GetVelocity (csVector3& v) const
@@ -468,13 +458,6 @@ bool celPcLinearMovement::MoveSprite (float delta)
     if (MoveV (delta))
       rc = true;
   }
-  if (IsOnGround() && vel != targVel)
-  {
-    vel.x = targVel.x;
-    vel.z = targVel.z;
-  }
-  //if (IsOnGround() && angularVelocity != targAngularVelocity)
-	 //   angularVelocity = targAngularVelocity;
 
   return rc;
 }

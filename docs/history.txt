@@ -4,6 +4,11 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 12-Sep-2004
+	- Andrew Dai changed movement control so that characters can be given
+	  any velocity while in midair and which will be applied instantly.
+	  This shifts the burden of ensuring realistic movement mid-air to
+	  the CEL library user.
+12-Sep-2004
 	- Eric Sunshine updated Jam files from master copies in CS repository.
 	- Eric Sunshine upgraded msvgen configuration so that generated MSVC
 	  project files will now search for CS headers in the following
