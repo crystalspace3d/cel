@@ -19,12 +19,16 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "iutil/evdefs.h"
 #include "csutil/debug.h"
 #include "plugins/propclass/mover/moverfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
+
+#include "iengine/mesh.h"
+#include "iengine/sector.h"
 
 //---------------------------------------------------------------------------
 
@@ -55,6 +59,8 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMover);
 
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+
   // For PerformAction.
   if (id_position == csInvalidStringID)
   {
@@ -82,6 +88,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 
 celPcMover::~celPcMover ()
 {
+  pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
 }
 
 Property* celPcMover::properties = 0;
@@ -152,14 +159,66 @@ bool celPcMover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcMover::Start (const csVector3& position, const csVector3& up,
+void celPcMover::SendMessage (const char* msg)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    csRef<iCelEntity> ref = entity;
+    celData ret;
+    bh->SendMessage (msg, ret, 0);
+  }
+}
+
+bool celPcMover::Start (iSector* sector, const csVector3& position, const csVector3& up,
   	float movespeed, float rotatespeed, float sqradius)
 {
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+    return false;
+
+  Interrupt ();
+
+  celPcMover::sector = sector;
+  celPcMover::position = position;
+  celPcMover::up = up;
+  celPcMover::movespeed = movespeed;
+  celPcMover::rotatespeed = rotatespeed;
+  celPcMover::sqradius = sqradius;
+
+  // First we do a beam between our current position and the desired
+  // position. If this beam fails already then we don't even start the move
+  // and just send a 'pcmover_impossible' message.
+  csVector3 cur_pos;
+  float cur_yrot;
+  iSector* cur_sector;
+  pclinmove->GetLastPosition (cur_pos, cur_yrot, cur_sector);
+
+  // @@@TODO:Use center of linmove CD box to trace beam.
+  csVector3 isect;
+  iMeshWrapper* hit_mesh = cur_sector->HitBeamPortals (cur_pos,
+  	position, isect, 0);
+  if (hit_mesh)
+  {
+    SendMessage ("pcmover_impossible");
+    return false;
+  }
+
+  // @@@ TODO: Continue here...
+
+  is_moving = true;
+
   return false;
 }
 
 void celPcMover::Interrupt ()
 {
+  if (is_moving)
+  {
+    is_moving = false;
+    pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
+    SendMessage ("pcmover_interrupted");
+  }
 }
 
 bool celPcMover::PerformAction (csStringID actionId,
@@ -167,17 +226,22 @@ bool celPcMover::PerformAction (csStringID actionId,
 {
   if (actionId == action_start)
   {
-    CEL_FETCH_VECTOR3_VAR (position,params,id_position);
+    CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
+    if (!p_sectorname) return false;
+    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
     if (!p_position) return false;
-    CEL_FETCH_VECTOR3_VAR (up,params,id_up);
+    CEL_FETCH_VECTOR3_PAR (up,params,id_up);
     if (!p_up) return false;
-    CEL_FETCH_FLOAT_VAR (movespeed,params,id_movespeed);
+    CEL_FETCH_FLOAT_PAR (movespeed,params,id_movespeed);
     if (!p_movespeed) return false;
-    CEL_FETCH_FLOAT_VAR (rotatespeed,params,id_rotatespeed);
+    CEL_FETCH_FLOAT_PAR (rotatespeed,params,id_rotatespeed);
     if (!p_rotatespeed) return false;
-    CEL_FETCH_FLOAT_VAR (sqradius,params,id_sqradius);
+    CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
     if (!p_sqradius) return false;
-    Start (position, up, movespeed, rotatespeed, sqradius);
+    iSector* s = engine->FindSector (sectorname);
+    if (!s)
+      return false;
+    Start (sector, position, up, movespeed, rotatespeed, sqradius);
     // @@@ Return value?
     return true;
   }
@@ -187,6 +251,19 @@ bool celPcMover::PerformAction (csStringID actionId,
     return true;
   }
   return false;
+}
+
+void celPcMover::TickEveryFrame ()
+{
+  // @@@ TODO. Implement actual movement stuff here.
+}
+
+void celPcMover::FindSiblingPropertyClasses ()
+{
+  if (HavePropertyClassesChanged ())
+  {
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+  }
 }
 
 //---------------------------------------------------------------------------

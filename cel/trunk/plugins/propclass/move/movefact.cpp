@@ -1000,7 +1000,7 @@ bool celPcGravity::PerformAction (csStringID actionId,
 {
   if (actionId == action_applypermanentforce)
   {
-    CEL_FETCH_VECTOR3_VAR (force,params,id_force);
+    CEL_FETCH_VECTOR3_PAR (force,params,id_force);
     if (!p_force) return false;
     ApplyPermanentForce (force);
     return true;

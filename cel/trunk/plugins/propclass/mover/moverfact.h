@@ -29,6 +29,8 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/mover.h"
+#include "propclass/linmove.h"
+#include "iengine/engine.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -44,7 +46,11 @@ CEL_DECLARE_FACTORY (Mover)
 class celPcMover : public celPcCommon
 {
 private:
+  csWeakRef<iEngine> engine;
+  csWeakRef<iPcLinearMovement> pclinmove;
+
   // For PerformAction.
+  static csStringID id_sectorname;
   static csStringID id_position;
   static csStringID id_up;
   static csStringID id_movespeed;
@@ -68,6 +74,7 @@ private:
   static void UpdateProperties (iObjectRegistry* object_reg);
 
   // Normal fields.
+  iSector* sector;
   csVector3 position;
   csVector3 up;
   float movespeed;
@@ -75,14 +82,17 @@ private:
   float sqradius;
   bool is_moving;
 
+  void FindSiblingPropertyClasses ();
+  void SendMessage (const char* msg);
+
 public:
   celPcMover (iObjectRegistry* object_reg);
   virtual ~celPcMover ();
 
-  void SetLinMove (iPcLinearMovement* pclinmove) { }
-  bool Start (const csVector3& position, const csVector3& up,
+  bool Start (iSector* sector, const csVector3& position, const csVector3& up,
   	float movespeed, float rotatespeed, float sqradius);
   void Interrupt ();
+  iSector* GetSector () const { return sector; }
   const csVector3& GetPosition () const { return position; }
   const csVector3& GetUp () const { return up; }
   float GetMoveSpeed () const { return movespeed; }
@@ -96,18 +106,16 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickEveryFrame ();
 
   struct PcMover : public iPcMover
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMover);
-    virtual void SetLinMove (iPcLinearMovement* pclinmove)
+    virtual bool Start (iSector* sector, const csVector3& position,
+    	const csVector3& up, float movespeed, float rotatespeed, float sqradius)
     {
-      scfParent->SetLinMove (pclinmove);
-    }
-    virtual bool Start (const csVector3& position, const csVector3& up,
-  	float movespeed, float rotatespeed, float sqradius)
-    {
-      return scfParent->Start (position, up, movespeed, rotatespeed, sqradius);
+      return scfParent->Start (sector, position, up, movespeed,
+      	rotatespeed, sqradius);
     }
     virtual void Interrupt ()
     {
@@ -116,6 +124,10 @@ public:
     virtual const csVector3& GetPosition () const
     {
       return scfParent->GetPosition ();
+    }
+    virtual iSector* GetSector () const
+    {
+      return scfParent->GetSector ();
     }
     virtual const csVector3& GetUp () const
     {

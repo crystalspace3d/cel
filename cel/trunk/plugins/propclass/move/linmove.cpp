@@ -249,11 +249,11 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
 {
   if (actionId == action_initcd)
   {
-    CEL_FETCH_VECTOR3_VAR (body,params,id_body);
+    CEL_FETCH_VECTOR3_PAR (body,params,id_body);
     if (!p_body) return false;
-    CEL_FETCH_VECTOR3_VAR (legs,params,id_legs);
+    CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
     if (!p_legs) return false;
-    CEL_FETCH_VECTOR3_VAR (offset,params,id_offset);
+    CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
     if (!p_offset) return false;
     bool rc = InitCD (body, legs, offset);
     // @@@ Error report!

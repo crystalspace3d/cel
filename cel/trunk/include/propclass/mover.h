@@ -45,8 +45,9 @@ SCF_VERSION (iPcMover, 0, 0, 1);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
- * <li>Start: parameters 'position' (vector3), 'up' (vector3),
- *     'movespeed' (float), 'rotatespeed' (float), and 'sqradius' (float).
+ * <li>Start: parameters 'sectorname' (string), 'position' (vector3),
+ *     'up' (vector3), 'movespeed' (float), 'rotatespeed' (float),
+ *     and 'sqradius' (float).
  * <li>Interrupt: interrupt the current movement.
  * </ul>
  * <p>
@@ -64,18 +65,16 @@ SCF_VERSION (iPcMover, 0, 0, 1);
 struct iPcMover : public iBase
 {
   /**
-   * Set the pclinmove property class to control.
-   */
-  virtual void SetLinMove (iPcLinearMovement* pclinmove) = 0;
-
-  /**
    * Start moving. When you call this function this property class will
    * attempt to move the linmove to the correct position. If it fails the
    * behaviour will get a 'pcmover_stuck' message. Otherwise it will get
    * a 'pcmover_arrived' message. If this function detects that it is
    * completely impossible to move there in advance then the behaviour
    * will get a 'pcmover_impossible' message and this function will return
-   * false then.
+   * false then. If this property class was already controlling a movement
+   * then that movement will be interrupted (possibly giving a pcmover_interrupted
+   * message).
+   * \param sector is the desired sector to move too.
    * \param position is the desired position to move too.
    * \param up is the up vector (used for rotation).
    * \param movespeed is the speed of movement.
@@ -84,14 +83,20 @@ struct iPcMover : public iBase
    * radius of the desired position the movement will stop and be considered
    * sucessful.
    */
-  virtual bool Start (const csVector3& position, const csVector3& up,
-  	float movespeed, float rotatespeed, float sqradius) = 0;
+  virtual bool Start (iSector* sector, const csVector3& position,
+	const csVector3& up, float movespeed, float rotatespeed,
+	float sqradius) = 0;
 
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
    * message if the mover was really moving. Otherwise nothing happens.
    */
   virtual void Interrupt () = 0;
+
+  /**
+   * Get the end sector that we want to move too.
+   */
+  virtual iSector* GetSector () const = 0;
 
   /**
    * Get the end position that we want to move too.
