@@ -1,0 +1,121 @@
+# Misc...
+rule UserObject
+{
+	switch $(>:S)
+	{
+		case .h : return ;
+		case * : ECHO Unknown object type $(>) ;
+	}
+}
+
+#----------------------------------------------------------------------------
+# *** Application rules ***
+
+rule Application
+{
+	MSVCApplication $(<) : $(>) ;
+	ApplicationFromObjects $(<) : $(>:S=$(SUFOBJ)) : $(3) : $(4) ;
+	Objects $(>) ;
+}
+rule ApplicationFromObjects
+{
+	local _t _s ;
+
+	_s = [ FGristFiles $(>) ] ;
+	_t = [ FAppendSuffix $(<) : $(SUFEXE) ] ;
+
+	# XXX: Disabled for now because this goes wrong when using subdirs
+	# and a dir in the root directory has the same name as the
+	# target :-/
+
+	# so 'jam foo' works when it's really foo.exe
+	#if $(_t) != $(<)
+	#{
+	#	Depends $(<) : $(_t) ;
+	#	NotFile $(<) ;
+	#}
+
+	# make compiled sources a dependency of target
+	Depends exe : $(_t) ;
+	Depends $(_t) : $(_s) ;
+	if $(LOCATE_TARGETS)
+	{
+		MakeLocate $(_t) : $(LOCATE_TARGET) ;
+	}
+
+	NEEDLIBS on $(_t) += $(4) ;
+	NotFile ($4) ;
+	
+	Clean clean : $(_t) ;
+	Link $(_t) : $(_s) ;
+}
+
+#----------------------------------------------------------------------------
+# *** Plugin rules ***
+
+switch $(OS)
+{
+case NT :
+        SUFDLL ?= .dll ;
+case MINGW32 :
+        SUFDLL ?= .dll ;
+}
+#unix default
+SUFDLL ?= .so ;
+
+rule Plugin
+{
+	MSVCPlugin $(<) : $(>) ;
+        PluginFromObjects $(<) : $(>:S=$(SUFOBJ)) : $(3) : $(4) ;
+        Objects $(>) ;
+}
+rule PluginFromObjects
+{
+        local _t _s ; 
+
+        _s = [ FGristFiles $(>) ] ;
+        _t = [ FAppendSuffix $(<) : $(SUFDLL) ] ;
+
+
+	# XXX: Disabled for now because this goes wrong when using subdirs
+	# and a dir in the root directory has the same name as the
+	# target :-/
+
+        #if $(_t) != $(<)
+        #{
+        #        Depends $(<) : $(_t) ;
+        #        NotFile $(<) ;
+        #}
+        Depends $(_t) : $(_s) ;
+        Depends all : $(_t) ;
+	if $(LOCATE_TARGETS)
+	{
+		MakeLocate $(_t) : $(LOCATE_TARGET) ;
+	}
+
+	ADDLIBS on $(_t) += $(4) ;
+
+        Clean clean : $(_t) ;
+	NAME on $(_t) = $(<) ;
+        LinkPlugin $(_t) : $(_s) ;
+}
+
+if $(OS) = "NT"
+{
+    actions LinkPlugin
+    {
+	echo EXPORTS > deffile.tmp
+	echo $(NAME)_scfInitialize >> deffile.tmp
+	echo $(NAME)_scfFinalize >> deffile.tmp
+        dllwrap --def deffile.tmp --no-export-all-symbols --dllname $(NAME) -o $(<) $(>) $(ADDLIBS) $(LINKLIBS) -mwindows -mconsole
+	rm -f deffile.tmp
+    }
+}
+else
+{
+    actions LinkPlugin
+    {
+	$(LINK) -Wl,-shared -Wl,-soname -Wl,$(<) -o $(<) $(>) $(ADDLIBS) $(LINKLIBS)
+    }
+}
+

@@ -1,0 +1,6 @@
+SubDir TOP pf tools ;
+
+Plugin pftools
+	: toolfact.cpp ../common/stdpcimp.cpp
+;
+

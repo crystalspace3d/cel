@@ -1,0 +1,39 @@
+SUFPRJ = dsp ;
+SUFWSP = dsw ;
+NotFile msvcgen ;
+MSVCGEN = $(TOP)/mk/msvcgen.pl ;
+MSVCGENTEMPLATEDIR = $(TOP)/mk/msvctemp ;
+
+rule MSVCApplication
+{
+	PRJFILE = $(TOP)/mk/visualc/$(<) ;
+	Depends msvcgen : $(PRJFILE) ;
+	NotFile $(>) ;
+	FILES = $(SEARCH_SOURCE)/$(>) ;
+	NotFile $(FILES) ;
+
+	PRJNAME on $(PRJFILE) = $(<) ;
+	Clean msvcclean : $(PRJFILE).$(SUFPRJ) ;
+	ApplicationPrj $(PRJFILE) : $(FILES) ;
+}
+actions ApplicationPrj
+{
+	$(MSVCGEN) --quiet --template-dir=$(MSVCGENTEMPLATEDIR) --project --projext=$(SUFPRJ) --name=$(PRJNAME) --output=$(<) --template=appcon $(>)
+}
+rule MSVCPlugin
+{
+	PRJFILE = $(TOP)/mk/visualc/$(<) ;
+	Depends msvcgen : $(PRJFILE) ;
+	NotFile $(>) ;
+	FILES = $(SEARCH_SOURCE)/$(>) ;
+	NotFile $(FILES) ;
+
+	PRJNAME on $(PRJFILE) = $(<) ;
+	Clean msvcclean : $(PRJFILE).$(SUFPRJ) ;
+	PluginPrj $(PRJFILE) : $(FILES) ;
+}
+actions PluginPrj
+{
+	$(MSVCGEN) --quiet --template-dir=$(MSVCGENTEMPLATEDIR) --project --projext=$(SUFPRJ) --name=$(PRJNAME) --output=$(<) --template=plugin $(>)
+}
+

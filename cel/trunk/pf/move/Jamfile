@@ -1,0 +1,6 @@
+SubDir TOP pf move ;
+
+Plugin pfmove
+	: movefact.cpp ../common/stdpcimp.cpp
+;
+

@@ -1,0 +1,6 @@
+SubDir TOP persist classic ;
+
+Plugin cpersist
+	: cpersist.cpp
+;
+

@@ -1,0 +1,20 @@
+# This file will be processed by the configure script
+
+CRYSTAL_CFLAGS = "@CRYSTAL_CFLAGS@" ;
+CRYSTAL_C++FLAGS = "@CRYSTAL_CXXFLAGS@" ;
+CRYSTAL_LIBS = "@CRYSTAL_LIBS@" ;
+PYTHON_LIBS = "@PYTHON_LIBS@" ;
+PYTHON_CFLAGS = "@PYTHON_CFLAGS@" ;
+
+C++ = @CXX@ ;
+LINK = $(C++) ;
+
+C++FLAGS += $(CRYSTAL_C++FLAGS) -I@top_srcdir@ -I@top_srcdir@/include ;
+LINKLIBS += $(CRYSTAL_LIBS) ;
+
+#disabled for now (1 source file is ../common/stdpcimp.cpp that doesn't work
+#  because of the relative path...)
+#ALL_LOCATE_TARGET = out/$(OSFULL[1]:L) ;
+
+include $(TOP)/mk/build.jam ;
+
