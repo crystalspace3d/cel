@@ -783,11 +783,10 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
 
   csCollisionPair* CD_contact;
 
-  csRef<iObjectIterator> objectIter (
-    engine->GetNearbyObjects (sector,
-    transform->GetOrigin (),
-    COLLISION_DISTANCE,
-    true) );
+  csRef<iObjectIterator> objectIter = engine->GetNearbyObjects (sector,
+    	transform->GetOrigin (),
+    	COLLISION_DISTANCE,
+    	true);
 
   while (objectIter->HasNext ())
   {

@@ -12,6 +12,11 @@ The history order is reversed so that new features are at the top.
 	  This is untested code (from my point of view at least).
 	- Jorrit did more cleanups to the new AI pathfinding class and
 	  also added a small testcase to celtest.
+	- Jorrit modified the pcsolid property class so that it use
+	  csColliderWrapper to create the collider. That way pclinmove also
+	  works with pcregion and other users of pcsolid.
+	- Jorrit extended smallgame to use pclinmove correctly. Still a few
+	  bugs here and there.
 6-Jul-2003
 	- Jorrit fixed the problem with GetPythonObject(). It now calls
 	  Py_INCREF() on the returned python object so that it is

@@ -655,13 +655,15 @@ void celPcRegion::UpdateProperties( iObjectRegistry* object_reg )
   }
 }
 
-bool celPcRegion::PerformAction( csStringID actionId, const char* params )
+bool celPcRegion::PerformAction (csStringID actionId, const char* params)
 {
-  if( actionId == properties[propid_load].id ) {
-    if( worldfile && regionname )
+  if( actionId == properties[propid_load].id )
+  {
+    if (worldfile && regionname)
       Load();
-    else {
-      printf( "World filename or region name not set!\n" );
+    else
+    {
+      printf ("World filename or region name not set!\n");
       return false;
     }
     return true;
@@ -740,10 +742,10 @@ bool celPcRegion::Load ()
 
   // Create entities for all meshes in this region.
   {
-  csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   CS_ASSERT (pl != 0);
   iCelPropertyClass* pc;
-  csRef<iObjectIterator> iter (cur_region->QueryObject ()->GetIterator ());
+  csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
   while (iter->HasNext ())
   {
     iObject* o = iter->Next ();

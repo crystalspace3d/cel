@@ -19,9 +19,6 @@ class smallgame:
 		rc = region.Load()
 		room = region.GetStartSector()
 
-		camera = celCreateCamera(physicallayer_ptr,celEntity)
-		camera.SetRegion(region)
-
 		# @@@ The below is not very nice.
 		bl = physicallayer_ptr.GetBehaviourLayer(0)
 
@@ -35,4 +32,5 @@ class smallgame:
 		actor = celCreateEntity(physicallayer_ptr,"actor")
 		actor_behaviour = actor.CreateBehaviour(bl,"actor")
 		actor_python = actor_behaviour.GetPythonObject()
-		actor_python.real_init(actor,room)
+		actor_python.real_init(actor,region)
+
