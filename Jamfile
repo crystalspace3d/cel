@@ -34,7 +34,7 @@ actions CelConfigGen
 
 prefix="$(INSTALLDIR.PREFIX)"
 exec_prefix="\${prefix}"
-version="0.1"
+version="$(PACKAGE.VERSION)"
 # test for release/source directory
 if test -e "\${CEL}/include/physicallayer/pl.h"; then
   includedir="\${CEL}/include"
