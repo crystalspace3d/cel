@@ -28,6 +28,13 @@ The history order is reversed so that new features are at the top.
 	    - Enabled and cleaned up 'help' messages, so "jam help" now
 	      actually presents useful information.
 	- Jorrit fixed CEL for the removal of CS_FX_GOURAUD.
+	- Eric Sunshine fixed mk/msvcgen/template6/wsgroup.tpi and
+	  template7/wsgroup.txi to take into account the fact that the
+	  workspace files (wkscel.dsw/wkscel.sln) now reside in the cel/msvc
+	  directory, rather than directly in cel.
+	- Eric Sunshine fixed Jamfile so that it invokes MsvcGenConfig with
+	  appropriate keys and values to prevent Unix-specific Python build
+	  flags from polluting the generated MSVC project files.
 9-Apr-2004
 	- Keith Fulton added function from Ondrej Hurt to dynamically set
 	  the max extrapolation interval in linmove instead of hardcoding
