@@ -142,8 +142,8 @@ void celPcActorMove::RotateTo (float yrot)
   pclinmove->GetLastPosition (current_position, current_yrot, current_sector);
 
   float angle_gap = atan (tan (rotate_to - current_yrot));
-  rotateleft = (angle_gap > 0);
-  rotateright = (angle_gap < 0);
+  rotateleft = (angle_gap < 0);
+  rotateright = (angle_gap > 0);
 
   HandleMovement (false);
 }
