@@ -296,7 +296,7 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->Unselect (this, sx, sy, button);
+    handlers[i]->Unselect (this, button, sx, sy);
 }
 
 void celBillboard::FireMouseDown (int sx, int sy, int button)
@@ -304,7 +304,7 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->Select (this, sx, sy, button);
+    handlers[i]->Select (this, button, sx, sy);
 }
 
 void celBillboard::FireMouseMove (int sx, int sy, int button)
@@ -312,7 +312,7 @@ void celBillboard::FireMouseMove (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->MouseMove (this, sx, sy, button);
+    handlers[i]->MouseMove (this, button, sx, sy);
 }
 
 void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
@@ -320,7 +320,7 @@ void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
-    handlers[i]->DoubleClick (this, sx, sy, button);
+    handlers[i]->DoubleClick (this, button, sx, sy);
 }
 
 
@@ -509,7 +509,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
         celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
 		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseUp (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+	  bb->FireMouseUp (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
       }
       break;
     case csevMouseDown:
@@ -530,7 +530,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	    moving_dy -= ev.Mouse.y;
 	  }
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_CLICKABLE))
-	    bb->FireMouseDown (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+	    bb->FireMouseDown (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
         }
       }
       break;
@@ -545,7 +545,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
         celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
 		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseMove (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+	  bb->FireMouseMove (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
       }
       break;
     case csevMouseDoubleClick:
@@ -553,7 +553,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
         celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
 		CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseDoubleClick (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+	  bb->FireMouseDoubleClick (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
       }
       break;
   }

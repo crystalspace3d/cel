@@ -54,11 +54,12 @@ celBehaviourGeneral::~celBehaviourGeneral ()
   delete[] name;
 }
 
-bool celBehaviourGeneral::SendMessage (const char* msg_id, iBase* msg_info, ...)
+bool celBehaviourGeneral::SendMessage (const char* msg_id,
+	iCelParameterBlock* params, ...)
 {
   va_list arg;
-  va_start (arg, msg_info);
-  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_start (arg, params);
+  bool rc = SendMessageV (msg_id, params, arg);
   va_end (arg);
   return rc;
 }
@@ -70,10 +71,10 @@ celBehaviourPrinter::celBehaviourPrinter (iCelEntity* entity,
 {
 }
 
-bool celBehaviourPrinter::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celBehaviourPrinter::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
-  (void)arg; (void)msg_info;
+  (void)arg; (void)params;
   printf ("Got message '%s'\n", msg_id);
   return false;
 }
@@ -85,27 +86,27 @@ celBehaviourRoom::celBehaviourRoom (iCelEntity* entity,
 {
 }
 
-bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celBehaviourRoom::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
-  csRef<iPcMeshSelectData> dat;
-  if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
-    	iPcMeshSelectData);
-  int x, y, but;
-  iCelEntity* ent = 0;
-  if (dat)
+  // @@@ Should store the id's for the parameters below.
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
+  	"cel.behaviour.parameter.button")) : 0;
+  if (butdata)
   {
-    ent = dat->GetEntity ();
-    dat->GetMousePosition (x, y);
-    but = dat->GetMouseButton ();
-  }
-  if (ent)
-  {
+    iCelEntity* ent = params->GetParameter (pl->FetchStringID (
+  	  "cel.behaviour.parameter.entity"))->value.ent;
+    int x = params->GetParameter (pl->FetchStringID (
+  	  "cel.behaviour.parameter.x"))->value.l;
+    int y = params->GetParameter (pl->FetchStringID (
+  	  "cel.behaviour.parameter.y"))->value.l;
+    int but = butdata->value.l;
     if (!strcmp (msg_id, "pcmeshsel_up"))
     {
       printf ("  UP '%s' (%d,%d,%d)\n", ent->GetName (),
-      	x, y, dat->GetMouseButton ());
+      	x, y, but);
       csRef<iPcMesh> pcmesh (
       	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh));
       csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS (
@@ -127,11 +128,13 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id, "pcmeshsel_down"))
       printf ("  DOWN '%s' (%d,%d,%d)\n", ent->GetName (),
-      	x, y, dat->GetMouseButton ());
+      	x, y, but);
   }
 
-  if (dat && !strcmp (msg_id, "pcmeshsel_move"))
+  if (butdata && !strcmp (msg_id, "pcmeshsel_move"))
   {
+    iCelEntity* ent = params->GetParameter (pl->FetchStringID (
+  	  "cel.behaviour.parameter.entity"))->value.ent;
     csRef<iPcTooltip> pctooltip (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcTooltip));
     if (ent)
@@ -154,15 +157,14 @@ celBehaviourBox::celBehaviourBox (iCelEntity* entity,
 {
 }
 
-bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celBehaviourBox::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
-  csRef<iPcMeshSelectData> dat;
-  if (msg_info) dat = SCF_QUERY_INTERFACE (msg_info,
-    	iPcMeshSelectData);
-  iCelEntity* ent = 0;
-  if (dat) ent = dat->GetEntity ();
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelEntity* ent = params ? params->GetParameter (pl->FetchStringID (
+  	"cel.behaviour.parameter.entity"))->value.ent : 0;
+
   if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {
     csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (
@@ -244,8 +246,8 @@ celBehaviourActor::~celBehaviourActor()
 {
 }
 
-bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
-            va_list arg)
+bool celBehaviourActor::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pckeyinput_", 11) == 0;
 
@@ -324,6 +326,6 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
   }
 
-  return bhroom->SendMessageV (msg_id, msg_info, arg);
+  return bhroom->SendMessageV (msg_id, params, arg);
 }
 

@@ -67,16 +67,27 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcInventory::PcInventory)
   SCF_IMPLEMENTS_INTERFACE (iPcInventory)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+csStringID celPcInventory::id_entity = csInvalidStringID;
+
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcInventory);
   DG_TYPE (this, "celPcInventory()");
+
+  if (id_entity == csInvalidStringID)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    id_entity = pl->FetchStringID ("cel.behaviour.parameter.entity");
+  }
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_entity, "entity", CEL_DATA_ENTITY);
 }
 
 celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
+  delete params;
 }
 
 #define INVENTORY_SERIAL 1
@@ -233,10 +244,18 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   if (entity)
   {
     bh = entity->GetBehaviour ();
-    if (bh) bh->SendMessage ("pcinventory_addchild", child);
+    if (bh)
+    {
+      params->GetParameter (0).Set (child);
+      bh->SendMessage ("pcinventory_addchild", params);
+    }
   }
   bh = child->GetBehaviour ();
-  if (bh) bh->SendMessage ("pcinventory_added", entity);
+  if (bh)
+  {
+    params->GetParameter (0).Set (entity);
+    bh->SendMessage ("pcinventory_added", params);
+  }
 
   return true;
 }
@@ -275,10 +294,18 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   if (entity)
   {
     bh = entity->GetBehaviour ();
-    if (bh) bh->SendMessage ("pcinventory_removechild", child);
+    if (bh)
+    {
+      params->GetParameter (0).Set (child);
+      bh->SendMessage ("pcinventory_removechild", params);
+    }
   }
   bh = child->GetBehaviour ();
-  if (bh) bh->SendMessage ("pcinventory_removed", entity);
+  if (bh)
+  {
+    params->GetParameter (0).Set (entity);
+    bh->SendMessage ("pcinventory_removed", params);
+  }
 
   return true;
 }

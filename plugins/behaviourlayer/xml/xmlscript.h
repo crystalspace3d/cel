@@ -37,6 +37,7 @@
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCelPropertyClass;
+struct iCelParameterBlock;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 
@@ -81,6 +82,8 @@ enum
   CEL_OPERATION_LOGOR,		// A:-		S:?,?		OS:B
   CEL_OPERATION_CALCID,		// A:-		S:S		OS:ID
   CEL_OPERATION_CALCPROPID,	// A:-		S:S		OS:ID
+  CEL_OPERATION_CALCPARID,	// A:-		S:S		OS:ID
+  CEL_OPERATION_ARG,		// A:-		S:ID		OS:?
 
   CEL_OPERATION_FINALOP
 };
@@ -243,7 +246,8 @@ public:
   // Get argument for last operation.
   celXmlArg& GetArgument ();
 
-  bool Execute (iCelEntity* entity, celBehaviourXml* behave);
+  bool Execute (iCelEntity* entity, celBehaviourXml* behave,
+  	iCelParameterBlock* params);
 };
 
 /**

@@ -23,8 +23,39 @@
 #include <stdarg.h>
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/strhash.h"
+
+#include "physicallayer/datatype.h"
 
 struct iCelBlLayer;
+
+SCF_VERSION (iCelParameterBlock, 0, 0, 1);
+
+/**
+ * This interface is a parameter block that can be used to pass parameters
+ * through SendMessage() in a behaviour.
+ * Parameter ids are constructed from the following string:
+ *     cel.behaviour.parameter.<name>
+ */
+struct iCelParameterBlock : public iBase
+{
+  /**
+   * Get number of parameters.
+   */
+  virtual int GetParameterCount () const = 0;
+
+  /**
+   * Get parameter with index. Returns the name and sets 'id'
+   * and 'type' to the appropriate values.
+   */
+  virtual const char* GetParameter (int idx, csStringID& id,
+  	celDataType& t) const = 0;
+
+  /**
+   * Get parameter given an id.
+   */
+  virtual const celData* GetParameter (csStringID id) const = 0;
+};
 
 SCF_VERSION (iCelBehaviour, 0, 0, 2);
 
@@ -48,13 +79,15 @@ struct iCelBehaviour : public iBase
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...) = 0;
+  virtual bool SendMessage (const char* msg_id,
+  	iCelParameterBlock* params, ...) = 0;
 
   /**
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg) = 0;
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg) = 0;
 
   /**
    * This is a function intended for implementations of behaviour layers.

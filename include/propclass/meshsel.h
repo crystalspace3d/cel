@@ -32,34 +32,18 @@ class csVector3;
 #define CEL_MOUSE_BUTTON2 2
 #define CEL_MOUSE_BUTTON3 4
 
-SCF_VERSION (iPcMeshSelectData, 0, 0, 1);
-
-/**
- * Data which is sent to the BL through SendMessage().
- */
-struct iPcMeshSelectData : public iBase
-{
-  /**
-   * Get the mouse button that was pressed (1, 2, or 3).
-   */
-  virtual int GetMouseButton () const = 0;
-
-  /**
-   * Get the mouse location.
-   */
-  virtual void GetMousePosition (int& x, int& y) const = 0;
-
-  /**
-   * Get the selected entity.
-   */
-  virtual iCelEntity* GetEntity () const = 0;
-};
-
-
 SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 
 /**
  * This is a property class for selecting meshes.
+ * This property class sends out messages with the following supported
+ * parameters (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * <ul>
+ * <li>x
+ * <li>y
+ * <li>button
+ * <li>entity
+ * </ul>
  */
 struct iPcMeshSelect : public iBase
 {

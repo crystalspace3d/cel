@@ -150,11 +150,19 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 %}
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg);
 
+struct iCelParameterBlock : public iBase
+{
+  virtual int GetParameterCount () const = 0;
+  virtual const char* GetParameter (int idx, csStringID& id,
+  	celDataType& t) const = 0;
+  virtual const celData* GetParameter (csStringID id) const = 0;
+};
+
 struct iCelBehaviour : public iBase
 {
   virtual const char* GetName () const = 0;
   virtual iCelBlLayer* GetBehaviourLayer () const = 0;
-  virtual bool SendMessage(const char* msg_id, iBase *msg_info) = 0;
+  virtual bool SendMessage(const char* msg_id, iCelParameterBlock *params) = 0;
 
   %extend {
     PyObject *GetPythonObject()

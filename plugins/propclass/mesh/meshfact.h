@@ -28,6 +28,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
+#include "plugins/propclass/common/stdparams.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 
@@ -191,38 +192,8 @@ private:
   // Setup the event handler based on settings.
   void SetupEventHandler ();
 
-  // Data for the event handlers in behaviour layer.
-  class PcMeshSelectData : public iPcMeshSelectData
-  {
-  private:
-    int mouse_x, mouse_y, mouse_button;
-    iCelEntity* entity;
-
-  public:
-    PcMeshSelectData () { SCF_CONSTRUCT_IBASE (0); }
-    virtual ~PcMeshSelectData () { }
-
-    void Select (iCelEntity* entity, int mouse_x, int mouse_y,
-      int mouse_button)
-    {
-      PcMeshSelectData::entity = entity;
-      PcMeshSelectData::mouse_x = mouse_x;
-      PcMeshSelectData::mouse_y = mouse_y;
-      PcMeshSelectData::mouse_button = mouse_button;
-    }
-
-    SCF_DECLARE_IBASE;
-    virtual int GetMouseButton () const
-    {
-      return mouse_button;
-    }
-    virtual void GetMousePosition (int& x, int& y) const
-    {
-      x = mouse_x;
-      y = mouse_y;
-    }
-    virtual iCelEntity* GetEntity () const { return entity; }
-  } mesh_sel_data;
+  static csStringID id_x, id_y, id_button, id_entity;
+  celGenericParameterBlock* params;
   void SendMessage (const char* name, iCelEntity* ent, int x, int y, int but);
 
 public:

@@ -29,6 +29,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
+#include "plugins/propclass/common/stdparams.h"
 #include "propclass/inv.h"
 #include "propclass/chars.h"
 
@@ -65,6 +66,9 @@ private:
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
   bool TestLocalConstraints (const char* charName);
+
+  static csStringID id_entity;
+  celOneParameterBlock* params;
 
 public:
   celPcInventory (iObjectRegistry* object_reg);

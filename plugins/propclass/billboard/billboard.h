@@ -29,6 +29,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
+#include "plugins/propclass/common/stdparams.h"
 #include "propclass/billboard.h"
 
 struct iCelEntity;
@@ -51,6 +52,8 @@ private:
   iBillboard* billboard;
   csRef<iBillboardManager> billboard_mgr;
   bool events_enabled;
+  static csStringID id_x, id_y, id_button;
+  celGenericParameterBlock* params;
 
   enum propids
   {

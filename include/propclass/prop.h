@@ -34,6 +34,11 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
 
 /**
  * This is a general property class.
+ * This property class sends out messages with the following supported
+ * parameters (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * <ul>
+ * <li>index
+ * </ul>
  */
 struct iPcProperties : public iBase
 {

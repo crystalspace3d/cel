@@ -29,6 +29,11 @@ SCF_VERSION (iPcInventory, 0, 0, 1);
 
 /**
  * This is an inventory property class.
+ * This property class sends out messages with the following supported
+ * parameters (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * <ul>
+ * <li>entity
+ * </ul>
  */
 struct iPcInventory : public iBase
 {

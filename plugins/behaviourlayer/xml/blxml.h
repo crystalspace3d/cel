@@ -49,6 +49,7 @@ private:
   csPDelArray<celXmlScript> scripts;
   csHash<celXmlScript*,csStrKey,csConstCharHashKeyHandler> scripts_hash;
   csStringHash xmltokens;
+  csStringHash functions;
 
   const char* GetAttributeValue (iDocumentNode* child,
 	const char* propname);
