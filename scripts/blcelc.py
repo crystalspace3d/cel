@@ -88,40 +88,6 @@ _blcelc.iBase_swigregister(iBasePtr)
 iBase_QueryInterfaceSafe = _blcelc.iBase_QueryInterfaceSafe
 
 
-class scfClassInfo(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, scfClassInfo, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, scfClassInfo, name)
-    __swig_setmethods__["ClassID"] = _blcelc.scfClassInfo_ClassID_set
-    __swig_getmethods__["ClassID"] = _blcelc.scfClassInfo_ClassID_get
-    if _newclass:ClassID = property(_blcelc.scfClassInfo_ClassID_get,_blcelc.scfClassInfo_ClassID_set)
-    __swig_setmethods__["Description"] = _blcelc.scfClassInfo_Description_set
-    __swig_getmethods__["Description"] = _blcelc.scfClassInfo_Description_get
-    if _newclass:Description = property(_blcelc.scfClassInfo_Description_get,_blcelc.scfClassInfo_Description_set)
-    __swig_setmethods__["Dependencies"] = _blcelc.scfClassInfo_Dependencies_set
-    __swig_getmethods__["Dependencies"] = _blcelc.scfClassInfo_Dependencies_get
-    if _newclass:Dependencies = property(_blcelc.scfClassInfo_Dependencies_get,_blcelc.scfClassInfo_Dependencies_set)
-    __swig_setmethods__["Factory"] = _blcelc.scfClassInfo_Factory_set
-    __swig_getmethods__["Factory"] = _blcelc.scfClassInfo_Factory_get
-    if _newclass:Factory = property(_blcelc.scfClassInfo_Factory_get,_blcelc.scfClassInfo_Factory_set)
-    def __init__(self,*args):
-        _swig_setattr(self, scfClassInfo, 'this', apply(_blcelc.new_scfClassInfo,args))
-        _swig_setattr(self, scfClassInfo, 'thisown', 1)
-    def __del__(self, destroy= _blcelc.delete_scfClassInfo):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __repr__(self):
-        return "<C scfClassInfo instance at %s>" % (self.this,)
-
-class scfClassInfoPtr(scfClassInfo):
-    def __init__(self,this):
-        _swig_setattr(self, scfClassInfo, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, scfClassInfo, 'thisown', 0)
-        _swig_setattr(self, scfClassInfo,self.__class__,scfClassInfo)
-_blcelc.scfClassInfo_swigregister(scfClassInfoPtr)
-
 class iFactory(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -167,8 +133,6 @@ class iSCF(iBase):
     def GetClassDependencies(*args): return apply(_blcelc.iSCF_GetClassDependencies,args)
     def UnloadUnusedModules(*args): return apply(_blcelc.iSCF_UnloadUnusedModules,args)
     def RegisterClass(*args): return apply(_blcelc.iSCF_RegisterClass,args)
-    def RegisterStaticClass(*args): return apply(_blcelc.iSCF_RegisterStaticClass,args)
-    def RegisterClassList(*args): return apply(_blcelc.iSCF_RegisterClassList,args)
     def UnregisterClass(*args): return apply(_blcelc.iSCF_UnregisterClass,args)
     def GetInterfaceID(*args): return apply(_blcelc.iSCF_GetInterfaceID,args)
     def Finish(*args): return apply(_blcelc.iSCF_Finish,args)
@@ -347,6 +311,55 @@ class csStringSetPtr(csStringSet):
         if not hasattr(self,"thisown"): _swig_setattr(self, csStringSet, 'thisown', 0)
         _swig_setattr(self, csStringSet,self.__class__,csStringSet)
 _blcelc.csStringSet_swigregister(csStringSetPtr)
+
+class iString(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iString, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iString, name)
+    def SetCapacity(*args): return apply(_blcelc.iString_SetCapacity,args)
+    def GetCapacity(*args): return apply(_blcelc.iString_GetCapacity,args)
+    def SetGrowsBy(*args): return apply(_blcelc.iString_SetGrowsBy,args)
+    def GetGrowsBy(*args): return apply(_blcelc.iString_GetGrowsBy,args)
+    def SetGrowsExponentially(*args): return apply(_blcelc.iString_SetGrowsExponentially,args)
+    def GetGrowsExponentially(*args): return apply(_blcelc.iString_GetGrowsExponentially,args)
+    def Truncate(*args): return apply(_blcelc.iString_Truncate,args)
+    def Reclaim(*args): return apply(_blcelc.iString_Reclaim,args)
+    def Clear(*args): return apply(_blcelc.iString_Clear,args)
+    def Clone(*args): return apply(_blcelc.iString_Clone,args)
+    def GetData(*args): return apply(_blcelc.iString_GetData,args)
+    def Length(*args): return apply(_blcelc.iString_Length,args)
+    def IsEmpty(*args): return apply(_blcelc.iString_IsEmpty,args)
+    def SetAt(*args): return apply(_blcelc.iString_SetAt,args)
+    def GetAt(*args): return apply(_blcelc.iString_GetAt,args)
+    def Insert(*args): return apply(_blcelc.iString_Insert,args)
+    def Overwrite(*args): return apply(_blcelc.iString_Overwrite,args)
+    def Append(*args): return apply(_blcelc.iString_Append,args)
+    def Format(*args): return apply(_blcelc.iString_Format,args)
+    def FormatV(*args): return apply(_blcelc.iString_FormatV,args)
+    def Replace(*args): return apply(_blcelc.iString_Replace,args)
+    def Compare(*args): return apply(_blcelc.iString_Compare,args)
+    def CompareNoCase(*args): return apply(_blcelc.iString_CompareNoCase,args)
+    def __iadd__(*args): return apply(_blcelc.iString___iadd__,args)
+    def __add__(*args): return apply(_blcelc.iString___add__,args)
+    def __eq__(*args): return apply(_blcelc.iString___eq__,args)
+    def __del__(self, destroy= _blcelc.delete_iString):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iString instance at %s>" % (self.this,)
+
+class iStringPtr(iString):
+    def __init__(self,this):
+        _swig_setattr(self, iString, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iString, 'thisown', 0)
+        _swig_setattr(self, iString,self.__class__,iString)
+_blcelc.iString_swigregister(iStringPtr)
+iString_VERSION = cvar.iString_VERSION
 
 class csVector2(_object):
     __swig_setmethods__ = {}
@@ -1595,6 +1608,7 @@ class csQuaternion(_object):
     def Rotate(*args): return apply(_blcelc.csQuaternion_Rotate,args)
     def Normalize(*args): return apply(_blcelc.csQuaternion_Normalize,args)
     def SetWithEuler(*args): return apply(_blcelc.csQuaternion_SetWithEuler,args)
+    def GetEulerAngles(*args): return apply(_blcelc.csQuaternion_GetEulerAngles,args)
     def ToAxisAngle(*args): return apply(_blcelc.csQuaternion_ToAxisAngle,args)
     def Slerp(*args): return apply(_blcelc.csQuaternion_Slerp,args)
     __swig_setmethods__["r"] = _blcelc.csQuaternion_r_set
@@ -1874,6 +1888,7 @@ csFindSystemRoots = _blcelc.csFindSystemRoots
 
 csGetUsername = _blcelc.csGetUsername
 
+CS_REQUEST_END = _blcelc.CS_REQUEST_END
 class csInitializer(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csInitializer, name, value)
@@ -2431,9 +2446,10 @@ class iLightIterator(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iLightIterator, name)
-    def Restart(*args): return apply(_blcelc.iLightIterator_Restart,args)
-    def Fetch(*args): return apply(_blcelc.iLightIterator_Fetch,args)
+    def HasNext(*args): return apply(_blcelc.iLightIterator_HasNext,args)
+    def Next(*args): return apply(_blcelc.iLightIterator_Next,args)
     def GetLastSector(*args): return apply(_blcelc.iLightIterator_GetLastSector,args)
+    def Reset(*args): return apply(_blcelc.iLightIterator_Reset,args)
     def __del__(self, destroy= _blcelc.delete_iLightIterator):
         try:
             if self.thisown: destroy(self)
@@ -2588,9 +2604,10 @@ class iSectorIterator(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSectorIterator, name)
-    def Restart(*args): return apply(_blcelc.iSectorIterator_Restart,args)
-    def Fetch(*args): return apply(_blcelc.iSectorIterator_Fetch,args)
+    def HasNext(*args): return apply(_blcelc.iSectorIterator_HasNext,args)
+    def Next(*args): return apply(_blcelc.iSectorIterator_Next,args)
     def GetLastPosition(*args): return apply(_blcelc.iSectorIterator_GetLastPosition,args)
+    def Reset(*args): return apply(_blcelc.iSectorIterator_Reset,args)
     def __del__(self, destroy= _blcelc.delete_iSectorIterator):
         try:
             if self.thisown: destroy(self)
@@ -3304,10 +3321,9 @@ class iVisibilityObjectIterator(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iVisibilityObjectIterator, name)
+    def HasNext(*args): return apply(_blcelc.iVisibilityObjectIterator_HasNext,args)
     def Next(*args): return apply(_blcelc.iVisibilityObjectIterator_Next,args)
     def Reset(*args): return apply(_blcelc.iVisibilityObjectIterator_Reset,args)
-    def GetObject(*args): return apply(_blcelc.iVisibilityObjectIterator_GetObject,args)
-    def IsFinished(*args): return apply(_blcelc.iVisibilityObjectIterator_IsFinished,args)
     def __del__(self, destroy= _blcelc.delete_iVisibilityObjectIterator):
         try:
             if self.thisown: destroy(self)
@@ -4863,9 +4879,8 @@ class iObjectIterator(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iObjectIterator, name)
     def Next(*args): return apply(_blcelc.iObjectIterator_Next,args)
     def Reset(*args): return apply(_blcelc.iObjectIterator_Reset,args)
-    def GetObject(*args): return apply(_blcelc.iObjectIterator_GetObject,args)
     def GetParentObj(*args): return apply(_blcelc.iObjectIterator_GetParentObj,args)
-    def IsFinished(*args): return apply(_blcelc.iObjectIterator_IsFinished,args)
+    def HasNext(*args): return apply(_blcelc.iObjectIterator_HasNext,args)
     def FindName(*args): return apply(_blcelc.iObjectIterator_FindName,args)
     def __del__(self, destroy= _blcelc.delete_iObjectIterator):
         try:
@@ -4946,9 +4961,9 @@ class iObjectRegistryIterator(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iObjectRegistryIterator, name)
-    def Restart(*args): return apply(_blcelc.iObjectRegistryIterator_Restart,args)
-    def GetCurrent(*args): return apply(_blcelc.iObjectRegistryIterator_GetCurrent,args)
+    def Reset(*args): return apply(_blcelc.iObjectRegistryIterator_Reset,args)
     def GetCurrentTag(*args): return apply(_blcelc.iObjectRegistryIterator_GetCurrentTag,args)
+    def HasNext(*args): return apply(_blcelc.iObjectRegistryIterator_HasNext,args)
     def Next(*args): return apply(_blcelc.iObjectRegistryIterator_Next,args)
     def __del__(self, destroy= _blcelc.delete_iObjectRegistryIterator):
         try:
@@ -5201,6 +5216,8 @@ class iEvent(iBase):
     def FlattenSize(*args): return apply(_blcelc.iEvent_FlattenSize,args)
     def Flatten(*args): return apply(_blcelc.iEvent_Flatten,args)
     def Unflatten(*args): return apply(_blcelc.iEvent_Unflatten,args)
+    def IncRefIfPooled(*args): return apply(_blcelc.iEvent_IncRefIfPooled,args)
+    def DecRefUnlessPooled(*args): return apply(_blcelc.iEvent_DecRefUnlessPooled,args)
     def __del__(self, destroy= _blcelc.delete_iEvent):
         try:
             if self.thisown: destroy(self)
@@ -5498,6 +5515,7 @@ class iPluginManager(iBase):
     def RegisterPlugin(*args): return apply(_blcelc.iPluginManager_RegisterPlugin,args)
     def GetPlugins(*args): return apply(_blcelc.iPluginManager_GetPlugins,args)
     def Clear(*args): return apply(_blcelc.iPluginManager_Clear,args)
+    def QueryOptions(*args): return apply(_blcelc.iPluginManager_QueryOptions,args)
     def __del__(self, destroy= _blcelc.delete_iPluginManager):
         try:
             if self.thisown: destroy(self)
@@ -7387,7 +7405,7 @@ class iStreamIterator(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iStreamIterator, name)
     def HasNext(*args): return apply(_blcelc.iStreamIterator_HasNext,args)
-    def GetNext(*args): return apply(_blcelc.iStreamIterator_GetNext,args)
+    def Next(*args): return apply(_blcelc.iStreamIterator_Next,args)
     def __del__(self, destroy= _blcelc.delete_iStreamIterator):
         try:
             if self.thisown: destroy(self)
@@ -7998,6 +8016,10 @@ class iDynamicSystem(iBase):
     def QueryObject(*args): return apply(_blcelc.iDynamicSystem_QueryObject,args)
     def SetGravity(*args): return apply(_blcelc.iDynamicSystem_SetGravity,args)
     def GetGravity(*args): return apply(_blcelc.iDynamicSystem_GetGravity,args)
+    def SetLinearDampener(*args): return apply(_blcelc.iDynamicSystem_SetLinearDampener,args)
+    def GetLinearDampener(*args): return apply(_blcelc.iDynamicSystem_GetLinearDampener,args)
+    def SetRollingDampener(*args): return apply(_blcelc.iDynamicSystem_SetRollingDampener,args)
+    def GetRollingDampener(*args): return apply(_blcelc.iDynamicSystem_GetRollingDampener,args)
     def Step(*args): return apply(_blcelc.iDynamicSystem_Step,args)
     def CreateBody(*args): return apply(_blcelc.iDynamicSystem_CreateBody,args)
     def RemoveBody(*args): return apply(_blcelc.iDynamicSystem_RemoveBody,args)
@@ -8007,6 +8029,11 @@ class iDynamicSystem(iBase):
     def CreateJoint(*args): return apply(_blcelc.iDynamicSystem_CreateJoint,args)
     def RemoveJoint(*args): return apply(_blcelc.iDynamicSystem_RemoveJoint,args)
     def GetDefaultMoveCallback(*args): return apply(_blcelc.iDynamicSystem_GetDefaultMoveCallback,args)
+    def AttachColliderMesh(*args): return apply(_blcelc.iDynamicSystem_AttachColliderMesh,args)
+    def AttachColliderCylinder(*args): return apply(_blcelc.iDynamicSystem_AttachColliderCylinder,args)
+    def AttachColliderBox(*args): return apply(_blcelc.iDynamicSystem_AttachColliderBox,args)
+    def AttachColliderSphere(*args): return apply(_blcelc.iDynamicSystem_AttachColliderSphere,args)
+    def AttachColliderPlane(*args): return apply(_blcelc.iDynamicSystem_AttachColliderPlane,args)
     def __del__(self, destroy= _blcelc.delete_iDynamicSystem):
         try:
             if self.thisown: destroy(self)
