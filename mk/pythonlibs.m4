@@ -27,6 +27,7 @@ if test $FOUND = 1; then
 	AC_MSG_RESULT(found)
 	ifelse([$1], , :, [$1])
 else
+	PYTHON_LIBS=""
 	AC_MSG_RESULT(not found)
 	ifelse([$2], , :, [$2])
 fi
