@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+28-Jun_2004
+	- Andrew Dai fixed celPcLinearMovement so it now performs collision
+	  detection at the correct interval. Also added reaction to collisions
+	  so your current velocity will be affected after a collision. This will
+	  be most noticeable with mid-air collisions.
 25-Jun-2004
 	- Andrew Dai added a UseCD() function to iPcCollisionDetection to
 	  allow temporary disabling of collision detection on an entity.
