@@ -28,6 +28,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/strhash.h"
 
 
 SCF_VERSION (iPcLinearMovement, 0, 0, 1);
@@ -90,12 +91,12 @@ struct iPcLinearMovement : public iBase
   /**
    * Returns data useful for dead reckoning.
    */
-  virtual csPtr<iDataBuffer> GetDRData() = 0;
+  virtual csPtr<iDataBuffer> GetDRData(csStringHash* msgstrings = 0) = 0;
 
   /**
    * Applies dead reckoning data to this object.
    */
-  virtual bool SetDRData (iDataBuffer* data, bool detectcheat) = 0;
+  virtual bool SetDRData (iDataBuffer* data, bool detectcheat, csStringHash* msgstrings = 0) = 0;
 
   /**
    * Checks whether a DR packet needs to be sent.
