@@ -9,8 +9,17 @@ PYTHON_CFLAGS = "@PYTHON_CFLAGS@" ;
 C++ = @CXX@ ;
 LINK = $(C++) ;
 
-C++FLAGS += $(CRYSTAL_C++FLAGS) -I$(TOP) -I$(TOP)/include ;
+HDRS += $(TOP) $(TOP)/include ;
+C++FLAGS += $(CRYSTAL_C++FLAGS) ;
 LINKLIBS += $(CRYSTAL_LIBS) ;
+
+prefix = "@prefix@" ;
+exec_prefix = "@exec_prefix@" ;
+libdir = "@libdir@" ;
+csconfdir = "@libdir@/csconfig" ;
+bindir = "@bindir@" ;
+includedir = "@includedir@" ;
+
 
 #disabled for now (1 source file is ../common/stdpcimp.cpp that doesn't work
 #  because of the relative path...)
