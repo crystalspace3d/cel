@@ -677,7 +677,7 @@ bool celPcRegion::Load ()
     if (m)
     {
       iCelEntity* ent = pl->CreateEntity ();
-      ent->SetName ("__dummy__");
+      ent->SetName ("");
       
       pc = pl->CreatePropertyClass (ent, "pcmesh");
       iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
