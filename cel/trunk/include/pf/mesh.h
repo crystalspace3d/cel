@@ -57,6 +57,33 @@ struct iPcMesh : public iBase
    * and also update lighting.
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
+
+  /**
+   * Conveniance function to set an 'action' for the mesh.
+   * This only works for 3D sprites. For other mesh objects nothing
+   * will happen.
+   */
+  virtual void SetAction (const char* actionName) = 0;
+
+  /**
+   * Return the current action name.
+   */
+  virtual const char* GetAction () = 0;
+
+  /**
+   * Hide this mesh.
+   */
+  virtual void Hide () = 0;
+
+  /**
+   * Show this mesh.
+   */
+  virtual void Show () = 0;
+
+  /**
+   * Return true if mesh is visible.
+   */
+  virtual bool IsVisible () const = 0;
 };
 
 #endif // __CEL_PF_MESH__

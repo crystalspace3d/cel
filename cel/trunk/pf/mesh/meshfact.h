@@ -74,6 +74,7 @@ private:
   iCelEntity* entity;
   iMeshWrapper* mesh;
   iObjectRegistry* object_reg;
+  bool visible;
 
   iMeshFactoryWrapper* LoadMeshFactory (const char* fileName);
 
@@ -85,6 +86,11 @@ public:
   iMeshWrapper* GetMesh () { return mesh; }
   void ClearMesh () { mesh = NULL; }
   void MoveMesh (iSector* sector, const csVector3& pos);
+  void SetAction (const char* actionName);
+  const char* GetAction ();
+  void Hide ();
+  void Show ();
+  bool IsVisible () const { return visible; }
 
   SCF_DECLARE_IBASE;
 
@@ -110,6 +116,26 @@ public:
     virtual void MoveMesh (iSector* sector, const csVector3& pos)
     {
       scfParent->MoveMesh (sector, pos);
+    }
+    virtual void SetAction (const char* actionName)
+    {
+      scfParent->SetAction (actionName);
+    }
+    virtual const char* GetAction ()
+    {
+      return scfParent->GetAction ();
+    }
+    void Hide ()
+    {
+      scfParent->Hide ();
+    }
+    void Show ()
+    {
+      scfParent->Show ();
+    }
+    bool IsVisible () const
+    {
+      return scfParent->IsVisible ();
     }
   } scfiPcMesh;
 };
@@ -228,7 +254,11 @@ public:
   bool HasFollowMode () const { return do_follow; }
   void SetFollowAlwaysMode (bool followalways) { do_follow_always = followalways; }
   bool HasFollowAlwaysMode () const { return do_follow_always; }
-  void SetDragMode (bool drag) { do_drag = drag; }
+  void SetDragMode (bool drag)
+  {
+    do_drag = drag;
+    SetupEventHandler ();
+  }
   bool HasDragMode () const { return do_drag; }
   void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
   {

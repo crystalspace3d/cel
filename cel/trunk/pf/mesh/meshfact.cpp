@@ -27,6 +27,7 @@
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/csobject.h"
+#include "csutil/flags.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
@@ -40,6 +41,7 @@
 #include "imap/parser.h"
 #include "ivaria/reporter.h"
 #include "imesh/object.h"
+#include "imesh/sprite3d.h"
 
 //---------------------------------------------------------------------------
 
@@ -113,6 +115,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
   mesh = NULL;
   celPcMesh::object_reg = object_reg;
+  visible = true;
 }
 
 celPcMesh::~celPcMesh ()
@@ -212,6 +215,46 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
   mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
 }
 
+void celPcMesh::SetAction (const char* actionName)
+{
+  CS_ASSERT (mesh != NULL);
+  iSprite3DState* state = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState);
+  if (state)
+  {
+    state->SetAction (actionName);
+    state->DecRef ();
+  }
+}
+
+const char* celPcMesh::GetAction ()
+{
+  CS_ASSERT (mesh != NULL);
+  iSprite3DState* state = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState);
+  if (state)
+  {
+    const char* act = state->GetCurAction ()->GetName ();
+    state->DecRef ();
+    return act;
+  }
+  return NULL;
+}
+
+void celPcMesh::Hide ()
+{
+  if (!visible) return;
+  visible = false;
+  mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+}
+
+void celPcMesh::Show ()
+{
+  if (visible) return;
+  visible = true;
+  mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celPcMeshSelect)
@@ -275,7 +318,7 @@ void celPcMeshSelect::SetupEventHandler ()
   CS_ASSERT (q != NULL);
   q->RemoveListener (&scfiEventHandler);
   unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
-  if (do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
+  if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
   q->RegisterListener (&scfiEventHandler, trigger);
   q->DecRef ();
 }
@@ -301,7 +344,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   int mouse_but = ev.Mouse.Button;
   int but = 1<<(mouse_but-1);
-  if (do_follow)
+  if (do_follow || do_drag)
   {
     if (mouse_but != 0 && !(mouse_buttons & but)) return false;
   }
@@ -350,12 +393,14 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   if (do_drag && sel_entity)
   {
-    iPcMovable* pcmovable = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMovable);
+    iPcMovable* pcmovable = CEL_QUERY_PROPCLASS (
+    	sel_entity->GetPropertyClassList (), iPcMovable);
     iPcMesh* pcmesh = NULL;
     if (pcmovable)
       pcmesh = pcmovable->GetMesh ();
     else
-      pcmesh = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMesh);
+      pcmesh = CEL_QUERY_PROPCLASS (
+      	sel_entity->GetPropertyClassList (), iPcMesh);
     CS_ASSERT (pcmesh != NULL);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
     CS_ASSERT (mesh != NULL);
@@ -378,9 +423,12 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     float dist;
     if (csIntersect3::Plane (v0, v1, drag_normal, mp, isect, dist))
     {
-      if (drag_normal_camera) isect = camera->GetTransform ().This2Other (isect);
-      if (pcmovable) pcmovable->Move (sector, isect);
-      else pcmesh->MoveMesh (sector, isect);
+      if (drag_normal_camera)
+        isect = camera->GetTransform ().This2Other (isect);
+      if (pcmovable)
+        pcmovable->Move (sector, isect);
+      else
+        pcmesh->MoveMesh (sector, isect);
     }
 
     if (pcmovable) pcmovable->DecRef ();
@@ -434,6 +482,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_sendup && sel_entity)
         SendMessage ("selectmesh_up", sel_entity,
 		mouse_x, mouse_y, mouse_but);
+      sel_entity = NULL;
     }
     else
     {
