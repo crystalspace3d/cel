@@ -38,8 +38,10 @@ SCF_VERSION (iPcCommandInput, 0, 0, 1);
  * This property class can send out the following messages
  * to the behaviour:
  * <ul>
- * <li>pckeyinput_<key>0: key is unpressed
- * <li>pckeyinput_<key>1: key is pressed
+ * <li>pccommandinput_<key>0: key is unpressed
+ * <li>pccommandinput_<key>1: key is pressed
+ * <li>pccommandinput_<key>_: key is pressed and auto-repeating
+ * <li>pccommandinput_<axis>: movement on the given axis
  * </ul>
  */
 struct iPcCommandInput : public iBase
@@ -48,6 +50,26 @@ struct iPcCommandInput : public iBase
    * Activates the input to get Commands
    */
   virtual void Activate (bool activate=true) = 0;
+
+  /**
+   * Send screen coordinates instead of coordinates between -1 and 1 for axis
+   * movement messages.
+   */
+  virtual void ScreenCoordinates (bool screen=true) = 0;
+
+  /**
+   * Convert a coordinate from screen-space to a value between -1 and 1
+   * @param screencoord the coordinate in screen-space
+   * @param axis the screen axis to use for the conversion (0 = x, 1 = y)
+   */
+  virtual float ScreenToCentered (float screencoord, float axis = 0) = 0;
+
+  /**
+   * Convert a coordinate from a value between -1 and 1 to screen-space
+   * @param centeredcoord a value between -1 and 1
+   * @param axis the screen axis to use for the conversion (0 = x, 1 = y)
+   */
+  virtual float CenteredToScreen (float centeredcoord, float axis = 0) = 0;
 
   /**
    * Loads a Config File binding triggers(for example keys) to commands

@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Mar-2005
+	- Jorrit added a patch from David Bronke which implements mouse
+	  and joystick support for pckeyinput. 'pckeyinput' is now renamed
+	  to 'pccommandinput'! Please change your programs!
 1-Mar-2005
 	- Jorrit added a patch from Manuel A. Fernandez Montecelo which
 	  adds some functions to iPcActorMove so that you can see what

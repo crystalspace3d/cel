@@ -257,7 +257,7 @@ celBehaviourActor::~celBehaviourActor()
 bool celBehaviourActor::SendMessageV (const char* msg_id,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
-  bool pcinput_msg = strncmp (msg_id, "pckeyinput_", 11) == 0;
+  bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
 
   if (pcinput_msg)
   {
@@ -266,35 +266,35 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
     if (!pcactormove)
       return false;
 
-    if (!strcmp (msg_id+11, "forward1"))
+    if (!strcmp (msg_id+15, "forward1"))
       pcactormove->Forward (true);
-    else if (!strcmp (msg_id+11, "forward0"))
+    else if (!strcmp (msg_id+15, "forward0"))
       pcactormove->Forward (false);
-    else if (!strcmp (msg_id+11, "backward1"))
+    else if (!strcmp (msg_id+15, "backward1"))
       pcactormove->Backward (true);
-    else if (!strcmp (msg_id+11, "backward0"))
+    else if (!strcmp (msg_id+15, "backward0"))
       pcactormove->Backward (false);
-    else if (!strcmp (msg_id+11, "strafeleft1"))
+    else if (!strcmp (msg_id+15, "strafeleft1"))
       pcactormove->StrafeLeft (true);
-    else if (!strcmp (msg_id+11, "strafeleft0"))
+    else if (!strcmp (msg_id+15, "strafeleft0"))
       pcactormove->StrafeLeft (false);
-    else if (!strcmp (msg_id+11, "straferight1"))
+    else if (!strcmp (msg_id+15, "straferight1"))
       pcactormove->StrafeRight (true);
-    else if (!strcmp (msg_id+11, "straferight0"))
+    else if (!strcmp (msg_id+15, "straferight0"))
       pcactormove->StrafeRight (false);
-    else if (!strcmp (msg_id+11, "rotateleft1"))
+    else if (!strcmp (msg_id+15, "rotateleft1"))
       pcactormove->RotateLeft (true);
-    else if (!strcmp (msg_id+11, "rotateleft0"))
+    else if (!strcmp (msg_id+15, "rotateleft0"))
       pcactormove->RotateLeft (false);
-    else if (!strcmp (msg_id+11, "rotateright1"))
+    else if (!strcmp (msg_id+15, "rotateright1"))
       pcactormove->RotateRight (true);
-    else if (!strcmp (msg_id+11, "rotateright0"))
+    else if (!strcmp (msg_id+15, "rotateright0"))
       pcactormove->RotateRight (false);
-    else if (!strcmp (msg_id+11, "run1"))
+    else if (!strcmp (msg_id+15, "run1"))
       pcactormove->Run (true);
-    else if (!strcmp (msg_id+11, "run0"))
+    else if (!strcmp (msg_id+15, "run0"))
       pcactormove->Run (false);
-    else if (!strcmp (msg_id+11, "cammode1"))
+    else if (!strcmp (msg_id+15, "cammode1"))
     {
       pcactormove->ToggleCameraMode ();
       csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);

@@ -413,7 +413,7 @@ struct iPcCommandInput : public iBase
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
 };
 
-CEL_PC(iPcCommandInput, CommandInput, pckeyinput)
+CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 
 //=======================================================================
 

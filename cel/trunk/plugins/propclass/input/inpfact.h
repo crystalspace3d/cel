@@ -33,6 +33,7 @@
 struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
+struct iGraphics2D;
 
 /**
  * Factory for test.
@@ -41,24 +42,47 @@ CEL_DECLARE_FACTORY (CommandInput)
 
 struct celKeyMap
 {
-  celKeyMap* next, *prev;
+  celKeyMap *next, *prev;
   utf32_char key;
   uint32 modifiers;
-  char* command;
-  char* command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  char *command;
+  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
   bool is_on;
 };
 
+struct celButtonMap
+{
+  celButtonMap *next, *prev;
+  int type, numeric;
+  uint32 modifiers;
+  char *command;
+  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  bool is_on;
+};
+
+struct celAxisMap
+{
+  celAxisMap *next, *prev;
+  int type, numeric;
+  uint32 modifiers;
+  bool recenter;
+  char *command;
+};
+
 /**
- * This is an input property class.
+ * This comment is an input property class.
  */
 class celPcCommandInput : public celPcCommon
 {
 private:
-  celKeyMap* maplist;
+  celKeyMap* keylist;
+  celButtonMap* buttonlist;
+  celAxisMap* axislist;
   static csStringID id_trigger;
   static csStringID id_command;
   static csStringID action_bind;
+  bool screenspace;
+  csRef<iGraphics2D> g2d;
 
 public:
   celPcCommandInput (iObjectRegistry* object_reg);
@@ -66,7 +90,7 @@ public:
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  virtual const char* GetName () const { return "pckeyinput"; }
+  virtual const char* GetName () const { return "pccommandinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
@@ -74,6 +98,9 @@ public:
   bool HandleEvent (iEvent& ev);
 
   virtual void Activate (bool activate = true);
+  virtual void ScreenCoordinates (bool screen = true);
+  virtual float ScreenToCentered (float screencoord, float axis = 0);
+  virtual float CenteredToScreen (float centeredcoord, float axis = 0);
   virtual bool LoadConfig (const char* fname);
   virtual bool Bind (const char* triggername, const char* command);
   virtual const char* GetBind(const char *triggername) const;
@@ -85,6 +112,12 @@ public:
     SCF_DECLARE_EMBEDDED_IBASE (celPcCommandInput);
     virtual void Activate (bool activate = true)
     { scfParent->Activate(activate); }
+    virtual void ScreenCoordinates (bool screen = true)
+    { scfParent->ScreenCoordinates(screen); }
+    virtual float ScreenToCentered (float screencoord, float axis = 0)
+    { return scfParent->ScreenToCentered(screencoord, axis); }
+    virtual float CenteredToScreen (float centeredcoord, float axis = 0)
+    { return scfParent->CenteredToScreen(centeredcoord, axis); }
     virtual bool LoadConfig (const char* fname)
     { return scfParent->LoadConfig(fname); }
     virtual bool Bind (const char* triggername, const char* command)
@@ -123,6 +156,8 @@ public:
 
 protected:
   celKeyMap *GetMap (utf32_char key, uint32 modifiers) const;
+  celAxisMap *GetAxisMap (int type, int numeric, uint32 modifiers) const;
+  celButtonMap *GetButtonMap (int type, int numeric, uint32 modifiers) const;
 };
 
 #endif // __CEL_PF_TESTFACT__

@@ -255,7 +255,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 {
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-  	"pckeyinput",
+  	"pccommandinput",
 	"pccamera",
 	"pcactormove",
 	"pcmesh",
@@ -680,7 +680,7 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pckeyinput"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
     return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))

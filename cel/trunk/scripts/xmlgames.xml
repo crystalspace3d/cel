@@ -575,7 +575,7 @@
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
         <pcfactory>cel.pcfactory.inventory</pcfactory>
-        <pcfactory>cel.pcfactory.pckeyinput</pcfactory>
+        <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
 
 	<!-- *****************************************************
 	  - This script handles the menu system of xmlgames.
@@ -2179,8 +2179,8 @@
 	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
-	        <createpropclass name="pckeyinput" />
-		<default propclass="pc(pckeyinput)" />
+	        <createpropclass name="pccommandinput" />
+		<default propclass="pc(pccommandinput)" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
@@ -2840,7 +2840,7 @@
 	    <!--
 	      - Movement events.
 	      -->
-	    <event name="pckeyinput_bomb1">
+	    <event name="pccommandinput_bomb1">
 	    	<if eval="!?bdash_main.maze[?x,?y]">
 		    <call entity="bdash_main" event="createblock">
 		        <par id="parid(blocktype)" value="'Oo'" />
@@ -2853,102 +2853,102 @@
 	    	    </call>
 	        </if>
 	    </event>
-	    <event name="pckeyinput_move_right1">
+	    <event name="pccommandinput_move_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_left1">
+	    <event name="pccommandinput_move_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_down1">
+	    <event name="pccommandinput_move_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_up1">
+	    <event name="pccommandinput_move_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_right_">
+	    <event name="pccommandinput_move_right_">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_left_">
+	    <event name="pccommandinput_move_left_">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_down_">
+	    <event name="pccommandinput_move_down_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_up_">
+	    <event name="pccommandinput_move_up_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_take_right1">
+	    <event name="pccommandinput_take_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_left1">
+	    <event name="pccommandinput_take_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_down1">
+	    <event name="pccommandinput_take_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_up1">
+	    <event name="pccommandinput_take_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_right_">
+	    <event name="pccommandinput_take_right_">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_left_">
+	    <event name="pccommandinput_take_left_">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_down_">
+	    <event name="pccommandinput_take_down_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checktake" />
 	    </event>
-	    <event name="pckeyinput_take_up_">
+	    <event name="pccommandinput_take_up_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkrot" />
 	    </event>
-	    <event name="pckeyinput_rot_right1">
+	    <event name="pccommandinput_rot_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkrot" />
 	    </event>
-	    <event name="pckeyinput_rot_left1">
+	    <event name="pccommandinput_rot_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkrot" />
 	    </event>
-	    <event name="pckeyinput_rot_down1">
+	    <event name="pccommandinput_rot_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkrot" />
 	    </event>
-	    <event name="pckeyinput_rot_up1">
+	    <event name="pccommandinput_rot_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkrot" />
@@ -4629,8 +4629,8 @@
 	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
-	        <createpropclass name="pckeyinput" />
-		<default propclass="pc(pckeyinput)" />
+	        <createpropclass name="pccommandinput" />
+		<default propclass="pc(pccommandinput)" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
@@ -4757,67 +4757,67 @@
 		</call>
 	    </event>
 
-	    <event name="pckeyinput_move_right1">
+	    <event name="pccommandinput_move_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_left1">
+	    <event name="pccommandinput_move_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_down1">
+	    <event name="pccommandinput_move_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_up1">
+	    <event name="pccommandinput_move_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_right_">
+	    <event name="pccommandinput_move_right_">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_left_">
+	    <event name="pccommandinput_move_left_">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_down_">
+	    <event name="pccommandinput_move_down_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_move_up_">
+	    <event name="pccommandinput_move_up_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_menu_right1">
+	    <event name="pccommandinput_menu_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmenu" />
 	    </event>
-	    <event name="pckeyinput_menu_left1">
+	    <event name="pccommandinput_menu_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmenu" />
 	    </event>
-	    <event name="pckeyinput_menu_down1">
+	    <event name="pccommandinput_menu_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmenu" />
 	    </event>
-	    <event name="pckeyinput_menu_up1">
+	    <event name="pccommandinput_menu_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmenu" />
 	    </event>
-	    <event name="pckeyinput_repeat1">
+	    <event name="pccommandinput_repeat1">
 	    	<lvar name="x" value="?bdash_main.hero_x" />
 	    	<lvar name="y" value="?bdash_main.hero_y" />
 		<call entity="bdash_main" event="clearblock_nocheck">
