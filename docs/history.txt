@@ -20,6 +20,7 @@
 	- Note that gravity is not perfect yet. It is rather easy to get
 	  everything stuck. It would be nice to have the ability to push
 	  objects while dragging them.
+	- Removed the now obsolete conf_mingw.mak.
 5-Nov-2001:
 	- Added a box mesh object for celtest.
 	- Made four dummy objects visible. Changed selection code in
