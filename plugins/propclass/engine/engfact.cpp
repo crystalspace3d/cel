@@ -661,6 +661,22 @@ void celPcCamera::DoElasticPhysics (bool isElastic,
   }
 }
 
+void celPcCamera::CenterCamera ()
+{
+  csVector3 actor_pos;
+  float actor_yrot;
+  iSector* actor_sector;
+  GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  SetPosition (actor_pos +
+  	csVector3 (
+  	  sin (actor_yrot) * GetMaxDistance (),
+  	  0.0,
+	  cos (actor_yrot) * GetMaxDistance ()));
+  SetYaw (actor_yrot);
+  if (cammode == iPcCamera::freelook)
+    SetPitch (0);
+}
+
 void celPcCamera::TickEveryFrame ()
 {
   CheckModeChange ();
