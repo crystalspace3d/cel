@@ -196,12 +196,7 @@ void celPersistClassicContext::Clear()
 
 void celPersistClassicContext::ClearTempRefs()
 {
-  for (int i = 0; i < temprefs.Length(); i++)
-  {
-    iCelEntity* entity = (iCelEntity*) temprefs[i];
-    entity->DecRef();
-  }
-  temprefs.DeleteAll (false);
+  temprefs.DeleteAll ();
 }
 
 void celPersistClassicContext::RemoveEntity (iCelEntity* entity)
@@ -300,7 +295,6 @@ iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 	CS_ID* tmpid = new CS_ID(id);
 	read_ids.Put (entity->GetID(), tmpid);
 	temprefs.Push (entity);
-	entity->IncRef ();	// IncRef for temprefs.
       }
     }
   }

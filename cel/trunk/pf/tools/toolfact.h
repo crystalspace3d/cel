@@ -21,6 +21,7 @@
 #define __CEL_PF_TOOLFACT__
 
 #include "cstypes.h"
+#include "csutil/csvector.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"

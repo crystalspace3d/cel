@@ -30,6 +30,7 @@
 #include "bl/bl.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
+#include "csutil/csvector.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -119,8 +120,7 @@ void celPlLayer::RemoveEntity(celEntity *entity)
 
   for (int i = 0; i < removecallbacks.Length(); i++)
   {
-    iCelEntityRemoveCallback* callback =
-      (iCelEntityRemoveCallback*) removecallbacks[i];
+    iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity(&entity->scfiCelEntity);
   }
 }

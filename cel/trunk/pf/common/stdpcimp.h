@@ -23,7 +23,7 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "csutil/scf.h"
-#include "csutil/csobjvec.h"
+#include "csutil/refarr.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 
@@ -31,11 +31,12 @@ struct iCelEntity;
 struct iObjectRegistry;
 
 
-struct Property {
-	csStringID		id;
-	celDataType		datatype;
-	bool			readonly;
-	const char*		desc;
+struct Property
+{
+  csStringID		id;
+  celDataType		datatype;
+  bool			readonly;
+  const char*		desc;
 };
 
 /**
@@ -46,7 +47,7 @@ struct Property {
 class celPcCommon : public iCelPropertyClass
 {
 private:
-  csObjVector callbacks;
+  csRefArray<iCelPropertyChangeCallback> callbacks;
 
 protected:
   iCelEntity* entity;
@@ -55,11 +56,11 @@ protected:
 protected:
   void FirePropertyChangeCallback (int propertyId);
 
-	static void UpdateProperties (iObjectRegistry*) { return; }
+  static void UpdateProperties (iObjectRegistry*) { return; }
 
-	void**		propdata;
-	Property*	props;
-	int*			propcount;
+  void**		propdata;
+  Property*	props;
+  int*			propcount;
 
 public:
   celPcCommon (iObjectRegistry* object_reg);
