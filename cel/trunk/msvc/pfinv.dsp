@@ -113,6 +113,10 @@ SOURCE=..\pf\inv\invfact.h
 
 SOURCE=..\pf\inv\invfact.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\pf\common\stdpcimp.cpp
+# End Source File
 # End Group
 # End Target
 # End Project

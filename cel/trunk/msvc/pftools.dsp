@@ -111,6 +111,10 @@ SOURCE=..\pf\tools\toolfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\pf\common\stdpcimp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\pf\tools\toolfact.cpp
 # End Source File
 # End Group
