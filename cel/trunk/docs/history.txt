@@ -13,6 +13,12 @@
 	  The 'pcmovable' does not yet support moving through portals so
 	  don't try to drag an object out of the starting room yet or it
 	  will drop through the floor.
+	- Fixed a bug in the FindNearbyEntities(). Now it only returns
+	  entities for meshes that are actually visible. Without this fix
+	  it was very easy for objects to become stuck after too much
+	  box/object manipulations. Now it is still not perfect but a lot
+	  better already. An object in the box no longer affects collision
+	  detection of objects not in the box.
 8-Nov-2001:
 	- Started work on persistance. Nothing works yet. Created
 	  iCelDataBuffer which the persistance system will use to save/load

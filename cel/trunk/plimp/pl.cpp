@@ -25,6 +25,7 @@
 #include "plimp/message.h"
 #include "pl/propfact.h"
 #include "pl/persist.h"
+#include "csutil/flags.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
@@ -211,6 +212,13 @@ iCelEntityList* celPlLayer::FindNearbyEntities (iSector* sector,
   while (objit->Next ())
   {
     iObject* obj = objit->GetObject ();
+    iMeshWrapper* m = SCF_QUERY_INTERFACE (obj, iMeshWrapper);
+    if (m)
+    {
+      bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
+      m->DecRef ();
+      if (invisible) continue;
+    }
     iCelEntity* ent = FindAttachedEntity (obj);
     if (ent) list->Add (ent);
   }

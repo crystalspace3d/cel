@@ -122,10 +122,10 @@ celPcMesh::~celPcMesh ()
 {
   if (mesh)
   {
-    mesh->DecRef ();
     iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
     CS_ASSERT (engine != NULL);
     engine->GetMeshes ()->Remove (mesh);
+    mesh->DecRef ();
     engine->DecRef ();
   }
 }
