@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Jul-2004
+	- Jorrit fixed a compile error in CEL.
 2-Jul-2004
 	- res fixed CEL for the csArray<> size_t change.
 29-Jun-2004
