@@ -38,6 +38,7 @@
 #include "iutil/objreg.h"
 #include "iutil/eventq.h"
 #include "iutil/plugin.h"
+#include "iutil/vfs.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
@@ -77,6 +78,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 //---------------------------------------------------------------------------
 
 csStringID celPcMesh::action_loadmesh = csInvalidStringID;
+csStringID celPcMesh::action_loadmeshpath = csInvalidStringID;
+csStringID celPcMesh::id_path = csInvalidStringID;
 csStringID celPcMesh::id_filename = csInvalidStringID;
 csStringID celPcMesh::id_factoryname = csInvalidStringID;
 
@@ -95,11 +98,14 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   fileName = 0;
   factName = 0;
+  path = 0;
   factory_ptr = 0;
 
   if (action_loadmesh == csInvalidStringID)
   {
     action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
+    action_loadmeshpath = pl->FetchStringID ("cel.action.LoadMeshPath");
+    id_path = pl->FetchStringID ("cel.parameter.path");
     id_filename = pl->FetchStringID ("cel.parameter.filename");
     id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
   }
@@ -114,6 +120,7 @@ void celPcMesh::Clear ()
 {
   delete[] fileName; fileName = 0;
   delete[] factName; factName = 0;
+  delete[] path; path = 0;
   if (mesh)
   {
     if (pl)
@@ -142,6 +149,20 @@ bool celPcMesh::PerformAction (csStringID actionId,
     (void)rc;
     return true;
   }
+  else if (actionId == action_loadmeshpath)
+  {
+    CEL_FETCH_STRING_PAR (pa,params,id_path);
+    if (!pa) return false;
+    CEL_FETCH_STRING_PAR (file,params,id_filename);
+    if (!file) return false;
+    CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
+    if (!factory) return false;
+    SetPath (pa);
+    bool rc = SetMesh (factory, file);
+    // @@@ Error report!
+    (void)rc;
+    return true;
+  }
   return false;
 }
 
@@ -152,10 +173,11 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESH_SERIAL);
   iMovable* mov = mesh->GetMovable ();
   iSectorList* sl = mov->GetSectors ();
-  databuf->SetDataCount (4+1+sl->GetCount ()+1+9);
+  databuf->SetDataCount (5+1+sl->GetCount ()+1+9);
   int i, j = 0;
   databuf->GetData (j++)->Set (factName);
   databuf->GetData (j++)->Set (fileName);
+  databuf->GetData (j++)->Set (path);
   databuf->GetData (j++)->Set (GetAction ());
   databuf->GetData (j++)->Set (visible);
 
@@ -207,18 +229,28 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   }
   char* filen = cd->value.s ? csStrNew (*cd->value.s) : 0;
 
+  cd = databuf->GetData (2);
+  if (!cd)
+  {
+    Report (object_reg,"Path not specified.  Cannot load.");
+    return false;
+  }
+  char* pathn = cd->value.s ? csStrNew (*cd->value.s) : 0;
+  SetPath (pathn);
+  delete[] pathn;
+
   SetMesh (factn, filen);
   delete[] factn;
   delete[] filen;
 
-  cd = databuf->GetData (2);
+  cd = databuf->GetData (3);
   if (!cd)
   {
     Report (object_reg,"Action not specified.  Cannot load.");
     return false;
   }
   SetAction (*cd->value.s, true);
-  cd = databuf->GetData (3); 
+  cd = databuf->GetData (4); 
   if (!cd)
   {
     Report (object_reg,"Visibility flag not specified.  Cannot load.");
@@ -227,7 +259,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   if (cd->value.bo) Show ();
   else Hide ();
 
-  cd = databuf->GetData (4);
+  cd = databuf->GetData (5);
   if (!cd)
   {
     Report (object_reg,"# of sectors in sectorlist not specified.  Cannot load.");
@@ -237,7 +269,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   mesh->GetMovable ()->ClearSectors ();
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != 0);
-  int i, j = 5;
+  int i, j = 6;
   for (i = 0 ; i < cnt ; i++)
   {
     cd = databuf->GetData (j++);
@@ -335,10 +367,22 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  csRef<iLoader> loader (CS_QUERY_REGISTRY (object_reg, iLoader));
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  if (path)
+  {
+    // If we have a path then we first ChDir to that.
+    vfs->PushDir ();
+    vfs->ChDir (path);
+  }
+
+  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
   iBase* result;
   bool success = loader->Load (fileName, result, 0, false, true);
+  if (path)
+  {
+    vfs->PopDir ();
+  }
   if (!success)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -377,6 +421,15 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     return 0;
   }
   return imeshfact;
+}
+
+void celPcMesh::SetPath (const char* path)
+{
+  if (path != celPcMesh::path)
+  {
+    delete[] celPcMesh::path;
+    celPcMesh::path = csStrNew (path);
+  }
 }
 
 bool celPcMesh::SetMesh (const char* factname, const char* filename)

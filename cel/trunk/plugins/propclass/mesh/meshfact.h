@@ -54,15 +54,18 @@ class celPcMesh : public celPcCommon
 private:
   csRef<iMeshWrapper> mesh;
   bool visible;
+  char* path;
   char* fileName;
   char* factName;
   csRef<iMeshFactoryWrapper> factory_ptr;
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
+  static csStringID id_path;
   static csStringID id_filename;
   static csStringID id_factoryname;
   static csStringID action_loadmesh;
+  static csStringID action_loadmeshpath;
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
@@ -72,6 +75,8 @@ public:
    * mesh from the engine.
    */
   void Clear ();
+  /// Set path.
+  void SetPath (const char* path);
   /**
    * Assign a mesh created from factname and/or loaded from filename
    * to this pcmesh.
@@ -129,6 +134,10 @@ public:
   struct PcMesh : public iPcMesh
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMesh);
+    virtual void SetPath (const char* path)
+    {
+      scfParent->SetPath (path);
+    }
     virtual bool SetMesh (const char* factname, const char* filename)
     {
       return scfParent->SetMesh (factname, filename);

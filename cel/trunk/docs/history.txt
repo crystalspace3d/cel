@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed pcmesh so that it uses the new iLoader->Load()
 	  function that is in CS. That means that you can now easily use
 	  mesh factories and libraries for specifying meshes.
+	- Jorrit added iPcMesh->SetPath(). With that function you can set
+	  a path that will be used before loading the mesh (pcmesh
+	  will call vfs->ChDir() to that path and later restore the VFS
+	  path). Also added a new LoadMeshPath action.
 8-Sep-2004
 	- Jorrit added iPcCamera::CenterCamera() to put the camera behind
 	  the actor.
