@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Jun_2004
+    - Andrew Craig fixed ambiguous  Set() by changing 0 -> 0.0f
 28-Jun_2004
 	- Andrew Dai fixed celPcLinearMovement so it now performs collision
 	  detection at the correct interval. Also added reaction to collisions

@@ -787,7 +787,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     csVector3 v0, v1;
     if (drag_normal_camera)
     {
-      v0.Set (0);
+      v0.Set (0.0f);
       v1 = vc;
       mp = camera->GetTransform ().Other2This (mp);
     }
