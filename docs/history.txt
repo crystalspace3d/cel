@@ -1,3 +1,14 @@
+22-Apr-2002:
+	- Fixed several bad bugs in NumReg:
+	    - In Register() a 'memset' was done with only
+	      (newsize-listsize) bytes but this needs to multiply
+	      by the size of (void*).
+	    - 'memset' was also done on the OLD value of 'list' so this
+	      could potentially corrupt memory if a reallocation caused
+	      in a new pointer.
+	    - 'freelistend' points to the first free item in 'freelist'.
+	      However the loop in Register() was first doing 'freelistend++'
+	      which means there was a gap.
 15-Apr-2002:
 	- Matze removed some warning printfs
 30-Mar-2002:
