@@ -75,7 +75,7 @@
 00065 
 00070   <span class="keyword">virtual</span> csPtr&lt;iCelEntity&gt; <a class="code" href="structiCelPlLayer.html#a1">CreateEntityInScope</a> (<span class="keywordtype">int</span> scope) = 0;
 00071 
-00077   <span class="keyword">virtual</span> csPtr&lt;iCelEntity&gt; <a class="code" href="structiCelPlLayer.html#a0">CreateEntity</a> (CS_ID <span class="keywordtype">id</span>) = 0;
+00077   <span class="keyword">virtual</span> csPtr&lt;iCelEntity&gt; <a class="code" href="structiCelPlLayer.html#a0">CreateEntity</a> (uint <span class="keywordtype">id</span>) = 0;
 00078 
 00094   <span class="keyword">virtual</span> csPtr&lt;iCelEntity&gt; <a class="code" href="structiCelPlLayer.html#a0">CreateEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entname,
 00095         <a class="code" href="structiCelBlLayer.html">iCelBlLayer</a>* bl, <span class="keyword">const</span> <span class="keywordtype">char</span>* bhname, ...) = 0;
@@ -90,11 +90,11 @@
 00121 
 00125   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPlLayer.html#a8">UnattachEntity</a> (iObject* object, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 00126 
-00130   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPlLayer.html#a9">GetEntity</a> (CS_ID <span class="keywordtype">id</span>) = 0;
+00130   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPlLayer.html#a9">GetEntity</a> (uint <span class="keywordtype">id</span>) = 0;
 00131 
 00137   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPlLayer.html#a10">FindEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 00138 
-00143   <span class="keyword">virtual</span> <a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* <a class="code" href="structiCelPlLayer.html#a11">GetBehaviour</a> (CS_ID <span class="keywordtype">id</span>) = 0;
+00143   <span class="keyword">virtual</span> <a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* <a class="code" href="structiCelPlLayer.html#a11">GetBehaviour</a> (uint <span class="keywordtype">id</span>) = 0;
 00144 
 00148   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPlLayer.html#a12">FindAttachedEntity</a> (iObject* object) = 0;
 00149 

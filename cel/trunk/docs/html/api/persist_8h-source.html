@@ -90,10 +90,10 @@
 00110   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SaveEntity (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 00111 
 00112   <span class="comment">/* returns the ID mapped to the ID on the other side of the connection */</span>
-00113   <span class="keyword">virtual</span> CS_ID GetMappedID(<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00113   <span class="keyword">virtual</span> uint GetMappedID(<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 00114 
 00115   <span class="comment">/* returns the entitiy after mapping the ID */</span>
-00116   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* GetMappedEntity(CS_ID <span class="keywordtype">id</span>) = 0;
+00116   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* GetMappedEntity(uint <span class="keywordtype">id</span>) = 0;
 00117 
 00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Clear () = 0;
 00122 };
