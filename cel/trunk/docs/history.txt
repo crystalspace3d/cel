@@ -23,6 +23,8 @@
 	- pcmovable property class now fires a callback with ID
 	  CEL_PCMOVEABLE_PROPERTY_POSITION whenever the position is changed
 	  in preparation for pclocater.
+10-Jun-2002:
+	- Added first person camera mode from amin
 5-Jun-2002:
 	- Added CreateEmptyEntityList() to the pl in CEL.
 28-May-2002:
