@@ -42,18 +42,15 @@ The history order is reversed so that new features are at the top.
 	  camera if it is different from the sector that is already set.
 	  That way it avoids calling sector changed callbacks too many times.
 	- Jorrit fixed pczonemanager so that it really works now with regards
-	  to dynamic loading. There are still two problems:
-	    - If you use a 3rd person camera in combination with zoning
-	      then there is a problem if the mesh is in one sector and the
-	      camera is in another. In that case it is possible for a region
-	      to be loaded/unloaded constantly because the camera positioning
-	      works by first placing the camera at the mesh location and
-	      then moving it back.
-	    - There is a leak somewhere (in CS or CEL) that prevents a sector
-	      from being removed. This means that when you load a region
-	      for the second time a new sector will be created (which is ok)
-	      but the portal still points to the old sector (since that one
-	      didn't get removed so the portal didn't get cleared).
+	  to dynamic loading. There is still one problem:
+	  If you use a 3rd person camera in combination with zoning
+	  then there is a problem if the mesh is in one sector and the
+	  camera is in another. In that case it is possible for a region
+	  to be loaded/unloaded constantly because the camera positioning
+	  works by first placing the camera at the mesh location and
+	  then moving it back.
+	  Note that you MUST mark portals between regions with <autoresolve/>
+	  for this feature to work!
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
