@@ -25,6 +25,9 @@ The history order is reversed so that new features are at the top.
 	    - Added a small starter script for smallgame.
 	    - Updated smallgame fro blpython changes and some other interface
 	      changes.
+	- Jorrit added support for a new SetProperty action to the
+	  iPcProperties property class so that you can set properties from
+	  within an XML addon file.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at

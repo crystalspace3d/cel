@@ -35,6 +35,13 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
 /**
  * This is a general property class.
  * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetProperty: parameters 'name' (string) and 'value' (any).
+ * </ul>
+ * <p>
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
