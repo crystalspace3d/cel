@@ -828,15 +828,19 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --without-python        do not use Python
+  --without-python        do not use
+ Python
   --with-libcppunit=dir   specify location of libcppunit if not detected
-                          automatically; searches dir/include, dir/lib, and
+                          automatically; searches
+ dir/include, dir/lib, and
                           dir
   --without-cs            do not look for an installed Crystal Space SDK; this
-                          option is useful only if you need to perform routine
-                          maintenance tasks, such as generating project files
-                          or converting documentation, without having the
-                          Crystal Space SDK installed
+                          option is useful only
+ if you need to perform
+                          routine maintenance tasks, such as generating
+                          project files or converting documentation, without
+                          having the Crystal Space
+ SDK installed
   --with-cs-prefix=PFX    Prefix where Crystal Space is installed (optional)
 
 Some influential environment variables:
@@ -6858,22 +6862,22 @@ then
     echo "$as_me:$LINENO: checking for Crystal Space - version >= $min_cs_version" >&5
 echo $ECHO_N "checking for Crystal Space - version >= $min_cs_version... $ECHO_C" >&6
 
-    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags csgeom csgfx csutil cstool") >&5
-  ($CSCONF $csconf_args --cxxflags csgeom csgfx csutil cstool) 2>&5
+    CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --cxxflags cspycommon csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --cxxflags cspycommon csgeom csgfx csutil cstool) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs csgeom csgfx csutil cstool") >&5
-  ($CSCONF $csconf_args --libs csgeom csgfx csutil cstool) 2>&5
+    CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$CSCONF \$csconf_args --libs cspycommon csgeom csgfx csutil cstool") >&5
+  ($CSCONF $csconf_args --libs cspycommon csgeom csgfx csutil cstool) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir csgeom csgfx csutil cstool") >&5
-  ($CSCONF --includedir csgeom csgfx csutil cstool) 2>&5
+    CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$CSCONF --includedir cspycommon csgeom csgfx csutil cstool") >&5
+  ($CSCONF --includedir cspycommon csgeom csgfx csutil cstool) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    CRYSTAL_VERSION=`$CSCONF --version csgeom csgfx csutil cstool`
+    CRYSTAL_VERSION=`$CSCONF --version cspycommon csgeom csgfx csutil cstool`
 
     cs_major_version=`$CSCONF $cs_args --version | \
        awk 'BEGIN { FS="." } { print $1 }'`

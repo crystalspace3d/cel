@@ -1,13 +1,14 @@
 #define __CEL__
 %module blcelc
 
-%include "ivaria/cspace.i"
+%import "ivaria/cspace.i"
 
 %ignore csInitializer::RequestPlugins;
 %ignore csInitializer::RequestPluginsV;
 %include "celtool/initapp.h"
 
 %{
+#include <crystalspace.h>
 #include "celtool/initapp.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
@@ -33,6 +34,46 @@
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 %}
+
+// @@@ UGLY: Duplicated from CS. Find a better way.
+%inline %{
+
+  struct _csPyEventHandler : public iEventHandler
+  {
+    SCF_DECLARE_IBASE;
+    _csPyEventHandler (PyObject * obj) : _pySelf(obj)
+    {
+      SCF_CONSTRUCT_IBASE(0);
+      IncRef();
+    }
+    virtual ~_csPyEventHandler ()
+    {
+      SCF_DESTRUCT_IBASE();
+      DecRef();
+    }
+    virtual bool HandleEvent (iEvent & event)
+    {
+      PyObject * event_obj = SWIG_NewPointerObj(
+        (void *) &event, SWIG_TypeQuery("iEvent *"), 0
+      );
+      PyObject * result = PyObject_CallMethod(_pySelf, "HandleEvent", "(O)",
+        event_obj
+      );
+      Py_DECREF(event_obj);
+      if (!result)
+      {
+        return false;
+      }
+      bool res = PyInt_AsLong(result);
+      Py_DECREF(result);
+      return res;
+    }
+  private:
+    PyObject * _pySelf;
+  };
+
+%}
+
 
 //=======================================================================
 

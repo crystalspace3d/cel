@@ -1,3 +1,4 @@
+from cspace import *
 from blcelc import *
 
 class actor:
@@ -86,11 +87,11 @@ class actor:
 			self.linmove.SetVelocity(velocity)
 
 		if self.rotateright:
-			self.linmove.SetRotation(csVector3(0,-1.75,0))
+			self.linmove.SetAngularVelocity(csVector3(0,-1.75,0))
 		elif self.rotateleft:
-			self.linmove.SetRotation(csVector3(0,1.75,0))
+			self.linmove.SetAngularVelocity(csVector3(0,1.75,0))
 		else:
-			self.linmove.SetRotation(csVector3(0,0,0))
+			self.linmove.SetAngularVelocity(csVector3(0,0,0))
 
 		if jump and self.linmove.IsOnGround():
 			velocity.y = 6.31

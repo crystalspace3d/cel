@@ -16,6 +16,15 @@ The history order is reversed so that new features are at the top.
 	  meshfact file (that usage is deprecated).
 	- Jorrit fixed celtest to use SetPath() so that the relative path
 	  works.
+	- res made the following changes:
+	    - Made blcel.i use %import instead of %include for the cspace 
+	      stuff.
+	    - Ported SWIG_init -> SWIG_init_<module> change from CS.
+	    - Augmented blpython to include the SWIG stuff from the cspycommon
+	      library.
+	    - Added a small starter script for smallgame.
+	    - Updated smallgame fro blpython changes and some other interface
+	      changes.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at
