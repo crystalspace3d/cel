@@ -166,7 +166,7 @@ const char* celXmlParseToken (const char* input, int& token)
 	  return input+1;
 	}
 	else if (*input == ':' && *(input+1) == ':'
-		&& (isalpha (*(input+2))) || *(input+2) == '_')
+		&& (isalpha (*(input+2)) || *(input+2) == '_'))
 	{
 	  const char* pinput = input;	// Remember.
 	  input += 3;

@@ -115,7 +115,9 @@ public:
   void SetParameterDef (int idx, csStringID id, const char* parname)
   {
     ids.GetExtend (idx) = id;
-    names.GetExtend (idx) = parname;
+    if (idx >= names.Length ())
+      names.SetLength (idx+1);
+    names.Put (idx, parname);
   }
   celData& GetParameter (int idx) { return data.GetExtend (idx); }
 
