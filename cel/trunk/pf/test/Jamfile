@@ -1,7 +1,0 @@
-SubDir TOP pf test ;
-
-Plugin pftest
-	: testfact.cpp testfact.h
-;
-LinkWith pftest : celcommon ;
-

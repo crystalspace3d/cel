@@ -1,0 +1,7 @@
+SubDir TOP plugins propclass test ;
+
+Plugin pftest
+	: testfact.cpp testfact.h
+;
+LinkWith pftest : celcommon ;
+

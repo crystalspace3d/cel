@@ -1,7 +1,0 @@
-SubDir TOP pf mesh ;
-
-Plugin pfmesh
-	: meshfact.cpp meshfact.h
-;
-LinkWith pfmesh : celcommon ;
-

@@ -38,34 +38,34 @@ PFTOOLS=pftools$(DLL)
 PFENG=pfengine$(DLL)
 PFINV=pfinv$(DLL)
 PFINPUT=pfinput$(DLL)
-PLIMP=plimp$(DLL)
+STDPL=stdphyslayer$(DLL)
 CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
 
 #------
 # Location of sources and object files
 #------
-CPERSIST_SRC=$(wildcard persist/classic/*.cpp)
+CPERSIST_SRC=$(wildcard plugins/persist/classic/*.cpp)
 CPERSIST_OBJS=$(addsuffix .o, $(basename $(CPERSIST_SRC)))
-PLIMP_SRC=$(wildcard plimp/*.cpp)
-PLIMP_OBJS=$(addsuffix .o, $(basename $(PLIMP_SRC)))
-BLTEST_SRC=$(wildcard bltest/*.cpp)
+STDPL_SRC=$(wildcard plugins/stdphyslayer/*.cpp)
+STDPL_OBJS=$(addsuffix .o, $(basename $(STDPL_SRC)))
+BLTEST_SRC=$(wildcard plugins/behaviourlayer/test/*.cpp)
 BLTEST_OBJS=$(addsuffix .o, $(basename $(BLTEST_SRC)))
-BLPYTHON_SRC=$(wildcard blpython/*.cpp)
+BLPYTHON_SRC=$(wildcard plugins/behaviourlayer/python/*.cpp)
 BLPYTHON_OBJS=$(addsuffix .o, $(basename $(BLPYTHON_SRC)))
-PFTEST_SRC=$(wildcard pf/test/*.cpp pf/common/*.cpp)
+PFTEST_SRC=$(wildcard plugins/propclass/test/*.cpp plugins/propclass/common/*.cpp)
 PFTEST_OBJS=$(addsuffix .o, $(basename $(PFTEST_SRC)))
-PFMESH_SRC=$(wildcard pf/mesh/*.cpp pf/common/*.cpp)
+PFMESH_SRC=$(wildcard plugins/propclass/mesh/*.cpp plugins/propclass/common/*.cpp)
 PFMESH_OBJS=$(addsuffix .o, $(basename $(PFMESH_SRC)))
-PFMOVE_SRC=$(wildcard pf/move/*.cpp pf/common/*.cpp)
+PFMOVE_SRC=$(wildcard plugins/propclass/move/*.cpp plugins/propclass/common/*.cpp)
 PFMOVE_OBJS=$(addsuffix .o, $(basename $(PFMOVE_SRC)))
-PFTOOLS_SRC=$(wildcard pf/tools/*.cpp pf/common/*.cpp)
+PFTOOLS_SRC=$(wildcard plugins/propclass/tools/*.cpp plugins/propclass/common/*.cpp)
 PFTOOLS_OBJS=$(addsuffix .o, $(basename $(PFTOOLS_SRC)))
-PFENG_SRC=$(wildcard pf/engine/*.cpp pf/common/*.cpp)
+PFENG_SRC=$(wildcard plugins/propclass/engine/*.cpp plugins/propclass/common/*.cpp)
 PFENG_OBJS=$(addsuffix .o, $(basename $(PFENG_SRC)))
-PFINV_SRC=$(wildcard pf/inv/*.cpp pf/common/*.cpp)
+PFINV_SRC=$(wildcard plugins/propclass/inv/*.cpp plugins/propclass/common/*.cpp)
 PFINV_OBJS=$(addsuffix .o, $(basename $(PFINV_SRC)))
-PFINPUT_SRC=$(wildcard pf/input/*.cpp pf/common/*.cpp)
+PFINPUT_SRC=$(wildcard plugins/propclass/input/*.cpp plugins/propclass/common/*.cpp)
 PFINPUT_OBJS=$(addsuffix .o, $(basename $(PFINPUT_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
@@ -104,7 +104,7 @@ CEL_INCLUDES=-I. -Iinclude
 CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES) -DCEL_DEBUG
 CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -DCEL_DEBUG
 CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PLIMP_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+STDPL_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs python cstool csutil cssys csgfx csgeom)
 BLPYTHON_CXXFLAGS := $(shell ./cs-config --cxxflags python cstool csutil cssys csgfx csgeom) $(CEL_INCLUDES)
@@ -130,15 +130,15 @@ DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 .cpp.o: $<
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) \
+all: $(CSCONFIG.MAK) $(CPERSIST) $(STDPL) $(CELTEST) $(BLTEST) $(PFTEST) \
 	$(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT) \
 	$(BLPYTHON)
 
 $(CPERSIST): $(CPERSIST_OBJS)
 	$(DO.PLUGIN) $(CPERSIST_LINKFLAGS)
 
-$(PLIMP): $(PLIMP_OBJS)
-	$(DO.PLUGIN) $(PLIMP_LINKFLAGS)
+$(STDPL): $(STDPL_OBJS)
+	$(DO.PLUGIN) $(STDPL_LINKFLAGS)
 
 $(BLTEST): $(BLTEST_OBJS)
 	$(DO.PLUGIN) $(BLTEST_LINKFLAGS)
@@ -174,10 +174,10 @@ $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) \
+	$(RM) $(CPERSIST_OBJS) $(STDPL_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) \
 		$(PFMESH_OBJS) $(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) \
 		$(CELTEST_OBJS) $(PFENG_OBJS) $(PFINPUT_OBJS) $(BLPYTHON_OBJS) \
-		$(CPERSIST) $(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
+		$(CPERSIST) $(STDPL) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST) \
 		$(BLPYTHON) *.def
 
@@ -186,15 +186,15 @@ clean:
 #------
 blpythonswig:
 	swig -python -I$(CSDIR)/include -I$(CSDIR)/include/ivaria -c++ -shadow \
-		-o blpython/blcel.cpp blpython/blpython.i
-	mv blpython/blcelc.py scripts
+		-o plugins/behaviourlayer/python/blcel.cpp plugins/behaviourlayer/python/blpython.i
+	mv plugins/behaviourlayer/python/blcelc.py scripts
 
 #------
 # Create dependencies
 #------
 depend: $(CSCONFIG.MAK)
 	gcc -M $(CPERSIST_SRC) $(CXXFLAGS) > makefile.dep
-	gcc -M $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
+	gcc -M $(CXXFLAGS) $(STDPL_SRC) > makefile.dep
 	gcc -M $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(BLPYTHON_SRC) >> makefile.dep
 	gcc -M $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep

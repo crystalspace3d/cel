@@ -17,13 +17,9 @@ Help maintainerclean :
 		"Cleanup all objectfiles, buildconfig and generated files." ;
 
 # include subdirectories
-SubInclude TOP persist ;
-SubInclude TOP pf ;
-SubInclude TOP plimp ;
-SubInclude TOP bltest ;
-SubInclude TOP blpython ;
 SubInclude TOP celtest ;
 SubInclude TOP include ;
+SubInclude TOP plugins ;
 
 # generate cel-config
 rule CelConfigGen

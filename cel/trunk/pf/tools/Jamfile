@@ -1,7 +1,0 @@
-SubDir TOP pf tools ;
-
-Plugin pftools
-	: toolfact.cpp toolfact.h
-;
-LinkWith pftools : celcommon ;
-

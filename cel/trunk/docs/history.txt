@@ -1,6 +1,19 @@
 26-Jun-2003
 	- Jorrit added iCelPlLayer->GetBehaviour() as a conveniance function
 	  to directly get the behaviour associated with an entity ID.
+	- Jorrit performed a huge reorganization of the directory structure
+	  used inside CEL itself. Here it is now:
+	  	- include
+		- plugins
+			- stdphyslayer (formerly plimp)
+			- propclass (formerly pf dir)
+				- ... various property classes
+			- persist
+				- standard
+			- behaviourlayer
+				- test (bltest)
+				- python (blpython)
+		- celtest
 25-Jun-2003
 	- Jorrit ported pslinmove from the PlaneShift project to CEL. The
 	  code is currently mostly unchanged except for a few things:
