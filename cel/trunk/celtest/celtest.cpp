@@ -336,6 +336,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh", NULL);
+  iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv", NULL);
 
   csInitializer::SetupCommandLineParser (object_reg, argc, argv);
   if (!csInitializer::RequestPlugins (object_reg,
@@ -440,6 +441,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (!pftest) return false;
   iCelPropertyClassFactory* pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
   if (!pfmesh) return false;
+  iCelPropertyClassFactory* pfinv = LoadPcFactory ("cel.pcfactory.inventory");
+  if (!pfinv) return false;
 
   // Open the main system. This will open all the previously loaded plug-ins.
   if (!csInitializer::OpenApplication (object_reg))
@@ -499,6 +502,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   pftest->DecRef ();
   pfmesh->DecRef ();
+  pfinv->DecRef ();
 
   return true;
 }
