@@ -275,7 +275,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
 
     if (!strcmp (msg_id+11, "forward1"))
     {
-      pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
+      pcgravity->ApplyForce(csVector3(0,0,-1*speed), 100000);
     }
     else if (!strcmp (msg_id+11, "forward0"))
     {
@@ -284,7 +284,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     else if (!strcmp (msg_id+11, "backward1"))
     {
-      pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
+      pcgravity->ApplyForce(csVector3(0,0,1*speed), 1000000);
     }
     else if (!strcmp (msg_id+11, "backward0"))
     {
@@ -338,6 +338,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
         printf ("Free look mode\n");
         pccam->SetMode (iPcCamera::freelook, false);
       }
+      pccam->DecRef();
     }
     pcgravity->DecRef ();
   }
