@@ -2,6 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
+23-Feb-2004
+	- Norman Kraemer fixed python behaviourlayer where const char*
+	  path to behaviour was modified.
 21-Feb-2004
 	- Norman Kraemer added --lflags directive to cel-config
 	- Norman also augmented cel.m4 to emit the CEL.LFLAGS variable
