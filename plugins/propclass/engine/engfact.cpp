@@ -1541,6 +1541,7 @@ bool celPcRegion::Load ()
     return false;
   }
   cur_region->Prepare ();
+  engine->PrecacheDraw (cur_region);
   loaded = true;
   printf ("LoadOK!\n");
 
