@@ -1237,60 +1237,76 @@ bool celPcGravity2::HandleEvent (iEvent& ev)
   return false;
 }
 
-bool celPcGravity2::TestMove (iCollider* this_collider,
-    iCelEntityList* cd_list,
-    const csReversibleTransform& w2o,
-    const csVector3& relmove,
-    csVector3& collider_normal)
+int celPcGravity2::GetColliderArray (iCelEntityList* cd_list,
+  	iCollider**& colliders, csReversibleTransform**& transforms)
 {
-  static const csReversibleTransform identity;
-  csReversibleTransform test (w2o);
-  test.SetOrigin (test.GetOrigin () + relmove);
+  static csReversibleTransform identity;
+
+  int num_cdlist = cd_list->GetCount ();
+  colliders = NULL;
+  transforms = NULL;
+  if (!num_cdlist) return 0;
+  colliders = new iCollider* [num_cdlist];
+  transforms = new csReversibleTransform* [num_cdlist];
   int i;
-  for (i = 0 ; i < cd_list->GetCount () ; i++)
+  int num_colliders = 0;
+  for (i = 0 ; i < num_cdlist ; i++)
   {
     iCelEntity* ent = cd_list->Get (i);
     iPcSolid* solid_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
       	iPcSolid);
-    if (!solid_ent) continue;
+    if (!solid_ent)
+      continue;
+    if (!solid_ent->GetCollider ())
+    {
+      solid_ent->DecRef ();
+      continue;
+    }
+
     iPcMovable* mov_ent = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
       	iPcMovable);
-    const csReversibleTransform* coltrans;
+    csReversibleTransform* coltrans;
+    // @@@ Should use GetFullTransform()???
     if (mov_ent) coltrans = &mov_ent->GetMesh ()->GetMesh ()->GetMovable ()->
       	GetTransform ();
     else
       coltrans = &identity;
-
     //@@@ More than one collider for pcsolid?
-    iCollider* collider = solid_ent->GetCollider ();
-    int num_colliders = 1;
-    if (!collider) num_colliders = 0;
-    for (int j = 0 ; j < num_colliders ; j++)
-    {
-      iCollider* col = collider;
-      cdsys->ResetCollisionPairs ();
-      bool rc = false;
-      if (this_collider)
-	rc = cdsys->Collide (this_collider, &test, col, coltrans);
-      if (rc)
-      {
-        csCollisionPair* colpairs = cdsys->GetCollisionPairs ();
-        int num_pairs = cdsys->GetCollisionPairCount ();
-	for (int k = 0 ; k < num_pairs ; k++)
-	{
-	  csCollisionPair& cp = colpairs[k];
-	  collider_normal = ((cp.c2-cp.b2) % (cp.b2-cp.a2)).Unit ();
-          if (mov_ent) mov_ent->DecRef ();
-          solid_ent->DecRef ();
-	  return true;
-	}
-      }
-    }
-    if (mov_ent) mov_ent->DecRef ();
+    colliders[num_colliders] = solid_ent->GetCollider ();
+    transforms[num_colliders] = coltrans;
+    num_colliders++;
     solid_ent->DecRef ();
+    if (mov_ent) mov_ent->DecRef ();
   }
+  return num_colliders;
+}
 
-  return false;
+int celPcGravity2::TestMove (iCollider* this_collider,
+    int num_colliders,
+    iCollider** colliders,
+    csReversibleTransform** transforms,
+    const csReversibleTransform& w2o,
+    const csVector3& relmove,
+    csVector3& collider_normal)
+{
+  csReversibleTransform test (w2o);
+  csVector3 newpos = test.GetOrigin () + relmove;
+  int rc = cdsys->CollidePath (this_collider, &test, newpos,
+  	num_colliders, colliders, transforms);
+  if (rc == -1) return -1;	// Stuck!!!
+  if (rc == 0)			// Can move partially.
+  {
+    csCollisionPair* colpairs = cdsys->GetCollisionPairs ();
+    int num_pairs = cdsys->GetCollisionPairCount ();
+    for (int k = 0 ; k < num_pairs ; k++)
+    {
+      csCollisionPair& cp = colpairs[k];
+      collider_normal = ((cp.c2-cp.b2) % (cp.b2-cp.a2)).Unit ();
+      return 0;
+    }
+    return 0;
+  }
+  return 1;
 }
 
 bool celPcGravity2::HandleForce (float delta_t, iCollider* this_collider,
@@ -1304,10 +1320,28 @@ bool celPcGravity2::HandleForce (float delta_t, iCollider* this_collider,
 
   csVector3 acceleration = force / weight;
   const csVector3& oldpos = w2o.GetOrigin ();
-
-  float dt = delta_t;
   csVector3 relmove;
   csVector3 relspeed;
+
+  iCollider** colliders;
+  csReversibleTransform** transforms;
+  int num_colliders = GetColliderArray (cd_list, colliders, transforms);
+  if (!num_colliders)
+  {
+    delete[] colliders;
+    delete[] transforms;
+    // Since there are no colliders we can surely move.
+    relmove = acceleration;
+    relmove *=  delta_t;
+    relspeed = relmove;
+    relmove += current_speed;
+    relmove *= delta_t;
+    current_speed += relspeed;
+    pcmovable->Move (relmove);
+    return true;
+  }
+
+  float dt = delta_t;
   while (dt > EPSILON)
   {
     relmove = acceleration;
@@ -1317,12 +1351,23 @@ bool celPcGravity2::HandleForce (float delta_t, iCollider* this_collider,
     relmove *= dt;
 
     csVector3 collider_normal;
-    if (TestMove (this_collider, cd_list, w2o, relmove, collider_normal))
+    int rc = TestMove (this_collider, num_colliders, colliders, transforms,
+    	w2o, relmove, collider_normal);
+    if (rc == -1)
+    {
+      // Stuck at start position...
+      return false;
+    }
+    else if (rc == 0)
     {
       dt /= 2.0;
     }
     else break;
   }
+
+  delete[] colliders;
+  delete[] transforms;
+  
   if (dt <= EPSILON) return false;	// Movement not possible.
   else
   {

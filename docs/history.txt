@@ -1,3 +1,7 @@
+31-Dec-2001:
+	- The new 'pcgravity2' property class works a lot better now with
+	  the new CollidePath() function in CS iCollideSystem. Friction
+	  and proper collision response still have to be implemented though.
 29-Dec-2001:
 	- Philip Wyett updated MSVC project files for CEL.
 28-Dec-2001:

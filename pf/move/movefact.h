@@ -342,8 +342,16 @@ private:
   iPcMesh* gravity_mesh;
   csVector3 gravity_dim, gravity_offs;
 
-  bool TestMove (iCollider* this_collider,
-    iCelEntityList* cd_list,
+  // Generate two arrays of colliders and transforms
+  // given an entity list. Return the number of elements in the
+  // arrays. Free arrays with delete[] after using.
+  int GetColliderArray (iCelEntityList* cd_list,
+  	iCollider**& colliders, csReversibleTransform**& transforms);
+
+  int TestMove (iCollider* this_collider,
+    int num_colliders,
+    iCollider** colliders,
+    csReversibleTransform** transforms,
     const csReversibleTransform& w2o,
     const csVector3& relmove,
     csVector3& collider_normal);
