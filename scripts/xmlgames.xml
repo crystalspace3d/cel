@@ -68,6 +68,8 @@
 	        <property id="propid(uv_topleft)" value="?tl" />
 	        <property id="propid(uv_botright)"
 			value="?tl + [.25,.25]" />
+		<!-- Set the 2d grid to contain the current entity -->
+	        <var name="'grid'+?x+'_'+?y" value="?ent" />
 	    </event>
 	    <event name="initrow">
 		<for var="x" start="0" end="3" exec="initcel" />
@@ -75,8 +77,12 @@
 	    <event name="init">
 	        <var name="uvtl" value="[0,0]" />
 		<for var="y" start="0" end="3" exec="initrow" />
+
+		<!-- Clear the item at 3,3 -->
 		<property propclass="pc(p3_3,pcbillboard)"
 			id="propid(visible)" value="false" />
+	        <var name="'grid'+3+'_'+3" value="''" />
+
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
 		<var name="allowmove" value="false" />
@@ -94,6 +100,14 @@
 		        <var name="dx" value="if(?dxdy&1,1,-1)" />
 		        <var name="dy" value="0" />
 		    </false>
+		</if>
+		<var name="bx" value="?emptyx+?dx" />
+		<var name="by" value="?emptyy+?dy" />
+		<if eval="?bx < 4 && ?bx >= 0">
+		    <if eval="?by < 4 && ?by >= 0">
+			<var name="ent" value="?('grid'+?bx+'_'+?by)" />
+		        <print value="'block '+?bx+' '+?by+' ent:'+?ent" />
+		    </if>
 		</if>
 	    </event>
 	</script>
@@ -144,8 +158,7 @@
 		<var name="intx2" value="float(?curx)" />
 		<var name="inty2" value="float(?cury)" />
 		<var name="delta" value="0.0" />
-		<action propclass="pc(pctimer)"
-			id="propid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 	    </event>
 	    <event name="pcbillboard_select">
 	        <if eval="?puzzle_main.allowmove">

@@ -497,6 +497,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   int stack_size = stack.Length ();
   int i = 0;
   csWeakRef<iCelPropertyClass> default_pc;
+  DUMP_EXEC (":::: entity=%s behave=%s\n", entity->GetName (),
+  	behave->GetName ());
 
   for (;;)
   {
