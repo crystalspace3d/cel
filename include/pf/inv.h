@@ -23,6 +23,8 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+SCF_DECLARE_FAST_INTERFACE (iPcInventory)
+
 struct iCelEntity;
 
 SCF_VERSION (iPcInventory, 0, 0, 1);

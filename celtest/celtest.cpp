@@ -509,20 +509,20 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   pc = CreatePropertyClass (entity_box, pfmesh, "pcmesh");
   if (!pc) return false;
-  iPcMesh* pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+  iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
   pcmesh->MoveMesh (room, csVector3 (0));
   pcmesh->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
   if (!pc) return false;
-  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE (pc, iPcMeshSelect);
+  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (view->GetCamera ());
   pcmeshsel->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
   if (!pc) return false;
-  iPcInventory* pcinv = SCF_QUERY_INTERFACE (pc, iPcInventory);
+  iPcInventory* pcinv = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
   pcinv->SetConstraints ("size", 0, 10, 100);
   pcinv->SetConstraints ("weight", 0, .5, 1000000);
   pcinv->SetStrictCharacteristics ("size", true);
@@ -530,7 +530,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   pc = CreatePropertyClass (entity_box, pfinv, "pccharacteristics");
   if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", 3);
   pcchars->SetCharacteristic ("weight", 4);
   pcchars->SetInheritedCharacteristic ("size", 0, 0);
@@ -544,7 +544,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   entity_dummy1->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy1, pfinv, "pccharacteristics");
   if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", 3);
   pcchars->SetCharacteristic ("weight", .3);
   pcchars->DecRef ();
@@ -553,7 +553,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   entity_dummy2->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy2, pfinv, "pccharacteristics");
   if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", 3);
   pcchars->SetCharacteristic ("weight", .8);
   pcchars->DecRef ();
@@ -562,7 +562,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   entity_dummy3->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy3, pfinv, "pccharacteristics");
   if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("weight", .2);
   pcchars->DecRef ();
  
@@ -570,7 +570,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   entity_dummy4->SetBehaviour (bl->CreateBehaviour ("printer"));
   pc = CreatePropertyClass (entity_dummy4, pfinv, "pccharacteristics");
   if (!pc) return false;
-  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", 5);
   pcchars->SetCharacteristic ("weight", .3);
   pcchars->DecRef ();

@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "pf/mesh/meshfact.h"
+#include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
@@ -192,7 +193,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
     {
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
       celEntityFinder* cef = new celEntityFinder (this);
-      iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
+      iObject* cef_obj = SCF_QUERY_INTERFACE_FAST (cef, iObject);
       mesh->QueryObject ()->ObjAdd (cef_obj);
       cef_obj->DecRef ();
       cef->DecRef ();
@@ -238,6 +239,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown);
   q->DecRef ();
   camera = NULL;
+  global = false;
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
@@ -285,7 +287,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   {
     printf ("mesh:'%s' entity:'%s'\n", sel_obj->GetName () ? sel_obj->GetName () : "<noname>",
 		    ent ? (ent->GetName () ? ent->GetName () : "<noname>") : "NONE");
-    if (ent)
+    if (ent && (global || ent == entity))
     {
       CS_ASSERT (entity->GetBehaviour () != NULL);
       entity->GetBehaviour ()->SendMessage ("selectmesh", ent);

@@ -30,6 +30,7 @@ SCF_DECLARE_FAST_INTERFACE (iCelPropertyClass)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
 SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
+SCF_DECLARE_FAST_INTERFACE (iObject)
 
 struct iCelEntity;
 struct iCelMessage;

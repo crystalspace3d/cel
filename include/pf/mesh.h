@@ -27,6 +27,8 @@ struct iMeshWrapper;
 struct iSector;
 class csVector3;
 
+SCF_DECLARE_FAST_INTERFACE (iPcMesh)
+
 SCF_VERSION (iPcMesh, 0, 0, 1);
 
 /**
