@@ -206,11 +206,11 @@ void celPcActorMove::HandleMovement (bool jump)
   // @@@ do spr3d!
 
   if (rotateright)
-    pclinmove->SetRotation (csVector3 (0, -rotating_speed, 0));
+    pclinmove->SetAngularVelocity (csVector3 (0, -rotating_speed, 0));
   else if (rotateleft)
-    pclinmove->SetRotation (csVector3 (0, rotating_speed, 0));
+    pclinmove->SetAngularVelocity (csVector3 (0, rotating_speed, 0));
   else
-    pclinmove->SetRotation (csVector3 (0));
+    pclinmove->SetAngularVelocity (csVector3 (0));
 
   if (jump && pclinmove->IsOnGround ())
   {

@@ -90,7 +90,6 @@ protected:
   csVector3 targAngularVelocity;
   csVector3 targVel;
   float speed;
-  bool ready;
   bool stationary;
   float angDelta;
 
@@ -109,17 +108,7 @@ protected:
   csRef<iCollider> bottomCollider;
   csVector3 bottomSize;
 
-//  csVector3     lastKnownPosition;  
-//  csVector3     lastKnownVelocity;
-//  csMatrix3     lastKnownMatrix;
-//  csVector3     lastKnownRotation;
   csTicks lastDRUpdate;
-  csTicks accumulatedLag;
-
-  csVector3 lastSentVelocity;
-  csVector3 lastSentRotation;
-  iSpriteAction* lastSentAction;
-
   float deltaLimit;
   
   bool RotateV (float delta);
@@ -130,9 +119,6 @@ protected:
   // Returns a list of sectors near a position.
   int FindSectors (const csVector3& pos, float size, iSector** sectors);
 
-  bool SetPathDRData (iDataBuffer* data);
-  csPtr<iDataBuffer> GetPathDRData();
-
   void FindSiblingPropertyClasses ();
 
 public:
@@ -141,9 +127,17 @@ public:
 
   bool HandleEvent (iEvent& ev);
 
-  void SetRotation (const csVector3& angle);
+  void SetAngularVelocity (const csVector3& angle);
   void SetVelocity (const csVector3& vel );
-  void GetVelocity (csVector3& v);
+  void GetVelocity (csVector3& v) const;
+  /**
+   * Get the current angular velocity vector.
+   */
+  void GetAngularVelocity (csVector3& v) const
+  {
+      v = angularVelocity;
+  }
+
   bool InitCD (const csVector3& body, const csVector3& legs,
   	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL);
   bool InitCD (iPcCollisionDetection *pc_cd=NULL);
@@ -153,20 +147,23 @@ public:
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
 
   bool IsOnGround () const;
+  bool IsPath() const { return (path != 0); }
 
-  /// Returns dead reckoning data
-  csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
 
-  /**
-   * Sets dead reckoning data and moves the entity accordingly
-   * If data is 0 then UpdateDR () is called instead.
-   */
-  bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0);
-  /**
-   * Checks whether there is a need for sending a new DR packet
-   * and if so, what the priority of the DR update should be.
-   */
-  bool NeedDRData (uint8& priority);
+  /// Return all necessary data for Dead Reckoning
+  void GetDRData(bool& on_ground,
+                 float& speed,
+                 csVector3& pos,
+                 float& yrot,
+                 iSector*& sector,
+                 csVector3& vel,
+                 float& ang_vel);
+
+  /// Sets all relevant dead reckoning data on this entity
+  virtual void SetDRData(bool on_ground,float speed,
+                         csVector3& pos,float yrot,iSector *sector,
+                         csVector3& vel,float ang_vel);
+
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -174,16 +171,6 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   iSector* GetSector ();
-
-  void SetReady (bool flag)
-  {
-    ready = flag;
-  }
-  
-  bool IsReady () const
-  {
-    return ready;
-  }
 
   /**
    * This function actually moves and rotates the mesh, relighting
@@ -263,9 +250,9 @@ public:
 
     virtual void SetSpeed (float speedz) { scfParent->SetSpeed (speedz); }
 
-    virtual void SetRotation (const csVector3& angle)
+    virtual void SetAngularVelocity (const csVector3& angle)
     {
-      scfParent->SetRotation (angle);
+      scfParent->SetAngularVelocity (angle);
     }	  
 
     virtual void SetVelocity (const csVector3& vel)
@@ -273,9 +260,13 @@ public:
       scfParent->SetVelocity (vel);
     }
 
-    virtual void GetVelocity (csVector3& v)
+    virtual void GetVelocity (csVector3& v) const
     {
       scfParent->GetVelocity (v);
+    }
+    virtual void GetAngularVelocity (csVector3& v) const
+    {
+      scfParent->GetAngularVelocity (v);
     }
 
     virtual bool InitCD (const csVector3& top, const csVector3& bottom,
@@ -291,30 +282,31 @@ public:
     {
       return scfParent->IsOnGround ();
     }
-    virtual csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0)
+    virtual bool IsPath() const
     {
-      return scfParent->GetDRData (msgstrings);
+      return scfParent->IsPath ();
     }
-    virtual bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0)
+
+    virtual void GetDRData(bool& on_ground,
+                           float& speed,
+                           csVector3& pos,
+                           float& yrot,
+                           iSector*& sector,
+                           csVector3& vel,
+                           float& ang_vel)
     {
-      return scfParent->SetDRData (data,detectcheat,msgstrings);
+      scfParent->GetDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
     }
-    virtual bool NeedDRData (uint8& priority)
+    virtual void SetDRData(bool on_ground,float speed,
+                           csVector3& pos,float yrot,iSector *sector,
+                           csVector3& vel,float ang_vel)
     {
-      return scfParent->NeedDRData (priority);
+      scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
     }
 
     virtual iSector *GetSector ()
     {
       return scfParent->GetSector ();
-    }
-    virtual void SetReady (bool flag)
-    {
-      scfParent->SetReady (flag);
-    }
-    virtual bool IsReady () const
-    {
-      return scfParent->IsReady ();
     }
     virtual void ExtrapolatePosition (float delta)
     {
