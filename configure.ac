@@ -64,11 +64,22 @@ CS_CHECK_PYTHON
 AC_ARG_ENABLE([debug],
     [AC_HELP_STRING([--enable-debug], [build in debugging mode (default NO)])],
     [test "$enableval" = "yes" && cs_build_mode="debug"])
-                                                                                
 AC_MSG_CHECKING([build mode])
 AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
 AC_MSG_RESULT([$cs_build_mode])
 CS_JAMCONFIG_PROPERTY([MODE], [$cs_build_mode])
+
+#------------------------------------------------------------------------------
+# Determine whether the new renderer should be activated.
+#------------------------------------------------------------------------------
+AC_MSG_CHECKING([whether to use new renderer])
+AC_ARG_ENABLE([new-renderer], [AC_HELP_STRING([--enable-new-renderer],
+    [enable use of new renderer (_EXPERIMENTAL_!) (default NO)])],
+    [], [enable_new_renderer=no])
+AC_MSG_RESULT([$enable_new_renderer])
+CS_JAMCONFIG_PROPERTY([USE_NEW_RENDERER], [$enable_new_renderer])
+AS_IF([test $enable_new_renderer = yes], 
+  [CS_JAMCONFIG_PROPERTY([SWIG.FLAGS], [-DCS_USE_NEW_RENDERER], [+])])
 
 #-----------------------------------------------------------------------------
 # Output Installpaths/package info
