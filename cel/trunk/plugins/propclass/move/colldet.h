@@ -23,8 +23,8 @@
  * Thanks a lot for making this!
  */
 
-#ifndef __CEL_PF_LINEAR_MOVE_FACT__
-#define __CEL_PF_LINEAR_MOVE_FACT__
+#ifndef __CEL_PF_COLL_DET_FACT__
+#define __CEL_PF_COLL_DET_FACT__
 
 //CS Includes
 #include "cstypes.h"
@@ -42,7 +42,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "propclass/mesh.h"
-#include "propclass/linmove.h"
+#include "propclass/colldet.h"
 #include "plugins/propclass/common/stdpcimp.h"
 
 #define CEL_LINMOVE_FOLLOW_ONLY_PORTALS true
@@ -58,43 +58,44 @@ class csReversibleTransform;
 class csObject;
 class csColliderWrapper;
 struct iPath;
-struct iPcCollisionDetection;
 
 /* Max deviation before we need to send
    a new DR packet */
-#define CELPCLINEARMOVEMENT_DRDELTA 0.2
+//#define CELPCLINEARMOVEMENT_DRDELTA 0.2
 
 
-CEL_DECLARE_FACTORY (LinearMovement)
+CEL_DECLARE_FACTORY (CollisionDetection)
 
 /**
- * Movement related class.
- * This class handles everything related to moving, from collision detection to
- * dead reckoning and actual entity movement.
+ * Collision Detection (CD) related class.
+ * This class handles CD for linearmovement PC.
  */
-class celPcLinearMovement : public celPcCommon
+class celPcCollisionDetection : public celPcCommon
 {
 protected:
   iPcMesh* pcmesh;
-  iPcCollisionDetection *pccolldet;
+
+  csRef<iCollideSystem> cdsys;
   csRef<iEngine> engine;
-  csRef<iVirtualClock> vc;
+//  csRef<iVirtualClock> vc;
   csRef<iCelPlLayer> pl;
 
   // Linear vars
-  csVector3 angularVelocity;
-  csVector3 vel;
-  float speed;
-  float camera_pitchspeed;
-  bool ready;
-  bool stationary;
+//  csVector3 angularVelocity;
+//  csVector3 vel;
+//  float speed;
+//  float camera_pitchspeed;
+  bool onground;
+  bool useCD;
+//  bool ready;
+//  bool stationary;
 
   // Path vars
-  csRef<iPath> path;
-  float path_time,path_speed;
-  csStringArray path_actions;
-  bool path_sent;
-  csString path_sector;
+//  csRef<iPath> path;
+//  float path_time,path_speed;
+//  csStringArray path_actions;
+//  bool path_sent;
+//  csString path_sector;
 
   //Collision vars
   csVector3 shift;
@@ -108,83 +109,127 @@ protected:
 //  csVector3     lastKnownVelocity;
 //  csMatrix3     lastKnownMatrix;
 //  csVector3     lastKnownRotation;
-  csTicks lastDRUpdate;
-  csTicks accumulatedLag;
+//  csTicks lastDRUpdate;
+//  csTicks accumulatedLag;
 
-  csVector3 lastSentVelocity;
-  csVector3 lastSentRotation;
-  iSpriteAction* lastSentAction;
+//  csVector3 lastSentVelocity;
+//  csVector3 lastSentRotation;
+//  iSpriteAction* lastSentAction;
   
-  bool RotateV (float delta);
+//  bool RotateV (float delta);
   // Move local entity
-  bool MoveV (float delta);
-  bool MoveSprite (float delta);
+//  bool MoveV (float delta);
+//  bool MoveSprite (float delta);
+
+  // Try to find the collider for an object. Can return 0 if there is none.
+  // This function uses csColliderWrapper if present. If not it will try
+  // if there is a pcsolid to get a collider from.
+  iCollider* FindCollider (iObject* object);
 
   // Returns a list of sectors near a position.
   int FindSectors (const csVector3& pos, float size, iSector** sectors);
 
-  bool SetPathDRData (iDataBuffer* data);
-  csPtr<iDataBuffer> GetPathDRData();
+  /**
+   * Performs the collision detection for the provided csColliderWrapper vs
+   * all nearby objects.
+   * <p>
+   * @param cw  	Pointer to a csColliderWrapper that is to be tested for
+   *			collisions with nearby objects
+   * @param sect	Pointer to the iSector interface of the sector that
+   *			this Wrapper is currently in.
+   * @param cdt		Pointer to a reversible transform of the "new"
+   *			position of the object to test.
+   * @param cdstart	Pointer to a reversible transform of the original
+   *			position of the object to test (before any movements).
+   *<p>
+   * This function gets all nearby objects, crossing sector bounds. It compares
+   * for collisions. If a collision is found, it follows a line segment from
+   * the "old" position of the Mesh (described by cdstart) to the position of
+   * one end of a line segment describing the collision. If this results in
+   * crossing into the same sector that the mesh we collided with is in, then
+   * the collision is valid.
+   * <p>
+   * This catches the case where a peice of world geometry extends into
+   * coordinates of another sector, but does not actually exist in that sector.
+   */
+  int CollisionDetect (iCollider *cw, iSector* sect,
+  	csReversibleTransform *cdt, csReversibleTransform *cdstart);
+
+//  csPtr<iDataBuffer> GetPathDRData ();
+//  bool SetPathDRData (iDataBuffer* data);
 
 public:
-  celPcLinearMovement (iObjectRegistry* object_reg);
-  virtual ~celPcLinearMovement ();
+  celPcCollisionDetection(iObjectRegistry* object_reg);
+  virtual ~celPcCollisionDetection();
 
-  bool HandleEvent (iEvent& ev);
+//  bool HandleEvent (iEvent& ev);
 
-  void SetRotation (const csVector3& angle);
-  void SetVelocity (const csVector3& vel );
-  void GetVelocity (csVector3& v);
-  bool InitCD (const csVector3& body, const csVector3& legs,
-  	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL);
-  bool InitCD (iPcCollisionDetection *pc_cd=NULL);
-  void SetSpeed ( float speedz );
-  void SetCameraPitchSpeed (float angle)
+//  void SetRotation (const csVector3& angle);
+//  void SetVelocity (const csVector3& vel );
+//  void GetVelocity (csVector3& v);
+  bool Init (const csVector3& body, const csVector3& legs,
+  	         const csVector3& shift);
+  bool Init ();
+//  void SetSpeed ( float speedz );
+//  void SetCameraPitchSpeed (float angle)
+//  {
+//    camera_pitchspeed = angle;
+//  }
+
+//  void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
+//  void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
+
+  bool IsOnGround () const
   {
-    camera_pitchspeed = angle;
+    return onground;
+  }
+  void SetOnGround (bool flag)
+  {
+    onground = flag;
   }
 
-  void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
-  void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
-
-  bool IsOnGround ();
+  bool AdjustForCollisions (csVector3& oldpos,
+                            csVector3& newpos,
+                            csVector3& vel,
+                            float delta,
+                            iMovable* movable);
 
   /// Returns dead reckoning data
-  csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
+//  csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
 
   /**
    * Sets dead reckoning data and moves the entity accordingly
    * If data is 0 then UpdateDR () is called instead.
    */
-  bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0);
+//  bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0);
   /**
    * Checks whether there is a need for sending a new DR packet
    * and if so, what the priority of the DR update should be.
    */
-  bool NeedDRData (uint8& priority);
+//  bool NeedDRData (uint8& priority);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  virtual const char* GetName () const { return "pclinearmovement"; }
+  virtual const char* GetName () const { return "pccollisiondetection"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  iSector* GetSector ();
+//  iSector* GetSector ();
 
-  void SetReady (bool flag)
-  {
-    ready = flag;
-  }
+//  void SetReady (bool flag)
+//  {
+//    ready = flag;
+//  }
   
-  bool IsReady () const
-  {
-    return ready;
-  }
+//  bool IsReady () const
+//  {
+//    return ready;
+//  }
 
   /**
    * This function actually moves and rotates the mesh, relighting
    * if necessary.
    */
-  void ExtrapolatePosition (float delta);
+//  void ExtrapolatePosition (float delta);
 
   /**
    * This function calls ExtrapolatePosition with a certain time
@@ -193,22 +238,22 @@ public:
    * synchronized to the same ticks, even if updates are all
    * happening at different times.
    */
-  void UpdateDR(csTicks ticks);
+//  void UpdateDR(csTicks ticks);
 
   /**
    * This function lets linmove store a ref to the supplied
    * iPath.  If this path is present, it will be used for
    * movement instead of linear velocity vector.
    */
-  void SetPath (iPath *newpath)
-  { path = newpath; path_sent = false; }
+//  void SetPath (iPath *newpath)
+//  { path = newpath; path_sent = false; }
 
   /**
    * This function sets the current position on the path
    * for use when time deltas are added later.
    */
-  void SetPathTime (float timeval)
-  { path_time = timeval; }
+//  void SetPathTime (float timeval)
+//  { path_time = timeval; }
 
   /**
    * This relates the movement of the entity
@@ -217,8 +262,8 @@ public:
    * stationary.  Speed=1 is normal traversal
    * of the path.
    */
-  void SetPathSpeed (float speed)
-  { path_speed = speed; }
+//  void SetPathSpeed (float speed)
+//  { path_speed = speed; }
 
   /**
    * This relates a particular action name
@@ -228,36 +273,37 @@ public:
    * example, during downward segments of the
    * flight path.
    */
-  void SetPathAction (int which, const char *action);
+//  void SetPathAction (int which, const char *action);
 
   /**
    * This sets the sector which will be used
    * for the entire path.
    */
-  void SetPathSector (const char *sectorname)
-  { path_sector = sectorname; }
+//  void SetPathSector (const char *sectorname)
+//  { path_sector = sectorname; }
 
-  struct PcLinearMovement : public iPcLinearMovement
+  struct PcCollisionDetection : public iPcCollisionDetection
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
+    SCF_DECLARE_EMBEDDED_IBASE (celPcCollisionDetection);
 
-    virtual void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector)
-    {
-      scfParent->GetLastPosition (pos,yrot, sector);
-    }
+//    virtual void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector)
+//    {
+//      scfParent->GetLastPosition (pos,yrot, sector);
+//    }
 
-    virtual void SetPosition (const csVector3& pos,float yrot,
-    	const iSector* sector)
-    {
-      scfParent->SetPosition (pos,yrot, sector);
-    }
+//    virtual void SetPosition (const csVector3& pos,float yrot,
+//    	const iSector* sector)
+//    {
+//      scfParent->SetPosition (pos,yrot, sector);
+//    }
 
-    virtual void SetSpeed (float speedz) { scfParent->SetSpeed (speedz); }
-    virtual void SetCameraPitchSpeed (float angle)
-    {
-      scfParent->SetCameraPitchSpeed (angle);
-    }
+//    virtual void SetSpeed (float speedz) { scfParent->SetSpeed (speedz); }
+//    virtual void SetCameraPitchSpeed (float angle)
+//    {
+//      scfParent->SetCameraPitchSpeed (angle);
+//    }
 
+/*************
     virtual void SetRotation (const csVector3& angle)
     {
       scfParent->SetRotation (angle);
@@ -272,20 +318,18 @@ public:
     {
       scfParent->GetVelocity (v);
     }
+**************/
 
-    virtual bool InitCD (const csVector3& top, const csVector3& bottom,
-    	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL)
+    virtual bool Init (const csVector3& top, const csVector3& bottom,
+    	const csVector3& shift)
     {
-      return scfParent->InitCD (top, bottom, shift,pc_cd);
+      return scfParent->Init (top, bottom, shift);
     }
-    virtual bool InitCD (iPcCollisionDetection *pc_cd=NULL)
+    virtual bool Init ()
     {
-      return scfParent->InitCD (pc_cd);
+      return scfParent->Init ();
     }
-    virtual bool IsOnGround ()
-    {
-      return scfParent->IsOnGround ();
-    }
+/**********************
     virtual csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0)
     {
       return scfParent->GetDRData (msgstrings);
@@ -307,6 +351,32 @@ public:
     {
       scfParent->SetReady (flag);
     }
+*****************/
+
+    virtual bool IsOnGround () const
+    {
+      return scfParent->IsOnGround ();
+    }
+
+    virtual void SetOnGround (bool flag)
+    {
+      scfParent->SetOnGround (flag);
+    }
+
+    /**
+     * This function takes a position vector, checks against all known
+     * colliders, and returns the adjusted position in the same variable.
+     */
+    virtual bool AdjustForCollisions (csVector3& oldpos,
+                                      csVector3& newpos,
+                                      csVector3& vel,
+                                      float delta,
+                                      iMovable* movable)
+    {
+        return scfParent->AdjustForCollisions (oldpos,newpos,vel,delta,movable);
+    }
+
+/*****************
     virtual bool IsReady () const
     {
       return scfParent->IsReady ();
@@ -339,9 +409,10 @@ public:
     {
       scfParent->SetPathSector (sectorname);
     }
+********/
+  } scfiPcCollisionDetection;
 
-  } scfiPcLinearMovement;
-
+/************
   class EventHandler : public iEventHandler
   {
   private:
@@ -361,6 +432,7 @@ public:
       return parent->HandleEvent (ev);
     }
   } *scfiEventHandler;
+************/
 
 protected:
   static csCollisionPair our_cd_contact[1000];

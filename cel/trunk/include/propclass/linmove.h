@@ -36,6 +36,7 @@ SCF_VERSION (iPcLinearMovement, 0, 0, 1);
 struct iDataBuffer;
 struct iSector;
 struct iPath;
+struct iPcCollisionDetection;
 
 /**
  * This property class controls movement of an entity in a realistic
@@ -81,12 +82,12 @@ struct iPcLinearMovement : public iBase
    * origin is at the bottom center of the actor.
    */
   virtual bool InitCD (const csVector3& body, const csVector3& legs,
-  	const csVector3& shift)=0;
+  	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL)=0;
 
   /**
    * Initialize CD again?@@@
    */
-  virtual bool InitCD () = 0;
+  virtual bool InitCD (iPcCollisionDetection *pc_cd=NULL) = 0;
 
   /**
    * Returns data useful for dead reckoning.
@@ -127,11 +128,6 @@ struct iPcLinearMovement : public iBase
    * Is ready? @@@
    */
   virtual bool IsReady() const = 0;    
-
-  /**
-   * Check if player is on ground.
-   */
-  virtual bool IsOnGround () const = 0;
 
   /**
    * This function actually moves and rotates the mesh, relighting
@@ -185,6 +181,8 @@ struct iPcLinearMovement : public iBase
    * for the entire path.
    */
   virtual void SetPathSector (const char *sectorname) = 0;
+
+  virtual bool IsOnGround () = 0;
 };
 
 #endif
