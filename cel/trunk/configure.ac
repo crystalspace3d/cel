@@ -5,6 +5,7 @@ AC_CONFIG_HEADER(config.h)
 
 AC_PROG_CC
 AC_PROG_CXX
+AC_PROG_JAM
 
 dnl Check for libs
 dnl Check for Crystal Space
@@ -30,5 +31,11 @@ AC_PATH_PYTHON(1.5,,
 AC_OUTPUT([
   Jamfile
   Jamrules
+])
+
+AC_MSG_NOTICE([
+
+Please note that this project uses jam as build tool.
+So you have to type 'jam' now (not 'make').
 ])
 
