@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/objreg.h"
+#include "csutil/garray.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "igraphic/image.h"
@@ -479,26 +480,45 @@ bool celBillboard::In (int sx, int sy)
 #ifdef CS_USE_NEW_RENDERER
 static csSimpleRenderMesh mesh;
 static bool mesh_init = false;
-static uint indices[4] = { 0, 1, 2, 3 };
-static csVector3 vertices[4];
-static csVector2 texels[4];
-static csVector4 colors[4];
 
-void celBillboard::Draw (iGraphics3D* g3d, float z)
+static csDirtyAccessArray<uint> mesh_indices;
+static int mesh_indices_count = 0;
+static csDirtyAccessArray<csVector3> mesh_vertices;
+static csDirtyAccessArray<csVector2> mesh_texels;
+static csDirtyAccessArray<csVector4> mesh_colors;
+
+static void mesh_reset ()
 {
-  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
   if (!mesh_init)
   {
     mesh_init = true;
     mesh.meshtype = CS_MESHTYPE_QUADS;
-    mesh.indexCount = 4;
-    mesh.indices = indices;
-    mesh.vertexCount = 4;
-    mesh.vertices = vertices;
-    mesh.texcoords = texels;
-    mesh.colors = colors;
     mesh.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
+    mesh.z_buf_mode = CS_ZBUF_FILL;
   }
+  mesh_indices_count = 0;
+  mesh_vertices.Empty ();
+  mesh_texels.Empty ();
+  mesh_colors.Empty ();
+  mesh.texture = 0;
+}
+
+static void mesh_draw (iGraphics3D* g3d)
+{
+  if (mesh_indices_count <= 0) return;
+  mesh.indexCount = mesh_indices_count;
+  mesh.indices = mesh_indices.GetArray ();
+  mesh.vertexCount = mesh_vertices.Length ();
+  mesh.vertices = mesh_vertices.GetArray ();
+  mesh.texcoords = mesh_texels.GetArray ();
+  mesh.colors = mesh_colors.GetArray ();
+  g3d->DrawSimpleMesh (mesh);
+  mesh_reset ();
+}
+
+void celBillboard::Draw (iGraphics3D* g3d, float z)
+{
+  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
 
   int fw = g3d->GetWidth ();
   int fh = g3d->GetHeight ();
@@ -510,7 +530,12 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   SetupMaterial ();
   if (!material) return;
   material->Visit ();
-  mesh.texture = material->GetMaterialHandle ()->GetTexture ();
+  iTextureHandle* txt = material->GetMaterialHandle ()->GetTexture ();
+  if (txt != mesh.texture)
+  {
+    mesh_draw (g3d);
+    mesh.texture = txt;
+  }
 
   csVector2 uvtl = uv_topleft;
   csVector2 uvbr = uv_botright;
@@ -543,34 +568,52 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     r.ymax = fh-1;
   }
 
-  float inv_aspect = 1.0 / g3d->GetPerspectiveAspect ();
+  float z_inv_aspect = z / g3d->GetPerspectiveAspect ();
 
-  vertices[0].x = ((r.xmin) - fw/2) * z * inv_aspect;
-  vertices[0].y = ((fh-r.ymin) - fh/2) * z * inv_aspect;
-  vertices[0].z = z;
-  vertices[1].x = ((r.xmax) - fw/2) * z * inv_aspect;
-  vertices[1].y = ((fh-r.ymin) - fh/2) * z * inv_aspect;
-  vertices[1].z = z;
-  vertices[2].x = ((r.xmax) - fw/2) * z * inv_aspect;
-  vertices[2].y = ((fh-r.ymax) - fh/2) * z * inv_aspect;
-  vertices[2].z = z;
-  vertices[3].x = ((r.xmin) - fw/2) * z * inv_aspect;
-  vertices[3].y = ((fh-r.ymax) - fh/2) * z * inv_aspect;
-  vertices[3].z = z;
-  //vertices[0].Set (r.xmin, fh-r.ymin, z);
-  //vertices[1].Set (r.xmax, fh-r.ymin, z);
-  //vertices[2].Set (r.xmax, fh-r.ymax, z);
-  //vertices[3].Set (r.xmin, fh-r.ymax, z);
-  texels[0] = uvtl;
-  texels[1].Set (uvbr.x, uvtl.y);
-  texels[2] = uvbr;
-  texels[3].Set (uvtl.x, uvbr.y);
-  colors[0].Set (color.red, color.green, color.blue, 1.0);
-  colors[1].Set (color.red, color.green, color.blue, 1.0);
-  colors[2].Set (color.red, color.green, color.blue, 1.0);
-  colors[3].Set (color.red, color.green, color.blue, 1.0);
-  g3d->SetZMode (CS_ZBUF_FILL);
-  g3d->DrawSimpleMesh (mesh);
+#if 0
+  if (mesh_indices_count >= mesh_indices.Length ())
+  {
+    int idx = mesh_vertices.Length ();
+    mesh_indices.Push (idx);
+    mesh_indices.Push (idx+1);
+    mesh_indices.Push (idx+2);
+    mesh_indices.Push (idx);
+    mesh_indices.Push (idx+2);
+    mesh_indices.Push (idx+3);
+  }
+  mesh_indices_count += 6;
+#else
+  mesh_indices_count += 4;
+  int i;
+  for (i = mesh_indices.Length () ; i < mesh_indices_count ; i++)
+  {
+    mesh_indices.Put (i, i);
+  }
+#endif
+
+  csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
+  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
+  csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
+  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
+  csVector3 v3 (((r.xmax) - fw/2) * z_inv_aspect,
+  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+  csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
+  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+  mesh_vertices.Push (v1);
+  mesh_vertices.Push (v2);
+  mesh_vertices.Push (v3);
+  mesh_vertices.Push (v4);
+
+  mesh_texels.Push (uvtl);
+  mesh_texels.Push (csVector2 (uvbr.x, uvtl.y));
+  mesh_texels.Push (uvbr);
+  mesh_texels.Push (csVector2 (uvtl.x, uvbr.y));
+
+  csVector4 c (color.red, color.green, color.blue, 1.0);
+  mesh_colors.Push (c);
+  mesh_colors.Push (c);
+  mesh_colors.Push (c);
+  mesh_colors.Push (c);
 }
 #else
 static G3DPolygonDPFX poly;
@@ -844,6 +887,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
         if (billboards.Length () > 0)
 	{
           g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+	  mesh_reset ();
           int i;
 	  float z = z_max;
 	  float dz = (z_max-z_min) / float (billboards.Length ());
@@ -852,6 +896,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
             billboards[i]->Draw (g3d, z);
 	    z -= dz;
           }
+	  mesh_draw (g3d);
         }
       }
       break;
