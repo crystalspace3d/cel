@@ -3,6 +3,14 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+20-May-2004
+	- Eric Sunshine replaced Jamfile with Jamfile.in.  The configure script
+	  now creates Jamfile from Jamfile.in at project configuration
+	  time. This scheme is more normalized, more standardized, requires
+	  less special-case handling (there is now no difference between
+	  building in the source tree or at some other location), and makes the
+	  'distclean' target 100% accurate (previously, it would leak a Jamfile
+	  if the build directory differed from the source directory).
 18-May-2004
 	- res updated the msvcgen stuff from CS repository.
 17-May-2004

@@ -1,4 +1,6 @@
-# This file will be processed by the configure script
+TOP ?= "@top_srcdir@" ;
+BUILDTOP ?= "@top_builddir@" ;
+
 SubDir TOP ;
 
 # Construct a distclean target
@@ -6,7 +8,8 @@ CleanDir clean : out ;
 
 Clean distclean : configure.lineno config.status config.status.lineno
 		  config.log config.cache aclocal.m4
-		  Jamconfig autom4te.cache ;
+		  Jamconfig Jamfile ;
+CleanDir distclean : autom4te.cache ;
 Depends distclean : clean ;
 Help distclean : "Remove configuration information and built targets" ;
 

@@ -111,13 +111,13 @@ CS_EMIT_PACKAGEINFO
 #----------------------------------------------------------------------------
 CS_EMIT_BUILD_PROPERTY([JAMCONFIG_READ], [yes])
 CS_JAMCONFIG_OUTPUT([Jamconfig])
-CS_INIT_JAMFILE
+AC_CONFIG_FILES([Jamfile])
 AC_OUTPUT
 
 AC_MSG_NOTICE([
 
-Please note that this project uses Jam as its build tool. This means
-that you must type 'jam' to build it.
+Please note that this project uses Jam as its build tool,
+therefore you must type 'jam' to build the project.
 
 Jam home: http://www.perforce.com/jam/jam.html
 Jam source: ftp://ftp.perforce.com/jam/
