@@ -42,7 +42,7 @@
 				OutputFile=".\debug\temp\plimp/plimp.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plimp/plimp.pdb"
 				ImportLibrary=".\debug\temp\plimp/plimp.lib"/>
@@ -81,7 +81,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -103,6 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\release\temp\plimp/plimp.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plimp/plimp.pdb"
 				ImportLibrary=".\release\temp\plimp/plimp.lib"/>
@@ -137,16 +138,19 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plimp\entity.h">
+				RelativePath="..\plugins\stdphyslayer\entity.h">
 			</File>
 			<File
-				RelativePath="..\plimp\message.h">
+				RelativePath="..\plugins\stdphyslayer\message.h">
 			</File>
 			<File
-				RelativePath="..\plimp\pl.h">
+				RelativePath="..\plugins\stdphyslayer\numreg.h">
 			</File>
 			<File
-				RelativePath="..\plimp\propclas.h">
+				RelativePath="..\plugins\stdphyslayer\pl.h">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\propclas.h">
 			</File>
 			<File
 				RelativePath="..\..\Cs\include\csutil\strset.h">
@@ -156,19 +160,79 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plimp\entity.cpp">
+				RelativePath="..\plugins\stdphyslayer\entity.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\plimp\message.cpp">
+				RelativePath="..\plugins\stdphyslayer\message.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\plimp\numreg.cpp">
+				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\plimp\pl.cpp">
+				RelativePath="..\plugins\stdphyslayer\pl.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\plimp\propclas.cpp">
+				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
