@@ -585,33 +585,9 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 
   csDebuggingGraph::SetupGraph (object_reg);
 
-#if 0
-  // @@@ The code below is temporary until we have a general solution
-  // in CS for having plugins outside the CS hierarchy (by an additional
-  // .csinfo file for every plugin for example).
-  iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp");
-  iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest");
-  iSCF::SCF->RegisterClass ("cel.behaviourlayer.python", "blpython");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.meshselect", "pfmesh");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.movable", "pfmove");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.solid", "pfmove");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.movableconst_cd", "pfmove");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.gravity", "pfmove");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.timer", "pftools");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.tooltip", "pftools");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.region", "pfengine");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.camera", "pfengine");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.pckeyinput", "pfinput");
-  iSCF::SCF->RegisterClass ("cel.pcfactory.characteristics", "pfinv");
-  iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist");
-#endif
-
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
-	CS_REQUEST_SOFTWARE3D,
+	CS_REQUEST_OPENGL3D,
 	CS_REQUEST_ENGINE,
 	CS_REQUEST_FONTSERVER,
 	CS_REQUEST_IMAGELOADER,

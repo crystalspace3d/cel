@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- cpersist.csplugin -->
 <plugin>
-  <name>cpersist</name>
   <scf>
     <classes>      
       <class>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- pfengine.csplugin -->
 <plugin>
-  <name>pfengine</name>
   <scf>
     <classes>      
       <class>

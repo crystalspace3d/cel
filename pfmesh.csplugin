@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- pfmesh.csplugin -->
 <plugin>
-  <name>pfmesh</name>
   <scf>
     <classes>      
       <class>
