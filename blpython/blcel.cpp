@@ -1160,275 +1160,275 @@ void delete_iBase(iBase *self){ {if (self) {self->DecRef();}}; }
 csWrapPtr iBase__DynamicCast(iBase *self,char const *to_name){
 		void * ptr;
 		if (!to_name || !to_name[0] || !self) ptr = 0;
-		/*@e:\CS\include\ivaria/cspace.i,30,APPLY_FOR_EACH_INTERFACE@*/	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+		/*@e:\CS\include\ivaria/cspace.i,30,APPLY_FOR_EACH_INTERFACE@*/	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iAudioStream")) ptr = (void*)(iAudioStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBase")) ptr = (void*)(iBase*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBinaryLoaderPlugin")) ptr = (void*)(iBinaryLoaderPlugin*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iBodyGroup")) ptr = (void*)(iBodyGroup*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCamera")) ptr = (void*)(iCamera*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCameraPosition")) ptr = (void*)(iCameraPosition*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCacheManager")) ptr = (void*)(iCacheManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollider")) ptr = (void*)(iCollider*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iCollideSystem")) ptr = (void*)(iCollideSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iComponent")) ptr = (void*)(iComponent*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigFile")) ptr = (void*)(iConfigFile*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigIterator")) ptr = (void*)(iConfigIterator*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iConfigManager")) ptr = (void*)(iConfigManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDataBuffer")) ptr = (void*)(iDataBuffer*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDebugHelper")) ptr = (void*)(iDebugHelper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocument")) ptr = (void*)(iDocument*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDocumentSystem")) ptr = (void*)(iDocumentSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamics")) ptr = (void*)(iDynamics*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iDynamicSystem")) ptr = (void*)(iDynamicSystem*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEngine")) ptr = (void*)(iEngine*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEvent")) ptr = (void*)(iEvent*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventHandler")) ptr = (void*)(iEventHandler*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iEventQueue")) ptr = (void*)(iEventQueue*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFactory")) ptr = (void*)(iFactory*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFile")) ptr = (void*)(iFile*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFont")) ptr = (void*)(iFont*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFontServer")) ptr = (void*)(iFontServer*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumView")) ptr = (void*)(iFrustumView*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iFrustumViewUserdata")) ptr = (void*)(iFrustumViewUserdata*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics3D")) ptr = (void*)(iGraphics3D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iGraphics2D")) ptr = (void*)(iGraphics2D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iHalo")) ptr = (void*)(iHalo*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImage")) ptr = (void*)(iImage*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iImageIO")) ptr = (void*)(iImageIO*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iJoint")) ptr = (void*)(iJoint*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iKeyboardDriver")) ptr = (void*)(iKeyboardDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLightList")) ptr = (void*)(iLightList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoader")) ptr = (void*)(iLoader*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iLoaderPlugin")) ptr = (void*)(iLoaderPlugin*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterial")) ptr = (void*)(iMaterial*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMaterialWrapper")) ptr = (void*)(iMaterialWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshFactoryWrapper")) ptr = (void*)(iMeshFactoryWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObject")) ptr = (void*)(iMeshObject*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectFactory")) ptr = (void*)(iMeshObjectFactory*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshObjectType")) ptr = (void*)(iMeshObjectType*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMeshWrapper")) ptr = (void*)(iMeshWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iModelConverter")) ptr = (void*)(iModelConverter*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovable")) ptr = (void*)(iMovable*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iMovableListener")) ptr = (void*)(iMovableListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkConnection")) ptr = (void*)(iNetworkConnection*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkDriver")) ptr = (void*)(iNetworkDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkEndPoint")) ptr = (void*)(iNetworkEndPoint*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkListener")) ptr = (void*)(iNetworkListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkManager")) ptr = (void*)(iNetworkManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkPacket")) ptr = (void*)(iNetworkPacket*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iNetworkSocket2")) ptr = (void*)(iNetworkSocket2*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObject")) ptr = (void*)(iObject*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModel")) ptr = (void*)(iObjectModel*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectModelListener")) ptr = (void*)(iObjectModelListener*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iObjectRegistry")) ptr = (void*)(iObjectRegistry*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPluginManager")) ptr = (void*)(iPluginManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygon3D")) ptr = (void*)(iPolygon3D*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonMesh")) ptr = (void*)(iPolygonMesh*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iPolygonTexture")) ptr = (void*)(iPolygonTexture*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSCF")) ptr = (void*)(iSCF*)self;
 /*@@*/
 //	INTERFACE_APPLY(iScript)
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSector")) ptr = (void*)(iSector*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSectorList")) ptr = (void*)(iSectorList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundHandle")) ptr = (void*)(iSoundHandle*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundLoader")) ptr = (void*)(iSoundLoader*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundRender")) ptr = (void*)(iSoundRender*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundWrapper")) ptr = (void*)(iSoundWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundDriver")) ptr = (void*)(iSoundDriver*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSoundSource")) ptr = (void*)(iSoundSource*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite2DState")) ptr = (void*)(iSprite2DState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iSprite3DState")) ptr = (void*)(iSprite3DState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStatLight")) ptr = (void*)(iStatLight*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStream")) ptr = (void*)(iStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamIterator")) ptr = (void*)(iStreamIterator*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStreamFormat")) ptr = (void*)(iStreamFormat*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iStrVector")) ptr = (void*)(iStrVector*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureHandle")) ptr = (void*)(iTextureHandle*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureList")) ptr = (void*)(iTextureList*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureManager")) ptr = (void*)(iTextureManager*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iTextureWrapper")) ptr = (void*)(iTextureWrapper*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iThingState")) ptr = (void*)(iThingState*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVFS")) ptr = (void*)(iVFS*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVideoStream")) ptr = (void*)(iVideoStream*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iView")) ptr = (void*)(iView*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVirtualClock")) ptr = (void*)(iVirtualClock*)self;
 /*@@*/
-	/*@e:\CS\include\ivaria/cspace.i,644,CAST_FROM_BASE@*/
+	/*@e:\CS\include\ivaria/cspace.i,645,CAST_FROM_BASE@*/
 	else if (!strcmp(to_name,"iVisibilityCuller")) ptr = (void*)(iVisibilityCuller*)self;
 /*@@*/
 /*@@*/
@@ -23069,27 +23069,6 @@ static PyObject *_wrap_csGetUsername(PyObject *self, PyObject *args) {
 }
 
 
-static PyObject *_wrap_csGetPlatformConfig(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    char *arg1 ;
-    SwigValueWrapper< csPtr<iConfigFile > > result;
-    
-    if(!PyArg_ParseTuple(args,(char *)"s:csGetPlatformConfig",&arg1)) goto fail;
-    result = csGetPlatformConfig((char const *)arg1);
-    
-    {
-        /*@e:\CS\include/ivaria/pythpre.i,44,TYPEMAP_OUT_csRef_BODY@*/
-        csRef<iConfigFile> ref(result);
-        resultobj = _csRef_to_Python(csRef<iBase>(
-        (iConfigFile *)ref), (void *)(iConfigFile *)ref, "iConfigFile" " *");
-        /*@@*/
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_csInitializer_CreateEnvironment(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     int arg1 ;
@@ -24538,6 +24517,42 @@ static PyObject *_wrap_iObjectModel_SetPolygonMeshViscull(PyObject *self, PyObje
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectModel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPolygonMesh,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     (arg1)->SetPolygonMeshViscull(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iObjectModel_GetPolygonMeshShadows(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iObjectModel *arg1 = (iObjectModel *) 0 ;
+    iPolygonMesh *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iObjectModel_GetPolygonMeshShadows",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectModel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (iPolygonMesh *)(arg1)->GetPolygonMeshShadows();
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPolygonMesh, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iObjectModel_SetPolygonMeshShadows(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iObjectModel *arg1 = (iObjectModel *) 0 ;
+    iPolygonMesh *arg2 = (iPolygonMesh *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iObjectModel_SetPolygonMeshShadows",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iObjectModel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPolygonMesh,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->SetPolygonMeshShadows(arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -37643,6 +37658,41 @@ static PyObject *_wrap_iMeshObject_GetMaterialWrapper(PyObject *self, PyObject *
     result = (iMaterialWrapper *)((iMeshObject const *)arg1)->GetMaterialWrapper();
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iMaterialWrapper, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iMeshObject_GetPortalCount(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iMeshObject *arg1 = (iMeshObject *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iMeshObject_GetPortalCount",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iMeshObject,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)((iMeshObject const *)arg1)->GetPortalCount();
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iMeshObject_GetPortal(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iMeshObject *arg1 = (iMeshObject *) 0 ;
+    int arg2 ;
+    iPortal *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Oi:iMeshObject_GetPortal",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iMeshObject,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (iPortal *)((iMeshObject const *)arg1)->GetPortal(arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_iPortal, 0);
     return resultobj;
     fail:
     return NULL;
@@ -82202,7 +82252,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csSleep", _wrap_csSleep, METH_VARARGS },
 	 { (char *)"csFindSystemRoots", _wrap_csFindSystemRoots, METH_VARARGS },
 	 { (char *)"csGetUsername", _wrap_csGetUsername, METH_VARARGS },
-	 { (char *)"csGetPlatformConfig", _wrap_csGetPlatformConfig, METH_VARARGS },
 	 { (char *)"csInitializer_CreateEnvironment", _wrap_csInitializer_CreateEnvironment, METH_VARARGS },
 	 { (char *)"csInitializer_InitializeSCF", _wrap_csInitializer_InitializeSCF, METH_VARARGS },
 	 { (char *)"csInitializer_CreateObjectRegistry", _wrap_csInitializer_CreateObjectRegistry, METH_VARARGS },
@@ -82265,6 +82314,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iObjectModel_SetPolygonMeshColldet", _wrap_iObjectModel_SetPolygonMeshColldet, METH_VARARGS },
 	 { (char *)"iObjectModel_GetPolygonMeshViscull", _wrap_iObjectModel_GetPolygonMeshViscull, METH_VARARGS },
 	 { (char *)"iObjectModel_SetPolygonMeshViscull", _wrap_iObjectModel_SetPolygonMeshViscull, METH_VARARGS },
+	 { (char *)"iObjectModel_GetPolygonMeshShadows", _wrap_iObjectModel_GetPolygonMeshShadows, METH_VARARGS },
+	 { (char *)"iObjectModel_SetPolygonMeshShadows", _wrap_iObjectModel_SetPolygonMeshShadows, METH_VARARGS },
 	 { (char *)"iObjectModel_CreateLowerDetailPolygonMesh", _wrap_iObjectModel_CreateLowerDetailPolygonMesh, METH_VARARGS },
 	 { (char *)"iObjectModel_GetObjectBoundingBox", _wrap_iObjectModel_GetObjectBoundingBox, METH_VARARGS },
 	 { (char *)"iObjectModel_GetRadius", _wrap_iObjectModel_GetRadius, METH_VARARGS },
@@ -82793,6 +82844,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iMeshObject_GetColor", _wrap_iMeshObject_GetColor, METH_VARARGS },
 	 { (char *)"iMeshObject_SetMaterialWrapper", _wrap_iMeshObject_SetMaterialWrapper, METH_VARARGS },
 	 { (char *)"iMeshObject_GetMaterialWrapper", _wrap_iMeshObject_GetMaterialWrapper, METH_VARARGS },
+	 { (char *)"iMeshObject_GetPortalCount", _wrap_iMeshObject_GetPortalCount, METH_VARARGS },
+	 { (char *)"iMeshObject_GetPortal", _wrap_iMeshObject_GetPortal, METH_VARARGS },
 	 { (char *)"delete_iMeshObject", _wrap_delete_iMeshObject, METH_VARARGS },
 	 { (char *)"iMeshObject_swigregister", iMeshObject_swigregister, METH_VARARGS },
 	 { (char *)"iMeshObjectFactory_NewInstance", _wrap_iMeshObjectFactory_NewInstance, METH_VARARGS },

@@ -1874,8 +1874,6 @@ csFindSystemRoots = _blcelc.csFindSystemRoots
 
 csGetUsername = _blcelc.csGetUsername
 
-csGetPlatformConfig = _blcelc.csGetPlatformConfig
-
 class csInitializer(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csInitializer, name, value)
@@ -2129,6 +2127,8 @@ class iObjectModel(iBase):
     def SetPolygonMeshColldet(*args): return apply(_blcelc.iObjectModel_SetPolygonMeshColldet,args)
     def GetPolygonMeshViscull(*args): return apply(_blcelc.iObjectModel_GetPolygonMeshViscull,args)
     def SetPolygonMeshViscull(*args): return apply(_blcelc.iObjectModel_SetPolygonMeshViscull,args)
+    def GetPolygonMeshShadows(*args): return apply(_blcelc.iObjectModel_GetPolygonMeshShadows,args)
+    def SetPolygonMeshShadows(*args): return apply(_blcelc.iObjectModel_SetPolygonMeshShadows,args)
     def CreateLowerDetailPolygonMesh(*args): return apply(_blcelc.iObjectModel_CreateLowerDetailPolygonMesh,args)
     def GetObjectBoundingBox(*args): return apply(_blcelc.iObjectModel_GetObjectBoundingBox,args)
     def GetRadius(*args): return apply(_blcelc.iObjectModel_GetRadius,args)
@@ -3499,6 +3499,8 @@ class iMeshObject(iBase):
     def GetColor(*args): return apply(_blcelc.iMeshObject_GetColor,args)
     def SetMaterialWrapper(*args): return apply(_blcelc.iMeshObject_SetMaterialWrapper,args)
     def GetMaterialWrapper(*args): return apply(_blcelc.iMeshObject_GetMaterialWrapper,args)
+    def GetPortalCount(*args): return apply(_blcelc.iMeshObject_GetPortalCount,args)
+    def GetPortal(*args): return apply(_blcelc.iMeshObject_GetPortal,args)
     def __del__(self, destroy= _blcelc.delete_iMeshObject):
         try:
             if self.thisown: destroy(self)
