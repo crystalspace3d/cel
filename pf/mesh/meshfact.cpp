@@ -75,8 +75,10 @@ bool celPfMesh::Initialize (iObjectRegistry* object_reg)
 
 iCelPropertyClass* celPfMesh::CreatePropertyClass (const char* type)
 {
-  if (!strcmp (type, "pcmesh")) return new celPcMesh (object_reg);
-  else if (!strcmp (type, "pcmeshselect")) return new celPcMeshSelect (object_reg);
+  if (!strcmp (type, "pcmesh"))
+    return new celPcMesh (object_reg);
+  else if (!strcmp (type, "pcmeshselect"))
+    return new celPcMeshSelect (object_reg);
   else return NULL;
 }
 
@@ -187,7 +189,8 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 
   if (factname && filename)
   {
-    iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()->FindByName (factname);
+    iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
+    	->FindByName (factname);
     if (!meshfact) meshfact = LoadMeshFactory (filename);
     if (meshfact)
     {
@@ -236,7 +239,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   celPcMeshSelect::object_reg = object_reg;
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown);
+  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown | CSMASK_MouseUp);
   q->DecRef ();
   camera = NULL;
   global = false;
@@ -260,6 +263,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 {
   if (!camera) return false;
 
+  bool mouse_down = ev.Type == csevMouseDown;
   int mouse_x = ev.Mouse.x;
   int mouse_y = ev.Mouse.y;
 
@@ -285,12 +289,11 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   }
   if (sel)
   {
-    printf ("mesh:'%s' entity:'%s'\n", sel_obj->GetName () ? sel_obj->GetName () : "<noname>",
-		    ent ? (ent->GetName () ? ent->GetName () : "<noname>") : "NONE");
     if (ent && (global || ent == entity))
     {
       CS_ASSERT (entity->GetBehaviour () != NULL);
-      entity->GetBehaviour ()->SendMessage ("selectmesh", ent);
+      entity->GetBehaviour ()->SendMessage (
+      	mouse_down ? "selectmesh_down" : "selectmesh_up", ent);
     }
   }
   else
