@@ -56,6 +56,7 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_TYPE_UINT32: arg.ui = other.arg.ui; break;
     case CEL_TYPE_INT32: arg.i = other.arg.i; break;
     case CEL_TYPE_FLOAT: arg.f = other.arg.f; break;
+    case CEL_TYPE_BOOL: arg.b = other.arg.b; break;
     case CEL_TYPE_PC_REF: arg.pc_ref = other.arg.pc_ref; break;
     case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
     case CEL_TYPE_ID: arg.id = other.arg.id; break;
@@ -481,7 +482,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     celXmlOperation& op = operations[i];
     i++;
     csArray<celXmlArg>& args = op.arg.arg.a->args;
-    printf ("op=%d\n", op.op); fflush (stdout);
     switch (op.op)
     {
       case CEL_OPERATION_END:
@@ -497,7 +497,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
         break;
 #if 0
-      case CEL_OPERATION_PROPCLASS://@@@
       case CEL_OPERATION_ENTITY:
         {
 	  CHECK_STACK
@@ -653,7 +652,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		const char* astr = ArgToString (ela);
 		const char* bstr = ArgToString (elb);
 		int alen = astr ? strlen (astr) : 0;
-		int blen = bstr ? strlen (astr) : 0;
+		int blen = bstr ? strlen (bstr) : 0;
 		if (alen && blen)
 		{
 		  if (!blen)
