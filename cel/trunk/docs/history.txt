@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+9-Sep-2004
+	- Jorrit changed pcmesh so that it uses the new iLoader->Load()
+	  function that is in CS. That means that you can now easily use
+	  mesh factories and libraries for specifying meshes.
 8-Sep-2004
 	- Jorrit added iPcCamera::CenterCamera() to put the camera behind
 	  the actor.
