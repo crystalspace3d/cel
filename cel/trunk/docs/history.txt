@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	  old compilers lacking a bool type.
 	- Eric Sunshine eliminated numerous warnings about incorrect printf()
 	  formatting directive mismatches.
+	- Jorrit revered Eric's change for incorrect printf formatting
+	  directives because those cause lots of warnings like this:
+	    long unsigned int format, unsigned int arg (arg 3)
 12-Jul-2004
 	- Jorrit fixed a dependency for addon_celentity plugin (with
 	  celtool).

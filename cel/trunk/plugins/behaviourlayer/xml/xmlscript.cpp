@@ -149,14 +149,14 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_%ld", prefix, prefix2, a.arg.i);
+        str->Format ("%s_%s_%d", prefix, prefix2, a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_%lu", prefix, prefix2, a.arg.ui);
+        str->Format ("%s_%s_%u", prefix, prefix2, a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -214,7 +214,7 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_id(%lu)", prefix, prefix2, a.arg.id);
+        str->Format ("%s_%s_id(%u)", prefix, prefix2, a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -239,14 +239,14 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%ld", prefix, a.arg.i);
+        str->Format ("%s_%d", prefix, a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%lu", prefix, a.arg.ui);
+        str->Format ("%s_%u", prefix, a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -303,7 +303,7 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_id(%lu)", prefix, a.arg.id);
+        str->Format ("%s_id(%u)", prefix, a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -327,14 +327,14 @@ static const char* ArgToString (const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%ld", a.arg.i);
+        str->Format ("%d", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%lu", a.arg.ui);
+        str->Format ("%u", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -378,7 +378,7 @@ static const char* ArgToString (const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("id(%lu)", a.arg.id);
+        str->Format ("id(%u)", a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -403,14 +403,14 @@ static const char* A2S (const celXmlArg& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{int32:%ld}", a.arg.i);
+        str->Format ("{int32:%d}", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{uint32:%lu}", a.arg.ui);
+        str->Format ("{uint32:%u}", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
@@ -475,7 +475,7 @@ static const char* A2S (const celXmlArg& a)
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{id:%lu}", a.arg.id);
+        str->Format ("{id:%u}", a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
@@ -776,14 +776,14 @@ static const char* D2S (const celData& a)
     case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{int32:%ld}", a.value.l);
+        str->Format ("{int32:%d}", a.value.l);
 	used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{uint32:%lu}", a.value.ul);
+        str->Format ("{uint32:%u}", a.value.ul);
 	used_strings.Push (str);
         return *str;
       }
