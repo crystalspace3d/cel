@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	  a path that will be used before loading the mesh (pcmesh
 	  will call vfs->ChDir() to that path and later restore the VFS
 	  path). Also added a new LoadMeshPath action.
+	- Jorrit started very preliminary work on a new pcnpcmove (NPC
+	  movement) property class. Currently this class does nothing else
+	  but set the animation cycle of the model to 'stand'.
 8-Sep-2004
 	- Jorrit added iPcCamera::CenterCamera() to put the camera behind
 	  the actor.
