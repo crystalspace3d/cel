@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="plgpfzone" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="plgpfnpcmove" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=plgpfzone - Win32 Release
+CFG=plgpfnpcmove - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "plgpfzone.mak".
+!MESSAGE NMAKE /f "plgpfnpcmove.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "plgpfzone.mak" CFG="plgpfzone - Win32 Release"
+!MESSAGE NMAKE /f "plgpfnpcmove.mak" CFG="plgpfnpcmove - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "plgpfzone - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "plgpfzone - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfnpcmove - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfnpcmove - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "plgpfzone - Win32 Release"
+!IF  "$(CFG)" == "plgpfnpcmove - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -38,16 +38,16 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\out\release\build\plgpfzone\"
-# PROP Intermediate_Dir "..\out\release\build\plgpfzone\"
+# PROP Output_Dir "..\out\release\build\plgpfnpcmove\"
+# PROP Intermediate_Dir "..\out\release\build\plgpfnpcmove\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
-# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /Gy /GF /MD /Ob2 /Og /Oi /Ot /Oy /D "_MT" /D "_MBCS" /D "NDEBUG" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /Gy /GF /MD /Ob2 /Og /Oi /Ot /Oy /D "_MT" /D "_MBCS" /D "NDEBUG" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
 # ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "NDEBUG" /D "_WINDOWS"
 # ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409 /fo".\..\out\release\build\plgpfzone\plgpfzone.res" /D "NDEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
+# ADD RSC /l 0x409 /fo".\..\out\release\build\plgpfnpcmove\plgpfnpcmove.res" /D "NDEBUG" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -56,12 +56,12 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /OPT:NOREF /dll /out:"..\pfzone.dll"  
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /OPT:NOREF /dll /out:"..\pfnpcmove.dll"  
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "plgpfzone - Win32 Debug"
+!ELSEIF  "$(CFG)" == "plgpfnpcmove - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -70,16 +70,16 @@ SOURCE="$(InputPath)"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\out\debug\build\plgpfzone\"
-# PROP Intermediate_Dir "..\out\debug\build\plgpfzone\"
+# PROP Output_Dir "..\out\debug\build\plgpfnpcmove\"
+# PROP Intermediate_Dir "..\out\debug\build\plgpfnpcmove\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
-# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /GR /MDd /ZI /Od /D "_MT" /D "_MBCS" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /GR /MDd /ZI /Od /D "_MT" /D "_MBCS" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
 # ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS"
 # ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409 /fo".\..\out\debug\build\plgpfzone\plgpfzone.res" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
+# ADD RSC /l 0x409 /fo".\..\out\debug\build\plgpfnpcmove\plgpfnpcmove.res" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -88,7 +88,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfzone.dll"  
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfnpcmove.dll"  
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -97,14 +97,14 @@ SOURCE="$(InputPath)"
 
 # Begin Target
 
-# Name "plgpfzone - Win32 Release"
-# Name "plgpfzone - Win32 Debug"
+# Name "plgpfnpcmove - Win32 Release"
+# Name "plgpfnpcmove - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\zone\zone.cpp
+SOURCE=..\plugins\propclass\npcmove\npcmove.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -112,7 +112,7 @@ SOURCE=..\plugins\propclass\zone\zone.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\zone\zone.h
+SOURCE=..\plugins\propclass\npcmove\npcmove.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -120,11 +120,11 @@ SOURCE=..\plugins\propclass\zone\zone.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\msvc\plgpfzone.rc
+SOURCE=..\msvc\plgpfnpcmove.rc
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\zone\pfzone.csplugin
+SOURCE=..\plugins\propclass\npcmove\pfnpcmove.csplugin
 # End Source File
 # End Group
 # End Target

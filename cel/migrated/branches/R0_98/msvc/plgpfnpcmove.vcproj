@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgpfzone"
+	Name="plgpfnpcmove"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\plgpfzone\"
-			IntermediateDirectory="..\out\release\build\plgpfzone\"
+			OutputDirectory="..\out\release\build\plgpfnpcmove\"
+			IntermediateDirectory="..\out\release\build\plgpfnpcmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -28,14 +28,14 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
 				AdditionalIncludeDirectories=".;..;..\include"
-				PrecompiledHeaderFile="..\out\release\build\plgpfzone\plgpfzone.pch"
-				AssemblerListingLocation="..\out\release\build\plgpfzone\"
-				ObjectFile="..\out\release\build\plgpfzone\"
-				ProgramDataBaseFileName="..\out\release\build\plgpfzone\plgpfzone.pdb"
+				PrecompiledHeaderFile="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pch"
+				AssemblerListingLocation="..\out\release\build\plgpfnpcmove\"
+				ObjectFile="..\out\release\build\plgpfnpcmove\"
+				ProgramDataBaseFileName="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -46,16 +46,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="1"
 				OptimizeReferences="1"
-				OutputFile="..\pfzone.dll"
+				OutputFile="..\pfnpcmove.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\release\build\plgpfzone\plgpfzone.lib"
+				ImportLibrary="..\out\release\build\plgpfnpcmove\plgpfnpcmove.lib"
 				AdditionalOptions=""
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\plgpfzone\plgpfzone.pdb"
+				ProgramDatabaseFile="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -66,7 +66,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\plgpfzone\plgpfzone.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpfnpcmove\plgpfnpcmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -86,8 +86,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\plgpfzone\"
-			IntermediateDirectory="..\out\debug\build\plgpfzone\"
+			OutputDirectory="..\out\debug\build\plgpfnpcmove\"
+			IntermediateDirectory="..\out\debug\build\plgpfnpcmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -99,14 +99,14 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
 				AdditionalIncludeDirectories=".;..;..\include"
-				PrecompiledHeaderFile="..\out\debug\build\plgpfzone\plgpfzone.pch"
-				AssemblerListingLocation="..\out\debug\build\plgpfzone\"
-				ObjectFile="..\out\debug\build\plgpfzone\"
-				ProgramDataBaseFileName="..\out\debug\build\plgpfzone\plgpfzone.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpfnpcmove\"
+				ObjectFile="..\out\debug\build\plgpfnpcmove\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -117,16 +117,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\pfzone.dll"
+				OutputFile="..\pfnpcmove.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\debug\build\plgpfzone\plgpfzone.lib"
+				ImportLibrary="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.lib"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\plgpfzone\plgpfzone.pdb"
+				ProgramDatabaseFile="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -137,7 +137,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\plgpfzone\plgpfzone.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -161,24 +161,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\zone\zone.cpp">
+				RelativePath="..\plugins\propclass\npcmove\npcmove.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\zone\zone.h">
+				RelativePath="..\plugins\propclass\npcmove\npcmove.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgpfzone.rc">
+				RelativePath="..\msvc\plgpfnpcmove.rc">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\zone\pfzone.csplugin">
+				RelativePath="..\plugins\propclass\npcmove\pfnpcmove.csplugin">
 			</File>
 		</Filter>
 	</Files>

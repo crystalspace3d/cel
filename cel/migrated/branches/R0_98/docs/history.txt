@@ -3,6 +3,21 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+20-Sep-2004
+	- Eric Sunshine back-ported msvcgen template to be compatible with CS
+	  0.98.4. In particular, they need to define WIN32_VOLATILE rather than
+	  CS_WIN32_CSCONFIG. Also, the project files were not in-sync with the
+	  state of the CEL 0.98 source tree.
+	- Eric Sunshine fixed bug in msvcgen.jam's LinkWith override where it
+	  did not distinguish between release and debug libraries & linker
+	  flags when applying a project library's external dependencies to a
+	  target which linked against the project library. In practice, this
+	  manifested in CS's release and debug libraries (csutil.lib and
+	  csutil_d.lib, for example) incorrectly appearing together in the same
+	  "AdditionalLibraries" property in the "Debug" configuration within
+	  application and plugin project files of foreign projects.
+	- Eric Sunshine re-generated the Swig output files so as to be
+	  compatible with CS 0.98.4 rather than CS 0.99.
 10-Sep-2004
 	- Jorrit backported CVS/CEL to be compatible with CS 0.98r004.
 	- *** RELEASED STABLE 0.98.1 ***
