@@ -114,6 +114,7 @@ class iFactory(iBase):
     def QueryDescription(*args): return _blcelc.iFactory_QueryDescription(*args)
     def QueryDependencies(*args): return _blcelc.iFactory_QueryDependencies(*args)
     def QueryClassID(*args): return _blcelc.iFactory_QueryClassID(*args)
+    def QueryModuleName(*args): return _blcelc.iFactory_QueryModuleName(*args)
     def __del__(self, destroy=_blcelc.delete_iFactory):
         try:
             if self.thisown: destroy(self)
