@@ -497,6 +497,7 @@ COLS_IN_ALPHA_INDEX    = 3
 # should be ignored while generating the index headers.
 
 IGNORE_PREFIX          = cel \
+                         celPc \
                          iCel \
                          iPc \
 			 i
