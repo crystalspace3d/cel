@@ -21,7 +21,7 @@ csconfdir = "@bindir@" ;
 bindir = "@bindir@" ;
 includedir = "@includedir@" ;
 
-C++FLAGS += "-DLIBDIR='\"$(plugindir)\"'" ;
+C++FLAGS += "-DLIBDIR='\"$(plugindir)/\"'" ;
 
 #disabled for now (1 source file is ../common/stdpcimp.cpp that doesn't work
 #  because of the relative path...)
