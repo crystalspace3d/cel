@@ -67,6 +67,7 @@ struct iPcNavGraphRules : public iBase
 
 SCF_VERSION (iPcNavLink, 0, 0, 1);
 
+/// @@@ Needs comment!
 struct iPcNavLink : public iBase
 {
   virtual void SetSource (iPcNavNode* newsource) = 0;
@@ -80,6 +81,7 @@ struct iPcNavLink : public iBase
 
 SCF_VERSION (iPcNavNode, 0, 0, 1);
 
+/// @@@ Needs comment!
 struct iPcNavNode : public iBase
 {
   virtual void SetPos ( csVector3 newpos ) = 0;
@@ -94,6 +96,7 @@ struct iPcNavNode : public iBase
 
 SCF_VERSION (iPcNavGraph, 0, 0, 1);
 
+/// @@@ Needs comment!
 struct iPcNavGraph : public iBase
 {
   // UGLY @@@

@@ -181,7 +181,7 @@ public:
 
     virtual csRef<iPcRegion> GetRegion() 
     { 
-        return scfParent->GetRegion ();
+      return scfParent->GetRegion ();
     }
 
     virtual void SetRules (iPcNavGraphRules* newrules)
@@ -293,7 +293,6 @@ CEL_DECLARE_FACTORY (NavNode)
  */
 class celPcNavNode : public celPcCommon
 {
-
 private:
   // All links attached to this node (useful for searching)
   csRefArray<iPcNavLink> aLinks;
@@ -356,7 +355,6 @@ public:
     {
       return scfParent->GetLinkCount();
     }    
-
   } scfiPcNavNode;
 };
 
@@ -421,7 +419,6 @@ public:
       return scfParent->FindNearestNode (
       	(celPcNavGraph*)(graph->GetPrivateObject ()), point, sector, ent);
     }
-
   } scfiPcNavGraphRules;
 };
 
