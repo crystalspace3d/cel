@@ -29,10 +29,18 @@ SCF_VERSION (iPcTimer, 0, 0, 1);
  * Timer propery class.
  * This property class sends out messages with the following supported
  * parameters (only in case of WakeUpFrame())
- * (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * (add prefix 'cel.parameter.' to get the ID):
  * <ul>
  * <li>elapsedticks
  * <li>currentticks
+ * </ul>
+ * This property class supports the following actions (add prefix
+ * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>WakeUp: parameters 'time' (long) and 'repeat' (bool).
+ * <li>WakeUpFrame: no parameters.
+ * <li>Clear: no parameters.
  * </ul>
  */
 struct iPcTimer : public iBase

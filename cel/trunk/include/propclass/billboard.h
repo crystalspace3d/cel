@@ -30,7 +30,7 @@ SCF_VERSION (iPcBillboard, 0, 0, 1);
 /**
  * Billboard property class.
  * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * parameters (add prefix 'cel.parameter.' to get the ID):
  * <ul>
  * <li>x
  * <li>y

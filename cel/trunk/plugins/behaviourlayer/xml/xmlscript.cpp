@@ -31,6 +31,7 @@
 #include "propclass/prop.h"
 #include "propclass/billboard.h"
 #include "tools/billboard.h"
+#include "celtool/stdparams.h"
 
 inline void DUMP_EXEC (const char* msg, ...)
 {
@@ -595,7 +596,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_id = stack.Pop ();
           DUMP_EXEC (":%04d: calcparid %s\n", i-1, A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
-	  csString str = "cel.behaviour.parameter.";
+	  csString str = "cel.parameter.";
 	  str += ArgToString (a_id);
 	  csStringID id = pl->FetchStringID ((const char*)str);
 	  stack[si].SetID (id);
@@ -662,7 +663,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg ely = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg elx = stack.Pop ();
-          DUMP_EXEC (":%04d: vector3 %s, %s, %s\n", i-1, A2S (elx), A2S (ely), A2S (elz));
+          DUMP_EXEC (":%04d: vector3 %s, %s, %s\n", i-1, A2S (elx),
+	  	A2S (ely), A2S (elz));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetVector (csVector3 (ArgToFloat (elx),
 	  	ArgToFloat (ely), ArgToFloat (elz)));
@@ -676,7 +678,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elg = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg elr = stack.Pop ();
-          DUMP_EXEC (":%04d: color %s, %s, %s\n", i-1, A2S (elr), A2S (elg), A2S (elb));
+          DUMP_EXEC (":%04d: color %s, %s, %s\n", i-1, A2S (elr),
+	  	A2S (elg), A2S (elb));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetColor (csColor (ArgToFloat (elr),
 	  	ArgToFloat (elg), ArgToFloat (elb)));
@@ -2110,20 +2113,75 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  fflush (stdout);
 	}
 	break;
-      case CEL_OPERATION_ACTION:
+      case CEL_OPERATION_ACTIONPARAMS:
+        {
+	  DUMP_EXEC (":%04d: actionparams %s\n", i-1, A2S (op.arg));
+          action_params = csPtr<celGenericParameterBlock> (
+		new celGenericParameterBlock (op.arg.arg.ui));
+        }
+        break;
+      case CEL_OPERATION_ACTIONPARAM:
         {
 	  CHECK_STACK
 	  celXmlArg a_val = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
+	  DUMP_EXEC (":%04d: param id=%s val=%s\n", i-1,
+	  	A2S (a_id), A2S (a_val));
+	  CS_ASSERT (action_params != 0);
+	  action_params->SetParameterDef (op.arg.arg.ui, ArgToID (a_id),
+	  	"", (celDataType)a_val.type);
+	  celData& data = action_params->GetParameter ((int)op.arg.arg.ui);
+	  switch (a_val.type)
+	  {
+	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
+	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
+	    case CEL_DATA_BOOL: data.Set (a_val.arg.b); break;
+	    case CEL_DATA_FLOAT: data.Set (a_val.arg.f); break;
+	    case CEL_DATA_STRING: data.Set (a_val.arg.str.s); break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+	        data.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+		v.z = a_val.arg.vec.z;
+	        data.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v;
+		v.red = a_val.arg.col.red;
+		v.green = a_val.arg.col.green;
+		v.blue = a_val.arg.col.blue;
+	        data.Set (v);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Bad type of value!");
+	  }
+        }
+        break;
+      case CEL_OPERATION_ACTION:
+        {
+	  CHECK_STACK
+	  celXmlArg a_id = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC (":%04d: action pc=%s id=%d s=%s\n", i-1, A2S (a_pc),
-	  	A2S (a_id), A2S (a_val));
+          DUMP_EXEC (":%04d: action pc=%s id=%d\n", i-1, A2S (a_pc),
+	  	A2S (a_id));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
-	  pc->PerformAction (id, ArgToString (a_val));
+	  pc->PerformAction (id, action_params);
 	}
         break;
       case CEL_OPERATION_VARENT:

@@ -40,6 +40,7 @@ struct iCelPropertyClass;
 struct iCelParameterBlock;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
+class celGenericParameterBlock;
 
 enum
 {
@@ -47,7 +48,9 @@ enum
   CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
   CEL_OPERATION_GETPROPERTY,	// A:-		S:PC,ID		OS:?
   CEL_OPERATION_GETPROPERTY1,	// A:-		S:ID		OS:?
-  CEL_OPERATION_ACTION,		// A:-		S:PC,ID,S	OS:-
+  CEL_OPERATION_ACTIONPARAMS,	// A:UL		S:-		OS:-
+  CEL_OPERATION_ACTIONPARAM,	// A:UL		S:ID,S,?	OS:-
+  CEL_OPERATION_ACTION,		// A:-		S:PC,ID		OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_VARENT,		// A:-		S:S,S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
@@ -265,6 +268,9 @@ private:
   iCelPlLayer* pl;
   csArray<celXmlArg> stack;
   csArray<celXmlArg> local_vars;
+
+  // Temporary variable to keep parameters for actions.
+  csRef<celGenericParameterBlock> action_params;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool CheckStack (celBehaviourXml* behave);

@@ -194,7 +194,8 @@ struct iCelPropertyClass : public iBase
   virtual csStringID GetPropertyOrActionID (int i) = 0;
   virtual const char* GetPropertyOrActionDescription (csStringID propertyID) = 0;
 
-  virtual bool PerformAction (csStringID actionID, const char* params) = 0;
+  virtual bool PerformAction (csStringID actionID, 
+  	iCelParameterBlock* params) = 0;
 
   %extend
   {

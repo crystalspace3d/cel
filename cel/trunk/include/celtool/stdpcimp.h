@@ -94,7 +94,7 @@ public:
   virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
   virtual iCelEntity* GetPropertyEntity (csStringID);
-  virtual bool PerformAction (csStringID, const char*) { return false; }
+  virtual bool PerformAction (csStringID, iCelParameterBlock*) { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
 	virtual int GetPropertyAndActionCount () const;
   virtual csStringID GetPropertyOrActionID (int);

@@ -205,9 +205,9 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   if (id_x == csInvalidStringID)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    id_x = pl->FetchStringID ("cel.behaviour.parameter.x");
-    id_y = pl->FetchStringID ("cel.behaviour.parameter.y");
-    id_button = pl->FetchStringID ("cel.behaviour.parameter.button");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_button = pl->FetchStringID ("cel.parameter.button");
   }
   params = new celGenericParameterBlock (3);
   params->SetParameterDef (0, id_x, "x", CEL_DATA_LONG);

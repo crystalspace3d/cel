@@ -1019,12 +1019,17 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
   return true;
 }
 
-bool celPcGravity::PerformAction (csStringID actionId, const char* params)
+bool celPcGravity::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
 {
   if (actionId == action_applypermanentforce)
   {
-    csVector3 v;
-    csScanStr (params, "%f,%f,%f", &v.x, &v.y, &v.z);
+    const celData* p_force = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.force"));
+    if (!p_force) return false;
+    if (p_force->type != CEL_DATA_VECTOR3) return false;
+    csVector3 v (p_force->value.v.x, p_force->value.v.y,
+    	p_force->value.v.z);
     ApplyPermanentForce (v);
     return true;
   }

@@ -93,15 +93,15 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
   // @@@ Should store the id's for the parameters below.
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
-  	"cel.behaviour.parameter.button")) : 0;
+  	"cel.parameter.button")) : 0;
   if (butdata)
   {
     iCelEntity* ent = params->GetParameter (pl->FetchStringID (
-  	  "cel.behaviour.parameter.entity"))->value.ent;
+  	  "cel.parameter.entity"))->value.ent;
     int x = params->GetParameter (pl->FetchStringID (
-  	  "cel.behaviour.parameter.x"))->value.l;
+  	  "cel.parameter.x"))->value.l;
     int y = params->GetParameter (pl->FetchStringID (
-  	  "cel.behaviour.parameter.y"))->value.l;
+  	  "cel.parameter.y"))->value.l;
     int but = butdata->value.l;
     if (!strcmp (msg_id, "pcmeshsel_up"))
     {
@@ -134,7 +134,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
   if (butdata && !strcmp (msg_id, "pcmeshsel_move"))
   {
     iCelEntity* ent = params->GetParameter (pl->FetchStringID (
-  	  "cel.behaviour.parameter.entity"))->value.ent;
+  	  "cel.parameter.entity"))->value.ent;
     csRef<iPcTooltip> pctooltip (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcTooltip));
     if (ent)
@@ -163,7 +163,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
   (void)arg;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelEntity* ent = params ? params->GetParameter (pl->FetchStringID (
-  	"cel.behaviour.parameter.entity"))->value.ent : 0;
+  	"cel.parameter.entity"))->value.ent : 0;
 
   if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {

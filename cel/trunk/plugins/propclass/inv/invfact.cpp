@@ -78,7 +78,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
   if (id_entity == csInvalidStringID)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    id_entity = pl->FetchStringID ("cel.behaviour.parameter.entity");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_entity, "entity", CEL_DATA_ENTITY);

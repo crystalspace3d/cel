@@ -273,7 +273,7 @@ public:
   virtual const char* GetName () const { return "pcgravity"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, const char* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcGravity : public iPcGravity
   {

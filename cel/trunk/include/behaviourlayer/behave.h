@@ -35,7 +35,7 @@ SCF_VERSION (iCelParameterBlock, 0, 0, 1);
  * This interface is a parameter block that can be used to pass parameters
  * through SendMessage() in a behaviour.
  * Parameter ids are constructed from the following string:
- *     cel.behaviour.parameter.<name>
+ *     cel.parameter.<name>
  */
 struct iCelParameterBlock : public iBase
 {
