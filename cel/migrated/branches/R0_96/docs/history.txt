@@ -1,0 +1,866 @@
+24-Jan-2003
+	- Eric Sunshine updated Makefile to work correctly with new -makevars
+	  fragments from cs-config which might now contain references to
+	  makefile variables such as $(OUT), $(CFLAGS.I), $(LFLAGS.L), etc.
+23-Jan-2003:
+	- Keith Fulton added a SetID to iCelEntity so it is possible
+	  for an external app to override the CS_ID assigned to an
+	  entity.  This is necessary when objects across networks
+	  have different lifespans, to prevent reuse of the same CS_ID
+	  to represent different objects and confusion of the 
+	  underlying entities.
+	- Matthias Braun then reverted this change based on design
+	  principles. Jorrit agrees.
+	- Jorrit then put back Keith's patch after discussion with Matthias.
+	  It seems to be the only fast solution to solve the problem right now.
+	  It is a hack though and another solution MUST be found.
+	  Personally I feel most for letting NumReg return numbers that
+	  are never reused. Perhaps requires some thinking.
+21-Jan-2003:
+	- Fixed a ref leak on 'view' in the engine property class.
+	  The 'new csView' wasn't properly embedded in a csPtr<iView>.
+17-Jan-2003:
+	- Keith Fulton fixed circular refcount issue which prevented all
+	  prop class factories from ever being deleted.
+	- Keith Fulton added many specific error msgs for things which 
+	  could go wrong with CEL persistence loading on the client.
+	  Added a Report function to all files involved which should
+	  probably be in a libary, but he cannot create the library on
+	  on Windows himself.
+15-Jan-2003:
+	- Fixed CEL for latest CS changes (growing arrays).
+	- In the mean time fixed some memory leaks while doing that.
+13-Jan-2003:
+	- Fixed the python plugin.
+07-Jan-2003:
+ 	- Keith Fulton added a SetReverseAction convenience function to iPcMesh.
+05-Jan-2003:
+	- Keith Fulton changed iPcCamera to not always require an iPcRegion.
+30-Dec-2002:
+	- Matze fixed several refcount problems introduced by the change to
+	  csRef. But still a leak here :-/
+24-Dec-2002:
+	- Wouter Wijngaards fixed a small compilation error in pf/mesh/
+	  meshfact.cpp, introduced by the separation of Engine and Thing
+	  in CS.
+01-Oct-2002:
+	- Keith Fulton added Yaw (Y-axis) adjustment to iPcCamera.  Yaw,
+	  Pitch and Roll together change the camera viewing angle without
+	  affecting the LookAt vector.
+20-Sep-2002:
+	- Patch from Michael Dale Long for improved Python support
+		- Added embedded iScript interface to celBlPython.  Now
+		  applications can get access to the underlying scripting
+		  interface if one is available.
+		- Modified CreateBehaviour() so it passes an iCelEntity
+		  instead of an iCelEntity * to the behaviour constructor.
+		  This frees the scriptwriter from having to wrap the pointer
+		  before using it.
+		- Added some csQueryRegistry_* functions.  This is to 
+		  facilitate a Python csQueryRegistry() function that performs
+		  CS_QUERY_REGISTRY() type lookups.
+		- Added the LoadBehaviour() method to iCelEntity to simplify
+		  loading and setting behaviours in scripts.  Note that
+		  actions in the behaviour may or may not take affect in the
+		  running environment depending on how you run the interpreter.
+		- Added celCreate* (i.e. celCreateEntity, celCreateCamera) to
+		  simplify creation of these objects in a script.
+		- Removed iCelBehaviour::SendMessageV() wrapper and added a 
+		  wrapper for SendMessage() which excludes the varargs.
+		- Added celQueryPC_iPcRegion() to facilitate a Python
+		  celQueryPC() function that performs CEL_QUERY_PROPCLASS()
+		  type lookups.
+		- Added scfQuery_iPcRegion() to facilitate a Python
+		  scfQuery() function that performs SCF_QUERY_INTERFACE()
+		  type lookups.
+		- Added wrappers for iPcRegion, iPcCamera, iPcMeshSelect, 
+		  iPcMesh, iPcTimer, iPcSolid, iPcGravity, iPcMovable, 
+		  iPcInventory, and iPcCharacteristics.  Each one has a
+		  corresponding celCreate* function.
+17-Sep-2002:
+	- Fixed CEL for the new csPtr(csRef) constructor in CS.
+13-Sep-2002:
+	- Did a full smart pointer fix for entire CEL.
+20-Aug-2002:
+	- MatzeB removed broken automake system and replaced it with a Jam
+	  and autoconf based one
+19-Jul-2002:
+	- MatzeB fixed indentation and an LPVOID issue in engfact.cpp.
+	- Readded the firstperson camera mode that I accidently removed
+	  yesterday by applying's Anders patch.
+18-Jul-2002:
+	- Several months ago I received a patch from Anders Stenberg.
+	  This patch does the following:
+	      - Added the blcel.physicallayer_ptr variable so that python
+	        scripts can access the pl more easily.
+	      - blpython.i contains lots more interfaces to CEL stuff
+	        (entities and property classes).
+	      - Getting a description string of a property. Will be useful
+	        for stuff like entity editors/viewers (within a level
+		editor for example).
+	      - Enable the subclass to just "register" a property, bind it
+	        to one of its members, and then all handling of
+		SetProperty/GetProperty is done "automatically". (Of course
+		it can be overloaded if you want some special voodoo. For
+		example, you can handle just one property with some special
+		stuff, and release it to celPcCommon::SetProperty in all other
+		cases.)
+	      - pcregion uses the new system described above.
+2-Jul-2002:
+	- Fixed CEL for the latest CS changes with regards to the _FAST
+	  macros.
+11-Jun-2002:
+	- pcmovable property class now fires a callback with ID
+	  CEL_PCMOVEABLE_PROPERTY_POSITION whenever the position is changed
+	  in preparation for pclocater.
+10-Jun-2002:
+	- Added first person camera mode from amin
+5-Jun-2002:
+	- Added CreateEmptyEntityList() to the pl in CEL.
+28-May-2002:
+	- Fixed include for polymesh.h.
+	- pcmesh property class now fires a callback with ID
+	  CEL_PCMESH_PROPERTY_MESH whenever the mesh changes.
+22-Apr-2002:
+	- Fixed several bad bugs in NumReg:
+	    - In Register() a 'memset' was done with only
+	      (newsize-listsize) bytes but this needs to multiply
+	      by the size of (void*).
+	    - 'memset' was also done on the OLD value of 'list' so this
+	      could potentially corrupt memory if a reallocation caused
+	      in a new pointer.
+	    - 'freelistend' points to the first free item in 'freelist'.
+	      However the loop in Register() was first doing 'freelistend++'
+	      which means there was a gap.
+15-Apr-2002:
+	- Matze removed some warning printfs
+30-Mar-2002:
+	- Matze added an extra parameter to pcmesh->SetAction. If resetaction
+	  is false like the default it doesn't set the action if it's the same
+	  like the current action
+26-Mar-2002:
+	- Matze added a RemoveEntity callback, that makes it possible for the
+	  persistance layer contexts to only keep soft refs to entities
+	- Applied a patch from Loic Dachary, it adds autoconf support to cel
+	  which brings a nice install and build system (on platforms that
+	  support autoconf/automake). He also included the license into some
+	  headers that missed it... I just replaced the COPYING file by a
+	  LGPL one...
+6-Mar-2002:
+	- Matze made the internal mapping of persistance (ids from localhost
+	  to ids from other host) accessible through some functions in
+	  iCelPersistContext. You can now also choose if mapping should be
+	  used. By default mapping is performed while loading a file and not
+	  while reading one.
+5-Mar-2002:
+	- Added iPcCamera::GetFollowPos() and GetMode().
+	- Matze fixed pckeyinput for latest CS changes
+28-Feb-2002:
+	- Matze changed persistance to not IncRef entities while reading,
+	  everyone who reads an entity with persistance has to IncRef this
+	  itself now. On the other hand this solves an issue when multiple
+	  persisted things refer to the same entity. Note that this is only for
+	  datatbuffers, the LoadEntity function still returns an IncReffed
+	  entity.
+	- Matze added Clear to persistace context to clear the internal hash
+	  tables of the persistance plugin.
+27-Feb-2002:
+	- Matze fixed a wrong return.
+	- Matze removed the persistance Set(int) function.
+	- Fixed the python behaviour layer.
+	- Added some sanity checks to NumReg code using CS_ASSERT.
+	- fixed a bug in camera persistance
+26-Feb-2002:
+	- improved followmode. It now accepts 2 relative positions:
+	    -the position of the camera relative to the mesh
+	    -the position of the point the camera looks at, rel. to the mesh	
+21-Feb-2002:
+	- Renamed celData->Set(bool) to SetBool() to avoid problems on
+	  platforms that don't have the bool type.
+20-Feb-2002:
+	- Fixed a bug in celPcRegion::SetWorldFile() it would delete
+	  its own copy in some cases.
+	- Did some small reformatting of history.txt.
+19-Feb-2002:
+	- jtarbox added a rotational camera mode a few days back and then
+	  changed it so that the distance from the object can be changed as
+	  well.
+12-Fev-2002:
+	- Matze changed order of entity saving/loading. behaviour is the last
+	  processed piece now.
+20-Jab-2002:
+	- Matze changed ref behaviour for Region: Camera is taken ref to
+	  region now. This fixes camera loading.
+17-Jan-2002:
+	- Matze fixed several bugs/cleaned up/commented in ID registry
+	- introduced celDataBufHelper class to make the Save/Load functions
+	  easier
+	- more fixes, persistance at least doesn't crash anymore now
+15-Jan-2002:
+	- Fixed more of the bugs I introduced and cleaned stuff up alot
+	- persistance is working now, but some property classes seem to be
+	  buggy
+	- reenabled the csMemFile buffer, after fixing a bug in CS
+14-Jan-2002:
+	- Matze changed persistance plugin, to accept streams thourgh iFile
+	  interface.
+	- Also changed persistance to use ID's instead of entity names
+	- Added some macros that help debugging save/load functions
+	- Saving seems to work, while loading fails for some reasons... I
+	  suspect a bug in csMemFile (I'll investigate tomorrow), but also
+	  when reading files directly from disk something goes still wrong...
+7-Jan-2002:
+	- Updated CEL for new CS.
+2-Jan-2002:
+	- Matze added support for ID's:
+	     Each Entity is assigned a unique ID now, a list of ID's is
+	     stored in the PhysicalLayer now, so this also has the nice
+	     effect, that you can check if all entities are properly removed
+	     at destruction time.
+	- Matze added CEL_DEBUG constant.
+31-Dec-2001:
+	- The new 'pcgravity2' property class works a lot better now with
+	  the new CollidePath() function in CS iCollideSystem. Friction
+	  and proper collision response still have to be implemented though.
+	- Again improved gravity handling a little.
+	- Removed the old celPcGravity and renamed celPcGravity2 to
+	  celPcGravity.
+	- Renamed iPcGravity::IsOnGround() to IsResting() to indicate if
+	  an object is resting.
+	- Added iPcGravity::ApplyPermanentForce() and
+	  iPcGravity::ClearPermanentForces() to work with permanent forces.
+	- Added iPcGravity::SetActive() and IsActive() with which you can
+	  activate/deactivate physics handling for that object temporarily.
+	- Added iPcGravity::ResetSpeed(). This will leave the forces alone
+	  but reset the speed to zero.
+	- iPcGravity::ClearForces() will no longer reset the speed.
+29-Dec-2001:
+	- Philip Wyett updated MSVC project files for CEL.
+28-Dec-2001:
+	- Renamed 'pcinput_' messages to 'pckeyinput_'.
+	- Implemented persistance in pckeyinput property class.
+	- Added the first version of the 'blpython' plugin. This is
+	  a general behaviour layer for python scripting. It compiles
+	  and links but it otherwise not functional.
+	- Further work on the blpython layer. It now actually implements
+	  iCelBlLayer correctly and also returns iCelBehaviour instances.
+	- Added GetName() to iCelBlLayer. Behaviour layers can now have
+	  names. This allows CEL to distinguish between different behaviour
+	  layers that may be loaded at the same time.
+	- Added a registry of behaviour layers to the physical layer.
+	- Added GetBehaviourLayer() function to iCelBehaviour.
+	- Made the persistance plugin independent from the behaviour
+	  layer that is chosen by also writing and reading the name
+	  of the behaviour layer. This allows persistance to work correctly
+	  if multiple behaviour layers are in memory (and behaviours from
+	  various behaviour layers are used).
+	- The python behaviour layer plugin is now actually working and
+	  being used for two small entities.
+	- Started work on a new pcgravity property classes (for now
+	  called pcgravity2 until it is working fine and can replace the
+	  old pcgravity). Celtest already uses this new property class
+	  for a all entities and it seems to work a bit already.
+	  Note that it is highly unfinished though!
+27-Dec-2001:
+	- Added a string registry to the physical layer. This can be used
+	  for various things but in the first time it is going to be used
+	  for a generic property setter for all property classes. CEL
+	  convention on string names will be 'cel.xxx.yyy.zzz'. With 'xxx'
+	  equal to the type of string (i.e. 'property'), 'yyy' equal to the
+	  scope of the property (i.e. 'pccamera') and 'zzz' the name of the
+	  given type (i.e. the property name). An example:
+	  'cel.property.pccamera.startsector'.
+	- Extended iCelPropertyClass with a number of methods for a generic
+	  property setter. This will allow string based scripting languages
+	  to access all property classes without requiring knowledge
+	  of the SCF interface that is specific to that property class. Of
+	  course it will be less efficient but the efficiency loss is solved
+	  a bit by using the string registry.
+	- celPcCommand already provides empty implementations of all
+	  these new classes so that existing property classes don't have
+	  to be modified. None of the property classes currently implement
+	  the new interface though.
+	- Implemented the new property interface in celPcRegion. It now
+	  supports the following three properties:
+	    cel.property.pcregion.worlddir
+	    cel.property.pcregion.worldfile
+	    cel.property.pcregion.regionname
+	- Added support for csVector3 as a type for properties in
+	  iCelPropertyClass.
+	- Added a PerformAction() function to iCelPropertyClass which uses
+	  the same system as the properties in iCelPropertyClass and allows
+	  scripting languages to perform generic actions. Convention for
+	  action names is:
+	    cel.action.pcregion.load
+	  Actions are included with properties in the rest of the API.
+	  So you can also perform the following functions on actions (note
+	  that these functions have been renamed):
+	    - HasPropertyOrAction()
+	    - GetPropertyAndActionCount()
+	    - GetPropertyOrActionID()
+	    - GetPropertyOrActionType() (new function)
+	- Added celPropertyActionType enumeration type.
+	- Seperated celData and celDataType from persist.h into its own
+	  pl/datatype.h.
+	- There were already three places where some kind of datatype
+	  was defined:
+	    - persistance (celData and celDataType).
+	    - iPcProperties (CEL_PROPERTY_... define).
+	    - The new properties in iCelPropertyClass (type_...).
+	  Rationalized this by using the celData and celDataType definitions
+	  everywhere. To do this celDataType had to be extended with csVector3.
+	- Updated the persistance layer to also support csVector3 directly
+	  now (CEL_DATA_VECTOR3). Updated several of the property classes
+	  load/save functions to use csVector3 instead of three floats.
+	- Added CEL_DATA_ACTION to celDataType. This is not supported by
+	  the persistance layer though and only needed for iCelPropertyClass.
+	  Added celData->SetAction() to set an action.
+	- Fixed a memory leak in the pcinput property class which was
+	  not deleting the event handler.
+	- Fixed a memory leak in celtest. The actor entity was not added
+	  to the room inventory.
+	- Changed persistance in pcgravity to use the new CEL_DATA_VECTOR3.
+	- Fixed a few memory leaks in bltest.
+	- Rationalized the SendMessage names to the convention:
+		'pcbla_msgname'.
+	  In particular for pcinput this means that some changes are
+	  needed. Instead of +run (and similar) it will now be
+	  	pcinput_run1 (and pcinput_run0 for disable).
+	  This change was done to make the name compitible with scripting
+	  language routines.
+26-Dec-2001:
+	- Added new iPcProperties property class. This is a general property
+	  class to store string, float, long or boolean properties.
+	  The message prop_setproperty is sent to the behaviour layer when
+	  a property is set. The message prop_clearproperty is sent when
+	  a property is cleared. The index of the property is given as
+	  a parameter.
+	- Added SetRectangle() to iPcCamera. With this you can set the part
+	  of the screen that this camera will use. Also implemented
+	  persistance.
+	- Added persistance for the camera mode in iPcCamera implementation.
+20-Dec-2001:
+	- Matze added cel.cex, which makes cel usable together with cs-config.
+16-Dec-2001:
+	- Matze fixed a memory leak: pllayer was holding references to
+	  factories and these to pl. Now only pllayer holds the ref.
+	- Matze added a mode switch to camera property, in follow mode the
+	  camera, stays behind it's assigned mesh and even does collision
+	  detection.
+14-Dec-2001:
+	- Matze reports: keyboard input works now, but for some strange
+	  reason CS transmits each key multiple times, and on the other side
+	  when pressing a key only short it isn't transmitted sometimes...
+	- Matze cleaned up celtest a bit.
+12-Dec-2001:
+	- Added iCelPropertyChangeCallback interface. Using this it will
+	  be possible to listen to property changes in all property classes.
+	- Extended iCelPropertyClass with methods to remove and add
+	  callbacks.
+	- Added pf/common directory containing common code for all property
+	  class implementation. There is now a celPcCommon class which can
+	  be used by a property class implementation to make things easier.
+	  This celPcCommon already implements the two functions above
+	  to handle the callbacks. In addition it also implements a
+	  function to fire a callback.
+	- Changed all current property class implementations to inherit
+	  from celPcCommon.
+	- Nothing is using this callback system at the moment.
+	- Matze started work on keyboard input.
+10-Dec-2001:
+	- Matze added #defines for template Factories, you can now easily use
+	  CEL_DECLARE_FACTORY(bla) and later CEL_IMPLEMENT_FACTORY(bla). Also
+	  changed behaviour to register exact 1 Factory for each Property
+	  class, which reduces the need for all the factory pointers.
+		TODO: -Do the same for behaviour factory
+		      -change FindPropertyClassFactory to use hash table to
+		       speed the thing up.
+		      -unreleased instances because some plugins implement
+		       multiple components (at least I think it's because of
+		       that)
+7-Dec-2001:
+	- Fixed for latest CS.
+20-Nov-2001:
+	- Added a minimal test level to make debugging easier.
+	  You can enable this minimal test by defining MINIMAL as 1
+	  in celtest.
+	- Fixed a bad bug in the persistance loader. It was acccidently
+	  adding every property class twice to the entity.
+	- Fixed a ref count leak on entities in the inventory loader.
+	- Fixed a bug in persistance layer which prevented persistance
+	  from working properly. It turned out that the entity was not
+	  set for the property classes.
+	- Fixed a bug in the mesh loader. It would not correctly call
+	  DeferUpdateLighting() after loading from the persistance layer.
+	- Persistance is now ALMOST working. For simple situations I managed
+	  to get it working fully.
+	- Implemented correct persistence for pccamera so that the current
+	  position of the camera is also remembered.
+	- Fixed a crash bug in cel with persistance and inventory.
+	  Related to ref counting again.
+19-Nov-2001:
+	- CS now has a feature to remove an object from the engine in general.
+	  The plimp Cache will use that new function so that the extreme
+	  hack I made yesterday can be avoided.
+	- With some additional CS fixes there are now only two objects
+	  (one material and one texture) that leak when celtest cleans
+	  up game entity.
+	- All leaks are now gone.
+	- Philip Wyett updated MSVC project files for CEL.
+18-Nov-2001:
+	- Debugging with DG_TYPE for 'celEntity'.
+	- Added 'c' key to clear game (debugging too).
+	- Implemented an extreme hack in the cache. It turns out that you cannot
+	  simply remove factory wrappers by doing DecRef() on them. You need
+	  to remove them from the engine. I have to find a better solution
+	  for this.
+16-Nov-2001:
+	- Implemented a cache in the physical layer. This cache will hold
+	  objects of type iBase and keeps a reference to them. This cache
+	  can be used to store pointers to objects that are useful in the
+	  game and that you don't want to be removed while the game is
+	  in progress even if the object is not used at some specific point.
+	  A good example is mesh factories. Even though there may be no
+	  mesh object using a particular mesh factory you still do not
+	  want to delete the loaded mesh factory. Otherwise there would be
+	  a delay when the factory is suddenly needed.
+	- 'pcmesh' now uses this cache to store a reference to the factory
+	  that is used. In addition every mesh that uses a mesh factory
+	  will also increase the ref count. Added CleanCache() to celtest
+	  so that the cache will be cleaned if a new game starts. This
+	  solves another memory leak with the mesh object factories this
+	  time.
+	- celEntity (as implemented in plimp) is now also a csObject.
+	- Added QueryObject() to iCelEntity.
+	- Added more DG_LINK's to link more objects with each other.
+	- Fixed a few links now that iCelEntity no longer is an iObject.
+15-Nov-2001:
+	- Fixed a memory leak in 'pctooltip' and 'pctimer' with event queue.
+	- Added lots of DG_... lines to help debugging.
+	- Fixed a bad memory leak in pcgravity. It was leaking the list
+	  of entities returned by FindNearbyEntities().
+	- Fixed huge memory leaks with the property classes caused by
+	  the event handlers being embedded interfaces of the property classes.
+	  The problem is that the event handlers were being unregistered
+	  in the destructor of the property class. But since the event
+	  handler was part of the property class and since the event queue
+	  increments the reference of the event handler the ref count could
+	  never get zero so the property class never got deleted.
+	  Fixed this by making the event handlers seperate objects. This
+	  means that additional references on them will not cause a higher
+	  ref count for the property class.
+	- Enabled persistance again (loading). Still crashes though.
+	- Remove the region in pcregion::Unload().
+	- Fixed another big memory leak in the gravity property class.
+	  It was leaking pcsolid instances.
+14-Nov-2001:
+	- Few changes for debugging using the new graph debug tool in CS.
+13-Nov-2001:
+	- Modified pcmeshsel property class to work through
+	  the pccamera property class instead of using iCamera
+	  directly. This also fixes the bug with saving of the
+	  pcmeshsel property class.
+	- Added an event handler to pccamera. It is now responsible for
+	  drawing and moving the camera. celtest no longer contains code
+	  for this. In the future it will be possible to say how the camera
+	  should move (first person, third person, fixed camera position,
+	  user defined movement strategy, ...).
+	- Extended pcregion with the ability to initialize a pccamera to
+	  a given starting position. Also extended pcregion with the ability
+	  to go to a named starting position as opposed to only the default
+	  one.
+	- 'celtest' no longer has a pointer to the default view. It doesn't
+	  even know what entity holds the view or camera.
+	- Classic persistance module now writes a marker 'CEL0' in front
+	  of the saved file. That makes it easier to recognize saved CEL
+	  files.
+	- Fixed the crash at exit in CEL by actually fixing a bug in CS :-)
+	- Use the reporter for error reporting in classic persistance module.
+	  Only for loading at this moment and only for the persistance module
+	  itself. The individual property classes do not yet use the
+	  reporter to report their errors.
+	- Fixed a bug in pcregion loader.
+	- Fixed a bug in pcmesh loader. Forgot to save the factory name
+	  and properly initialize the mesh.
+	- Implemented loading in CEL persistance module. At this moment loading
+	  itself seems to work (i.e. it does not crash). However celtest
+	  crashes right after loading so I have to investigate why.
+	- Fixed a bad bug in pcmesh::SetMesh().
+	- Added loading/saving of position of mesh. This doesn't fix the
+	  loading problem though. Loading still crashes.
+12-Nov-2001:
+	- Created new cpersist plugin. This plugin will implement
+	  'classic persistance' for CEL. This plugin does not do
+	  anything at the moment except compile and register.
+	- Philip Wyett updated the MSVC project files for the new
+	  persistance plugin.
+	- Added GetName() to iCelBehaviour. This is needed to be able
+	  to save the associated behaviour name in the persistance layer.
+	- Added GetFactoryName() to iCelPropertyClass. This is needed
+	  to be able to save the associated factory name in the
+	  persistance layer.
+	- Worked on persistance a lot now. All property classes now have
+	  full support for loading and saving (untested).
+	- Implemented saving in the classic persistance plugin.
+	  At this moment it doesn't work yet (crashes) and I also need
+	  to implement a system to avoid saving the same entity or
+	  property class twice or more then once.
+	- Added 's' key to save the current world to 'savefile'. Since
+	  saving in general does not work yet I advice you NOT to press
+	  this key :-)
+	- Fixed a bug in implementation of celDataBuffer. It was not
+	  properly allocating new entries when the buffer growed.
+	- Fixed handing of saving NULL property class or entity. Now
+	  a marker is always saved which says what will follow. ENT0
+	  is a NULL entity pointer. ENTI is the definition of an entity.
+	  ENTR (not used yet) will be a reference to an entity.
+	  Similar for property classes: PCL0, PCLI, and PCLR.
+	- Fixed a bad bug in inventory saving.
+	- The three fixes bug make sure that at least saving doesn't crash
+	  anymore. However there is still too much information saved as
+	  duplicate entities/property classes are not detected.
+	- The current implementation of CEL/persistance assumes that
+	  all entities have a unique name. I have to think more about this
+	  issue (like having a unique name generation utility or something)
+	  but in the mean time I fixed celtest so that the boxes have
+	  a distinct name and also fixed bltest so that it only looks at the
+	  first three letters of the name to see if an entity is a box (here
+	  again we need a different way to detect this, maybe object classes?).
+	- Entities and property classes are now only saved once. The second
+	  time the same entity or property class comes back in the save
+	  tree a reference is used.
+11-Nov-2001:
+	- Even though persistance is not operational yet I already
+	  decided on a redesign. I removed the notion of 'named data
+	  entries'. Everything works positional. It is now much simpler
+	  and also allows for smaller persistant data. Additionally
+	  I added the notion of a serial number for a databuffer. This
+	  is useful for testing what version we are trying to load
+	  and depending on that either rejecting the load or else trying
+	  to convert the old data.
+10-Nov-2001:
+	- Further work on persistance. Not functional yet.
+9-Nov-2001:
+	- Fixed CELTEST for latest changes in CS (CreateEnvironment...).
+	- Started working on pcregion property class. This property class
+	  represents a region in the world.
+	- 'pcregion' will automatically create individual entities for
+	  all meshes in a world. These entities will get a pcmesh
+	  and pcsolid property class so that the collision detection system
+	  works nicely. Note that there is a crash at exit in the destruction
+	  of this. I have to investigate this later.
+	- Changed celtest to use the new pcregion property class. It will now
+	  load the partsys level from CS and put the entities there (boxes
+	  and objects). Note that there are still several problems.
+	  The 'pcmovable' does not yet support moving through portals so
+	  don't try to drag an object out of the starting room yet or it
+	  will drop through the floor.
+	- Fixed a bug in the FindNearbyEntities(). Now it only returns
+	  entities for meshes that are actually visible. Without this fix
+	  it was very easy for objects to become stuck after too much
+	  box/object manipulations. Now it is still not perfect but a lot
+	  better already. An object in the box no longer affects collision
+	  detection of objects not in the box.
+8-Nov-2001:
+	- Started work on persistance. Nothing works yet. Created
+	  iCelDataBuffer which the persistance system will use to save/load
+	  information.
+	- Slightly changed prototype of Load() and Save() so that they
+	  now expect a pointer to the data buffer on which they must operate.
+	- Added stub code for persistance to all property classes.
+	- Fixed a bug in the gravity property class which could cause
+	  celtest to hang on very fast systems.
+	- Added iCelPersistance interface.
+6-Nov-2001:
+	- Started work on 'pcgravity' property class (in 'pfmove' factory).
+	  This property class is an almost exact copy of the movable property
+	  class from Dreams Eternal. It implements primitive gravity
+	  for objects. It also has an ApplyForce so you can apply a force
+	  in any direction.
+	- Added 'Move' to iPcMovable which will do a relative move.
+	  This routine will also correctly update the current sector if
+	  a portal is traversed.
+	- Cleaned up celtest a little.
+	- Right clicking on a box opens/closes it (that was already the
+	  case yesterday). If you now right-click on the box to open it
+	  all objects that are in the box will jump out (using a force
+	  and gravity).
+	- Added a timer property class to 'pftools'. The message
+	  'timer_wakeup' will be sent to the Behaviour.
+	- The timer is now used by the box so that the entities in the box
+	  are thrown out of the box one by one. Gives a nice effect :-)
+	- Added a few more objects and boxes to celtest.
+	- Note that gravity is not perfect yet. It is rather easy to get
+	  everything stuck. It would be nice to have the ability to push
+	  objects while dragging them.
+	- Removed the now obsolete conf_mingw.mak.
+5-Nov-2001:
+	- Added a box mesh object for celtest.
+	- Made four dummy objects visible. Changed selection code in
+	  celtest so that the room behaviour will now control selection
+	  and dragging of all other objects.
+	- Added conveniance iPcMesh::SetAction() function which will
+	  work if the mesh is a 3D sprite.
+	- Added 'box' behaviour to 'bltest'.
+	- Fixed a bug in 'pcmeshsel' where it would not deselect the entity
+	  if follow mode is unset (the default).
+	- Added Show(), Hide(), and IsVisible() to iPcMesh.
+	- Added iCelPlLayer::GetHitEntity() to find the entity on a specific
+	  screen position.
+	- Added iPcCamera for a property class representation of a camera.
+	- Added 'pfengine' factory with engine related property classes.
+	  Currently it only contains 'pccamera'.
+	- Added general superclass for all behaviours in bltest.
+	- It is now possible to drag objects on the box. If they fit they
+	  will be added. It is not yet possible to get them out the box
+	  and they will also be added if the box is closed.
+4-Nov-2001:
+	- Wouter Wijngaards did the following:
+	    - CEL makefile now uses the new cs-config --makevars option.
+	      This should make the conf_*.maks superfluous.
+	    - The makefile is also updated to be an adapted copy of the
+	      new template makefile in CS.
+	    - Tested on linux, and removed conf_linux.mak.
+	    - If it works on mingw too that .mak can also be removed.
+	  How to work with the new makefile?
+	  Simply update your CS, and copy the new (make csconfig) cs-config
+	  script to the cel directory. csconfig.mak depends on the cs-config
+	  script, so it should be remade when you next make depend or make all.
+3-Nov-2001:
+	- 'pcinventory' sends an 'inv_addchild' messages to the entity
+	  containing the inventory when an entity is added.
+	- 'pcinventory' sends an 'inv_added' messages to the entity
+	  that is being added.
+	- Also added 'inv_removechild' and 'inv_removed' messages.
+2-Nov-2001:
+	- Added iPcMesh::CreateEmptyThing() which can be used instead
+	  of SetMesh().
+	- Changed celtest so that 'room' is now also an entity and uses
+	  pcmesh property class for the room walls.
+	- Added iCelPlLayer::AttachEntity(), UnattachEntity(), and
+	  FindAttachedEntity(). This functionality used to be present
+	  ad-hoc in the pcmesh property class but it is generally useful.
+	  Using those functions property classes can attach an entity
+	  to some iObject (usually an engine object).
+	- Changed pcmesh to use the new iCelPlLayer::AttachEntity()
+	  functions.
+	- Changed celtest to load the pl/bl plugins using CS_REQUEST_PLUGIN
+	  so that they are registered to the object registry.
+	- Actually implemented the 'global' option in pcmeshselect. I
+	  forgot to do that earlier.
+	- After adding an object to an inventory it is usually best
+	  to call DecRef() as the inventory now holds a reference
+	  (unless you also need to have the reference). Changed celtest
+	  for this. Unfortunatelly this does not fix the ref leaks in
+	  celtest yet.
+	- Added iPcSolid which is a property class that is going to be
+	  used for collision detection. iPcSolid is implemented by
+	  the 'pfmove' factory.
+	- Added iPcMovableConstraint and extended iPcMovable so that you can
+	  add constraints.
+	- Extended 'pfmove' factory with pcmovableconst_cd implementation of
+	  iPcMovableConstraint which uses iPcSolid to implement a constraint
+	  based on collision detection. This implementation is currently
+	  not operational yet.
+	- Added iCelEntityList and celEntityList implementation in plimp.
+	- Added iCelPlLayer::FindNearbyEntities() which will return a list
+	  of all entities within a certain radius of a given position.
+	  This function will use the attached entities to find the
+	  entities from the engine objects.
+	- Partially implemented 'pcmovableconst_cd' so that it actually
+	  uses collision detection but it has the following two shortcomings:
+	    - Movement either succeeds or fails. There is no partial result.
+	    - A path between start and end should be used for collision
+	      detection. Now only the end position is checked which means
+	      that objects at high speed may actually pass through walls.
+	  In practice this limitation means that in celtest when you drag
+	  the object, it will only temporarily be blocked by the walls. If
+	  you drag further it will go through.
+	- Collision detection with 'pcmovableconst_cd' works better in the
+	  sense that it is no longer possible to go through walls. A
+	  one-triangle collider with the size of the path is used to
+	  detect collisions along the movement path.
+	- Philip Wyett updated MSVC project files for CEL.
+	- Added iPcMeshSelect::SetFollowAlwaysMode(). When this is true
+	  move messages will be send whenever the mouse is over an entity
+	  regardless of selection.
+	- Added a new behaviour class to bltest for the 'room'. Added
+	  a new pcmeshselect property classes to the room entity which
+	  has follow-always set to true.
+	- Added new 'pftools' factory. This will contain general tools.
+	  The only tool it now contains is a 'pctooltip' property class
+	  for displaying tooltips. This property class is not functional
+	  yet.
+	- Implemented tooltips.
+	- Celtest now shows tooltip for the object over which the mouse
+	  rests.
+	- Fixed a bug in 'pcmeshsel' when the mouse was over nothing.
+1-Nov-2001:
+	- Slightly changed the way that csconfig.mak works.
+	- Implemented dragging. You can define a plane on which the
+	  object will be constrained while dragging. This plane can
+	  be defined in either camera or world space giving maximum
+	  control.
+	- Modified celtest with a demo of this dragging. With left
+	  mouse button you will drag to the 0,1,0 plane in world space.
+	  This means orthogonal to the floor. With right mouse
+	  button you will drag to the 0,0,1 plane in camera space.
+	- Added 'pfmove' factory and implemented iPcMovable. At this
+	  moment this property class is only a thin wrapper on top
+	  of moving an iPcMesh directly but in the future it will
+	  be able to contrain movement by using attached
+	  iPcMovableConstraint property classes (not implemented yet).
+	- Extended iPcMeshSelect so it will by default look for a movable.
+	  If that cannot be find it will look for an iPcMesh instead (old
+	  behaviour).
+31-Oct-2001:
+	- Split 'selectmesh' message from 'pcmeshselect' property class
+	  'selectmesh_up' and 'selectmesh_down'.
+	- Added a lot more control to iPcMeshSelect interface. Now you can
+	  indicate if you want 'follow' mode or not. With follow mode the
+	  mouse will track the selected object and immediatelly send
+	  up/down messages when the mouse leaves/enters the object.
+	  Otherwise an 'up' message is only sent when the mouse button
+	  goes up regardless of the position of the mouse.
+	  Also added the ability to disable up/down mouse events if you
+	  don't need them.
+	  Added a few other functions that are not yet implemented (dragging).
+	- Fixed a missing DecRef() in the destructor of 'pcmeshselect'
+	  property class.
+	- Optimized 'pcmeshselect' by only registering the event handler
+	  for the right events depending on the settings. i.e. don't listen
+	  to mouse move events if you are not dragging or in follow mode.
+	- Added the ability to control for which mouse buttons you want
+	  to use 'pcmeshselect'. By default it will only react on mouse
+	  button one. You can use multiple 'pcmeshselect' property classes
+	  on one entity to have different behaviour depending on the mouse
+	  button.
+30-Oct-2001:
+	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
+	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour
+	  and so on...).
+	- Added iBase* parameter to iCelBehaviour::SendMessage(). So a
+	  message from property classes to the behaviour part of an entity
+	  now has three parts:
+	  	- A message id.
+		- An iBase pointer with possible additional arguments
+		  for the message.
+		- A list of additional strings.
+	- Removed several bugs in cleanup of inventory which prevented proper
+	  cleanup. In particular RemoveAll() was not right.
+	- Extended pcmesh property class so that a csObject is attached
+	  to the mesh in the engine with which it is possible to find the
+	  entity again.
+	- The 'pcmeshselect' property class now sends a 'selectmesh' message
+	  to the behaviour. 'bltest' reacts on this message and prints out
+	  the selected entity (try clicking on the small object in celtest).
+	- Added declarations for FAST SCF queries to include/pl/pl.h.
+	- Extended 'pcmeshselect' property class with the ability to switch
+	  between 'global' and 'local' selection. Local selection is default
+	  and this means that the Behaviour will only get messages when
+	  it's own mesh is selected. With global selection the Behaviour
+	  will get messages on selection of all meshes.
+	- Added a few additional FAST declarations for SCF.
+29-Oct-2001:
+	- Basic inventory handling seems to work now. Celtest demonstrates
+	  (in text form only at the moment) one box entity and four
+	  dummy entities. Two of them fit and the two others don't.
+	  Some provisions are made for inherited characteristics
+	  but this is not fully implemented yet.
+	- Added iCelPropertyClassList::FindByInterface() to return the
+	  property class implementing some interface. Also added
+	  CEL_QUERY_PROPCLASS which is a define to make this easier.
+	- Changing of property values is now properly restricted by
+	  the parent inventory and the new values are also propagated
+	  to the inventory.
+	- Inherited characteristics now work. It is possible to modify
+	  the characteristic of the contents (i.e. for the NetHack
+	  Bag of Holding which reduces the weight of all objects inside).
+	- Small optimization on GetInheritedCharProperty(). If factor is very
+	  close to 0 it will not ask characteristics of inventory.
+	- Fixed 'make clean' target.
+	- Completely rewrote the inventory checking system. Now it
+	  may be *slightly* less optimal (but only slightly) but it
+	  is MUCH more robust and easier to understand. It is also completely
+	  safe now. Unless there are bugs in the code there is NO
+	  way to have an inventory with contents that doesn't satisfy
+	  the inventory constraints:
+	      - You are not allowed to change constraints for an
+	        inventory while objects are in the inventory that
+		violate that constraint.
+	      - You are not allowed to add/remove entities to an
+	        inventory if that would violate constraints.
+	      - You are not allowed to change characteristics of
+	        an entity if that would violate constraints of
+		parent inventories.
+	  If I made no bugs the system should be water-tight.
+	- Added a new property class 'pcmeshselect' to the 'pfmesh'
+	  property class factory. With this property class the behaviour
+	  layer will be notified when a mesh is selected. At this
+	  moment this property class works but doesn't send a
+	  message to the BL yet.
+	- Eric Sunshine enabled CVS update notification via the cel-cvs-update
+	  mailing list.
+28-Oct-2001:
+	- Started work on the 'pfmesh' factory. This factory will support
+	  the 'pcmesh' property class so that you can attach a mesh object
+	  with an entity.
+	- 'celtest' now shows an entity that has a mesh attached to it.
+	- Started work on the 'pvinv' factory for inventories. This inventory
+	  supports two property classes: 'pcinventory' and 'pccharacteristics'.
+	  The 'pccharacteristics' is typically used for entities that are
+	  put in the inventory. The entity that has the inventory
+	  property class will use the characteristics to see if the object
+	  fits in the inventory.
+	- Fixed a bug with current constraints not being updated correctly
+	  when entities are removed from the inventory.
+	- Constraints where not cleaned up at destruction time.
+	- Constraints are now also checked when properties change. i.e. it
+	  is impossible to change a property when the entity is in an
+	  inventory and changing that property would cause the inventory
+	  constraints to be invalidated. Not fully implemented yet!
+	  We also still have to define hierarchical constraints (i.e. for
+	  nested inventories).
+	- Philip Wyett created/added MSVC project files for the CEL project.
+27-Oct-2001:
+	- Updated csconfig.mak with entries for linux. Uncomment the
+	  entries suitable for your system.
+	- Changed the executable name for celtest to celtst. Otherwise
+	  it would be the same as the directory name on linux.
+	- Implemented first bl entity in 'bltest'. No functionality yet.
+	- Added definition of iCelMessage.
+	- Added iCelPlLayer::CreateMessage().
+	- Added implementation of iCelMessage to plimp. Unfinished.
+	- Changed iCelBlEntity so that targetted messages to an entity
+	  no longer use iCelMessage but directly pass the information
+	  to the bl entity.
+	- Further work on bltest and celtest. A message is now printed.
+26-Oct-2001:
+	- Added iCelPropertyClassFactory interface. A property class
+	  factory is responsible for creation of property classes. Every
+	  factory will handle a number of property class types.
+	- Extended iCelPlLayer with a number of methods to register and
+	  query property class factories.
+	- Added include/pf dir which will contain public SCF interfaces
+	  for specific property class factories. Added include/pf/test.h
+	  which will be a test interface for our test property class
+	  factory.
+	- Added 'pf/test' dir which will contain the implementation of the
+	  'test' factory. This resuls in the third plugin.
+	- Added temporary code to celtest so the plugins of CEL are registered.
+	  In the (near) future we will define a better solution for this
+	  problem on the CS side (removal of scf.cfg).
+	- 'celtest' now loads the three CEL plugins (plimp, bltest, and
+	  pftest) and uses them. It all seems to work nicely but there is
+	  no real functionality yet.
+	- Added 'name' parameter to iCelBlLayer::CreateBlEntity().
+	- Started adding support for 'printer' behaviour entity in 'bltest'.
+24-Oct-2001:
+	- Added the very first code for CEL. Today I added:
+	    - The include files for PL and BL. These are SCF interfaces.
+	    - The start of PLIMP which is the implementation of the PL.
+	    - The start of CELTEST which is a test application for CEL.
+	  The test application works (i.e. it opens a CS window) but other
+	  than that there is nothing functional yet.
+	- Fixed a bug in factory definition of 'plimp'.
+	- Started work on 'bltest'.

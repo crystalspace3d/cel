@@ -1,0 +1,6 @@
+SubDir TOP celtest ;
+
+Application celtst
+	: celtest.cpp
+;
+

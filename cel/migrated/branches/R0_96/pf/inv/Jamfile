@@ -1,0 +1,6 @@
+SubDir TOP pf inv ;
+
+Plugin pfinv
+	: invfact.cpp ../common/stdpcimp.cpp
+;
+

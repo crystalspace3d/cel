@@ -1,0 +1,9 @@
+To compile PLIMP, CELTEST, and the other plugins you first must run
+'make csconfig' from the Crystal Space dir and copy the cs-config script to
+this dir. Then type 'make'. You can make depend first if you like.
+
+Microsoft Visual C++ users need to open "cel.dsw" then make sure the
+have set both paths to the CS include and lib files. For more info
+see the HOWTO into the Crystal Space docs "Creating an External
+MSVC Application". After completing this, set each of the projects as
+the active one and compile.

@@ -1,0 +1,194 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "blpython"=.\msvc\blpython.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "bltest"=.\msvc\bltest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "celtest"=.\msvc\celtest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name blpython
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name bltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfmesh
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pftools
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plimp
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "cpersist"=.\msvc\cpersist.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfengine"=.\msvc\pfengine.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfinput"=.\msvc\pfinput.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfinv"=.\msvc\pfinv.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfmesh"=.\msvc\pfmesh.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pfmove"=.\msvc\pfmove.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pftest"=.\msvc\pftest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pftools"=.\msvc\pftools.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plimp"=.\msvc\plimp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.00"
+	Name="pfinv"
+	SccProjectName=""
+	SccLocalPath="">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\release\temp\pfinv"
+			IntermediateDirectory=".\release\temp\pfinv"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\include,..\"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\release\temp\pfinv/pfinv.pch"
+				AssemblerListingLocation=".\release\temp\pfinv/"
+				ObjectFile=".\release\temp\pfinv/"
+				ProgramDataBaseFileName=".\release\temp\pfinv/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="libcssys.lib libcsutil.lib libcstool.lib odbc32.lib odbccp32.lib"
+				OutputFile=".\release\temp\pfinv/pfinv.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames="LIBCMTD"
+				ProgramDatabaseFile=".\release\temp\pfinv/pfinv.pdb"
+				ImportLibrary=".\release\temp\pfinv/pfinv.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\release\temp\pfinv/pfinv.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\debug\temp\pfinv"
+			IntermediateDirectory=".\debug\temp\pfinv"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
+				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\debug\temp\pfinv/pfinv.pch"
+				AssemblerListingLocation=".\debug\temp\pfinv/"
+				ObjectFile=".\debug\temp\pfinv/"
+				ProgramDataBaseFileName=".\debug\temp\pfinv/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="libcssys_d.lib libcsutil_d.lib libcstool_d.lib odbc32.lib odbccp32.lib"
+				OutputFile=".\debug\temp\pfinv/pfinv.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\pfinv/pfinv.pdb"
+				ImportLibrary=".\debug\temp\pfinv/pfinv.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\debug\temp\pfinv/pfinv.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\pf\inv\invfact.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\pf\inv\invfact.cpp">
+			</File>
+			<File
+				RelativePath="..\pf\common\stdpcimp.cpp">
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
