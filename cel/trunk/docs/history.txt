@@ -26,6 +26,19 @@ The history order is reversed so that new features are at the top.
 	  to implement those too.
 	- Jorrit fixed the python behaviour layer for the latest move of
 	  the billboard manager from 'managers' to 'tools'.
+	- Jorrit optimized handling of properties in the XML behaviour layer
+	  by storing the iPcProperties pointer in the behaviour where the
+	  script can get it.
+	- Jorrit implemented a new 'var' command in the XML behaviour layer.
+	- Jorrit implemented a new 'getpropclass' command in the XML behaviour
+	  layer.
+	- Jorrit implemented a new 'print' command in the XML behaviour
+	  layer.
+	- Jorrit implemented a new 'if' command in the XML behaviour layer.
+	- Jorrit fixed a bug in the iCelPlLayer->FindEntity(). It would crash
+	  if there were entities without a name.
+	- Jorrit implemented a new 'testcollide' command in the XML behaviour
+	  layer.
 25-Nov-2003
 	- Jorrit fixed the billboard manager so that it will now ignore
 	  clicks on transparent parts of the objects.

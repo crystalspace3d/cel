@@ -29,12 +29,20 @@
 #include "csutil/strhash.h"
 
 struct iCelEntity;
+struct iCelPlLayer;
 struct iCelPropertyClass;
+class celBehaviourXml;
+class celXmlScriptEventHandler;
 
 #define CEL_OPERATION_END 0
 #define CEL_OPERATION_PROPERTY 1	// Args: PC, ID, ?
-#define CEL_OPERATION_GETPROPERTY 2	// Args: PC, S, PC, ID
+#define CEL_OPERATION_GETPROPERTY 2	// Args: S, PC, ID
 #define CEL_OPERATION_ACTION 3		// Args: PC, ID, S
+#define CEL_OPERATION_VAR 4		// Args: S, ?
+#define CEL_OPERATION_GETPROPCLASS 5	// Args: S, S S
+#define CEL_OPERATION_PRINT 6		// Args: S
+#define CEL_OPERATION_IF 7		// Args: S, E, E
+#define CEL_OPERATION_TESTCOLLIDE 8	// Args: S, E, E
 
 #define CEL_TYPE_NONE 0
 #define CEL_TYPE_UINT32 1
@@ -45,6 +53,7 @@ struct iCelPropertyClass;
 #define CEL_TYPE_PC 6
 #define CEL_TYPE_ID 7
 #define CEL_TYPE_ARGLIST 8
+#define CEL_TYPE_EVENTHANDLER 9
 
 // A property class parameter resolver.
 struct celXmlPCResolver
@@ -71,6 +80,7 @@ struct celXmlArg
     int pc;
     csStringID id;
     celXmlArgList* a;
+    celXmlScriptEventHandler* h;
   } arg;
   celXmlArg () : type (CEL_TYPE_NONE) { }
   celXmlArg (const celXmlArg& other);
@@ -122,6 +132,12 @@ struct celXmlArg
     type = CEL_TYPE_ID;
     arg.id = id;
   }
+  void SetEventHandler (celXmlScriptEventHandler* h)
+  {
+    Cleanup ();
+    type = CEL_TYPE_EVENTHANDLER;
+    arg.h = h;
+  }
   void SetArgList ();
 };
 
@@ -147,9 +163,10 @@ private:
   const char* name;
   csArray<celXmlPCResolver> resolvers;
   csArray<celXmlOperation> operations;
+  iCelPlLayer* pl;
 
 public:
-  celXmlScriptEventHandler ();
+  celXmlScriptEventHandler (iCelPlLayer* pl);
   ~celXmlScriptEventHandler ();
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
@@ -163,7 +180,7 @@ public:
   // Add argument to last operation.
   celXmlArg& AddArgument ();
 
-  void Execute (iCelEntity* entity);
+  void Execute (iCelEntity* entity, celBehaviourXml* behave);
 };
 
 /**
@@ -176,14 +193,16 @@ private:
   csPDelArray<celXmlScriptEventHandler> event_handlers;
   csHash<celXmlScriptEventHandler*,csStrKey,
   	csConstCharHashKeyHandler> event_handlers_hash;
+  iCelPlLayer* pl;
 
 public:
-  celXmlScript ();
+  celXmlScript (iCelPlLayer* pl);
   ~celXmlScript ();
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
 
+  celXmlScriptEventHandler* FindOrCreateEventHandler (const char* name);
   celXmlScriptEventHandler* CreateEventHandler (const char* name);
   celXmlScriptEventHandler* GetEventHandler (const char* name);
 };

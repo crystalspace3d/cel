@@ -34,6 +34,7 @@
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
+#include "propclass/prop.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 
@@ -51,6 +52,16 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   celBehaviourXml::object_reg = object_reg;
   name = 0;
   script = 0;
+}
+
+iPcProperties* celBehaviourXml::GetProperties ()
+{
+  if (!props)
+  {
+    props = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    	iPcProperties);
+  }
+  return props;
 }
 
 celBehaviourXml::~celBehaviourXml ()
@@ -75,7 +86,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
   {
     printf ("Found handler for '%s'\n", msg_id);
     h->ResolveParameters (entity);
-    h->Execute (entity);
+    h->Execute (entity, this);
     fflush (stdout);
   }
   return h != 0;

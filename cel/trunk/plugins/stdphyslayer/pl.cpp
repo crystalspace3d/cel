@@ -120,8 +120,9 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
   int i;
   for (i = 0 ; i < entities.Length () ; i++)
   {
-    if (!strcmp (name, entities[i]->GetName ()))
-      return entities[i];
+    if (entities[i]->GetName ())
+      if (!strcmp (name, entities[i]->GetName ()))
+        return entities[i];
   }
   return 0;
 }

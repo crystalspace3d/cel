@@ -53,7 +53,8 @@ enum
   XMLTOKEN_VAR,
   XMLTOKEN_GETPROPCLASS,
   XMLTOKEN_TESTCOLLIDE,
-  XMLTOKEN_IF
+  XMLTOKEN_IF,
+  XMLTOKEN_PRINT
 };
 
 celBlXml::celBlXml (iBase* parent)
@@ -87,6 +88,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("getpropclass", XMLTOKEN_GETPROPCLASS);
   xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
   xmltokens.Register ("if", XMLTOKEN_IF);
+  xmltokens.Register ("print", XMLTOKEN_PRINT);
 
   return true;
 }
@@ -121,8 +123,62 @@ csStringID celBlXml::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
+const char* celBlXml::GetAttributeString (iDocumentNode* child,
+	const char* attrname, const char* parentname)
+{
+  const char* value = child->GetAttributeValue (attrname);
+  if (!value && parentname)
+  {
+    synldr->ReportError (
+	"cel.behaviour.xml", child,
+	"'%s' attribute is missing for <%s>!",
+	attrname, parentname);
+    return 0;
+  }
+  return value;
+}
+
+bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
+{
+  csRef<iDocumentAttribute> attr;
+  attr = child->GetAttribute ("float");
+  if (attr)
+  {
+    h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
+  }
+  else
+  {
+    attr = child->GetAttribute ("string");
+    if (attr)
+    {
+      h->AddArgument ().SetString (attr->GetValue ());
+    }
+    else
+    {
+      attr = child->GetAttribute ("bool");
+      if (attr)
+      {
+        h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
+      }
+      else
+      {
+        attr = child->GetAttribute ("long");
+        if (attr)
+        {
+          h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
+        }
+	else
+	{
+	  return false;
+	}
+      }
+    }
+  }
+  return true;
+}
+
 bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
-	iDocumentNode* node)
+	iDocumentNode* node, celXmlScript* script)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -134,16 +190,78 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     switch (id)
     {
       case XMLTOKEN_VAR:
-        // @@@ TODO
-        break;
+        {
+	  const char* varname = GetAttributeString (child, "name", "var");
+	  if (!varname) return false;
+
+	  h->AddOperation (CEL_OPERATION_VAR);
+	  h->AddArgument ().SetString (varname);
+	  if (!ParseValueArg (child, h))
+	  {
+            synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"Value is missing for <var>!");
+	    return false;
+	  }
+	}
+	break;
       case XMLTOKEN_GETPROPCLASS:
-        // @@@ TODO
+        {
+	  const char* varname = GetAttributeString (child, "var",
+	  	"getpropclass");
+	  if (!varname) return false;
+	  const char* entityname = GetAttributeString (child, "entity",
+	  	"getpropclass");
+	  if (!entityname) return false;
+	  const char* pclassname = GetAttributeString (child, "propclass",
+	  	"getpropclass");
+	  if (!pclassname) return false;
+	  h->AddOperation (CEL_OPERATION_GETPROPCLASS);
+	  h->AddArgument ().SetString (varname);
+	  h->AddArgument ().SetString (entityname);
+	  h->AddArgument ().SetString (pclassname);
+	}
         break;
       case XMLTOKEN_TESTCOLLIDE:
-        // @@@ TODO
+        {
+	  const char* varname = GetAttributeString (child, "var",
+	  	"testcollide");
+	  if (!varname) return false;
+	  const char* truename = GetAttributeString (child, "true", 0);
+          celXmlScriptEventHandler* truehandler = truename
+	  	? script->FindOrCreateEventHandler (truename)
+		: 0;
+	  const char* falsename = GetAttributeString (child, "false", 0);
+          celXmlScriptEventHandler* falsehandler = falsename
+	  	? script->FindOrCreateEventHandler (falsename)
+		: 0;
+	  h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
+	  h->AddArgument ().SetString (varname);
+	  h->AddArgument ().SetEventHandler (truehandler);
+	  h->AddArgument ().SetEventHandler (falsehandler);
+	}
         break;
       case XMLTOKEN_IF:
-        // @@@ TODO
+        {
+	  const char* varname = GetAttributeString (child, "var", "if");
+	  if (!varname) return false;
+	  const char* truename = GetAttributeString (child, "true", 0);
+          celXmlScriptEventHandler* truehandler = truename
+	  	? script->FindOrCreateEventHandler (truename)
+		: 0;
+	  const char* falsename = GetAttributeString (child, "false", 0);
+          celXmlScriptEventHandler* falsehandler = falsename
+	  	? script->FindOrCreateEventHandler (falsename)
+		: 0;
+	  h->AddOperation (CEL_OPERATION_IF);
+	  h->AddArgument ().SetString (varname);
+	  h->AddArgument ().SetEventHandler (truehandler);
+	  h->AddArgument ().SetEventHandler (falsehandler);
+	}
+        break;
+      case XMLTOKEN_PRINT:
+        h->AddOperation (CEL_OPERATION_PRINT);
+	h->AddArgument ().SetString (child->GetContentsValue ());
         break;
       case XMLTOKEN_GETPROPERTY:
 	{
@@ -151,16 +269,10 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (!pcname) return false;
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
 	  if (propid == csInvalidStringID) return false;
-	  const char* varname = child->GetAttributeValue ("var");
-	  if (!varname)
-	  {
-            synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"'var' attribute is missing!");
-	    return false;
-	  }
+	  const char* varname = GetAttributeString (child, "var",
+	  	"getproperty");
+	  if (!varname) return false;
 	  h->AddOperation (CEL_OPERATION_GETPROPERTY);
-	  h->AddArgument ().SetPC (h->GetResolver ("pcproperties"));
 	  h->AddArgument ().SetString (varname);
 	  h->AddArgument ().SetPC (h->GetResolver (pcname));
 	  h->AddArgument ().SetID (propid);
@@ -176,36 +288,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (CEL_OPERATION_PROPERTY);
 	  h->AddArgument ().SetPC (h->GetResolver (pcname));
 	  h->AddArgument ().SetID (propid);
-
-	  csRef<iDocumentAttribute> attr;
-	  attr = child->GetAttribute ("float");
-	  if (attr)
+	  if (!ParseValueArg (child, h))
 	  {
-	    h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
-	  }
-	  else
-	  {
-	    attr = child->GetAttribute ("string");
-	    if (attr)
-	    {
-	      h->AddArgument ().SetString (attr->GetValue ());
-	    }
-	    else
-	    {
-	      attr = child->GetAttribute ("bool");
-	      if (attr)
-	      {
-	        h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
-	      }
-	      else
-	      {
-	        attr = child->GetAttribute ("long");
-	        if (attr)
-	        {
-	          h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
-	        }
-	      }
-	    }
+            synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"Value is missing for <property>!");
+	    return false;
 	  }
 	}
 	break;
@@ -228,13 +316,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	return false;
     }
   }
+  h->AddOperation (CEL_OPERATION_END);
   return true;
 }
 
 bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node)
 {
-  celXmlScript* script = new celXmlScript ();
+  celXmlScript* script = new celXmlScript (pl);
   script->SetName (name);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -255,8 +344,9 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
 		name);
         return false;
       }
-      celXmlScriptEventHandler* h = script->CreateEventHandler (eventname);
-      if (!ParseEventHandler (h, child))
+      celXmlScriptEventHandler* h = script->FindOrCreateEventHandler (
+      	eventname);
+      if (!ParseEventHandler (h, child, script))
       {
         delete script;
 	return false;
