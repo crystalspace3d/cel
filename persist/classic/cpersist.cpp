@@ -215,7 +215,6 @@ void celPersistClassicContext::ClearTempRefs()
   for (int i = 0; i < temprefs.Length(); i++)
   {
     iCelEntity* entity = (iCelEntity*) temprefs[i];
-    printf ("Clearing: '%s'\n", entity->GetName());
     entity->DecRef();
   }
   temprefs.DeleteAll (false);
@@ -225,7 +224,6 @@ void celPersistClassicContext::RemoveEntity (iCelEntity* entity)
 {
   // the real entitiy dies, so we have to remove the ref from our mapping
   // tables
-  printf ("Remove Callback!\n");
   CS_ID serverid = GetMappedID(entity);
   if (serverid == 0)
     return;
@@ -284,7 +282,6 @@ iCelEntity* celPersistClassicContext::LoadEntity()
   ent->IncRef();
   if (performmapping)
   {
-    printf ("ClearRefs!\n");
     ClearTempRefs();
   }
 
@@ -830,8 +827,10 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
   pclasses.Add (pc);
   if (!WriteMarker ("PCLI")) return false;
   iCelEntity* pc_ent = pc->GetEntity ();
+#if 0
   printf ("%s - %p\n", pc->GetName(), pc_ent);
   printf (" %s\n", pc_ent->GetName());
+#endif
   // First write entity ID, then property class name.
   if (!WriteID (pc_ent)) return false;
   if (!Write (pc->GetName ())) return false;
