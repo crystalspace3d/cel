@@ -32,6 +32,7 @@
 
 struct iObjectRegistry;
 struct iCelEntity;
+struct iCelParameterBlock;
 struct iSyntaxService;
 struct iCelPlLayer;
 class celXmlScript;
@@ -42,6 +43,11 @@ class celXmlScriptEventHandler;
  */
 class celBlXml : public iCelBlLayer, public iCelBlLayerGenerate
 {
+public:
+  // This is the call stack: useful for debugging.
+  csArray<const char*> call_stack;
+  csArray<iCelParameterBlock*> call_stack_params;
+
 private:
   iObjectRegistry* object_reg;
   csRef<iSyntaxService> synldr;

@@ -35,6 +35,7 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/prop.h"
+#include "plugins/behaviourlayer/xml/blxml.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 
@@ -92,7 +93,12 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
   {
+    celBlXml* cbl = (celBlXml*)bl;
+    cbl->call_stack.Push (msg_id);
+    cbl->call_stack_params.Push (params);
     h->Execute (entity, this, params);
+    cbl->call_stack_params.Pop ();
+    cbl->call_stack.Pop ();
   }
   else
   {
@@ -103,7 +109,12 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
       h = superscript->GetEventHandler (msg_id);
       if (h)
       {
+        celBlXml* cbl = (celBlXml*)bl;
+        cbl->call_stack.Push (msg_id);
+	cbl->call_stack_params.Push (params);
 	h->Execute (entity, this, params);
+        cbl->call_stack_params.Pop ();
+	cbl->call_stack.Pop ();
 	break;
       }
       else

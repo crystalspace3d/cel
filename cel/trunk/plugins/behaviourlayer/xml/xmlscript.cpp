@@ -31,6 +31,7 @@
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
+#include "plugins/behaviourlayer/xml/blxml.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/pl.h"
@@ -528,6 +529,8 @@ static int GetCalculationType (const celXmlArg& a, const celXmlArg& b)
 bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
 	const char* msg, ...)
 {
+  DumpVariables (behave);
+  DumpCallStack (behave);
   va_list arg;
   va_start (arg, msg);
   csReportV (behave->GetObjectRegistry (), CS_REPORTER_SEVERITY_ERROR,
@@ -536,6 +539,7 @@ bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
   return false;
 }
 
+// @@@ BAD!!!
 csRef<iSoundSource> sound_source;
 
 bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
@@ -597,6 +601,180 @@ bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
   return true;
 }
 
+static const char* D2S (const celData& a)
+{
+  switch (a.type)
+  {
+    case CEL_DATA_LONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{int32:%d}", a.value.l);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ULONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{uint32:%u}", a.value.ul);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_FLOAT:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{float:%g}", a.value.f);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_BOOL:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{bool:%s}", a.value.bo ? "true" : "false");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_STRING:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{str:%s}", (const char*)(*a.value.s));
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR2:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{vec:[%g,%g]}", a.value.v.x, a.value.v.y);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR3:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{vec:[%g,%g,%g]}", a.value.v.x, a.value.v.y, a.value.v.z);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_COLOR:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{rgb:(%g,%g,%g)}", a.value.col.red, a.value.col.green,
+      	  a.value.col.blue);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_PCLASS:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{pc:%08lx}", (long)a.value.pc);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{ent:%s}", a.value.ent ? a.value.ent->GetName ()
+		: "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
+    default:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{unknown}");
+	used_strings.Push (str);
+        return *str;
+      }
+  }
+}
+
+void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
+{
+  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
+  int i;
+  printf ("### Callstack ###\n");
+  for (i = 0 ; i < cbl->call_stack.Length () ; i++)
+  {
+    printf ("%d %s\n", i, cbl->call_stack[i]);
+    if (cbl->call_stack_params[i])
+    {
+      int j;
+      iCelParameterBlock* p = cbl->call_stack_params[i];
+      for (j = 0 ; j < p->GetParameterCount () ; j++)
+      {
+        csStringID id;
+        celDataType t;
+	const char* parm;
+	parm = p->GetParameter (j, id, t);
+	const char* idstr = pl->FetchString (id);
+	const celData* param = p->GetParameter (id);
+        printf ("  par:%d name=%s id=%s val=%s\n", j, parm, idstr, D2S (*param));
+      }
+    }
+  }
+  fflush (stdout);
+}
+
+void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
+{
+  int i;
+  printf ("### Variables ###\n");
+  iPcProperties* props = behave->GetProperties ();
+  CS_ASSERT (props != 0);
+  for (i = 0 ; i < props->GetPropertyCount () ; i++)
+  {
+    printf ("%d %s ", i, props->GetPropertyName (i));
+    switch (props->GetPropertyType (i))
+    {
+      case CEL_DATA_LONG:
+        printf ("val={int32:%ld}\n", props->GetPropertyLong (i));
+	break;
+      case CEL_DATA_FLOAT:
+        printf ("val={float:%g}\n", props->GetPropertyFloat (i));
+	break;
+      case CEL_DATA_BOOL:
+        printf ("val={bool:%s}\n", props->GetPropertyBool (i) ? "true" : "false");
+	break;
+      case CEL_DATA_STRING:
+        printf ("val={str:%s}\n", props->GetPropertyString (i));
+	break;
+      case CEL_DATA_VECTOR2:
+        {
+	  csVector2 v;
+	  props->GetPropertyVector (i, v);
+          printf ("val={vec:[%g,%g]}\n", v.x, v.y);
+	}
+	break;
+      case CEL_DATA_VECTOR3:
+        {
+	  csVector3 v;
+	  props->GetPropertyVector (i, v);
+          printf ("val={vec:[%g,%g,%g]}\n", v.x, v.y, v.z);
+	}
+	break;
+      case CEL_DATA_COLOR:
+        {
+	  csColor v;
+	  props->GetPropertyColor (i, v);
+          printf ("val={rgb:[%g,%g,%g]}\n", v.red, v.green, v.blue);
+	}
+	break;
+      case CEL_DATA_PCLASS:
+        printf ("val={pc:%08lx}\n", (long)props->GetPropertyPClass (i));
+	break;
+      case CEL_DATA_ENTITY:
+        printf ("val={ent:%s}\n",
+		props->GetPropertyEntity (i)
+			? props->GetPropertyEntity (i)->GetName ()
+			: "<null>");
+	break;
+      default:
+        printf ("val={unknown}\n");
+	break;
+    }
+  }
+  fflush (stdout);
+}
+
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
   if (stack.Length () < i) \
@@ -634,6 +812,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  return ReportError (behave, "Stack size mismatch!");
 	}
         return true;
+      case CEL_OPERATION_CALLSTACK:
+	DumpCallStack (behave);
+        break;
+      case CEL_OPERATION_VARIABLES:
+	DumpVariables (behave);
+        break;
       case CEL_OPERATION_PARAM:
         {
 	  CHECK_STACK(1)

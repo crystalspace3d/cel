@@ -58,6 +58,8 @@ class celGenericParameterBlock;
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
+  CEL_OPERATION_CALLSTACK,	// A:-		S:-		OS:-
+  CEL_OPERATION_VARIABLES,	// A:-		S:-		OS:-
   CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
   CEL_OPERATION_GETPROPERTY,	// A:-		S:PC,ID		OS:?
   CEL_OPERATION_GETPROPERTY1,	// A:-		S:ID		OS:?
@@ -317,6 +319,8 @@ private:
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);
+  void DumpCallStack (celBehaviourXml* behave);
+  void DumpVariables (celBehaviourXml* behave);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);

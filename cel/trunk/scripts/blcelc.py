@@ -672,6 +672,7 @@ class csMatrix3(_object):
     def Col2(*args): return apply(_blcelc.csMatrix3_Col2,args)
     def Col3(*args): return apply(_blcelc.csMatrix3_Col3,args)
     def Set(*args): return apply(_blcelc.csMatrix3_Set,args)
+    def assign(*args): return apply(_blcelc.csMatrix3_assign,args)
     def __iadd__(*args): return apply(_blcelc.csMatrix3___iadd__,args)
     def __isub__(*args): return apply(_blcelc.csMatrix3___isub__,args)
     def __idiv__(*args): return apply(_blcelc.csMatrix3___idiv__,args)
@@ -2285,6 +2286,8 @@ class csInitializer(_object):
     if _newclass:CreateConfigManager = staticmethod(_blcelc.csInitializer_CreateConfigManager)
     __swig_getmethods__["CreateInputDrivers"] = lambda x: _blcelc.csInitializer_CreateInputDrivers
     if _newclass:CreateInputDrivers = staticmethod(_blcelc.csInitializer_CreateInputDrivers)
+    __swig_getmethods__["CreateStringSet"] = lambda x: _blcelc.csInitializer_CreateStringSet
+    if _newclass:CreateStringSet = staticmethod(_blcelc.csInitializer_CreateStringSet)
     __swig_getmethods__["SetupConfigManager"] = lambda x: _blcelc.csInitializer_SetupConfigManager
     if _newclass:SetupConfigManager = staticmethod(_blcelc.csInitializer_SetupConfigManager)
     __swig_getmethods__["SetupVFS"] = lambda x: _blcelc.csInitializer_SetupVFS
@@ -2332,6 +2335,8 @@ csInitializer_CreateCommandLineParser = _blcelc.csInitializer_CreateCommandLineP
 csInitializer_CreateConfigManager = _blcelc.csInitializer_CreateConfigManager
 
 csInitializer_CreateInputDrivers = _blcelc.csInitializer_CreateInputDrivers
+
+csInitializer_CreateStringSet = _blcelc.csInitializer_CreateStringSet
 
 csInitializer_SetupConfigManager = _blcelc.csInitializer_SetupConfigManager
 
@@ -5336,6 +5341,7 @@ class iSpriteCal3DState(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSpriteCal3DState, name)
     C3D_ANIM_TYPE_NONE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_NONE
+    C3D_ANIM_TYPE_IDLE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_IDLE
     C3D_ANIM_TYPE_TRAVEL = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_TRAVEL
     C3D_ANIM_TYPE_CYCLE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_CYCLE
     C3D_ANIM_TYPE_STYLE_CYCLE = _blcelc.iSpriteCal3DState_C3D_ANIM_TYPE_STYLE_CYCLE
@@ -7866,6 +7872,9 @@ class csGraphics3DCaps(_object):
     __swig_setmethods__["MaxAspectRatio"] = _blcelc.csGraphics3DCaps_MaxAspectRatio_set
     __swig_getmethods__["MaxAspectRatio"] = _blcelc.csGraphics3DCaps_MaxAspectRatio_get
     if _newclass:MaxAspectRatio = property(_blcelc.csGraphics3DCaps_MaxAspectRatio_get,_blcelc.csGraphics3DCaps_MaxAspectRatio_set)
+    __swig_setmethods__["SupportsPointSprites"] = _blcelc.csGraphics3DCaps_SupportsPointSprites_set
+    __swig_getmethods__["SupportsPointSprites"] = _blcelc.csGraphics3DCaps_SupportsPointSprites_get
+    if _newclass:SupportsPointSprites = property(_blcelc.csGraphics3DCaps_SupportsPointSprites_get,_blcelc.csGraphics3DCaps_SupportsPointSprites_set)
     def __init__(self,*args):
         _swig_setattr(self, csGraphics3DCaps, 'this', apply(_blcelc.new_csGraphics3DCaps,args))
         _swig_setattr(self, csGraphics3DCaps, 'thisown', 1)

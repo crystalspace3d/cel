@@ -1215,6 +1215,7 @@
 	      -->
 	    <event name="clearblock_nocheck">
 		<var name="mazepos" value="@x+'_'+@y" />
+<print value="'clearblock_nocheck get mazeent at '+?mazepos"/>
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent==''"> <stop /> </if>
 		<if eval="?(?ent).moving">
@@ -1261,6 +1262,7 @@
 	    	<var name="x" value="@x" />
 	    	<var name="y" value="@y" />
 	    	<var name="blocktype" value="@blocktype" />
+<print value="'createblock '+?x+' '+?y+' '+?blocktype"/>
 	    	<var name="mazepos" value="@x+'_'+@y" />
 	        <var name="maze+?mazepos" value="@blocktype" />
 		<call event="initblock" />
@@ -1337,6 +1339,7 @@
 		<var name="cfx" value="@x" />
 		<var name="cfy" value="@y" />
 	    	<var name="mazepos" value="?cfx+'_'+(?cfy-1)" />
+<print value="'checkfall1 get mazeent at '+?mazepos"/>
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
 		    <true>
@@ -1349,6 +1352,7 @@
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
 	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy-1)" />
+<print value="'checkfall2 get mazeent at '+?mazepos"/>
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
 	    	            <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
@@ -1362,6 +1366,7 @@
 		            </if>
 		        </if>
 	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy-1)" />
+<print value="'checkfall3 get mazeent at '+?mazepos"/>
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
 	    	            <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
@@ -1377,6 +1382,7 @@
 		    </false>
 		</if>
 	    	<var name="mazepos" value="?cfx+'_'+(?cfy+1)" />
+<print value="'checkfall4 get mazeent at '+?mazepos"/>
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent == ''">
 	    	    <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
@@ -1393,6 +1399,7 @@
 		        </if>
 		    </if>
 	    	    <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
+<print value="'checkfall5 get mazeent at '+?mazepos"/>
 		    <var name="ent" value="?(mazeent+?mazepos)" />
 		    <if eval="?ent != ''">
 	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy+1)" />
@@ -1418,6 +1425,7 @@
 	    	<var name="x" value="@x" />
 	    	<var name="y" value="@y" />
 	    	<var name="mazepos" value="?x+'_'+?y" />
+<print value="'ifempty_checkfall1 get mazeent at '+?mazepos"/>
 		<if eval="?(mazeent+?mazepos) == ''">
 		    <call event="checkfall">
 		        <par id="parid(x)" value="?x" />
@@ -1427,6 +1435,7 @@
 		<var name="below_block" value="?(maze+?mazepos)" />
 		<if eval="?(falloff_+?below_block)">
 	    	    <var name="mazepos" value="(?x-1)+'_'+?y" />
+<print value="'ifempty_checkfall2 get mazeent at '+?mazepos"/>
 		    <if eval="?(mazeent+?mazepos) == ''">
 		    	<var name="x" value="(?x-1)" />
 		        <call event="checkfall">
@@ -1436,6 +1445,7 @@
 			<stop />
 	    	    </if>
 	    	    <var name="mazepos" value="(?x+1)+'_'+?y" />
+<print value="'ifempty_checkfall3 get mazeent at '+?mazepos"/>
 		    <if eval="?(mazeent+?mazepos) == ''">
 		    	<var name="x" value="(?x+1)" />
 		        <call event="checkfall">
@@ -1587,6 +1597,7 @@
 	    <event name="checkmove_O">
 	    </event>
 	    <event name="checkmove_X">
+<print value="'checkmove_X get mazeent at '+?mazepos"/>
 		<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
 		<sound name="bloop" loop="false" />
 		<call event="clearblock_nocheck" />
@@ -1785,6 +1796,7 @@
 	    </event>
 
 	    <event name="endmove">
+<print value="'endmove get mazeent at '+?x+' '+(?y+1)"/>
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
 		    <sound name="explosion" loop="false" />
 
@@ -1799,6 +1811,7 @@
 			<par id="parid(y)" value="?oldy" />
 		    </call>
 
+<!--
 		    <call event="explodeblock">
 			<par id="parid(blocktype)" value="'exp_l'" />
 			<par id="parid(x)" value="?x-1" />
@@ -1839,6 +1852,7 @@
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y-1" />
 		    </call>
+-->
 		    <call entity="bdash_main" event="clearblock_nocheck">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
