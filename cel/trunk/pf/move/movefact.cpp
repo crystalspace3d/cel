@@ -27,6 +27,7 @@
 #include "pl/entity.h"
 #include "pl/datatype.h"
 #include "pl/persist.h"
+#include "pl/databhlp.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -633,31 +634,31 @@ iCelDataBuffer* celPcGravity::Save ()
   iCelDataBuffer* databuf = pl->CreateDataBuffer (GRAVITY2_SERIAL);
   pl->DecRef ();
   databuf->SetDataCount (8+forces.Length ()*2);
+  celDataBufHelper db(databuf);
 
-  int j = 0;
   iCelPropertyClass* pc;
   if (pcmovable) pc = SCF_QUERY_INTERFACE_FAST (pcmovable, iCelPropertyClass);
   else pc = NULL;
-  databuf->GetData (j++)->Set (pc);
+  db.Set(pc);
   if (pc) pc->DecRef ();
   if (pcsolid) pc = SCF_QUERY_INTERFACE_FAST (pcsolid, iCelPropertyClass);
   else pc = NULL;
-  databuf->GetData (j++)->Set (pc);
+  db.Set (pc);
   if (pc) pc->DecRef ();
 
-  databuf->GetData (j++)->Set (weight);
-  databuf->GetData (j++)->Set (current_speed);
-  databuf->GetData (j++)->Set (infinite_forces);
-  databuf->GetData (j++)->Set (is_resting);
-  databuf->GetData (j++)->Set (active);
+  db.Set (weight);
+  db.Set (current_speed);
+  db.Set (infinite_forces);
+  db.Set (is_resting);
+  db.Set (active);
 
-  databuf->GetData (j++)->Set ((uint16)forces.Length ());
+  db.Set ((uint16)forces.Length ());
   int i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce* f = (celForce*)forces[i];
-    databuf->GetData (j++)->Set (f->force);
-    databuf->GetData (j++)->Set (f->time_remaining);
+    db.Set (f->force);
+    db.Set (f->time_remaining);
   }
   
   return databuf;
@@ -667,50 +668,44 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != GRAVITY2_SERIAL) return false;
-  celData* cd;
+  celDataBufHelper db(databuf);
+  iCelPropertyClass* pc;
 
-  int j = 0;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  db.Get(pc);
   iPcMovable* pcm = NULL;
-  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMovable);
+  if (pc) pcm = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
   SetMovable (pcm);
   if (pcm) pcm->DecRef ();
 
-  cd = databuf->GetData (j++); if (!cd) return false;
+  db.Get(pc);
   iPcSolid* pcs = NULL;
-  if (cd->value.pc) pcs = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcSolid);
+  if (pc) pcs = SCF_QUERY_INTERFACE_FAST (pc, iPcSolid);
   SetSolid (pcs);
   if (pcs) pcs->DecRef ();
 
-  cd = databuf->GetData (j++); if (!cd) return false;
-  weight = cd->value.f;
+  if (!db.AllOk())
+    return false;
 
-  cd = databuf->GetData (j++); if (!cd) return false;
-  current_speed.x = cd->value.v.x;
-  current_speed.y = cd->value.v.y;
-  current_speed.z = cd->value.v.z;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  infinite_forces.x = cd->value.v.x;
-  infinite_forces.y = cd->value.v.y;
-  infinite_forces.z = cd->value.v.z;
+  db.Get(weight);
+  db.Get(current_speed);
+  db.Get(infinite_forces);
+  db.Get(is_resting);
+  db.Get(active);
 
-  cd = databuf->GetData (j++); if (!cd) return false;
-  is_resting = cd->value.bo;
-  active = cd->value.bo;
+  if (!db.AllOk())
+    return false;
 
-  cd = databuf->GetData (j++); if (!cd) return false;
-  int num_forces = cd->value.uw;
+  uint16 num_forces;
   int i;
+  db.Get(num_forces);
   for (i = 0 ; i < num_forces ; i++)
   {
     celForce* f = new celForce ();
-    cd = databuf->GetData (j++); if (!cd) return false;
-    f->force.x = cd->value.v.x;
-    f->force.y = cd->value.v.y;
-    f->force.z = cd->value.v.z;
-    cd = databuf->GetData (j++); if (!cd) return false;
-    f->time_remaining = cd->value.f;
+    db.Get(f->force);
+    db.Get(f->time_remaining);
   }
+  if (!db.AllOk())
+    return false;
 
   return true;
 }
@@ -910,8 +905,6 @@ int celPcGravity::TestMove (iCollider* this_collider,
 bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     	iCelEntityList* cd_list, const csVector3& force)
 {
-  int i;
-
   GetMovable ();
   iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
   csReversibleTransform& w2o = movable->GetTransform ();

@@ -1,5 +1,8 @@
 17-Jan-2002:
 	- Matze fixed several bugs/cleaned up/commented in ID registry
+	- introduced celDataBufHelper class to make the Save/Load functions
+	  easier
+	- more fixes, persistance at least doesn't crash anymore now
 15-Jan-2002:
 	- Fixed more of the bugs I introduced and cleaned stuff up alot
 	- persistance is working now, but some property classes seem to be
