@@ -55,6 +55,7 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
     case CEL_TYPE_ID: arg.id = other.arg.id; break;
     case CEL_TYPE_EVENTHANDLER: arg.h = other.arg.h; break;
+    case CEL_TYPE_VECTOR2: arg.vec = other.arg.vec; break;
     case CEL_TYPE_VECTOR3: arg.vec = other.arg.vec; break;
     case CEL_TYPE_COLOR: arg.col = other.arg.col; break;
     case CEL_TYPE_VAR: arg.s = csStrNew (other.arg.s); break;
@@ -303,6 +304,13 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		  case CEL_DATA_STRING:
 		    props->SetProperty (pn, props->GetPropertyString (idx));
 		    break;
+		  case CEL_DATA_VECTOR2:
+		    {
+		      csVector2 v;
+		      props->GetPropertyVector (idx, v);
+		      props->SetProperty (pn, v);
+		    }
+		    break;
 		  case CEL_DATA_VECTOR3:
 		    {
 		      csVector3 v;
@@ -348,6 +356,15 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
                 DUMP_EXEC (": var %s=%g,%g,%g\n", pn, col.red,
 			col.green, col.blue);
 	        props->SetProperty (pn, col);
+	      }
+	      break;
+	    case CEL_TYPE_VECTOR2:
+	      {
+	        csVector2 vec;
+		vec.x = args[1].arg.vec.x;
+		vec.y = args[1].arg.vec.y;
+                DUMP_EXEC (": var %s=%g,%g\n", pn, vec.x, vec.y);
+	        props->SetProperty (pn, vec);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR3:
@@ -404,6 +421,15 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (args[0].arg.s, col);
 	      }
 	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+		pc->GetPropertyVector (id, v);
+	        DUMP_EXEC (": getproperty %s %g,%g\n", args[0].arg.s,
+	      	  v.x, v.y);
+	        props->SetProperty (args[0].arg.s, v);
+	      }
+	      break;
 	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 v;
@@ -448,6 +474,13 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		  case CEL_DATA_STRING:
 		    pc->SetProperty (id, props->GetPropertyString (idx));
 		    break;
+		  case CEL_DATA_VECTOR2:
+		    {
+		      csVector2 v;
+		      props->GetPropertyVector (idx, v);
+		      pc->SetProperty (id, v);
+		    }
+		    break;
 		  case CEL_DATA_VECTOR3:
 		    {
 		      csVector3 v;
@@ -487,6 +520,14 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		col.green = args[2].arg.col.green;
 		col.blue = args[2].arg.col.blue;
 	        pc->SetProperty (id, col);
+	      }
+	      break;
+	    case CEL_TYPE_VECTOR2:
+	      {
+	        csVector2 v;
+		v.x = args[2].arg.vec.x;
+		v.y = args[2].arg.vec.y;
+	        pc->SetProperty (id, v);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR3:

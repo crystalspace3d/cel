@@ -27,6 +27,7 @@
 #include "csutil/hashhandlers.h"
 #include "csutil/hash.h"
 #include "csutil/strhash.h"
+#include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
 
@@ -56,9 +57,10 @@ class celXmlScriptEventHandler;
 #define CEL_TYPE_ID 7
 #define CEL_TYPE_ARGLIST 8
 #define CEL_TYPE_EVENTHANDLER 9
-#define CEL_TYPE_VECTOR3 10
-#define CEL_TYPE_COLOR 11
-#define CEL_TYPE_VAR 12
+#define CEL_TYPE_VECTOR2 10
+#define CEL_TYPE_VECTOR3 11
+#define CEL_TYPE_COLOR 12
+#define CEL_TYPE_VAR 13
 
 // A property class parameter resolver.
 struct celXmlPCResolver
@@ -150,6 +152,13 @@ struct celXmlArg
     Cleanup ();
     type = CEL_TYPE_EVENTHANDLER;
     arg.h = h;
+  }
+  void SetVector (const csVector2& v)
+  {
+    Cleanup ();
+    type = CEL_TYPE_VECTOR2;
+    arg.vec.x = v.x;
+    arg.vec.y = v.y;
   }
   void SetVector (const csVector3& v)
   {

@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scfstr.h"
+#include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
 #include "physicallayer/persist.h"
@@ -40,6 +41,7 @@ enum celDataType
   CEL_DATA_UWORD,
   CEL_DATA_ULONG,
   CEL_DATA_FLOAT,
+  CEL_DATA_VECTOR2,
   CEL_DATA_VECTOR3,
   CEL_DATA_STRING,
   CEL_DATA_PCLASS,
@@ -101,6 +103,13 @@ struct celData
   void Set (int32 v) { Clear (); type = CEL_DATA_LONG; value.l = v; }
   void Set (uint32 v) { Clear (); type = CEL_DATA_ULONG; value.ul = v; }
   void Set (float v) { Clear (); type = CEL_DATA_FLOAT; value.f = v; }
+  void Set (const csVector2& v)
+  {
+    Clear ();
+    type = CEL_DATA_VECTOR2;
+    value.v.x = v.x;
+    value.v.y = v.y;
+  }
   void Set (const csVector3& v)
   {
     Clear ();

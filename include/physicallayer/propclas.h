@@ -121,6 +121,11 @@ struct iCelPropertyClass : public iBase
   /**
    * Set a generic property.
    */
+  virtual bool SetProperty (csStringID propertyID, const csVector2& value) = 0;
+
+  /**
+   * Set a generic property.
+   */
   virtual bool SetProperty (csStringID propertyID, const csVector3& value) = 0;
 
   /**
@@ -147,6 +152,7 @@ struct iCelPropertyClass : public iBase
    * <li>CEL_DATA_FLOAT
    * <li>CEL_DATA_BOOL
    * <li>CEL_DATA_STRING
+   * <li>CEL_DATA_VECTOR2
    * <li>CEL_DATA_VECTOR3
    * <li>CEL_DATA_COLOR
    * <li>CEL_DATA_ACTION
@@ -181,6 +187,11 @@ struct iCelPropertyClass : public iBase
    * Get a property as string.
    */
   virtual const char* GetPropertyString (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as a 2D vector.
+   */
+  virtual bool GetPropertyVector (csStringID propertyID, csVector2& v) = 0;
 
   /**
    * Get a property as a 3D vector.

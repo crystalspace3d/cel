@@ -159,6 +159,25 @@ bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
   return false; 
 }
 
+bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
+{
+  UpdateProperties (object_reg);
+
+  if (!propcount) return false;
+
+  for (int i=0; i<(*propcount); i++)
+  {
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_VECTOR2)
+      {
+	((csVector2*)(propdata[i]))[0] = v;
+	return true;
+      }
+      else return false;
+  }
+  return false; 
+}
+
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
 {
   UpdateProperties (object_reg);
@@ -329,7 +348,26 @@ const char* celPcCommon::GetPropertyString (csStringID propertyId)
   return 0; 
 }
 
-bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v )
+bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
+{
+  UpdateProperties (object_reg);
+
+  if (!propcount) return false;
+
+  for (int i=0; i<(*propcount); i++)
+  {
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_VECTOR2)
+      {
+	v = ((csVector2*)(propdata[i]))[0];
+	return true;
+      }
+      else return false;
+  }
+  return false;
+}
+
+bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
   UpdateProperties (object_reg);
 

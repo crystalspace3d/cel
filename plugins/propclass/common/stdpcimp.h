@@ -78,6 +78,7 @@ public:
   virtual bool SetProperty (csStringID, float);
   virtual bool SetProperty (csStringID, bool);
   virtual bool SetProperty (csStringID, const char*);
+  virtual bool SetProperty (csStringID, const csVector2&);
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool SetProperty (csStringID, const csColor&);
   virtual bool SetProperty (csStringID, iCelPropertyClass* pclass);
@@ -88,6 +89,7 @@ public:
   virtual float GetPropertyFloat (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyVector (csStringID, csVector2&);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);

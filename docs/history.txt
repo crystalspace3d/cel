@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Nov-2003
+	- Jorrit added support for csVector2 properties to the pcproperties
+	  property class, to the generic property system, and to the
+	  persistance layer.
 28-Nov-2003
 	- Jorrit changed the billboard manager internally so that billboard
 	  locations and size are now stored in billboard space instead of
