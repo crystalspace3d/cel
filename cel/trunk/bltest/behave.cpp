@@ -270,7 +270,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
 
   if (!strcmp (msg_id, "+forward"))
   {
-    pcgravity->ApplyForce(csVector3(1*speed,0,0), 10000);
+    pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
   } else
   if (!strcmp (msg_id, "-forward"))
   {
@@ -278,9 +278,25 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
   } else
   if (!strcmp (msg_id, "+backward"))
   {
-    pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
+    pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
   } else
   if (!strcmp (msg_id, "-backward"))
+  {
+    pcgravity->ClearForces();
+  } else
+  if (!strcmp (msg_id, "+strafeleft"))
+  {
+    pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
+  } else
+  if (!strcmp (msg_id, "-strafeleft"))
+  {
+    pcgravity->ClearForces();
+  } else
+  if (!strcmp (msg_id, "+straferight"))
+  {
+    pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
+  } else
+  if (!strcmp (msg_id, "-straferight"))
   {
     pcgravity->ClearForces();
   } else
