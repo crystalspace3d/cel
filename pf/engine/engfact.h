@@ -58,8 +58,7 @@ private:
   iKeyboardDriver* kbd;
   iMouseDriver *mouse;
   iVirtualClock* vc;
-  csView* view;
-  iView* iview;
+  iView* view;
   bool use_cd;
   bool rect_set;
   int rect_x, rect_y, rect_w, rect_h;
@@ -79,7 +78,7 @@ public:
   bool HandleEvent (iEvent& ev);
 
   iCamera* GetCamera () const;
-  iView* GetView () const { return iview; }
+  iView* GetView () const { return view; }
   bool SetRegion (iPcRegion* region, bool point, const char* name);
   void SetRectangle (int x, int y, int w, int h);
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
