@@ -1,3 +1,5 @@
+20-Dec-2001:
+	- Matze added cel.cex, which makes cel usable together with cs-config
 16-Dec-2001:
 	- Matze fixed a memory leak: pllayer was holding references to
 	  factories and these to pl. Now only pllayer holds the ref.
