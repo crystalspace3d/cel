@@ -80,7 +80,7 @@ private:
 
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
-  void UpdateConstraints (iCelEntity* entity);
+  void UpdateConstraints (iCelEntity* entity, bool add);
 
 public:
   celPcInventory ();

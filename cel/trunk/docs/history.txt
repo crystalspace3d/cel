@@ -51,4 +51,6 @@
 	  put in the inventory. The entity that has the inventory
 	  property class will use the characteristics to see if the object
 	  fits in the inventory.
+	- Fixed a bug with current constraints not being updated correctly
+	  when entities are removed from the inventory.
 
