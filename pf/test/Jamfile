@@ -1,6 +1,7 @@
 SubDir TOP pf test ;
 
 Plugin pftest
-	: testfact.cpp ../common/stdpcimp.cpp
+	: testfact.cpp testfact.h
 ;
+LinkWith pftest : celcommon ;
 

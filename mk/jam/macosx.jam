@@ -1,0 +1,51 @@
+#============================================================================
+# Jam configuration and actions for MacOS/X
+#============================================================================
+if $(PTHREAD.AVAILABLE) = "yes"
+{
+  LINKLIBS += $(PTHREAD.LFLAGS) ;
+  C++FLAGS += $(PTHREAD.CFLAGS) ;
+  CFLAGS += $(PTHREAD.CFLAGS) ;
+}
+
+# Seems jams header scanning fails on macosx. This is atleast true for jam 2.4,
+# let's hope that this will work better with jam 2.5.
+CMD.AR = "ar ru" ;
+NOARUPDATE = true ;
+NOARSCAN = true ;
+actions Archive
+{
+  $(CMD.AR) $(<) $(>)
+}
+
+SHELL ?= "/bin/sh" ;
+
+APPLICATION.LFLAGS += -framework AppKit -framework Foundation ;
+APPLICATION.CONSOLE.LFLAGS += -framework AppKit -framework Foundation ;
+PLUGIN.LFLAGS += -bundle -framework AppKit -framework Foundation ;
+SUFPLUGIN ?= $(MACOSX.PLUGIN_EXT) ;
+MACOSX.APP_DIR = . ;
+MACOSX.APP_ICON = $(TOP)/libs/cssys/macosx/appicon.icns ;
+MACOSX_ENVIRON = export MACOSX_DEPLOYMENT_TARGET=10.2 ;
+APPLICATION.SUFFIX.GUI = .app ;
+APPLICATION.SUFFIX.CONSOLE = ;
+
+actions LinkPlugin bind NEEDLIBS
+{
+  $(MACOSX_ENVIRON)
+  $(CMD.LINK) -bundle -o $(<) $(>) $(NEEDLIBS) $(LINKLIBS)
+}
+
+actions LinkApplication bind NEEDLIBS
+{
+  $(MACOSX_ENVIRON)
+  $(TOP)/libs/cssys/macosx/appwrap.sh $(NAME) $(MACOSX.APP_DIR) $(MACOSX.APP_ICON) $(TOP)/include/csver.h
+  $(CMD.LINK) -o $(<)/Contents/MacOS/$(NAME) $(>) $(NEEDLIBS) $(LINKLIBS)
+  touch $(<)
+}
+
+actions LinkApplicationConsole bind NEEDLIBS
+{
+  $(MACOSX_ENVIRON)
+  $(CMD.LINK) -o $(<) $(>) $(NEEDLIBS) $(LINKLIBS)
+}

@@ -1,0 +1,46 @@
+# This file will be processed by the configure script
+SubDir TOP ;
+
+SubInclude TOP persist ;
+SubInclude TOP pf ;
+SubInclude TOP plimp ;
+SubInclude TOP bltest ;
+SubInclude TOP blpython ;
+SubInclude TOP celtest ;
+SubInclude TOP include ;
+
+# generate cel-config
+rule CelConfigGen
+{
+  Depends $(<) : $(>) ;
+}
+
+actions CelConfigGen
+{
+  cat > $(<) << __END__
+#!/bin/sh
+
+prefix="$(INSTALLDIR.PREFIX)"
+exec_prefix="\${prefix}"
+version="0.1"
+# test for release/source directory
+if test -e "\${CEL}/include/pl/pl.h"; then
+  includedir="\${CEL}/include"
+else
+  includedir="$(INSTALLDIR.INCLUDE)"
+fi
+plugindir="$(INSTALLDIR.PLUGIN)"
+cflags="-I\${includedir}"
+libs=""
+__END__
+  cat $(>) >> $(<)
+  chmod +x $(<)
+}
+
+CelConfigGen cel-config : cel-config.template ;
+Depends cel-config : Jamfile Jamconfig ;
+Depends all : cel-config ;
+InstallApplication cel-config ;
+
+# deprecated...
+InstallApplication cel.cex ;

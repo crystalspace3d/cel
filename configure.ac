@@ -1,42 +1,87 @@
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cel, 0.1)
+#----------------------------------------------------------------------------
+# Autoconf input script. Start the ./autgen.sh script for producing a
+# the configure script.
+#----------------------------------------------------------------------------
+AC_PREREQ([2.54])
 
+#----------------------------------------------------------------------------
+# Initialize autoconf
+#----------------------------------------------------------------------------
+AC_INIT([cel], [0.1], [matze@braunis.de])
+AC_CONFIG_SRCDIR([mk/jam/build.jam])
+AC_CONFIG_AUX_DIR([mk/autoconf])
+AC_CANONICAL_HOST
+
+#----------------------------------------------------------------------------
+# Check for applications
+#----------------------------------------------------------------------------
 AC_PROG_CC
+AS_IF([test -z "$CC"],
+	[AC_MSG_ERROR([Couldn't find a usable C compiler.])])
+CS_JAMCONFIG_PROPERTY([CMD.CC], [$CC])
 AC_PROG_CXX
-AC_PROG_JAM
-AC_JAM_FIXINSTALLDIRS
+AS_IF([test -z "$CXX"],
+        [AC_MSG_ERROR([Couldn't find a usable C++ compiler.])])
+CS_JAMCONFIG_PROPERTY([CMD.C++], [$CXX])
 
-dnl Check for libs
-dnl Check for Crystal Space
-AC_PATH_CRYSTAL(0.96,,
+# we use the c++ compiler for linking
+CS_JAMCONFIG_PROPERTY([CMD.LINK], [AS_ESCAPE([$(CMD.C++)])])
+
+AC_CHECK_PROGS([INSTALL], [install])
+AS_IF([test -n "$INSTALL"], [CS_JAMCONFIG_PROPERTY([CMD.INSTALL], [$INSTALL])])
+
+#----------------------------------------------------------------------------
+# Determine system type
+#----------------------------------------------------------------------------
+CS_CHECK_HOST
+                                                                                
+#----------------------------------------------------------------------------
+# Check for syntax problems / header files
+#----------------------------------------------------------------------------
+                                                                                
+#nothing yet
+                                                                                
+#----------------------------------------------------------------------------
+# Check for external libraries
+#----------------------------------------------------------------------------
+
+CS_PATH_CRYSTAL_JAM(0.97,,
   AC_MSG_ERROR([
 *** Crystal Space couldn't be found. The latest version is always avaiable
-*** from http://crystal.linuxgames.com. 
-***
-*** be also sure that you've either installed CS or set the CRYSTAL var right.
-*** You also have to compile the cs-config script in CS. Do this with the
-*** following command in your CS dir:
-***	make csconfig]), csgeom csgfx csutil cstool cssys)
+*** from http://crystal.sourceforge.net
+*** Be also sure that you've either installed CS or set the CRYSTAL var right.
+]), csgeom csgfx csutil cstool cssys)
 
-AC_PATH_PYTHON(1.5,,
-  AC_MSG_WARN([
-  *** Python not found -> Python support disabled.
-  *** You need at least python 1.5 to compile this package.
-  *** If you installed a binary version of python make sure you installed an
-  *** eventually existing development package as well.
-  *** You can find python and more informations at
-  ***    http://www.python.org]))
+CS_CHECK_SCFREG([CS_JAMCONFIG_PROPERTY([CMD.SCFREG], [$SCFREG])])
 
-AC_OUTPUT([
-  Jamfile
-  Jamrules
-])
-
+CS_CHECK_PYTHON
+                                                                                
+#----------------------------------------------------------------------------
+# Package configuration switches
+#----------------------------------------------------------------------------
+AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
+      [build in debugging mode (default NO)])],
+    [test "$enableval" = "yes" && cs_build_mode="debug"])
+                                                                                
+AC_MSG_CHECKING([build mode])
+AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
+AC_MSG_RESULT([$cs_build_mode])
+CS_JAMCONFIG_PROPERTY([MODE], [$cs_build_mode])
+                                                                                
+#----------------------------------------------------------------------------
+# Output generated files.  Also create a Jamfile when compiling outside source
+# directory.
+#----------------------------------------------------------------------------
+CS_OUTPUT_INSTALLDIRS
+  
+CS_JAMCONFIG_PROPERTY([JAMCONFIG_READ], [yes])
+CS_JAMCONFIG_OUTPUT([Jamconfig])
+CS_INIT_JAMFILE
+AC_OUTPUT
+                                                                                
 AC_MSG_NOTICE([
-
+                                                                                
 Please note that this project uses jam as build tool.
 So you have to type 'jam' now.
-If you want to use the old make based build copy cs-config from CrystalSpace
-dir into this directory and make sure to set the CRYSTAL environment.
 ])
 

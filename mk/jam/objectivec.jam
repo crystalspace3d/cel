@@ -1,0 +1,40 @@
+#============================================================================
+# Rules for compiling Objective-C and Objective-C++ files
+#============================================================================
+
+if $(CMD.OBJC)
+{
+
+rule ObjC
+{
+  Depends $(<) : $(>) ;
+
+  OBJCFLAGS on $(>) += $(OBJCFLAGS) $(CCFLAGS) $(OPTIM) ;
+  CCHDRS on $(<) = [ on $(<) FIncludes $(HDRS) ] ;
+  CCDEFS on $(<) = [ on $(<) FDefines $(DEFINES) ] ;
+}
+RegisterFileType ObjC : .m ;
+
+actions ObjC
+{
+  $(CMD.OBJC) -c -o $(<) $(OBJCFLAGS) $(CCDEFS) $(CCHDRS) $(>)
+}
+}
+
+if $(CMD.OBJC++)
+{
+rule ObjC++
+{
+  Depends $(<) : $(>) ;
+  
+  OBJC++FLAGS on $(>) += $(OBJC++FLAGS) $(C++FLAGS) $(OPTIM) ;
+  CCHDRS on $(<) = [ on $(<) FIncludes $(HDRS) ] ;
+  CCDEFS on $(<) = [ on $(<) FDefines $(DEFINES) ] ;
+}
+RegisterFileType ObjC++ : .mm .M ;
+
+actions ObjC++
+{
+  $(CMD.OBJC++) -c -o $(<) $(OBJC++FLAGS) $(CCDEFS) $(CCHDRS) $(>)
+}
+}
