@@ -60,6 +60,13 @@ iPcProperties* celBehaviourXml::GetProperties ()
   {
     props = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
     	iPcProperties);
+    if (!props)
+    {
+      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
+      if (pc)
+	props = SCF_QUERY_INTERFACE (pc, iPcProperties);
+    }
   }
   return props;
 }

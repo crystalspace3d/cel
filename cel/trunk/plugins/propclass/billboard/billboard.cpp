@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 7;
+    propertycount = 13;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -99,6 +99,44 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_color].datatype = CEL_DATA_COLOR;
     properties[propid_color].readonly = false;
     properties[propid_color].desc = "Color of this billboard.";
+
+    properties[propid_width].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.width");
+    properties[propid_width].datatype = CEL_DATA_LONG;
+    properties[propid_width].readonly = false;
+    properties[propid_width].desc = "Width in pixels.";
+
+    properties[propid_height].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.height");
+    properties[propid_height].datatype = CEL_DATA_LONG;
+    properties[propid_height].readonly = false;
+    properties[propid_height].desc = "Height in pixels.";
+
+    properties[propid_widthpct].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.widthpct");
+    properties[propid_widthpct].datatype = CEL_DATA_FLOAT;
+    properties[propid_widthpct].readonly = false;
+    properties[propid_widthpct].desc =
+    	"Width in percentage relative to original texture (1==full size).";
+
+    properties[propid_heightpct].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.heightpct");
+    properties[propid_heightpct].datatype = CEL_DATA_FLOAT;
+    properties[propid_heightpct].readonly = false;
+    properties[propid_heightpct].desc =
+    	"Height in percentage relative to original texture (1==full size).";
+
+    properties[propid_x].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.x");
+    properties[propid_x].datatype = CEL_DATA_LONG;
+    properties[propid_x].readonly = false;
+    properties[propid_x].desc = "X position of billboard.";
+
+    properties[propid_y].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.y");
+    properties[propid_y].datatype = CEL_DATA_LONG;
+    properties[propid_y].readonly = false;
+    properties[propid_y].desc = "Y position of billboard.";
   }
 }
 
@@ -134,6 +172,12 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_visible] = 0;		// Handled in this class.
   propdata[propid_restack] = 0;		// Handled in this class.
   propdata[propid_color] = 0;		// Handled in this class.
+  propdata[propid_width] = 0;		// Handled in this class.
+  propdata[propid_height] = 0;		// Handled in this class.
+  propdata[propid_widthpct] = 0;	// Handled in this class.
+  propdata[propid_heightpct] = 0;	// Handled in this class.
+  propdata[propid_x] = 0;		// Handled in this class.
+  propdata[propid_y] = 0;		// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -143,6 +187,182 @@ celPcBillboard::~celPcBillboard ()
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;
+}
+
+bool celPcBillboard::SetProperty (csStringID propertyId, float b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_widthpct].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int iw, ih;
+      billboard->GetImageSize (iw, ih);
+      int w, h;
+      billboard->GetSize (w, h);
+      billboard->SetSize (int (iw * b), h);
+    }
+    return true;
+  }
+  else if (propertyId == properties[propid_heightpct].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int iw, ih;
+      billboard->GetImageSize (iw, ih);
+      int w, h;
+      billboard->GetSize (w, h);
+      billboard->SetSize (w, int (ih * b));
+    }
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+float celPcBillboard::GetPropertyFloat (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_widthpct].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int iw, ih;
+      billboard->GetImageSize (iw, ih);
+      int w, h;
+      billboard->GetSize (w, h);
+      return float (w) / float (iw);
+    }
+    return 0;
+  }
+  else if (propertyId == properties[propid_heightpct].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int iw, ih;
+      billboard->GetImageSize (iw, ih);
+      int w, h;
+      billboard->GetSize (w, h);
+      return float (h) / float (ih);
+    }
+    return 0;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyFloat (propertyId);
+  }
+}
+
+bool celPcBillboard::SetProperty (csStringID propertyId, long b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_width].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int w, h;
+      billboard->GetSize (w, h);
+      billboard->SetSize (b, h);
+    }
+    return true;
+  }
+  else if (propertyId == properties[propid_height].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int w, h;
+      billboard->GetSize (w, h);
+      billboard->SetSize (w, b);
+    }
+    return true;
+  }
+  else if (propertyId == properties[propid_x].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int x, y;
+      billboard->GetPosition (x, y);
+      billboard->SetPosition (b, y);
+    }
+    return true;
+  }
+  else if (propertyId == properties[propid_y].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int x, y;
+      billboard->GetPosition (x, y);
+      billboard->SetPosition (x, b);
+    }
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+long celPcBillboard::GetPropertyLong (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_width].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int w, h;
+      billboard->GetSize (w, h);
+      return w;
+    }
+    return 0;
+  }
+  else if (propertyId == properties[propid_height].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int w, h;
+      billboard->GetSize (w, h);
+      return h;
+    }
+    return 0;
+  }
+  else if (propertyId == properties[propid_x].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int x, y;
+      billboard->GetPosition (x, y);
+      return x;
+    }
+    return 0;
+  }
+  else if (propertyId == properties[propid_y].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      int x, y;
+      billboard->GetPosition (x, y);
+      return y;
+    }
+    return 0;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyLong (propertyId);
+  }
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
@@ -336,22 +556,33 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (5);
+  databuf->SetDataCount (9);
   databuf->GetData (0)->Set (billboard_name);
   if (billboard)
   {
     databuf->GetData (1)->Set (billboard->GetMaterialName ());
     databuf->GetData (2)->Set ((uint32)billboard->GetFlags ().Get ());
-    databuf->GetData (4)->Set (billboard->GetColor ());
+    databuf->GetData (3)->Set (billboard->GetColor ());
+    int x, y, w, h;
+    billboard->GetPosition (x, y);
+    billboard->GetSize (w, h);
+    databuf->GetData (4)->Set ((int32)x);
+    databuf->GetData (5)->Set ((int32)y);
+    databuf->GetData (6)->Set ((int32)w);
+    databuf->GetData (7)->Set ((int32)h);
   }
   else
   {
     databuf->GetData (1)->Set ((const char*)0);
     databuf->GetData (2)->Set ((uint32)0);
     csColor col (0, 0, 0);
-    databuf->GetData (4)->Set (col);
+    databuf->GetData (3)->Set (col);
+    databuf->GetData (4)->Set ((int32)0);
+    databuf->GetData (5)->Set ((int32)0);
+    databuf->GetData (6)->Set ((int32)0);
+    databuf->GetData (7)->Set ((int32)0);
   }
-  databuf->GetData (3)->Set (events_enabled);
+  databuf->GetData (8)->Set (events_enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -360,7 +591,7 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != BILLBOARD_SERIAL) return false;
-  if (databuf->GetDataCount () != 3) return false;
+  if (databuf->GetDataCount () != 9) return false;
   celData* cd;
 
   delete[] billboard_name; billboard_name = 0;
@@ -368,25 +599,38 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
   billboard_name = csStrNew (*cd->value.s);
 
   cd = databuf->GetData (1); if (!cd) return false;
+  GetBillboard ();
   if (billboard)
     billboard->SetMaterialName (*cd->value.s);
 
   cd = databuf->GetData (2); if (!cd) return false;
-  GetBillboard ();
   if (billboard)
     billboard->GetFlags ().SetAll (cd->value.ul);
 
   cd = databuf->GetData (3); if (!cd) return false;
-  EnableEvents (cd->value.b);
-
-  cd = databuf->GetData (4); if (!cd) return false;
-  GetBillboard ();
   if (billboard)
   {
     csColor col (cd->value.col.red, cd->value.col.green,
     	cd->value.col.blue);
     billboard->SetColor (col);
   }
+  int x, y, w, h;
+  cd = databuf->GetData (4); if (!cd) return false;
+  x = cd->value.l;
+  cd = databuf->GetData (5); if (!cd) return false;
+  y = cd->value.l;
+  cd = databuf->GetData (6); if (!cd) return false;
+  w = cd->value.l;
+  cd = databuf->GetData (7); if (!cd) return false;
+  h = cd->value.l;
+  if (billboard)
+  {
+    billboard->SetPosition (x, y);
+    billboard->SetSize (w, h);
+  }
+
+  cd = databuf->GetData (8); if (!cd) return false;
+  EnableEvents (cd->value.b);
 
   return true;
 }

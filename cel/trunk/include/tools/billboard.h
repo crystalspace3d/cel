@@ -116,7 +116,12 @@ struct iBillboard : public iBase
   /**
    * Get the size of this billboard in pixels.
    */
-  virtual void GetSize (int& w, int& h) const = 0;
+  virtual void GetSize (int& w, int& h) = 0;
+
+  /**
+   * Get the size of the image on this billboard in pixels.
+   */
+  virtual void GetImageSize (int& w, int& h) = 0;
 
   /**
    * Set the position of the top-left corner of this billboard.

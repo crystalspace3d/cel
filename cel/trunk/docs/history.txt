@@ -3,6 +3,24 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-Nov-2003
+	- Jorrit added support for 'width', 'height', 'x', and 'y'
+	  properties to the pcbillboard. Also added persistance for these
+	  values and fixed a bug in persistance too.
+	- Jorrit fixed a bug in the XML behaviour layer with regards to
+	  arguments and some types of those arguments.
+	- Jorrit added support for using 'var' for setting a property
+	  in the XML behaviour layer (instead of only constant values).
+	- Jorrit added support for assigning vars to other vars in the
+	  XML behaviour layer.
+	- Jorrit changed the XML behaviour layer so that it automatically
+	  creates a pcproperties property class if needed (for example, to
+	  support variables).
+	- Jorrit fixed the billboard manager so that clicking on a scaled
+	  image still works correctly and collision detection with scaled
+	  images also works correctly.
+	- Jorrit added the ability to set size of billboard in percentage
+	  relative to size of image.
 26-Nov-2003
 	- Daniel added first draft of CEL documentation.  Any feedback welcome.
 	- Jorrit added first primitive version of TestCollision() function

@@ -58,6 +58,7 @@ class celXmlScriptEventHandler;
 #define CEL_TYPE_EVENTHANDLER 9
 #define CEL_TYPE_VECTOR3 10
 #define CEL_TYPE_COLOR 11
+#define CEL_TYPE_VAR 12
 
 // A property class parameter resolver.
 struct celXmlPCResolver
@@ -79,7 +80,7 @@ struct celXmlArg
     uint32 ui;
     int32 i;
     float f;
-    const char* s;
+    const char* s;	// Also used for CEL_TYPE_VAR.
     bool b;
     int pc;
     csStringID id;
@@ -124,6 +125,12 @@ struct celXmlArg
   {
     Cleanup ();
     type = CEL_TYPE_STRING;
+    arg.s = csStrNew (s);
+  }
+  void SetVar (const char* s)
+  {
+    Cleanup ();
+    type = CEL_TYPE_VAR;
     arg.s = csStrNew (s);
   }
   void SetPC (int pc)

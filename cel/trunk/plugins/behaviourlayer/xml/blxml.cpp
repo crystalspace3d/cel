@@ -188,7 +188,15 @@ bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
             }
 	    else
 	    {
-	      return false;
+              attr = child->GetAttribute ("var");
+              if (attr)
+	      {
+		h->AddArgument ().SetVar (attr->GetValue ());
+	      }
+	      else
+	      {
+	        return false;
+	      }
 	    }
 	  }
 	}
