@@ -327,13 +327,20 @@
 	        <property id="propid(name)" value="?material" />
 	        <property id="propid(materialname)" value="?material" />
 	        <property id="propid(movable)" value="false" />
-	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="false" />
 	        <property id="propid(width)" value="?dim" />
 	        <property id="propid(height)" value="?dim" />
 	        <property id="propid(x)" value="?x*?dim" />
 	        <property id="propid(y)" value="?y*?dim" />
 		<var name="moving" value="false" />
+	    </event>
+
+	    <!--
+	      - For debugging: show variables.
+	      -->
+	    <event name="pcbillboard_select">
+	    	<variables />
 	    </event>
 
 	    <!--
@@ -1012,8 +1019,12 @@
 		<var entity="back_button" name="game_entity" value="ent()" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="back_button" />
+
 		<!-- Every entity we create will get a name made from a unique number -->
 		<var name="entity_number" value="0" />
+
+		<!-- A stack of explosions that need to be done -->
+		<var name="explosion_stack" value="0" />
 
 		<!-- Create a table of materials per block type -->
 		<var name="'material_ '" value="''" />
@@ -1270,15 +1281,13 @@
 	      - Uses parameters @entity, @blocktype, @x, and @y.
 	      -->
 	    <event name="setblock">
-	    	<var name="x" value="@x" />
-	    	<var name="y" value="@y" />
 	    	<var name="mazepos" value="@x+'_'+@y" />
 	        <var name="maze+?mazepos" value="@blocktype" />
 		<var name="mazeent+?mazepos" value="@entity" />
 		<if eval="@blocktype == ' '">
 		    <call event="checkfall">
-		        <par id="parid(x)" value="?x" />
-		        <par id="parid(y)" value="?y" />
+		        <par id="parid(x)" value="@x" />
+		        <par id="parid(y)" value="@y" />
 		    </call>
 	    	</if>
 	    </event>
@@ -1305,6 +1314,9 @@
 	      - direction. Parameter: @entity.
 	      -->
 	    <event name="endmove_block">
+		<!-- @@@ Need local vars! -->
+	    	<var name="endmove_block_x" value="?(@entity).x" />
+	    	<var name="endmove_block_y" value="?(@entity).y" />
 		<call event="setblock">
 		    <par id="parid(entity)" value="''" />
 		    <par id="parid(blocktype)" value="' '" />
@@ -1312,8 +1324,8 @@
 		    <par id="parid(y)" value="?(@entity).oldy" />
 		</call>
 		<call event="ifempty_checkfall">
-		    <par id="parid(x)" value="?(@entity).x" />
-		    <par id="parid(y)" value="?(@entity).y+1" />
+		    <par id="parid(x)" value="?endmove_block_x" />
+		    <par id="parid(y)" value="?endmove_block_y+1" />
 		</call>
 	    </event>
 
@@ -1528,6 +1540,30 @@
 		<stop />
 	    </event>
 
+	    <!--
+	      - Push a new explosion on the stack.
+	      - Parameters are @x and @y.
+	      -->
+	    <event name="new_explosion">
+	        <var name="explosion_stack_x_+?explosion_stack" value="@x" />
+	        <var name="explosion_stack_y_+?explosion_stack" value="@y" />
+		<var name="explosion_stack" value="?explosion_stack+1" />
+	    </event>
+
+	    <!--
+	      - Handle all explosions on the stack.
+	      -->
+	    <event name="fire_explosions">
+		<for var="i" start="0" end="?explosion_stack-1">
+		    <var name="x" value="?(explosion_stack_x_+?i)" />
+		    <var name="y" value="?(explosion_stack_y_+?i)" />
+		    <call event="bang">
+		    	<par id="parid(x)" value="?x" />
+		    	<par id="parid(y)" value="?y" />
+		    </call>
+		</for>
+		<var name="explosion_stack" value="0" />
+	    </event>
 
 	    <!--
 	      - Move the board slowly so the hero is centered.
@@ -1537,6 +1573,7 @@
 		<var name="layer_x" value="intpol(?delta,?layer_x,?layer_movetox)" />
 		<var name="layer_y" value="intpol(?delta,?layer_y,?layer_movetoy)" />
 		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
+		<call event="fire_explosions" />
 	    </event>
 
 	</script>
@@ -1842,26 +1879,11 @@
 
 	    <event name="endmove">
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
-		    <!--
-		      - First we need to end movement of the bomb without
-		      - restarting it.
-		      -->
-		    <call entity="bdash_main" event="setblock">
-			<par id="parid(entity)" value="''" />
-			<par id="parid(blocktype)" value="' '" />
-			<par id="parid(x)" value="?oldx" />
-			<par id="parid(y)" value="?oldy" />
-		    </call>
-		    <call entity="bdash_main" event="bang">
+		    <call entity="bdash_main" event="new_explosion">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
 		    </call>
-		    <stop />
 		</if>
-		<!--
-		  - We only call super here because we don't want to do
-		  - all that if the bomb explodes.
-		  -->
 		<super />
 	    </event>
 	</script>
@@ -1898,7 +1920,7 @@
 	    <event name="pctimer_wakeup">
 	    	<var name="counter" value="?counter-1" />
 		<if eval="?counter == ?explode">
-		    <call entity="bdash_main" event="bang">
+		    <call entity="bdash_main" event="new_explosion">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
 		    </call>

@@ -60,15 +60,17 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
 {
   if (!billboard)
   {
-    billboard = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    csRef<iPcBillboard> b;
+    b = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
     	iPcBillboard);
-    if (!billboard)
+    if (!b)
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
       if (pc)
-	billboard = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	b = SCF_QUERY_INTERFACE (pc, iPcBillboard);
     }
+    billboard = b;
   }
   return billboard;
 }
@@ -77,15 +79,17 @@ iPcProperties* celBehaviourXml::GetProperties ()
 {
   if (!props)
   {
-    props = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    csRef<iPcProperties> p;
+    p = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
     	iPcProperties);
-    if (!props)
+    if (!p)
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
       if (pc)
-	props = SCF_QUERY_INTERFACE (pc, iPcProperties);
+	p = SCF_QUERY_INTERFACE (pc, iPcProperties);
     }
+    props = p;
   }
   return props;
 }

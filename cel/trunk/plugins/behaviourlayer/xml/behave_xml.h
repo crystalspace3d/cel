@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/util.h"
 #include "behaviourlayer/behave.h"
 
@@ -39,8 +40,8 @@ class celBehaviourXml : public iCelBehaviour
 protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
-  csRef<iPcProperties> props;	// Optimization.
-  csRef<iPcBillboard> billboard;// Optimization.
+  csWeakRef<iPcProperties> props;	// Optimization.
+  csWeakRef<iPcBillboard> billboard;	// Optimization.
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
