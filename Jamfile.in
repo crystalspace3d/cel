@@ -61,6 +61,7 @@ SubInclude TOP "include" ;
 SubInclude TOP libs ;
 SubInclude TOP plugins ;
 SubInclude TOP apps ;
+SubInclude TOP data ;
 
 # Generate cel-config
 rule CelConfigGen
