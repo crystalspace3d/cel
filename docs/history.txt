@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-Feb-2004
+	- Jorrit changed the behaviour of iCelBlLayer->CreateBehaviour().
+	  This function will now automatically set the behaviour in
+	  the entity (i.e. call entity->SetBehaviour()) so it is no
+	  longer necessary to do this yourselves.
 30-Jan-2004
 	- Jorrit fixed CEL after latest lighting related CS changes
 	  (removal of DeferUpdateLighting).

@@ -279,7 +279,6 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 		behavename);
 	    return 0;
 	  }
-	  ent->SetBehaviour (behave);
 	}
         break;
       case XMLTOKEN_PROPCLASS:

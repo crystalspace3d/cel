@@ -3737,10 +3737,6 @@ class iSectorIteratorPtr(iSectorIterator):
         _swig_setattr(self, iSectorIterator,self.__class__,iSectorIterator)
 _blcelc.iSectorIterator_swigregister(iSectorIteratorPtr)
 
-CS_NLIGHT_SHADOWS = _blcelc.CS_NLIGHT_SHADOWS
-CS_NLIGHT_STATIC = _blcelc.CS_NLIGHT_STATIC
-CS_NLIGHT_DYNAMIC = _blcelc.CS_NLIGHT_DYNAMIC
-CS_NLIGHT_NEARBYSECTORS = _blcelc.CS_NLIGHT_NEARBYSECTORS
 CS_ENGINE_CACHE_READ = _blcelc.CS_ENGINE_CACHE_READ
 CS_ENGINE_CACHE_WRITE = _blcelc.CS_ENGINE_CACHE_WRITE
 CS_ENGINE_CACHE_NOUPDATE = _blcelc.CS_ENGINE_CACHE_NOUPDATE
@@ -4187,6 +4183,8 @@ CS_ENTITY_CAMERA = _blcelc.CS_ENTITY_CAMERA
 CS_ENTITY_INVISIBLE = _blcelc.CS_ENTITY_INVISIBLE
 CS_ENTITY_NOSHADOWS = _blcelc.CS_ENTITY_NOSHADOWS
 CS_ENTITY_NOLIGHTING = _blcelc.CS_ENTITY_NOLIGHTING
+CS_LIGHTINGUPDATE_SORTRELEVANCE = _blcelc.CS_LIGHTINGUPDATE_SORTRELEVANCE
+CS_LIGHTINGUPDATE_ALWAYSUPDATE = _blcelc.CS_LIGHTINGUPDATE_ALWAYSUPDATE
 class iMeshDrawCallback(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4226,8 +4224,7 @@ class iMeshWrapper(iBase):
     def GetVisibilityNumber(*args): return apply(_blcelc.iMeshWrapper_GetVisibilityNumber,args)
     def GetFactory(*args): return apply(_blcelc.iMeshWrapper_GetFactory,args)
     def SetFactory(*args): return apply(_blcelc.iMeshWrapper_SetFactory,args)
-    def DeferUpdateLighting(*args): return apply(_blcelc.iMeshWrapper_DeferUpdateLighting,args)
-    def UpdateLighting(*args): return apply(_blcelc.iMeshWrapper_UpdateLighting,args)
+    def SetLightingUpdate(*args): return apply(_blcelc.iMeshWrapper_SetLightingUpdate,args)
     def GetMovable(*args): return apply(_blcelc.iMeshWrapper_GetMovable,args)
     def PlaceMesh(*args): return apply(_blcelc.iMeshWrapper_PlaceMesh,args)
     def HitBeamBBox(*args): return apply(_blcelc.iMeshWrapper_HitBeamBBox,args)
@@ -4751,7 +4748,6 @@ class iMeshObject(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iMeshObject, name)
     def GetFactory(*args): return apply(_blcelc.iMeshObject_GetFactory,args)
     def DrawTest(*args): return apply(_blcelc.iMeshObject_DrawTest,args)
-    def UpdateLighting(*args): return apply(_blcelc.iMeshObject_UpdateLighting,args)
     def Draw(*args): return apply(_blcelc.iMeshObject_Draw,args)
     def GetRenderMeshes(*args): return apply(_blcelc.iMeshObject_GetRenderMeshes,args)
     def SetVisibleCallback(*args): return apply(_blcelc.iMeshObject_SetVisibleCallback,args)

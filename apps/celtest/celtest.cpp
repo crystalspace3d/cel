@@ -239,7 +239,7 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
 
   csRef<iCelEntity> entity_box (pl->CreateEntity ());
   entity_box->SetName (name);
-  entity_box->SetBehaviour (bltest->CreateBehaviour (entity_box, "box"));
+  bltest->CreateBehaviour (entity_box, "box");
 
   pc = pl->CreatePropertyClass (entity_box, "pcmeshselect");
   if (!pc) return 0;
@@ -327,7 +327,6 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   csRef<iPcTimer> pctimer (SCF_QUERY_INTERFACE (pc, iPcTimer));
   pctimer->WakeUp (1000, true);
 
-  entity_dummy->SetBehaviour (bh);
   pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
   if (!pc) return 0;
   pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
@@ -378,7 +377,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name, const char* /*factname
 
   csRef<iCelEntity> entity_cam (pl->CreateEntity ());
   entity_cam->SetName (name);
-  entity_cam->SetBehaviour (bltest->CreateBehaviour (entity_cam, "actor"));
+  bltest->CreateBehaviour (entity_cam, "actor");
 
   pc = pl->CreatePropertyClass (entity_cam, "pckeyinput");
   if (!pc) return 0;
@@ -448,7 +447,7 @@ bool CelTest::CreateRoom ()
   //===============================
   entity_room = pl->CreateEntity ();
   entity_room->SetName ("room");
-  entity_room->SetBehaviour (bltest->CreateBehaviour (entity_room, "room"));
+  bltest->CreateBehaviour (entity_room, "room");
 
   pc = pl->CreatePropertyClass (entity_room, "pcregion");
   if (!pc) return false;

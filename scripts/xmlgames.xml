@@ -4,6 +4,10 @@
 	    <file>/cellib/images/sand_stone.png</file>
 	    <keepimage />
         </texture>
+        <texture name="sand_monster">
+	    <file>/cellib/images/sand_monster.png</file>
+	    <keepimage />
+        </texture>
         <texture name="marble">
 	    <file>/cellib/images/marble.png</file>
 	    <keepimage />
@@ -73,6 +77,10 @@
         </texture>
         <texture name="black">
 	    <file>/cellib/images/black.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="white">
+	    <file>/cellib/images/white.png</file>
 	    <keepimage />
         </texture>
         <texture name="brick_full">
@@ -441,6 +449,7 @@
     </textures>
     <materials>
         <material name="sand_stone"> <texture>sand_stone</texture> </material>
+        <material name="sand_monster"> <texture>sand_monster</texture> </material>
         <material name="marble"> <texture>marble</texture> </material>
         <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
         <material name="wood_box"> <texture>wood_box</texture> </material>
@@ -458,6 +467,7 @@
         <material name="brick_full"> <texture>brick_full</texture> </material>
         <material name="brick_broken"> <texture>brick_broken</texture> </material>
         <material name="black"> <texture>black</texture> </material>
+        <material name="white"> <texture>white</texture> </material>
         <material name="explosion_c"> <texture>explosion_c</texture> </material>
         <material name="explosion_b"> <texture>explosion_b</texture> </material>
         <material name="explosion_t"> <texture>explosion_t</texture> </material>
@@ -589,6 +599,30 @@
 	        <property id="propid(y)" value="130000" />
 		<var entity="bdashedit_button" name="game" value="bdash_main" />
 		<var entity="bdashedit_button" name="game_bh" value="bdashedit_main" />
+
+		<!-- Level buttons -->
+		<var name="level" value="1" />
+		<createentity name="level1_button" behaviour="level_button" />
+		<var name="level" value="2" />
+		<createentity name="level2_button" behaviour="level_button" />
+		<var name="level" value="3" />
+		<createentity name="level3_button" behaviour="level_button" />
+		<var name="level" value="4" />
+		<createentity name="level4_button" behaviour="level_button" />
+		<var name="level" value="5" />
+		<createentity name="level5_button" behaviour="level_button" />
+		<var name="level" value="6" />
+		<createentity name="level6_button" behaviour="level_button" />
+		<var name="level" value="7" />
+		<createentity name="level7_button" behaviour="level_button" />
+		<var name="level" value="8" />
+		<createentity name="level8_button" behaviour="level_button" />
+		<var name="level" value="9" />
+		<createentity name="level9_button" behaviour="level_button" />
+
+		<var name="level" value="1" />
+		<default propclass="pc(level1_button,pcbillboard)" />
+	        <property id="propid(color)" value="rgb(1,1,1)" />
 	    </event>
 
 	    <!--
@@ -600,6 +634,15 @@
 	        <print value="'Start destroying menu...'" />
 	        <destroyentity name="bdash_button" />
 	        <destroyentity name="bdashedit_button" />
+	        <destroyentity name="level1_button" />
+	        <destroyentity name="level2_button" />
+	        <destroyentity name="level3_button" />
+	        <destroyentity name="level4_button" />
+	        <destroyentity name="level5_button" />
+	        <destroyentity name="level6_button" />
+	        <destroyentity name="level7_button" />
+	        <destroyentity name="level8_button" />
+	        <destroyentity name="level9_button" />
 		<createentity name="?game" behaviour="?game_bh" />
 	    </event>
 	</script>
@@ -652,6 +695,45 @@
 		</while>
 	    </event>
 
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles the button for a level.
+	  - Needs the ?menu.level variable for the level of
+	  - the button.
+	  -  ***************************************************** -->
+	<script name="level_button">
+	    <!--
+	      - Initialization.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(name)" value="menu" />
+		<var name="level" value="?menu.level" />
+	        <property id="propid(materialname)" value="number_+?level" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="true" />
+	        <property id="propid(width)" value="20000" />
+	        <property id="propid(height)" value="20000" />
+	        <property id="propid(color)" value="rgb(.2,.2,.2)" />
+	        <property id="propid(x)" value="10000+(22000*?level)" />
+	        <property id="propid(y)" value="10000" />
+	    </event>
+
+	    <!--
+	      - Select this button. Fire up the right game.
+	      -->
+	    <event name="pcbillboard_select">
+		<lvar name="other_selected" value="ent(level+?menu.level+_button)" />
+		<default propclass="pc(#other_selected,pcbillboard)" />
+	        <property id="propid(color)" value="rgb(.2,.2,.2)" />
+		<var entity="menu" name="level" value="?level" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(color)" value="rgb(1,1,1)" />
+	    </event>
 	</script>
 
 	<!-- *****************************************************
@@ -896,6 +978,7 @@
 
 	    <event name="init">
 	        <print value="BOULDERDASH"/>
+		<var name="level" value="?menu.level" />
 
 	        <createpropclass name="pcinventory" />
 	        <createpropclass name="pctimer" />
@@ -908,6 +991,7 @@
 		<var name="herospeed" value="0.07" />
 		<var name="fallspeed" value="0.15" />
 		<var name="mushroomspeed" value="0.30" />
+		<var name="sandspeed" value="0.90" />
 		<var name="pushspeed" value="0.12" />
 		<var name="boardspeed" value="0.003" />
 
@@ -928,7 +1012,7 @@
 
 		<!-- All blocktypes -->
 		<var name="blocktypes"
-		  value="'. HH#W#B###R#*#+XXXPXxOOOoMdMaMbMm=L=U=1=2=3=4=a=b=c=d=+=O=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO:L:U:1:2:3:4:#:%>R>L>U>DTRTB'" />
+		  value="'. HH#W#B###R#*#+XXXPXxOOOoMdMaMbMmMs=L=U=1=2=3=4=a=b=c=d=+=O=*=&=|=^EcEtElEbErE1E2E3E4KRKGKBKY=R=G=B=YDRDGDBDYDO:L:U:1:2:3:4:#:%>R>L>U>DTRTB'" />
 
 		<!-- A stack of freed entities to reuse (per type) -->
 		<expr eval="inittable(table='entstack_',value=0)" />
@@ -951,6 +1035,7 @@
 		<var name="'material_Ma'" value="apple" />
 		<var name="'material_Mb'" value="banana" />
 		<var name="'material_Mm'" value="mushroom" />
+		<var name="'material_Ms'" value="sand_monster" />
 		<var name="'material_:L'" value="fattube_lr" />
 		<var name="'material_:U'" value="fattube_ud" />
 		<var name="'material_:1'" value="fattube_lu" />
@@ -1018,6 +1103,7 @@
 		<var name="'behaviour_Ma'" value="bdash_apple_monster" />
 		<var name="'behaviour_Mb'" value="bdash_apple_monster" />
 		<var name="'behaviour_Mm'" value="bdash_mushroom_monster" />
+		<var name="'behaviour_Ms'" value="bdash_sand_monster" />
 		<var name="'behaviour_=L'" value="bdash_tube" />
 		<var name="'behaviour_=U'" value="bdash_tube" />
 		<var name="'behaviour_=1'" value="bdash_tube" />
@@ -1241,7 +1327,7 @@
 		<var name="light_stack" value="0" />
 
 		<!--  Create the maze -->
-		<if eval="readfile(row,'/cellib/objects/maze.txt') == -1">
+		<if eval="readfile(row,'/cellib/objects/maze'+?level+'.txt') == -1">
 		    <reporterror message="'Cannot open maze.txt!'" />
 		</if>
 		<for var="y" start="0" end="?dimension-1">
@@ -1428,7 +1514,7 @@
 
 	    <!--
 	      - End movement of a block.
-	      - direction. Parameter: @entity.
+	      - direction. Parameters: @entity.
 	      -->
 	    <event name="endmove_block">
 	    	<lvar name="x" value="?(@entity).x" />
@@ -1442,6 +1528,20 @@
 		<call event="ifempty_checkfall">
 		    <par id="parid(x)" value="#x" />
 		    <par id="parid(y)" value="#y+1" />
+		</call>
+	    </event>
+
+	    <!--
+	      - End movement of a block with trail.
+	      - direction. Parameters: @entity and @bt for trail.
+	      -->
+	    <event name="endmove_block_trail">
+	    	<lvar name="x" value="?(@entity).x" />
+	    	<lvar name="y" value="?(@entity).y" />
+		<call event="createblock">
+		    <par id="parid(blocktype)" value="@bt" />
+		    <par id="parid(x)" value="?(@entity).oldx" />
+		    <par id="parid(y)" value="?(@entity).oldy" />
 		</call>
 	    </event>
 
@@ -2914,6 +3014,11 @@
 	    <event name="falldown">
 		<return value="false" />
 	    </event>
+
+	    <!-- For editor -->
+	    <event name="toback">
+	    	<bb_toback />
+	    </event>
 	</script>
 
 	<!-- *****************************************************
@@ -3764,6 +3869,83 @@
 	</script>
 
 	<!-- *****************************************************
+	  - This script handles all operations on the sand monster.
+	  -  ***************************************************** -->
+        <script name="bdash_sand_monster">
+	    <superscript name="bdash_monster" />
+
+	    <event name="init">
+		<super />
+		<var name="speed" value="?bdash_main.sandspeed" />
+	    </event>
+
+	    <event name="reinit">
+		<super />
+		<lvar name="keepx" value="?bdash_main.x" />
+		<lvar name="keepy" value="?bdash_main.y" />
+		<var entity="bdash_main" name="x" value="?x" />
+		<var entity="bdash_main" name="y" value="?y" />
+		<var name="companion_entity" value="bdash_main::createentity(blocktype='##')" />
+		<call entity="?companion_entity" event="toback" />
+		<var entity="bdash_main" name="x" value="#keepx" />
+		<var entity="bdash_main" name="y" value="#keepy" />
+	    </event>
+	    <event name="cleanup">
+		<super />
+		<expr eval="bdash_main::destroyentity(entity=?companion_entity)" />
+	    </event>
+
+	    <event name="startmove">
+	    	<lvar name="newx" value="?x+?dx" />
+	    	<lvar name="newy" value="?y+?dy" />
+		<var name="keep_entity" value="?bdash_main.maze[#newx,#newy]" />
+		<call entity="?keep_entity" event="toback" />
+		<var entity="bdash_main" name="maze_+#newx+_+#newy" value="''" />
+	    	<super />
+	    </event>
+
+	    <event name="endmove">
+		<expr eval="bdash_main::destroyentity(entity=?keep_entity)" />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<call entity="bdash_main" event="endmove_block_trail">
+		    <par id="parid(entity)" value="ent()" />
+		    <par id="parid(bt)" value="'##'" />
+		</call>
+		<call event="decidenewmove" />
+	    </event>
+
+	    <event name="decidenewmove">
+	    	<lvar name="ax" value="abs(?bdash_main.hero_x-?x)" />
+	    	<lvar name="ay" value="abs(?bdash_main.hero_y-?y)" />
+		<!--
+		<if eval="#ax<10 && #ay<10">
+		    <var name="dx" value="sign(?bdash_main.hero_x-?x)"/>
+		    <var name="dy" value="sign(?bdash_main.hero_y-?y)"/>
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="#ent">
+		    	<if eval="?#ent.blocktype=='##'">
+		            <call event="startmove" />
+			    <stop />
+		        </if>
+		    </if>
+		    <call event="waitfornewmove" />
+		    <stop />
+		</if>
+		-->
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+		<lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		<if eval="#ent">
+		    <if eval="?#ent.blocktype=='##'">
+		        <call event="startmove" />
+		        <stop />
+		    </if>
+		</if>
+		<call event="waitfornewmove" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
 	  - This script handles all operations on a mushroom monster in the
 	  - boulderdash game.
 	  -  ***************************************************** -->
@@ -4180,6 +4362,8 @@
 	    	<super />
 	        <print value="EDITOR"/>
 
+	        <var name="menudim" value="14000" />
+
 		<!-- Create the menu -->
 		<var name="x" value="0" />
 		<var name="y" value="0" />
@@ -4190,7 +4374,6 @@
 		<expr eval="createmenuentity(blocktype='#*')" />
 		<expr eval="createmenuentity(blocktype='#+')" />
 		<expr eval="createmenuentity(blocktype='#R')" />
-		<expr eval="createmenuentity(blocktype='#W')" />
 		<expr eval="createmenuentity(blocktype='XX')" />
 		<expr eval="createmenuentity(blocktype='XP')" />
 		<expr eval="createmenuentity(blocktype='Xx')" />
@@ -4199,6 +4382,7 @@
 		<expr eval="createmenuentity(blocktype='Ma')" />
 		<expr eval="createmenuentity(blocktype='Mb')" />
 		<expr eval="createmenuentity(blocktype='Mm')" />
+		<expr eval="createmenuentity(blocktype='Ms')" />
 		<expr eval="createmenuentity(blocktype='=L')" />
 		<expr eval="createmenuentity(blocktype='=U')" />
 		<expr eval="createmenuentity(blocktype='=1')" />
@@ -4243,7 +4427,11 @@
 		<expr eval="createmenuentity(blocktype='>L')" />
 		<expr eval="createmenuentity(blocktype='>U')" />
 		<expr eval="createmenuentity(blocktype='>D')" />
+		<expr eval="createmenuentity(blocktype='#W')" />
 		<var name="lasty" value="?y" />
+		<var name="menu_x" value="0" />
+		<var name="menu_y" value="0" />
+		<var name="last_blocktype" value="'. '" />
 
 		<!-- Create the save button -->
 		<inventory propclass="pc(pcinventory)" />
@@ -4253,6 +4441,20 @@
 		<!-- Create our hero -->
 		<createentity name="hero" behaviour="bdash_hero_edit" />
 		<inventory_add child="ent(hero)" />
+
+		<createentity name="menu_cursor" behaviour="bdashedit_menucursor" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="ent(menu_cursor)" />
+
+		<!-- Move all items to the back -->
+		<for var="y" start="0" end="?dimension-1">
+		    <for var="x" start="0" end="?dimension-1">
+		    	<lvar name="ent" value="?maze[?x,?y]" />
+			<if eval="#ent">
+			    <call entity="#ent" event="toback" />
+		        </if>
+		    </for>
+		</for>
 	    </event>
 
 	    <!--
@@ -4270,6 +4472,7 @@
 		    <par id="parid(x)" value="?x" />
 		    <par id="parid(y)" value="?y" />
 		</call>
+		<var name="menu_+?x+_+?y" value="#ent" />
 		<var name="x" value="?x+1" />
 		<if eval="?x>3"> <var name="x" value="0" /> <var name="y" value="?y+1" /> </if>
 	    </event>
@@ -4290,7 +4493,7 @@
 		    </for>
 		    <var name="row+?y" value="#row" />
 		</for>
-		<if eval="!writefile(row,'/cellib/objects/maze.txt',0,?dimension-1)">
+		<if eval="!writefile(row,'/cellib/objects/maze'+?level+'.txt',0,?dimension-1)">
 		    <reporterror message="'Cannot write maze.txt!'" />
 		</if>
 	    </event>
@@ -4330,6 +4533,7 @@
 		</if>
 	    	<if eval="?blocktype != '. '">
 		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
+		    <call entity="?#mazepos" event="toback" />
 		    <stop />
 		</if>
 		<var name="#mazepos" value="''" />
@@ -4383,23 +4587,23 @@
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="'shift-right'" />
-		    <par id="parid(command)" value="take_right" />
+		    <par id="parid(command)" value="menu_right" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="'shift-left'" />
-		    <par id="parid(command)" value="take_left" />
+		    <par id="parid(command)" value="menu_left" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="'shift-up'" />
-		    <par id="parid(command)" value="take_up" />
+		    <par id="parid(command)" value="menu_up" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="'shift-down'" />
-		    <par id="parid(command)" value="take_down" />
+		    <par id="parid(command)" value="menu_down" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="space" />
-		    <par id="parid(command)" value="bomb" />
+		    <par id="parid(command)" value="repeat" />
 		</action>
 	    </event>
 
@@ -4476,6 +4680,21 @@
 		<call event="startmove" />
 	    </event>
 
+	    <event name="checkmenu">
+		<lvar name="newx" value="?bdash_main.menu_x+?dx" />
+		<lvar name="newy" value="?bdash_main.menu_y+?dy" />
+		<if eval="#newx < 0 || #newx >= 4">
+		    <stop />
+		</if>
+		<if eval="#newy < 0 || #newy >= ?bdash_main.lasty">
+		    <stop />
+		</if>
+		<call entity="menu_cursor" event="moveto">
+		    <par id="parid(x)" value="#newx" />
+		    <par id="parid(y)" value="#newy" />
+		</call>
+	    </event>
+
 	    <event name="pckeyinput_move_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
@@ -4516,6 +4735,39 @@
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
+	    <event name="pckeyinput_menu_right1">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmenu" />
+	    </event>
+	    <event name="pckeyinput_menu_left1">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmenu" />
+	    </event>
+	    <event name="pckeyinput_menu_down1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmenu" />
+	    </event>
+	    <event name="pckeyinput_menu_up1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmenu" />
+	    </event>
+	    <event name="pckeyinput_repeat1">
+	    	<lvar name="x" value="?bdash_main.hero_x" />
+	    	<lvar name="y" value="?bdash_main.hero_y" />
+		<call entity="bdash_main" event="clearblock_nocheck">
+		    <par id="parid(x)" value="#x" />
+		    <par id="parid(y)" value="#y" />
+		</call>
+		<call entity="bdash_main" event="createblock">
+		    <par id="parid(blocktype)" value="?bdash_main.last_blocktype" />
+		    <par id="parid(x)" value="#x" />
+		    <par id="parid(y)" value="#y" />
+		</call>
+	    </event>
 	</script>
 
 	<!-- *****************************************************
@@ -4534,7 +4786,7 @@
 	    <event name="realinit">
 	        <var name="blocktype" value="@blocktype" />
 
-	        <lvar name="dim" value="14000" />
+	        <lvar name="dim" value="?bdash_main.menudim" />
 	        <createpropclass name="pcbillboard" />
 	        <createpropclass name="pcproperties" />
 		<var name="pcbb" value="pc(pcbillboard)" />
@@ -4549,6 +4801,8 @@
 	        <property id="propid(layer)" value="menu" />
 	        <property id="propid(x)" value="240000+@x*(#dim+1000)" />
 	        <property id="propid(y)" value="10000+@y*(#dim+1000)" />
+		<var name="x" value="@x" />
+		<var name="y" value="@y" />
 	    </event>
 
 	    <event name="pcbillboard_select">
@@ -4563,6 +4817,48 @@
 		    <par id="parid(x)" value="#x" />
 		    <par id="parid(y)" value="#y" />
 		</call>
+		<call entity="menu_cursor" event="moveto">
+		    <par id="parid(x)" value="?x" />
+		    <par id="parid(y)" value="?y" />
+		</call>
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles the menu cursor.
+	  -  ***************************************************** -->
+        <script name="bdashedit_menucursor">
+	    <!--
+	      - Initialize this block.
+	      -->
+	    <event name="init">
+	        <lvar name="dim" value="?bdash_main.menudim" />
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="block" />
+	        <property id="propid(materialname)" value="white" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="#dim+800" />
+	        <property id="propid(height)" value="#dim+800" />
+	        <property id="propid(layer)" value="menu" />
+	        <property id="propid(x)" value="240000+?bdash_main.menu_x*(#dim+1000)-400" />
+	        <property id="propid(y)" value="10000+?bdash_main.menu_y*(#dim+1000)-400" />
+		<bb_toback />
+	    </event>
+
+	    <event name="moveto">
+	        <lvar name="dim" value="?bdash_main.menudim" />
+		<default propclass="?pcbb" />
+		<var entity="bdash_main" name="menu_x" value="@x" />
+		<var entity="bdash_main" name="menu_y" value="@y" />
+	        <property id="propid(x)" value="240000+@x*(#dim+1000)-400" />
+	        <property id="propid(y)" value="10000+@y*(#dim+1000)-400" />
+		<lvar name="ent" value="?bdash_main.menu[@x,@y]" />
+		<var entity="bdash_main" name="last_blocktype" value="?#ent.blocktype" />
 	    </event>
 	</script>
 
@@ -4583,11 +4879,11 @@
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="14000*2" />
-	        <property id="propid(height)" value="14000" />
+	        <property id="propid(width)" value="?bdash_main.menudim*2" />
+	        <property id="propid(height)" value="?bdash_main.menudim" />
 	        <property id="propid(layer)" value="menu" />
 	        <property id="propid(x)" value="240000" />
-	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(14000+1000)" />
+	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(?bdash_main.menudim+1000)" />
 	    </event>
 
 	    <event name="pcbillboard_select">

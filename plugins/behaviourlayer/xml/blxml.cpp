@@ -26,6 +26,7 @@
 #include "csutil/stringarray.h"
 
 #include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
 
 #include "plugins/behaviourlayer/xml/blxml.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -1908,6 +1909,7 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
     	  object_reg);
       bootstrap->SetName (name);
       bootstrap->SetBehaviourLayer (this);
+      entity->SetBehaviour (bootstrap);
       return bootstrap;
     }
     return 0;	// Couldn't find script.
@@ -1918,6 +1920,7 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
   behave->SetBehaviourLayer (this);
   behave->SetScript (script);
   celData ret;
+  entity->SetBehaviour (behave);
   behave->SendMessage ("init", ret, 0);
   return behave;
 }

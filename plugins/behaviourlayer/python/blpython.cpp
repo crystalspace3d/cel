@@ -167,6 +167,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
 
   celPythonBehaviour* bh = new celPythonBehaviour (this,
   	py_entity, py_object, realname.GetData ());
+  entity->SetBehaviour (bh);
 
   return bh;
 }

@@ -239,7 +239,6 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   bootstrap_entity = pl->CreateEntity ();
   bootstrap_entity->SetName ("bootstrap");
   iCelBehaviour* behave = bl->CreateBehaviour (bootstrap_entity, behaviour);
-  bootstrap_entity->SetBehaviour (behave);
 
   const char* extra_method = cmdline->GetName (2);
   if (extra_method)
