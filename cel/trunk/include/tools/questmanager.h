@@ -245,7 +245,7 @@ struct iQuest : public iBase
    * Switch this quest to some specific state.
    * Returns false if state doesn't exist (nothing happens then).
    */
-  virtual bool SwitchSate (const char* state) = 0;
+  virtual bool SwitchState (const char* state) = 0;
 
   /**
    * Get current state name of this quest.

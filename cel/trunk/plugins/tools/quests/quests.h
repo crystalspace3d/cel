@@ -105,6 +105,48 @@ public:
 };
 
 /**
+ * A quest implementation.
+ */
+class celQuest : public iQuest
+{
+private:
+  struct celQuestStateResponse
+  {
+    csRef<iQuestTrigger> trigger;
+    csRefArray<iQuestReward> rewards;
+  };
+
+  struct celQuestState
+  {
+    char* name;
+    csArray<celQuestStateResponse> responses;
+    celQuestState () : name (0) { }
+    ~celQuestState () { delete[] name; }
+  };
+
+  csArray<celQuestState> states;
+  int current_state;
+
+public:
+  celQuest ();
+  virtual ~celQuest ();
+
+  SCF_DECLARE_IBASE;
+  
+  virtual bool SwitchState (const char* state);
+  virtual const char* GetCurrentState () const;
+
+  // Add a state, returns the state index.
+  int AddState (const char* name);
+  // Add a response for a state. Return response index.
+  int AddStateResponse (int stateidx);
+  // Set trigger for a state and response.
+  void SetStateTrigger (int stateidx, int responseidx, iQuestTrigger* trigger);
+  // Add reward for a state and response.
+  void AddStateReward (int stateidx, int responseidx, iQuestReward* reward);
+};
+
+/**
  * This is a manager for quests.
  */
 class celQuestManager : public iQuestManager
