@@ -84,6 +84,11 @@ struct iCelPlLayer : public iBase
   virtual void UnattachEntity (iObject* object, iCelEntity* entity) = 0;
 
   /**
+   * Returns the entity with ID id
+   */
+  virtual iCelEntity* GetEntity (CS_ID id) = 0;
+  
+  /**
    * Given an iObject, find the attached entity (if any).
    */
   virtual iCelEntity* FindAttachedEntity (iObject* object) = 0;

@@ -1,3 +1,10 @@
+2-Jan-2002:
+	- Matze added support for ID's:
+	     Each Entity is assigned a unique ID now, a list of ID's is
+	     stored in the PhysicalLayer now, so this also has the nice
+	     effect, that you can check if all entities are properly removed
+	     at destruction time
+	- Matze added CEL_DEBUG constant
 31-Dec-2001:
 	- The new 'pcgravity2' property class works a lot better now with
 	  the new CollidePath() function in CS iCollideSystem. Friction

@@ -76,18 +76,66 @@ celPlLayer::~celPlLayer ()
     iCelBlLayer* bl = (iCelBlLayer*)bl_list[i];
     bl->DecRef ();
   }
+  
+#ifdef CEL_DEBUG
+  // print out entities that aren't deleted properly
+  for (CS_ID i=1;i<idlist->GetCount();i++)
+  {
+    iCelEntity* entity=(iCelEntity*) idlist->Get(i);
+    if (entity)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.physicallayer",
+	  "Entity with ID %d and Name %s not destructed.",
+	  entity->GetID(), entity->GetName());
+    }
+  }
+#endif
+  
+  if (idlist)
+    delete idlist;
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
+  idlist = new NumReg;
   return true;
 }
 
 iCelEntity* celPlLayer::CreateEntity ()
 {
-  celEntity* entity = new celEntity ();
+  CS_ID objid;
+  
+  celEntity* entity = new celEntity (this);
+  iCelEntity* ientity = SCF_QUERY_INTERFACE(entity, iCelEntity);
+  ientity->DecRef();
+  objid = idlist->Register(ientity);
+  if (objid == 0)
+  {
+    delete entity;
+    return NULL;
+  }
+  entity->SetEntityID(objid);
   return &(entity->scfiCelEntity);
+}
+
+void celPlLayer::RemoveEntity(celEntity *entity)
+{
+  if (!idlist->Remove(entity->GetEntityID()))
+  {
+#ifdef CEL_DEBUG
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"error while removing Entity with ID %d (%s)", entity->GetEntityID(),
+	entity->GetName());
+#endif
+  }
+}
+
+iCelEntity* celPlLayer::GetEntity(CS_ID id)
+{
+  return (iCelEntity*) idlist->Get(id);
 }
 
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
@@ -96,7 +144,7 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
   iCelPropertyClassFactory* pf = FindPropertyClassFactory(propname);
   if (!pf)
   {
-#ifdef CS_DEBUG
+#ifdef CEL_DEBUG
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"No factory for type '%s' registered!", propname);

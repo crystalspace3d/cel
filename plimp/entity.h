@@ -23,8 +23,10 @@
 #include "csutil/csobject.h"
 #include "csutil/csvector.h"
 #include "pl/entity.h"
+#include "plimp/pl.h"
 
 class celPropertyClassList;
+class celPlLayer;
 
 /**
  * Implementation of iCelEntity.
@@ -34,10 +36,17 @@ class celEntity : public csObject
 private:
   celPropertyClassList* plist;
   iCelBehaviour* behaviour;
+  CS_ID entity_ID;
+  celPlLayer *pl;
 
 public:
-  celEntity ();
+  celEntity (celPlLayer* pl);
   virtual ~celEntity ();
+
+  CS_ID GetEntityID ()
+  { return entity_ID; }
+  void SetEntityID (CS_ID ID)
+  { entity_ID = ID; }
     
   iCelPropertyClassList* GetPropertyClassList ();
   void SetBehaviour (iCelBehaviour* ent);
@@ -51,6 +60,10 @@ public:
     virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }
+    virtual CS_ID GetID () const
+    {
+      return scfParent->entity_ID;
+    }
     virtual iCelPropertyClassList* GetPropertyClassList ()
     {
       return scfParent->GetPropertyClassList ();

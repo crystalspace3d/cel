@@ -24,8 +24,10 @@
 #include "csutil/nobjvec.h"
 #include "iutil/comp.h"
 #include "pl/pl.h"
+#include "plimp/numreg.h"
 
 struct iObjectRegistry;
+class celEntity;
 
 CS_DECLARE_OBJECT_VECTOR (csPlLayerCache, iBase);
 
@@ -40,6 +42,7 @@ private:
   csPlLayerCache cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
+  NumReg* idlist;
 
 public:
   celPlLayer (iBase* parent);
@@ -49,6 +52,13 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual iCelEntity* CreateEntity ();
+  /**
+   * remove an entity from the physical layer ID list.
+   * This is called automatically by celEntity destructor.
+   */
+  void RemoveEntity(celEntity* entity);
+  virtual iCelEntity* GetEntity (CS_ID id);
+  
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);
   virtual iCelMessage* CreateMessage (const char* msg_string, ...);
