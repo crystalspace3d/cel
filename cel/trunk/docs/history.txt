@@ -15,6 +15,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added doxygen documentation to all property class
 	  headers indicating all SendMessage id's that you can possibly
 	  get for every property class.
+	- Jorrit fixed a memory leak in the pczonemanager property class.
+	  It was keeping a real ref to the physical layer. Changed to a
+	  weak ref.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
