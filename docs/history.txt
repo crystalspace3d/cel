@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Jan-2004
+	- Eric Sunshine updated mk/jam from master copies in Crystal Space
+	  repository which contain fixes for syntax errors.
 28-Jan-2004
 	- Jorrit reverted a change in win32.jam which causes CEL not to
 	  compile.
