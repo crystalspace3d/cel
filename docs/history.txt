@@ -2,10 +2,11 @@
 	- Added a string registry to the physical layer. This can be used
 	  for various things but in the first time it is going to be used
 	  for a generic property setter for all property classes. CEL
-	  convention on string names will be 'cel.xxx.yyy'. With 'xxx' equal
-	  to the type of string (i.e. 'property') and 'yyy' equal to the
-	  name of the given type (i.e. the property name). An example:
-	  'cel.property.num'.
+	  convention on string names will be 'cel.xxx.yyy.zzz'. With 'xxx'
+	  equal to the type of string (i.e. 'property'), 'yyy' equal to the
+	  scope of the property (i.e. 'pccamera') and 'zzz' the name of the
+	  given type (i.e. the property name). An example:
+	  'cel.property.pccamera.startsector'.
 	- Extended iCelPropertyClass with a number of methods for a generic
 	  property setter. This will allow string based scripting languages
 	  to access all property classes without requiring knowledge
@@ -16,6 +17,26 @@
 	  these new classes so that existing property classes don't have
 	  to be modified. None of the property classes currently implement
 	  the new interface though.
+	- Implemented the new property interface in celPcRegion. It now
+	  supports the following three properties:
+	    cel.property.pcregion.worlddir
+	    cel.property.pcregion.worldfile
+	    cel.property.pcregion.regionname
+	- Added support for csVector3 as a type for properties in
+	  iCelPropertyClass.
+	- Added a PerformAction() function to iCelPropertyClass which uses
+	  the same system as the properties in iCelPropertyClass and allows
+	  scripting languages to perform generic actions. Convention for
+	  action names is:
+	    cel.action.pcregion.load
+	  Actions are included with properties in the rest of the API.
+	  So you can also perform the following functions on actions (note
+	  that these functions have been renamed):
+	    - HasPropertyOrAction()
+	    - GetPropertyAndActionCount()
+	    - GetPropertyOrActionID()
+	    - GetPropertyOrActionType() (new function)
+	- Added celPropertyActionType enumeration type.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.

@@ -389,6 +389,80 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+csStringID celPcRegion::propid_worlddir = csInvalidStringID;
+csStringID celPcRegion::propid_worldfile = csInvalidStringID;
+csStringID celPcRegion::propid_regionname = csInvalidStringID;
+
+void celPcRegion::UpdatePropIDS (iObjectRegistry* object_reg)
+{
+  if (propid_worlddir == csInvalidStringID)
+  {
+    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT (pl != NULL);
+    propid_worlddir = pl->FetchStringID ("cel.property.pcregion.worlddir");
+    propid_worldfile = pl->FetchStringID ("cel.property.pcregion.worldfile");
+    propid_regionname = pl->FetchStringID ("cel.property.pcregion.regionname");
+    pl->DecRef ();
+  }
+}
+
+bool celPcRegion::SetProperty (csStringID propertyID, const char* value)
+{
+  UpdatePropIDS (object_reg);
+  if (propertyID == propid_worldfile)
+  {
+    SetWorldFile (worlddir, value);
+    return true;
+  }
+  else if (propertyID == propid_worlddir)
+  {
+    SetWorldFile (value, worldfile);
+    return true;
+  }
+  else if (propertyID == propid_regionname)
+  {
+    SetRegionName (value);
+    return true;
+  }
+  return false;
+}
+
+celPropertyActionType celPcRegion::GetPropertyOrActionType (
+	csStringID propertyID)
+{
+  UpdatePropIDS (object_reg);
+  if (propertyID == propid_worldfile) return type_string;
+  else if (propertyID == propid_worlddir) return type_string;
+  else if (propertyID == propid_regionname) return type_string;
+  return type_none;
+}
+
+bool celPcRegion::IsPropertyReadOnly (csStringID propertyID)
+{
+  return false;
+}
+
+const char* celPcRegion::GetPropertyString (csStringID propertyID)
+{
+  UpdatePropIDS (object_reg);
+  if (propertyID == propid_worldfile) return worldfile;
+  else if (propertyID == propid_worlddir) return worlddir;
+  else if (propertyID == propid_regionname) return regionname;
+  return NULL;
+}
+
+csStringID celPcRegion::GetPropertyOrActionID (int idx)
+{
+  UpdatePropIDS (object_reg);
+  switch (idx)
+  {
+    case 0: return propid_worldfile;
+    case 1: return propid_worlddir;
+    case 2: return propid_regionname;
+    default: return csInvalidStringID;
+  }
+}
+
 void celPcRegion::SetWorldFile (const char* vfsdir, const char* name)
 {
   delete[] worlddir;

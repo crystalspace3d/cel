@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/strset.h"
+class csVector3;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)		\
   (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID (#Interface), \
@@ -31,6 +32,17 @@
 struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
+
+enum celPropertyActionType
+{
+  type_none = 0,
+  type_long,
+  type_float,
+  type_bool,
+  type_string,
+  type_vector,
+  type_action
+};
 
 SCF_VERSION (iCelPropertyClass, 0, 0, 3);
 
@@ -114,9 +126,16 @@ struct iCelPropertyClass : public iBase
   virtual bool SetProperty (csStringID propertyID, const char* value) = 0;
 
   /**
-   * Test if the given property is supported by this property class.
+   * Set a generic property.
    */
-  virtual bool HasProperty (csStringID propertyID) = 0;
+  virtual bool SetProperty (csStringID propertyID, const csVector3& value) = 0;
+
+  /**
+   * Get the type of the given property or action. Returns type_none
+   * if property is not supported.
+   */
+  virtual celPropertyActionType GetPropertyOrActionType (
+  	csStringID propertyID) = 0;
 
   /**
    * Return true if a property is read-only.
@@ -144,14 +163,24 @@ struct iCelPropertyClass : public iBase
   virtual const char* GetPropertyString (csStringID propertyID) = 0;
 
   /**
-   * Return the number of supported properties.
+   * Get a property as a 3D vector.
    */
-  virtual int GetPropertyCount () const = 0;
+  virtual bool GetPropertyVector (csStringID propertyID, csVector3& v) = 0;
 
   /**
-   * Get the ID of the given property.
+   * Perform an action with a generic string parameter.
    */
-  virtual csStringID GetPropertyID (int i) = 0;
+  virtual bool PerformAction (csStringID actionID, const char* params) = 0;
+
+  /**
+   * Return the number of supported properties and actions.
+   */
+  virtual int GetPropertyAndActionCount () const = 0;
+
+  /**
+   * Get the ID of the given property or action.
+   */
+  virtual csStringID GetPropertyOrActionID (int i) = 0;
 };
 
 
