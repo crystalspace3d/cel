@@ -36,6 +36,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the 'layer' property to the billboard property class.
 	- Jorrit added 'bb_movelayer' command to the XML behaviour layer.
 	  With this comment you can move layers.
+	- Jorrit fixed the pckeyinput property class so that key repeats
+	  are now also sent to the behaviour layer with '_' appended (i.e.
+	  append of '0' is key press, append of '1' is key release).
+	- Jorrit fixed the XML behaviour layer so that 'bb_movelayer' now
+	  also works if the layer doesn't exist yet. In that case the layer
+	  will be created.
 22-Dec-2003
 	- Daniel added comments to iCelEntity and iCelEntityList.
 	- Jorrit added the 'super' keyword to the XML behaviour
