@@ -470,6 +470,7 @@
 		<!-- Set some defaults -->
 		<var name="dimension" value="16" />
 		<var name="blockdim" value="18000" />
+		<var name="herospeed" value="0.03" />
 		<var name="monsterspeed" value="0.003" />
 		<var name="monstercnt" value="20" />
 
@@ -532,35 +533,31 @@
 	</script>
 
 	<!-- *****************************************************
-	  - This script controls the behaviour of a monster.
+	  - This script is the superclass of moving objects. You cannot
+	  - use this script standalone.
+	  - This script uses the following variables:
+	  -    ?x,?y: block position of object
+	  -    ?speed: speed of movement
 	  -  ***************************************************** -->
-	<script name="monster">
+	<script name="movingobject">
 	    <!--
-	      - Initialize a monster.
+	      - Initialize. Needs parameter ?material for the material name
+	      - and ?x, ?y for the position.
 	      -->
 	    <event name="init">
 	        <createpropclass name="pctimer" />
 	        <createpropclass name="pcbillboard" />
 		<default propclass="pc(pcbillboard)" />
-		<var name="monstx" value="14" />
-		<var name="monsty" value="14" />
-	        <property id="propid(name)" value="monster" />
-	        <property id="propid(materialname)" value="monster" />
+	        <property id="propid(name)" value="?material" />
+	        <property id="propid(materialname)" value="?material" />
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="false" />
 	        <property id="propid(restack)" value="false" />
 	        <property id="propid(width)" value="?maze_main.blockdim" />
 	        <property id="propid(height)" value="?maze_main.blockdim" />
-	        <property id="propid(x)" value="?monstx*?maze_main.blockdim" />
-	        <property id="propid(y)" value="?monsty*?maze_main.blockdim" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)">
-		    <!--<par id="parid(time)" value="100" />
-		    <par id="parid(repeat)" value="true" />
-		    -->
-		</action>
-	    	<!-- Init to one of the four possible directions -->
-	        <var name="dxdy" value="int(rand(4.0))" />
-		<call event="calcdxdy" />
+	        <property id="propid(x)" value="?x*?maze_main.blockdim" />
+	        <property id="propid(y)" value="?y*?maze_main.blockdim" />
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 		<var name="moving" value="false" />
 	    </event>
 
@@ -582,33 +579,90 @@
 	    </event>
 
 	    <!--
+	      - Do the actual move. Subscripts can override this to
+	      - do additional stuff like check for collisions and so on.
+	      - Uses ?xx and ?yy parameters.
+	      -->
+	    <event name="actualmove">
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(x)" value="?xx" />
+	        <property id="propid(y)" value="?yy" />
+	    </event>
+
+	    <!--
+	      - Do the move transition of this object.
+	      - Uses ?srcx,?srcy, ?dstx,?dsty, and ?delta.
+	      -->
+	    <event name="pctimer_wakeupframe">
+	        <if eval="?moving">
+	            <var name="xx" value="intpol(?delta,?srcx,?dstx)" />
+	            <var name="yy" value="intpol(?delta,?srcy,?dsty)" />
+		    <call event="actualmove" />
+		    <if eval="?delta>=1">
+		        <true>
+			    <var name="moving" value="false" />
+			    <default propclass="pc(pcbillboard)" />
+			    <property id="propid(x)" value="?dstx" />
+			    <property id="propid(y)" value="?dsty" />
+		        </true>
+		        <false>
+			    <var name="delta"
+			    	value="?delta+?speed*param(parid(elapsedticks))" />
+		        </false>
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Start a movement in ?dx,?dy direction.
+	      -->
+	    <event name="startmove">
+		<var name="srcx" value="?x*?maze_main.blockdim" />
+		<var name="srcy" value="?y*?maze_main.blockdim" />
+		<var name="x" value="?x+?dx" />
+		<var name="y" value="?y+?dy" />
+		<var name="dstx" value="?x*?maze_main.blockdim" />
+		<var name="dsty" value="?y*?maze_main.blockdim" />
+		<var name="delta" value="0.0" />
+		<var name="moving" value="true" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script controls the behaviour of a monster.
+	  -  ***************************************************** -->
+	<script name="monster">
+	    <superscript name="movingobject" />
+
+	    <!--
+	      - Initialize a monster.
+	      -->
+	    <event name="init">
+		<var name="x" value="14" />
+		<var name="y" value="14" />
+		<var name="material" value="monster" />
+		<var name="speed" value="?maze_main.monsterspeed" />
+		<super />
+	    	<!-- Init to one of the four possible directions -->
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+	    </event>
+
+	    <!--
 	      - Check if a move is possible and perform the move
 	      - if so. Uses ?dx and ?dy to get the move direction and
 	      - ?monstx and ?monsty for current position. If it can't move
 	      - in some direction it will change direction.
 	      -->
 	    <event name="pctimer_wakeupframe">
+	        <super />
 	        <if eval="?moving">
-		    <default propclass="pc(pcbillboard)" />
-	            <property id="propid(x)" value="intpol(?delta,?srcx,?dstx)" />
-	            <property id="propid(y)" value="intpol(?delta,?srcy,?dsty)" />
-		    <if eval="?delta>=1">
-		        <true>
-			    <var name="moving" value="false" />
-			    <property id="propid(x)" value="?dstx" />
-			    <property id="propid(y)" value="?dsty" />
-		        </true>
-		        <false>
-			    <var name="delta"
-			    	value="?delta+?maze_main.monsterspeed*param(parid(elapsedticks))" />
-		        </false>
-		    </if>
 		    <stop />
 		</if>
 		<!-- Check if there is a free block sideways. If so we have a random
 		     chance of trying that direction -->
 		<if eval="rand(5)>3">
-		    <var name="t" value="?maze_main.(maze+(?monstx+?dy)+'_'+(?monsty+?dx))==' '" />
+		    <var name="t" value="?maze_main.(maze+(?x+?dy)+'_'+(?y+?dx))==' '" />
 		    <if eval="?t">
 		        <true>
 		            <!-- Swap dx and dy to turn left or right -->
@@ -617,7 +671,7 @@
 			    <var name="dy" value="?s" />
 		        </true>
 			<false>
-		    	    <var name="t" value="?maze_main.(maze+(?monstx-?dy)+'_'+(?monsty-?dx))==' '" />
+		    	    <var name="t" value="?maze_main.(maze+(?x-?dy)+'_'+(?y-?dx))==' '" />
 			    <if eval="?t">
 		                <!-- Swap dx and dy to turn left or right -->
 			        <var name="s" value="-?dx" />
@@ -629,16 +683,9 @@
 		</if>
 		<!-- If our current direction is free we proceed in that direction.
 		     Else we try out a random new direction -->
-		<if eval="?maze_main.(maze+(?monstx+?dx)+'_'+(?monsty+?dy))==' '">
+		<if eval="?maze_main.(maze+(?x+?dx)+'_'+(?y+?dy))==' '">
 		    <true>
-		        <var name="srcx" value="?monstx*?maze_main.blockdim" />
-		        <var name="srcy" value="?monsty*?maze_main.blockdim" />
-		        <var name="monstx" value="?monstx+?dx" />
-		        <var name="monsty" value="?monsty+?dy" />
-		        <var name="dstx" value="?monstx*?maze_main.blockdim" />
-		        <var name="dsty" value="?monsty*?maze_main.blockdim" />
-			<var name="delta" value="0.0" />
-			<var name="moving" value="true" />
+		        <call event="startmove" />
 		    </true>
 		    <false>
 			<var name="dxdy" value="int(rand(4.0))" />
@@ -652,26 +699,18 @@
 	  - This script controls the behaviour of our hero.
 	  -  ***************************************************** -->
 	<script name="hero">
-	    <!--<superscript name="movingobject" />-->
+	    <superscript name="movingobject" />
 
 	    <!--
 	      - Initialize our hero.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pcbillboard" />
+		<var name="x" value="1" />
+		<var name="y" value="1" />
+		<var name="material" value="hero" />
+		<var name="speed" value="?maze_main.herospeed" />
+		<super />
 	        <createpropclass name="pckeyinput" />
-		<default propclass="pc(pcbillboard)" />
-		<var name="herox" value="1" />
-		<var name="heroy" value="1" />
-	        <property id="propid(name)" value="hero" />
-	        <property id="propid(materialname)" value="hero" />
-	        <property id="propid(movable)" value="true" />
-	        <property id="propid(clickable)" value="true" />
-	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="?maze_main.blockdim" />
-	        <property id="propid(height)" value="?maze_main.blockdim" />
-	        <property id="propid(x)" value="?herox*?maze_main.blockdim" />
-	        <property id="propid(y)" value="?heroy*?maze_main.blockdim" />
 		<default propclass="pc(pckeyinput)" />
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="right" />
@@ -692,26 +731,30 @@
 	    </event>
 
 	    <!--
+	      - Override from superscript so that we can check collision
+	      - here.
+	      -->
+	    <event name="actualmove">
+	        <super />
+		<for var="i" start="1" end="?maze_main.monstercnt">
+		    <var name="pc" value="?maze_main.(bb_monster+?i)" />
+		    <if eval="property(?pc,propid(visible))==true">
+		        <if eval="testcollide(?pc)">
+			    <sound name="bloop" loop="false" />
+			    <property propclass="?pc" id="propid(visible)" value="false" />
+			</if>
+		    </if>
+		</for>
+	    </event>
+
+	    <!--
 	      - Check if a move is possible and perform the move
 	      - if so. Uses ?dx and ?dy to get the move direction and
-	      - ?herox and ?heroy for current position.
+	      - ?x and ?y for current position.
 	      -->
 	    <event name="checkmove">
-		<if eval="?maze_main.(maze+(?herox+?dx)+'_'+(?heroy+?dy))==' '">
-		    <var name="herox" value="?herox+?dx" />
-		    <var name="heroy" value="?heroy+?dy" />
-		    <default propclass="pc(pcbillboard)" />
-	            <property id="propid(x)" value="?herox*?maze_main.blockdim" />
-	            <property id="propid(y)" value="?heroy*?maze_main.blockdim" />
-		    <for var="i" start="1" end="?maze_main.monstercnt">
-		        <var name="pc" value="?maze_main.(bb_monster+?i)" />
-			<if eval="property(?pc,propid(visible))==true">
-		            <if eval="testcollide(?pc)">
-			        <sound name="bloop" loop="false" />
-			        <property propclass="?pc" id="propid(visible)" value="false" />
-			    </if>
-			</if>
-		    </for>
+		<if eval="?maze_main.(maze+(?x+?dx)+'_'+(?y+?dy))==' '">
+		    <call event="startmove" />
 		</if>
 	    </event>
 
