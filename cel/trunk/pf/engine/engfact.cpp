@@ -87,8 +87,6 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = new csView (engine, g3d);
-  iview = SCF_QUERY_INTERFACE (view, iView);
-  view->DecRef ();
   SetupEventHandler ();
   cammode = iPcCamera::freelook;
   use_cd = false;
@@ -109,7 +107,7 @@ celPcCamera::~celPcCamera ()
 {
   if (kbd) kbd->DecRef ();
   if (vc) vc->DecRef ();
-  if (iview) iview->DecRef ();
+  if (view) view->DecRef ();
   if (engine) engine->DecRef ();
   if (g3d) g3d->DecRef ();
   if (region) region->DecRef();
@@ -401,7 +399,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 
 iCamera* celPcCamera::GetCamera () const
 {
-  return iview->GetCamera ();
+  return view->GetCamera ();
 }
 
 //---------------------------------------------------------------------------
