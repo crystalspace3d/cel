@@ -1,7 +1,7 @@
 SubDir TOP plugins propclass tools ;
 
 Plugin pftools
-	: toolfact.cpp toolfact.h
+	: toolfact.cpp toolfact.h spawn.cpp spawn.h
 ;
 ExternalLibs pftools : CRYSTAL ;
 LinkWith pftools : celtool ;
