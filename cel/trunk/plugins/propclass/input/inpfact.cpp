@@ -220,12 +220,12 @@ bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
   int key, shift;
-  if (!csParseKeyDef (triggername, key, shift, false))
+  if (!csParseKeyDef (triggername, key, shift, true))
     return false;
 
   // only bind single keys
-  if (shift != 0)
-      return false;
+  //  if (shift != 0)
+  //      return false;
 
   celKeyMap* newmap;
   if (!(newmap = GetMap (key)))
@@ -235,6 +235,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->next=maplist;
     newmap->prev=0;
     newmap->key=key;
+    newmap->modifiers=shift;
     newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
     strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
@@ -282,6 +283,20 @@ bool celPcCommandInput::RemoveBind (const char* /*triggername*/,
   return false;
 }
 
+void celPcCommandInput::RemoveAllBinds ()
+{
+  celKeyMap *key, *next;
+  
+  key = maplist;
+  while (key)
+  {
+    next = key->next;
+    delete key;
+    key = next;
+  }
+  maplist = 0;
+}
+
 celKeyMap* celPcCommandInput::GetMap (int key) const
 {
   celKeyMap *p=maplist;
@@ -304,7 +319,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   celKeyMap *p = maplist;
   while (p)
   {
-    if (p->key == key)
+    if ((p->key == key) && ((ev.Key.Modifiers & p->modifiers) == p->modifiers))
     {
       break;
     }

@@ -50,6 +50,9 @@ struct iPcCommandInput : public iBase
 
   /** deletes a bind, if triggername is 0 deletes all binds to the command */
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
+  
+  /** deletes all binds */
+  virtual void RemoveAllBinds () = 0;
 };
 
 #endif // __CEL_PF_INPUT__
