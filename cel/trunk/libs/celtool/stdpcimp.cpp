@@ -48,6 +48,7 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
 celPcCommon::~celPcCommon ()
 {
   delete[] tag;
+  SCF_DESTRUCT_IBASE ();
 }
 
 void celPcCommon::SetTag (const char* tagname)

@@ -23,6 +23,7 @@
 #include "plugins/stdphyslayer/pl.h"
 #include "plugins/stdphyslayer/entity.h"
 #include "plugins/stdphyslayer/message.h"
+#include "plugins/stdphyslayer/etracker.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/datatype.h"
@@ -92,6 +93,8 @@ celPlLayer::~celPlLayer ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPlLayer::HandleEvent (iEvent& ev)
@@ -376,6 +379,7 @@ public:
   virtual ~celDataBuffer ()
   {
     SetDataCount (0);
+    SCF_DESTRUCT_IBASE ();
   }
 
   SCF_DECLARE_IBASE;
@@ -492,6 +496,12 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     }
   }
   return list;
+}
+
+csPtr<iCelEntityTracker> celPlLayer::CreateEntityTracker ()
+{
+  celEntityTracker* tr = new celEntityTracker (this);
+  return tr;
 }
 
 iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)

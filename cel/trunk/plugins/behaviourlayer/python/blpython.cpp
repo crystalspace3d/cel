@@ -60,6 +60,9 @@ celBlPython::~celBlPython ()
 {
   Py_Finalize ();
   object_reg = 0;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiScript);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlPython::Initialize (iObjectRegistry* object_reg)
@@ -258,6 +261,7 @@ celPythonBehaviour::~celPythonBehaviour ()
   Py_DECREF (py_entity);
 
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPythonBehaviour::SendMessage (const char* msg_id,

@@ -156,7 +156,10 @@ public:
       SCF_CONSTRUCT_IBASE (0);
       BillboardEventHandler::parent = parent;
     }
-    virtual ~BillboardEventHandler () { }
+    virtual ~BillboardEventHandler ()
+    {
+      SCF_DESTRUCT_IBASE ();
+    }
     SCF_DECLARE_IBASE;
     virtual void Select (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)

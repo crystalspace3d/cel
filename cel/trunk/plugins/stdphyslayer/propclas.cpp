@@ -40,6 +40,7 @@ celPropertyClassList::~celPropertyClassList ()
 {
   RemoveAll ();
   DG_REM (this);
+  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celPropertyClassList::GetCount () const

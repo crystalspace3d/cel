@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+26-Dec-2004
+	- Jorrit added missing SCF_DESTRUCT_IBASE to all classes in CEL.
+	- Jorrit started a new entity tracker in CEL which can be used
+	  to keep track of nearby entities of a specific type. This will
+	  be more efficient then the global FindNearbyEntities() as it will
+	  not have to iterate over all nearby meshes in the level. Not
+	  finished though.
 21-Dec-2004
 	- Eric Sunshine relocated the HTML version of the user manual from
 	  docs/html to docs/html/manual.

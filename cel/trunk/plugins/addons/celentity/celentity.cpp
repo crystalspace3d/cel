@@ -77,6 +77,8 @@ celAddOnCelEntity::celAddOnCelEntity (iBase* parent)
 
 celAddOnCelEntity::~celAddOnCelEntity ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)

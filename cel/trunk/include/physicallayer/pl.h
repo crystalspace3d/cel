@@ -39,6 +39,8 @@ struct iCamera;
 class csVector3;
 class csString;
 
+struct iCelEntityTracker;
+
 SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
 struct iCelEntityRemoveCallback : public iBase
@@ -148,7 +150,6 @@ struct iCelPlLayer : public iBase
   /**
    * Find all entities that are within a certain radius of
    * a given object. This uses the attached entities from above.
-   * Do DecRef() on the returned list when ready.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius) = 0;
@@ -164,6 +165,12 @@ struct iCelPlLayer : public iBase
    * Create an empty entity list for personal use.
    */
   virtual csPtr<iCelEntityList> CreateEmptyEntityList () = 0;
+
+  /**
+   * Create an entity tracker that you can use to keep track of
+   * specific sets of entities.
+   */
+  virtual csPtr<iCelEntityTracker> CreateEntityTracker () = 0;
 
   //-------------------------------------------------------------------------
 
@@ -340,6 +347,50 @@ struct iCelPlLayer : public iBase
    * completely manage the ID allocation of your own scopes. 
    */
   virtual int AddScope (csString version, int size) = 0;
+};
+
+SCF_VERSION (iCelEntityTracker, 0, 0, 1);
+
+/**
+ * This structure maintains a tracker for entities. You can use this
+ * to find all entities near some location. Note that this only works
+ * on entities with a pcmesh property class.
+ */
+struct iCelEntityTracker : public iBase
+{
+  /**
+   * Add an entity to this tracker. This only works on entities that
+   * have a pcmesh property class. It will return false if that property
+   * class is missing.
+   */
+  virtual bool AddEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Remove an entity from this tracker.
+   */
+  virtual void RemoveEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Get number of entities registered in this tracker.
+   */
+  virtual size_t GetEntityCount () const = 0;
+
+  /**
+   * Get one registered entity.
+   */
+  virtual iCelEntity* GetEntity (size_t idx) const = 0;
+
+  /**
+   * Remove all entities from this tracker.
+   */
+  virtual void RemoveEntities () = 0;
+
+  /**
+   * Find all entities that are within a certain radius of
+   * a given object.
+   */
+  virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
+  	const csVector3& pos, float radius) = 0;
 };
 
 #endif // __CEL_PL_PL__

@@ -45,6 +45,8 @@ celBlTest::celBlTest (iBase* parent)
 
 celBlTest::~celBlTest ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlTest::Initialize (iObjectRegistry* object_reg)

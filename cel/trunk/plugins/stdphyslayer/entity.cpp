@@ -91,6 +91,7 @@ celEntityList::celEntityList ()
 celEntityList::~celEntityList ()
 {
   RemoveAll ();
+  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celEntityList::GetCount () const
