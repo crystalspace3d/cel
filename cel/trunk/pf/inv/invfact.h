@@ -100,6 +100,7 @@ public:
   void RemoveConstraints (const char* charName);
   float GetCurrentCharacteristic (const char* charName) const;
   const char* TestAddEntity (iCelEntity* entity);
+  bool TestCharacteristicChange (const char* charName, float oldValue, float newValue);
 
   SCF_DECLARE_IBASE;
 
@@ -160,6 +161,10 @@ public:
     {
       return scfParent->TestAddEntity (entity);
     }
+    virtual bool TestCharacteristicChange (const char* charName, float oldValue, float newValue)
+    {
+      return scfParent->TestCharacteristicChange (charName, oldValue, newValue);
+    }
   } scfiPcInventory;
 };
 
@@ -180,15 +185,19 @@ private:
   
   charact* FindCharact (const char* name) const;
 
+  csVector inventories;
+
 public:
   celPcCharacteristics ();
   virtual ~celPcCharacteristics ();
 
-  void SetCharProperty (const char* name, float value);
+  bool SetCharProperty (const char* name, float value);
   float GetCharProperty (const char* name) const;
   void ClearProperty (const char* name);
   bool HasProperty (const char* name) const;
   void ClearAll ();
+  void AddToInventory (iPcInventory* inv);
+  void RemoveFromInventory (iPcInventory* inv);
 
   SCF_DECLARE_IBASE;
 
@@ -199,9 +208,9 @@ public:
   struct PcCharacteristics : public iPcCharacteristics
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCharacteristics);
-    virtual void SetCharProperty (const char* name, float value)
+    virtual bool SetCharProperty (const char* name, float value)
     {
-      scfParent->SetCharProperty (name, value);
+      return scfParent->SetCharProperty (name, value);
     }
     virtual float GetCharProperty (const char* name) const
     {
@@ -218,6 +227,14 @@ public:
     virtual void ClearAll ()
     {
       scfParent->ClearAll ();
+    }
+    virtual void AddToInventory (iPcInventory* inv)
+    {
+      scfParent->AddToInventory (inv);
+    }
+    virtual void RemoveFromInventory (iPcInventory* inv)
+    {
+      scfParent->RemoveFromInventory (inv);
     }
   } scfiPcCharacteristics;
 };

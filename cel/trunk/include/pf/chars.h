@@ -24,6 +24,7 @@
 #include "csutil/scf.h"
 
 struct iCelEntity;
+struct iPcInventory;
 
 SCF_VERSION (iPcCharacteristics, 0, 0, 1);
 
@@ -34,8 +35,10 @@ struct iPcCharacteristics : public iBase
 {
   /**
    * Set characteristic property.
+   * Returns false if this is impossible because the entity
+   * is currently in an inventory that does not allow this value.
    */
-  virtual void SetCharProperty (const char* name, float value) = 0;
+  virtual bool SetCharProperty (const char* name, float value) = 0;
 
   /**
    * Get characteristic property.
@@ -56,6 +59,20 @@ struct iPcCharacteristics : public iBase
    * Clear all properties.
    */
   virtual void ClearAll () = 0;
+
+  /**
+   * Indicate that this object is added to some inventory.
+   * This method is meant to be called ONLY by iPcInventory
+   * implementations!
+   */
+  virtual void AddToInventory (iPcInventory* inv) = 0;
+
+  /**
+   * Indicate that this object is removed from some inventory.
+   * This method is meant to be called ONLY by iPcInventory
+   * implementations!
+   */
+  virtual void RemoveFromInventory (iPcInventory* inv) = 0;
 };
 
 #endif // __CEL_PF_CHARS__

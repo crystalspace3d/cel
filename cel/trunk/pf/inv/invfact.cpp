@@ -116,6 +116,16 @@ bool celPcInventory::AddEntity (iCelEntity* entity)
   UpdateConstraints (entity, true);
   contents.Push (entity);
   entity->IncRef ();
+
+  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
+  if (pc)
+  {
+    iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+    CS_ASSERT (pcchar != NULL);
+    pcchar->AddToInventory (&scfiPcInventory);
+    pcchar->DecRef ();
+  }
+
   return true;
 }
 
@@ -125,6 +135,16 @@ void celPcInventory::RemoveEntity (iCelEntity* entity)
   if (idx == -1) return;
   UpdateConstraints (entity, false);
   contents.Delete (idx);
+
+  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
+  if (pc)
+  {
+    iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+    CS_ASSERT (pcchar != NULL);
+    pcchar->RemoveFromInventory (&scfiPcInventory);
+    pcchar->DecRef ();
+  }
+
   entity->DecRef ();
 }
 
@@ -276,6 +296,12 @@ const char* celPcInventory::TestAddEntity (iCelEntity* entity)
   return NULL;
 }
 
+bool celPcInventory::TestCharacteristicChange (const char* charName, float oldValue, float newValue)
+{
+  //@@@@@@@@@@@@@@@@@@@ TODO
+  return true;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celPcCharacteristics)
@@ -314,11 +340,20 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (const char* na
   return NULL;
 }
 
-void celPcCharacteristics::SetCharProperty (const char* name, float value)
+bool celPcCharacteristics::SetCharProperty (const char* name, float value)
 {
   charact* c = FindCharact (name);
-  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
+  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); c->value = 0; }
+  // Test if the inventories are not violated.
+  int i;
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    if (!inv->TestCharacteristicChange (name, c->value, value)) return false;
+  }
+
   c->value = value;
+  return true;
 }
 
 float celPcCharacteristics::GetCharProperty (const char* name) const
@@ -359,6 +394,19 @@ void celPcCharacteristics::ClearAll ()
     delete c;
     chars.Delete (0);
   }
+}
+
+void celPcCharacteristics::AddToInventory (iPcInventory* inv)
+{
+  if (inventories.Find (inv) != -1) return;
+  inventories.Push (inv);
+}
+
+void celPcCharacteristics::RemoveFromInventory (iPcInventory* inv)
+{
+  int idx = inventories.Find (inv);
+  if (idx == -1) return;
+  inventories.Delete (idx);
 }
 
 //---------------------------------------------------------------------------
