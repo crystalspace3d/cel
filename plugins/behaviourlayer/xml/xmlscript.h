@@ -64,6 +64,7 @@ enum
   CEL_OPERATION_TRACEOFF,	// A:-		S:-		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:?		OS:-
 
+  CEL_OPERATION_INHERITPARAMS,	// A:-		S:-		OS:-
   CEL_OPERATION_ACTIONPARAMS,	// A:-		S:-		OS:-
   CEL_OPERATION_ACTIONPARAM,	// A:UL		S:ID,?		OS:-
   CEL_OPERATION_ACTION,		// A:-		S:PC,ID		OS:-
@@ -334,7 +335,7 @@ private:
   csWeakRef<iPcInventory> default_inv;
 
   // Temporary variable to keep parameters for actions.
-  csRef<celVariableParameterBlock> action_params;
+  csRef<iCelParameterBlock> action_params;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);

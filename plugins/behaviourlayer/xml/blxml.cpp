@@ -57,12 +57,14 @@ enum
   XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_LVAR,
+  XMLTOKEN_EXPR,
   XMLTOKEN_IF,
   XMLTOKEN_WHILE,
   XMLTOKEN_FOR,
   XMLTOKEN_PRINT,
   XMLTOKEN_CALL,
   XMLTOKEN_CASE,
+  XMLTOKEN_INHERIT,
   XMLTOKEN_DESTROYENTITY,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
@@ -146,12 +148,14 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("lvar", XMLTOKEN_LVAR);
+  xmltokens.Register ("expr", XMLTOKEN_EXPR);
   xmltokens.Register ("while", XMLTOKEN_WHILE);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("for", XMLTOKEN_FOR);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("case", XMLTOKEN_CASE);
+  xmltokens.Register ("inherit", XMLTOKEN_INHERIT);
   xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
@@ -607,40 +611,48 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       {
         // We have an unknown function. Try to parse it as an event handler
 	// that we can call.
-	h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-
 	pinput = input;
 	input = celXmlParseToken (input, token);
-	input = pinput;	// Restore.
 	uint32 cnt = 0;
-	while (token != CEL_TOKEN_CLOSE)
+
+	if (token == CEL_TOKEN_DOTDOTDOT)
 	{
-	  // Get parameter name.
-          if (!ParseID (input, local_vars, child, h, name, str, XMLFUNCTION_PARID))
-	    return false;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_ASSIGN)
+	  h->AddOperation (CEL_OPERATION_INHERITPARAMS);
+	  pinput = input;	// Point after ...
+	}
+	else
+	{
+	  input = pinput;	// Restore.
+	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+	  while (token != CEL_TOKEN_CLOSE)
 	  {
-	    synldr->ReportError ("cel.behaviour.xml", child,
-		"Expected '=' after parameter for '%s'!", name);
-	    return false;
-	  }
-	  // Get parameter value.
-	  if (!ParseExpression (input, local_vars, child, h,
-		name, CEL_PRIORITY_NORMAL))
-	    return false;
+	    // Get parameter name.
+            if (!ParseID (input, local_vars, child, h, name, str, XMLFUNCTION_PARID))
+	      return false;
+	    input = celXmlParseToken (input, token);
+	    if (token != CEL_TOKEN_ASSIGN)
+	    {
+	      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected '=' after parameter for '%s'!", name);
+	      return false;
+	    }
+	    // Get parameter value.
+	    if (!ParseExpression (input, local_vars, child, h,
+		  name, CEL_PRIORITY_NORMAL))
+	      return false;
 
-	  h->AddOperation (CEL_OPERATION_ACTIONPARAM);
-	  h->GetArgument ().SetUInt32 (cnt);
-	  cnt++;
+	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	    h->GetArgument ().SetUInt32 (cnt);
+	    cnt++;
 
-	  pinput = input;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
-	  {
-	    synldr->ReportError ("cel.behaviour.xml", child,
-		"Expected ')' or '=' after parameter value for '%s'!", name);
-	    return false;
+	    pinput = input;
+	    input = celXmlParseToken (input, token);
+	    if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
+	    {
+	      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected ')' or '=' after parameter value for '%s'!", name);
+	      return false;
+	    }
 	  }
 	}
 	// Restore.
@@ -963,8 +975,7 @@ bool celBlXml::ParseExpressionInt (
         return true;
       case CEL_TOKEN_SCOPE:
         {
-          if (stoppri >= CEL_PRIORITY_SCOPE)
-	  { input = pinput; return true; }
+          if (stoppri >= CEL_PRIORITY_SCOPE) { input = pinput; return true; }
           if (!ParseExpression (input, local_vars,
 	  	child, h, name, CEL_PRIORITY_SCOPE))
 	    return false;
@@ -1267,6 +1278,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
       case XMLTOKEN_CALL:
         {
 	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+	  bool inherit = false;
 	  uint32 cnt = 0;
 	  csRef<iDocumentNode> return_node;
 	  while (child_it->HasNext ())
@@ -1276,9 +1288,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    csStringID child_id = xmltokens.Request (c->GetValue ());
 	    if (child_id == XMLTOKEN_PAR) cnt++;
 	    else if (child_id == XMLTOKEN_RETURN) { return_node = c; }
+	    else if (child_id == XMLTOKEN_INHERIT) { inherit = true; break; }
 	    else synldr->ReportBadToken (c);
 	  }
-	  if (cnt > 0)
+	  if (inherit)
+	  {
+	    h->AddOperation (CEL_OPERATION_INHERITPARAMS);
+	  }
+	  else if (cnt > 0)
 	  {
 	    h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
 
@@ -1369,6 +1386,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         if (!ParseExpression (local_vars, child, h, "behaviour", "createentity"))
 	  return false;
 	h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	break;
+      case XMLTOKEN_EXPR:
+        if (!ParseExpression (local_vars, child, h, "eval", "expr"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_DROP);
 	break;
       case XMLTOKEN_LVAR:
         {

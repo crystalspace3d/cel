@@ -1115,11 +1115,11 @@
 		<var name="row14" value="'B              B   R   O               B  #                    B'" />
 		<var name="row15" value="'B              B   #X X#                                       B'" />
 		<var name="row16" value="'B              B   #XHX#     B      #     #                    B'" />
-		<var name="row17" value="'B                  #XXX#     B    X   X                        B'" />
-		<var name="row18" value="'B                  #####     B    B   #                        B'" />
-		<var name="row19" value="'B             R  RO          B                                 B'" />
-		<var name="row20" value="'B            #######         B                                 B'" />
-		<var name="row21" value="'B                            B                                 B'" />
+		<var name="row17" value="'B                  #XXX#     B    X   X           X            B'" />
+		<var name="row18" value="'B                  #####     B    B   #         B###B          B'" />
+		<var name="row19" value="'B             R  RO          B                  B#o#B          B'" />
+		<var name="row20" value="'B            #######         B                  B###B          B'" />
+		<var name="row21" value="'B                            B                  BBBBB          B'" />
 		<var name="row22" value="'B                BBB         B                                 B'" />
 		<var name="row23" value="'B       B                    B                                 B'" />
 		<var name="row24" value="'B       B                    B                                 B'" />
@@ -1194,6 +1194,8 @@
 	    	<if eval="?blocktype == 'H'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
+		    <var name="hero_x" value="?x" />
+		    <var name="hero_y" value="?y" />
 		    <createentity name="hero" behaviour="bdash_hero" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <var name="hero" value="ent(hero)" />
@@ -1249,14 +1251,8 @@
 	      - Uses @x and @y parameters.
 	      -->
 	    <event name="clearblock_check">
-	    	<call event="clearblock_nocheck">
-		    <par id="parid(x)" value="@x" />
-		    <par id="parid(y)" value="@y" />
-		</call>
-		<call event="checkfall">
-		    <par id="parid(x)" value="@x" />
-		    <par id="parid(y)" value="@y" />
-		</call>
+	    	<call event="clearblock_nocheck"> <inherit /> </call>
+		<call event="checkfall"> <inherit /> </call>
 	    </event>
 
 	    <!--
@@ -1281,10 +1277,7 @@
 	    	<lvar name="mazepos" value="@x+'_'+@y" />
 		<var name="mazeent+#mazepos" value="@entity" />
 		<if eval="@blocktype == ' '">
-		    <call event="checkfall">
-		        <par id="parid(x)" value="@x" />
-		        <par id="parid(y)" value="@y" />
-		    </call>
+		    <call event="checkfall"> <inherit /> </call>
 	    	</if>
 	    </event>
 
@@ -1325,24 +1318,16 @@
 	    </event>
 
 	    <!--
-	      - Get the entity at some position. This uses only the maze information
-	      - Use @x and @y parameters. Returns entity or ''.
-	      -->
-	    <event name="get_entity_nohero">
-		<return value="?(mazeent+@x+'_'+@y)" />
-	    </event>
-
-	    <!--
 	      - Get the entity at some position. This uses both the maze information
 	      - as the position of the hero. Use @x and @y parameters.
 	      - Returns entity (can be hero too) or ''.
 	      -->
 	    <event name="get_entity">
 		<lvar name="ent" value="?(mazeent+@x+'_'+@y)" />
-		<if eval="#ent != ''">
+		<if eval="#ent">
 		    <return value="#ent" />
 		</if>
-		<if eval="(?(?hero).x == @x) && (?(?hero).y == @y)">
+		<if eval="(?hero_x == @x) && (?hero_y == @y)">
 		    <return value="?hero" />
 	        </if>
 		<return value="''" />
@@ -1353,8 +1338,8 @@
 	      - and @y.
 	      -->
 	    <event name="get_blocktype">
-	        <lvar name="ent" value="get_entity(x=@x,y=@y)" />
-		<if eval="#ent == ''">
+	        <lvar name="ent" value="get_entity(...)" />
+		<if eval="!#ent">
 		    <return value="' '" />
 	        </if>
 		<return value="?(#ent).blocktype" />
@@ -1366,8 +1351,8 @@
 	      - Parameters are @x and @y.
 	      -->
 	    <event name="get_falloff">
-	        <lvar name="ent" value="get_entity(x=@x,y=@y)" />
-		<if eval="#ent == ''">
+	        <lvar name="ent" value="get_entity(...)" />
+		<if eval="!#ent">
 		    <return value="false" />
 	        </if>
 		<if eval="?(#ent).moving">
@@ -1390,20 +1375,20 @@
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
 		<lvar name="ent" value="get_entity(x=@x,y=@y-1)" />
-		<if eval="#ent != ''">
+		<if eval="#ent">
 		    <true>
 		        <if eval="(#ent)::falldown(dx=0,dy=1)"> <stop /> </if>
 		    </true>
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
 		        <lvar name="ent" value="get_entity(x=@x-1,y=@y-1)" />
-		        <if eval="#ent != ''">
+		        <if eval="#ent">
 		            <if eval="get_falloff(x=@x-1,y=@y)">
 			    	<if eval="(#ent)::falldown(dx=1,dy=1)"> <stop /> </if>
 		            </if>
 		        </if>
 		        <lvar name="ent" value="get_entity(x=@x+1,y=@y-1)" />
-		        <if eval="#ent != ''">
+		        <if eval="#ent">
 		            <if eval="get_falloff(x=@x+1,y=@y)">
 			    	<if eval="(#ent)::falldown(dx=-1,dy=1)"> <stop /> </if>
 		            </if>
@@ -1411,15 +1396,15 @@
 		    </false>
 		</if>
 		<lvar name="ent" value="get_entity(x=@x,y=@y+1)" />
-		<if eval="#ent == ''">
+		<if eval="!#ent">
 		    <lvar name="ent" value="get_entity(x=@x-1,y=@y)" />
-		    <if eval="#ent != ''">
+		    <if eval="#ent">
 		        <if eval="get_falloff(x=@x-1,y=@y+1)">
 			    <if eval="(#ent)::falldown(dx=1,dy=1)"> <stop /> </if>
 		        </if>
 		    </if>
 		    <lvar name="ent" value="get_entity(x=@x+1,y=@y)" />
-		    <if eval="#ent != ''">
+		    <if eval="#ent">
 		        <if eval="get_falloff(x=@x+1,y=@y+1)">
 			    <if eval="(#ent)::falldown(dx=-1,dy=1)"> <stop /> </if>
 		        </if>
@@ -1434,32 +1419,18 @@
 	      - Uses parameters @x and @y.
 	      -->
 	    <event name="ifempty_checkfall">
-	    	<lvar name="x" value="@x" />
-	    	<lvar name="y" value="@y" />
-		<lvar name="ent" value="get_entity(x=#x,y=#y)" />
-		<if eval="#ent == ''">
-		    <call event="checkfall">
-		        <par id="parid(x)" value="#x" />
-		        <par id="parid(y)" value="#y" />
-		    </call>
+		<if eval="!get_entity(...)">
+		    <expr eval="checkfall(...)" />
 	    	</if>
-		<if eval="get_falloff(x=#x,y=#y)">
-		    <lvar name="ent" value="get_entity(x=#x-1,y=#y)" />
-		    <if eval="#ent == ''">
-		    	<lvar name="x" value="(#x-1)" />
-		        <call event="checkfall">
-		            <par id="parid(x)" value="#x" />
-		            <par id="parid(y)" value="#y" />
-		        </call>
+		<if eval="get_falloff(...)">
+	    	    <lvar name="x" value="@x" />
+	    	    <lvar name="y" value="@y" />
+		    <if eval="!get_entity(x=#x-1,y=#y)">
+			<expr eval="checkfall(x=#x-1,y=#y)" />
 			<stop />
 	    	    </if>
-		    <lvar name="ent" value="get_entity(x=#x+1,y=#y)" />
-		    <if eval="#ent == ''">
-		    	<lvar name="x" value="(#x+1)" />
-		        <call event="checkfall">
-		            <par id="parid(x)" value="#x" />
-		            <par id="parid(y)" value="#y" />
-		        </call>
+		    <if eval="!get_entity(x=#x+1,y=#y)">
+			<expr eval="checkfall(x=#x+1,y=#y)" />
 	    	    </if>
 		</if>
 	    </event>
@@ -1471,15 +1442,8 @@
 	    <event name="explodeblock">
 		<lvar name="explode" value="?('explode_'+get_blocktype(x=@x,y=@y))" />
 		<if eval="#explode!=0">
-		    <call event="clearblock_nocheck">
-			<par id="parid(x)" value="@x" />
-			<par id="parid(y)" value="@y" />
-		    </call>
-		    <call event="createblock">
-			<par id="parid(blocktype)" value="@blocktype" />
-			<par id="parid(x)" value="@x" />
-			<par id="parid(y)" value="@y" />
-		    </call>
+		    <call event="clearblock_nocheck"> <inherit /> </call>
+		    <call event="createblock"> <inherit /> </call>
 		    <if eval="#explode==2">
 			<lvar name="mazepos" value="@x+'_'+@y" />
 		    	<lvar name="ent" value="?(mazeent+#mazepos)" />
@@ -1534,10 +1498,7 @@
 			<par id="parid(x)" value="@x" />
 			<par id="parid(y)" value="@y-1" />
 		</call>
-		<call event="clearblock_nocheck">
-			<par id="parid(x)" value="@x" />
-			<par id="parid(y)" value="@y" />
-		</call>
+		<call event="clearblock_nocheck"> <inherit /> </call>
 		<call event="createblock">
 			<par id="parid(blocktype)" value="'exp_c'" />
 			<par id="parid(x)" value="@x" />
@@ -1658,6 +1619,8 @@
 	        <var name="oldx" value="?x" />
 	        <var name="oldy" value="?y" />
 	        <super />
+		<var entity="bdash_main" name="hero_x" value="?x" />
+		<var entity="bdash_main" name="hero_y" value="?y" />
 	    </event>
 
 	    <!--
@@ -1744,7 +1707,7 @@
 	      - Movement events.
 	      -->
 	    <event name="pckeyinput_bomb1">
-	    	<if eval="bdash_main::get_entity_nohero(x=?x,y=?y)==''">
+	    	<if eval="!?bdash_main.(mazeent+?x+'_'+?y)">
 		    <call entity="bdash_main" event="createblock">
 		        <par id="parid(blocktype)" value="'o'" />
 		        <par id="parid(x)" value="?x" />
