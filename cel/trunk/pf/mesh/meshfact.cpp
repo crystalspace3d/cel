@@ -334,6 +334,17 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
   }
 }
 
+void celPcMesh::SetReverseAction (bool reverse)
+{
+  CS_ASSERT (mesh != NULL);
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
+  if (state)
+  {
+      state->SetReverseAction(reverse);
+  }
+}
+
 const char* celPcMesh::GetAction ()
 {
   CS_ASSERT (mesh != NULL);
@@ -551,16 +562,19 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     vw = camera->GetTransform ().This2Other (vc);
 
     iSector* sector = camera->GetSector ();
-    vo = camera->GetTransform ().GetO2TTranslation ();
-    csVector3 isect, end = vo + (vw - vo) * 60;
-
-    iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
-    if (sel)
+    if (sector)
     {
-      iObject* sel_obj = sel->QueryObject ();
-      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
-      new_sel = pl->FindAttachedEntity (sel_obj);
-    }
+      vo = camera->GetTransform ().GetO2TTranslation ();
+      csVector3 isect, end = vo + (vw - vo) * 60;
+
+      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
+      if (sel)
+      {
+        iObject* sel_obj = sel->QueryObject ();
+        csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+        new_sel = pl->FindAttachedEntity (sel_obj);
+      }
+    } 
   }
 
   if (do_drag && sel_entity)
