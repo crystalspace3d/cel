@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- plimp.csplugin -->
+<plugin>
+  <name>plimp</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.physicallayer</name>
+        <implementation>celPlLayer</implementation>
+	    <description>CEL Layer</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>

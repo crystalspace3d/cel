@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- bltest.csplugin -->
+<plugin>
+  <name>bltest</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.behaviourlayer.test</name>
+        <implementation>celBlTest</implementation>
+	    <description>CEL Test Behaviour Layer</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- blpython.csplugin -->
+<plugin>
+  <name>blpython</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.behaviourlayer.python</name>
+        <implementation>celBlPython</implementation>
+	    <description>Crystal Entity Layer Python Behaviour Layer</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>

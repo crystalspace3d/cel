@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- pfinput.csplugin -->
+<plugin>
+  <name>pfinput</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.pcfactory.pckeyinput</name>
+        <implementation>celPfCommandInput</implementation>
+	    <description>CEL Key Input Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- pfengine.csplugin -->
+<plugin>
+  <name>pfengine</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.pcfactory.camera</name>
+        <implementation>celPfCamera</implementation>
+	    <description>CEL Camera Property Class Factory</description>
+      </class>
+      
+      <class>
+        <name>cel.pcfactory.region</name>
+        <implementation>celPfRegion</implementation>
+	    <description>CEL Region Property Class Factory</description>
+      </class>
+      
+    </classes>
+  </scf>    
+</plugin>

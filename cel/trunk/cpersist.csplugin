@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- cpersist.csplugin -->
+<plugin>
+  <name>cpersist</name>
+  <scf>
+    <classes>      
+      <class>
+        <name>cel.persistance.classic</name>
+        <implementation>celPersistClassic</implementation>
+	    <description>CEL Classic Persistance Module</description>
+      </class>
+    </classes>
+  </scf>    
+</plugin>
