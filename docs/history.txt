@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-Oct-2004
+	- Eric Sunshine updated Autoconf and Jam utility files from master
+	  copies in CS repository.
 8-Oct-2004
 	- Andrew Dai improved player rotation handling with pcmove,
 	  the no longer needed SetAngularDeltaLimit() was removed
