@@ -27,9 +27,11 @@
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pf/tooltip.h"
+#include "pf/timer.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct iVirtualClock;
 
 /**
  * Factory for tools.
@@ -48,8 +50,8 @@ public:
 
   virtual const char* GetName () const { return "pftools"; }
   virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 1; }
-  virtual const char* GetTypeName (int idx) const { return "pctooltip"; }
+  virtual int GetTypeCount () const { return 2; }
+  virtual const char* GetTypeName (int idx) const;
 
   struct Component : public iComponent
   {
@@ -83,8 +85,10 @@ public:
   void Show (int x, int y);
   void Hide ();
   bool IsVisible () const { return visible; }
-  void SetTextColor (int r, int g, int b) { text_r = r; text_g = g; text_b = b; }
-  void SetBackgroundColor (int r, int g, int b) { bg_r = r; bg_g = g; bg_b = b; }
+  void SetTextColor (int r, int g, int b)
+  { text_r = r; text_g = g; text_b = b; }
+  void SetBackgroundColor (int r, int g, int b)
+  { bg_r = r; bg_g = g; bg_b = b; }
 
   SCF_DECLARE_IBASE;
 
@@ -123,6 +127,55 @@ public:
   struct EventHandler : public iEventHandler
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcTooltip);
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return scfParent->HandleEvent (ev);
+    }
+  } scfiEventHandler;
+};
+
+/**
+ * This is a timer property class.
+ */
+class celPcTimer : public iCelPropertyClass
+{
+private:
+  iCelEntity* entity;
+  iObjectRegistry* object_reg;
+  iVirtualClock* vc;
+  bool enabled;
+  csTicks wakeup, wakeup_todo;
+  bool repeat;
+
+public:
+  celPcTimer (iObjectRegistry* object_reg);
+  virtual ~celPcTimer ();
+
+  bool HandleEvent (iEvent& ev);
+  void WakeUp (csTicks t, bool repeat);
+  void Clear ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return "pctimer"; }
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
+
+  struct PcTimer : public iPcTimer
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcTimer);
+    virtual void WakeUp (csTicks t, bool repeat)
+    {
+      scfParent->WakeUp (t, repeat);
+    }
+    virtual void Clear ()
+    {
+      scfParent->Clear ();
+    }
+  } scfiPcTimer;
+  struct EventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcTimer);
     virtual bool HandleEvent (iEvent& ev)
     {
       return scfParent->HandleEvent (ev);

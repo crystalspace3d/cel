@@ -26,6 +26,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
+#include "iutil/virtclk.h"
 #include "ivideo/graph2d.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
@@ -69,8 +70,19 @@ bool celPfTools::Initialize (iObjectRegistry* object_reg)
 
 iCelPropertyClass* celPfTools::CreatePropertyClass (const char* type)
 {
-  if (strcmp (type, "pctooltip")) return NULL;
-  return new celPcTooltip (object_reg);
+  if (!strcmp (type, "pctooltip")) return new celPcTooltip (object_reg);
+  else if (!strcmp (type, "pctimer")) return new celPcTimer (object_reg);
+  else return NULL;
+}
+
+const char* celPfTools::GetTypeName (int idx) const
+{
+  switch (idx)
+  {
+    case 0: return "pctooltip";
+    case 1: return "pctimer";
+    default: return NULL;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -170,13 +182,100 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
     //int sw = G2D->GetWidth ();
     //int sh = G2D->GetHeight ();
     int fgcolor = G3D->GetTextureManager ()->FindRGB (text_r, text_g, text_b);
-    int bgcolor = bg_r == -1 ? 0 : G3D->GetTextureManager ()->FindRGB (bg_r, bg_g, bg_b);
+    int bgcolor = bg_r == -1 ? 0 : G3D->GetTextureManager ()->
+    	FindRGB (bg_r, bg_g, bg_b);
     //G2D->DrawBox (x, y, w, h, bgcolor);
     //int maxlen = fnt->GetLength (text, w-10);
     G2D->Write (fnt, x, y, fgcolor, bgcolor, text);
 
     G2D->DecRef ();
     G3D->DecRef ();
+  }
+  return false;
+}
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celPcTimer)
+  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTimer)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
+  SCF_IMPLEMENTS_INTERFACE (iPcTimer)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPcTimer::celPcTimer (iObjectRegistry* object_reg)
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
+  enabled = false;
+  celPcTimer::object_reg = object_reg;
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  CS_ASSERT (vc != NULL);
+}
+
+celPcTimer::~celPcTimer ()
+{
+  if (vc) vc->DecRef ();
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  if (q != NULL)
+    q->RemoveListener (&scfiEventHandler);
+}
+
+void celPcTimer::SetEntity (iCelEntity* entity)
+{
+  celPcTimer::entity = entity;
+}
+
+void celPcTimer::Clear ()
+{
+  enabled = false;
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != NULL);
+  q->RemoveListener (&scfiEventHandler);
+  q->DecRef ();
+}
+
+void celPcTimer::WakeUp (csTicks t, bool repeat)
+{
+  enabled = true;
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != NULL);
+  q->RemoveListener (&scfiEventHandler);
+  unsigned int trigger = CSMASK_Nothing;
+  q->RegisterListener (&scfiEventHandler, trigger);
+  q->DecRef ();
+
+  celPcTimer::repeat = repeat;
+  wakeup = t;
+  wakeup_todo = 0;
+}
+
+bool celPcTimer::HandleEvent (iEvent& ev)
+{
+  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
+  {
+    csTicks elapsed = vc->GetElapsedTicks ();
+    wakeup_todo += elapsed;
+    if (wakeup_todo >= wakeup)
+    {
+      if (repeat)
+      {
+        wakeup_todo = 0;
+      }
+      else
+      {
+        Clear ();
+      }
+      entity->GetBehaviour ()->SendMessage ("timer_wakeup", NULL);
+    }
   }
   return false;
 }

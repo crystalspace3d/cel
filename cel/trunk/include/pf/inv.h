@@ -92,15 +92,15 @@ struct iPcInventory : public iBase
    * This function can fail if the new constraints cause
    * current contents to be invalidated.
    */
-  virtual bool SetConstraints (const char* charName, float minValue, float maxValue,
-		  float totalMaxValue) = 0;
+  virtual bool SetConstraints (const char* charName,
+  	float minValue, float maxValue, float totalMaxValue) = 0;
 
   /**
    * Get the constraints for some characteristic.
    * Returns false if there are no constraints defined.
    */
-  virtual bool GetConstraints (const char* charName, float& minValue, float& maxValue,
-		  float& totalMaxValue) const = 0;
+  virtual bool GetConstraints (const char* charName,
+  	float& minValue, float& maxValue, float& totalMaxValue) const = 0;
 
   /**
    * Remove constraints for a characteristic.

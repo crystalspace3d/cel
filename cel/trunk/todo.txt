@@ -43,4 +43,7 @@ classes so that more control is possible.
 Maybe add SetEntity() to iCelBehaviour so that SetBehaviour
 can set it automatic?
 
+Let pcsolid support more than one collider? Probably better.
+
+Implement movement through portals in pcmovable.
 

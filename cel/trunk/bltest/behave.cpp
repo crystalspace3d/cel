@@ -19,6 +19,9 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
+#include "iengine/sector.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "pl/propclas.h"
@@ -27,6 +30,8 @@
 #include "pf/tooltip.h"
 #include "pf/camera.h"
 #include "pf/inv.h"
+#include "pf/gravity.h"
+#include "pf/timer.h"
 #include "bltest/behave.h"
 
 //---------------------------------------------------------------------------
@@ -168,15 +173,69 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
   {
     iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcMesh);
-    if (pcmesh)
+    CS_ASSERT (pcmesh != NULL);
+    const char* curact = pcmesh->GetAction ();
+    if (!strcmp (curact, "open"))
+      pcmesh->SetAction ("closed");
+    else
     {
-      const char* curact = pcmesh->GetAction ();
-      if (!strcmp (curact, "open"))
-        pcmesh->SetAction ("closed");
-      else
-        pcmesh->SetAction ("open");
-      pcmesh->DecRef ();
+      pcmesh->SetAction ("open");
+      // If the box is opened we remove everything from it.
+      iPcTimer* pctimer = CEL_QUERY_PROPCLASS (
+		entity->GetPropertyClassList (), iPcTimer);
+      CS_ASSERT (pctimer != NULL);
+      pctimer->WakeUp (200, false);
+      pctimer->DecRef ();
     }
+    pcmesh->DecRef ();
+  }
+  else if (!strcmp (msg_id, "timer_wakeup"))
+  {
+    iPcTimer* pctimer = CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcTimer);
+    CS_ASSERT (pctimer != NULL);
+    iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (
+      	entity->GetPropertyClassList (), iPcMesh);
+    CS_ASSERT (pcmesh != NULL);
+    // Remove one entity from the box.
+    iPcInventory* pcinv = CEL_QUERY_PROPCLASS (
+		entity->GetPropertyClassList (), iPcInventory);
+    CS_ASSERT (pcinv != NULL);
+    if (pcinv->GetEntityCount () > 0)
+    {
+      iCelEntity* inv_ent = pcinv->GetEntity (0);
+      iPcGravity* inv_ent_gravity = CEL_QUERY_PROPCLASS (
+	    	inv_ent->GetPropertyClassList (), iPcGravity);
+      iPcMesh* inv_ent_mesh = CEL_QUERY_PROPCLASS (
+	    	inv_ent->GetPropertyClassList (), iPcMesh);
+      if (inv_ent_mesh)
+      {
+	inv_ent_mesh->Show ();
+	inv_ent_mesh->MoveMesh (pcmesh->GetMesh ()->GetMovable ()->
+	      	GetSectors ()->Get (0), pcmesh->GetMesh ()->GetMovable ()->
+		GetTransform ().GetOrigin ()+csVector3 (0, 1.3, 0));
+	if (inv_ent_gravity)
+	{
+	  inv_ent_gravity->ClearForces ();
+	  float dx = 9 + 14*float ((rand () >> 3) % 10000) / 10000.;
+	  if (((rand () >> 3) & 1) == 0) dx = -dx;
+	  float dy = 9 + 14*float ((rand () >> 3) % 10000) / 10000.;
+	  if (((rand () >> 3) & 1) == 0) dy = -dy;
+	  inv_ent_gravity->ApplyForce (csVector3 (dx, 2, dy), 40);
+	}
+	inv_ent_mesh->DecRef ();
+      }
+      if (inv_ent_gravity) inv_ent_gravity->DecRef ();
+      pcinv->RemoveEntity (inv_ent);
+    }
+    if (pcinv->GetEntityCount () > 0)
+    {
+      // Restart timer.
+      pctimer->WakeUp (200, false);
+    }
+    pcinv->DecRef ();
+    pcmesh->DecRef ();
+    pctimer->DecRef ();
   }
 
   if (dat) dat->DecRef ();

@@ -1,4 +1,4 @@
-MESHFACT 'sparkbox' (
+MESHFACT 'medium' (
   PLUGIN ('crystalspace.mesh.loader.factory.sprite.3d')
   PARAMS (
     MATERIAL ('spark')
