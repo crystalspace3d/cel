@@ -59,7 +59,7 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Camera, "pccamera")
 CEL_IMPLEMENT_FACTORY (Region, "pcregion")
 
-void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);

@@ -4,3 +4,11 @@ Application bootstrap
 	: [ Wildcard *.cpp *.h ]
 ;
 CFlags bootstrap : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+
+SubVariant static ;
+Application bootstrap_static
+	: [ Wildcard *.cpp *.h ]
+	: independent noinstall
+;
+LinkStaticPlugins bootstrap_static : $(STATIC.PLUGINLIST) ;
+SubVariant ;

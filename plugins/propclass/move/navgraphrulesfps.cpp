@@ -41,8 +41,8 @@
 #include "plugins/propclass/move/navgraphrulesfps.h"
 
 // Use debugging function
-extern void Report (iObjectRegistry* object_reg, const char* msg, ...);
-extern void Notify (iObjectRegistry* object_reg, const char* msg, ...);
+extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
+extern void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...);
 
 
 /*
@@ -202,7 +202,7 @@ celPcNavGraphRulesFPS::celPcNavGraphRulesFPS (iObjectRegistry* object_reg)
   previousent = 0;
 
   DG_TYPE (this, "celPcNavGraphRulesFPS()");
-  Notify (object_reg, "Created a Nav Graph Rules FPS object");
+  MoveNotify (object_reg, "Created a Nav Graph Rules FPS object");
 }
 
 celPcNavGraphRulesFPS::~celPcNavGraphRulesFPS ()
@@ -243,7 +243,7 @@ int celPcNavGraphRulesFPS::TraverseLink (celPcNavGraph* graph,
   // NavGraph->BuildNodeGraph()
   if (previousent == 0 || ent != previousent)
   {
-    Notify (object_reg, "TraverseLink: Creating new entity");
+    MoveNotify (object_reg, "TraverseLink: Creating new entity");
     moveconst = CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
     	iPcMovableConstraint);
     previousent = ent;
@@ -283,7 +283,7 @@ int celPcNavGraphRulesFPS::TraverseLink (celPcNavGraph* graph,
   }
   else
   {
-    Notify (object_reg, ".. NO MOVABLECONSTRAINT on entity!!");
+    MoveNotify (object_reg, ".. NO MOVABLECONSTRAINT on entity!!");
     iResult = CEL_MOVE_SUCCEED;
   }
   return iResult;
@@ -303,7 +303,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
    * improve performance.
    */
 
-  Notify (object_reg, "NavrulesFPS - OptimiseGraph");
+  MoveNotify (object_reg, "NavrulesFPS - OptimiseGraph");
 
   // Remove all failed links from the graph
   int i=0;
@@ -335,7 +335,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
     }
   }
 
-  Notify (object_reg, "Optimising graph: removed %d links", count);
+  MoveNotify (object_reg, "Optimising graph: removed %d links", count);
 
   // Remove all aligned links from the graph
   // ie. if two links lie in the same direction, remove the furthest one
@@ -347,7 +347,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
     // Get the next node
     iPcNavNode* node = graph->GetNode( inode );
 
-    //Notify( object_reg, "Checking node %d", inode);
+    //MoveNotify( object_reg, "Checking node %d", inode);
 
     // For each node, test all links against all other links
     int ilink1=0;
@@ -367,7 +367,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
 	  csVector3 vecnode1 = (destnode1->GetPos() - node->GetPos()).Unit();
           csVector3 vecnode2 = (destnode2->GetPos() - node->GetPos()).Unit();
 
-          //Notify( object_reg, "Checking link %d (nd %d to %d [%f,%f,%f]) vs link %d (nd %d to %d [%f,%f,%f]) of %d links - dp %f", 
+          //MoveNotify( object_reg, "Checking link %d (nd %d to %d [%f,%f,%f]) vs link %d (nd %d to %d [%f,%f,%f]) of %d links - dp %f", 
           //        ilink1, inode, graph->FindNode(destnode1), vecnode1.x, vecnode1.y, vecnode1.z,
           //        ilink2, inode, graph->FindNode(destnode2), vecnode2.x, vecnode2.y, vecnode2.z,
           //        ilinkcount, vecnode1*vecnode2);
@@ -378,7 +378,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
             int iremovelink = (vecnode1.SquaredNorm() > vecnode2.SquaredNorm())
 	    	? ilink1:ilink2;
 
-            //Notify (object_reg, "Comparing link %d (dist %f) vs link %d (dist %f) - removing %d - now %d left", 
+            //MoveNotify (object_reg, "Comparing link %d (dist %f) vs link %d (dist %f) - removing %d - now %d left", 
             //        ilink1, vecnode1.Norm(), ilink2, vecnode2.Norm(), iremovelink,
             //        node->GetLinkCount());
 
@@ -403,7 +403,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
       ilink1++;
     }
   }
-  Notify (object_reg, "Finished optimising graph: removed %d more links",
+  MoveNotify (object_reg, "Finished optimising graph: removed %d more links",
   	count);
 }
 
@@ -487,7 +487,7 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
       if ((fclosestsofar[iVisitNode] < -0.5) ||                // new node
 	  (flOurDistance < fclosestsofar[iVisitNode] - 0.001)) // shortens dist
       {
-	//Notify (object_reg, "fl dist:%f, visit node: %d cur node: %d",
+	//MoveNotify (object_reg, "fl dist:%f, visit node: %d cur node: %d",
 	// flOurDistance, iVisitNode, iCurrentNode);
 
 	fclosestsofar[iVisitNode] = flOurDistance;
@@ -515,7 +515,7 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
   }
 
 #ifdef CS_DEBUG
-//    Notify( object_reg, "Number of nodes on the path: %d", iNumPathNodes);
+//    MoveNotify( object_reg, "Number of nodes on the path: %d", iNumPathNodes);
 #endif
 
   // Get the whole path
@@ -527,14 +527,14 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
   }
 
   //vc->Advance ();
-  //Notify( object_reg, "Search time: %f", vc->GetElapsedTicks ());
+  //MoveNotify( object_reg, "Search time: %f", vc->GetElapsedTicks ());
 /*
   #ifdef _DEBUG
   // print out position and debugging info
   for ( i = 0; i < iNumPathNodes ; i++ )
   {
     csVector3 pos = graph->GetNode( ipath[i] )->GetPos();
-    Notify( object_reg, "Path Node %d: %d (%f, %f, %f)", i, ipath[i], pos.x, pos.y, pos.z );
+    MoveNotify( object_reg, "Path Node %d: %d (%f, %f, %f)", i, ipath[i], pos.x, pos.y, pos.z );
   }
   #endif
 */
@@ -562,7 +562,7 @@ int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
   csVector3 vpath;
   iPcNavNode* node;
 
-  Notify (object_reg, "NavrulesFPS - FindNearestNode");
+  MoveNotify (object_reg, "NavrulesFPS - FindNearestNode");
 
   // Get the PL
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(object_reg, iCelPlLayer);
@@ -618,7 +618,7 @@ int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
       }
     }
 
-    //Notify (object_reg, "Node %d - sq. dist: %f, closest sq. dist: %f",
+    //MoveNotify (object_reg, "Node %d - sq. dist: %f, closest sq. dist: %f",
     //i, fdist, fclosestdist);
   }
 

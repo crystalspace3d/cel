@@ -347,6 +347,16 @@ void celBillboard::Move (int dx, int dy)
   bb_y += dy;
 }
 
+void celBillboard::StackTop ()
+{
+  mgr->StackTop (this);
+}
+
+void celBillboard::StackBottom ()
+{
+  mgr->StackBottom (this);
+}
+
 void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);

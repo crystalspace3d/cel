@@ -82,6 +82,66 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="number_0">
+	    <file>/cellib/images/number_0.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_1">
+	    <file>/cellib/images/number_1.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_2">
+	    <file>/cellib/images/number_2.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_3">
+	    <file>/cellib/images/number_3.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_4">
+	    <file>/cellib/images/number_4.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_5">
+	    <file>/cellib/images/number_5.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_6">
+	    <file>/cellib/images/number_6.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_7">
+	    <file>/cellib/images/number_7.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_8">
+	    <file>/cellib/images/number_8.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="number_9">
+	    <file>/cellib/images/number_9.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="brick_full">
+	    <file>/cellib/images/brick_full.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
+        <texture name="brick_broken">
+	    <file>/cellib/images/brick_broken.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
         <texture name="explosion_c">
 	    <file>/cellib/images/explosion_c.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -147,6 +207,18 @@
         <material name="diamond_bomb"> <texture>diamond_bomb</texture> </material>
         <material name="bomb"> <texture>bomb</texture> </material>
         <material name="rock"> <texture>rock</texture> </material>
+        <material name="brick_full"> <texture>brick_full</texture> </material>
+        <material name="brick_broken"> <texture>brick_broken</texture> </material>
+        <material name="number_0"> <texture>number_0</texture> </material>
+        <material name="number_1"> <texture>number_1</texture> </material>
+        <material name="number_2"> <texture>number_2</texture> </material>
+        <material name="number_3"> <texture>number_3</texture> </material>
+        <material name="number_4"> <texture>number_4</texture> </material>
+        <material name="number_5"> <texture>number_5</texture> </material>
+        <material name="number_6"> <texture>number_6</texture> </material>
+        <material name="number_7"> <texture>number_7</texture> </material>
+        <material name="number_8"> <texture>number_8</texture> </material>
+        <material name="number_9"> <texture>number_9</texture> </material>
         <material name="explosion_c"> <texture>explosion_c</texture> </material>
         <material name="explosion_b"> <texture>explosion_b</texture> </material>
         <material name="explosion_t"> <texture>explosion_t</texture> </material>
@@ -401,6 +473,115 @@
 		    <par id="parid(repeat)" value="false" />
 		</action>
 		<bb_move x="?x*?dim" y="?y*?dim" delta="int(1000*?speed)" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - Number!
+	  -  ***************************************************** -->
+	<script name="number">
+	    <!--
+	      - Initialize.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	    </event>
+
+	    <!--
+	      - Initialize. Needs parameter @material.
+	      -->
+	    <event name="realinit">
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="number" />
+	        <property id="propid(materialname)" value="@material" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(visible)" value="false" />
+	        <property id="propid(width)" value="18000" />
+	        <property id="propid(height)" value="18000" />
+	        <property id="propid(x)" value="1000" />
+	        <property id="propid(y)" value="1000" />
+	    </event>
+
+	    <event name="show">
+		<default propclass="?pcbb" />
+		<bb_tofront />
+	        <property id="propid(visible)" value="true" />
+	        <property id="propid(x)" value="@x" />
+	        <property id="propid(y)" value="@y" />
+	    </event>
+	    <event name="hide">
+		<default propclass="?pcbb" />
+	        <property id="propid(visible)" value="false" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - Generic superclass for games that can keep track of score and print it.
+	  -  ***************************************************** -->
+	<script name="supergame">
+	    <event name="init">
+		<for var="i" start="0" end="6">
+		    <for var="d" start="0" end="9">
+		    	<lvar name="entname" value="number+?i+'_'+?d" />
+		        <createentity name="#entname" behaviour="number" />
+			<call entity="ent(#entname)" event="realinit">
+			    <par id="parid(material)" value="number_+?d" />
+			</call>
+		    </for>
+		</for>
+	    	<call event="clearscore" />
+	    </event>
+
+	    <event name="clearscore">
+	        <var name="score" value="0" />
+		<call event="constructscore" />
+	    </event>
+
+	    <!--
+	      - Add to a score (can be negative).
+	      - Parameter is @score.
+	      -->
+	    <event name="addscore">
+	    	<call event="hidescore" />
+	        <var name="score" value="?score+@score" />
+		<if eval="?score < 0">
+	            <var name="score" value="0" />
+		</if>
+		<call event="constructscore" />
+	    </event>
+
+	    <event name="hidescore">
+		<lvar name="s" value="?score" />
+		<lvar name="i" value="0" />
+		<while eval="#s>=0">
+		    <lvar name="d" value="#s%10" />
+		    <lvar name="s" value="#s/10" />
+		    <call entity="ent(number+#i+'_'+#d)" event="hide" />
+		    <lvar name="i" value="#i+1" />
+		    <if eval="!#s"> <stop /> </if>
+		</while>
+	    </event>
+
+	    <event name="constructscore">
+	        <lvar name="x" value="280000" />
+	        <lvar name="y" value="280000" />
+		<lvar name="s" value="?score" />
+		<lvar name="i" value="0" />
+		<while eval="#s>=0">
+		    <lvar name="d" value="#s%10" />
+		    <lvar name="s" value="#s/10" />
+		    <call entity="ent(number+#i+'_'+#d)" event="show">
+		        <par id="parid(x)" value="#x" />
+		        <par id="parid(y)" value="#y" />
+		    </call>
+		    <lvar name="x" value="#x-18000" />
+		    <lvar name="i" value="#i+1" />
+		    <if eval="!#s"> <stop /> </if>
+		</while>
 	    </event>
 	</script>
 
@@ -997,8 +1178,12 @@
 	  -  *****************************************************
 	  -  ***************************************************** -->
 	<script name="bdash_main">
+	    <superscript name="supergame" />
+
 	    <event name="init">
 	        <print value="BOULDERDASH"/>
+	    	<super />
+
 	        <createpropclass name="pcinventory" />
 	        <createpropclass name="pctimer" />
 
@@ -1034,6 +1219,12 @@
 		<var name="'entstack_O'" value="0" />
 		<var name="'entstack_o'" value="0" />
 		<var name="'entstack_R'" value="0" />
+		<var name="'entstack_m'" value="0" />
+		<var name="'entstack_a'" value="0" />
+		<var name="'entstack_b'" value="0" />
+		<var name="'entstack_M'" value="0" />
+		<var name="'entstack_*'" value="0" />
+		<var name="'entstack_+'" value="0" />
 		<var name="'entstack_exp_c'" value="0" />
 		<var name="'entstack_exp_t'" value="0" />
 		<var name="'entstack_exp_l'" value="0" />
@@ -1054,6 +1245,12 @@
 		<var name="'material_O'" value="bomb" />
 		<var name="'material_o'" value="bomb" />
 		<var name="'material_R'" value="rock" />
+		<var name="'material_m'" value="monster" />
+		<var name="'material_a'" value="apple" />
+		<var name="'material_b'" value="banana" />
+		<var name="'material_M'" value="mushroom" />
+		<var name="'material_*'" value="brick_full" />
+		<var name="'material_+'" value="brick_broken" />
 		<var name="'material_exp_c'" value="explosion_c" />
 		<var name="'material_exp_t'" value="explosion_t" />
 		<var name="'material_exp_l'" value="explosion_l" />
@@ -1073,6 +1270,12 @@
 		<var name="'behaviour_O'" value="bdash_bomb" />
 		<var name="'behaviour_o'" value="bdash_timedbomb" />
 		<var name="'behaviour_R'" value="bdash_movable" />
+		<var name="'behaviour_m'" value="bdash_diamond_monster" />
+		<var name="'behaviour_a'" value="bdash_apple_monster" />
+		<var name="'behaviour_b'" value="bdash_apple_monster" />
+		<var name="'behaviour_M'" value="bdash_mushroom_monster" />
+		<var name="'behaviour_*'" value="bdash_nonmovable" />
+		<var name="'behaviour_+'" value="bdash_nonmovable" />
 		<var name="'behaviour_exp_c'" value="bdash_explosion" />
 		<var name="'behaviour_exp_t'" value="bdash_explosion" />
 		<var name="'behaviour_exp_l'" value="bdash_explosion" />
@@ -1092,6 +1295,12 @@
 		<var name="'falloff_O'" value="true" />
 		<var name="'falloff_o'" value="true" />
 		<var name="'falloff_R'" value="true" />
+		<var name="'falloff_m'" value="false" />
+		<var name="'falloff_a'" value="true" />
+		<var name="'falloff_b'" value="true" />
+		<var name="'falloff_M'" value="true" />
+		<var name="'falloff_*'" value="false" />
+		<var name="'falloff_+'" value="false" />
 		<var name="'falloff_exp_c'" value="false" />
 		<var name="'falloff_exp_t'" value="false" />
 		<var name="'falloff_exp_l'" value="false" />
@@ -1107,6 +1316,7 @@
 		  -	- '0': can't be destroyed by explosion.
 		  -	- '1': can be destroyed by explosion.
 		  -	- '2': will cause an explosion if destroyed.
+		  -	- '3': will degrate to another blocktype (uses 'blockchange_' table).
 		  -->
 		<var name="'destroy_ '" value="1" />
 		<var name="'destroy_H'" value="1" />
@@ -1117,6 +1327,12 @@
 		<var name="'destroy_O'" value="2" />
 		<var name="'destroy_o'" value="2" />
 		<var name="'destroy_R'" value="1" />
+		<var name="'destroy_m'" value="1" />
+		<var name="'destroy_a'" value="1" />
+		<var name="'destroy_b'" value="1" />
+		<var name="'destroy_M'" value="1" />
+		<var name="'destroy_*'" value="3" />
+		<var name="'destroy_+'" value="1" />
 		<var name="'destroy_exp_c'" value="1" />
 		<var name="'destroy_exp_t'" value="1" />
 		<var name="'destroy_exp_l'" value="1" />
@@ -1126,6 +1342,13 @@
 		<var name="'destroy_exp_br'" value="1" />
 		<var name="'destroy_exp_tl'" value="1" />
 		<var name="'destroy_exp_tr'" value="1" />
+
+		<!--
+		  - For all blocktypes where 'destroy_' == 3 we have a table
+		  - of what to change this block too when destroyed.
+		  -->
+		<var name="'blockchange_*'" value="'+'" />
+
 		<!--
 		  - Create a table of 'explode' setting per block type.
 		  - Two possible values:
@@ -1142,6 +1365,12 @@
 		<var name="'explode_O'" value="1" />
 		<var name="'explode_o'" value="0" />
 		<var name="'explode_R'" value="0" />
+		<var name="'explode_m'" value="2" />
+		<var name="'explode_a'" value="0" />
+		<var name="'explode_b'" value="0" />
+		<var name="'explode_M'" value="0" />
+		<var name="'explode_*'" value="0" />
+		<var name="'explode_+'" value="0" />
 		<var name="'explode_exp_c'" value="0" />
 		<var name="'explode_exp_t'" value="0" />
 		<var name="'explode_exp_l'" value="0" />
@@ -1154,68 +1383,68 @@
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
-		<var name="row1"  value="'B #XXX#                                                        B'" />
-		<var name="row2"  value="'B #XXX#                                                        B'" />
-		<var name="row3"  value="'B #XXX#         O        X                                     B'" />
-		<var name="row4"  value="'B #XXX#       #####     XXX                                    B'" />
-		<var name="row5"  value="'B #####       #####    XXXXX                                   B'" />
-		<var name="row6"  value="'B         X  X###x#  xXXxxXXX                                  B'" />
-		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXx#  X   Xx    X                   B'" />
-		<var name="row8"  value="'B    B         B     #XXxXXxXX# ### ###   ###                  B'" />
-		<var name="row9"  value="'B   O  O       B     #XXXXxXXX#                                B'" />
-		<var name="row10" value="'B#########     B     #XxXXXXXX#  #   B     #                   B'" />
-		<var name="row11" value="'B#########     B     ##########                                B'" />
-		<var name="row12" value="'B#########     B                                               B'" />
-		<var name="row13" value="'B              B                   #       B                   B'" />
-		<var name="row14" value="'B              B   R   O               B  #                    B'" />
-		<var name="row15" value="'B              B   #X X#      x                                B'" />
-		<var name="row16" value="'B              B   #XXX#     B#     #     #                    B'" />
-		<var name="row17" value="'B                  #XXX#     B    X   X           X            B'" />
-		<var name="row18" value="'B                  #####     B    B   #         B###B          B'" />
-		<var name="row19" value="'B             R xRO          B                  B###B          B'" />
-		<var name="row20" value="'B            #######         B                  B###B          B'" />
-		<var name="row21" value="'B                            B                  BBBBB          B'" />
-		<var name="row22" value="'B                BBB         B                                 B'" />
-		<var name="row23" value="'B       B                    B                                 B'" />
-		<var name="row24" value="'B       B                    B                                 B'" />
-		<var name="row25" value="'B       B                    B                                 B'" />
-		<var name="row26" value="'B       B                                                      B'" />
-		<var name="row27" value="'B       B    O         RRR                                     B'" />
-		<var name="row28" value="'B       B    ##XXXXXXXXXXXXXXXxXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row30" value="'B       B     #XXXxXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXOXOOOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row32" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row33" value="'B             #XXXXXXXXXOXXXXOXXXXXXXXXXXXXXXXXOXXXXXXXXXXXX#  B'" />
-		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXX#  B'" />
-		<var name="row35" value="'B             #XXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXX#  B'" />
-		<var name="row36" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row37" value="'B            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOXXXXXXX#  B'" />
-		<var name="row38" value="'B            ##XXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row39" value="'B             #XXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row40" value="'B             #XXXXXXXXXXXXXXOXOXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row41" value="'B             #XXXXXXXXXXXXXOXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row42" value="'B             #XXXXXXXXOXXXXXXXXXXOXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row43" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row44" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row45" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row46" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row47" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXXXXX#  B'" />
-		<var name="row48" value="'B             ###############################################  B'" />
-		<var name="row49" value="'B                                                              B'" />
-		<var name="row50" value="'B                                                              B'" />
-		<var name="row51" value="'B                                                              B'" />
-		<var name="row52" value="'B                                                              B'" />
-		<var name="row53" value="'B                                                              B'" />
-		<var name="row54" value="'B                                                              B'" />
-		<var name="row55" value="'B                                                              B'" />
-		<var name="row56" value="'B                          BB BB                               B'" />
-		<var name="row57" value="'B                          BB BB                               B'" />
-		<var name="row58" value="'B                          BBOBB                               B'" />
-		<var name="row59" value="'B                          BBXOB                               B'" />
-		<var name="row60" value="'B                          BBXBB                               B'" />
-		<var name="row61" value="'B                            H                                 B'" />
-		<var name="row62" value="'B                                                              B'" />
+		<var name="row1"  value="'B #XXX#    *                               #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row2"  value="'B #XXX#    *                               #xxxxmmmmmmmmmmmmmmmB'" />
+		<var name="row3"  value="'B #XXX#    *    O        X                 #xxxxmmmmmmmmmmmmmmmB'" />
+		<var name="row4"  value="'B #XXX#       #####     XXX     m          #xxxxxxxxxxxxxxMMMMMB'" />
+		<var name="row5"  value="'B #####       #####    XXXXX        mm m   #xxxxm****xxxxxxxxxxB'" />
+		<var name="row6"  value="'B         X  X###x#  xXXxxXXX             m#xxxxxxmxxxxxxxxxxxxB'" />
+		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXxmXx#  X   Xx    #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row8"  value="'B    B         B     #XXmXXxXX# ### ###   ##xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row9"  value="'B   O  O       B   m #XXXXxXXX#            #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row10" value="'B#########     B     #XxXXXXXX#  #x  B     #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row11" value="'B#########   m B     ##########            #xxxmxxxxxxxxxxxxxxxB'" />
+		<var name="row12" value="'B#########     B                   R       #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row13" value="'B              B                   ##R  a  #xxxxxxxxxxxxxxxxxxxB'" />
+		<var name="row14" value="'B  ****     a  B   R   O         x   # B  #####################B'" />
+		<var name="row15" value="'B     *   a    B   #X X#      x                                B'" />
+		<var name="row16" value="'B  ****        B   #XXX#      #     #     #                    B'" />
+		<var name="row17" value="'B  *     a         #####                          X            B'" />
+		<var name="row18" value="'B  ****       a           a    a          a     B###B          B'" />
+		<var name="row19" value="'B            ***  *   * ***  **** *   *         B###B          B'" />
+		<var name="row20" value="'B    x       *  * *   * *  * *    **  *         B###B          B'" />
+		<var name="row21" value="'B            ***  *   * ***  ***  * * *         BBBBB          B'" />
+		<var name="row22" value="'B            *  * *   * *  * *    *  **      **************    B'" />
+		<var name="row23" value="'B       *    *  *  ***  ***  **** *   *      *       M  a *    B'" />
+		<var name="row24" value="'B       *                 H                  *a b aa  M a *    B'" />
+		<var name="row25" value="'B   bb  *    *   *   *     *   * * * ****    * aba b  a M *    B'" />
+		<var name="row26" value="'B   MM  *    ** **  * *   * *  * * * *       *   b   bb   *    B'" />
+		<var name="row27" value="'B   M   B    * * * *   * *   * * **  ***     **************    B'" />
+		<var name="row28" value="'B  b b  B    *   * ***** ***** * * * *                         B'" />
+		<var name="row29" value="'B  b  b B    *   * *   * *   * * * * ****                      B'" />
+		<var name="row30" value="'B   b b B                                                      B'" />
+		<var name="row31" value="'BBBBBBBBB  m  #XXXaXXaXXaXmmmmmmmmmmmmmmmmmmmBXXXXXXXXXXXXXX#  B'" />
+		<var name="row32" value="'B    #        #XmXXXXXXXXXXMXXXXXXXXXXXXXXXXXBXXXXXXXXXXXXXX#  B'" />
+		<var name="row33" value="'B    #        #XXXXXXXXXOXXXbOXXXXXXXXXXXXXXXBXOXXXXXXXXXXXX#  B'" />
+		<var name="row34" value="'B    #        #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXX#  B'" />
+		<var name="row35" value="'B    #        #XXXXXmXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXX#  B'" />
+		<var name="row36" value="'B   *****     #XXXXXXXXXRXXXXBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row37" value="'B            OOOROROROROOOROOBObRRObOOObOOOObOOOOOOOOXXXXXXX#  B'" />
+		<var name="row38" value="'BBBB         ##XXXXX***XXXXBBBXXX**XBBBXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row39" value="'B             #XXXXOmXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row40" value="'B    B  BB BBB#XXXXXXXXXXXXXXOXOXXXXXXXXXXXBBBXXXXXRRRRRRRRR#  B'" />
+		<var name="row41" value="'B    B   B    #XXXXXXXmXXXXXOXXXXXRXXXXXXXXXXXXXXRRRaaaabaaa#  B'" />
+		<var name="row42" value="'B    BBB B    #XXXXX***OXXXXXXXXXXRXXXRXXXXXXXXXRRRaaaabaaaa#  B'" />
+		<var name="row43" value="'B        B    #XXXXXXXXXXXXXXXXaXXXXXXXXXaaaaXXRRRRaaRbaabXa#  B'" />
+		<var name="row44" value="'B*** #        #XXXXXXXXXXXmXXXXaXXXXXXXRXMXXaXXXXXRaaMaRRaaa#  B'" />
+		<var name="row45" value="'B    #  *  B# #XXXXXXmXXXXXXXXXaaaaaXXaaaaXXaXXbbbRaRRabbbbR#  B'" />
+		<var name="row46" value="'B  BBBB *  B# #XXXXXXXXXXXXXXXXXXXXXaXaXOXXXaXXXXXbRabbaaaaR#  B'" />
+		<var name="row47" value="'B       *  B# #XXXXXXXXXXmXXmXXXXXXXXaaXXXXOaaaaaaRaaaRaaRaa#  B'" />
+		<var name="row48" value="'B B B   *   # #############B#################################  B'" />
+		<var name="row49" value="'B B B  BBB  #      *       B                                   B'" />
+		<var name="row50" value="'B#BBB       #    B *    BBBB              aaa   aa             B'" />
+		<var name="row51" value="'B         ***    B***            ****   aa   a a a             B'" />
+		<var name="row52" value="'B    BBBB      B B        BBB           a BBBBB  a B  BBBBBBB  B'" />
+		<var name="row53" value="'BBBB**  B      B B BBBBB               a   bbbbbb  B           B'" />
+		<var name="row54" value="'B    B  BBBBB  BBB   B B              a    b B     B a ###     B'" />
+		<var name="row55" value="'B    B               B B          b  a     b B##   Ba       B  B'" />
+		<var name="row56" value="'B  BBB    B B          B   BB BB   bbbbbbb b B a###aB  a    B  B'" />
+		<var name="row57" value="'B    # B  B BBBB   B B     BB BB         bbb Ba M a B a a   B  B'" />
+		<var name="row58" value="'B  # # B  B        B B  B  BBOBB   * *  B bb B   MaM a a    B  B'" />
+		<var name="row59" value="'B    B B  BBBBB  BBBBBB B  BBXOB   * *  B a  BBB   MM aB # BB  B'" />
+		<var name="row60" value="'B # ##BBB B      B      B  BBXBB   * *  B  a      BBBaaB #     B'" />
+		<var name="row61" value="'B #       BBBB * B  m BBB    #     * *  B      B         #   BBB'" />
+		<var name="row62" value="'B    B B       * B                 * *         B         #     B'" />
 		<var name="row63" value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
 		<for var="y" start="0" end="?dimension-1">
 		    <var name="row" value="?(row+?y)" />
@@ -1553,7 +1782,7 @@
 	      -->
 	    <event name="diamond_explodeblock">
 		<lvar name="destroy" value="?('destroy_'+get_blocktype(...))" />
-		<if eval="#destroy!=0">
+		<if eval="#destroy!=0 && #destroy!=3">
 		    <call event="clearblock_nocheck"> <inherit /> </call>
 		    <call event="createblock"> <inherit /> </call>
 		    <call event="checkfall_block"> <inherit /> </call>
@@ -1564,6 +1793,8 @@
 	      - Fire a diamond explosion. Parameters are @x and @y.
 	      -->
 	    <event name="diamond_bang">
+		<sound name="clang" loop="false" />
+
 		<call event="diamond_explodeblock">
 			<par id="parid(blocktype)" value="'X'" />
 			<par id="parid(x)" value="@x-1" />
@@ -1618,9 +1849,23 @@
 	      - Parameters: @x, @y, and @blocktype.
 	      -->
 	    <event name="explodeblock">
-		<lvar name="destroy" value="?('destroy_'+get_blocktype(...))" />
+	    	<lvar name="bt" value="get_blocktype(...)" />
+		<lvar name="destroy" value="?('destroy_'+#bt)" />
 		<if eval="#destroy!=0">
+		    <if eval="#bt=='H'">
+		    	<call event="addscore">
+			    <par id="parid(score)" value="-20" />
+			</call>
+		    </if>
 		    <call event="clearblock_nocheck"> <inherit /> </call>
+		    <if eval="#destroy==3">
+		        <call event="createblock">
+			    <par id="parid(x)" value="@x" />
+			    <par id="parid(y)" value="@y" />
+			    <par id="parid(blocktype)" value="?('blockchange_'+#bt)" />
+			</call>
+			<stop />
+		    </if>
 		    <call event="createblock"> <inherit /> </call>
 		    <if eval="#destroy==2">
 		    	<lvar name="ent" value="?(@x+'_'+@y)" />
@@ -1891,6 +2136,25 @@
 		</if>
 	    </event>
 
+	    <event name="takediamond">
+		<sound name="bloop" loop="false" />
+		<call entity="bdash_main" event="addscore">
+		    <par id="parid(score)" value="1" />
+		</call>
+	    </event>
+	    <event name="takeapple">
+		<sound name="bloop" loop="false" />
+		<call entity="bdash_main" event="addscore">
+		    <par id="parid(score)" value="5" />
+		</call>
+	    </event>
+	    <event name="takemushroom">
+		<call entity="bdash_main" event="new_explosion">
+		    <par id="parid(x)" value="?x" />
+		    <par id="parid(y)" value="?y" />
+		</call>
+	    </event>
+
 	    <!--
 	      - Check if a take is possible and perform the take
 	      - if so. Uses ?dx and ?dy to get the take direction and
@@ -1920,11 +2184,26 @@
 	    <event name="checktake_R">
 	    	<call event="trypush_dontmove" />
 	    </event>
+	    <event name="checktake_x">
+	    	<call event="trypush_dontmove" />
+	    </event>
 	    <event name="checktake_o">
 	    </event>
 	    <event name="checktake_X">
-		<sound name="bloop" loop="false" />
+	    	<call event="takediamond" />
 		<call event="clearblock_check" />
+	    </event>
+	    <event name="checktake_a">
+	    	<call event="takeapple" />
+		<call event="clearblock_check" />
+	    </event>
+	    <event name="checktake_b">
+	    	<call event="takeapple" />
+		<call event="clearblock_check" />
+	    </event>
+	    <event name="checktake_M">
+	    	<call event="takemushroom" />
+		<call event="clearblock_nocheck" />
 	    </event>
 
 	    <!--
@@ -1958,11 +2237,29 @@
 	    <event name="checkmove_R">
 	    	<call event="trypush" />
 	    </event>
+	    <event name="checkmove_x">
+	    	<call event="trypush" />
+	    </event>
 	    <event name="checkmove_o">
 		<call event="startmove" />
 	    </event>
 	    <event name="checkmove_X">
-		<sound name="bloop" loop="false" />
+	    	<call event="takediamond" />
+		<call event="clearblock_nocheck" />
+		<call event="startmove" />
+	    </event>
+	    <event name="checkmove_a">
+	    	<call event="takeapple" />
+		<call event="clearblock_nocheck" />
+		<call event="startmove" />
+	    </event>
+	    <event name="checkmove_b">
+	    	<call event="takeapple" />
+		<call event="clearblock_nocheck" />
+		<call event="startmove" />
+	    </event>
+	    <event name="checkmove_M">
+	    	<call event="takemushroom" />
 		<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
@@ -2173,8 +2470,7 @@
 	        <var name="x" value="?bdash_main.x" />
 	        <var name="y" value="?bdash_main.y" />
 		<default propclass="?pcbb" />
-	        <property id="propid(x)" value="?x*?dim" />
-	        <property id="propid(y)" value="?y*?dim" />
+		<bb_move x="?x*?dim" y="?y*?dim" delta="0" />
 	    </event>
 	    <event name="cleanup">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
@@ -2323,6 +2619,446 @@
 		    </if>
 		</if>
 		<super />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a movable monster in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_monster">
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="init">
+		<var name="dim" value="?bdash_main.blockdim" />
+	        <var name="blocktype" value="?bdash_main.blocktype" />
+		<var name="speed" value="?bdash_main.fallspeed" />
+		<lvar name="material" value="?bdash_main.(material_+?blocktype)" />
+
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="#material" />
+	        <property id="propid(materialname)" value="#material" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="640+?dim" />
+	        <property id="propid(height)" value="640+?dim" />
+	        <property id="propid(layer)" value="game" />
+	    	<call event="reinit" />
+	    </event>
+
+	    <!--
+	      - Re-initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="reinit">
+		<var name="moving" value="false" />
+		<var name="dx" value="0" />
+		<var name="dy" value="0" />
+	        <var name="x" value="?bdash_main.x" />
+	        <var name="y" value="?bdash_main.y" />
+		<default propclass="?pcbb" />
+		<bb_move x="?x*?dim" y="?y*?dim" delta="0" />
+		<call event="waitfornewmove" />
+	    </event>
+	    <event name="cleanup">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+	    </event>
+
+	    <!--
+	      - The move ends.
+	      -->
+	    <event name="pctimer_wakeup">
+	        <if eval="?moving">
+		    <true>
+		        <var name="moving" value="false" />
+		        <call event="endmove" />
+		    </true>
+		    <false>
+		    	<call event="decidenewmove" />
+		    </false>
+		</if>
+	    </event>
+
+	    <!--
+	      - Subscripts can override this to decide on a new move.
+	      -->
+	    <event name="decidenewmove">
+	    </event>
+
+	    <!--
+	      - Subscripts can call this to wait a bit and then decide
+	      - on a new move again.
+	      -->
+	    <event name="waitfornewmove">
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <!-- Add a small random amount to avoid a hickup at exactly the same time for
+		         all moving objects -->
+		    <par id="parid(time)" value="150+int(rand(50.0))" />
+		    <par id="parid(repeat)" value="false" />
+		</action>
+	    </event>
+
+	    <!--
+	      - Routine to calculate ?dx and ?dy based on ?dxdy.
+	      -->
+	    <event name="calcdxdy">
+		<!-- Set ?dx and ?dy based on the four possible outcomes -->
+		<if eval="?dxdy&2">
+		    <true>
+		        <var name="dx" value="0" />
+		        <var name="dy" value="if(?dxdy&1,1,-1)" />
+		    </true>
+		    <false>
+		        <var name="dx" value="if(?dxdy&1,1,-1)" />
+		        <var name="dy" value="0" />
+		    </false>
+		</if>
+	    </event>
+
+	    <!--
+	      - Rotate ?dx and ?dy two steps to the left (there are 8
+	      - rotation positions).
+	      -->
+	    <event name="rotateleft2">
+	        <lvar name="keep" value="?dx" />
+		<var name="dx" value="-?dy" />
+		<var name="dy" value="#keep" />
+	    </event>
+
+	    <!--
+	      - Rotate ?dx and ?dy two steps to the right (there are 8
+	      - rotation positions).
+	      -->
+	    <event name="rotateright2">
+	        <lvar name="keep" value="?dx" />
+		<var name="dx" value="?dy" />
+		<var name="dy" value="-#keep" />
+	    </event>
+
+	    <!--
+	      - Rotate ?dx and ?dy one step to the left (there are 8
+	      - rotation positions).
+	      -->
+	    <event name="rotateleft">
+	    	<if eval="!?dx">
+		    <if eval="!?dy">
+		        <!-- dx==0 dy==0 -->
+			<!-- Nothing changes -->
+		        <stop/>
+		    </if>
+		    <if eval="?dy==1">
+		        <!-- dx==0 dy==1 -->
+			<var name="dx" value="-1" />
+		        <stop/>
+		    </if>
+		    <!-- dx==0 dy==-1 -->
+		    <var name="dx" value="1" />
+		    <stop/>
+		</if>
+	        <if eval="?dx==1">
+		    <if eval="!?dy">
+		        <!-- dx==1 dy==0 -->
+			<var name="dy" value="1" />
+		        <stop/>
+		    </if>
+		    <if eval="?dy==1">
+		        <!-- dx==1 dy==1 -->
+			<var name="dx" value="0" />
+		        <stop/>
+		    </if>
+		    <!-- dx==1 dy==-1 -->
+		    <var name="dy" value="0" />
+		    <stop/>
+		</if>
+		<if eval="!?dy">
+		    <!-- dx==-1 dy==0 -->
+		    <var name="dy" value="-1" />
+		    <stop/>
+		</if>
+		<if eval="?dy==1">
+		    <!-- dx==-1 dy==1 -->
+		    <var name="dy" value="0" />
+		    <stop/>
+		</if>
+		<!-- dx==-1 dy==-1 -->
+		<var name="dx" value="0" />
+	    </event>
+
+	    <!--
+	      - Rotate ?dx and ?dy one step to the right (there are 8
+	      - rotation positions).
+	      -->
+	    <event name="rotateright">
+	    	<if eval="!?dx">
+		    <if eval="!?dy">
+		        <!-- dx==0 dy==0 -->
+			<!-- Nothing changes -->
+		        <stop/>
+		    </if>
+		    <if eval="?dy==1">
+		        <!-- dx==0 dy==1 -->
+			<var name="dx" value="1" />
+		        <stop/>
+		    </if>
+		    <!-- dx==0 dy==-1 -->
+		    <var name="dx" value="-1" />
+		    <stop/>
+		</if>
+	        <if eval="?dx==1">
+		    <if eval="!?dy">
+		        <!-- dx==1 dy==0 -->
+			<var name="dy" value="-1" />
+		        <stop/>
+		    </if>
+		    <if eval="?dy==1">
+		        <!-- dx==1 dy==1 -->
+			<var name="dy" value="0" />
+		        <stop/>
+		    </if>
+		    <!-- dx==1 dy==-1 -->
+		    <var name="dx" value="0" />
+		    <stop/>
+		</if>
+		<if eval="!?dy">
+		    <!-- dx==-1 dy==0 -->
+		    <var name="dy" value="1" />
+		    <stop/>
+		</if>
+		<if eval="?dy==1">
+		    <!-- dx==-1 dy==1 -->
+		    <var name="dx" value="0" />
+		    <stop/>
+		</if>
+		<!-- dx==-1 dy==-1 -->
+		<var name="dy" value="0" />
+	    </event>
+
+	    <event name="startmove">
+		<call entity="bdash_main" event="startmove_block">
+		    <par id="parid(entity)" value="ent()" />
+		    <par id="parid(dx)" value="?dx" />
+		    <par id="parid(dy)" value="?dy" />
+		</call>
+		<var name="x" value="?x+?dx" />
+		<var name="y" value="?y+?dy" />
+		<var name="moving" value="true" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="int(1000*?speed)" />
+		    <par id="parid(repeat)" value="false" />
+		</action>
+		<bb_move x="?x*?dim" y="?y*?dim" delta="int(1000*?speed)" />
+	    </event>
+
+	    <event name="endmove">
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<call entity="bdash_main" event="endmove_block">
+		    <par id="parid(entity)" value="ent()" />
+		</call>
+		<call event="decidenewmove" />
+	    </event>
+
+	    <!--
+	      - This block does not support falling down.
+	      -->
+	    <event name="falldown">
+		<return value="false" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a mushroom monster in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_mushroom_monster">
+	    <superscript name="bdash_monster" />
+
+	    <event name="decidenewmove">
+	    	<lvar name="ax" value="abs(?bdash_main.hero_x-?x)" />
+	    	<lvar name="ay" value="abs(?bdash_main.hero_y-?y)" />
+		<if eval="#ax<10 && #ay<10">
+		    <var name="dx" value="sign(?bdash_main.hero_x-?x)"/>
+		    <var name="dy" value="sign(?bdash_main.hero_y-?y)"/>
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <call event="waitfornewmove" />
+		    <stop />
+		</if>
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+		<lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		<if eval="!#ent">
+		    <call event="startmove" />
+		    <stop />
+		</if>
+		<call event="waitfornewmove" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a apple monster in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_apple_monster">
+	    <superscript name="bdash_monster" />
+
+	    <event name="reinit">
+	    	<super />
+	        <var name="retreat" value="false" />
+	    </event>
+
+	    <event name="decidenewmove">
+	    	<lvar name="ax" value="abs(?bdash_main.hero_x-?x)" />
+	    	<lvar name="ay" value="abs(?bdash_main.hero_y-?y)" />
+		<if eval="#ax<10 && #ay<10">
+		    <!-- Flee mode -->
+		    <var name="dx" value="sign(?x-?bdash_main.hero_x)"/>
+		    <var name="dy" value="sign(?y-?bdash_main.hero_y)"/>
+		    <if eval="?retreat">
+		    	<true>
+			    <!--
+			      - We were retreating last time. To make sure we can
+			      - sufficiently retreat we try a few times more (random).
+			      -->
+			    <if eval="!int(rand(2.0))">
+			        <var name="retreat" value="false"/>
+			    </if>
+			</true>
+			<false>
+			    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+			    <if eval="!#ent">
+				<call event="startmove" />
+				<stop />
+			    </if>
+			</false>
+		    </if>
+		    <!-- Based on a random value we first start trying left or right -->
+		    <if eval="int(rand(2.0))">
+		    	<true>
+		            <lvar name="dir1" value="rotateleft" />
+		            <lvar name="dir2" value="rotateright" />
+		        </true>
+		    	<false>
+		            <lvar name="dir1" value="rotateright" />
+		            <lvar name="dir2" value="rotateleft" />
+		    	</false>
+		    </if>
+
+		    <lvar name="rdx" value="?dx" />
+		    <lvar name="rdy" value="?dy" />
+		    <call event="#dir1" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <var name="dx" value="#rdx" />
+		    <var name="dy" value="#rdy" />
+		    <call event="#dir2" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <call event="#dir2" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <var name="dx" value="#rdx" />
+		    <var name="dy" value="#rdy" />
+		    <call event="#dir1+'2'" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <call event="#dir1" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+			<var name="retreat" value="true"/>
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <var name="dx" value="#rdx" />
+		    <var name="dy" value="#rdy" />
+		    <call event="#dir2+'2'" />
+		    <call event="#dir2" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+			<var name="retreat" value="true"/>
+		        <call event="startmove" />
+			<stop />
+		    </if>
+		    <call event="waitfornewmove" />
+		    <stop />
+		</if>
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<call event="calcdxdy" />
+		<lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		<if eval="!#ent">
+		    <call event="startmove" />
+		    <stop />
+		</if>
+		<call event="waitfornewmove" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a diamond monster in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_diamond_monster">
+	    <superscript name="bdash_monster" />
+
+	    <event name="reinit">
+	        <super />
+		<var name="maintain_direction" value="0" />
+	    </event>
+
+	    <event name="decidenewmove">
+	    	<if eval="?maintain_direction > 0">
+		    <var name="maintain_direction" value="?maintain_direction-1" />
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		    <if eval="!#ent">
+		        <call event="startmove" />
+		        <stop />
+		    </if>
+		    <var name="maintain_direction" value="0" />
+		    <call event="waitfornewmove" />
+		    <stop />
+		</if>
+
+	        <var name="dxdy" value="int(rand(6.0))" />
+		<if eval="?dxdy>=4">
+		    <!-- With some chance we do nothing -->
+		    <call event="waitfornewmove" />
+		    <stop />
+		</if>
+		<call event="calcdxdy" />
+		<lvar name="ent" value="bdash_main::get_entity(x=?x+?dx,y=?y+?dy)" />
+		<if eval="!#ent">
+		    <!-- For a random amount of time we maintain our current heading -->
+		    <var name="maintain_direction" value="int(rand(5.0))" />
+		    <call event="startmove" />
+		    <stop />
+		</if>
+		<call event="waitfornewmove" />
 	    </event>
 	</script>
 

@@ -180,6 +180,8 @@ public:
   virtual void SetPositionScreen (int x, int y);
   virtual void GetPositionScreen (int& x, int& y) const;
   virtual void Move (int dx, int dy);
+  virtual void StackTop ();
+  virtual void StackBottom ();
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
   virtual void SetLayer (iBillboardLayer* layer)

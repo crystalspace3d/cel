@@ -25,7 +25,24 @@ C++FLAGS += "$(CRYSTAL.CFLAGS)" ;
 LINKLIBS += "$(CRYSTAL.LFLAGS)" ;
 
 # we don't link statically
-NO_STATIC_LINKING = yes ;
+#NO_STATIC_LINKING = yes ;
+
+STATIC.PLUGINLIST =
+    addon_celentity
+    addon_xmlscripts
+    blxml
+    cpersist
+    mgr_billboard
+    pfbillboard
+    pfdynmove
+    pfengine
+    pfinput
+    pfinv
+    pfmesh
+    pfmove
+    pftools
+    stdphyslayer
+    ;
 
 include $(TOP)/mk/jam/build.jam ;
 

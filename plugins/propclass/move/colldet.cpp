@@ -59,7 +59,7 @@
 
 #include "plugins/propclass/move/colldet.h"
 
-extern void Report (iObjectRegistry* object_reg, const char* msg, ...);
+extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (CollisionDetection, "pccollisiondetection")
 
@@ -109,7 +109,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   if (!cdsys)
   {
-    Report (object_reg, "iCollideSystem missing!");
+    MoveReport (object_reg, "iCollideSystem missing!");
     return;
   }
 
@@ -118,7 +118,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
-    Report (object_reg, "Physical layer missing!");
+    MoveReport (object_reg, "Physical layer missing!");
     return;
   }
   topCollider = 0;
@@ -362,7 +362,7 @@ bool celPcCollisionDetection::Init (const csVector3& body, const csVector3& legs
 
     if (!pcmeshref)
     {
-      Report (object_reg, "No Mesh found on entity!");
+      MoveReport (object_reg, "No Mesh found on entity!");
       return false;
     }
     else
@@ -403,7 +403,7 @@ bool celPcCollisionDetection::Init (const csVector3& body, const csVector3& legs
 
   if (!result)
   {
-    Report (object_reg, "Error while setting up CD!");
+    MoveReport (object_reg, "Error while setting up CD!");
     return result;
   }
 

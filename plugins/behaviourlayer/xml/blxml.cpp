@@ -54,6 +54,8 @@ enum
   XMLTOKEN_ACTION,
   XMLTOKEN_BB_MOVELAYER,
   XMLTOKEN_BB_MOVE,
+  XMLTOKEN_BB_TOFRONT,
+  XMLTOKEN_BB_TOBACK,
   XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_LVAR,
@@ -145,6 +147,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("bb_movelayer", XMLTOKEN_BB_MOVELAYER);
   xmltokens.Register ("bb_move", XMLTOKEN_BB_MOVE);
+  xmltokens.Register ("bb_tofront", XMLTOKEN_BB_TOFRONT);
+  xmltokens.Register ("bb_toback", XMLTOKEN_BB_TOBACK);
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("lvar", XMLTOKEN_LVAR);
@@ -1218,6 +1222,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	{
 	  h->AddOperation (CEL_OPERATION_BB_MOVE);
 	}
+        break;
+      case XMLTOKEN_BB_TOFRONT:
+	h->AddOperation (CEL_OPERATION_BB_TOFRONT);
+        break;
+      case XMLTOKEN_BB_TOBACK:
+	h->AddOperation (CEL_OPERATION_BB_TOBACK);
         break;
       case XMLTOKEN_BB_MOVELAYER:
         if (!ParseExpression (local_vars, child, h, "layer", "bb_movelayer"))
