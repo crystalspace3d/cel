@@ -67,6 +67,11 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="bomb">
+	    <file>/cellib/images/bomb.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -84,6 +89,7 @@
         <material name="banana"> <texture>banana</texture> </material>
         <material name="mushroom"> <texture>mushroom</texture> </material>
         <material name="diamond"> <texture>diamond</texture> </material>
+        <material name="bomb"> <texture>bomb</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -91,6 +97,7 @@
         <sound name="yay"> <file>/cellib/sounds/yay_x.wav</file> </sound>
         <sound name="clang"> <file>/cellib/sounds/clang_x.wav</file> </sound>
         <sound name="bloop"> <file>/cellib/sounds/bloop_x.wav</file> </sound>
+        <sound name="explosion"> <file>/cellib/sounds/explosion_x.wav</file> </sound>
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
@@ -734,6 +741,7 @@
 	        <if eval="?moving">
 		    <stop />
 		</if>
+		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 		<!-- Check if there is a free block sideways. If so we have a random
 		     chance of trying that direction -->
 		<if eval="rand(5)>3">
@@ -960,7 +968,7 @@
 		<var name="blockdim" value="19200" />
 		<var name="herospeed" value="0.03" />
 		<var name="boardspeed" value="0.003" />
-		<var name="fallspeed" value="0.0006" />
+		<var name="fallspeed" value="0.006" />
 
 		<!-- Size of the visible area in blocks -->
 		<var name="vis" value="307200/?blockdim" />
@@ -977,39 +985,42 @@
 		<var name="'material_B'" value="slanted_stone" />
 		<var name="'material_#'" value="sand_stone" />
 		<var name="'material_X'" value="diamond" />
+		<var name="'material_O'" value="bomb" />
 		<!-- Create a table of behaviours per block type -->
 		<var name="'behaviour_ '" value="''" />
 		<var name="'behaviour_H'" value="''" />	<!-- Special value for hero -->
 		<var name="'behaviour_B'" value="bdash_nonmovable" />
 		<var name="'behaviour_#'" value="bdash_nonmovable" />
 		<var name="'behaviour_X'" value="bdash_movable" />
+		<var name="'behaviour_O'" value="bdash_bomb" />
 		<!-- Create a table of 'falloff' setting per block type -->
 		<var name="'falloff_ '" value="false" />
 		<var name="'falloff_H'" value="false" />
 		<var name="'falloff_B'" value="true" />
 		<var name="'falloff_#'" value="false" />
 		<var name="'falloff_X'" value="true" />
+		<var name="'falloff_O'" value="false" />
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
 		<var name="row1"  value="'B #XXX#                                                        B'" />
 		<var name="row2"  value="'B #XXX#                                                        B'" />
-		<var name="row3"  value="'B #XXX#                                                        B'" />
-		<var name="row4"  value="'B #XXX#       #####                                            B'" />
-		<var name="row5"  value="'B #####       #####                                            B'" />
-		<var name="row6"  value="'B         XH X#####                                            B'" />
-		<var name="row7"  value="'B  #    BBBBBBBB###              X   X     X                   B'" />
-		<var name="row8"  value="'B    B         B                ### ###   ###                  B'" />
-		<var name="row9"  value="'B              B                                               B'" />
-		<var name="row10" value="'B#########     B                 #   B     #                   B'" />
-		<var name="row11" value="'B#########     B                                               B'" />
+		<var name="row3"  value="'B #XXX#                  X                                     B'" />
+		<var name="row4"  value="'B #XXX#       #####     XXX                                    B'" />
+		<var name="row5"  value="'B #####       #####    XXXXX                                   B'" />
+		<var name="row6"  value="'B         X  X#####   XXXXXXX                                  B'" />
+		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXX#  X   X     X                   B'" />
+		<var name="row8"  value="'B    B         B     #XXXXXXXX# ### ###   ###                  B'" />
+		<var name="row9"  value="'B              B     #XXXXXXXX#                                B'" />
+		<var name="row10" value="'B#########     B     #XXXXXXXX#  #   B     #                   B'" />
+		<var name="row11" value="'B#########     B     ##########                                B'" />
 		<var name="row12" value="'B#########     B                                               B'" />
 		<var name="row13" value="'B              B                   #       B                   B'" />
-		<var name="row14" value="'B              B                       B  #                    B'" />
-		<var name="row15" value="'B              B                                               B'" />
-		<var name="row16" value="'B              B             B      #     #                    B'" />
-		<var name="row17" value="'B                            B    X   X                        B'" />
-		<var name="row18" value="'B                            B    B   #                        B'" />
+		<var name="row14" value="'B              B       O               B  #                    B'" />
+		<var name="row15" value="'B              B   #X X#                                       B'" />
+		<var name="row16" value="'B              B   #XHX#     B      #     #                    B'" />
+		<var name="row17" value="'B                  #XXX#     B    X   X                        B'" />
+		<var name="row18" value="'B                  #####     B    B   #                        B'" />
 		<var name="row19" value="'B                            B                                 B'" />
 		<var name="row20" value="'B                            B                                 B'" />
 		<var name="row21" value="'B                            B                                 B'" />
@@ -1019,27 +1030,27 @@
 		<var name="row25" value="'B       B                    B                                 B'" />
 		<var name="row26" value="'B       B                                                      B'" />
 		<var name="row27" value="'B       B                                                      B'" />
-		<var name="row28" value="'B       B                                                      B'" />
-		<var name="row29" value="'B       B                                                      B'" />
-		<var name="row30" value="'B       B                                                      B'" />
-		<var name="row31" value="'BBBBBBBBB                                                      B'" />
-		<var name="row32" value="'B                                                              B'" />
-		<var name="row33" value="'B                                                              B'" />
-		<var name="row34" value="'B                                                              B'" />
-		<var name="row35" value="'B                                                              B'" />
-		<var name="row36" value="'B                                                              B'" />
-		<var name="row37" value="'B                                                              B'" />
-		<var name="row38" value="'B                                                              B'" />
-		<var name="row39" value="'B                                                              B'" />
-		<var name="row40" value="'B                                                              B'" />
-		<var name="row41" value="'B                                                              B'" />
-		<var name="row42" value="'B                                                              B'" />
-		<var name="row43" value="'B                                                              B'" />
-		<var name="row44" value="'B                                                              B'" />
-		<var name="row45" value="'B                                                              B'" />
-		<var name="row46" value="'B                                                              B'" />
-		<var name="row47" value="'B                                                              B'" />
-		<var name="row48" value="'B                                                              B'" />
+		<var name="row28" value="'B       B     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row30" value="'B       B     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row32" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row33" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row35" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row36" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row37" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row38" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row39" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row40" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row41" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row42" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row43" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row44" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row45" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row46" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row47" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row48" value="'B             ###############################################  B'" />
 		<var name="row49" value="'B                                                              B'" />
 		<var name="row50" value="'B                                                              B'" />
 		<var name="row51" value="'B                                                              B'" />
@@ -1147,63 +1158,71 @@
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
-	    	<var name="mazepos" value="?x+'_'+(?y-1)" />
+		<!-- @@@ We really need parameters instead of using global vars! -->
+		<var name="cfx" value="?x" />
+		<var name="cfy" value="?y" />
+	    	<var name="mazepos" value="?cfx+'_'+(?cfy-1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
 		    <true>
 		        <var entity="?ent" name="dx" value="0" />
 		        <var entity="?ent" name="dy" value="1" />
 		        <call entity="?ent" event="falldown" />
+			<if eval="?fallen"> <stop/> </if>
 		    </true>
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
-	    	        <var name="mazepos" value="(?x-1)+'_'+(?y-1)" />
+	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy-1)" />
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
-	    	            <var name="mazepos" value="(?x-1)+'_'+?y" />
+	    	            <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
 		                <var entity="?ent" name="dx" value="1" />
 		                <var entity="?ent" name="dy" value="1" />
 		                <call entity="?ent" event="falldown" />
+				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
-	    	        <var name="mazepos" value="(?x+1)+'_'+(?y-1)" />
+	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy-1)" />
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
-	    	            <var name="mazepos" value="(?x+1)+'_'+?y" />
+	    	            <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
 		                <var entity="?ent" name="dx" value="-1" />
 		                <var entity="?ent" name="dy" value="1" />
 		                <call entity="?ent" event="falldown" />
+				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
 		    </false>
 		</if>
-	    	<var name="mazepos" value="?x+'_'+(?y+1)" />
+	    	<var name="mazepos" value="?cfx+'_'+(?cfy+1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent == ''">
-	    	    <var name="mazepos" value="(?x-1)+'_'+?y" />
+	    	    <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
 		    <var name="ent" value="?(mazeent+?mazepos)" />
 		    <if eval="?ent != ''">
-	    	        <var name="mazepos" value="(?x-1)+'_'+(?y+1)" />
+	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
 		            <var entity="?ent" name="dx" value="1" />
 		            <var entity="?ent" name="dy" value="1" />
 		            <call entity="?ent" event="falldown" />
+			    <if eval="?fallen"> <stop/> </if>
 		        </if>
 		    </if>
-	    	    <var name="mazepos" value="(?x+1)+'_'+?y" />
+	    	    <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
 		    <var name="ent" value="?(mazeent+?mazepos)" />
 		    <if eval="?ent != ''">
-	    	        <var name="mazepos" value="(?x+1)+'_'+(?y+1)" />
+	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
 		            <var entity="?ent" name="dx" value="-1" />
 		            <var entity="?ent" name="dy" value="1" />
 		            <call entity="?ent" event="falldown" />
+			    <if eval="?fallen"> <stop/> </if>
 		        </if>
 		    </if>
 	    	</if>
@@ -1361,10 +1380,17 @@
 	    </event>
 	    <event name="checkmove_B">
 	    </event>
+	    <event name="checkmove_O">
+	    </event>
 	    <event name="checkmove_X">
-		<sound name="bloop" loop="false" />
-	    	<call event="clearblock_nocheck" />
-		<call event="startmove" />
+		<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
+		<if eval="?(?ent).moving">
+		    <false>
+			<sound name="bloop" loop="false" />
+			<call event="clearblock_nocheck" />
+			<call event="startmove" />
+		    </false>
+		</if>
 	    </event>
 
 	    <!--
@@ -1501,7 +1527,49 @@
 		<call entity="bdash_main" event="setblock" />
 		<var entity="bdash_main" name="x" value="?x" />
 		<var entity="bdash_main" name="y" value="?y+1" />
+		<!-- <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
+		    <sound name="click" loop="false" />
+		</if>
+		-->
 		<call entity="bdash_main" event="ifempty_checkfall" />
+	    </event>
+
+	    <!--
+	      - This block supports falling down. Uses ?dx and ?dy for
+	      - the flal direction.
+	      -->
+	    <event name="falldown">
+	        <if eval="?moving">
+		    <stop />
+		</if>
+		<call event="startmove" />
+	    	<var entity="bdash_main" name="fallen" value="true" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a bomb in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_bomb">
+	    <superscript name="bdash_movable" />
+
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
+	      - x,y index of the block. And it also assumes ?bdash_main.blocktype
+	      - is set. It also uses the ?bdash_main.material_ array.
+	      - Also uses ?bdash_main.blockdim.
+	      -->
+	    <event name="init">
+	    	<super />
+	    </event>
+
+	    <event name="endmove">
+		<super />
+		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
+		    <sound name="explosion" loop="false" />
+		</if>
 	    </event>
 
 	    <!--
