@@ -52,7 +52,8 @@ private:
   char* materialname;
   iMaterialWrapper* material;
   int image_w, image_h;
-  int x, y, w, h;
+  // Coordinates in billboard space.
+  int bb_x, bb_y, bb_w, bb_h;
   csRefArray<iBillboardEventHandler> handlers;
   celBillboardManager* mgr;
   csColor color;
@@ -76,18 +77,16 @@ public:
     delete[] name;
     name = csStrNew (n);
   }
-  void GetRect (csRect& r)
-  {
-    r.Set (x, y, x+w-1, y+h-1);
-  }
+  // Return rectangle in screen space.
+  void GetRect (csRect& r);
 
   // Draw billboard (requires 3D mode of g3d).
   void Draw (iGraphics3D* g3d, float z);
 
-  // Check if x,y is in billboard.
+  // Check if x,y is in billboard (uses screen space).
   bool In (int sx, int sy);
 
-  // Fire event handlers.
+  // Fire event handlers (input == screen space).
   void FireMouseUp (int sx, int sy, int button);
   void FireMouseDown (int sx, int sy, int button);
   void FireMouseMove (int sx, int sy, int button);

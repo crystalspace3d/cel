@@ -44,8 +44,8 @@ celBillboard::celBillboard (celBillboardManager* mgr)
   materialname = 0;
   material = 0;
   image_w = image_h = -1;
-  x = y = 0;
-  w = h = -1;
+  bb_x = bb_y = 0;
+  bb_w = bb_h = -1;
   celBillboard::mgr = mgr;
   has_clickmap = false;
   clickmap = 0;
@@ -59,16 +59,33 @@ celBillboard::~celBillboard ()
   delete[] clickmap;
 }
 
+void celBillboard::GetRect (csRect& r)
+{
+  int x = bb_x;
+  int y = bb_y;
+  mgr->BillboardToScreenspace (x, y);
+  int w = bb_w;
+  int h = bb_h;
+  mgr->BillboardToScreenspace (w, h);
+  r.Set (x, y, x+w-1, y+h-1);
+}
+
 void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 {
+  int x = bb_x;
+  int y = bb_y;
+  mgr->BillboardToScreenspace (x, y);
+  int w = bb_w;
+  int h = bb_h;
+  mgr->BillboardToScreenspace (w, h);
   tx = sx-x;
   ty = sy-y;
-  if (w != image_w)
+  if (bb_w != image_w)
   {
     tx = (tx * image_w) / w;
     if (tx >= image_w) tx = image_w-1;
   }
-  if (h != image_h)
+  if (bb_h != image_h)
   {
     ty = (ty * image_h) / h;
     if (ty >= image_h) ty = image_h-1;
@@ -81,7 +98,7 @@ bool celBillboard::GetFromClickMap (int tx, int ty)
     SetupMaterial ();
   if (!clickmap) return true;
   uint8 c = clickmap[ty*(1 + image_w/8) + tx/8];
-  return (c & (1<<(x%8))) != 0;
+  return (c & (1<<(tx%8))) != 0;
 }
 
 void celBillboard::SetClickMap (int tx, int ty, bool v)
@@ -111,12 +128,12 @@ void celBillboard::SetupMaterial ()
     }
   }
 
-  if (w == -1)
+  if (bb_w == -1)
   {
     if (image_w != -1)
     {
-      w = image_w * 1600 / mgr->screen_w_fact;
-      h = image_h * 1280 / mgr->screen_h_fact;
+      bb_w = image_w * 1600;
+      bb_h = image_h * 1280;
     }
   }
 
@@ -183,61 +200,57 @@ bool celBillboard::SetMaterialName (const char* matname)
 
 void celBillboard::GetSize (int& w, int& h)
 {
-  if (celBillboard::w == -1) SetupMaterial ();
-  w = celBillboard::w;
-  h = celBillboard::h;
-  mgr->ScreenToBillboardSpace (w, h);
+  if (bb_w == -1) SetupMaterial ();
+  w = bb_w;
+  h = bb_h;
 }
 
-void celBillboard::GetImageSize (int& w, int& h)
+void celBillboard::GetImageSize (int& iw, int& ih)
 {
   if (image_w == -1) SetupMaterial ();
-  w = celBillboard::image_w;
-  h = celBillboard::image_h;
-  mgr->ScreenToBillboardSpace (w, h);
-  w = w * 1600 / mgr->screen_w_fact;
-  h = h * 1280 / mgr->screen_h_fact;
+  iw = celBillboard::image_w;
+  ih = celBillboard::image_h;
+  mgr->ScreenToBillboardSpace (iw, ih);
+  iw = iw * 1600 / mgr->screen_w_fact;
+  ih = ih * 1280 / mgr->screen_h_fact;
 }
 
 void celBillboard::SetSize (int w, int h)
 {
-  mgr->BillboardToScreenspace (w, h);
-printf ("    screen w=%d h=%d\n", w, h); fflush (stdout);
-  celBillboard::w = w;
-  celBillboard::h = h;
+  bb_w = w;
+  bb_h = h;
 }
 
 void celBillboard::SetPosition (int x, int y)
 {
-  mgr->BillboardToScreenspace (x, y);
-  celBillboard::x = x;
-  celBillboard::y = y;
+  bb_x = x;
+  bb_y = y;
 }
 
 void celBillboard::GetPosition (int& x, int& y) const
 {
-  x = celBillboard::x;
-  y = celBillboard::y;
-  mgr->ScreenToBillboardSpace (x, y);
+  x = bb_x;
+  y = bb_y;
 }
 
 void celBillboard::SetPositionScreen (int x, int y)
 {
-  celBillboard::x = x;
-  celBillboard::y = y;
+  mgr->ScreenToBillboardSpace (x, y);
+  bb_x = x;
+  bb_y = y;
 }
 
 void celBillboard::GetPositionScreen (int& x, int& y) const
 {
-  x = celBillboard::x;
-  y = celBillboard::y;
+  x = bb_x;
+  y = bb_y;
+  mgr->BillboardToScreenspace (x, y);
 }
 
 void celBillboard::Move (int dx, int dy)
 {
-  mgr->BillboardToScreenspace (dx, dy);
-  celBillboard::x += dx;
-  celBillboard::y += dy;
+  bb_x += dx;
+  bb_y += dy;
 }
 
 void celBillboard::FireMouseUp (int sx, int sy, int button)
@@ -275,12 +288,14 @@ void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
 
 bool celBillboard::In (int sx, int sy)
 {
-  if (w == -1 || !has_clickmap)
+  if (bb_w == -1 || !has_clickmap)
   {
     SetupMaterial ();
-    if (w == -1 || !has_clickmap) return false;
+    if (bb_w == -1 || !has_clickmap) return false;
   }
-  if (sx >= x && sx < x+w && sy >= y && sy < y+h)
+  csRect r;
+  GetRect (r);
+  if (sx >= r.xmin && sx <= r.xmax && sy >= r.ymin && sy <= r.ymax)
   {
     int tx, ty;
     TranslateScreenToTexture (sx, sy, tx, ty);
@@ -314,10 +329,12 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   material->Visit ();
   poly.mat_handle = material->GetMaterialHandle ();
   int fh = g3d->GetHeight ();
-  poly.vertices[0].Set (x, fh-y);
-  poly.vertices[1].Set (x+w, fh-y);
-  poly.vertices[2].Set (x+w, fh-y-h);
-  poly.vertices[3].Set (x, fh-y-h);
+  csRect r;
+  GetRect (r);
+  poly.vertices[0].Set (r.xmin, fh-r.ymin);
+  poly.vertices[1].Set (r.xmax, fh-r.ymin);
+  poly.vertices[2].Set (r.xmax, fh-r.ymax);
+  poly.vertices[3].Set (r.xmin, fh-r.ymax);
   poly.colors[0] = color;
   poly.colors[1] = color;
   poly.colors[2] = color;

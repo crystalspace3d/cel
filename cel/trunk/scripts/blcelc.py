@@ -10796,6 +10796,7 @@ class iBillboard(iBase):
     def SetMaterialName(*args): return apply(_blcelc.iBillboard_SetMaterialName,args)
     def GetMaterialName(*args): return apply(_blcelc.iBillboard_GetMaterialName,args)
     def SetSize(*args): return apply(_blcelc.iBillboard_SetSize,args)
+    def GetImageSize(*args): return apply(_blcelc.iBillboard_GetImageSize,args)
     def GetSize(*args): return apply(_blcelc.iBillboard_GetSize,args)
     def SetPosition(*args): return apply(_blcelc.iBillboard_SetPosition,args)
     def GetPosition(*args): return apply(_blcelc.iBillboard_GetPosition,args)

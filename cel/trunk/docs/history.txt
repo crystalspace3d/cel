@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+28-Nov-2003
+	- Jorrit changed the billboard manager internally so that billboard
+	  locations and size are now stored in billboard space instead of
+	  screen space. This doesn't change anything from the outside (API)
+	  but it gives more accuracy when manipulating billboard positions
+	  and sizes.
 27-Nov-2003
 	- Jorrit added support for 'width', 'height', 'x', and 'y'
 	  properties to the pcbillboard. Also added persistance for these
