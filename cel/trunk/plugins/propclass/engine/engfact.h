@@ -72,6 +72,8 @@ private:
 
   csVector3 followpos;
   csVector3 followat;
+
+  bool clear_zbuf, clear_screen;
 	
   void SetupEventHandler ();
 
@@ -130,6 +132,11 @@ public:
   {
     return yaw;
   }
+
+  void SetClearZBuffer (bool flag) { clear_zbuf = flag; }
+  bool GetClearZBuffer () const { return clear_zbuf; }
+  void SetClearScreen (bool flag) { clear_screen = flag; }
+  bool GetClearScreen () const { return clear_screen; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -197,6 +204,22 @@ public:
     {
       return scfParent->GetView ();
     }
+    virtual void SetClearZBuffer (bool flag)
+    {
+      scfParent->SetClearZBuffer (flag);
+    }
+    virtual bool GetClearZBuffer () const
+    {
+      return scfParent->GetClearZBuffer ();
+    }
+    virtual void SetClearScreen (bool flag)
+    {
+      scfParent->SetClearScreen (flag);
+    }
+    virtual bool GetClearScreen () const
+    {
+      return scfParent->GetClearScreen ();
+    }
   } scfiPcCamera;
 
   // Not an embedded interface to avoid circular reference!!!
@@ -226,7 +249,9 @@ public:
 class celPcRegion : public celPcCommon
 {
 private:
+  bool empty_sector;
   char* worlddir;
+  // If empty_sector is true then worldfile is the name of the sector to create.
   char* worldfile;
   char* regionname;
   bool loaded;
@@ -257,6 +282,7 @@ public:
   const char* GetWorldFile () const { return worldfile; }
   void SetRegionName (const char* name);
   const char* GetRegionName () const { return regionname; }
+  void CreateEmptySector (const char* name);
   bool Load ();
   void Unload ();
   iSector* GetStartSector (const char* name);
@@ -286,6 +312,10 @@ public:
     virtual const char* GetWorldFile () const
     {
       return scfParent->GetWorldFile ();
+    }
+    virtual void CreateEmptySector (const char* name)
+    {
+      scfParent->CreateEmptySector (name);
     }
     virtual void SetRegionName (const char* name)
     {

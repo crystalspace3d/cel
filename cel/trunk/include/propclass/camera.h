@@ -27,7 +27,7 @@ struct iCamera;
 struct iView;
 struct iPcRegion;
 
-SCF_VERSION (iPcCamera, 0, 0, 1);
+SCF_VERSION (iPcCamera, 0, 0, 2);
 
 /**
  * The representation of a camera.
@@ -113,6 +113,24 @@ struct iPcCamera : public iBase
    * Get the view.
    */
   virtual iView* GetView () const = 0;
+
+  /**
+   * Set flag indicating if the camera should clear z-buffer every frame.
+   * Off by default unless the loaded map specifies this.
+   */
+  virtual void SetClearZBuffer (bool flag) = 0;
+
+  /// Get the clear zbuffer flag.
+  virtual bool GetClearZBuffer () const = 0;
+
+  /**
+   * Set flag indicating if the camera should clear screen every frame.
+   * Off by default unless the loaded map specifies this.
+   */
+  virtual void SetClearScreen (bool flag) = 0;
+
+  /// Get the clear screen flag.
+  virtual bool GetClearScreen () const = 0;
 };
 
 #endif // __CEL_PF_CAMERA__
