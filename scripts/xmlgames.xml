@@ -67,6 +67,11 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="diamond_bomb">
+	    <file>/cellib/images/diamond_bomb.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
         <texture name="bomb">
 	    <file>/cellib/images/bomb.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -139,6 +144,7 @@
         <material name="banana"> <texture>banana</texture> </material>
         <material name="mushroom"> <texture>mushroom</texture> </material>
         <material name="diamond"> <texture>diamond</texture> </material>
+        <material name="diamond_bomb"> <texture>diamond_bomb</texture> </material>
         <material name="bomb"> <texture>bomb</texture> </material>
         <material name="rock"> <texture>rock</texture> </material>
         <material name="explosion_c"> <texture>explosion_c</texture> </material>
@@ -1024,6 +1030,7 @@
 		<var name="'material_B'" value="slanted_stone" />
 		<var name="'material_#'" value="sand_stone" />
 		<var name="'material_X'" value="diamond" />
+		<var name="'material_x'" value="diamond_bomb" />
 		<var name="'material_O'" value="bomb" />
 		<var name="'material_o'" value="bomb" />
 		<var name="'material_R'" value="rock" />
@@ -1042,6 +1049,7 @@
 		<var name="'behaviour_B'" value="bdash_nonmovable" />
 		<var name="'behaviour_#'" value="bdash_nonmovable" />
 		<var name="'behaviour_X'" value="bdash_diamond" />
+		<var name="'behaviour_x'" value="bdash_diamond_bomb" />
 		<var name="'behaviour_O'" value="bdash_bomb" />
 		<var name="'behaviour_o'" value="bdash_timedbomb" />
 		<var name="'behaviour_R'" value="bdash_movable" />
@@ -1060,6 +1068,7 @@
 		<var name="'falloff_B'" value="true" />
 		<var name="'falloff_#'" value="false" />
 		<var name="'falloff_X'" value="true" />
+		<var name="'falloff_x'" value="true" />
 		<var name="'falloff_O'" value="false" />
 		<var name="'falloff_o'" value="true" />
 		<var name="'falloff_R'" value="true" />
@@ -1073,29 +1082,55 @@
 		<var name="'falloff_exp_tl'" value="false" />
 		<var name="'falloff_exp_tr'" value="false" />
 		<!--
-		  - Create a table of 'explode' setting per block type
+		  - Create a table of 'destroy' setting per block type.
 		  - Three possible values:
-		  -	- '0': can't explode.
-		  -	- '1': can explode.
-		  -	- '2': will cause another explosion.
+		  -	- '0': can't be destroyed by explosion.
+		  -	- '1': can be destroyed by explosion.
+		  -	- '2': will cause an explosion if destroyed.
 		  -->
-		<var name="'explode_ '" value="1" />
-		<var name="'explode_H'" value="1" />
+		<var name="'destroy_ '" value="1" />
+		<var name="'destroy_H'" value="1" />
+		<var name="'destroy_B'" value="0" />
+		<var name="'destroy_#'" value="1" />
+		<var name="'destroy_X'" value="1" />
+		<var name="'destroy_x'" value="1" />
+		<var name="'destroy_O'" value="2" />
+		<var name="'destroy_o'" value="2" />
+		<var name="'destroy_R'" value="1" />
+		<var name="'destroy_exp_c'" value="1" />
+		<var name="'destroy_exp_t'" value="1" />
+		<var name="'destroy_exp_l'" value="1" />
+		<var name="'destroy_exp_b'" value="1" />
+		<var name="'destroy_exp_r'" value="1" />
+		<var name="'destroy_exp_bl'" value="1" />
+		<var name="'destroy_exp_br'" value="1" />
+		<var name="'destroy_exp_tl'" value="1" />
+		<var name="'destroy_exp_tr'" value="1" />
+		<!--
+		  - Create a table of 'explode' setting per block type.
+		  - Two possible values:
+		  -	- '0': object doesn't explode when something drops on it.
+		  -	- '1': object explodes.
+		  -	- '2': object explodes with diamonds.
+		  -->
+		<var name="'explode_ '" value="0" />
+		<var name="'explode_H'" value="0" />
 		<var name="'explode_B'" value="0" />
-		<var name="'explode_#'" value="1" />
-		<var name="'explode_X'" value="1" />
-		<var name="'explode_O'" value="2" />
-		<var name="'explode_o'" value="2" />
-		<var name="'explode_R'" value="1" />
-		<var name="'explode_exp_c'" value="1" />
-		<var name="'explode_exp_t'" value="1" />
-		<var name="'explode_exp_l'" value="1" />
-		<var name="'explode_exp_b'" value="1" />
-		<var name="'explode_exp_r'" value="1" />
-		<var name="'explode_exp_bl'" value="1" />
-		<var name="'explode_exp_br'" value="1" />
-		<var name="'explode_exp_tl'" value="1" />
-		<var name="'explode_exp_tr'" value="1" />
+		<var name="'explode_#'" value="0" />
+		<var name="'explode_X'" value="0" />
+		<var name="'explode_x'" value="2" />
+		<var name="'explode_O'" value="1" />
+		<var name="'explode_o'" value="0" />
+		<var name="'explode_R'" value="0" />
+		<var name="'explode_exp_c'" value="0" />
+		<var name="'explode_exp_t'" value="0" />
+		<var name="'explode_exp_l'" value="0" />
+		<var name="'explode_exp_b'" value="0" />
+		<var name="'explode_exp_r'" value="0" />
+		<var name="'explode_exp_bl'" value="0" />
+		<var name="'explode_exp_br'" value="0" />
+		<var name="'explode_exp_tl'" value="0" />
+		<var name="'explode_exp_tr'" value="0" />
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
@@ -1104,8 +1139,8 @@
 		<var name="row3"  value="'B #XXX#                  X                                     B'" />
 		<var name="row4"  value="'B #XXX#       #####     XXX                                    B'" />
 		<var name="row5"  value="'B #####       #####    XXXXX                                   B'" />
-		<var name="row6"  value="'B         X  X#####   XXXXXXX                                  B'" />
-		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXX#  X   X     X                   B'" />
+		<var name="row6"  value="'B         X  X###x#  xXXXXXXX                                  B'" />
+		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXXXXX#  X   Xx    X                   B'" />
 		<var name="row8"  value="'B    B         B     #XXXXXXXX# ### ###   ###                  B'" />
 		<var name="row9"  value="'B              B     #XXXXoXXX#                                B'" />
 		<var name="row10" value="'B#########     B     #XXXXXXXX#  #   B     #                   B'" />
@@ -1113,11 +1148,11 @@
 		<var name="row12" value="'B#########     B                                               B'" />
 		<var name="row13" value="'B              B                   #       B                   B'" />
 		<var name="row14" value="'B              B   R   O               B  #                    B'" />
-		<var name="row15" value="'B              B   #X X#                                       B'" />
-		<var name="row16" value="'B              B   #XHX#     B      #     #                    B'" />
+		<var name="row15" value="'B              B   #X X#      x                                B'" />
+		<var name="row16" value="'B              B   #XHX#     B#     #     #                    B'" />
 		<var name="row17" value="'B                  #XXX#     B    X   X           X            B'" />
 		<var name="row18" value="'B                  #####     B    B   #         B###B          B'" />
-		<var name="row19" value="'B             R  RO          B                  B#o#B          B'" />
+		<var name="row19" value="'B             R xRO          B                  B#o#B          B'" />
 		<var name="row20" value="'B            #######         B                  B###B          B'" />
 		<var name="row21" value="'B                            B                  BBBBB          B'" />
 		<var name="row22" value="'B                BBB         B                                 B'" />
@@ -1126,9 +1161,9 @@
 		<var name="row25" value="'B       B                    B                                 B'" />
 		<var name="row26" value="'B       B                                                      B'" />
 		<var name="row27" value="'B       B    O         RRR                                     B'" />
-		<var name="row28" value="'B       B    ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row28" value="'B       B    ##XXXXXXXXXXXXXXXxXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row30" value="'B       B     #XXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row30" value="'B       B     #XXXxXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXOXOOOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row32" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row33" value="'B             #XXXXXXXXXOXXXXOXXXXXXXXXXXXXXXXXOXXXXXXXXXXXX#  B'" />
@@ -1250,7 +1285,27 @@
 	      - Uses @x and @y parameters.
 	      -->
 	    <event name="clearblock_check">
-	    	<call event="clearblock_nocheck"> <inherit /> </call>
+		<lvar name="mazepos" value="@x+'_'+@y" />
+		<lvar name="ent" value="?#mazepos" />
+		<if eval="#ent==''"> <stop /> </if>
+		<if eval="?(#ent).moving">
+		    <!-- Block is moving -->
+		    <lvar name="oldx" value="?(#ent).oldx" />
+		    <lvar name="oldy" value="?(#ent).oldy" />
+		    <if eval="#oldx==@x && #oldy==@y">
+		        <lvar name="oldx" value="?(#ent).x" />
+		        <lvar name="oldy" value="?(#ent).y" />
+		    </if>
+		    <var name="#oldx+'_'+#oldy" value="''" />
+		    <call event="ifempty_checkfall">
+		    	<par id="parid(x)" value="#oldx" />
+		    	<par id="parid(y)" value="#oldy" />
+		    </call>
+		</if>
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_rem child="#ent" />
+		<destroyentity name="#ent" />
+		<var name="#mazepos" value="''" />
 		<call event="ifempty_checkfall"> <inherit /> </call>
 	    </event>
 
@@ -1431,15 +1486,92 @@
 	    </event>
 
 	    <!--
+	      - Check if a given block can fall down or sideways.
+	      - Parameters are @x and @y.
+	      -->
+	    <event name="checkfall_block">
+		<call event="ifempty_checkfall">
+		    <par id="parid(x)" value="@x" />
+		    <par id="parid(y)" value="@y+1" />
+		</call>
+	    </event>
+
+	    <!--
+	      - Handle the explosion of a single block.
+	      - Parameters: @x, @y, and @blocktype.
+	      -->
+	    <event name="diamond_explodeblock">
+		<lvar name="destroy" value="?('destroy_'+get_blocktype(...))" />
+		<if eval="#destroy!=0">
+		    <call event="clearblock_nocheck"> <inherit /> </call>
+		    <call event="createblock"> <inherit /> </call>
+		    <call event="checkfall_block"> <inherit /> </call>
+		</if>
+	    </event>
+
+	    <!--
+	      - Fire a diamond explosion. Parameters are @x and @y.
+	      -->
+	    <event name="diamond_bang">
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x-1" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x+1" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y+1" />
+		</call>
+		<call event="diamond_explodeblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y-1" />
+		</call>
+		<call event="clearblock_nocheck"> <inherit /> </call>
+		<call event="createblock">
+			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(x)" value="@x" />
+			<par id="parid(y)" value="@y" />
+		</call>
+		<stop />
+	    </event>
+
+	    <!--
 	      - Handle the explosion of a single block.
 	      - Parameters: @x, @y, and @blocktype.
 	      -->
 	    <event name="explodeblock">
-		<lvar name="explode" value="?('explode_'+get_blocktype(x=@x,y=@y))" />
-		<if eval="#explode!=0">
+		<lvar name="destroy" value="?('destroy_'+get_blocktype(...))" />
+		<if eval="#destroy!=0">
 		    <call event="clearblock_nocheck"> <inherit /> </call>
 		    <call event="createblock"> <inherit /> </call>
-		    <if eval="#explode==2">
+		    <if eval="#destroy==2">
 		    	<lvar name="ent" value="?(@x+'_'+@y)" />
 			<call entity="#ent" event="explode_later" />
 		    </if>
@@ -1508,8 +1640,21 @@
 	    <event name="new_explosion">
 	        <var name="explosion_stack_x_+?explosion_stack" value="@x" />
 	        <var name="explosion_stack_y_+?explosion_stack" value="@y" />
+	        <var name="explosion_stack_event_+?explosion_stack" value="bang" />
 		<var name="explosion_stack" value="?explosion_stack+1" />
 	    </event>
+
+	    <!--
+	      - Push a new diamond explosion on the stack.
+	      - Parameters are @x and @y.
+	      -->
+	    <event name="new_diamond_explosion">
+	        <var name="explosion_stack_x_+?explosion_stack" value="@x" />
+	        <var name="explosion_stack_y_+?explosion_stack" value="@y" />
+	        <var name="explosion_stack_event_+?explosion_stack" value="diamond_bang" />
+		<var name="explosion_stack" value="?explosion_stack+1" />
+	    </event>
+
 
 	    <!--
 	      - Handle all explosions on the stack.
@@ -1518,7 +1663,8 @@
 		<for var="i" start="0" end="?explosion_stack-1">
 		    <lvar name="x" value="?(explosion_stack_x_+?i)" />
 		    <lvar name="y" value="?(explosion_stack_y_+?i)" />
-		    <call event="bang">
+		    <lvar name="event" value="?(explosion_stack_event_+?i)" />
+		    <call event="#event">
 		    	<par id="parid(x)" value="#x" />
 		    	<par id="parid(y)" value="#y" />
 		    </call>
@@ -2004,6 +2150,30 @@
 	    </event>
 
 	    <event name="endmove">
+	    	<!-- Check if we fall on something that can explode -->
+	    	<if eval="?dy!=0">
+		    <lvar name="ent" value="bdash_main::get_entity(x=?x,y=?y+1)" />
+		    <if eval="#ent">
+		    	<lvar name="blocktype" value="?(#ent).blocktype" />
+			<lvar name="explode" value="?bdash_main.(explode_+#blocktype)" />
+			<if eval="#explode==1">
+			    <true>
+		                <call entity="bdash_main" event="new_explosion">
+			            <par id="parid(x)" value="?x" />
+			            <par id="parid(y)" value="?y+1" />
+		                </call>
+			    </true>
+			    <false>
+			        <if eval="#explode==2">
+		                    <call entity="bdash_main" event="new_diamond_explosion">
+			                <par id="parid(x)" value="?x" />
+			                <par id="parid(y)" value="?y+1" />
+		                    </call>
+			        </if>
+			    </false>
+			</if>
+		    </if>
+		</if>
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
@@ -2045,6 +2215,27 @@
 	    	<if eval="?dy!=0">
 		    <if eval="?bdash_main.(?x+'_'+(?y+1)) != ''">
 		        <call entity="bdash_main" event="new_explosion">
+			    <par id="parid(x)" value="?x" />
+			    <par id="parid(y)" value="?y" />
+		        </call>
+		    </if>
+		</if>
+		<super />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a diamond bomb in the
+	  - boulderdash game.
+	  -  ***************************************************** -->
+        <script name="bdash_diamond_bomb">
+	    <superscript name="bdash_movable" />
+
+	    <event name="endmove">
+	        <!-- Don't explode for pure horizontal moves -->
+	    	<if eval="?dy!=0">
+		    <if eval="?bdash_main.(?x+'_'+(?y+1)) != ''">
+		        <call entity="bdash_main" event="new_diamond_explosion">
 			    <par id="parid(x)" value="?x" />
 			    <par id="parid(y)" value="?y" />
 		        </call>
