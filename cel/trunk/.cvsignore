@@ -1,5 +1,7 @@
 *.so
 *.dll
+*.exe
+*.csplugin
 csconfig.mak
 cs-config
 savefile
@@ -11,4 +13,5 @@ autom4te.*
 cel-config
 out
 celtst
+bootstrap
 
