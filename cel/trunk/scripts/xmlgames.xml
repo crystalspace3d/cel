@@ -89,16 +89,17 @@
 	        <property id="propid(pcbillboard.y)" value="1000+?cury*50000" />
 	    </event>
 
-	    <event name="moveright">
-	        <print value="moveright" />
+	    <event name="move">
 		<default propclass="pc(puzzle_main,pcproperties)" />
 		<property id="propid(pcproperties.allowmove)" value="false" />
 		<property id="propid(pcproperties.emptyx)" value="?curx" />
+		<property id="propid(pcproperties.emptyy)" value="?cury" />
 		<var name="intx1" value="?curx" />
-		<var name="intx2" value="?curx+1" />
 		<var name="inty1" value="?cury" />
+		<var name="curx" value="?curx+?dx" />
+		<var name="cury" value="?cury+?dy" />
+		<var name="intx2" value="?curx" />
 		<var name="inty2" value="?cury" />
-		<var name="curx" value="?curx+1" />
 		<var name="delta" value="0.0" />
 		<action propclass="pc(pctimer)"
 			id="propid(pctimer.WakeUpFrame)" />
@@ -107,8 +108,10 @@
 		<default propclass="pc(puzzle_main,pcproperties)" />
 		<var name="emptyx" value="property(propid(pcproperties.emptyx))" />
 		<var name="emptyy" value="property(propid(pcproperties.emptyy))" />
-		<if eval="?curx+1==?emptyx && ?cury==?emptyy"
-			true="moveright" />
+		<var name="dx" value="?emptyx-?curx" />
+		<var name="dy" value="?emptyy-?cury" />
+		<if eval="((?dx==1||?dx==-1)&&?dy==0) || ((?dy==1||?dy==-1)&&?dx==0)"
+			true="move" />
 	    </event>
 
 	    <event name="pcbillboard_select">
