@@ -3,6 +3,22 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Dec-2004
+	- Eric Sunshine fixed long-term spelling errors:
+	    iCelPersistance         --> iCelPersistence
+	    iCelPersistanceContext  --> iCelPersistenceContext
+	    cel.persistance.classic --> cel.persistence.classic
+	  Though deprecated, the old names (iCelPersistance,
+	  iCelPersistanceContext, and cel.persistance.classic) are still
+	  recognized for backward compatibility.
+	- Eric Sunshine updated Jam files from master copies in CS repository.
+	- Eric Sunshine fixed bug in Jamfile introduced on 29-Nov-2004 where
+	  compiler and linker flags determined by configure script could
+	  incorrectly creep into MSVC project files. (These flags are almost
+	  always undesirable because they are specific to the host's build
+	  tools -- the one running 'msvcgen' -- rather than to MSVC.)
+	- Eric Sunshine re-generated MSVC project files to take into account
+	  sources/headers recently added to the 'quests' module.
 3-Dec-2004
 	- Jorrit did more work on the quest manager:
 	    - Completed implementation of the 'entersector' quest

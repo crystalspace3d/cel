@@ -54,13 +54,13 @@ names? i.e. name: "small box", class: "box". [we'll not do that]
 
 Add support for KEY/VALUE system for placement of entities.
 
-Use reporter to report error conditions (especially in persistance
+Use reporter to report error conditions (especially in persistence
 layer). [ok]
 
 Save sector position in pccamera. [ok]
 
 pcinput_... to pckeyinput_... messages... [ok]
 
-fix persistance layer when loading entities or property classes that are
+fix persistence layer when loading entities or property classes that are
 referenced multiple times.
 

@@ -556,7 +556,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
 		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
+	CS_REQUEST_PLUGIN ("cel.persistence.classic", iCelPersistence),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
 	CS_REQUEST_END))

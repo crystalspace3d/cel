@@ -42,7 +42,8 @@ CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (celPersistClassic)
 
 SCF_IMPLEMENT_IBASE (celPersistClassic)
-  SCF_IMPLEMENTS_INTERFACE (iCelPersistance)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistence)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistance) /* Deprecated: Backward compat. */
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
 SCF_IMPLEMENT_IBASE_END
 
@@ -51,7 +52,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistClassic::Component)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_IBASE (celPersistClassicContext)
-  SCF_IMPLEMENTS_INTERFACE (iCelPersistanceContext)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistenceContext)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistanceContext) /* Backward compat. */
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntityRemoveCallback)
 SCF_IMPLEMENT_IBASE_END
 
@@ -80,7 +82,7 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-iCelPersistanceContext* celPersistClassic::CreateContext(iBase* data, int mode
+iCelPersistenceContext* celPersistClassic::CreateContext(iBase* data, int mode
     , bool performmapping)
 {
   csRef<iFile> file (SCF_QUERY_INTERFACE(data, iFile));
@@ -533,7 +535,7 @@ bool celPersistClassicContext::Read (celData* cd)
       }
       break;
     case CEL_DATA_IBASE:
-      Report ("Data type iBase is not allowed for persistance!");
+      Report ("Data type iBase is not allowed for persistence!");
       return false;
     default:
       Report ("Found unknown Data type!");
@@ -964,7 +966,7 @@ bool celPersistClassicContext::Write (celData* data)
       if (!Write (data->value.db)) return false;
       break;
     case CEL_DATA_IBASE:
-      Report ("Data type iBase is not allowed for persistance!");
+      Report ("Data type iBase is not allowed for persistence!");
       return false;
     default:
       Report("Found a DataType I'm not able to write!");

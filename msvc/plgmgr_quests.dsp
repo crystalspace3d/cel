@@ -106,6 +106,14 @@ SOURCE="$(InputPath)"
 
 SOURCE=..\plugins\tools\quests\quests.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\reward_debugprint.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_entersector.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -113,6 +121,14 @@ SOURCE=..\plugins\tools\quests\quests.cpp
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\quests.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\reward_debugprint.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_entersector.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

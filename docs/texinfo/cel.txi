@@ -871,7 +871,7 @@ Crystal Entity Layer.
             @item cel/include/physicallayer
             This directory contains the definitions of the Physical Layer
             interfaces.  Including such things as entities, property classes,
-            messaging and persistance.
+            messaging and persistence.
 
             @item cel/include/propclass
             This directory contains the definitions of the various property
@@ -924,12 +924,12 @@ Crystal Entity Layer.
             @end table    
 
             @item cel/plugins/persist
-            These are the various persistance layers which have already
+            These are the various persistence layers which have already
             been implemented for use with Crystal Entity Layer.
 
             @table @code
                 @item cel/plugins/persist/classic
-                This is the Crystal Entity Layer Classic Persistance Module.
+                This is the Crystal Entity Layer Classic Persistence Module.
                 This allows the persisting of Crystal Entity Layer entities
                 to a Crystal Space VFS file.
             @end table                
