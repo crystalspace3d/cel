@@ -31,11 +31,17 @@ celMessage::celMessage (const char* msg_string, va_list arg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   celMessage::msg_string = csStrNew (msg_string);
+  num_parms = 0;
+  parm_strings = NULL;
 }
 
 celMessage::~celMessage ()
 {
   delete[] msg_string;
+  int i;
+  for (i = 0 ; i < num_parms ; i++)
+    delete[] parm_strings[i];
+  delete[] parm_strings;
 }
 
 const char* celMessage::GetMessageParameter (int idx) const
