@@ -48,6 +48,7 @@ celBillboard::celBillboard (celBillboardManager* mgr)
   w = h = -1;
   celBillboard::mgr = mgr;
   has_clickmap = false;
+  clickmap = 0;
   color.Set (1, 1, 1);
 }
 
