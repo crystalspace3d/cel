@@ -1,12 +1,13 @@
 #!/bin/sh
-#
-set -e
 
-# Refresh GNU autotools toolchain.
-aclocal -I mk
-libtoolize --force --copy
+MACROFILE=aclocal.m4
+echo "creating $MACROFILE from macros out of mk/*.m4"
+rm -f $MACROFILE
+for i in `find mk/ -name "*.m4"`; do
+	cat $i >> $MACROFILE
+done
+echo autoheader
 autoheader
-automake --copy --verbose --foreign --add-missing
+echo autoconf
 autoconf
 
-exit 0

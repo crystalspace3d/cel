@@ -1,3 +1,6 @@
+20-Aug-2002:
+	- MatzeB removed broken automake system and replaced it with a Jam
+	  and autoconf based one
 19-Jul-2002:
 	- MatzeB fixed indentation and an LPVOID issue in engfact.cpp.
 	- Readded the firstperson camera mode that I accidently removed

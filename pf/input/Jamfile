@@ -1,0 +1,6 @@
+SubDir TOP pf input ;
+
+Plugin pfinput
+	: inpfact.cpp ../common/stdpcimp.cpp
+;
+

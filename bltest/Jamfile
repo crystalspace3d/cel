@@ -1,0 +1,6 @@
+SubDir TOP bltest ;
+
+Plugin bltest
+	: behave.cpp bl.cpp
+;
+

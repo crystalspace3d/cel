@@ -1,127 +1,180 @@
-dnl
-dnl Copyright (C) 2002 Loic Dachary (loic@gnu.org)
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-dnl GNU General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License
-dnl along with this program; if not, write to the Free Software
-dnl Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-dnl
-dnl
-dnl AM_PATH_CS([minimum version])
-dnl
-dnl Figure out the location of the crystalspace headers and libraries
-dnl directories. LDFLAGS and CPPFLAGS are filled with the values found.
-dnl
-dnl
-AC_DEFUN(AM_PATH_CS,
-[ 
-AC_ARG_WITH( cs,
-    [  --with-cs=<path>       path to the crystalspace install root.
-                          e.g. /usr/local])
+# AC_PATH_CRYSTAL
+#
+# Checks for Crystal Space paths and libs,
+# This scripts tries first if it can find a cs-config in the actual path
+# if yes it just uses that. If not it looke if CRYSTAL var is set, and after
+# that if it tries to find Crystal Space and then it just looks in 
+# /usr/local/crystal. Causes an error if it cant find it or you fed it a bad
+# (optional) path. Remember to do CFLAGS="$CFLAGS $CRYSTAL_CFLAGS" and so
+# forth for CRYSTAL_LIBS, CRYSTAL_CXXFLAGS, and CRYSTAL_LIBS so you can use
+# the information provided by this script!
 
-AC_ARG_WITH( cs-include,
-    [  --with-cs-include=<path>
-                          path to the crystalspace headers directory.
-                          e.g. /usr/local/include])
+# Matze Braun <MatzeBraun@gmx.de>
+# Patrick McFarland (Diablo-D3) <unknown@panax.com>
 
-AC_ARG_WITH( cs-lib,
-    [  --with-cs-lib=<path>
-                          path to the crystalspace libraries/plugins directory.
-                          e.g. /usr/local/cs/lib])
-
-dnl Check for cs-config
-AC_PATH_PROG(CS_CONFIG, cs-config, no)
-
-dnl 
-dnl Configure options (--with-cs*) have precendence 
-dnl over cs-config only set variables if they are not 
-dnl specified
+dnl AC_PATH_CRYSTAL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND [, LIBS]]]])
+dnl Test for CS, and define CRYSTAL_VERSION, CRYSRAL_LONGVERSION, 
+dnl CRYSTAL_CFLAGS, CRYSTAL_CXXFLAGS, and CRYSTAL_LIBS
 dnl
-if test "$CS_CONFIG" != "no"
-then
-    if test "$1"
-    then
-    	min_version=$1
-    	current_version=`$CS_CONFIG --version`
-	if test `echo $min_version | tr -d .` -gt `echo $current_version | tr -d .`
-	then
-		AC_MSG_ERROR([crystalspace version $current_version, need at least $min_version])
-	else
-		AC_MSG_NOTICE([crystalspace version $current_version])
+
+AC_DEFUN(AC_PATH_CRYSTAL,
+[dnl 
+dnl Get the cflags and libraries from the cs-config script
+dnl
+AC_ARG_WITH(cs-prefix, AC_HELP_STRING([--with-cs-prefix=PFX],[Prefix where Crystal Space is installed (optional)]), CRYSTAL="$withval", )
+AC_ARG_ENABLE(cstest, AC_HELP_STRING([--disable-cstest],[Do not try to compile and run a test Crystal Space program]), disable_cstest=yes, )
+AC_ARG_VAR([CRYSTAL],     [Prefix Where Crystal Space is installed])
+dnl if you really want to use autoconf 2.13 (not recommended) comment out the
+dnl line above.
+
+dnl try to find an installed cs-config
+
+if test "x$CRYSTAL" != x ; then
+   if test -f $CRYSTAL/cs-config ; then
+      CSCONF="$CRYSTAL/cs-config"
+   else
+      if test -f $CRYSTAL/bin/cs-config ; then
+         CSCONF="$CRYSTAL/bin/cs-config"
+      else
+         AC_MSG_WARN(Can't find cs-config in path you provided)
+	 no_cs=yes
+      fi
+   fi	
+fi
+
+if test "x$CRYSTAL" = x ; then
+   AC_PATH_PROG(CSCONF, cs-config)
+   if test "x$CSCONF" = x ; then 
+      CRYSTAL=/usr/local/crystal
+      if test -f $CRYSTAL/bin/cs-config ; then
+         CSCONF="$CRYSTAL/bin/cs-config"
+      else
+         echo "*** The cs-config script installed by Crystal Space could not be found"
+         echo "*** If Crystal Space was installed in PREFIX, make sure PREFIX/bin is in"
+         echo "*** your path, or set the CRYSTAL environment variable to the full path"
+         echo "*** to cs-config."
+	 no_cs=yes
+      fi
+   fi
+fi
+
+
+# Well, either we found cs by now, or we caused an error.
+# Now we define stuff, then check if we are running a new enough version
+
+if test "x$no_cs" = "x" ; then
+	min_cs_version=ifelse([$1], ,0.93,$1)
+	AC_MSG_CHECKING(for Crystal Space - version >= $min_cs_version)
+	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cflags $4`
+	CRYSTAL_CXXFLAGS=`$CSCONF $csconf_args --cxxflags $4`
+	CRYSTAL_LIBS=`$CSCONF $csconf_args --libs $4`
+	CRYSTAL_VERSION=`$CSCONF --version $4`
+	CRYSTAL_LONGVERSION=`$CSCONF --longversion $4`
+
+	cs_major_version=`$CSCONF $cs_args --version | \
+	   sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+	cs_minor_version=`$CSCONF $cs_args --version | \
+	   sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+
+	if test "x$CRYSTAL_LIBS" = "x" ; then
+		no_cs=yes
 	fi
-    fi
-    if test -z "$with_cs" -a -z "$with_cs_include"
-    then
-	with_cs_include=`$CS_CONFIG --includedir`
-    fi
-
-    if test -z "$with_cs" -a -z "$with_cs_lib"
-    then
-	with_cs_lib=`$CS_CONFIG --libdir`
-    fi
-else
-    AC_MSG_WARN([cs-config script not found, unable to check that version is greater or equal to $1 ])
 fi
 
-dnl
-dnl Set cs_libraries and cs_includes according to
-dnl user specification (--with-cs*) if any. 
-dnl --with-cs-include and --with-cs-lib have precendence
-dnl over --with-cs
-dnl
-if test "$with_cs" = "no"
-then
-    dnl The user explicitly disabled the use of the Cs
-    AC_MSG_ERROR([crystalspace is mandatory: do not specify --without-cs])
-else
-    if test "$with_cs" -a "$with_cs" != "yes"
-    then
-	cs_includes="$with_cs/include"
-	cs_libraries="$with_cs/lib"
-    fi
+if test "x$no_cs" != "x" ; then
+	enable_cstest=no
 fi
 
-if test "$with_cs_include"
-then
-    cs_includes="$with_cs_include"
-fi
+if test x$enable_cstest = xyes ; then
+   ac_save_CFLAGS="$CFLAGS"
+   ac_save_LIBS="$LIBS"
+   CFLAGS="$CFLAGS $CRYSTAL_CFLAGS"
+   LIBS="$LIBS $CRYSTAL_LIBS"
 
-if test "$with_cs_lib"
-then
-    cs_libraries="$with_cs_lib"
-fi
+rm -f conf.cstest
+AC_TRY_RUN([
+#include <cssysdef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-dnl
-dnl Set compilation variables 
-dnl
-if test "$cs_includes"
-then
-    AC_MSG_NOTICE([crystalspace headers directory $cs_includes])
-    CPPFLAGS="$CPPFLAGS -I$cs_includes"
-fi
+char*
+my_strdup (char *str)
+{
+  char *new_str;
+  
+  if (str)
+    {
+      new_str = (char *)malloc ((strlen (str) + 1) * sizeof(char));
+      strcpy (new_str, str);
+    }
+  else
+    new_str = NULL;
+  
+  return new_str;
+}
 
-if test "$cs_libraries"
-then
-    AC_MSG_NOTICE([crystalspace libraries directory $cs_libraries])
-    LDFLAGS="-L$cs_libraries $LDFLAGS"
-fi
+CS_IMPLEMENT_APPLICATION
 
-AC_LANG_PUSH(C++)
+int main (int argc, char *argv[])
+{
+  int major, minor, micro;
+  char *tmp_version;
 
-AC_CHECK_HEADER([cssysdef.h],,[AC_MSG_ERROR(try using --with-cs to specify the location 
-         of crystalspace header files)])
-AC_CHECK_LIB(cssys,main,,[AC_MSG_ERROR(try using --with-cs to specify the location
-         of crystalspace libraries)])
+  { FILE *fp = fopen("conf.cstest", "a"); if (fp) fclose(fp); }
 
-AC_LANG_POP()
+  /* HP/UX 9 writes to sscanf strings */
+  tmp_version = my_strdup("$min_cs_version");
+  if (sscanf(tmp_version, "%d.%d", &major, &minor) != 3) {
+     printf("%s, bad version string\n", "$min_cs_version");
+     exit(1);
+   }
 
+   if (($cs_major_version > major) ||
+      (($cs_major_version == major) && ($cs_minor_version > minor)) ||
+      (($cs_major_version == major) && ($cs_minor_version == minor))
+    {
+      return 0;
+    }
+  else
+    {
+      printf("\n*** 'cs-config --version' returned %d.%d, but the minimum version\n", $cs_major_version, $cs_minor_version);
+      printf("*** of Crystal Space required is %d.%d. If cs-config is correct, then it is\n", major, minor);
+      printf("*** best to upgrade to the required version.\n");
+      printf("*** If cs-config was wrong, set the environment variable CRYSTAL\n");
+      printf("*** to point to the correct copy of cs-config, and remove the file\n");
+      printf("*** config.cache before re-running configure\n");
+      return 1;
+    }
+}
+
+],, no_cs=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+       CFLAGS="$ac_save_CFLAGS"
+       LIBS="$ac_save_LIBS"
+  fi
+
+  if test "x$no_cs" = "x" ; then
+     AC_MSG_RESULT($CRYSTAL_LONGVERSION)
+     ifelse([$2], , :, [$2])     
+  else
+     AC_MSG_RESULT(no)
+       if test -f conf.cstest ; then
+        :
+       else
+          echo "*** Could not run Crystal Space test program, checking why..."
+          CFLAGS="$CFLAGS $CRYSTAL_CFLAGS"
+          LIBS="$LIBS $CRYSTAL_LIBS"
+          CFLAGS="$ac_save_CFLAGS"
+          LIBS="$ac_save_LIBS"
+       fi
+     CRYSTAL_CFLAGS=""
+     CRYSTAL_LIBS=""
+     ifelse([$3], , :, [$3])
+  fi
+  AC_SUBST(CRYSTAL_CFLAGS)
+  AC_SUBST(CRYSTAL_CXXFLAGS)
+  AC_SUBST(CRYSTAL_LIBS)
+  AC_SUBST(CRYSTAL_VERSION)
+  AC_SUBST(CRYSTAL_LONGVERSION)
+  rm -f conf.cstest
 ])
