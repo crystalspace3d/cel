@@ -33,3 +33,7 @@ to other property classes that might get deleted...
 How do we clean that up? iPcMovable currently keeps
 a reference incremented.
 
+Create an introspection like interface with Get/Set
+attributes for all property classes to making scripting
+easier.
+
