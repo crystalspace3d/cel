@@ -68,7 +68,7 @@ private:
   float angle_xz, angle_yz, _xz, _yz, dist_y, _dist;
   bool alter_angle, alter_dist;
   int base_x, base_y, base_y_d;
-  float pitch,roll;
+  float pitch,roll,yaw;
 
   csVector3 followpos;
   csVector3 followat;
@@ -100,21 +100,35 @@ public:
     pos = followpos;
     at = followat;
   }
+  /// Set the vertical angle of the camera (around X axis)
   void SetPitch(float angle)
   {
     pitch = angle;
   }
+  /// Get the vertical angle of the camera (around X axis)
   float GetPitch()
   {
     return pitch;
   }
+  /// Set the tilt angle of the camera (around Z axis)
   void SetRoll(float angle)
   {
     roll = angle;
   }
+  /// Set the tilt angle of the camera (around Z axis)
   float GetRoll()
   {
     return roll;
+  }
+  // Set the left/right angle of the camera (around Y axis)
+  void SetYaw(float angle)
+  {
+    yaw = angle;
+  }
+  // Get the left/right angle of the camera (around Y axis)
+  float GetYaw()
+  {
+    return yaw;
   }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -162,6 +176,14 @@ public:
     virtual float GetRoll()
     {
       return scfParent->GetRoll();
+    }
+    virtual void SetYaw(float angle)
+    {
+      scfParent->SetYaw(angle);
+    }
+    virtual float GetYaw()
+    {
+      return scfParent->GetYaw();
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
