@@ -69,7 +69,7 @@ struct iPcMesh : public iBase
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
 
   /**
-   * Conveniance function to set an 'action' for the mesh.
+   * Convenience function to set an 'action' for the mesh.
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
@@ -79,6 +79,13 @@ struct iPcMesh : public iBase
    * Return the current action name.
    */
   virtual const char* GetAction () = 0;
+
+  /**
+   * Convenience function to set an 'action' to be reversed for the mesh.
+   * This only works for 3D sprites. For other mesh objects nothing
+   * will happen.
+   */
+  virtual void SetReverseAction (bool reverse = true) = 0;
 
   /**
    * Hide this mesh.

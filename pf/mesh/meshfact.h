@@ -69,6 +69,7 @@ public:
   void MoveMesh (iSector* sector, const csVector3& pos);
   void SetAction (const char* actionName, bool reset = false);
   const char* GetAction ();
+  void SetReverseAction (bool reverse = true);
   void Hide ();
   void Show ();
   bool IsVisible () const { return visible; }
@@ -109,6 +110,10 @@ public:
     virtual const char* GetAction ()
     {
       return scfParent->GetAction ();
+    }
+    virtual void SetReverseAction (bool reverse = true)
+    {
+      scfParent->SetReverseAction (reverse);
     }
     void Hide ()
     {
