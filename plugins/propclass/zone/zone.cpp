@@ -106,19 +106,27 @@ SCF_IMPLEMENT_IBASE (celMapFile)
   SCF_IMPLEMENTS_INTERFACE (iCelMapFile)
 SCF_IMPLEMENT_IBASE_END
 
+void celMapFile::SetFile (const char* file)
+{
+  delete[] celMapFile::file;
+  delete[] celMapFile::sectorname;
+  celMapFile::file = csStrNew (file);
+  celMapFile::sectorname = 0;
+}
+
 void celMapFile::SetPath (const char* path)
 {
   delete[] celMapFile::path;
-  delete[] celMapFile::sectorname;
   celMapFile::path = csStrNew (path);
-  celMapFile::sectorname = 0;
 }
 
 void celMapFile::SetSectorName (const char* name)
 {
   delete[] celMapFile::path;
+  delete[] celMapFile::file;
   delete[] celMapFile::sectorname;
   celMapFile::path = 0;
+  celMapFile::file = 0;
   celMapFile::sectorname = csStrNew (name);
 }
 
@@ -167,10 +175,21 @@ bool celRegion::Load ()
       iSector* sector = engine->CreateSector (mf->GetSectorName ());
       cur_region->Add (sector->QueryObject ());
     }
-    else if (mf->GetPath ())
+    else if (mf->GetFile ())
     {
-      if (!loader->LoadMapFile (mf->GetPath (), false, cur_region, false, true))
+      if (mf->GetPath ())
+      {
+        mgr->GetVFS ()->PushDir ();
+        mgr->GetVFS ()->ChDir (mf->GetPath ());
+      }
+      engine->SetCacheManager (0);
+      engine->GetCacheManager ();
+      if (!loader->LoadMapFile (mf->GetFile (), false, cur_region, false, true))
         return false;
+      if (mf->GetPath ())
+      {
+        mgr->GetVFS ()->PopDir ();
+      }
     }
     else
     {

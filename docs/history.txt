@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+20-Aug-2004
+	- Jorrit changed the zone manager so that it has the notion of
+	  VFS path and file. The optional path is used to set the VFS
+	  directory too. The file is relative to that path (if path is
+	  given).
+	- Jorrit also made sure the cache manager is set to the current
+	  VFS dir when loading a new map.
 18-Aug-2004
 	- Thomas Degris fixed RotateTo() in iPcActorMove.
 16-Aug-2004

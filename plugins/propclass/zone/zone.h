@@ -98,6 +98,7 @@ class celMapFile : public iCelMapFile
 {
 private:
   char* path;
+  char* file;
   char* sectorname;
 
 public:
@@ -105,11 +106,13 @@ public:
   {
     SCF_CONSTRUCT_IBASE (0);
     path = 0;
+    file = 0;
     sectorname = 0;
   }
   virtual ~celMapFile ()
   {
     delete[] path;
+    delete[] file;
     delete[] sectorname;
     SCF_DESTRUCT_IBASE ();
   }
@@ -117,7 +120,9 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual void SetPath (const char* path);
+  virtual void SetFile (const char* file);
   virtual const char* GetPath () const { return path; }
+  virtual const char* GetFile () const { return file; }
   virtual void SetSectorName (const char* name);
   virtual const char* GetSectorName () const { return sectorname; }
 };
