@@ -1,3 +1,6 @@
+28-Dec-2001:
+	- Renamed 'pcinput_' messages to 'pckeyinput_'.
+	- Implemented persistance in pckeyinput property class.
 27-Dec-2001:
 	- Added a string registry to the physical layer. This can be used
 	  for various things but in the first time it is going to be used
