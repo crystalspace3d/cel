@@ -35,6 +35,39 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name blpython
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name bltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfmesh
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pftools
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plimp
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -158,3 +191,4 @@ Package=<3>
 }}}
 
 ###############################################################################
+
