@@ -679,7 +679,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     if (bhlayername && bhname)
     {
       iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
-      if (!bh) return false;
+      if (!bl) return false;
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
       if (!bh) return false;
       entity->SetBehaviour (bh);
