@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+11-Nov-2003
+	- Keith changed link directories not to be hardcode to his local machine's
+	  paths.
 9-Nov-2003
 	- Chris Matuszewski added SetMaxSelectionDistance() to iPcMeshSelect
 	  to allow the user to specify a maximum distance to use for mesh

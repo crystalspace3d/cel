@@ -19,10 +19,10 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
-				AdditionalOptions=""
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -43,7 +43,7 @@
 				OutputFile=".\debug\temp\pfengine/pfengine.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csdebug\libs,..\..\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfengine/pfengine.pdb"
 				ImportLibrary=".\debug\temp\pfengine/pfengine.lib"/>
@@ -82,10 +82,10 @@ copy &quot;..\plugins\propclass\engine\pfengine.csplugin&quot;  ..
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions=""
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
-				AdditionalOptions=""
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -138,16 +138,18 @@ copy &quot;..\plugins\propclass\engine\pfengine.csplugin&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\engine\engfact.h">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\common\stdpcimp.h">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\engine\engfact.h">
+				RelativePath="..\plugins\propclass\common\stdpcimp.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -155,20 +157,20 @@ copy &quot;..\plugins\propclass\engine\pfengine.csplugin&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\engine\pfengine.csplugin">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\engine\engfact.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\engine\engfact.cpp">
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
-
 		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>
