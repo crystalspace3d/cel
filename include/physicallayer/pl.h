@@ -250,12 +250,12 @@ struct iCelPlLayer : public iBase
 
   /**
    * This registers a callback that is called each time when an entity is
-   * removed
+   * removed.
    */
   virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
 
   /**
-   * Removes an registered RemoveCallback
+   * Removes an registered RemoveCallback.
    */
   virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
 };

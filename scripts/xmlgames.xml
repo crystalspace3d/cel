@@ -25,6 +25,7 @@
         <pcfactory>cel.pcfactory.billboard</pcfactory>
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
+        <pcfactory>cel.pcfactory.inventory</pcfactory>
 
 	<!-- *****************************************************
 	  - This script handles the menu system of xmlgames.
@@ -92,6 +93,8 @@
 	        <var name="ent" value="'p'+?x+'_'+?y" />
 		<print value="'Creating '+?ent" />
 		<createentity name="?ent" behaviour="moving_tile" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="?ent" />
 		<default propclass="pc(?ent,pcbillboard)" />
 	        <property id="propid(x)" value="1000+75000*?x" />
 	        <property id="propid(y)" value="1000+75000*?y" />
@@ -122,6 +125,8 @@
 	      -    - speed: a float indicating the speed with which tiles should move.
 	      -->
 	    <event name="init">
+	        <createpropclass name="pcinventory" />
+
 	        <var name="uvtl" value="[0,0]" />
 		<for var="y" start="0" end="3" exec="initrow" />
 
