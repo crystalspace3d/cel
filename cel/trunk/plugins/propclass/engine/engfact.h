@@ -105,6 +105,11 @@ public:
    * Setup this mode.
    */
   virtual void SetupMode () = 0;
+
+  /**
+   * Get the name for this mode
+   */
+  virtual const char* GetName () = 0;
 };
 
 class CAFirstPerson : public CameraAlgorithm
@@ -116,6 +121,7 @@ public:
   	const csVector3& actor_pos, const csVector3& actor_eye,
 	const float actor_yrot);
   virtual void SetupMode ();
+  virtual const char* GetName () { return "firstperson"; }
 };
 
 class CAThirdPerson : public CameraAlgorithm
@@ -127,6 +133,7 @@ public:
   	const csVector3& actor_pos, const csVector3& actor_eye,
 	const float actor_yrot);
   virtual void SetupMode ();
+  virtual const char* GetName () { return "thirdperson"; }
 };
 
 class CAM64ThirdPerson : public CameraAlgorithm
@@ -138,6 +145,7 @@ public:
   	const csVector3& actor_pos, const csVector3& actor_eye,
 	const float actor_yrot);
   virtual void SetupMode ();
+  virtual const char* GetName () { return "m64_thirdperson"; }
 };
 
 class CALaraThirdPerson : public CameraAlgorithm
@@ -149,6 +157,7 @@ public:
   	const csVector3& actor_pos, const csVector3& actor_eye,
 	const float actor_yrot);
   virtual void SetupMode ();
+  virtual const char* GetName () { return "lara_thirdperson"; }
 };
 
 class CAFreeLook : public CameraAlgorithm
@@ -160,6 +169,7 @@ public:
   	const csVector3& actor_pos, const csVector3& actor_eye,
 	const float actor_yrot);
   virtual void SetupMode ();
+  virtual const char* GetName () { return "freelook"; }
 };
 
 /**
@@ -289,11 +299,13 @@ public:
   iView* GetView () const { return view; }
   bool SetRegion (iPcRegion* region, bool point, const char* name);
   void SetRectangle (int x, int y, int w, int h);
+
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true);
-  iPcCamera::CameraMode GetMode () const
-  {
-    return cammode;
-  }
+  iPcCamera::CameraMode GetMode () const { return cammode; }
+  bool SetModeName (const char* m, bool use_cd = true);
+  const char* GetModeName () const;
+  iPcCamera::CameraMode GetNextMode () const;
+
   iPcLinearMovement* GetLinMove ()
   {
     GetPcs ();
@@ -651,11 +663,23 @@ public:
     }
     virtual bool SetMode (CameraMode m, bool use_cd = true)
     {
-      return scfParent->SetMode(m, use_cd);
+      return scfParent->SetMode (m, use_cd);
     }
     virtual CameraMode GetMode () const
     {
       return scfParent->GetMode ();
+    }
+    virtual bool SetModeName (const char* m, bool use_cd = true)
+    {
+      return scfParent->SetModeName (m, use_cd);
+    }
+    virtual const char* GetModeName () const
+    {
+      return scfParent->GetModeName ();
+    }
+    virtual CameraMode GetNextMode () const
+    {
+      return scfParent->GetNextMode ();
     }
 
     virtual void SetSpringParameters (float springCoef,

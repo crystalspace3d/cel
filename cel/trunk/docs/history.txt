@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 		- lara_thirdperson
 	  Note that temporarily camera persistance is broken. I need
 	  to write out and read the new fields.
+	- Jorrit added iPcCamera->SetModeName(), GetModeName() and
+	  GetNextNode().
 11-May-2004
 	- Jorrit added a new iCelPlLayer->CreateEntity() conveniance function
 	  so you can easily create an entity, set a name, create a behaviour,
