@@ -25,11 +25,10 @@ NumReg::NumReg(int limit, int freelistsize, int startsize)
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
   freelist = new CS_ID[freelistsize];
-  buflen = startsize;
+  listsize = startsize;
   NumReg::limit = limit;
-  listend = 1;
   freelistend = 0;
-  freelistlimit = freelistsize;
+  NumReg::freelistsize = freelistsize;
 }
 
 NumReg::~NumReg()
@@ -40,83 +39,110 @@ NumReg::~NumReg()
     delete[] freelist;
 }
 
-#define ADDSIZE	400
+#define ADDSIZE	100
 
 CS_ID NumReg::Register (void* obj)
 {
-  if (obj==NULL)
-    return 0;
+  CS_ASSERT(obj != NULL);
   
   // 1. try to fill up just released positions
   if (freelistend>0)
   {
     freelistend--;
     list[freelist[freelistend]] = obj;
-    return freelistend;
+    return freelist[freelistend];
   }
 
-  // 2. extend list and append
-  if (listend>=buflen)
+  // 2. find wholes and fill freelist again
+  for (CS_ID i=1;i<listsize && freelistend<=freelistsize;i++)
   {
-    //increase buffer size if limit isn't reached
-    if (buflen<limit) {
-      int newlen;
-      if (buflen>=limit-ADDSIZE)
-	newlen=limit;
-      else
-	newlen=buflen+ADDSIZE;
-      
-      void** newlist = (void**) realloc((void*)list, newlen*sizeof(void*));
-      //no memory left? stay with the old buffer
-      if (!newlist)
-	limit=buflen;
-      else
-      {
-	memset (list+buflen,0,newlen-buflen);
-	buflen = newlen;
-	list = newlist;
-      }
-    }
-  }
-  if (listend<buflen)
-  {
-    list[listend]=obj;
-    listend++;
-    return listend-1;
-  }
-  
-  // 3. find wholes and fill freelist again
-  for (CS_ID i=1;i<buflen;i++) {
     if (list[i]==NULL)
     {
-      freelist[freelistend]=i;
-      freelistend++;
+      freelist[freelistend++]=i;
     }
   }
   if (freelistend>0)
   {
     freelistend--;
     list[freelist[freelistend]] = obj;
-    return freelistend;
+    return freelist[freelistend];
+  }
+
+  // 3. extend list and append
+  if (listsize<limit) {
+    CS_ID newsize;
+    if (listsize>=limit-ADDSIZE)
+      newsize=limit;
+    else
+      newsize=listsize+ADDSIZE;
+      
+    void** newlist = (void**) realloc((void*)list, newsize*sizeof(void*));
+    //no memory left? stay with the old buffer
+    if (!newlist)
+    {
+      CS_ASSERT(false && "No Memory left");
+      return 0;
+    }
+    
+    memset (list+listsize,0,newsize-listsize);
+    //fill freelist
+    for (CS_ID i=listsize;i<newsize && freelistend<=freelistsize;i++)
+    {
+      freelist[freelistend++]=i;
+    }
+    listsize = newsize;
+    list = newlist;
+  }
+  if (freelistend>0)
+  {
+    freelistend--;
+    list[freelist[freelistend]] = obj;
+    return freelist[freelistend];
   }
   
+  //list has reached limit and is full  
   return 0;
 }
 
 bool NumReg::Remove (CS_ID num)
 {
-#ifdef CEL_DEBUG
-  if (list[num]==NULL)
-    return false;
-#endif
+  CS_ASSERT(num<listsize);
+  CS_ASSERT(list[num] != NULL);
   
-  if (freelistend<=freelistlimit)
+  if (freelistend<=freelistsize)
   {
-    freelist[freelistend]=num;
-    freelistend++;
+    freelist[freelistend++]=num;
   }
   list[num]=NULL;
 
   return true;
 }
+
+bool NumReg::Remove (void* obj)
+{
+  CS_ASSERT(obj != NULL);
+  
+  CS_ID i;
+  for (i=1;i<listsize;i++)
+  {
+    if (list[i] == obj)
+    {
+      Remove(i);
+      break;
+    }
+  }
+  if (i>=listsize)
+    return false;
+
+  return true;
+}
+
+void NumReg::Clear()
+{
+  for (CS_ID i=0;i<listsize;i++)
+  {
+    list[i]=NULL;
+  }
+  freelistend=0;
+} 
 

@@ -42,7 +42,7 @@ private:
   csPlLayerCache cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
-  NumReg* idlist;
+  NumReg idlist;
 
 public:
   celPlLayer (iBase* parent);

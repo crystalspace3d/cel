@@ -3,28 +3,49 @@
 
 /**
  * This class stores a list of Objects and assignes a unique ID to them
- *  NOte: This class does nearly no error checking  and should be used with
+ *  Note: This class does nearly no error checking  and should be used with
  *  care
  */
 class NumReg
 {
 public:
+  /** Constructor, limit is the maximum size this array will grow,
+   *   freelistsize is the size of the list holding last freed items (the
+   *   bigger this list is the better your performance if you remove/add new
+   *   elements often.
+   *   startsize is the initial size of the array
+   */
   NumReg(int limit=100000, int freelistsize=100, int startsize=300);
+  /// The destructor frees all memory
   ~NumReg();
 
+  /** Registers an object in the registry and returns the new ID, in error
+   * case ID 0 is returned
+   */
   CS_ID Register (void* obj);
+  /** Removes an registered object from registry */
   bool Remove (CS_ID id);
+  /** Removes an registered object from registry (Note: this is slow you
+   * should use Remove(id) if possible
+   */
+  bool Remove (void* obj);
+  
+  /** Removes all objects from the list */
+  void Clear();
 
-  CS_ID GetCount()	{ return listend; }
-  void* Get(CS_ID id)	{ return list[id]; }
+  /** Returns the object with ID id from the list */
+  void* Get(CS_ID id)
+  { 
+    CS_ASSERT(id<listsize);
+    return list[id];
+  }
   
 protected:
   void** list;
   CS_ID* freelist;
-  unsigned int buflen;
-  unsigned int limit;
-  unsigned int listend;
+  CS_ID listsize;
+  CS_ID limit;
   unsigned int freelistend;
-  unsigned int freelistlimit;
+  unsigned int freelistsize;
 };
 
