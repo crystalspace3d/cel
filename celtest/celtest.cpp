@@ -165,12 +165,12 @@ bool CelTest::HandleEvent (iEvent& ev)
     else if (ev.Key.Code == 'l')
     {
       printf ("Loading from '/this/savefile\n"); fflush (stdout);
-      iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
+      //iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       if (game) { game->DecRef (); game = NULL; }
       csDebuggingGraph::Dump (NULL);
-      game = cp->LoadEntity ("/this/savefile");
-      printf ("  success %08lx\n", game); fflush (stdout);
-      cp->DecRef ();
+      //game = cp->LoadEntity ("/this/savefile");
+      //printf ("  success %08lx\n", game); fflush (stdout);
+      //cp->DecRef ();
     }
   }
   return false;

@@ -513,25 +513,28 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
       if (ent == entity) continue;	// Ignore collisions with ourselves.
       iPcSolid* pcsolid_ent = CEL_QUERY_PROPCLASS (
       	ent->GetPropertyClassList (), iPcSolid);
-      if (pcsolid_ent && pcsolid_ent->GetCollider ())
+      if (pcsolid_ent)
       {
-        iPcMesh* pcmesh_ent = CEL_QUERY_PROPCLASS (
+        if (pcsolid_ent->GetCollider ())
+        {
+          iPcMesh* pcmesh_ent = CEL_QUERY_PROPCLASS (
 		ent->GetPropertyClassList (), iPcMesh);
-	if (pcmesh_ent)
-	{
-	  csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->
-	  	GetMovable ()->GetTransform ();
-	  bool ret;
-	  if (path_collider)
-	    ret = cdsys->Collide (path_collider, &path_trans,
-	  	  pcsolid_ent->GetCollider (), &trans_ent);
-	  else
-	    ret = false;
-	  if (!ret)
-	    ret = cdsys->Collide (pcsolid->GetCollider (), &trans,
-	    	pcsolid_ent->GetCollider (), &trans_ent);
-	  pcmesh_ent->DecRef ();
-	  if (ret) rc = CEL_MOVE_FAIL;
+	  if (pcmesh_ent)
+	  {
+	    csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->
+	  	  GetMovable ()->GetTransform ();
+	    bool ret;
+	    if (path_collider)
+	      ret = cdsys->Collide (path_collider, &path_trans,
+	  	    pcsolid_ent->GetCollider (), &trans_ent);
+	    else
+	      ret = false;
+	    if (!ret)
+	      ret = cdsys->Collide (pcsolid->GetCollider (), &trans,
+	    	  pcsolid_ent->GetCollider (), &trans_ent);
+	    pcmesh_ent->DecRef ();
+	    if (ret) rc = CEL_MOVE_FAIL;
+	  }
 	}
 	pcsolid_ent->DecRef ();
       }
