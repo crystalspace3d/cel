@@ -194,6 +194,9 @@ public:
     onground = flag;
   }
 
+  void UseCD (bool flag)
+  { useCD = flag; }
+
   bool AdjustForCollisions (csVector3& oldpos,
                             csVector3& newpos,
                             csVector3& vel,
@@ -363,6 +366,9 @@ public:
     {
       return scfParent->IsOnGround ();
     }
+
+    virtual void UseCD(bool flag)
+    { scfParent->UseCD(flag); }
 
     virtual void SetOnGround (bool flag)
     {

@@ -204,7 +204,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    float delta,
                                                    iMovable* movable)
 {
-  if (useCD)
+  if (useCD && topCollider && bottomCollider)
   {
     int hits, i;
     csMatrix3 identitymatrix;
@@ -218,13 +218,8 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     csReversibleTransform rt = movable->GetFullTransform ();
     mat = rt.GetT2O ();
 
-    // We need to measure slightly above the position of the actor or else
-    // we won't really cross a portal.
-    csVector3 temppos = oldpos;
-    //temppos.y+=0.1f;
-
     csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
-    	temppos);
+    	oldpos);
 
     num_our_cd = hits = 0;
 
@@ -261,6 +256,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
+
     if (localvel.y == 0)
       // Hit a vertical obstacle!
       vel.y = 0;
@@ -286,7 +282,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     {
       downstairs = true;
 
-      // Try testing going down
+      // Try testing 'stepping' down
       newpos.y -= bottomSize.y / 2;
       transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
@@ -300,45 +296,46 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     }
     if (hits > 0)
     {
-      float max_y = -1e9;
-      for (i = 0; i < num_our_cd; i++ )
-      {
-    	csCollisionPair cd = our_cd_contact[i];
-    	csVector3 n = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
+        float max_y = -1e9;
+        for (i = 0; i < num_our_cd; i++ )
+        {
+            csCollisionPair cd = our_cd_contact[i];
+            csVector3 n = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
 
-    	// Is it a collision with a ground polygon?
-    	//  (this tests for the angle between ground and collidet
-    	//  triangle)
-    	if (-n.y < 0.7)
-    	  continue;
+            // Is it a collision with a ground polygon?
+            //  (this tests for the angle between ground and collidet
+            //  triangle)
+            if (-n.y < 0.7)
+                continue;
 
-	// Hit a ground polygon so we are not falling
-	onground = true;
-	csVector3 line[2];
-	if (FindIntersection (cd,line))
-	  max_y = MAX(MAX(line[0].y, line[1].y),max_y);
-      }
-      if (onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
-	newpos.y = max_y - 0.01f;
+            // Hit a ground polygon so we are not falling
+            onground = true;
+            csVector3 line[2];
+            if (FindIntersection (cd,line))
+                max_y = MAX(MAX(line[0].y, line[1].y),max_y);
+        }
+        if (onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
+            newpos.y = max_y - 0.01f;
 
       if (vel.y < 0 )
-	vel.y = 0;
+          vel.y = 0;
     }
+
     if (!onground)
     {
-      if (downstairs)
-	// No steps here, so readjust position back up
-	newpos.y += bottomSize.y / 2;
+        if (downstairs)
+            // No steps here, so readjust position back up
+            newpos.y += bottomSize.y / 2;
 
-      // gravity! move down!
-      vel.y  -= 19.6 * delta;
-      /*
-       * Terminal velocity
-       *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-       *   / 3.28 feet/meter = 53.65 m/s
-       */
-      if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
-    	vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+        // gravity! move down!
+        vel.y  -= 19.6 * delta;
+        /*
+        * Terminal velocity
+        *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+        *   / 3.28 feet/meter = 53.65 m/s
+        */
+        if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
+            vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
     }
 
     // Part 2.5: check top again and revert move if we're still in a wall.
@@ -350,6 +347,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     if (CollisionDetect (topCollider, current_sector,
     	&transform_newpos,&transform_oldpos) > 0)
     {
+        // No move possible without a collision
       newpos = oldpos;
     }
     else
@@ -358,16 +356,18 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       iSector* new_sector = movable->GetSectors ()->Get (0);
       iSector* old_sector = new_sector;
 
-      temppos = newpos;
       // @@@ Jorrit: had to do this add!
+      // We need to measure slightly above the position of the actor or else
+      // we won't really cross a portal.
       float height5 = (bottomSize.y + topSize.y) / 20.0;
-      temppos.y += height5;
+      newpos.y += height5;
       transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
       	+ csVector3 (0, height5, 0));
       bool mirror = false;
 
       new_sector = new_sector->FollowSegment (transform_oldpos,
-      	temppos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+      	newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+        newpos.y -= height5;
       if (new_sector != old_sector)
     	movable->SetSector (new_sector);
     }
@@ -427,20 +427,14 @@ bool celPcCollisionDetection::Init (const csVector3& body,
 		csVector3 (lX2, LEGOFFSET + legs.y, lZ2) + shift)));
   bottomCollider = cdsys->CreateCollider (mesh);
 
-  bool result;
-  if (topCollider && bottomCollider)
-    result = true;
-  else
-    result = false;
-
-  if (!result)
+  if (!(topCollider && bottomCollider))
   {
     MoveReport (object_reg, "Error while setting up CD!");
-    return result;
+    return false;
   }
 
   useCD = true;
-  return result;
+  return true;
 }
 
 iCollider* celPcCollisionDetection::FindCollider (iObject* object)
