@@ -175,6 +175,8 @@ csStringID celPcTimer::action_clear = csInvalidStringID;
 
 csStringID celPcTimer::id_elapsedticks = csInvalidStringID;
 csStringID celPcTimer::id_currentticks = csInvalidStringID;
+csStringID celPcTimer::id_time = csInvalidStringID;
+csStringID celPcTimer::id_repeat = csInvalidStringID;
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -193,6 +195,8 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     action_clear = pl->FetchStringID ("cel.action.Clear");
     id_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
     id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
+    id_time = pl->FetchStringID ("cel.parameter.time");
+    id_repeat = pl->FetchStringID ("cel.parameter.repeat");
   }
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_elapsedticks, "elapsedticks");
@@ -208,17 +212,11 @@ bool celPcTimer::PerformAction (csStringID actionId,
 {
   if (actionId == action_wakeup)
   {
-    const celData* p_t = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.time"));
-    if (!p_t) return false;
-    if (p_t->type != CEL_DATA_LONG) return false;
-    const celData* p_repeat = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.repeat"));
+    CEL_FETCH_LONG_VAR (time,params,id_time);
+    if (!p_time) return false;
+    CEL_FETCH_BOOL_VAR (repeat,params,id_repeat);
     if (!p_repeat) return false;
-    if (p_repeat->type != CEL_DATA_BOOL) return false;
-    csTicks t = p_t->value.l;
-    bool repeat = p_repeat->value.bo;
-    WakeUp (t, repeat);
+    WakeUp ((csTicks)time, repeat);
     return true;
   }
   else if (actionId == action_wakeupframe)

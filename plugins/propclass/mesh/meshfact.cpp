@@ -27,6 +27,7 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
+#include "celtool/stdparams.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "csutil/csobject.h"
@@ -76,6 +77,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 //---------------------------------------------------------------------------
 
 csStringID celPcMesh::action_loadmesh = csInvalidStringID;
+csStringID celPcMesh::id_filename = csInvalidStringID;
+csStringID celPcMesh::id_factoryname = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMesh)
@@ -95,7 +98,11 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   factory_ptr = 0;
 
   if (action_loadmesh == csInvalidStringID)
+  {
     action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
+    id_filename = pl->FetchStringID ("cel.parameter.filename");
+    id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
+  }
 }
 
 celPcMesh::~celPcMesh ()
@@ -126,16 +133,11 @@ bool celPcMesh::PerformAction (csStringID actionId,
 {
   if (actionId == action_loadmesh)
   {
-    const celData* p_file = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.filename"));
-    if (!p_file) return false;
-    if (p_file->type != CEL_DATA_STRING) return false;
-    const celData* p_fact = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.factoryname"));
-    if (!p_fact) return false;
-    if (p_fact->type != CEL_DATA_STRING) return false;
-    bool rc = SetMesh ((const char*)*(p_fact->value.s),
-    		       (const char*)*(p_file->value.s));
+    CEL_FETCH_STRING_PAR (file,params,id_filename);
+    if (!file) return false;
+    CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
+    if (!factory) return false;
+    bool rc = SetMesh (factory, file);
     // @@@ Error report!
     (void)rc;
     return true;

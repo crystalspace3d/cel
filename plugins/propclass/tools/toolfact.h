@@ -135,6 +135,8 @@ private:
 
   static csStringID id_elapsedticks;
   static csStringID id_currentticks;
+  static csStringID id_time;
+  static csStringID id_repeat;
   celGenericParameterBlock* params;
 
 public:

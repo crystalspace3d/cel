@@ -28,6 +28,39 @@
 #include "csutil/stringarray.h"
 #include "behaviourlayer/behave.h"
 
+// The following macros will set 'var' to the required variable and
+// 'p_var' will be made to 0 if there is a failure.
+#define CEL_FETCH_STRING_PAR(var,params,id) \
+  const celData* p_##var = params->GetParameter (id); \
+  const char* var = 0; \
+  if (p_##var && p_##var->type == CEL_DATA_STRING) { \
+    var = p_##var->value.s->GetData (); \
+  } else { p_##var = 0; }
+#define CEL_FETCH_VECTOR3_VAR(var,params,id) \
+  const celData* p_##var = params->GetParameter (id); \
+  csVector3 var; \
+  if (p_##var && p_##var->type == CEL_DATA_VECTOR3) { \
+    var.Set (p_##var->value.v.x, p_##var->value.v.y, p_##var->value.v.z); \
+  } else { p_##var = 0; }
+#define CEL_FETCH_FLOAT_VAR(var,params,id) \
+  const celData* p_##var = params->GetParameter (id); \
+  float var = 0.0f; \
+  if (p_##var && p_##var->type == CEL_DATA_FLOAT) { \
+    var = p_##var->value.f; \
+  } else { p_##var = 0; }
+#define CEL_FETCH_LONG_VAR(var,params,id) \
+  const celData* p_##var = params->GetParameter (id); \
+  long var = 0; \
+  if (p_##var && p_##var->type == CEL_DATA_LONG) { \
+    var = p_##var->value.l; \
+  } else { p_##var = 0; }
+#define CEL_FETCH_BOOL_VAR(var,params,id) \
+  const celData* p_##var = params->GetParameter (id); \
+  bool var = false; \
+  if (p_##var && p_##var->type == CEL_DATA_BOOL) { \
+    var = p_##var->value.bo; \
+  } else { p_##var = 0; }
+
 /**
  * Generic parameter block implementation.
  */

@@ -125,6 +125,9 @@ protected:
 
   void FindSiblingPropertyClasses ();
 
+  static csStringID id_body;
+  static csStringID id_legs;
+  static csStringID id_offset;
   static csStringID action_initcd;
 
 public:

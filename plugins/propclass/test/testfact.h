@@ -49,6 +49,7 @@ private:
   celOneParameterBlock* params;
 
   // For PerformAction.
+  // id_message is shared.
   static csStringID action_print;
 
   // For properties.

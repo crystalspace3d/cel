@@ -244,6 +244,7 @@ private:
   static Property* properties;
   static int propertycount;
   static csStringID action_applypermanentforce;
+  static csStringID id_force;
 
   static void UpdateProperties (iObjectRegistry* object_reg);
  

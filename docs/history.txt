@@ -15,6 +15,16 @@ The history order is reversed so that new features are at the top.
 	  property class from.
 	- Jorrit did another optimization on the timing facility in
 	  the physical layer.
+	- Jorrit added the basic 'pcmover' property class. Only the stub
+	  implementation for the property class is there. It doesn't do
+	  anything yet.
+	- Jorrit optimized all implementations of PerformAction() in the
+	  property classes so that they now also use prefetched ID's instead
+	  of fetching them at that point. Also made the code more readable
+	  by using new CEL_FETCH_..._VAR macros as defined in
+	  include/celtool/stdparams.h.
+	- Jorrit removed the sand monsters from the main level in the
+	  boulderdash game as they don't work properly yet.
 14-Jul-2004
 	- Jorrit added a weak reference to the physical layer to celPcCommon
 	  so that all property classes have it automatically.

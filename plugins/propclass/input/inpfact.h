@@ -56,6 +56,8 @@ class celPcCommandInput : public celPcCommon
 {
 private:
   celKeyMap* maplist;
+  static csStringID id_trigger;
+  static csStringID id_command;
   static csStringID action_bind;
 
 public:

@@ -237,7 +237,8 @@ void celPcActorMove::HandleMovement (bool jump)
   if (rotatetoreached)
   {
     pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0));
-  } else 
+  }
+  else 
   {
     pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0), 
 				   csVector3 (0, rotate_to, 0));    
