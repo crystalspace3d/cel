@@ -62,9 +62,11 @@ celPlLayer::celPlLayer (iBase* parent)
 celPlLayer::~celPlLayer ()
 {
   CleanCache ();
-  
-  // print out entities that aren't deleted properly
-  for ( CS_ID i = 1; i < idlist.Length(); i++ )
+ 
+  entities.DeleteAll ();
+
+  // Print out entities that aren't deleted properly.
+  for (CS_ID i = 1 ; i < idlist.Length() ; i++)
   {
     iCelEntity* entity=(iCelEntity*) idlist.Get(i);
     if (entity)
@@ -75,7 +77,7 @@ celPlLayer::~celPlLayer ()
 	  entity->GetID(), entity->GetName());
     }
   }
-  for ( int j = 0; j < removecallbacks.Length(); j++ )
+  for (int j = 0 ; j < removecallbacks.Length() ; j++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[j];
     delete callback;
@@ -85,7 +87,7 @@ celPlLayer::~celPlLayer ()
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
-  idlist.Clear();
+  idlist.Clear ();
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return false;	// Engine is required.
   return true;
@@ -96,7 +98,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   CS_ID objid;
   
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  csRef<iCelEntity> ientity = SCF_QUERY_INTERFACE (entity, iCelEntity);
+  iCelEntity* ientity = &entity->scfiCelEntity;
   objid = idlist.Register (ientity);
   if (objid == 0)
   {
@@ -107,16 +109,29 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
     return 0;
   }
   entity->SetEntityID (objid);
+  entities.Push (ientity);
+  ientity->IncRef ();
   return csPtr<iCelEntity> (ientity);
 }
 
-void celPlLayer::RemoveEntity (celEntity *entity)
+iCelEntity* celPlLayer::FindEntity (const char* name)
 {
-  if (!idlist.Remove(entity->GetEntityID()))
+  int i;
+  for (i = 0 ; i < entities.Length () ; i++)
+  {
+    if (!strcmp (name, entities[i]->GetName ()))
+      return entities[i];
+  }
+  return 0;
+}
+
+void celPlLayer::RemoveEntity (iCelEntity *entity)
+{
+  if (!idlist.Remove (entity->GetID ()))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
-	"error while removing Entity with ID %u (%s)", entity->GetEntityID(),
+	"error while removing Entity with ID %u (%s)", entity->GetID(),
 	entity->GetName());
     return;
   }
@@ -124,8 +139,10 @@ void celPlLayer::RemoveEntity (celEntity *entity)
   for (int i = 0; i < removecallbacks.Length(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
-    callback->RemoveEntity(&entity->scfiCelEntity);
+    callback->RemoveEntity (entity);
   }
+
+  entities.Delete (entity);
 }
 
 iCelEntity* celPlLayer::GetEntity (CS_ID id)

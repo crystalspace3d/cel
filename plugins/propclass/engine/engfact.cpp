@@ -122,8 +122,6 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 
   clear_zbuf = false;
   clear_screen = false;
-  
-  DG_TYPE (this, "celPcCamera()");
 }
 
 celPcCamera::~celPcCamera ()
@@ -542,8 +540,6 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   regionname = 0;
   loaded = false;
   empty_sector = true;
-
-  DG_TYPE (this, "celPcRegion()");
 }
 
 celPcRegion::~celPcRegion ()
@@ -777,7 +773,8 @@ bool celPcRegion::Load ()
   loaded = true;
   printf ("LoadOK!\n");
 
-  // Create entities for all meshes in this region.
+  // Create entities for all meshes in this region unless there is already
+  // an entity for them (an addon may have created them for example).
   {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   CS_ASSERT (pl != 0);
@@ -786,19 +783,22 @@ bool celPcRegion::Load ()
   while (iter->HasNext ())
   {
     iObject* o = iter->Next ();
-    csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
-    if (m)
+    iCelEntity* e = pl->FindAttachedEntity (o);
+    if (!e)
     {
-      csRef<iCelEntity> ent (pl->CreateEntity ());
-      ent->SetName ("");
+      csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
+      if (m)
+      {
+        csRef<iCelEntity> ent = pl->CreateEntity ();
+        ent->SetName ("");
 
-      pc = pl->CreatePropertyClass (ent, "pcmesh");
-      csRef<iPcMesh> pcmesh (SCF_QUERY_INTERFACE (pc, iPcMesh));
-      pcmesh->SetMesh (m);
+        pc = pl->CreatePropertyClass (ent, "pcmesh");
+        csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+        pcmesh->SetMesh (m);
 
-      pc = pl->CreatePropertyClass (ent, "pcsolid");
-      entities.Push (ent);
-      DG_LINK (this, ent->QueryObject ());
+        pc = pl->CreatePropertyClass (ent, "pcsolid");
+        entities.Push (ent);
+      }
     }
   }
   }
@@ -815,9 +815,15 @@ void celPcRegion::Unload ()
 
   iRegion* cur_region = engine->CreateRegion (regionname);
 
-  int i;
-  for (i = 0 ; i < entities.Length () ; i++)
-    DG_UNLINK (this, entities[i]);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (pl)
+  {
+    int i;
+    for (i = 0 ; i < entities.Length () ; i++)
+    {
+      pl->RemoveEntity (entities[i]);
+    }
+  }
   entities.DeleteAll ();
 
   cur_region->DeleteAll ();
@@ -826,7 +832,7 @@ void celPcRegion::Unload ()
 
 iSector* celPcRegion::FindSector (const char* name)
 {
-  csRef<iEngine> engine = CS_QUERY_REGISTRY(object_reg, iEngine);
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   iSector* temp = engine->GetSectors()->FindByName (name);
   return temp;
 }

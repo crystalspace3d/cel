@@ -37,6 +37,7 @@ class celPlLayer : public iCelPlLayer
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
   csRefArray<iCelBlLayer> bl_list;
+  csRefArray<iCelEntity> entities;
   csArray<iCelEntityRemoveCallback*> removecallbacks;
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
@@ -52,11 +53,11 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual csPtr<iCelEntity> CreateEntity ();
+  virtual iCelEntity* FindEntity (const char* name);
   /**
-   * remove an entity from the physical layer ID list.
-   * This is called automatically by celEntity destructor.
+   * Remove an entity from the physical layer ID list.
    */
-  void RemoveEntity (celEntity* entity);
+  virtual void RemoveEntity (iCelEntity* entity);
   virtual iCelEntity* GetEntity (CS_ID id);
   virtual iCelBehaviour* GetBehaviour (CS_ID id);
   

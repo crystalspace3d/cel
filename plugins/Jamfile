@@ -4,4 +4,5 @@ SubInclude TOP plugins stdphyslayer ;
 SubInclude TOP plugins propclass ;
 SubInclude TOP plugins persist ;
 SubInclude TOP plugins behaviourlayer ;
+SubInclude TOP plugins addons ;
 

@@ -54,9 +54,16 @@ SCF_VERSION (iCelPlLayer, 0, 1, 0);
 struct iCelPlLayer : public iBase
 {
   /**
-   * Create a new physical layer entity.
+   * Create a new physical layer entity. The physical layer
+   * will keep a reference to this entity. You need to call RemoveEntity()
+   * to remove the entity.
    */
   virtual csPtr<iCelEntity> CreateEntity () = 0;
+
+  /**
+   * Remove an entity from the physical layer.
+   */
+  virtual void RemoveEntity (iCelEntity* entity) = 0;
 
   /**
    * Create a message.
@@ -87,6 +94,12 @@ struct iCelPlLayer : public iBase
    * Returns the entity with ID id
    */
   virtual iCelEntity* GetEntity (CS_ID id) = 0;
+
+  /**
+   * Find an entity with a given name. Note that this is a very slow
+   * function. Try to avoid it or only do it during init.
+   */
+  virtual iCelEntity* FindEntity (const char* name) = 0;
 
   /**
    * This is a conveniance function to get the behaviour that belongs
