@@ -18,6 +18,11 @@
 	  various behaviour layers are used).
 	- The python behaviour layer plugin is now actually working and
 	  being used for two small entities.
+	- Started work on a new pcgravity property classes (for now
+	  called pcgravity2 until it is working fine and can replace the
+	  old pcgravity). Celtest already uses this new property class
+	  for a all entities and it seems to work a bit already.
+	  Note that it is highly unfinished though!
 27-Dec-2001:
 	- Added a string registry to the physical layer. This can be used
 	  for various things but in the first time it is going to be used
