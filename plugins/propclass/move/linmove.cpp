@@ -46,8 +46,7 @@
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
 
-#include <imesh/thing/thing.h>
-#include <imesh/thing/polygon.h>
+#include <imesh/thing.h>
 #include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
 #include <igeom/objmodel.h>
