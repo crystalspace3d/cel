@@ -47,3 +47,9 @@ Let pcsolid support more than one collider? Probably better.
 
 Implement movement through portals in pcmovable.
 
+IMPORTANT: unique names for entities! Can we assume current
+name of entities are unique? Unique name generator.
+IMPORTANT: Consider class names for entities in addition to
+names? i.e. name: "small box", class: "box".
+
+
