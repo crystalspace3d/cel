@@ -13,14 +13,15 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+    MA 02111-1307, USA.
 */
-#include "cssysdef.h"
 
+#include "cssysdef.h"
+#include "bootstrap.h"
 #include "csutil/sysfunc.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
-#include "bootstrap.h"
 #include "csutil/event.h"
 #include "csutil/cmdhelp.h"
 #include "iutil/eventq.h"
@@ -42,10 +43,8 @@
 #include "isound/renderer.h"
 #include "isound/loader.h"
 
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
+#include "celtool/initapp.h"
 #include "physicallayer/persist.h"
-#include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
 
 CS_IMPLEMENT_APPLICATION
@@ -117,7 +116,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
 
-  if (!csInitializer::RequestPlugins (object_reg,
+  if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,
 	CS_REQUEST_ENGINE,

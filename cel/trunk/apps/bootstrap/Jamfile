@@ -2,6 +2,7 @@ SubDir TOP apps bootstrap ;
 
 Application bootstrap : [ Wildcard *.cpp *.h ] ;
 CFlags bootstrap : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith bootstrap : celtool ;
 ExternalLibs bootstrap : CRYSTAL ;
 
 if ! [ Property build : projgen ]
@@ -9,6 +10,7 @@ if ! [ Property build : projgen ]
 SubVariant static ;
 Application bootstrap_static : [ Wildcard *.cpp *.h ] :
   independent noinstall nohelp ;
+LinkWith bootstrap_static : celtool ;
 LinkStaticPlugins bootstrap_static : $(STATIC.PLUGINLIST) ;
 CFlags bootstrap_static : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 ExternalLibs bootstrap_static : CRYSTAL ;
