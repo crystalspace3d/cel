@@ -322,7 +322,8 @@
 	    <event name="init">
 	        <createpropclass name="pctimer" />
 	        <createpropclass name="pcbillboard" />
-		<default propclass="pc(pcbillboard)" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="?material" />
 	        <property id="propid(materialname)" value="?material" />
 	        <property id="propid(movable)" value="false" />
@@ -358,17 +359,14 @@
 	      -->
 	    <event name="pctimer_wakeupframe">
 	        <if eval="?moving">
-		    <default propclass="pc(pcbillboard)" />
 		    <if eval="?delta>=1">
 		        <true>
 			    <var name="moving" value="false" />
-			    <property id="propid(x)" value="?dstx" />
-			    <property id="propid(y)" value="?dsty" />
+			    <bb_move x="?dstx" y="?dsty" />
 			    <call event="endmove" />
 		        </true>
 		        <false>
-			    <property id="propid(x)" value="intpol(?delta,?srcx,?dstx)" />
-			    <property id="propid(y)" value="intpol(?delta,?srcy,?dsty)" />
+			    <bb_move x="intpol(?delta,?srcx,?dstx)" y="intpol(?delta,?srcy,?dsty)" />
 			    <var name="delta" value="?delta+?speed*@elapsedticks" />
 		        </false>
 		    </if>
@@ -574,11 +572,8 @@
 	      - movement speed.
 	      -->
 	    <event name="pctimer_wakeupframe">
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)"
-			value="1000+intpol(?delta,?intx1,?intx2)*?puzzle_main.tiledim" />
-	        <property id="propid(y)"
-			value="1000+intpol(?delta,?inty1,?inty2)*?puzzle_main.tiledim" />
+		<bb_move x="1000+intpol(?delta,?intx1,?intx2)*?puzzle_main.tiledim"
+			 y="1000+intpol(?delta,?inty1,?inty2)*?puzzle_main.tiledim" />
 		<if eval="?delta>=1" true="stoptimer" />
 		<var name="delta" value="?delta+?puzzle_main.speed*@elapsedticks" />
 	    </event>
@@ -592,9 +587,8 @@
 	      -->
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="1000+?curx*?puzzle_main.tiledim" />
-	        <property id="propid(y)" value="1000+?cury*?puzzle_main.tiledim" />
+		<bb_move x="1000+?curx*?puzzle_main.tiledim"
+	        	 y="1000+?cury*?puzzle_main.tiledim" />
 		<if eval="?puzzle_main.shuffle_count>0">
 		    <true>
 		        <var entity="puzzle_main" name="shuffle_count"
@@ -1574,7 +1568,7 @@
 		<var name="speed" value="?bdash_main.herospeed" />
 		<super />
 	        <var name="blocktype" value="'H'" />
-		<default propclass="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pckeyinput" />
 		<default propclass="pc(pckeyinput)" />
@@ -1797,7 +1791,7 @@
 	        <var name="material" value="?bdash_main.(material_+?blocktype)" />
 		<var name="speed" value="?bdash_main.fallspeed" />
 		<super />
-		<default propclass="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
 	    </event>
 

@@ -2683,6 +2683,17 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
 	}
 	break;
+      case CEL_OPERATION_BB_MOVE:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg ay = stack.Pop ();
+	  celXmlArg ax = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_move x=%s y=%s\n", i-1, A2S (ax), A2S (ay)));
+	  int32 x = ArgToInt32 (ax);
+	  int32 y = ArgToInt32 (ay);
+	  behave->GetBillboard ()->GetBillboard ()->SetPosition (x, y);
+	}
+	break;
       case CEL_OPERATION_BB_TESTCOLLIDE:
         {
 	  CHECK_STACK(1)
