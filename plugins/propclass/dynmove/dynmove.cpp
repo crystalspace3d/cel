@@ -340,7 +340,7 @@ csPtr<iCelDataBuffer> celPcDynamicBody::Save ()
   databuf->GetData (j++)->Set (pc);
   if (dynsystem) pc = SCF_QUERY_INTERFACE (dynsystem, iCelPropertyClass);
   databuf->GetData (j++)->Set (pc);
-  databuf->GetData (j++)->Set (btype);
+  databuf->GetData (j++)->Set (CS_STATIC_CAST(int32,btype));
   switch (btype)
   {
     case CEL_BODY_SPHERE:
