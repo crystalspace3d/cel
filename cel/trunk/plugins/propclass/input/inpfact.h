@@ -119,7 +119,7 @@ public:
   } *scfiEventHandler;
 
 protected:
-  celKeyMap *GetMap(utf32_char key) const;
+  celKeyMap *GetMap (utf32_char key, uint32 modifiers) const;
 };
 
 #endif // __CEL_PF_TESTFACT__

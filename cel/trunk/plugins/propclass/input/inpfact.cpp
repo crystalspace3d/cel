@@ -247,20 +247,21 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   csKeyModifiers modifiers; 
   if (!csParseKeyDef (triggername, &key, &cooked, &modifiers))
     return false;
+  uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
 
   // only bind single keys
   //  if (shift != 0)
   //      return false;
 
   celKeyMap* newmap;
-  if (!(newmap = GetMap (key)))
+  if (!(newmap = GetMap (key, mods)))
   {
     newmap = new celKeyMap;
     // Add a new entry to key mapping list
     newmap->next=maplist;
     newmap->prev=0;
     newmap->key=key;
-    newmap->modifiers=csKeyEventHelper::GetModifiersBits (modifiers);
+    newmap->modifiers=mods;
     newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
     strcpy (newmap->command, "pckeyinput_");
     strcat (newmap->command, command);
@@ -292,11 +293,9 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
   if (!csParseKeyDef (triggername, &key, &cooked, &modifiers))
     return false;
   
-  if (  csKeyEventHelper::GetModifiersBits (modifiers) != 0 )
-    return 0;
-
+  uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
   celKeyMap* map;
-  if (!(map = GetMap (key)))
+  if (!(map = GetMap (key, mods)))
     return 0;
 
   return map->command+11;
@@ -323,12 +322,12 @@ void celPcCommandInput::RemoveAllBinds ()
   maplist = 0;
 }
 
-celKeyMap* celPcCommandInput::GetMap (utf32_char key) const
+celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 {
   celKeyMap *p=maplist;
   while (p)
   {
-    if (p->key==key)
+    if (p->key==key && p->modifiers==mods)
       break;
     p=p->next;
   }

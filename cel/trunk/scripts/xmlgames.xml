@@ -1571,24 +1571,51 @@
 		<default propclass="pc(pckeyinput)" />
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="right" />
-		    <par id="parid(command)" value="right" />
+		    <par id="parid(command)" value="move_right" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="left" />
-		    <par id="parid(command)" value="left" />
+		    <par id="parid(command)" value="move_left" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="up" />
-		    <par id="parid(command)" value="up" />
+		    <par id="parid(command)" value="move_up" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="down" />
-		    <par id="parid(command)" value="down" />
+		    <par id="parid(command)" value="move_down" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-right'" />
+		    <par id="parid(command)" value="take_right" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-left'" />
+		    <par id="parid(command)" value="take_left" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-up'" />
+		    <par id="parid(command)" value="take_up" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-down'" />
+		    <par id="parid(command)" value="take_down" />
 		</action>
 		<action id="propid(Bind)">
 		    <par id="parid(trigger)" value="space" />
 		    <par id="parid(command)" value="bomb" />
 		</action>
+	    </event>
+
+	    <!--
+	      - Routine used by the checktake events below to clear a block.
+	      - Uses ?newx, and ?newy for the position of the block to clear.
+	      -->
+	    <event name="clearblock_check">
+		<call entity="bdash_main" event="clearblock_check">
+		    <par id="parid(x)" value="?newx" />
+		    <par id="parid(y)" value="?newy" />
+		</call>
 	    </event>
 
 	    <!--
@@ -1648,6 +1675,59 @@
 		    	</if>
 		    </if>
 		</if>
+	    </event>
+
+	    <!--
+	      - Perform a push if possible.
+	      - Don't move afterwards.
+	      -->
+	    <event name="trypush_dontmove">
+	    	<if eval="?dy==0">
+		    <if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy) == ''">
+		    	<lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
+			<if eval="!?(#ent).moving">
+			    <var entity="#ent" name="dx" value="?dx" />
+			    <var entity="#ent" name="dy" value="?dy" />
+			    <call entity="#ent" event="startmove" />
+		    	</if>
+		    </if>
+		</if>
+	    </event>
+
+	    <!--
+	      - Check if a take is possible and perform the take
+	      - if so. Uses ?dx and ?dy to get the take direction and
+	      - ?x and ?y for current position.
+	      - This routine will fire one of the 'checktake_' events below
+	      - depending on the contents of the block we want to take.
+	      -->
+	    <event name="checktake">
+	        <if eval="?moving">
+		    <stop />
+		</if>
+		<var name="newx" value="?x+?dx" />
+		<var name="newy" value="?y+?dy" />
+		<call event="checktake_+bdash_main::get_blocktype(x=?newx,y=?newy)" />
+	    </event>
+
+	    <event name="checktake_ ">
+	    </event>
+	    <event name="checktake_#">
+	    	<call event="clearblock_check" />
+	    </event>
+	    <event name="checktake_B">
+	    </event>
+	    <event name="checktake_O">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_R">
+	    	<call event="trypush_dontmove" />
+	    </event>
+	    <event name="checktake_o">
+	    </event>
+	    <event name="checktake_X">
+		<sound name="bloop" loop="false" />
+		<call event="clearblock_check" />
 	    </event>
 
 	    <!--
@@ -1713,45 +1793,85 @@
 	    	    </call>
 	        </if>
 	    </event>
-	    <event name="pckeyinput_right1">
+	    <event name="pckeyinput_move_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_left1">
+	    <event name="pckeyinput_move_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_down1">
+	    <event name="pckeyinput_move_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_up1">
+	    <event name="pckeyinput_move_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_right_">
+	    <event name="pckeyinput_move_right_">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_left_">
+	    <event name="pckeyinput_move_left_">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_down_">
+	    <event name="pckeyinput_move_down_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_up_">
+	    <event name="pckeyinput_move_up_">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_take_right1">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_left1">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_down1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_up1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_right_">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_left_">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_down_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checktake" />
+	    </event>
+	    <event name="pckeyinput_take_up_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checktake" />
 	    </event>
 	</script>
 
