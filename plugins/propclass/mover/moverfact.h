@@ -30,6 +30,7 @@
 #include "celtool/stdparams.h"
 #include "propclass/mover.h"
 #include "propclass/linmove.h"
+#include "propclass/mesh.h"
 #include "iengine/engine.h"
 
 struct iCelEntity;
@@ -48,6 +49,7 @@ class celPcMover : public celPcCommon
 private:
   csWeakRef<iEngine> engine;
   csWeakRef<iPcLinearMovement> pclinmove;
+  csWeakRef<iPcMesh> pcmesh;
 
   // For PerformAction.
   static csStringID id_sectorname;

@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Aug-2004
+	- Jorrit fixed the cel camera so that it makes the entire mesh
+	  hierarchy invisible instead of only the parent in first person
+	  mode.
 7-Aug-2004
 	- Jorrit finally fixed the python plugin in CEL.
 	- Jorrit added iPcLinearMovement->GetCDDimensions() so that you can
