@@ -817,7 +817,7 @@ int celPcProperties::GetPropertyIndex (const char* name)
     }
   }
 
-  return properties_hash.Get (name,0)-1;
+  return properties_hash.Fetch (name,0) - 1;
 }
 
 void celPcProperties::SetProperty (int index, float value)
