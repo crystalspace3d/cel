@@ -32,6 +32,8 @@
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
 
+#include "physicallayer/datatype.h"
+
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCelPropertyClass;
@@ -83,27 +85,8 @@ enum
   CEL_OPERATION_FINALOP
 };
 
-enum
-{
-  CEL_TYPE_NONE = 0,
-  CEL_TYPE_UINT32,
-  CEL_TYPE_INT32,
-  CEL_TYPE_FLOAT,
-  CEL_TYPE_STRING,
-  CEL_TYPE_BOOL,
-  CEL_TYPE_PC,
-  CEL_TYPE_ID,
-  CEL_TYPE_ARGLIST,
-  CEL_TYPE_EVENTHANDLER,
-  CEL_TYPE_VECTOR2,
-  CEL_TYPE_VECTOR3,
-  CEL_TYPE_COLOR,
-  CEL_TYPE_VAR,
-
-  CEL_TYPE_FINALTYPE
-};
-
-struct celXmlArgList;
+#define CEL_DATA_EVENTHANDLER CEL_DATA_LAST
+#define CEL_DATA_ID (CEL_DATA_LAST+1)
 
 // One argument.
 struct celXmlArg
@@ -116,19 +99,18 @@ struct celXmlArg
     float f;
     struct
     {
-      const char* s;	// Also used for CEL_TYPE_VAR.
+      const char* s;
       bool cleanup;	// If true string must be cleaned up here.
     } str;
     bool b;
     int pc_ref;
     iCelPropertyClass* pc;
     csStringID id;
-    celXmlArgList* a;
-    celXmlScriptEventHandler* h;
+    struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
     struct { float red, green, blue; } col;
   } arg;
-  celXmlArg () : type (CEL_TYPE_NONE) { }
+  celXmlArg () : type (CEL_DATA_NONE) { }
   celXmlArg (const celXmlArg& other);
 
   ~celXmlArg ()
@@ -139,39 +121,39 @@ struct celXmlArg
   void SetUInt32 (uint32 i)
   {
     Cleanup ();
-    type = CEL_TYPE_UINT32;
+    type = CEL_DATA_ULONG;
     arg.ui = i;
   }
   void SetInt32 (int32 i)
   {
     Cleanup ();
-    type = CEL_TYPE_INT32;
+    type = CEL_DATA_LONG;
     arg.i = i;
   }
   void SetFloat (float f)
   {
     Cleanup ();
-    type = CEL_TYPE_FLOAT;
+    type = CEL_DATA_FLOAT;
     arg.f = f;
   }
   void SetBool (bool b)
   {
     Cleanup ();
-    type = CEL_TYPE_BOOL;
+    type = CEL_DATA_BOOL;
     arg.b = b;
   }
   // Set a preallocated string.
   void SetStringPrealloc (const char* s)
   {
     Cleanup ();
-    type = CEL_TYPE_STRING;
+    type = CEL_DATA_STRING;
     arg.str.s = s;
     arg.str.cleanup = true;
   }
   void SetString (const char* s, bool copy)
   {
     Cleanup ();
-    type = CEL_TYPE_STRING;
+    type = CEL_DATA_STRING;
     if (copy)
     {
       arg.str.s = csStrNew (s);
@@ -183,42 +165,37 @@ struct celXmlArg
       arg.str.cleanup = false;
     }
   }
-  void SetVar (const char* s)
-  {
-    Cleanup ();
-    type = CEL_TYPE_VAR;
-    arg.str.s = csStrNew (s);
-    arg.str.cleanup = true;
-  }
   void SetPC (iCelPropertyClass* pc)
   {
     Cleanup ();
-    type = CEL_TYPE_PC;
+    type = CEL_DATA_PCLASS;
     arg.pc = pc;
   }
   void SetID (csStringID id)
   {
     Cleanup ();
-    type = CEL_TYPE_ID;
+    type = CEL_DATA_ID;
     arg.id = id;
   }
-  void SetEventHandler (celXmlScriptEventHandler* h)
+  void SetEventHandlers (celXmlScriptEventHandler* h_true,
+  	celXmlScriptEventHandler* h_false)
   {
     Cleanup ();
-    type = CEL_TYPE_EVENTHANDLER;
-    arg.h = h;
+    type = CEL_DATA_EVENTHANDLER;
+    arg.h.h_true = h_true;
+    arg.h.h_false = h_false;
   }
   void SetVector (const csVector2& v)
   {
     Cleanup ();
-    type = CEL_TYPE_VECTOR2;
+    type = CEL_DATA_VECTOR2;
     arg.vec.x = v.x;
     arg.vec.y = v.y;
   }
   void SetVector (const csVector3& v)
   {
     Cleanup ();
-    type = CEL_TYPE_VECTOR3;
+    type = CEL_DATA_VECTOR3;
     arg.vec.x = v.x;
     arg.vec.y = v.y;
     arg.vec.z = v.z;
@@ -226,18 +203,11 @@ struct celXmlArg
   void SetColor (const csColor& v)
   {
     Cleanup ();
-    type = CEL_TYPE_COLOR;
+    type = CEL_DATA_COLOR;
     arg.col.red = v.red;
     arg.col.green = v.green;
     arg.col.blue = v.blue;
   }
-  void SetArgList ();
-};
-
-// An argument list.
-struct celXmlArgList
-{
-  csArray<celXmlArg> args;
 };
 
 // An operation in an XML script.
@@ -270,8 +240,8 @@ public:
 
   void AddOperation (int op);
 
-  // Add argument to last operation.
-  celXmlArg& AddArgument ();
+  // Get argument for last operation.
+  celXmlArg& GetArgument ();
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave);
 };

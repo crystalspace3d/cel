@@ -149,19 +149,19 @@ bool celBlXml::ParseExpression (iDocumentNode* child,
 	int optional_type)
 {
   const char* input = child->GetAttributeValue (attrname);
-  if (!input && optional_type == CEL_TYPE_NONE)
+  if (!input && optional_type == CEL_DATA_NONE)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
 		"Can't find attribute '%s' for '%s'!", attrname, name);
     return false;
   }
-  if (!input && optional_type != CEL_TYPE_NONE)
+  if (!input && optional_type != CEL_DATA_NONE)
   {
     h->AddOperation (CEL_OPERATION_PUSH);
     switch (optional_type)
     {
-      case CEL_TYPE_STRING: h->AddArgument ().SetString (0, false); break;
-      case CEL_TYPE_PC: h->AddArgument ().SetPC (0); break;
+      case CEL_DATA_STRING: h->GetArgument ().SetString (0, false); break;
+      case CEL_DATA_PCLASS: h->GetArgument ().SetPC (0); break;
       default: CS_ASSERT (false);
     }
     return true;
@@ -275,7 +275,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	  csStringID id = pl->FetchStringID (str);
 	  delete[] str;
           h->AddOperation (CEL_OPERATION_PUSH);
-          h->AddArgument ().SetID (id);
+          h->GetArgument ().SetID (id);
 	  input = i+1;
 	}
 	else
@@ -321,7 +321,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	  csStringID id = pl->FetchStringID (str);
 	  delete[] str;
           h->AddOperation (CEL_OPERATION_PUSH);
-          h->AddArgument ().SetID (id);
+          h->GetArgument ().SetID (id);
 	  input = i+1;
 	}
 	else
@@ -346,7 +346,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	strncpy (str, pinput, input-pinput);
 	str[input-pinput] = 0;
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetString (str, true);
+        h->GetArgument ().SetString (str, true);
 	delete[] str;
       }
       break;
@@ -361,7 +361,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
           return false;
         }
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetString (str, true);
+        h->GetArgument ().SetString (str, true);
         delete[] str;
       }
       break;
@@ -414,7 +414,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         sscanf (str, "%u", &i);
         delete[] str;
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetInt32 (i);
+        h->GetArgument ().SetInt32 (i);
       }
       break;
     case CEL_TOKEN_UINT32:
@@ -427,7 +427,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         sscanf (str, "%ud", &i);
         delete[] str;
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetUInt32 (i);
+        h->GetArgument ().SetUInt32 (i);
       }
       break;
     case CEL_TOKEN_FLOAT:
@@ -440,7 +440,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         sscanf (str, "%f", &i);
         delete[] str;
         h->AddOperation (CEL_OPERATION_PUSH);
-        h->AddArgument ().SetFloat (i);
+        h->GetArgument ().SetFloat (i);
       }
       break;
     case CEL_TOKEN_COLOR:
@@ -508,11 +508,11 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       break;
     case CEL_TOKEN_BOOLTRUE:
       h->AddOperation (CEL_OPERATION_PUSH);
-      h->AddArgument ().SetBool (true);
+      h->GetArgument ().SetBool (true);
       break;
     case CEL_TOKEN_BOOLFALSE:
       h->AddOperation (CEL_OPERATION_PUSH);
-      h->AddArgument ().SetBool (false);
+      h->GetArgument ().SetBool (false);
       break;
     case CEL_TOKEN_OPEN:
       if (!ParseExpression (input, child, h, name, 0))
@@ -708,8 +708,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  	? script->FindOrCreateEventHandler (falsename)
 		: 0;
 	  h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
-	  h->AddArgument ().SetEventHandler (truehandler);
-	  h->AddArgument ().SetEventHandler (falsehandler);
+	  h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
 	}
         break;
       case XMLTOKEN_FOR:
@@ -725,7 +724,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  	? script->FindOrCreateEventHandler (execname)
 		: 0;
 	  h->AddOperation (CEL_OPERATION_FOR);
-	  h->AddArgument ().SetEventHandler (handler);
+	  h->GetArgument ().SetEventHandlers (handler, 0);
 	}
         break;
       case XMLTOKEN_IF:
@@ -741,8 +740,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  	? script->FindOrCreateEventHandler (falsename)
 		: 0;
 	  h->AddOperation (CEL_OPERATION_IF);
-	  h->AddArgument ().SetEventHandler (truehandler);
-	  h->AddArgument ().SetEventHandler (falsehandler);
+	  h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
 	}
         break;
       case XMLTOKEN_PRINT:
@@ -757,7 +755,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_PROPERTY:
         {
-          if (!ParseExpression (child, h, "propclass", "property", CEL_TYPE_PC))
+          if (!ParseExpression (child, h, "propclass", "property",
+	  	CEL_DATA_PCLASS))
 	    return false;
           if (!ParseExpression (child, h, "id", "property"))
 	    return false;
@@ -768,11 +767,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_ACTION:
         {
-          if (!ParseExpression (child, h, "propclass", "action", CEL_TYPE_PC))
+          if (!ParseExpression (child, h, "propclass", "action",
+	  	CEL_DATA_PCLASS))
 	    return false;
           if (!ParseExpression (child, h, "id", "action"))
 	    return false;
-          if (!ParseExpression (child, h, "params", "action", CEL_TYPE_STRING))
+          if (!ParseExpression (child, h, "params", "action", CEL_DATA_STRING))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_ACTION);
 	}
