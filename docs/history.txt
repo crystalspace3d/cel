@@ -4,8 +4,8 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 01-Oct-2003
-    - Matze fixed a problem in cel-config after some include dirs have been
-      renamed
+	- Matze fixed a problem in cel-config after some include dirs have been
+	  renamed
 21-Sep-2003
 	- Keith made the sector param of pcmesh->MoveMesh() optional, so that
 	  position alone can be updated.
