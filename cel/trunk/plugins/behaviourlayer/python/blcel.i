@@ -300,7 +300,8 @@ struct iPcLinearMovement : public iBase
   virtual void SetCameraPitchSpeed (float angle) = 0;
   virtual void SetVelocity (const csVector3& vel) = 0;
   virtual void GetVelocity (csVector3& v) = 0;
-  virtual bool InitCD (csVector3& top, csVector3& bottom)=0;
+  virtual bool InitCD (const csVector3& body, const csVector3& shift,
+  	const csVector3& shift)=0;
   virtual bool InitCD () = 0;
   virtual csPtr<iDataBuffer> GetDRData() = 0;
   virtual bool SetDRData (iDataBuffer* data, bool detectcheat) = 0;

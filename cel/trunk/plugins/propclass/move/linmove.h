@@ -85,15 +85,14 @@ protected:
   bool stationary;
 
   //Collision vars
+  csVector3 shift;
   csRef<csColliderWrapper> topCollider;
   csVector3 topSize;
   csRef<iMeshWrapper> topColliderMesh;
-  float	fTopSize;
 
   csRef<csColliderWrapper> bottomCollider;
   csVector3 bottomSize;
   csRef<iMeshWrapper> bottomColliderMesh;
-  float fBottomSize;
 
 //  csVector3     lastKnownPosition;  
 //  csVector3     lastKnownVelocity;
@@ -149,7 +148,8 @@ public:
   void SetRotation (const csVector3& angle);
   void SetVelocity (const csVector3& vel );
   void GetVelocity (csVector3& v);
-  bool InitCD (csVector3& top, csVector3& bottom);
+  bool InitCD (const csVector3& body, const csVector3& shift,
+  	const csVector3& shift);
   bool InitCD ();
   void SetSpeed ( float speedz );
   void SetCameraPitchSpeed (float angle)
@@ -238,9 +238,10 @@ public:
       scfParent->GetVelocity (v);
     }
 
-    virtual bool InitCD (csVector3& top, csVector3& bottom)
+    virtual bool InitCD (const csVector3& top, const csVector3& bottom,
+    	const csVector3& shift)
     {
-      return scfParent->InitCD (top, bottom);
+      return scfParent->InitCD (top, bottom, shift);
     }
     virtual bool InitCD ()
     {

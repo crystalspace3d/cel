@@ -178,17 +178,18 @@ celPcLinearMovement::~celPcLinearMovement ()
   }
 }
 
-#define LINMOVE_SERIAL 1
+#define LINMOVE_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
-  databuf->SetDataCount (2);
+  databuf->SetDataCount (3);
   int j = 0;
 
   databuf->GetData (j++)->Set (topSize);
   databuf->GetData (j++)->Set (bottomSize);
+  databuf->GetData (j++)->Set (shift);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -198,7 +199,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
     return false;
-  if (databuf->GetDataCount () != 2)
+  if (databuf->GetDataCount () != 3)
     return false;
 
   celData* cd;
@@ -212,7 +213,12 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   bottomSize.y = cd->value.v.y;
   bottomSize.z = cd->value.v.z;
 
-  if (!InitCD (topSize, bottomSize))
+  cd = databuf->GetData (2);
+  shift.x = cd->value.v.x;
+  shift.y = cd->value.v.y;
+  shift.z = cd->value.v.z;
+
+  if (!InitCD (topSize, bottomSize, shift))
     return false;
 
   return true;
@@ -405,14 +411,13 @@ bool celPcLinearMovement::MoveV (float delta)
     csOrthoTransform transform_oldpos = csReversibleTransform (
     	csMatrix3(), temppos);
 
-
     // Part1: find body collisions => movement
     // Find possible colliding sectors.
     csVector3 localvel = mat*(vel * delta);
 
     num_our_cd = hits = 0;
 
-    // Travel all relevant sectors and do collsion detection.
+    // Travel all relevant sectors and do collision detection.
     cdsys->SetOneHitOnly (false);
     cdsys->ResetCollisionPairs ();
     hits += CollisionDetect (topCollider, current_sector,
@@ -428,7 +433,6 @@ bool celPcLinearMovement::MoveV (float delta)
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
-
 
     // Part2: legs
     num_our_cd = hits = 0;
@@ -501,7 +505,6 @@ bool celPcLinearMovement::MoveV (float delta)
     cdsys->ResetCollisionPairs ();
     transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
-
     if (CollisionDetect (topCollider, current_sector,
     	&transform_newpos,&transform_oldpos) > 0)
     {
@@ -513,26 +516,32 @@ bool celPcLinearMovement::MoveV (float delta)
       iSector* new_sector = movable->GetSectors ()->Get (0);
       iSector* old_sector = new_sector;
 
-      temppos=newpos;
-      // temppos.y+=0.1f;
-      bool mirror=false;
+      temppos = newpos;
+      // @@@ Jorrit: had to do this add!
+      float half_height = (bottomSize.y + topSize.y) / 2.0;
+      temppos.y += half_height;
+      transform_oldpos.SetOrigin (transform_oldpos.GetOrigin () + csVector3 (0, half_height, 0));
+      bool mirror = false;
 
       new_sector = new_sector->FollowSegment (transform_oldpos,
       	temppos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
-
       if (new_sector != old_sector)
     	movable->SetSector (new_sector);
     }
 
-    // Part 4: Add us to all nearby sectors.
-    pcmesh->GetMesh ()->PlaceMesh ();
   }
 
   //---------- COLLISION END HERE-------------------
 
   // move to the new position
-  newpos -= oldpos;
-  movable->MovePosition (newpos);
+  movable->GetTransform ().SetOrigin (newpos);
+
+  if (useCD)
+  {
+    // Part 4: Add us to all nearby sectors.
+    pcmesh->GetMesh ()->PlaceMesh ();
+  }
+
   movable->UpdateMove ();
 
   return true;
@@ -545,8 +554,8 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   if (rc)
   {
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
-    pcmesh->GetMesh ()->DeferUpdateLighting
-      (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 5);
+    pcmesh->GetMesh ()->DeferUpdateLighting (
+    	CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 5);
   }
 }
 
@@ -581,10 +590,11 @@ bool celPcLinearMovement::HandleEvent (iEvent& ev)
 
 bool celPcLinearMovement::InitCD ()
 {
-  return InitCD (topSize, bottomSize);
+  return InitCD (topSize, bottomSize, shift);
 }
 
-bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
+bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
+	const csVector3& shift)
 {
   if (!pcmesh)
   {
@@ -602,13 +612,12 @@ bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
     }
   }
 
-  topSize = top;
-  bottomSize = bottom;
+  topSize = body;
+  bottomSize = legs;
+  celPcLinearMovement::shift = shift;
 
   csRef<iPolygon3DStatic> p;
   csRef<iPolygonMesh> mesh;
-  csVector3 radius;
-  csVector3 centre;
 
   csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
     iPluginManager);
@@ -630,19 +639,19 @@ bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
   csRef<iThingState> ws = SCF_QUERY_INTERFACE (meshobject, iThingState);
   csRef<iThingFactoryState> thingState = ws->GetFactory ();
 
-  float bX2 = top.x / 2.0f;
-  float bZ2 = top.z / 2.0f;
-  float bYbottom = bottom.y;
-  float bYtop = bottom.y + top.y;
+  float bX2 = body.x / 2.0f;
+  float bZ2 = body.z / 2.0f;
+  float bYbottom = legs.y;
+  float bYtop = legs.y + body.y;
 
-  thingState->CreateVertex (csVector3 (-bX2, bYbottom, -bZ2));
-  thingState->CreateVertex (csVector3 (-bX2, bYbottom,  bZ2));
-  thingState->CreateVertex (csVector3 (-bX2, bYtop,   bZ2));
-  thingState->CreateVertex (csVector3 (-bX2, bYtop,  -bZ2));
-  thingState->CreateVertex (csVector3 ( bX2, bYbottom, -bZ2));
-  thingState->CreateVertex (csVector3 ( bX2, bYbottom,  bZ2));
-  thingState->CreateVertex (csVector3 ( bX2, bYtop,   bZ2));
-  thingState->CreateVertex (csVector3 ( bX2, bYtop,  -bZ2));
+  thingState->CreateVertex (csVector3 (-bX2, bYbottom, -bZ2) + shift);
+  thingState->CreateVertex (csVector3 (-bX2, bYbottom,  bZ2) + shift);
+  thingState->CreateVertex (csVector3 (-bX2, bYtop,   bZ2) + shift);
+  thingState->CreateVertex (csVector3 (-bX2, bYtop,  -bZ2) + shift);
+  thingState->CreateVertex (csVector3 ( bX2, bYbottom, -bZ2) + shift);
+  thingState->CreateVertex (csVector3 ( bX2, bYbottom,  bZ2) + shift);
+  thingState->CreateVertex (csVector3 ( bX2, bYtop,   bZ2) + shift);
+  thingState->CreateVertex (csVector3 ( bX2, bYtop,  -bZ2) + shift);
 
   //Left side
   p = thingState->CreatePolygon ();
@@ -675,14 +684,10 @@ bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
   p->CreateVertex (7); p->CreateVertex (3);
 
   mesh = meshobject->GetObjectModel ()->GetPolygonMeshColldet ();
-  topCollider = csPtr<csColliderWrapper>(
+  topCollider = csPtr<csColliderWrapper> (
     new csColliderWrapper (topColliderMesh->QueryObject (), cdsys, mesh));
 
   topCollider->SetName ("Top Collider");
-  topColliderMesh->GetRadius (radius, centre);
-  fTopSize =	    sqrt (radius.x * radius.x +
-    radius.y * radius.y +
-    radius.z * radius.z);
 
   thingfact = ThingType->NewFactory ();
   meshobject = thingfact->NewInstance ();
@@ -691,17 +696,17 @@ bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
   ws = SCF_QUERY_INTERFACE (meshobject, iThingState);
   thingState = ws->GetFactory ();
 
-  float lX2 = bottom.x / 2.0f;
-  float lZ2 = bottom.z / 2.0f;
+  float lX2 = legs.x / 2.0f;
+  float lZ2 = legs.z / 2.0f;
 
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET, -lZ2));
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET,  lZ2));
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + bottom.y,   lZ2));
-  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + bottom.y,  -lZ2));
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET, -lZ2));
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET,  lZ2));
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + bottom.y,   lZ2));
-  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + bottom.y,  -lZ2));
+  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET, -lZ2) + shift);
+  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET,  lZ2) + shift);
+  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + legs.y,   lZ2) + shift);
+  thingState->CreateVertex (csVector3 (-lX2, LEGOFFSET + legs.y,  -lZ2) + shift);
+  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET, -lZ2) + shift);
+  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET,  lZ2) + shift);
+  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + legs.y,   lZ2) + shift);
+  thingState->CreateVertex (csVector3 ( lX2, LEGOFFSET + legs.y,  -lZ2) + shift);
 
   //Left
   p = thingState->CreatePolygon ();
@@ -736,20 +741,15 @@ bool celPcLinearMovement::InitCD (csVector3& top, csVector3& bottom)
   p->CreateVertex (7); p->CreateVertex (3);
 
   mesh = meshobject->GetObjectModel ()->GetPolygonMeshColldet ();
-  bottomCollider = csPtr<csColliderWrapper>(
+  bottomCollider = csPtr<csColliderWrapper> (
     new csColliderWrapper (bottomColliderMesh->QueryObject (),
-    cdsys,
-    mesh));
+    	cdsys, mesh));
 
   bottomCollider->SetName ("Bottom Collider");
-  bottomColliderMesh->GetRadius (radius, centre);
-  fBottomSize = sqrt (radius.x * radius.x +
-    radius.y * radius.y +
-    radius.z * radius.z);
 
   bool result;
   if (topCollider && bottomCollider)
-    result =  true;
+    result = true;
   else
     result = false;
 
@@ -792,14 +792,15 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
   {
     iObject* meshWrapperObject = objectIter->Next ();
 
-    csRef<iMeshWrapper> meshWrapper (
-      SCF_QUERY_INTERFACE (meshWrapperObject, iMeshWrapper));
+    csRef<iMeshWrapper> meshWrapper =
+      SCF_QUERY_INTERFACE (meshWrapperObject, iMeshWrapper);
 
-    if (meshWrapper)
+    // Avoid hitting the mesh from this entity itself.
+    if (meshWrapper && meshWrapper != pcmesh->GetMesh ())
     {
       cdsys->ResetCollisionPairs ();
-      if (collidewrapper->Collide (meshWrapperObject,
-    	transform, &meshWrapper->GetMovable ()->GetTransform ()))
+      csReversibleTransform tr = meshWrapper->GetMovable ()->GetFullTransform ();
+      if (collidewrapper->Collide (meshWrapperObject, transform, &tr))
       {
     	bool reallycollided = false;
 
@@ -823,7 +824,7 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
 	   * in is not the sector of the mesh we collided with,
     	   * this is invalid.
     	   */
-    	  int sector_idx,sector_max;
+    	  int sector_idx, sector_max;
     	  iSector* CollisionSector;
     	  bool mirror=false;
     	  csVector3 testpos;
@@ -831,9 +832,9 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
     	  csCollisionPair temppair=CD_contact[j];
 
     	  // Move the triangle from our mesh into world space
-    	  temppair.a1+=newpos;
-    	  temppair.b1+=newpos;
-    	  temppair.c1+=newpos;
+    	  temppair.a1 += newpos;
+    	  temppair.b1 += newpos;
+    	  temppair.c1 += newpos;
 
     	  if (FindIntersection (temppair, line))
     	  {
@@ -892,7 +893,9 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
     	// We don't increase hits unless a collision really occurred after
 	// all tests.
     	if (reallycollided)
+	{
     	  hits++;
+	}
 
     	if (cdsys->GetOneHitOnly () && hits)
     	  return 1;
