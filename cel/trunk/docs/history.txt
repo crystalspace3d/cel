@@ -27,6 +27,8 @@ The history order is reversed so that new features are at the top.
 	  system for PerformAction ('action' command). You can now supply
 	  parameters using <par id="parid(...)" value="..." /> inside
 	  the <action> block.
+	- Eric Sunshine upgraded compiler.m4 from CS's master copy.  This fixes
+	  problem where configure's -shared check was failing.
 10-Dec-2003
 	- Jorrit fixed the physicstest python script so that it works again
 	  (converted to the new thing API in CS).
