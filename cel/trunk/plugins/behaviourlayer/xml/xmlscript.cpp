@@ -2700,6 +2700,7 @@ celXmlScript::celXmlScript (iCelPlLayer* pl)
 {
   name = 0;
   celXmlScript::pl = pl;
+  superscript = 0;
 }
 
 celXmlScript::~celXmlScript ()

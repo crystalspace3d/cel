@@ -801,6 +801,27 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
   return true;
 }
 
+celXmlScriptEventHandler* celBlXml::FindEventHandler (
+	celXmlScript* script, const char* eventname)
+{
+  celXmlScriptEventHandler* handler = 0;
+  if (eventname)
+  {
+    handler = script->GetEventHandler (eventname);
+    if (handler) return handler;
+    celXmlScript* superscript = script->GetSuperScript ();
+    while (superscript)
+    {
+      handler = script->GetEventHandler (eventname);
+      if (handler) return handler;
+      superscript = superscript->GetSuperScript ();
+    }
+    // We couldn't find a handler so we create one.
+    handler = script->FindOrCreateEventHandler (eventname);
+  }
+  return handler;
+}
+
 bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	iDocumentNode* node, celXmlScript* script)
 {
@@ -877,9 +898,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  const char* execname = GetAttributeString (child, "exec", 0);
 	  if (execname)
 	  {
-            celXmlScriptEventHandler* handler = execname
-	  	? script->FindOrCreateEventHandler (execname)
-		: 0;
+	    celXmlScriptEventHandler* handler = FindEventHandler (
+	    	script, execname);
 	    h->AddOperation (CEL_OPERATION_IF);
 	    h->GetArgument ().SetEventHandlers (handler, 0);
 	    h->AddOperation (CEL_OPERATION_GOTO);	// True branch
@@ -911,9 +931,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  const char* execname = GetAttributeString (child, "exec", 0);
 	  if (execname)
 	  {
-            celXmlScriptEventHandler* handler = execname
-	  	? script->FindOrCreateEventHandler (execname)
-		: 0;
+	    celXmlScriptEventHandler* handler = FindEventHandler (
+	    	script, execname);
 	    h->AddOperation (CEL_OPERATION_FOR);
 	    h->GetArgument ().SetEventHandlers (handler, 0);
 	  }
@@ -939,12 +958,10 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  const char* falsename = GetAttributeString (child, "false", 0);
 	  if (truename || falsename)
 	  {
-            celXmlScriptEventHandler* truehandler = truename
-	  	? script->FindOrCreateEventHandler (truename)
-		: 0;
-            celXmlScriptEventHandler* falsehandler = falsename
-	  	? script->FindOrCreateEventHandler (falsename)
-		: 0;
+	    celXmlScriptEventHandler* truehandler = FindEventHandler (
+	    	script, truename);
+	    celXmlScriptEventHandler* falsehandler = FindEventHandler (
+	    	script, falsename);
 	    h->AddOperation (CEL_OPERATION_IF);
 	    h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
 	  }
@@ -1109,6 +1126,28 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
 	return false;
       }
       h->AddOperation (CEL_OPERATION_END);
+    }
+    else if (!strcmp (value, "superscript"))
+    {
+      const char* supername = child->GetAttributeValue ("name");
+      celXmlScript* superscript = supername ? scripts_hash.Get (supername) : 0;
+      if (!superscript)
+      {
+        delete script;
+        synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"Can't find superscript with name '%s'!", supername);
+        return false;
+      }
+      if (script->GetSuperScript ())
+      {
+        delete script;
+        synldr->ReportError (
+	        "cel.behaviour.xml", child,
+		"This script already has a superscript!");
+        return false;
+      }
+      script->SetSuperScript (superscript);
     }
     else
     {

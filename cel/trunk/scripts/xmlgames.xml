@@ -58,6 +58,9 @@
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
         <sound name="click"> <file>/cellib/sounds/click_x.wav</file> </sound>
+        <sound name="yay"> <file>/cellib/sounds/yay_x.wav</file> </sound>
+        <sound name="clang"> <file>/cellib/sounds/clang_x.wav</file> </sound>
+        <sound name="bloop"> <file>/cellib/sounds/bloop_x.wav</file> </sound>
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
@@ -467,7 +470,8 @@
 		<!-- Set some defaults -->
 		<var name="dimension" value="16" />
 		<var name="blockdim" value="18000" />
-		<var name="monsterspeed" value="0.01" />
+		<var name="monsterspeed" value="0.003" />
+		<var name="monstercnt" value="20" />
 
 		<!-- Create the menu back button -->
 		<createentity name="back_button" behaviour="back_button" />
@@ -503,8 +507,9 @@
 		<createentity name="hero" behaviour="hero" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="hero" />
-		<for var="i" start="1" end="20">
+		<for var="i" start="1" end="?monstercnt">
 		    <createentity name="monster+?i" behaviour="monster" />
+		    <var name="bb_monster+?i" value="pc(monster+?i,pcbillboard)" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="monster+?i" />
 		</for>
@@ -647,6 +652,8 @@
 	  - This script controls the behaviour of our hero.
 	  -  ***************************************************** -->
 	<script name="hero">
+	    <!--<superscript name="movingobject" />-->
+
 	    <!--
 	      - Initialize our hero.
 	      -->
@@ -696,6 +703,15 @@
 		    <default propclass="pc(pcbillboard)" />
 	            <property id="propid(x)" value="?herox*?maze_main.blockdim" />
 	            <property id="propid(y)" value="?heroy*?maze_main.blockdim" />
+		    <for var="i" start="1" end="?maze_main.monstercnt">
+		        <var name="pc" value="?maze_main.(bb_monster+?i)" />
+			<if eval="property(?pc,propid(visible))==true">
+		            <if eval="testcollide(?pc)">
+			        <sound name="bloop" loop="false" />
+			        <property propclass="?pc" id="propid(visible)" value="false" />
+			    </if>
+			</if>
+		    </for>
 		</if>
 	    </event>
 
