@@ -29,6 +29,61 @@
 
 //=======================================================================
 
+// some macros
+
+%define CEL_PC_CREATE(pcType, funcName, pcname)
+%inline %{
+pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
+  if (!pc.IsValid()) return 0;
+  csRef<pcType> pclm = SCF_QUERY_INTERFACE(pc, pcType);
+  if (!pclm.IsValid()) return 0;
+  return pclm;
+}
+%}
+%enddef
+
+%define CEL_PC_GET(pcType, funcName)
+%inline %{
+pcType * funcName (iCelEntity *entity)
+{
+  csRef<pcType> pc = CEL_QUERY_PROPCLASS (
+    entity->GetPropertyClassList (), pcType);
+  if (!pc.IsValid()) return 0;
+  return pc;
+}
+%}
+%enddef
+
+%define CEL_PC_QUERY(pcType)
+%inline %{
+pcType *scfQuery_ ## pcType (iCelPropertyClass *pc)
+{
+  csRef<pcType> iface = SCF_QUERY_INTERFACE(pc, pcType);
+  if (iface) iface->IncRef ();
+  return iface;
+}
+%}
+%enddef
+
+%define CEL_PC_QUERY_CLASSLIST(pcType)
+%inline %{
+pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
+{
+  csRef<pcType> iface = SCF_QUERY_INTERFACE(pclist, pcType);
+  if (iface) iface->IncRef ();
+  return iface;
+}
+%}
+%enddef
+
+%define CEL_PC(pcType, funcBaseName, pcname)
+CEL_PC_CREATE(pcType, celCreate ## funcBaseName, pcname)
+CEL_PC_GET(pcType, celGet ## funcBaseName)
+CEL_PC_QUERY(pcType)
+%enddef
+
+// ======================================================================
 struct iCelPlLayer : public iBase
 {
   //virtual csPtr<iCelEntity> CreateEntity ();
@@ -44,14 +99,13 @@ struct iCelPlLayer : public iBase
   virtual iCelBlLayer* FindBehaviourLayer (const char* name) const = 0;  
 };
 
-%{
+%inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   return pl;
 }
 %}
-iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg);
 
 struct iCelEntity : public iBase
 {
@@ -75,7 +129,7 @@ struct iCelEntity : public iBase
   }
 };
 
-%{
+%inline %{
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
@@ -84,9 +138,8 @@ bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
   return rc;
 }
 %}
-bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname);
 
-%{
+%inline %{
 iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 {
   csRef<iCelEntity> en = pl->CreateEntity();
@@ -96,16 +149,14 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
   return en;
 }
 %}
-iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name);
 
-%{
+%inline %{
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
   csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
   return ent;
 }
 %}
-iCelEntity *scfQueryInterface_iCelEntity (iBase *base);
 
 struct iCelEntityList : public iBase
 {
@@ -119,7 +170,7 @@ struct iCelEntityList : public iBase
   virtual iCelEntity* FindByName (const char *Name) const = 0;
 };
 
-%{
+%inline %{
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 	iSector *sector, csVector3 pos, float radius)
 {
@@ -130,8 +181,6 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
   return entlist;
 }
 %}
-iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
-	iSector *sector, csVector3 pos, float radius);
 
 struct iCelBlLayer : public iBase
 {
@@ -140,14 +189,13 @@ struct iCelBlLayer : public iBase
   	const char* name) = 0;
 };
 
-%{
+%inline %{
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
   csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
   return bl;
 }
 %}
-iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg);
 
 struct iCelParameterBlock : public iBase
 {
@@ -234,49 +282,8 @@ struct iPcDynamicSystem : public iBase
   virtual void ClearAllForces () = 0;
 };
 
-%{
-iPcDynamicSystem *celCreateDynamicSystem (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcdynsys");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcDynamicSystem> pcdynsys = SCF_QUERY_INTERFACE(pc, iPcDynamicSystem);
-  if (!pcdynsys.IsValid()) return 0;
-  return pcdynsys;
-}
-%}
-iPcDynamicSystem *celCreateDynamicSystem (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcDynamicSystem *celGetDynamicSystem (iCelEntity *entity)
-{
-  csRef<iPcDynamicSystem> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcDynamicSystem);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcDynamicSystem *celGetDynamicSystem (iCelEntity *entity);
-
-%{
-iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc)
-{ 
-  csRef<iPcDynamicSystem> pcdynsys = SCF_QUERY_INTERFACE(pc, iPcDynamicSystem);
-  if (pcdynsys) pcdynsys->IncRef ();
-  return pcdynsys;
-}
-%}
-iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc);
-
-%{
-iPcDynamicSystem *celQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist)
-{
-  csRef<iPcDynamicSystem> pcdynsys = CEL_QUERY_PROPCLASS(pclist,
-  	iPcDynamicSystem);
-  if (pcdynsys) pcdynsys->IncRef ();
-  return pcdynsys;
-}
-%}
-iPcDynamicSystem *celQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist);
+CEL_PC(iPcDynamicSystem, DynamicSystem, pcdynsys)
+CEL_PC_QUERY_CLASSLIST(iPcDynamicSystem)
 
 //=======================================================================
 
@@ -304,49 +311,8 @@ struct iPcDynamicBody : public iBase
   virtual void ClearForces () = 0;
 };
 
-%{
-iPcDynamicBody *celCreateDynamicBody (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcdynbody");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcDynamicBody> pcdynbody = SCF_QUERY_INTERFACE(pc, iPcDynamicBody);
-  if (!pcdynbody.IsValid()) return 0;
-  return pcdynbody;
-}
-%}
-iPcDynamicBody *celCreateDynamicBody (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcDynamicBody *celGetDynamicBody (iCelEntity *entity)
-{
-  csRef<iPcDynamicBody> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcDynamicBody);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcDynamicBody *celGetDynamicBody (iCelEntity *entity);
-
-%{
-iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc)
-{ 
-  csRef<iPcDynamicBody> pcdynbody = SCF_QUERY_INTERFACE(pc, iPcDynamicBody);
-  if (pcdynbody) pcdynbody->IncRef ();
-  return pcdynbody;
-}
-%}
-iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc);
-
-%{
-iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist)
-{
-  csRef<iPcDynamicBody> pcdynbody = CEL_QUERY_PROPCLASS(pclist,
-  	iPcDynamicBody);
-  if (pcdynbody) pcdynbody->IncRef ();
-  return pcdynbody;
-}
-%}
-iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist);
+CEL_PC(iPcDynamicBody, DynamicBody, pcdynbody)
+CEL_PC_QUERY_CLASSLIST(iPcDynamicBody)
 
 //=======================================================================
 
@@ -382,48 +348,8 @@ struct iPcBillboard : public iBase
   virtual iBillboard* GetBillboard () = 0;
 };
 
-%{
-iPcBillboard *celCreateBillboard (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcbillboard");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcBillboard> pcbillboard = SCF_QUERY_INTERFACE(pc, iPcBillboard);
-  if (!pcbillboard.IsValid()) return 0;
-  return pcbillboard;
-}
-%}
-iPcBillboard *celCreateBillboard (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcBillboard *celGetBillboard (iCelEntity *entity)
-{
-  csRef<iPcBillboard> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcBillboard);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcBillboard *celGetBillboard (iCelEntity *entity);
-
-%{
-iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
-{ 
-  csRef<iPcBillboard> pcbillboard = SCF_QUERY_INTERFACE(pc, iPcBillboard);
-  if (pcbillboard) pcbillboard->IncRef ();
-  return pcbillboard;
-}
-%}
-iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc);
-
-%{
-iPcBillboard *celQueryPC_iPcBillboard (iCelPropertyClassList *pclist)
-{
-  csRef<iPcBillboard> pcbillboard = CEL_QUERY_PROPCLASS(pclist, iPcBillboard);
-  if (pcbillboard) pcbillboard->IncRef ();
-  return pcbillboard;
-}
-%}
-iPcBillboard *celQueryPC_iPcBillboard (iCelPropertyClassList *pclist);
+CEL_PC(iPcBillboard, Billboard, pcbillboard)
+CEL_PC_QUERY_CLASSLIST(iPcBillboard)
 
 //=======================================================================
 
@@ -452,7 +378,7 @@ struct iPcRegion : public iBase
 
 };
 
-%{
+%inline %{
 iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 	const char *name)
 {
@@ -464,39 +390,10 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
   return pcregion;
 }
 %}
-iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
-	const char *name);
 
-%{
-iPcRegion *celGetRegion (iCelEntity *entity)
-{
-  csRef<iPcRegion> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcRegion);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcRegion *celGetRegion (iCelEntity *entity);
-
-%{
-iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
-{ 
-  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
-  if (pcregion) pcregion->IncRef ();
-  return pcregion;
-}
-%}
-iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc);
-
-%{
-iPcRegion *celQueryPC_iPcRegion (iCelPropertyClassList *pclist)
-{
-  csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS(pclist, iPcRegion);
-  if (pcregion) pcregion->IncRef ();
-  return pcregion;
-}
-%}
-iPcRegion *celQueryPC_iPcRegion (iCelPropertyClassList *pclist);
+CEL_PC_GET(iPcRegion, Region)
+CEL_PC_QUERY(iPcRegion)
+CEL_PC_QUERY_CLASSLIST(iPcRegion)
 
 //=======================================================================
 
@@ -509,28 +406,7 @@ struct iPcCommandInput : public iBase
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
 };
 
-%{
-iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pckeyinput");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcCommandInput> pcinput = SCF_QUERY_INTERFACE(pc, iPcCommandInput);
-  if (!pcinput.IsValid()) return 0;
-  return pcinput;
-}
-%}
-iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcCommandInput *celGetCommandInput (iCelEntity *entity)
-{
-  csRef<iPcCommandInput> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcCommandInput);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcCommandInput *celGetCommandInput (iCelEntity *entity);
+CEL_PC(iPcCommandInput, CommandInput, pckeyinput)
 
 //=======================================================================
 
@@ -558,28 +434,7 @@ struct iPcLinearMovement : public iBase
   virtual void ExtrapolatePosition (float delta) = 0;
 };
 
-%{
-iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,
-  	"pclinearmovement");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcLinearMovement> pclm = SCF_QUERY_INTERFACE(pc, iPcLinearMovement);
-  if (!pclm.IsValid()) return 0;
-  return pclm;
-}
-%}
-iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcLinearMovement *celGetLinearMovement(iCelEntity *entity)
-{
-  csRef<iPcLinearMovement> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcLinearMovement);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcLinearMovement *celGetLinearMovement(iCelEntity *entity);
+CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 
 //=======================================================================
 
@@ -611,38 +466,7 @@ struct iPcCamera : public iBase
   virtual bool GetClearScreen () const = 0;
 };
 
-%{
-iPcCamera *celCreateCamera (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pccamera");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcCamera> pccam = SCF_QUERY_INTERFACE(pc, iPcCamera);
-  if (!pccam.IsValid()) return 0;
-  return pccam;
-}
-%}
-iPcCamera *celCreateCamera (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcCamera *celGetCamera (iCelEntity *entity)
-{
-  csRef<iPcCamera> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcCamera);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcCamera *celGetCamera (iCelEntity *entity);
-
-%{
-iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc)
-{
-  csRef<iPcCamera> pccamera = SCF_QUERY_INTERFACE(pc, iPcCamera);
-  if (pccamera) pccamera->IncRef ();
-  return pccamera;
-}
-%}
-iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc);
+CEL_PC(iPcCamera, Camera, pccamera)
 
 //=======================================================================
 
@@ -675,28 +499,7 @@ struct iPcMeshSelect : public iBase
   virtual bool HasSenddownEvent () const = 0;
 };
 
-%{
-iPcMeshSelect *celCreateMeshSelect (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmeshselect");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcMeshSelect> pcmeshselect = SCF_QUERY_INTERFACE(pc, iPcMeshSelect);
-  if (!pcmeshselect.IsValid()) return 0;
-  return pcmeshselect;
-}
-%}
-iPcMeshSelect *celCreateMeshSelect (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcMeshSelect *celGetMeshSelect (iCelEntity *entity)
-{
-  csRef<iPcMeshSelect> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcMeshSelect);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcMeshSelect *celGetMeshSelect (iCelEntity *entity);
+CEL_PC(iPcMeshSelect, MeshSelect, pcmeshselect)
 
 //=======================================================================
 
@@ -715,38 +518,7 @@ struct iPcMesh : public iBase
   virtual bool IsVisible () const = 0;
 };
 
-%{
-iPcMesh *celCreateMesh (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmesh");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE(pc, iPcMesh);
-  if (!pcmesh.IsValid()) return 0;
-  return pcmesh;
-}
-%}
-iPcMesh *celCreateMesh (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcMesh *celGetMesh (iCelEntity *entity)
-{
-  csRef<iPcMesh> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcMesh);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcMesh *celGetMesh (iCelEntity *entity);
-
-%{
-iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
-{
-  csRef<iPcMesh> pcMesh = SCF_QUERY_INTERFACE(pc, iPcMesh);
-  if (pcMesh) pcMesh->IncRef ();
-  return pcMesh;
-}
-%}
-iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc);
+CEL_PC(iPcMesh, Mesh, pcmesh)
 
 //=======================================================================
 
@@ -756,38 +528,7 @@ struct iPcTimer : public iBase
   virtual void Clear () = 0;
 };
 
-%{
-iPcTimer *celCreateTimer (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pctimer");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcTimer> pctimer = SCF_QUERY_INTERFACE(pc, iPcTimer);
-  if (!pctimer.IsValid()) return 0;
-  return pctimer;
-}
-%}
-iPcTimer *celCreateTimer (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcTimer *celGetTimer (iCelEntity *entity)
-{
-  csRef<iPcTimer> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcTimer);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcTimer *celGetTimer (iCelEntity *entity);
-
-%{
-iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc)
-{
-  csRef<iPcTimer> pcTimer = SCF_QUERY_INTERFACE(pc, iPcTimer);
-  if (pcTimer) pcTimer->IncRef ();
-  return pcTimer;
-}
-%}
-iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc);
+CEL_PC(iPcTimer, Timer, pctimer)
 
 //=======================================================================
 
@@ -798,28 +539,7 @@ struct iPcSolid : public iBase
   virtual iCollider* GetCollider () = 0;
 };
 
-%{
-iPcSolid *celCreateSolid (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcsolid");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcSolid> pcsolid = SCF_QUERY_INTERFACE(pc, iPcSolid);
-  if (!pcsolid.IsValid()) return 0;
-  return pcsolid;
-}
-%}
-iPcSolid *celCreateSolid (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcSolid *celGetSolid (iCelEntity *entity)
-{
-  csRef<iPcSolid> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcSolid);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcSolid *celGetSolid (iCelEntity *entity);
+CEL_PC(iPcSolid, Solid, pcsolid)
 
 //=======================================================================
 
@@ -846,39 +566,7 @@ struct iPcGravity : public iBase
   virtual bool IsActive () const = 0;
 };
 
-%{
-iPcGravity *celCreateGravity (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcgravity");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcGravity> pcgravity = SCF_QUERY_INTERFACE(pc, iPcGravity);
-  if (!pcgravity.IsValid()) return 0;
-  return pcgravity;
-}
-%}
-iPcGravity *celCreateGravity (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcGravity *celGetGravity (iCelEntity *entity)
-{
-  csRef<iPcGravity> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcGravity);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcGravity *celGetGravity (iCelEntity *entity);
-
-%{
-iPcGravity *scfQuery_iPcGravity (iCelPropertyClass *pc)
-{
-  csRef<iPcGravity> pcGravity = SCF_QUERY_INTERFACE(pc, iPcGravity);
-  if (pcGravity) pcGravity->IncRef ();
-  return pcGravity;
-}
-%}
-iPcGravity *scfQuery_iPcGravity (iCelPropertyClass *pc);
-
+CEL_PC(iPcGravity, Gravity, pcgravity)
 
 //=======================================================================
 
@@ -893,39 +581,7 @@ struct iPcMovable : public iBase
   virtual void RemoveAllConstraints () = 0;
 };
 
-%{
-iPcMovable *celCreateMovable (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcmovable");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcMovable> pcmovable = SCF_QUERY_INTERFACE(pc, iPcMovable);
-  if (!pcmovable.IsValid()) return 0;
-  return pcmovable;
-}
-%}
-iPcMovable *celCreateMovable (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcMovable *celGetMovable (iCelEntity *entity)
-{
-  csRef<iPcMovable> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcMovable);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcMovable *celGetMovable (iCelEntity *entity);
-
-%{
-iPcMovable *scfQuery_iPcMovable (iCelPropertyClass *pc)
-{
-  csRef<iPcMovable> pcMovable = SCF_QUERY_INTERFACE(pc, iPcMovable);
-  if (pcMovable) pcMovable->IncRef ();
-  return pcMovable;
-}
-%}
-iPcMovable *scfQuery_iPcMovable (iCelPropertyClass *pc);
-
+CEL_PC(iPcMovable, Movable, pcmovable)
 
 //=======================================================================
 
@@ -950,38 +606,7 @@ struct iPcInventory : public iBase
   virtual void Dump () = 0;
 };
 
-%{
-iPcInventory *celCreateInventory (iCelPlLayer *pl, iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcinventory");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcInventory> pcinv = SCF_QUERY_INTERFACE(pc, iPcInventory);
-  if (!pcinv.IsValid()) return 0;
-  return pcinv;
-}
-%}
-iPcInventory *celCreateInventory (iCelPlLayer *pl, iCelEntity *entity);
-
-%{
-iPcInventory *celGetInventory (iCelEntity *entity)
-{
-  csRef<iPcInventory> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcInventory);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcInventory *celGetInventory (iCelEntity *entity);
-
-%{
-iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
-{
-  csRef<iPcInventory> pcInventory = SCF_QUERY_INTERFACE(pc, iPcInventory);
-  if (pcInventory) pcInventory->IncRef ();
-  return pcInventory;
-}
-%}
-iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc);
+CEL_PC(iPcInventory, Inventory, pcinventory)
 
 //=======================================================================
 
@@ -1003,32 +628,7 @@ struct iPcCharacteristics : public iBase
   virtual void Dump () = 0;
 };
 
-%{
-iPcCharacteristics *celCreateCharacteristics (iCelPlLayer *pl,
-	iCelEntity *entity)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass (entity,
-  	"pccharacteristics");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcCharacteristics> pccharacteristics = SCF_QUERY_INTERFACE (pc,
-  	iPcCharacteristics);
-  if (!pccharacteristics.IsValid()) return 0;
-  return pccharacteristics;
-}
-%}
-iPcCharacteristics *celCreateCharacteristics (iCelPlLayer *pl,
-	iCelEntity *entity);
-
-%{
-iPcCharacteristics *celGetCharacteristics (iCelEntity *entity)
-{
-  csRef<iPcCharacteristics> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), iPcCharacteristics);
-  if (!pc.IsValid()) return 0;
-  return pc;
-}
-%}
-iPcCharacteristics *celGetCharacteristics (iCelEntity *entity);
+CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
 
 //=======================================================================
 
