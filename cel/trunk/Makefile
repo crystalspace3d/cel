@@ -43,23 +43,6 @@ CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
 
 #------
-# determine directory where Python include files are installed.
-# If PYTHON_INC is undefined use /usr/include/python1.5/
-#------
-ifeq ($(strip $(PYTHON_INC)),)
-  PYTHON_INCDIR=/usr/include/python1.5/
-else
-  PYTHON_INCDIR=$(PYTHON_INC)
-endif
-ifeq ($(strip $(PYTHON_LIB)),)
-  PYTHON_LIBDIR=/usr/lib/python1.5/
-else
-  PYTHON_LIBDIR=$(PYTHON_LIB)
-endif
-
-PYTHON_LINKLIB=-L$(PYTHON_LIBDIR) -lpython15
-
-#------
 # Location of sources and object files
 #------
 CPERSIST_SRC=$(wildcard persist/classic/*.cpp)
@@ -110,7 +93,8 @@ CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -
 CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PLIMP_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom) $(PYTHON_LINKLIB)
+BLPYTHON_LINKFLAGS := $(shell ./cs-config --libs python cstool csutil cssys csgfx csgeom)
+BLPYTHON_CXXFLAGS := $(shell ./cs-config --cxxflags python cstool csutil cssys csgfx csgeom) $(CEL_INCLUDES)
 PFTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFMESH_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFMOVE_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
@@ -146,6 +130,9 @@ $(PLIMP): $(PLIMP_OBJS)
 $(BLTEST): $(BLTEST_OBJS)
 	$(DO.PLUGIN) $(BLTEST_LINKFLAGS)
 
+$(BLPYTHON_OBJS): %.o: %.cpp
+	$(CCC) $(BLPYTHON_CXXFLAGS) -o $*.o -c $*.cpp
+	
 $(BLPYTHON): $(BLPYTHON_OBJS)
 	$(DO.PLUGIN) $(BLPYTHON_LINKFLAGS)
 
