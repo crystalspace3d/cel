@@ -26,8 +26,13 @@ The history order is reversed so that new features are at the top.
 	  property class will make the connection between a pclinmove and
 	  pccamera and it will also support animation with sprcal3d and spr3d.
 	  Currenlty doesn't do anything yet.
-	- Jorrit and Adrew Robberts fixed the pccamera so that it works correctly
-	  with portals.
+	- Jorrit and Andrew Robberts fixed the pccamera so that it works
+	  correctly with portals.
+	- Jorrit and Andrew fixed camera handling a bit more. It is a more
+	  robust fix now.
+	- Jorrit changed several csRef's to csWeakRef's in CEL. This avoids
+	  circular references and then leaks. It uses the new feature in CS
+	  to assign a csPtr directly to a csWeakRef.
 13-May-2004
 	- Jorrit ported the camera handling code that is used in PlaneShift
 	  to pccamera. This is a very significant change which considerably

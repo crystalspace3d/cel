@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/refarr.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
@@ -194,11 +195,11 @@ public://@@@
   iPcCamera::CameraMode cammode;
   CameraAlgorithm* camalgo;
 
-  csRef<iPcRegion> region;
+  csWeakRef<iPcRegion> region;
 
   bool pc_checked;
-  csRef<iPcLinearMovement> pclinmove;
-  csRef<iPcMesh> pcmesh;
+  csWeakRef<iPcLinearMovement> pclinmove;
+  csWeakRef<iPcMesh> pcmesh;
   void GetPcs ();
 
   CameraData camData[iPcCamera::CameraMode_count];

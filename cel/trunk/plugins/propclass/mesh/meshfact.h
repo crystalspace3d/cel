@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -176,7 +177,7 @@ public:
 class celPcMeshSelect : public celPcCommon
 {
 private:
-  csRef<iPcCamera> pccamera;
+  csWeakRef<iPcCamera> pccamera;
 
   // If the following var is non-0 then we
   // are busy selecting a mesh and are waiting for a mouse up

@@ -25,6 +25,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/refarr.h"
 #include "csutil/parray.h"
 #include "physicallayer/propclas.h"
@@ -214,8 +215,8 @@ struct plane_data : public body_data
 class celPcDynamicBody : public celPcCommon
 {
 private:
-  csRef<iPcDynamicSystem> dynsystem;
-  csRef<iPcMesh> pcmesh;
+  csWeakRef<iPcDynamicSystem> dynsystem;
+  csWeakRef<iPcMesh> pcmesh;
   csRef<iRigidBody> body;
   int btype;
   body_data* bdata;

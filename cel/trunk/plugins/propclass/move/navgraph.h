@@ -23,6 +23,7 @@
 // CS Stuff
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 
 // PcCommon defs
 #include "celtool/stdpcimp.h"
@@ -52,7 +53,7 @@ private:
   // Array of Path entities  // TODO: paths
   //csRefArray<iPcNavPath> aPaths;
   // CEL region object (there is one graph for each region)
-  csRef<iPcRegion> region;
+  csWeakRef<iPcRegion> region;
 
   // Implementation of all the nav graph routines.
   csRef<iPcNavGraphRules> navgraphrules;
@@ -85,7 +86,7 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   // Get / Set access
-  csRef<iPcRegion> GetRegion() { return region; }
+  csRef<iPcRegion> GetRegion() { return (iPcRegion*)region; }
   void SetRegion (iPcRegion* newregion) { region = newregion; }
 
   void SetRules (iPcNavGraphRules* newrules) { navgraphrules = newrules; }
