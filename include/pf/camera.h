@@ -58,6 +58,12 @@ struct iPcCamera : public iBase
   virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
 
   /**
+   * Set Position and lookat vector for follow mode
+   */
+  virtual void SetFollowPos (const csVector3& fp, const csVector3& at ) = 0;
+   
+
+  /**
    * Set the view rectangle to use on screen.
    */
   virtual void SetRectangle (int x, int y, int w, int h) = 0;
