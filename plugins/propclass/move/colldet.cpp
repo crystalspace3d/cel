@@ -114,7 +114,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = player;
+  pl = (iCelPlLayer*)player;
   if (!pl)
   {
     MoveReport (object_reg, "Physical layer missing!");

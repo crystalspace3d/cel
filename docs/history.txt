@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+23-May-2004
+	- Eric Sunshine eliminated numerous compilation errors regarding
+	  ambiguous assignment of csRef<> to csWeakRef<>.
 20-May-2004
 	- Eric Sunshine replaced Jamfile with Jamfile.in.  The configure script
 	  now creates Jamfile from Jamfile.in at project configuration

@@ -88,7 +88,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   Activate ();
 
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  pl = player;
+  pl = (iCelPlLayer*)player;
   if (action_bind == csInvalidStringID)
   {
     action_bind = pl->FetchStringID ("cel.property.Bind");
