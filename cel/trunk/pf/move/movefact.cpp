@@ -50,62 +50,21 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfMove)
+CEL_IMPLEMENT_FACTORY(Movable, "pcmovable")
+CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
+CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
+CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
 
 SCF_EXPORT_CLASS_TABLE (pfmove)
-  SCF_EXPORT_CLASS (celPfMove, "cel.pcfactory.move",
-  	"CEL Movable Property Class Factory")
+  SCF_EXPORT_CLASS_DEP (celPfMovable, "cel.pcfactory.movable",
+  	"CEL Movable Property Class Factory", "cel.physicallayer")
+  SCF_EXPORT_CLASS_DEP (celPfSolid, "cel.pcfactory.solid",
+	"CEL Solid Property Class Factory", "cel.physicallayer")
+  SCF_EXPORT_CLASS_DEP (celPfMovableConstraintCD, "cel.pcfactory.movableconst_cd",
+	"CEL MovableConstraintCD Class Factory", "cel.physicallayer")
+  SCF_EXPORT_CLASS_DEP (celPfGravity, "cel.pcfactory.gravity",
+	"CEL Gravity Class Factory", "cel.physicallayer")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfMove)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfMove::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfMove::celPfMove (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfMove::~celPfMove ()
-{
-}
-
-bool celPfMove::Initialize (iObjectRegistry* object_reg)
-{
-  celPfMove::object_reg = object_reg;
-  return true;
-}
-
-iCelPropertyClass* celPfMove::CreatePropertyClass (const char* type)
-{
-  if (!strcmp (type, "pcmovable"))
-    return new celPcMovable (object_reg);
-  else if (!strcmp (type, "pcsolid"))
-    return new celPcSolid (object_reg);
-  else if (!strcmp (type, "pcmovableconst_cd"))
-    return new celPcMovableConstraintCD (object_reg);
-  else if (!strcmp (type, "pcgravity"))
-    return new celPcGravity (object_reg);
-  else return NULL;
-}
-
-const char* celPfMove::GetTypeName (int idx) const
-{
-  switch (idx)
-  {
-    case 0: return "pcmovable";
-    case 1: return "pcsolid";
-    case 2: return "pcmovableconst_cd";
-    case 3: return "pcgravity";
-    default: return NULL;
-  }
-}
 
 //---------------------------------------------------------------------------
 
@@ -824,7 +783,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcGravity::CreateGravityCollider (iPcMesh* mesh)
+void celPcGravity::CreateGravityCollider (iPcMesh* /*mesh*/)
 {
   // @@@ NOT IMPLEMENTED YET!
 }

@@ -25,6 +25,7 @@
 #include "csutil/scf.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/test.h"
 
 struct iCelEntity;
@@ -33,30 +34,7 @@ struct iObjectRegistry;
 /**
  * Factory for test.
  */
-class celPfTest : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfTest (iBase* parent);
-  virtual ~celPfTest ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pftest"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 1; }
-  virtual const char* GetTypeName (int idx) const { return "pctest"; }
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfTest);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY (Test)
 
 /**
  * This is a test property class.
@@ -74,7 +52,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pctest"; }
-  virtual const char* GetFactoryName () const { return "pftest"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

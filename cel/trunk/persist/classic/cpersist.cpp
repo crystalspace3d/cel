@@ -346,18 +346,17 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
   }
   else if (marker[3] == 'I')
   {
-    char* entname = NULL, * pcname = NULL, * pfname = NULL;
+    char* entname = NULL, * pcname = NULL;
     bool rc = true;
     rc = rc && Read (data, remaining, entname);
     rc = rc && Read (data, remaining, pcname);
-    rc = rc && Read (data, remaining, pfname);
     if (rc)
     {
       rc = false;
-      iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pfname);
+      iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
       if (pf)
       {
-        pc = pf->CreatePropertyClass (pcname);
+        pc = pf->CreatePropertyClass();
 	if (pc)
 	{
           iCelDataBuffer* db;
@@ -378,15 +377,13 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
           }
         }
 	else
-          Report ("Cannot create property class '%s' from factory '%s'!",
-	  	pcname, pfname);
+          Report ("Cannot create property class '%s'!",	pcname);
       }
       else
-        Report ("Cannot find property class factory '%s'!", pfname);
+        Report ("Cannot find property class factory for '%s'!", pcname);
     }
     delete[] entname;
     delete[] pcname;
-    delete[] pfname;
     if (!rc) pc = NULL;
     return rc;
   }
@@ -550,7 +547,6 @@ bool celPersistClassic::Write (iFile* f, iCelPropertyClass* pc)
   // First write entity name, then property class name.
   if (!Write (f, pc_ent->GetName ())) return false;
   if (!Write (f, pc->GetName ())) return false;
-  if (!Write (f, pc->GetFactoryName ())) return false;
   iCelDataBuffer* db = pc->Save ();
   if (!db) return false;
   if (!Write (f, db))

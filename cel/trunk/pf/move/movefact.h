@@ -27,6 +27,7 @@
 #include "csutil/csvector.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
+#include "pl/facttmpl.h"
 #include "pf/move.h"
 #include "pf/solid.h"
 #include "pf/gravity.h"
@@ -41,30 +42,10 @@ class csVector3;
 /**
  * Factory for move.
  */
-class celPfMove : public iCelPropertyClassFactory
-{
-private:
-  iObjectRegistry* object_reg;
-
-public:
-  celPfMove (iBase* parent);
-  virtual ~celPfMove ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return "pfmove"; }
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 4; }
-  virtual const char* GetTypeName (int idx) const;
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPfMove);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-};
+CEL_DECLARE_FACTORY(Movable)
+CEL_DECLARE_FACTORY(Solid)
+CEL_DECLARE_FACTORY(MovableConstraintCD)
+CEL_DECLARE_FACTORY(Gravity)   
 
 /**
  * This is a move property class.
@@ -91,7 +72,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmovable"; }
-  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -152,7 +132,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcsolid"; }
-  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -194,7 +173,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
-  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -264,7 +242,6 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcgravity"; }
-  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

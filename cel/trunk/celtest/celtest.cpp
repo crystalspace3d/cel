@@ -196,7 +196,7 @@ bool CelTest::HandleEvent (iEvent& ev)
       LoadTextures ();
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
       game = cp->LoadEntity ("/this/savefile");
-      printf ("  success %08lx\n", game); fflush (stdout);
+      printf ("  success %08lx\n", (unsigned long) game); fflush (stdout);
       cp->DecRef ();
 
       csDebuggingGraph::Dump (NULL);
@@ -245,37 +245,37 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   iCelEntity* entity_box = pl->CreateEntity (); entity_box->SetName (name);
   entity_box->SetBehaviour (bl->CreateBehaviour (entity_box, "box"));
 
-  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
+  pc = pl->CreatePropertyClass (entity_box, "pcmeshselect");
   if (!pc) return NULL;
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
   pcmeshsel->DecRef ();
 
-  pc = CreatePropertyClass (entity_box, pftools, "pctimer");
+  pc = pl->CreatePropertyClass (entity_box, "pctimer");
   if (!pc) return NULL;
 
-  pc = CreatePropertyClass (entity_box, pfmove, "pcsolid");
+  pc = pl->CreatePropertyClass (entity_box, "pcsolid");
   if (!pc) return NULL;
-  pc = CreatePropertyClass (entity_box, pfmove, "pcgravity");
+  pc = pl->CreatePropertyClass (entity_box, "pcgravity");
   if (!pc) return NULL;
-  pc = CreatePropertyClass (entity_box, pfmove, "pcmovable");
+  pc = pl->CreatePropertyClass (entity_box, "pcmovable");
   if (!pc) return NULL;
   pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
-  pc = CreatePropertyClass (entity_box, pfmove, "pcmovableconst_cd");
+  pc = pl->CreatePropertyClass (entity_box, "pcmovableconst_cd");
   if (!pc) return NULL;
   pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
   pcmovable->AddConstraint (pcmovableconst);
   pcmovableconst->DecRef ();
   pcmovable->DecRef ();
 
-  pc = CreatePropertyClass (entity_box, pftest, "pctest");
+  pc = pl->CreatePropertyClass (entity_box, "pctest");
   if (!pc) return NULL;
   pctest = SCF_QUERY_INTERFACE (pc, iPcTest);
   pctest->Print ("Hello world!");
   pctest->DecRef ();
 
-  pc = CreatePropertyClass (entity_box, pfmesh, "pcmesh");
+  pc = pl->CreatePropertyClass (entity_box, "pcmesh");
   if (!pc) return NULL;
   pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   char buf[150];
@@ -284,7 +284,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcmesh->MoveMesh (room, pos);
   pcmesh->DecRef ();
 
-  pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
+  pc = pl->CreatePropertyClass (entity_box, "pcinventory");
   if (!pc) return NULL;
   pcinv = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
   pcinv->SetConstraints ("size", 0, max_indiv_size, max_size);
@@ -292,7 +292,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   pcinv->SetStrictCharacteristics ("size", true);
   pcinv->DecRef ();
 
-  pc = CreatePropertyClass (entity_box, pfinv, "pccharacteristics");
+  pc = pl->CreatePropertyClass (entity_box, "pccharacteristics");
   if (!pc) return NULL;
   pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", size);
@@ -319,29 +319,29 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   iCelEntity* entity_dummy = pl->CreateEntity ();
   entity_dummy->SetName (name);
   entity_dummy->SetBehaviour (bl->CreateBehaviour (entity_dummy, "printer"));
-  pc = CreatePropertyClass (entity_dummy, pfinv, "pccharacteristics");
+  pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
   if (!pc) return NULL;
   pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
   pcchars->DecRef ();
  
-  pc = CreatePropertyClass (entity_dummy, pfmove, "pcsolid");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
   if (!pc) return NULL;
-  pc = CreatePropertyClass (entity_dummy, pfmove, "pcgravity");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcgravity");
   if (!pc) return NULL;
   pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (weight);
-  pc = CreatePropertyClass (entity_dummy, pfmove, "pcmovable");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
   if (!pc) return NULL;
   pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
-  pc = CreatePropertyClass (entity_dummy, pfmove, "pcmovableconst_cd");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcmovableconst_cd");
   if (!pc) return NULL;
   pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
   pcmovable->AddConstraint (pcmovableconst);
   pcmovableconst->DecRef ();
   pcmovable->DecRef ();
-  pc = CreatePropertyClass (entity_dummy, pfmesh, "pcmesh");
+  pc = pl->CreatePropertyClass (entity_dummy, "pcmesh");
   if (!pc) return NULL;
   pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   char buf[150];
@@ -371,7 +371,7 @@ bool CelTest::CreateRoom ()
   entity_room = pl->CreateEntity (); entity_room->SetName ("room");
   entity_room->SetBehaviour (bl->CreateBehaviour (entity_room, "room"));
 
-  pc = CreatePropertyClass (entity_room, pfengine, "pcregion");
+  pc = pl->CreatePropertyClass (entity_room, "pcregion");
   if (!pc) return false;
   pcregion = SCF_QUERY_INTERFACE_FAST (pc, iPcRegion);
 #if MINIMAL
@@ -384,16 +384,16 @@ bool CelTest::CreateRoom ()
   pcregion->Load ();
   room = pcregion->GetStartSector ();
 
-  pc = CreatePropertyClass (entity_room, pfengine, "pccamera");
+  pc = pl->CreatePropertyClass (entity_room, "pccamera");
   if (!pc) return false;
   iPcCamera* pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
   pcregion->PointCamera (pccamera);
   pcregion->DecRef ();
 
-  pc = CreatePropertyClass (entity_room, pftools, "pctooltip");
+  pc = pl->CreatePropertyClass (entity_room, "pctooltip");
   if (!pc) return false;
 
-  pc = CreatePropertyClass (entity_room, pfmesh, "pcmeshselect");
+  pc = pl->CreatePropertyClass (entity_room, "pcmeshselect");
   if (!pc) return false;
   pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
@@ -406,7 +406,7 @@ bool CelTest::CreateRoom ()
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
   pcmeshsel->DecRef ();
 
-  pc = CreatePropertyClass (entity_room, pfinv, "pcinventory");
+  pc = pl->CreatePropertyClass (entity_room, "pcinventory");
   if (!pc) return false;
   pcinv_room = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
   // Decreffed later.
@@ -517,37 +517,20 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
   return true;
 }
 
-iCelPropertyClassFactory* CelTest::LoadPcFactory (const char* pcfactname)
+bool CelTest::LoadPcFactory (const char* pcfactname)
 {
   iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
   iCelPropertyClassFactory* pf = CS_LOAD_PLUGIN (plugin_mgr,
-  	pcfactname, iCelPropertyClassFactory);
+      pcfactname, iCelPropertyClassFactory);
   plugin_mgr->DecRef ();
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celtest",
-    	"CEL '%s' factory missing!", pcfactname);
-    return NULL;
+	"crystalspace.application.celtest",
+	"CEL '%s' plugin missing!", pcfactname);
+    return false;
   }
-  pl->RegisterPropertyClassFactory (pf);
-  return pf;
-}
-
-iCelPropertyClass* CelTest::CreatePropertyClass (iCelEntity* entity,
-	iCelPropertyClassFactory* pf, const char* name)
-{
-  iCelPropertyClass* pc = pf->CreatePropertyClass (name);
-  if (!pc)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celtest",
-    	"Factory doesn't seem to support '%s' property class!", name);
-    return NULL;
-  }
-  entity->GetPropertyClassList ()->Add (pc);
-  pc->DecRef ();
-  return pc;
+  return true;
 }
 
 bool CelTest::Initialize (int argc, const char* const argv[])
@@ -560,15 +543,22 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   // @@@ The code below is temporary until we have a general solution
   // in CS for having plugins outside the CS hierarchy (by an additional
   // .csinfo file for every plugin for example).
-  iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp", NULL);
-  iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.move", "pfmove", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.tools", "pftools", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.engine", "pfengine", NULL);
-  iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv", NULL);
-  iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist", NULL);
+  iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp");
+  iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.meshselect", "pfmesh");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.movable", "pfmove");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.solid", "pfmove");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.movableconst_cd", "pfmove");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.gravity", "pfmove");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.timer", "pftools");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.tooltip", "pftools");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.region", "pfengine");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.camera", "pfengine");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.characteristics", "pfinv");
+  iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist");
 
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
@@ -680,18 +670,35 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  pftest = LoadPcFactory ("cel.pcfactory.test");
-  if (!pftest) return false;
-  pfmesh = LoadPcFactory ("cel.pcfactory.mesh");
-  if (!pfmesh) return false;
-  pfinv = LoadPcFactory ("cel.pcfactory.inventory");
-  if (!pfinv) return false;
-  pfmove = LoadPcFactory ("cel.pcfactory.move");
-  if (!pfmove) return false;
-  pftools = LoadPcFactory ("cel.pcfactory.tools");
-  if (!pftools) return false;
-  pfengine = LoadPcFactory ("cel.pcfactory.engine");
-  if (!pfengine) return false;
+  // XXX: This should be in a config file...
+  if (!LoadPcFactory ("cel.pcfactory.test"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.movable"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.movableconst_cd"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.gravity"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.region"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.camera"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.meshselect"))
+    return false;
 
   if (!LoadTextures ()) return false;
   if (!CreateRoom ()) return false;

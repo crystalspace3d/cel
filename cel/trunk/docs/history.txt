@@ -1,3 +1,14 @@
+10-Dec-2001:
+	- Matze added #defines for template Factories, you can now easily use
+	  CEL_DECLARE_FACTORY(bla) and later CEL_IMPLEMENT_FACTORY(bla). Also
+	  changed behaviour to register exact 1 Factory for each Property
+	  class, which reduces the need for all the factory pointers.
+		TODO: -Do the same for behaviour factory
+		      -change FindPropertyClassFactory to use hash table to
+		       speed the thing up.
+		      -unreleased instances because some plugins implement
+		       multiple components (at least I think it's because of
+		       that)
 7-Dec-2001:
 	- Fixed for latest CS.
 20-Nov-2001:

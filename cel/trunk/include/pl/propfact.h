@@ -41,18 +41,7 @@ struct iCelPropertyClassFactory : public iBase
   /**
    * Create a property class of some type.
    */
-  virtual iCelPropertyClass* CreatePropertyClass (const char* type) = 0;
-
-  /**
-   * Get the number of property class types supported by this
-   * factory.
-   */
-  virtual int GetTypeCount () const = 0;
-
-  /**
-   * Get the name of the given property class type.
-   */
-  virtual const char* GetTypeName (int idx) const = 0;
+  virtual iCelPropertyClass* CreatePropertyClass () = 0;
 };
 
 #endif // __CEL_PL_PROPFACT__

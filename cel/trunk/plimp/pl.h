@@ -47,6 +47,8 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual iCelEntity* CreateEntity ();
+  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
+	  const char* propname);
   virtual iCelMessage* CreateMessage (const char* msg_string, ...);
   virtual iCelDataBuffer* CreateDataBuffer (long serialnr);
 

@@ -223,7 +223,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 	  if (((rand () >> 3) & 1) == 0) dx = -dx;
 	  float dy = 39 + 34*float ((rand () >> 3) % 10000) / 10000.;
 	  if (((rand () >> 3) & 1) == 0) dy = -dy;
-	  printf ("%g,%g,%g\n", dx, 20, dy); fflush (stdout);
+	  printf ("%g,%g,%g\n", dx, 20., dy); fflush (stdout);
 	  inv_ent_gravity->ApplyForce (csVector3 (dx, 10, dy), 800);
 	}
 	inv_ent_mesh->DecRef ();

@@ -50,57 +50,15 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfEngine)
+CEL_IMPLEMENT_FACTORY (Camera, "pccamera")
+CEL_IMPLEMENT_FACTORY (Region, "pcregion")
 
 SCF_EXPORT_CLASS_TABLE (pfengine)
-  SCF_EXPORT_CLASS (celPfEngine, "cel.pcfactory.engine",
-  	"CEL Engine Property Class Factory")
+  SCF_EXPORT_CLASS (celPfCamera, "cel.pcfactory.camera",
+  	"CEL Camera Property Class Factory")
+  SCF_EXPORT_CLASS (celPfRegion, "cel.pcfactory.region",
+	"CEL Region Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfEngine)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfEngine::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfEngine::celPfEngine (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfEngine::~celPfEngine ()
-{
-}
-
-bool celPfEngine::Initialize (iObjectRegistry* object_reg)
-{
-  celPfEngine::object_reg = object_reg;
-  return true;
-}
-
-const char* celPfEngine::GetTypeName (int idx) const
-{
-  switch (idx)
-  {
-    case 0: return "pccamera";
-    case 1: return "pcregion";
-    default: return NULL;
-  }
-}
-
-iCelPropertyClass* celPfEngine::CreatePropertyClass (const char* type)
-{
-  if (!strcmp (type, "pccamera"))
-    return new celPcCamera (object_reg);
-  else if (!strcmp (type, "pcregion"))
-    return new celPcRegion (object_reg);
-  else
-    return NULL;
-}
 
 //---------------------------------------------------------------------------
 
@@ -428,10 +386,6 @@ bool celPcRegion::Load ()
     // Create entities for all meshes in this region.
     iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT (pl != NULL);
-    iCelPropertyClassFactory* pfmove = pl->FindPropertyClassFactory ("pfmove");
-    CS_ASSERT (pfmove != NULL);
-    iCelPropertyClassFactory* pfmesh = pl->FindPropertyClassFactory ("pfmesh");
-    CS_ASSERT (pfmesh != NULL);
     iCelPropertyClass* pc;
     iObjectIterator* iter = cur_region->QueryObject ()->GetIterator ();
     while (!iter->IsFinished ())
@@ -443,17 +397,12 @@ bool celPcRegion::Load ()
         iCelEntity* ent = pl->CreateEntity ();
         ent->SetName ("__dummy__");
 
-        pc = pfmesh->CreatePropertyClass ("pcmesh");
-        ent->GetPropertyClassList ()->Add (pc);
+        pc = pl->CreatePropertyClass (ent, "pcmesh");
         iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
         pcmesh->SetMesh (m);
         pcmesh->DecRef ();
-        pc->DecRef ();
-
-        pc = pfmove->CreatePropertyClass ("pcsolid");
-        ent->GetPropertyClassList ()->Add (pc);
-        pc->DecRef ();
-
+        
+        pc = pl->CreatePropertyClass (ent, "pcsolid");
         entities.Push (ent);
 	DG_LINK (this, ent->QueryObject ());
         m->DecRef ();

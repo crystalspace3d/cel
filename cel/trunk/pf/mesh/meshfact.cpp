@@ -50,56 +50,15 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPfMesh)
+CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
+CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
 
 SCF_EXPORT_CLASS_TABLE (pfmesh)
   SCF_EXPORT_CLASS (celPfMesh, "cel.pcfactory.mesh",
   	"CEL Mesh Property Class Factory")
+  SCF_EXPORT_CLASS (celPfMeshSelect, "cel.pcfactory.meshselect",
+	"CEL Mesh Select Proprty Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
-SCF_IMPLEMENT_IBASE (celPfMesh)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPfMesh::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPfMesh::celPfMesh (iBase* parent)
-{
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-}
-
-celPfMesh::~celPfMesh ()
-{
-}
-
-bool celPfMesh::Initialize (iObjectRegistry* object_reg)
-{
-  celPfMesh::object_reg = object_reg;
-  return true;
-}
-
-iCelPropertyClass* celPfMesh::CreatePropertyClass (const char* type)
-{
-  if (!strcmp (type, "pcmesh"))
-    return new celPcMesh (object_reg);
-  else if (!strcmp (type, "pcmeshselect"))
-    return new celPcMeshSelect (object_reg);
-  else return NULL;
-}
-
-const char* celPfMesh::GetTypeName (int idx) const
-{
-  switch (idx)
-  {
-    case 0: return "pcmesh";
-    case 1: return "pcmeshselect";
-    default: return NULL;
-  }
-}
 
 //---------------------------------------------------------------------------
 
