@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Oct-2004
+	- Jorrit added patch from David Bronke which makes several of
+	  the methods in camera and linmove public by also publishing
+	  them in the SCF interfaces. Should make mouselook possible.
 1-Oct-2004
 	- Jorrit fixed a problem in actormove. It now uses
 	  sprcal3d->SetVelocity(-z) which for some reasons lets the animations

@@ -791,6 +791,47 @@ public:
     {
       return scfParent->GetView ();
     }
+
+    virtual void SetPitch (float pitch, int mode = -1)
+    {
+      scfParent->SetPitch (pitch, mode);
+    }
+
+    virtual void MovePitch (float deltaPitch, int mode = -1)
+    {
+      scfParent->MovePitch (deltaPitch, mode);
+    }
+
+    float GetPitch (int mode = -1) const
+    {
+      return scfParent->GetPitch (mode);
+    }
+
+    virtual void SetYaw (float yaw, int mode = -1)
+    {
+      scfParent->SetYaw (yaw, mode);
+    }
+
+    virtual void MoveYaw (float deltaYaw, int mode = -1)
+    {
+      scfParent->MoveYaw (deltaYaw, mode);
+    }
+
+    float GetYaw (int mode = -1) const
+    {
+      return scfParent->GetYaw (mode);
+    }
+
+    virtual void SetYawVelocity (float yawVel)
+    {
+      scfParent->SetYawVelocity (yawVel);
+    }
+
+    float GetYawVelocity () const
+    {
+      return scfParent->GetYawVelocity ();
+    }
+
     virtual void SetClearZBuffer (bool flag)
     {
       scfParent->SetClearZBuffer (flag);

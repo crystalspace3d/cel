@@ -168,6 +168,50 @@ struct iPcCamera : public iBase
   virtual iView* GetView () const = 0;
 
   /**
+   * Moves the pitch (up/down) of the camera
+   * @param deltaPitch the amount to move from the current pitch
+   * @param mode Optional - the camera mode to apply it to (leave blank for
+   * current)
+   */
+  virtual void MovePitch (float deltaPitch, int mode = -1) = 0;
+
+  /**
+   * Sets the yaw (left/right) of the camera
+   * @param yaw the new yaw of the camera
+   * @param mode Optional - the camera mode to apply it to (leave blank for
+   * current)
+   */
+  virtual void SetYaw (float yaw, int mode = -1) = 0;
+
+  /**
+   * Moves the yaw (left/right) of the camera
+   * @param deltaYaw the amount to move from the current yaw
+   * @param mode Optional - the camera mode to apply it to (leave blank for
+   * current)
+   */
+  virtual void MoveYaw (float deltaYaw, int mode = -1) = 0;
+
+  /**
+   * Returns the yaw (left/right) of the camera
+   * @param mode Optional - the camera mode to get it from (leave blank for
+   * current)
+   * @return the yaw (left/right) of the camera
+   */
+  virtual float GetYaw (int mode = -1) const = 0;
+
+  /**
+   * Sets the yaw (up/down) velocity of the camera
+   * @param yawVel the velocity of the yaw
+   */
+  virtual void SetYawVelocity (float yawVel) = 0;
+
+  /**
+   * Gets the yaw (up/down) velocity of the camera
+   * @return the yaw (up/down) of the camera
+   */
+  virtual float GetYawVelocity () const = 0;
+
+  /**
    * Set flag indicating if the camera should clear z-buffer every frame.
    * Off by default unless the loaded map specifies this.
    */
