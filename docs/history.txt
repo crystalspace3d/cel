@@ -27,6 +27,7 @@ The history order is reversed so that new features are at the top.
 	      eradicate and correct much cruft and incorrectness.
 	    - Enabled and cleaned up 'help' messages, so "jam help" now
 	      actually presents useful information.
+	- Jorrit fixed CEL for the removal of CS_FX_GOURAUD.
 9-Apr-2004
 	- Keith Fulton added function from Ondrej Hurt to dynamically set
 	  the max extrapolation interval in linmove instead of hardcoding
