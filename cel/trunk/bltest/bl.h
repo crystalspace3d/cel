@@ -17,7 +17,7 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BL_BL__
+#ifndef __CEL_BLTEST_BL__
 #define __CEL_BLTEST_BL__
 
 #include "iutil/comp.h"
