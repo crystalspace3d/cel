@@ -625,6 +625,7 @@ int celPcProperties::NewProperty (const char* name)
   p->type = CEL_DATA_NONE;
   int idx = properties.Length ();
   properties.Push (p);
+  properties_hash.Put (name, idx);
   return idx;
 }
 
@@ -688,16 +689,25 @@ void celPcProperties::SetProperty (const char* name, iCelEntity* value)
   SetProperty (FindOrNewProperty (name), value);
 }
 
-int celPcProperties::GetPropertyIndex (const char* name) const
+int celPcProperties::GetPropertyIndex (const char* name)
 {
-  int i;
-  for (i = 0 ; i < properties.Length () ; i++)
+  if (properties_hash.In (name))
+    return properties_hash.Get (name);
+  else
   {
-    property* p = properties[i];
-    if (!strcmp (p->propName, name))
-      return i;
+    // It is possible the index is not in the hash. Scan it here.
+    int i;
+    for (i = 0 ; i < properties.Length () ; i++)
+    {
+      property* p = properties[i];
+      if (!strcmp (name, p->propName))
+      {
+        properties_hash.Put (name, i);
+	return i;
+      }
+    }
+    return -1;
   }
-  return -1;
 }
 
 void celPcProperties::SetProperty (int index, float value)
@@ -933,6 +943,8 @@ void celPcProperties::ClearProperty (int index)
   property* p = properties[index];
   ClearPropertyValue (p);
   properties.DeleteIndex (index);
+  // Properties hash is cleared because it is invalid now.
+  properties_hash.DeleteAll ();
 }
 
 void celPcProperties::Clear ()

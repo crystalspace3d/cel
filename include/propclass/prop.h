@@ -86,7 +86,7 @@ struct iPcProperties : public iBase
    * Get the specified property index for a named property.
    * Returns -1 if not found.
    */
-  virtual int GetPropertyIndex (const char* name) const = 0;
+  virtual int GetPropertyIndex (const char* name) = 0;
 
   /**
    * Set property based on index.
