@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- pftools.csplugin -->
 <plugin>
-  <name>pftools</name>
   <scf>
     <classes>      
       <class>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- blpython.csplugin -->
 <plugin>
-  <name>blpython</name>
   <scf>
     <classes>      
       <class>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- plimp.csplugin -->
 <plugin>
-  <name>plimp</name>
   <scf>
     <classes>      
       <class>

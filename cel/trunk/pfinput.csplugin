@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!-- pfinput.csplugin -->
 <plugin>
-  <name>pfinput</name>
   <scf>
     <classes>      
       <class>
