@@ -656,7 +656,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_global || new_sel == entity)
         sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        SendMessage ("selectmesh_down", sel_entity,
+        SendMessage ("pcmeshsel_down", sel_entity,
 		mouse_x, mouse_y, mouse_but);
       if (sel_entity) cur_on_top = true;
       else cur_on_top = false;
@@ -666,19 +666,19 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       bool old_cur_on_top = cur_on_top;
       cur_on_top = (new_sel == sel_entity);
       if (do_senddown && cur_on_top && (cur_on_top != old_cur_on_top))
-        SendMessage ("selectmesh_down", sel_entity,
+        SendMessage ("pcmeshsel_down", sel_entity,
 		mouse_x, mouse_y, mouse_but);
       else if (do_sendup && ((mouse_up && cur_on_top) ||
       		!cur_on_top && (cur_on_top != old_cur_on_top)))
-        SendMessage ("selectmesh_up", sel_entity,
+        SendMessage ("pcmeshsel_up", sel_entity,
 		mouse_x, mouse_y, mouse_but);
       else if (do_sendmove)
-        SendMessage ("selectmesh_move", sel_entity,
+        SendMessage ("pcmeshsel_move", sel_entity,
 		mouse_x, mouse_y, mouse_but);
       if (mouse_up) sel_entity = NULL;
     }
     else if (do_follow_always && do_sendmove && new_sel)
-      SendMessage ("selectmesh_move", new_sel,
+      SendMessage ("pcmeshsel_move", new_sel,
 		mouse_x, mouse_y, mouse_but);
   }
   else
@@ -688,13 +688,13 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_global || new_sel == entity)
         sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        SendMessage ("selectmesh_down", sel_entity,
+        SendMessage ("pcmeshsel_down", sel_entity,
 		mouse_x, mouse_y, mouse_but);
     }
     else if (mouse_up)
     {
       if (do_sendup && sel_entity)
-        SendMessage ("selectmesh_up", sel_entity,
+        SendMessage ("pcmeshsel_up", sel_entity,
 		mouse_x, mouse_y, mouse_but);
       sel_entity = NULL;
     }
@@ -702,10 +702,10 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     {
       if (do_sendmove)
 	if (sel_entity)
-          SendMessage ("selectmesh_move", sel_entity,
+          SendMessage ("pcmeshsel_move", sel_entity,
 		mouse_x, mouse_y, mouse_but);
         else if (new_sel)
-          SendMessage ("selectmesh_move", new_sel,
+          SendMessage ("pcmeshsel_move", new_sel,
 		mouse_x, mouse_y, mouse_but);
     }
   }

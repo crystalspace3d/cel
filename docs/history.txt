@@ -58,6 +58,13 @@
 	  to the room inventory.
 	- Changed persistance in pcgravity to use the new CEL_DATA_VECTOR3.
 	- Fixed a few memory leaks in bltest.
+	- Rationalized the SendMessage names to the convention:
+		'pcbla_msgname'.
+	  In particular for pcinput this means that some changes are
+	  needed. Instead of +run (and similar) it will now be
+	  	pcinput_run1 (and pcinput_run0 for disable).
+	  This change was done to make the name compitible with scripting
+	  language routines.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.
@@ -70,17 +77,18 @@
 	  persistance.
 	- Added persistance for the camera mode in iPcCamera implementation.
 20-Dec-2001:
-	- Matze added cel.cex, which makes cel usable together with cs-config
+	- Matze added cel.cex, which makes cel usable together with cs-config.
 16-Dec-2001:
 	- Matze fixed a memory leak: pllayer was holding references to
 	  factories and these to pl. Now only pllayer holds the ref.
-	- added a mode switch to camera property, in follow mode the camera,
-	  stays behind it's assigned mesh and even does collision detection
+	- Matze added a mode switch to camera property, in follow mode the
+	  camera, stays behind it's assigned mesh and even does collision
+	  detection.
 14-Dec-2001:
-	- Keyboard input works now, but for some strange reason CS transmits
-       	  each key multiple times, and on the other side when pressing a key
-	  only short it isn't transmitted sometimes...
-	- cleaned up celtest a bit
+	- Matze reports: keyboard input works now, but for some strange
+	  reason CS transmits each key multiple times, and on the other side
+	  when pressing a key only short it isn't transmitted sometimes...
+	- Matze cleaned up celtest a bit.
 12-Dec-2001:
 	- Added iCelPropertyChangeCallback interface. Using this it will
 	  be possible to listen to property changes in all property classes.
@@ -95,7 +103,7 @@
 	- Changed all current property class implementations to inherit
 	  from celPcCommon.
 	- Nothing is using this callback system at the moment.
-	- Matze started work on keyboard input
+	- Matze started work on keyboard input.
 10-Dec-2001:
 	- Matze added #defines for template Factories, you can now easily use
 	  CEL_DECLARE_FACTORY(bla) and later CEL_IMPLEMENT_FACTORY(bla). Also

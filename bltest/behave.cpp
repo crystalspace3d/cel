@@ -102,7 +102,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
   }
   if (ent)
   {
-    if (!strcmp (msg_id, "selectmesh_up"))
+    if (!strcmp (msg_id, "pcmeshsel_up"))
     {
       printf ("  UP '%s' (%d,%d,%d)\n", ent->GetName (),
       	x, y, dat->GetMouseButton ());
@@ -131,12 +131,12 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
       }
       pcmesh->DecRef ();
     }
-    else if (!strcmp (msg_id, "selectmesh_down"))
+    else if (!strcmp (msg_id, "pcmeshsel_down"))
       printf ("  DOWN '%s' (%d,%d,%d)\n", ent->GetName (),
       	x, y, dat->GetMouseButton ());
   }
 
-  if (dat && !strcmp (msg_id, "selectmesh_move"))
+  if (dat && !strcmp (msg_id, "pcmeshsel_move"))
   {
     iPcTooltip* pctooltip = CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcTooltip);
@@ -171,7 +171,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
     	iPcMeshSelectData);
   iCelEntity* ent = NULL;
   if (dat) ent = dat->GetEntity ();
-  if (ent && !strcmp (msg_id, "selectmesh_down"))
+  if (ent && !strcmp (msg_id, "pcmeshsel_down"))
   {
     iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcMesh);
@@ -191,7 +191,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
     }
     pcmesh->DecRef ();
   }
-  else if (!strcmp (msg_id, "timer_wakeup"))
+  else if (!strcmp (msg_id, "pctimer_wakeup"))
   {
     iPcTimer* pctimer = CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcTimer);
@@ -263,75 +263,79 @@ celBehaviourActor::~celBehaviourActor()
 bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
             va_list arg)
 {
-  iPcGravity *pcgravity = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(),
-      iPcGravity);
-  if (!pcgravity)
-    return false;
+  bool pcinput_msg = strncmp (msg_id, "pcinput_", 8) == 0;
 
-  if (!strcmp (msg_id, "+forward"))
+  if (pcinput_msg)
   {
-    pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
-  }
-  else if (!strcmp (msg_id, "-forward"))
-  {
-    pcgravity->ClearForces();
-  }
-  else if (!strcmp (msg_id, "+backward"))
-  {
-    pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
-  }
-  else if (!strcmp (msg_id, "-backward"))
-  {
-    pcgravity->ClearForces();
-  }
-  else if (!strcmp (msg_id, "+strafeleft"))
-  {
-    pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
-  }
-  else if (!strcmp (msg_id, "-strafeleft"))
-  {
-    pcgravity->ClearForces();
-  }
-  else if (!strcmp (msg_id, "+straferight"))
-  {
-    pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
-  }
-  else if (!strcmp (msg_id, "-straferight"))
-  {
-    pcgravity->ClearForces();
-  }
-  else if (!strcmp (msg_id, "+run"))
-  {
-    speed=2.5;
-  }
-  else if (!strcmp (msg_id, "-run"))
-  {
-    speed=1;
-  }
-  else if (!strcmp (msg_id, "+cammode"))
-  {
-    fpscam = fpscam ? 0 : 1;
-    iPcCamera* pccam;
-    pccam = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera);
-    if (!pccam)
-    {
-      pcgravity->DecRef ();
+    iPcGravity *pcgravity = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
+        iPcGravity);
+    if (!pcgravity)
       return false;
-    }
 
-    if (fpscam)
+    if (!strcmp (msg_id+8, "forward1"))
     {
-      printf ("Switching to 3rd person view!\n");
-      pccam->SetMode (iPcCamera::follow, true);
+      pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
     }
-    else
+    else if (!strcmp (msg_id+8, "forward0"))
     {
-      printf ("Free look mode\n");
-      pccam->SetMode (iPcCamera::freelook, false);
+      pcgravity->ClearForces();
     }
+    else if (!strcmp (msg_id+8, "backward1"))
+    {
+      pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
+    }
+    else if (!strcmp (msg_id+8, "backward0"))
+    {
+      pcgravity->ClearForces();
+    }
+    else if (!strcmp (msg_id+8, "strafeleft1"))
+    {
+      pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
+    }
+    else if (!strcmp (msg_id+8, "strafeleft0"))
+    {
+      pcgravity->ClearForces();
+    }
+    else if (!strcmp (msg_id+8, "straferight1"))
+    {
+      pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
+    }
+    else if (!strcmp (msg_id+8, "straferight0"))
+    {
+      pcgravity->ClearForces();
+    }
+    else if (!strcmp (msg_id+8, "run1"))
+    {
+      speed=2.5;
+    }
+    else if (!strcmp (msg_id+8, "run0"))
+    {
+      speed=1;
+    }
+    else if (!strcmp (msg_id+8, "cammode1"))
+    {
+      fpscam = fpscam ? 0 : 1;
+      iPcCamera* pccam;
+      pccam = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera);
+      if (!pccam)
+      {
+        pcgravity->DecRef ();
+        return false;
+      }
+
+      if (fpscam)
+      {
+        printf ("Switching to 3rd person view!\n");
+        pccam->SetMode (iPcCamera::follow, true);
+      }
+      else
+      {
+        printf ("Free look mode\n");
+        pccam->SetMode (iPcCamera::freelook, false);
+      }
+    }
+    pcgravity->DecRef ();
   }
-
-  pcgravity->DecRef ();
 
   return bhroom->SendMessageV (msg_id, msg_info, arg);
 }

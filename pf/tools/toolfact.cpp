@@ -335,7 +335,7 @@ bool celPcTimer::HandleEvent (iEvent& ev)
       }
       iCelBehaviour* bh = entity->GetBehaviour ();
       CS_ASSERT (bh != NULL);
-      bh->SendMessage ("timer_wakeup", NULL);
+      bh->SendMessage ("pctimer_wakeup", NULL);
     }
   }
   return false;
@@ -500,7 +500,7 @@ void celPcProperties::SetProperty (int index, float value)
   p->v.f = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("prop_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", NULL, index);
 }
 
 void celPcProperties::SetProperty (int index, long value)
@@ -512,7 +512,7 @@ void celPcProperties::SetProperty (int index, long value)
   p->v.l = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("prop_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", NULL, index);
 }
 
 void celPcProperties::SetProperty (int index, bool value)
@@ -524,7 +524,7 @@ void celPcProperties::SetProperty (int index, bool value)
   p->v.b = value;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("prop_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", NULL, index);
 }
 
 void celPcProperties::SetProperty (int index, const char* value)
@@ -536,7 +536,7 @@ void celPcProperties::SetProperty (int index, const char* value)
   p->v.s = csStrNew (value);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("prop_setproperty", NULL, index);
+    bh->SendMessage ("pcproperties_setproperty", NULL, index);
 }
 
 celDataType celPcProperties::GetPropertyType (int index) const
@@ -591,7 +591,7 @@ void celPcProperties::ClearProperty (int index)
   CS_ASSERT (index >= 0 && index < properties.Length ());
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("prop_clearproperty", NULL, index);
+    bh->SendMessage ("pcproperties_clearproperty", NULL, index);
   property* p = (property*)properties[index];
   ClearPropertyValue (p);
   properties.Delete (index);

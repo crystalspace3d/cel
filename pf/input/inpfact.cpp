@@ -166,19 +166,25 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->next=maplist;
     newmap->prev=NULL;
     newmap->key=key;
-    newmap->command=new char[strlen(command)+2];
-    strcpy (newmap->command+1, command);
+    newmap->command = new char[strlen ("pcinput_")+strlen(command)+2];
+    strcpy (newmap->command, "pcinput_");
+    strcat (newmap->command, command);
+    newmap->command_end = strchr (newmap->command, 0);
+    *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
+
     newmap->is_on=false;
     if (maplist)
-        maplist->prev=newmap;
-    maplist=newmap;			     
+      maplist->prev = newmap;
+    maplist = newmap;			     
   }
   else
   {
-    if (newmap->command) 
-      delete [] newmap->command;
-    newmap->command = new char[strlen(command)+2];
-    strcpy (newmap->command+1, command);
+    delete [] newmap->command;
+    newmap->command = new char[strlen ("pcinput_")+strlen(command)+2];
+    strcpy (newmap->command, "pcinput_");
+    strcat (newmap->command, command);
+    newmap->command_end = strchr (newmap->command, 0);
+    *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
   }
   
   return true;
@@ -197,7 +203,7 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
   if (!(map = GetMap (key)))
     return NULL;
   
-  return map->command;
+  return map->command+8;
 }
 
 bool celPcCommandInput::RemoveBind (const char* /*triggername*/,
@@ -245,9 +251,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       p->is_on=false;
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
-      p->command[0]='-';
+      *(p->command_end) = '0';
       printf ("DeActivate: %s\n", p->command);
       bh->SendMessage (p->command, NULL);
+      *(p->command_end) = 0;
     }
   }
   else
@@ -257,9 +264,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       p->is_on=true;
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != NULL);
-      p->command[0]='+';
+      *(p->command_end) = '1';
       printf ("Activate: %s\n", p->command);
       bh->SendMessage (p->command, NULL);
+      *(p->command_end) = 0;
     }
   }
 
