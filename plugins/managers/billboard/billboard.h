@@ -104,7 +104,7 @@ class celBillboardManager : public iBillboardManager
 private:
   iObjectRegistry* object_reg;
   csPDelArray<celBillboard> billboards;
-  csHash<celBillboard*,const char*,csConstCharHashKeyHandler> billboards_hash;
+  csHash<celBillboard*,csStrKey,csConstCharHashKeyHandler> billboards_hash;
   csRef<iGraphics3D> g3d;
   csRef<iEngine> engine;
 
