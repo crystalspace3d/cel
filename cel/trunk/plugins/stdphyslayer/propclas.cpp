@@ -85,13 +85,39 @@ bool celPropertyClassList::RemoveByInterface (scfInterfaceID scf_id, int ver)
 
   for (size_t i = 0; i < prop_classes.Length (); i++)
   {
-    if (!prop_classes[i]->QueryInterface(scf_id, ver))
+    iBase* interface = (iBase*)prop_classes[i]->QueryInterface (scf_id, ver);
+    if (!interface)
       continue;
+    interface->DecRef ();	// Remove our reference.
 
     Remove(i);
     res = true;
-    // We continue, because some weird devs may want to add more than one
-    // propclass of the same type.
+    // We continue, because there may be multiple property classes of the
+    // same type.
+  }
+
+  return res;
+}
+
+bool celPropertyClassList::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
+	int ver, const char* tag)
+{
+  bool res = false;
+
+  for (size_t i = 0; i < prop_classes.Length (); i++)
+  {
+    const char* pctag = prop_classes[i]->GetTag ();
+    if (!((tag == 0 && pctag == 0) || (tag != 0 && strcmp (tag, pctag) == 0)))
+      continue;
+    iBase* interface = (iBase*)prop_classes[i]->QueryInterface (scf_id, ver);
+    if (!interface)
+      continue;
+    interface->DecRef ();	// Remove our reference.
+
+    Remove(i);
+    res = true;
+    // We continue, because there may be multiple property classes of the
+    // same type and tag.
   }
 
   return res;
@@ -122,12 +148,41 @@ size_t celPropertyClassList::Find (iCelPropertyClass* obj) const
 iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
 {
   size_t i;
+  iCelPropertyClass* found_pc = 0;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
-    if (!strcmp (obj->GetName (), name))
+    if (!strcmp (name, obj->GetName ()))
     {
-      return obj;
+      // We prefer to find a property class with no tag. So if we have
+      // no tag we can return immediatelly. Otherwise we have to wait
+      // until we find one with no tag.
+      if (obj->GetTag () == 0)
+        return obj;
+      else
+        found_pc = obj;
+    }
+  }
+  return found_pc;
+}
+
+iCelPropertyClass* celPropertyClassList::FindByNameAndTag (const char* name,
+	const char* tag) const
+{
+  size_t i;
+  for (i = 0 ; i < prop_classes.Length () ; i++)
+  {
+    iCelPropertyClass* obj = prop_classes[i];
+    if (tag == 0)
+    {
+      if (!strcmp (name, obj->GetName ()) && obj->GetTag () == 0)
+        return obj;
+    }
+    else
+    {
+      if (!strcmp (name, obj->GetName ()) && obj->GetTag () != 0 &&
+    	  !strcmp (tag, obj->GetTag ()))
+        return obj;
     }
   }
   return 0;
@@ -137,12 +192,45 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
 	int version) const
 {
   size_t i;
+  csRef<iBase> found_interf;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!obj) continue;
     iBase* interf = (iBase*)(obj->QueryInterface (id, version));
-    if (interf) return interf;
+    if (interf)
+    {
+      // We prefer property classes with no tag.
+      if (obj->GetTag () == 0)
+        return interf;
+      else
+        found_interf = csPtr<iBase> (interf);
+    }
+  }
+  if (found_interf)
+    found_interf->IncRef ();
+  return found_interf;
+}
+
+iBase* celPropertyClassList::FindByInterfaceAndTag (scfInterfaceID id,
+	int version, const char* tag) const
+{
+  size_t i;
+  for (i = 0 ; i < prop_classes.Length () ; i++)
+  {
+    iCelPropertyClass* obj = prop_classes[i];
+    if (!obj) continue;
+    if (tag == 0 && obj->GetTag () != 0)
+      continue;
+    if (tag != 0 && obj->GetTag () == 0)
+      continue;
+    if (tag != 0 || strcmp (obj->GetTag (), tag) != 0)
+      continue;
+    iBase* interf = (iBase*)(obj->QueryInterface (id, version));
+    if (interf)
+    {
+      return interf;
+    }
   }
   return 0;
 }

@@ -46,10 +46,16 @@ public:
   virtual bool Remove (iCelPropertyClass* obj);
   virtual bool Remove (size_t n);
   virtual bool RemoveByInterface (scfInterfaceID id, int version);
+  virtual bool RemoveByInterfaceAndTag (scfInterfaceID id, int version,
+  	const char* tag);
   virtual void RemoveAll ();
   virtual size_t Find (iCelPropertyClass* obj) const;
   virtual iCelPropertyClass* FindByName (const char* name) const;
+  virtual iCelPropertyClass* FindByNameAndTag (const char* name,
+  	const char* tag) const;
   virtual iBase* FindByInterface (scfInterfaceID id, int version) const;
+  virtual iBase* FindByInterfaceAndTag (scfInterfaceID id, int version,
+  	const char* tag) const;
 };
 
 #endif // __CEL_PLIMP_PROPCLASS__

@@ -3,6 +3,51 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Dec-2004
+	- Jorrit fixed a bug in the CEL_REMOVE_PROPCLASS macro which would
+	  cause a reference leak because QueryInterface() was used but the
+	  returned reference was never released.
+	- Jorrit extended CEL with the notion of adding multiple property
+	  classes of the same type to some entity. This done by adding the
+	  concept of a 'tag'. By default property classes have no tag (i.e.
+	  tag is 0). But you can add a tag to them in by doing that you
+	  can distinguish between different versions of the same property
+	  class for an entity. To support this the following functions
+	  and macros have been added:
+	      - iCelPropertyClassList->RemoveByInterfaceAndTag(): equivalent
+	        to RemoveByInterface() but will only remove with the correct
+		tag.
+	      - iCelPropertyClassList->FindByNameAndTag(): equivalent to
+	        FindByName() but will only find with the given tag.
+	      - iCelPropertyClassList->FindByInterfaceAndTag(): equivalent
+	        to FindByInterface() but will only find with the given
+		tag.
+	      - CEL_QUERY_PROPCLASS_TAG: same as CEL_QUERY_PROPCLASS but
+	        with tag.
+	      - CEL_QUERY_PROPCLASS_TAG_ENT: same as CEL_QUERY_PROPCLASS_ENT
+	        but with tag.
+	      - CEL_REMOVE_PROPCLASS_TAG: same as CEL_REMOVE_PROPCLASS but
+	        with tag.
+	      - CEL_REMOVE_PROPCLASS_TAG_ENT: same as CEL_REMOVE_PROPCLASS_ENT
+	        but with tag.
+	      - Added iCelPlLayer->CreateTaggedPropertyClass() which is
+	        a conveniance function to create a tagged property class.
+	      - Added iCelPropertyClass->SetTag() and GetTag() to set and
+	        get the tag for a property class.
+	  The celPcCommon class has been extended with a SetTag() and GetTag()
+	  implementation so if your property class implementation uses
+	  celPcCommon it will be ok.
+	  Note that the original methods FindByInterface() and FindByName()
+	  from iCelPropertyClassList have been modified so that they will 
+	  preferably return the property class with no tag (tag is 0). If no
+	  such property class is present then it will pick a random one
+	  from the property classes that have a tag.
+	  RemoveByInterface() in iCelPropertyClassList will remove all
+	  property classes implementing that interface (i.e. it will completely
+	  ignore the tag).
+	- Jorrit extended the celentity addon so that you can also create
+	  tagged property classes. Add the 'tag' attribute to the
+	  <propclass> statement.
 13-Dec-2004
 	- Jorrit removed the OLD_RENDERER ifdef in CEL now that the old
 	  renderer has been removed from CS.

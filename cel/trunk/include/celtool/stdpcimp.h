@@ -55,6 +55,7 @@ private:
   // entity). It is set to true by PropertyClassesHaveChanged()
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
+  char* tag;
 
 protected:
   iCelEntity* entity;
@@ -66,9 +67,9 @@ protected:
 
   static void UpdateProperties (iObjectRegistry*) { return; }
 
-  void**		propdata;
-  Property*	props;
-  int*			propcount;
+  void** propdata;
+  Property* props;
+  int* propcount;
 
 public:
   celPcCommon (iObjectRegistry* object_reg);
@@ -82,6 +83,9 @@ public:
     propclasses_dirty = false;
     return true;
   }
+
+  virtual void SetTag (const char* tagname);
+  virtual const char* GetTag () const { return tag; }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
