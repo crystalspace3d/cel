@@ -3,7 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
-4-Dec-2002
+4-Dec-2003
+	- Jorrit simplified the XML behaviour layer by removing support for
+	  multiple arguments for operations and only allowing one. Also unified
+	  the type system so that the CEL_TYPE_... enum is now gone and instead
+	  CEL_DATA_... is used.
         - Daniel made some minor edits to the documentation and added
           preliminary build instructions for the Windows platform.
 2-Dec-2003

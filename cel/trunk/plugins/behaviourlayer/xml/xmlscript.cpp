@@ -51,26 +51,24 @@ celXmlArg::celXmlArg (const celXmlArg& other)
   type = other.type;
   switch (type)
   {
-    case CEL_TYPE_STRING:
-    case CEL_TYPE_VAR:
+    case CEL_DATA_STRING:
       arg.str.cleanup = other.arg.str.cleanup;
       if (arg.str.cleanup)
         arg.str.s = csStrNew (other.arg.str.s);
       else
         arg.str.s = other.arg.str.s;
       break;
-    case CEL_TYPE_ARGLIST: arg.a = new celXmlArgList (*other.arg.a); break;
-    case CEL_TYPE_UINT32: arg.ui = other.arg.ui; break;
-    case CEL_TYPE_INT32: arg.i = other.arg.i; break;
-    case CEL_TYPE_FLOAT: arg.f = other.arg.f; break;
-    case CEL_TYPE_BOOL: arg.b = other.arg.b; break;
-    case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
-    case CEL_TYPE_ID: arg.id = other.arg.id; break;
-    case CEL_TYPE_EVENTHANDLER: arg.h = other.arg.h; break;
-    case CEL_TYPE_VECTOR2: arg.vec = other.arg.vec; break;
-    case CEL_TYPE_VECTOR3: arg.vec = other.arg.vec; break;
-    case CEL_TYPE_COLOR: arg.col = other.arg.col; break;
-    case CEL_TYPE_NONE: break;
+    case CEL_DATA_ULONG: arg.ui = other.arg.ui; break;
+    case CEL_DATA_LONG: arg.i = other.arg.i; break;
+    case CEL_DATA_FLOAT: arg.f = other.arg.f; break;
+    case CEL_DATA_BOOL: arg.b = other.arg.b; break;
+    case CEL_DATA_PCLASS: arg.pc = other.arg.pc; break;
+    case CEL_DATA_ID: arg.id = other.arg.id; break;
+    case CEL_DATA_EVENTHANDLER: arg.h = other.arg.h; break;
+    case CEL_DATA_VECTOR2: arg.vec = other.arg.vec; break;
+    case CEL_DATA_VECTOR3: arg.vec = other.arg.vec; break;
+    case CEL_DATA_COLOR: arg.col = other.arg.col; break;
+    case CEL_DATA_NONE: break;
     default:
       CS_ASSERT (false);
   }
@@ -78,23 +76,10 @@ celXmlArg::celXmlArg (const celXmlArg& other)
 
 void celXmlArg::Cleanup ()
 {
-  switch (type)
+  if (type == CEL_DATA_STRING)
   {
-    case CEL_TYPE_VAR:
-    case CEL_TYPE_STRING:
-      if (arg.str.cleanup) delete[] arg.str.s;
-      break;
-    case CEL_TYPE_ARGLIST:
-      delete arg.a;
-      break;
+    if (arg.str.cleanup) delete[] arg.str.s;
   }
-}
-
-void celXmlArg::SetArgList ()
-{
-  Cleanup ();
-  type = CEL_TYPE_ARGLIST;
-  arg.a = new celXmlArgList ();
 }
 
 //---------------------------------------------------------------------------
@@ -137,58 +122,58 @@ static const char* ArgToString (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32:
+    case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%d", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_UINT32:
+    case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%u", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_FLOAT:
+    case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("%g", a.arg.f);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_BOOL: return a.arg.b ? "true" : "false";
-    case CEL_TYPE_STRING: return a.arg.str.s;
-    case CEL_TYPE_VECTOR2:
+    case CEL_DATA_BOOL: return a.arg.b ? "true" : "false";
+    case CEL_DATA_STRING: return a.arg.str.s;
+    case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("[%g,%g]", a.arg.vec.x, a.arg.vec.y);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_VECTOR3:
+    case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("[%g,%g,%g]", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_PC:
+    case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("pc(%08lx)", (long)a.arg.pc);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_ID:
+    case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format ("id(%d)", a.arg.id);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_COLOR:
+    case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("rgb(%g,%g,%g)", a.arg.col.red, a.arg.col.green,
@@ -206,56 +191,56 @@ static const char* A2S (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32:
+    case CEL_DATA_LONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("{int32:%d}", a.arg.i);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_UINT32:
+    case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("{uint32:%u}", a.arg.ui);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_FLOAT:
+    case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("{float:%g}", a.arg.f);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_BOOL:
+    case CEL_DATA_BOOL:
       {
         csString* str = GetUnusedString ();
         str->Format ("{bool:%s}", a.arg.b ? "true" : "false");
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_STRING:
+    case CEL_DATA_STRING:
       {
         csString* str = GetUnusedString ();
         str->Format ("{str:%s}", a.arg.str.s);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_VECTOR2:
+    case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g]}", a.arg.vec.x, a.arg.vec.y);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_VECTOR3:
+    case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g,%g]}", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_COLOR:
+    case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("{rgb:(%g,%g,%g)}", a.arg.col.red, a.arg.col.green,
@@ -263,14 +248,14 @@ static const char* A2S (const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_PC:
+    case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("{pc:%08lx}", (long)a.arg.pc);
 	used_strings.Push (str);
         return *str;
       }
-    case CEL_TYPE_ID:
+    case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format ("{id:%d}", a.arg.id);
@@ -291,7 +276,7 @@ static iCelPropertyClass* ArgToPClass (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_PC: return a.arg.pc;
+    case CEL_DATA_PCLASS: return a.arg.pc;
     default: return 0;
   }
 }
@@ -300,7 +285,7 @@ static csStringID ArgToID (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_ID: return a.arg.id;
+    case CEL_DATA_ID: return a.arg.id;
     default: return csInvalidStringID;
   }
 }
@@ -309,7 +294,7 @@ static csColor ArgToColor (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_COLOR: return csColor (a.arg.col.red, a.arg.col.green,
+    case CEL_DATA_COLOR: return csColor (a.arg.col.red, a.arg.col.green,
     	a.arg.col.blue);
     default: return csColor (0, 0, 0);
   }
@@ -319,7 +304,7 @@ static csVector3 ArgToVector3 (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_VECTOR3: return csVector3 (a.arg.vec.x, a.arg.vec.y,
+    case CEL_DATA_VECTOR3: return csVector3 (a.arg.vec.x, a.arg.vec.y,
     	a.arg.vec.z);
     default: return csVector3 (0, 0, 0);
   }
@@ -329,7 +314,7 @@ static csVector2 ArgToVector2 (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_VECTOR2: return csVector2 (a.arg.vec.x, a.arg.vec.y);
+    case CEL_DATA_VECTOR2: return csVector2 (a.arg.vec.x, a.arg.vec.y);
     default: return csVector2 (0, 0);
   }
 }
@@ -338,11 +323,11 @@ static bool ArgToBool (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return bool (a.arg.i);
-    case CEL_TYPE_UINT32: return bool (a.arg.ui);
-    case CEL_TYPE_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
-    case CEL_TYPE_BOOL: return a.arg.b;
-    case CEL_TYPE_STRING:
+    case CEL_DATA_LONG: return bool (a.arg.i);
+    case CEL_DATA_ULONG: return bool (a.arg.ui);
+    case CEL_DATA_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
+    case CEL_DATA_BOOL: return a.arg.b;
+    case CEL_DATA_STRING:
       return a.arg.str.s ? !strcmp (a.arg.str.s, "true") : false;
     default:
       return false;
@@ -353,11 +338,11 @@ static uint32 ArgToUInt32 (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return uint32 (a.arg.i);
-    case CEL_TYPE_UINT32: return a.arg.ui;
-    case CEL_TYPE_FLOAT: return uint32 (a.arg.f);
-    case CEL_TYPE_BOOL: return a.arg.b ? 1 : 0;
-    case CEL_TYPE_STRING:
+    case CEL_DATA_LONG: return uint32 (a.arg.i);
+    case CEL_DATA_ULONG: return a.arg.ui;
+    case CEL_DATA_FLOAT: return uint32 (a.arg.f);
+    case CEL_DATA_BOOL: return a.arg.b ? 1 : 0;
+    case CEL_DATA_STRING:
       {
         if (!a.arg.str.s) return 0;
 	uint i;
@@ -373,11 +358,11 @@ static int32 ArgToInt32 (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return a.arg.i;
-    case CEL_TYPE_UINT32: return int32 (a.arg.ui);
-    case CEL_TYPE_FLOAT: return int32 (a.arg.f);
-    case CEL_TYPE_BOOL: return a.arg.b ? 1 : 0;
-    case CEL_TYPE_STRING:
+    case CEL_DATA_LONG: return a.arg.i;
+    case CEL_DATA_ULONG: return int32 (a.arg.ui);
+    case CEL_DATA_FLOAT: return int32 (a.arg.f);
+    case CEL_DATA_BOOL: return a.arg.b ? 1 : 0;
+    case CEL_DATA_STRING:
       {
         if (!a.arg.str.s) return 0;
         int i;
@@ -393,11 +378,11 @@ static float ArgToFloat (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return float (a.arg.i);
-    case CEL_TYPE_UINT32: return float (a.arg.ui);
-    case CEL_TYPE_FLOAT: return a.arg.f;
-    case CEL_TYPE_BOOL: return a.arg.b ? 1.0 : 0.0;
-    case CEL_TYPE_STRING:
+    case CEL_DATA_LONG: return float (a.arg.i);
+    case CEL_DATA_ULONG: return float (a.arg.ui);
+    case CEL_DATA_FLOAT: return a.arg.f;
+    case CEL_DATA_BOOL: return a.arg.b ? 1.0 : 0.0;
+    case CEL_DATA_STRING:
       {
         if (!a.arg.str.s) return 0.0;
         float f;
@@ -413,9 +398,9 @@ static bool IsVectorType (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_VECTOR2: return true;
-    case CEL_TYPE_VECTOR3: return true;
-    case CEL_TYPE_COLOR: return true;
+    case CEL_DATA_VECTOR2: return true;
+    case CEL_DATA_VECTOR3: return true;
+    case CEL_DATA_COLOR: return true;
     default: return false;
   }
 }
@@ -424,10 +409,10 @@ static bool IsNumericType (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return true;
-    case CEL_TYPE_UINT32: return true;
-    case CEL_TYPE_FLOAT: return true;
-    case CEL_TYPE_BOOL: return true;
+    case CEL_DATA_LONG: return true;
+    case CEL_DATA_ULONG: return true;
+    case CEL_DATA_FLOAT: return true;
+    case CEL_DATA_BOOL: return true;
     default: return false;
   }
 }
@@ -436,15 +421,15 @@ static bool IsStringConvertible (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_TYPE_INT32: return true;
-    case CEL_TYPE_UINT32: return true;
-    case CEL_TYPE_FLOAT: return true;
-    case CEL_TYPE_BOOL: return true;
-    case CEL_TYPE_VECTOR2: return true;
-    case CEL_TYPE_VECTOR3: return true;
-    case CEL_TYPE_COLOR: return true;
-    case CEL_TYPE_ID: return true;
-    case CEL_TYPE_PC: return true;
+    case CEL_DATA_LONG: return true;
+    case CEL_DATA_ULONG: return true;
+    case CEL_DATA_FLOAT: return true;
+    case CEL_DATA_BOOL: return true;
+    case CEL_DATA_VECTOR2: return true;
+    case CEL_DATA_VECTOR3: return true;
+    case CEL_DATA_COLOR: return true;
+    case CEL_DATA_ID: return true;
+    case CEL_DATA_PCLASS: return true;
     default: return false;
   }
 }
@@ -453,27 +438,27 @@ static int GetCalculationType (const celXmlArg& a, const celXmlArg& b)
 {
   if (a.type == b.type) return a.type;
 
-  if (a.type == CEL_TYPE_STRING && IsStringConvertible (b))
-    return CEL_TYPE_STRING;
-  if (b.type == CEL_TYPE_STRING && IsStringConvertible (a))
-    return CEL_TYPE_STRING;
+  if (a.type == CEL_DATA_STRING && IsStringConvertible (b))
+    return CEL_DATA_STRING;
+  if (b.type == CEL_DATA_STRING && IsStringConvertible (a))
+    return CEL_DATA_STRING;
 
-  if (a.type == CEL_TYPE_FLOAT && IsNumericType (b))
-    return CEL_TYPE_FLOAT;
-  if (b.type == CEL_TYPE_FLOAT && IsNumericType (a))
-    return CEL_TYPE_FLOAT;
+  if (a.type == CEL_DATA_FLOAT && IsNumericType (b))
+    return CEL_DATA_FLOAT;
+  if (b.type == CEL_DATA_FLOAT && IsNumericType (a))
+    return CEL_DATA_FLOAT;
 
-  if (a.type == CEL_TYPE_INT32 && IsNumericType (b))
-    return CEL_TYPE_INT32;
-  if (b.type == CEL_TYPE_INT32 && IsNumericType (a))
-    return CEL_TYPE_INT32;
+  if (a.type == CEL_DATA_LONG && IsNumericType (b))
+    return CEL_DATA_LONG;
+  if (b.type == CEL_DATA_LONG && IsNumericType (a))
+    return CEL_DATA_LONG;
 
-  if (a.type == CEL_TYPE_UINT32 && IsNumericType (b))
-    return CEL_TYPE_UINT32;
-  if (b.type == CEL_TYPE_UINT32 && IsNumericType (a))
-    return CEL_TYPE_UINT32;
+  if (a.type == CEL_DATA_ULONG && IsNumericType (b))
+    return CEL_DATA_ULONG;
+  if (b.type == CEL_DATA_ULONG && IsNumericType (a))
+    return CEL_DATA_ULONG;
 
-  return CEL_TYPE_NONE;
+  return CEL_DATA_NONE;
 }
 
 bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
@@ -512,7 +497,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     CleanupTemporaryStrings ();
     celXmlOperation& op = operations[i];
     i++;
-    csArray<celXmlArg>& args = op.arg.arg.a->args;
     switch (op.op)
     {
       case CEL_OPERATION_END:
@@ -524,7 +508,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_PUSH:
         {
           DUMP_EXEC (": push %s\n", A2S (op.arg));
-	  if (op.arg.type == CEL_TYPE_STRING)
+	  if (op.arg.type == CEL_DATA_STRING)
 	  {
 	    // Optimization for strings. Don't copy the string.
 	    int si = stack.Push (celXmlArg ());
@@ -646,21 +630,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC (": unaryminus %s\n", A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
-	    case CEL_TYPE_INT32: stack[si].arg.i = -stack[si].arg.i; break;
-	    case CEL_TYPE_UINT32: stack[si].arg.ui = -stack[si].arg.ui; break;
-	    case CEL_TYPE_FLOAT: stack[si].arg.f = -stack[si].arg.f; break;
-	    case CEL_TYPE_BOOL: stack[si].arg.b = !stack[si].arg.b; break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_LONG: stack[si].arg.i = -stack[si].arg.i; break;
+	    case CEL_DATA_ULONG: stack[si].arg.ui = -stack[si].arg.ui; break;
+	    case CEL_DATA_FLOAT: stack[si].arg.f = -stack[si].arg.f; break;
+	    case CEL_DATA_BOOL: stack[si].arg.b = !stack[si].arg.b; break;
+	    case CEL_DATA_COLOR:
 	      stack[si].arg.col.red = -stack[si].arg.col.red;
 	      stack[si].arg.col.green = -stack[si].arg.col.green;
 	      stack[si].arg.col.blue = -stack[si].arg.col.blue;
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].arg.vec.x = -stack[si].arg.vec.x;
 	      stack[si].arg.vec.y = -stack[si].arg.vec.y;
 	      stack[si].arg.vec.z = -stack[si].arg.vec.z;
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].arg.vec.x = -stack[si].arg.vec.x;
 	      stack[si].arg.vec.y = -stack[si].arg.vec.y;
 	      break;
@@ -680,28 +664,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_NONE:
+	    case CEL_DATA_NONE:
 	      return ReportError (behave, "Can't subtract these types!");
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      return ReportError (behave, "Can't subtract booleans!");
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      return ReportError (behave, "Can't subtract strings!");
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetFloat (ArgToFloat (ela) - ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (ArgToInt32 (ela) - ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) - ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].SetVector (ArgToVector2 (ela) - ArgToVector2 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].SetVector (ArgToVector3 (ela) - ArgToVector3 (elb));
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      stack[si].SetColor (ArgToColor (ela) - ArgToColor (elb));
 	      break;
 	  }
@@ -718,28 +702,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      return ReportError (behave, "Can't add booleans!");
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetFloat (ArgToFloat (ela) + ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (ArgToInt32 (ela) + ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) + ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].SetVector (ArgToVector2 (ela) + ArgToVector2 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].SetVector (ArgToVector3 (ela) + ArgToVector3 (elb));
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      stack[si].SetColor (ArgToColor (ela) + ArgToColor (elb));
 	      break;
-	    case CEL_TYPE_NONE:
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_NONE:
+	    case CEL_DATA_STRING:
 	      {
 		const char* astr = ArgToString (ela);
 		const char* bstr = ArgToString (elb);
@@ -779,18 +763,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_NONE:
+	    case CEL_DATA_NONE:
 	      if (IsNumericType (ela) && IsVectorType (elb))
 	      {
 	        switch (elb.type)
 		{
-		  case CEL_TYPE_VECTOR2:
+		  case CEL_DATA_VECTOR2:
 		    stack[si].SetVector (ArgToFloat (ela) * ArgToVector2 (elb));
 		    break;
-		  case CEL_TYPE_VECTOR3:
+		  case CEL_DATA_VECTOR3:
 		    stack[si].SetVector (ArgToFloat (ela) * ArgToVector3 (elb));
 		    break;
-		  case CEL_TYPE_COLOR:
+		  case CEL_DATA_COLOR:
 		    stack[si].SetColor (ArgToFloat (ela) * ArgToColor (elb));
 		    break;
 		}
@@ -799,13 +783,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 	        switch (ela.type)
 		{
-		  case CEL_TYPE_VECTOR2:
+		  case CEL_DATA_VECTOR2:
 		    stack[si].SetVector (ArgToFloat (elb) * ArgToVector2 (ela));
 		    break;
-		  case CEL_TYPE_VECTOR3:
+		  case CEL_DATA_VECTOR3:
 		    stack[si].SetVector (ArgToFloat (elb) * ArgToVector3 (ela));
 		    break;
-		  case CEL_TYPE_COLOR:
+		  case CEL_DATA_COLOR:
 		    stack[si].SetColor (ArgToFloat (elb) * ArgToColor (ela));
 		    break;
 		}
@@ -813,26 +797,26 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      else
 	        return ReportError (behave, "Can't multiply these types!");
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      return ReportError (behave, "Can't multiply strings!");
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      return ReportError (behave, "Can't multiply colors!");
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetFloat (ArgToFloat (ela) * ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (ArgToInt32 (ela) * ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) * ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].SetFloat (ArgToVector2 (ela) * ArgToVector2 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].SetFloat (ArgToVector3 (ela) * ArgToVector3 (elb));
 	      break;
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      stack[si].SetBool (bool (int (ArgToBool (ela))
 	      	* int (ArgToBool (elb))));
 	      break;
@@ -850,15 +834,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_NONE:
+	    case CEL_DATA_NONE:
 	      if (IsVectorType (ela) && IsNumericType (elb))
 	      {
 	        switch (ela.type)
 		{
-		  case CEL_TYPE_VECTOR2:
+		  case CEL_DATA_VECTOR2:
 		    stack[si].SetVector (ArgToVector2 (ela) / ArgToFloat (elb));
 		    break;
-		  case CEL_TYPE_VECTOR3:
+		  case CEL_DATA_VECTOR3:
 		    stack[si].SetVector (ArgToVector3 (ela) / ArgToFloat (elb));
 		    break;
 		  default:
@@ -868,23 +852,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      else
 	        return ReportError (behave, "Can't divide these types!");
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      return ReportError (behave, "Can't divide strings!");
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      return ReportError (behave, "Can't divide booleans!");
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      return ReportError (behave, "Can't divide vectors!");
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      return ReportError (behave, "Can't divide vectors!");
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      return ReportError (behave, "Can't divide colors!");
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetFloat (ArgToFloat (ela) / ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (ArgToInt32 (ela) / ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) / ArgToUInt32 (elb));
 	      break;
 	  }
@@ -923,34 +907,34 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      stack[si].SetBool (ArgToBool (ela) != ArgToBool (elb));
 	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
 	      	>= SMALL_EPSILON);
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) != ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) != ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].SetBool (!((ArgToVector2 (ela) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON));
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].SetBool (!((ArgToVector3 (ela) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON));
 	      break;
-	    case CEL_TYPE_PC:
+	    case CEL_DATA_PCLASS:
 	      stack[si].SetBool (ArgToPClass (ela) != ArgToPClass (elb));
 	      break;
-	    case CEL_TYPE_ID:
+	    case CEL_DATA_ID:
 	      stack[si].SetBool (ArgToID (ela) != ArgToID (elb));
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      {
 	        csColor c1 = ArgToColor (ela);
 	        csColor c2 = ArgToColor (elb);
@@ -959,7 +943,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        		     ABS (c1.blue-c2.blue) < SMALL_EPSILON));
 	      }
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (strcmp (ArgToString (ela),
 	      	ArgToString (elb)));
 	      break;
@@ -979,34 +963,34 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      stack[si].SetBool (ArgToBool (ela) == ArgToBool (elb));
 	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
 	      	< SMALL_EPSILON);
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) == ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) == ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      stack[si].SetBool ((ArgToVector2 (ela) - ArgToVector2 (elb))
 	      	< SMALL_EPSILON);
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      stack[si].SetBool ((ArgToVector3 (ela) - ArgToVector3 (elb))
 	      	< SMALL_EPSILON);
 	      break;
-	    case CEL_TYPE_PC:
+	    case CEL_DATA_PCLASS:
 	      stack[si].SetBool (ArgToPClass (ela) == ArgToPClass (elb));
 	      break;
-	    case CEL_TYPE_ID:
+	    case CEL_DATA_ID:
 	      stack[si].SetBool (ArgToID (ela) == ArgToID (elb));
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      {
 	        csColor c1 = ArgToColor (ela);
 	        csColor c2 = ArgToColor (elb);
@@ -1015,7 +999,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        		   ABS (c1.blue-c2.blue) < SMALL_EPSILON);
 	      }
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (!strcmp (ArgToString (ela),
 	      	ArgToString (elb)));
 	      break;
@@ -1035,16 +1019,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ArgToFloat (ela) < ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) < ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) < ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (strcmp (ArgToString (ela),
 	      	ArgToString (elb)) < 0);
 	      break;
@@ -1064,16 +1048,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ArgToFloat (ela) <= ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) <= ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) <= ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (strcmp (ArgToString (ela),
 	      	ArgToString (elb)) <= 0);
 	      break;
@@ -1093,16 +1077,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ArgToFloat (ela) > ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) > ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) > ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (strcmp (ArgToString (ela),
 	      	ArgToString (elb)) > 0);
 	      break;
@@ -1122,16 +1106,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
 	  {
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      stack[si].SetBool (ArgToFloat (ela) >= ArgToFloat (elb));
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      stack[si].SetBool (ArgToInt32 (ela) >= ArgToInt32 (elb));
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      stack[si].SetBool (ArgToUInt32 (ela) >= ArgToUInt32 (elb));
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      stack[si].SetBool (strcmp (ArgToString (ela),
 	      	ArgToString (elb)) >= 0);
 	      break;
@@ -1155,6 +1139,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int si = stack.Push (celXmlArg ());
 	  switch (props->GetPropertyType (idx))
 	  {
+	    case CEL_DATA_ULONG:
+	      {
+		long l = props->GetPropertyLong (idx);
+		stack[si].SetUInt32 ((uint32)l);
+	      }
+	      break;
 	    case CEL_DATA_LONG:
 	      {
 		long l = props->GetPropertyLong (idx);
@@ -1247,6 +1237,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 		long l = props->GetPropertyLong (idx);
 		stack[si].SetInt32 (l);
+	      }
+	      break;
+	    case CEL_DATA_ULONG:
+	      {
+		long l = props->GetPropertyLong (idx);
+		stack[si].SetUInt32 ((uint32)l);
 	      }
 	      break;
 	    case CEL_DATA_FLOAT:
@@ -1373,13 +1369,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (bbmgr->TestCollision (bb->GetBillboard (),
 	  	other_bb->GetBillboard ()))
 	  {
-	    celXmlScriptEventHandler* truebranch = args[0].arg.h;
+	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	    if (truebranch)
 	      truebranch->Execute (entity, behave);
 	  }
 	  else
 	  {
-	    celXmlScriptEventHandler* falsebranch = args[1].arg.h;
+	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
 	    if (falsebranch)
 	      falsebranch->Execute (entity, behave);
 	  }
@@ -1403,7 +1399,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 start = ArgToInt32 (a_start);
 	  int32 end = ArgToInt32 (a_end);
 	  int32 v;
-	  celXmlScriptEventHandler* truebranch = op.arg.arg.h;
+	  celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	  CS_ASSERT (truebranch != 0);
 	  for (v = start ; v <= end ; v++)
 	  {
@@ -1420,32 +1416,32 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  bool rc = false;
 	  switch (eval.type)
 	  {
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      {
 	        const char* s = ArgToString (eval);
 	        rc = s ? *s != 0 : false;
 	      }
 	      break;
-	    case CEL_TYPE_PC:
+	    case CEL_DATA_PCLASS:
 	      rc = ArgToPClass (eval) != 0;
 	      break;
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      rc = ArgToBool (eval);
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      {
 	        csVector2 v = ArgToVector2 (eval);
 		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
 	      }
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 v = ArgToVector3 (eval);
 		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
 			ABS (v.z) >= SMALL_EPSILON;
 	      }
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      {
 	        csColor v = ArgToColor (eval);
 		rc = ABS (v.red) >= SMALL_EPSILON ||
@@ -1453,16 +1449,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 			ABS (v.blue) >= SMALL_EPSILON;
 	      }
 	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      {
 	        float f = ArgToFloat (eval);
 	        rc = ABS (f) >= SMALL_EPSILON;
 	      }
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      rc = ArgToInt32 (eval) != 0;
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      rc = ArgToUInt32 (eval) != 0;
 	      break;
 	    default:
@@ -1470,13 +1466,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	  if (rc)
 	  {
-	    celXmlScriptEventHandler* truebranch = args[0].arg.h;
+	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	    if (truebranch)
 	      truebranch->Execute (entity, behave);
 	  }
 	  else
 	  {
-	    celXmlScriptEventHandler* falsebranch = args[1].arg.h;
+	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
 	    if (falsebranch)
 	      falsebranch->Execute (entity, behave);
 	  }
@@ -1535,22 +1531,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (behave, "Illegal variable name!");
 	  switch (val.type)
 	  {
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      props->SetProperty (varname, val.arg.b);
 	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      props->SetProperty (varname, val.arg.f);
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      props->SetProperty (varname, val.arg.str.s);
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      props->SetProperty (varname, (long)val.arg.ui);
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      props->SetProperty (varname, (long)val.arg.i);
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      {
 	        csColor col;
 		col.red = val.arg.col.red;
@@ -1559,7 +1555,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, col);
 	      }
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      {
 	        csVector2 vec;
 		vec.x = val.arg.vec.x;
@@ -1567,7 +1563,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, vec);
 	      }
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 vec;
 		vec.x = val.arg.vec.x;
@@ -1576,7 +1572,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, vec);
 	      }
 	      break;
-	    case CEL_TYPE_PC:
+	    case CEL_DATA_PCLASS:
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
@@ -1599,22 +1595,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (behave, "Illegal variable name!");
 	  switch (val.type)
 	  {
-	    case CEL_TYPE_BOOL:
+	    case CEL_DATA_BOOL:
 	      props->SetProperty (varname, val.arg.b);
 	      break;
-	    case CEL_TYPE_FLOAT:
+	    case CEL_DATA_FLOAT:
 	      props->SetProperty (varname, val.arg.f);
 	      break;
-	    case CEL_TYPE_STRING:
+	    case CEL_DATA_STRING:
 	      props->SetProperty (varname, val.arg.str.s);
 	      break;
-	    case CEL_TYPE_UINT32:
+	    case CEL_DATA_ULONG:
 	      props->SetProperty (varname, (long)val.arg.ui);
 	      break;
-	    case CEL_TYPE_INT32:
+	    case CEL_DATA_LONG:
 	      props->SetProperty (varname, (long)val.arg.i);
 	      break;
-	    case CEL_TYPE_COLOR:
+	    case CEL_DATA_COLOR:
 	      {
 	        csColor col;
 		col.red = val.arg.col.red;
@@ -1623,7 +1619,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, col);
 	      }
 	      break;
-	    case CEL_TYPE_VECTOR2:
+	    case CEL_DATA_VECTOR2:
 	      {
 	        csVector2 vec;
 		vec.x = val.arg.vec.x;
@@ -1631,7 +1627,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, vec);
 	      }
 	      break;
-	    case CEL_TYPE_VECTOR3:
+	    case CEL_DATA_VECTOR3:
 	      {
 	        csVector3 vec;
 		vec.x = val.arg.vec.x;
@@ -1640,7 +1636,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	        props->SetProperty (varname, vec);
 	      }
 	      break;
-	    case CEL_TYPE_PC:
+	    case CEL_DATA_PCLASS:
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
@@ -1673,6 +1669,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (pc->GetPropertyLong (id));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
@@ -1727,6 +1726,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_LONG:
 	      stack[si].SetInt32 (pc->GetPropertyLong (id));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 ((uint32)pc->GetPropertyLong (id));
 	      break;
 	    case CEL_DATA_COLOR:
 	      {
@@ -1784,6 +1786,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_LONG:
 	      pc->SetProperty (id, (long)ArgToInt32 (a_val));
 	      break;
+	    case CEL_DATA_ULONG:
+	      pc->SetProperty (id, (long)ArgToUInt32 (a_val));
+	      break;
 	    case CEL_DATA_FLOAT:
 	      pc->SetProperty (id, ArgToFloat (a_val));
 	      break;
@@ -1819,30 +1824,10 @@ void celXmlScriptEventHandler::AddOperation (int op)
   top_op.op = op;
 }
 
-celXmlArg& celXmlScriptEventHandler::AddArgument ()
+celXmlArg& celXmlScriptEventHandler::GetArgument ()
 {
   celXmlOperation& op = operations[operations.Length ()-1];
-  switch (op.arg.type)
-  {
-    case CEL_TYPE_NONE:
-      return op.arg;
-      break;
-    default:
-      {
-        celXmlArg copy (op.arg);
-	op.arg.SetArgList ();
-        csArray<celXmlArg>& args = op.arg.arg.a->args;
-	args.Push (copy);
-      }
-      // Fall through...
-    case CEL_TYPE_ARGLIST:
-      {
-        csArray<celXmlArg>& args = op.arg.arg.a->args;
-        args.Push (celXmlArg ());
-        return args[args.Length ()-1];
-      }
-      break;
-  }
+  return op.arg;
 }
 
 //---------------------------------------------------------------------------

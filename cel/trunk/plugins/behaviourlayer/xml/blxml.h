@@ -59,7 +59,7 @@ private:
 
   bool ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-	int optional_type = CEL_TYPE_NONE);
+	int optional_type = CEL_DATA_NONE);
   bool ParseExpression (const char*& input, iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* name, int stoppri);
 
