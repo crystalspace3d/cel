@@ -5,4 +5,5 @@ SubInclude TOP plugins propclass ;
 SubInclude TOP plugins persist ;
 SubInclude TOP plugins behaviourlayer ;
 SubInclude TOP plugins addons ;
+SubInclude TOP plugins managers ;
 

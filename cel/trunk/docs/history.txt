@@ -3,6 +3,18 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Nov-2003
+	- Jorrit added a new billboard manager plugin. This plugin will be
+	  responsible (when it is ready) for managing billboards. A billboard
+	  is basically a 2D image that can be moved and manipulated in other
+	  ways.
+	- Jorrit added a pcbillboard property class. This class allows one
+	  to attach billboards to an entity. It will use the billboard
+	  manager to actually create the billboards.
+	- Jorrit added all needed stuff for accessing the new billboards
+	  from python.
+	- Jorrit notes that all billboard related classes don't yet work.
+	  This is work in progress.
 20-Nov-2003
 	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
 	  layers can implement this interface in addition to iCelBlLayer.

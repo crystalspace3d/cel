@@ -10754,6 +10754,101 @@ scfQuery_iPcDynamicBody = _blcelc.scfQuery_iPcDynamicBody
 
 celQueryPC_iPcDynamicBody = _blcelc.celQueryPC_iPcDynamicBody
 
+class iBillboard(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboard, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboard, name)
+    def GetName(*args): return apply(_blcelc.iBillboard_GetName,args)
+    def GetFlags(*args): return apply(_blcelc.iBillboard_GetFlags,args)
+    def SetImage(*args): return apply(_blcelc.iBillboard_SetImage,args)
+    def GetImage(*args): return apply(_blcelc.iBillboard_GetImage,args)
+    def SetSize(*args): return apply(_blcelc.iBillboard_SetSize,args)
+    def GetSize(*args): return apply(_blcelc.iBillboard_GetSize,args)
+    def SetPosition(*args): return apply(_blcelc.iBillboard_SetPosition,args)
+    def GetPosition(*args): return apply(_blcelc.iBillboard_GetPosition,args)
+    def Move(*args): return apply(_blcelc.iBillboard_Move,args)
+    def __del__(self, destroy= _blcelc.delete_iBillboard):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iBillboard instance at %s>" % (self.this,)
+
+class iBillboardPtr(iBillboard):
+    def __init__(self,this):
+        _swig_setattr(self, iBillboard, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iBillboard, 'thisown', 0)
+        _swig_setattr(self, iBillboard,self.__class__,iBillboard)
+_blcelc.iBillboard_swigregister(iBillboardPtr)
+
+class iBillboardManager(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboardManager, name)
+    def CreateBillboard(*args): return apply(_blcelc.iBillboardManager_CreateBillboard,args)
+    def FindBillboard(*args): return apply(_blcelc.iBillboardManager_FindBillboard,args)
+    def RemoveBillboard(*args): return apply(_blcelc.iBillboardManager_RemoveBillboard,args)
+    def GetBillboardCount(*args): return apply(_blcelc.iBillboardManager_GetBillboardCount,args)
+    def GetBillboard(*args): return apply(_blcelc.iBillboardManager_GetBillboard,args)
+    def RemoveAll(*args): return apply(_blcelc.iBillboardManager_RemoveAll,args)
+    def SetFlags(*args): return apply(_blcelc.iBillboardManager_SetFlags,args)
+    def __del__(self, destroy= _blcelc.delete_iBillboardManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iBillboardManager instance at %s>" % (self.this,)
+
+class iBillboardManagerPtr(iBillboardManager):
+    def __init__(self,this):
+        _swig_setattr(self, iBillboardManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iBillboardManager, 'thisown', 0)
+        _swig_setattr(self, iBillboardManager,self.__class__,iBillboardManager)
+_blcelc.iBillboardManager_swigregister(iBillboardManagerPtr)
+
+class iPcBillboard(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcBillboard, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcBillboard, name)
+    def SetBillboardName(*args): return apply(_blcelc.iPcBillboard_SetBillboardName,args)
+    def GetBillboardName(*args): return apply(_blcelc.iPcBillboard_GetBillboardName,args)
+    def SetFilename(*args): return apply(_blcelc.iPcBillboard_SetFilename,args)
+    def GetFilename(*args): return apply(_blcelc.iPcBillboard_GetFilename,args)
+    def GetBillboard(*args): return apply(_blcelc.iPcBillboard_GetBillboard,args)
+    def __del__(self, destroy= _blcelc.delete_iPcBillboard):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPcBillboard instance at %s>" % (self.this,)
+
+class iPcBillboardPtr(iPcBillboard):
+    def __init__(self,this):
+        _swig_setattr(self, iPcBillboard, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcBillboard, 'thisown', 0)
+        _swig_setattr(self, iPcBillboard,self.__class__,iPcBillboard)
+_blcelc.iPcBillboard_swigregister(iPcBillboardPtr)
+
+celCreateBillboard = _blcelc.celCreateBillboard
+
+celGetBillboard = _blcelc.celGetBillboard
+
+scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
+
+celQueryPC_iPcBillboard = _blcelc.celQueryPC_iPcBillboard
+
 class iPcRegion(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
