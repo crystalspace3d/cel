@@ -91,6 +91,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmovable"; }
+  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -151,6 +152,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcsolid"; }
+  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -192,6 +194,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
+  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -224,6 +227,12 @@ private:
   iVirtualClock* vc;
   float weight;
 
+  // Information in order to be able to save from what the
+  // gravity collider was created.
+  bool has_gravity_collider;
+  iPcMesh* gravity_mesh;
+  csVector3 gravity_dim, gravity_offs;
+
   bool on_ground;
   csVector3 accel, speed;
   csVector3 grav_speed;
@@ -255,6 +264,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcgravity"; }
+  virtual const char* GetFactoryName () const { return "pfmove"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

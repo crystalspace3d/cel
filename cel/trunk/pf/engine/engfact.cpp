@@ -23,6 +23,7 @@
 #include "pf/engine/engfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "iutil/objreg.h"
@@ -130,17 +131,22 @@ void celPcCamera::SetEntity (iCelEntity* entity)
   celPcCamera::entity = entity;
 }
 
+#define CAMERA_SERIAL 1
+
 iCelDataBuffer* celPcCamera::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (0);
   return databuf;
 }
 
 bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != CAMERA_SERIAL) return false;
+  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 
@@ -184,17 +190,43 @@ void celPcRegion::SetEntity (iCelEntity* entity)
   celPcRegion::entity = entity;
 }
 
+#define REGION_SERIAL 1
+
 iCelDataBuffer* celPcRegion::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (REGION_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (4);
+  databuf->GetData (0)->Set (worlddir);
+  databuf->GetData (1)->Set (worldfile);
+  databuf->GetData (2)->Set (regionname);
+  databuf->GetData (3)->Set (loaded);
   return databuf;
 }
 
 bool celPcRegion::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL) return false;
+  if (databuf->GetDataCount () != 4) return false;
+  celData* cd;
+  Unload ();
+  delete[] worlddir; worlddir = NULL;
+  delete[] worldfile; worldfile = NULL;
+  delete[] regionname; regionname = NULL;
+  cd = databuf->GetData (0); if (!cd) return false;
+  worlddir = csStrNew (cd->value.s);
+  cd = databuf->GetData (1); if (!cd) return false;
+  worldfile = csStrNew (cd->value.s);
+  cd = databuf->GetData (2); if (!cd) return false;
+  regionname = csStrNew (cd->value.s);
+  cd = databuf->GetData (3); if (!cd) return false;
+  bool load = cd->value.bo;
+
+  if (load) return Load ();
+  else Unload ();
+
   return true;
 }
 

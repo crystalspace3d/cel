@@ -32,6 +32,12 @@ SCF_VERSION (iCelBehaviour, 0, 0, 1);
 struct iCelBehaviour : public iBase
 {
   /**
+   * Get the name of this behaviour (was used in the call to
+   * iCelBlLayer::CreateBehaviour()).
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */

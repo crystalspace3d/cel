@@ -75,17 +75,18 @@ private:
   iMeshWrapper* mesh;
   iObjectRegistry* object_reg;
   bool visible;
+  char* fileName;
 
   iMeshFactoryWrapper* LoadMeshFactory (const char* fileName);
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
+  void Clear ();
   void SetMesh (const char* factname, const char* filename);
   void SetMesh (iMeshWrapper* mesh);
   void CreateEmptyThing ();
   iMeshWrapper* GetMesh () { return mesh; }
-  void ClearMesh () { mesh = NULL; }
   void MoveMesh (iSector* sector, const csVector3& pos);
   void SetAction (const char* actionName);
   const char* GetAction ();
@@ -96,6 +97,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmesh"; }
+  virtual const char* GetFactoryName () const { return "pfmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -291,6 +293,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcmeshselect"; }
+  virtual const char* GetFactoryName () const { return "pfmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

@@ -122,10 +122,31 @@ struct celData
   void Set (int32 v) { Clear (); type = CEL_DATA_LONG; value.l = v; }
   void Set (uint32 v) { Clear (); type = CEL_DATA_ULONG; value.ul = v; }
   void Set (float v) { Clear (); type = CEL_DATA_FLOAT; value.f = v; }
-  void Set (const char* s) { Clear (); type = CEL_DATA_STRING; value.s = csStrNew (s); }
-  void Set (iCelPropertyClass* pc) { Clear (); type = CEL_DATA_PCLASS; value.pc = pc; }
-  void Set (iCelEntity* ent) { Clear (); type = CEL_DATA_ENTITY; value.ent = ent; }
-  void Set (iCelDataBuffer* db) { Clear (); type = CEL_DATA_BUFFER; value.db = db; db->IncRef (); }
+  void Set (const char* s)
+  {
+    Clear ();
+    type = CEL_DATA_STRING;
+    value.s = csStrNew (s);
+  }
+  void Set (iCelPropertyClass* pc)
+  {
+    Clear ();
+    type = CEL_DATA_PCLASS;
+    value.pc = pc;
+  }
+  void Set (iCelEntity* ent)
+  {
+    Clear ();
+    type = CEL_DATA_ENTITY;
+    value.ent = ent;
+  }
+  void Set (iCelDataBuffer* db)
+  {
+    Clear ();
+    type = CEL_DATA_BUFFER;
+    value.db = db;
+    db->IncRef ();
+  }
 };
 
 SCF_VERSION (iCelPersistance, 0, 0, 1);

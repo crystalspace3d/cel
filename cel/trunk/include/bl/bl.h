@@ -38,7 +38,8 @@ struct iCelBlLayer : public iBase
    * The given name is specific to the BL implementation. It can
    * be the name of a script for example.
    */
-  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name) = 0;
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
+  	const char* name) = 0;
 };
 
 #endif // __CEL_BL_BL__

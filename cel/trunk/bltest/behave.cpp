@@ -46,10 +46,12 @@ celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
   SCF_CONSTRUCT_IBASE (NULL);
   celBehaviourGeneral::entity = entity;
   celBehaviourGeneral::object_reg = object_reg;
+  name = NULL;
 }
 
 celBehaviourGeneral::~celBehaviourGeneral ()
 {
+  delete[] name;
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id, iBase* msg_info, ...)
@@ -222,7 +224,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 	  float dy = 29 + 34*float ((rand () >> 3) % 10000) / 10000.;
 	  if (((rand () >> 3) & 1) == 0) dy = -dy;
 	  printf ("%g,%g,%g\n", dx, 2.0, dy); fflush (stdout);
-	  inv_ent_gravity->ApplyForce (csVector3 (dx, 2, dy), 80);
+	  inv_ent_gravity->ApplyForce (csVector3 (dx, 40, dy), 800);
 	}
 	inv_ent_mesh->DecRef ();
       }

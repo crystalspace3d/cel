@@ -24,6 +24,7 @@
 #include "pf/mesh.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/csobject.h"
@@ -135,17 +136,63 @@ void celPcMovable::SetEntity (iCelEntity* entity)
   celPcMovable::entity = entity;
 }
 
+#define MOVABLE_SERIAL 1
+
 iCelDataBuffer* celPcMovable::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (MOVABLE_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (1+1+constraints.Length ());
+  int i, j = 0;
+  iCelPropertyClass* pc = NULL;
+  if (pcmesh) pc = SCF_QUERY_INTERFACE_FAST (pcmesh, iCelPropertyClass);
+  databuf->GetData (j++)->Set (pc);
+  if (pc) pc->DecRef ();
+  databuf->GetData (j++)->Set ((uint16)constraints.Length ());
+  for (i = 0 ; i < constraints.Length () ; i++)
+  {
+    iPcMovableConstraint* pcm = (iPcMovableConstraint*)constraints[i];
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (pcm, iCelPropertyClass);
+    databuf->GetData (j++)->Set (pc);
+    pc->DecRef ();
+  }
   return databuf;
 }
 
 bool celPcMovable::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MOVABLE_SERIAL) return false;
+  int cnt_total = databuf->GetDataCount ();
+  celData* cd;
+  RemoveAllConstraints ();
+  int i, j = 0;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  iCelPropertyClass* pc = cd->value.pc;
+  iPcMesh* pcm = NULL;
+  if (pc)
+  {
+    pcm = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+    CS_ASSERT (pcm != NULL);
+  }
+  SetMesh (pcm);
+  if (pcm) pcm->DecRef ();
+
+  cd = databuf->GetData (j++); if (!cd) return false;
+  int cnt_constraints = cd->value.uw;
+  if (cnt_total != 1+1+cnt_constraints) return false;
+
+  for (i = 0 ; i < cnt_constraints ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    iPcMovableConstraint* pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc,
+    	iPcMovableConstraint);
+    CS_ASSERT (pcm != NULL);
+    AddConstraint (pcm);
+    pcm->DecRef ();
+  }
+
   return true;
 }
 
@@ -268,17 +315,32 @@ void celPcSolid::SetEntity (iCelEntity* entity)
   celPcSolid::entity = entity;
 }
 
+#define SOLID_SERIAL 1
+
 iCelDataBuffer* celPcSolid::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (SOLID_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (1);
+  iCelPropertyClass* pc = NULL;
+  if (pcmesh) pc = SCF_QUERY_INTERFACE_FAST (pcmesh, iCelPropertyClass);
+  databuf->GetData (0)->Set (pc);
+  if (pc) pc->DecRef ();
   return databuf;
 }
 
 bool celPcSolid::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SOLID_SERIAL) return false;
+  if (databuf->GetDataCount () != 1) return false;
+  celData* cd;
+  if (collider) { collider->DecRef (); collider = NULL; }
+  cd = databuf->GetData (0); if (!cd) return false;
+  iPcMesh* pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMesh);
+  SetMesh (pcm);
+  if (pcm) pcm->DecRef ();
   return true;
 }
 
@@ -381,17 +443,22 @@ void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
   celPcMovableConstraintCD::entity = entity;
 }
 
+#define MOVABLECONST_CD_SERIAL 1
+
 iCelDataBuffer* celPcMovableConstraintCD::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (0);
   return databuf;
 }
 
 bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MOVABLECONST_CD_SERIAL) return false;
+  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 
@@ -581,6 +648,9 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   speed.Set (0, 0, 0);
   grav_speed.Set (0, 0, 0);
 
+  has_gravity_collider = false;
+  gravity_mesh = NULL;
+
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
   unsigned int trigger = CSMASK_Nothing;
@@ -606,17 +676,132 @@ void celPcGravity::SetEntity (iCelEntity* entity)
   celPcGravity::entity = entity;
 }
 
+#define GRAVITY_SERIAL 1
+
 iCelDataBuffer* celPcGravity::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (GRAVITY_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (22);
+
+  iCelPropertyClass* pc;
+  if (pcmovable) pc = SCF_QUERY_INTERFACE_FAST (pcmovable, iCelPropertyClass);
+  else pc = NULL;
+  databuf->GetData (0)->Set (pc);
+  if (pc) pc->DecRef ();
+  if (pcsolid) pc = SCF_QUERY_INTERFACE_FAST (pcsolid, iCelPropertyClass);
+  else pc = NULL;
+  databuf->GetData (1)->Set (pc);
+  if (pc) pc->DecRef ();
+
+  databuf->GetData (2)->Set (weight);
+
+  databuf->GetData (3)->Set (has_gravity_collider);
+  if (has_gravity_collider && gravity_mesh)
+    pc = SCF_QUERY_INTERFACE_FAST (gravity_mesh, iCelPropertyClass);
+  else
+    pc = NULL;
+  databuf->GetData (4)->Set (pc);
+  if (pc) pc->DecRef ();
+  databuf->GetData (5)->Set (gravity_dim.x);
+  databuf->GetData (6)->Set (gravity_dim.y);
+  databuf->GetData (7)->Set (gravity_dim.z);
+  databuf->GetData (8)->Set (gravity_offs.x);
+  databuf->GetData (9)->Set (gravity_offs.y);
+  databuf->GetData (10)->Set (gravity_offs.z);
+
+  databuf->GetData (11)->Set (on_ground);
+  databuf->GetData (12)->Set (accel.x);
+  databuf->GetData (13)->Set (accel.y);
+  databuf->GetData (14)->Set (accel.z);
+  databuf->GetData (15)->Set (speed.x);
+  databuf->GetData (16)->Set (speed.y);
+  databuf->GetData (17)->Set (speed.z);
+  databuf->GetData (18)->Set (grav_speed.x);
+  databuf->GetData (19)->Set (grav_speed.y);
+  databuf->GetData (20)->Set (grav_speed.z);
+  databuf->GetData (21)->Set (force_time);
+  
   return databuf;
 }
 
 bool celPcGravity::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != GRAVITY_SERIAL) return false;
+  if (databuf->GetDataCount () != 22) return false;
+  celData* cd;
+
+  cd = databuf->GetData (0); if (!cd) return false;
+  iPcMovable* pcm = NULL;
+  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMovable);
+  SetMovable (pcm);
+  if (pcm) pcm->DecRef ();
+
+  cd = databuf->GetData (1); if (!cd) return false;
+  iPcSolid* pcs = NULL;
+  if (cd->value.pc) pcs = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcSolid);
+  SetSolid (pcs);
+  if (pcs) pcs->DecRef ();
+
+  cd = databuf->GetData (2); if (!cd) return false;
+  weight = cd->value.f;
+
+  cd = databuf->GetData (3); if (!cd) return false;
+  has_gravity_collider = cd->value.bo;
+  gravity_mesh = NULL;
+  if (has_gravity_collider)
+  {
+    cd = databuf->GetData (4); if (!cd) return false;
+    if (cd->value.pc)
+    {
+      iPcMesh* gm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMesh);
+      CreateGravityCollider (gm);
+      gm->DecRef ();
+    }
+    else
+    {
+      cd = databuf->GetData (5); if (!cd) return false;
+      gravity_dim.x = cd->value.f;
+      cd = databuf->GetData (6); if (!cd) return false;
+      gravity_dim.y = cd->value.f;
+      cd = databuf->GetData (7); if (!cd) return false;
+      gravity_dim.z = cd->value.f;
+      cd = databuf->GetData (8); if (!cd) return false;
+      gravity_offs.x = cd->value.f;
+      cd = databuf->GetData (9); if (!cd) return false;
+      gravity_offs.y = cd->value.f;
+      cd = databuf->GetData (10); if (!cd) return false;
+      gravity_offs.z = cd->value.f;
+      CreateGravityCollider (gravity_dim, gravity_offs);
+    }
+  }
+
+  cd = databuf->GetData (11); if (!cd) return false;
+  on_ground = cd->value.bo;
+  cd = databuf->GetData (12); if (!cd) return false;
+  accel.x = cd->value.f;
+  cd = databuf->GetData (13); if (!cd) return false;
+  accel.y = cd->value.f;
+  cd = databuf->GetData (14); if (!cd) return false;
+  accel.z = cd->value.f;
+  cd = databuf->GetData (15); if (!cd) return false;
+  speed.x = cd->value.f;
+  cd = databuf->GetData (16); if (!cd) return false;
+  speed.y = cd->value.f;
+  cd = databuf->GetData (17); if (!cd) return false;
+  speed.z = cd->value.f;
+  cd = databuf->GetData (18); if (!cd) return false;
+  grav_speed.x = cd->value.f;
+  cd = databuf->GetData (19); if (!cd) return false;
+  grav_speed.y = cd->value.f;
+  cd = databuf->GetData (20); if (!cd) return false;
+  grav_speed.z = cd->value.f;
+
+  cd = databuf->GetData (21); if (!cd) return false;
+  force_time = cd->value.f;
+
   return true;
 }
 
@@ -628,6 +813,11 @@ void celPcGravity::CreateGravityCollider (iPcMesh* mesh)
 void celPcGravity::CreateGravityCollider (const csVector3& dim,
   	const csVector3& offs)
 {
+  gravity_mesh = NULL;
+  has_gravity_collider = true;
+  gravity_dim = dim;
+  gravity_offs = offs;
+
   if (gravity_collider) gravity_collider->DecRef ();
   celPolygonMeshCube* pmcube = new celPolygonMeshCube (dim, offs);
   gravity_collider = cdsys->CreateCollider (pmcube);

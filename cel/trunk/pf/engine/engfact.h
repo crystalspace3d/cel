@@ -83,6 +83,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pccamera"; }
+  virtual const char* GetFactoryName () const { return "pfengine"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();
@@ -135,6 +136,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "pcregion"; }
+  virtual const char* GetFactoryName () const { return "pfengine"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual iCelDataBuffer* Save ();

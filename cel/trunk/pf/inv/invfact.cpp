@@ -22,6 +22,7 @@
 #include "iutil/objreg.h"
 #include "pf/inv/invfact.h"
 #include "pl/pl.h"
+#include "pl/persist.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 
@@ -113,17 +114,82 @@ void celPcInventory::SetEntity (iCelEntity* entity)
   celPcInventory::entity = entity;
 }
 
+#define INVENTORY_SERIAL 1
+
 iCelDataBuffer* celPcInventory::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (INVENTORY_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (
+  	1+constraints.Length ()*5 +
+  	1+contents.Length ());
+  int i, j = 0;
+  databuf->GetData (j++)->Set ((uint16)constraints.Length ());
+  for (i = 0 ; i < constraints.Length () ; i++)
+  {
+    constraint* c = (constraint*)constraints[i];
+    databuf->GetData (j++)->Set (c->charName);
+    databuf->GetData (j++)->Set (c->minValue);
+    databuf->GetData (j++)->Set (c->maxValue);
+    databuf->GetData (j++)->Set (c->totalMaxValue);
+    databuf->GetData (j++)->Set (c->strict);
+  }
+  databuf->GetData (j++)->Set ((uint16)contents.Length ());
+  for (i = 0 ; i < constraints.Length () ; i++)
+  {
+    iCelEntity* ent = (iCelEntity*)contents[i];
+    databuf->GetData (j++)->Set (ent);
+  }
   return databuf;
 }
 
 bool celPcInventory::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != INVENTORY_SERIAL) return false;
+  int cnt_total = databuf->GetDataCount ();
+
+  RemoveAllConstraints ();
+  RemoveAll ();
+
+  celData* cd;
+  int i, j = 0;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  int cnt_constraints = cd->value.uw;
+  for (i = 0 ; i < cnt_constraints ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    constraint* c = NewConstraint (cd->value.s);
+    if (!c) return false;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->minValue = cd->value.f;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->maxValue = cd->value.f;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->totalMaxValue = cd->value.f;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->strict = cd->value.bo;
+    c->dirty = true;
+  }
+
+  cd = databuf->GetData (j++); if (!cd) return false;
+  int cnt_contents = cd->value.uw;
+  CS_ASSERT (cnt_total == 1+cnt_constraints*5 + 1+cnt_contents);
+  for (i = 0 ; i < cnt_contents ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    int idx = contents.Push (cd->value.ent);
+    iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (
+  	cd->value.ent->GetPropertyClassList (), iPcCharacteristics);
+    if (pcchar)
+    {
+      pcchar->AddToInventory (&scfiPcInventory);
+      pcchar->DecRef ();
+    }
+    cd->value.ent->IncRef ();
+  }
+
   return true;
 }
 
@@ -536,17 +602,55 @@ void celPcCharacteristics::SetEntity (iCelEntity* entity)
   celPcCharacteristics::entity = entity;
 }
 
+#define CHARACTERISTICS_SERIAL 1
+
 iCelDataBuffer* celPcCharacteristics::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (CHARACTERISTICS_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (
+  	1+chars.Length ()*4);
+  int i, j = 0;
+  databuf->GetData (j++)->Set ((uint16)chars.Length ());
+  for (i = 0 ; i < chars.Length () ; i++)
+  {
+    charact* c = (charact*)chars[i];
+    databuf->GetData (j++)->Set (c->name);
+    databuf->GetData (j++)->Set (c->value);
+    databuf->GetData (j++)->Set (c->factor);
+    databuf->GetData (j++)->Set (c->add);
+  }
   return databuf;
 }
 
 bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != CHARACTERISTICS_SERIAL) return false;
+  int cnt_total = databuf->GetDataCount ();
+
+  ClearAll ();
+
+  celData* cd;
+  int i, j = 0;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  int cnt_chars = cd->value.uw;
+  CS_ASSERT (cnt_total == 1+cnt_chars*4);
+  for (i = 0 ; i < cnt_chars ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    charact* c = new charact (); chars.Push (c);
+    c->name = csStrNew (cd->value.s);
+    if (!c) return false;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->value = cd->value.f;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->factor = cd->value.f;
+    cd = databuf->GetData (j++); if (!cd) return false;
+    c->add = cd->value.f;
+  }
+
   return true;
 }
 

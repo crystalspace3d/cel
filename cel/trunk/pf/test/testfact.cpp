@@ -22,6 +22,7 @@
 #include "pf/test/testfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/behave.h"
 
 //---------------------------------------------------------------------------
@@ -93,17 +94,22 @@ void celPcTest::SetEntity (iCelEntity* entity)
   celPcTest::entity = entity;
 }
 
+#define TEST_SERIAL 1
+
 iCelDataBuffer* celPcTest::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (TEST_SERIAL);
   pl->DecRef ();
+  databuf->SetDataCount (0);
   return databuf;
 }
 
 bool celPcTest::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TEST_SERIAL) return false;
+  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 
