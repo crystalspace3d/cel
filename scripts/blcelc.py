@@ -2233,6 +2233,35 @@ csSleep = _blcelc.csSleep
 csGetUsername = _blcelc.csGetUsername
 
 CS_REQUEST_END = _blcelc.CS_REQUEST_END
+class csPluginRequest(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPluginRequest, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPluginRequest, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csPluginRequest, 'this', apply(_blcelc.new_csPluginRequest,args))
+        _swig_setattr(self, csPluginRequest, 'thisown', 1)
+    def assign(*args): return apply(_blcelc.csPluginRequest_assign,args)
+    def __eq__(*args): return apply(_blcelc.csPluginRequest___eq__,args)
+    def __ne__(*args): return apply(_blcelc.csPluginRequest___ne__,args)
+    def GetClassName(*args): return apply(_blcelc.csPluginRequest_GetClassName,args)
+    def GetInterfaceName(*args): return apply(_blcelc.csPluginRequest_GetInterfaceName,args)
+    def GetInterfaceID(*args): return apply(_blcelc.csPluginRequest_GetInterfaceID,args)
+    def GetInterfaceVersion(*args): return apply(_blcelc.csPluginRequest_GetInterfaceVersion,args)
+    def __del__(self, destroy= _blcelc.delete_csPluginRequest):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csPluginRequest instance at %s>" % (self.this,)
+
+class csPluginRequestPtr(csPluginRequest):
+    def __init__(self,this):
+        _swig_setattr(self, csPluginRequest, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPluginRequest, 'thisown', 0)
+        _swig_setattr(self, csPluginRequest,self.__class__,csPluginRequest)
+_blcelc.csPluginRequest_swigregister(csPluginRequestPtr)
+
 class csInitializer(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csInitializer, name, value)
@@ -2260,18 +2289,16 @@ class csInitializer(_object):
     if _newclass:SetupConfigManager = staticmethod(_blcelc.csInitializer_SetupConfigManager)
     __swig_getmethods__["SetupVFS"] = lambda x: _blcelc.csInitializer_SetupVFS
     if _newclass:SetupVFS = staticmethod(_blcelc.csInitializer_SetupVFS)
+    __swig_getmethods__["_RequestPlugins"] = lambda x: _blcelc.csInitializer__RequestPlugins
+    if _newclass:_RequestPlugins = staticmethod(_blcelc.csInitializer__RequestPlugins)
     __swig_getmethods__["OpenApplication"] = lambda x: _blcelc.csInitializer_OpenApplication
     if _newclass:OpenApplication = staticmethod(_blcelc.csInitializer_OpenApplication)
     __swig_getmethods__["CloseApplication"] = lambda x: _blcelc.csInitializer_CloseApplication
     if _newclass:CloseApplication = staticmethod(_blcelc.csInitializer_CloseApplication)
     __swig_getmethods__["_SetupEventHandler"] = lambda x: _blcelc.csInitializer__SetupEventHandler
     if _newclass:_SetupEventHandler = staticmethod(_blcelc.csInitializer__SetupEventHandler)
-    __swig_getmethods__["SetupEventHandler"] = lambda x: _blcelc.csInitializer_SetupEventHandler
-    if _newclass:SetupEventHandler = staticmethod(_blcelc.csInitializer_SetupEventHandler)
     __swig_getmethods__["DestroyApplication"] = lambda x: _blcelc.csInitializer_DestroyApplication
     if _newclass:DestroyApplication = staticmethod(_blcelc.csInitializer_DestroyApplication)
-    __swig_getmethods__["_RequestPlugin"] = lambda x: _blcelc.csInitializer__RequestPlugin
-    if _newclass:_RequestPlugin = staticmethod(_blcelc.csInitializer__RequestPlugin)
     def __init__(self,*args):
         _swig_setattr(self, csInitializer, 'this', apply(_blcelc.new_csInitializer,args))
         _swig_setattr(self, csInitializer, 'thisown', 1)
@@ -2310,18 +2337,48 @@ csInitializer_SetupConfigManager = _blcelc.csInitializer_SetupConfigManager
 
 csInitializer_SetupVFS = _blcelc.csInitializer_SetupVFS
 
+csInitializer__RequestPlugins = _blcelc.csInitializer__RequestPlugins
+
 csInitializer_OpenApplication = _blcelc.csInitializer_OpenApplication
 
 csInitializer_CloseApplication = _blcelc.csInitializer_CloseApplication
 
 csInitializer__SetupEventHandler = _blcelc.csInitializer__SetupEventHandler
 
-csInitializer_SetupEventHandler = _blcelc.csInitializer_SetupEventHandler
-
 csInitializer_DestroyApplication = _blcelc.csInitializer_DestroyApplication
 
-csInitializer__RequestPlugin = _blcelc.csInitializer__RequestPlugin
 
+class csPluginRequestArray(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csPluginRequestArray, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csPluginRequestArray, name)
+    def __del__(self, destroy= _blcelc.delete_csPluginRequestArray):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self,*args):
+        _swig_setattr(self, csPluginRequestArray, 'this', apply(_blcelc.new_csPluginRequestArray,args))
+        _swig_setattr(self, csPluginRequestArray, 'thisown', 1)
+    def Length(*args): return apply(_blcelc.csPluginRequestArray_Length,args)
+    def Push(*args): return apply(_blcelc.csPluginRequestArray_Push,args)
+    def Pop(*args): return apply(_blcelc.csPluginRequestArray_Pop,args)
+    def Top(*args): return apply(_blcelc.csPluginRequestArray_Top,args)
+    def Insert(*args): return apply(_blcelc.csPluginRequestArray_Insert,args)
+    def Get(*args): return apply(_blcelc.csPluginRequestArray_Get,args)
+    def Truncate(*args): return apply(_blcelc.csPluginRequestArray_Truncate,args)
+    def Empty(*args): return apply(_blcelc.csPluginRequestArray_Empty,args)
+    def DeleteIndex(*args): return apply(_blcelc.csPluginRequestArray_DeleteIndex,args)
+    def DeleteRange(*args): return apply(_blcelc.csPluginRequestArray_DeleteRange,args)
+    def __repr__(self):
+        return "<C csPluginRequestArray instance at %s>" % (self.this,)
+
+class csPluginRequestArrayPtr(csPluginRequestArray):
+    def __init__(self,this):
+        _swig_setattr(self, csPluginRequestArray, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csPluginRequestArray, 'thisown', 0)
+        _swig_setattr(self, csPluginRequestArray,self.__class__,csPluginRequestArray)
+_blcelc.csPluginRequestArray_swigregister(csPluginRequestArrayPtr)
 
 class iAwsKey(iBase):
     __swig_setmethods__ = {}
@@ -2853,6 +2910,8 @@ class iAwsComponent(iAwsSource):
     def SetLayout(*args): return apply(_blcelc.iAwsComponent_SetLayout,args)
     def AddToLayout(*args): return apply(_blcelc.iAwsComponent_AddToLayout,args)
     def getPreferredSize(*args): return apply(_blcelc.iAwsComponent_getPreferredSize,args)
+    def setPreferredSize(*args): return apply(_blcelc.iAwsComponent_setPreferredSize,args)
+    def clearPreferredSize(*args): return apply(_blcelc.iAwsComponent_clearPreferredSize,args)
     def getMinimumSize(*args): return apply(_blcelc.iAwsComponent_getMinimumSize,args)
     def getInsets(*args): return apply(_blcelc.iAwsComponent_getInsets,args)
     def Overlaps(*args): return apply(_blcelc.iAwsComponent_Overlaps,args)
@@ -3600,6 +3659,8 @@ class iSector(iBase):
     def SetVisibilityCullerPlugin(*args): return apply(_blcelc.iSector_SetVisibilityCullerPlugin,args)
     def GetVisibilityCuller(*args): return apply(_blcelc.iSector_GetVisibilityCuller,args)
     def GetRecLevel(*args): return apply(_blcelc.iSector_GetRecLevel,args)
+    def IncRecLevel(*args): return apply(_blcelc.iSector_IncRecLevel,args)
+    def DecRecLevel(*args): return apply(_blcelc.iSector_DecRecLevel,args)
     def HitBeamPortals(*args): return apply(_blcelc.iSector_HitBeamPortals,args)
     def HitBeam(*args): return apply(_blcelc.iSector_HitBeam,args)
     def FollowSegment(*args): return apply(_blcelc.iSector_FollowSegment,args)
@@ -4727,6 +4788,7 @@ class iMeshObject(iBase):
     def SetMaterialWrapper(*args): return apply(_blcelc.iMeshObject_SetMaterialWrapper,args)
     def GetMaterialWrapper(*args): return apply(_blcelc.iMeshObject_GetMaterialWrapper,args)
     def InvalidateMaterialHandles(*args): return apply(_blcelc.iMeshObject_InvalidateMaterialHandles,args)
+    def PositionChild(*args): return apply(_blcelc.iMeshObject_PositionChild,args)
     def __del__(self, destroy= _blcelc.delete_iMeshObject):
         try:
             if self.thisown: destroy(self)
@@ -5186,6 +5248,38 @@ _blcelc.iSprite3DState_swigregister(iSprite3DStatePtr)
 iSprite3DState_scfGetVersion = _blcelc.iSprite3DState_scfGetVersion
 
 
+class iSpriteCal3DSocket(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSpriteCal3DSocket, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSpriteCal3DSocket, name)
+    def SetName(*args): return apply(_blcelc.iSpriteCal3DSocket_SetName,args)
+    def GetName(*args): return apply(_blcelc.iSpriteCal3DSocket_GetName,args)
+    def SetMeshWrapper(*args): return apply(_blcelc.iSpriteCal3DSocket_SetMeshWrapper,args)
+    def GetMeshWrapper(*args): return apply(_blcelc.iSpriteCal3DSocket_GetMeshWrapper,args)
+    def SetTriangleIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_SetTriangleIndex,args)
+    def GetTriangleIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_GetTriangleIndex,args)
+    def SetSubmeshIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_SetSubmeshIndex,args)
+    def GetSubmeshIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_GetSubmeshIndex,args)
+    def SetMeshIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_SetMeshIndex,args)
+    def GetMeshIndex(*args): return apply(_blcelc.iSpriteCal3DSocket_GetMeshIndex,args)
+    def __del__(self, destroy= _blcelc.delete_iSpriteCal3DSocket):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSpriteCal3DSocket instance at %s>" % (self.this,)
+
+class iSpriteCal3DSocketPtr(iSpriteCal3DSocket):
+    def __init__(self,this):
+        _swig_setattr(self, iSpriteCal3DSocket, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSpriteCal3DSocket, 'thisown', 0)
+        _swig_setattr(self, iSpriteCal3DSocket,self.__class__,iSpriteCal3DSocket)
+_blcelc.iSpriteCal3DSocket_swigregister(iSpriteCal3DSocketPtr)
+
 class iSpriteCal3DFactoryState(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -5215,6 +5309,10 @@ class iSpriteCal3DFactoryState(iBase):
     def GetMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetMorphAnimationName,args)
     def FindMorphAnimationName(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindMorphAnimationName,args)
     def IsMeshDefault(*args): return apply(_blcelc.iSpriteCal3DFactoryState_IsMeshDefault,args)
+    def AddSocket(*args): return apply(_blcelc.iSpriteCal3DFactoryState_AddSocket,args)
+    def FindSocket(*args): return apply(_blcelc.iSpriteCal3DFactoryState_FindSocket,args)
+    def GetSocketCount(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetSocketCount,args)
+    def GetSocket(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetSocket,args)
     def __del__(self, destroy= _blcelc.delete_iSpriteCal3DFactoryState):
         try:
             if self.thisown: destroy(self)
@@ -5259,6 +5357,7 @@ class iSpriteCal3DState(iBase):
     def DetachCoreMesh(*args): return apply(_blcelc.iSpriteCal3DState_DetachCoreMesh,args)
     def BlendMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_BlendMorphTarget,args)
     def ClearMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_ClearMorphTarget,args)
+    def FindSocket(*args): return apply(_blcelc.iSpriteCal3DState_FindSocket,args)
     def __del__(self, destroy= _blcelc.delete_iSpriteCal3DState):
         try:
             if self.thisown: destroy(self)
@@ -5511,6 +5610,7 @@ class iThingFactoryState(iBase):
     def GetPolygonFlags(*args): return apply(_blcelc.iThingFactoryState_GetPolygonFlags,args)
     def GetPolygonObjectPlane(*args): return apply(_blcelc.iThingFactoryState_GetPolygonObjectPlane,args)
     def IsPolygonTransparent(*args): return apply(_blcelc.iThingFactoryState_IsPolygonTransparent,args)
+    def PointOnPolygon(*args): return apply(_blcelc.iThingFactoryState_PointOnPolygon,args)
     def GetVertexCount(*args): return apply(_blcelc.iThingFactoryState_GetVertexCount,args)
     def GetVertex(*args): return apply(_blcelc.iThingFactoryState_GetVertex,args)
     def GetVertices(*args): return apply(_blcelc.iThingFactoryState_GetVertices,args)
@@ -7631,6 +7731,7 @@ CS_ZBUF_USE = _blcelc.CS_ZBUF_USE
 CS_ZBUF_FILLONLY = _blcelc.CS_ZBUF_FILLONLY
 CS_ZBUF_EQUAL = _blcelc.CS_ZBUF_EQUAL
 CS_ZBUF_INVERT = _blcelc.CS_ZBUF_INVERT
+CS_ZBUF_MESH = _blcelc.CS_ZBUF_MESH
 CS_VATTRIB_GENERIC_FIRST = _blcelc.CS_VATTRIB_GENERIC_FIRST
 CS_VATTRIB_GENERIC_LAST = _blcelc.CS_VATTRIB_GENERIC_LAST
 CS_VATTRIB_SPECIFIC_FIRST = _blcelc.CS_VATTRIB_SPECIFIC_FIRST
@@ -11169,24 +11270,23 @@ def _csInitializer_SetupEventHandler (reg, obj,
 		# assume it is a iEventHandler
 		hdlr = obj
 	return csInitializer._SetupEventHandler(reg, hdlr, mask)
+csInitializer.SetupEventHandler = staticmethod(_csInitializer_SetupEventHandler)
+
+
 def _csInitializer_RequestPlugins (reg, plugins):
-	"""Replacement of C++ version with variable argument list."""
+	"""Replacement of C++ version."""
 	def _get_tuple (x):
 		if callable(x):
 			return tuple(x())
 		else:
 			return tuple(x)
-	ok = 1
-	for plugName, intName, scfId, version in map(
+	requests = csPluginRequestArray()
+	for cls, intf, ident, ver in map(
 			lambda x: _get_tuple(x), plugins):
-		res = csInitializer._RequestPlugin(
-			reg, plugName, intName, scfId, version
-		)
-		if not res:
-			ok = 0
-	return ok
+		requests.Push(csPluginRequest(
+			csString(cls), csString(intf), ident, ver))
+	return csInitializer._RequestPlugins(reg, requests)
 csInitializer.RequestPlugins = staticmethod(_csInitializer_RequestPlugins)
-csInitializer.SetupEventHandler = staticmethod(_csInitializer_SetupEventHandler)
 
 
 _CS_QUERY_REGISTRY = _blcelc._CS_QUERY_REGISTRY
@@ -11208,6 +11308,8 @@ _CS_GET_NAMED_CHILD_OBJECT = _blcelc._CS_GET_NAMED_CHILD_OBJECT
 _CS_GET_FIRST_NAMED_CHILD_OBJECT = _blcelc._CS_GET_FIRST_NAMED_CHILD_OBJECT
 
 csReport = csReporterHelper.Report
+
+
 def _GetIntfId (intf):
 	return cvar.iSCF_SCF.GetInterfaceID(intf.__name__)
 def _GetIntfVersion (intf):
