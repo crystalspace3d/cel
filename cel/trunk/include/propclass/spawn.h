@@ -28,14 +28,9 @@ SCF_VERSION (iPcSpawn, 0, 0, 1);
 /**
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
- * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.parameter.' to get the ID):
- * <ul>
- * <li>entity
- * <li>behaviour
- * </ul>
+ * <p>
  * This property class can send out the following messages
- * to the behaviour:
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcspawn_newentity: new entity has been created (entity,behaviour)
  * </ul>

@@ -37,6 +37,7 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
 
 /**
  * This is a property class holding the representation of a mesh.
+ * <p>
  * This property class supports the following actions (add prefix
  * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
@@ -70,7 +71,7 @@ struct iPcMesh : public iBase
 
   /**
    * Convenience function to move the mesh to some sector and position
-   * and also update lighting.  If sector specified is NULL, sector
+   * and also update lighting.  If sector specified is 0, sector
    * is not updated.
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;

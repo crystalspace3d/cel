@@ -29,13 +29,10 @@ SCF_VERSION (iPcInventory, 0, 0, 1);
 
 /**
  * This is an inventory property class.
- * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.parameter.' to get the ID):
- * <ul>
- * <li>entity
- * </ul>
+ * <p>
  * This property class can send out the following messages
  * to the behaviour (possibly the behaviour of the child entity too):
+ * (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcinventory_addchild: new child will be added (entity)
  * <li>pcinventory_added: this entity is added as a new child (entity)

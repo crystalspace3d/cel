@@ -27,12 +27,14 @@ SCF_VERSION (iPcCommandInput, 0, 0, 1);
 
 /**
  * Input propery class.
+ * <p>
  * This property class supports the following actions (add prefix
  * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
  * <li>Bind: parameters 'trigger' (string) and 'command' (string).
  * </ul>
+ * <p>
  * This property class can send out the following messages
  * to the behaviour:
  * <ul>

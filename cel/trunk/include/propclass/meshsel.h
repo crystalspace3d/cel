@@ -36,16 +36,9 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 
 /**
  * This is a property class for selecting meshes.
- * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.parameter.' to get the ID):
- * <ul>
- * <li>x
- * <li>y
- * <li>button
- * <li>entity
- * </ul>
+ * <p>
  * This property class can send out the following messages
- * to the behaviour:
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcmeshsel_down: mesh is selected (x,y,button,entity)
  * <li>pcmeshsel_up: mesh is unselected (x,y,button,entity)

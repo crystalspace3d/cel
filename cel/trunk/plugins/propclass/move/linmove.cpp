@@ -69,6 +69,7 @@ extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 
+csStringID celPcLinearMovement::action_initcd = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLinearMovement)
@@ -170,8 +171,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   path_speed = 0;
   path_time  = 0;
 
-  DG_TYPE (this, "celPcLinearMovement ()");
-
   /*
    * Speed affects all aspects of movement, including gravity.
    * It's effectively a comparative rate of "time"
@@ -179,6 +178,11 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   speed = 1.0f;
 
   deltaLimit = 0;
+
+  if (action_initcd == csInvalidStringID)
+  {
+    action_initcd = pl->FetchStringID ("cel.property.InitCD");
+  }
 }
 
 celPcLinearMovement::~celPcLinearMovement ()
@@ -238,7 +242,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   shift.y = cd->value.v.y;
   shift.z = cd->value.v.z;
 
-  if (!InitCD (topSize, bottomSize, shift, NULL))
+  if (!InitCD (topSize, bottomSize, shift, 0))
     return false;
 
   cd = databuf->GetData (3);
@@ -252,6 +256,37 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   angularVelocity.z = cd->value.v.z;
 
   return true;
+}
+
+bool celPcLinearMovement::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_initcd)
+  {
+    const celData* p_body = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.body"));
+    if (!p_body) return false;
+    if (p_body->type != CEL_DATA_VECTOR3) return false;
+
+    const celData* p_legs = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.legs"));
+    if (!p_legs) return false;
+    if (p_legs->type != CEL_DATA_VECTOR3) return false;
+
+    const celData* p_offs = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.offset"));
+    if (!p_offs) return false;
+    if (p_offs->type != CEL_DATA_VECTOR3) return false;
+
+    csVector3 body (p_body->value.v.x, p_body->value.v.y, p_body->value.v.z);
+    csVector3 legs (p_legs->value.v.x, p_legs->value.v.y, p_legs->value.v.z);
+    csVector3 offs (p_offs->value.v.x, p_offs->value.v.y, p_offs->value.v.z);
+    bool rc = InitCD (body, legs, offs);
+    // @@@ Error report!
+    (void)rc;
+    return true;
+  }
+  return false;
 }
 
 static inline int FindIntersection (const csCollisionPair& cd,
