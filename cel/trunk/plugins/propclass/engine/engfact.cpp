@@ -354,7 +354,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   transitionThresholdSquared = 1.0f;
   cameraHasBeenPositioned = false;
 
-  useCameraCD = false;
+  useCameraCD = true;
 
   SetMode (iPcCamera::firstperson);
 }
@@ -643,8 +643,16 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
 
     iCamera* c = view->GetCamera ();
-    c->MoveWorld (GetPosition (iPcCamera::actual_data) -
-	c->GetTransform ().GetOrigin ());
+
+    // First set the camera back on where the sector is.
+    c->SetSector (actor_sector);
+    c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
+		    This2OtherRelative (csVector3 (0, 0, .1)));
+    //c->GetTransform ().SetOrigin (actor_pos+(GetPosition (iPcCamera::actual_data) - actor_pos).Unit () * 0.001f);
+    c->OnlyPortals (true);
+
+    // Now move it to the new position.
+    c->MoveWorld (GetPosition (iPcCamera::actual_data) - actor_pos);
     c->GetTransform ().LookAt (GetTarget (iPcCamera::actual_data) -
     	GetPosition (iPcCamera::actual_data), GetUp (iPcCamera::actual_data));
 
