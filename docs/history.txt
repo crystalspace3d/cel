@@ -4,6 +4,8 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 21-Feb-2004
 	- Norman Kraemer added --lflags directive to cel-config
+	- Norman also augmented cel.m4 to emit the CEL.LFLAGS variable
+	  containing the linker flags to link all public cel libraries.
 19-Feb-2004
 	- Norman Kraemer modified Jamfile to fix reference of a non existent
 	  variable (PACKAGE.VERSION instead of PACKAGE_VERSION).
