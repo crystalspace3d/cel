@@ -1,45 +1,3 @@
-24-Oct-2001:
-	- Added the very first code for CEL. Today I added:
-	    - The include files for PL and BL. These are SCF interfaces.
-	    - The start of PLIMP which is the implementation of the PL.
-	    - The start of CELTEST which is a test application for CEL.
-	  The test application works (i.e. it opens a CS window) but other
-	  than that there is nothing functional yet.
-	- Fixed a bug in factory definition of 'plimp'.
-	- Started work on 'bltest'.
-26-Oct-2001:
-	- Added iCelPropertyClassFactory interface. A property class
-	  factory is responsible for creation of property classes. Every
-	  factory will handle a number of property class types.
-	- Extended iCelPlLayer with a number of methods to register and
-	  query property class factories.
-	- Added include/pf dir which will contain public SCF interfaces
-	  for specific property class factories. Added include/pf/test.h
-	  which will be a test interface for our test property class
-	  factory.
-	- Added 'pf/test' dir which will contain the implementation of the
-	  'test' factory. This resuls in the third plugin.
-	- Added temporary code to celtest so the plugins of CEL are registered.
-	  In the (near) future we will define a better solution for this
-	  problem on the CS side (removal of scf.cfg).
-	- 'celtest' now loads the three CEL plugins (plimp, bltest, and
-	  pftest) and uses them. It all seems to work nicely but there is
-	  no real functionality yet.
-	- Added 'name' parameter to iCelBlLayer::CreateBlEntity().
-	- Started adding support for 'printer' behaviour entity in 'bltest'.
-27-Oct-2001:
-	- Updated csconfig.mak with entries for linux. Uncomment the
-	  entries suitable for your system.
-	- Changed the executable name for celtest to celtst. Otherwise
-	  it would be the same as the directory name on linux.
-	- Implemented first bl entity in 'bltest'. No functionality yet.
-	- Added definition of iCelMessage.
-	- Added iCelPlLayer::CreateMessage().
-	- Added implementation of iCelMessage to plimp. Unfinished.
-	- Changed iCelBlEntity so that targetted messages to an entity
-	  no longer use iCelMessage but directly pass the information
-	  to the bl entity.
-	- Further work on bltest and celtest. A message is now printed.
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object
@@ -61,4 +19,46 @@
 	  We also still have to define hierarchical constraints (i.e. for
 	  nested inventories).
 	- Philip Wyett created/added MSVC project files for the CEL project.
+27-Oct-2001:
+	- Updated csconfig.mak with entries for linux. Uncomment the
+	  entries suitable for your system.
+	- Changed the executable name for celtest to celtst. Otherwise
+	  it would be the same as the directory name on linux.
+	- Implemented first bl entity in 'bltest'. No functionality yet.
+	- Added definition of iCelMessage.
+	- Added iCelPlLayer::CreateMessage().
+	- Added implementation of iCelMessage to plimp. Unfinished.
+	- Changed iCelBlEntity so that targetted messages to an entity
+	  no longer use iCelMessage but directly pass the information
+	  to the bl entity.
+	- Further work on bltest and celtest. A message is now printed.
+26-Oct-2001:
+	- Added iCelPropertyClassFactory interface. A property class
+	  factory is responsible for creation of property classes. Every
+	  factory will handle a number of property class types.
+	- Extended iCelPlLayer with a number of methods to register and
+	  query property class factories.
+	- Added include/pf dir which will contain public SCF interfaces
+	  for specific property class factories. Added include/pf/test.h
+	  which will be a test interface for our test property class
+	  factory.
+	- Added 'pf/test' dir which will contain the implementation of the
+	  'test' factory. This resuls in the third plugin.
+	- Added temporary code to celtest so the plugins of CEL are registered.
+	  In the (near) future we will define a better solution for this
+	  problem on the CS side (removal of scf.cfg).
+	- 'celtest' now loads the three CEL plugins (plimp, bltest, and
+	  pftest) and uses them. It all seems to work nicely but there is
+	  no real functionality yet.
+	- Added 'name' parameter to iCelBlLayer::CreateBlEntity().
+	- Started adding support for 'printer' behaviour entity in 'bltest'.
+24-Oct-2001:
+	- Added the very first code for CEL. Today I added:
+	    - The include files for PL and BL. These are SCF interfaces.
+	    - The start of PLIMP which is the implementation of the PL.
+	    - The start of CELTEST which is a test application for CEL.
+	  The test application works (i.e. it opens a CS window) but other
+	  than that there is nothing functional yet.
+	- Fixed a bug in factory definition of 'plimp'.
+	- Started work on 'bltest'.
 
