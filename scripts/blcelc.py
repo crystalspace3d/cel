@@ -3392,6 +3392,9 @@ iFrustumView_scfGetVersion = _blcelc.iFrustumView_scfGetVersion
 
 CS_LIGHT_THINGSHADOWS = _blcelc.CS_LIGHT_THINGSHADOWS
 CS_LIGHT_ACTIVEHALO = _blcelc.CS_LIGHT_ACTIVEHALO
+CS_LIGHT_DYNAMICTYPE_STATIC = _blcelc.CS_LIGHT_DYNAMICTYPE_STATIC
+CS_LIGHT_DYNAMICTYPE_PSEUDO = _blcelc.CS_LIGHT_DYNAMICTYPE_PSEUDO
+CS_LIGHT_DYNAMICTYPE_DYNAMIC = _blcelc.CS_LIGHT_DYNAMICTYPE_DYNAMIC
 CS_DEFAULT_LIGHT_LEVEL = _blcelc.CS_DEFAULT_LIGHT_LEVEL
 CS_NORMAL_LIGHT_LEVEL = _blcelc.CS_NORMAL_LIGHT_LEVEL
 CS_ATTN_NONE = _blcelc.CS_ATTN_NONE
@@ -3436,13 +3439,13 @@ class iLight(iBase):
     def GetPrivateObject(*args): return apply(_blcelc.iLight_GetPrivateObject,args)
     def GetLightID(*args): return apply(_blcelc.iLight_GetLightID,args)
     def QueryObject(*args): return apply(_blcelc.iLight_QueryObject,args)
+    def GetDynamicType(*args): return apply(_blcelc.iLight_GetDynamicType,args)
     def GetCenter(*args): return apply(_blcelc.iLight_GetCenter,args)
     def SetCenter(*args): return apply(_blcelc.iLight_SetCenter,args)
     def GetSector(*args): return apply(_blcelc.iLight_GetSector,args)
     def SetSector(*args): return apply(_blcelc.iLight_SetSector,args)
     def GetColor(*args): return apply(_blcelc.iLight_GetColor,args)
     def SetColor(*args): return apply(_blcelc.iLight_SetColor,args)
-    def IsDynamic(*args): return apply(_blcelc.iLight_IsDynamic,args)
     def GetInfluenceRadius(*args): return apply(_blcelc.iLight_GetInfluenceRadius,args)
     def GetInfluenceRadiusSq(*args): return apply(_blcelc.iLight_GetInfluenceRadiusSq,args)
     def SetInfluenceRadius(*args): return apply(_blcelc.iLight_SetInfluenceRadius,args)
@@ -3462,6 +3465,10 @@ class iLight(iBase):
     def GetLightCallbackCount(*args): return apply(_blcelc.iLight_GetLightCallbackCount,args)
     def GetLightCallback(*args): return apply(_blcelc.iLight_GetLightCallback,args)
     def GetLightNumber(*args): return apply(_blcelc.iLight_GetLightNumber,args)
+    def AddAffectedLightingInfo(*args): return apply(_blcelc.iLight_AddAffectedLightingInfo,args)
+    def RemoveAffectedLightingInfo(*args): return apply(_blcelc.iLight_RemoveAffectedLightingInfo,args)
+    def Setup(*args): return apply(_blcelc.iLight_Setup,args)
+    def GetNext(*args): return apply(_blcelc.iLight_GetNext,args)
     def __del__(self, destroy= _blcelc.delete_iLight):
         try:
             if self.thisown: destroy(self)
@@ -3588,36 +3595,6 @@ class iLightIteratorPtr(iLightIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLightIterator, 'thisown', 0)
         _swig_setattr(self, iLightIterator,self.__class__,iLightIterator)
 _blcelc.iLightIterator_swigregister(iLightIteratorPtr)
-
-class iStatLight(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iStatLight, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iStatLight, name)
-    def GetPrivateObject(*args): return apply(_blcelc.iStatLight_GetPrivateObject,args)
-    def QueryObject(*args): return apply(_blcelc.iStatLight_QueryObject,args)
-    def QueryLight(*args): return apply(_blcelc.iStatLight_QueryLight,args)
-    def AddAffectedLightingInfo(*args): return apply(_blcelc.iStatLight_AddAffectedLightingInfo,args)
-    def __del__(self, destroy= _blcelc.delete_iStatLight):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iStatLight_scfGetVersion
-    if _newclass:scfGetVersion = staticmethod(_blcelc.iStatLight_scfGetVersion)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iStatLight instance at %s>" % (self.this,)
-
-class iStatLightPtr(iStatLight):
-    def __init__(self,this):
-        _swig_setattr(self, iStatLight, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iStatLight, 'thisown', 0)
-        _swig_setattr(self, iStatLight,self.__class__,iStatLight)
-_blcelc.iStatLight_swigregister(iStatLightPtr)
-iStatLight_scfGetVersion = _blcelc.iStatLight_scfGetVersion
-
 
 class iSectorCallback(iBase):
     __swig_setmethods__ = {}
@@ -3839,9 +3816,6 @@ class iEngine(iBase):
     def FindLight(*args): return apply(_blcelc.iEngine_FindLight,args)
     def FindLightID(*args): return apply(_blcelc.iEngine_FindLightID,args)
     def GetLightIterator(*args): return apply(_blcelc.iEngine_GetLightIterator,args)
-    def CreateDynLight(*args): return apply(_blcelc.iEngine_CreateDynLight,args)
-    def RemoveDynLight(*args): return apply(_blcelc.iEngine_RemoveDynLight,args)
-    def GetFirstDynLight(*args): return apply(_blcelc.iEngine_GetFirstDynLight,args)
     def GetBeginDrawFlags(*args): return apply(_blcelc.iEngine_GetBeginDrawFlags,args)
     def GetTopLevelClipper(*args): return apply(_blcelc.iEngine_GetTopLevelClipper,args)
     def CreateMeshFactory(*args): return apply(_blcelc.iEngine_CreateMeshFactory,args)
@@ -5365,6 +5339,8 @@ class iSpriteCal3DState(iBase):
     def ClearMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_ClearMorphTarget,args)
     def FindSocket(*args): return apply(_blcelc.iSpriteCal3DState_FindSocket,args)
     def SetMaterial(*args): return apply(_blcelc.iSpriteCal3DState_SetMaterial,args)
+    def SetTimeFactor(*args): return apply(_blcelc.iSpriteCal3DState_SetTimeFactor,args)
+    def GetTimeFactor(*args): return apply(_blcelc.iSpriteCal3DState_GetTimeFactor,args)
     def __del__(self, destroy= _blcelc.delete_iSpriteCal3DState):
         try:
             if self.thisown: destroy(self)
@@ -7739,6 +7715,7 @@ CS_ZBUF_FILLONLY = _blcelc.CS_ZBUF_FILLONLY
 CS_ZBUF_EQUAL = _blcelc.CS_ZBUF_EQUAL
 CS_ZBUF_INVERT = _blcelc.CS_ZBUF_INVERT
 CS_ZBUF_MESH = _blcelc.CS_ZBUF_MESH
+CS_ZBUF_MESH2 = _blcelc.CS_ZBUF_MESH2
 CS_VATTRIB_GENERIC_FIRST = _blcelc.CS_VATTRIB_GENERIC_FIRST
 CS_VATTRIB_GENERIC_LAST = _blcelc.CS_VATTRIB_GENERIC_LAST
 CS_VATTRIB_SPECIFIC_FIRST = _blcelc.CS_VATTRIB_SPECIFIC_FIRST
@@ -8373,6 +8350,7 @@ class iGraphics3D(iBase):
     def CreatePolygonRenderer(*args): return apply(_blcelc.iGraphics3D_CreatePolygonRenderer,args)
     def SetWorldToCamera(*args): return apply(_blcelc.iGraphics3D_SetWorldToCamera,args)
     def DrawSimpleMesh(*args): return apply(_blcelc.iGraphics3D_DrawSimpleMesh,args)
+    def GetZMode(*args): return apply(_blcelc.iGraphics3D_GetZMode,args)
     def __del__(self, destroy= _blcelc.delete_iGraphics3D):
         try:
             if self.thisown: destroy(self)
