@@ -57,6 +57,7 @@
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to CEL root.
 copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -118,6 +119,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to CEL root.
 copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\propclass\move\pfmove.csplugin&quot;  ..
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -134,7 +136,7 @@ copy &quot;$(TargetPath)&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
+				<Filter
 			Name="Header Files"
 			Filter="">
 			<File
@@ -143,6 +145,21 @@ copy &quot;$(TargetPath)&quot;  ..
 			<File
 				RelativePath="..\plugins\propclass\move\movefact.h">
 			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\navgraph.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\navgraphrulesfps.h">
+			</File>
+
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\move\pfmove.csplugin">
+			</File>
+
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -152,23 +169,16 @@ copy &quot;$(TargetPath)&quot;  ..
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\movefact.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
+				RelativePath="..\plugins\propclass\move\navgraph.cpp">
 			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\navgraphrulesfps.cpp">
+			</File>
+
 		</Filter>
+
 	</Files>
 	<Globals>
 	</Globals>

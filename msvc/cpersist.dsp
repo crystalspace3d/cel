@@ -42,8 +42,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\cpersist"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CPERSIST_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /I "..\include" /I "..\\" /D "NDEBUG" /D "_MT" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /I "..\\" /D "NDEBUG" /D "_WINDOWS" /D "_MT" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\cpersist\cpersist.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\persist\classic\cpersist.csplugin  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "cpersist - Win32 Debug"
@@ -74,7 +74,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Intermediate_Dir "debug\temp\cpersist"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CPERSIST_EXPORTS" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\include" /I "..\\" /I "..\..\CS\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -89,7 +89,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\debug\temp\cpersist\cpersist.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\persist\classic\cpersist.csplugin  ..
 # End Special Build Tool
 
 !ENDIF 
@@ -98,13 +98,23 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 # Name "cpersist - Win32 Release"
 # Name "cpersist - Win32 Debug"
-# Begin Group "Header FIles"
+# Begin Group "Header Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=..\plugins\persist\classic\cpersist.h
 # End Source File
+
+# End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\persist\classic\cpersist.csplugin
+# End Source File
+
 # End Group
 # Begin Group "Source Files"
 
@@ -113,14 +123,8 @@ SOURCE=..\plugins\persist\classic\cpersist.h
 
 SOURCE=..\plugins\persist\classic\cpersist.cpp
 # End Source File
-# End Group
-# Begin Group "Resource Files"
 
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\cpersist.rc
-# End Source File
 # End Group
+
 # End Target
 # End Project

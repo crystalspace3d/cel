@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\pfmove\pfmove.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\move\pfmove.csplugin  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pfmove - Win32 Debug"
@@ -89,7 +89,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\debug\temp\pfmove\pfmove.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\move\pfmove.csplugin  ..
 # End Special Build Tool
 
 !ENDIF 
@@ -103,28 +103,52 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\move\linmove.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\move\movefact.h
 # End Source File
-# End Group
-# Begin Group "Source Files"
-
-# PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\move\movefact.cpp
+SOURCE=..\plugins\propclass\move\navgraph.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\common\stdpcimp.cpp
+SOURCE=..\plugins\propclass\move\navgraphrulesfps.h
 # End Source File
+
 # End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\pfmove.rc
+SOURCE=..\plugins\propclass\move\pfmove.csplugin
 # End Source File
+
 # End Group
+# Begin Group "Source Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\linmove.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\movefact.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\navgraph.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\navgraphrulesfps.cpp
+# End Source File
+
+# End Group
+
 # End Target
 # End Project

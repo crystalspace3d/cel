@@ -1,7 +1,6 @@
 SubDir TOP apps celtest ;
 
 Application celtst
-	: celtest.cpp
+	: [ Wildcard *.cpp *.h ]
 ;
 CFlags celtst : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-

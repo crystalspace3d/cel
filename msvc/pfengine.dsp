@@ -42,8 +42,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "release\temp\pfengine"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFENGINE_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /I "..\\" /D "NDEBUG" /D "_MT" /D "_WINDOWS" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /I "..\\" /D "NDEBUG" /D "_WINDOWS" /D "_MT" /D "WIN32" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\pfengine\pfengine.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\engine\pfengine.csplugin  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pfengine - Win32 Debug"
@@ -74,7 +74,7 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # PROP Intermediate_Dir "debug\temp\pfengine"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFENGINE_EXPORTS" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PFMOVE_EXPORTS" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\include" /I "..\\" /I "..\..\CS\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "WIN32_VOLATILE" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -89,7 +89,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\debug\temp\pfengine\pfengine.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\plugins\propclass\engine\pfengine.csplugin  ..
 # End Special Build Tool
 
 !ENDIF 
@@ -105,6 +105,16 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 
 SOURCE=..\plugins\propclass\engine\engfact.h
 # End Source File
+
+# End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\engine\pfengine.csplugin
+# End Source File
+
 # End Group
 # Begin Group "Source Files"
 
@@ -113,18 +123,8 @@ SOURCE=..\plugins\propclass\engine\engfact.h
 
 SOURCE=..\plugins\propclass\engine\engfact.cpp
 # End Source File
-# Begin Source File
 
-SOURCE=..\plugins\propclass\common\stdpcimp.cpp
-# End Source File
 # End Group
-# Begin Group "Resource Files"
 
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\pfengine.rc
-# End Source File
-# End Group
 # End Target
 # End Project

@@ -142,11 +142,11 @@ CS_EMIT_PACKAGEINFO([jam])
 CS_JAMCONFIG_PROPERTY([JAMCONFIG_READ], [yes])
 CS_JAMCONFIG_OUTPUT([Jamconfig])
 CS_INIT_JAMFILE
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
                                                                                 
 AC_MSG_NOTICE([
-                                                                                
-Please note that this project uses jam as build tool.
-So you have to type 'jam' now.
+Please note that this project uses Jam as its preferred build tool,
+so you can type 'jam' to build it.  (Building the project with GNU
+'make' is also supported, though deprecated.)
 ])
-

@@ -17,6 +17,30 @@ The history order is reversed so that new features are at the top.
 	  works with pcregion and other users of pcsolid.
 	- Jorrit extended smallgame to use pclinmove correctly. Still a few
 	  bugs here and there.
+	- Eric Sunshine made the following changes (100% untested):
+	    - Added msvcgen facility to project.  It is now possible to
+	      generate MSVC6 and MSVC7 project files in an automated fashion by
+	      invoking the new `msvcgen' Makefile target.
+	    - Moved the .csplugin files out of the root directory and into the
+	      specific plugin directory where each one belongs.  Having them in
+	      the root directory was incorrect.
+	    - Upgraded the makefile so that it copies the .csplugin files
+	      alongside the .dll/.so file at build time.
+	    - Upgraded the MSVC project files so that they copy the .csplugin
+	      files alongside the .dll.
+	    - Upgraded Makefile so that it is possible to build the project
+	      outside of the source directory.  (This was already possible with
+	      the Jam build system.)
+	    - Removed Makefile and replaced it with Makefile.in.  Makefile is
+	      now generated at configure time.
+	    - Fixed clean targets in Makefile and Jamfile to be more thorough.
+	      Added distclean target.  (This target, in both Makefile and
+	      Jamfile, still misses at least one file, though: the Jamfile
+	      hack which is created when building outside the source directory.
+	      I don't care for this hack, and would prefer to create Jamfile
+	      from Jamfile.in at configure time, but Matze prefers the hack, so
+	      I left it alone.)
+	    - Fixed formatting of .csplugin files.
 6-Jul-2003
 	- Jorrit fixed the problem with GetPythonObject(). It now calls
 	  Py_INCREF() on the returned python object so that it is

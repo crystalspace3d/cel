@@ -57,6 +57,7 @@
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to CEL root.
 copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\propclass\mesh\pfmesh.csplugin&quot;  ..
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -118,6 +119,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to CEL root.
 copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\plugins\propclass\mesh\pfmesh.csplugin&quot;  ..
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -134,47 +136,31 @@ copy &quot;$(TargetPath)&quot;  ..
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
+				<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\propclass\mesh\meshfact.h">
 			</File>
+
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\mesh\pfmesh.csplugin">
+			</File>
+
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\propclass\mesh\meshfact.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-			</File>
+
 		</Filter>
+
 	</Files>
 	<Globals>
 	</Globals>
