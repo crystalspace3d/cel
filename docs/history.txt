@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Aug-2003
+	- Keith committed patch by Ondrej Hurt to improve key binding
+	  handling.
 3-Aug-2003
 	- Jorrit removed various usages of csVector.
 2-Aug-2003
