@@ -296,7 +296,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-  virtual bool PerformAction (csStringID, const char*);
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
 
   struct PcRegion : public iPcRegion
   {

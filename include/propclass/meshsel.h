@@ -37,7 +37,7 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 /**
  * This is a property class for selecting meshes.
  * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.behaviour.parameter.' to get the ID):
+ * parameters (add prefix 'cel.parameter.' to get the ID):
  * <ul>
  * <li>x
  * <li>y

@@ -519,10 +519,10 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   if (id_x == csInvalidStringID)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    id_x = pl->FetchStringID ("cel.behaviour.parameter.x");
-    id_y = pl->FetchStringID ("cel.behaviour.parameter.y");
-    id_button = pl->FetchStringID ("cel.behaviour.parameter.button");
-    id_entity = pl->FetchStringID ("cel.behaviour.parameter.entity");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_button = pl->FetchStringID ("cel.parameter.button");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
   }
   params = new celGenericParameterBlock (4);
   params->SetParameterDef (0, id_x, "x", CEL_DATA_LONG);

@@ -139,6 +139,7 @@ public:
 class celPcTimer : public celPcCommon
 {
 private:
+  csRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   bool enabled;
   csTicks wakeup, wakeup_todo;
@@ -167,7 +168,7 @@ public:
   virtual const char* GetName () const { return "pctimer"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, const char* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcTimer : public iPcTimer
   {

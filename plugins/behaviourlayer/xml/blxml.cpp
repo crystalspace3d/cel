@@ -51,6 +51,7 @@ enum
 {
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
+  XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_IF,
   XMLTOKEN_FOR,
@@ -115,6 +116,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
+  xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("for", XMLTOKEN_FOR);
@@ -392,7 +394,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	{
 	  const char* prefix;
 	  if (fun_id == XMLFUNCTION_PARID)
-	    prefix = "cel.behaviour.parameter.";
+	    prefix = "cel.parameter.";
 	  else if (fun_id == XMLFUNCTION_PROPID)
 	    prefix = "cel.property.";
 	  else
@@ -909,12 +911,37 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_ACTION:
         {
+	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+	  uint32 cnt = 0;
+	  while (child_it->HasNext ())
+	  {
+	    csRef<iDocumentNode> c = child_it->Next ();
+	    if (c->GetType () != CS_NODE_ELEMENT) continue;
+	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_PAR) cnt++;
+	    else synldr->ReportBadToken (c);
+	  }
+	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+	  h->GetArgument ().SetUInt32 (cnt);
+
+	  child_it = child->GetNodes ();
+	  cnt = 0;
+	  while (child_it->HasNext ())
+	  {
+	    csRef<iDocumentNode> c = child_it->Next ();
+	    if (c->GetType () != CS_NODE_ELEMENT) continue;
+            if (!ParseExpression (c, h, "id", "action/par"))
+	      return false;
+            if (!ParseExpression (c, h, "value", "action/par"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	    h->GetArgument ().SetUInt32 (cnt);
+	    cnt++;
+	  }
+
           if (!ParseExpression (child, h, "propclass", "action",
 	  	CEL_DATA_PCLASS))
 	    return false;
           if (!ParseExpression (child, h, "id", "action"))
-	    return false;
-          if (!ParseExpression (child, h, "params", "action", CEL_DATA_STRING))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_ACTION);
 	}

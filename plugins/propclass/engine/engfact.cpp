@@ -662,14 +662,15 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_regionname].desc = "Name of this region.";
 
     properties[propid_load].id = pl->FetchStringID (
-    	"cel.action.load");
+    	"cel.property.Load");
     properties[propid_load].datatype = CEL_DATA_ACTION;
     properties[propid_load].readonly = true;
     properties[propid_load].desc = "Load the map.\nNo parameters";
   }
 }
 
-bool celPcRegion::PerformAction (csStringID actionId, const char* params)
+bool celPcRegion::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
 {
   if (actionId == properties[propid_load].id)
   {

@@ -226,16 +226,14 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (action_wakeup == csInvalidStringID)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     action_wakeup = pl->FetchStringID ("cel.property.WakeUp");
     action_wakeupframe = pl->FetchStringID ("cel.property.WakeUpFrame");
     action_clear = pl->FetchStringID ("cel.property.Clear");
-    id_elapsedticks = pl->FetchStringID (
-    	"cel.behaviour.parameter.elapsedticks");
-    id_currentticks = pl->FetchStringID (
-    	"cel.behaviour.parameter.currentticks");
+    id_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
+    id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
   }
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_elapsedticks, "elapsedticks", CEL_DATA_LONG);
@@ -253,14 +251,22 @@ celPcTimer::~celPcTimer ()
   }
 }
 
-bool celPcTimer::PerformAction (csStringID actionId, const char* params)
+bool celPcTimer::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
 {
   if (actionId == action_wakeup)
   {
-    csTicks t;
-    int repeat;
-    csScanStr (params, "%d,%d", &t, &repeat);
-    WakeUp (t, bool (repeat));
+    const celData* p_t = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.time"));
+    if (!p_t) return false;
+    if (p_t->type != CEL_DATA_LONG) return false;
+    const celData* p_repeat = params->GetParameter (pl->FetchStringID (
+    	"cel.parameter.repeat"));
+    if (!p_repeat) return false;
+    if (p_repeat->type != CEL_DATA_BOOL) return false;
+    csTicks t = p_t->value.l;
+    bool repeat = p_repeat->value.bo;
+    WakeUp (t, repeat);
     return true;
   }
   else if (actionId == action_wakeupframe)
@@ -414,7 +420,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 
   if (id_index == csInvalidStringID)
   {
-    id_index = pl->FetchStringID ("cel.behaviour.parameter.index");
+    id_index = pl->FetchStringID ("cel.parameter.index");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_index, "index", CEL_DATA_LONG);

@@ -33,6 +33,12 @@ SCF_VERSION (iPcGravity, 0, 0, 1);
 
 /**
  * Gravity handling property class.
+ * This property class supports the following actions (add prefix
+ * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>ApplyPermanentForce: parameters 'force' (csVector3).
+ * </ul>
  */
 struct iPcGravity : public iBase
 {

@@ -25,17 +25,18 @@
 #include "csutil/strset.h"
 #include "csutil/ref.h"
 #include "physicallayer/datatype.h"
-class csVector3;
-class csColor;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
   csPtr<Interface> (							    \
   (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
 	(#Interface), scfInterface<Interface>::GetVersion())))
 
+class csVector3;
+class csColor;
 struct iCelEntity;
 struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
+struct iCelParameterBlock;
 
 SCF_VERSION (iCelPropertyClass, 0, 0, 5);
 
@@ -216,7 +217,8 @@ struct iCelPropertyClass : public iBase
   /**
    * Perform an action with a generic string parameter.
    */
-  virtual bool PerformAction (csStringID actionID, const char* params) = 0;
+  virtual bool PerformAction (csStringID actionID,
+  	iCelParameterBlock* params) = 0;
 
   /**
    * Return the number of supported properties and actions.

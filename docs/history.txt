@@ -11,6 +11,22 @@ The history order is reversed so that new features are at the top.
 	  (that directory has now been removed): mainly the common code
 	  for making property class factories and also code for making
 	  parameter blocks.
+	- Jorrit modified iCelPropertyClass->PerformAction() to take
+	  an iCelParameterBlock instance to pass the parameters instead of the
+	  old const char* pointer.
+	      - celPcRegion: PerformAction has no parameters.
+	      - celPcGravity: PerformAction takes a parameter with id
+	        'cel.parameter.force' (a vector3).
+	      - celPcTimer: PerformAction for the WakeUp action takes
+	        the parameters 'cel.parameter.time' (a long) and
+		'cel.parameter.repeat' (a bool).
+	- Jorrit replaced the prefix id for property class parameters from
+	  'cel.behaviour.parameter.' to 'cel.parameter.'. Modified the
+	  'parid()' function the XML behaviour layer accordingly.
+	- Jorrit modified the XML behaviour layer to support the new parameter
+	  system for PerformAction ('action' command). You can now supply
+	  parameters using <par id="parid(...)" value="..." /> inside
+	  the <action> block.
 10-Dec-2003
 	- Jorrit fixed the physicstest python script so that it works again
 	  (converted to the new thing API in CS).
