@@ -72,7 +72,7 @@ struct iCelPropertyClass : public iBase
    * with GetDataBuffer() and then initialized with the
    * persistent data.
    */
-  virtual void Load (iCelDataBuffer* databuf) = 0;
+  virtual bool Load (iCelDataBuffer* databuf) = 0;
 };
 
 

@@ -109,8 +109,7 @@ public:
 
   virtual void SetDataCount (int cnt)
   {
-    int i;
-    for (i = cnt ; i < data.Length () ; i++)
+    for (int i = cnt ; i < data.Length () ; i++)
     {
       celData* cd = (celData*)data[i];
       delete cd;
@@ -125,6 +124,15 @@ public:
   {
     CS_ASSERT (idx >= 0 && idx < data.Length ());
     return (celData*)data[idx];
+  }
+  virtual celData* GetData (const char* name) const
+  {
+    for (int i = 0 ; i < data.Length () ; i++)
+    {
+      celData* cd = (celData*)data[i];
+      if (cd->name && !strcmp (cd->name, name)) return cd;
+    }
+    return NULL;
   }
 };
 

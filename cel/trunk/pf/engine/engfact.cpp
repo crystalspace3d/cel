@@ -143,9 +143,10 @@ void celPcCamera::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcCamera::Load (iCelDataBuffer* databuf)
+bool celPcCamera::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 iCamera* celPcCamera::GetCamera () const
@@ -201,9 +202,10 @@ void celPcRegion::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcRegion::Load (iCelDataBuffer* databuf)
+bool celPcRegion::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcRegion::SetWorldFile (const char* vfsdir, const char* name)

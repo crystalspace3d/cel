@@ -21,6 +21,7 @@
 #define __CEL_PL_PERSIST__
 
 #include "cstypes.h"
+#include "csutil/util.h"
 
 struct iCelPropertyClass;
 struct iCelEntity;
@@ -28,6 +29,7 @@ struct iCelEntity;
 enum celDataType
 {
   CEL_DATA_NONE = 0,
+  CEL_DATA_BOOL,
   CEL_DATA_BYTE,
   CEL_DATA_WORD,
   CEL_DATA_LONG,
@@ -46,6 +48,7 @@ struct celData
   char* name;
   union
   {
+    bool bo;
     int8 b;
     uint8 ub;
     int16 w;
@@ -54,16 +57,39 @@ struct celData
     uint32 ul;
     float f;
     char* s;
-    iCelPropertyClass* pclass;
-    iCelEntity* entity;
+    iCelPropertyClass* pc;
+    iCelEntity* ent;
   } value;
 
   celData () : type (CEL_DATA_NONE), name (NULL) { }
   ~celData()
   {
+    Clear ();
+  }
+  void Clear ()
+  {
     delete[] name;
     if (type == CEL_DATA_STRING) delete[] value.s;
+    type = CEL_DATA_NONE;
   }
+  void New (const char* n)
+  {
+    delete[] name;
+    name = csStrNew (n);
+    if (type == CEL_DATA_STRING) delete[] value.s;
+    type = CEL_DATA_NONE;
+  }
+  void Set (const char* n, bool v) { New (n); type = CEL_DATA_BOOL; value.bo = v; }
+  void Set (const char* n, int8 v) { New (n); type = CEL_DATA_BYTE; value.b = v; }
+  void Set (const char* n, uint8 v) { New (n); type = CEL_DATA_UBYTE; value.ub = v; }
+  void Set (const char* n, int16 v) { New (n); type = CEL_DATA_WORD; value.w = v; }
+  void Set (const char* n, uint16 v) { New (n); type = CEL_DATA_UWORD; value.uw = v; }
+  void Set (const char* n, int32 v) { New (n); type = CEL_DATA_LONG; value.l = v; }
+  void Set (const char* n, uint32 v) { New (n); type = CEL_DATA_ULONG; value.ul = v; }
+  void Set (const char* n, float v) { New (n); type = CEL_DATA_FLOAT; value.f = v; }
+  void Set (const char* n, const char* s) { New (n); type = CEL_DATA_STRING; value.s = csStrNew (s); }
+  void Set (const char* n, iCelPropertyClass* pc) { New (n); type = CEL_DATA_PCLASS; value.pc = pc; }
+  void Set (const char* n, iCelEntity* ent) { New (n); type = CEL_DATA_ENTITY; value.ent = ent; }
 };
 
 SCF_VERSION (iCelDataBuffer, 0, 0, 1);
@@ -87,6 +113,11 @@ struct iCelDataBuffer : public iBase
    * Get a specific data entry.
    */
   virtual celData* GetData (int idx) const = 0;
+
+  /**
+   * Get a specific data entry with a name.
+   */
+  virtual celData* GetData (const char* name) const = 0;
 };
 
 SCF_VERSION (iCelPersistance, 0, 0, 1);

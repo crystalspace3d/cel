@@ -106,9 +106,10 @@ void celPcTest::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcTest::Load (iCelDataBuffer* databuf)
+bool celPcTest::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcTest::PcTest::Print (const char* msg)

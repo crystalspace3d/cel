@@ -21,6 +21,7 @@
 #include "pf/tools/toolfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/persist.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "iutil/eventq.h"
@@ -141,12 +142,50 @@ iCelDataBuffer* celPcTooltip::GetDataBuffer ()
 
 void celPcTooltip::Save (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  databuf->SetDataCount (10);
+  databuf->GetData (0)->Set ("visible", visible);
+  databuf->GetData (1)->Set ("x", (uint16)x);
+  databuf->GetData (2)->Set ("y", (uint16)y);
+  databuf->GetData (3)->Set ("text", text);
+  databuf->GetData (4)->Set ("text_r", (uint8)text_r);
+  databuf->GetData (5)->Set ("text_g", (uint8)text_g);
+  databuf->GetData (6)->Set ("text_b", (uint8)text_b);
+  databuf->GetData (7)->Set ("bg_r", (int16)bg_r);	// Room for negative.
+  databuf->GetData (8)->Set ("bg_g", (int16)bg_g);
+  databuf->GetData (9)->Set ("bg_b", (int16)bg_b);
 }
 
-void celPcTooltip::Load (iCelDataBuffer* databuf)
+#define GET_DATA(var,databuf,name,dtype,field) 		\
+	{						\
+	  celData* cd = databuf->GetData (name);	\
+	  if (!cd) return false;			\
+	  if (cd->type != dtype) return false;		\
+	  var = cd->value.field;			\
+	}
+#define GET_DATA_STRING(var,databuf,name)		\
+	{						\
+	  celData* cd = databuf->GetData (name);	\
+	  if (!cd) return false;			\
+	  if (cd->type != CEL_DATA_STRING) return false;		\
+	  delete[] var;					\
+	  var = csStrNew (cd->value.s);			\
+	}
+
+
+bool celPcTooltip::Load (iCelDataBuffer* databuf)
 {
-  (void)databuf;
+  GET_DATA (visible, databuf, "visible", CEL_DATA_BOOL, bo);
+  GET_DATA (x, databuf, "x", CEL_DATA_UWORD, uw);
+  GET_DATA (y, databuf, "y", CEL_DATA_UWORD, uw);
+  GET_DATA_STRING (text, databuf, "text");
+  GET_DATA (text_r, databuf, "text_r", CEL_DATA_UBYTE, ub);
+  GET_DATA (text_g, databuf, "text_g", CEL_DATA_UBYTE, ub);
+  GET_DATA (text_b, databuf, "text_b", CEL_DATA_UBYTE, ub);
+  GET_DATA (bg_r, databuf, "bg_r", CEL_DATA_WORD, w);
+  GET_DATA (bg_g, databuf, "bg_g", CEL_DATA_WORD, w);
+  GET_DATA (bg_b, databuf, "bg_b", CEL_DATA_WORD, w);
+
+  return true;
 }
 
 void celPcTooltip::SetText (const char* t)
@@ -266,9 +305,10 @@ void celPcTimer::Save (iCelDataBuffer* databuf)
   (void)databuf;
 }
 
-void celPcTimer::Load (iCelDataBuffer* databuf)
+bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
   (void)databuf;
+  return true;
 }
 
 void celPcTimer::Clear ()
