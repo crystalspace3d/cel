@@ -275,6 +275,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "rotateright");
   pcinp->Bind ("a", "strafeleft");
   pcinp->Bind ("d", "straferight");
+  pcinp->Bind (" ", "jump");
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcCamera);
   pccamera->SetMode (iPcCamera::firstperson);
@@ -307,12 +308,20 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   char buf[150];
-  sprintf (buf, "/cel/data/large");
-  pcmesh->SetMesh ("large", buf);
-  pcmesh->MoveMesh (room, csVector3(0,0,0));
+  bool hascal3d = true;
+  sprintf (buf, "/cel/data/cally.cal3d");
+  hascal3d = pcmesh->SetMesh ("test", buf);
+  if (hascal3d)
+    pcmesh->MoveMesh (room, csVector3(0,-1,0));
+  else
+  {
+    sprintf (buf, "/cel/data/large");
+    pcmesh->SetMesh ("large", buf);
+    pcmesh->MoveMesh (room, csVector3(0,0,0));
+  }
 
   csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcMeshSelect);
+    iPcMeshSelect);
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetGlobalSelection (true);
   pcmeshsel->SetFollowMode (false);
@@ -323,11 +332,22 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcLinearMovement);
-  pclinmove->InitCD (
-  	csVector3 (0.5, 0.8, 0.5),
-  	csVector3 (0.5, 0.4, 0.5),
-  	csVector3 (0, -0.4, 0));
+    iPcLinearMovement);
+  if (hascal3d)
+  {
+    pclinmove->InitCD (
+      csVector3 (0.5, 0.8, 0.5),
+      csVector3 (0.5, 0.4, 0.5),
+      csVector3 (0, 0.01, 0));
+  }
+  else
+  {
+    pclinmove->InitCD (
+      csVector3 (0.5, 0.8, 0.5),
+      csVector3 (0.5, 0.4, 0.5),
+      csVector3 (0, -0.4, 0));
+  }
+
 
   return csPtr<iCelEntity> (entity_cam);
 }
