@@ -50,7 +50,7 @@ EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
-		ConfigName.2 = Release
+		ConfigName.1 = Release
 	EndGlobalSection
 	GlobalSection(ProjectDependencies) = postSolution
 		{36C62D61-808A-D8D0-D561-3EE6C506C350}.0 = {FF4C7AD7-84CA-8A2F-7EBF-2B1FA775848F}
