@@ -1,3 +1,6 @@
+31-Oct-2001:
+	- Split 'selectmesh' message from 'pcmeshselect' property class
+	  'selectmesh_up' and 'selectmesh_down'.
 30-Oct-2001:
 	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
 	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour

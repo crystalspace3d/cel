@@ -46,19 +46,30 @@ bool celBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
   return rc;
 }
 
-bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info, va_list arg)
+bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
+	va_list arg)
 {
   (void)arg;
   printf ("Got message '%s'\n", msg_id);
-  if (!strcmp (msg_id, "selectmesh"))
+  if (!strcmp (msg_id, "selectmesh_up"))
   {
     iCelEntity* ent = SCF_QUERY_INTERFACE_FAST (msg_info, iCelEntity);
     if (ent)
     {
-      printf ("  SELECTED ENTITY '%s'\n", ent->GetName ());
+      printf ("  UP '%s'\n", ent->GetName ());
       ent->DecRef ();
     }
   }
+  else if (!strcmp (msg_id, "selectmesh_down"))
+  {
+    iCelEntity* ent = SCF_QUERY_INTERFACE_FAST (msg_info, iCelEntity);
+    if (ent)
+    {
+      printf ("  DOWN '%s'\n", ent->GetName ());
+      ent->DecRef ();
+    }
+  }
+  fflush (stdout);
   return false;
 }
 
