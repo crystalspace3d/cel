@@ -32,6 +32,9 @@ if $(CMD.SWIG)
   }
   RegisterFileType SimpleSwig : .i ;
 
-  SWIG.HDRPATTERN = "^[ 	]*[%#][ 	]*include[ 	]*[<\"]([^\">]*)[\">].*$" ;
+# disabled to avoid long waiting times. XXX Warning the build is not reliable
+# anymore now.
+# SWIG.HDRPATTERN = "^[ 	]*[%#][ 	]*include[ 	]*[<\"]([^\">]*)[\">].*$" ;
+  SWIG.HDRPATTERN = "" ;
   RegisterHeaderRule HeaderRule : $(SWIG.HDRPATTERN) : .i ;
 }
