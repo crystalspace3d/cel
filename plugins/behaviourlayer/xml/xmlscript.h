@@ -344,6 +344,7 @@ private:
   csHash<celXmlScriptEventHandler*,csStrKey,
   	csConstCharHashKeyHandler> event_handlers_hash;
   iCelPlLayer* pl;
+  celXmlScript* superscript;
 
 public:
   celXmlScript (iCelPlLayer* pl);
@@ -351,6 +352,9 @@ public:
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
+
+  void SetSuperScript (celXmlScript* su) { superscript = su; }
+  celXmlScript* GetSuperScript () { return superscript; }
 
   celXmlScriptEventHandler* FindOrCreateEventHandler (const char* name);
   celXmlScriptEventHandler* CreateEventHandler (const char* name);

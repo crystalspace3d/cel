@@ -94,6 +94,24 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
   {
     h->Execute (entity, this, params);
   }
+  else
+  {
+    // Check the superscript if there is one.
+    celXmlScript* superscript = script->GetSuperScript ();
+    while (superscript)
+    {
+      h = superscript->GetEventHandler (msg_id);
+      if (h)
+      {
+	h->Execute (entity, this, params);
+	break;
+      }
+      else
+      {
+        superscript = superscript->GetSuperScript ();
+      }
+    }
+  }
   return h != 0;
 }
 

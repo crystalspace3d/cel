@@ -14,6 +14,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added 'Bind' action for pckeyinput.
 	- Jorrit fixed a bug in the XML behaviour layer which prevented
 	  boolean parameters from working (for <action> command).
+	- Jorrit added the notion of super-scripts for the XML behaviour
+	  layer. This is a bit similar to a superclass and it allows
+	  scripts to depend on other scripts for common behaviour.
 20-Dec-2003
 	- Jorrit fixed three bugs which prevented a script from deleting
 	  its own entity:

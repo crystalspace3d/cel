@@ -67,6 +67,8 @@ private:
   	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
   bool ParseExpression (const char*& input, iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* name, int stoppri);
+  celXmlScriptEventHandler* FindEventHandler (celXmlScript* script,
+  	const char* eventname);
 
 public:
   celBlXml (iBase* parent);
