@@ -17,12 +17,12 @@
 */
 
 #include "cssysdef.h"
-#include "cssys/sysfunc.h"
+#include "csutil/sysfunc.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "csutil/csstring.h"
 #include "csutil/util.h"
 #include "ivaria/reporter.h"
-#include "cssys/syspath.h"
+#include "csutil/syspath.h"
 #include "iutil/objreg.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"

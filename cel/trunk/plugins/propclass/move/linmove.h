@@ -36,7 +36,7 @@
 #include "csutil/stringarray.h"
 #include "cstool/collider.h"
 #include "ivaria/collider.h"
-#include "cssys/sysfunc.h"
+#include "csutil/sysfunc.h"
 
 //CEL includes
 #include "physicallayer/propclas.h"
