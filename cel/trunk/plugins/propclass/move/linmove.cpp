@@ -74,6 +74,10 @@ csStringID celPcLinearMovement::id_body = csInvalidStringID;
 csStringID celPcLinearMovement::id_legs = csInvalidStringID;
 csStringID celPcLinearMovement::id_offset = csInvalidStringID;
 csStringID celPcLinearMovement::action_initcd = csInvalidStringID;
+csStringID celPcLinearMovement::id_sector = csInvalidStringID;
+csStringID celPcLinearMovement::id_position = csInvalidStringID;
+csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
+csStringID celPcLinearMovement::action_setposition = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLinearMovement)
@@ -179,6 +183,10 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     id_body = pl->FetchStringID ("cel.parameter.body");
     id_legs = pl->FetchStringID ("cel.parameter.legs");
     id_offset = pl->FetchStringID ("cel.parameter.offset");
+    action_setposition = pl->FetchStringID ("cel.action.SetPosition");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
   }
 
   /*
@@ -271,6 +279,23 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
     bool rc = InitCD (body, legs, offset);
     // @@@ Error report!
     (void)rc;
+    return true;
+  }
+  else if (actionId == action_setposition)
+  {
+    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+    if (!p_position) return false;
+    CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
+    if (!p_yrot) return false;
+    CEL_FETCH_STRING_PAR (sector,params,id_sector);
+    if (!sector) return false;
+    iSector* sect = engine->FindSector (sector);
+    if (!sect)
+    {
+      // @@@ Error
+      return false;
+    }
+    SetPosition (position, yrot, sect);
     return true;
   }
   return false;
