@@ -70,7 +70,7 @@ celPlLayer::~celPlLayer ()
   CleanCache ();
   
   // print out entities that aren't deleted properly
-  for (CS_ID i=1;i<idlist.Length();i++)
+  for ( CS_ID i = 1; i < idlist.Length(); i++ )
   {
     iCelEntity* entity=(iCelEntity*) idlist.Get(i);
     if (entity)
@@ -81,9 +81,9 @@ celPlLayer::~celPlLayer ()
 	  entity->GetID(), entity->GetName());
     }
   }
-  for (int i = 0; i < removecallbacks.Length(); i++)
+  for ( int j = 0; j < removecallbacks.Length(); j++ )
   {
-    iCelEntityRemoveCallback* callback = removecallbacks[i];
+    iCelEntityRemoveCallback* callback = removecallbacks[j];
     delete callback;
   }
 }
