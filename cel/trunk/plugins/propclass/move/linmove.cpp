@@ -649,6 +649,15 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
   }
 }
 
+void celPcLinearMovement::GetCDDimensions (csVector3& body, csVector3& legs,
+	csVector3& shift, iPcCollisionDetection*& pc_cd)
+{
+  body = topSize;
+  legs = bottomSize;
+  shift = celPcLinearMovement::shift;
+  pc_cd = pccolldet;
+}
+
 bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 	const csVector3& shift, iPcCollisionDetection *pc_cd)
 {

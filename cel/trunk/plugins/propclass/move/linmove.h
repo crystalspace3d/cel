@@ -149,6 +149,8 @@ public:
 
   bool InitCD (const csVector3& body, const csVector3& legs,
   	const csVector3& shift,iPcCollisionDetection *pc_cd = 0);
+  void GetCDDimensions (csVector3& body, csVector3& legs,
+	csVector3& shift, iPcCollisionDetection*& pc_cd);
   bool InitCD (iPcCollisionDetection *pc_cd=0);
   void SetSpeed ( float speedz );
 
@@ -302,6 +304,11 @@ public:
     virtual bool InitCD (iPcCollisionDetection *pc_cd=0)
     {
       return scfParent->InitCD (pc_cd);
+    }
+    virtual void GetCDDimensions (csVector3& body, csVector3& legs,
+	csVector3& shift, iPcCollisionDetection*& pc_cd)
+    {
+      scfParent->GetCDDimensions (body, legs, shift, pc_cd);
     }
     virtual bool IsOnGround () const
     {
