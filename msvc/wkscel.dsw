@@ -42,139 +42,139 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name libceltool
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgstdphyslayer
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libstdphyslayer_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfengine
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfengine_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfinput
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfinput_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfinv
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfinv_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfmesh
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfmesh_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfmove
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfmove_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfdynmove
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfdynmove_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpftest
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpftest_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpftools
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpftools_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfbillboard
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfbillboard_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfactormove
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfactormove_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfzone
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfzone_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfmover
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfmover_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpftrigger
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpftrigger_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgcpersist
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libcpersist_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgbltest
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libbltest_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgblxml
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libblxml_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgaddon_celentity
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libaddon_celentity_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgaddon_xmlscripts
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libaddon_xmlscripts_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgmgr_billboard
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libmgr_billboard_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgmgr_quests
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libmgr_quests_static
+    Project_Dep_Name appbootstrap
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name appceltst
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name appbootstrap
+    Project_Dep_Name libaddon_celentity_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libaddon_xmlscripts_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libbltest_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libblxml_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libcpersist_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_billboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_quests_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfactormove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfbillboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfdynmove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfengine_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfinput_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfinv_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmesh_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfmover_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftest_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftools_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpftrigger_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfzone_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libstdphyslayer_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_celentity
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_xmlscripts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgbltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblxml
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgcpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_billboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_quests
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfactormove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfbillboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfdynmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfengine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmesh
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftools
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpftrigger
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfzone
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgstdphyslayer
     End Project Dependency
 }}}
 
@@ -189,10 +189,10 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name appceltst
+    Project_Dep_Name appbootstrap
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name appbootstrap
+    Project_Dep_Name appceltst
     End Project Dependency
 }}}
 
@@ -207,10 +207,37 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
+    Project_Dep_Name libaddon_celentity_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libaddon_xmlscripts_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libbltest_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libblxml_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libceltool
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name libstdphyslayer_static
+    Project_Dep_Name libcpersist_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_billboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmgr_quests_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfactormove_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfbillboard_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfdynmove_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libpfengine_static
@@ -228,7 +255,7 @@ Package=<4>
     Project_Dep_Name libpfmove_static
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name libpfdynmove_static
+    Project_Dep_Name libpfmover_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libpftest_static
@@ -237,40 +264,13 @@ Package=<4>
     Project_Dep_Name libpftools_static
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name libpfbillboard_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpfactormove_static
+    Project_Dep_Name libpftrigger_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libpfzone_static
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name libpfmover_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libpftrigger_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libcpersist_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libbltest_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libblxml_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libaddon_celentity_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libaddon_xmlscripts_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libmgr_billboard_static
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name libmgr_quests_static
+    Project_Dep_Name libstdphyslayer_static
     End Project Dependency
 }}}
 
@@ -285,7 +285,34 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name plgstdphyslayer
+    Project_Dep_Name plgaddon_celentity
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgaddon_xmlscripts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgbltest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgblxml
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgcpersist
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_billboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgmgr_quests
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfactormove
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfbillboard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfdynmove
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfengine
@@ -303,7 +330,7 @@ Package=<4>
     Project_Dep_Name plgpfmove
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgpfdynmove
+    Project_Dep_Name plgpfmover
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpftest
@@ -312,40 +339,13 @@ Package=<4>
     Project_Dep_Name plgpftools
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgpfbillboard
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfactormove
+    Project_Dep_Name plgpftrigger
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfzone
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgpfmover
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpftrigger
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgcpersist
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgbltest
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgblxml
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgaddon_celentity
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgaddon_xmlscripts
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgmgr_billboard
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgmgr_quests
+    Project_Dep_Name plgstdphyslayer
     End Project Dependency
 }}}
 
