@@ -91,6 +91,7 @@ protected:
 
   bool onground;
   bool useCD;
+  bool revertMove;
 //  bool ready;
 //  bool stationary;
 
@@ -200,6 +201,9 @@ public:
                             csVector3& vel,
                             float delta,
                             iMovable* movable);
+
+  bool QueryRevert()
+  { return revertMove;}
 
   /// Returns dead reckoning data
 //  csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
@@ -384,6 +388,11 @@ public:
                                       iMovable* movable)
     {
         return scfParent->AdjustForCollisions (oldpos,newpos,vel,delta,movable);
+    }
+
+    virtual bool QueryRevert()
+    {
+        return scfParent->QueryRevert();
     }
 
 /*****************

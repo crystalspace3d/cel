@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Oct-2004
+	- Andrew Dai improved player rotation handling with pcmove,
+	  the no longer needed SetAngularDeltaLimit() was removed
+	  and QueryRevert() was added to pccolldet to find when the player
+	  cannot move.
 4-Oct-2004
 	- Jorrit started work on the quest manager. Still the base basics.
 3-Oct-2004

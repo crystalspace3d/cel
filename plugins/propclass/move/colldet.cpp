@@ -119,6 +119,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   pcmesh = 0;
 
   onground = false;
+  revertMove = false;
 }
 
 celPcCollisionDetection::~celPcCollisionDetection ()
@@ -195,6 +196,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    float delta,
                                                    iMovable* movable)
 {
+    revertMove = false;
   if (useCD && topCollider && bottomCollider)
   {
     int hits, i;
@@ -344,6 +346,8 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     {
         // No move possible without a collision
       newpos = oldpos;
+      revertMove = true;
+      return false;
     }
     else
     {
@@ -366,9 +370,11 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       newpos.y -= height5;
       if (new_sector != old_sector)
     	movable->SetSector (new_sector);
+      return true;
     }
   }
-  return true;
+  else
+      return false;
 }
 
 

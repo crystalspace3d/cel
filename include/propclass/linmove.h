@@ -212,8 +212,6 @@ struct iPcLinearMovement : public iBase
 
   virtual void SetDeltaLimit(float deltaLimit) = 0;
 
-  virtual void SetAngularDeltaLimit(float deltaLimit) = 0;
-
   virtual bool RotateV (float delta) = 0;
 };
 

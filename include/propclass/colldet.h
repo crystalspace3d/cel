@@ -74,6 +74,7 @@ struct iPcCollisionDetection : public iBase
                                     csVector3& vel,
                                     float delta,
                                     iMovable* movable) = 0;
+  virtual bool QueryRevert() = 0;
 };
 
 #endif
