@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	      internal calls.
 	    - Added 'return' statement so it is now possible to
 	      return values through 'call'.
+	- Jorrit added new bb_move conveniance command to the XML
+	  behaviour layer to move a billboard.
 9-Jan-2004
 	- Jorrit added 'traceon' and 'traceoff' commands to the XML behaviour
 	  layer. With these commands you can enable tracing of all changes
