@@ -140,6 +140,9 @@ copy &quot;..\plugins\propclass\input\pfinput.csplugin&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\input\inpfact.h">
 			</File>
 
@@ -155,6 +158,9 @@ copy &quot;..\plugins\propclass\input\pfinput.csplugin&quot;  ..
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\input\inpfact.cpp">
 			</File>
