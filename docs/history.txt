@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	    - Added ActivateTrigger()/DeactivateTrigger().
 	    - Implemented Load() for quest factories.
 	    - Lots of other small changes.
+	- Jorrit started work on celQuest. The callback system is missing
+	  so currently it will not actually work.
 2-Dec-2004
 	- Jorrit restarted work on the quest manager. Added quest
 	  factory implementation.

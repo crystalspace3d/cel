@@ -268,6 +268,79 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celQuest)
+  SCF_IMPLEMENTS_INTERFACE (iQuest)
+SCF_IMPLEMENT_IBASE_END
+
+celQuest::celQuest ()
+{
+  SCF_CONSTRUCT_IBASE (0);
+  current_state = -1;
+}
+
+celQuest::~celQuest ()
+{
+  SCF_DESTRUCT_IBASE ();
+}
+
+bool celQuest::SwitchState (const char* state)
+{
+  // @@@ This code could be slow with really complex
+  // quests that have lots of states. In practice most quests
+  // will probably only have few states and will not switch
+  // THAT often either.
+  size_t i, j;
+  for (i = 0 ; i < states.Length () ; i++)
+    if (strcmp (state, states[i].name) == 0)
+    {
+      if (i == (size_t)current_state) return true;	// Nothing happens.
+      if (current_state != -1)
+      {
+	celQuestState& st = states[current_state];
+        for (j = 0 ; j < st.responses.Length () ; j++)
+          st.responses[j].trigger->DeactivateTrigger ();
+      }
+      current_state = i;
+      celQuestState& st = states[current_state];
+      for (j = 0 ; j < st.responses.Length () ; j++)
+        st.responses[j].trigger->ActivateTrigger ();
+      return true;
+    }
+  return false;
+}
+
+const char* celQuest::GetCurrentState () const
+{
+  if (current_state == -1) return 0;
+  return states[current_state].name;
+}
+
+int celQuest::AddState (const char* name)
+{
+  size_t idx = states.Push (celQuestState ());
+  states[idx].name = csStrNew (name);
+  return idx;
+}
+
+int celQuest::AddStateResponse (int stateidx)
+{
+  return states[stateidx].responses.Push (celQuestStateResponse ());
+}
+
+void celQuest::SetStateTrigger (int stateidx, int responseidx,
+	iQuestTrigger* trigger)
+{
+  states[stateidx].responses[responseidx].trigger = trigger;
+}
+
+void celQuest::AddStateReward (int stateidx, int responseidx,
+	iQuestReward* reward)
+{
+  states[stateidx].responses[responseidx].rewards.Push (reward);
+}
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celQuestManager)
   SCF_IMPLEMENTS_INTERFACE (iQuestManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
