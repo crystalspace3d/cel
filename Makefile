@@ -88,8 +88,8 @@ ifeq ($(LINK.PLUGIN),)
 endif
 CSDIR := $(shell ./cs-config --prefix)
 CEL_INCLUDES=-I. -Iinclude
-CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES)
-CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -DSWIG_GLOBAL
+CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES) -DCEL_DEBUG
+CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES) -I$(PYTHON_INCDIR) -DSWIG_GLOBAL -DCEL_DEBUG
 CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PLIMP_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
