@@ -25,6 +25,7 @@
 #include "plimp/message.h"
 #include "pl/propfact.h"
 #include "pl/propclas.h"
+#include "pl/datatype.h"
 #include "pl/persist.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"

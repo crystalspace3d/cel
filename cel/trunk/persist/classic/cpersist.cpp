@@ -206,6 +206,7 @@ bool celPersistClassic::Read (char*& data, size_t& remaining, celData* cd)
   char* s;
   switch (t)
   {
+    case CEL_DATA_ACTION:
     case CEL_DATA_NONE:
       return false;
     case CEL_DATA_BOOL:
@@ -244,6 +245,15 @@ bool celPersistClassic::Read (char*& data, size_t& remaining, celData* cd)
       if (!Read (data, remaining, s)) return false;
       cd->Set (s);
       delete[] s;
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+        csVector3 v;
+        if (!Read (data, remaining, v.x)) return false;
+        if (!Read (data, remaining, v.y)) return false;
+        if (!Read (data, remaining, v.z)) return false;
+        cd->Set (v);
+      }
       break;
     case CEL_DATA_PCLASS:
       {
@@ -616,6 +626,7 @@ bool celPersistClassic::Write (iFile* f, celData* data)
   switch (data->type)
   {
     case CEL_DATA_NONE:
+    case CEL_DATA_ACTION:
       CS_ASSERT (false);
       break;
     case CEL_DATA_BOOL:
@@ -657,6 +668,16 @@ bool celPersistClassic::Write (iFile* f, celData* data)
     case CEL_DATA_FLOAT:
       {
         float v = convert_endian (data->value.f);
+        if (!f->Write ((const char*)&v, 4)) return false;
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+        float v = convert_endian (data->value.v.x);
+        if (!f->Write ((const char*)&v, 4)) return false;
+        v = convert_endian (data->value.v.y);
+        if (!f->Write ((const char*)&v, 4)) return false;
+        v = convert_endian (data->value.v.z);
         if (!f->Write ((const char*)&v, 4)) return false;
       }
       break;

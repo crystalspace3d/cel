@@ -23,6 +23,7 @@
 #include "iutil/objreg.h"
 #include "pf/inv/invfact.h"
 #include "pl/pl.h"
+#include "pl/datatype.h"
 #include "pl/persist.h"
 #include "pl/entity.h"
 #include "bl/behave.h"

@@ -25,6 +25,7 @@
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "pl/persist.h"
+#include "pl/datatype.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -125,7 +126,7 @@ iCelDataBuffer* celPcMesh::Save ()
   pl->DecRef ();
   iMovable* mov = mesh->GetMovable ();
   iSectorList* sl = mov->GetSectors ();
-  databuf->SetDataCount (4+1+sl->GetCount ()+3+9);
+  databuf->SetDataCount (4+1+sl->GetCount ()+1+9);
   int i, j = 0;
   databuf->GetData (j++)->Set (factName);
   databuf->GetData (j++)->Set (fileName);
@@ -138,9 +139,7 @@ iCelDataBuffer* celPcMesh::Save ()
     databuf->GetData (j++)->Set (sl->Get (i)->QueryObject ()->GetName ());
   }
   csReversibleTransform& tr = mov->GetTransform ();
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().x);
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().y);
-  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().z);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ());
   databuf->GetData (j++)->Set (tr.GetO2T ().m11);
   databuf->GetData (j++)->Set (tr.GetO2T ().m12);
   databuf->GetData (j++)->Set (tr.GetO2T ().m13);
@@ -195,11 +194,9 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   csMatrix3 m_o2t;
   csVector3 v_o2t;
   cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.x = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.y = cd->value.f;
-  cd = databuf->GetData (j++); if (!cd) return false;
-  v_o2t.z = cd->value.f;
+  v_o2t.x = cd->value.v.x;
+  v_o2t.y = cd->value.v.y;
+  v_o2t.z = cd->value.v.z;
   cd = databuf->GetData (j++); if (!cd) return false;
   m_o2t.m11 = cd->value.f;
   cd = databuf->GetData (j++); if (!cd) return false;
@@ -476,7 +473,7 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (15);
+  databuf->SetDataCount (13);
   iCelPropertyClass* pc = NULL;
   if (pccamera) pc = SCF_QUERY_INTERFACE_FAST (pccamera, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
@@ -486,15 +483,13 @@ iCelDataBuffer* celPcMeshSelect::Save ()
   databuf->GetData (3)->Set ((uint32)mouse_buttons);
   databuf->GetData (4)->Set (do_global);
   databuf->GetData (5)->Set (do_drag);
-  databuf->GetData (6)->Set (drag_normal.x);
-  databuf->GetData (7)->Set (drag_normal.y);
-  databuf->GetData (8)->Set (drag_normal.z);
-  databuf->GetData (9)->Set (drag_normal_camera);
-  databuf->GetData (10)->Set (do_follow);
-  databuf->GetData (11)->Set (do_follow_always);
-  databuf->GetData (12)->Set (do_sendmove);
-  databuf->GetData (13)->Set (do_sendup);
-  databuf->GetData (14)->Set (do_senddown);
+  databuf->GetData (6)->Set (drag_normal);
+  databuf->GetData (7)->Set (drag_normal_camera);
+  databuf->GetData (8)->Set (do_follow);
+  databuf->GetData (9)->Set (do_follow_always);
+  databuf->GetData (10)->Set (do_sendmove);
+  databuf->GetData (11)->Set (do_sendup);
+  databuf->GetData (12)->Set (do_senddown);
   return databuf;
 }
 
@@ -502,7 +497,7 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MESHSEL_SERIAL) return false;
-  if (databuf->GetDataCount () != 15) return false;
+  if (databuf->GetDataCount () != 13) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
   iPcCamera* pcm = NULL;
@@ -521,22 +516,20 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (5); if (!cd) return false;
   do_drag = cd->value.bo;
   cd = databuf->GetData (6); if (!cd) return false;
-  drag_normal.x = cd->value.f;
+  drag_normal.x = cd->value.v.x;
+  drag_normal.y = cd->value.v.y;
+  drag_normal.z = cd->value.v.z;
   cd = databuf->GetData (7); if (!cd) return false;
-  drag_normal.y = cd->value.f;
-  cd = databuf->GetData (8); if (!cd) return false;
-  drag_normal.z = cd->value.f;
-  cd = databuf->GetData (9); if (!cd) return false;
   drag_normal_camera = cd->value.bo;
-  cd = databuf->GetData (10); if (!cd) return false;
+  cd = databuf->GetData (8); if (!cd) return false;
   do_follow = cd->value.bo;
-  cd = databuf->GetData (11); if (!cd) return false;
+  cd = databuf->GetData (9); if (!cd) return false;
   do_follow_always = cd->value.bo;
-  cd = databuf->GetData (12); if (!cd) return false;
+  cd = databuf->GetData (10); if (!cd) return false;
   do_sendmove = cd->value.bo;
-  cd = databuf->GetData (13); if (!cd) return false;
+  cd = databuf->GetData (11); if (!cd) return false;
   do_sendup = cd->value.bo;
-  cd = databuf->GetData (14); if (!cd) return false;
+  cd = databuf->GetData (12); if (!cd) return false;
   do_senddown = cd->value.bo;
 
   SetupEventHandler ();

@@ -37,6 +37,21 @@
 	    - GetPropertyOrActionID()
 	    - GetPropertyOrActionType() (new function)
 	- Added celPropertyActionType enumeration type.
+	- Seperated celData and celDataType from persist.h into its own
+	  pl/datatype.h.
+	- There were already three places where some kind of datatype
+	  was defined:
+	    - persistance (celData and celDataType).
+	    - iPcProperties (CEL_PROPERTY_... define).
+	    - The new properties in iCelPropertyClass (type_...).
+	  Rationalized this by using the celData and celDataType definitions
+	  everywhere. To do this celDataType had to be extended with csVector3.
+	- Updated the persistance layer to also support csVector3 directly
+	  now (CEL_DATA_VECTOR3). Updated several of the property classes
+	  load/save functions to use csVector3 instead of three floats.
+	- Added CEL_DATA_ACTION to celDataType. This is not supported by
+	  the persistance layer though and only needed for iCelPropertyClass.
+	  Added celData->SetAction() to set an action.
 26-Dec-2001:
 	- Added new iPcProperties property class. This is a general property
 	  class to store string, float, long or boolean properties.
