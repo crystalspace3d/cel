@@ -39,7 +39,7 @@ struct iCelPropertyChangeCallback : public iBase
    * indicating which property has changed.
    */
   virtual void PropertyChanged (int propertyId,
-  	iCelPropertyClass* pclass);
+  	iCelPropertyClass* pclass) = 0;
 };
 
 #endif // __CEL_PL_PROPCHANGE__
