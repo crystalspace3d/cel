@@ -54,6 +54,7 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "propclass/camera.h"
+#include "propclass/solid.h"
 
 #include "plugins/propclass/move/linmove.h"
 
@@ -142,6 +143,13 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     return;
   }
 
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl)
+  {
+    Report (object_reg, "Physical layer missing!");
+    return;
+  }
+
   vel.x = vel.z = 0;
   vel.y = 0;
   angularVelocity.x = angularVelocity.y = angularVelocity.z  = 0;
@@ -182,7 +190,6 @@ celPcLinearMovement::~celPcLinearMovement ()
 
 csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
   databuf->SetDataCount (3);
   int j = 0;
@@ -518,9 +525,10 @@ bool celPcLinearMovement::MoveV (float delta)
 
       temppos = newpos;
       // @@@ Jorrit: had to do this add!
-      float half_height = (bottomSize.y + topSize.y) / 2.0;
-      temppos.y += half_height;
-      transform_oldpos.SetOrigin (transform_oldpos.GetOrigin () + csVector3 (0, half_height, 0));
+      float height5 = (bottomSize.y + topSize.y) / 20.0;
+      temppos.y += height5;
+      transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
+      	+ csVector3 (0, height5, 0));
       bool mirror = false;
 
       new_sector = new_sector->FollowSegment (transform_oldpos,
@@ -805,7 +813,36 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
       cdsys->ResetCollisionPairs ();
       csReversibleTransform tr = meshWrapper->GetMovable ()
       	->GetFullTransform ();
-      if (collidewrapper->Collide (meshWrapper->QueryObject (), transform, &tr))
+      csColliderWrapper* collide_wrap = csColliderWrapper::
+      	GetColliderWrapper (meshWrapper->QueryObject ());
+      iCollider* othercollider = 0;
+      if (collide_wrap)
+      {
+        othercollider = collide_wrap->GetCollider ();
+      }
+      else
+      {
+        // There is no collider wrapper. In this case we test if there
+	// is a pcsolid for the entity. If not we'll add a null collider.
+	iCelEntity* otherentity = pl->FindAttachedEntity (
+		meshWrapper->QueryObject ());
+	csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
+		otherentity->GetPropertyClassList (), iPcSolid);
+        if (pcsolid)
+	{
+	  othercollider = pcsolid->GetCollider ();
+	}
+	else
+	{
+	  // Add a null collider so we don't check for pcsolid again.
+	  csRef<csColliderWrapper> cw = csPtr<csColliderWrapper> (
+	  	new csColliderWrapper (meshWrapper->QueryObject (), cdsys,
+		(iCollider*)0));
+	}
+      }
+
+      if (othercollider && cdsys->Collide (collidewrapper->GetCollider (),
+      	transform, othercollider, &tr))
       {
     	bool reallycollided = false;
 

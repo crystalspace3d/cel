@@ -735,7 +735,7 @@ bool celPcRegion::Load ()
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile (worldfile, false, cur_region, true))
   {
-    Report (object_reg,"Could not load map file '%s'.", worldfile);
+    Report (object_reg, "Could not load map file '%s'.", worldfile);
     return false;
   }
   cur_region->Prepare ();

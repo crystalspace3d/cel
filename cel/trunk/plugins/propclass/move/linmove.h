@@ -46,6 +46,7 @@
 #define CEL_LINMOVE_FOLLOW_ONLY_PORTALS true
 
 struct iCelEntity;
+struct iCelPlLayer;
 struct iObjectRegistry;
 struct iVirtualClock;
 struct iCollider;
@@ -74,6 +75,7 @@ protected:
   csRef<iCollideSystem> cdsys;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
+  csRef<iCelPlLayer> pl;
 
   csVector3 angularVelocity;
   csVector3 vel;
