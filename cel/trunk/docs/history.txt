@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Feb-2004
+	- Eric Sunshine upgraded cel/mk/autoconf files from master copies in
+	  CS repository and upgraded RANLIB check in configure.ac to work
+	  around Jam 2.4 bug on MacOS/X.
 2-Feb-2004
 	- Jorrit changed the behaviour of iCelBlLayer->CreateBehaviour().  This
 	  function will now automatically set the behaviour in the entity (i.e.
