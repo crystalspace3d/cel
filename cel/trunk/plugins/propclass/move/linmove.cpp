@@ -152,9 +152,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angDelta = 0;
   lastDRUpdate = 0;
 
-  topCollider = 0;
-  bottomCollider = 0;
-
   path = 0;
   path_speed = 0;
   path_time  = 0;
