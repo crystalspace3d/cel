@@ -39,6 +39,8 @@ struct iEngine;
 struct iGraphics3D;
 struct iEvent;
 
+class celBillboardManager;
+
 /**
  * A billboard.
  */
@@ -52,7 +54,7 @@ private:
   int image_w, image_h;
   int x, y, w, h;
   csRefArray<iBillboardEventHandler> handlers;
-  iEngine* engine;
+  celBillboardManager* mgr;
   csColor color;
 
   bool has_clickmap;
@@ -66,7 +68,7 @@ private:
   void TranslateScreenToTexture (int sx, int sy, int& tx, int& ty);
 
 public:
-  celBillboard (iEngine* engine);
+  celBillboard (celBillboardManager* mgr);
   virtual ~celBillboard ();
 
   void SetName (const char* n)
@@ -101,11 +103,9 @@ public:
   virtual void GetSize (int& w, int& h);
   virtual void GetImageSize (int& w, int& h);
   virtual void SetPosition (int x, int y);
-  virtual void GetPosition (int& x, int& y) const
-  {
-    x = celBillboard::x;
-    y = celBillboard::y;
-  }
+  virtual void GetPosition (int& x, int& y) const;
+  virtual void SetPositionScreen (int x, int y);
+  virtual void GetPositionScreen (int& x, int& y) const;
   virtual void Move (int dx, int dy);
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
@@ -126,7 +126,6 @@ private:
   csPDelArray<celBillboard> billboards;
   csHash<celBillboard*,csStrKey,csConstCharHashKeyHandler> billboards_hash;
   csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
 
   celBillboard* moving_billboard;
   int moving_dx;
@@ -135,7 +134,24 @@ private:
   float z_min;
   float z_max;
 
+  int screen_w_fact;
+  int screen_h_fact;
+
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
+
+public:
+  csRef<iEngine> engine;
+
+  void ScreenToBillboardSpace (int& x, int& y)
+  {
+    x *= screen_w_fact;
+    y *= screen_h_fact;
+  }
+  void BillboardToScreenspace (int& x, int& y)
+  {
+    x /= screen_w_fact;
+    y /= screen_h_fact;
+  }
 
 public:
   celBillboardManager (iBase* parent);

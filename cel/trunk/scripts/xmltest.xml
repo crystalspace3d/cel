@@ -117,9 +117,9 @@
 	        <getproperty var="h" propclass="pcbillboard"
 			name="pcbillboard.height" />
 	        <property propclass="pcbillboard" name="pcbillboard.width"
-			long="50" />
+			long="50000" />
 	        <property propclass="pcbillboard" name="pcbillboard.height"
-			long="50" />
+			long="50000" />
 	    </event>
 	    <event name="makelarge">
 	        <var name="normal" bool="1" />

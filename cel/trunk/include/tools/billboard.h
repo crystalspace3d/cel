@@ -85,6 +85,12 @@ SCF_VERSION (iBillboard, 0, 0, 1);
 
 /**
  * A billboard (2D image on screen).
+ * Billboards work in a coordinate system independent of the size
+ * of the screen. This coordinate system basically works on a virtual
+ * screen with size 1024000 x 614400. These values were chosen because
+ * they can fit most other standard resolutions without requiring fractions
+ * (i.e. a 1280x1024 screen is exactly 1024000/800 x 614400/600).
+ * For conveniance we call this coordinate system 'billboard space'.
  */
 struct iBillboard : public iBase
 {
@@ -114,27 +120,30 @@ struct iBillboard : public iBase
   virtual void SetSize (int w, int h) = 0;
 
   /**
-   * Get the size of this billboard in pixels.
+   * Get the size of this billboard in billboard space.
    */
   virtual void GetSize (int& w, int& h) = 0;
 
   /**
-   * Get the size of the image on this billboard in pixels.
+   * Get the size of the image on this billboard in billboard space.
    */
   virtual void GetImageSize (int& w, int& h) = 0;
 
   /**
    * Set the position of the top-left corner of this billboard.
+   * Uses billboard space.
    */
   virtual void SetPosition (int x, int y) = 0;
 
   /**
    * Get the position of the top-left corner of this billboard.
+   * Uses billboard space.
    */
   virtual void GetPosition (int& x, int& y) const = 0;
 
   /**
    * Relative move.
+   * Uses billboard space.
    */
   virtual void Move (int dx, int dy) = 0;
 

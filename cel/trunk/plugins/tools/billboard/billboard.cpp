@@ -36,7 +36,7 @@ SCF_IMPLEMENT_IBASE (celBillboard)
   SCF_IMPLEMENTS_INTERFACE (iBillboard)
 SCF_IMPLEMENT_IBASE_END
 
-celBillboard::celBillboard (iEngine* engine)
+celBillboard::celBillboard (celBillboardManager* mgr)
 {
   SCF_CONSTRUCT_IBASE (0);
   name = 0;
@@ -46,7 +46,7 @@ celBillboard::celBillboard (iEngine* engine)
   image_w = image_h = -1;
   x = y = 0;
   w = h = -1;
-  celBillboard::engine = engine;
+  celBillboard::mgr = mgr;
   has_clickmap = false;
   color.Set (1, 1, 1);
 }
@@ -79,6 +79,7 @@ void celBillboard::GetSize (int& w, int& h)
   if (w == -1) SetupMaterial ();
   w = celBillboard::w;
   h = celBillboard::h;
+  mgr->ScreenToBillboardSpace (w, h);
 }
 
 void celBillboard::GetImageSize (int& w, int& h)
@@ -86,6 +87,7 @@ void celBillboard::GetImageSize (int& w, int& h)
   if (image_w == -1) SetupMaterial ();
   w = celBillboard::image_w;
   h = celBillboard::image_h;
+  mgr->ScreenToBillboardSpace (w, h);
 }
 
 bool celBillboard::GetFromClickMap (int tx, int ty)
@@ -110,7 +112,7 @@ void celBillboard::SetupMaterial ()
 {
   if (!material)
   {
-    material = engine->FindMaterial (materialname);
+    material = mgr->engine->FindMaterial (materialname);
     if (!material) return;
     material->Visit ();
   }
@@ -193,24 +195,47 @@ bool celBillboard::SetMaterialName (const char* matname)
 
 void celBillboard::SetSize (int w, int h)
 {
+  mgr->BillboardToScreenspace (w, h);
   celBillboard::w = w;
   celBillboard::h = h;
 }
 
 void celBillboard::SetPosition (int x, int y)
 {
+  mgr->BillboardToScreenspace (x, y);
   celBillboard::x = x;
   celBillboard::y = y;
 }
 
+void celBillboard::GetPosition (int& x, int& y) const
+{
+  x = celBillboard::x;
+  y = celBillboard::y;
+  mgr->ScreenToBillboardSpace (x, y);
+}
+
+void celBillboard::SetPositionScreen (int x, int y)
+{
+  celBillboard::x = x;
+  celBillboard::y = y;
+}
+
+void celBillboard::GetPositionScreen (int& x, int& y) const
+{
+  x = celBillboard::x;
+  y = celBillboard::y;
+}
+
 void celBillboard::Move (int dx, int dy)
 {
-  celBillboard::x += x;
-  celBillboard::y += y;
+  mgr->BillboardToScreenspace (dx, dy);
+  celBillboard::x += dx;
+  celBillboard::y += dy;
 }
 
 void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
+  mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
     handlers[i]->Unselect (this, sx, sy, button);
@@ -218,6 +243,7 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
 
 void celBillboard::FireMouseDown (int sx, int sy, int button)
 {
+  mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
     handlers[i]->Select (this, sx, sy, button);
@@ -225,6 +251,7 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
 
 void celBillboard::FireMouseMove (int sx, int sy, int button)
 {
+  mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
     handlers[i]->MouseMove (this, sx, sy, button);
@@ -232,6 +259,7 @@ void celBillboard::FireMouseMove (int sx, int sy, int button)
 
 void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
 {
+  mgr->ScreenToBillboardSpace (sx, sy);
   int i;
   for (i = 0 ; i < handlers.Length () ; i++)
     handlers[i]->DoubleClick (this, sx, sy, button);
@@ -362,6 +390,9 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
 
+  screen_w_fact = 1024000 / g3d->GetWidth ();
+  screen_h_fact = 614400 / g3d->GetHeight ();
+
   return true;
 }
 
@@ -408,7 +439,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPosition (ev.Mouse.x + moving_dx,
+	  moving_billboard->SetPositionScreen (ev.Mouse.x + moving_dx,
 	  	ev.Mouse.y + moving_dy);
 	  moving_billboard = 0;
 	}
@@ -432,7 +463,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_MOVABLE))
 	  {
 	    moving_billboard = bb;
-	    bb->GetPosition (moving_dx, moving_dy);
+	    bb->GetPositionScreen (moving_dx, moving_dy);
 	    moving_dx -= ev.Mouse.x;
 	    moving_dy -= ev.Mouse.y;
 	  }
@@ -445,7 +476,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPosition (ev.Mouse.x + moving_dx,
+	  moving_billboard->SetPositionScreen (ev.Mouse.x + moving_dx,
 	  	ev.Mouse.y + moving_dy);
 	}
 
@@ -537,7 +568,7 @@ void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)
 {
-  celBillboard* bb = new celBillboard (engine);
+  celBillboard* bb = new celBillboard (this);
   bb->SetName (name);
   billboards.Push (bb);
   billboards_hash.Put (name, bb);
