@@ -19,6 +19,7 @@
 
 #include <math.h>
 #include "cssysdef.h"
+#include "qsqrt.h"
 #include "pf/mesh.h"
 #include "pf/solid.h"
 #include "pf/engine/engfact.h"
@@ -99,8 +100,10 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (vc != NULL);
   followpos.Set(0,0,0);
   followat.Set(0,0,0);
-  angle_xz = angle_yz = _yz = _xz = 0.0;    // staring angles to the object (in radians)
-  _dist = dist_y = 10.0;				// starting distance from the object
+  // Starting angles to the object (in radians)
+  angle_xz = angle_yz = _yz = _xz = 0.0;
+  // starting distance from the object
+  _dist = dist_y = 10.0;
   alter_angle = alter_dist = false;
   DG_TYPE (this, "celPcCamera()");
 }
@@ -200,61 +203,73 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       }
       case iPcCamera::rotational:
       {
-	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
+	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
+		iPcMesh);
 	if (!pcmesh) break;
 	csBox3 b;
 	csVector3 pos;
 	pcmesh->GetMesh()->GetWorldBoundingBox(b);
 	pos = b.GetCenter();
-	float min_dist = sqrt(pow(pos.x - b.Max().x, 2) + pow(pos.y - b.Max().y,2) + pow(pos.z - b.Max().z,2));
+	float min_dist = qsqrt(pow(pos.x - b.Max().x, 2) +
+		pow(pos.y - b.Max().y,2) + pow(pos.z - b.Max().z,2));
 
 	iCamera* c = view->GetCamera();
 
-	if (mouse->GetLastButton(1) && mouse->GetLastButton(2)) {
-		int _delta_y, _current_y;
+	if (mouse->GetLastButton(1) && mouse->GetLastButton(2))
+	{
+	  int _delta_y, _current_y;
 
-		if (!alter_dist) {
-			alter_dist = true;
-			base_y_d = _current_y = mouse->GetLastY();
-		} else
-			_current_y = mouse->GetLastY();
+	  if (!alter_dist)
+	  {
+	    alter_dist = true;
+	    base_y_d = _current_y = mouse->GetLastY();
+	  }
+	  else
+	    _current_y = mouse->GetLastY();
 
-		_delta_y = base_y_d - _current_y;
-		float delta_dist = _delta_y/100.0;
-		_dist = dist_y + delta_dist;
-		if (_dist < min_dist) _dist = min_dist;
-	} else {
-		alter_dist = false;
-		dist_y = _dist;
+	  _delta_y = base_y_d - _current_y;
+	  float delta_dist = _delta_y/100.0;
+	  _dist = dist_y + delta_dist;
+	  if (_dist < min_dist) _dist = min_dist;
+	}
+	else
+	{
+	  alter_dist = false;
+	  dist_y = _dist;
 	}
 		
-	if (!mouse->GetLastButton(1) && mouse->GetLastButton(2)) {
-		int delta_x, delta_y, current_x, current_y;
+	if (!mouse->GetLastButton(1) && mouse->GetLastButton(2))
+	{
+	  int delta_x, delta_y, current_x, current_y;
 
-		if (!alter_angle) {
-			alter_angle = true;
-			base_x = current_x = mouse->GetLastX();
-			base_y = current_y = mouse->GetLastY();
-			//csVector camera = c->GetOrigin();
-			
-		} else {
-			current_x = mouse->GetLastX();
-			current_y = mouse->GetLastY();
-		}
+	  if (!alter_angle)
+	  {
+	    alter_angle = true;
+	    base_x = current_x = mouse->GetLastX();
+	    base_y = current_y = mouse->GetLastY();
+	    //csVector camera = c->GetOrigin();
+	  }
+	  else
+	  {
+	    current_x = mouse->GetLastX();
+	    current_y = mouse->GetLastY();
+	  }
 
-		delta_x = base_x - current_x;
-		delta_y = base_y - current_y;
+	  delta_x = base_x - current_x;
+	  delta_y = base_y - current_y;
 
-		float delta_yz = delta_x/200.0;
-		float delta_xz = delta_y/300.0;
+	  float delta_yz = delta_x/200.0;
+	  float delta_xz = delta_y/300.0;
 
-		_yz = angle_yz + delta_yz;
-		_xz = angle_xz + delta_xz;
-	} else {
-		alter_angle = false;
+	  _yz = angle_yz + delta_yz;
+	  _xz = angle_xz + delta_xz;
+	}
+	else
+	{
+	  alter_angle = false;
 		
-		angle_xz = _xz;
-		angle_yz = _yz;
+	  angle_xz = _xz;
+	  angle_yz = _yz;
 	}
 	
 	if (_xz > 1.3) _xz = 1.3;
@@ -265,7 +280,7 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
 	c->GetTransform().SetOrigin(result);
 	c->GetTransform().LookAt(pos-result,csVector3(0,1,0));
-	}
+      }
     }
 
     // Tell 3D driver we're going to display 3D things.
