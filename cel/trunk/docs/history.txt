@@ -4,6 +4,17 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 5-Dec-2003
+	- Jorrit changed 'testcollide' to be a function in the XML behaviour
+	  layer.
+	- Jorrit implemented a variant of 'if' in the XML behaviour layer
+	  which supports inlined code instead of the requirement to fire
+	  seperate event handlers.
+	- Jorrit implemented 'destroyentity' in the XML behaviour layer.
+	- Jorrit added new 'call' operation to call events in other entities.
+	- Jorrit fixed a memory leak in pcbillboard caused by an embedded
+	  listener interface. Fixed this by avoiding the embedding.
+	- Jorrit fixed a bug in the RemoveBillboard() method of the billboard
+	  manager. It crashed.
 	- Matze fixed Jam rules so that cel-config builds correctly when
 	  building outside of the source tree.
 	- Eric Sunshine updated out-of-date mk/autoconf/*.m4 files, including

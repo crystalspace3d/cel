@@ -644,8 +644,8 @@ iBillboard* celBillboardManager::FindBillboard (const char* name) const
 
 void celBillboardManager::RemoveBillboard (iBillboard* billboard)
 {
-  billboards.Delete ((celBillboard*)billboard);
   billboards_hash.Delete (billboard->GetName (), (celBillboard*)billboard);
+  billboards.Delete ((celBillboard*)billboard);
   if (billboard == moving_billboard) moving_billboard = 0;
 }
 

@@ -154,7 +154,7 @@
 	        <print value="'x:'+param(parid(x))+' y:'+param(parid(y))" />
 		<print value="rand(1)" />
 	        <if eval="?isinit" false="findpc" />
-		<testcollide pcbillboard="?collidetest"
+		<if eval="testcollide(?collidetest)"
 			true="collide"
 			false="nocollide" />
 	    </event>

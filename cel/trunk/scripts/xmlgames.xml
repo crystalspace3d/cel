@@ -2,6 +2,7 @@
     <textures>
         <texture name="picture1">
 	    <file>/this/data/to_the_tavern.jpg</file>
+	    <keepimage />
         </texture>
     </textures>
     <materials>
@@ -25,6 +26,36 @@
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
 
+	<script name="menu">
+	    <event name="init">
+	        <print value="'Start initializing menu...'" />
+		<createentity name="but" behaviour="menu_button" />
+	    </event>
+	    <event name="destroy">
+	        <print value="'Start destroying menu...'" />
+	        <destroyentity name="but" />
+	    </event>
+	</script>
+	<script name="menu_button">
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(pcbillboard.name)" value="picture1" />
+	        <property id="propid(pcbillboard.materialname)" value="picture1" />
+	        <property id="propid(pcbillboard.movable)" value="false" />
+	        <property id="propid(pcbillboard.clickable)" value="true" />
+	        <property id="propid(pcbillboard.restack)" value="true" />
+	        <property id="propid(pcbillboard.width)" value="75000" />
+	        <property id="propid(pcbillboard.height)" value="75000" />
+	        <property id="propid(pcbillboard.x)" value="10000" />
+	        <property id="propid(pcbillboard.y)" value="10000" />
+	    </event>
+	    <event name="pcbillboard_select">
+	        <call entity="menu" event="destroy" />
+		<createentity name="puzzle_main" behaviour="puzzle_main" />
+	    </event>
+	</script>
+
 	<script name="puzzle_main">
 	    <event name="initcel">
 	        <var name="ent" value="'p'+?x+'_'+?y" />
@@ -33,10 +64,10 @@
 		<default propclass="pc(?ent,pcbillboard)" />
 	        <property id="propid(pcbillboard.x)" value="1000+75000*?x" />
 	        <property id="propid(pcbillboard.y)" value="1000+75000*?y" />
-	        <property id="propid(pcbillboard.uv_topleft)"
-			value="[?x*.25,?y*.25]" />
+		<var name="tl" value="[?x,?y]*.25" />
+	        <property id="propid(pcbillboard.uv_topleft)" value="?tl" />
 	        <property id="propid(pcbillboard.uv_botright)"
-			value="[?x*.25+.25,?y*.25+.25]" />
+			value="?tl + [.25,.25]" />
 	    </event>
 	    <event name="initrow">
 		<for var="x" start="0" end="3" exec="initcel" />
@@ -101,24 +132,30 @@
 		<action propclass="pc(pctimer)"
 			id="propid(pctimer.WakeUpFrame)" />
 	    </event>
-	    <event name="checkmove">
-		<var name="emptyx" value="?puzzle_main.emptyx" />
-		<var name="emptyy" value="?puzzle_main.emptyy" />
-		<var name="dx" value="?emptyx-?curx" />
-		<var name="dy" value="?emptyy-?cury" />
-		<if eval="(abs(?dx)==1&&?dy==0) || (abs(?dy)==1&&?dx==0)"
-			true="move" />
-	    </event>
-
 	    <event name="pcbillboard_select">
-	        <if eval="?puzzle_main.allowmove" true="checkmove"/>
+	        <if eval="?puzzle_main.allowmove">
+		    <true>
+		        <var name="emptyx" value="?puzzle_main.emptyx" />
+		        <var name="emptyy" value="?puzzle_main.emptyy" />
+		        <var name="dx" value="?emptyx-?curx" />
+		        <var name="dy" value="?emptyy-?cury" />
+		        <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)"
+			    true="move" />
+		    </true>
+		</if>
 	    </event>
 	</script>
 
     </addon>
 
+    <addon plugin="celentity" entityname="menu">
+        <behaviour name="menu" />
+    </addon>
+
+    <!--
     <addon plugin="celentity" entityname="puzzle_main">
         <behaviour name="puzzle_main" />
     </addon>
+    -->
 </world>
 
