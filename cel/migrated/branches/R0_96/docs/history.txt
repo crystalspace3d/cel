@@ -1,3 +1,5 @@
+11-Feb-2003
+	- Release of CEL 0.96r001.
 24-Jan-2003
 	- Eric Sunshine updated Makefile to work correctly with new -makevars
 	  fragments from cs-config which might now contain references to
