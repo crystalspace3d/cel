@@ -184,6 +184,16 @@ bool CelTest::HandleEvent (iEvent& ev)
 
       csDebuggingGraph::Dump (NULL);
     }
+    else if (ev.Key.Code == 'c')
+    {
+      if (game)
+      {
+        game->DecRef ();
+	game = NULL;
+	pl->CleanCache ();
+      }
+      csDebuggingGraph::Dump (NULL);
+    }
   }
   return false;
 }

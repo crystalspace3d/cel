@@ -1,3 +1,6 @@
+18-Nov-2001:
+	- Debugging with DG_TYPE for 'celEntity'.
+	- Added 'c' key to clear game (debugging too).
 16-Nov-2001:
 	- Implemented a cache in the physical layer. This cache will hold
 	  objects of type iBase and keeps a reference to them. This cache
