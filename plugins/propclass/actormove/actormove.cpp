@@ -155,12 +155,12 @@ void celPcActorMove::RotateTo (float yrot)
 
   if (current_yrot < 0)
     {
-      rotateright = (rotate_to > current_yrot) && (rotate_to < (current_yrot + M_PI));
+      rotateright = (rotate_to > current_yrot) && (rotate_to < (current_yrot + PI));
       rotateleft = !rotateright;
     }
   else
     {
-      rotateleft = (rotate_to > (current_yrot - M_PI)) && (rotate_to < current_yrot);
+      rotateleft = (rotate_to > (current_yrot - PI)) && (rotate_to < current_yrot);
       rotateright = !rotateleft;
     }
 
