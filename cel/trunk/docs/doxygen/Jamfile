@@ -7,7 +7,4 @@ DoxyGen pubapi : pubapi.dox : pubapi : b2w.jpg smalllogo.jpg ;
 DoxyGen devapi : devapi.dox : devapi : b2w.jpg smalllogo.jpg ;
 Help pubapi : "public API reference manual" ;
 Help devapi : "developer API reference manual" ;
-
-InstallDocDir pubapi ;
 }
-

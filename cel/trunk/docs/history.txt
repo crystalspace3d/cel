@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+5-Feb-2004
+	- Eric Sunshine upgraded documentation install Jam rules to work with
+	  latest cel/mk/jam/*.jam files.  This eliminates Jam warning about
+	  unknown `InstallDocDir' rule.
 3-Feb-2004
 	- Eric Sunshine upgraded cel/mk/autoconf files from master copies in
 	  CS repository and upgraded RANLIB check in configure.ac to work
