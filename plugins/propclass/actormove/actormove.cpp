@@ -144,25 +144,28 @@ void celPcActorMove::RotateTo (float yrot)
 
   current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
   rotate_to = atan2f (sin (yrot), cos (yrot));
-  float delta_angle = atan2f (sin (rotate_to - current_yrot), cos (rotate_to - current_yrot));
+  float delta_angle = atan2f (sin (rotate_to - current_yrot),
+  	cos (rotate_to - current_yrot));
 
   if (fabs(delta_angle) < SMALL_EPSILON)
-    {
-      rotateright = false;
-      rotateleft = false;
-      return;
-    }
+  {
+    rotateright = false;
+    rotateleft = false;
+    return;
+  }
 
   if (current_yrot < 0)
-    {
-      rotateright = (rotate_to > current_yrot) && (rotate_to < (current_yrot + PI));
-      rotateleft = !rotateright;
-    }
+  {
+    rotateright = (rotate_to > current_yrot)
+    	&& (rotate_to < (current_yrot + PI));
+    rotateleft = !rotateright;
+  }
   else
-    {
-      rotateleft = (rotate_to > (current_yrot - PI)) && (rotate_to < current_yrot);
-      rotateright = !rotateleft;
-    }
+  {
+    rotateleft = (rotate_to > (current_yrot - PI))
+    	&& (rotate_to < current_yrot);
+    rotateright = !rotateleft;
+  }
 
   HandleMovement (false);
 }
