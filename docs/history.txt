@@ -12,10 +12,12 @@
 	- Added a registry of behaviour layers to the physical layer.
 	- Added GetBehaviourLayer() function to iCelBehaviour.
 	- Made the persistance plugin independent from the behaviour
-	  layer that is choosen by also writing and reading the name
+	  layer that is chosen by also writing and reading the name
 	  of the behaviour layer. This allows persistance to work correctly
 	  if multiple behaviour layers are in memory (and behaviours from
 	  various behaviour layers are used).
+	- The python behaviour layer plugin is now actually working and
+	  being used for two small entities.
 27-Dec-2001:
 	- Added a string registry to the physical layer. This can be used
 	  for various things but in the first time it is going to be used
