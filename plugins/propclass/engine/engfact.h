@@ -905,6 +905,10 @@ public:
     {
       scfParent->Draw ();
     }
+    virtual void SetDistance (float distance, int mode)
+    {
+      scfParent->SetDistance (distance, mode);
+    }
   } scfiPcCamera;
 };
 

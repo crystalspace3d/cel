@@ -283,6 +283,12 @@ struct iPcCamera : public iBase
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw() = 0;
+  /**
+   * Set the distance between the character's eyes and the camera.
+   * The camera algorithms are responsible for calculating the actual
+   * position of the camera.
+   */
+  virtual void SetDistance (float distance, int mode=-1) = 0;
 };
 
 #endif // __CEL_PF_CAMERA__
