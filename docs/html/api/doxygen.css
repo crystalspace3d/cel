@@ -94,14 +94,14 @@ p {
  
 td.head {
   color: white;
-  background: #31363e;  
+  background: #094200;  
   padding-left:1.2cm; 
   text-align: left;
 }
 
 td.headshadow {
   color: white;
-  background: white url("csshadow.png") bottom repeat-x;  
+  background: white url("celshadow.png") bottom repeat-x;  
   padding-left:1.2cm; 
 }
 
