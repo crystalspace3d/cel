@@ -42,11 +42,14 @@ private:
   iObjectRegistry* object_reg;
   iCelPlLayer* pl;
   iFile* file;
+  bool performmapping;
   csHashSet entities;
   csHashSet pclasses;
   csHashMap read_entities;
+  csHashMap read_ids;
 
   bool WriteMarker (const char* s);
+  bool WriteID (iCelEntity* entity);
   bool Write (const char* s);
   bool Write (iCelPropertyClass* pc);
   bool Write (iCelEntity* entity);
@@ -83,10 +86,14 @@ public:
   
   celPersistClassicContext();
   virtual ~celPersistClassicContext();
-  bool Initialize (iObjectRegistry* object_reg, iFile* file, int mode);
+  bool Initialize (iObjectRegistry* object_reg, iFile* file, int mode,
+      bool performmapping);
 
   virtual iCelEntity* LoadEntity();
   virtual bool SaveEntity(iCelEntity* entity);
+
+  virtual CS_ID GetMappedID(iCelEntity* entitiy);
+  virtual iCelEntity* GetMappedEntity(CS_ID id);
 
   void Clear();
 
@@ -108,7 +115,8 @@ public:
   virtual iCelEntity* LoadEntity (const char* name);
   virtual bool SaveEntity (iCelEntity* entity, const char* name);
 
-  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode);
+  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode, 
+      bool performmapping);
 
   struct Component : public iComponent
   {
