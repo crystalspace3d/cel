@@ -354,7 +354,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     }
   }
 
-  return true;
+  // Allow other entities to process this event
+  return false;
 }
 
 //---------------------------------------------------------------------------
