@@ -67,6 +67,8 @@ enum
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_VARENT,		// A:-		S:E,S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:?		OS:-
+  CEL_OPERATION_DUP,		// A:-		S:?		OS:?,?
+  CEL_OPERATION_DROP,		// A:-		S:?		OS:-
   CEL_OPERATION_IF,		// A:EH,EH	S:B		OS:-
   CEL_OPERATION_IFGOTO,		// A:C		S:B		OS:-
   CEL_OPERATION_IFFUN,		// A:-		S:B,?,?		OS:?

@@ -58,6 +58,7 @@ enum
   XMLTOKEN_FOR,
   XMLTOKEN_PRINT,
   XMLTOKEN_CALL,
+  XMLTOKEN_CASE,
   XMLTOKEN_DESTROYENTITY,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
@@ -67,6 +68,7 @@ enum
   XMLTOKEN_INVENTORY_REM,
   XMLTOKEN_SOUND,
   XMLTOKEN_SUPER,
+  XMLTOKEN_SWITCH,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -134,6 +136,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("for", XMLTOKEN_FOR);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("call", XMLTOKEN_CALL);
+  xmltokens.Register ("case", XMLTOKEN_CASE);
   xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
@@ -143,6 +146,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
   xmltokens.Register ("sound", XMLTOKEN_SOUND);
   xmltokens.Register ("super", XMLTOKEN_SUPER);
+  xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -980,6 +984,48 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    int last_idx = h->GetLastArgumentIndex ();
 	    h->GetArgument (for_idx).SetCodeLocation (last_idx+1);
 	  }
+	}
+        break;
+      case XMLTOKEN_SWITCH:
+        {
+          if (!ParseExpression (child, h, "eval", "switch"))
+	    return false;
+	  csArray<int> goto_end_idx;
+	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+	  while (child_it->HasNext ())
+	  {
+	    csRef<iDocumentNode> c = child_it->Next ();
+	    if (c->GetType () != CS_NODE_ELEMENT) continue;
+	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_CASE)
+	    {
+	      h->AddOperation (CEL_OPERATION_DUP);
+              if (!ParseExpression (c, h, "value", "case"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_EQ);
+	      h->AddOperation (CEL_OPERATION_IFGOTO);
+	      int ifgoto_idx = h->GetLastArgumentIndex ();
+	      if (!ParseEventHandler (h, c, script))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_GOTO);
+	      int goto_idx = h->GetLastArgumentIndex ();
+	      goto_end_idx.Push (goto_idx);
+	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
+	    }
+	    else synldr->ReportBadToken (c);
+	  }
+	  csRef<iDocumentNode> def = child->GetNode ("default");
+	  if (def)
+	  {
+	    if (!ParseEventHandler (h, def, script))
+	      return false;
+	  }
+	  int end_idx = h->GetLastArgumentIndex ()+1;
+	  int i;
+	  for (i = 0 ; i < goto_end_idx.Length () ; i++)
+	  {
+	    h->GetArgument (goto_end_idx[i]).SetCodeLocation (end_idx);
+	  }
+	  h->AddOperation (CEL_OPERATION_DROP);
 	}
         break;
       case XMLTOKEN_IF:
