@@ -27,10 +27,12 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBlTest)
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (bltest)
   SCF_EXPORT_CLASS (celBlTest, "cel.behaviourlayer.test",
   	"CEL Test Behaviour Layer")
 SCF_EXPORT_CLASS_TABLE_END
+#endif
 
 SCF_IMPLEMENT_IBASE (celBlTest)
   SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)

@@ -44,9 +44,11 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (plimp)
   SCF_EXPORT_CLASS (celPlLayer, "cel.physicallayer", "CEL Physical Layer")
 SCF_EXPORT_CLASS_TABLE_END
+#endif
 
 SCF_IMPLEMENT_IBASE (celPlLayer)
   SCF_IMPLEMENTS_INTERFACE (iCelPlLayer)

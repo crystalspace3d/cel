@@ -38,13 +38,14 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Inventory, "pcinventory")
 CEL_IMPLEMENT_FACTORY (Characteristics, "pccharacteristics")
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (pfinv)
   SCF_EXPORT_CLASS (celPfInventory, "cel.pcfactory.inventory",
   	"CEL Inventory Property Class Factory")
   SCF_EXPORT_CLASS (celPfCharacteristics, "cel.pcfactory.characteristics",
 	"CEL Characteristics Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
-
+#endif
 
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

@@ -40,10 +40,12 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPersistClassic)
 
+#if 0
 SCF_EXPORT_CLASS_TABLE (cpersist)
   SCF_EXPORT_CLASS (celPersistClassic, "cel.persistance.classic",
   	"CEL Classic Persistance Module")
 SCF_EXPORT_CLASS_TABLE_END
+#endif
 
 SCF_IMPLEMENT_IBASE (celPersistClassic)
   SCF_IMPLEMENTS_INTERFACE (iCelPersistance)
