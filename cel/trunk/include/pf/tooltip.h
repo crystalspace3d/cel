@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_DECLARE_FAST_INTERFACE (iPcTooltip)
-
 SCF_VERSION (iPcTooltip, 0, 0, 1);
 
 /**

@@ -29,8 +29,6 @@ struct iPcMovable;
 struct iPcSolid;
 class csVector3;
 
-SCF_DECLARE_FAST_INTERFACE (iPcGravity)
-
 SCF_VERSION (iPcGravity, 0, 0, 1);
 
 /**

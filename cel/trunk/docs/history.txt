@@ -1,3 +1,6 @@
+2-Jul-2002:
+	- Fixed CEL for the latest CS changes with regards to the _FAST
+	  macros.
 11-Jun-2002:
 	- pcmovable property class now fires a callback with ID
 	  CEL_PCMOVEABLE_PROPERTY_POSITION whenever the position is changed

@@ -27,8 +27,6 @@ struct iCamera;
 struct iView;
 struct iPcRegion;
 
-SCF_DECLARE_FAST_INTERFACE (iPcCamera)
-
 SCF_VERSION (iPcCamera, 0, 0, 1);
 
 /**

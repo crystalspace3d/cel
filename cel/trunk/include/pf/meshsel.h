@@ -23,9 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_DECLARE_FAST_INTERFACE (iPcMeshSelectData)
-SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
-
 struct iPcCamera;
 struct iPcMovable;
 struct iPcMesh;

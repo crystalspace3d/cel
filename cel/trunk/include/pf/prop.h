@@ -24,8 +24,6 @@
 #include "csutil/scf.h"
 #include "pl/datatype.h"
 
-SCF_DECLARE_FAST_INTERFACE (iPcProperties)
-
 SCF_VERSION (iPcProperties, 0, 0, 1);
 
 /**

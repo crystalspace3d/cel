@@ -103,14 +103,14 @@ iCelDataBuffer* celPcMovable::Save ()
   databuf->SetDataCount (1+1+constraints.Length ());
   int i, j = 0;
   iCelPropertyClass* pc = NULL;
-  if (pcmesh) pc = SCF_QUERY_INTERFACE_FAST (pcmesh, iCelPropertyClass);
+  if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (j++)->Set (pc);
   if (pc) pc->DecRef ();
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = (iPcMovableConstraint*)constraints[i];
-    iCelPropertyClass* pc = SCF_QUERY_INTERFACE_FAST (pcm, iCelPropertyClass);
+    iCelPropertyClass* pc = SCF_QUERY_INTERFACE (pcm, iCelPropertyClass);
     databuf->GetData (j++)->Set (pc);
     pc->DecRef ();
   }
@@ -130,7 +130,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   iPcMesh* pcm = NULL;
   if (pc)
   {
-    pcm = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+    pcm = SCF_QUERY_INTERFACE (pc, iPcMesh);
     CS_ASSERT (pcm != NULL);
   }
   SetMesh (pcm);
@@ -143,7 +143,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_constraints ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    iPcMovableConstraint* pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc,
+    iPcMovableConstraint* pcm = SCF_QUERY_INTERFACE (cd->value.pc,
     	iPcMovableConstraint);
     CS_ASSERT (pcm != NULL);
     AddConstraint (pcm);
@@ -277,7 +277,7 @@ iCelDataBuffer* celPcSolid::Save ()
   pl->DecRef ();
   databuf->SetDataCount (1);
   iCelPropertyClass* pc = NULL;
-  if (pcmesh) pc = SCF_QUERY_INTERFACE_FAST (pcmesh, iCelPropertyClass);
+  if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   databuf->GetData (0)->Set (pc);
   if (pc) pc->DecRef ();
   return databuf;
@@ -293,7 +293,7 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (0); if (!cd) return false;
   iPcMesh* pcm = NULL;
   if (cd->value.pc)
-      pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcMesh);
+      pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcMesh);
   SetMesh (pcm);
   if (pcm) pcm->DecRef ();
   return true;
@@ -641,11 +641,11 @@ iCelDataBuffer* celPcGravity::Save ()
   celDataBufHelper db(databuf);
 
   iCelPropertyClass* pc;
-  if (pcmovable) pc = SCF_QUERY_INTERFACE_FAST (pcmovable, iCelPropertyClass);
+  if (pcmovable) pc = SCF_QUERY_INTERFACE (pcmovable, iCelPropertyClass);
   else pc = NULL;
   db.Set (pc);
   if (pc) pc->DecRef ();
-  if (pcsolid) pc = SCF_QUERY_INTERFACE_FAST (pcsolid, iCelPropertyClass);
+  if (pcsolid) pc = SCF_QUERY_INTERFACE (pcsolid, iCelPropertyClass);
   else pc = NULL;
   db.Set (pc);
   if (pc) pc->DecRef ();
@@ -677,13 +677,13 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 
   db.Get(pc);
   iPcMovable* pcm = NULL;
-  if (pc) pcm = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
+  if (pc) pcm = SCF_QUERY_INTERFACE (pc, iPcMovable);
   SetMovable (pcm);
   if (pcm) pcm->DecRef ();
 
   db.Get(pc);
   iPcSolid* pcs = NULL;
-  if (pc) pcs = SCF_QUERY_INTERFACE_FAST (pc, iPcSolid);
+  if (pc) pcs = SCF_QUERY_INTERFACE (pc, iPcSolid);
   SetSolid (pcs);
   if (pcs) pcs->DecRef ();
 

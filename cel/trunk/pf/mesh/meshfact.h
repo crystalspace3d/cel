@@ -38,8 +38,6 @@ struct iPcCamera;
 struct iCamera;
 class csVector3;
 
-SCF_DECLARE_FAST_INTERFACE (iMeshObject)
-
 /**
  * Factory for mesh.
  */

@@ -34,9 +34,6 @@ class csVector3;
  */
 #define CEL_PCMOVABLE_PROPERTY_POSITION 1
 
-SCF_DECLARE_FAST_INTERFACE (iPcMovable)
-SCF_DECLARE_FAST_INTERFACE (iPcMovableConstraint)
-
 #define CEL_MOVE_FAIL 0
 #define CEL_MOVE_SUCCEED 1
 #define CEL_MOVE_PARTIAL 2

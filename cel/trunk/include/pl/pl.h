@@ -24,16 +24,6 @@
 #include "csutil/scf.h"
 #include "csutil/strset.h"
 
-SCF_DECLARE_FAST_INTERFACE (iCelPlLayer)
-SCF_DECLARE_FAST_INTERFACE (iCelBlLayer)
-SCF_DECLARE_FAST_INTERFACE (iCelEntity)
-SCF_DECLARE_FAST_INTERFACE (iCelEntityList)
-SCF_DECLARE_FAST_INTERFACE (iCelPropertyClass)
-SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
-SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
-SCF_DECLARE_FAST_INTERFACE (iCelDataBuffer)
-SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
-
 struct iObject;
 struct iCelEntity;
 struct iCelEntityList;

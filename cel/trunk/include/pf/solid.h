@@ -26,8 +26,6 @@
 struct iCollider;
 struct iPcMesh;
 
-SCF_DECLARE_FAST_INTERFACE (iPcSolid)
-
 SCF_VERSION (iPcSolid, 0, 0, 1);
 
 /**

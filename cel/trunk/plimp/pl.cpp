@@ -105,7 +105,7 @@ iCelEntity* celPlLayer::CreateEntity ()
   CS_ID objid;
   
   celEntity* entity = new celEntity (this);
-  iCelEntity* ientity = SCF_QUERY_INTERFACE_FAST(entity, iCelEntity);
+  iCelEntity* ientity = SCF_QUERY_INTERFACE (entity, iCelEntity);
   entity->DecRef();
   objid = idlist.Register(ientity);
   if (objid == 0)
@@ -261,8 +261,6 @@ SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
   SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
 SCF_IMPLEMENT_IBASE_EXT_END
 
-SCF_DECLARE_FAST_INTERFACE (celEntityFinder)
-
 void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 {
   iCelEntity* old_entity = FindAttachedEntity (object);
@@ -270,7 +268,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   if (old_entity != NULL) UnattachEntity (object, old_entity);
   celEntityFinder* cef = new celEntityFinder (entity);
   cef->SetName ("__entfind__");	// @@@ For debugging mostly.
-  iObject* cef_obj = SCF_QUERY_INTERFACE_FAST (cef, iObject);
+  iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
   object->ObjAdd (cef_obj);
   cef_obj->DecRef ();
   cef->DecRef ();
@@ -278,11 +276,11 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 
 void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 {
-  celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (object, celEntityFinder);
+  celEntityFinder* cef = CS_GET_CHILD_OBJECT (object, celEntityFinder);
   if (cef)
   {
     if (cef->GetEntity () != entity) { cef->DecRef (); return; }
-    iObject* cef_obj = SCF_QUERY_INTERFACE_FAST (cef, iObject);
+    iObject* cef_obj = SCF_QUERY_INTERFACE (cef, iObject);
     object->ObjRemove (cef_obj);
     cef_obj->DecRef ();
     cef->DecRef ();
@@ -291,7 +289,7 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 
 iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 {
-  celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (object, celEntityFinder);
+  celEntityFinder* cef = CS_GET_CHILD_OBJECT (object, celEntityFinder);
   if (cef)
   {
     cef->DecRef ();
