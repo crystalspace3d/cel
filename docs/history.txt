@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Jun-2004
+	- Andrew Robberts added a patch by Ondrej Hurt that prevents an array
+	  bound to be crossed
 15-Jun-2004
 	- Keith made several fixes to the way time deltas are handled in DR updating.
 	  The first update cannot update for 100's of seconds, because that large
