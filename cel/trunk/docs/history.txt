@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Jan-2005
+	- Jorrit added a patch from David Bronke to support bool, long,
+	  and float attributes for the cel entity loader addon.
+	- Jorrit applied a fix to iCelPropertyClassList->FindByInterfaceAndTag()
+	  from David Bronke. The function wouldn't work in case a tag
+	  was given.
 23-Jan-2005
 	- Eric Sunshine fixed bug in
 	  celPcLinearMovement::PcLinearMovement::SetOnGround() where it was

@@ -253,6 +253,30 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 		}
 	        continue;
 	      }
+	      const char* float_value = par_child->GetAttributeValue ("float");
+	      if (float_value)
+	      {
+		float f;
+		csScanStr (float_value, "%f", &f);
+		params->GetParameter (par_idx-1).Set (f);
+	        continue;
+	      }
+	      const char* bool_value = par_child->GetAttributeValue ("bool");
+	      if (bool_value)
+	      {
+		bool b;
+		csScanStr (bool_value, "%b", &b);
+		params->GetParameter (par_idx-1).Set (b);
+	        continue;
+	      }
+	      const char* long_value = par_child->GetAttributeValue ("long");
+	      if (long_value)
+	      {
+		int l;
+		csScanStr (long_value, "%d", &l);
+		params->GetParameter (par_idx-1).Set (l);
+	        continue;
+	      }
 	      synldr->ReportError (
 	        "cel.addons.celentity",
 	        par_child, "Type for parameter not yet supported!");
