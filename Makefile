@@ -64,7 +64,6 @@ CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 CCC=g++ 
 LINK=g++
 RM=rm
-LINK.PLUGIN=$(LINK)
 
 #------
 # Flags for compiler and linker.
@@ -72,6 +71,9 @@ LINK.PLUGIN=$(LINK)
 #------
 CSCONFIG.MAK=csconfig.mak
 -include $(CSCONFIG.MAK)
+ifeq ($(LINK.PLUGIN),)
+  LINK.PLUGIN=$(LINK)
+endif
 CEL_INCLUDES=-I. -Iinclude
 CFLAGS = $(shell ./cs-config --cflags) $(CEL_INCLUDES)
 CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
