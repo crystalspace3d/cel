@@ -227,7 +227,8 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = player;
   if (action_wakeup == csInvalidStringID)
   {
     action_wakeup = pl->FetchStringID ("cel.property.WakeUp");
@@ -376,9 +377,10 @@ bool celPcTimer::HandleEvent (iEvent& ev)
     // To prevent the entity from being deleted during
     // the call of pctimer_wakeupframe we keep a temporary reference
     // here.
-    csRef<iCelEntity> ref = entity;
+    csRef<iCelEntity> ref;
     if (wakeupframe)
     {
+      ref = entity;
       iCelBehaviour* bh = entity->GetBehaviour ();
       CS_ASSERT (bh != 0);
       params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
@@ -434,7 +436,8 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = player;
 
   if (id_index == csInvalidStringID)
   {

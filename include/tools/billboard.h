@@ -142,6 +142,13 @@ struct iBillboard : public iBase
   virtual bool SetMaterialName (const char* matname) = 0;
 
   /**
+   * Set material for this billboard. Returns false on failure.
+   * This is a faster version which does not recompute the
+   * clickmap (unless there is no clickmap yet).
+   */
+  virtual bool SetMaterialNameFast (const char* matname) = 0;
+
+  /**
    * Get material name.
    */
   virtual const char* GetMaterialName () = 0;

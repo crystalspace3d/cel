@@ -287,6 +287,16 @@ bool celBillboard::SetMaterialName (const char* matname)
   return true;
 }
 
+bool celBillboard::SetMaterialNameFast (const char* matname)
+{
+  delete[] materialname;
+  materialname = csStrNew (matname);
+  material = 0;
+  material_ok = false;
+  SetupMaterial ();
+  return true;
+}
+
 void celBillboard::GetSize (int& w, int& h)
 {
   if (bb_w == -1) SetupMaterial ();

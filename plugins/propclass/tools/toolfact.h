@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/parray.h"
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
@@ -139,7 +140,7 @@ public:
 class celPcTimer : public celPcCommon
 {
 private:
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   bool enabled;
   csTicks wakeup, wakeup_todo;
@@ -216,7 +217,7 @@ public:
 class celPcProperties : public celPcCommon
 {
 private:
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
 
   struct property
   {

@@ -112,14 +112,37 @@ bool celBehaviourXml::SendMessage (const char* msg_id,
 bool celBehaviourXml::SendMessageV (const char* msg_id,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
+  celBlXml* cbl = (celBlXml*)bl;
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
   {
-    celBlXml* cbl = (celBlXml*)bl;
     cbl->call_stack.Push (msg_id);
     cbl->call_stack_params.Push (params);
     cbl->call_stack_entity.Push (entity);
+#if DO_PROFILE
+    csString msg = script->GetName ();
+    msg += '/';
+    msg += msg_id;
+    int idx = cbl->profile_info_hash.Get ((const char*)msg);
+    if (idx == 0)
+    {
+      idx = cbl->profile_info.Push (celBlXml::celProfileInfo ());
+      celBlXml::celProfileInfo& pi = cbl->profile_info[idx];
+      pi.msg = csStrNew ((const char*)msg);
+      pi.time = 0;
+      pi.count = 0;
+      cbl->profile_info_hash.Put (pi.msg, idx+1);
+    }
+    else idx--;
+    csTicks start = csGetTicks ();
+#endif
     h->Execute (entity, this, ret, params);
+#if DO_PROFILE
+    csTicks stop = csGetTicks ();
+    celBlXml::celProfileInfo& pi = cbl->profile_info[idx];
+    pi.time += stop-start;
+    pi.count++;
+#endif
     cbl->call_stack_entity.Pop ();
     cbl->call_stack_params.Pop ();
     cbl->call_stack.Pop ();
@@ -133,11 +156,33 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
       h = superscript->GetEventHandler (msg_id);
       if (h)
       {
-        celBlXml* cbl = (celBlXml*)bl;
         cbl->call_stack.Push (msg_id);
 	cbl->call_stack_params.Push (params);
 	cbl->call_stack_entity.Push (entity);
+#if DO_PROFILE
+    csString msg = superscript->GetName ();
+    msg += '/';
+    msg += msg_id;
+    int idx = cbl->profile_info_hash.Get ((const char*)msg);
+    if (idx == 0)
+    {
+      idx = cbl->profile_info.Push (celBlXml::celProfileInfo ());
+      celBlXml::celProfileInfo& pi = cbl->profile_info[idx];
+      pi.msg = csStrNew ((const char*)msg);
+      pi.time = 0;
+      pi.count = 0;
+      cbl->profile_info_hash.Put (pi.msg, idx+1);
+    }
+    else idx--;
+    csTicks start = csGetTicks ();
+#endif
 	h->Execute (entity, this, ret, params);
+#if DO_PROFILE
+        csTicks stop = csGetTicks ();
+        celBlXml::celProfileInfo& pi = cbl->profile_info[idx];
+        pi.time += stop-start;
+        pi.count++;
+#endif
         cbl->call_stack_entity.Pop ();
         cbl->call_stack_params.Pop ();
 	cbl->call_stack.Pop ();

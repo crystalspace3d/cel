@@ -39,6 +39,8 @@ class celXmlScript;
 class celXmlScriptEventHandler;
 class csStringArray;
 
+#define DO_PROFILE 0
+
 /**
  * This is the Behaviour Layer itself.
  */
@@ -51,11 +53,22 @@ public:
   csArray<iCelParameterBlock*> call_stack_params;
   // If true we will trace all changes to variables and properties.
   bool varprop_trace;
+  // For profiling.
+#if DO_PROFILE
+  struct celProfileInfo
+  {
+    const char* msg;
+    csTicks time;
+    int count;
+  };
+  csArray<celProfileInfo> profile_info;
+  csHash<int, csStrKey, csConstCharHashKeyHandler> profile_info_hash;
+#endif
 
 private:
   iObjectRegistry* object_reg;
   csRef<iSyntaxService> synldr;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
   csHash<celXmlScript*,csStrKey,csConstCharHashKeyHandler> scripts_hash;
   csStringHash xmltokens;

@@ -31,6 +31,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/strhash.h"
 #include "csutil/stringarray.h"
 #include "cstool/collider.h"
@@ -79,7 +80,7 @@ protected:
   iPcCollisionDetection *pccolldet;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
 
   // Linear vars
   csVector3 angularVelocity;

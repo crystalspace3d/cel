@@ -130,6 +130,15 @@ celBlXml::celBlXml (iBase* parent)
 
 celBlXml::~celBlXml ()
 {
+#if DO_PROFILE
+  int i;
+  for (i = 0 ; i < profile_info.Length () ; i++)
+  {
+    celProfileInfo& pi = profile_info[i];
+    printf ("%d %d %s\n", pi.time, pi.count, pi.msg);
+  }
+  fflush (stdout);
+#endif
 }
 
 bool celBlXml::Initialize (iObjectRegistry* object_reg)
@@ -144,7 +153,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = player;
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
@@ -816,16 +826,93 @@ bool celBlXml::ParseExpressionInt (
 	    	child, h, name, CEL_PRIORITY_ONETERM))
               return false;
 	  }
+
+          pinput = input;
+          input = celXmlParseToken (input, token);
+	  if (token == CEL_TOKEN_VECTOR)
+	  {
+	    // Special case of dereferencing an array (?entity.array[index] notation).
+            if (!ParseExpression (input, local_vars, child, h, name, 0))
+	      return false;
+            input = celXmlParseToken (input, token);
+	    bool twoargs = false;
+	    if (token == CEL_TOKEN_COMMA)
+	    {
+              if (!ParseExpression (input, local_vars, child, h, name, 0))
+	        return false;
+              input = celXmlParseToken (input, token);
+	      twoargs = true;
+	    }
+            if (token != CEL_TOKEN_VECTORCLOSE)
+	    {
+              synldr->ReportError ("cel.behaviour.xml", child,
+		      "Missing ']' or ',' for array in '%s'!", name);
+              return false;
+	    }
+	    if (str)
+	    {
+              h->AddOperation (twoargs
+	      	? CEL_OPERATION_DEREFARRENT2_STR
+	      	: CEL_OPERATION_DEREFARRENT_STR);
+	      h->GetArgument ().SetStringPrealloc (str);
+	    }
+	    else
+	    {
+              h->AddOperation (twoargs
+	      	? CEL_OPERATION_DEREFARRENT2
+	      	: CEL_OPERATION_DEREFARRENT);
+	    }
+	  }
+	  else
+	  {
+	    input = pinput; // Restore
+
+	    if (str)
+	    {
+              h->AddOperation (CEL_OPERATION_DEREFVARENT_STR);
+	      h->GetArgument ().SetStringPrealloc (str);
+	    }
+	    else
+	    {
+              h->AddOperation (CEL_OPERATION_DEREFVARENT);
+	    }
+	  }
+        }
+	else if (token == CEL_TOKEN_VECTOR)
+	{
+	  // Special case of dereferencing an array (?array[index] notation).
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+          input = celXmlParseToken (input, token);
+	  bool twoargs = false;
+	  if (token == CEL_TOKEN_COMMA)
+	  {
+            if (!ParseExpression (input, local_vars, child, h, name, 0))
+	      return false;
+            input = celXmlParseToken (input, token);
+	    twoargs = true;
+	  }
+
+          if (token != CEL_TOKEN_VECTORCLOSE)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		    "Missing ']' or ',' for array in '%s'!", name);
+            return false;
+	  }
 	  if (str)
 	  {
-            h->AddOperation (CEL_OPERATION_DEREFVARENT_STR);
+            h->AddOperation (twoargs
+	    	? CEL_OPERATION_DEREFARR2_STR
+		: CEL_OPERATION_DEREFARR_STR);
 	    h->GetArgument ().SetStringPrealloc (str);
 	  }
 	  else
 	  {
-            h->AddOperation (CEL_OPERATION_DEREFVARENT);
+            h->AddOperation (twoargs
+	    	? CEL_OPERATION_DEREFARR2
+	    	: CEL_OPERATION_DEREFARR);
 	  }
-        }
+	}
         else
         {
           input = pinput;	// Restore!
@@ -1461,7 +1548,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
       case XMLTOKEN_EXPR:
         if (!ParseExpression (local_vars, child, h, "eval", "expr"))
 	  return false;
-	h->AddOperation (CEL_OPERATION_DROP);
+	h->AddOperation (CEL_OPERATION_CLEARSTACK);
 	break;
       case XMLTOKEN_LVAR:
         {
@@ -1587,7 +1674,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  {
 	    csRef<iDocumentNode> c = child_it->Next ();
 	    if (c->GetType () != CS_NODE_ELEMENT) continue;
-	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_CASE)
+	    csStringID child_id = xmltokens.Request (c->GetValue ());
+	    if (child_id == XMLTOKEN_CASE)
 	    {
 	      h->AddOperation (CEL_OPERATION_DUP);
               if (!ParseExpression (local_vars, c, h, "value", "case"))
@@ -1602,7 +1690,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	      goto_end_idx.Push (goto_idx);
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
 	    }
-	    else synldr->ReportBadToken (c);
+	    else if (child_id != XMLTOKEN_DEFAULT)
+	      synldr->ReportBadToken (c);
 	  }
 	  csRef<iDocumentNode> def = child->GetNode ("default");
 	  if (def)
