@@ -31,6 +31,7 @@
 #include "physicallayer/entity.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
+#include "celtool/stdparams.h"
 
 #include "celentity.h"
 
@@ -55,6 +56,8 @@ enum
   XMLTOKEN_BEHAVIOUR,
   XMLTOKEN_PROPCLASS,
   XMLTOKEN_PROPERTY,
+  XMLTOKEN_ACTION,
+  XMLTOKEN_PAR,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -99,6 +102,8 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
+  xmltokens.Register ("action", XMLTOKEN_ACTION);
+  xmltokens.Register ("par", XMLTOKEN_PAR);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -202,6 +207,47 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 		break;
 	    }
 	  }
+	}
+	break;
+      case XMLTOKEN_ACTION:
+        {
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
+	  celVariableParameterBlock* params = new celVariableParameterBlock ();
+	  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
+	  size_t par_idx = 0;
+	  while (par_it->HasNext ())
+	  {
+	    csRef<iDocumentNode> par_child = par_it->Next ();
+	    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+	    const char* par_value = par_child->GetValue ();
+	    csStringID par_id = xmltokens.Request (par_value);
+	    if (par_id == XMLTOKEN_PAR)
+	    {
+	      csStringID parid = GetAttributeID (par_child, "cel.parameter.", "name");
+	      if (parid == csInvalidStringID) return false;
+	      params->SetParameterDef (par_idx, parid, par_child->GetAttributeValue (
+	      	"name"));
+	      par_idx++;
+	      const char* str_value = par_child->GetAttributeValue ("string");
+	      if (str_value)
+	      {
+	        params->GetParameter (par_idx-1).Set (str_value);
+		continue;
+	      }
+	      synldr->ReportError (
+	        "cel.addons.celentity",
+	        par_child, "Type for parameter not yet supported!");
+	      return false;
+	    }
+	    else
+	    {
+	      synldr->ReportBadToken (par_child);
+	      return false;
+	    }
+	  }
+	  pc->PerformAction (propid, params);
+	  params->DecRef ();
 	}
 	break;
       default:
