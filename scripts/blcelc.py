@@ -3653,7 +3653,6 @@ class iLight(iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iLight instance at %s>" % (self.this,)
-    def GetPrivateObject(*args): return _blcelc.iLight_GetPrivateObject(*args)
     def GetLightID(*args): return _blcelc.iLight_GetLightID(*args)
     def QueryObject(*args): return _blcelc.iLight_QueryObject(*args)
     def GetDynamicType(*args): return _blcelc.iLight_GetDynamicType(*args)
@@ -3836,6 +3835,30 @@ class iSectorCallbackPtr(iSectorCallback):
         _swig_setattr(self, iSectorCallback,self.__class__,iSectorCallback)
 _blcelc.iSectorCallback_swigregister(iSectorCallbackPtr)
 
+class iSectorMeshCallback(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSectorMeshCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSectorMeshCallback, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSectorMeshCallback instance at %s>" % (self.this,)
+    def NewMesh(*args): return _blcelc.iSectorMeshCallback_NewMesh(*args)
+    def RemoveMesh(*args): return _blcelc.iSectorMeshCallback_RemoveMesh(*args)
+    def __del__(self, destroy=_blcelc.delete_iSectorMeshCallback):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+class iSectorMeshCallbackPtr(iSectorMeshCallback):
+    def __init__(self, this):
+        _swig_setattr(self, iSectorMeshCallback, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSectorMeshCallback, 'thisown', 0)
+        _swig_setattr(self, iSectorMeshCallback,self.__class__,iSectorMeshCallback)
+_blcelc.iSectorMeshCallback_swigregister(iSectorMeshCallbackPtr)
+
 class iSector(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3846,7 +3869,6 @@ class iSector(iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iSector instance at %s>" % (self.this,)
-    def GetPrivateObject(*args): return _blcelc.iSector_GetPrivateObject(*args)
     def QueryObject(*args): return _blcelc.iSector_QueryObject(*args)
     def SetRenderLoop(*args): return _blcelc.iSector_SetRenderLoop(*args)
     def GetRenderLoop(*args): return _blcelc.iSector_GetRenderLoop(*args)
@@ -3875,6 +3897,8 @@ class iSector(iBase):
     def RemoveSectorCallback(*args): return _blcelc.iSector_RemoveSectorCallback(*args)
     def GetSectorCallbackCount(*args): return _blcelc.iSector_GetSectorCallbackCount(*args)
     def GetSectorCallback(*args): return _blcelc.iSector_GetSectorCallback(*args)
+    def AddSectorMeshCallback(*args): return _blcelc.iSector_AddSectorMeshCallback(*args)
+    def RemoveSectorMeshCallback(*args): return _blcelc.iSector_RemoveSectorMeshCallback(*args)
     def CheckFrustum(*args): return _blcelc.iSector_CheckFrustum(*args)
     def GetPortalMeshes(*args): return _blcelc.iSector_GetPortalMeshes(*args)
     def RegisterPortalMesh(*args): return _blcelc.iSector_RegisterPortalMesh(*args)
