@@ -43,8 +43,6 @@
 struct iCelEntity;
 struct iObjectRegistry;
 struct iEngine;
-struct iLoader;
-struct iVFS;
 struct iCelPlLayer;
 struct iPcMesh;
 class celPcTrigger;
@@ -62,13 +60,43 @@ class celPcTrigger : public celPcCommon
 private:
   csRef<iEngine> engine;
 
-  csArray<iCelEntity*> entities_in_trigger;
+  csWeakRefArray<iCelEntity> entities_in_trigger;
   bool enabled;
   bool send_to_self;
   bool send_to_others;
 
+  char* monitor_entity;
+  csWeakRef<iCelEntity> monitoring_entity;
+  csWeakRef<iPcMesh> monitoring_entity_pcmesh;
+
+  csTicks delay, jitter;
+
   static csStringID id_entity;
   celOneParameterBlock* params;
+
+  // Sphere to use for checking.
+  iSector* sphere_sector;
+  csVector3 sphere_center;
+  float sphere_radius;
+
+  // For properties.
+  enum propids
+  {
+    propid_delay = 0,
+    propid_jitter,
+    propid_monitor
+  };
+  static Property* properties;
+  static int propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
+
+  // Leave all entities (sends a message to self and others and then
+  // clears 'entities_in_trigger').
+  void LeaveAllEntities ();
+
+  // Return index in entity array if this entity is known to be in the
+  // trigger already. Otherwise returns csArrayItemNotFound.
+  size_t EntityInTrigger (iCelEntity* entity);
 
 public:
   celPcTrigger (iObjectRegistry* object_reg);
@@ -81,18 +109,30 @@ public:
   virtual const char* GetName () const { return "pctrigger"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+  virtual void TickOnce ();
 
-  void SendTriggerMessage (iCelEntity* entity, const char* msgid);
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the properties.
+  virtual bool SetProperty (csStringID, long);
+  virtual long GetPropertyLong (csStringID);
+  virtual bool SetProperty (csStringID, const char*);
+  virtual const char* GetPropertyString (csStringID);
 
-  void SetupTriggerSphere (const csVector3& center, float radius) { }
-  void SetupTriggerBox (const csBox3& box) { }
+  void SendTriggerMessage (iCelEntity* destentity,
+  	iCelEntity* entity, const char* msgid);
+
+  void SetupTriggerSphere (iSector* sector,
+  	const csVector3& center, float radius);
+  void SetupTriggerBox (iSector* sector, const csBox3& box);
+  void MonitorEntity (const char* entityname);
+  const char* GetMonitorEntity () const { return monitor_entity; }
+  void SetMonitorDelay (csTicks delay, csTicks jitter);
   void EnableMessagesToSelf (bool en) { send_to_self = en; }
   void EnableMessagesToOthers (bool en) { send_to_others = en; }
-  void EnableTrigger (bool en) { enabled = en; }
+  void EnableTrigger (bool en);
   bool IsEnabled () const { return enabled; }
-  const csArray<iCelEntity*>& GetEntitiesInTrigger () const
+  const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
   {
     return entities_in_trigger;
   }
@@ -100,13 +140,26 @@ public:
   struct PcTrigger : public iPcTrigger
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcTrigger);
-    virtual void SetupTriggerSphere (const csVector3& center, float radius)
+    virtual void SetupTriggerSphere (iSector* sector,
+    	const csVector3& center, float radius)
     {
-      scfParent->SetupTriggerSphere (center, radius);
+      scfParent->SetupTriggerSphere (sector, center, radius);
     }
-    virtual void SetupTriggerBox (const csBox3& box)
+    virtual void SetupTriggerBox (iSector* sector, const csBox3& box)
     {
-      scfParent->SetupTriggerBox (box);
+      scfParent->SetupTriggerBox (sector, box);
+    }
+    virtual void MonitorEntity (const char* entityname)
+    {
+      scfParent->MonitorEntity (entityname);
+    }
+    virtual const char* GetMonitorEntity () const
+    {
+      return scfParent->GetMonitorEntity ();
+    }
+    virtual void SetMonitorDelay (csTicks delay, csTicks jitter)
+    {
+      scfParent->SetMonitorDelay (delay, jitter);
     }
     virtual void EnableMessagesToSelf (bool en)
     {
@@ -124,7 +177,7 @@ public:
     {
       return scfParent->IsEnabled ();
     }
-    virtual const csArray<iCelEntity*>& GetEntitiesInTrigger () const
+    virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
     {
       return scfParent->GetEntitiesInTrigger ();
     }
