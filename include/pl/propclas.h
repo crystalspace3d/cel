@@ -28,6 +28,7 @@
   	VERSION_##Interface))
 
 struct iCelEntity;
+struct iCelDataBuffer;
 
 SCF_VERSION (iCelPropertyClass, 0, 0, 1);
 
@@ -51,6 +52,28 @@ struct iCelPropertyClass : public iBase
    * Set the entity for this property class.
    */
   virtual void SetEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Get a pointer to persistable data.
+   */
+  virtual iCelDataBuffer* GetDataBuffer () = 0;
+
+  /**
+   * Save this object to the data buffer. To use this
+   * you first call Save() which will update the data
+   * buffer and then you call GetDataBuffer() to fetch
+   * all the values.
+   */
+  virtual void Save () = 0;
+
+  /**
+   * Load this object from the data buffer that was
+   * updated previously. i.e. to use this you first
+   * call GetDataBuffer() which you then fill in from whatever
+   * source you want. After that you run Load() which will
+   * initialize the object from the filled in data buffer.
+   */
+  virtual void Load () = 0;
 };
 
 

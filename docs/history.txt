@@ -1,3 +1,7 @@
+8-Nov-2001:
+	- Started work on persistance. Nothing works yet. Created
+	  iCelDataBuffer which the persistance system will use to save/load
+	  information.
 6-Nov-2001:
 	- Started work on 'pcgravity' property class (in 'pfmove' factory).
 	  This property class is an almost exact copy of the movable property

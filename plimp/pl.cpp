@@ -24,6 +24,7 @@
 #include "plimp/entity.h"
 #include "plimp/message.h"
 #include "pl/propfact.h"
+#include "pl/persist.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
@@ -85,6 +86,54 @@ iCelMessage* celPlLayer::CreateMessage (const char* msg_string, ...)
   celMessage* msg = new celMessage (msg_string, arg);
   va_end (arg);
   return msg;
+}
+
+// Implementation of iCelDataBuffer.
+class celDataBuffer : public iCelDataBuffer
+{
+private:
+  csVector data;
+
+public:
+  celDataBuffer ()
+  {
+    SCF_CONSTRUCT_IBASE (NULL);
+  }
+  virtual ~celDataBuffer ()
+  {
+    SetDataCount (0);
+  }
+
+  SCF_DECLARE_IBASE;
+
+  virtual void SetDataCount (int cnt)
+  {
+    int i;
+    for (i = cnt ; i < data.Length () ; i++)
+    {
+      celData* cd = (celData*)data[i];
+      delete cd;
+    }
+    data.SetLength (cnt);
+  }
+  virtual int GetDataCount () const
+  {
+    return data.Length ();
+  }
+  virtual celData* GetData (int idx) const
+  {
+    CS_ASSERT (idx >= 0 && idx < data.Length ());
+    return (celData*)data[idx];
+  }
+};
+
+SCF_IMPLEMENT_IBASE (celDataBuffer)
+  SCF_IMPLEMENTS_INTERFACE (iCelDataBuffer)
+SCF_IMPLEMENT_IBASE_END
+
+iCelDataBuffer* celPlLayer::CreateDataBuffer ()
+{
+  return new celDataBuffer ();
 }
 
 // Class which is used to attach to an iObject so that

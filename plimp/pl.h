@@ -44,6 +44,7 @@ public:
 
   virtual iCelEntity* CreateEntity ();
   virtual iCelMessage* CreateMessage (const char* msg_string, ...);
+  virtual iCelDataBuffer* CreateDataBuffer ();
 
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
