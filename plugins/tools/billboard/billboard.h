@@ -98,11 +98,8 @@ public:
   virtual bool SetMaterialName (const char* matname);
   virtual const char* GetMaterialName () { return materialname; }
   virtual void SetSize (int w, int h);
-  virtual void GetSize (int& w, int& h) const
-  {
-    w = celBillboard::w;
-    h = celBillboard::h;
-  }
+  virtual void GetSize (int& w, int& h);
+  virtual void GetImageSize (int& w, int& h);
   virtual void SetPosition (int x, int y);
   virtual void GetPosition (int& x, int& y) const
   {

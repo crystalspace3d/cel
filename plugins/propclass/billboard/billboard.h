@@ -60,7 +60,13 @@ private:
     propid_movable,
     propid_visible,
     propid_restack,
-    propid_color
+    propid_color,
+    propid_width,
+    propid_height,
+    propid_widthpct,
+    propid_heightpct,
+    propid_x,
+    propid_y
   };
 
   static Property* properties;
@@ -87,10 +93,14 @@ public:
   // for the materialname property.
   virtual bool SetProperty (csStringID, const char*);
   virtual bool SetProperty (csStringID, bool);
+  virtual bool SetProperty (csStringID, long);
+  virtual bool SetProperty (csStringID, float);
   virtual bool SetProperty (csStringID, const csColor&);
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual bool GetPropertyColor (csStringID, csColor&);
+  virtual long GetPropertyLong (csStringID);
+  virtual float GetPropertyFloat (csStringID);
 
   // For iBillboardEventHandler:
   virtual void Select (iBillboard* billboard, int mouse_button,

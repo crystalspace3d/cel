@@ -62,6 +62,30 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 {
   tx = sx-x;
   ty = sy-y;
+  if (w != image_w)
+  {
+    tx = (tx * image_w) / w;
+    if (tx >= image_w) tx = image_w-1;
+  }
+  if (h != image_h)
+  {
+    ty = (ty * image_h) / h;
+    if (ty >= image_h) ty = image_h-1;
+  }
+}
+
+void celBillboard::GetSize (int& w, int& h)
+{
+  if (w == -1) SetupMaterial ();
+  w = celBillboard::w;
+  h = celBillboard::h;
+}
+
+void celBillboard::GetImageSize (int& w, int& h)
+{
+  if (image_w == -1) SetupMaterial ();
+  w = celBillboard::image_w;
+  h = celBillboard::image_h;
 }
 
 bool celBillboard::GetFromClickMap (int tx, int ty)

@@ -42,6 +42,13 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_TYPE_FLOAT: arg.f = other.arg.f; break;
     case CEL_TYPE_PC: arg.pc = other.arg.pc; break;
     case CEL_TYPE_ID: arg.id = other.arg.id; break;
+    case CEL_TYPE_EVENTHANDLER: arg.h = other.arg.h; break;
+    case CEL_TYPE_VECTOR3: arg.vec = other.arg.vec; break;
+    case CEL_TYPE_COLOR: arg.col = other.arg.col; break;
+    case CEL_TYPE_VAR: arg.s = csStrNew (other.arg.s); break;
+    case CEL_TYPE_NONE: break;
+    default:
+      CS_ASSERT (false);
   }
 }
 
@@ -49,6 +56,7 @@ void celXmlArg::Cleanup ()
 {
   switch (type)
   {
+    case CEL_TYPE_VAR: delete[] arg.s; break;
     case CEL_TYPE_STRING: delete[] arg.s; break;
     case CEL_TYPE_ARGLIST: delete arg.a; break;
   }
@@ -269,26 +277,67 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  iPcProperties* props = behave->GetProperties ();
 	  if (!props) break;	// @@@ Report error!
+	  const char* pn = args[0].arg.s;
 	  switch (args[1].type)
 	  {
+	    case CEL_TYPE_VAR:
+	      {
+                printf (": var %s=var %s\n", pn, args[1].arg.s);
+	        fflush (stdout);
+		int idx = props->GetPropertyIndex (args[1].arg.s);
+		if (idx == -1) break;	// @@@ Report error!
+		switch (props->GetPropertyType (idx))
+		{
+		  case CEL_DATA_LONG:
+		    props->SetProperty (pn, props->GetPropertyLong (idx));
+		    break;
+		  case CEL_DATA_FLOAT:
+		    props->SetProperty (pn, props->GetPropertyFloat (idx));
+		    break;
+		  case CEL_DATA_BOOL:
+		    props->SetProperty (pn, props->GetPropertyBool (idx));
+		    break;
+		  case CEL_DATA_STRING:
+		    props->SetProperty (pn, props->GetPropertyString (idx));
+		    break;
+		  case CEL_DATA_VECTOR3:
+		    {
+		      csVector3 v;
+		      props->GetPropertyVector (idx, v);
+		      props->SetProperty (pn, v);
+		    }
+		    break;
+		  case CEL_DATA_COLOR:
+		    {
+		      csColor v;
+		      props->GetPropertyColor (idx, v);
+		      props->SetProperty (pn, v);
+		    }
+		    break;
+		  default:
+		    CS_ASSERT (false);
+		    break;
+		}
+	      }
+	      break;
 	    case CEL_TYPE_BOOL:
-	      props->SetProperty (args[0].arg.s, args[1].arg.b);
-              printf (": var %s=%d\n", args[0].arg.s, args[1].arg.b);
+	      props->SetProperty (pn, args[1].arg.b);
+              printf (": var %s=%d\n", pn, args[1].arg.b);
 	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_FLOAT:
-	      props->SetProperty (args[0].arg.s, args[1].arg.f);
-              printf (": var %s=%g\n", args[0].arg.s, args[1].arg.f);
+	      props->SetProperty (pn, args[1].arg.f);
+              printf (": var %s=%g\n", pn, args[1].arg.f);
 	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_STRING:
-	      props->SetProperty (args[0].arg.s, args[1].arg.s);
-              printf (": var %s=%s\n", args[0].arg.s, args[1].arg.s);
+	      props->SetProperty (pn, args[1].arg.s);
+              printf (": var %s=%s\n", pn, args[1].arg.s);
 	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_INT32:
-	      props->SetProperty (args[0].arg.s, (long)args[1].arg.i);
-              printf (": var %s=%d\n", args[0].arg.s, args[1].arg.i);
+	      props->SetProperty (pn, (long)args[1].arg.i);
+              printf (": var %s=%d\n", pn, args[1].arg.i);
 	      fflush (stdout);
 	      break;
 	    case CEL_TYPE_COLOR:
@@ -297,8 +346,8 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		col.red = args[1].arg.col.red;
 		col.green = args[1].arg.col.green;
 		col.blue = args[1].arg.col.blue;
-	        props->SetProperty (args[0].arg.s, col);
-                printf (": var %s=%g,%g,%g\n", args[0].arg.s, col.red,
+	        props->SetProperty (pn, col);
+                printf (": var %s=%g,%g,%g\n", pn, col.red,
 			col.green, col.blue);
 	        fflush (stdout);
 	      }
@@ -309,8 +358,8 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		vec.x = args[1].arg.vec.x;
 		vec.y = args[1].arg.vec.y;
 		vec.z = args[1].arg.vec.z;
-	        props->SetProperty (args[0].arg.s, vec);
-                printf (": var %s=%g,%g,%g\n", args[0].arg.s, vec.x,
+	        props->SetProperty (pn, vec);
+                printf (": var %s=%g,%g,%g\n", pn, vec.x,
 			vec.y, vec.z);
 	        fflush (stdout);
 	      }
@@ -378,23 +427,61 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           printf (": property pc=%d id=%d\n", args[0].arg.pc, args[1].arg.id);
 	  fflush (stdout);
+	  iCelPropertyClass* pc = resolvers[args[0].arg.pc].pc;
+	  csStringID id = args[1].arg.id;
 	  switch (args[2].type)
 	  {
+	    case CEL_TYPE_VAR:
+	      {
+		iPcProperties* props = behave->GetProperties ();
+		if (!props) break;	// @@@ Report error!
+		int idx = props->GetPropertyIndex (args[2].arg.s);
+		if (idx == -1) break;	// @@@ Report error!
+		switch (props->GetPropertyType (idx))
+		{
+		  case CEL_DATA_LONG:
+		    pc->SetProperty (id, props->GetPropertyLong (idx));
+		    break;
+		  case CEL_DATA_FLOAT:
+		    pc->SetProperty (id, props->GetPropertyFloat (idx));
+		    break;
+		  case CEL_DATA_BOOL:
+		    pc->SetProperty (id, props->GetPropertyBool (idx));
+		    break;
+		  case CEL_DATA_STRING:
+		    pc->SetProperty (id, props->GetPropertyString (idx));
+		    break;
+		  case CEL_DATA_VECTOR3:
+		    {
+		      csVector3 v;
+		      props->GetPropertyVector (idx, v);
+		      pc->SetProperty (id, v);
+		    }
+		    break;
+		  case CEL_DATA_COLOR:
+		    {
+		      csColor v;
+		      props->GetPropertyColor (idx, v);
+		      pc->SetProperty (id, v);
+		    }
+		    break;
+		  default:
+		    CS_ASSERT (false);
+		    break;
+		}
+	      }
+	      break;
 	    case CEL_TYPE_BOOL:
-	      resolvers[args[0].arg.pc].pc->SetProperty (
-	  	    args[1].arg.id, args[2].arg.b);
+	      pc->SetProperty (id, args[2].arg.b);
 	      break;
 	    case CEL_TYPE_FLOAT:
-	      resolvers[args[0].arg.pc].pc->SetProperty (
-	  	    args[1].arg.id, args[2].arg.f);
+	      pc->SetProperty (id, args[2].arg.f);
 	      break;
 	    case CEL_TYPE_STRING:
-	      resolvers[args[0].arg.pc].pc->SetProperty (
-	  	    args[1].arg.id, args[2].arg.s);
+	      pc->SetProperty (id, args[2].arg.s);
 	      break;
 	    case CEL_TYPE_INT32:
-	      resolvers[args[0].arg.pc].pc->SetProperty (
-	  	    args[1].arg.id, (long)args[2].arg.i);
+	      pc->SetProperty (id, (long)args[2].arg.i);
 	      break;
 	    case CEL_TYPE_COLOR:
 	      {
@@ -402,7 +489,7 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		col.red = args[2].arg.col.red;
 		col.green = args[2].arg.col.green;
 		col.blue = args[2].arg.col.blue;
-	        resolvers[args[0].arg.pc].pc->SetProperty (args[1].arg.id, col);
+	        pc->SetProperty (id, col);
 	      }
 	      break;
 	    case CEL_TYPE_VECTOR3:
@@ -411,7 +498,7 @@ void celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		v.x = args[2].arg.vec.x;
 		v.y = args[2].arg.vec.y;
 		v.z = args[2].arg.vec.z;
-	        resolvers[args[0].arg.pc].pc->SetProperty (args[1].arg.id, v);
+	        pc->SetProperty (id, v);
 	      }
 	      break;
 	    default:

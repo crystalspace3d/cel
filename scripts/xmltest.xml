@@ -105,6 +105,35 @@
         <script name="generic_object">
 	</script>
 
+        <script name="switch_size">
+	    <event name="init">
+	        <var name="normal" bool="1" />
+	    </event>
+	    <event name="makesmall">
+	        <var name="normal" bool="0" />
+		<print>makesmall</print>
+	        <getproperty var="w" propclass="pcbillboard"
+			name="pcbillboard.width" />
+	        <getproperty var="h" propclass="pcbillboard"
+			name="pcbillboard.height" />
+	        <property propclass="pcbillboard" name="pcbillboard.width"
+			long="50" />
+	        <property propclass="pcbillboard" name="pcbillboard.height"
+			long="50" />
+	    </event>
+	    <event name="makelarge">
+	        <var name="normal" bool="1" />
+		<print>makelarge</print>
+	        <property propclass="pcbillboard" name="pcbillboard.width"
+			var="w" />
+	        <property propclass="pcbillboard" name="pcbillboard.height"
+			var="h" />
+	    </event>
+	    <event name="pcbillboard_select">
+	        <if var="normal" true="makesmall" false="makelarge" />
+	    </event>
+	</script>
+
         <script name="lamp">
 	    <event name="init">
 	        <var name="isinit" bool="0" />
@@ -402,11 +431,14 @@
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="chair" />
 	        <property name="pcbillboard.materialname" string="chair" />
+	        <property name="pcbillboard.clickable" bool="1" />
 	        <property name="pcbillboard.movable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
 		<property name="pcbillboard.color" color="1,0,0" />
+	        <property name="pcbillboard.widthpct" float=".7" />
+	        <property name="pcbillboard.heightpct" float=".7" />
 	    </propclass>
-            <behaviour name="generic_object" />
+            <behaviour name="switch_size" />
 	</addon>
 	<addon plugin="celentity" entityname="desk">
 	    <propclass name="pcbillboard">
@@ -418,24 +450,26 @@
             <behaviour name="generic_object" />
 	</addon>
 	<addon plugin="celentity" entityname="lamp_desk">
-	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="lamp_desk" />
 	        <property name="pcbillboard.materialname" string="lamp_desk" />
 	        <property name="pcbillboard.movable" bool="1" />
 	        <property name="pcbillboard.clickable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
+	        <property name="pcbillboard.widthpct" float=".40" />
+	        <property name="pcbillboard.heightpct" float=".40" />
 	    </propclass>
             <behaviour name="lamp" />
 	</addon>
 	<addon plugin="celentity" entityname="lamp_table">
-	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="lamp_table" />
 	        <property name="pcbillboard.materialname" string="lamp_table" />
 	        <property name="pcbillboard.movable" bool="1" />
 	        <property name="pcbillboard.clickable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
+	        <property name="pcbillboard.widthpct" float=".40" />
+	        <property name="pcbillboard.heightpct" float=".40" />
 	    </propclass>
             <behaviour name="lamp" />
 	</addon>
