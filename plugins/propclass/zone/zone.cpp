@@ -626,9 +626,18 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
     }
     else
     {
-      // We don't have a valid camera position. Try to see if there
-      // is a sector called 'room'.
-      iSector* room = cur_region->FindSector ("room");
+      // We don't have a valid camera position. Just take one of the
+      // sectors in this region and use position 0,0,0. We assume that
+      // in this case the user of this function will set the position
+      // manually to a better place.
+      iSectorList* sl = engine->GetSectors ();
+      iSector* room = 0;
+      for (i = 0 ; i < sl->GetCount () ; i++)
+        if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
+	{
+	  room = sl->Get (i);
+	  break;
+        }
       if (!room)
 	return CEL_ZONEERROR_BADSTART;
       pccamera->GetCamera ()->SetSector (room);
@@ -696,9 +705,18 @@ int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
     }
     else
     {
-      // We don't have a valid camera position. Try to see if there
-      // is a sector called 'room'.
-      sector = cur_region->FindSector ("room");
+      // We don't have a valid camera position. Just take one of the
+      // sectors in this region and use position 0,0,0. We assume that
+      // in this case the user of this function will set the position
+      // manually to a better place.
+      iSectorList* sl = engine->GetSectors ();
+      sector = 0;
+      for (i = 0 ; i < sl->GetCount () ; i++)
+        if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
+	{
+	  sector = sl->Get (i);
+	  break;
+	}
       pos.Set (0, 0, 0);
     }
   }

@@ -24,7 +24,7 @@
 #include "csgeom/vector3.h"
 #include "csgeom/box.h"
 #include "csutil/scf.h"
-#include "csutil/array.h"
+#include "csutil/weakrefarr.h"
 
 struct iCelEntity;
 
@@ -45,18 +45,51 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * <li>pctrigger_entertrigger: this entity enters a trigger (entity).
  * <li>pctrigger_leavetrigger: this entity leaves a trigger (entity).
  * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>delay (long, read/write): update delay for checking trigger.
+ * <li>jitter (long, read/write): random jitter added to update delay.
+ * <li>monitor (string, read/write): name of entity to monitor.
+ * </ul>
  */
 struct iPcTrigger : public iBase
 {
   /**
    * Setup a spherical area as trigger zone.
    */
-  virtual void SetupTriggerSphere (const csVector3& center, float radius) = 0;
+  virtual void SetupTriggerSphere (iSector* sector,
+  	const csVector3& center, float radius) = 0;
 
   /**
    * Setup a box trigger zone.
    */
-  virtual void SetupTriggerBox (const csBox3& box) = 0;
+  virtual void SetupTriggerBox (iSector* sector, const csBox3& box) = 0;
+
+  /**
+   * By default pctrigger will monitor all entities. If you only want
+   * pctrigger to monitor one entity then you can give the name of that
+   * entity here. pctrigger will try to find the entity with that name
+   * and monitor it. To go back to monitoring all entities just call
+   * this function with a 0 name.
+   */
+  virtual void MonitorEntity (const char* entityname) = 0;
+
+  /**
+   * Return the entity name that we are currently monitoring or
+   * 0 if monitoring all entities.
+   */
+  virtual const char* GetMonitorEntity () const = 0;
+
+  /**
+   * Set the number of milliseconds we delay before monitoring
+   * all entities again. There is also a jitter parameter which will
+   * add a small random amount to that time to prevent all triggers
+   * trying to do the monitoring at once. By default this is set
+   * to 200/20 (i.e. roughly five times per second).
+   */
+  virtual void SetMonitorDelay (csTicks delay, csTicks jitter) = 0;
 
   /**
    * Enable/disable sending messages to the entity containing
@@ -88,7 +121,7 @@ struct iPcTrigger : public iBase
    * Get an array of all entities that are currently
    * in the trigger area.
    */
-  virtual const csArray<iCelEntity*>& GetEntitiesInTrigger () const = 0;
+  virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const = 0;
 };
 
 #endif // __CEL_PF_TRIGGER__

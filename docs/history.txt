@@ -8,6 +8,14 @@ The history order is reversed so that new features are at the top.
 	  only the include file is there.
 	- Jorrit added the implementation files for pctrigger but without
 	  real functionality in it for now.
+	- Jorrit changed PointMesh() and PointCamera() in the zone manager
+	  so that they more actively look for a valid sector in case no good
+	  start position is found.
+	- Jorrit enhanced the trigger api a bit more and implemented nearly
+	  all functionality of it. It is now possible to trigger for a single
+	  entity alone (is a lot faster). The only thing that is not yet
+	  implement is the trigger area on a box. Currently it only works
+	  on a sphere.
 16-Sep-2004
 	- Jorrit fixed a bug in celtest. Because of a misplaced
 	  engine->Prepare() lighting would be bad if -relight was not
