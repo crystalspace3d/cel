@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	  Works a bit like the C++ ?: operator. An important difference is
 	  that the 'if' function will always evaluate both the true and
 	  the false expression.
+	- Eric Sunshine imported newer crystal.m4 from CS/mk/automake.  Also
+	  made minor aesthetic improvements to configure.ac.
 5-Dec-2003
 	- Jorrit changed 'testcollide' to be a function in the XML behaviour
 	  layer.

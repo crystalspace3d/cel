@@ -9,8 +9,8 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 AC_INIT([cel], [0.97], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystalspace Entity Layer],
-		[(c)2002,2003 Jorrit Tyberghein and others.],
-		[http://cel.sourceforge.net/])
+    [(C)2002,2003 Jorrit Tyberghein and others.],
+    [http://cel.sourceforge.net/])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
@@ -20,10 +20,10 @@ AC_CANONICAL_HOST
 #----------------------------------------------------------------------------
 CS_PROG_CC
 AS_IF([test -z "$CC"],
-    [AC_MSG_ERROR([Couldn't find a usable C compiler.])])
+    [AC_MSG_ERROR([Could not find a usable C compiler.])])
 CS_PROG_CXX
 AS_IF([test -z "$CXX"],
-    [AC_MSG_ERROR([Couldn't find a usable C++ compiler.])])
+    [AC_MSG_ERROR([Could not find a usable C++ compiler.])])
 CS_PROG_LINK
 
 AC_CHECK_PROGS([INSTALL], [install])
