@@ -1124,21 +1124,21 @@
 		<var name="row30" value="'B       B     #XXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row31" value="'BBBBBBBBB     #XXXXXXXXXXXXXXXOXOOOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row32" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row33" value="'B             #XXXXXXXXXOXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row35" value="'B             #XXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row33" value="'B             #XXXXXXXXXOXXXXOXXXXXXXXXXXXXXXXXOXXXXXXXXXXXX#  B'" />
+		<var name="row34" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXX#  B'" />
+		<var name="row35" value="'B             #XXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXX#  B'" />
 		<var name="row36" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row37" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row38" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row39" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row40" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row41" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row42" value="'B             #XXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row39" value="'B             #XXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row40" value="'B             #XXXXXXXXXXXXXXOXOXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row41" value="'B             #XXXXXXXXXXXXXOXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row42" value="'B             #XXXXXXXXOXXXXXXXXXXOXXXOXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row43" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row44" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row44" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row45" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row46" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row47" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row46" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXXXXXXXXXXXXXX#  B'" />
+		<var name="row47" value="'B             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXXXXX#  B'" />
 		<var name="row48" value="'B             ###############################################  B'" />
 		<var name="row49" value="'B                                                              B'" />
 		<var name="row50" value="'B                                                              B'" />
@@ -1227,8 +1227,10 @@
 		    </if>
 		    <var name="old_mazepos" value="?oldx+'_'+?oldy" />
 		    <var name="maze+?old_mazepos" value="' '" />
+<print value="'clear old '+?old_mazepos" />
 		    <var name="mazeent+?old_mazepos" value="''" />
 		</if>
+<print value="'clear new '+?mazepos+' '+?ent" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="?ent" />
 		<destroyentity name="?ent" />
@@ -1304,7 +1306,7 @@
 
 	    <!--
 	      - End movement of a block.
-	      - direction. Paramter: @entity.
+	      - direction. Parameter: @entity.
 	      -->
 	    <event name="endmove_block">
 		<call event="setblock">
@@ -1768,6 +1770,7 @@
 			<par id="parid(x)" value="@x" />
 			<par id="parid(y)" value="@y" />
 		    </call>
+<!--
 		    <call entity="bdash_main" event="createblock">
 			<par id="parid(blocktype)" value="@blocktype" />
 			<par id="parid(x)" value="@x" />
@@ -1777,13 +1780,25 @@
 		    	<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
 			<call entity="?ent" event="explode_later" />
 		    </if>
+-->
 		</if>
 	    </event>
 
 	    <event name="endmove">
-		<super />
 		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
 		    <sound name="explosion" loop="false" />
+
+		    <!--
+		      - First we need to end movement of the bomb without
+		      - restarting it.
+		      -->
+		    <call entity="bdash_main" event="setblock">
+			<par id="parid(entity)" value="''" />
+			<par id="parid(blocktype)" value="' '" />
+			<par id="parid(x)" value="?oldx" />
+			<par id="parid(y)" value="?oldy" />
+		    </call>
+
 		    <call event="explodeblock">
 			<par id="parid(blocktype)" value="'exp_l'" />
 			<par id="parid(x)" value="?x-1" />
@@ -1824,12 +1839,22 @@
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y-1" />
 		    </call>
+		    <call entity="bdash_main" event="clearblock_nocheck">
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y" />
+		    </call>
 		    <call entity="bdash_main" event="createblock">
 			<par id="parid(blocktype)" value="'exp_c'" />
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
 		    </call>
+		    <stop />
 		</if>
+		<!--
+		  - We only call super here because we don't want to do
+		  - all that if the bomb explodes.
+		  -->
+		<super />
 	    </event>
 	</script>
 
@@ -1845,6 +1870,7 @@
 	      -->
 	    <event name="init">
 	    	<super />
+		<!--
 	        <createpropclass name="pctimer" />
 		<action propclass="pc(pctimer)" id="propid(WakeUp)">
 		    <par id="parid(time)" value="50" />
@@ -1852,6 +1878,7 @@
 		</action>
 		<var name="counter" value="10" />
 		<var name="explode" value="11" />	<!-- Don't explode -->
+		-->
 	    </event>
 
 	    <!--
