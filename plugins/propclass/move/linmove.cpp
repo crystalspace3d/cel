@@ -563,9 +563,15 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
   else
   {
-      float angInterval = 0.05f;
-      angDelta += delta;
       bool rc = false;
+      if (!angDeltaLimit)
+      {
+          rc = MoveSprite (delta);
+          rc = RotateV(angDeltaLimit) || rc;
+          return;
+      }
+
+      angDelta += delta;
       if (angularVelocity.IsZero() || delta < angDeltaLimit)
           rc = MoveSprite (delta);
       else if (!vel.IsZero())
