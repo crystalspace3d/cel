@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Dec-2003
+	- Jorrit implemented cross product and modulo operator for the XML
+	  behaviour layer.
 5-Dec-2003
 	- Jorrit changed 'testcollide' to be a function in the XML behaviour
 	  layer.

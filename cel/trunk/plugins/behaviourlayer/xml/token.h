@@ -40,6 +40,7 @@ enum
   CEL_TOKEN_ADD,	// +
   CEL_TOKEN_MULT,	// *
   CEL_TOKEN_DIV,	// /
+  CEL_TOKEN_MODULO,	// %
   CEL_TOKEN_EQ,		// ==
   CEL_TOKEN_NE,		// !=
   CEL_TOKEN_LE,		// <=

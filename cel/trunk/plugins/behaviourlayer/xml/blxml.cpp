@@ -677,6 +677,12 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	  return false;
         h->AddOperation (CEL_OPERATION_DIV);
         break;
+      case CEL_TOKEN_MODULO:
+        if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_MULTDIV))
+	  return false;
+        h->AddOperation (CEL_OPERATION_MODULO);
+        break;
       default:
         synldr->ReportError ("cel.behaviour.xml", child,
 		    "Unexpected token %d for '%s' (2)!", token, name);
