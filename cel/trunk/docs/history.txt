@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Sep-2003
+	- Eric Sunshine added ranlib check to configure.ac; needed for MacOS/X.
 27-Aug-2003
 	- Jorrit moved the apps/celtest/data directory to data so that the
 	  python scripts don't have to fetch stuff inside celtest directory.
