@@ -120,11 +120,9 @@ void celPcCommandInput::Activate (bool activate)
       return;
     
     iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-    if (q != NULL)
-    {
-      q->RemoveListener (scfiEventHandler);
-      q->DecRef();
-    }
+    CS_ASSERT(q);
+    q->RemoveListener (scfiEventHandler);
+    q->DecRef();
     scfiEventHandler->DecRef();
     scfiEventHandler=NULL;
   }
@@ -156,7 +154,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     newmap->next=maplist;
     newmap->prev=NULL;
     newmap->key=key;
-    newmap->command=new char[strlen(command)+1];
+    newmap->command=new char[strlen(command)+2];
     strcpy (newmap->command+1, command);
     newmap->is_on=false;
     if (maplist)
@@ -167,7 +165,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   {
     if (newmap->command) 
       delete [] newmap->command;
-    newmap->command=new char[strlen(command)+1];
+    newmap->command=new char[strlen(command)+2];
     strcpy (newmap->command+1, command);
   }
   
