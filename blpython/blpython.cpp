@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //extern "C" {
@@ -84,6 +84,12 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   cmd << "sys.path.append('" << path << "scripts/python/')";
   if (!RunText (cmd)) return false;
   if (!RunText ("sys.path.append('scripts/')")) return false;
+#ifdef TOP_SRCDIR
+  if (!RunText ("sys.path.append('" TOP_SRCDIR "/scripts/')")) return false;
+#endif // TOP_SRCDIR
+#ifdef SCRIPTSDIR
+  if (!RunText ("sys.path.append('" SCRIPTSDIR "/')")) return false;
+#endif // SCRIPTSDIR
   
   if (!LoadModule ("pdb")) return false;
   if (!LoadModule ("blcelc")) return false;
