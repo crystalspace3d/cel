@@ -115,7 +115,37 @@ private:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
   iCamera* camera;
-  bool global;
+
+  // If the following var is non-NULL then we
+  // are busy selecting a mesh and are waiting for a mouse up
+  // to arrive.
+  iCelEntity* sel_entity;
+
+  // Set to true if we are currently on top of the selected entity
+  // (in do_follow mode).
+  bool cur_on_top;
+
+  // If true then selections on ALL objects will arrive
+  // at the attached behaviour. Otherwise only selections
+  // on the attached entity will come through.
+  bool do_global;
+
+  // If true then it is possible to drag the selected object.
+  bool do_drag;
+
+  // If true then follow the mouse so that up/down events
+  // come through immediatelly when the mouse leaves the object
+  // (even if mouse up has not yet happened). Otherwise mouse
+  // up event will arrive only when the mouse is released
+  // independent of wether or not the mouse is above the
+  // object at release time.
+  bool do_follow;
+
+  // If true then send mouse-up events.
+  bool do_sendup;
+
+  // If true then send mouse-down events.
+  bool do_senddown;
 
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);
@@ -123,8 +153,17 @@ public:
 
   bool HandleEvent (iEvent& ev);
   void SetCamera (iCamera* camera);
-  void SetGlobalSelection (bool glob) { global = glob; }
-  bool HasGlobalSelection () const { return global; }
+
+  void SetGlobalSelection (bool glob) { do_global = glob; }
+  bool HasGlobalSelection () const { return do_global; }
+  void SetFollowMode (bool follow) { do_follow = follow; };
+  bool HasFollowMode () const { return do_follow; }
+  void SetDragMode (bool drag) { do_drag = drag; }
+  bool HasDragMode () const { return do_drag; }
+  void SetSendupEvent (bool su) { do_sendup = su; }
+  bool HasSendupEvent () const { return do_sendup; }
+  void SetSenddownEvent (bool sd) { do_senddown = sd; }
+  bool HasSenddownEvent () const { return do_senddown; }
 
   SCF_DECLARE_IBASE;
 
@@ -146,6 +185,38 @@ public:
     virtual bool HasGlobalSelection () const
     {
       return scfParent->HasGlobalSelection ();
+    }
+    virtual void SetFollowMode (bool follow)
+    {
+      scfParent->SetFollowMode (follow);
+    }
+    virtual bool HasFollowMode () const
+    {
+      return scfParent->HasFollowMode ();
+    }
+    virtual void SetDragMode (bool drag)
+    {
+      scfParent->SetDragMode (drag);
+    }
+    virtual bool HasDragMode () const
+    {
+      return scfParent->HasDragMode ();
+    }
+    virtual void SetSendupEvent (bool su)
+    {
+      scfParent->SetSendupEvent (su);
+    }
+    virtual bool HasSendupEvent () const
+    {
+      return scfParent->HasSendupEvent ();
+    }
+    virtual void SetSenddownEvent (bool sd)
+    {
+      scfParent->SetSenddownEvent (sd);
+    }
+    virtual bool HasSenddownEvent () const
+    {
+      return scfParent->HasSenddownEvent ();
     }
   } scfiPcMeshSelect;
   struct EventHandler : public iEventHandler

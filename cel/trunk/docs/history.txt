@@ -1,6 +1,15 @@
 31-Oct-2001:
 	- Split 'selectmesh' message from 'pcmeshselect' property class
 	  'selectmesh_up' and 'selectmesh_down'.
+	- Added a lot more control to iPcMeshSelect interface. Now you can
+	  indicate if you want 'follow' mode or not. With follow mode the
+	  mouse will track the selected object and immediatelly send
+	  up/down messages when the mouse leaves/enters the object.
+	  Otherwise an 'up' message is only sent when the mouse button
+	  goes up regardless of the position of the mouse.
+	  Also added the ability to disable up/down mouse events if you
+	  don't need them.
+	  Added a few other functions that are not yet implemented (dragging).
 30-Oct-2001:
 	- Renamed iCelBlEntity to iCelBehaviour and made the corresponding
 	  changes throughout the project (i.e. CreateBlEntity->CreateBehaviour

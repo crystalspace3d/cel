@@ -47,11 +47,52 @@ struct iPcMeshSelect : public iBase
    * of all mesh entities.
    */
   virtual void SetGlobalSelection (bool glob) = 0;
-
   /**
    * Get value of global/local selection.
    */
   virtual bool HasGlobalSelection () const = 0;
+
+  /**
+   * If true then follow the mouse so that up/down events
+   * come through immediatelly when the mouse leaves the object
+   * (even if mouse up has not yet happened). Otherwise mouse
+   * up event will arrive only when the mouse is released
+   * independent of wether or not the mouse is above the
+   * object at release time. Default false.
+   */
+  virtual void SetFollowMode (bool follow) = 0;
+  /**
+   * Get the value of follow mode.
+   */
+  virtual bool HasFollowMode () const = 0;
+
+  /**
+   * If true then it is possible to drag the selected object.
+   * (default false).
+   */
+  virtual void SetDragMode (bool drag) = 0;
+  /**
+   * Get value of drag mode.
+   */
+  virtual bool HasDragMode () const = 0;
+
+  /**
+   * If true then send mouse-up events. Default true.
+   */
+  virtual void SetSendupEvent (bool su) = 0;
+  /**
+   * Get the value of send up events.
+   */
+  virtual bool HasSendupEvent () const = 0;
+
+  /**
+   * If true then send mouse-down events. Default true.
+   */
+  virtual void SetSenddownEvent (bool sd) = 0;
+  /**
+   * Get the value of send down events.
+   */
+  virtual bool HasSenddownEvent () const = 0;
 };
 
 #endif // __CEL_PF_MESHSEL__
