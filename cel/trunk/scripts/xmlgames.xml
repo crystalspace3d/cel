@@ -37,6 +37,11 @@
 	    <transparent red="1" green="1" blue="1" />
 	    <keepimage />
         </texture>
+        <texture name="monster">
+	    <file>/cellib/images/monster.png</file>
+	    <transparent red="1" green="1" blue="1" />
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
@@ -48,6 +53,7 @@
         <material name="chocolate"> <texture>chocolate</texture> </material>
         <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
         <material name="hero"> <texture>hero</texture> </material>
+        <material name="monster"> <texture>monster</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -495,7 +501,10 @@
 
 		<createentity name="hero" behaviour="hero" />
 		<inventory propclass="pc(pcinventory)" />
-		<inventory_add child="?ent" />
+		<inventory_add child="hero" />
+		<createentity name="monster" behaviour="monster" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="monster" />
 	    </event>
 
 	    <!--
@@ -511,6 +520,67 @@
 		<var name="ent" value="ent(?ent)" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script controls the behaviour of a monster.
+	  -  ***************************************************** -->
+	<script name="monster">
+	    <!--
+	      - Initialize a monster.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+		<var name="monstx" value="14" />
+		<var name="monsty" value="14" />
+	        <property id="propid(name)" value="monster" />
+	        <property id="propid(materialname)" value="monster" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="?maze_main.blockdim" />
+	        <property id="propid(height)" value="?maze_main.blockdim" />
+	        <property id="propid(x)" value="?monstx*?maze_main.blockdim" />
+	        <property id="propid(y)" value="?monsty*?maze_main.blockdim" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="500" />
+		    <par id="parid(repeat)" value="true" />
+		</action>
+	    </event>
+
+	    <!--
+	      - Check if a move is possible and perform the move
+	      - if so. Uses ?dx and ?dy to get the move direction and
+	      - ?monstx and ?monsty for current position.
+	      -->
+	    <event name="checkmove">
+		<if eval="?maze_main.(maze+(?monstx+?dx)+'_'+(?monsty+?dy))==' '">
+		    <var name="monstx" value="?monstx+?dx" />
+		    <var name="monsty" value="?monsty+?dy" />
+		    <default propclass="pc(pcbillboard)" />
+	            <property id="propid(x)" value="?monstx*?maze_main.blockdim" />
+	            <property id="propid(y)" value="?monsty*?maze_main.blockdim" />
+		</if>
+	    </event>
+
+	    <event name="pctimer_wakeup">
+	    	<!-- Try one of the four possible directions -->
+	        <var name="dxdy" value="int(rand(4.0))" />
+		<!-- Set ?dx and ?dy based on the four possible outcomes -->
+		<if eval="?dxdy&2">
+		    <true>
+		        <var name="dx" value="0" />
+		        <var name="dy" value="if(?dxdy&1,1,-1)" />
+		    </true>
+		    <false>
+		        <var name="dx" value="if(?dxdy&1,1,-1)" />
+		        <var name="dy" value="0" />
+		    </false>
+		</if>
+		<call event="checkmove" />
 	    </event>
 	</script>
 
