@@ -681,20 +681,20 @@ iCollider* celPcLinearMovement::FindCollider (iObject* object)
     // There is no collider wrapper. In this case we test if there
     // is a pcsolid for the entity. If not we'll add a null collider.
     iCelEntity* ent = pl->FindAttachedEntity (object);
-    csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
-		ent->GetPropertyClassList (), iPcSolid);
-    if (pcsolid)
+    if (ent)
     {
-      // Calling pcsolid->GetCollider() will cause a csColliderWrapper
-      // to be created.
-      return pcsolid->GetCollider ();
+      csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
+            ent->GetPropertyClassList (), iPcSolid);
+      if (pcsolid)
+      {
+	// Calling pcsolid->GetCollider() will cause a csColliderWrapper
+	// to be created.
+        return pcsolid->GetCollider ();
+      }
     }
-    else
-    {
-      // Add a null collider so we don't check for pcsolid again.
-      csRef<csColliderWrapper> cw = csPtr<csColliderWrapper> (
+    // Add a null collider so we don't check for pcsolid again.
+    csRef<csColliderWrapper> cw = csPtr<csColliderWrapper> (
 	  	new csColliderWrapper (object, cdsys, (iCollider*)0));
-    }
   }
   return 0;
 }

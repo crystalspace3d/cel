@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-Jul-2003
+	- Keith fixed crash in new collider code for meshes without
+	  associated entities.
 11-Jul-2003
 	- Jorrit replaced the custom celPolygonMeshCube class with the new
 	  csPolygonMeshCube from Crystal Space in the pcmove property class.
