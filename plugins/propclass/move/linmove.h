@@ -108,6 +108,9 @@ protected:
   csRef<iCollider> bottomCollider;
   csVector3 bottomSize;
 
+  // Maximum interval at which to perform CD
+  csVector3 intervalSize;
+
   csTicks lastDRUpdate;
   float deltaLimit;
   
