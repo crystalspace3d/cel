@@ -76,9 +76,6 @@ int celPcCollisionDetection::num_our_cd;
 
 #define LEGOFFSET	  0
 
-// This is the distance the CD will use to look for objects to collide with.
-#define COLLISION_DISTANCE  5
-
 /*
  * This dumps 2 lines for every cross-sector CD that fails a sector-collision
  * test. It's not that bad since this shouldn't happen that often.
@@ -222,8 +219,11 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     // we won't really cross a portal.
     csVector3 temppos = oldpos;
     //temppos.y+=0.1f;
-    csOrthoTransform transform_oldpos = csReversibleTransform (
-    	csMatrix3(), temppos);
+
+	csOrthoTransform transform_oldpos = csReversibleTransform (
+		csMatrix3(), temppos);
+
+	    num_our_cd = hits = 0;
 
     // Part1: find body collisions => movement
     // Find possible colliding sectors.
@@ -240,16 +240,31 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     for (i = 0; i < num_our_cd; i++ )
     {
       csCollisionPair& cd = our_cd_contact[i];
-      csVector3 vec = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
-      if (vec * localvel < 0 )
-    	continue;
+ 		csPlane3 obstacle(cd.a2, cd.b2, cd.c2);
+		csVector3 vec = obstacle.Normal().Unit();
+
+      if (vec * localvel > 0 )
+		  continue;
+
+	  	csVector3 line[2];
+		if (FindIntersection (cd,line))
+		{
+			// Hit above head?
+			if (vel.y > 0 && ABS(newpos.y- MAX(line[0].y,line[1].y)) > topSize.y + bottomSize.y)
+				// Ouch
+				vel.y = 0;
+		}
 
       localvel = -(localvel % vec) % vec;
     }
     newpos = oldpos + localvel;
+	if (localvel.y == 0)
+		// Hit a vertical obstacle!
+		vel.y = 0;
 
     // Part2: legs
     num_our_cd = hits = 0;
+
     transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
     cdsys->SetOneHitOnly (false);
@@ -257,25 +272,32 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     hits += CollisionDetect (bottomCollider, current_sector,
     	&transform_newpos, &transform_oldpos);
 
-    if (hits == 0)
-    {
-      // No hits on the bottom bound, we're falling.
-      onground = false;
-      // gravity! move down!
-      vel.y  -= 19.6 * delta;
-      /*
-       * Terminal velocity
-       *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-       *   / 3.28 feet/meter = 53.65 m/s
-       */
-      if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
-    	vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+	// Falling unless proven otherwise
+	onground = false;
+	bool downstairs;
 
-    }
-    else
-    {
-      float max_y = -1e10;
+	// Only able to step down if we aren't jumping or falling
+    if (hits > 0 || vel.y != 0)
+		downstairs = false;
+	else
+	{
+		downstairs = true;
 
+		// Try testing going down
+		newpos.y -= bottomSize.y / 2;
+	    transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+
+		num_our_cd = hits = 0;
+
+		cdsys->SetOneHitOnly (false);
+		cdsys->ResetCollisionPairs ();	
+
+		hits += CollisionDetect (bottomCollider, current_sector,
+			&transform_newpos, &transform_oldpos);
+	}
+	if (hits > 0)
+	{
+		float max_y = -1e9;
       for (i = 0; i < num_our_cd; i++ )
       {
     	csCollisionPair cd = our_cd_contact[i];
@@ -287,31 +309,33 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     	if (-n.y < 0.7)
     	  continue;
 
-    	csVector3 line[2];
-    	cd.a1 += newpos;
-    	cd.b1 += newpos;
-    	cd.c1 += newpos;
-    	if (FindIntersection (cd,line))
-    	{
-    	  if (line[0].y > max_y)
-	    max_y = line[0].y;
-    	  if (line[1].y > max_y)
-	    max_y = line[1].y;
-    	}
-      }
+		// Hit a ground polygon so we are not falling
+		onground = true;
+		csVector3 line[2];
+		if (FindIntersection (cd,line))
+			max_y = MAX(MAX(line[0].y, line[1].y),max_y);
+	  }
+	  if(onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
+		  newpos.y = max_y - 0.01f;
 
-      float p = newpos.y - max_y + 0.01;
-      if (ABS (p) < bottomSize.y - 0.01)
-      {
-    	if (max_y != -1e10)
-    	  newpos.y = max_y - 0.01;
-
-    	if (vel.y < 0 )
-    	  vel.y = 0;
-      }
-
-      onground = true;
+	  if (vel.y < 0 )
+		  vel.y = 0;
     }
+	if (!onground)
+	{
+		if (downstairs)
+			newpos.y += bottomSize.y / 2;	// No steps here, so readjust position back up
+
+      // gravity! move down!
+      vel.y  -= 19.6 * delta;
+      /*
+       * Terminal velocity
+       *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+       *   / 3.28 feet/meter = 53.65 m/s
+       */
+      if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
+    	vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+	}
 
     // Part 2.5: check top again and revert move if we're still in a wall.
     num_our_cd = hits = 0;
@@ -376,6 +400,7 @@ bool celPcCollisionDetection::Init (const csVector3& body, const csVector3& legs
   bottomSize = legs;
   celPcCollisionDetection::shift = _shift;
 
+  radiusCD = 0.1f + sqrt(pow(topSize.x,2.0f)+pow(topSize.z,2.0f)+pow(topSize.y + bottomSize.y,2.0f));
   csRef<iPolygonMesh> mesh;
 
   float bX2 = body.x / 2.0f;
@@ -454,12 +479,13 @@ int celPcCollisionDetection::CollisionDetect (iCollider *collider,
     int j;
     // This never changes during this function, calculate it early
     csVector3 newpos=transform->GetO2TTranslation ();
+	csVector3 oldpos=old_transform->GetO2TTranslation ();
 
     csCollisionPair* CD_contact;
 
     csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
-        transform->GetOrigin (),
-        COLLISION_DISTANCE,
+        old_transform->GetOrigin (),
+        radiusCD,
         true);
 
     while (objectIter->HasNext ())
@@ -479,15 +505,14 @@ int celPcCollisionDetection::CollisionDetect (iCollider *collider,
 
 #ifdef SHOW_COLLIDER_MESH_DEBUG
                 //@@@
-                Notify2("Player in Sector  : %s",
+                printf("Player in Sector  : %s",
                     sector->QueryObject ()->GetName ());
-                Notify2("Collider Mesh Name  : %s",
+                printf("Collider Mesh Name  : %s",
                     meshWrapper->QueryObject ()->GetName ());
-                Notify2("Collider Mesh Sector: %s",
+                printf("Collider Mesh Sector: %s",
                     meshWrapper->GetMovable ()->GetSectors ()->Get (0)->QueryObject ()
                     ->GetName ());
 #endif
-
                 CD_contact = cdsys->GetCollisionPairs ();
                 for (j = 0; j < cdsys->GetCollisionPairCount (); j++ )
                 {
@@ -502,14 +527,26 @@ int celPcCollisionDetection::CollisionDetect (iCollider *collider,
                     bool mirror=false;
                     csVector3 testpos;
                     csVector3 line[2];
-                    csCollisionPair temppair=CD_contact[j];
+                    csCollisionPair temppair;
 
-                    // Move the triangle from our mesh into world space
-                    temppair.a1 += newpos;
-                    temppair.b1 += newpos;
-                    temppair.c1 += newpos;
+                    // Move the triangles from object space into world space
+                    temppair.a1 = transform->This2Other(CD_contact[j].a1);
+                    temppair.b1 = transform->This2Other(CD_contact[j].b1);
+                    temppair.c1 = transform->This2Other(CD_contact[j].c1);
+					if(meshWrapper->GetMovable()->IsFullTransformIdentity())
+					{
+						temppair.a2 = CD_contact[j].a2;
+						temppair.b2 = CD_contact[j].b2;
+						temppair.c2 = CD_contact[j].c2;
 
-                    if (FindIntersection (temppair, line))
+					}
+					else
+					{
+						temppair.a2 = tr.This2Other(CD_contact[j].a2);
+						temppair.b2 = tr.This2Other(CD_contact[j].b2);
+						temppair.c2 = tr.This2Other(CD_contact[j].c2);
+					}
+					if (FindIntersection (temppair, line))
                     {
                         // Collided at this line segment. Pick a point in the middle of
                         // the segment to test.
@@ -536,7 +573,7 @@ int celPcCollisionDetection::CollisionDetect (iCollider *collider,
                             ->Get (sector_idx))
                         {
                             reallycollided = true;
-                            our_cd_contact[num_our_cd++] = CD_contact[j];
+                            our_cd_contact[num_our_cd++] = temppair;
                             // One valid sector is enough
                             break;
                         }
