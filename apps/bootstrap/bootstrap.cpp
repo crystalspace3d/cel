@@ -128,7 +128,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
-	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
+	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
 	CS_REQUEST_PLUGIN ("crystalspace.sound.render.software", iSoundRender),
 	CS_REQUEST_PLUGIN ("crystalspace.sound.loader.multiplexer",
