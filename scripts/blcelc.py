@@ -38,9 +38,8 @@ class csWrapPtr(_object):
     __swig_setmethods__["VoidPtr"] = _blcelc.csWrapPtr_VoidPtr_set
     __swig_getmethods__["VoidPtr"] = _blcelc.csWrapPtr_VoidPtr_get
     if _newclass:VoidPtr = property(_blcelc.csWrapPtr_VoidPtr_get,_blcelc.csWrapPtr_VoidPtr_set)
-    __swig_setmethods__["Type"] = _blcelc.csWrapPtr_Type_set
     __swig_getmethods__["Type"] = _blcelc.csWrapPtr_Type_get
-    if _newclass:Type = property(_blcelc.csWrapPtr_Type_get,_blcelc.csWrapPtr_Type_set)
+    if _newclass:Type = property(_blcelc.csWrapPtr_Type_get)
     def __init__(self,*args):
         _swig_setattr(self, csWrapPtr, 'this', apply(_blcelc.new_csWrapPtr,args))
         _swig_setattr(self, csWrapPtr, 'thisown', 1)
@@ -115,8 +114,6 @@ class iFactoryPtr(iFactory):
         _swig_setattr(self, iFactory,self.__class__,iFactory)
 _blcelc.iFactory_swigregister(iFactoryPtr)
 
-scfInitialize = _blcelc.scfInitialize
-
 scfCompatibleVersion = _blcelc.scfCompatibleVersion
 
 class iSCF(iBase):
@@ -138,6 +135,8 @@ class iSCF(iBase):
     def GetInterfaceID(*args): return apply(_blcelc.iSCF_GetInterfaceID,args)
     def Finish(*args): return apply(_blcelc.iSCF_Finish,args)
     def QueryClassList(*args): return apply(_blcelc.iSCF_QueryClassList,args)
+    def ScanPluginsPath(*args): return apply(_blcelc.iSCF_ScanPluginsPath,args)
+    def RegisterPlugin(*args): return apply(_blcelc.iSCF_RegisterPlugin,args)
     def __del__(self, destroy= _blcelc.delete_iSCF):
         try:
             if self.thisown: destroy(self)
@@ -152,6 +151,8 @@ class iSCFPtr(iSCF):
         if not hasattr(self,"thisown"): _swig_setattr(self, iSCF, 'thisown', 0)
         _swig_setattr(self, iSCF,self.__class__,iSCF)
 _blcelc.iSCF_swigregister(iSCFPtr)
+scfInitialize = _blcelc.scfInitialize
+
 cvar = _blcelc.cvar
 
 CS_DBGHELP_UNITTEST = _blcelc.CS_DBGHELP_UNITTEST
@@ -364,6 +365,82 @@ class iStringPtr(iString):
         _swig_setattr(self, iString,self.__class__,iString)
 _blcelc.iString_swigregister(iStringPtr)
 iString_VERSION = cvar.iString_VERSION
+
+class csString(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csString, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csString, name)
+    def SetCapacity(*args): return apply(_blcelc.csString_SetCapacity,args)
+    def GetCapacity(*args): return apply(_blcelc.csString_GetCapacity,args)
+    def SetGrowsBy(*args): return apply(_blcelc.csString_SetGrowsBy,args)
+    def GetGrowsBy(*args): return apply(_blcelc.csString_GetGrowsBy,args)
+    def SetGrowsExponentially(*args): return apply(_blcelc.csString_SetGrowsExponentially,args)
+    def GetGrowsExponentially(*args): return apply(_blcelc.csString_GetGrowsExponentially,args)
+    def Free(*args): return apply(_blcelc.csString_Free,args)
+    def Truncate(*args): return apply(_blcelc.csString_Truncate,args)
+    def Reclaim(*args): return apply(_blcelc.csString_Reclaim,args)
+    def Clear(*args): return apply(_blcelc.csString_Clear,args)
+    def GetData(*args): return apply(_blcelc.csString_GetData,args)
+    def Length(*args): return apply(_blcelc.csString_Length,args)
+    def IsEmpty(*args): return apply(_blcelc.csString_IsEmpty,args)
+    def SetAt(*args): return apply(_blcelc.csString_SetAt,args)
+    def GetAt(*args): return apply(_blcelc.csString_GetAt,args)
+    def DeleteAt(*args): return apply(_blcelc.csString_DeleteAt,args)
+    def Insert(*args): return apply(_blcelc.csString_Insert,args)
+    def Overwrite(*args): return apply(_blcelc.csString_Overwrite,args)
+    def Append(*args): return apply(_blcelc.csString_Append,args)
+    def SubString(*args): return apply(_blcelc.csString_SubString,args)
+    def FindFirst(*args): return apply(_blcelc.csString_FindFirst,args)
+    def FindLast(*args): return apply(_blcelc.csString_FindLast,args)
+    def Replace(*args): return apply(_blcelc.csString_Replace,args)
+    def Compare(*args): return apply(_blcelc.csString_Compare,args)
+    def CompareNoCase(*args): return apply(_blcelc.csString_CompareNoCase,args)
+    def __init__(self,*args):
+        _swig_setattr(self, csString, 'this', apply(_blcelc.new_csString,args))
+        _swig_setattr(self, csString, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csString):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def Clone(*args): return apply(_blcelc.csString_Clone,args)
+    def LTrim(*args): return apply(_blcelc.csString_LTrim,args)
+    def RTrim(*args): return apply(_blcelc.csString_RTrim,args)
+    def Trim(*args): return apply(_blcelc.csString_Trim,args)
+    def Collapse(*args): return apply(_blcelc.csString_Collapse,args)
+    def Format(*args): return apply(_blcelc.csString_Format,args)
+    def FormatV(*args): return apply(_blcelc.csString_FormatV,args)
+    def AsPadLeft(*args): return apply(_blcelc.csString_AsPadLeft,args)
+    __swig_getmethods__["PadLeft"] = lambda x: _blcelc.csString_PadLeft
+    if _newclass:PadLeft = staticmethod(_blcelc.csString_PadLeft)
+    def AsPadRight(*args): return apply(_blcelc.csString_AsPadRight,args)
+    __swig_getmethods__["PadRight"] = lambda x: _blcelc.csString_PadRight
+    if _newclass:PadRight = staticmethod(_blcelc.csString_PadRight)
+    def AsPadCenter(*args): return apply(_blcelc.csString_AsPadCenter,args)
+    __swig_getmethods__["PadCenter"] = lambda x: _blcelc.csString_PadCenter
+    if _newclass:PadCenter = staticmethod(_blcelc.csString_PadCenter)
+    def assign(*args): return apply(_blcelc.csString_assign,args)
+    def __iadd__(*args): return apply(_blcelc.csString___iadd__,args)
+    def __add__(*args): return apply(_blcelc.csString___add__,args)
+    def __eq__(*args): return apply(_blcelc.csString___eq__,args)
+    def __ne__(*args): return apply(_blcelc.csString___ne__,args)
+    def Detach(*args): return apply(_blcelc.csString_Detach,args)
+    def strlwr(*args): return apply(_blcelc.csString_strlwr,args)
+    def __repr__(self):
+        return "<C csString instance at %s>" % (self.this,)
+
+class csStringPtr(csString):
+    def __init__(self,this):
+        _swig_setattr(self, csString, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csString, 'thisown', 0)
+        _swig_setattr(self, csString,self.__class__,csString)
+_blcelc.csString_swigregister(csStringPtr)
+csString_PadLeft = _blcelc.csString_PadLeft
+
+csString_PadRight = _blcelc.csString_PadRight
+
+csString_PadCenter = _blcelc.csString_PadCenter
+
 
 class csVector2(_object):
     __swig_setmethods__ = {}
@@ -7296,9 +7373,8 @@ class csStreamDescription(_object):
     __swig_setmethods__["codec"] = _blcelc.csStreamDescription_codec_set
     __swig_getmethods__["codec"] = _blcelc.csStreamDescription_codec_get
     if _newclass:codec = property(_blcelc.csStreamDescription_codec_get,_blcelc.csStreamDescription_codec_set)
-    __swig_setmethods__["name"] = _blcelc.csStreamDescription_name_set
     __swig_getmethods__["name"] = _blcelc.csStreamDescription_name_get
-    if _newclass:name = property(_blcelc.csStreamDescription_name_get,_blcelc.csStreamDescription_name_set)
+    if _newclass:name = property(_blcelc.csStreamDescription_name_get)
     def __init__(self,*args):
         _swig_setattr(self, csStreamDescription, 'this', apply(_blcelc.new_csStreamDescription,args))
         _swig_setattr(self, csStreamDescription, 'thisown', 1)
@@ -7629,12 +7705,10 @@ class csImageIOFileFormatDescription(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, csImageIOFileFormatDescription, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csImageIOFileFormatDescription, name)
-    __swig_setmethods__["mime"] = _blcelc.csImageIOFileFormatDescription_mime_set
     __swig_getmethods__["mime"] = _blcelc.csImageIOFileFormatDescription_mime_get
-    if _newclass:mime = property(_blcelc.csImageIOFileFormatDescription_mime_get,_blcelc.csImageIOFileFormatDescription_mime_set)
-    __swig_setmethods__["subtype"] = _blcelc.csImageIOFileFormatDescription_subtype_set
+    if _newclass:mime = property(_blcelc.csImageIOFileFormatDescription_mime_get)
     __swig_getmethods__["subtype"] = _blcelc.csImageIOFileFormatDescription_subtype_get
-    if _newclass:subtype = property(_blcelc.csImageIOFileFormatDescription_subtype_get,_blcelc.csImageIOFileFormatDescription_subtype_set)
+    if _newclass:subtype = property(_blcelc.csImageIOFileFormatDescription_subtype_get)
     __swig_setmethods__["cap"] = _blcelc.csImageIOFileFormatDescription_cap_set
     __swig_getmethods__["cap"] = _blcelc.csImageIOFileFormatDescription_cap_get
     if _newclass:cap = property(_blcelc.csImageIOFileFormatDescription_cap_get,_blcelc.csImageIOFileFormatDescription_cap_set)
