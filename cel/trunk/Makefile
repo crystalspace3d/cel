@@ -73,8 +73,12 @@ CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 #------
 # Tools to use
 #------
-CCC=g++ 
-LINK=g++
+ifndef CXX
+CXX=g++
+endif
+ifndef LINK
+LINK=$(CXX)
+endif
 RM=rm
 
 #------
@@ -115,7 +119,7 @@ DO.PLUGIN = $(DO.SHARED.PLUGIN.PREAMBLE) $(DO.SHARED.PLUGIN.CORE) \
 DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 
 .cpp.o: $<
-	$(CCC) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) \
 	$(PFMESH) $(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT) \
@@ -131,7 +135,7 @@ $(BLTEST): $(BLTEST_OBJS)
 	$(DO.PLUGIN) $(BLTEST_LINKFLAGS)
 
 $(BLPYTHON_OBJS): %.o: %.cpp
-	$(CCC) $(BLPYTHON_CXXFLAGS) -o $*.o -c $*.cpp
+	$(CXX) $(BLPYTHON_CXXFLAGS) -o $*.o -c $*.cpp
 	
 $(BLPYTHON): $(BLPYTHON_OBJS)
 	$(DO.PLUGIN) $(BLPYTHON_LINKFLAGS)
