@@ -138,7 +138,8 @@ struct iCelPropertyClass : public iBase
 
 %{
 iPcRegion *celQueryPC_iPcRegion(iCelPropertyClassList *pclist) {
-  csPtr<iPcRegion> pcregion(CEL_QUERY_PROPCLASS(pclist, iPcRegion));
+  csRef<iPcRegion> pcregion(CEL_QUERY_PROPCLASS(pclist, iPcRegion));
+  pcregion->IncRef ();
   return pcregion;
 }
 %}
@@ -192,7 +193,8 @@ iPcRegion *celCreateRegion(iObjectRegistry *object_reg, iCelEntity *entity, cons
 
 %{
 iPcRegion *scfQuery_iPcRegion(iCelPropertyClass *pc) { 
-  csPtr<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
+  csRef<iPcRegion> pcregion(SCF_QUERY_INTERFACE(pc, iPcRegion));
+  pcregion->IncRef ();
   return pcregion;
 }
 %}

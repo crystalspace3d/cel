@@ -1,2151 +1,1885 @@
 # This file was created automatically by SWIG.
 import blcelc
-class iBase:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
+class iBasePtr :
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def DecRef(self):
+        val = blcelc.iBase_DecRef(self.this)
+        return val
+    def __repr__(self):
+        return "<C iBase instance>"
+class iBase(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iSCFPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def CreateInstance(self,arg0,arg1,arg2):
+        val = blcelc.iSCF_CreateInstance(self.this,arg0,arg1,arg2)
+        return val
+    def __repr__(self):
+        return "<C iSCF instance>"
+class iSCF(iSCFPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class csVector3Ptr :
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def __del__(self):
+        if self.thisown == 1 :
+            blcelc.delete_csVector3(self.this)
     def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iBase):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iBase.__setmethods__.get(name,None)
-        if method: return method(self,value)
+        if name == "x" :
+            blcelc.csVector3_x_set(self.this,value)
+            return
+        if name == "y" :
+            blcelc.csVector3_y_set(self.this,value)
+            return
+        if name == "z" :
+            blcelc.csVector3_z_set(self.this,value)
+            return
         self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
     def __getattr__(self,name):
-        method = iBase.__getmethods__.get(name,None)
-        if method: return method(self)
+        if name == "x" : 
+            return blcelc.csVector3_x_get(self.this)
+        if name == "y" : 
+            return blcelc.csVector3_y_get(self.this)
+        if name == "z" : 
+            return blcelc.csVector3_z_get(self.this)
         raise AttributeError,name
-
-    def DecRef(*args): return apply(blcelc.iBase_DecRef,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iBase,args)
+    def __repr__(self):
+        return "<C csVector3 instance>"
+class csVector3(csVector3Ptr):
+    def __init__(self,arg0,arg1,arg2) :
+        self.this = blcelc.new_csVector3(arg0,arg1,arg2)
         self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iBase(self)
-    def __repr__(self):
-        return "<C iBase instance at %s>" % (self.this,)
 
-class iBasePtr(iBase):
+
+
+
+class csRGBpixelPtr :
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iBase
-blcelc.iBase_swigregister(iBasePtr)
-class iSCF(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
+        self.thisown = 0
     def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iSCF):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iSCF.__setmethods__.get(name,None)
-        if method: return method(self,value)
+        if name == "red" :
+            blcelc.csRGBpixel_red_set(self.this,value)
+            return
+        if name == "green" :
+            blcelc.csRGBpixel_green_set(self.this,value)
+            return
+        if name == "blue" :
+            blcelc.csRGBpixel_blue_set(self.this,value)
+            return
+        if name == "alpha" :
+            blcelc.csRGBpixel_alpha_set(self.this,value)
+            return
         self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
     def __getattr__(self,name):
-        method = iSCF.__getmethods__.get(name,None)
-        if method: return method(self)
+        if name == "red" : 
+            return blcelc.csRGBpixel_red_get(self.this)
+        if name == "green" : 
+            return blcelc.csRGBpixel_green_get(self.this)
+        if name == "blue" : 
+            return blcelc.csRGBpixel_blue_get(self.this)
+        if name == "alpha" : 
+            return blcelc.csRGBpixel_alpha_get(self.this)
         raise AttributeError,name
+    def __repr__(self):
+        return "<C csRGBpixel instance>"
+class csRGBpixel(csRGBpixelPtr):
+    def __init__(self,this):
+        self.this = this
 
-    def CreateInstance(*args): return apply(blcelc.iSCF_CreateInstance,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iSCF,args)
+
+
+
+class csPixelFormatPtr :
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def __setattr__(self,name,value):
+        if name == "RedMask" :
+            blcelc.csPixelFormat_RedMask_set(self.this,value)
+            return
+        if name == "GreenMask" :
+            blcelc.csPixelFormat_GreenMask_set(self.this,value)
+            return
+        if name == "BlueMask" :
+            blcelc.csPixelFormat_BlueMask_set(self.this,value)
+            return
+        if name == "RedShift" :
+            blcelc.csPixelFormat_RedShift_set(self.this,value)
+            return
+        if name == "GreenShift" :
+            blcelc.csPixelFormat_GreenShift_set(self.this,value)
+            return
+        if name == "BlueShift" :
+            blcelc.csPixelFormat_BlueShift_set(self.this,value)
+            return
+        if name == "RedBits" :
+            blcelc.csPixelFormat_RedBits_set(self.this,value)
+            return
+        if name == "GreenBits" :
+            blcelc.csPixelFormat_GreenBits_set(self.this,value)
+            return
+        if name == "BlueBits" :
+            blcelc.csPixelFormat_BlueBits_set(self.this,value)
+            return
+        if name == "PalEntries" :
+            blcelc.csPixelFormat_PalEntries_set(self.this,value)
+            return
+        if name == "PixelBytes" :
+            blcelc.csPixelFormat_PixelBytes_set(self.this,value)
+            return
+        self.__dict__[name] = value
+    def __getattr__(self,name):
+        if name == "RedMask" : 
+            return blcelc.csPixelFormat_RedMask_get(self.this)
+        if name == "GreenMask" : 
+            return blcelc.csPixelFormat_GreenMask_get(self.this)
+        if name == "BlueMask" : 
+            return blcelc.csPixelFormat_BlueMask_get(self.this)
+        if name == "RedShift" : 
+            return blcelc.csPixelFormat_RedShift_get(self.this)
+        if name == "GreenShift" : 
+            return blcelc.csPixelFormat_GreenShift_get(self.this)
+        if name == "BlueShift" : 
+            return blcelc.csPixelFormat_BlueShift_get(self.this)
+        if name == "RedBits" : 
+            return blcelc.csPixelFormat_RedBits_get(self.this)
+        if name == "GreenBits" : 
+            return blcelc.csPixelFormat_GreenBits_get(self.this)
+        if name == "BlueBits" : 
+            return blcelc.csPixelFormat_BlueBits_get(self.this)
+        if name == "PalEntries" : 
+            return blcelc.csPixelFormat_PalEntries_get(self.this)
+        if name == "PixelBytes" : 
+            return blcelc.csPixelFormat_PixelBytes_get(self.this)
+        raise AttributeError,name
+    def __repr__(self):
+        return "<C csPixelFormat instance>"
+class csPixelFormat(csPixelFormatPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class csGraphics3DCapsPtr :
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def __setattr__(self,name,value):
+        if name == "CanClip" :
+            blcelc.csGraphics3DCaps_CanClip_set(self.this,value)
+            return
+        if name == "minTexHeight" :
+            blcelc.csGraphics3DCaps_minTexHeight_set(self.this,value)
+            return
+        if name == "minTexWidth" :
+            blcelc.csGraphics3DCaps_minTexWidth_set(self.this,value)
+            return
+        if name == "maxTexHeight" :
+            blcelc.csGraphics3DCaps_maxTexHeight_set(self.this,value)
+            return
+        if name == "maxTexWidth" :
+            blcelc.csGraphics3DCaps_maxTexWidth_set(self.this,value)
+            return
+        if name == "fog" :
+            blcelc.csGraphics3DCaps_fog_set(self.this,value)
+            return
+        if name == "NeedsPO2Maps" :
+            blcelc.csGraphics3DCaps_NeedsPO2Maps_set(self.this,value)
+            return
+        if name == "MaxAspectRatio" :
+            blcelc.csGraphics3DCaps_MaxAspectRatio_set(self.this,value)
+            return
+        self.__dict__[name] = value
+    def __getattr__(self,name):
+        if name == "CanClip" : 
+            return blcelc.csGraphics3DCaps_CanClip_get(self.this)
+        if name == "minTexHeight" : 
+            return blcelc.csGraphics3DCaps_minTexHeight_get(self.this)
+        if name == "minTexWidth" : 
+            return blcelc.csGraphics3DCaps_minTexWidth_get(self.this)
+        if name == "maxTexHeight" : 
+            return blcelc.csGraphics3DCaps_maxTexHeight_get(self.this)
+        if name == "maxTexWidth" : 
+            return blcelc.csGraphics3DCaps_maxTexWidth_get(self.this)
+        if name == "fog" : 
+            return blcelc.csGraphics3DCaps_fog_get(self.this)
+        if name == "NeedsPO2Maps" : 
+            return blcelc.csGraphics3DCaps_NeedsPO2Maps_get(self.this)
+        if name == "MaxAspectRatio" : 
+            return blcelc.csGraphics3DCaps_MaxAspectRatio_get(self.this)
+        raise AttributeError,name
+    def __repr__(self):
+        return "<C csGraphics3DCaps instance>"
+class csGraphics3DCaps(csGraphics3DCapsPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class csImageAreaPtr :
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def __setattr__(self,name,value):
+        if name == "x" :
+            blcelc.csImageArea_x_set(self.this,value)
+            return
+        if name == "y" :
+            blcelc.csImageArea_y_set(self.this,value)
+            return
+        if name == "w" :
+            blcelc.csImageArea_w_set(self.this,value)
+            return
+        if name == "h" :
+            blcelc.csImageArea_h_set(self.this,value)
+            return
+        if name == "data" :
+            blcelc.csImageArea_data_set(self.this,value)
+            return
+        self.__dict__[name] = value
+    def __getattr__(self,name):
+        if name == "x" : 
+            return blcelc.csImageArea_x_get(self.this)
+        if name == "y" : 
+            return blcelc.csImageArea_y_get(self.this)
+        if name == "w" : 
+            return blcelc.csImageArea_w_get(self.this)
+        if name == "h" : 
+            return blcelc.csImageArea_h_get(self.this)
+        if name == "data" : 
+            return blcelc.csImageArea_data_get(self.this)
+        raise AttributeError,name
+    def __repr__(self):
+        return "<C csImageArea instance>"
+class csImageArea(csImageAreaPtr):
+    def __init__(self,arg0,arg1,arg2,arg3) :
+        self.this = blcelc.new_csImageArea(arg0,arg1,arg2,arg3)
         self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iSCF(self)
-    def __repr__(self):
-        return "<C iSCF instance at %s>" % (self.this,)
 
-class iSCFPtr(iSCF):
+
+
+
+class iComponentPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iSCF
-blcelc.iSCF_swigregister(iSCFPtr)
-class csVector3:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,csVector3):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = csVector3.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = csVector3.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    __setmethods__["x"] = blcelc.csVector3_x_set
-    __getmethods__["x"] = blcelc.csVector3_x_get
-    __setmethods__["y"] = blcelc.csVector3_y_set
-    __getmethods__["y"] = blcelc.csVector3_y_get
-    __setmethods__["z"] = blcelc.csVector3_z_set
-    __getmethods__["z"] = blcelc.csVector3_z_get
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_csVector3,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_csVector3(self)
+        self.thisown = 0
+    def Initialize(self,arg0):
+        val = blcelc.iComponent_Initialize(self.this,arg0.this)
+        return val
     def __repr__(self):
-        return "<C csVector3 instance at %s>" % (self.this,)
-
-class csVector3Ptr(csVector3):
+        return "<C iComponent instance>"
+class iComponent(iComponentPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = csVector3
-blcelc.csVector3_swigregister(csVector3Ptr)
-class csRGBpixel:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,csRGBpixel):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = csRGBpixel.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = csRGBpixel.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    __setmethods__["red"] = blcelc.csRGBpixel_red_set
-    __getmethods__["red"] = blcelc.csRGBpixel_red_get
-    __setmethods__["green"] = blcelc.csRGBpixel_green_set
-    __getmethods__["green"] = blcelc.csRGBpixel_green_get
-    __setmethods__["blue"] = blcelc.csRGBpixel_blue_set
-    __getmethods__["blue"] = blcelc.csRGBpixel_blue_get
-    __setmethods__["alpha"] = blcelc.csRGBpixel_alpha_set
-    __getmethods__["alpha"] = blcelc.csRGBpixel_alpha_get
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_csRGBpixel,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_csRGBpixel(self)
-    def __repr__(self):
-        return "<C csRGBpixel instance at %s>" % (self.this,)
 
-class csRGBpixelPtr(csRGBpixel):
+
+class iEventHandlerPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = csRGBpixel
-blcelc.csRGBpixel_swigregister(csRGBpixelPtr)
-class csPixelFormat:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,csPixelFormat):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = csPixelFormat.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = csPixelFormat.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    __setmethods__["RedMask"] = blcelc.csPixelFormat_RedMask_set
-    __getmethods__["RedMask"] = blcelc.csPixelFormat_RedMask_get
-    __setmethods__["GreenMask"] = blcelc.csPixelFormat_GreenMask_set
-    __getmethods__["GreenMask"] = blcelc.csPixelFormat_GreenMask_get
-    __setmethods__["BlueMask"] = blcelc.csPixelFormat_BlueMask_set
-    __getmethods__["BlueMask"] = blcelc.csPixelFormat_BlueMask_get
-    __setmethods__["RedShift"] = blcelc.csPixelFormat_RedShift_set
-    __getmethods__["RedShift"] = blcelc.csPixelFormat_RedShift_get
-    __setmethods__["GreenShift"] = blcelc.csPixelFormat_GreenShift_set
-    __getmethods__["GreenShift"] = blcelc.csPixelFormat_GreenShift_get
-    __setmethods__["BlueShift"] = blcelc.csPixelFormat_BlueShift_set
-    __getmethods__["BlueShift"] = blcelc.csPixelFormat_BlueShift_get
-    __setmethods__["RedBits"] = blcelc.csPixelFormat_RedBits_set
-    __getmethods__["RedBits"] = blcelc.csPixelFormat_RedBits_get
-    __setmethods__["GreenBits"] = blcelc.csPixelFormat_GreenBits_set
-    __getmethods__["GreenBits"] = blcelc.csPixelFormat_GreenBits_get
-    __setmethods__["BlueBits"] = blcelc.csPixelFormat_BlueBits_set
-    __getmethods__["BlueBits"] = blcelc.csPixelFormat_BlueBits_get
-    __setmethods__["PalEntries"] = blcelc.csPixelFormat_PalEntries_set
-    __getmethods__["PalEntries"] = blcelc.csPixelFormat_PalEntries_get
-    __setmethods__["PixelBytes"] = blcelc.csPixelFormat_PixelBytes_set
-    __getmethods__["PixelBytes"] = blcelc.csPixelFormat_PixelBytes_get
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_csPixelFormat,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_csPixelFormat(self)
+        self.thisown = 0
+    def HandleEvent(self,arg0):
+        val = blcelc.iEventHandler_HandleEvent(self.this,arg0)
+        return val
     def __repr__(self):
-        return "<C csPixelFormat instance at %s>" % (self.this,)
-
-class csPixelFormatPtr(csPixelFormat):
+        return "<C iEventHandler instance>"
+class iEventHandler(iEventHandlerPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = csPixelFormat
-blcelc.csPixelFormat_swigregister(csPixelFormatPtr)
-class csGraphics3DCaps:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,csGraphics3DCaps):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = csGraphics3DCaps.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = csGraphics3DCaps.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    __setmethods__["CanClip"] = blcelc.csGraphics3DCaps_CanClip_set
-    __getmethods__["CanClip"] = blcelc.csGraphics3DCaps_CanClip_get
-    __setmethods__["minTexHeight"] = blcelc.csGraphics3DCaps_minTexHeight_set
-    __getmethods__["minTexHeight"] = blcelc.csGraphics3DCaps_minTexHeight_get
-    __setmethods__["minTexWidth"] = blcelc.csGraphics3DCaps_minTexWidth_set
-    __getmethods__["minTexWidth"] = blcelc.csGraphics3DCaps_minTexWidth_get
-    __setmethods__["maxTexHeight"] = blcelc.csGraphics3DCaps_maxTexHeight_set
-    __getmethods__["maxTexHeight"] = blcelc.csGraphics3DCaps_maxTexHeight_get
-    __setmethods__["maxTexWidth"] = blcelc.csGraphics3DCaps_maxTexWidth_set
-    __getmethods__["maxTexWidth"] = blcelc.csGraphics3DCaps_maxTexWidth_get
-    __setmethods__["fog"] = blcelc.csGraphics3DCaps_fog_set
-    __getmethods__["fog"] = blcelc.csGraphics3DCaps_fog_get
-    __setmethods__["NeedsPO2Maps"] = blcelc.csGraphics3DCaps_NeedsPO2Maps_set
-    __getmethods__["NeedsPO2Maps"] = blcelc.csGraphics3DCaps_NeedsPO2Maps_get
-    __setmethods__["MaxAspectRatio"] = blcelc.csGraphics3DCaps_MaxAspectRatio_set
-    __getmethods__["MaxAspectRatio"] = blcelc.csGraphics3DCaps_MaxAspectRatio_get
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_csGraphics3DCaps,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_csGraphics3DCaps(self)
-    def __repr__(self):
-        return "<C csGraphics3DCaps instance at %s>" % (self.this,)
 
-class csGraphics3DCapsPtr(csGraphics3DCaps):
+
+class iTextureWrapperPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = csGraphics3DCaps
-blcelc.csGraphics3DCaps_swigregister(csGraphics3DCapsPtr)
-class csImageArea:
-    __setmethods__ = {}
-    for _s in []: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,csImageArea):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = csImageArea.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in []: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = csImageArea.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    __setmethods__["x"] = blcelc.csImageArea_x_set
-    __getmethods__["x"] = blcelc.csImageArea_x_get
-    __setmethods__["y"] = blcelc.csImageArea_y_set
-    __getmethods__["y"] = blcelc.csImageArea_y_get
-    __setmethods__["w"] = blcelc.csImageArea_w_set
-    __getmethods__["w"] = blcelc.csImageArea_w_get
-    __setmethods__["h"] = blcelc.csImageArea_h_set
-    __getmethods__["h"] = blcelc.csImageArea_h_get
-    __setmethods__["data"] = blcelc.csImageArea_data_set
-    __getmethods__["data"] = blcelc.csImageArea_data_get
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_csImageArea,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_csImageArea(self)
+        self.thisown = 0
     def __repr__(self):
-        return "<C csImageArea instance at %s>" % (self.this,)
-
-class csImageAreaPtr(csImageArea):
+        return "<C iTextureWrapper instance>"
+class iTextureWrapper(iTextureWrapperPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = csImageArea
-blcelc.csImageArea_swigregister(csImageAreaPtr)
-class iComponent(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iComponent):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iComponent.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iComponent.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def Initialize(*args): return apply(blcelc.iComponent_Initialize,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iComponent,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iComponent(self)
-    def __repr__(self):
-        return "<C iComponent instance at %s>" % (self.this,)
 
-class iComponentPtr(iComponent):
+
+class iTextureHandlePtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iComponent
-blcelc.iComponent_swigregister(iComponentPtr)
-class iEventHandler(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iEventHandler):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iEventHandler.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iEventHandler.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def HandleEvent(*args): return apply(blcelc.iEventHandler_HandleEvent,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iEventHandler,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iEventHandler(self)
+        self.thisown = 0
+    def GetMipMapDimensions(self,arg0,arg1,arg2):
+        val = blcelc.iTextureHandle_GetMipMapDimensions(self.this,arg0,arg1,arg2)
+        return val
+    def GetMeanColor(self,arg0,arg1,arg2):
+        val = blcelc.iTextureHandle_GetMeanColor(self.this,arg0,arg1,arg2)
+        return val
+    def GetCacheData(self):
+        val = blcelc.iTextureHandle_GetCacheData(self.this)
+        return val
+    def SetCacheData(self,arg0):
+        val = blcelc.iTextureHandle_SetCacheData(self.this,arg0)
+        return val
+    def GetPrivateObject(self):
+        val = blcelc.iTextureHandle_GetPrivateObject(self.this)
+        return val
     def __repr__(self):
-        return "<C iEventHandler instance at %s>" % (self.this,)
-
-class iEventHandlerPtr(iEventHandler):
+        return "<C iTextureHandle instance>"
+class iTextureHandle(iTextureHandlePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iEventHandler
-blcelc.iEventHandler_swigregister(iEventHandlerPtr)
-class iTextureWrapper(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iTextureWrapper):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iTextureWrapper.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iTextureWrapper.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iTextureWrapper,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iTextureWrapper(self)
-    def __repr__(self):
-        return "<C iTextureWrapper instance at %s>" % (self.this,)
 
-class iTextureWrapperPtr(iTextureWrapper):
+
+class iMaterialHandlePtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iTextureWrapper
-blcelc.iTextureWrapper_swigregister(iTextureWrapperPtr)
-class iTextureHandle(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iTextureHandle):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iTextureHandle.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iTextureHandle.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetMipMapDimensions(*args): return apply(blcelc.iTextureHandle_GetMipMapDimensions,args)
-    def GetMeanColor(*args): return apply(blcelc.iTextureHandle_GetMeanColor,args)
-    def GetCacheData(*args): return apply(blcelc.iTextureHandle_GetCacheData,args)
-    def SetCacheData(*args): return apply(blcelc.iTextureHandle_SetCacheData,args)
-    def GetPrivateObject(*args): return apply(blcelc.iTextureHandle_GetPrivateObject,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iTextureHandle,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iTextureHandle(self)
+        self.thisown = 0
+    def GetTexture(self):
+        val = blcelc.iMaterialHandle_GetTexture(self.this)
+        val = iTextureHandlePtr(val)
+        return val
+    def GetFlatColor(self,arg0):
+        val = blcelc.iMaterialHandle_GetFlatColor(self.this,arg0.this)
+        return val
+    def GetReflection(self,arg0,arg1,arg2):
+        val = blcelc.iMaterialHandle_GetReflection(self.this,arg0,arg1,arg2)
+        return val
+    def Prepare(self):
+        val = blcelc.iMaterialHandle_Prepare(self.this)
+        return val
     def __repr__(self):
-        return "<C iTextureHandle instance at %s>" % (self.this,)
-
-class iTextureHandlePtr(iTextureHandle):
+        return "<C iMaterialHandle instance>"
+class iMaterialHandle(iMaterialHandlePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iTextureHandle
-blcelc.iTextureHandle_swigregister(iTextureHandlePtr)
-class iMaterialHandle(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iMaterialHandle):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iMaterialHandle.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iMaterialHandle.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetTexture(*args): return apply(blcelc.iMaterialHandle_GetTexture,args)
-    def GetFlatColor(*args): return apply(blcelc.iMaterialHandle_GetFlatColor,args)
-    def GetReflection(*args): return apply(blcelc.iMaterialHandle_GetReflection,args)
-    def Prepare(*args): return apply(blcelc.iMaterialHandle_Prepare,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iMaterialHandle(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iMaterialHandle instance at %s>" % (self.this,)
 
-class iMaterialHandlePtr(iMaterialHandle):
+
+class iMaterialWrapperPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iMaterialHandle
-blcelc.iMaterialHandle_swigregister(iMaterialHandlePtr)
-class iMaterialWrapper(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iMaterialWrapper):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iMaterialWrapper.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iMaterialWrapper.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetMaterialHandle(*args): return apply(blcelc.iMaterialWrapper_GetMaterialHandle,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iMaterialWrapper(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def GetMaterialHandle(self):
+        val = blcelc.iMaterialWrapper_GetMaterialHandle(self.this)
+        val = iMaterialHandlePtr(val)
+        return val
     def __repr__(self):
-        return "<C iMaterialWrapper instance at %s>" % (self.this,)
-
-class iMaterialWrapperPtr(iMaterialWrapper):
+        return "<C iMaterialWrapper instance>"
+class iMaterialWrapper(iMaterialWrapperPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iMaterialWrapper
-blcelc.iMaterialWrapper_swigregister(iMaterialWrapperPtr)
-class iFont(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iFont):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iFont.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iFont.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def SetSize(*args): return apply(blcelc.iFont_SetSize,args)
-    def GetSize(*args): return apply(blcelc.iFont_GetSize,args)
-    def GetMaxSize(*args): return apply(blcelc.iFont_GetMaxSize,args)
-    def GetGlyphSize(*args): return apply(blcelc.iFont_GetGlyphSize,args)
-    def GetGlyphBitmap(*args): return apply(blcelc.iFont_GetGlyphBitmap,args)
-    def GetDimensions(*args): return apply(blcelc.iFont_GetDimensions,args)
-    def GetLength(*args): return apply(blcelc.iFont_GetLength,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iFont(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iFont instance at %s>" % (self.this,)
 
-class iFontPtr(iFont):
+
+class iFontPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iFont
-blcelc.iFont_swigregister(iFontPtr)
-class iFontServer(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iFontServer):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iFontServer.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iFontServer.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def LoadFont(*args): return apply(blcelc.iFontServer_LoadFont,args)
-    def GetFontCount(*args): return apply(blcelc.iFontServer_GetFontCount,args)
-    def GetFont(*args): return apply(blcelc.iFontServer_GetFont,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iFontServer(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def SetSize(self,arg0):
+        val = blcelc.iFont_SetSize(self.this,arg0)
+        return val
+    def GetSize(self):
+        val = blcelc.iFont_GetSize(self.this)
+        return val
+    def GetMaxSize(self,arg0,arg1):
+        val = blcelc.iFont_GetMaxSize(self.this,arg0,arg1)
+        return val
+    def GetGlyphSize(self,arg0,arg1,arg2):
+        val = blcelc.iFont_GetGlyphSize(self.this,arg0,arg1,arg2)
+        return val
+    def GetGlyphBitmap(self,arg0,arg1,arg2):
+        val = blcelc.iFont_GetGlyphBitmap(self.this,arg0,arg1,arg2)
+        return val
+    def GetDimensions(self,arg0,arg1,arg2):
+        val = blcelc.iFont_GetDimensions(self.this,arg0,arg1,arg2)
+        return val
+    def GetLength(self,arg0,arg1):
+        val = blcelc.iFont_GetLength(self.this,arg0,arg1)
+        return val
     def __repr__(self):
-        return "<C iFontServer instance at %s>" % (self.this,)
-
-class iFontServerPtr(iFontServer):
+        return "<C iFont instance>"
+class iFont(iFontPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iFontServer
-blcelc.iFontServer_swigregister(iFontServerPtr)
-class iGraphics2D(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iGraphics2D):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iGraphics2D.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iGraphics2D.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def Open(*args): return apply(blcelc.iGraphics2D_Open,args)
-    def Close(*args): return apply(blcelc.iGraphics2D_Close,args)
-    def GetWidth(*args): return apply(blcelc.iGraphics2D_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iGraphics2D_GetHeight,args)
-    def GetFullScreen(*args): return apply(blcelc.iGraphics2D_GetFullScreen,args)
-    def GetPage(*args): return apply(blcelc.iGraphics2D_GetPage,args)
-    def DoubleBuffer(*args): return apply(blcelc.iGraphics2D_DoubleBuffer,args)
-    def GetDoubleBufferState(*args): return apply(blcelc.iGraphics2D_GetDoubleBufferState,args)
-    def GetPixelFormat(*args): return apply(blcelc.iGraphics2D_GetPixelFormat,args)
-    def GetPixelBytes(*args): return apply(blcelc.iGraphics2D_GetPixelBytes,args)
-    def GetPalEntryCount(*args): return apply(blcelc.iGraphics2D_GetPalEntryCount,args)
-    def GetPalette(*args): return apply(blcelc.iGraphics2D_GetPalette,args)
-    def SetRGB(*args): return apply(blcelc.iGraphics2D_SetRGB,args)
-    def SetClipRect(*args): return apply(blcelc.iGraphics2D_SetClipRect,args)
-    def GetClipRect(*args): return apply(blcelc.iGraphics2D_GetClipRect,args)
-    def BeginDraw(*args): return apply(blcelc.iGraphics2D_BeginDraw,args)
-    def FinishDraw(*args): return apply(blcelc.iGraphics2D_FinishDraw,args)
-    def Print(*args): return apply(blcelc.iGraphics2D_Print,args)
-    def Clear(*args): return apply(blcelc.iGraphics2D_Clear,args)
-    def ClearAll(*args): return apply(blcelc.iGraphics2D_ClearAll,args)
-    def DrawLine(*args): return apply(blcelc.iGraphics2D_DrawLine,args)
-    def DrawBox(*args): return apply(blcelc.iGraphics2D_DrawBox,args)
-    def ClipLine(*args): return apply(blcelc.iGraphics2D_ClipLine,args)
-    def DrawPixel(*args): return apply(blcelc.iGraphics2D_DrawPixel,args)
-    def GetPixelAt(*args): return apply(blcelc.iGraphics2D_GetPixelAt,args)
-    def GetPixel(*args): return apply(blcelc.iGraphics2D_GetPixel,args)
-    def SaveArea(*args): return apply(blcelc.iGraphics2D_SaveArea,args)
-    def RestoreArea(*args): return apply(blcelc.iGraphics2D_RestoreArea,args)
-    def FreeArea(*args): return apply(blcelc.iGraphics2D_FreeArea,args)
-    def Write(*args): return apply(blcelc.iGraphics2D_Write,args)
-    def GetFontServer(*args): return apply(blcelc.iGraphics2D_GetFontServer,args)
-    def SetMousePosition(*args): return apply(blcelc.iGraphics2D_SetMousePosition,args)
-    def SetMouseCursor(*args): return apply(blcelc.iGraphics2D_SetMouseCursor,args)
-    def ScreenShot(*args): return apply(blcelc.iGraphics2D_ScreenShot,args)
-    def CreateOffScreenCanvas(*args): return apply(blcelc.iGraphics2D_CreateOffScreenCanvas,args)
-    def AllowResize(*args): return apply(blcelc.iGraphics2D_AllowResize,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iGraphics2D(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iGraphics2D instance at %s>" % (self.this,)
 
-class iGraphics2DPtr(iGraphics2D):
+
+class iFontServerPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iGraphics2D
-blcelc.iGraphics2D_swigregister(iGraphics2DPtr)
-class iHalo(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iHalo):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iHalo.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iHalo.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetWidth(*args): return apply(blcelc.iHalo_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iHalo_GetHeight,args)
-    def SetColor(*args): return apply(blcelc.iHalo_SetColor,args)
-    def GetColor(*args): return apply(blcelc.iHalo_GetColor,args)
-    def Draw(*args): return apply(blcelc.iHalo_Draw,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iHalo(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def LoadFont(self,arg0):
+        val = blcelc.iFontServer_LoadFont(self.this,arg0)
+        return val
+    def GetFontCount(self):
+        val = blcelc.iFontServer_GetFontCount(self.this)
+        return val
+    def GetFont(self,arg0):
+        val = blcelc.iFontServer_GetFont(self.this,arg0)
+        val = iFontPtr(val)
+        return val
     def __repr__(self):
-        return "<C iHalo instance at %s>" % (self.this,)
-
-class iHaloPtr(iHalo):
+        return "<C iFontServer instance>"
+class iFontServer(iFontServerPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iHalo
-blcelc.iHalo_swigregister(iHaloPtr)
-class iGraphics3D(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iGraphics3D):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iGraphics3D.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iGraphics3D.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def Open(*args): return apply(blcelc.iGraphics3D_Open,args)
-    def Close(*args): return apply(blcelc.iGraphics3D_Close,args)
-    def SetDimensions(*args): return apply(blcelc.iGraphics3D_SetDimensions,args)
-    def BeginDraw(*args): return apply(blcelc.iGraphics3D_BeginDraw,args)
-    def FinishDraw(*args): return apply(blcelc.iGraphics3D_FinishDraw,args)
-    def Print(*args): return apply(blcelc.iGraphics3D_Print,args)
-    def DrawPolygon(*args): return apply(blcelc.iGraphics3D_DrawPolygon,args)
-    def DrawPolygonDebug(*args): return apply(blcelc.iGraphics3D_DrawPolygonDebug,args)
-    def DrawLine(*args): return apply(blcelc.iGraphics3D_DrawLine,args)
-    def DrawTriangleMesh(*args): return apply(blcelc.iGraphics3D_DrawTriangleMesh,args)
-    def DrawPolygonMesh(*args): return apply(blcelc.iGraphics3D_DrawPolygonMesh,args)
-    def OpenFogObject(*args): return apply(blcelc.iGraphics3D_OpenFogObject,args)
-    def DrawFogPolygon(*args): return apply(blcelc.iGraphics3D_DrawFogPolygon,args)
-    def CloseFogObject(*args): return apply(blcelc.iGraphics3D_CloseFogObject,args)
-    def GetCaps(*args): return apply(blcelc.iGraphics3D_GetCaps,args)
-    def GetZBuffAt(*args): return apply(blcelc.iGraphics3D_GetZBuffAt,args)
-    def GetZBuffValue(*args): return apply(blcelc.iGraphics3D_GetZBuffValue,args)
-    def DumpCache(*args): return apply(blcelc.iGraphics3D_DumpCache,args)
-    def ClearCache(*args): return apply(blcelc.iGraphics3D_ClearCache,args)
-    def RemoveFromCache(*args): return apply(blcelc.iGraphics3D_RemoveFromCache,args)
-    def GetWidth(*args): return apply(blcelc.iGraphics3D_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iGraphics3D_GetHeight,args)
-    def SetPerspectiveCenter(*args): return apply(blcelc.iGraphics3D_SetPerspectiveCenter,args)
-    def SetPerspectiveAspect(*args): return apply(blcelc.iGraphics3D_SetPerspectiveAspect,args)
-    def SetObjectToCamera(*args): return apply(blcelc.iGraphics3D_SetObjectToCamera,args)
-    def GetDriver2D(*args): return apply(blcelc.iGraphics3D_GetDriver2D,args)
-    def GetTextureManager(*args): return apply(blcelc.iGraphics3D_GetTextureManager,args)
-    def CreateHalo(*args): return apply(blcelc.iGraphics3D_CreateHalo,args)
-    def DrawPixmap(*args): return apply(blcelc.iGraphics3D_DrawPixmap,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iGraphics3D,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iGraphics3D(self)
-    def __repr__(self):
-        return "<C iGraphics3D instance at %s>" % (self.this,)
 
-class iGraphics3DPtr(iGraphics3D):
+
+class iGraphics2DPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iGraphics3D
-blcelc.iGraphics3D_swigregister(iGraphics3DPtr)
-class iCamera(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCamera):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCamera.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCamera.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetFOV(*args): return apply(blcelc.iCamera_GetFOV,args)
-    def GetInvFOV(*args): return apply(blcelc.iCamera_GetInvFOV,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iCamera,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCamera(self)
+        self.thisown = 0
+    def Open(self):
+        val = blcelc.iGraphics2D_Open(self.this)
+        return val
+    def Close(self):
+        val = blcelc.iGraphics2D_Close(self.this)
+        return val
+    def GetWidth(self):
+        val = blcelc.iGraphics2D_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iGraphics2D_GetHeight(self.this)
+        return val
+    def GetFullScreen(self):
+        val = blcelc.iGraphics2D_GetFullScreen(self.this)
+        return val
+    def GetPage(self):
+        val = blcelc.iGraphics2D_GetPage(self.this)
+        return val
+    def DoubleBuffer(self,arg0):
+        val = blcelc.iGraphics2D_DoubleBuffer(self.this,arg0)
+        return val
+    def GetDoubleBufferState(self):
+        val = blcelc.iGraphics2D_GetDoubleBufferState(self.this)
+        return val
+    def GetPixelFormat(self):
+        val = blcelc.iGraphics2D_GetPixelFormat(self.this)
+        val = csPixelFormatPtr(val)
+        return val
+    def GetPixelBytes(self):
+        val = blcelc.iGraphics2D_GetPixelBytes(self.this)
+        return val
+    def GetPalEntryCount(self):
+        val = blcelc.iGraphics2D_GetPalEntryCount(self.this)
+        return val
+    def GetPalette(self):
+        val = blcelc.iGraphics2D_GetPalette(self.this)
+        val = csRGBpixelPtr(val)
+        return val
+    def SetRGB(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iGraphics2D_SetRGB(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def SetClipRect(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iGraphics2D_SetClipRect(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def GetClipRect(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iGraphics2D_GetClipRect(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def BeginDraw(self):
+        val = blcelc.iGraphics2D_BeginDraw(self.this)
+        return val
+    def FinishDraw(self):
+        val = blcelc.iGraphics2D_FinishDraw(self.this)
+        return val
+    def Print(self,arg0):
+        val = blcelc.iGraphics2D_Print(self.this,arg0)
+        return val
+    def Clear(self,arg0):
+        val = blcelc.iGraphics2D_Clear(self.this,arg0)
+        return val
+    def ClearAll(self,arg0):
+        val = blcelc.iGraphics2D_ClearAll(self.this,arg0)
+        return val
+    def DrawLine(self,arg0,arg1,arg2,arg3,arg4):
+        val = blcelc.iGraphics2D_DrawLine(self.this,arg0,arg1,arg2,arg3,arg4)
+        return val
+    def DrawBox(self,arg0,arg1,arg2,arg3,arg4):
+        val = blcelc.iGraphics2D_DrawBox(self.this,arg0,arg1,arg2,arg3,arg4)
+        return val
+    def ClipLine(self,arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7):
+        val = blcelc.iGraphics2D_ClipLine(self.this,arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7)
+        return val
+    def DrawPixel(self,arg0,arg1,arg2):
+        val = blcelc.iGraphics2D_DrawPixel(self.this,arg0,arg1,arg2)
+        return val
+    def GetPixelAt(self,arg0,arg1):
+        val = blcelc.iGraphics2D_GetPixelAt(self.this,arg0,arg1)
+        return val
+    def GetPixel(self,arg0,arg1,arg2,arg3,arg4):
+        val = blcelc.iGraphics2D_GetPixel(self.this,arg0,arg1,arg2,arg3,arg4)
+        return val
+    def SaveArea(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iGraphics2D_SaveArea(self.this,arg0,arg1,arg2,arg3)
+        val = csImageAreaPtr(val)
+        return val
+    def RestoreArea(self,arg0,arg1):
+        val = blcelc.iGraphics2D_RestoreArea(self.this,arg0.this,arg1)
+        return val
+    def FreeArea(self,arg0):
+        val = blcelc.iGraphics2D_FreeArea(self.this,arg0.this)
+        return val
+    def Write(self,arg0,arg1,arg2,arg3,arg4,arg5):
+        val = blcelc.iGraphics2D_Write(self.this,arg0.this,arg1,arg2,arg3,arg4,arg5)
+        return val
+    def GetFontServer(self):
+        val = blcelc.iGraphics2D_GetFontServer(self.this)
+        val = iFontServerPtr(val)
+        return val
+    def SetMousePosition(self,arg0,arg1):
+        val = blcelc.iGraphics2D_SetMousePosition(self.this,arg0,arg1)
+        return val
+    def SetMouseCursor(self,arg0):
+        val = blcelc.iGraphics2D_SetMouseCursor(self.this,arg0)
+        return val
+    def ScreenShot(self):
+        val = blcelc.iGraphics2D_ScreenShot(self.this)
+        return val
+    def AllowResize(self,arg0):
+        val = blcelc.iGraphics2D_AllowResize(self.this,arg0)
+        return val
+    def FindRGB(self,arg0,arg1,arg2):
+        val = blcelc.iGraphics2D_FindRGB(self.this,arg0,arg1,arg2)
+        return val
     def __repr__(self):
-        return "<C iCamera instance at %s>" % (self.this,)
-
-class iCameraPtr(iCamera):
+        return "<C iGraphics2D instance>"
+class iGraphics2D(iGraphics2DPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCamera
-blcelc.iCamera_swigregister(iCameraPtr)
-class iSector(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iSector):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iSector.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iSector.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iSector,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iSector(self)
-    def __repr__(self):
-        return "<C iSector instance at %s>" % (self.this,)
 
-class iSectorPtr(iSector):
+
+class iHaloPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iSector
-blcelc.iSector_swigregister(iSectorPtr)
-class iThingState(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iThingState):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iThingState.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iThingState.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def CreatePolygon(*args): return apply(blcelc.iThingState_CreatePolygon,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iThingState,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iThingState(self)
+        self.thisown = 0
+    def GetWidth(self):
+        val = blcelc.iHalo_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iHalo_GetHeight(self.this)
+        return val
+    def SetColor(self,arg0,arg1,arg2):
+        val = blcelc.iHalo_SetColor(self.this,arg0,arg1,arg2)
+        return val
+    def GetColor(self,arg0,arg1,arg2):
+        val = blcelc.iHalo_GetColor(self.this,arg0,arg1,arg2)
+        return val
+    def Draw(self,arg0,arg1,arg2,arg3,arg4,arg5,arg6):
+        val = blcelc.iHalo_Draw(self.this,arg0,arg1,arg2,arg3,arg4,arg5,arg6)
+        return val
     def __repr__(self):
-        return "<C iThingState instance at %s>" % (self.this,)
-
-class iThingStatePtr(iThingState):
+        return "<C iHalo instance>"
+class iHalo(iHaloPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iThingState
-blcelc.iThingState_swigregister(iThingStatePtr)
-class iMeshObject(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iMeshObject):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iMeshObject.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iMeshObject.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def Query_iThingState(*args): return apply(blcelc.iMeshObject_Query_iThingState,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iMeshObject,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iMeshObject(self)
-    def __repr__(self):
-        return "<C iMeshObject instance at %s>" % (self.this,)
 
-class iMeshObjectPtr(iMeshObject):
+
+class iGraphics3DPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iMeshObject
-blcelc.iMeshObject_swigregister(iMeshObjectPtr)
-class iMeshWrapper(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iMeshWrapper):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iMeshWrapper.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iMeshWrapper.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetMeshObject(*args): return apply(blcelc.iMeshWrapper_GetMeshObject,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iMeshWrapper,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iMeshWrapper(self)
+        self.thisown = 0
+    def Open(self):
+        val = blcelc.iGraphics3D_Open(self.this)
+        return val
+    def Close(self):
+        val = blcelc.iGraphics3D_Close(self.this)
+        return val
+    def SetDimensions(self,arg0,arg1):
+        val = blcelc.iGraphics3D_SetDimensions(self.this,arg0,arg1)
+        return val
+    def BeginDraw(self,arg0):
+        val = blcelc.iGraphics3D_BeginDraw(self.this,arg0)
+        return val
+    def FinishDraw(self):
+        val = blcelc.iGraphics3D_FinishDraw(self.this)
+        return val
+    def Print(self,arg0):
+        val = blcelc.iGraphics3D_Print(self.this,arg0)
+        return val
+    def DrawPolygon(self,arg0):
+        val = blcelc.iGraphics3D_DrawPolygon(self.this,arg0)
+        return val
+    def DrawPolygonDebug(self,arg0):
+        val = blcelc.iGraphics3D_DrawPolygonDebug(self.this,arg0)
+        return val
+    def DrawLine(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iGraphics3D_DrawLine(self.this,arg0.this,arg1.this,arg2,arg3)
+        return val
+    def DrawTriangleMesh(self,arg0):
+        val = blcelc.iGraphics3D_DrawTriangleMesh(self.this,arg0)
+        return val
+    def DrawPolygonMesh(self,arg0):
+        val = blcelc.iGraphics3D_DrawPolygonMesh(self.this,arg0)
+        return val
+    def OpenFogObject(self,arg0,arg1):
+        val = blcelc.iGraphics3D_OpenFogObject(self.this,arg0,arg1)
+        return val
+    def DrawFogPolygon(self,arg0,arg1,arg2):
+        val = blcelc.iGraphics3D_DrawFogPolygon(self.this,arg0,arg1,arg2)
+        return val
+    def CloseFogObject(self,arg0):
+        val = blcelc.iGraphics3D_CloseFogObject(self.this,arg0)
+        return val
+    def GetCaps(self):
+        val = blcelc.iGraphics3D_GetCaps(self.this)
+        val = csGraphics3DCapsPtr(val)
+        return val
+    def GetZBuffAt(self,arg0,arg1):
+        val = blcelc.iGraphics3D_GetZBuffAt(self.this,arg0,arg1)
+        return val
+    def GetZBuffValue(self,arg0,arg1):
+        val = blcelc.iGraphics3D_GetZBuffValue(self.this,arg0,arg1)
+        return val
+    def DumpCache(self):
+        val = blcelc.iGraphics3D_DumpCache(self.this)
+        return val
+    def ClearCache(self):
+        val = blcelc.iGraphics3D_ClearCache(self.this)
+        return val
+    def RemoveFromCache(self,arg0):
+        val = blcelc.iGraphics3D_RemoveFromCache(self.this,arg0.this)
+        return val
+    def GetWidth(self):
+        val = blcelc.iGraphics3D_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iGraphics3D_GetHeight(self.this)
+        return val
+    def SetPerspectiveCenter(self,arg0,arg1):
+        val = blcelc.iGraphics3D_SetPerspectiveCenter(self.this,arg0,arg1)
+        return val
+    def SetPerspectiveAspect(self,arg0):
+        val = blcelc.iGraphics3D_SetPerspectiveAspect(self.this,arg0)
+        return val
+    def SetObjectToCamera(self,arg0):
+        val = blcelc.iGraphics3D_SetObjectToCamera(self.this,arg0)
+        return val
+    def GetDriver2D(self):
+        val = blcelc.iGraphics3D_GetDriver2D(self.this)
+        val = iGraphics2DPtr(val)
+        return val
+    def GetTextureManager(self):
+        val = blcelc.iGraphics3D_GetTextureManager(self.this)
+        val = iTextureManagerPtr(val)
+        return val
+    def CreateHalo(self,arg0,arg1,arg2,arg3,arg4,arg5):
+        val = blcelc.iGraphics3D_CreateHalo(self.this,arg0,arg1,arg2,arg3,arg4,arg5)
+        val = iHaloPtr(val)
+        return val
+    def DrawPixmap(self,arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8):
+        val = blcelc.iGraphics3D_DrawPixmap(self.this,arg0.this,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8)
+        return val
     def __repr__(self):
-        return "<C iMeshWrapper instance at %s>" % (self.this,)
-
-class iMeshWrapperPtr(iMeshWrapper):
+        return "<C iGraphics3D instance>"
+class iGraphics3D(iGraphics3DPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iMeshWrapper
-blcelc.iMeshWrapper_swigregister(iMeshWrapperPtr)
-class iLightMap(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iLightMap):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iLightMap.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iLightMap.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetMapData(*args): return apply(blcelc.iLightMap_GetMapData,args)
-    def GetWidth(*args): return apply(blcelc.iLightMap_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iLightMap_GetHeight,args)
-    def GetRealWidth(*args): return apply(blcelc.iLightMap_GetRealWidth,args)
-    def GetRealHeight(*args): return apply(blcelc.iLightMap_GetRealHeight,args)
-    def GetCacheData(*args): return apply(blcelc.iLightMap_GetCacheData,args)
-    def SetCacheData(*args): return apply(blcelc.iLightMap_SetCacheData,args)
-    def GetMeanLighting(*args): return apply(blcelc.iLightMap_GetMeanLighting,args)
-    def GetSize(*args): return apply(blcelc.iLightMap_GetSize,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iLightMap(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iLightMap instance at %s>" % (self.this,)
 
-class iLightMapPtr(iLightMap):
+
+class iCameraPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iLightMap
-blcelc.iLightMap_swigregister(iLightMapPtr)
-class iPolygon3D(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPolygon3D):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPolygon3D.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPolygon3D.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetLightMap(*args): return apply(blcelc.iPolygon3D_GetLightMap,args)
-    def GetMaterialHandle(*args): return apply(blcelc.iPolygon3D_GetMaterialHandle,args)
-    def SetMaterial(*args): return apply(blcelc.iPolygon3D_SetMaterial,args)
-    def GetVertexCount(*args): return apply(blcelc.iPolygon3D_GetVertexCount,args)
-    def GetVertex(*args): return apply(blcelc.iPolygon3D_GetVertex,args)
-    def GetVertexW(*args): return apply(blcelc.iPolygon3D_GetVertexW,args)
-    def GetVertexC(*args): return apply(blcelc.iPolygon3D_GetVertexC,args)
-    def CreateVertexByIndex(*args): return apply(blcelc.iPolygon3D_CreateVertexByIndex,args)
-    def CreateVertex(*args): return apply(blcelc.iPolygon3D_CreateVertex,args)
-    def GetAlpha(*args): return apply(blcelc.iPolygon3D_GetAlpha,args)
-    def SetAlpha(*args): return apply(blcelc.iPolygon3D_SetAlpha,args)
-    def CreatePlane(*args): return apply(blcelc.iPolygon3D_CreatePlane,args)
-    def SetPlane(*args): return apply(blcelc.iPolygon3D_SetPlane,args)
-    def SetTextureSpace(*args): return apply(blcelc.iPolygon3D_SetTextureSpace,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iPolygon3D,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPolygon3D(self)
+        self.thisown = 0
+    def GetFOV(self):
+        val = blcelc.iCamera_GetFOV(self.this)
+        return val
+    def GetInvFOV(self):
+        val = blcelc.iCamera_GetInvFOV(self.this)
+        return val
     def __repr__(self):
-        return "<C iPolygon3D instance at %s>" % (self.this,)
-
-class iPolygon3DPtr(iPolygon3D):
+        return "<C iCamera instance>"
+class iCamera(iCameraPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPolygon3D
-blcelc.iPolygon3D_swigregister(iPolygon3DPtr)
-class iImage(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iImage):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iImage.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iImage.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetImageData(*args): return apply(blcelc.iImage_GetImageData,args)
-    def GetWidth(*args): return apply(blcelc.iImage_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iImage_GetHeight,args)
-    def GetSize(*args): return apply(blcelc.iImage_GetSize,args)
-    def Rescale(*args): return apply(blcelc.iImage_Rescale,args)
-    def MipMap(*args): return apply(blcelc.iImage_MipMap,args)
-    def SetName(*args): return apply(blcelc.iImage_SetName,args)
-    def GetName(*args): return apply(blcelc.iImage_GetName,args)
-    def GetFormat(*args): return apply(blcelc.iImage_GetFormat,args)
-    def GetPalette(*args): return apply(blcelc.iImage_GetPalette,args)
-    def GetAlpha(*args): return apply(blcelc.iImage_GetAlpha,args)
-    def SetFormat(*args): return apply(blcelc.iImage_SetFormat,args)
-    def Clone(*args): return apply(blcelc.iImage_Clone,args)
-    def Crop(*args): return apply(blcelc.iImage_Crop,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iImage,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iImage(self)
-    def __repr__(self):
-        return "<C iImage instance at %s>" % (self.this,)
 
-class iImagePtr(iImage):
+
+class iSectorPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iImage
-blcelc.iImage_swigregister(iImagePtr)
-class iTextureManager(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iTextureManager):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iTextureManager.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iTextureManager.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def RegisterTexture(*args): return apply(blcelc.iTextureManager_RegisterTexture,args)
-    def PrepareTextures(*args): return apply(blcelc.iTextureManager_PrepareTextures,args)
-    def FreeImages(*args): return apply(blcelc.iTextureManager_FreeImages,args)
-    def ResetPalette(*args): return apply(blcelc.iTextureManager_ResetPalette,args)
-    def ReserveColor(*args): return apply(blcelc.iTextureManager_ReserveColor,args)
-    def FindRGB(*args): return apply(blcelc.iTextureManager_FindRGB,args)
-    def SetPalette(*args): return apply(blcelc.iTextureManager_SetPalette,args)
-    def SetVerbose(*args): return apply(blcelc.iTextureManager_SetVerbose,args)
-    def GetTextureFormat(*args): return apply(blcelc.iTextureManager_GetTextureFormat,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iTextureManager,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iTextureManager(self)
+        self.thisown = 0
     def __repr__(self):
-        return "<C iTextureManager instance at %s>" % (self.this,)
-
-class iTextureManagerPtr(iTextureManager):
+        return "<C iSector instance>"
+class iSector(iSectorPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iTextureManager
-blcelc.iTextureManager_swigregister(iTextureManagerPtr)
-class iPolygonTexture(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPolygonTexture):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPolygonTexture.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPolygonTexture.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetMaterialHandle(*args): return apply(blcelc.iPolygonTexture_GetMaterialHandle,args)
-    def GetFDU(*args): return apply(blcelc.iPolygonTexture_GetFDU,args)
-    def GetFDV(*args): return apply(blcelc.iPolygonTexture_GetFDV,args)
-    def GetWidth(*args): return apply(blcelc.iPolygonTexture_GetWidth,args)
-    def GetHeight(*args): return apply(blcelc.iPolygonTexture_GetHeight,args)
-    def GetShiftU(*args): return apply(blcelc.iPolygonTexture_GetShiftU,args)
-    def GetIMinU(*args): return apply(blcelc.iPolygonTexture_GetIMinU,args)
-    def GetIMinV(*args): return apply(blcelc.iPolygonTexture_GetIMinV,args)
-    def GetTextureBox(*args): return apply(blcelc.iPolygonTexture_GetTextureBox,args)
-    def GetOriginalWidth(*args): return apply(blcelc.iPolygonTexture_GetOriginalWidth,args)
-    def GetPolygon(*args): return apply(blcelc.iPolygonTexture_GetPolygon,args)
-    def DynamicLightsDirty(*args): return apply(blcelc.iPolygonTexture_DynamicLightsDirty,args)
-    def RecalculateDynamicLights(*args): return apply(blcelc.iPolygonTexture_RecalculateDynamicLights,args)
-    def GetLightMap(*args): return apply(blcelc.iPolygonTexture_GetLightMap,args)
-    def GetLightCellSize(*args): return apply(blcelc.iPolygonTexture_GetLightCellSize,args)
-    def GetLightCellShift(*args): return apply(blcelc.iPolygonTexture_GetLightCellShift,args)
-    def GetCacheData(*args): return apply(blcelc.iPolygonTexture_GetCacheData,args)
-    def SetCacheData(*args): return apply(blcelc.iPolygonTexture_SetCacheData,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iPolygonTexture,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPolygonTexture(self)
-    def __repr__(self):
-        return "<C iPolygonTexture instance at %s>" % (self.this,)
 
-class iPolygonTexturePtr(iPolygonTexture):
+
+class iThingStatePtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPolygonTexture
-blcelc.iPolygonTexture_swigregister(iPolygonTexturePtr)
-class iCameraPosition(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCameraPosition):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCameraPosition.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCameraPosition.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iCameraPosition,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCameraPosition(self)
+        self.thisown = 0
+    def CreatePolygon(self,arg0):
+        val = blcelc.iThingState_CreatePolygon(self.this,arg0)
+        val = iPolygon3DPtr(val)
+        return val
     def __repr__(self):
-        return "<C iCameraPosition instance at %s>" % (self.this,)
-
-class iCameraPositionPtr(iCameraPosition):
+        return "<C iThingState instance>"
+class iThingState(iThingStatePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCameraPosition
-blcelc.iCameraPosition_swigregister(iCameraPositionPtr)
-class iSectorList(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iSectorList):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iSectorList.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iSectorList.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetCount(*args): return apply(blcelc.iSectorList_GetCount,args)
-    def Get(*args): return apply(blcelc.iSectorList_Get,args)
-    def Add(*args): return apply(blcelc.iSectorList_Add,args)
-    def Remove(*args): return apply(blcelc.iSectorList_Remove,args)
-    def FindByName(*args): return apply(blcelc.iSectorList_FindByName,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iSectorList(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iSectorList instance at %s>" % (self.this,)
 
-class iSectorListPtr(iSectorList):
+
+class iMeshObjectPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iSectorList
-blcelc.iSectorList_swigregister(iSectorListPtr)
-class iMaterialList(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iMaterialList):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iMaterialList.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iMaterialList.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def FindByName(*args): return apply(blcelc.iMaterialList_FindByName,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iMaterialList(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def Query_iThingState(self):
+        val = blcelc.iMeshObject_Query_iThingState(self.this)
+        return val
     def __repr__(self):
-        return "<C iMaterialList instance at %s>" % (self.this,)
-
-class iMaterialListPtr(iMaterialList):
+        return "<C iMeshObject instance>"
+class iMeshObject(iMeshObjectPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iMaterialList
-blcelc.iMaterialList_swigregister(iMaterialListPtr)
-class iTextureList(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iTextureList):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iTextureList.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iTextureList.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def FindByName(*args): return apply(blcelc.iTextureList_FindByName,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iTextureList(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iTextureList instance at %s>" % (self.this,)
 
-class iTextureListPtr(iTextureList):
+
+class iMeshWrapperPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iTextureList
-blcelc.iTextureList_swigregister(iTextureListPtr)
-class iEngine(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iEngine):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iEngine.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iEngine.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetTextureFormat(*args): return apply(blcelc.iEngine_GetTextureFormat,args)
-    def DeleteAll(*args): return apply(blcelc.iEngine_DeleteAll,args)
-    def CreateTexture(*args): return apply(blcelc.iEngine_CreateTexture,args)
-    def CreateSector(*args): return apply(blcelc.iEngine_CreateSector,args)
-    def CreateSectorWallsMesh(*args): return apply(blcelc.iEngine_CreateSectorWallsMesh,args)
-    def GetSectors(*args): return apply(blcelc.iEngine_GetSectors,args)
-    def GetMaterialList(*args): return apply(blcelc.iEngine_GetMaterialList,args)
-    def GetTextureList(*args): return apply(blcelc.iEngine_GetTextureList,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iEngine(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def GetMeshObject(self):
+        val = blcelc.iMeshWrapper_GetMeshObject(self.this)
+        val = iMeshObjectPtr(val)
+        return val
     def __repr__(self):
-        return "<C iEngine instance at %s>" % (self.this,)
-
-class iEnginePtr(iEngine):
+        return "<C iMeshWrapper instance>"
+class iMeshWrapper(iMeshWrapperPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iEngine
-blcelc.iEngine_swigregister(iEnginePtr)
-class iObjectRegistry(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iObjectRegistry):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iObjectRegistry.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iObjectRegistry.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def Query_iEngine(*args): return apply(blcelc.iObjectRegistry_Query_iEngine,args)
-    def Query_iGraphics3D(*args): return apply(blcelc.iObjectRegistry_Query_iGraphics3D,args)
-    def Print(*args): return apply(blcelc.iObjectRegistry_Print,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iObjectRegistry,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iObjectRegistry(self)
-    def __repr__(self):
-        return "<C iObjectRegistry instance at %s>" % (self.this,)
 
-class iObjectRegistryPtr(iObjectRegistry):
+
+class iLightMapPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iObjectRegistry
-blcelc.iObjectRegistry_swigregister(iObjectRegistryPtr)
-class iCelPlLayer(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelPlLayer):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelPlLayer.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelPlLayer.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def CreatePropertyClass(*args): return apply(blcelc.iCelPlLayer_CreatePropertyClass,args)
-    def FetchString(*args): return apply(blcelc.iCelPlLayer_FetchString,args)
-    def GetBehaviourLayerCount(*args): return apply(blcelc.iCelPlLayer_GetBehaviourLayerCount,args)
-    def GetBehaviourLayer(*args): return apply(blcelc.iCelPlLayer_GetBehaviourLayer,args)
-    def FindBehaviourLayer(*args): return apply(blcelc.iCelPlLayer_FindBehaviourLayer,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelPlLayer(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def GetMapData(self):
+        val = blcelc.iLightMap_GetMapData(self.this)
+        return val
+    def GetWidth(self):
+        val = blcelc.iLightMap_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iLightMap_GetHeight(self.this)
+        return val
+    def GetRealWidth(self):
+        val = blcelc.iLightMap_GetRealWidth(self.this)
+        return val
+    def GetRealHeight(self):
+        val = blcelc.iLightMap_GetRealHeight(self.this)
+        return val
+    def GetCacheData(self):
+        val = blcelc.iLightMap_GetCacheData(self.this)
+        return val
+    def SetCacheData(self,arg0):
+        val = blcelc.iLightMap_SetCacheData(self.this,arg0)
+        return val
+    def GetMeanLighting(self,arg0,arg1,arg2):
+        val = blcelc.iLightMap_GetMeanLighting(self.this,arg0,arg1,arg2)
+        return val
+    def GetSize(self):
+        val = blcelc.iLightMap_GetSize(self.this)
+        return val
     def __repr__(self):
-        return "<C iCelPlLayer instance at %s>" % (self.this,)
-
-class iCelPlLayerPtr(iCelPlLayer):
+        return "<C iLightMap instance>"
+class iLightMap(iLightMapPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelPlLayer
-blcelc.iCelPlLayer_swigregister(iCelPlLayerPtr)
-class iCelEntity(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelEntity):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelEntity.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelEntity.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetName(*args): return apply(blcelc.iCelEntity_GetName,args)
-    def SetName(*args): return apply(blcelc.iCelEntity_SetName,args)
-    def SetBehaviour(*args): return apply(blcelc.iCelEntity_SetBehaviour,args)
-    def GetBehaviour(*args): return apply(blcelc.iCelEntity_GetBehaviour,args)
-    def GetID(*args): return apply(blcelc.iCelEntity_GetID,args)
-    def GetPropertyClassList(*args): return apply(blcelc.iCelEntity_GetPropertyClassList,args)
-    def LoadBehaviour(*args): return apply(blcelc.iCelEntity_LoadBehaviour,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelEntity(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iCelEntity instance at %s>" % (self.this,)
 
-class iCelEntityPtr(iCelEntity):
+
+class iPolygon3DPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelEntity
-blcelc.iCelEntity_swigregister(iCelEntityPtr)
-class iCelBlLayer(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelBlLayer):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelBlLayer.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelBlLayer.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetName(*args): return apply(blcelc.iCelBlLayer_GetName,args)
-    def CreateBehaviour(*args): return apply(blcelc.iCelBlLayer_CreateBehaviour,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelBlLayer(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def GetLightMap(self):
+        val = blcelc.iPolygon3D_GetLightMap(self.this)
+        val = iLightMapPtr(val)
+        return val
+    def GetMaterialHandle(self):
+        val = blcelc.iPolygon3D_GetMaterialHandle(self.this)
+        val = iMaterialHandlePtr(val)
+        return val
+    def SetMaterial(self,arg0):
+        val = blcelc.iPolygon3D_SetMaterial(self.this,arg0.this)
+        return val
+    def GetVertexCount(self):
+        val = blcelc.iPolygon3D_GetVertexCount(self.this)
+        return val
+    def GetVertex(self,arg0):
+        val = blcelc.iPolygon3D_GetVertex(self.this,arg0)
+        val = csVector3Ptr(val)
+        return val
+    def GetVertexW(self,arg0):
+        val = blcelc.iPolygon3D_GetVertexW(self.this,arg0)
+        val = csVector3Ptr(val)
+        return val
+    def GetVertexC(self,arg0):
+        val = blcelc.iPolygon3D_GetVertexC(self.this,arg0)
+        val = csVector3Ptr(val)
+        return val
+    def CreateVertexByIndex(self,arg0):
+        val = blcelc.iPolygon3D_CreateVertexByIndex(self.this,arg0)
+        return val
+    def CreateVertex(self,arg0):
+        val = blcelc.iPolygon3D_CreateVertex(self.this,arg0.this)
+        return val
+    def GetAlpha(self):
+        val = blcelc.iPolygon3D_GetAlpha(self.this)
+        return val
+    def SetAlpha(self,arg0):
+        val = blcelc.iPolygon3D_SetAlpha(self.this,arg0)
+        return val
+    def CreatePlane(self,arg0,arg1):
+        val = blcelc.iPolygon3D_CreatePlane(self.this,arg0.this,arg1)
+        return val
+    def SetPlane(self,arg0):
+        val = blcelc.iPolygon3D_SetPlane(self.this,arg0)
+        return val
+    def SetTextureSpace(self,arg0,arg1,arg2):
+        val = blcelc.iPolygon3D_SetTextureSpace(self.this,arg0.this,arg1.this,arg2)
+        return val
     def __repr__(self):
-        return "<C iCelBlLayer instance at %s>" % (self.this,)
-
-class iCelBlLayerPtr(iCelBlLayer):
+        return "<C iPolygon3D instance>"
+class iPolygon3D(iPolygon3DPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelBlLayer
-blcelc.iCelBlLayer_swigregister(iCelBlLayerPtr)
-class iCelBehaviour(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelBehaviour):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelBehaviour.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelBehaviour.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetName(*args): return apply(blcelc.iCelBehaviour_GetName,args)
-    def GetBehaviourLayer(*args): return apply(blcelc.iCelBehaviour_GetBehaviourLayer,args)
-    def SendMessage(*args): return apply(blcelc.iCelBehaviour_SendMessage,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelBehaviour(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iCelBehaviour instance at %s>" % (self.this,)
 
-class iCelBehaviourPtr(iCelBehaviour):
+
+class iImagePtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelBehaviour
-blcelc.iCelBehaviour_swigregister(iCelBehaviourPtr)
-class iCelPropertyClass(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelPropertyClass):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelPropertyClass.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelPropertyClass.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def GetName(*args): return apply(blcelc.iCelPropertyClass_GetName,args)
-    def GetEntity(*args): return apply(blcelc.iCelPropertyClass_GetEntity,args)
-    def SetEntity(*args): return apply(blcelc.iCelPropertyClass_SetEntity,args)
-    def GetPropertyOrActionType(*args): return apply(blcelc.iCelPropertyClass_GetPropertyOrActionType,args)
-    def IsPropertyReadOnly(*args): return apply(blcelc.iCelPropertyClass_IsPropertyReadOnly,args)
-    def GetPropertyLong(*args): return apply(blcelc.iCelPropertyClass_GetPropertyLong,args)
-    def GetPropertyFloat(*args): return apply(blcelc.iCelPropertyClass_GetPropertyFloat,args)
-    def GetPropertyBool(*args): return apply(blcelc.iCelPropertyClass_GetPropertyBool,args)
-    def GetPropertyString(*args): return apply(blcelc.iCelPropertyClass_GetPropertyString,args)
-    def GetPropertyVector(*args): return apply(blcelc.iCelPropertyClass_GetPropertyVector,args)
-    def GetPropertyAndActionCount(*args): return apply(blcelc.iCelPropertyClass_GetPropertyAndActionCount,args)
-    def GetPropertyOrActionID(*args): return apply(blcelc.iCelPropertyClass_GetPropertyOrActionID,args)
-    def GetPropertyOrActionDescription(*args): return apply(blcelc.iCelPropertyClass_GetPropertyOrActionDescription,args)
-    def PerformAction(*args): return apply(blcelc.iCelPropertyClass_PerformAction,args)
-    def SetPropertyLong(*args): return apply(blcelc.iCelPropertyClass_SetPropertyLong,args)
-    def SetPropertyFloat(*args): return apply(blcelc.iCelPropertyClass_SetPropertyFloat,args)
-    def SetPropertyBool(*args): return apply(blcelc.iCelPropertyClass_SetPropertyBool,args)
-    def SetPropertyString(*args): return apply(blcelc.iCelPropertyClass_SetPropertyString,args)
-    def SetPropertyVector3(*args): return apply(blcelc.iCelPropertyClass_SetPropertyVector3,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelPropertyClass(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def GetImageData(self):
+        val = blcelc.iImage_GetImageData(self.this)
+        return val
+    def GetWidth(self):
+        val = blcelc.iImage_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iImage_GetHeight(self.this)
+        return val
+    def GetSize(self):
+        val = blcelc.iImage_GetSize(self.this)
+        return val
+    def Rescale(self,arg0,arg1):
+        val = blcelc.iImage_Rescale(self.this,arg0,arg1)
+        return val
+    def MipMap(self,arg0,arg1):
+        val = blcelc.iImage_MipMap(self.this,arg0,arg1.this)
+        return val
+    def SetName(self,arg0):
+        val = blcelc.iImage_SetName(self.this,arg0)
+        return val
+    def GetName(self):
+        val = blcelc.iImage_GetName(self.this)
+        return val
+    def GetFormat(self):
+        val = blcelc.iImage_GetFormat(self.this)
+        return val
+    def GetPalette(self):
+        val = blcelc.iImage_GetPalette(self.this)
+        val = csRGBpixelPtr(val)
+        return val
+    def GetAlpha(self):
+        val = blcelc.iImage_GetAlpha(self.this)
+        return val
+    def SetFormat(self,arg0):
+        val = blcelc.iImage_SetFormat(self.this,arg0)
+        return val
+    def Clone(self):
+        val = blcelc.iImage_Clone(self.this)
+        return val
+    def Crop(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iImage_Crop(self.this,arg0,arg1,arg2,arg3)
+        return val
     def __repr__(self):
-        return "<C iCelPropertyClass instance at %s>" % (self.this,)
-
-class iCelPropertyClassPtr(iCelPropertyClass):
+        return "<C iImage instance>"
+class iImage(iImagePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelPropertyClass
-blcelc.iCelPropertyClass_swigregister(iCelPropertyClassPtr)
-class iCelPropertyClassList(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iCelPropertyClassList):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iCelPropertyClassList.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iCelPropertyClassList.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def GetCount(*args): return apply(blcelc.iCelPropertyClassList_GetCount,args)
-    def Get(*args): return apply(blcelc.iCelPropertyClassList_Get,args)
-    def Find(*args): return apply(blcelc.iCelPropertyClassList_Find,args)
-    def FindByName(*args): return apply(blcelc.iCelPropertyClassList_FindByName,args)
-    def FindByInterface(*args): return apply(blcelc.iCelPropertyClassList_FindByInterface,args)
-    def __init__(self,*args):
-        self.this = apply(blcelc.new_iCelPropertyClassList,args)
-        self.thisown = 1
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iCelPropertyClassList(self)
-    def __repr__(self):
-        return "<C iCelPropertyClassList instance at %s>" % (self.this,)
 
-class iCelPropertyClassListPtr(iCelPropertyClassList):
+
+class iTextureManagerPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iCelPropertyClassList
-blcelc.iCelPropertyClassList_swigregister(iCelPropertyClassListPtr)
-class iPcRegion(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcRegion):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcRegion.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcRegion.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def SetWorldFile(*args): return apply(blcelc.iPcRegion_SetWorldFile,args)
-    def GetWorldDir(*args): return apply(blcelc.iPcRegion_GetWorldDir,args)
-    def GetWorldFile(*args): return apply(blcelc.iPcRegion_GetWorldFile,args)
-    def SetRegionName(*args): return apply(blcelc.iPcRegion_SetRegionName,args)
-    def GetRegionName(*args): return apply(blcelc.iPcRegion_GetRegionName,args)
-    def Load(*args): return apply(blcelc.iPcRegion_Load,args)
-    def Unload(*args): return apply(blcelc.iPcRegion_Unload,args)
-    def FindSector(*args): return apply(blcelc.iPcRegion_FindSector,args)
-    def GetStartSector(*args): return apply(blcelc.iPcRegion_GetStartSector,args)
-    def GetStartPosition(*args): return apply(blcelc.iPcRegion_GetStartPosition,args)
-    def PointCamera(*args): return apply(blcelc.iPcRegion_PointCamera,args)
-    def LoadWorld(*args): return apply(blcelc.iPcRegion_LoadWorld,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcRegion(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def RegisterTexture(self,arg0,arg1):
+        val = blcelc.iTextureManager_RegisterTexture(self.this,arg0.this,arg1)
+        return val
+    def PrepareTextures(self):
+        val = blcelc.iTextureManager_PrepareTextures(self.this)
+        return val
+    def FreeImages(self):
+        val = blcelc.iTextureManager_FreeImages(self.this)
+        return val
+    def SetVerbose(self,arg0):
+        val = blcelc.iTextureManager_SetVerbose(self.this,arg0)
+        return val
+    def GetTextureFormat(self):
+        val = blcelc.iTextureManager_GetTextureFormat(self.this)
+        return val
     def __repr__(self):
-        return "<C iPcRegion instance at %s>" % (self.this,)
-
-class iPcRegionPtr(iPcRegion):
+        return "<C iTextureManager instance>"
+class iTextureManager(iTextureManagerPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcRegion
-blcelc.iPcRegion_swigregister(iPcRegionPtr)
-class iPcCamera(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcCamera):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcCamera.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcCamera.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
+
+
+class iPolygonTexturePtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetMaterialHandle(self):
+        val = blcelc.iPolygonTexture_GetMaterialHandle(self.this)
+        val = iMaterialHandlePtr(val)
+        return val
+    def GetFDU(self):
+        val = blcelc.iPolygonTexture_GetFDU(self.this)
+        return val
+    def GetFDV(self):
+        val = blcelc.iPolygonTexture_GetFDV(self.this)
+        return val
+    def GetWidth(self):
+        val = blcelc.iPolygonTexture_GetWidth(self.this)
+        return val
+    def GetHeight(self):
+        val = blcelc.iPolygonTexture_GetHeight(self.this)
+        return val
+    def GetShiftU(self):
+        val = blcelc.iPolygonTexture_GetShiftU(self.this)
+        return val
+    def GetIMinU(self):
+        val = blcelc.iPolygonTexture_GetIMinU(self.this)
+        return val
+    def GetIMinV(self):
+        val = blcelc.iPolygonTexture_GetIMinV(self.this)
+        return val
+    def GetTextureBox(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iPolygonTexture_GetTextureBox(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def GetOriginalWidth(self):
+        val = blcelc.iPolygonTexture_GetOriginalWidth(self.this)
+        return val
+    def GetPolygon(self):
+        val = blcelc.iPolygonTexture_GetPolygon(self.this)
+        val = iPolygon3DPtr(val)
+        return val
+    def DynamicLightsDirty(self):
+        val = blcelc.iPolygonTexture_DynamicLightsDirty(self.this)
+        return val
+    def RecalculateDynamicLights(self):
+        val = blcelc.iPolygonTexture_RecalculateDynamicLights(self.this)
+        return val
+    def GetLightMap(self):
+        val = blcelc.iPolygonTexture_GetLightMap(self.this)
+        val = iLightMapPtr(val)
+        return val
+    def GetLightCellSize(self):
+        val = blcelc.iPolygonTexture_GetLightCellSize(self.this)
+        return val
+    def GetLightCellShift(self):
+        val = blcelc.iPolygonTexture_GetLightCellShift(self.this)
+        return val
+    def GetCacheData(self,arg0):
+        val = blcelc.iPolygonTexture_GetCacheData(self.this,arg0)
+        return val
+    def SetCacheData(self,arg0,arg1):
+        val = blcelc.iPolygonTexture_SetCacheData(self.this,arg0,arg1)
+        return val
+    def __repr__(self):
+        return "<C iPolygonTexture instance>"
+class iPolygonTexture(iPolygonTexturePtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCameraPositionPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def __repr__(self):
+        return "<C iCameraPosition instance>"
+class iCameraPosition(iCameraPositionPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iSectorListPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetCount(self):
+        val = blcelc.iSectorList_GetCount(self.this)
+        return val
+    def Get(self,arg0):
+        val = blcelc.iSectorList_Get(self.this,arg0)
+        val = iSectorPtr(val)
+        return val
+    def Add(self,arg0):
+        val = blcelc.iSectorList_Add(self.this,arg0.this)
+        return val
+    def Remove(self,arg0):
+        val = blcelc.iSectorList_Remove(self.this,arg0.this)
+        return val
+    def FindByName(self,arg0):
+        val = blcelc.iSectorList_FindByName(self.this,arg0)
+        val = iSectorPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iSectorList instance>"
+class iSectorList(iSectorListPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iMaterialListPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def FindByName(self,arg0):
+        val = blcelc.iMaterialList_FindByName(self.this,arg0)
+        val = iMaterialWrapperPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iMaterialList instance>"
+class iMaterialList(iMaterialListPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iTextureListPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def FindByName(self,arg0):
+        val = blcelc.iTextureList_FindByName(self.this,arg0)
+        val = iTextureWrapperPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iTextureList instance>"
+class iTextureList(iTextureListPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iEnginePtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetTextureFormat(self):
+        val = blcelc.iEngine_GetTextureFormat(self.this)
+        return val
+    def DeleteAll(self):
+        val = blcelc.iEngine_DeleteAll(self.this)
+        return val
+    def CreateTexture(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iEngine_CreateTexture(self.this,arg0,arg1,arg2,arg3)
+        val = iTextureWrapperPtr(val)
+        return val
+    def CreateSector(self,arg0):
+        val = blcelc.iEngine_CreateSector(self.this,arg0)
+        val = iSectorPtr(val)
+        return val
+    def CreateSectorWallsMesh(self,arg0,arg1):
+        val = blcelc.iEngine_CreateSectorWallsMesh(self.this,arg0.this,arg1)
+        return val
+    def GetSectors(self):
+        val = blcelc.iEngine_GetSectors(self.this)
+        val = iSectorListPtr(val)
+        return val
+    def GetMaterialList(self):
+        val = blcelc.iEngine_GetMaterialList(self.this)
+        val = iMaterialListPtr(val)
+        return val
+    def GetTextureList(self):
+        val = blcelc.iEngine_GetTextureList(self.this)
+        val = iTextureListPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iEngine instance>"
+class iEngine(iEnginePtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iObjectRegistryPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def Query_iEngine(self):
+        val = blcelc.iObjectRegistry_Query_iEngine(self.this)
+        val = iEnginePtr(val)
+        return val
+    def Query_iGraphics3D(self):
+        val = blcelc.iObjectRegistry_Query_iGraphics3D(self.this)
+        val = iGraphics3DPtr(val)
+        return val
+    def Print(self,arg0,arg1):
+        val = blcelc.iObjectRegistry_Print(self.this,arg0,arg1)
+        return val
+    def __repr__(self):
+        return "<C iObjectRegistry instance>"
+class iObjectRegistry(iObjectRegistryPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelPlLayerPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def CreatePropertyClass(self,arg0,arg1):
+        val = blcelc.iCelPlLayer_CreatePropertyClass(self.this,arg0.this,arg1)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def FetchString(self,arg0):
+        val = blcelc.iCelPlLayer_FetchString(self.this,arg0)
+        return val
+    def GetBehaviourLayerCount(self):
+        val = blcelc.iCelPlLayer_GetBehaviourLayerCount(self.this)
+        return val
+    def GetBehaviourLayer(self,arg0):
+        val = blcelc.iCelPlLayer_GetBehaviourLayer(self.this,arg0)
+        val = iCelBlLayerPtr(val)
+        return val
+    def FindBehaviourLayer(self,arg0):
+        val = blcelc.iCelPlLayer_FindBehaviourLayer(self.this,arg0)
+        val = iCelBlLayerPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelPlLayer instance>"
+class iCelPlLayer(iCelPlLayerPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelEntityPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelEntity_GetName(self.this)
+        return val
+    def SetName(self,arg0):
+        val = blcelc.iCelEntity_SetName(self.this,arg0)
+        return val
+    def SetBehaviour(self,arg0):
+        val = blcelc.iCelEntity_SetBehaviour(self.this,arg0.this)
+        return val
+    def GetBehaviour(self):
+        val = blcelc.iCelEntity_GetBehaviour(self.this)
+        val = iCelBehaviourPtr(val)
+        return val
+    def GetID(self):
+        val = blcelc.iCelEntity_GetID(self.this)
+        return val
+    def GetPropertyClassList(self):
+        val = blcelc.iCelEntity_GetPropertyClassList(self.this)
+        val = iCelPropertyClassListPtr(val)
+        return val
+    def LoadBehaviour(self,arg0,arg1):
+        val = blcelc.iCelEntity_LoadBehaviour(self.this,arg0.this,arg1)
+        val = iCelBehaviourPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelEntity instance>"
+class iCelEntity(iCelEntityPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelBlLayerPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelBlLayer_GetName(self.this)
+        return val
+    def CreateBehaviour(self,arg0,arg1):
+        val = blcelc.iCelBlLayer_CreateBehaviour(self.this,arg0.this,arg1)
+        val = iCelBehaviourPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelBlLayer instance>"
+class iCelBlLayer(iCelBlLayerPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelBehaviourPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelBehaviour_GetName(self.this)
+        return val
+    def GetBehaviourLayer(self):
+        val = blcelc.iCelBehaviour_GetBehaviourLayer(self.this)
+        val = iCelBlLayerPtr(val)
+        return val
+    def SendMessage(self,arg0,arg1):
+        val = blcelc.iCelBehaviour_SendMessage(self.this,arg0,arg1.this)
+        return val
+    def __repr__(self):
+        return "<C iCelBehaviour instance>"
+class iCelBehaviour(iCelBehaviourPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelPropertyClassPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelPropertyClass_GetName(self.this)
+        return val
+    def GetEntity(self):
+        val = blcelc.iCelPropertyClass_GetEntity(self.this)
+        val = iCelEntityPtr(val)
+        return val
+    def SetEntity(self,arg0):
+        val = blcelc.iCelPropertyClass_SetEntity(self.this,arg0.this)
+        return val
+    def GetPropertyOrActionType(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionType(self.this,arg0)
+        return val
+    def IsPropertyReadOnly(self,arg0):
+        val = blcelc.iCelPropertyClass_IsPropertyReadOnly(self.this,arg0)
+        return val
+    def GetPropertyLong(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyLong(self.this,arg0)
+        return val
+    def GetPropertyFloat(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyFloat(self.this,arg0)
+        return val
+    def GetPropertyBool(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyBool(self.this,arg0)
+        return val
+    def GetPropertyString(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyString(self.this,arg0)
+        return val
+    def GetPropertyVector(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_GetPropertyVector(self.this,arg0,arg1.this)
+        return val
+    def GetPropertyAndActionCount(self):
+        val = blcelc.iCelPropertyClass_GetPropertyAndActionCount(self.this)
+        return val
+    def GetPropertyOrActionID(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionID(self.this,arg0)
+        return val
+    def GetPropertyOrActionDescription(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionDescription(self.this,arg0)
+        return val
+    def PerformAction(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_PerformAction(self.this,arg0,arg1)
+        return val
+    def SetPropertyLong(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyLong(self.this,arg0,arg1)
+        return val
+    def SetPropertyFloat(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyFloat(self.this,arg0,arg1)
+        return val
+    def SetPropertyBool(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyBool(self.this,arg0,arg1)
+        return val
+    def SetPropertyString(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyString(self.this,arg0,arg1)
+        return val
+    def SetPropertyVector3(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyVector3(self.this,arg0,arg1.this)
+        return val
+    def __repr__(self):
+        return "<C iCelPropertyClass instance>"
+class iCelPropertyClass(iCelPropertyClassPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelPropertyClassListPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetCount(self):
+        val = blcelc.iCelPropertyClassList_GetCount(self.this)
+        return val
+    def Get(self,arg0):
+        val = blcelc.iCelPropertyClassList_Get(self.this,arg0)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def Find(self,arg0):
+        val = blcelc.iCelPropertyClassList_Find(self.this,arg0.this)
+        return val
+    def FindByName(self,arg0):
+        val = blcelc.iCelPropertyClassList_FindByName(self.this,arg0)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def FindByInterface(self,arg0,arg1):
+        val = blcelc.iCelPropertyClassList_FindByInterface(self.this,arg0,arg1)
+        val = iBasePtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelPropertyClassList instance>"
+class iCelPropertyClassList(iCelPropertyClassListPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcRegionPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def SetWorldFile(self,arg0,arg1):
+        val = blcelc.iPcRegion_SetWorldFile(self.this,arg0,arg1)
+        return val
+    def GetWorldDir(self):
+        val = blcelc.iPcRegion_GetWorldDir(self.this)
+        return val
+    def GetWorldFile(self):
+        val = blcelc.iPcRegion_GetWorldFile(self.this)
+        return val
+    def SetRegionName(self,arg0):
+        val = blcelc.iPcRegion_SetRegionName(self.this,arg0)
+        return val
+    def GetRegionName(self):
+        val = blcelc.iPcRegion_GetRegionName(self.this)
+        return val
+    def Load(self):
+        val = blcelc.iPcRegion_Load(self.this)
+        return val
+    def Unload(self):
+        val = blcelc.iPcRegion_Unload(self.this)
+        return val
+    def FindSector(self,arg0):
+        val = blcelc.iPcRegion_FindSector(self.this,arg0)
+        val = iSectorPtr(val)
+        return val
+    def GetStartSector(self,*args):
+        val = apply(blcelc.iPcRegion_GetStartSector,(self.this,)+args)
+        val = iSectorPtr(val)
+        return val
+    def GetStartPosition(self,*args):
+        val = apply(blcelc.iPcRegion_GetStartPosition,(self.this,)+args)
+        val = csVector3Ptr(val)
+        val.thisown = 1
+        return val
+    def PointCamera(self,arg0,*args):
+        val = apply(blcelc.iPcRegion_PointCamera,(self.this,arg0.this,)+args)
+        return val
+    def LoadWorld(self,arg0,arg1):
+        val = blcelc.iPcRegion_LoadWorld(self.this,arg0,arg1)
+        return val
+    def __repr__(self):
+        return "<C iPcRegion instance>"
+class iPcRegion(iPcRegionPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcCameraPtr(iBasePtr):
     freelook = blcelc.iPcCamera_freelook
     follow = blcelc.iPcCamera_follow
     rotational = blcelc.iPcCamera_rotational
     firstperson = blcelc.iPcCamera_firstperson
-    def SetRegion(*args): return apply(blcelc.iPcCamera_SetRegion,args)
-    def SetMode(*args): return apply(blcelc.iPcCamera_SetMode,args)
-    def GetMode(*args): return apply(blcelc.iPcCamera_GetMode,args)
-    def SetFollowPos(*args): return apply(blcelc.iPcCamera_SetFollowPos,args)
-    def GetFollowPos(*args): return apply(blcelc.iPcCamera_GetFollowPos,args)
-    def SetPitch(*args): return apply(blcelc.iPcCamera_SetPitch,args)
-    def GetPitch(*args): return apply(blcelc.iPcCamera_GetPitch,args)
-    def SetRoll(*args): return apply(blcelc.iPcCamera_SetRoll,args)
-    def GetRoll(*args): return apply(blcelc.iPcCamera_GetRoll,args)
-    def SetRectangle(*args): return apply(blcelc.iPcCamera_SetRectangle,args)
-    def GetCamera(*args): return apply(blcelc.iPcCamera_GetCamera,args)
-    def GetView(*args): return apply(blcelc.iPcCamera_GetView,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcCamera(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPcCamera instance at %s>" % (self.this,)
-
-class iPcCameraPtr(iPcCamera):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcCamera
-blcelc.iPcCamera_swigregister(iPcCameraPtr)
-class iPcMeshSelect(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcMeshSelect):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcMeshSelect.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcMeshSelect.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def SetCamera(*args): return apply(blcelc.iPcMeshSelect_SetCamera,args)
-    def SetMouseButtons(*args): return apply(blcelc.iPcMeshSelect_SetMouseButtons,args)
-    def GetMouseButtons(*args): return apply(blcelc.iPcMeshSelect_GetMouseButtons,args)
-    def SetGlobalSelection(*args): return apply(blcelc.iPcMeshSelect_SetGlobalSelection,args)
-    def HasGlobalSelection(*args): return apply(blcelc.iPcMeshSelect_HasGlobalSelection,args)
-    def SetFollowMode(*args): return apply(blcelc.iPcMeshSelect_SetFollowMode,args)
-    def HasFollowMode(*args): return apply(blcelc.iPcMeshSelect_HasFollowMode,args)
-    def SetFollowAlwaysMode(*args): return apply(blcelc.iPcMeshSelect_SetFollowAlwaysMode,args)
-    def HasFollowAlwaysMode(*args): return apply(blcelc.iPcMeshSelect_HasFollowAlwaysMode,args)
-    def SetDragMode(*args): return apply(blcelc.iPcMeshSelect_SetDragMode,args)
-    def HasDragMode(*args): return apply(blcelc.iPcMeshSelect_HasDragMode,args)
-    def SetDragPlaneNormal(*args): return apply(blcelc.iPcMeshSelect_SetDragPlaneNormal,args)
-    def GetDragPlaneNormal(*args): return apply(blcelc.iPcMeshSelect_GetDragPlaneNormal,args)
-    def SetSendmoveEvent(*args): return apply(blcelc.iPcMeshSelect_SetSendmoveEvent,args)
-    def HasSendmoveEvent(*args): return apply(blcelc.iPcMeshSelect_HasSendmoveEvent,args)
-    def SetSendupEvent(*args): return apply(blcelc.iPcMeshSelect_SetSendupEvent,args)
-    def HasSendupEvent(*args): return apply(blcelc.iPcMeshSelect_HasSendupEvent,args)
-    def SetSenddownEvent(*args): return apply(blcelc.iPcMeshSelect_SetSenddownEvent,args)
-    def HasSenddownEvent(*args): return apply(blcelc.iPcMeshSelect_HasSenddownEvent,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcMeshSelect(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def SetRegion(self,arg0,*args):
+        val = apply(blcelc.iPcCamera_SetRegion,(self.this,arg0.this,)+args)
+        return val
+    def SetMode(self,arg0,*args):
+        val = apply(blcelc.iPcCamera_SetMode,(self.this,arg0,)+args)
+        return val
+    def GetMode(self):
+        val = blcelc.iPcCamera_GetMode(self.this)
+        return val
+    def SetFollowPos(self,arg0,arg1):
+        val = blcelc.iPcCamera_SetFollowPos(self.this,arg0.this,arg1.this)
+        return val
+    def GetFollowPos(self,arg0,arg1):
+        val = blcelc.iPcCamera_GetFollowPos(self.this,arg0.this,arg1.this)
+        return val
+    def SetPitch(self,arg0):
+        val = blcelc.iPcCamera_SetPitch(self.this,arg0)
+        return val
+    def GetPitch(self):
+        val = blcelc.iPcCamera_GetPitch(self.this)
+        return val
+    def SetRoll(self,arg0):
+        val = blcelc.iPcCamera_SetRoll(self.this,arg0)
+        return val
+    def GetRoll(self):
+        val = blcelc.iPcCamera_GetRoll(self.this)
+        return val
+    def SetRectangle(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iPcCamera_SetRectangle(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def GetCamera(self):
+        val = blcelc.iPcCamera_GetCamera(self.this)
+        val = iCameraPtr(val)
+        return val
+    def GetView(self):
+        val = blcelc.iPcCamera_GetView(self.this)
+        return val
     def __repr__(self):
-        return "<C iPcMeshSelect instance at %s>" % (self.this,)
-
-class iPcMeshSelectPtr(iPcMeshSelect):
+        return "<C iPcCamera instance>"
+class iPcCamera(iPcCameraPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcMeshSelect
-blcelc.iPcMeshSelect_swigregister(iPcMeshSelectPtr)
-class iPcMesh(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcMesh):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcMesh.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcMesh.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def LoadMesh(*args): return apply(blcelc.iPcMesh_LoadMesh,args)
-    def SetMesh(*args): return apply(blcelc.iPcMesh_SetMesh,args)
-    def CreateEmptyThing(*args): return apply(blcelc.iPcMesh_CreateEmptyThing,args)
-    def GetMesh(*args): return apply(blcelc.iPcMesh_GetMesh,args)
-    def MoveMesh(*args): return apply(blcelc.iPcMesh_MoveMesh,args)
-    def SetAction(*args): return apply(blcelc.iPcMesh_SetAction,args)
-    def GetAction(*args): return apply(blcelc.iPcMesh_GetAction,args)
-    def Hide(*args): return apply(blcelc.iPcMesh_Hide,args)
-    def Show(*args): return apply(blcelc.iPcMesh_Show,args)
-    def IsVisible(*args): return apply(blcelc.iPcMesh_IsVisible,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcMesh(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPcMesh instance at %s>" % (self.this,)
 
-class iPcMeshPtr(iPcMesh):
+
+class iPcMeshSelectPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcMesh
-blcelc.iPcMesh_swigregister(iPcMeshPtr)
-class iPcTimer(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcTimer):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcTimer.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcTimer.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def WakeUp(*args): return apply(blcelc.iPcTimer_WakeUp,args)
-    def Clear(*args): return apply(blcelc.iPcTimer_Clear,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcTimer(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def SetCamera(self,arg0):
+        val = blcelc.iPcMeshSelect_SetCamera(self.this,arg0.this)
+        return val
+    def SetMouseButtons(self,arg0):
+        val = blcelc.iPcMeshSelect_SetMouseButtons(self.this,arg0)
+        return val
+    def GetMouseButtons(self):
+        val = blcelc.iPcMeshSelect_GetMouseButtons(self.this)
+        return val
+    def SetGlobalSelection(self,arg0):
+        val = blcelc.iPcMeshSelect_SetGlobalSelection(self.this,arg0)
+        return val
+    def HasGlobalSelection(self):
+        val = blcelc.iPcMeshSelect_HasGlobalSelection(self.this)
+        return val
+    def SetFollowMode(self,arg0):
+        val = blcelc.iPcMeshSelect_SetFollowMode(self.this,arg0)
+        return val
+    def HasFollowMode(self):
+        val = blcelc.iPcMeshSelect_HasFollowMode(self.this)
+        return val
+    def SetFollowAlwaysMode(self,arg0):
+        val = blcelc.iPcMeshSelect_SetFollowAlwaysMode(self.this,arg0)
+        return val
+    def HasFollowAlwaysMode(self):
+        val = blcelc.iPcMeshSelect_HasFollowAlwaysMode(self.this)
+        return val
+    def SetDragMode(self,arg0):
+        val = blcelc.iPcMeshSelect_SetDragMode(self.this,arg0)
+        return val
+    def HasDragMode(self):
+        val = blcelc.iPcMeshSelect_HasDragMode(self.this)
+        return val
+    def SetDragPlaneNormal(self,arg0,arg1):
+        val = blcelc.iPcMeshSelect_SetDragPlaneNormal(self.this,arg0.this,arg1)
+        return val
+    def GetDragPlaneNormal(self,arg0,arg1):
+        val = blcelc.iPcMeshSelect_GetDragPlaneNormal(self.this,arg0.this,arg1)
+        return val
+    def SetSendmoveEvent(self,arg0):
+        val = blcelc.iPcMeshSelect_SetSendmoveEvent(self.this,arg0)
+        return val
+    def HasSendmoveEvent(self):
+        val = blcelc.iPcMeshSelect_HasSendmoveEvent(self.this)
+        return val
+    def SetSendupEvent(self,arg0):
+        val = blcelc.iPcMeshSelect_SetSendupEvent(self.this,arg0)
+        return val
+    def HasSendupEvent(self):
+        val = blcelc.iPcMeshSelect_HasSendupEvent(self.this)
+        return val
+    def SetSenddownEvent(self,arg0):
+        val = blcelc.iPcMeshSelect_SetSenddownEvent(self.this,arg0)
+        return val
+    def HasSenddownEvent(self):
+        val = blcelc.iPcMeshSelect_HasSenddownEvent(self.this)
+        return val
     def __repr__(self):
-        return "<C iPcTimer instance at %s>" % (self.this,)
-
-class iPcTimerPtr(iPcTimer):
+        return "<C iPcMeshSelect instance>"
+class iPcMeshSelect(iPcMeshSelectPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcTimer
-blcelc.iPcTimer_swigregister(iPcTimerPtr)
-class iPcSolid(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcSolid):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcSolid.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcSolid.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def SetMesh(*args): return apply(blcelc.iPcSolid_SetMesh,args)
-    def GetMesh(*args): return apply(blcelc.iPcSolid_GetMesh,args)
-    def GetCollider(*args): return apply(blcelc.iPcSolid_GetCollider,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcSolid(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPcSolid instance at %s>" % (self.this,)
 
-class iPcSolidPtr(iPcSolid):
+
+class iPcMeshPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcSolid
-blcelc.iPcSolid_swigregister(iPcSolidPtr)
-class iPcGravity(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcGravity):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcGravity.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcGravity.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def CreateGravityColliderFromMesh(*args): return apply(blcelc.iPcGravity_CreateGravityColliderFromMesh,args)
-    def CreateGravityCollider(*args): return apply(blcelc.iPcGravity_CreateGravityCollider,args)
-    def GetGravityCollider(*args): return apply(blcelc.iPcGravity_GetGravityCollider,args)
-    def SetMovable(*args): return apply(blcelc.iPcGravity_SetMovable,args)
-    def GetMovable(*args): return apply(blcelc.iPcGravity_GetMovable,args)
-    def SetSolid(*args): return apply(blcelc.iPcGravity_SetSolid,args)
-    def GetSolid(*args): return apply(blcelc.iPcGravity_GetSolid,args)
-    def SetWeight(*args): return apply(blcelc.iPcGravity_SetWeight,args)
-    def GetWeight(*args): return apply(blcelc.iPcGravity_GetWeight,args)
-    def ClearForces(*args): return apply(blcelc.iPcGravity_ClearForces,args)
-    def ClearPermanentForces(*args): return apply(blcelc.iPcGravity_ClearPermanentForces,args)
-    def ResetSpeed(*args): return apply(blcelc.iPcGravity_ResetSpeed,args)
-    def ApplyForce(*args): return apply(blcelc.iPcGravity_ApplyForce,args)
-    def ApplyPermanentForce(*args): return apply(blcelc.iPcGravity_ApplyPermanentForce,args)
-    def IsResting(*args): return apply(blcelc.iPcGravity_IsResting,args)
-    def SetActive(*args): return apply(blcelc.iPcGravity_SetActive,args)
-    def IsActive(*args): return apply(blcelc.iPcGravity_IsActive,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcGravity(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def LoadMesh(self,arg0,arg1):
+        val = blcelc.iPcMesh_LoadMesh(self.this,arg0,arg1)
+        return val
+    def SetMesh(self,arg0):
+        val = blcelc.iPcMesh_SetMesh(self.this,arg0.this)
+        return val
+    def CreateEmptyThing(self):
+        val = blcelc.iPcMesh_CreateEmptyThing(self.this)
+        return val
+    def GetMesh(self):
+        val = blcelc.iPcMesh_GetMesh(self.this)
+        val = iMeshWrapperPtr(val)
+        return val
+    def MoveMesh(self,arg0,arg1):
+        val = blcelc.iPcMesh_MoveMesh(self.this,arg0.this,arg1.this)
+        return val
+    def SetAction(self,arg0,*args):
+        val = apply(blcelc.iPcMesh_SetAction,(self.this,arg0,)+args)
+        return val
+    def GetAction(self):
+        val = blcelc.iPcMesh_GetAction(self.this)
+        return val
+    def Hide(self):
+        val = blcelc.iPcMesh_Hide(self.this)
+        return val
+    def Show(self):
+        val = blcelc.iPcMesh_Show(self.this)
+        return val
+    def IsVisible(self):
+        val = blcelc.iPcMesh_IsVisible(self.this)
+        return val
     def __repr__(self):
-        return "<C iPcGravity instance at %s>" % (self.this,)
-
-class iPcGravityPtr(iPcGravity):
+        return "<C iPcMesh instance>"
+class iPcMesh(iPcMeshPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcGravity
-blcelc.iPcGravity_swigregister(iPcGravityPtr)
-class iPcMovable(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcMovable):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcMovable.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcMovable.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def SetMesh(*args): return apply(blcelc.iPcMovable_SetMesh,args)
-    def GetMesh(*args): return apply(blcelc.iPcMovable_GetMesh,args)
-    def SetPos(*args): return apply(blcelc.iPcMovable_SetPos,args)
-    def Move(*args): return apply(blcelc.iPcMovable_Move,args)
-    def AddConstraint(*args): return apply(blcelc.iPcMovable_AddConstraint,args)
-    def RemoveConstraint(*args): return apply(blcelc.iPcMovable_RemoveConstraint,args)
-    def RemoveAllConstraints(*args): return apply(blcelc.iPcMovable_RemoveAllConstraints,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcMovable(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPcMovable instance at %s>" % (self.this,)
 
-class iPcMovablePtr(iPcMovable):
+
+class iPcTimerPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcMovable
-blcelc.iPcMovable_swigregister(iPcMovablePtr)
-class iPcInventory(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcInventory):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcInventory.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
-
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcInventory.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
-
-    def AddEntity(*args): return apply(blcelc.iPcInventory_AddEntity,args)
-    def RemoveEntity(*args): return apply(blcelc.iPcInventory_RemoveEntity,args)
-    def RemoveAll(*args): return apply(blcelc.iPcInventory_RemoveAll,args)
-    def GetEntityCount(*args): return apply(blcelc.iPcInventory_GetEntityCount,args)
-    def GetEntity(*args): return apply(blcelc.iPcInventory_GetEntity,args)
-    def SetStrictCharacteristics(*args): return apply(blcelc.iPcInventory_SetStrictCharacteristics,args)
-    def HasStrictCharacteristics(*args): return apply(blcelc.iPcInventory_HasStrictCharacteristics,args)
-    def SetConstraints(*args): return apply(blcelc.iPcInventory_SetConstraints,args)
-    def GetConstraints(*args): return apply(blcelc.iPcInventory_GetConstraints,args)
-    def RemoveConstraints(*args): return apply(blcelc.iPcInventory_RemoveConstraints,args)
-    def RemoveAllConstraints(*args): return apply(blcelc.iPcInventory_RemoveAllConstraints,args)
-    def GetCurrentCharacteristic(*args): return apply(blcelc.iPcInventory_GetCurrentCharacteristic,args)
-    def MarkDirty(*args): return apply(blcelc.iPcInventory_MarkDirty,args)
-    def TestConstraints(*args): return apply(blcelc.iPcInventory_TestConstraints,args)
-    def Dump(*args): return apply(blcelc.iPcInventory_Dump,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcInventory(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
+        self.thisown = 0
+    def WakeUp(self,arg0,arg1):
+        val = blcelc.iPcTimer_WakeUp(self.this,arg0,arg1)
+        return val
+    def Clear(self):
+        val = blcelc.iPcTimer_Clear(self.this)
+        return val
     def __repr__(self):
-        return "<C iPcInventory instance at %s>" % (self.this,)
-
-class iPcInventoryPtr(iPcInventory):
+        return "<C iPcTimer instance>"
+class iPcTimer(iPcTimerPtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcInventory
-blcelc.iPcInventory_swigregister(iPcInventoryPtr)
-class iPcCharacteristics(iBase):
-    __setmethods__ = {}
-    for _s in [iBase]: __setmethods__.update(_s.__setmethods__)
-    def __setattr__(self,name,value):
-        if (name == "this"):
-            if isinstance(value,iPcCharacteristics):
-                self.__dict__[name] = value.this
-                if hasattr(value,"thisown"): self.__dict__["thisown"] = value.thisown
-                del value.thisown
-                return
-        method = iPcCharacteristics.__setmethods__.get(name,None)
-        if method: return method(self,value)
-        self.__dict__[name] = value
 
-    __getmethods__ = {}
-    for _s in [iBase]: __getmethods__.update(_s.__getmethods__)
-    def __getattr__(self,name):
-        method = iPcCharacteristics.__getmethods__.get(name,None)
-        if method: return method(self)
-        raise AttributeError,name
 
-    def SetCharacteristic(*args): return apply(blcelc.iPcCharacteristics_SetCharacteristic,args)
-    def SetInheritedCharacteristic(*args): return apply(blcelc.iPcCharacteristics_SetInheritedCharacteristic,args)
-    def GetCharacteristic(*args): return apply(blcelc.iPcCharacteristics_GetCharacteristic,args)
-    def GetLocalCharacteristic(*args): return apply(blcelc.iPcCharacteristics_GetLocalCharacteristic,args)
-    def GetInheritedCharacteristic(*args): return apply(blcelc.iPcCharacteristics_GetInheritedCharacteristic,args)
-    def ClearCharacteristic(*args): return apply(blcelc.iPcCharacteristics_ClearCharacteristic,args)
-    def HasCharacteristic(*args): return apply(blcelc.iPcCharacteristics_HasCharacteristic,args)
-    def ClearAll(*args): return apply(blcelc.iPcCharacteristics_ClearAll,args)
-    def AddToInventory(*args): return apply(blcelc.iPcCharacteristics_AddToInventory,args)
-    def RemoveFromInventory(*args): return apply(blcelc.iPcCharacteristics_RemoveFromInventory,args)
-    def MarkDirty(*args): return apply(blcelc.iPcCharacteristics_MarkDirty,args)
-    def TestConstraints(*args): return apply(blcelc.iPcCharacteristics_TestConstraints,args)
-    def Dump(*args): return apply(blcelc.iPcCharacteristics_Dump,args)
-    def __del__(self,blcelc=blcelc):
-        if getattr(self,'thisown',0):
-            blcelc.delete_iPcCharacteristics(self)
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iPcCharacteristics instance at %s>" % (self.this,)
 
-class iPcCharacteristicsPtr(iPcCharacteristics):
+
+class iPcSolidPtr(iBasePtr):
     def __init__(self,this):
         self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = iPcCharacteristics
-blcelc.iPcCharacteristics_swigregister(iPcCharacteristicsPtr)
+        self.thisown = 0
+    def SetMesh(self,arg0):
+        val = blcelc.iPcSolid_SetMesh(self.this,arg0.this)
+        return val
+    def GetMesh(self):
+        val = blcelc.iPcSolid_GetMesh(self.this)
+        val = iPcMeshPtr(val)
+        return val
+    def GetCollider(self):
+        val = blcelc.iPcSolid_GetCollider(self.this)
+        return val
+    def __repr__(self):
+        return "<C iPcSolid instance>"
+class iPcSolid(iPcSolidPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcGravityPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def CreateGravityColliderFromMesh(self,arg0):
+        val = blcelc.iPcGravity_CreateGravityColliderFromMesh(self.this,arg0.this)
+        return val
+    def CreateGravityCollider(self,arg0,arg1):
+        val = blcelc.iPcGravity_CreateGravityCollider(self.this,arg0.this,arg1.this)
+        return val
+    def GetGravityCollider(self):
+        val = blcelc.iPcGravity_GetGravityCollider(self.this)
+        return val
+    def SetMovable(self,arg0):
+        val = blcelc.iPcGravity_SetMovable(self.this,arg0.this)
+        return val
+    def GetMovable(self):
+        val = blcelc.iPcGravity_GetMovable(self.this)
+        val = iPcMovablePtr(val)
+        return val
+    def SetSolid(self,arg0):
+        val = blcelc.iPcGravity_SetSolid(self.this,arg0.this)
+        return val
+    def GetSolid(self):
+        val = blcelc.iPcGravity_GetSolid(self.this)
+        val = iPcSolidPtr(val)
+        return val
+    def SetWeight(self,arg0):
+        val = blcelc.iPcGravity_SetWeight(self.this,arg0)
+        return val
+    def GetWeight(self):
+        val = blcelc.iPcGravity_GetWeight(self.this)
+        return val
+    def ClearForces(self):
+        val = blcelc.iPcGravity_ClearForces(self.this)
+        return val
+    def ClearPermanentForces(self):
+        val = blcelc.iPcGravity_ClearPermanentForces(self.this)
+        return val
+    def ResetSpeed(self):
+        val = blcelc.iPcGravity_ResetSpeed(self.this)
+        return val
+    def ApplyForce(self,arg0,arg1):
+        val = blcelc.iPcGravity_ApplyForce(self.this,arg0.this,arg1)
+        return val
+    def ApplyPermanentForce(self,arg0):
+        val = blcelc.iPcGravity_ApplyPermanentForce(self.this,arg0.this)
+        return val
+    def IsResting(self):
+        val = blcelc.iPcGravity_IsResting(self.this)
+        return val
+    def SetActive(self,arg0):
+        val = blcelc.iPcGravity_SetActive(self.this,arg0)
+        return val
+    def IsActive(self):
+        val = blcelc.iPcGravity_IsActive(self.this)
+        return val
+    def __repr__(self):
+        return "<C iPcGravity instance>"
+class iPcGravity(iPcGravityPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcMovablePtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def SetMesh(self,arg0):
+        val = blcelc.iPcMovable_SetMesh(self.this,arg0.this)
+        return val
+    def GetMesh(self):
+        val = blcelc.iPcMovable_GetMesh(self.this)
+        val = iPcMeshPtr(val)
+        return val
+    def SetPos(self,arg0,arg1):
+        val = blcelc.iPcMovable_SetPos(self.this,arg0.this,arg1.this)
+        return val
+    def Move(self,arg0):
+        val = blcelc.iPcMovable_Move(self.this,arg0.this)
+        return val
+    def AddConstraint(self,arg0):
+        val = blcelc.iPcMovable_AddConstraint(self.this,arg0)
+        return val
+    def RemoveConstraint(self,arg0):
+        val = blcelc.iPcMovable_RemoveConstraint(self.this,arg0)
+        return val
+    def RemoveAllConstraints(self):
+        val = blcelc.iPcMovable_RemoveAllConstraints(self.this)
+        return val
+    def __repr__(self):
+        return "<C iPcMovable instance>"
+class iPcMovable(iPcMovablePtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcInventoryPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def AddEntity(self,arg0):
+        val = blcelc.iPcInventory_AddEntity(self.this,arg0.this)
+        return val
+    def RemoveEntity(self,arg0):
+        val = blcelc.iPcInventory_RemoveEntity(self.this,arg0.this)
+        return val
+    def RemoveAll(self):
+        val = blcelc.iPcInventory_RemoveAll(self.this)
+        return val
+    def GetEntityCount(self):
+        val = blcelc.iPcInventory_GetEntityCount(self.this)
+        return val
+    def GetEntity(self,arg0):
+        val = blcelc.iPcInventory_GetEntity(self.this,arg0)
+        val = iCelEntityPtr(val)
+        return val
+    def SetStrictCharacteristics(self,arg0,arg1):
+        val = blcelc.iPcInventory_SetStrictCharacteristics(self.this,arg0,arg1)
+        return val
+    def HasStrictCharacteristics(self,arg0):
+        val = blcelc.iPcInventory_HasStrictCharacteristics(self.this,arg0)
+        return val
+    def SetConstraints(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iPcInventory_SetConstraints(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def GetConstraints(self,arg0,arg1,arg2,arg3):
+        val = blcelc.iPcInventory_GetConstraints(self.this,arg0,arg1,arg2,arg3)
+        return val
+    def RemoveConstraints(self,arg0):
+        val = blcelc.iPcInventory_RemoveConstraints(self.this,arg0)
+        return val
+    def RemoveAllConstraints(self):
+        val = blcelc.iPcInventory_RemoveAllConstraints(self.this)
+        return val
+    def GetCurrentCharacteristic(self,arg0):
+        val = blcelc.iPcInventory_GetCurrentCharacteristic(self.this,arg0)
+        return val
+    def MarkDirty(self,arg0):
+        val = blcelc.iPcInventory_MarkDirty(self.this,arg0)
+        return val
+    def TestConstraints(self,arg0):
+        val = blcelc.iPcInventory_TestConstraints(self.this,arg0)
+        return val
+    def Dump(self):
+        val = blcelc.iPcInventory_Dump(self.this)
+        return val
+    def __repr__(self):
+        return "<C iPcInventory instance>"
+class iPcInventory(iPcInventoryPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iPcCharacteristicsPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def SetCharacteristic(self,arg0,arg1):
+        val = blcelc.iPcCharacteristics_SetCharacteristic(self.this,arg0,arg1)
+        return val
+    def SetInheritedCharacteristic(self,arg0,arg1,arg2):
+        val = blcelc.iPcCharacteristics_SetInheritedCharacteristic(self.this,arg0,arg1,arg2)
+        return val
+    def GetCharacteristic(self,arg0):
+        val = blcelc.iPcCharacteristics_GetCharacteristic(self.this,arg0)
+        return val
+    def GetLocalCharacteristic(self,arg0):
+        val = blcelc.iPcCharacteristics_GetLocalCharacteristic(self.this,arg0)
+        return val
+    def GetInheritedCharacteristic(self,arg0):
+        val = blcelc.iPcCharacteristics_GetInheritedCharacteristic(self.this,arg0)
+        return val
+    def ClearCharacteristic(self,arg0):
+        val = blcelc.iPcCharacteristics_ClearCharacteristic(self.this,arg0)
+        return val
+    def HasCharacteristic(self,arg0):
+        val = blcelc.iPcCharacteristics_HasCharacteristic(self.this,arg0)
+        return val
+    def ClearAll(self):
+        val = blcelc.iPcCharacteristics_ClearAll(self.this)
+        return val
+    def AddToInventory(self,arg0):
+        val = blcelc.iPcCharacteristics_AddToInventory(self.this,arg0.this)
+        return val
+    def RemoveFromInventory(self,arg0):
+        val = blcelc.iPcCharacteristics_RemoveFromInventory(self.this,arg0.this)
+        return val
+    def MarkDirty(self,arg0):
+        val = blcelc.iPcCharacteristics_MarkDirty(self.this,arg0)
+        return val
+    def TestConstraints(self,arg0):
+        val = blcelc.iPcCharacteristics_TestConstraints(self.this,arg0)
+        return val
+    def Dump(self):
+        val = blcelc.iPcCharacteristics_Dump(self.this)
+        return val
+    def __repr__(self):
+        return "<C iPcCharacteristics instance>"
+class iPcCharacteristics(iPcCharacteristicsPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+
+
+#-------------- FUNCTION WRAPPERS ------------------
+
+ptrcast = blcelc.ptrcast
+
 ptrvalue = blcelc.ptrvalue
 
 ptrset = blcelc.ptrset
@@ -2156,43 +1890,94 @@ ptrfree = blcelc.ptrfree
 
 ptradd = blcelc.ptradd
 
+ptrmap = blcelc.ptrmap
+
 MakeVersion = blcelc.MakeVersion
 
-csQueryRegistry_iCelPlLayer = blcelc.csQueryRegistry_iCelPlLayer
+def csQueryRegistry_iCelPlLayer(arg0):
+    val = blcelc.csQueryRegistry_iCelPlLayer(arg0.this)
+    val = iCelPlLayerPtr(val)
+    return val
 
-celCreateEntity = blcelc.celCreateEntity
+def celCreateEntity(arg0,arg1):
+    val = blcelc.celCreateEntity(arg0.this,arg1)
+    val = iCelEntityPtr(val)
+    return val
 
-csQueryRegistry_iCelBlLayer = blcelc.csQueryRegistry_iCelBlLayer
+def csQueryRegistry_iCelBlLayer(arg0):
+    val = blcelc.csQueryRegistry_iCelBlLayer(arg0.this)
+    val = iCelBlLayerPtr(val)
+    return val
 
 celQueryPC_iPcRegion = blcelc.celQueryPC_iPcRegion
 
-celCreateRegion = blcelc.celCreateRegion
+def celCreateRegion(arg0,arg1,arg2):
+    val = blcelc.celCreateRegion(arg0.this,arg1.this,arg2)
+    val = iPcRegionPtr(val)
+    return val
 
-scfQuery_iPcRegion = blcelc.scfQuery_iPcRegion
+def scfQuery_iPcRegion(arg0):
+    val = blcelc.scfQuery_iPcRegion(arg0.this)
+    val = iPcRegionPtr(val)
+    return val
 
-celCreateCamera = blcelc.celCreateCamera
+def celCreateCamera(arg0,arg1,arg2,arg3):
+    val = blcelc.celCreateCamera(arg0.this,arg1.this,arg2.this,arg3)
+    val = iPcCameraPtr(val)
+    return val
 
-scfQuery_iPcCamera = blcelc.scfQuery_iPcCamera
+def scfQuery_iPcCamera(arg0):
+    val = blcelc.scfQuery_iPcCamera(arg0.this)
+    val = iPcCameraPtr(val)
+    return val
+
+def celPcMeshSelect(arg0,arg1):
+    val = blcelc.celPcMeshSelect(arg0.this,arg1.this)
+    val = iPcMeshSelectPtr(val)
+    return val
+
+def celPcMesh(arg0,arg1):
+    val = blcelc.celPcMesh(arg0.this,arg1.this)
+    val = iPcMeshPtr(val)
+    return val
+
+def celPcTimer(arg0,arg1):
+    val = blcelc.celPcTimer(arg0.this,arg1.this)
+    val = iPcTimerPtr(val)
+    return val
+
+def celPcSolid(arg0,arg1):
+    val = blcelc.celPcSolid(arg0.this,arg1.this)
+    val = iPcSolidPtr(val)
+    return val
+
+def celPcGravity(arg0,arg1):
+    val = blcelc.celPcGravity(arg0.this,arg1.this)
+    val = iPcGravityPtr(val)
+    return val
+
+def celPcMovable(arg0,arg1):
+    val = blcelc.celPcMovable(arg0.this,arg1.this)
+    val = iPcMovablePtr(val)
+    return val
+
+def celPcInventory(arg0,arg1):
+    val = blcelc.celPcInventory(arg0.this,arg1.this)
+    val = iPcInventoryPtr(val)
+    return val
+
+def celPcCharacteristics(arg0,arg1):
+    val = blcelc.celPcCharacteristics(arg0.this,arg1.this)
+    val = iPcCharacteristicsPtr(val)
+    return val
+
+
+
+#-------------- VARIABLE WRAPPERS ------------------
 
 CEL_MOUSE_BUTTON1 = blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = blcelc.CEL_MOUSE_BUTTON3
-celPcMeshSelect = blcelc.celPcMeshSelect
-
-celPcMesh = blcelc.celPcMesh
-
-celPcTimer = blcelc.celPcTimer
-
-celPcSolid = blcelc.celPcSolid
-
-celPcGravity = blcelc.celPcGravity
-
-celPcMovable = blcelc.celPcMovable
-
-celPcInventory = blcelc.celPcInventory
-
-celPcCharacteristics = blcelc.celPcCharacteristics
-
 CEL_DATA_NONE = blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = blcelc.CEL_DATA_BYTE
@@ -2208,4 +1993,3 @@ CEL_DATA_PCLASS = blcelc.CEL_DATA_PCLASS
 CEL_DATA_ENTITY = blcelc.CEL_DATA_ENTITY
 CEL_DATA_BUFFER = blcelc.CEL_DATA_BUFFER
 CEL_DATA_ACTION = blcelc.CEL_DATA_ACTION
-
