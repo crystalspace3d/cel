@@ -653,13 +653,13 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	  *scope = 0;
 	  h->AddOperation (CEL_OPERATION_PUSHSTR);
 	  h->GetArgument ().SetString (str, true);
-	  h->AddOperation (CEL_OPERATION_CALLENT_RETSTACK);
+	  h->AddOperation (CEL_OPERATION_CALL_ERS);
 	  h->GetArgument ().SetString (scope+2, true);
 	  *scope = ':';
 	}
 	else
 	{
-	  h->AddOperation (CEL_OPERATION_CALL_RETSTACK);
+	  h->AddOperation (CEL_OPERATION_CALL_RS);
 	  h->GetArgument ().SetString (str, true);
         }
       }
@@ -917,6 +917,11 @@ bool celBlXml::ParseExpressionInt (
         return false;
       h->AddOperation (CEL_OPERATION_BITNOT);
       break;
+    case CEL_TOKEN_LOGNOT:
+      if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ONETERM))
+        return false;
+      h->AddOperation (CEL_OPERATION_LOGNOT);
+      break;
     case CEL_TOKEN_COMMA:
       synldr->ReportError ("cel.behaviour.xml", child,
 		    "Unexpected ',' for '%s'!", name);
@@ -956,6 +961,23 @@ bool celBlXml::ParseExpressionInt (
       case CEL_TOKEN_VECTORCLOSE:
         input = pinput;	// Restore.
         return true;
+      case CEL_TOKEN_SCOPE:
+        {
+          if (stoppri >= CEL_PRIORITY_SCOPE)
+	  { input = pinput; return true; }
+          if (!ParseExpression (input, local_vars,
+	  	child, h, name, CEL_PRIORITY_SCOPE))
+	    return false;
+	  int last_idx = h->GetLastArgumentIndex ();
+	  if (h->GetOperation (last_idx) != CEL_OPERATION_CALL_RS)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		    "Expected a function after '::' for '%s'!", name);
+	    return false;
+	  }
+          h->ChangeOperation (last_idx, CEL_OPERATION_CALL_ERS2);
+	}
+	break;
       case CEL_TOKEN_BITAND:
         if (stoppri >= CEL_PRIORITY_BITAND) { input = pinput; return true; }
         if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_BITAND))
@@ -1232,7 +1254,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 		h->GetName ());
 	    return false;
 	  }
-	  h->AddOperation (CEL_OPERATION_CALLI);
+	  h->AddOperation (CEL_OPERATION_CALL_I);
 	  h->GetArgument ().SetEventHandlers (handler, 0);
 	}
         break;
@@ -1290,10 +1312,10 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (local_vars, child, h, "event", "call"))
 	    return false;
 	  if (return_node)
-	    h->AddOperation (entname ? CEL_OPERATION_CALLENT_RET :
-	  	  CEL_OPERATION_CALL_RET);
+	    h->AddOperation (entname ? CEL_OPERATION_CALL_ER :
+	  	  CEL_OPERATION_CALL_R);
 	  else
-	    h->AddOperation (entname ? CEL_OPERATION_CALLENT :
+	    h->AddOperation (entname ? CEL_OPERATION_CALL_E :
 	  	  CEL_OPERATION_CALL);
 	}
 	break;

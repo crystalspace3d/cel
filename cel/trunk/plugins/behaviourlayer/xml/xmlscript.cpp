@@ -1331,6 +1331,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_LOGNOT:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: ! %s\n", i-1, A2S (top)));
+	  switch (top.type)
+	  {
+	    case CEL_DATA_LONG: top.SetBool (!top.arg.i); break;
+	    case CEL_DATA_ULONG: top.SetBool (!top.arg.ui); break;
+	    case CEL_DATA_FLOAT: top.SetBool (ABS (top.arg.f) >= SMALL_EPSILON); break;
+	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
+	    case CEL_DATA_STRING:
+	      {
+	        const char* rc = ArgToString (top);
+	        top.SetBool (rc != 0 && *rc != 0);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Can't log-not element on stack!");
+	  }
+	}
+	break;
       case CEL_OPERATION_BITNOT:
         {
 	  CHECK_STACK(1)
@@ -2337,11 +2359,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->SetBehaviour (bh);
 	}
         break;
-      case CEL_OPERATION_CALLI:
+      case CEL_OPERATION_CALL_I:
         {
 	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
 	  CS_ASSERT (handler != 0);
-	  DUMP_EXEC ((":%04d: calli %s\n", i-1, handler->GetName ()));
+	  DUMP_EXEC ((":%04d: call_i %s\n", i-1, handler->GetName ()));
 	  celData ret;
 	  cbl->call_stack.Push (handler->GetName ());
 	  cbl->call_stack_params.Push (params);
@@ -2350,12 +2372,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  cbl->call_stack.Pop ();
 	}
         break;
-      case CEL_OPERATION_CALLENT:
+      case CEL_OPERATION_CALL_E:
         {
 	  CHECK_STACK(2)
 	  celXmlArg aevent = stack.Pop ();
 	  celXmlArg aent = stack.Pop ();
-	  DUMP_EXEC ((":%04d: callent ent=%s event=%s\n", i-1, A2S (aent),
+	  DUMP_EXEC ((":%04d: call_e ent=%s event=%s\n", i-1, A2S (aent),
 	  	A2S (aevent)));
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
@@ -2368,13 +2390,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
 	}
         break;
-      case CEL_OPERATION_CALLENT_RET:
+      case CEL_OPERATION_CALL_ER:
         {
 	  CHECK_STACK(3)
 	  celXmlArg aevent = stack.Pop ();
 	  celXmlArg aent = stack.Pop ();
 	  celXmlArg aret = stack.Pop ();
-	  DUMP_EXEC ((":%04d: callent_ret ent=%s event=%s return=%s\n", i-1,
+	  DUMP_EXEC ((":%04d: call_er ent=%s event=%s return=%s\n", i-1,
 		A2S (aent), A2S (aevent), A2S (aret)));
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
@@ -2405,11 +2427,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  behave->SendMessage (eventname, ret, action_params);
 	}
         break;
-      case CEL_OPERATION_CALLENT_RETSTACK:
+      case CEL_OPERATION_CALL_ERS:
         {
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: callent_retstack entity=%s event=%s\n", i-1,
+	  DUMP_EXEC ((":%04d: call_ers entity=%s event=%s\n", i-1,
 	  	A2S (top), A2S (op.arg)));
 	  iCelEntity* ent = ArgToEntity (top, pl);
 	  if (!ent)
@@ -2424,9 +2446,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (behave, "Type not supported for event function call!");
 	}
         break;
-      case CEL_OPERATION_CALL_RETSTACK:
+      case CEL_OPERATION_CALL_ERS2:
         {
-	  DUMP_EXEC ((":%04d: call_retstack event=%s\n", i-1, A2S (op.arg)));
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: call_ers2 entity=%s event=%s\n", i-1,
+	  	A2S (top), A2S (op.arg)));
+	  iCelEntity* ent = ArgToEntity (top, pl);
+	  if (!ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'callent_restack'!",
+	    	EntityNameForError (top));
+	  const char* eventname = op.arg.arg.str.s;
+	  csRef<celVariableParameterBlock> ref = action_params;
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  if (!celData2celXmlArg (ret, top))
+	      return ReportError (behave, "Type not supported for event function call!");
+	}
+        break;
+      case CEL_OPERATION_CALL_RS:
+        {
+	  DUMP_EXEC ((":%04d: call_rs event=%s\n", i-1, A2S (op.arg)));
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<celVariableParameterBlock> ref = action_params;
 	  celData ret;
@@ -2436,12 +2477,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (behave, "Type not supported for event function call!");
 	}
         break;
-      case CEL_OPERATION_CALL_RET:
+      case CEL_OPERATION_CALL_R:
         {
 	  CHECK_STACK(2)
 	  celXmlArg aevent = stack.Pop ();
 	  celXmlArg aret = stack.Pop ();
-	  DUMP_EXEC ((":%04d: call_ret event=%s return=%s\n", i-1,
+	  DUMP_EXEC ((":%04d: call_r event=%s return=%s\n", i-1,
 	  	A2S (aevent), A2S (aret)));
 	  const char* eventname = ArgToString (aevent);
 	  csRef<celVariableParameterBlock> ref = action_params;

@@ -76,6 +76,14 @@ const char* celXmlParseToken (const char* input, int& token)
     case '+': token = CEL_TOKEN_ADD; return input+1;
     case '~': token = CEL_TOKEN_BITNOT; return input+1;
     case '^': token = CEL_TOKEN_BITXOR; return input+1;
+    case ':':
+      if (*(input+1) == ':')
+      {
+        token = CEL_TOKEN_SCOPE;
+	return input+2;
+      }
+      token = CEL_TOKEN_ERROR;
+      return input+1;
     case '|':
       if (*(input+1) == '|')
       {
@@ -122,7 +130,7 @@ const char* celXmlParseToken (const char* input, int& token)
         token = CEL_TOKEN_NE;
 	return input+2;
       }
-      token = CEL_TOKEN_ERROR;
+      token = CEL_TOKEN_LOGNOT;
       return input+1;
     default:
       if (!strncmp ("false", input, 5))
@@ -152,7 +160,8 @@ const char* celXmlParseToken (const char* input, int& token)
 	  token = CEL_TOKEN_FUNCTION;
 	  return input+1;
 	}
-	else if (*input == ':' && *(input+1) == ':' && (isalpha (*(input+2))) || *(input+2) == '_')
+	else if (*input == ':' && *(input+1) == ':'
+		&& (isalpha (*(input+2))) || *(input+2) == '_')
 	{
 	  const char* pinput = input;	// Remember.
 	  input += 3;

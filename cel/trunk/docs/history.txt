@@ -15,6 +15,10 @@ The history order is reversed so that new features are at the top.
 	  given).
 	- Jorrit changed the pctimer property class so you can now
 	  specify both WakeUpFrame as WakeUp at the same time.
+	- Jorrit added logical not to the XML behaviour layer.
+	- Jorrit added a new scope operator (::) to the XML behaviour
+	  layer. With this operator you can call functions from other
+	  entities that are not hardcoded.
 12-Jan-2004
 	- Jorrit fixed a memory leak bug in the XML behaviour layer. The
 	  behaviour was using csRef's to property classes which

@@ -79,13 +79,14 @@ enum
   CEL_OPERATION_FORI,		// A:C		S:S,?,?		OS:-
 
   CEL_OPERATION_RETURN,		// A:-		S:?		OS:-
+  CEL_OPERATION_CALL_I,		// A:EH		S:-		OS:-
   CEL_OPERATION_CALL,		// A:-		S:S		OS:-
-  CEL_OPERATION_CALL_RET,	// A:-		S:S,S		OS:-
-  CEL_OPERATION_CALL_RETSTACK,	// A:S		S:-		OS:?
-  CEL_OPERATION_CALLI,		// A:EH		S:-		OS:-
-  CEL_OPERATION_CALLENT,	// A:-		S:E,S		OS:-
-  CEL_OPERATION_CALLENT_RET,	// A:-		S:E,S,S		OS:-
-  CEL_OPERATION_CALLENT_RETSTACK,// A:S		S:S		OS:?
+  CEL_OPERATION_CALL_R,		// A:-		S:S,S		OS:-
+  CEL_OPERATION_CALL_RS,	// A:S		S:-		OS:?
+  CEL_OPERATION_CALL_E,		// A:-		S:E,S		OS:-
+  CEL_OPERATION_CALL_ER,	// A:-		S:E,S,S		OS:-
+  CEL_OPERATION_CALL_ERS,	// A:S		S:E		OS:?
+  CEL_OPERATION_CALL_ERS2,	// A:S		S:E		OS:?
 
   CEL_OPERATION_BB_TESTCOLLIDE,	// A:-		S:PC		OS:-
   CEL_OPERATION_BB_MOVE,	// A:-		S:I,I		OS:-
@@ -147,6 +148,7 @@ enum
   CEL_OPERATION_GE,		// A:-		S:?,?		OS:B
   CEL_OPERATION_LOGAND,		// A:-		S:?,?		OS:B
   CEL_OPERATION_LOGOR,		// A:-		S:?,?		OS:B
+  CEL_OPERATION_LOGNOT,		// A:-		S:?,?		OS:?
   CEL_OPERATION_BITAND,		// A:-		S:?,?		OS:?
   CEL_OPERATION_BITOR,		// A:-		S:?,?		OS:?
   CEL_OPERATION_BITXOR,		// A:-		S:?,?		OS:?
@@ -347,6 +349,8 @@ public:
   const char* GetName () { return name; }
 
   void AddOperation (int op);
+  int GetOperation (int idx) { return operations[idx].op; }
+  void ChangeOperation (int idx, int newop) { operations[idx].op = newop; }
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();
