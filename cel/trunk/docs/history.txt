@@ -12,6 +12,7 @@
 	- Changed all current property class implementations to inherit
 	  from celPcCommon.
 	- Nothing is using this callback system at the moment.
+	- Matze started work on keyboard input
 10-Dec-2001:
 	- Matze added #defines for template Factories, you can now easily use
 	  CEL_DECLARE_FACTORY(bla) and later CEL_IMPLEMENT_FACTORY(bla). Also

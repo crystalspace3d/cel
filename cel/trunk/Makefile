@@ -36,6 +36,7 @@ PFMOVE=pfmove$(DLL)
 PFTOOLS=pftools$(DLL)
 PFENG=pfengine$(DLL)
 PFINV=pfinv$(DLL)
+PFINPUT=pfinput$(DLL)
 PLIMP=plimp$(DLL)
 CPERSIST=cpersist$(DLL)
 CELTEST=celtst$(EXE)
@@ -61,6 +62,8 @@ PFENG_SRC=$(wildcard pf/engine/*.cpp pf/common/*.cpp)
 PFENG_OBJS=$(addsuffix .o, $(basename $(PFENG_SRC)))
 PFINV_SRC=$(wildcard pf/inv/*.cpp pf/common/*.cpp)
 PFINV_OBJS=$(addsuffix .o, $(basename $(PFINV_SRC)))
+PFINPUT_SRC=$(wildcard pf/input/*.cpp pf/common/*.cpp)
+PFINPUT_OBJS=$(addsuffix .o, $(basename $(PFINPUT_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
 CELTEST_OBJS=$(addsuffix .o, $(basename $(CELTEST_SRC)))
 
@@ -81,18 +84,19 @@ ifeq ($(LINK.PLUGIN),)
   LINK.PLUGIN=$(LINK)
 endif
 CEL_INCLUDES=-I. -Iinclude
-CFLAGS = $(shell ./cs-config --cflags) $(CEL_INCLUDES)
-CXXFLAGS = $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
+CFLAGS := $(shell ./cs-config --cflags) $(CEL_INCLUDES)
+CXXFLAGS := $(shell ./cs-config --cxxflags) $(CEL_INCLUDES)
 CPERSIST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PLIMP_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-BLTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFMESH_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFMOVE_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFTOOLS_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFENG_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-PFINV_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
-CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PLIMP_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+BLTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFMESH_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFMOVE_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFTOOLS_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFENG_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFINV_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFINPUT_LINKFLAGS :=  $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+CELTEST_LINKFLAGS := $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 
 #------
 # Rules
@@ -108,7 +112,7 @@ DO.EXEC = $(LINK) -o $@ $^ $(LFLAGS.EXE) $(LIBS.EXE.PLATFORM)
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
 all: $(CSCONFIG.MAK) $(CPERSIST) $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) \
-	$(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) 
+	$(PFMOVE) $(PFTOOLS) $(PFENG) $(PFINV) $(PFINPUT)
 
 
 $(CPERSIST): $(CPERSIST_OBJS)
@@ -138,6 +142,9 @@ $(PFENG): $(PFENG_OBJS)
 $(PFINV): $(PFINV_OBJS)
 	$(DO.PLUGIN) $(PFINV_LINKFLAGS)
 
+$(PFINPUT): $(PFINPUT_OBJS)
+	$(DO.PLUGIN) $(PFINPUT_LINKFLAGS)
+
 $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
@@ -145,7 +152,7 @@ clean:
 	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) \
 		$(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) $(CELTEST_OBJS) \
 		$(PFENG_OBJS) $(CPERSIST) \
-		$(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) \
+		$(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST)
 
 #------
