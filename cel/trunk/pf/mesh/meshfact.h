@@ -54,7 +54,7 @@ private:
   bool visible;
   char* fileName;
   char* factName;
-  iMeshFactoryWrapper* factory_ptr;
+  csRef<iMeshFactoryWrapper> factory_ptr;
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
@@ -131,7 +131,7 @@ public:
 class celPcMeshSelect : public celPcCommon
 {
 private:
-  iPcCamera* pccamera;
+  csRef<iPcCamera> pccamera;
 
   // If the following var is non-NULL then we
   // are busy selecting a mesh and are waiting for a mouse up

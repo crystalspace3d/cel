@@ -41,6 +41,13 @@ public:
     
     return list[id];
   }
+
+  // Returns the size of the buffer (This is NOT the count of objects in the
+  // registry)
+  unsigned int Length()
+  {
+    return listsize;
+  }
   
 protected:
   inline CS_ID intern_Register(void* obj);

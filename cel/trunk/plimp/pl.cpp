@@ -65,32 +65,19 @@ celPlLayer::celPlLayer (iBase* parent)
 celPlLayer::~celPlLayer ()
 {
   CleanCache ();
-  int i;
-  for (i = 0 ; i < pf_list.Length () ; i++)
-  {
-    iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[i];
-    pf->DecRef ();
-  }
-  for (i = 0 ; i < bl_list.Length () ; i++)
-  {
-    iCelBlLayer* bl = (iCelBlLayer*)bl_list[i];
-    bl->DecRef ();
-  }
   
-#ifdef CEL_DEBUG
   // print out entities that aren't deleted properly
-  for (CS_ID i=1;i<idlist.GetCount();i++)
+  for (CS_ID i=1;i<idlist.Length();i++)
   {
     iCelEntity* entity=(iCelEntity*) idlist.Get(i);
     if (entity)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	  "crystalspace.cel.physicallayer",
-	  "Entity with ID %d and Name %s not destructed yet.",
-	  entity.GetID(), entity.GetName());
+	  "Entity with ID %lu and Name %s not destructed yet.",
+	  entity->GetID(), entity->GetName());
     }
   }
-#endif
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
@@ -104,7 +91,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
 {
   CS_ID objid;
   
-  celEntity* entity = new celEntity (this);
+  csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   csRef<iCelEntity> ientity (SCF_QUERY_INTERFACE (entity, iCelEntity));
   objid = idlist.Register(ientity);
   if (objid == 0)
@@ -125,7 +112,7 @@ void celPlLayer::RemoveEntity(celEntity *entity)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
-	"error while removing Entity with ID %d (%s)", entity->GetEntityID(),
+	"error while removing Entity with ID %lu (%s)", entity->GetEntityID(),
 	entity->GetName());
     return;
   }
@@ -149,11 +136,9 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
   iCelPropertyClassFactory* pf = FindPropertyClassFactory(propname);
   if (!pf)
   {
-#ifdef CEL_DEBUG
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"No factory for type '%s' registered!", propname);
-#endif
     return NULL;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
@@ -167,9 +152,10 @@ csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
 {
   va_list arg;
   va_start (arg, msg_string);
-  celMessage* msg = new celMessage (msg_string, arg);
+  csRef<celMessage> msg =
+    csPtr<celMessage> (new celMessage (msg_string, arg));
   va_end (arg);
-  return msg;
+  return csPtr<iCelMessage> (msg);
 }
 
 // Implementation of iCelDataBuffer.
@@ -230,7 +216,7 @@ SCF_IMPLEMENT_IBASE_END
 
 csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 {
-  return new celDataBuffer (serialnr);
+  return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
 }
 
 // Class which is used to attach to an iObject so that
@@ -248,9 +234,7 @@ public:
     celEntityFinder::entity = entity;
   }
   virtual ~celEntityFinder ()
-  {
-    printf ("Remove entity finder\n");
-  }
+  { }
   iCelEntity* GetEntity () const { return entity; }
   SCF_DECLARE_IBASE_EXT (csObject);
 };
@@ -264,11 +248,11 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   iCelEntity* old_entity = FindAttachedEntity (object);
   if (old_entity == entity) return;
   if (old_entity != NULL) UnattachEntity (object, old_entity);
-  celEntityFinder* cef = new celEntityFinder (entity);
+  csRef<celEntityFinder> cef =
+    csPtr<celEntityFinder> (new celEntityFinder (entity));
   cef->SetName ("__entfind__");	// @@@ For debugging mostly.
   csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
   object->ObjAdd (cef_obj);
-  cef->DecRef ();
 }
 
 void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
@@ -276,7 +260,8 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
   csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
   {
-    if (cef->GetEntity () != entity) { cef->DecRef (); return; }
+    if (cef->GetEntity () != entity)
+    { return; }
     csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
     object->ObjRemove (cef_obj);
   }
@@ -353,16 +338,12 @@ void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
   if (pf_list.Find (pf) != -1) return;
   pf_list.Push (pf);
-  pf->IncRef ();
 }
 
 void celPlLayer::UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf)
 {
-  int idx = pf_list.Find (pf);
-  if (idx == -1) return;
-  pf_list.Delete (idx);
-  pf->DecRef ();
+  pf_list.Delete (pf);
 }
 
 int celPlLayer::GetPropertyClassFactoryCount () const
@@ -373,7 +354,7 @@ int celPlLayer::GetPropertyClassFactoryCount () const
 iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (int idx) const
 {
   CS_ASSERT (idx >= 0 && idx < pf_list.Length ());
-  iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[idx];
+  iCelPropertyClassFactory* pf = pf_list[idx];
   return pf;
 }
 
@@ -383,7 +364,7 @@ iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
   int i;
   for (i = 0 ; i < pf_list.Length () ; i++)
   {
-    iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[i];
+    iCelPropertyClassFactory* pf = pf_list[i];
     if (!strcmp (pf->GetName (), name))
       return pf;
   }
@@ -419,15 +400,11 @@ void celPlLayer::RegisterBehaviourLayer (iCelBlLayer* bl)
 {
   if (bl_list.Find (bl) != -1) return;
   bl_list.Push (bl);
-  bl->IncRef ();
 }
 
 void celPlLayer::UnregisterBehaviourLayer (iCelBlLayer* bl)
 {
-  int idx = bl_list.Find (bl);
-  if (idx == -1) return;
-  bl_list.Delete (idx);
-  bl->DecRef ();
+  bl_list.Delete (bl);
 }
 
 int celPlLayer::GetBehaviourLayerCount () const
@@ -438,7 +415,7 @@ int celPlLayer::GetBehaviourLayerCount () const
 iCelBlLayer* celPlLayer::GetBehaviourLayer (int idx) const
 {
   CS_ASSERT (idx >= 0 && idx < bl_list.Length ());
-  iCelBlLayer* bl = (iCelBlLayer*)bl_list[idx];
+  iCelBlLayer* bl = bl_list[idx];
   return bl;
 }
 
@@ -447,7 +424,7 @@ iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
   int i;
   for (i = 0 ; i < bl_list.Length () ; i++)
   {
-    iCelBlLayer* bl = (iCelBlLayer*)bl_list[i];
+    iCelBlLayer* bl = bl_list[i];
     if (!strcmp (bl->GetName (), name))
       return bl;
   }

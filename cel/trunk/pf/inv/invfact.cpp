@@ -64,9 +64,6 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
-  bool rc = RemoveAll ();
-  (void)rc;
-  CS_ASSERT (rc);
 }
 
 #define INVENTORY_SERIAL 1
@@ -133,7 +130,6 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt_contents ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    cd->value.ent->IncRef();
     contents.Push (cd->value.ent);
     DG_LINK (this, cd->value.ent->QueryObject ());
     csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
@@ -171,9 +167,6 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     return false;
   }
 
-  // Everything ok.
-  child->IncRef ();
-
   // Send messages.
   iCelBehaviour* bh;
   if (entity)
@@ -194,6 +187,8 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
 
   // Remove our child. We will later test if this is valid and if
   // not undo this change.
+  // make sure the entity isn't deleted too early
+  csRef<iCelEntity> childref = child;
   contents.Delete (idx);
   DG_UNLINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
@@ -224,7 +219,6 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   bh = child->GetBehaviour ();
   if (bh) bh->SendMessage ("pcinventory_removed", entity);
 
-  child->DecRef ();
   return true;
 }
 
@@ -527,7 +521,14 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
-  ClearAll ();
+  while (chars.Length () > 0)
+  {
+    charact* c = (charact*) chars[0];
+    delete[] c->name;
+    delete c;
+        
+    chars.Delete (0);
+  }
 }
 
 #define CHARACTERISTICS_SERIAL 1

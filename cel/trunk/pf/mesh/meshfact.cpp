@@ -103,7 +103,7 @@ void celPcMesh::Clear ()
     mesh = NULL;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
-  if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
+  factory_ptr = NULL;
 }
 
 #define MESH_SERIAL 1
@@ -245,8 +245,8 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 
   if (factname && filename)
   {
-    iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
-    	->FindByName (factname);
+    csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
+				        	->FindByName (factname);
     if (!meshfact)
     {
       meshfact = LoadMeshFactory ();
@@ -256,15 +256,11 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
         csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
         CS_ASSERT (pl != NULL);
 	pl->Cache (meshfact);
-        meshfact->IncRef ();
       }
     }
-    else
-    {
-      meshfact->IncRef ();
-    }
 
-    if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
+    if (factory_ptr)
+      factory_ptr = NULL;
     if (meshfact)
     {
       factory_ptr = meshfact;
@@ -305,17 +301,11 @@ void celPcMesh::CreateEmptyThing ()
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
 
-  csRef<iPluginManager> plugin_mgr (CS_QUERY_REGISTRY (object_reg,
-    iPluginManager));
-  CS_ASSERT (plugin_mgr != NULL);
-  csRef<iMeshObjectType> thing_type (CS_QUERY_PLUGIN_CLASS (plugin_mgr,
-    "crystalspace.mesh.object.thing", iMeshObjectType));
-  CS_ASSERT (thing_type != NULL);
-  csRef<iMeshObjectFactory> thing_fact (thing_type->NewFactory ());
-  csRef<iMeshObject> thing_obj (SCF_QUERY_INTERFACE (thing_fact, iMeshObject));
-
-  mesh = engine->CreateMeshWrapper (thing_obj, entity->GetName (), NULL,
-		  csVector3 (0));
+  // XXX: Is this code ok?
+  csRef<iMeshFactoryWrapper> thing_fact =
+    engine->GetMeshFactories ()->FindByName (
+	"crystalspace.mesh.object.thing");
+  mesh = thing_fact->CreateMeshWrapper ();
 
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   pl->AttachEntity (mesh->QueryObject (), entity);
@@ -684,27 +674,24 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
 void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 {
-  if (pccamera == celPcMeshSelect::pccamera) return;
-  if (pccamera)
-  {
-    pccamera->IncRef ();
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-    csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pccamera,
-    	iCelPropertyClass));
-    DG_LINK (this, pc);
-#endif
-  }
   if (celPcMeshSelect::pccamera)
   {
-#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
     csRef<iCelPropertyClass> pc (
-    	SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
-    	iCelPropertyClass));
+       	SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
+  	  iCelPropertyClass));
     DG_UNLINK (this, pc);
-#endif
-    celPcMeshSelect::pccamera->DecRef ();
   }
+#endif                                                   
   celPcMeshSelect::pccamera = pccamera;
+#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
+  if (pccamera)
+  {
+    csRef<iCelPropertyClass> pc2 (SCF_QUERY_INTERFACE (pccamera,
+      	  iCelPropertyClass));
+    DG_LINK (this, pc2);
+  }
+#endif
 }
 
 //---------------------------------------------------------------------------

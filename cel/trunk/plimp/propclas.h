@@ -20,7 +20,7 @@
 #ifndef __CEL_PLIMP_PROPCLASS__
 #define __CEL_PLIMP_PROPCLASS__
 
-#include "csutil/csvector.h"
+#include "csutil/refarr.h"
 #include "pl/propclas.h"
 
 struct iCelEntity;
@@ -32,7 +32,7 @@ class celPropertyClassList : public iCelPropertyClassList
 {
 private:
   iCelEntity* parent_entity;
-  csVector prop_classes;
+  csRefArray<iCelPropertyClass> prop_classes;
 
 public:
   celPropertyClassList (iCelEntity* parent_entity);

@@ -24,7 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
-#include "csutil/csvector.h"
+#include "csutil/refarr.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
@@ -57,7 +57,7 @@ class celPcMovable : public celPcCommon
 {
 private:
   csRef<iPcMesh> pcmesh;
-  csVector constraints;
+  csRefArray<iPcMovableConstraint> constraints;
 
 public:
   celPcMovable (iObjectRegistry* object_reg);

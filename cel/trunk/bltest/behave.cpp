@@ -235,14 +235,13 @@ bool celBehaviourBox::SendMessageV (const char* msg_id, iBase* msg_info,
 celBehaviourActor::celBehaviourActor (iCelEntity* entity,
     iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
 {
-  bhroom = new celBehaviourRoom (entity, object_reg);
+  bhroom = csPtr<celBehaviourRoom> (new celBehaviourRoom (entity, object_reg));
   fpscam=0;
   speed=1;
 }
 
 celBehaviourActor::~celBehaviourActor()
 {
-  if (bhroom) bhroom->DecRef();
 }
 
 bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,

@@ -27,7 +27,7 @@
  * MyName as Factory Name.
  */
 #define CEL_DECLARE_FACTORY(name)					    \
-class celPf##name : public iCelPropertyClassFactory			    \
+class celPf##name : public iCelPropertyClassFactory, public iComponent	    \
 {									    \
 private:								    \
   iObjectRegistry* object_reg;						    \
@@ -39,12 +39,6 @@ public:									    \
   SCF_DECLARE_IBASE;							    \
   virtual const char* GetName() const;					    \
   virtual csPtr<iCelPropertyClass> CreatePropertyClass ();		    \
-									    \
-  struct Component : public iComponent					    \
-  {									    \
-    SCF_DECLARE_EMBEDDED_IBASE (celPf##name);				    \
-    virtual bool Initialize (iObjectRegistry* p);			    \
-  } scfiComponent;							    \
 };
 
 /** 
@@ -59,15 +53,11 @@ public:									    \
 SCF_IMPLEMENT_FACTORY (celPf##name)					    \
 SCF_IMPLEMENT_IBASE (celPf##name)					    \
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)			    \
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)			    \
-SCF_IMPLEMENT_IBASE_END							    \
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPf##name::Component)			    \
   SCF_IMPLEMENTS_INTERFACE (iComponent)					    \
-SCF_IMPLEMENT_EMBEDDED_IBASE_END					    \
+SCF_IMPLEMENT_IBASE_END							    \
 celPf##name::celPf##name (iBase *parent)				    \
 {									    \
   SCF_CONSTRUCT_IBASE (parent);						    \
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);				    \
 }									    \
 celPf##name::~celPf##name()						    \
 {									    \
@@ -88,11 +78,6 @@ csPtr<iCelPropertyClass> celPf##name::CreatePropertyClass()		    \
 {									    \
   return csPtr<iCelPropertyClass> (new celPc##name (object_reg));	    \
 }									    \
-bool celPf##name::Component::Initialize (iObjectRegistry* p)		    \
-{									    \
-  return scfParent->Initialize(p);					    \
-					    \
-}  
 
 #endif
 

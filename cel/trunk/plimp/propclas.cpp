@@ -49,14 +49,13 @@ int celPropertyClassList::GetCount () const
 iCelPropertyClass* celPropertyClassList::Get (int n) const
 {
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
-  iCelPropertyClass* pclass = (iCelPropertyClass*)prop_classes[n];
+  iCelPropertyClass* pclass = prop_classes[n];
   return pclass;
 }
 
 int celPropertyClassList::Add (iCelPropertyClass* obj)
 {
   int idx = prop_classes.Push (obj);
-  obj->IncRef ();
   obj->SetEntity (parent_entity);
   DG_LINK (this, obj);
   return idx;
@@ -68,9 +67,8 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   if (idx != -1)
   {
     DG_UNLINK (this, obj);
-    prop_classes.Delete (idx);
     obj->SetEntity (NULL);
-    obj->DecRef ();
+    prop_classes.Delete (idx);
     return true;
   }
   else return false;
@@ -79,19 +77,16 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
 bool celPropertyClassList::Remove (int n)
 {
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
-  iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[n];
-  DG_UNLINK (this, obj);
+  DG_UNLINK (this, prop_classes[n]);
   prop_classes.Delete (n);
-  obj->DecRef ();
+
   return true;
 }
 
 void celPropertyClassList::RemoveAll ()
 {
   while (prop_classes.Length () > 0)
-  {
     Remove (0);
-  }
 }
 
 int celPropertyClassList::Find (iCelPropertyClass* obj) const
@@ -104,7 +99,7 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
   int i;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
-    iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[i];
+    iCelPropertyClass* obj = prop_classes[i];
     if (!strcmp (obj->GetName (), name))
     {
       return obj;
@@ -119,7 +114,7 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
   int i;
   for (i = 0 ; i < prop_classes.Length () ; i++)
   {
-    iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[i];
+    iCelPropertyClass* obj = prop_classes[i];
     iBase* interf = (iBase*)(obj->QueryInterface (id, version));
     if (interf) return interf;
   }

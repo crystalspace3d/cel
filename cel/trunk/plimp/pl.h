@@ -20,8 +20,7 @@
 #ifndef __CEL_PLIMP_PL__
 #define __CEL_PLIMP_PL__
 
-#include "csutil/csvector.h"
-#include "csutil/nobjvec.h"
+#include "csutil/refarr.h"
 #include "iutil/comp.h"
 #include "pl/pl.h"
 #include "plimp/numreg.h"
@@ -29,18 +28,16 @@
 struct iObjectRegistry;
 class celEntity;
 
-CS_DECLARE_OBJECT_VECTOR (csPlLayerCache, iBase);
-
 /**
  * Implementation of the physical layer.
  */
 class celPlLayer : public iCelPlLayer
 {
 private:
-  csVector pf_list;
-  csVector bl_list;
+  csRefArray<iCelPropertyClassFactory> pf_list;
+  csRefArray<iCelBlLayer> bl_list;
   csVector removecallbacks;
-  csPlLayerCache cache;
+  csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
   NumReg idlist;
