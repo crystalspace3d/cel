@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+1-Aug-2004
+	- Jorrit renamed some badly named macros (CEL_FETCH_..._VAR to
+	  CEL_FETCH_..._PAR).
+	- Jorrit continued work on pcmover. Still unfinished.
 19-Jul-2004
 	- Jorrit fixed a gcc >= 3.3 compile error in pctest property class
 	  related to not casting size_t to the right type in celData->Set().

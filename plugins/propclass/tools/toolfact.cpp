@@ -212,9 +212,9 @@ bool celPcTimer::PerformAction (csStringID actionId,
 {
   if (actionId == action_wakeup)
   {
-    CEL_FETCH_LONG_VAR (time,params,id_time);
+    CEL_FETCH_LONG_PAR (time,params,id_time);
     if (!p_time) return false;
-    CEL_FETCH_BOOL_VAR (repeat,params,id_repeat);
+    CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
     if (!p_repeat) return false;
     WakeUp ((csTicks)time, repeat);
     return true;
