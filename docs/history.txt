@@ -3,6 +3,14 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+12-Sep-2004
+	- Eric Sunshine updated Jam files from master copies in CS repository.
+	- Eric Sunshine upgraded msvgen configuration so that generated MSVC
+	  project files will now search for CS headers in the following
+	  additional locations:
+	    ../CS/include
+	    $(CRYSTAL)/include
+	    $(CRYSTAL)/include/crystalspace
 9-Sep-2004
 	- Jorrit changed pcmesh so that it uses the new iLoader->Load()
 	  function that is in CS. That means that you can now easily use
