@@ -1,6 +1,6 @@
-blpython/blcel.cpp
+blcel.cpp
 
-[ Python Module : blcel ]
+[ Python Module : blcelc ]
 
 
 1.  Pointer Handling Library
@@ -157,12 +157,12 @@ ptrmap(type1,type2)
 1.1.  class iBase
 -----------------
 
-DecRef()
+iBase_DecRef(iBase *)
 
 1.2.  class iSCF
 ----------------
 
-CreateInstance(iClassID,iInterfaceID,iVersion)
+iSCF_CreateInstance(iSCF *,iClassID,iInterfaceID,iVersion)
 
 ----------
 
@@ -171,95 +171,134 @@ MakeVersion(version0,version1,version2)
 1.3.  class csVector3
 ---------------------
 
-self.x
+csVector3_x_set(csVector3 *,float )
+csVector3_x_get(csVector3 *)
 
-self.y
+csVector3_y_set(csVector3 *,float )
+csVector3_y_get(csVector3 *)
 
-self.z
+csVector3_z_set(csVector3 *,float )
+csVector3_z_get(csVector3 *)
 
-csVector3(x,y,z)
+new_csVector3(x,y,z)
 
-del this
+delete_csVector3(csVector3 *)
 
 1.4.  class csRGBpixel
 ----------------------
 
-self.red
+csRGBpixel_red_set(csRGBpixel *,unsigned char )
+csRGBpixel_red_get(csRGBpixel *)
 
-self.green
+csRGBpixel_green_set(csRGBpixel *,unsigned char )
+csRGBpixel_green_get(csRGBpixel *)
 
-self.blue
+csRGBpixel_blue_set(csRGBpixel *,unsigned char )
+csRGBpixel_blue_get(csRGBpixel *)
 
-self.alpha
+csRGBpixel_alpha_set(csRGBpixel *,unsigned char )
+csRGBpixel_alpha_get(csRGBpixel *)
 
 1.5.  class csPixelFormat
 -------------------------
 
-self.RedMask
+csPixelFormat_RedMask_set(csPixelFormat *,unsigned long )
+csPixelFormat_RedMask_get(csPixelFormat *)
 
-self.GreenMask
+csPixelFormat_GreenMask_set(csPixelFormat *,unsigned long )
+csPixelFormat_GreenMask_get(csPixelFormat *)
 
-self.BlueMask
+csPixelFormat_BlueMask_set(csPixelFormat *,unsigned long )
+csPixelFormat_BlueMask_get(csPixelFormat *)
 
-self.RedShift
+csPixelFormat_RedShift_set(csPixelFormat *,int )
+csPixelFormat_RedShift_get(csPixelFormat *)
 
-self.GreenShift
+csPixelFormat_GreenShift_set(csPixelFormat *,int )
+csPixelFormat_GreenShift_get(csPixelFormat *)
 
-self.BlueShift
+csPixelFormat_BlueShift_set(csPixelFormat *,int )
+csPixelFormat_BlueShift_get(csPixelFormat *)
 
-self.RedBits
+csPixelFormat_RedBits_set(csPixelFormat *,int )
+csPixelFormat_RedBits_get(csPixelFormat *)
 
-self.GreenBits
+csPixelFormat_GreenBits_set(csPixelFormat *,int )
+csPixelFormat_GreenBits_get(csPixelFormat *)
 
-self.BlueBits
+csPixelFormat_BlueBits_set(csPixelFormat *,int )
+csPixelFormat_BlueBits_get(csPixelFormat *)
 
-self.PalEntries
+csPixelFormat_PalEntries_set(csPixelFormat *,int )
+csPixelFormat_PalEntries_get(csPixelFormat *)
 
-self.PixelBytes
+csPixelFormat_PixelBytes_set(csPixelFormat *,int )
+csPixelFormat_PixelBytes_get(csPixelFormat *)
+
+----------
+
+G3DFOGMETHOD_NONE = G3DFOGMETHOD_NONE
+
+G3DFOGMETHOD_ZBUFFER = G3DFOGMETHOD_ZBUFFER
+
+G3DFOGMETHOD_VERTEX = G3DFOGMETHOD_VERTEX
 
 1.6.  class csGraphics3DCaps
 ----------------------------
 
-self.CanClip
+csGraphics3DCaps_CanClip_set(csGraphics3DCaps *,bool )
+csGraphics3DCaps_CanClip_get(csGraphics3DCaps *)
 
-self.minTexHeight
+csGraphics3DCaps_minTexHeight_set(csGraphics3DCaps *,int )
+csGraphics3DCaps_minTexHeight_get(csGraphics3DCaps *)
 
-self.minTexWidth
+csGraphics3DCaps_minTexWidth_set(csGraphics3DCaps *,int )
+csGraphics3DCaps_minTexWidth_get(csGraphics3DCaps *)
 
-self.maxTexHeight
+csGraphics3DCaps_maxTexHeight_set(csGraphics3DCaps *,int )
+csGraphics3DCaps_maxTexHeight_get(csGraphics3DCaps *)
 
-self.maxTexWidth
+csGraphics3DCaps_maxTexWidth_set(csGraphics3DCaps *,int )
+csGraphics3DCaps_maxTexWidth_get(csGraphics3DCaps *)
 
-self.fog
+csGraphics3DCaps_fog_set(csGraphics3DCaps *,G3D_FOGMETHOD )
+csGraphics3DCaps_fog_get(csGraphics3DCaps *)
 
-self.NeedsPO2Maps
+csGraphics3DCaps_NeedsPO2Maps_set(csGraphics3DCaps *,bool )
+csGraphics3DCaps_NeedsPO2Maps_get(csGraphics3DCaps *)
 
-self.MaxAspectRatio
+csGraphics3DCaps_MaxAspectRatio_set(csGraphics3DCaps *,int )
+csGraphics3DCaps_MaxAspectRatio_get(csGraphics3DCaps *)
 
 1.7.  class csImageArea
 -----------------------
 
-self.x
+csImageArea_x_set(csImageArea *,int )
+csImageArea_x_get(csImageArea *)
 
-self.y
+csImageArea_y_set(csImageArea *,int )
+csImageArea_y_get(csImageArea *)
 
-self.w
+csImageArea_w_set(csImageArea *,int )
+csImageArea_w_get(csImageArea *)
 
-self.h
+csImageArea_h_set(csImageArea *,int )
+csImageArea_h_get(csImageArea *)
 
-self.data
+csImageArea_data_set(csImageArea *,char *)
+csImageArea_data_get(csImageArea *)
 
-csImageArea(sx,sy,sw,sh)
+new_csImageArea(sx,sy,sw,sh)
 
 1.8.  class iComponent
 ----------------------
 
-Initialize(object_reg)
+iComponent_Initialize(iComponent *,object_reg)
 
 1.9.  class iEventHandler
 -------------------------
 
-HandleEvent(iEvent *)
+iEventHandler_HandleEvent(iEventHandler *,iEvent *)
 
 1.10.  class iTextureWrapper
 ----------------------------
@@ -267,218 +306,218 @@ HandleEvent(iEvent *)
 1.11.  class iTextureHandle
 ---------------------------
 
-GetMipMapDimensions(mipmap,mw,mh)
+iTextureHandle_GetMipMapDimensions(iTextureHandle *,mipmap,mw,mh)
 
-GetMeanColor(red,green,blue)
+iTextureHandle_GetMeanColor(iTextureHandle *,red,green,blue)
 
-GetCacheData()
+iTextureHandle_GetCacheData(iTextureHandle *)
 
-SetCacheData(d)
+iTextureHandle_SetCacheData(iTextureHandle *,d)
 
-GetPrivateObject()
+iTextureHandle_GetPrivateObject(iTextureHandle *)
 
 1.12.  class iMaterialHandle
 ----------------------------
 
-GetTexture()
+iMaterialHandle_GetTexture(iMaterialHandle *)
 
-GetFlatColor(oColor)
+iMaterialHandle_GetFlatColor(iMaterialHandle *,oColor)
 
-GetReflection(oDiffuse,oAmbient,oReflection)
+iMaterialHandle_GetReflection(iMaterialHandle *,oDiffuse,oAmbient,oReflection)
 
-Prepare()
+iMaterialHandle_Prepare(iMaterialHandle *)
 
 1.13.  class iMaterialWrapper
 -----------------------------
 
-GetMaterialHandle()
+iMaterialWrapper_GetMaterialHandle(iMaterialWrapper *)
 
 1.14.  class iFont
 ------------------
 
-SetSize(iSize)
+iFont_SetSize(iFont *,iSize)
 
-GetSize()
+iFont_GetSize(iFont *)
 
-GetMaxSize(oW,oH)
+iFont_GetMaxSize(iFont *,oW,oH)
 
-GetGlyphSize(c,oW,oH)
+iFont_GetGlyphSize(iFont *,c,oW,oH)
 
-GetGlyphBitmap(c,oW,oH)
+iFont_GetGlyphBitmap(iFont *,c,oW,oH)
 
-GetDimensions(text,oW,oH)
+iFont_GetDimensions(iFont *,text,oW,oH)
 
-GetLength(text,maxwidth)
+iFont_GetLength(iFont *,text,maxwidth)
 
 1.15.  class iFontServer
 ------------------------
 
-LoadFont(filename)
+iFontServer_LoadFont(iFontServer *,filename)
 
-GetFontCount()
+iFontServer_GetFontCount(iFontServer *)
 
-GetFont(iIndex)
+iFontServer_GetFont(iFontServer *,iIndex)
 
 1.16.  class iGraphics2D
 ------------------------
 
-Open()
+iGraphics2D_Open(iGraphics2D *)
 
-Close()
+iGraphics2D_Close(iGraphics2D *)
 
-GetWidth()
+iGraphics2D_GetWidth(iGraphics2D *)
 
-GetHeight()
+iGraphics2D_GetHeight(iGraphics2D *)
 
-GetFullScreen()
+iGraphics2D_GetFullScreen(iGraphics2D *)
 
-GetPage()
+iGraphics2D_GetPage(iGraphics2D *)
 
-DoubleBuffer(Enable)
+iGraphics2D_DoubleBuffer(iGraphics2D *,Enable)
 
-GetDoubleBufferState()
+iGraphics2D_GetDoubleBufferState(iGraphics2D *)
 
-GetPixelFormat()
+iGraphics2D_GetPixelFormat(iGraphics2D *)
 
-GetPixelBytes()
+iGraphics2D_GetPixelBytes(iGraphics2D *)
 
-GetPalEntryCount()
+iGraphics2D_GetPalEntryCount(iGraphics2D *)
 
-GetPalette()
+iGraphics2D_GetPalette(iGraphics2D *)
 
-SetRGB(i,r,g,b)
+iGraphics2D_SetRGB(iGraphics2D *,i,r,g,b)
 
-SetClipRect(nMinX,nMinY,nMaxX,nMaxY)
+iGraphics2D_SetClipRect(iGraphics2D *,nMinX,nMinY,nMaxX,nMaxY)
 
-GetClipRect(nMinX,nMinY,nMaxX,nMaxY)
+iGraphics2D_GetClipRect(iGraphics2D *,nMinX,nMinY,nMaxX,nMaxY)
 
-BeginDraw()
+iGraphics2D_BeginDraw(iGraphics2D *)
 
-FinishDraw()
+iGraphics2D_FinishDraw(iGraphics2D *)
 
-Print(pArea)
+iGraphics2D_Print(iGraphics2D *,pArea)
 
-Clear(color)
+iGraphics2D_Clear(iGraphics2D *,color)
 
-ClearAll(color)
+iGraphics2D_ClearAll(iGraphics2D *,color)
 
-DrawLine(x1,y1,x2,y2,color)
+iGraphics2D_DrawLine(iGraphics2D *,x1,y1,x2,y2,color)
 
-DrawBox(x,y,w,h,color)
+iGraphics2D_DrawBox(iGraphics2D *,x,y,w,h,color)
 
-ClipLine(x1,y1,x2,y2,xmin,ymin,xmax,ymax)
+iGraphics2D_ClipLine(iGraphics2D *,x1,y1,x2,y2,xmin,ymin,xmax,ymax)
 
-DrawPixel(x,y,color)
+iGraphics2D_DrawPixel(iGraphics2D *,x,y,color)
 
-GetPixelAt(x,y)
+iGraphics2D_GetPixelAt(iGraphics2D *,x,y)
 
-GetPixel(x,y,oR,oG,oB)
+iGraphics2D_GetPixel(iGraphics2D *,x,y,oR,oG,oB)
 
-SaveArea(x,y,w,h)
+iGraphics2D_SaveArea(iGraphics2D *,x,y,w,h)
 
-RestoreArea(Area,Free)
+iGraphics2D_RestoreArea(iGraphics2D *,Area,Free)
 
-FreeArea(Area)
+iGraphics2D_FreeArea(iGraphics2D *,Area)
 
-Write(font,x,y,fg,bg,str)
+iGraphics2D_Write(iGraphics2D *,font,x,y,fg,bg,str)
 
-GetFontServer()
+iGraphics2D_GetFontServer(iGraphics2D *)
 
-SetMousePosition(x,y)
+iGraphics2D_SetMousePosition(iGraphics2D *,x,y)
 
-SetMouseCursor(iShape)
+iGraphics2D_SetMouseCursor(iGraphics2D *,iShape)
          virtual bool PerformExtension (char const* command, ...) = 0;
          virtual bool PerformExtensionV (char const* command, va_list) = 0;
         
-ScreenShot()
+iGraphics2D_ScreenShot(iGraphics2D *)
 
-AllowResize(iAllow)
+iGraphics2D_AllowResize(iGraphics2D *,iAllow)
 
-FindRGB(r,g,b)
+iGraphics2D_FindRGB(iGraphics2D *,r,g,b)
 
 1.17.  class iHalo
 ------------------
 
-GetWidth()
+iHalo_GetWidth(iHalo *)
 
-GetHeight()
+iHalo_GetHeight(iHalo *)
 
-SetColor(iR,iG,iB)
+iHalo_SetColor(iHalo *,iR,iG,iB)
 
-GetColor(oR,oG,oB)
+iHalo_GetColor(iHalo *,oR,oG,oB)
 
-Draw(x,y,w,h,iIntensity,iVertices,iVertCount)
+iHalo_Draw(iHalo *,x,y,w,h,iIntensity,iVertices,iVertCount)
 
 1.18.  class iGraphics3D
 ------------------------
 
-Open()
+iGraphics3D_Open(iGraphics3D *)
 
-Close()
+iGraphics3D_Close(iGraphics3D *)
 
-SetDimensions(width,height)
+iGraphics3D_SetDimensions(iGraphics3D *,width,height)
 
-BeginDraw(DrawFlags)
+iGraphics3D_BeginDraw(iGraphics3D *,DrawFlags)
 
-FinishDraw()
+iGraphics3D_FinishDraw(iGraphics3D *)
 
-Print(area)
+iGraphics3D_Print(iGraphics3D *,area)
 
-DrawPolygon(poly)
+iGraphics3D_DrawPolygon(iGraphics3D *,poly)
 
-DrawPolygonDebug(poly)
+iGraphics3D_DrawPolygonDebug(iGraphics3D *,poly)
 
-DrawLine(v1,v2,fov,color)
+iGraphics3D_DrawLine(iGraphics3D *,v1,v2,fov,color)
         oid DrawPolygonFX (G3DPolygonDPFX& poly);
         
-DrawTriangleMesh(mesh)
+iGraphics3D_DrawTriangleMesh(iGraphics3D *,mesh)
 
-DrawPolygonMesh(mesh)
+iGraphics3D_DrawPolygonMesh(iGraphics3D *,mesh)
 
-OpenFogObject(id,fog)
+iGraphics3D_OpenFogObject(iGraphics3D *,id,fog)
 
-DrawFogPolygon(id,poly,fogtype)
+iGraphics3D_DrawFogPolygon(iGraphics3D *,id,poly,fogtype)
 
-CloseFogObject(id)
+iGraphics3D_CloseFogObject(iGraphics3D *,id)
         ool SetRenderState (G3D_RENDERSTATEOPTION op, long val);
         ong GetRenderState (G3D_RENDERSTATEOPTION op);
         
-GetCaps()
+iGraphics3D_GetCaps(iGraphics3D *)
 
-GetZBuffAt(x,y)
+iGraphics3D_GetZBuffAt(iGraphics3D *,x,y)
 
-GetZBuffValue(x,y)
+iGraphics3D_GetZBuffValue(iGraphics3D *,x,y)
 
-DumpCache()
+iGraphics3D_DumpCache(iGraphics3D *)
 
-ClearCache()
+iGraphics3D_ClearCache(iGraphics3D *)
 
-RemoveFromCache(poly_texture)
+iGraphics3D_RemoveFromCache(iGraphics3D *,poly_texture)
 
-GetWidth()
+iGraphics3D_GetWidth(iGraphics3D *)
 
-GetHeight()
+iGraphics3D_GetHeight(iGraphics3D *)
 
-SetPerspectiveCenter(x,y)
+iGraphics3D_SetPerspectiveCenter(iGraphics3D *,x,y)
 
-SetPerspectiveAspect(aspect)
+iGraphics3D_SetPerspectiveAspect(iGraphics3D *,aspect)
 
-SetObjectToCamera(o2c)
+iGraphics3D_SetObjectToCamera(iGraphics3D *,o2c)
 
-GetDriver2D()
+iGraphics3D_GetDriver2D(iGraphics3D *)
 
-GetTextureManager()
+iGraphics3D_GetTextureManager(iGraphics3D *)
 
-CreateHalo(iR,iG,iB,iAlpha,iWidth,iHeight)
+iGraphics3D_CreateHalo(iGraphics3D *,iR,iG,iB,iAlpha,iWidth,iHeight)
 
-DrawPixmap(hTex,sx,sy,sw,sh,tx,ty,tw,th)
+iGraphics3D_DrawPixmap(iGraphics3D *,hTex,sx,sy,sw,sh,tx,ty,tw,th)
 
 1.19.  class iCamera
 --------------------
 
-GetFOV()
+iCamera_GetFOV(iCamera *)
 
-GetInvFOV()
+iCamera_GetInvFOV(iCamera *)
 
 1.20.  class iSector
 --------------------
@@ -489,121 +528,121 @@ GetInvFOV()
 1.22.  class iThingFactoryState
 -------------------------------
 
-CreatePolygon(name)
+iThingFactoryState_CreatePolygon(iThingFactoryState *,name)
 
 1.23.  class iMeshObject
 ------------------------
 
-Query_iThingState()
+iMeshObject_Query_iThingState(iMeshObject *)
 
-Query_iThingFactoryState()
+iMeshObject_Query_iThingFactoryState(iMeshObject *)
 
 1.24.  class iMeshWrapper
 -------------------------
 
-GetMeshObject()
+iMeshWrapper_GetMeshObject(iMeshWrapper *)
 
 1.25.  class iLightMap
 ----------------------
 
-GetMapData()
+iLightMap_GetMapData(iLightMap *)
 
-GetWidth()
+iLightMap_GetWidth(iLightMap *)
 
-GetHeight()
+iLightMap_GetHeight(iLightMap *)
 
-GetRealWidth()
+iLightMap_GetRealWidth(iLightMap *)
 
-GetRealHeight()
+iLightMap_GetRealHeight(iLightMap *)
 
-GetCacheData()
+iLightMap_GetCacheData(iLightMap *)
 
-SetCacheData(d)
+iLightMap_SetCacheData(iLightMap *,d)
 
-GetMeanLighting(r,g,b)
+iLightMap_GetMeanLighting(iLightMap *,r,g,b)
 
-GetSize()
+iLightMap_GetSize(iLightMap *)
 
 1.26.  class iPolygon3DStatic
 -----------------------------
 
-GetMaterialHandle()
+iPolygon3DStatic_GetMaterialHandle(iPolygon3DStatic *)
 
-SetMaterial(material)
+iPolygon3DStatic_SetMaterial(iPolygon3DStatic *,material)
 
-GetVertexCount()
+iPolygon3DStatic_GetVertexCount(iPolygon3DStatic *)
 
-GetVertex(idx)
+iPolygon3DStatic_GetVertex(iPolygon3DStatic *,idx)
 
-CreateVertexByIndex(idx)
+iPolygon3DStatic_CreateVertexByIndex(iPolygon3DStatic *,idx)
 
-CreateVertex(iVertex)
+iPolygon3DStatic_CreateVertex(iPolygon3DStatic *,iVertex)
 
-GetAlpha()
+iPolygon3DStatic_GetAlpha(iPolygon3DStatic *)
 
-SetAlpha(iAlpha)
+iPolygon3DStatic_SetAlpha(iPolygon3DStatic *,iAlpha)
 
-CreatePlane(iOrigin,iMatrix)
+iPolygon3DStatic_CreatePlane(iPolygon3DStatic *,iOrigin,iMatrix)
 
-SetTextureSpace(v_orig,v1,len1)
+iPolygon3DStatic_SetTextureSpace(iPolygon3DStatic *,v_orig,v1,len1)
 
 1.27.  class iPolygon3D
 -----------------------
 
-GetLightMap()
+iPolygon3D_GetLightMap(iPolygon3D *)
 
-GetVertexW(idx)
+iPolygon3D_GetVertexW(iPolygon3D *,idx)
 
-GetVertexC(idx)
+iPolygon3D_GetVertexC(iPolygon3D *,idx)
 
 1.28.  class iImage
 -------------------
 
-GetImageData()
+iImage_GetImageData(iImage *)
 
-GetWidth()
+iImage_GetWidth(iImage *)
 
-GetHeight()
+iImage_GetHeight(iImage *)
 
-GetSize()
+iImage_GetSize(iImage *)
 
-Rescale(NewWidth,NewHeight)
+iImage_Rescale(iImage *,NewWidth,NewHeight)
 
-MipMap(step,transp)
+iImage_MipMap(iImage *,step,transp)
 
-SetName(iName)
+iImage_SetName(iImage *,iName)
 
-GetName()
+iImage_GetName(iImage *)
 
-GetFormat()
+iImage_GetFormat(iImage *)
 
-GetPalette()
+iImage_GetPalette(iImage *)
 
-GetAlpha()
+iImage_GetAlpha(iImage *)
 
-SetFormat(iFormat)
+iImage_SetFormat(iImage *,iFormat)
 
-Clone()
+iImage_Clone(iImage *)
 
-Crop(x,y,width,height)
+iImage_Crop(iImage *,x,y,width,height)
 
 1.29.  class iTextureManager
 ----------------------------
 
-RegisterTexture(image,flags)
+iTextureManager_RegisterTexture(iTextureManager *,image,flags)
 
-PrepareTextures()
+iTextureManager_PrepareTextures(iTextureManager *)
 
-FreeImages()
+iTextureManager_FreeImages(iTextureManager *)
 
-SetVerbose(vb)
+iTextureManager_SetVerbose(iTextureManager *,vb)
 
-GetTextureFormat()
+iTextureManager_GetTextureFormat(iTextureManager *)
 
 1.30.  class iPolygonTexture
 ----------------------------
 
-GetMaterialHandle()
+iPolygonTexture_GetMaterialHandle(iPolygonTexture *)
         TextureHandle *GetTextureHandle ();
         loat GetFDU ();
         loat GetFDV ();
@@ -616,19 +655,19 @@ GetMaterialHandle()
          float& fMaxU, float& fMaxV);
         nt GetOriginalWidth ();
         
-DynamicLightsDirty()
+iPolygonTexture_DynamicLightsDirty(iPolygonTexture *)
 
-RecalculateDynamicLights()
+iPolygonTexture_RecalculateDynamicLights(iPolygonTexture *)
 
-GetLightMap()
+iPolygonTexture_GetLightMap(iPolygonTexture *)
 
-GetLightCellSize()
+iPolygonTexture_GetLightCellSize(iPolygonTexture *)
 
-GetLightCellShift()
+iPolygonTexture_GetLightCellShift(iPolygonTexture *)
 
-GetCacheData(idx)
+iPolygonTexture_GetCacheData(iPolygonTexture *,idx)
 
-SetCacheData(idx,d)
+iPolygonTexture_SetCacheData(iPolygonTexture *,idx,d)
 
 1.31.  class iCameraPosition
 ----------------------------
@@ -636,68 +675,68 @@ SetCacheData(idx,d)
 1.32.  class iSectorList
 ------------------------
 
-GetCount()
+iSectorList_GetCount(iSectorList *)
 
-Get(idx)
+iSectorList_Get(iSectorList *,idx)
 
-Add(sec)
+iSectorList_Add(iSectorList *,sec)
 
-Remove(sec)
+iSectorList_Remove(iSectorList *,sec)
 
-FindByName(name)
+iSectorList_FindByName(iSectorList *,name)
 
 1.33.  class iMaterialList
 --------------------------
 
-FindByName(name)
+iMaterialList_FindByName(iMaterialList *,name)
 
 1.34.  class iTextureList
 -------------------------
 
-FindByName(name)
+iTextureList_FindByName(iTextureList *,name)
 
 1.35.  class iEngine
 --------------------
 
-GetTextureFormat()
+iEngine_GetTextureFormat(iEngine *)
 
-DeleteAll()
+iEngine_DeleteAll(iEngine *)
 
-CreateTexture(iName,iFileName,iTransp,iFlags)
+iEngine_CreateTexture(iEngine *,iName,iFileName,iTransp,iFlags)
 
-CreateSector(iName)
+iEngine_CreateSector(iEngine *,iName)
 
-CreateSectorWallsMesh(sector,name)
+iEngine_CreateSectorWallsMesh(iEngine *,sector,name)
 
-GetSectors()
+iEngine_GetSectors(iEngine *)
 
-GetMaterialList()
+iEngine_GetMaterialList(iEngine *)
 
-GetTextureList()
+iEngine_GetTextureList(iEngine *)
 
 1.36.  class iObjectRegistry
 ----------------------------
 
-Query_iEngine()
+iObjectRegistry_Query_iEngine(iObjectRegistry *)
 
-Query_iGraphics3D()
+iObjectRegistry_Query_iGraphics3D(iObjectRegistry *)
 
-Print(mode,format)
+iObjectRegistry_Print(iObjectRegistry *,mode,format)
 
 1.37.  class iCelPlLayer
 ------------------------
 irtual csPtr<iCelEntity> CreateEntity ();
 
 
-CreatePropertyClass(entity,propname)
+iCelPlLayer_CreatePropertyClass(iCelPlLayer *,entity,propname)
 
-FetchString(id)
+iCelPlLayer_FetchString(iCelPlLayer *,id)
 
-GetBehaviourLayerCount()
+iCelPlLayer_GetBehaviourLayerCount(iCelPlLayer *)
 
-GetBehaviourLayer(idx)
+iCelPlLayer_GetBehaviourLayer(iCelPlLayer *,idx)
 
-FindBehaviourLayer(name)
+iCelPlLayer_FindBehaviourLayer(iCelPlLayer *,name)
 
 ----------
 
@@ -706,19 +745,19 @@ csQueryRegistry_iCelPlLayer(object_reg)
 1.38.  class iCelEntity
 -----------------------
 
-GetName()
+iCelEntity_GetName(iCelEntity *)
 
-SetName(n)
+iCelEntity_SetName(iCelEntity *,n)
 
-SetBehaviour(ent)
+iCelEntity_SetBehaviour(iCelEntity *,ent)
 
-GetBehaviour()
+iCelEntity_GetBehaviour(iCelEntity *)
 
-GetID()
+iCelEntity_GetID(iCelEntity *)
 
-GetPropertyClassList()
+iCelEntity_GetPropertyClassList(iCelEntity *)
 
-LoadBehaviour(object_reg,name)
+iCelEntity_LoadBehaviour(iCelEntity *,object_reg,name)
 
 ----------
 
@@ -727,9 +766,9 @@ celCreateEntity(object_reg,name)
 1.39.  class iCelBlLayer
 ------------------------
 
-GetName()
+iCelBlLayer_GetName(iCelBlLayer *)
 
-CreateBehaviour(entity,name)
+iCelBlLayer_CreateBehaviour(iCelBlLayer *,entity,name)
 
 ----------
 
@@ -738,52 +777,52 @@ csQueryRegistry_iCelBlLayer(object_reg)
 1.40.  class iCelBehaviour
 --------------------------
 
-GetName()
+iCelBehaviour_GetName(iCelBehaviour *)
 
-GetBehaviourLayer()
+iCelBehaviour_GetBehaviourLayer(iCelBehaviour *)
 
-SendMessage(msg_id,msg_info)
+iCelBehaviour_SendMessage(iCelBehaviour *,msg_id,msg_info)
 
 1.41.  class iCelPropertyClass
 ------------------------------
 
-GetName()
+iCelPropertyClass_GetName(iCelPropertyClass *)
 
-GetEntity()
+iCelPropertyClass_GetEntity(iCelPropertyClass *)
 
-SetEntity(entity)
+iCelPropertyClass_SetEntity(iCelPropertyClass *,entity)
 
-GetPropertyOrActionType(propertyID)
+iCelPropertyClass_GetPropertyOrActionType(iCelPropertyClass *,propertyID)
 
-IsPropertyReadOnly(propertyID)
+iCelPropertyClass_IsPropertyReadOnly(iCelPropertyClass *,propertyID)
 
-GetPropertyLong(propertyID)
+iCelPropertyClass_GetPropertyLong(iCelPropertyClass *,propertyID)
 
-GetPropertyFloat(propertyID)
+iCelPropertyClass_GetPropertyFloat(iCelPropertyClass *,propertyID)
 
-GetPropertyBool(propertyID)
+iCelPropertyClass_GetPropertyBool(iCelPropertyClass *,propertyID)
 
-GetPropertyString(propertyID)
+iCelPropertyClass_GetPropertyString(iCelPropertyClass *,propertyID)
 
-GetPropertyVector(propertyID,v)
+iCelPropertyClass_GetPropertyVector(iCelPropertyClass *,propertyID,v)
 
-GetPropertyAndActionCount()
+iCelPropertyClass_GetPropertyAndActionCount(iCelPropertyClass *)
 
-GetPropertyOrActionID(i)
+iCelPropertyClass_GetPropertyOrActionID(iCelPropertyClass *,i)
 
-GetPropertyOrActionDescription(propertyID)
+iCelPropertyClass_GetPropertyOrActionDescription(iCelPropertyClass *,propertyID)
 
-PerformAction(actionID,params)
+iCelPropertyClass_PerformAction(iCelPropertyClass *,actionID,params)
 
-SetPropertyLong(id,l)
+iCelPropertyClass_SetPropertyLong(iCelPropertyClass *,id,l)
 
-SetPropertyFloat(id,f)
+iCelPropertyClass_SetPropertyFloat(iCelPropertyClass *,id,f)
 
-SetPropertyBool(id,b)
+iCelPropertyClass_SetPropertyBool(iCelPropertyClass *,id,b)
 
-SetPropertyString(id,s)
+iCelPropertyClass_SetPropertyString(iCelPropertyClass *,id,s)
 
-SetPropertyVector3(id,v)
+iCelPropertyClass_SetPropertyVector3(iCelPropertyClass *,id,v)
 
 ----------
 
@@ -792,42 +831,42 @@ celQueryPC_iPcRegion(pclist)
 1.42.  class iCelPropertyClassList
 ----------------------------------
 
-GetCount()
+iCelPropertyClassList_GetCount(iCelPropertyClassList *)
 
-Get(n)
+iCelPropertyClassList_Get(iCelPropertyClassList *,n)
 
-Find(obj)
+iCelPropertyClassList_Find(iCelPropertyClassList *,obj)
 
-FindByName(Name)
+iCelPropertyClassList_FindByName(iCelPropertyClassList *,Name)
 
-FindByInterface(id,version)
+iCelPropertyClassList_FindByInterface(iCelPropertyClassList *,id,version)
 
 1.43.  class iPcRegion
 ----------------------
 
-SetWorldFile(vfsdir,name)
+iPcRegion_SetWorldFile(iPcRegion *,vfsdir,name)
 
-GetWorldDir()
+iPcRegion_GetWorldDir(iPcRegion *)
 
-GetWorldFile()
+iPcRegion_GetWorldFile(iPcRegion *)
 
-SetRegionName(name)
+iPcRegion_SetRegionName(iPcRegion *,name)
 
-GetRegionName()
+iPcRegion_GetRegionName(iPcRegion *)
 
-Load()
+iPcRegion_Load(iPcRegion *)
 
-Unload()
+iPcRegion_Unload(iPcRegion *)
 
-FindSector(sectorname)
+iPcRegion_FindSector(iPcRegion *,sectorname)
 
-GetStartSector(name)
+iPcRegion_GetStartSector(iPcRegion *,name)
 
-GetStartPosition(name)
+iPcRegion_GetStartPosition(iPcRegion *,name)
 
-PointCamera(pccamera,name)
+iPcRegion_PointCamera(iPcRegion *,pccamera,name)
 
-LoadWorld(vfsdir,name)
+iPcRegion_LoadWorld(iPcRegion *,vfsdir,name)
 
 ----------
 
@@ -838,43 +877,45 @@ scfQuery_iPcRegion(pc)
 1.44.  class iPcCamera
 ----------------------
 
-self.freelook
+iPcCamera_freelook = iPcCamera::freelook
 
-self.follow
+iPcCamera_follow = iPcCamera::follow
 
-self.rotational
+iPcCamera_rotational = iPcCamera::rotational
 
-self.firstperson
+iPcCamera_firstperson = iPcCamera::firstperson
 
-SetRegion(region,point,name)
+iPcCamera_SetRegion(iPcCamera *,region,point,name)
 
-SetMode(m,use_cd)
+iPcCamera_SetMode(iPcCamera *,m,use_cd)
 
-GetMode()
+iPcCamera_GetMode(iPcCamera *)
 
-SetFollowPos(fp,at)
+iPcCamera_SetFollowPos(iPcCamera *,fp,at)
 
-GetFollowPos(fp,at)
+iPcCamera_GetFollowPos(iPcCamera *,fp,at)
 
-SetPitch(angle)
+iPcCamera_SetPitch(iPcCamera *,angle)
 
-GetPitch()
+iPcCamera_GetPitch(iPcCamera *)
 
-SetRoll(angle)
+iPcCamera_SetRoll(iPcCamera *,angle)
 
-GetRoll()
+iPcCamera_GetRoll(iPcCamera *)
 
-SetRectangle(x,y,w,h)
+iPcCamera_SetRectangle(iPcCamera *,x,y,w,h)
 
-GetCamera()
+iPcCamera_GetCamera(iPcCamera *)
 
-GetView()
+iPcCamera_GetView(iPcCamera *)
 
 ----------
 
 celCreateCamera(object_reg,world,entity,name)
 
 scfQuery_iPcCamera(pc)
+
+scfQuery_iPcMesh(pc)
 
 CEL_MOUSE_BUTTON1 = 1
 
@@ -885,43 +926,43 @@ CEL_MOUSE_BUTTON3 = 4
 1.45.  class iPcMeshSelect
 --------------------------
 
-SetCamera(camera)
+iPcMeshSelect_SetCamera(iPcMeshSelect *,camera)
 
-SetMouseButtons(buttons)
+iPcMeshSelect_SetMouseButtons(iPcMeshSelect *,buttons)
 
-GetMouseButtons()
+iPcMeshSelect_GetMouseButtons(iPcMeshSelect *)
 
-SetGlobalSelection(glob)
+iPcMeshSelect_SetGlobalSelection(iPcMeshSelect *,glob)
 
-HasGlobalSelection()
+iPcMeshSelect_HasGlobalSelection(iPcMeshSelect *)
 
-SetFollowMode(follow)
+iPcMeshSelect_SetFollowMode(iPcMeshSelect *,follow)
 
-HasFollowMode()
+iPcMeshSelect_HasFollowMode(iPcMeshSelect *)
 
-SetFollowAlwaysMode(followalways)
+iPcMeshSelect_SetFollowAlwaysMode(iPcMeshSelect *,followalways)
 
-HasFollowAlwaysMode()
+iPcMeshSelect_HasFollowAlwaysMode(iPcMeshSelect *)
 
-SetDragMode(drag)
+iPcMeshSelect_SetDragMode(iPcMeshSelect *,drag)
 
-HasDragMode()
+iPcMeshSelect_HasDragMode(iPcMeshSelect *)
 
-SetDragPlaneNormal(drag_normal,camera_space)
+iPcMeshSelect_SetDragPlaneNormal(iPcMeshSelect *,drag_normal,camera_space)
 
-GetDragPlaneNormal(drag_normal,camera_space)
+iPcMeshSelect_GetDragPlaneNormal(iPcMeshSelect *,drag_normal,camera_space)
 
-SetSendmoveEvent(mov)
+iPcMeshSelect_SetSendmoveEvent(iPcMeshSelect *,mov)
 
-HasSendmoveEvent()
+iPcMeshSelect_HasSendmoveEvent(iPcMeshSelect *)
 
-SetSendupEvent(su)
+iPcMeshSelect_SetSendupEvent(iPcMeshSelect *,su)
 
-HasSendupEvent()
+iPcMeshSelect_HasSendupEvent(iPcMeshSelect *)
 
-SetSenddownEvent(sd)
+iPcMeshSelect_SetSenddownEvent(iPcMeshSelect *,sd)
 
-HasSenddownEvent()
+iPcMeshSelect_HasSenddownEvent(iPcMeshSelect *)
 
 ----------
 
@@ -930,25 +971,25 @@ celPcMeshSelect(object_reg,entity)
 1.46.  class iPcMesh
 --------------------
 
-LoadMesh(factname,filename)
+iPcMesh_LoadMesh(iPcMesh *,factname,filename)
 
-SetMesh(mesh)
+iPcMesh_SetMesh(iPcMesh *,mesh)
 
-CreateEmptyThing()
+iPcMesh_CreateEmptyThing(iPcMesh *)
 
-GetMesh()
+iPcMesh_GetMesh(iPcMesh *)
 
-MoveMesh(sector,pos)
+iPcMesh_MoveMesh(iPcMesh *,sector,pos)
 
-SetAction(actionName,reset)
+iPcMesh_SetAction(iPcMesh *,actionName,reset)
 
-GetAction()
+iPcMesh_GetAction(iPcMesh *)
 
-Hide()
+iPcMesh_Hide(iPcMesh *)
 
-Show()
+iPcMesh_Show(iPcMesh *)
 
-IsVisible()
+iPcMesh_IsVisible(iPcMesh *)
 
 ----------
 
@@ -957,9 +998,9 @@ celPcMesh(object_reg,entity)
 1.47.  class iPcTimer
 ---------------------
 
-WakeUp(t,repeat)
+iPcTimer_WakeUp(iPcTimer *,t,repeat)
 
-Clear()
+iPcTimer_Clear(iPcTimer *)
 
 ----------
 
@@ -968,11 +1009,11 @@ celPcTimer(object_reg,entity)
 1.48.  class iPcSolid
 ---------------------
 
-SetMesh(mesh)
+iPcSolid_SetMesh(iPcSolid *,mesh)
 
-GetMesh()
+iPcSolid_GetMesh(iPcSolid *)
 
-GetCollider()
+iPcSolid_GetCollider(iPcSolid *)
 
 ----------
 
@@ -981,39 +1022,39 @@ celPcSolid(object_reg,entity)
 1.49.  class iPcGravity
 -----------------------
 
-CreateGravityColliderFromMesh(mesh)
+iPcGravity_CreateGravityColliderFromMesh(iPcGravity *,mesh)
 
-CreateGravityCollider(dim,offs)
+iPcGravity_CreateGravityCollider(iPcGravity *,dim,offs)
 
-GetGravityCollider()
+iPcGravity_GetGravityCollider(iPcGravity *)
 
-SetMovable(movable)
+iPcGravity_SetMovable(iPcGravity *,movable)
 
-GetMovable()
+iPcGravity_GetMovable(iPcGravity *)
 
-SetSolid(solid)
+iPcGravity_SetSolid(iPcGravity *,solid)
 
-GetSolid()
+iPcGravity_GetSolid(iPcGravity *)
 
-SetWeight(w)
+iPcGravity_SetWeight(iPcGravity *,w)
 
-GetWeight()
+iPcGravity_GetWeight(iPcGravity *)
 
-ClearForces()
+iPcGravity_ClearForces(iPcGravity *)
 
-ClearPermanentForces()
+iPcGravity_ClearPermanentForces(iPcGravity *)
 
-ResetSpeed()
+iPcGravity_ResetSpeed(iPcGravity *)
 
-ApplyForce(force,time)
+iPcGravity_ApplyForce(iPcGravity *,force,time)
 
-ApplyPermanentForce(force)
+iPcGravity_ApplyPermanentForce(iPcGravity *,force)
 
-IsResting()
+iPcGravity_IsResting(iPcGravity *)
 
-SetActive(activate)
+iPcGravity_SetActive(iPcGravity *,activate)
 
-IsActive()
+iPcGravity_IsActive(iPcGravity *)
 
 ----------
 
@@ -1022,19 +1063,19 @@ celPcGravity(object_reg,entity)
 1.50.  class iPcMovable
 -----------------------
 
-SetMesh(mesh)
+iPcMovable_SetMesh(iPcMovable *,mesh)
 
-GetMesh()
+iPcMovable_GetMesh(iPcMovable *)
 
-SetPos(sector,pos)
+iPcMovable_SetPos(iPcMovable *,sector,pos)
 
-Move(relpos)
+iPcMovable_Move(iPcMovable *,relpos)
 
-AddConstraint(constraint)
+iPcMovable_AddConstraint(iPcMovable *,constraint)
 
-RemoveConstraint(constraint)
+iPcMovable_RemoveConstraint(iPcMovable *,constraint)
 
-RemoveAllConstraints()
+iPcMovable_RemoveAllConstraints(iPcMovable *)
 
 ----------
 
@@ -1043,35 +1084,35 @@ celPcMovable(object_reg,entity)
 1.51.  class iPcInventory
 -------------------------
 
-AddEntity(entity)
+iPcInventory_AddEntity(iPcInventory *,entity)
 
-RemoveEntity(entity)
+iPcInventory_RemoveEntity(iPcInventory *,entity)
 
-RemoveAll()
+iPcInventory_RemoveAll(iPcInventory *)
 
-GetEntityCount()
+iPcInventory_GetEntityCount(iPcInventory *)
 
-GetEntity(idx)
+iPcInventory_GetEntity(iPcInventory *,idx)
 
-SetStrictCharacteristics(charName,strict)
+iPcInventory_SetStrictCharacteristics(iPcInventory *,charName,strict)
 
-HasStrictCharacteristics(charName)
+iPcInventory_HasStrictCharacteristics(iPcInventory *,charName)
 
-SetConstraints(charName,minValue,maxValue,totalMaxValue)
+iPcInventory_SetConstraints(iPcInventory *,charName,minValue,maxValue,totalMaxValue)
 
-GetConstraints(charName,minValue,maxValue,totalMaxValue)
+iPcInventory_GetConstraints(iPcInventory *,charName,minValue,maxValue,totalMaxValue)
 
-RemoveConstraints(charName)
+iPcInventory_RemoveConstraints(iPcInventory *,charName)
 
-RemoveAllConstraints()
+iPcInventory_RemoveAllConstraints(iPcInventory *)
 
-GetCurrentCharacteristic(charName)
+iPcInventory_GetCurrentCharacteristic(iPcInventory *,charName)
 
-MarkDirty(charName)
+iPcInventory_MarkDirty(iPcInventory *,charName)
 
-TestConstraints(charName)
+iPcInventory_TestConstraints(iPcInventory *,charName)
 
-Dump()
+iPcInventory_Dump(iPcInventory *)
 
 ----------
 
@@ -1080,31 +1121,31 @@ celPcInventory(object_reg,entity)
 1.52.  class iPcCharacteristics
 -------------------------------
 
-SetCharacteristic(name,value)
+iPcCharacteristics_SetCharacteristic(iPcCharacteristics *,name,value)
 
-SetInheritedCharacteristic(name,factor,add)
+iPcCharacteristics_SetInheritedCharacteristic(iPcCharacteristics *,name,factor,add)
 
-GetCharacteristic(name)
+iPcCharacteristics_GetCharacteristic(iPcCharacteristics *,name)
 
-GetLocalCharacteristic(name)
+iPcCharacteristics_GetLocalCharacteristic(iPcCharacteristics *,name)
 
-GetInheritedCharacteristic(name)
+iPcCharacteristics_GetInheritedCharacteristic(iPcCharacteristics *,name)
 
-ClearCharacteristic(name)
+iPcCharacteristics_ClearCharacteristic(iPcCharacteristics *,name)
 
-HasCharacteristic(name)
+iPcCharacteristics_HasCharacteristic(iPcCharacteristics *,name)
 
-ClearAll()
+iPcCharacteristics_ClearAll(iPcCharacteristics *)
 
-AddToInventory(inv)
+iPcCharacteristics_AddToInventory(iPcCharacteristics *,inv)
 
-RemoveFromInventory(inv)
+iPcCharacteristics_RemoveFromInventory(iPcCharacteristics *,inv)
 
-MarkDirty(charName)
+iPcCharacteristics_MarkDirty(iPcCharacteristics *,charName)
 
-TestConstraints(charName)
+iPcCharacteristics_TestConstraints(iPcCharacteristics *,charName)
 
-Dump()
+iPcCharacteristics_Dump(iPcCharacteristics *)
 
 ----------
 

@@ -1,5 +1,5 @@
-%module blcel
-%include cs.i
+%module blcelc
+%include cspace.i
 %{
 #include "pl/pl.h"
 #include "pl/propfact.h"
@@ -255,6 +255,22 @@ iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc) {
 }
 %}
 iPcCamera *scfQuery_iPcCamera(iCelPropertyClass *pc);
+
+%{
+iPcMesh *scfQuery_iPcMesh(iCelPropertyClass *pc) {
+  csRef<iPcMesh> pcMesh(SCF_QUERY_INTERFACE(pc, iPcMesh));
+  return pcMesh;
+}
+%}
+iPcMesh *scfQuery_iPcMesh(iCelPropertyClass *pc);
+
+%{
+iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc) {
+  csRef<iPcTimer> pcTimer(SCF_QUERY_INTERFACE(pc, iPcTimer));
+  return pcTimer;
+}
+%}
+iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc);
 
 #define CEL_MOUSE_BUTTON1 1
 #define CEL_MOUSE_BUTTON2 2

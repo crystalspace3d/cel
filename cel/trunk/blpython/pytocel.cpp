@@ -58,14 +58,14 @@ PyMethodDef PytocelMethods[]={
   {NULL, NULL, 0, ""}
 };
 
-extern "C" void initblcelc ();
-
+//extern "C" void initblcelc ();
+extern "C" void init_blcelc();
 //TODO temporary
 
 void InitPytocel ()
 {
   Py_InitModule ("pytocel", PytocelMethods);
-  initblcelc ();
+  init_blcelc ();
 //TODO temporary
 }
 
