@@ -91,13 +91,13 @@ public:
   void SetRules (iPcNavGraphRules* newrules) { navgraphrules = newrules; }
 
   int AddNode( iPcNavNode* node ) { return aNodes.Push( node );}
-  int RemoveNode( int i) {return aNodes.Delete( i ); }
+  int RemoveNode( int i) {return aNodes.DeleteIndex( i ); }
   iPcNavNode* GetNode( int i ) { return aNodes[i];}
   int GetNodeCount() const { return aNodes.Length();}
   int FindNode( iPcNavNode* Node ) { return aNodes.Find( Node ); }
 
   int AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
-  int RemoveLink( int i) {return aLinks.Delete( i ); }
+  int RemoveLink( int i) {return aLinks.DeleteIndex( i ); }
   iPcNavLink* GetLink( int i ) { return aLinks[i];}
   int GetLinkCount() const {return aLinks.Length();}
   int FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
@@ -311,7 +311,7 @@ public:
   void SetPos( csVector3 newpos ) { pos.Set( newpos ); }
 
   int AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
-  int RemoveLink( int i) {return aLinks.Delete( i ); }
+  int RemoveLink( int i) {return aLinks.DeleteIndex( i ); }
   iPcNavLink* GetLink( int i ) { return aLinks[i];}
   int GetLinkCount() const {return aLinks.Length();}
   int FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }

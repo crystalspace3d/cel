@@ -399,7 +399,7 @@ void celPlLayer::Uncache (iBase* object)
   if (idx != -1)
   {
     engine->RemoveObject (object);
-    cache.Delete (idx);
+    cache.DeleteIndex (idx);
   }
 }
 
