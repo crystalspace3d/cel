@@ -29,7 +29,7 @@ include csconfig.mak
 BLTEST=bltest${DLL}
 PFTEST=pftest${DLL}
 PLIMP=plimp${DLL}
-CELTEST=celtest${EXE}
+CELTEST=celtst${EXE}
 
 #------
 # Location of sources and object files

@@ -27,4 +27,9 @@
 	  no real functionality yet.
 	- Added 'name' parameter to iCelBlLayer::CreateBlEntity().
 	- Started adding support for 'printer' behaviour entity in 'bltest'.
+27-Oct-2001:
+	- Updated csconfig.mak with entries for linux. Uncomment the
+	  entries suitable for your system.
+	- Changed the executable name for celtest to celtst. Otherwise
+	  it would be the same as the directory name on linux.
 
