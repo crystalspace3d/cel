@@ -1200,20 +1200,20 @@
 		    <inventory propclass="pc(pcinventory)" />
 		    <var name="hero" value="ent(hero)" />
 		    <inventory_add child="?hero" />
-		    <var name="mazeent+#mazepos" value="''" />
+		    <var name="#mazepos" value="''" />
 		    <stop />
 		</if>
 	    	<if eval="?blocktype != ' '">
-		    <lvar name="entname" value="#mazepos+'_'+?entity_number" />
+		    <lvar name="entname" value="?entity_number" />
 		    <var name="entity_number" value="?entity_number+1" />
 		    <createentity name="#entname" behaviour="?(behaviour_+?blocktype)" />
 		    <lvar name="ent" value="ent(#entname)" />
-		    <var name="mazeent+#mazepos" value="#ent" />
+		    <var name="#mazepos" value="#ent" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="#ent" />
 		    <stop />
 	    	</if>
-		<var name="mazeent+#mazepos" value="''" />
+		<var name="#mazepos" value="''" />
 	    </event>
 
 	    <!--
@@ -1227,7 +1227,7 @@
 	      -->
 	    <event name="clearblock_nocheck">
 		<lvar name="mazepos" value="@x+'_'+@y" />
-		<lvar name="ent" value="?(mazeent+#mazepos)" />
+		<lvar name="ent" value="?#mazepos" />
 		<if eval="#ent==''"> <stop /> </if>
 		<if eval="?(#ent).moving">
 		    <!-- Block is moving -->
@@ -1237,13 +1237,12 @@
 		        <lvar name="oldx" value="?(#ent).x" />
 		        <lvar name="oldy" value="?(#ent).y" />
 		    </if>
-		    <lvar name="old_mazepos" value="#oldx+'_'+#oldy" />
-		    <var name="mazeent+#old_mazepos" value="''" />
+		    <var name="#oldx+'_'+#oldy" value="''" />
 		</if>
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="#ent" />
 		<destroyentity name="#ent" />
-		<var name="mazeent+#mazepos" value="''" />
+		<var name="#mazepos" value="''" />
 	    </event>
 
 	    <!--
@@ -1252,7 +1251,7 @@
 	      -->
 	    <event name="clearblock_check">
 	    	<call event="clearblock_nocheck"> <inherit /> </call>
-		<call event="checkfall"> <inherit /> </call>
+		<call event="ifempty_checkfall"> <inherit /> </call>
 	    </event>
 
 	    <!--
@@ -1274,8 +1273,7 @@
 	      - Uses parameters @entity, @blocktype, @x, and @y.
 	      -->
 	    <event name="setblock">
-	    	<lvar name="mazepos" value="@x+'_'+@y" />
-		<var name="mazeent+#mazepos" value="@entity" />
+		<var name="@x+'_'+@y" value="@entity" />
 		<if eval="@blocktype == ' '">
 		    <call event="checkfall"> <inherit /> </call>
 	    	</if>
@@ -1323,7 +1321,7 @@
 	      - Returns entity (can be hero too) or ''.
 	      -->
 	    <event name="get_entity">
-		<lvar name="ent" value="?(mazeent+@x+'_'+@y)" />
+		<lvar name="ent" value="?(@x+'_'+@y)" />
 		<if eval="#ent">
 		    <return value="#ent" />
 		</if>
@@ -1422,17 +1420,14 @@
 		<if eval="!get_entity(...)">
 		    <expr eval="checkfall(...)" />
 	    	</if>
-		<if eval="get_falloff(...)">
-	    	    <lvar name="x" value="@x" />
-	    	    <lvar name="y" value="@y" />
-		    <if eval="!get_entity(x=#x-1,y=#y)">
-			<expr eval="checkfall(x=#x-1,y=#y)" />
-			<stop />
-	    	    </if>
-		    <if eval="!get_entity(x=#x+1,y=#y)">
-			<expr eval="checkfall(x=#x+1,y=#y)" />
-	    	    </if>
-		</if>
+	    	<lvar name="x" value="@x" />
+	    	<lvar name="y" value="@y" />
+		<if eval="!get_entity(x=#x-1,y=#y)">
+		    <expr eval="checkfall(x=#x-1,y=#y)" />
+	    	</if>
+		<if eval="!get_entity(x=#x+1,y=#y)">
+		    <expr eval="checkfall(x=#x+1,y=#y)" />
+	    	</if>
 	    </event>
 
 	    <!--
@@ -1445,8 +1440,7 @@
 		    <call event="clearblock_nocheck"> <inherit /> </call>
 		    <call event="createblock"> <inherit /> </call>
 		    <if eval="#explode==2">
-			<lvar name="mazepos" value="@x+'_'+@y" />
-		    	<lvar name="ent" value="?(mazeent+#mazepos)" />
+		    	<lvar name="ent" value="?(@x+'_'+@y)" />
 			<call entity="#ent" event="explode_later" />
 		    </if>
 		</if>
@@ -1707,7 +1701,7 @@
 	      - Movement events.
 	      -->
 	    <event name="pckeyinput_bomb1">
-	    	<if eval="!?bdash_main.(mazeent+?x+'_'+?y)">
+	    	<if eval="!?bdash_main.(?x+'_'+?y)">
 		    <call entity="bdash_main" event="createblock">
 		        <par id="parid(blocktype)" value="'o'" />
 		        <par id="parid(x)" value="?x" />
@@ -1807,8 +1801,6 @@
 	  - boulderdash game.
 	  -  ***************************************************** -->
         <script name="bdash_movable">
-	    <superscript name="movingobject" />
-
 	    <!--
 	      - Initialize this block.
 	      - It assumes ?bdash_main.x and ?bdash_main.y are set to the
@@ -1819,14 +1811,46 @@
 	    <event name="init">
 	        <var name="x" value="?bdash_main.x" />
 	        <var name="y" value="?bdash_main.y" />
-		<!-- @@@ Should add +640 but movingobject doesn't support this -->
 		<var name="dim" value="?bdash_main.blockdim" />
 	        <var name="blocktype" value="?bdash_main.blocktype" />
-	        <var name="material" value="?bdash_main.(material_+?blocktype)" />
 		<var name="speed" value="?bdash_main.fallspeed" />
-		<super />
+		<lvar name="material" value="?bdash_main.(material_+?blocktype)" />
+
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="#material" />
+	        <property id="propid(materialname)" value="#material" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="640+?dim" />
+	        <property id="propid(height)" value="640+?dim" />
+	        <property id="propid(x)" value="?x*?dim" />
+	        <property id="propid(y)" value="?y*?dim" />
+		<var name="moving" value="false" />
 	        <property id="propid(layer)" value="game" />
+	    </event>
+
+	    <!--
+	      - The move ends.
+	      -->
+	    <event name="pctimer_wakeup">
+	        <if eval="?moving">
+		    <if eval="?twosteps">
+		        <!-- Movement in two steps -->
+			<var name="twosteps" value="false" />
+			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			    <par id="parid(time)" value="int(500*?speed)" />
+			    <par id="parid(repeat)" value="false" />
+			</action>
+			<bb_move x="?x*?dim" y="?y*?dim" delta="int(500*?speed)" />
+			<stop />
+		    </if>
+		    <var name="moving" value="false" />
+		    <call event="endmove" />
+		</if>
 	    </event>
 
 	    <event name="startmove">
@@ -1835,11 +1859,32 @@
 		    <par id="parid(dx)" value="?dx" />
 		    <par id="parid(dy)" value="?dy" />
 		</call>
-		<super />
+		<var name="x" value="?x+?dx" />
+		<var name="y" value="?y+?dy" />
+		<var name="moving" value="true" />
+		<if eval="?dx && ?dy == 1">
+		    <true>
+		    	<!-- Movement is in two steps -->
+			<var name="twosteps" value="true" />
+			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			    <par id="parid(time)" value="int(500*?speed)" />
+			    <par id="parid(repeat)" value="false" />
+			</action>
+			<bb_move x="?x*?dim" y="?y*?dim-?dim/2" delta="int(500*?speed)" />
+		    </true>
+		    <false>
+			<var name="twosteps" value="false" />
+			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			    <par id="parid(time)" value="int(1000*?speed)" />
+			    <par id="parid(repeat)" value="false" />
+			</action>
+			<bb_move x="?x*?dim" y="?y*?dim" delta="int(1000*?speed)" />
+	            </false>
+	        </if>
 	    </event>
 
 	    <event name="endmove">
-		<super />
+		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -1878,7 +1923,7 @@
 	    <event name="endmove">
 	        <!-- Don't explode for pure horizontal moves -->
 	    	<if eval="?dy!=0">
-		    <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
+		    <if eval="?bdash_main.(?x+'_'+(?y+1)) != ''">
 		        <call entity="bdash_main" event="new_explosion">
 			    <par id="parid(x)" value="?x" />
 			    <par id="parid(y)" value="?y" />

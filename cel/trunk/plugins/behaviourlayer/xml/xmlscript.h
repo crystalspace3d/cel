@@ -137,7 +137,9 @@ enum
 
   CEL_OPERATION_UNARYMINUS,	// A:-		S:?		OS:?
   CEL_OPERATION_MINUS,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_MINUS_I,	// A:?		S:?		OS:?
   CEL_OPERATION_ADD,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_ADD_I,		// A:?		S:?		OS:?
   CEL_OPERATION_MULT,		// A:-		S:?,?		OS:?
   CEL_OPERATION_DIV,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MODULO,		// A:-		S:?,?		OS:?
@@ -350,8 +352,10 @@ public:
   const char* GetName () { return name; }
 
   void AddOperation (int op);
+  int GetLastOperation () { return operations.Top ().op; }
   int GetOperation (int idx) { return operations[idx].op; }
   void ChangeOperation (int idx, int newop) { operations[idx].op = newop; }
+  void ReplaceLastOperation (int op) { operations.Top ().op = op; }
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();

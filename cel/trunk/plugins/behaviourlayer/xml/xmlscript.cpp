@@ -1629,6 +1629,41 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_MINUS_I:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s - %s\n", i-1, A2S (top), A2S (op.arg)));
+	  int t = GetCalculationType (top, op.arg);
+	  switch (t)
+	  {
+	    case CEL_DATA_NONE:
+	      return ReportError (behave, "Can't subtract these types!");
+	    case CEL_DATA_BOOL:
+	      return ReportError (behave, "Can't subtract booleans!");
+	    case CEL_DATA_STRING:
+	      return ReportError (behave, "Can't subtract strings!");
+	    case CEL_DATA_FLOAT:
+	      top.SetFloat (ArgToFloat (top) - ArgToFloat (op.arg));
+	      break;
+	    case CEL_DATA_LONG:
+	      top.SetInt32 (ArgToInt32 (top) - ArgToInt32 (op.arg));
+	      break;
+	    case CEL_DATA_ULONG:
+	      top.SetUInt32 (ArgToUInt32 (top) - ArgToUInt32 (op.arg));
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      top.SetVector (ArgToVector2 (top) - ArgToVector2 (op.arg));
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      top.SetVector (ArgToVector3 (top) - ArgToVector3 (op.arg));
+	      break;
+	    case CEL_DATA_COLOR:
+	      top.SetColor (ArgToColor (top) - ArgToColor (op.arg));
+	      break;
+	  }
+	}
+	break;
       case CEL_OPERATION_MINUS:
         {
 	  CHECK_STACK(2)
@@ -1661,6 +1696,64 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_COLOR:
 	      top.SetColor (ArgToColor (top) - ArgToColor (elb));
+	      break;
+	  }
+	}
+	break;
+      case CEL_OPERATION_ADD_I:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: %s + %s (i)\n", i-1, A2S (top), A2S (op.arg)));
+	  int t = GetCalculationType (op.arg, top);
+	  switch (t)
+	  {
+	    case CEL_DATA_BOOL:
+	      return ReportError (behave, "Can't add booleans!");
+	    case CEL_DATA_FLOAT:
+	      top.SetFloat (ArgToFloat (op.arg) + ArgToFloat (top));
+	      break;
+	    case CEL_DATA_LONG:
+	      top.SetInt32 (ArgToInt32 (op.arg) + ArgToInt32 (top));
+	      break;
+	    case CEL_DATA_ULONG:
+	      top.SetUInt32 (ArgToUInt32 (op.arg) + ArgToUInt32 (top));
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      top.SetVector (ArgToVector2 (op.arg) + ArgToVector2 (top));
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      top.SetVector (ArgToVector3 (op.arg) + ArgToVector3 (top));
+	      break;
+	    case CEL_DATA_COLOR:
+	      top.SetColor (ArgToColor (op.arg) + ArgToColor (top));
+	      break;
+	    case CEL_DATA_NONE:
+	    case CEL_DATA_STRING:
+	      {
+		const char* astr = ArgToString (top);
+		const char* bstr = ArgToString (op.arg);
+		int alen = astr ? strlen (astr) : 0;
+		int blen = bstr ? strlen (bstr) : 0;
+		if (alen || blen)
+		{
+		  if (!blen)
+	            ; // top already contains the right string.
+		  else if (!alen)
+	            top.SetString (bstr, true);
+		  else
+		  {
+		    char* str = new char[alen+blen+1];
+		    strcpy (str, astr);
+		    strcpy (str+alen, bstr);
+	            top.SetStringPrealloc (str);
+		  }
+	        }
+		else
+		{
+	          top.SetString ("", true);
+		}
+	      }
 	      break;
 	  }
 	}

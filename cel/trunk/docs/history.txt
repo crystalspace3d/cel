@@ -17,6 +17,8 @@ The history order is reversed so that new features are at the top.
 	      and then throws the result away.
 	    - Added the ability to inherit parameters from the caller
 	      to functions being called.
+	- Jorrit added an optimization to the XML behaviour layer so
+	  that some operations with constants are more efficient.
 13-Jan-2004
 	- Jorrit added support for scoped functions to the XML behaviour
 	  layer (i.e. calling a function from another entity script using
