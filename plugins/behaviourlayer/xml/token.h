@@ -52,6 +52,7 @@ enum
   CEL_TOKEN_GT,		// >
   CEL_TOKEN_LOGAND,	// &&
   CEL_TOKEN_LOGOR,	// ||
+  CEL_TOKEN_LOGNOT,	// !
   CEL_TOKEN_BITAND,	// &
   CEL_TOKEN_BITOR,	// |
   CEL_TOKEN_BITXOR,	// ^
@@ -62,6 +63,7 @@ enum
   CEL_TOKEN_IDENTIFIER,	// identifier
   CEL_TOKEN_FUNCTION,	// <identifier>(
   CEL_TOKEN_FUNCTIONSCO,// <identifier>::<identifier>(
+  CEL_TOKEN_SCOPE,	// ::
 
   CEL_TOKEN_LAST
 };
@@ -78,6 +80,7 @@ enum
 #define CEL_PRIORITY_BITSHIFT 8
 #define CEL_PRIORITY_ADDSUB 9
 #define CEL_PRIORITY_MULTDIV 10
+#define CEL_PRIORITY_SCOPE 11
 
 /**
  * Skip white space.

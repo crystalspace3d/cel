@@ -1392,35 +1392,20 @@
 		<lvar name="ent" value="get_entity(x=@x,y=@y-1)" />
 		<if eval="#ent != ''">
 		    <true>
-		        <call entity="#ent" event="falldown">
-		            <par id="parid(dx)" value="0" />
-		            <par id="parid(dy)" value="1" />
-			    <return var="fallen" />
-			</call>
-			<if eval="?fallen"> <stop/> </if>
+		        <if eval="(#ent)::falldown(dx=0,dy=1)"> <stop /> </if>
 		    </true>
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
 		        <lvar name="ent" value="get_entity(x=@x-1,y=@y-1)" />
 		        <if eval="#ent != ''">
 		            <if eval="get_falloff(x=@x-1,y=@y)">
-		                <call entity="#ent" event="falldown">
-				    <par id="parid(dx)" value="1" />
-				    <par id="parid(dy)" value="1" />
-			    	    <return var="fallen" />
-				</call>
-				<if eval="?fallen"> <stop/> </if>
+			    	<if eval="(#ent)::falldown(dx=1,dy=1)"> <stop /> </if>
 		            </if>
 		        </if>
 		        <lvar name="ent" value="get_entity(x=@x+1,y=@y-1)" />
 		        <if eval="#ent != ''">
 		            <if eval="get_falloff(x=@x+1,y=@y)">
-		                <call entity="#ent" event="falldown">
-				    <par id="parid(dx)" value="-1" />
-				    <par id="parid(dy)" value="1" />
-			    	    <return var="fallen" />
-				</call>
-				<if eval="?fallen"> <stop/> </if>
+			    	<if eval="(#ent)::falldown(dx=-1,dy=1)"> <stop /> </if>
 		            </if>
 		        </if>
 		    </false>
@@ -1430,23 +1415,13 @@
 		    <lvar name="ent" value="get_entity(x=@x-1,y=@y)" />
 		    <if eval="#ent != ''">
 		        <if eval="get_falloff(x=@x-1,y=@y+1)">
-		            <call entity="#ent" event="falldown">
-				<par id="parid(dx)" value="1" />
-				<par id="parid(dy)" value="1" />
-			    	<return var="fallen" />
-			    </call>
-			    <if eval="?fallen"> <stop/> </if>
+			    <if eval="(#ent)::falldown(dx=1,dy=1)"> <stop /> </if>
 		        </if>
 		    </if>
 		    <lvar name="ent" value="get_entity(x=@x+1,y=@y)" />
 		    <if eval="#ent != ''">
 		        <if eval="get_falloff(x=@x+1,y=@y+1)">
-		            <call entity="#ent" event="falldown">
-				<par id="parid(dx)" value="-1" />
-				<par id="parid(dy)" value="1" />
-			    	<return var="fallen" />
-			    </call>
-			    <if eval="?fallen"> <stop/> </if>
+			    <if eval="(#ent)::falldown(dx=-1,dy=1)"> <stop /> </if>
 		        </if>
 		    </if>
 	    	</if>
@@ -1691,8 +1666,10 @@
 	      -->
 	    <event name="endmove">
 	    	<super />
-		<var entity="bdash_main" name="layer_movetox" value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
-		<var entity="bdash_main" name="layer_movetoy" value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
+		<var entity="bdash_main" name="layer_movetox"
+			value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
+		<var entity="bdash_main" name="layer_movetoy"
+			value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
 		<call entity="bdash_main" event="ifempty_checkfall">
 		    <par id="parid(x)" value="?oldx" />
 		    <par id="parid(y)" value="?oldy" />
@@ -1706,10 +1683,12 @@
 	    	<if eval="?dy==0">
 		    <if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy) == ''">
 		    	<lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
-			<var entity="#ent" name="dx" value="?dx" />
-			<var entity="#ent" name="dy" value="?dy" />
-			<call entity="#ent" event="startmove" />
-			<call event="startmove" />
+			<if eval="!?(#ent).moving">
+			    <var entity="#ent" name="dx" value="?dx" />
+			    <var entity="#ent" name="dy" value="?dy" />
+			    <call entity="#ent" event="startmove" />
+			    <call event="startmove" />
+		    	</if>
 		    </if>
 		</if>
 	    </event>
