@@ -343,6 +343,11 @@ bool CelTest::CreateRoom ()
 	"pcinventory",
   	(void*)0);
 
+  //===============================
+  // Engine init.
+  //===============================
+  engine->Prepare ();
+
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcRegion);
 #if MINIMAL
   pcregion->SetWorldFile ("/cel/data", "world");
@@ -364,12 +369,6 @@ bool CelTest::CreateRoom ()
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  //===============================
-  // Engine init.
-  //===============================
-  // @@@ CHECK LATER WHY THIS IS NEEDED!!!
-  engine->Prepare ();
 
   //===============================
   // Create the box entities.
