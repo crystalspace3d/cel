@@ -102,7 +102,6 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   angle_xz = angle_yz = _yz = _xz = 0.0;    // staring angles to the object (in radians)
   _dist = dist_y = 10.0;				// starting distance from the object
   alter_angle = alter_dist = false;
-  printf("dist_y(%f)\n", dist_y);
   DG_TYPE (this, "celPcCamera()");
 }
 
