@@ -241,6 +241,7 @@ public:
       return scfParent->GetJumpingVelocity ();
     }
   } scfiPcActorMove;
+  friend struct PcActorMove;
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__
