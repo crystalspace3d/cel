@@ -15,6 +15,9 @@ Depends maintainerclean : distclean ;
 
 # Enable msvcgen
 MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenConfig PYTHON.CFLAGS : "/D \"SWIG_GLOBAL\"" ;
+MsvcGenConfig PYTHON.LFLAGS ;
+MsvcGenConfig PYTHON.LIBS ;
 MsvcGenSubDir TOP msvc : 6 ;
 MsvcGenSubDir TOP msvc : 7 ;
 MsvcGenTemplateDir TOP mk msvcgen template ;

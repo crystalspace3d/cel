@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "appbootstrap"=msvc\appbootstrap.dsp - Package Owner=<4>
+Project: "appbootstrap"=appbootstrap.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -16,7 +16,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "appceltst"=msvc\appceltst.dsp - Package Owner=<4>
+Project: "appceltst"=appceltst.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -29,7 +29,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "grpall_cel"=msvc\grpall_cel.dsp - Package Owner=<4>
+Project: "grpall_cel"=grpall_cel.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -102,7 +102,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "grpapps_cel"=msvc\grpapps_cel.dsp - Package Owner=<4>
+Project: "grpapps_cel"=grpapps_cel.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -121,7 +121,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "grplibs_cel"=msvc\grplibs_cel.dsp - Package Owner=<4>
+Project: "grplibs_cel"=grplibs_cel.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -137,7 +137,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "grpplugins_cel"=msvc\grpplugins_cel.dsp - Package Owner=<4>
+Project: "grpplugins_cel"=grpplugins_cel.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -201,7 +201,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libceltool"=msvc\libceltool.dsp - Package Owner=<4>
+Project: "libceltool"=libceltool.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -214,7 +214,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgaddon_celentity"=msvc\plgaddon_celentity.dsp - Package Owner=<4>
+Project: "plgaddon_celentity"=plgaddon_celentity.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -227,7 +227,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgaddon_xmlscripts"=msvc\plgaddon_xmlscripts.dsp - Package Owner=<4>
+Project: "plgaddon_xmlscripts"=plgaddon_xmlscripts.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -240,7 +240,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgblpython"=msvc\plgblpython.dsp - Package Owner=<4>
+Project: "plgblpython"=plgblpython.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -253,7 +253,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgbltest"=msvc\plgbltest.dsp - Package Owner=<4>
+Project: "plgbltest"=plgbltest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -266,49 +266,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgblxml"=msvc\plgblxml.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name libceltool
-    End Project Dependency
-
-}}}
-
-###############################################################################
-
-Project: "plgcpersist"=msvc\plgcpersist.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-
-}}}
-
-###############################################################################
-
-Project: "plgmgr_billboard"=msvc\plgmgr_billboard.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-
-}}}
-
-###############################################################################
-
-Project: "plgpfbillboard"=msvc\plgpfbillboard.dsp - Package Owner=<4>
+Project: "plgblxml"=plgblxml.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -324,7 +282,33 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfdynmove"=msvc\plgpfdynmove.dsp - Package Owner=<4>
+Project: "plgcpersist"=plgcpersist.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+}}}
+
+###############################################################################
+
+Project: "plgmgr_billboard"=plgmgr_billboard.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+}}}
+
+###############################################################################
+
+Project: "plgpfbillboard"=plgpfbillboard.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -340,7 +324,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfengine"=msvc\plgpfengine.dsp - Package Owner=<4>
+Project: "plgpfdynmove"=plgpfdynmove.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -356,7 +340,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfinput"=msvc\plgpfinput.dsp - Package Owner=<4>
+Project: "plgpfengine"=plgpfengine.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -372,7 +356,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfinv"=msvc\plgpfinv.dsp - Package Owner=<4>
+Project: "plgpfinput"=plgpfinput.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -388,7 +372,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfmesh"=msvc\plgpfmesh.dsp - Package Owner=<4>
+Project: "plgpfinv"=plgpfinv.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -404,7 +388,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpfmove"=msvc\plgpfmove.dsp - Package Owner=<4>
+Project: "plgpfmesh"=plgpfmesh.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -420,7 +404,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpftest"=msvc\plgpftest.dsp - Package Owner=<4>
+Project: "plgpfmove"=plgpfmove.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -436,7 +420,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgpftools"=msvc\plgpftools.dsp - Package Owner=<4>
+Project: "plgpftest"=plgpftest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -452,7 +436,23 @@ Package=<4>
 
 ###############################################################################
 
-Project: "plgstdphyslayer"=msvc\plgstdphyslayer.dsp - Package Owner=<4>
+Project: "plgpftools"=plgpftools.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+
+}}}
+
+###############################################################################
+
+Project: "plgstdphyslayer"=plgstdphyslayer.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
