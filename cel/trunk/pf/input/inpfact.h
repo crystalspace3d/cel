@@ -43,6 +43,7 @@ struct celKeyMap
   celKeyMap* next, *prev;
   int key;
   char* command;
+  char* command_end;	// Points to 0 or 1 to indicate positive/negative cmd
   bool is_on;
 };
 

@@ -191,10 +191,10 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   if (entity)
   {
     bh = entity->GetBehaviour ();
-    if (bh) bh->SendMessage ("inv_addchild", child);
+    if (bh) bh->SendMessage ("pcinventory_addchild", child);
   }
   bh = child->GetBehaviour ();
-  if (bh) bh->SendMessage ("inv_added", entity);
+  if (bh) bh->SendMessage ("pcinventory_added", entity);
 
   return true;
 }
@@ -236,10 +236,10 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   if (entity)
   {
     bh = entity->GetBehaviour ();
-    if (bh) bh->SendMessage ("inv_removechild", child);
+    if (bh) bh->SendMessage ("pcinventory_removechild", child);
   }
   bh = child->GetBehaviour ();
-  if (bh) bh->SendMessage ("inv_removed", entity);
+  if (bh) bh->SendMessage ("pcinventory_removed", entity);
 
   child->DecRef ();
   if (pcchar) pcchar->DecRef ();
