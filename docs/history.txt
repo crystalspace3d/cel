@@ -3,6 +3,15 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Feb-2004
+	- Norman Kraemer modified Jamfile to fix reference of a non existent
+	  variable (PACKAGE.VERSION instead of PACKAGE_VERSION).
+          Furthermore action CelConfigGen created empty if/then/else
+	  branches in cel-config.
+	  He also modified cel.m4. Function CS_PATH_CEL sent it's parameters
+	  unembraced to CS_PATH_CEL_HELPER, so if, say, the FAILED-ACTION 
+	  block contains an errormessage which in turn contains commatas the
+	   resulting output (the configure script) will be royally screwed.
 18-Feb-2004
 	- Norman Kramer reported that the python scripts were still using
 	  VFS path celdata instead of cellib. Jorrit fixed it.
