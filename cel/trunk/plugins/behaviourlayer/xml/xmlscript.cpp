@@ -1084,7 +1084,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		const char* bstr = ArgToString (elb);
 		int alen = astr ? strlen (astr) : 0;
 		int blen = bstr ? strlen (bstr) : 0;
-		if (alen && blen)
+		if (alen || blen)
 		{
 		  if (!blen)
 	            stack[si].SetString (astr, true);
@@ -1092,7 +1092,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	            stack[si].SetString (bstr, true);
 		  else
 		  {
-		    char* str = new char[alen+blen];
+		    char* str = new char[alen+blen+1];
 		    strcpy (str, astr);
 		    strcpy (str+alen, bstr);
 	            stack[si].SetStringPrealloc (str);

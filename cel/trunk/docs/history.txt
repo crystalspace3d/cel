@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	  assumed.
 	- Jorrit added the 'entname' function to return the current name of
 	  the entity (XML behaviour layer).
+	- Jorrit fixed two bugs in string handling for the XML behaviour
+	  layer. One of these bugs could cause crashes. The other could cause
+	  wrong computations.
 7-Dec-2003
 	- Jorrit renamed the string ID's for properties from
 		cel.property.pccamera.bla
