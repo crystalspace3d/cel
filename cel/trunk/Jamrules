@@ -43,5 +43,3 @@ STATIC.PLUGINLIST =
     ;
 
 include $(TOP)/mk/jam/build.jam ;
-
-IncludeDir $(TOP) $(TOP)/include ;
