@@ -301,12 +301,12 @@
 	    <!--
 	      - Do the actual move. Subscripts can override this to
 	      - do additional stuff like check for collisions and so on.
-	      - Uses ?xx and ?yy parameters.
+	      - Uses @x and @y parameters.
 	      -->
 	    <event name="actualmove">
 		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="?xx" />
-	        <property id="propid(y)" value="?yy" />
+	        <property id="propid(x)" value="@x" />
+	        <property id="propid(y)" value="@y" />
 	    </event>
 
 	    <!--
@@ -315,9 +315,10 @@
 	      -->
 	    <event name="pctimer_wakeupframe">
 	        <if eval="?moving">
-	            <var name="xx" value="intpol(?delta,?srcx,?dstx)" />
-	            <var name="yy" value="intpol(?delta,?srcy,?dsty)" />
-		    <call event="actualmove" />
+		    <call event="actualmove">
+	                <par id="parid(x)" value="intpol(?delta,?srcx,?dstx)" />
+	                <par id="parid(y)" value="intpol(?delta,?srcy,?dsty)" />
+		    </call>
 		    <if eval="?delta>=1">
 		        <true>
 			    <var name="moving" value="false" />
@@ -1135,7 +1136,7 @@
 	      - script to set a block. Uses ?x and ?y for the position
 	      - of the block and ?blocktype for the block letter.
 	      - It also uses ?entity to set the entity at the block.
-	      - Uses parameters 'entity', 'blocktype', 'x', and 'y'.
+	      - Uses parameters @entity, @blocktype, @x, and @y.
 	      -->
 	    <event name="setblock">
 	    	<var name="x" value="@x" />
@@ -1160,7 +1161,7 @@
 	      - behaviour of the block. It expects that 'falldown' event
 	      - to set the 'fallen' variable to true if it really starts
 	      - falling down.
-	      - Uses parameters 'x' and 'y'.
+	      - Uses parameters @x and @y.
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
@@ -1235,10 +1236,13 @@
 
 	    <!--
 	      - Same as checkfall but also makes sure the block
-	      - at ?x,?y is really empty. If the block at ?x,?y
+	      - at @x,@y is really empty. If the block at @x,@y
 	      - has 'falloff' property then we also proceed.
+	      - Uses parameters @x and @y.
 	      -->
 	    <event name="ifempty_checkfall">
+	    	<var name="x" value="@x" />
+	    	<var name="y" value="@y" />
 	    	<var name="mazepos" value="?x+'_'+?y" />
 		<if eval="?(mazeent+?mazepos) == ''">
 		    <call event="checkfall">
@@ -1543,13 +1547,14 @@
 		    <par id="parid(x)" value="?oldx" />
 		    <par id="parid(y)" value="?oldy" />
 		</call>
-		<var entity="bdash_main" name="x" value="?x" />
-		<var entity="bdash_main" name="y" value="?y+1" />
+		<call entity="bdash_main" event="ifempty_checkfall">
+		    <par id="parid(x)" value="?x" />
+		    <par id="parid(y)" value="?y+1" />
+		</call>
 		<!-- <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
 		    <sound name="click" loop="false" />
 		</if>
 		-->
-		<call entity="bdash_main" event="ifempty_checkfall" />
 	    </event>
 
 	    <!--
