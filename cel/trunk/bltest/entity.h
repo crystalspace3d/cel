@@ -17,36 +17,27 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_BLTEST_BL__
-#define __CEL_BLTEST_BL__
+#ifndef __CEL_BL_ENTITY__
+#define __CEL_BL_ENTITY__
 
-#include "iutil/comp.h"
-#include "bl/bl.h"
+#include "cstypes.h"
+#include "csutil/scf.h"
 
-struct iObjectRegistry;
+struct iCelMessage;
+
+SCF_VERSION (iCelBlEntity, 0, 0, 1);
 
 /**
- * This is the Behaviour Layer itself.
+ * This is an entity in the CEL layer at the BL (behaviour layer) side.
  */
-class celBlTest : public iCelBlLayer
+struct iCelBlEntity : public iBase
 {
-private:
-public:
-  celBlTest (iBase* parent);
-  virtual ~celBlTest ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
-
-  virtual iCelBlEntity* CreateBlEntity (const char* name);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBlTest);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
+  /**
+   * Send a message to this entity. Returns true if the
+   * message was understood and handled by the entity.
+   */
+  virtual bool SendMessage (iCelMessage* msg) = 0;
 };
 
-#endif // __CEL_BLTEST_BL__
+#endif // __CEL_BL_ENTITY__
 

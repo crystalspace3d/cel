@@ -25,4 +25,6 @@
 	- 'celtest' now loads the three CEL plugins (plimp, bltest, and
 	  pftest) and uses them. It all seems to work nicely but there is
 	  no real functionality yet.
+	- Added 'name' parameter to iCelBlLayer::CreateBlEntity().
+	- Started adding support for 'printer' behaviour entity in 'bltest'.
 
