@@ -6,6 +6,12 @@ The history order is reversed so that new features are at the top.
 9-Jul-2004
 	- Jorrit added a new CEL_DATA_IBASE type to celData so that you
 	  can store generic iBase pointers in a celData.
+	- Jorrit changed the pczonemanager property class so that it now
+	  sends 'pczonemanager_addregion' and 'pczonemanager_remregion'
+	  messages to the behaviour in addition to the callback system
+	  when new regions are loaded or unloaded. After Crystal Core
+	  is fixed to use this instead of the callbacks the callback
+	  system will be removed.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

@@ -33,6 +33,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
+#include "celtool/stdparams.h"
 #include "propclass/camera.h"
 #include "propclass/zone.h"
 #include "iengine/camera.h"
@@ -201,6 +202,9 @@ private:
   csRefArray<iCelZoneCallback> callbacks;
   csRefArray<celZone> zones;
   csRefArray<celRegion> regions;
+
+  static csStringID id_region;
+  celOneParameterBlock* params;
 
   // Activate some region. This will load all zones that contain
   // the given region and unload all other zones. It is safe to call
