@@ -26,7 +26,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="1"
-				AdditionalOptions=""
+				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
 				AdditionalIncludeDirectories=".,..,..\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
@@ -95,7 +95,7 @@ copy &quot;$(TargetPath)&quot; ..
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="1"
-				AdditionalOptions=""
+				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
 				AdditionalIncludeDirectories=".,..,..\include"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
@@ -170,6 +170,9 @@ copy &quot;$(TargetPath)&quot; ..
 			Filter="">
 			<File
 				RelativePath="..\msvc\plgpfmesh.rc">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\mesh\pfmesh.csplugin">
 			</File>
 
 		</Filter>
