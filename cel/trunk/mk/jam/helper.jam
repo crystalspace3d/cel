@@ -45,8 +45,7 @@ if $(CP) = "cp -f" || $(CP[1]) = "cp" && $(CP[2]) = "-f"
 ##    mutually exclusive.  You may invoke this rule multiple times to specify
 ##    any number of header file directories.
 ##    Options:
-##	literal: "dir" is to be used literally without any interpretation. This
-##	    option implies `ignoresubdir'.
+##	literal: "dir" is to be used literally without any interpretation.
 ##	transient: "dir" is to be used at build-time only; and should not be
 ##	    recorded in any generated resources, such as project files.
 ##
@@ -93,11 +92,14 @@ rule Wildcard
   local files dir sdir wildcards ;
   
   # Is a directory given?
-  if $(>) {
+  if $(>)
+  {
     dir = $(<)/ ;
     sdir = $(<) ;
     wildcards = $(>) ;
-  } else {
+  }
+  else
+  {
     dir = "" ;
     sdir = "" ;
     wildcards = $(<) ;
@@ -108,7 +110,7 @@ rule Wildcard
   return $(files:BSR=$(sdir)) ;
 }
 
-##  Recurse rule : types [ : prefix ]
+##  Recurse [ rule ] : types [ : prefix ]
 ##    Recursively scan current directory, $(SUBDIR), for files matching 'types'
 ##    and invoke 'rule' for each file which matches one of the 'types'.
 ##    'types' is a list of file extensions (with the leading dot).  'rule' will
@@ -118,29 +120,37 @@ rule Wildcard
 ##    value of the directory containing the file (as if the rule had been
 ##    invoked from within the file's directory).  'prefix' is an optional list
 ##    of path components which will be prepended to rule's second argument.
+##    Returns the list of visited files.  It is legal to omit 'rule', if you
+##    are interested only in obtaining the list of files matching 'types'.
 rule Recurse
 {
   local innerrule = $(1) ;
   local types = $(2) ;
   local prefix = $(3) ;
   local files = [ GLOB $(SUBDIR) : * ] ;
+  local visited ;
   
   local i ;
   for i in $(files)
   {
     if [ IsElem $(i:S) : $(types) ]
     {
-      $(innerrule) $(i:BS) : $(prefix) ;
+      visited += [ FDirName $(prefix) $(i:BS) ] ;
+      if $(innerrule)
+      {
+        $(innerrule) $(i:BS) : $(prefix) ;
+      }
     }
     else
     {
       if ! [ IsElem $(i:BS) : $(DOT) $(DOTDOT) ]
       {
         local SUBDIR = $(i) ; # Called rules see this new temporary value.
-	Recurse $(innerrule) : $(types) : $(prefix) $(i:BS) ;
+	visited += [ Recurse $(innerrule) : $(types) : $(prefix) $(i:BS) ] ;
       }
     }
   }
+  return $(visited) ;
 }
 
 ##  ResponseFile file : [ items [ : options [ : directory [ : delim ]]]]
@@ -179,7 +189,7 @@ rule ResponseFile
   local dir = $(4) ;
   local delim = $(5) ;
 
-  CheckOptions notfile : $(options) : $(dir) ;
+  CheckOptions notfile : $(options) : $(file) ;
 
   if ! $(delim) { delim = "@" ; }
   DELIM on $(file) = $(delim) ;
@@ -231,6 +241,148 @@ actions piecemeal together quietly ResponseFile2
 {
   echo '$(>)$(DELIM)' | sed 's/$(DELIM) /$(DELIM)/g' | tr '$(DELIM)' '
 ' >> $(<)
+}
+
+##  Sort list
+##    Given a list of items, returns a list containing the items sorted
+##    alphabetically.
+rule Sort
+{
+  local i sorted ;
+  for i in $(<)
+  {
+    local inserted = no ;
+    local j accum ;
+    for j in $(sorted)
+    {
+      if $(inserted) != yes && $(i:L) < $(j:L)
+      {
+        accum += $(i) ;
+        inserted = yes ;
+      }
+      accum += $(j) ;
+    }
+    if $(inserted) != yes
+    {
+      accum += $(i) ;
+    }
+    sorted = $(accum) ;
+  }
+  return $(sorted) ;
+}
+
+##  MasterHeader header [ : files [ : pre-boilerplate [ : post-boilerplate
+##                      [ : options ]]]]
+##    Given a list of 'files', construct a 'header' file which #includes those
+##    files. If 'header' does not already have a suffix, ".h" will be
+##    appended. The generated header will be emitted to $(LOCATE_TARGET), and
+##    will be protected against multiple-inclusion via the standard
+##    #ifndef __HEADER_H__ / #define / #endif mechanism. If provided,
+##    'pre-boilerplate' will be inserted verbatim immediately after the opening
+##    multiple-inclusion protection, but before the first #include. Likewise,
+##    'post-boilerplate' will be inserted verbatim after the last #include, but
+##    before the closing multiple-inclusion protection. If the boilerplate
+##    arguments are lists, the items will be emitted one per line.  'files'
+##    is sorted before the #include statements are generated, unless the
+##    "nosort" option is given. For convenience, the gristed 'header' is
+##    returned. Also sets up the following pseudo-targets:
+##
+##      masterheaders: Synthesize all requested master headers.
+##      cleanmasterheaders: Delete synthesized files.
+##      freezemasterheaders: Copy synthesized files to back into the source
+##        tree at $(SUBDIR).
+##
+##    Options:
+##      nosort: Do not sort 'files'.
+rule MasterHeader
+{
+  local header = [ FAppendSuffix $(1) : .h ] ;
+  local files = $(2) ;
+  local boilerpre = $(3) ;
+  local boilerpost = $(4) ;
+  local options = $(5) ;
+  local target = $(header:G=masterheader) ;
+  local protect = "__$(header:US=)_H__" ;
+
+  CheckOptions nosort : $(options) : $(header) ;
+  if ! [ IsElem nosort : $(options) ]
+  {
+    files = [ Sort $(files) ] ;
+  }
+
+  Always $(target) ;
+  ResponseFile $(target) :
+    "/* $(header) -- Generated automatically; do not edit. */"
+    "#ifndef $(protect)"
+    "#define $(protect)"
+    $(boilerpre)
+    "#include \"$(files)\""
+    $(boilerpost)
+    "#endif /* $(protect) */"
+    : notfile ;
+  Depends masterheaders : $(target) ;
+  Clean cleanmasterheaders : $(target) ;
+  Clean clean : cleanmasterheaders ;
+
+  local frozen = $(target:G=frozenmasterheader) ;
+  MakeLocate $(frozen) : $(SUBDIR) ;
+  Depends $(frozen) : $(target) ;
+  Copy $(frozen) : $(target) ;
+  Depends freezemasterheaders : $(frozen) ;
+
+  if $(MASTER_HEADER_GLOBAL_TARGETS) != yes
+  {
+    MASTER_HEADER_GLOBAL_TARGETS = yes ;
+
+    Always masterheaders ;
+    NotFile masterheaders ;
+    Help masterheaders : "Generate master header files" ;
+
+    Always freezemasterheaders ;
+    NotFile freezemasterheaders ;
+    Help freezemasterheaders :
+      "Copy generated master headers to source tree" ;
+  }
+
+  return $(target) ;
+}
+
+##  DirectoryMasterHeaders dirs [ : pre-boilerplate [ : post-boilerplate
+##                              [ : options [ : rejects ]]]]
+##    A convenience wrapper around MasterHeader which generates a set of master
+##    header files for each directory in 'dirs', which are assumed to be
+##    subdirectories of the current directory. For each item in 'dirs', the
+##    subdirectory is recursively scanned for files, and MasterHeader is
+##    invoked with the gleaned file list. The generated header for a directory
+##    is emitted to the current directory; not within the subdirectory.  The
+##    optional 'rejects' is a list of header files which should not be emitted
+##    to the synthesized master headers.  'pre-boilerplate',
+##    'post-boilerplate', and 'options' carry the same interpretation as for
+##    MasterHeader.
+rule DirectoryMasterHeaders
+{
+  local dirs = $(1) ;
+  local boilerpre = $(2) ;
+  local boilerpost = $(3) ;
+  local options = $(4) ;
+  local rejects = $(5) ;
+  local masters ;
+  local d ;
+  for d in $(dirs)
+  {
+    local files ;
+    {
+      local SUBDIR = [ ConcatDirs $(SUBDIR) $(d) ] ; # Recurse from here...
+      files = [ Recurse : .h : $(d) ] ;
+    }
+    if $(rejects)
+    {
+      files = [ Filter $(files) : $(rejects) ] ;
+    }
+    masters += [ MasterHeader $(d) : $(files) : $(boilerpre) : $(boilerpost) :
+      $(options) ] ;
+  }
+  return $(masters) ;
 }
 
 ##  Prefix list : prefix
