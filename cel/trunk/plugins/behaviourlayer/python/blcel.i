@@ -412,26 +412,42 @@ CEL_PC(iPcCommandInput, CommandInput, pckeyinput)
 
 struct iPcLinearMovement : public iBase
 {
-  virtual void SetRotation (const csVector3& angle) = 0;
+  virtual void SetAngularVelocity (const csVector3& angle) = 0;
+  virtual void SetAngularVelocity (const csVector3& angle,
+  	const csVector3& angle_to_reach) = 0;
   virtual void SetSpeed (float speedZ) = 0;
-  virtual void SetCameraPitchSpeed (float angle) = 0;
   virtual void SetVelocity (const csVector3& vel) = 0;
-  virtual void GetVelocity (csVector3& v) = 0;
-  virtual bool InitCD (const csVector3& body, const csVector3& shift,
-  	const csVector3& shift)=0;
-  virtual bool InitCD () = 0;
-  virtual csPtr<iDataBuffer> GetDRData() = 0;
-  virtual bool SetDRData (iDataBuffer* data, bool detectcheat) = 0;
-  virtual bool NeedDRData (uint8& priority) = 0;
+  virtual void GetVelocity (csVector3& v) const = 0;
+  virtual void GetAngularVelocity (csVector3& v) const = 0;
+  virtual bool InitCD (const csVector3& body, const csVector3& legs,
+  	const csVector3& shift,iPcCollisionDetection *pc_cd=0)=0;
+  virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;
+  virtual void GetDRData(bool& on_ground,
+                         float& speed,
+                         csVector3& pos,
+                         float& yrot,
+                         iSector*& sector,
+                         csVector3& vel,
+                         float& ang_vel) = 0;
+  virtual void SetDRData(bool on_ground,float speed,
+                         csVector3& pos,float yrot,iSector *sector,
+                         csVector3& vel,float ang_vel) = 0;
   virtual void SetPosition (const csVector3& pos, float yrot,
   	const iSector* sector) = 0;
   virtual void GetLastPosition (csVector3& pos, float& yrot,
   	iSector*& sector) = 0;
+  virtual bool IsPath() const = 0;
   virtual iSector* GetSector () = 0;
-  virtual void SetReady (bool flag) = 0;    
-  virtual bool IsReady() const = 0;    
-  virtual bool IsOnGround () const = 0;
   virtual void ExtrapolatePosition (float delta) = 0;
+  virtual void UpdateDRDelta (csTicks ticksdelta) = 0;
+  virtual void UpdateDR (csTicks ticks) = 0;
+  virtual void SetPath (iPath *newpath) = 0;
+  virtual void SetPathTime (float timeval) = 0;
+  virtual void SetPathSpeed (float speed) = 0;
+  virtual void SetPathAction (int which, const char *action) = 0;
+  virtual void SetPathSector (const char *sectorname) = 0;
+  virtual bool IsOnGround () const = 0;
+  virtual void SetDeltaLimit(float deltaLimit) = 0;
 };
 
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
@@ -443,20 +459,28 @@ struct iPcCamera : public iBase
   enum CameraMode
   {
     freelook = 0,
-    follow,
-    rotational,
-    firstperson
+    firstperson,
+    thirdperson,
+    m64_thirdperson,
+    lara_thirdperson
   };
   virtual bool SetRegion (iPcRegion* region, bool point = true,
       const char* name = 0) = 0;
+  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+      const char* regionname, const char* name = 0) = 0;
   virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
   virtual CameraMode GetMode () const = 0;
-  virtual void SetFollowPos (const csVector3& fp, const csVector3& at) = 0;
-  virtual void GetFollowPos (csVector3& fp, csVector3& at) const = 0;
-  virtual void SetPitch(float angle) = 0;
-  virtual float GetPitch() = 0;
-  virtual void SetRoll(float angle) = 0;
-  virtual float GetRoll() = 0;
+  virtual bool SetModeName (const char* m, bool use_cd = true) = 0;
+  virtual const char* GetModeName () const = 0;
+  virtual CameraMode GetNextMode () const = 0;
+  virtual void SetSpringParameters (float springCoef,
+  	float intertialDampeningCoef, float springLength) = 0;
+  virtual void SetMinMaxCameraDistance (float minDistance,
+  	float maxDistance) = 0;
+  virtual void SetTurnSpeed (float turnSpeed) = 0;
+  virtual void SetSwingCoef (float swingCoef) = 0;
+  virtual void SetFirstPersonOffset (const csVector3& offset) = 0;
+  virtual void SetThirdPersonOffset (const csVector3& offset) = 0;
   virtual void SetRectangle (int x, int y, int w, int h) = 0;
   virtual iCamera* GetCamera () const = 0;
   virtual iView* GetView () const = 0;
@@ -464,6 +488,16 @@ struct iPcCamera : public iBase
   virtual bool GetClearZBuffer () const = 0;
   virtual void SetClearScreen (bool flag) = 0;
   virtual bool GetClearScreen () const = 0;
+  virtual void DisableDistanceClipping () = 0;
+  virtual void EnableFixedDistanceClipping (float dist) = 0;
+  virtual void EnableAdaptiveDistanceClipping (float min_fps,
+	float max_fps, float min_dist) = 0;
+  virtual bool UseDistanceClipping () const = 0;
+  virtual bool UseFixedDistanceClipping () const = 0;
+  virtual float GetFixedDistance () const = 0;
+  virtual float GetAdaptiveMinFPS () const = 0;
+  virtual float GetAdaptiveMaxFPS () const = 0;
+  virtual float GetAdaptiveMinDistance () const = 0;
 };
 
 CEL_PC(iPcCamera, Camera, pccamera)
