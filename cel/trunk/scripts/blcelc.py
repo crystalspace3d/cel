@@ -3568,6 +3568,173 @@ class iMeshObjectTypePtr(iMeshObjectType):
 _blcelc.iMeshObjectType_swigregister(iMeshObjectTypePtr)
 iMeshObjectType_VERSION = cvar.iMeshObjectType_VERSION
 
+class csSprite2DVertex(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csSprite2DVertex, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csSprite2DVertex, name)
+    __swig_setmethods__["pos"] = _blcelc.csSprite2DVertex_pos_set
+    __swig_getmethods__["pos"] = _blcelc.csSprite2DVertex_pos_get
+    if _newclass:pos = property(_blcelc.csSprite2DVertex_pos_get,_blcelc.csSprite2DVertex_pos_set)
+    __swig_setmethods__["color_init"] = _blcelc.csSprite2DVertex_color_init_set
+    __swig_getmethods__["color_init"] = _blcelc.csSprite2DVertex_color_init_get
+    if _newclass:color_init = property(_blcelc.csSprite2DVertex_color_init_get,_blcelc.csSprite2DVertex_color_init_set)
+    __swig_setmethods__["color"] = _blcelc.csSprite2DVertex_color_set
+    __swig_getmethods__["color"] = _blcelc.csSprite2DVertex_color_get
+    if _newclass:color = property(_blcelc.csSprite2DVertex_color_get,_blcelc.csSprite2DVertex_color_set)
+    __swig_setmethods__["u"] = _blcelc.csSprite2DVertex_u_set
+    __swig_getmethods__["u"] = _blcelc.csSprite2DVertex_u_get
+    if _newclass:u = property(_blcelc.csSprite2DVertex_u_get,_blcelc.csSprite2DVertex_u_set)
+    __swig_setmethods__["v"] = _blcelc.csSprite2DVertex_v_set
+    __swig_getmethods__["v"] = _blcelc.csSprite2DVertex_v_get
+    if _newclass:v = property(_blcelc.csSprite2DVertex_v_get,_blcelc.csSprite2DVertex_v_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csSprite2DVertex, 'this', apply(_blcelc.new_csSprite2DVertex,args))
+        _swig_setattr(self, csSprite2DVertex, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csSprite2DVertex):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csSprite2DVertex instance at %s>" % (self.this,)
+
+class csSprite2DVertexPtr(csSprite2DVertex):
+    def __init__(self,this):
+        _swig_setattr(self, csSprite2DVertex, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csSprite2DVertex, 'thisown', 0)
+        _swig_setattr(self, csSprite2DVertex,self.__class__,csSprite2DVertex)
+_blcelc.csSprite2DVertex_swigregister(csSprite2DVertexPtr)
+
+iSprite2DUVAnimationFrame_scfGetID = _blcelc.iSprite2DUVAnimationFrame_scfGetID
+
+class iSprite2DUVAnimationFrame(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSprite2DUVAnimationFrame, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSprite2DUVAnimationFrame, name)
+    def SetName(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_SetName,args)
+    def GetName(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_GetName,args)
+    def GetUVCoo(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_GetUVCoo,args)
+    def GetUVCount(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_GetUVCount,args)
+    def SetUV(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_SetUV,args)
+    def SetFrameData(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_SetFrameData,args)
+    def RemoveUV(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_RemoveUV,args)
+    def GetDuration(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_GetDuration,args)
+    def SetDuration(*args): return apply(_blcelc.iSprite2DUVAnimationFrame_SetDuration,args)
+    def __del__(self, destroy= _blcelc.delete_iSprite2DUVAnimationFrame):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSprite2DUVAnimationFrame instance at %s>" % (self.this,)
+
+class iSprite2DUVAnimationFramePtr(iSprite2DUVAnimationFrame):
+    def __init__(self,this):
+        _swig_setattr(self, iSprite2DUVAnimationFrame, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DUVAnimationFrame, 'thisown', 0)
+        _swig_setattr(self, iSprite2DUVAnimationFrame,self.__class__,iSprite2DUVAnimationFrame)
+_blcelc.iSprite2DUVAnimationFrame_swigregister(iSprite2DUVAnimationFramePtr)
+iSprite2DUVAnimationFrame_VERSION = cvar.iSprite2DUVAnimationFrame_VERSION
+
+iSprite2DUVAnimation_scfGetID = _blcelc.iSprite2DUVAnimation_scfGetID
+
+class iSprite2DUVAnimation(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSprite2DUVAnimation, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSprite2DUVAnimation, name)
+    def SetName(*args): return apply(_blcelc.iSprite2DUVAnimation_SetName,args)
+    def GetName(*args): return apply(_blcelc.iSprite2DUVAnimation_GetName,args)
+    def GetFrameCount(*args): return apply(_blcelc.iSprite2DUVAnimation_GetFrameCount,args)
+    def GetFrame(*args): return apply(_blcelc.iSprite2DUVAnimation_GetFrame,args)
+    def CreateFrame(*args): return apply(_blcelc.iSprite2DUVAnimation_CreateFrame,args)
+    def MoveFrame(*args): return apply(_blcelc.iSprite2DUVAnimation_MoveFrame,args)
+    def RemoveFrame(*args): return apply(_blcelc.iSprite2DUVAnimation_RemoveFrame,args)
+    def __del__(self, destroy= _blcelc.delete_iSprite2DUVAnimation):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSprite2DUVAnimation instance at %s>" % (self.this,)
+
+class iSprite2DUVAnimationPtr(iSprite2DUVAnimation):
+    def __init__(self,this):
+        _swig_setattr(self, iSprite2DUVAnimation, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DUVAnimation, 'thisown', 0)
+        _swig_setattr(self, iSprite2DUVAnimation,self.__class__,iSprite2DUVAnimation)
+_blcelc.iSprite2DUVAnimation_swigregister(iSprite2DUVAnimationPtr)
+iSprite2DUVAnimation_VERSION = cvar.iSprite2DUVAnimation_VERSION
+
+iSprite2DFactoryState_scfGetID = _blcelc.iSprite2DFactoryState_scfGetID
+
+class iSprite2DFactoryState(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSprite2DFactoryState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSprite2DFactoryState, name)
+    def SetMaterialWrapper(*args): return apply(_blcelc.iSprite2DFactoryState_SetMaterialWrapper,args)
+    def GetMaterialWrapper(*args): return apply(_blcelc.iSprite2DFactoryState_GetMaterialWrapper,args)
+    def SetMixMode(*args): return apply(_blcelc.iSprite2DFactoryState_SetMixMode,args)
+    def GetMixMode(*args): return apply(_blcelc.iSprite2DFactoryState_GetMixMode,args)
+    def SetLighting(*args): return apply(_blcelc.iSprite2DFactoryState_SetLighting,args)
+    def HasLighting(*args): return apply(_blcelc.iSprite2DFactoryState_HasLighting,args)
+    def GetUVAnimationCount(*args): return apply(_blcelc.iSprite2DFactoryState_GetUVAnimationCount,args)
+    def CreateUVAnimation(*args): return apply(_blcelc.iSprite2DFactoryState_CreateUVAnimation,args)
+    def RemoveUVAnimation(*args): return apply(_blcelc.iSprite2DFactoryState_RemoveUVAnimation,args)
+    def GetUVAnimation(*args): return apply(_blcelc.iSprite2DFactoryState_GetUVAnimation,args)
+    def __del__(self, destroy= _blcelc.delete_iSprite2DFactoryState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSprite2DFactoryState instance at %s>" % (self.this,)
+
+class iSprite2DFactoryStatePtr(iSprite2DFactoryState):
+    def __init__(self,this):
+        _swig_setattr(self, iSprite2DFactoryState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DFactoryState, 'thisown', 0)
+        _swig_setattr(self, iSprite2DFactoryState,self.__class__,iSprite2DFactoryState)
+_blcelc.iSprite2DFactoryState_swigregister(iSprite2DFactoryStatePtr)
+iSprite2DFactoryState_VERSION = cvar.iSprite2DFactoryState_VERSION
+
+class iSprite2DState(iSprite2DFactoryState):
+    __swig_setmethods__ = {}
+    for _s in [iSprite2DFactoryState]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSprite2DState, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iSprite2DFactoryState]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iSprite2DState, name)
+    def GetVertices(*args): return apply(_blcelc.iSprite2DState_GetVertices,args)
+    def CreateRegularVertices(*args): return apply(_blcelc.iSprite2DState_CreateRegularVertices,args)
+    def SetUVAnimation(*args): return apply(_blcelc.iSprite2DState_SetUVAnimation,args)
+    def StopUVAnimation(*args): return apply(_blcelc.iSprite2DState_StopUVAnimation,args)
+    def PlayUVAnimation(*args): return apply(_blcelc.iSprite2DState_PlayUVAnimation,args)
+    def GetVertexByIndex(*args): return apply(_blcelc.iSprite2DState_GetVertexByIndex,args)
+    def __del__(self, destroy= _blcelc.delete_iSprite2DState):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iSprite2DState instance at %s>" % (self.this,)
+
+class iSprite2DStatePtr(iSprite2DState):
+    def __init__(self,this):
+        _swig_setattr(self, iSprite2DState, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iSprite2DState, 'thisown', 0)
+        _swig_setattr(self, iSprite2DState,self.__class__,iSprite2DState)
+_blcelc.iSprite2DState_swigregister(iSprite2DStatePtr)
+iSprite2DState_VERSION = cvar.iSprite2DState_VERSION
+
 CS_SPR_LIGHTING_HQ = _blcelc.CS_SPR_LIGHTING_HQ
 CS_SPR_LIGHTING_LQ = _blcelc.CS_SPR_LIGHTING_LQ
 CS_SPR_LIGHTING_FAST = _blcelc.CS_SPR_LIGHTING_FAST
@@ -4151,9 +4318,33 @@ class iPolygonTexturePtr(iPolygonTexture):
 _blcelc.iPolygonTexture_swigregister(iPolygonTexturePtr)
 iPolygonTexture_VERSION = cvar.iPolygonTexture_VERSION
 
-CS_LOADER_NOCOMPRESS = _blcelc.CS_LOADER_NOCOMPRESS
-CS_LOADER_NOBSP = _blcelc.CS_LOADER_NOBSP
-CS_LOADER_NOTRANSFORM = _blcelc.CS_LOADER_NOTRANSFORM
+iLoaderStatus_scfGetID = _blcelc.iLoaderStatus_scfGetID
+
+class iLoaderStatus(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iLoaderStatus, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iLoaderStatus, name)
+    def IsReady(*args): return apply(_blcelc.iLoaderStatus_IsReady,args)
+    def IsError(*args): return apply(_blcelc.iLoaderStatus_IsError,args)
+    def __del__(self, destroy= _blcelc.delete_iLoaderStatus):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iLoaderStatus instance at %s>" % (self.this,)
+
+class iLoaderStatusPtr(iLoaderStatus):
+    def __init__(self,this):
+        _swig_setattr(self, iLoaderStatus, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iLoaderStatus, 'thisown', 0)
+        _swig_setattr(self, iLoaderStatus,self.__class__,iLoaderStatus)
+_blcelc.iLoaderStatus_swigregister(iLoaderStatusPtr)
+iLoaderStatus_VERSION = cvar.iLoaderStatus_VERSION
+
 class iLoader(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -4161,11 +4352,11 @@ class iLoader(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iLoader, name)
-    def SetMode(*args): return apply(_blcelc.iLoader_SetMode,args)
     def LoadImage(*args): return apply(_blcelc.iLoader_LoadImage,args)
     def LoadTexture(*args): return apply(_blcelc.iLoader_LoadTexture,args)
     def LoadSoundData(*args): return apply(_blcelc.iLoader_LoadSoundData,args)
     def LoadSound(*args): return apply(_blcelc.iLoader_LoadSound,args)
+    def ThreadedLoadMapFile(*args): return apply(_blcelc.iLoader_ThreadedLoadMapFile,args)
     def LoadMapFile(*args): return apply(_blcelc.iLoader_LoadMapFile,args)
     def LoadLibraryFile(*args): return apply(_blcelc.iLoader_LoadLibraryFile,args)
     def LoadMeshObjectFactory(*args): return apply(_blcelc.iLoader_LoadMeshObjectFactory,args)
@@ -4801,8 +4992,8 @@ class iVirtualClockPtr(iVirtualClock):
 _blcelc.iVirtualClock_swigregister(iVirtualClockPtr)
 iVirtualClock_VERSION = cvar.iVirtualClock_VERSION
 
-CS_MUSCLE_PROTOCOL = _blcelc.CS_MUSCLE_PROTOCOL
 CS_CRYSTAL_PROTOCOL = _blcelc.CS_CRYSTAL_PROTOCOL
+CS_MUSCLE_PROTOCOL = _blcelc.CS_MUSCLE_PROTOCOL
 CS_XML_PROTOCOL = _blcelc.CS_XML_PROTOCOL
 class csEventKeyData(_object):
     __swig_setmethods__ = {}
@@ -4940,12 +5131,6 @@ class csEventNetworkData(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, csEventNetworkData, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csEventNetworkData, name)
-    __swig_setmethods__["From"] = _blcelc.csEventNetworkData_From_set
-    __swig_getmethods__["From"] = _blcelc.csEventNetworkData_From_get
-    if _newclass:From = property(_blcelc.csEventNetworkData_From_get,_blcelc.csEventNetworkData_From_set)
-    __swig_setmethods__["Data"] = _blcelc.csEventNetworkData_Data_set
-    __swig_getmethods__["Data"] = _blcelc.csEventNetworkData_Data_get
-    if _newclass:Data = property(_blcelc.csEventNetworkData_Data_get,_blcelc.csEventNetworkData_Data_set)
     def __init__(self,*args):
         _swig_setattr(self, csEventNetworkData, 'this', apply(_blcelc.new_csEventNetworkData,args))
         _swig_setattr(self, csEventNetworkData, 'thisown', 1)
@@ -8104,33 +8289,6 @@ class iConsoleOutputPtr(iConsoleOutput):
 _blcelc.iConsoleOutput_swigregister(iConsoleOutputPtr)
 iConsoleOutput_VERSION = cvar.iConsoleOutput_VERSION
 
-class iScript(iBase):
-    __swig_setmethods__ = {}
-    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iScript, name, value)
-    __swig_getmethods__ = {}
-    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iScript, name)
-    def Initialize(*args): return apply(_blcelc.iScript_Initialize,args)
-    def RunText(*args): return apply(_blcelc.iScript_RunText,args)
-    def LoadModule(*args): return apply(_blcelc.iScript_LoadModule,args)
-    def Store(*args): return apply(_blcelc.iScript_Store,args)
-    def __del__(self, destroy= _blcelc.delete_iScript):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    def __init__(self): raise RuntimeError, "No constructor defined"
-    def __repr__(self):
-        return "<C iScript instance at %s>" % (self.this,)
-
-class iScriptPtr(iScript):
-    def __init__(self,this):
-        _swig_setattr(self, iScript, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, iScript, 'thisown', 0)
-        _swig_setattr(self, iScript,self.__class__,iScript)
-_blcelc.iScript_swigregister(iScriptPtr)
-iScript_VERSION = cvar.iScript_VERSION
-
 iParameterESM_scfGetID = _blcelc.iParameterESM_scfGetID
 
 class iParameterESM(iBase):
@@ -8375,6 +8533,35 @@ class iNetworkPacketPtr(iNetworkPacket):
 _blcelc.iNetworkPacket_swigregister(iNetworkPacketPtr)
 iNetworkPacket_VERSION = cvar.iNetworkPacket_VERSION
 
+iNetworkPacket2_scfGetID = _blcelc.iNetworkPacket2_scfGetID
+
+class iNetworkPacket2(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iNetworkPacket2, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iNetworkPacket2, name)
+    def Read(*args): return apply(_blcelc.iNetworkPacket2_Read,args)
+    def Write(*args): return apply(_blcelc.iNetworkPacket2_Write,args)
+    def New(*args): return apply(_blcelc.iNetworkPacket2_New,args)
+    def FilterSocket(*args): return apply(_blcelc.iNetworkPacket2_FilterSocket,args)
+    def __del__(self, destroy= _blcelc.delete_iNetworkPacket2):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iNetworkPacket2 instance at %s>" % (self.this,)
+
+class iNetworkPacket2Ptr(iNetworkPacket2):
+    def __init__(self,this):
+        _swig_setattr(self, iNetworkPacket2, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iNetworkPacket2, 'thisown', 0)
+        _swig_setattr(self, iNetworkPacket2,self.__class__,iNetworkPacket2)
+_blcelc.iNetworkPacket2_swigregister(iNetworkPacket2Ptr)
+iNetworkPacket2_VERSION = cvar.iNetworkPacket2_VERSION
+
 class iNetworkManager(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8382,6 +8569,9 @@ class iNetworkManager(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iNetworkManager, name)
+    def RegisterConnection(*args): return apply(_blcelc.iNetworkManager_RegisterConnection,args)
+    def RegisterListener(*args): return apply(_blcelc.iNetworkManager_RegisterListener,args)
+    def UnregisterEndPoint(*args): return apply(_blcelc.iNetworkManager_UnregisterEndPoint,args)
     def RegisterConnectedSocket(*args): return apply(_blcelc.iNetworkManager_RegisterConnectedSocket,args)
     def UnregisterConnectedSocket(*args): return apply(_blcelc.iNetworkManager_UnregisterConnectedSocket,args)
     def RegisterListeningSocket(*args): return apply(_blcelc.iNetworkManager_RegisterListeningSocket,args)
@@ -8503,7 +8693,9 @@ class iNetworkConnection(iNetworkEndPoint):
     for _s in [iNetworkEndPoint]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iNetworkConnection, name)
     def Send(*args): return apply(_blcelc.iNetworkConnection_Send,args)
+    def IsConnected(*args): return apply(_blcelc.iNetworkConnection_IsConnected,args)
     def Receive(*args): return apply(_blcelc.iNetworkConnection_Receive,args)
+    def IsDataWaiting(*args): return apply(_blcelc.iNetworkConnection_IsDataWaiting,args)
     def __del__(self, destroy= _blcelc.delete_iNetworkConnection):
         try:
             if self.thisown: destroy(self)
@@ -9068,6 +9260,39 @@ _blcelc.iCelEntity_swigregister(iCelEntityPtr)
 
 celCreateEntity = _blcelc.celCreateEntity
 
+scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
+
+class iCelEntityList(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityList, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityList, name)
+    def GetCount(*args): return apply(_blcelc.iCelEntityList_GetCount,args)
+    def Get(*args): return apply(_blcelc.iCelEntityList_Get,args)
+    def Add(*args): return apply(_blcelc.iCelEntityList_Add,args)
+    def Remove(*args): return apply(_blcelc.iCelEntityList_Remove,args)
+    def RemoveAll(*args): return apply(_blcelc.iCelEntityList_RemoveAll,args)
+    def Find(*args): return apply(_blcelc.iCelEntityList_Find,args)
+    def FindByName(*args): return apply(_blcelc.iCelEntityList_FindByName,args)
+    def __del__(self, destroy= _blcelc.delete_iCelEntityList):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iCelEntityList instance at %s>" % (self.this,)
+
+class iCelEntityListPtr(iCelEntityList):
+    def __init__(self,this):
+        _swig_setattr(self, iCelEntityList, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelEntityList, 'thisown', 0)
+        _swig_setattr(self, iCelEntityList,self.__class__,iCelEntityList)
+_blcelc.iCelEntityList_swigregister(iCelEntityListPtr)
+
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
+
 class iCelBlLayer(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9270,6 +9495,10 @@ celCreateCamera = _blcelc.celCreateCamera
 scfQuery_iPcCamera = _blcelc.scfQuery_iPcCamera
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
+
+scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
+
+scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
