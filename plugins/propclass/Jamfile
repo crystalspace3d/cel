@@ -9,4 +9,5 @@ SubInclude TOP plugins propclass move ;
 SubInclude TOP plugins propclass dynmove ;
 SubInclude TOP plugins propclass test ;
 SubInclude TOP plugins propclass tools ;
+SubInclude TOP plugins propclass billboard ;
 

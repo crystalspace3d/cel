@@ -118,7 +118,7 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
   delete[] text; text = 0;
   cd = databuf->GetData (3); if (!cd) return false;
- text = csStrNew (*cd->value.s);
+  text = csStrNew (*cd->value.s);
   cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
   cd = databuf->GetData (5); if (!cd) return false; text_g = cd->value.ub;
   cd = databuf->GetData (6); if (!cd) return false; text_b = cd->value.ub;

@@ -22,7 +22,9 @@
 #include "propclass/linmove.h"
 #include "propclass/input.h"
 #include "propclass/dynmove.h"
+#include "propclass/billboard.h"
 #include "plugins/behaviourlayer/python/blpython.h"
+#include "managers/billboard.h"
 %}
 
 //=======================================================================
@@ -336,6 +338,85 @@ iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist)
 }
 %}
 iPcDynamicBody *celQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist);
+
+//=======================================================================
+
+struct iBillboard : public iBase
+{
+  virtual const char* GetName () const = 0;
+  virtual csFlags& GetFlags () = 0;
+  virtual bool SetImage (iImage* image) = 0;
+  virtual bool SetImage (const char* filename) = 0;
+  virtual iImage* GetImage () = 0;
+  virtual void SetSize (int w, int h) = 0;
+  virtual void GetSize (int& w, int& h) const = 0;
+  virtual void SetPosition (int x, int y) = 0;
+  virtual void GetPosition (int& x, int& y) const = 0;
+  virtual void Move (int dx, int dy) = 0;
+};
+
+struct iBillboardManager : public iBase
+{
+  virtual iBillboard* CreateBillboard (const char* name) = 0;
+  virtual iBillboard* FindBillboard (const char* name) const = 0;
+  virtual void RemoveBillboard (iBillboard* billboard) = 0;
+  virtual int GetBillboardCount () const = 0;
+  virtual iBillboard* GetBillboard (int idx) const = 0;
+  virtual void RemoveAll () = 0;
+  virtual void SetFlags (uint32 flags, uint32 mask) = 0;
+};
+
+struct iPcBillboard : public iBase
+{
+  virtual void SetBillboardName (const char* name) = 0;
+  virtual const char* GetBillboardName () = 0;
+  virtual void SetFilename (const char* filename) = 0;
+  virtual const char* GetFilename () = 0;
+  virtual iBillboard* GetBillboard () = 0;
+};
+
+%{
+iPcBillboard *celCreateBillboard (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcbillboard");
+  if (!pc.IsValid()) return 0;
+  csRef<iPcBillboard> pcbillboard = SCF_QUERY_INTERFACE(pc, iPcBillboard);
+  if (!pcbillboard.IsValid()) return 0;
+  return pcbillboard;
+}
+%}
+iPcBillboard *celCreateBillboard (iCelPlLayer *pl, iCelEntity *entity);
+
+%{
+iPcBillboard *celGetBillboard (iCelEntity *entity)
+{
+  csRef<iPcBillboard> pc = CEL_QUERY_PROPCLASS (
+    entity->GetPropertyClassList (), iPcBillboard);
+  if (!pc.IsValid()) return 0;
+  return pc;
+}
+%}
+iPcBillboard *celGetBillboard (iCelEntity *entity);
+
+%{
+iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
+{ 
+  csRef<iPcBillboard> pcbillboard = SCF_QUERY_INTERFACE(pc, iPcBillboard);
+  if (pcbillboard) pcbillboard->IncRef ();
+  return pcbillboard;
+}
+%}
+iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc);
+
+%{
+iPcBillboard *celQueryPC_iPcBillboard (iCelPropertyClassList *pclist)
+{
+  csRef<iPcBillboard> pcbillboard = CEL_QUERY_PROPCLASS(pclist, iPcBillboard);
+  if (pcbillboard) pcbillboard->IncRef ();
+  return pcbillboard;
+}
+%}
+iPcBillboard *celQueryPC_iPcBillboard (iCelPropertyClassList *pclist);
 
 //=======================================================================
 
