@@ -130,7 +130,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
         entities_hash.Put (entities[i]->GetName (), entities[i]);
     }
   }
-  return entities_hash.Get (name);
+  return entities_hash.Get (name,0);
 }
 
 void celPlLayer::RemoveEntity (iCelEntity *entity)
@@ -415,7 +415,7 @@ iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (int idx) const
 iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
   	const char* name) const
 {
-  return pf_hash.Get (name);
+  return pf_hash.Get (name,0);
 }
 
 void celPlLayer::Cache (iBase* object)
