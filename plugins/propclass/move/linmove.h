@@ -104,6 +104,9 @@ protected:
 
   csVector3 bottomSize;
 
+  /// The total change in displacement caused by space warping portals.
+  csVector3 portalDisplaced;
+
   // Maximum interval at which to perform CD
   csVector3 intervalSize;
 
@@ -252,6 +255,13 @@ public:
   void SetDeltaLimit(float deltaLimit)
   { this->deltaLimit = deltaLimit; }
 
+  /// Get the total displacement caused by space warping portals.
+  csVector3 GetPortalDisplacement()
+  { return portalDisplaced; }
+  /// Clear the total displacement caused by space warping portals.
+  void ClearPortalDisplacement()
+  { portalDisplaced = 0.0f; }
+
   struct PcLinearMovement : public iPcLinearMovement
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
@@ -385,6 +395,12 @@ public:
     {
       scfParent->SetDeltaLimit(deltaLimit);
     }
+
+    virtual csVector3 GetPortalDisplacement()
+    { return scfParent->GetPortalDisplacement(); }
+    
+    virtual void ClearPortalDisplacement()
+    { scfParent->ClearPortalDisplacement(); }
 
   } scfiPcLinearMovement;
 

@@ -196,192 +196,171 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    float delta,
                                                    iMovable* movable)
 {
-  if (useCD && topCollider && bottomCollider)
+  if (!useCD || !topCollider || !bottomCollider)
+    return true;
+
+  revertMove = false;
+
+  if (movable->GetSectors()->GetCount() == 0)
+    return true;
+
+  int hits, i;
+  csMatrix3 identitymatrix;
+  csOrthoTransform transform_newpos (identitymatrix, newpos);
+  iSector* current_sector=movable->GetSectors ()->Get (0);
+
+  csMatrix3 mat;
+
+  csReversibleTransform rt = movable->GetFullTransform ();
+  mat = rt.GetT2O ();
+
+  csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
+    oldpos);
+
+  // Part1: find body collisions => movement
+  // Find possible colliding sectors.
+  csVector3 localvel = mat*(vel * delta);
+
+  num_our_cd = hits = 0;
+
+  // Travel all relevant sectors and do collision detection.
+  cdsys->SetOneHitOnly (false);
+  cdsys->ResetCollisionPairs ();
+
+  hits += CollisionDetect (topCollider, current_sector,
+    &transform_newpos, &transform_oldpos);
+
+  for (i = 0; i < num_our_cd; i++ )
   {
-    revertMove = false;
-    int hits, i;
-    csMatrix3 identitymatrix;
-    csOrthoTransform transform_newpos (identitymatrix, newpos);
-    if (movable->GetSectors()->GetCount() == 0)
-      return true;
-    iSector* current_sector=movable->GetSectors ()->Get (0);
+    csCollisionPair& cd = our_cd_contact[i];
+    csPlane3 obstacle (cd.a2, cd.b2, cd.c2);
+    csVector3 vec = obstacle.Normal().Unit();
 
-    csMatrix3 mat;
+    if (vec * localvel > 0) continue;
 
-    csReversibleTransform rt = movable->GetFullTransform ();
-    mat = rt.GetT2O ();
-
-    csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
-      oldpos);
-
-    // Part1: find body collisions => movement
-    // Find possible colliding sectors.
-    csVector3 localvel = mat*(vel * delta);
-
-    num_our_cd = hits = 0;
-
-    // Travel all relevant sectors and do collision detection.
-    cdsys->SetOneHitOnly (false);
-    cdsys->ResetCollisionPairs ();
-
-    hits += CollisionDetect (topCollider, current_sector,
-      &transform_newpos, &transform_oldpos);
-
-    for (i = 0; i < num_our_cd; i++ )
+    csVector3 line[2];
+    if (vel.y > 0 && FindIntersection (cd, line))
     {
-      csCollisionPair& cd = our_cd_contact[i];
-      csPlane3 obstacle (cd.a2, cd.b2, cd.c2);
-      csVector3 vec = obstacle.Normal().Unit();
-
-      if (vec * localvel > 0) continue;
-
-      csVector3 line[2];
-      if (vel.y > 0 && FindIntersection (cd, line))
-      {
-        // Hit above head?
-        if (ABS(newpos.y - MAX(line[0].y,line[1].y)) >
-          topSize.y + bottomSize.y)
-          // Ouch!
-          vel.y = 0;
-      }
-
-      localvel = -(localvel % vec) % vec;
+      // Hit above head?
+      if (ABS(newpos.y - MAX(line[0].y,line[1].y)) >
+        topSize.y + bottomSize.y)
+        // Ouch!
+        vel.y = 0;
     }
-    newpos = oldpos + localvel;
 
-    // Part2: legs
+    localvel = -(localvel % vec) % vec;
+  }
+  newpos = oldpos + localvel;
+
+  // Part2: legs
+
+  num_our_cd = hits = 0;
+
+  transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+
+  cdsys->SetOneHitOnly (false);
+  cdsys->ResetCollisionPairs ();	
+
+  hits += CollisionDetect (bottomCollider, current_sector,
+    &transform_newpos, &transform_oldpos);
+
+  // Falling unless proven otherwise
+  onground = false;
+  bool downstairs;
+
+  // Only able to step down if we aren't jumping or falling
+  if (hits > 0 || vel.y != 0)
+    downstairs = false;
+  else
+  {
+    downstairs = true;
+
+    // Try testing 'stepping' down
+    newpos.y -= bottomSize.y / 2;
+    transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
     num_our_cd = hits = 0;
-
-    transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
     cdsys->SetOneHitOnly (false);
     cdsys->ResetCollisionPairs ();	
 
     hits += CollisionDetect (bottomCollider, current_sector,
       &transform_newpos, &transform_oldpos);
+  }
 
-    // Falling unless proven otherwise
-    onground = false;
-    bool downstairs;
-
-    // Only able to step down if we aren't jumping or falling
-    if (hits > 0 || vel.y != 0)
-      downstairs = false;
-    else
+  if (hits > 0)
+  {
+    float max_y = -1e9;
+    for (i = 0; i < num_our_cd; i++ )
     {
-      downstairs = true;
+      csCollisionPair cd = our_cd_contact[i];
+      csVector3 n = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
 
-      // Try testing 'stepping' down
-      newpos.y -= bottomSize.y / 2;
-      transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+      // Is it a collision with a ground polygon?
+      //  (this tests for the angle between ground and collidet
+      //  triangle)
+      if (-n.y < 0.7)
+        continue;
 
-      num_our_cd = hits = 0;
-
-      cdsys->SetOneHitOnly (false);
-      cdsys->ResetCollisionPairs ();	
-
-      hits += CollisionDetect (bottomCollider, current_sector,
-        &transform_newpos, &transform_oldpos);
+      // Hit a ground polygon so we are not falling
+      onground = true;
+      csVector3 line[2];
+      if (FindIntersection (cd,line))
+        max_y = MAX(MAX(line[0].y, line[1].y),max_y);
     }
-
-    if (hits > 0)
+    if (onground)
     {
-      float max_y = -1e9;
-      for (i = 0; i < num_our_cd; i++ )
-      {
-        csCollisionPair cd = our_cd_contact[i];
-        csVector3 n = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
+      if (max_y <= newpos.y + bottomSize.y && max_y != -1e9)
+        newpos.y = max_y - 0.01f;
 
-        // Is it a collision with a ground polygon?
-        //  (this tests for the angle between ground and collidet
-        //  triangle)
-        if (-n.y < 0.7)
-          continue;
-
-        // Hit a ground polygon so we are not falling
-        onground = true;
-        csVector3 line[2];
-        if (FindIntersection (cd,line))
-          max_y = MAX(MAX(line[0].y, line[1].y),max_y);
-      }
-      if (onground)
-      {
-        if (max_y <= newpos.y + bottomSize.y && max_y != -1e9)
-          newpos.y = max_y - 0.01f;
-
-        if (vel.y < 0 )
-          vel.y = 0;
-      }
+      if (vel.y < 0 )
+        vel.y = 0;
     }
+  }
 
-    if (!onground)
-    {
-      // Reaction force - Disabled because no distinction made between physics
-      // engine predicted velocity and player controlled velocity
+  if (!onground)
+  {
+    // Reaction force - Disabled because no distinction made between physics
+    // engine predicted velocity and player controlled velocity
 
-      // vel = (mat.GetInverse()*localvel)/delta;
+    // vel = (mat.GetInverse()*localvel)/delta;
 
-      if (downstairs)
-        // No steps here, so readjust position back up
-        newpos.y += bottomSize.y / 2;
+    if (downstairs)
+      // No steps here, so readjust position back up
+      newpos.y += bottomSize.y / 2;
 
-      // gravity! move down!
-      vel.y  -= 19.6 * delta;
-      /*
-      * Terminal velocity
-      *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-      *   / 3.28 feet/meter = 53.65 m/s
-      */
-      if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
-        vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
-    }
+    // gravity! move down!
+    vel.y  -= 19.6 * delta;
+    /*
+    * Terminal velocity
+    *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+    *   / 3.28 feet/meter = 53.65 m/s
+    */
+    if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
+      vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+  }
 
 
-    if ((newpos - oldpos).IsZero(0.0001f))
-    {
-      // No movement
-      newpos = oldpos;
-      return false;
-    }
+  if ((newpos - oldpos).IsZero(0.0001f))
+  {
+    // No movement
+    newpos = oldpos;
+    return false;
+  }
 
-    // Part 2.5: check top again and revert move if we're still in a wall.
-    num_our_cd = hits = 0;
-    cdsys->SetOneHitOnly (false);
-    cdsys->ResetCollisionPairs ();
-    transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+  // Part 2.5: check top again and revert move if we're still in a wall.
+  num_our_cd = hits = 0;
+  cdsys->SetOneHitOnly (false);
+  cdsys->ResetCollisionPairs ();
+  transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
-    if (CollisionDetect (topCollider, current_sector,
-      &transform_newpos,&transform_oldpos) > 0)
-    {
-      // No move possible without a collision
-      newpos = oldpos;
-      revertMove = true;
-      return false;
-    }
-    else
-    {
-      // Part 3: portal traversal.
-      iSector* new_sector = movable->GetSectors ()->Get (0);
-      iSector* old_sector = new_sector;
-
-      // @@@ Jorrit: had to do this add!
-      // We need to measure slightly above the position of the actor or else
-      // we won't really cross a portal.
-      float height5 = (bottomSize.y + topSize.y) / 20.0;
-      newpos.y += height5;
-
-      transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
-        + csVector3 (0, height5, 0));
-      bool mirror = false;
-
-      new_sector = new_sector->FollowSegment (transform_oldpos,
-        newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
-      newpos.y -= height5;
-      if (new_sector != old_sector)
-        movable->SetSector (new_sector);
-      return true;
-    }
+  if (CollisionDetect (topCollider, current_sector,
+    &transform_newpos,&transform_oldpos) > 0)
+  {
+    // No move possible without a collision
+    newpos = oldpos;
+    revertMove = true;
+    return false;
   }
   else
     return true;

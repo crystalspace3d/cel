@@ -216,6 +216,12 @@ struct iPcLinearMovement : public iBase
   virtual void SetDeltaLimit(float deltaLimit) = 0;
 
   virtual bool RotateV (float delta) = 0;
+
+  /// Get the total displacement caused by space warping portals.
+  virtual csVector3 GetPortalDisplacement() = 0;
+
+  /// Clear the total displacement caused by space warping portals.
+  virtual void ClearPortalDisplacement() = 0;
 };
 
 #endif
