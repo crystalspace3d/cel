@@ -32,7 +32,7 @@
 
 /**
  * This class contains static member functions which can help set up an
- * application to use the Crystal Entity Layter. It is possible to do all the
+ * application to use the Crystal Entity Layer. It is possible to do all the
  * setup on your own but using the functions below will considerably simplify
  * the task.
  */
