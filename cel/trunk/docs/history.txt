@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Mar-2005
+        - Andrew Craig fixed meshfact and stdphydlayer plugins for 
+          csIntersect3 changes in CS.
+
 2-Mar-2005
 	- Jorrit added a patch from David Bronke which implements mouse
 	  and joystick support for pckeyinput. 'pckeyinput' is now renamed

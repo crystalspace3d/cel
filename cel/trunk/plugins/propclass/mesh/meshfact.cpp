@@ -906,7 +906,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     }
     csVector3 isect;
     float dist;
-    if (csIntersect3::Plane (v0, v1, drag_normal, mp, isect, dist))
+    if (csIntersect3::SegmentPlane (v0, v1, drag_normal, mp, isect, dist))
     {
       if (drag_normal_camera)
         isect = camera->GetTransform ().This2Other (isect);
