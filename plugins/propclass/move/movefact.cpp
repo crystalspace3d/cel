@@ -18,7 +18,7 @@
 */
 
 #include "cssysdef.h"
-#include "qsqrt.h"
+#include "csqsqrt.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "plugins/propclass/move/movefact.h"
@@ -932,8 +932,8 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // We can move but there is some obstruction.
     // Here we have to find out where exactly.
     // @@@ Here we also have to calculate impuse: for later...
-    float disttot = qsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
-    float dist = qsqrt (csSquaredDist::PointPoint (oldpos, newpos));
+    float disttot = csQsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
+    float dist = csQsqrt (csSquaredDist::PointPoint (oldpos, newpos));
     delta_t = delta_t * dist / disttot;
 
     relspeed = acceleration;

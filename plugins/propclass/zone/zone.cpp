@@ -51,7 +51,7 @@
 #include "cstool/csview.h"
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
-#include "qsqrt.h"
+#include "csqsqrt.h"
 #include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
