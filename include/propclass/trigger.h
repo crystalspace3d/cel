@@ -51,12 +51,12 @@ struct iPcTrigger : public iBase
   /**
    * Setup a spherical area as trigger zone.
    */
-  virtual SetupTriggerSphere (const csVector3& center, float radius) = 0;
+  virtual void SetupTriggerSphere (const csVector3& center, float radius) = 0;
 
   /**
    * Setup a box trigger zone.
    */
-  virtual SetupTriggerBox (const csBox3& box) = 0;
+  virtual void SetupTriggerBox (const csBox3& box) = 0;
 
   /**
    * Enable/disable sending messages to the entity containing
