@@ -1054,6 +1054,7 @@
 	        <var name="ent" value="'p'+?x+'_'+?y" />
 		<createentity name="?ent" behaviour="bdash_block" />
 		<var name="ent" value="ent(?ent)" />
+		<var name="mazeent+?x+'_'+?y" value="?ent" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="?ent" />
 	    </event>
@@ -1122,11 +1123,27 @@
 	      - Check if a move is possible and perform the move
 	      - if so. Uses ?dx and ?dy to get the move direction and
 	      - ?x and ?y for current position.
+	      - This routine will fire one of the 'checkmove_' events below
+	      - depending on the contents of the block we move too.
 	      -->
 	    <event name="checkmove">
-		<if eval="?bdash_main.(maze+(?x+?dx)+'_'+(?y+?dy))==' '">
-		    <call event="startmove" />
-		</if>
+	    	<var name="mazepos" value="(?x+?dx)+'_'+(?y+?dy)" />
+		<call event="checkmove_+?bdash_main.(maze+?mazepos)" />
+	    </event>
+
+	    <event name="checkmove_ ">
+		<call event="startmove" />
+	    </event>
+	    <event name="checkmove_#">
+	        <var entity="bdash_main" name="maze+?mazepos" value="' '" />
+		<var name="ent" value="?bdash_main.(mazeent+?mazepos)" />
+		<inventory propclass="pc(bdash_main,pcinventory)" />
+		<inventory_rem child="?ent" />
+		<destroyentity name="?ent" />
+		<var entity="bdash_main" name="mazeent+?mazepos" value="''" />
+		<call event="startmove" />
+	    </event>
+	    <event name="checkmove_B">
 	    </event>
 
 	    <!--
