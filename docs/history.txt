@@ -1,3 +1,10 @@
+26-Dec-2001:
+	- Added new iPcProperties property class. This is a general property
+	  class to store string, float, long or boolean properties.
+	  The message prop_setproperty is sent to the behaviour layer when
+	  a property is set. The message prop_clearproperty is sent when
+	  a property is cleared. The index of the property is given as
+	  a parameter.
 20-Dec-2001:
 	- Matze added cel.cex, which makes cel usable together with cs-config
 16-Dec-2001:
