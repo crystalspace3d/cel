@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+9-Nov-2003
+	- Chris Matuszewski added SetMaxSelectionDistance() to iPcMeshSelect
+	  to allow the user to specify a maximum distance to use for mesh
+	  selection.  This value is used in the call to HitBeam in meshfact.cpp.
+	  A default max_distance value is set to 100000 in meshfact.cpp.
+	  This change allows meshselect to work for objects that are farther than
+	  the previously arbitrary distance of 60 units.
 4-Nov-2003
 	- Chris Matuszewski changed the return value of HandleEvent() in inpfact.cpp
 	  to false to allow other entities that may have registered for the same
