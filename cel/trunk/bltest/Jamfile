@@ -1,6 +1,6 @@
 SubDir TOP bltest ;
 
 Plugin bltest
-	: behave.cpp bl.cpp
+	: behave.cpp bl.cpp behave.h bl.h
 ;
 

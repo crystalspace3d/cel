@@ -1,6 +1,7 @@
 SubDir TOP pf mesh ;
 
 Plugin pfmesh
-	: meshfact.cpp ../common/stdpcimp.cpp
+	: meshfact.cpp meshfact.h
 ;
+LinkWith pfmesh : celcommon ;
 

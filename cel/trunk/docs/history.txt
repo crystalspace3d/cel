@@ -1,3 +1,5 @@
+30-Apr-2003
+	- Matze updated jamrules and autoconf macros to latest CS rules.
 28-Mar-2003
 	- Fixed Python plugin in CEL for latest CS changes.
 25-Mar-2003

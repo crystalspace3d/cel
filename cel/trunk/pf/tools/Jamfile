@@ -1,6 +1,7 @@
 SubDir TOP pf tools ;
 
 Plugin pftools
-	: toolfact.cpp ../common/stdpcimp.cpp
+	: toolfact.cpp toolfact.h
 ;
+LinkWith pftools : celcommon ;
 

@@ -1,0 +1,7 @@
+SubDir TOP pf common ;
+
+Library celcommon
+	: [ Wildcard *.cpp *.h ]
+	: noinstall
+;
+

@@ -1,6 +1,7 @@
 SubDir TOP pf inv ;
 
 Plugin pfinv
-	: invfact.cpp ../common/stdpcimp.cpp
+	: invfact.cpp invfact.h
 ;
+LinkWith pfinv : celcommon ;
 

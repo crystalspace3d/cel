@@ -1,0 +1,69 @@
+
+usage()
+{
+  cat <<__EOF__
+Usage: cel-config [OPTIONS]
+Options:
+	[--prefix]
+	[--exec-prefix]
+	[--version]
+	[--libs]
+	[--cflags]
+	[--plugindir]
+	[--help]
+
+Note that you have to also include the output of cs-config when compiling cel
+applications.
+__EOF__
+}
+
+if test $# -eq 0; then
+	usage 1>&2
+	exit 1
+fi
+
+show_cflags=""
+show_libs=""
+while test $# -gt 0; do
+  case $1 in
+    --prefix)
+	echo $prefix
+	exit 0
+	;;
+    --exec-prefix)
+	echo $exec_prefix
+	exit 0
+	;;
+    --help)
+	usage
+	exit 0
+	;;
+    --version)
+        echo $version
+        exit 0
+        ;;
+    --plugindir)
+	echo $plugindir
+	exit 0
+	;;
+    --libs)
+	show_libs=true
+	;;
+    --cflags)
+        show_cflags=true
+        ;;
+    *)
+	echo "Unknown option $1"
+	usage
+	;;
+  esac
+  shift
+done
+
+if test -n "$show_cflags"; then
+	echo "$cflags"
+fi
+if test -n "$show_libs"; then
+	echo "$libs"
+fi
+

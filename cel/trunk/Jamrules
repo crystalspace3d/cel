@@ -1,0 +1,20 @@
+if ! $(BUILDTOP)
+{
+BUILDTOP = . ;
+}
+                                                                               
+# Include config
+JAMCONFIG ?= $(BUILDTOP)/Jamconfig ;
+include $(JAMCONFIG) ;
+if ! $(JAMCONFIG_READ)
+{
+  EXIT "Couldn't find config. Please configure the project." ;
+}
+
+# we use crystal space everywhere
+C++FLAGS += "$(CRYSTAL.CFLAGS)" ;
+LINKLIBS += "$(CRYSTAL.LFLAGS)" ;
+
+include $(TOP)/mk/jam/build.jam ;
+
+IncludeDir $(TOP) $(TOP)/include ;

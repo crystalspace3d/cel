@@ -1,6 +1,7 @@
 SubDir TOP pf move ;
 
 Plugin pfmove
-	: movefact.cpp ../common/stdpcimp.cpp
+	: movefact.cpp movefact.h
 ;
+LinkWith pfmove : celcommon ;
 

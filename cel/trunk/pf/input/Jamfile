@@ -1,6 +1,7 @@
 SubDir TOP pf input ;
 
 Plugin pfinput
-	: inpfact.cpp ../common/stdpcimp.cpp
+	: inpfact.cpp inpfact.h
 ;
+LinkWith pfinput : celcommon ;
 

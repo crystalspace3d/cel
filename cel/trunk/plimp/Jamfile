@@ -1,6 +1,6 @@
 SubDir TOP plimp ;
 
 Plugin plimp
-	: entity.cpp message.cpp numreg.cpp pl.cpp propclas.cpp
+	: [ Wildcard *.cpp *.h ]
 ;
 
