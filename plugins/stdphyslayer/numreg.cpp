@@ -122,21 +122,16 @@ void NumRegLists::RegisterWithID (void* obj, CS_ID id)
   CS_ASSERT(Get(id) == 0);
 
   // First, grow the list if the id is too big.
-  if (id >= listsize)
+  while (id >= listsize)
   {
     CS_ID newsize;
     if (listsize >= limit - ADDSIZE)
       newsize = limit;
     else
       newsize = listsize + ADDSIZE;
-      
-    list = (void**) realloc((void*)list, newsize*sizeof(void*));
-  }
 
-  if (id >= listsize)
-  {
-    // Limit was on the road. Lets crash
-    CS_ASSERT (0 && "Limit reached");
+    list = (void**) realloc((void*)list, newsize*sizeof(void*));
+    listsize = newsize;
   }
 
   list[id] = obj;
