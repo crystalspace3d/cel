@@ -23,6 +23,6 @@ class smallgame:
 		bl = physicallayer_ptr.GetBehaviourLayer(0)
 		box = celCreateEntity(physicallayer_ptr,"box")
 		box_behaviour = box.CreateBehaviour (bl,"box")
-		box_python = box_behaviour.GetPythonObject ();
+		box_python = box_behaviour.GetPythonObject ()
 		box_python.real_init(box,room)
 

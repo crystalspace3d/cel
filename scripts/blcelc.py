@@ -9494,8 +9494,6 @@ class iCelPropertyClassPtr(iCelPropertyClass):
         _swig_setattr(self, iCelPropertyClass,self.__class__,iCelPropertyClass)
 _blcelc.iCelPropertyClass_swigregister(iCelPropertyClassPtr)
 
-celQueryPC_iPcRegion = _blcelc.celQueryPC_iPcRegion
-
 class iCelPropertyClassList(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9561,6 +9559,37 @@ celCreateRegion = _blcelc.celCreateRegion
 
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
+celQueryPC_iPcRegion = _blcelc.celQueryPC_iPcRegion
+
+class iPcCommandInput(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCommandInput, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCommandInput, name)
+    def Activate(*args): return apply(_blcelc.iPcCommandInput_Activate,args)
+    def LoadConfig(*args): return apply(_blcelc.iPcCommandInput_LoadConfig,args)
+    def Bind(*args): return apply(_blcelc.iPcCommandInput_Bind,args)
+    def GetBind(*args): return apply(_blcelc.iPcCommandInput_GetBind,args)
+    def RemoveBind(*args): return apply(_blcelc.iPcCommandInput_RemoveBind,args)
+    def __del__(self, destroy= _blcelc.delete_iPcCommandInput):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iPcCommandInput instance at %s>" % (self.this,)
+
+class iPcCommandInputPtr(iPcCommandInput):
+    def __init__(self,this):
+        _swig_setattr(self, iPcCommandInput, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcCommandInput, 'thisown', 0)
+        _swig_setattr(self, iPcCommandInput,self.__class__,iPcCommandInput)
+_blcelc.iPcCommandInput_swigregister(iPcCommandInputPtr)
+
+celCreateCommandInput = _blcelc.celCreateCommandInput
+
 class iPcLinearMovement(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9598,6 +9627,8 @@ class iPcLinearMovementPtr(iPcLinearMovement):
         if not hasattr(self,"thisown"): _swig_setattr(self, iPcLinearMovement, 'thisown', 0)
         _swig_setattr(self, iPcLinearMovement,self.__class__,iPcLinearMovement)
 _blcelc.iPcLinearMovement_swigregister(iPcLinearMovementPtr)
+
+celCreateLinearMovement = _blcelc.celCreateLinearMovement
 
 class iPcCamera(iBase):
     __swig_setmethods__ = {}
@@ -9637,17 +9668,9 @@ class iPcCameraPtr(iPcCamera):
         _swig_setattr(self, iPcCamera,self.__class__,iPcCamera)
 _blcelc.iPcCamera_swigregister(iPcCameraPtr)
 
-celCreateLinearMovement = _blcelc.celCreateLinearMovement
-
 celCreateCamera = _blcelc.celCreateCamera
 
 scfQuery_iPcCamera = _blcelc.scfQuery_iPcCamera
-
-scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
-
-scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
-
-scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
@@ -9729,6 +9752,8 @@ _blcelc.iPcMesh_swigregister(iPcMeshPtr)
 
 celCreateMesh = _blcelc.celCreateMesh
 
+scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
+
 class iPcTimer(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -9754,6 +9779,8 @@ class iPcTimerPtr(iPcTimer):
 _blcelc.iPcTimer_swigregister(iPcTimerPtr)
 
 celCreateTimer = _blcelc.celCreateTimer
+
+scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
 
 class iPcSolid(iBase):
     __swig_setmethods__ = {}
@@ -9892,6 +9919,8 @@ class iPcInventoryPtr(iPcInventory):
 _blcelc.iPcInventory_swigregister(iPcInventoryPtr)
 
 celCreateInventory = _blcelc.celCreateInventory
+
+scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 
 class iPcCharacteristics(iBase):
     __swig_setmethods__ = {}

@@ -16,8 +16,14 @@ The history order is reversed so that new features are at the top.
 	  This avoids the global variable 'room' in the smallgame.py script.
 	- Jorrit removed the 'name' parameter from celCreateCamera() in the
 	  Python behaviour layer. It is not needed.
-	- Jorrit added support for pclinmove property class in the Python
+	- Jorrit added support for the pclinmove property class in the Python
 	  behaviour layer.
+	- Jorrit added support for the pcinput property class in the Python
+	  behaviour layer.
+	- Jorrit cleaned up blcel.i a bit.
+	- blcel.i: scfQuery_iPcCamera, scfQuery_iPcMesh, scfQuery_iPcInventory,
+	  and scfQuery_iPcTimer do IncRef() now.
+	- Protected most IncRef()'s in blcel.i with if's.
 3-Jul-2003
 	- Jorrit cleaned up the python plugin a bit.
 	- Box in smallgame now has gravity.

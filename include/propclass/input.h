@@ -26,7 +26,7 @@
 SCF_VERSION (iPcCommandInput, 0, 0, 1);
 
 /**
- * Timer propery class.
+ * Input propery class.
  */
 struct iPcCommandInput : public iBase
 {
@@ -52,5 +52,5 @@ struct iPcCommandInput : public iBase
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
 };
 
-#endif // __CEL_PF_TIMER__
+#endif // __CEL_PF_INPUT__
 
