@@ -41,7 +41,7 @@ struct iCelPropertyClassFactory : public iBase
   /**
    * Create a property class of some type.
    */
-  virtual iCelPropertyClass* CreatePropertyClass () = 0;
+  virtual csPtr<iCelPropertyClass> CreatePropertyClass () = 0;
 };
 
 #endif // __CEL_PL_PROPFACT__

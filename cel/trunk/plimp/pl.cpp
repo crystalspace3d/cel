@@ -157,11 +157,10 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 #endif
     return NULL;
   }
-  iCelPropertyClass* pc = pf->CreatePropertyClass();
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
     return NULL;
   entity->GetPropertyClassList()->Add (pc);
-  pc->DecRef();
   return pc;
 }
 

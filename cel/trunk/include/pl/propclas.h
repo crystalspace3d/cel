@@ -28,8 +28,7 @@
 class csVector3;
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
-  csPtr<Interface> (							    \
-  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
+  csPtr<Interface> ((Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
 		    (#Interface), VERSION_##Interface)))
 
 struct iCelEntity;
@@ -240,7 +239,8 @@ struct iCelPropertyClassList : public iBase
    * Find a property class by SCF interface. Return that interface
    * with ref-count incremented with one.
    */
-  virtual iBase* FindByInterface (scfInterfaceID id, int version) const = 0;
+  virtual iBase* FindByInterface (
+  	scfInterfaceID id, int version) const = 0;
 };
 
 #endif // __CEL_PL_PROPCLASS__
