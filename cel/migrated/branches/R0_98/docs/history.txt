@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+22-Sep-2004
+	- *** RELEASED STABLE 0.98.2 ***
 20-Sep-2004
 	- Eric Sunshine back-ported msvcgen template to be compatible with CS
 	  0.98.4. In particular, they need to define WIN32_VOLATILE rather than
