@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+4-Nov-2003
+	- Chris Matuszewski changed the return value of HandleEvent() in inpfact.cpp
+	  to false to allow other entities that may have registered for the same
+	  input to process the same event.
 3-Nov-2003
 	- Chris Matuszewski updated the swig generated python wrapper files.
 	- Keith Fulton took out some debugging printfs related to finding meshfact
