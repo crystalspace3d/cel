@@ -80,22 +80,17 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   factName = NULL;
   factory_ptr = NULL;
   DG_TYPE (this, "celPcMesh()");
-  printf ("Create %p\n", this);
 }
 
 celPcMesh::~celPcMesh ()
 {
-  printf ("Destr: %p\n",this);
-  printf ("Name: %s \n", entity->GetName());
   Clear ();
 }
 
 void celPcMesh::Clear ()
 {
-  printf ("Dele: %s - %s\n", fileName, factName);
   delete[] fileName; fileName = NULL;
   delete[] factName; factName = NULL;
-  printf ("Ok!\n");
   if (mesh)
   {
     iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -112,9 +107,7 @@ void celPcMesh::Clear ()
     engine->DecRef ();
     mesh = NULL;
   }
-  printf ("Unattach!\n");
   if (factory_ptr) { factory_ptr->DecRef (); factory_ptr = NULL; }
-  printf ("all ok!\n");
 }
 
 #define MESH_SERIAL 1
@@ -243,7 +236,6 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
 void celPcMesh::SetMesh (const char* factname, const char* filename)
 {
-  printf ("SetMesh %p\n", this);
   delete[] fileName;
   fileName = csStrNew (filename);
   delete[] factName;
