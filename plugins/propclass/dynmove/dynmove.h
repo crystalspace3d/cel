@@ -48,6 +48,14 @@ class csColliderWrapper;
 CEL_DECLARE_FACTORY(DynamicSystem)
 CEL_DECLARE_FACTORY(DynamicBody)
 
+struct celForce
+{
+  iPcDynamicBody* body;
+  float ms;	// Remaining time. Not used if for entire frame.
+  bool frame;	// True if processing is for entire frame.
+  csVector3 force;
+};
+
 /**
  * This is a dynamic system.
  */
@@ -57,7 +65,10 @@ private:
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
   csRef<iVirtualClock> vc;
+  csArray<celForce> forces;
   float delta;
+
+  void ProcessForces (float dt);
 
 public:
   celPcDynamicSystem (iObjectRegistry* object_reg);
@@ -69,6 +80,13 @@ public:
     celPcDynamicSystem::delta = delta;
   }
   float GetStepTime () const { return delta; }
+
+  void AddForceDuration (iPcDynamicBody* body,
+  	const csVector3& force, float ms);
+  void AddForceFrame (iPcDynamicBody* body, const csVector3& force);
+  void ClearForces (iPcDynamicBody* body);
+  void ClearAllForces ();
+
   bool HandleEvent (iEvent& ev);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -91,6 +109,23 @@ public:
     virtual float GetStepTime () const
     {
       return scfParent->GetStepTime ();
+    }
+    virtual void AddForceDuration (iPcDynamicBody* body,
+  	const csVector3& force, float ms)
+    {
+      scfParent->AddForceDuration (body, force, ms);
+    }
+    virtual void AddForceFrame (iPcDynamicBody* body, const csVector3& force)
+    {
+      scfParent->AddForceFrame (body, force);
+    }
+    virtual void ClearForces (iPcDynamicBody* body)
+    {
+      scfParent->ClearForces (body);
+    }
+    virtual void ClearAllForces ()
+    {
+      scfParent->ClearAllForces ();
     }
   } scfiPcDynamicSystem;
 
@@ -235,6 +270,11 @@ public:
   void AttachColliderPlane (const csPlane3& plane);
   void AttachColliderMesh ();
 
+  void AddForceOnce (const csVector3& force);
+  void AddForceDuration (const csVector3& force, float ms);
+  void AddForceFrame (const csVector3& force);
+  void ClearForces ();
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcdynbody"; }
@@ -299,6 +339,22 @@ public:
     virtual void AttachColliderMesh ()
     {
       scfParent->AttachColliderMesh ();
+    }
+    virtual void AddForceOnce (const csVector3& force)
+    {
+      scfParent->AddForceOnce (force);
+    }
+    virtual void AddForceDuration (const csVector3& force, float ms)
+    {
+      scfParent->AddForceDuration (force, ms);
+    }
+    virtual void AddForceFrame (const csVector3& force)
+    {
+      scfParent->AddForceFrame (force);
+    }
+    virtual void ClearForces ()
+    {
+      scfParent->ClearForces ();
     }
   } scfiPcDynamicBody;
 };

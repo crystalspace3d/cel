@@ -51036,40 +51036,6 @@ static PyObject *_wrap_iPolygonTexture_GetLMapping(PyObject *self, PyObject *arg
 }
 
 
-static PyObject *_wrap_iPolygonTexture_DynamicLightsDirty(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iPolygonTexture *arg1 = (iPolygonTexture *) 0 ;
-    bool result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iPolygonTexture_DynamicLightsDirty",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPolygonTexture,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->DynamicLightsDirty();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iPolygonTexture_RecalculateDynamicLights(PyObject *self, PyObject *args) {
-    PyObject *resultobj;
-    iPolygonTexture *arg1 = (iPolygonTexture *) 0 ;
-    bool result;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iPolygonTexture_RecalculateDynamicLights",&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPolygonTexture,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (bool)(arg1)->RecalculateDynamicLights();
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iPolygonTexture_GetLightMap(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPolygonTexture *arg1 = (iPolygonTexture *) 0 ;
@@ -88939,6 +88905,92 @@ static PyObject *_wrap_iPcDynamicSystem_GetDynamicSystem(PyObject *self, PyObjec
 }
 
 
+static PyObject *_wrap_iPcDynamicSystem_AddForceDuration(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
+    iPcDynamicBody *arg2 = (iPcDynamicBody *) 0 ;
+    csVector3 *arg3 = 0 ;
+    int arg4 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOi:iPcDynamicSystem_AddForceDuration",&obj0,&obj1,&obj2,&arg4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicSystem,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg3 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddForceDuration(arg2,(csVector3 const &)*arg3,arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicSystem_AddForceFrame(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
+    iPcDynamicBody *arg2 = (iPcDynamicBody *) 0 ;
+    csVector3 *arg3 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iPcDynamicSystem_AddForceFrame",&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicSystem,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg3 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddForceFrame(arg2,(csVector3 const &)*arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicSystem_ClearForces(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
+    iPcDynamicBody *arg2 = (iPcDynamicBody *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDynamicSystem_ClearForces",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicSystem,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->ClearForces(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicSystem_ClearAllForces(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcDynamicSystem_ClearAllForces",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicSystem,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->ClearAllForces();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iPcDynamicSystem(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iPcDynamicSystem *arg1 = (iPcDynamicSystem *) 0 ;
@@ -89268,6 +89320,89 @@ static PyObject *_wrap_iPcDynamicBody_AttachColliderMesh(PyObject *self, PyObjec
     if(!PyArg_ParseTuple(args,(char *)"O:iPcDynamicBody_AttachColliderMesh",&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     (arg1)->AttachColliderMesh();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicBody_AddForceOnce(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicBody *arg1 = (iPcDynamicBody *) 0 ;
+    csVector3 *arg2 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDynamicBody_AddForceOnce",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddForceOnce((csVector3 const &)*arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicBody_AddForceDuration(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicBody *arg1 = (iPcDynamicBody *) 0 ;
+    csVector3 *arg2 = 0 ;
+    int arg3 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOi:iPcDynamicBody_AddForceDuration",&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddForceDuration((csVector3 const &)*arg2,arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicBody_AddForceFrame(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicBody *arg1 = (iPcDynamicBody *) 0 ;
+    csVector3 *arg2 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDynamicBody_AddForceFrame",&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_csVector3,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if (arg2 == NULL) {
+        PyErr_SetString(PyExc_TypeError,"null reference"); SWIG_fail; 
+    }
+    (arg1)->AddForceFrame((csVector3 const &)*arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcDynamicBody_ClearForces(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iPcDynamicBody *arg1 = (iPcDynamicBody *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcDynamicBody_ClearForces",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iPcDynamicBody,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    (arg1)->ClearForces();
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -94452,8 +94587,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPolygonTexture_GetMaterialHandle", _wrap_iPolygonTexture_GetMaterialHandle, METH_VARARGS },
 	 { (char *)"iPolygonTexture_GetTMapping", _wrap_iPolygonTexture_GetTMapping, METH_VARARGS },
 	 { (char *)"iPolygonTexture_GetLMapping", _wrap_iPolygonTexture_GetLMapping, METH_VARARGS },
-	 { (char *)"iPolygonTexture_DynamicLightsDirty", _wrap_iPolygonTexture_DynamicLightsDirty, METH_VARARGS },
-	 { (char *)"iPolygonTexture_RecalculateDynamicLights", _wrap_iPolygonTexture_RecalculateDynamicLights, METH_VARARGS },
 	 { (char *)"iPolygonTexture_GetLightMap", _wrap_iPolygonTexture_GetLightMap, METH_VARARGS },
 	 { (char *)"iPolygonTexture_GetLightCellSize", _wrap_iPolygonTexture_GetLightCellSize, METH_VARARGS },
 	 { (char *)"iPolygonTexture_GetLightCellShift", _wrap_iPolygonTexture_GetLightCellShift, METH_VARARGS },
@@ -96127,6 +96260,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_iCelPropertyClassList", _wrap_delete_iCelPropertyClassList, METH_VARARGS },
 	 { (char *)"iCelPropertyClassList_swigregister", iCelPropertyClassList_swigregister, METH_VARARGS },
 	 { (char *)"iPcDynamicSystem_GetDynamicSystem", _wrap_iPcDynamicSystem_GetDynamicSystem, METH_VARARGS },
+	 { (char *)"iPcDynamicSystem_AddForceDuration", _wrap_iPcDynamicSystem_AddForceDuration, METH_VARARGS },
+	 { (char *)"iPcDynamicSystem_AddForceFrame", _wrap_iPcDynamicSystem_AddForceFrame, METH_VARARGS },
+	 { (char *)"iPcDynamicSystem_ClearForces", _wrap_iPcDynamicSystem_ClearForces, METH_VARARGS },
+	 { (char *)"iPcDynamicSystem_ClearAllForces", _wrap_iPcDynamicSystem_ClearAllForces, METH_VARARGS },
 	 { (char *)"delete_iPcDynamicSystem", _wrap_delete_iPcDynamicSystem, METH_VARARGS },
 	 { (char *)"iPcDynamicSystem_swigregister", iPcDynamicSystem_swigregister, METH_VARARGS },
 	 { (char *)"celCreateDynamicSystem", _wrap_celCreateDynamicSystem, METH_VARARGS },
@@ -96145,6 +96282,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcDynamicBody_AttachColliderBox", _wrap_iPcDynamicBody_AttachColliderBox, METH_VARARGS },
 	 { (char *)"iPcDynamicBody_AttachColliderPlane", _wrap_iPcDynamicBody_AttachColliderPlane, METH_VARARGS },
 	 { (char *)"iPcDynamicBody_AttachColliderMesh", _wrap_iPcDynamicBody_AttachColliderMesh, METH_VARARGS },
+	 { (char *)"iPcDynamicBody_AddForceOnce", _wrap_iPcDynamicBody_AddForceOnce, METH_VARARGS },
+	 { (char *)"iPcDynamicBody_AddForceDuration", _wrap_iPcDynamicBody_AddForceDuration, METH_VARARGS },
+	 { (char *)"iPcDynamicBody_AddForceFrame", _wrap_iPcDynamicBody_AddForceFrame, METH_VARARGS },
+	 { (char *)"iPcDynamicBody_ClearForces", _wrap_iPcDynamicBody_ClearForces, METH_VARARGS },
 	 { (char *)"delete_iPcDynamicBody", _wrap_delete_iPcDynamicBody, METH_VARARGS },
 	 { (char *)"iPcDynamicBody_swigregister", iPcDynamicBody_swigregister, METH_VARARGS },
 	 { (char *)"celCreateDynamicBody", _wrap_celCreateDynamicBody, METH_VARARGS },

@@ -4677,8 +4677,6 @@ class iPolygonTexture(iBase):
     def GetMaterialHandle(*args): return apply(_blcelc.iPolygonTexture_GetMaterialHandle,args)
     def GetTMapping(*args): return apply(_blcelc.iPolygonTexture_GetTMapping,args)
     def GetLMapping(*args): return apply(_blcelc.iPolygonTexture_GetLMapping,args)
-    def DynamicLightsDirty(*args): return apply(_blcelc.iPolygonTexture_DynamicLightsDirty,args)
-    def RecalculateDynamicLights(*args): return apply(_blcelc.iPolygonTexture_RecalculateDynamicLights,args)
     def GetLightMap(*args): return apply(_blcelc.iPolygonTexture_GetLightMap,args)
     def GetLightCellSize(*args): return apply(_blcelc.iPolygonTexture_GetLightCellSize,args)
     def GetLightCellShift(*args): return apply(_blcelc.iPolygonTexture_GetLightCellShift,args)
@@ -10017,6 +10015,10 @@ class iPcDynamicSystem(iBase):
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcDynamicSystem, name)
     def GetDynamicSystem(*args): return apply(_blcelc.iPcDynamicSystem_GetDynamicSystem,args)
+    def AddForceDuration(*args): return apply(_blcelc.iPcDynamicSystem_AddForceDuration,args)
+    def AddForceFrame(*args): return apply(_blcelc.iPcDynamicSystem_AddForceFrame,args)
+    def ClearForces(*args): return apply(_blcelc.iPcDynamicSystem_ClearForces,args)
+    def ClearAllForces(*args): return apply(_blcelc.iPcDynamicSystem_ClearAllForces,args)
     def __del__(self, destroy= _blcelc.delete_iPcDynamicSystem):
         try:
             if self.thisown: destroy(self)
@@ -10058,6 +10060,10 @@ class iPcDynamicBody(iBase):
     def AttachColliderBox(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderBox,args)
     def AttachColliderPlane(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderPlane,args)
     def AttachColliderMesh(*args): return apply(_blcelc.iPcDynamicBody_AttachColliderMesh,args)
+    def AddForceOnce(*args): return apply(_blcelc.iPcDynamicBody_AddForceOnce,args)
+    def AddForceDuration(*args): return apply(_blcelc.iPcDynamicBody_AddForceDuration,args)
+    def AddForceFrame(*args): return apply(_blcelc.iPcDynamicBody_AddForceFrame,args)
+    def ClearForces(*args): return apply(_blcelc.iPcDynamicBody_ClearForces,args)
     def __del__(self, destroy= _blcelc.delete_iPcDynamicBody):
         try:
             if self.thisown: destroy(self)

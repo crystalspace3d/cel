@@ -123,6 +123,33 @@ celPcDynamicSystem::~celPcDynamicSystem ()
   }
 }
 
+void celPcDynamicSystem::ProcessForces (float dt)
+{
+// @@@ Note: the code below should really factor in the
+// fact that 'dt' may be smaller than delta and also that the
+// remaining time for a force may be smaller than the 'dt' value
+// given here.
+  int i;
+  for (i = 0 ; i < forces.Length () ; i++)
+  {
+    celForce& f = forces[i];
+    if (f.frame)
+    {
+      f.body->GetBody ()->AddForce (f.force);
+    }
+    else if (f.ms > 0)
+    {
+      f.body->GetBody ()->AddForce (f.force);
+      f.ms -= dt;
+      if (f.ms <= 0)
+      {
+        forces.DeleteIndex (i);
+	i--;
+      }
+    }
+  }
+}
+
 bool celPcDynamicSystem::HandleEvent (iEvent& ev)
 {
   if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
@@ -130,11 +157,33 @@ bool celPcDynamicSystem::HandleEvent (iEvent& ev)
     GetDynamicSystem ();
     csTicks elapsed_time = vc->GetElapsedTicks ();
     float et = float (elapsed_time) / 1000.0;
-    for (float dt = 0 ; dt < et ; dt += delta)
+    while (et >= delta)
     {
+      ProcessForces (delta);
       dynamics->Step (delta);
+      et -= delta;
+    }
+    // Do the remainder.
+    if (et > SMALL_EPSILON)
+    {
+      ProcessForces (et);
+      dynamics->Step (et);
+    }
+
+    // Delete all expired forces and forces that were only
+    // meant to be here for one frame.
+    int i;
+    for (i = 0 ; i < forces.Length () ; i++)
+    {
+      celForce& f = forces[i];
+      if (f.frame || f.ms <= 0)
+      {
+        forces.DeleteIndex (i);
+        i--;
+      }
     }
   }
+
   return false;
 }
 
@@ -216,6 +265,46 @@ bool celPcDynamicSystem::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+void celPcDynamicSystem::AddForceDuration (iPcDynamicBody* body,
+  	const csVector3& force, float ms)
+{
+  celForce f;
+  f.body = body;
+  f.ms = ms;
+  f.frame = false;
+  f.force = force;
+  forces.Push (f);
+}
+
+void celPcDynamicSystem::AddForceFrame (iPcDynamicBody* body,
+	const csVector3& force)
+{
+  celForce f;
+  f.body = body;
+  f.ms = 0;
+  f.frame = true;
+  f.force = force;
+  forces.Push (f);
+}
+
+void celPcDynamicSystem::ClearForces (iPcDynamicBody* body)
+{
+  int i;
+  for (i = 0 ; i < forces.Length () ; i++)
+  {
+    if (forces[i].body == body)
+    {
+      forces.DeleteIndex (i);
+      i--;
+    }
+  }
+}
+
+void celPcDynamicSystem::ClearAllForces ()
+{
+  forces.DeleteAll ();
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcDynamicBody)
@@ -247,6 +336,8 @@ celPcDynamicBody::celPcDynamicBody (iObjectRegistry* object_reg)
 celPcDynamicBody::~celPcDynamicBody ()
 {
   delete bdata;
+  if (dynsystem)
+    dynsystem->ClearForces (&scfiPcDynamicBody);
 }
 
 #define DYNBODY_SERIAL 1
@@ -483,5 +574,26 @@ void celPcDynamicBody::AttachColliderMesh ()
   delete bdata;
   bdata = 0;
   btype = CEL_BODY_MESH;
+}
+
+void celPcDynamicBody::AddForceOnce (const csVector3& force)
+{
+  GetBody ();
+  body->AddForce (force);
+}
+
+void celPcDynamicBody::AddForceDuration (const csVector3& force, float ms)
+{
+  dynsystem->AddForceDuration (&scfiPcDynamicBody, force, ms);
+}
+
+void celPcDynamicBody::AddForceFrame (const csVector3& force)
+{
+  dynsystem->AddForceFrame (&scfiPcDynamicBody, force);
+}
+
+void celPcDynamicBody::ClearForces ()
+{
+  dynsystem->ClearForces (&scfiPcDynamicBody);
 }
 
