@@ -129,7 +129,7 @@ bool celEntityList::Remove (size_t n)
 void celEntityList::RemoveAll ()
 {
   while (entities.Length () > 0)
-    Remove ((int) 0);
+    Remove ((size_t) 0);
 }
 
 size_t celEntityList::Find (iCelEntity* obj) const
