@@ -160,7 +160,7 @@ class iSCF(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSCF, name)
-    def RegisterConfigClassList(*args): return apply(_blcelc.iSCF_RegisterConfigClassList,args)
+    def RegisterClasses(*args): return apply(_blcelc.iSCF_RegisterClasses,args)
     def ClassRegistered(*args): return apply(_blcelc.iSCF_ClassRegistered,args)
     def CreateInstance(*args): return apply(_blcelc.iSCF_CreateInstance,args)
     def GetClassDescription(*args): return apply(_blcelc.iSCF_GetClassDescription,args)
@@ -2957,7 +2957,6 @@ class iMaterialWrapper(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMaterialWrapper, name)
-    def GetPrivateObject(*args): return apply(_blcelc.iMaterialWrapper_GetPrivateObject,args)
     def QueryObject(*args): return apply(_blcelc.iMaterialWrapper_QueryObject,args)
     def Clone(*args): return apply(_blcelc.iMaterialWrapper_Clone,args)
     def SetMaterialHandle(*args): return apply(_blcelc.iMaterialWrapper_SetMaterialHandle,args)
@@ -3080,12 +3079,12 @@ class iMeshWrapper(iBase):
     __swig_getmethods__ = {}
     for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMeshWrapper, name)
-    def GetPrivateObject(*args): return apply(_blcelc.iMeshWrapper_GetPrivateObject,args)
     def QueryObject(*args): return apply(_blcelc.iMeshWrapper_QueryObject,args)
     def GetMeshObject(*args): return apply(_blcelc.iMeshWrapper_GetMeshObject,args)
     def SetMeshObject(*args): return apply(_blcelc.iMeshWrapper_SetMeshObject,args)
     def GetLightingInfo(*args): return apply(_blcelc.iMeshWrapper_GetLightingInfo,args)
     def GetShadowReceiver(*args): return apply(_blcelc.iMeshWrapper_GetShadowReceiver,args)
+    def GetVisibilityNumber(*args): return apply(_blcelc.iMeshWrapper_GetVisibilityNumber,args)
     def GetFactory(*args): return apply(_blcelc.iMeshWrapper_GetFactory,args)
     def SetFactory(*args): return apply(_blcelc.iMeshWrapper_SetFactory,args)
     def DeferUpdateLighting(*args): return apply(_blcelc.iMeshWrapper_DeferUpdateLighting,args)
@@ -4040,6 +4039,7 @@ class iThingState(iBase):
     def SetMovingOption(*args): return apply(_blcelc.iThingState_SetMovingOption,args)
     def IntersectSegment(*args): return apply(_blcelc.iThingState_IntersectSegment,args)
     def Prepare(*args): return apply(_blcelc.iThingState_Prepare,args)
+    def Unprepare(*args): return apply(_blcelc.iThingState_Unprepare,args)
     def ReplaceMaterial(*args): return apply(_blcelc.iThingState_ReplaceMaterial,args)
     def ClearReplacedMaterials(*args): return apply(_blcelc.iThingState_ClearReplacedMaterials,args)
     def __del__(self, destroy= _blcelc.delete_iThingState):
