@@ -43,7 +43,7 @@ struct CallbackPCTiming
 };
 struct CallbackPCInfo
 {
-  csArray<size_t> every_frame;
+  csSet<size_t> every_frame;
   csArray<CallbackPCTiming> timed_callbacks;
 };
 

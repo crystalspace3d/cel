@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	    - Working persistance.
 	  This is done to make pctest a good template to start creating a new
 	  property class from.
+	- Jorrit did another optimization on the timing facility in
+	  the physical layer.
 14-Jul-2004
 	- Jorrit added a weak reference to the physical layer to celPcCommon
 	  so that all property classes have it automatically.
