@@ -79,27 +79,24 @@ celPlLayer::~celPlLayer ()
   
 #ifdef CEL_DEBUG
   // print out entities that aren't deleted properly
-  for (CS_ID i=1;i<idlist->GetCount();i++)
+  for (CS_ID i=1;i<idlist.GetCount();i++)
   {
-    iCelEntity* entity=(iCelEntity*) idlist->Get(i);
+    iCelEntity* entity=(iCelEntity*) idlist.Get(i);
     if (entity)
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	  "crystalspace.cel.physicallayer",
-	  "Entity with ID %d and Name %s not destructed.",
-	  entity->GetID(), entity->GetName());
+	  "Entity with ID %d and Name %s not destructed yet.",
+	  entity.GetID(), entity.GetName());
     }
   }
 #endif
-  
-  if (idlist)
-    delete idlist;
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
-  idlist = new NumReg;
+  idlist.Clear();
   return true;
 }
 
@@ -109,33 +106,34 @@ iCelEntity* celPlLayer::CreateEntity ()
   
   celEntity* entity = new celEntity (this);
   iCelEntity* ientity = SCF_QUERY_INTERFACE(entity, iCelEntity);
-  ientity->DecRef();
-  objid = idlist->Register(ientity);
+  entity->DecRef();
+  objid = idlist.Register(ientity);
   if (objid == 0)
   {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Failed to register new entity in IDList!");
     delete entity;
     return NULL;
   }
   entity->SetEntityID(objid);
-  return &(entity->scfiCelEntity);
+  return ientity;
 }
 
 void celPlLayer::RemoveEntity(celEntity *entity)
 {
-  if (!idlist->Remove(entity->GetEntityID()))
+  if (!idlist.Remove(entity->GetEntityID()))
   {
-#ifdef CEL_DEBUG
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"error while removing Entity with ID %d (%s)", entity->GetEntityID(),
 	entity->GetName());
-#endif
   }
 }
 
 iCelEntity* celPlLayer::GetEntity(CS_ID id)
 {
-  return (iCelEntity*) idlist->Get(id);
+  return (iCelEntity*) idlist.Get(id);
 }
 
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
