@@ -16,6 +16,9 @@ The history order is reversed so that new features are at the top.
 	  'cel.property.'.
 	- Jorrit fixed bootstrap to use OPCODE.
 	- Jorrit did a fix to please gcc 3.3 for the pczonemanager.
+	- Jorrit fixed pczonemanager so that it detects if the physical layer
+	  is still present during unload. That fixes a crash at exit for
+	  Crystal Core.
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the
