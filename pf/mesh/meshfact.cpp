@@ -751,7 +751,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       vo = camera->GetTransform ().GetO2TTranslation ();
       csVector3 isect, end = vo + (vw - vo) * 60;
 
-      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
+      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL, true);
       if (sel)
       {
         iObject* sel_obj = sel->QueryObject ();
