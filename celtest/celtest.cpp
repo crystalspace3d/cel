@@ -356,49 +356,6 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   iPcMovableConstraint* pcmovableconst;
   iPcGravity* pcgravity;
 
-#if 0
-
-  iCelEntity* entity_dummy = pl->CreateEntity ();
-  entity_dummy->SetName ("movingent");
-  entity_dummy->SetBehaviour (bl->CreateBehaviour (entity_dummy, "actor"));
- 
-  pc = pl->CreatePropertyClass (entity_dummy, "pckeyinput");
-  if (!pc) return NULL;
-  iPcCommandInput *pcinp= SCF_QUERY_INTERFACE_FAST (pc, iPcCommandInput);
-  if (!pcinp) return NULL;
-  pcinp->Bind ("up", "forward");
-  pcinp->Bind ("down", "backward");
-  pcinp->Bind ("shift", "run");  
-  pcinp->Bind ("m", "cammode");
-  pcinp->DecRef();
-
-  pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
-  if (!pc) return NULL;
-  pc = pl->CreatePropertyClass (entity_dummy, "pcgravity");
-  if (!pc) return NULL;
-  pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
-  pcgravity->SetWeight (.3);
-  pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
-  if (!pc) return NULL;
-  pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
-  pc = pl->CreatePropertyClass (entity_dummy, "pcmovableconst_cd");
-  if (!pc) return NULL;
-  pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
-  pcmovable->AddConstraint (pcmovableconst);
-  pcmovableconst->DecRef ();
-  pcmovable->DecRef ();
-  
-  pc = pl->CreatePropertyClass (entity_dummy, "pcmesh");
-  if (!pc) return NULL;
-  pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
-  char buf[150];
-  sprintf (buf, "/this/celtest/data/large");
-  pcmesh->SetMesh ("large", buf);
-  pcmesh->MoveMesh (room, csVector3(1,1,1));
-  pcmesh->DecRef ();
-
-#endif
-
   // The Real Camera 
   
   iCelEntity* entity_cam = pl->CreateEntity ();
@@ -460,6 +417,8 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   pcmeshsel->SetSendmoveEvent (true);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
   pcmeshsel->DecRef ();
+
+  pccamera->DecRef();
 
   return entity_cam;
 }
@@ -627,7 +586,7 @@ bool CelTest::LoadPcFactory (const char* pcfactname)
     return false;
   }
 	 
-  //pf->DecRef ();
+  pf->DecRef ();
   return true;
 }
 

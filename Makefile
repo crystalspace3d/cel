@@ -151,7 +151,7 @@ $(CELTEST): $(CELTEST_OBJS)
 clean:
 	$(RM) $(CPERSIST_OBJS) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) \
 		$(PFMOVE_OBJS) $(PFTOOLS_OBJS) $(PFINV_OBJS) $(CELTEST_OBJS) \
-		$(PFENG_OBJS) $(CPERSIST) \
+		$(PFENG_OBJS) $(PFINPUT_OBJS) $(CPERSIST) \
 		$(PLIMP) $(BLTEST) $(PFTEST) $(PFENG) $(PFINPUT) \
 		$(PFMESH) $(PFMOVE) $(PFINV) $(PFTOOLS) $(CELTEST)
 
@@ -159,16 +159,17 @@ clean:
 # Create dependencies
 #------
 depend: $(CSCONFIG.MAK)
-	gcc -MM $(CXXFLAGS) $(CPERSIST_SRC) > makefile.dep
-	gcc -MM $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
-	gcc -MM $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFMESH_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFMOVE_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFTOOLS_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFENG_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(PFINV_SRC) >> makefile.dep
-	gcc -MM $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
+	gcc -M $(CPERSIST_SRC) $(CXXFLAGS) > makefile.dep
+	gcc -M $(CXXFLAGS) $(PLIMP_SRC) > makefile.dep
+	gcc -M $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFMESH_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFMOVE_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFTOOLS_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFENG_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFINV_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(PFINPUT_SRC) >> makefile.dep
+	gcc -M $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
 
 #------
 # Re-create the config flags include file
