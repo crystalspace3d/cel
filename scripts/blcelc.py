@@ -10823,8 +10823,6 @@ class iPcBillboard(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iPcBillboard, name)
     def SetBillboardName(*args): return apply(_blcelc.iPcBillboard_SetBillboardName,args)
     def GetBillboardName(*args): return apply(_blcelc.iPcBillboard_GetBillboardName,args)
-    def SetFilename(*args): return apply(_blcelc.iPcBillboard_SetFilename,args)
-    def GetFilename(*args): return apply(_blcelc.iPcBillboard_GetFilename,args)
     def GetBillboard(*args): return apply(_blcelc.iPcBillboard_GetBillboard,args)
     def __del__(self, destroy= _blcelc.delete_iPcBillboard):
         try:

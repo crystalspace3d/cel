@@ -48,16 +48,25 @@ class celPcBillboard : public celPcCommon
 {
 private:
   char* billboard_name;
-  char* filename;
   iBillboard* billboard;
   csRef<iBillboardManager> billboard_mgr;
+
+  enum propids
+  {
+    propid_billboardname = 0,
+    propid_materialname
+  };
+
+  static Property* properties;
+  static int propertycount;
+
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcBillboard (iObjectRegistry* object_reg);
   virtual ~celPcBillboard ();
 
   void SetBillboardName (const char* name);
-  void SetFilename (const char* filename);
   iBillboard* GetBillboard ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -76,14 +85,6 @@ public:
     virtual const char* GetBillboardName ()
     {
       return scfParent->billboard_name;
-    }
-    virtual void SetFilename (const char* filename)
-    {
-      scfParent->SetFilename (filename);
-    }
-    virtual const char* GetFilename ()
-    {
-      return scfParent->filename;
     }
     virtual iBillboard* GetBillboard ()
     {

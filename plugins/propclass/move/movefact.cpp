@@ -617,7 +617,6 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   propcount = &propertycount;
 
   propdata[propid_weight] = &weight;
-
 }
 
 celPcGravity::~celPcGravity ()

@@ -45,6 +45,33 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Billboard, "pcbillboard")
 
+Property* celPcBillboard::properties = 0;
+int celPcBillboard::propertycount = 0;
+
+void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT( pl != 0 );
+
+    propertycount = 2;
+    properties = new Property[propertycount];
+
+    properties[propid_billboardname].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.name");
+    properties[propid_billboardname].datatype = CEL_DATA_STRING;
+    properties[propid_billboardname].readonly = false;
+    properties[propid_billboardname].desc = "Name of billboard.";
+
+    properties[propid_materialname].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.materialname");
+    properties[propid_materialname].datatype = CEL_DATA_STRING;
+    properties[propid_materialname].readonly = false;
+    properties[propid_materialname].desc = "Name of material.";
+  }
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcBillboard)
@@ -59,9 +86,17 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcBillboard);
-  filename = 0;
   billboard_name = csStrNew ("default");
   billboard = 0;
+
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+
+  props = properties;
+  propcount = &propertycount;
+
+  propdata[propid_billboardname] = &billboard_name;
+  propdata[propid_materialname] = 0;	//@@@@@@@
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -70,7 +105,6 @@ celPcBillboard::~celPcBillboard ()
   {
     billboard_mgr->RemoveBillboard (billboard);
   }
-  delete[] filename;
   delete[] billboard_name;
 }
 
@@ -80,18 +114,17 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (4);
-  databuf->GetData (0)->Set (filename);
-  databuf->GetData (1)->Set (billboard_name);
+  databuf->SetDataCount (3);
+  databuf->GetData (0)->Set (billboard_name);
   if (billboard)
   {
-    databuf->GetData (2)->Set (billboard->GetMaterialName ());
-    databuf->GetData (3)->Set ((uint32)billboard->GetFlags ().Get ());
+    databuf->GetData (1)->Set (billboard->GetMaterialName ());
+    databuf->GetData (2)->Set ((uint32)billboard->GetFlags ().Get ());
   }
   else
   {
-    databuf->GetData (2)->Set ((const char*)0);
-    databuf->GetData (3)->Set ((uint32)0);
+    databuf->GetData (1)->Set ((const char*)0);
+    databuf->GetData (2)->Set ((uint32)0);
   }
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -101,21 +134,18 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != BILLBOARD_SERIAL) return false;
-  if (databuf->GetDataCount () != 4) return false;
+  if (databuf->GetDataCount () != 3) return false;
   celData* cd;
-  delete[] filename; filename = 0;
-  cd = databuf->GetData (0); if (!cd) return false;
-  filename = csStrNew (*cd->value.s);
 
   delete[] billboard_name; billboard_name = 0;
-  cd = databuf->GetData (1); if (!cd) return false;
+  cd = databuf->GetData (0); if (!cd) return false;
   billboard_name = csStrNew (*cd->value.s);
 
-  cd = databuf->GetData (2); if (!cd) return false;
+  cd = databuf->GetData (1); if (!cd) return false;
   if (billboard)
     billboard->SetMaterialName (*cd->value.s);
 
-  cd = databuf->GetData (3); if (!cd) return false;
+  cd = databuf->GetData (2); if (!cd) return false;
   GetBillboard ();
   if (billboard)
     billboard->GetFlags ().SetAll (cd->value.ul);
@@ -127,12 +157,6 @@ void celPcBillboard::SetBillboardName (const char* n)
 {
   delete[] billboard_name;
   billboard_name = csStrNew (n);
-}
-
-void celPcBillboard::SetFilename (const char* f)
-{
-  delete[] filename;
-  filename = csStrNew (f);
 }
 
 iBillboard* celPcBillboard::GetBillboard ()

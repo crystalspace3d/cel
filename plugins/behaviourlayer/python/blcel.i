@@ -369,8 +369,6 @@ struct iPcBillboard : public iBase
 {
   virtual void SetBillboardName (const char* name) = 0;
   virtual const char* GetBillboardName () = 0;
-  virtual void SetFilename (const char* filename) = 0;
-  virtual const char* GetFilename () = 0;
   virtual iBillboard* GetBillboard () = 0;
 };
 
