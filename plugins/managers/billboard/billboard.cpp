@@ -118,7 +118,7 @@ bool celBillboard::In (int cx, int cy)
 static G3DPolygonDPFX poly;
 static bool poly_init = false;
 
-void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
+void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
 {
   if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
   if (!material)
@@ -141,17 +141,19 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY;
   }
+  material->Visit ();
   poly.mat_handle = material->GetMaterialHandle ();
   int fh = g3d->GetHeight ();
   poly.vertices[0].Set (x, fh-y);
   poly.vertices[1].Set (x+w, fh-y);
   poly.vertices[2].Set (x+w, fh-y-h);
   poly.vertices[3].Set (x, fh-y-h);
-  poly.z[0] = 1;
-  poly.z[1] = 1;
-  poly.z[2] = 1;
-  poly.z[3] = 1;
-  g3d->SetZMode (CS_ZBUF_FILL);
+  float invz = 1.0 / z;
+  poly.z[0] = invz;
+  poly.z[1] = invz;
+  poly.z[2] = invz;
+  poly.z[3] = invz;
+  g3d->SetRenderState (G3DRENDERSTATE_ZBUFFERMODE, CS_ZBUF_FILL);
   g3d->DrawPolygonFX (poly);
 }
 
@@ -190,6 +192,9 @@ celBillboardManager::celBillboardManager (iBase* parent)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
   moving_billboard = 0;
+
+  z_min = 1;
+  z_max = 10;
 }
 
 celBillboardManager::~celBillboardManager ()
@@ -227,7 +232,7 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
   // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
   // @@@ KEEP Z-ORDER IN MIND!
   int i;
-  for (i = 0 ; i < billboards.Length () ; i++)
+  for (i = billboards.Length ()-1 ; i >= 0 ; i--)
   {
     csFlags& f = billboards[i]->GetFlags ();
     if (f.Check (CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE))
@@ -244,11 +249,17 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
     case csevBroadcast:
       if (ev.Command.Code == cscmdPostProcess)
       {
-        g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-        int i;
-        for (i = 0 ; i < billboards.Length () ; i++)
-        {
-          billboards[i]->Draw (engine, g3d);
+        if (billboards.Length () > 0)
+	{
+          g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+          int i;
+	  float z = z_max;
+	  float dz = (z_max-z_min) / float (billboards.Length ());
+          for (i = 0 ; i < billboards.Length () ; i++)
+          {
+            billboards[i]->Draw (engine, g3d, z);
+	    z -= dz;
+          }
         }
       }
       break;
@@ -273,6 +284,10 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 		CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE);
 	if (bb)
 	{
+	  if (bb->GetFlags ().Check (CEL_BILLBOARD_RESTACK))
+	  {
+	    StackTop (bb);
+	  }
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_MOVABLE))
 	  {
 	    moving_billboard = bb;
@@ -310,6 +325,74 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
   }
   return false;
 }
+
+void celBillboardManager::StackTop (iBillboard* bb)
+{
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  if (idx == billboards.Length ()-1) return;	// Nothing to do.
+  celBillboard* cbb = billboards.Extract (idx);
+  billboards.Push (cbb);
+}
+
+void celBillboardManager::StackBottom (iBillboard* bb)
+{
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  if (idx == 0) return; 			// Nothing to do.
+  celBillboard* cbb = billboards.Extract (idx);
+  billboards.Insert (1, cbb);
+}
+
+void celBillboardManager::StackUp (iBillboard* bb)
+{
+  if (billboards.Length () <= 1) return;	// Nothing to do.
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  if (idx == billboards.Length ()-1) return;	// Nothing to do.
+  celBillboard* cbb = billboards.Extract (idx);
+  billboards.Insert (idx+1, cbb);
+}
+
+void celBillboardManager::StackDown (iBillboard* bb)
+{
+  if (billboards.Length () <= 1) return;	// Nothing to do.
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  if (idx == 0) return;				// Nothing to do.
+  celBillboard* cbb = billboards.Extract (idx);
+  billboards.Insert (idx, cbb);
+}
+
+void celBillboardManager::StackBefore (iBillboard* bb, iBillboard* other)
+{
+  if (other == bb) return;
+  if (billboards.Length () <= 1) return;	// Nothing to do.
+  int idx_other = billboards.Find ((celBillboard*)other);
+  if (idx_other == -1) return;
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  celBillboard* cbb = billboards.Extract (idx);
+  idx_other = billboards.Find ((celBillboard*)other);
+  if (idx_other == billboards.Length ()-1)
+    billboards.Push (cbb);
+  else
+    billboards.Insert (idx_other+1, cbb);
+}
+
+void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
+{
+  if (other == bb) return;
+  if (billboards.Length () <= 1) return;	// Nothing to do.
+  int idx_other = billboards.Find ((celBillboard*)other);
+  if (idx_other == -1) return;
+  int idx = billboards.Find ((celBillboard*)bb);
+  if (idx == -1) return;
+  celBillboard* cbb = billboards.Extract (idx);
+  idx_other = billboards.Find ((celBillboard*)other);
+  billboards.Insert (idx_other, cbb);
+}
+
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)
 {

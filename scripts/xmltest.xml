@@ -42,31 +42,42 @@
         <script name="bb1">
 	    <event name="init">
 	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb1" />
+			string="bb_wood" />
 	        <property propclass="pcbillboard"
 			name="pcbillboard.materialname"
 			string="wood" />
 	        <property propclass="pcbillboard" name="pcbillboard.clickable"
 			bool="1" />
+	        <property propclass="pcbillboard" name="pcbillboard.restack"
+			bool="1" />
 	    </event>
 	    <event name="pcbillboard_select">
-	    </event>
-	    <event name="pcbillboard_unselect">
 	    </event>
 	</script>
         <script name="bb2">
 	    <event name="init">
 	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb1" />
+			string="bb_abstract" />
 	        <property propclass="pcbillboard"
 			name="pcbillboard.materialname"
-			string="wood" />
+			string="abstract" />
 	        <property propclass="pcbillboard" name="pcbillboard.movable"
 			bool="1" />
+	        <property propclass="pcbillboard" name="pcbillboard.restack"
+			bool="1" />
 	    </event>
-	    <event name="pcbillboard_select">
-	    </event>
-	    <event name="pcbillboard_unselect">
+	</script>
+        <script name="bb3">
+	    <event name="init">
+	        <property propclass="pcbillboard" name="pcbillboard.name"
+			string="bb_abstract_2" />
+	        <property propclass="pcbillboard"
+			name="pcbillboard.materialname"
+			string="abstract" />
+	        <property propclass="pcbillboard" name="pcbillboard.movable"
+			bool="1" />
+	        <property propclass="pcbillboard" name="pcbillboard.restack"
+			bool="1" />
 	    </event>
 	</script>
     </addon>
@@ -316,11 +327,27 @@
 
 	<addon plugin="celentity">
 	    <propclass name="pcbillboard" />
+            <behaviour name="bb1" />
+	</addon>
+	<addon plugin="celentity" entityname="a1">
+	    <propclass name="pcbillboard" />
+            <behaviour name="bb2" />
+	</addon>
+	<addon plugin="celentity" entityname="a1">
+	    <propclass name="pcbillboard" />
+            <behaviour name="bb2" />
+	</addon>
+	<addon plugin="celentity" entityname="a3">
+	    <propclass name="pcbillboard" />
+            <behaviour name="bb2" />
+	</addon>
+	<addon plugin="celentity" entityname="a4">
+	    <propclass name="pcbillboard" />
             <behaviour name="bb2" />
 	</addon>
 	<addon plugin="celentity">
 	    <propclass name="pcbillboard" />
-            <behaviour name="bb1" />
+            <behaviour name="bb3" />
 	</addon>
 
         <light>

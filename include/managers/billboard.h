@@ -61,10 +61,24 @@ struct iBillboardEventHandler : public iBase
 };
 
 
-
+/**
+ * If true then billboard is visible.
+ */
 #define CEL_BILLBOARD_VISIBLE 1
+/**
+ * If true then billboard is movable.
+ */
 #define CEL_BILLBOARD_MOVABLE 2
+/**
+ * If true then billboard is clickable (will send select, unselect, mousemove,
+ * and double click events).
+ */
 #define CEL_BILLBOARD_CLICKABLE 4
+/**
+ * If true then billboard will restack to the top of the stack
+ * if it is clicked on.
+ */
+#define CEL_BILLBOARD_RESTACK 8
 
 SCF_VERSION (iBillboard, 0, 0, 1);
 
@@ -172,6 +186,36 @@ struct iBillboardManager : public iBase
    * Set flags for all billboards.
    */
   virtual void SetFlags (uint32 flags, uint32 mask) = 0;
+
+  /**
+   * Bring a billboard to the top of the stack (first visible).
+   */
+  virtual void StackTop (iBillboard* bb) = 0;
+
+  /**
+   * Bring a billboard to the bottom of the stack.
+   */
+  virtual void StackBottom (iBillboard* bb) = 0;
+
+  /**
+   * Bring a billboard one closer to the top.
+   */
+  virtual void StackUp (iBillboard* bb) = 0;
+
+  /**
+   * Bring a billboard one closer to the bottom.
+   */
+  virtual void StackDown (iBillboard* bb) = 0;
+
+  /**
+   * Put a billboard before the given other billboard.
+   */
+  virtual void StackBefore (iBillboard* bb, iBillboard* other) = 0;
+
+  /**
+   * Put a billboard after the given other billboard.
+   */
+  virtual void StackAfter (iBillboard* bb, iBillboard* other) = 0;
 };
 
 #endif // __CEL_MGR_BILLBOARD__
