@@ -65,7 +65,7 @@ private:
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
-  NumReg idlist;
+  iNumReg* idlist;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
 
@@ -155,6 +155,8 @@ public:
   virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where);
   virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where);
 
+  virtual void ChangeNumReg(csString new_version);
+  
   struct Component : public iComponent
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);

@@ -20,18 +20,24 @@
 
 #include "numreg.h"
 
-NumReg::NumReg(int limit, int freelistsize, int startsize)
+//----------------------- NumRegLists --------------------------------------
+
+SCF_IMPLEMENT_IBASE(NumRegLists)
+  SCF_IMPLEMENTS_INTERFACE(iNumReg)
+SCF_IMPLEMENT_IBASE_END
+
+NumRegLists::NumRegLists(int limit, int freelistsize, int startsize)
 {
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
   freelist = new CS_ID[freelistsize];
   listsize = startsize;
-  NumReg::limit = limit;
+  NumRegLists::limit = limit;
   freelistend = 0;
-  NumReg::freelistsize = freelistsize;
+  NumRegLists::freelistsize = freelistsize;
 }
 
-NumReg::~NumReg()
+NumRegLists::~NumRegLists()
 {
   if(list)
     free(list);
@@ -41,7 +47,7 @@ NumReg::~NumReg()
 
 #define ADDSIZE	100
 
-CS_ID NumReg::intern_Register(void* obj)
+CS_ID NumRegLists::intern_Register(void* obj)
 {
   freelistend--;
   CS_ASSERT (freelistend < freelistsize);
@@ -51,7 +57,7 @@ CS_ID NumReg::intern_Register(void* obj)
   return freelist[freelistend];  
 }    
 
-CS_ID NumReg::Register (void* obj)
+CS_ID NumRegLists::Register (void* obj)
 {
   CS_ASSERT(obj != 0);
   
@@ -109,7 +115,39 @@ CS_ID NumReg::Register (void* obj)
   return 0;
 }
 
-bool NumReg::Remove (CS_ID num)
+void NumRegLists::RegisterWithID (void* obj, CS_ID id)
+{
+  CS_ASSERT(Get(id) == 0);
+
+  // First, grow the list if the id is too big.
+  if (id >= listsize)
+  {
+    CS_ID newsize;
+    if (listsize >= limit - ADDSIZE)
+      newsize = limit;
+    else
+      newsize = listsize + ADDSIZE;
+      
+    list = (void**) realloc((void*)list, newsize*sizeof(void*));
+  }
+
+  if (id >= listsize)
+  {
+    // Limit was on the road. Lets crash
+    CS_ASSERT (0 && "Limit reached");
+  }
+
+  list[id] = obj;
+
+  // Remove the spot from the freelist. 
+  for (size_t i = 0; i < freelistend; i++)
+  {
+    if (freelist[i] == id)
+      freelistend = i;
+  }
+}
+
+bool NumRegLists::Remove (CS_ID num)
 {
   CS_ASSERT(num<listsize);
   CS_ASSERT(list[num] != 0);
@@ -122,7 +160,7 @@ bool NumReg::Remove (CS_ID num)
   return true;
 }
 
-bool NumReg::Remove (void* obj)
+bool NumRegLists::Remove (void* obj)
 {
   CS_ASSERT(obj != 0);
   
@@ -142,7 +180,7 @@ bool NumReg::Remove (void* obj)
   return true;
 }
 
-void NumReg::Clear()
+void NumRegLists::Clear()
 {
   for (CS_ID i=0;i<listsize;i++)
   {
@@ -151,3 +189,69 @@ void NumReg::Clear()
   freelistend=0;
 } 
 
+//------------------------ NumRegHash --------------------------------------
+SCF_IMPLEMENT_IBASE(NumRegHash)
+  SCF_IMPLEMENTS_INTERFACE(iNumReg)
+SCF_IMPLEMENT_IBASE_END
+
+NumRegHash::NumRegHash()
+{
+  max_id = 0;
+}
+
+NumRegHash::~NumRegHash()
+{
+  Clear();
+}
+
+CS_ID NumRegHash::Register(void* obj)
+{
+  CS_ID id = max_id;
+
+  reg.Put(max_id, obj);
+  max_id++;
+
+  return id;
+}
+
+void NumRegHash::RegisterWithID(void* obj, CS_ID id)
+{
+  CS_ASSERT(Get(id) == 0);
+  
+  reg.Put(id, obj);
+}
+
+bool NumRegHash::Remove(CS_ID id)
+{
+  return reg.DeleteAll(id);
+}
+
+bool NumRegHash::Remove(void* obj)
+{
+  csHash<void*,CS_ID>::GlobalIterator it = reg.GetIterator();
+
+  while (it.HasNext())
+  {
+    if (it.NextNoAdvance() == obj)
+      reg.DeleteElement(it);
+
+    it.Advance();
+  }
+
+  return true;
+}
+
+void NumRegHash::Clear()
+{
+  reg.DeleteAll();
+}
+
+void* NumRegHash::Get(CS_ID id)
+{
+  return reg.Get(id, 0);
+}
+
+unsigned int NumRegHash::Length()
+{
+  return reg.GetSize();
+}
