@@ -1,5 +1,7 @@
 14-Dec-2001:
-	- keyboard input is better, but still doesn't work as expected...
+	- Keyboard input works now, but for some strange reason CS transmits
+       	  each key multiple times, and on the other side when pressing a key
+	  only short it isn't transmitted sometimes...
 	- cleaned up celtest a bit
 12-Dec-2001:
 	- Added iCelPropertyChangeCallback interface. Using this it will

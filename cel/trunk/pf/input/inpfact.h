@@ -41,7 +41,7 @@ CEL_DECLARE_FACTORY (CommandInput)
 struct celKeyMap
 {
     celKeyMap* next, *prev;
-    int key, shiftmask;
+    int key;
     char* command;
     bool is_on;
 };
@@ -109,7 +109,7 @@ public:
   } *scfiEventHandler;
 
 protected:
-  celKeyMap *GetMap(int key, int shiftmask) const;
+  celKeyMap *GetMap(int key) const;
 };
 
 #endif // __CEL_PF_TESTFACT__
