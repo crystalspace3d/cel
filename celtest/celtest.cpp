@@ -217,7 +217,8 @@ bool CelTest::CelTestEventHandler (iEvent& ev)
   return celtest->HandleEvent (ev);
 }
 
-csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name, const char* factName,
+csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
+	const char* factName,
 	iPcCamera* pccamera,
 	float weight, float size,
 	float max_indiv_weight, float max_weight,

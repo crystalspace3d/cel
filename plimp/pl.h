@@ -56,6 +56,7 @@ public:
    */
   void RemoveEntity(celEntity* entity);
   virtual iCelEntity* GetEntity (CS_ID id);
+  virtual iCelBehaviour* GetBehaviour (CS_ID id);
   
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);

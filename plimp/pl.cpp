@@ -127,9 +127,19 @@ void celPlLayer::RemoveEntity(celEntity *entity)
   }
 }
 
-iCelEntity* celPlLayer::GetEntity(CS_ID id)
+iCelEntity* celPlLayer::GetEntity (CS_ID id)
 {
-  return (iCelEntity*) idlist.Get(id);
+  return (iCelEntity*) idlist.Get (id);
+}
+
+iCelBehaviour* celPlLayer::GetBehaviour (CS_ID id)
+{
+  iCelEntity* ent = (iCelEntity*) idlist.Get (id);
+  if (ent)
+  {
+    return ent->GetBehaviour ();
+  }
+  return 0;
 }
 
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
