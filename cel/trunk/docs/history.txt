@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-Aug-2003
+	- Jorrit moved the apps/celtest/data directory to data so that the
+	  python scripts don't have to fetch stuff inside celtest directory.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is

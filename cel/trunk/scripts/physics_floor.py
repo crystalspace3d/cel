@@ -6,7 +6,7 @@ class physics_floor:
 	def real_init(self,celEntity,room,dynsys):
 		#mesh = celCreateMesh(physicallayer_ptr,celEntity)
 		# @@@ Ugly hardcoding of path!
-		#mesh.LoadMesh("box", "/this/apps/celtest/data/box")
+		#mesh.LoadMesh("box", "/this/data/box")
 		#pos = csVector3 (1,-1,5)
 		#mesh.MoveMesh(room,pos)
 
