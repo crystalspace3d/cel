@@ -5,6 +5,7 @@
 	- With some additional CS fixes there are now only two objects
 	  (one material and one texture) that leak when celtest cleans
 	  up game entity.
+	- All leaks are now gone.
 18-Nov-2001:
 	- Debugging with DG_TYPE for 'celEntity'.
 	- Added 'c' key to clear game (debugging too).
