@@ -174,12 +174,6 @@ void celPcActorMove::RotateTo (float yrot)
 void celPcActorMove::HandleMovement (bool jump)
 {
   FindSiblingPropertyClasses ();
-  if (!pccamera)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pccamera is missing!");
-    return;
-  }
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
