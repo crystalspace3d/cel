@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -42,6 +42,7 @@
 				OutputFile=".\release\temp\pfinv/pfinv.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\pfinv/pfinv.pdb"
 				ImportLibrary=".\release\temp\pfinv/pfinv.lib"/>
@@ -102,7 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\debug\temp\pfinv/pfinv.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfinv/pfinv.pdb"
 				ImportLibrary=".\debug\temp\pfinv/pfinv.lib"/>
@@ -137,17 +138,41 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\inv\invfact.h">
+				RelativePath="..\plugins\propclass\inv\invfact.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\inv\invfact.cpp">
+				RelativePath="..\plugins\propclass\inv\invfact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\pf\common\stdpcimp.cpp">
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>

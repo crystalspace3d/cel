@@ -42,7 +42,7 @@
 				OutputFile=".\debug\temp\pfinput/pfinput.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfinput/pfinput.pdb"
 				ImportLibrary=".\debug\temp\pfinput/pfinput.lib"/>
@@ -81,7 +81,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_MT;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -103,6 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\release\temp\pfinput/pfinput.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\pfinput/pfinput.pdb"
 				ImportLibrary=".\release\temp\pfinput/pfinput.lib"/>
@@ -137,17 +138,29 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\input\inpfact.h">
+				RelativePath="..\plugins\propclass\input\inpfact.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\input\inpfact.cpp">
+				RelativePath="..\plugins\propclass\input\inpfact.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\pf\common\stdpcimp.cpp">
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
 		</Filter>
 	</Files>

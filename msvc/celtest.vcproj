@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,_MT,WIN32,WIN32_VOLATILE,__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -42,6 +42,7 @@
 				OutputFile=".\release\temp\celtest/celtest.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD,LIBCMT"
 				ProgramDatabaseFile=".\release\temp\celtest/celtest.pdb"
 				SubSystem="2"/>
@@ -102,7 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\debug\temp\celtest/celtest.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\celtest/celtest.pdb"
 				SubSystem="2"/>

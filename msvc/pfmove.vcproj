@@ -42,7 +42,7 @@
 				OutputFile=".\debug\temp\pfmove/pfmove.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\pfmove/pfmove.pdb"
 				ImportLibrary=".\debug\temp\pfmove/pfmove.lib"/>
@@ -81,7 +81,7 @@ copy &quot;$(TargetPath)&quot;  ..
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -103,6 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\release\temp\pfmove/pfmove.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\pfmove/pfmove.pdb"
 				ImportLibrary=".\release\temp\pfmove/pfmove.lib"/>
@@ -137,17 +138,35 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\move\movefact.h">
+				RelativePath="..\plugins\propclass\move\linmove.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\movefact.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\pf\move\movefact.cpp">
+				RelativePath="..\plugins\propclass\move\linmove.cpp">
 			</File>
 			<File
-				RelativePath="..\pf\common\stdpcimp.cpp">
+				RelativePath="..\plugins\propclass\move\movefact.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
 			</File>
 		</Filter>
 	</Files>

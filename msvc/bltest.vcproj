@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_MT;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -42,6 +42,7 @@
 				OutputFile=".\release\temp\bltest/bltest.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\bltest/bltest.pdb"
 				ImportLibrary=".\release\temp\bltest/bltest.lib"/>
@@ -102,7 +103,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\debug\temp\bltest/bltest.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\bltest/bltest.pdb"
 				ImportLibrary=".\debug\temp\bltest/bltest.lib"/>
@@ -137,20 +138,44 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\bltest\behave.h">
+				RelativePath="..\plugins\behaviourlayer\test\behave.h">
 			</File>
 			<File
-				RelativePath="..\bltest\bl.h">
+				RelativePath="..\plugins\behaviourlayer\test\bl.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\bltest\behave.cpp">
+				RelativePath="..\plugins\behaviourlayer\test\behave.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\bltest\bl.cpp">
+				RelativePath="..\plugins\behaviourlayer\test\bl.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>

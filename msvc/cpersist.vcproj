@@ -19,7 +19,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\include,..\"
+				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
 				PreprocessorDefinitions="NDEBUG;_MT;_WINDOWS;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -39,6 +39,7 @@
 				OutputFile=".\release\temp\cpersist/cpersist.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\cpersist/cpersist.pdb"
 				ImportLibrary=".\release\temp\cpersist/cpersist.lib"/>
@@ -99,7 +100,7 @@ copy &quot;$(TargetPath)&quot;  ..
 				OutputFile=".\debug\temp\cpersist/cpersist.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="d:\kwf\prog\CS\mk\visualc\csdebug\libs,d:\kwf\prog\CS\mk\visualc\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\cpersist/cpersist.pdb"
 				ImportLibrary=".\debug\temp\cpersist/cpersist.lib"/>
@@ -134,14 +135,26 @@ copy &quot;$(TargetPath)&quot;  ..
 			Name="Header FIles"
 			Filter="">
 			<File
-				RelativePath="..\persist\classic\cpersist.h">
+				RelativePath="..\plugins\persist\classic\cpersist.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\persist\classic\cpersist.cpp">
+				RelativePath="..\plugins\persist\classic\cpersist.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
