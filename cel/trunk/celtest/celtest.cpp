@@ -313,7 +313,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
 iCelEntity* CelTest::CreateDummyEntity (const char* name,
 	const char* factName,
 	float weight, float size, const csVector3& pos,
-	const csVector3& force)
+	const csVector3& force, bool python)
 {
   iCelPropertyClass* pc;
   iPcMesh* pcmesh;
@@ -324,8 +324,23 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
   iCelEntity* entity_dummy = pl->CreateEntity ();
   entity_dummy->SetName (name);
-  entity_dummy->SetBehaviour (bltest->CreateBehaviour (entity_dummy,
-  	"printer"));
+  iCelBehaviour* bh;
+  if (python && blpython)
+  {
+    bh = blpython->CreateBehaviour (entity_dummy, "printer");
+  }
+  else
+  {
+    bh = bltest->CreateBehaviour (entity_dummy, "printer");
+  }
+
+  pc = pl->CreatePropertyClass (entity_dummy, "pctimer");
+  if (!pc) return NULL;
+  iPcTimer* pctimer = SCF_QUERY_INTERFACE_FAST (pc, iPcTimer);
+  pctimer->WakeUp (1000, true);
+  pctimer->DecRef ();
+
+  entity_dummy->SetBehaviour (bh);
   pc = pl->CreatePropertyClass (entity_dummy, "pccharacteristics");
   if (!pc) return NULL;
   pcchars = SCF_QUERY_INTERFACE_FAST (pc, iPcCharacteristics);
@@ -516,38 +531,38 @@ bool CelTest::CreateRoom ()
   // Create dummy entities.
   //===============================
   entity_dummy = CreateDummyEntity ("dummy1", "large",
-  	.3, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0));
+  	.3, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
 #if !MINIMAL
   entity_dummy = CreateDummyEntity ("dummy2", "small",
-  	.4, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0));
+  	.4, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy3", "large",
-  	.2, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0));
+  	.2, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy4", "medium",
-  	.7, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0));
+  	.7, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy5", "small",
-  	.1, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0));
+  	.1, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
 
   entity_dummy = CreateDummyEntity ("dummy6", "medium",
-  	.3, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0));
+  	.3, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();
@@ -649,8 +664,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
 	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
 		iCelBlLayer),
-	//CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
-		//iCelBlLayer),
+	CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
+		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistance.classic", iCelPersistance),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid",
 		iCollideSystem),

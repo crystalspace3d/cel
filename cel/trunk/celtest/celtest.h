@@ -72,7 +72,8 @@ private:
   	const csVector3& pos);
   iCelEntity* CreateDummyEntity (const char* name, const char* factName,
   	float weight, float size,
-  	const csVector3& pos, const csVector3& force);
+  	const csVector3& pos, const csVector3& force,
+	bool python);
   iCelEntity* CreateActor (const char *name, const char* factName,
 	const csVector3& pos);
   

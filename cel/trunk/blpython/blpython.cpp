@@ -79,17 +79,20 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   if (path[0] == 0) strcpy (path, "./");
 
   if (!LoadModule ("sys")) return false;
-  csString cmd;
-  cmd << "sys.path.append('" << path << "scripts/')";
-  if (!RunText (cmd)) return false;
-  if (!LoadModule ("pdb")) return false;
-  if (!LoadModule ("celblc")) return false;
-  if (!LoadModule ("celbl")) return false;
 
-  // Store the object registry pointer in 'cspace.object_reg'.
-  Store ("cspace.object_reg_ptr", object_reg, (void*)"_iObjectRegistry_p");
+  csString cmd;
+  cmd << "sys.path.append('" << path << "scripts/python/')";
+  if (!RunText (cmd)) return false;
+  if (!RunText ("sys.path.append('scripts/')")) return false;
+  
+  if (!LoadModule ("pdb")) return false;
+  if (!LoadModule ("blcelc")) return false;
+  if (!LoadModule ("blcel")) return false;
+
+  // Store the object registry pointer in 'blcel.object_reg'.
+  Store ("blcel.object_reg_ptr", object_reg, (void*)"_iObjectRegistry_p");
   RunText (
-  	"cspace.object_reg=cspace.iObjectRegistryPtr(cspace.object_reg_ptr)");
+  	"blcel.object_reg=blcel.iObjectRegistryPtr(blcel.object_reg_ptr)");
 
   return true;
 }
@@ -106,13 +109,13 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   LoadModule (name);
   RunText (cmd);
   celPythonBehaviour* bh = new celPythonBehaviour (this,
-  	entity, name);
+  	entity, entity->GetName ());
   return bh;
 }
 
 void celBlPython::ShowError ()
 {
-  if( PyErr_Occurred ())
+  if (PyErr_Occurred ())
   {
     PyErr_Print ();
     Print (true, "ERROR!");
@@ -124,7 +127,11 @@ bool celBlPython::RunText (const char* Text)
   csString str(Text);
   bool worked = !PyRun_SimpleString (str.GetData ());
   if (!worked) 
-    PyRun_SimpleString ("pdb.pm()");
+  {
+    printf ("Error running text '%s'\n", Text);
+    fflush (stdout);
+    //PyRun_SimpleString ("pdb.pm()");
+  }
   ShowError ();
   return worked;
 }
@@ -151,7 +158,10 @@ void celBlPython::Print (bool Error, const char *msg)
 {
   iReporter* rep = CS_QUERY_REGISTRY (object_reg, iReporter);
   if (!rep)
+  {
     csPrintf ("%s\n", msg);
+    fflush (stdout);
+  }
   else
   {
     if (Error)
@@ -205,7 +215,7 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
   char msg_info_ptr[100];
   SWIG_MakePtr (msg_info_ptr, msg_info, "_iBase_p");
   // @@@ 'name' will be replaced with more unique stuff.
-  sprintf (buf, "%s.%s(%s,%s)", name, msg_id, entityPtr, msg_info_ptr);
+  sprintf (buf, "%s.%s(\"%s\",\"%s\")", name, msg_id, entityPtr, msg_info_ptr);
   scripter->RunText (buf);
 
   return true;
