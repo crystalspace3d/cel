@@ -12,6 +12,12 @@ The history order is reversed so that new features are at the top.
 	  every time it was needed.
 	- Jorrit optimized cpersist plugin by remembering VFS.
 	- Keith fixed a compile error in linmove.h.
+	- Keith added UpdateDR method to linmove.  This function takes a
+	  csTicks value and calls ExtrapolatePosition with delta relative to 
+	  the last DR update ticks value in the PC already.  This function
+	  allows a server to synchronize positions across many entities as
+	  of a point in time, even when those entities are being updated 
+	  at all different times by clients.
 8-Jul-2003
 	- Jorrit fixed a bug in pclinmove where it would register collisions
 	  with the same object. Now pclinmove ignores collisions from the

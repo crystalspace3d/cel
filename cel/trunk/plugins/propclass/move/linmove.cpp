@@ -547,6 +547,14 @@ bool celPcLinearMovement::MoveV (float delta)
   return true;
 }
 
+void celPcLinearMovement::UpdateDR (csTicks ticks)
+{
+  float delta = ticks - lastDRUpdate;
+  delta /= 1000;
+  ExtrapolatePosition (delta);
+  lastDRUpdate = ticks;
+}
+
 void celPcLinearMovement::ExtrapolatePosition (float delta)
 {
   bool rc = MoveSprite (delta);
