@@ -53,12 +53,6 @@ private:
   iCelPlLayer* pl;
   iCelBlLayer* bl;
   iCelEntity* game;
-  iCelPropertyClassFactory* pftest;
-  iCelPropertyClassFactory* pfmesh;
-  iCelPropertyClassFactory* pfinv;
-  iCelPropertyClassFactory* pfmove;
-  iCelPropertyClassFactory* pftools;
-  iCelPropertyClassFactory* pfengine;
  
   static bool CelTestEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
@@ -78,7 +72,9 @@ private:
   iCelEntity* CreateDummyEntity (const char* name, const char* factName,
   	float weight, float size,
   	const csVector3& pos, const csVector3& force);
-
+  iCelEntity* CreateActor (const char *name, const char* factName,
+	const csVector3& pos);
+  
 public:
   CelTest ();
   ~CelTest ();

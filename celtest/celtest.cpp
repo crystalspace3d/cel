@@ -76,6 +76,7 @@
 #include "pf/gravity.h"
 #include "pf/timer.h"
 #include "pf/region.h"
+#include "pf/input.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -98,22 +99,10 @@ CelTest::CelTest ()
   pl = NULL;
   bl = NULL;
   game = NULL;
-  pftest = NULL;
-  pfmesh = NULL;
-  pfinv = NULL;
-  pfmove = NULL;
-  pftools = NULL;
-  pfengine = NULL;
 }
 
 CelTest::~CelTest ()
 {
-  if (pftest) pftest->DecRef ();
-  if (pfmesh) pfmesh->DecRef ();
-  if (pfinv) pfinv->DecRef ();
-  if (pfmove) pfmove->DecRef ();
-  if (pftools) pftools->DecRef ();
-  if (pfengine) pfengine->DecRef ();
   if (game) game->DecRef ();
   if (pl)
   {
@@ -356,13 +345,69 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   return entity_dummy;
 }
 
+iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
+    const csVector3& /*pos*/) 
+{
+  iCelPropertyClass* pc;
+  //iPcMesh* pcmesh;
+  iPcCamera* pccamera;
+  iPcMeshSelect* pcmeshsel;
+  
+  iCelEntity* entity_cam = pl->CreateEntity ();
+  entity_cam->SetName (name);
+  entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "room"));
+  entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "printer"));
+  
+  pc = pl->CreatePropertyClass (entity_cam, "pccamera");
+  if (!pc) return NULL;
+  pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
+
+#if 0
+  pc = pl->CreatePropertyClass (entity_cam, "pcmesh");
+  if (!pc) return NULL;
+
+  pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+  char buf[150];
+  sprintf (buf, "/this/celtest/data/stoneb");
+  pcmesh->SetMesh ("stoneb", buf);
+  pcmesh->MoveMesh (room, csVector3(0,0,0));
+  pcmesh->DecRef ();
+#endif
+
+  pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
+  if (!pc) return NULL;
+ 
+  pc = pl->CreatePropertyClass (entity_cam, "pctooltip");
+  if (!pc) return NULL;
+
+  pc = pl->CreatePropertyClass (entity_cam, "pckeyinput");
+  if (!pc) return NULL;
+  iPcCommandInput *pcinp= SCF_QUERY_INTERFACE (pc, iPcCommandInput);
+  if (!pcinp) return NULL;
+  pcinp->Bind ("up","forward");
+
+  pc = pl->CreatePropertyClass (entity_cam, "pcmeshselect");
+  if (!pc) return false;
+  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (pccamera);
+  pcmeshsel->SetGlobalSelection (true);
+  pcmeshsel->SetFollowMode (false);
+  pcmeshsel->SetFollowAlwaysMode (true);
+  pcmeshsel->SetDragMode (true);
+  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
+  pcmeshsel->SetSendmoveEvent (true);
+  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
+  pcmeshsel->DecRef ();
+
+  return entity_cam;
+}
+
 bool CelTest::CreateRoom ()
 {
   iCelEntity* entity_room;
   iCelEntity* entity_box, * entity_dummy;
   iCelPropertyClass* pc;
   iPcInventory* pcinv_room;
-  iPcMeshSelect* pcmeshsel;
   iPcRegion* pcregion;
   
   //===============================
@@ -384,27 +429,16 @@ bool CelTest::CreateRoom ()
   pcregion->Load ();
   room = pcregion->GetStartSector ();
 
-  pc = pl->CreatePropertyClass (entity_room, "pccamera");
-  if (!pc) return false;
-  iPcCamera* pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
+  entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
+  if (!entity_dummy) return false;
+  iPcCamera *pccamera = CEL_QUERY_PROPCLASS
+    (entity_dummy->GetPropertyClassList(), iPcCamera);
+  if (!pccamera) return false;
   pcregion->PointCamera (pccamera);
   pcregion->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_room, "pctooltip");
   if (!pc) return false;
-
-  pc = pl->CreatePropertyClass (entity_room, "pcmeshselect");
-  if (!pc) return false;
-  pcmeshsel = SCF_QUERY_INTERFACE_FAST (pc, iPcMeshSelect);
-  pcmeshsel->SetCamera (pccamera);
-  pcmeshsel->SetGlobalSelection (true);
-  pcmeshsel->SetFollowMode (false);
-  pcmeshsel->SetFollowAlwaysMode (true);
-  pcmeshsel->SetDragMode (true);
-  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
-  pcmeshsel->SetSendmoveEvent (true);
-  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
-  pcmeshsel->DecRef ();
 
   pc = pl->CreatePropertyClass (entity_room, "pcinventory");
   if (!pc) return false;
@@ -557,6 +591,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.pcfactory.region", "pfengine");
   iSCF::SCF->RegisterClass ("cel.pcfactory.camera", "pfengine");
   iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv");
+  iSCF::SCF->RegisterClass ("cel.pcfactory.pckeyinput", "pfinput");
   iSCF::SCF->RegisterClass ("cel.pcfactory.characteristics", "pfinv");
   iSCF::SCF->RegisterClass ("cel.persistance.classic", "cpersist");
 
@@ -698,6 +733,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (!LoadPcFactory ("cel.pcfactory.mesh"))
     return false;
   if (!LoadPcFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.pckeyinput"))
     return false;
 
   if (!LoadTextures ()) return false;
