@@ -48,12 +48,11 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 # Check for external libraries
 #----------------------------------------------------------------------------
-
 CS_PATH_CRYSTAL_JAM([0.97], [],
   [AC_MSG_ERROR([
-*** Crystal Space could not be found. The latest version is always avaiable
+*** Crystal Space could not be found. The latest version is always available
 *** from http://crystal.sourceforge.net/
-*** Be sure also that you have either installed Crystal Space or set the
+*** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
 ])], [csgeom csgfx csutil cstool])
 
@@ -76,7 +75,10 @@ CS_JAMCONFIG_PROPERTY([MODE], [$cs_build_mode])
 #-----------------------------------------------------------------------------
 CS_OUTPUT_INSTALLDIRS
 CS_EMIT_PACKAGEINFO([jam])
-                                                                                
+
+# For Makefile.in
+AC_SUBST([INSTALLDIR_PLUGIN], [$libdir/$PACKAGE_NAME])
+
 #----------------------------------------------------------------------------
 # Output generated files.  Also create a Jamfile when compiling outside
 # source directory.
@@ -93,4 +95,3 @@ so you can type 'jam' to build it.  (Building the project with GNU
 'make' is also supported, though deprecated and not necessarily well
 maintained.)
 ])
-
