@@ -1,5 +1,6 @@
 12-May-2003
-	- Boyan added some error handlings to blpython
+	- Boyan added some error handlings to blpython and fixed bug in 
+	  celCreateEntity.
 10-May-2003
 	- Boyan updated Python plugin to use low level Python API.
 09-May-2003
