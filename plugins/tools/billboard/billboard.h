@@ -47,11 +47,20 @@ private:
   csFlags flags;
   char* materialname;
   iMaterialWrapper* material;
+  int image_w, image_h;
   int x, y, w, h;
   csRefArray<iBillboardEventHandler> handlers;
+  iEngine* engine;
+
+  bool has_clickmap;
+  uint8* clickmap;
+
+  void SetupMaterial ();
+  bool GetFromClickMap (int x, int y);
+  void SetClickMap (int x, int y, bool v);
 
 public:
-  celBillboard ();
+  celBillboard (iEngine* engine);
   virtual ~celBillboard ();
 
   void SetName (const char* n)
@@ -61,10 +70,10 @@ public:
   }
 
   // Draw billboard (requires 3D mode of g3d).
-  void Draw (iEngine* engine, iGraphics3D* g3d, float z);
+  void Draw (iGraphics3D* g3d, float z);
 
   // Check if x,y is in billboard.
-  bool In (iEngine* engine, int cx, int cy);
+  bool In (int cx, int cy);
 
   // Fire event handlers.
   void FireMouseUp (int x, int y, int button);

@@ -36,29 +36,127 @@ SCF_IMPLEMENT_IBASE (celBillboard)
   SCF_IMPLEMENTS_INTERFACE (iBillboard)
 SCF_IMPLEMENT_IBASE_END
 
-celBillboard::celBillboard ()
+celBillboard::celBillboard (iEngine* engine)
 {
   SCF_CONSTRUCT_IBASE (0);
   name = 0;
   flags.SetAll (CEL_BILLBOARD_VISIBLE);
   materialname = 0;
   material = 0;
+  image_w = image_h = -1;
   x = y = 0;
   w = h = -1;
+  celBillboard::engine = engine;
+  has_clickmap = false;
 }
 
 celBillboard::~celBillboard ()
 {
   delete[] name;
   delete[] materialname;
+  delete[] clickmap;
 }
 
+bool celBillboard::GetFromClickMap (int x, int y)
+{
+  if (!has_clickmap)
+    SetupMaterial ();
+  if (!clickmap) return true;
+  uint8 c = clickmap[y*(1 + image_w/8) + x/8];
+  return (c & (1<<(x%8))) != 0;
+}
+
+void celBillboard::SetClickMap (int x, int y, bool v)
+{
+  if (!clickmap) return;
+  uint8& c = clickmap[y*(1 + image_w/8) + x/8];
+  uint8 mask = 1<<(x%8);
+  if (v) c |= mask;
+  else c &= ~mask;
+}
+
+void celBillboard::SetupMaterial ()
+{
+  if (!material)
+  {
+    material = engine->FindMaterial (materialname);
+    if (!material) return;
+    material->Visit ();
+  }
+
+  if (image_w == -1)
+  {
+    if (material->GetMaterialHandle ())
+    {
+      material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
+    	image_w, image_h);
+    }
+  }
+
+  if (w == -1)
+  {
+    w = image_w;
+    h = image_h;
+  }
+
+  if (!has_clickmap)
+  {
+    csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
+    	material->GetMaterial (), iMaterialEngine);
+    if (mateng)
+    {
+      iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
+      iImage* image = texwrap->GetImageFile ();
+      if (image)
+      {
+        image_w = image->GetWidth ();
+        image_h = image->GetHeight ();
+        has_clickmap = true;
+        // Only truecolor supported.
+        clickmap = new uint8 [image_h * (1 + image_w / 8)];
+	memset (clickmap, 0, image_h * (1 + image_w / 8));
+        if ((image->GetFormat () & CS_IMGFMT_MASK) == CS_IMGFMT_TRUECOLOR)
+	{
+	  int r, g, b;
+	  texwrap->GetKeyColor (r, g, b);
+          if (r != -1)
+	  {
+	    csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
+	    int x, y;
+	    for (y = 0 ; y < image_h ; y++)
+	      for (x = 0 ; x < image_w ; x++)
+	      {
+	        SetClickMap (x, y, data->red != r || data->green != g ||
+			data->blue != b);
+	        data++;
+	      }
+	  }
+	  else
+	  {
+	    csRGBpixel* data = (csRGBpixel*)image->GetImageData ();
+	    int x, y;
+	    for (y = 0 ; y < image_h ; y++)
+	      for (x = 0 ; x < image_w ; x++)
+	      {
+	        SetClickMap (x, y, data->alpha != 0);
+		data++;
+	      }
+	  }
+        }
+      }
+    }
+  }
+}
 
 bool celBillboard::SetMaterialName (const char* matname)
 {
   delete[] materialname;
   materialname = csStrNew (matname);
   material = 0;
+  delete[] clickmap;
+  clickmap = 0;
+  has_clickmap = false;
+  SetupMaterial ();
   return true;
 }
 
@@ -109,21 +207,17 @@ void celBillboard::FireMouseDoubleClick (int x, int y, int button)
 }
 
 
-bool celBillboard::In (iEngine* engine, int cx, int cy)
+bool celBillboard::In (int cx, int cy)
 {
-  if (!material)
+  if (w == -1 || !has_clickmap)
   {
-    material = engine->FindMaterial (materialname);
-    if (!material) return false;
-  }
-  material->Visit ();
-  if (w == -1)
-  {
-    material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
-    	w, h);
+    SetupMaterial ();
+    if (w == -1 || !has_clickmap) return false;
   }
   if (cx >= x && cx < x+w && cy >= y && cy < y+h)
-    return true;
+  {
+    return GetFromClickMap (cx-x, cy-y);
+  }
   else
     return false;
 }
@@ -131,7 +225,7 @@ bool celBillboard::In (iEngine* engine, int cx, int cy)
 static G3DPolygonDPFX poly;
 static bool poly_init = false;
 
-void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
+void celBillboard::Draw (iGraphics3D* g3d, float z)
 {
   if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
   if (!poly_init)
@@ -149,17 +243,9 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY;
   }
-  if (!material)
-  {
-    material = engine->FindMaterial (materialname);
-    if (!material) return;
-  }
+  SetupMaterial ();
+  if (!material) return;
   material->Visit ();
-  if (w == -1)
-  {
-    material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
-    	w, h);
-  }
   poly.mat_handle = material->GetMaterialHandle ();
   int fh = g3d->GetHeight ();
   poly.vertices[0].Set (x, fh-y);
@@ -254,8 +340,10 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
   {
     csFlags& f = billboards[i]->GetFlags ();
     if (f.Check (CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE))
-      if (billboards[i]->In (engine, x, y))
+    {
+      if (billboards[i]->In (x, y))
         return billboards[i];
+    }
   }
   return 0;
 }
@@ -275,7 +363,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	  float dz = (z_max-z_min) / float (billboards.Length ());
           for (i = 0 ; i < billboards.Length () ; i++)
           {
-            billboards[i]->Draw (engine, g3d, z);
+            billboards[i]->Draw (g3d, z);
 	    z -= dz;
           }
         }
@@ -414,7 +502,7 @@ void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
 
 iBillboard* celBillboardManager::CreateBillboard (const char* name)
 {
-  celBillboard* bb = new celBillboard ();
+  celBillboard* bb = new celBillboard (engine);
   bb->SetName (name);
   billboards.Push (bb);
   billboards_hash.Put (name, bb);
