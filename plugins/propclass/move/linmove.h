@@ -85,6 +85,8 @@ protected:
   // Linear vars
   // Actual velocity
   csVector3 angularVelocity;
+  csVector3 angleToReach;
+  bool angleToReachFlag;
   csVector3 vel;
   // Target velocity
   csVector3 targAngularVelocity;
@@ -131,6 +133,7 @@ public:
   bool HandleEvent (iEvent& ev);
 
   void SetAngularVelocity (const csVector3& angle);
+  void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach);
   void SetVelocity (const csVector3& vel );
   void GetVelocity (csVector3& v) const;
   /**
@@ -264,6 +267,11 @@ public:
     {
       scfParent->SetAngularVelocity (angle);
     }	  
+
+    void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach)
+    {
+      scfParent->SetAngularVelocity (angle, angle_to_reach);
+    }
 
     virtual void SetVelocity (const csVector3& vel)
     {

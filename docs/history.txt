@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Jul-2004
+	- Jorrit got a patch from Thomas Degris <thomas.degris@lip6.fr>
+	  to set the looking direction of an actor directly through
+	  iPcActorMove->RotateTo() and a new version of
+	  iPcLinearMovement->SetAngularVelocity().
 5-Jul-2004
 	- Jorrit fixed several warnings in CEL caused by a few places
 	  where size_t was not fixed.

@@ -55,6 +55,13 @@ struct iPcLinearMovement : public iBase
   virtual void SetAngularVelocity (const csVector3& angle) = 0;
 
   /**
+   * Set the orientation of the mesh with three given euler angles
+   * with a maximum to reached. It returns true if this maximum has
+   * has been reached.
+   */
+  virtual void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach) = 0;
+
+  /**
    * Set the current speed.
    */
   virtual void SetSpeed (float speedZ) = 0;
