@@ -4,7 +4,7 @@ BUILDTOP ?= "@top_builddir@" ;
 SubDir TOP ;
 
 IncludeDir ;
-IncludeDir include ;
+IncludeDir "include" ;
 IncludeDir $(BUILDTOP) : : ignoresubdir ;
 
 # Construct a distclean target
