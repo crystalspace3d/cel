@@ -1,3 +1,7 @@
+30-Mar-2002:
+	- Matze added an extra parameter to pcmesh->SetAction. If resetaction
+	  is false like the default it doesn't set the action if it's the same
+	  like the current action
 26-Mar-2002:
 	- Matze added a RemoveEntity callback, that makes it possible for the
 	  persistance layer contexts to only keep soft refs to entities

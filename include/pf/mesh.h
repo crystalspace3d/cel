@@ -69,7 +69,7 @@ struct iPcMesh : public iBase
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
-  virtual void SetAction (const char* actionName) = 0;
+  virtual void SetAction (const char* actionName, bool reset = false) = 0;
 
   /**
    * Return the current action name.

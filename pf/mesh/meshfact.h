@@ -69,7 +69,7 @@ public:
   void CreateEmptyThing ();
   iMeshWrapper* GetMesh () { return mesh; }
   void MoveMesh (iSector* sector, const csVector3& pos);
-  void SetAction (const char* actionName);
+  void SetAction (const char* actionName, bool reset = false);
   const char* GetAction ();
   void Hide ();
   void Show ();
@@ -104,9 +104,9 @@ public:
     {
       scfParent->MoveMesh (sector, pos);
     }
-    virtual void SetAction (const char* actionName)
+    virtual void SetAction (const char* actionName, bool reset = false)
     {
-      scfParent->SetAction (actionName);
+      scfParent->SetAction (actionName, reset);
     }
     virtual const char* GetAction ()
     {
