@@ -15,9 +15,9 @@ The history order is reversed so that new features are at the top.
 	  Also iCelPropertyClass has been extended with two new functions:
 	      - TickOnce()
 	      - TickEveryFrame()
-	  Using these new functions property classes can now register themselves
-	  as being interested in receiving events once or every frame. This
-	  system has two main advantages:
+	  Using these new functions property classes can now register
+	  themselves as being interested in receiving events once or every
+	  frame.  This system has two main advantages:
 	      - A lot easier to use (no longer needed to implement an internal
 	        event handler)
 	      - More efficient as CS only gets to see one event handler instead
@@ -33,6 +33,10 @@ The history order is reversed so that new features are at the top.
 	  avoiding realloc of the weak ref arrays. The current way is much
 	  more optimal.
 	- Jorrit did another optimization on removal of PC callbacks.
+	- Eric Sunshine upgraded Jam files from master copies in CS repository.
+	  This should fix problem where _static_init.cpp file for
+	  bootstrap_static target was compiled without CRYSTAL.CFLAGS (thus it
+	  was unable to find cssysdef.h, scf.h, etc.).
 13-Jul-2004
 	- Eric Sunshine renamed celData::SetBool() to Set(), and
 	  celDataBufHelper::SetBool() to Set() in order to fix numerous
