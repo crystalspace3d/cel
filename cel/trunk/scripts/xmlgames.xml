@@ -843,7 +843,7 @@
 	      - End movement.
 	      -->
 	    <event name="endmove">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -853,7 +853,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -1351,7 +1351,7 @@
 		<var name="layer_x" value="?layer_movetox" />
 		<var name="layer_y" value="?layer_movetoy" />
 		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 
 		<!-- Counter to avoid doing too much work every frame -->
 		<var name="counter" value="10" />
@@ -2181,55 +2181,55 @@
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pckeyinput" />
 		<default propclass="pc(pckeyinput)" />
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="left" />
 		    <par id="parid(command)" value="move_left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="up" />
 		    <par id="parid(command)" value="move_up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="down" />
 		    <par id="parid(command)" value="move_down" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-right'" />
 		    <par id="parid(command)" value="take_right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-left'" />
 		    <par id="parid(command)" value="take_left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-up'" />
 		    <par id="parid(command)" value="take_up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-down'" />
 		    <par id="parid(command)" value="take_down" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'ctrl-right'" />
 		    <par id="parid(command)" value="rot_right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'ctrl-left'" />
 		    <par id="parid(command)" value="rot_left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'ctrl-up'" />
 		    <par id="parid(command)" value="rot_up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'ctrl-down'" />
 		    <par id="parid(command)" value="rot_down" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="space" />
 		    <par id="parid(command)" value="bomb" />
 		</action>
@@ -3049,7 +3049,7 @@
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3060,7 +3060,7 @@
 		    <if eval="?twosteps">
 		        <!-- Movement in two steps -->
 			<var name="twosteps" value="false" />
-			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(500*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3085,7 +3085,7 @@
 		    <true>
 		    	<!-- Movement is in two steps -->
 			<var name="twosteps" value="true" />
-			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(500*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3093,7 +3093,7 @@
 		    </true>
 		    <false>
 			<var name="twosteps" value="false" />
-			<action propclass="pc(pctimer)" id="propid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(1000*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3129,7 +3129,7 @@
 		        </if>
 		    </if>
 		</if>
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3166,7 +3166,7 @@
 		<super />
 	    </event>
 	    <event name="cleanup">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3188,7 +3188,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -3196,7 +3196,7 @@
 	    </event>
 
 	    <event name="endmove">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3216,14 +3216,14 @@
 	    </event>
 	    <event name="reinit">
 	    	<super />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="4000+int(rand(1000.0))" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3286,7 +3286,7 @@
 	        <property propclass="?pcbb"
 			id="propid(color)" value="rgb(.2,.2,.2)" />
 		<var name="checking_power" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="50" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3314,7 +3314,7 @@
 	    </event>
 	    <event name="endmove">
 	        <super />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="50" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3555,7 +3555,7 @@
 	        <var name="power" value="0" />
 	        <property propclass="?pcbb"
 			id="propid(color)" value="rgb(.2,.2,.2)" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="200" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3564,7 +3564,7 @@
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <event name="pctimer_wakeup">
@@ -3730,7 +3730,7 @@
 		<call event="waitfornewmove" />
 	    </event>
 	    <event name="cleanup">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3759,7 +3759,7 @@
 	      - on a new move again.
 	      -->
 	    <event name="waitfornewmove">
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <!-- Add a small random amount to avoid a hickup at exactly the same time for
 		         all moving objects -->
 		    <par id="parid(time)" value="150+int(rand(50.0))" />
@@ -3911,7 +3911,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -3919,7 +3919,7 @@
 	    </event>
 
 	    <event name="endmove">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3965,7 +3965,7 @@
 
 	    <event name="endmove">
 		<expr eval="bdash_main::destroyentity(entity=?keep_entity)" />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block_trail">
 		    <par id="parid(entity)" value="ent()" />
 		    <par id="parid(bt)" value="'##'" />
@@ -4246,12 +4246,12 @@
 		<var name="offset" value="0" />
 		<var name="origx" value="property(?pcbb,propid(x))" />
 		<var name="origy" value="property(?pcbb,propid(y))" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 	    </event>
 
 	    <event name="endmove">
 	        <super />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 	    </event>
 
 	    <event name="pctimer_wakeupframe">
@@ -4306,14 +4306,14 @@
 	    	<super />
 		<var name="counter" value="10" />
 		<var name="explode" value="11" />	<!-- Don't explode -->
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="20" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	        <super />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -4389,14 +4389,14 @@
 	    </event>
 	    <event name="reinit">
 	    	<super />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="100" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	        <super />
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <event name="pctimer_wakeup">
@@ -4631,39 +4631,39 @@
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pckeyinput" />
 		<default propclass="pc(pckeyinput)" />
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="left" />
 		    <par id="parid(command)" value="move_left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="up" />
 		    <par id="parid(command)" value="move_up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="down" />
 		    <par id="parid(command)" value="move_down" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-right'" />
 		    <par id="parid(command)" value="menu_right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-left'" />
 		    <par id="parid(command)" value="menu_left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-up'" />
 		    <par id="parid(command)" value="menu_up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="'shift-down'" />
 		    <par id="parid(command)" value="menu_down" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="space" />
 		    <par id="parid(command)" value="repeat" />
 		</action>

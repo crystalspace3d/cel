@@ -131,7 +131,7 @@
 	      - End movement.
 	      -->
 	    <event name="endmove">
-		<action propclass="pc(pctimer)" id="propid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -141,7 +141,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -202,7 +202,7 @@
 
 		<!-- Every second we check if we need to create a piece of fruit -->
 		<var name="fruitidx" value="0" />
-		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="1000" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -375,19 +375,19 @@
 		<super />
 	        <createpropclass name="pckeyinput" />
 		<default propclass="pc(pckeyinput)" />
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="right" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="left" />
 		    <par id="parid(command)" value="left" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="up" />
 		    <par id="parid(command)" value="up" />
 		</action>
-		<action id="propid(Bind)">
+		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="down" />
 		    <par id="parid(command)" value="down" />
 		</action>

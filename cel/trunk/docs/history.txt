@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit did some more API doc enhancements for the property classes.
 	- Jorrit fixed the pcproperties property class which was broken
 	  due to the recent size_t changes.
+	- Jorrit changed all actions to use 'cel.action.' instead of
+	  'cel.property.'.
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the

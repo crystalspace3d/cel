@@ -97,7 +97,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   if (action_loadmesh == csInvalidStringID)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    action_loadmesh = pl->FetchStringID ("cel.property.LoadMesh");
+    action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
   }
 }
 

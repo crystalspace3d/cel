@@ -1337,6 +1337,17 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  top.SetID (id);
 	}
 	break;
+      case CEL_OPERATION_CALCACTID:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: calcactid %s\n", i-1, A2S (top)));
+	  csString str = "cel.action.";
+	  str += ArgToString (top);
+	  csStringID id = pl->FetchStringID ((const char*)str);
+	  top.SetID (id);
+	}
+	break;
       case CEL_OPERATION_CALCPROPID:
         {
 	  CHECK_STACK(1)

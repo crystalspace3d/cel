@@ -566,7 +566,7 @@ void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_weight].desc = "Weight of this object";
 
     action_applypermanentforce = pl->FetchStringID (
-    	"cel.property.ApplyPermanentForce");
+    	"cel.action.ApplyPermanentForce");
   }
 }
 
