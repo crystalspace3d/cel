@@ -120,12 +120,13 @@ int celPcLinearMovement::num_our_cd;
  */
 //#define LINMOVE_CD_FOLLOWSEG_DEBUG
 
-
 /*
- * This value is used in movement limiting/cheat detection.
- * It is the maximum ms of latency that a client is presumed to have.
+ * Terminal velocity
+ * ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+ *     / 3.28 feet/meter = 53.65 m/s
+ *   *2.0 for "feel" correction = 107.3m/s
  */
-#define MAX_ACCUMULATED_LAG 5000
+#define ABS_MAX_FREEFALL_VELOCITY 107.3f
 
 //----------------------------------------------------------------------------
 
@@ -504,7 +505,7 @@ bool celPcLinearMovement::MoveV (float delta)
   // Check for collisions and adjust position
   if (pccolldet)
     if(!pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable))
-        return false;                   // We haven't moved so return early
+      return false;                   // We haven't moved so return early
 
   csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(), oldpos);
   csVector3 origNewpos = newpos;
@@ -521,15 +522,28 @@ bool celPcLinearMovement::MoveV (float delta)
   newpos.y += height5;
 
   transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
-      + csVector3 (0, height5, 0));
+    + csVector3 (0, height5, 0));
 
   new_sector = new_sector->FollowSegment (transform_oldpos,
       newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
   newpos.y -= height5;
   if (new_sector != old_sector)
-      movable->SetSector (new_sector);
+    movable->SetSector (new_sector);
 
   portalDisplaced += newpos - origNewpos;
+
+  if(!IsOnGround())
+  {
+    // gravity! move down!
+    vel.y  -= 19.6 * delta;
+    /*
+    * Terminal velocity
+    *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+    *   / 3.28 feet/meter = 53.65 m/s
+    */
+    if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
+      vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+  }
 
   // move to the new position
   movable->GetTransform ().SetOrigin (newpos);

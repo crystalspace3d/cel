@@ -180,16 +180,6 @@ static inline int FindIntersection (const csCollisionPair& cd,
   return csMath3::FindIntersection (tri1, tri2, line);
 }
 
-
-/*
- * Terminal velocity
- * ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
- *     / 3.28 feet/meter = 53.65 m/s
- *   *2.0 for "feel" correction = 107.3m/s
- */
-#define ABS_MAX_FREEFALL_VELOCITY 107.3f
-
-
 bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    csVector3& newpos,
                                                    csVector3& vel,
@@ -328,24 +318,6 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     if (downstairs)
       // No steps here, so readjust position back up
       newpos.y += bottomSize.y / 2;
-
-    // gravity! move down!
-    vel.y  -= 19.6 * delta;
-    /*
-    * Terminal velocity
-    *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-    *   / 3.28 feet/meter = 53.65 m/s
-    */
-    if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
-      vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
-  }
-
-
-  if ((newpos - oldpos).IsZero(0.0001f))
-  {
-    // No movement
-    newpos = oldpos;
-    return false;
   }
 
   // Part 2.5: check top again and revert move if we're still in a wall.
