@@ -550,6 +550,11 @@ void celPcLinearMovement::UpdateDR ()
   lastDRUpdate = time;
 }
 
+csTicks celPcLinearMovement::TimeDiff()
+{
+  return csGetTicks() - lastDRUpdate;
+}
+
 void celPcLinearMovement::ExtrapolatePosition (float delta)
 {
   if (path)
@@ -795,4 +800,5 @@ void celPcLinearMovement::SetDRData(bool on_ground,float speed,
   SetVelocity(vel);
   csVector3 rot(0,ang_vel,0);
   SetAngularVelocity(rot);
+  lastDRUpdate = csGetTicks();
 }

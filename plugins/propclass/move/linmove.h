@@ -155,6 +155,9 @@ public:
   bool IsOnGround () const;
   bool IsPath() const { return (path != 0); }
 
+  /// Returns the difference in time between now and when the last DR update or extrapolation took place
+  csTicks TimeDiff(void);
+
 
   /// Return all necessary data for Dead Reckoning
   void GetDRData(bool& on_ground,
@@ -317,6 +320,11 @@ public:
     virtual bool IsPath() const
     {
       return scfParent->IsPath ();
+    }
+
+    virtual csTicks TimeDiff()
+    {
+        return scfParent->TimeDiff();
     }
 
     virtual void GetDRData(bool& on_ground,
