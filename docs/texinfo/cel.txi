@@ -1,0 +1,567 @@
+\input texinfo    @c -*-texinfo-*-
+@c %**start of header
+@setfilename cel
+@settitle Crystal Entity Layer
+@setchapternewpage odd
+@tex
+\global\hbadness = 8000
+\global\tolerance = 8000
+@end tex
+@finalout
+@c %**end of header
+
+@contents
+
+@node Top
+@top Crystal Entity Layer
+
+Crystal Entity Layer is an open-source plugin for Crystal Space.
+
+Crystal Space is an open-source 3D game toolkit. It can be used for a variety of 
+3D visualization tasks. Many people will probably be interested in using Crystal 
+Space as the basis of a 3D game, for which it is well suited. 
+
+This document includes usage instructions, conceptual material, and detailed 
+technical information. 
+
+TODO: Insert version numbering 
+
+This is edition TBA of the Crystal Entity Layer manual for Crystal Entity 
+Layer version TBA, last updated 26 Nov 2003. 
+
+@c TODO: Insert links for TOC and Small TOC
+@c For a list of available topics please see the quick overview or the full 
+@c table of contents.
+
+@copyright
+Copyright @copyright() 2003 by Daniel Thoroughgood
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+
+@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the copyright holders.
+
+@node Introduction, Building, , Top
+@chapter Introduction
+
+@menu
+* What Is CEL::What Is Crystal Entity Layer?
+* Concepts::Concepts
+* How To Read::How To Read This Manual
+* Current Status::Current Status
+* Using CEL::Using Crystal Entity Layer For Your Project
+* Guide::A Guide To This Documentation
+* Features::Feature List
+* Where To Get CEL::Where to Get Crystal Entity Layer
+* Mailing Lists::Mailing Lists
+@end menu
+
+@node What Is CEL, Concepts, , Introduction
+@section What Is Crystal Entity Layer?
+
+Crystal Entity Layer is a plugin developed to be used in conjunction with 
+Crystal Space.
+
+TODO: Insert Links
+
+CrystalSpace is a portable modular 3D SDK, including many components for 
+building various applications and games.  For more information on Crystal Space 
+please see the Crystal Space web page.
+
+Crystal Entity Layer is a game entity layer which can be used in conjunction
+with Crystal Space.  It is designed to make it easier for game developers to 
+create games based on Crystal Space by providing such concepts as entities,
+properties and behaviours.
+
+TODO: Insert Links
+
+Crystal Entity Layer is still in development.  It's development efforts are
+currently hosted by SourceForge.  Anybody wishing to contribute should visit
+the Crystal Entity Layer project page and SourceForge.
+
+TODO: Insert Links
+
+Crystal Entity Layer is free and should remain free. Crystal Entity Layer 
+falls under the GNU copyleft license for libraries (LGPL). A copy of of the 
+LGPL is included in this manual for your perusal. In short, the LGPL allows 
+you to use CrystalSpace as a library in your products, even commercial 
+products, but modifications to the library or derivative works incorporating 
+parts of the library must be made freely available to everyone, under the 
+LGPL's terms. 
+
+@node Concepts, How To Read, What Is CEL, Introduction
+@section Concepts
+Every object within the game world is represented by an entity.  This includes 
+the world itself and all the objects within it, such as players, non-player 
+characters, items and camera’s.
+
+The base Crystal Entity Layer Entities are managed within the Physical Layer.  
+These basic Entities cannot do very much at all as they are.  In order to add 
+functionality one, or usually more, Physical Layer Property Classes are added 
+to the Entity.
+
+Property Classes are used to provide specific attributes, functionality and 
+constraints to Entities and also provide the interface with the Crystal Space 
+library.  This may be a simple attribute, such as allowing an entity to store 
+it’s weight, or it may provide more complex functionality such as receiving 
+input from the keyboard or drawing a 3D object such as a mesh.  The set of 
+properties provides by all the property classes together defines what the 
+entity really is, and what functionality is provided.
+
+Property Classes are added to Entities at run-time.  What this means for the 
+developer is that if required Property Classes can be added, or removed, from 
+Entities on-the-fly.
+
+Property Classes are generated by Property Class Factories.  These are usually 
+implemented as a Crystal Space plugin.  This means that you load the plugin, 
+and then invoke the plugin as required to create property classes.
+
+The Physical Layer is also responsible for providing the Persistence Layer.  
+This is a system that is responsible for being able to save and load the state 
+of each and every Entity.  This may be a file on a disk, or to some form of 
+database.  Single-player games would use this to provide save-game 
+functionality for example.
+
+The Behaviour Layer handles things such as game logic.  It is this layer that 
+dictates how an Entity will behave within the constraints placed upon it by 
+the Physical Layer.  
+
+The Physical Layer is able to generate events, which are passed to the 
+Behaviour Layer in order to be acted upon.  Examples of such events are when 
+an Entity is clicked on by the mouse pointer, when a particular key is hit or 
+when an item is added to an inventory.  Such events are usually generated from 
+within the Property Classes when a predetermined set of conditions is 
+achieved.
+
+The majority of the Behaviour Layer may be implemented in a scripting language 
+such as Python if this is suitable for the project.  This allows the behavior 
+of Entities to be easily scripted without having to recompile the entire 
+project, and also for new behaviours to be added in the same manner.
+
+In summary, Crystal Entity Layer is made up itself of two layers, these being 
+the Physical Layer and the Behaviour Layer.
+
+The Physical Layer is responsible for all managing base Entities, providing 
+the Property Class system to manage attributes, functionality and constraints 
+to Entities, to prove a system for the Property Classes to communicate with 
+the Behaviour Layer and to provide a Persistence Layer in order to be able to 
+load and save Entities to some form of storage.
+
+The Behaviour Layer is responsible for managing how Entities behave within the 
+restrictions placed up on by the Physical Layer.  This may be implemented in 
+C++, or it may be implemented in some form of scripting language.
+
+@node How To Read, Current Status, Concepts, Introduction
+@section How To Read This Manual
+
+This manual was written and is currently maintained by Daniel Thoroughgood.
+Constructive feedback, suggestions and contributions are always welcome.
+
+TODO: Insert Links
+
+If you find something in this manual which you beleive is not correct please
+notify the mailing list in order to have this investigated and corrected.
+
+This manual is intended to also serve the purpose of a reference and as such
+the order in which it is read is not important for the experienced developer.
+People that are new to Crystal Entity Layer however should read the manual
+front to back.
+
+@node Current Status, Using CEL, How To Read, Introduction
+@section Current Status
+
+Crystal Entity Layer is still in Beta status, and is likely to be for the
+foreseeable future.  Crystal Space, on which this work is based, is still
+under very active development and from time to time changes may be made to 
+the Crystal Space sources which will cause Crystal Entity Layer not to work
+as expected, or not to work at all.
+
+Likewise Crystal Entity Layer is still in development and you may find that
+some features do not work as expected, or may not work at all.  Some features
+may be only partially implemented and there may be both known and unknown
+bugs.
+
+Please do not let this discourage you from using Crystal Entity Layer.  Most
+of the core functions are implemented and working correctly.  Any bugs which
+are reported will be investigated as soon as possible and contributions are 
+always welcome.
+
+@node Using CEL, Guide, Current Status, Introduction
+@section Using Crystal Entity Layer For Your Project
+
+If you wish to use Crystal Entity Layer for your project you should obtain
+and build sources of both Crystal Space and Crystal Entity Layer.
+
+Read the Crystal Space documentation and take a look through the samples and
+examples to become familiar with how it works.
+
+You should also join the appropriate Crystal Space and Crystal Entity Layer
+mailing lists in order to watch how things develop.  
+
+You also need to agree to the LGPL (GNU Library General Public Licence).
+
+If you are using Crystal Entity Layer for a project please let us know as we
+are very interested in hearing what people are doing with both Crystal Space
+and Crystal Entity Layer.
+
+@node Guide, Features, Using CEL, Introduction
+@section A Guide To This Documentation
+
+@node Features, Where To Get CEL, Guide, Introduction
+@section Feature List
+
+@node Where To Get CEL, Mailing Lists, Features, Introduction
+@section Where to Get Crystal Entity Layer
+The Crystal Entity Layer homepage contains information on obtaining both the 
+official releases of Crystal Entity Layer and the current development version.
+
+Please keep in mind that both types of releases are still Beta.  The main
+difference being that release versions should be well tested and generally 
+stable.
+
+With the development version your milage may vary.  Sometimes it may not
+compile easily on all platforms, or may not compile at all.  There may be
+features that are only partially implemented and these probably will not
+be very well documented.
+
+However, the development version will always have all the most recent features
+and will probably contain features that are not available in the release
+version.
+
+You will also need Crystal Space in order to use Crystal Entity Layer.  Like
+Crystal Entity Layer this is also available in both official release and
+development status.  For more information on the two of these please see
+the Crystal Space documentation.
+
+Crystal Entity Layer is available at
+http://sourceforge.net/projects/cel
+
+Crystal Space is available at
+http://sourceforge.net/project/crystal
+
+Generally a release version of Crystal Entity Layer should be built against
+the matching release of Crystal Space.  Likewise development versions should
+be build against a development version of Crystal Space from the same date.
+
+Mixing and matching of versions is not guaranteed to work, and in fact quite
+likely will not.
+
+CVS
+As Crystal Entity Layer is being actively developed changes are quite often
+made to the sources on a daily basis.
+
+The latest sources to Crystal Entity Layer may be downloaded from 
+SourceForge's Anonymous CVS Servers.
+
+TODO: Add insturctions for downloading from SourceForge CVS
+
+Please keep in mind that currently SourceForge's Anonymous CVS servers are
+running approximately 24 hours behind the developer's CVS servers.  This
+means that bugfix's, new features, etc. which are updated by developers may
+not become available on the public servers until the next day.
+
+@node Mailing Lists, Building, Where To Get CEL, Introduction
+@section Mailing Lists
+There are currently two Crystal Entity Layer mailing lists that may be of 
+interest to to users and developers.
+
+The main list is for general discussion, questions and bug reports.  You may
+subscribe to this list by visiting:
+http://lists.sourceforge.net/mailman/listinfo/cel-main
+
+You may also view an archive of prior posts to this list at:
+http://sourceforge.net/mailarchive/forum.php?forum_id=1108
+
+The CVS update list is for notification of changes to the CVS source
+repository.  All users subscribed to this list will receive an e-mail every
+time a developer updates the source.   You may subscribe to this list at:
+http://lists.sourceforge.net/mailman/listinfo/cel-cvs-update
+
+You may also view an archive of prior posts to this list at:
+http://sourceforge.net/mailarchive/forum.php?forum_id=33225
+
+@node Building, Configuring, Introduction, Top
+@chapter Building and Installing
+This chapter explains how to build and install Crystal Entity Layer.
+
+@menu
+* Directory Hierachy::Directory Hierachy
+* Requirements::Requirements
+* External Libraries::External Libraries
+* Instructions::Platform Specific Instructions
+@end menu
+
+It will describe the pre-requisites for building and installing on each
+platform along with specific instructions on how to do this.
+
+If you have used Crystal Entity Layer on a platform which is not described
+please let us know via the mailing list so we can add instructions.
+
+@node Directory Hierachy, Requirements, , Building
+@section Directory Hierachy
+This section will explain the layout of the directory hierachy within
+Crystal Entity Layer.  
+
+@table @code
+@item cel         
+            This is the main directy for Crystal Entity Layer. This can be any
+            path supported by your operating system. 
+            This folder also currently contains the configure scripts and
+            Microsoft Visual C++ workspace and project files.
+
+@item cel/apps    
+            This is where all the applications shipped with Crystal Entity
+            layer reside.  Please see the manual section entitled Applications
+            for more information on these.
+
+@item cel/data    
+            This is where data for the Crystal Entity Layer applications,
+            as well as any applications you build yourself within the
+            Crystal Entity Layer source tree, reside.
+
+@item cel/docs    
+            This is where the Crystal Entity Layer documentation resides.
+            It is currently available in HTML and TexInfo formats.
+
+@item cel/include 
+            This is where the header files for the various Crystal Entity
+            Layer modules reside.  
+
+@table @code            
+            @item cel/include/behaviourlayer
+            This directory contains the definitions of the Behaviour Layer
+            interfaces.
+
+            @item cel/include/physicallayer
+            This directory contains the definitions of the Physical Layer
+            interfaces.  Including such things as entities, property classes,
+            messaging and persistance.
+
+            @item cel/include/propclass
+            This directory contains the definitions of the various property
+            class interfaces.
+
+            @item cel/include/tools
+            This directory contains definitions for interfaces for various
+            utility classes.
+@end table            
+
+@item cel/mk      
+            This directory includes various makefiles and build
+            configurations for various platforms.
+
+@item cel/msvc    
+            This directory contains the project files and resource
+            scripts for building under Microsoft Windows using Microsoft
+            Visual C++.
+
+@item cel/plugins 
+            This is where the implementations of the plugins that make up
+            Crystal Entity Layer reside.
+
+@table @code            
+            @item cel/plugins/addons
+            These are various additional, and optional, Crystal Space plugins.
+
+            @table @code
+                @item cel/plugins/addons/celentity
+                @item cel/plugins/addons/xmlscript
+                These plugins allow the loading of Crystal Entity Layer
+                entities from a standard Crystal Space map file.
+            @end table
+
+            @item cel/plugins/behaviourlayer
+            These are the various behaviour layers which have been already
+            implemented for use with Crystal Entity Layer.
+
+            @table @code    
+                @item cel/plugins/behaviourlayer/python
+                This is a behaviour layer that allows entity behaviours
+                to be implemented using the Python scripting language.
+
+                @item cel/plugins/behaviourlayer/test
+                This is the test behaviourlayer implemented in C++.
+
+                @item cel/plugins/behaviourlayer/xml
+                This is a behaviour layer that allows entity behavours
+                to be implemented using scripts stored as XML.
+            @end table    
+
+            @item cel/plugins/persist
+            These are the various persistance layers which have already
+            been implemented for use with Crystal Entity Layer.
+
+            @table @code
+                @item cel/plugins/persist/classic
+                This is the Crystal Entity Layer Classic Persistance Module.
+                This allows the persisting of Crystal Entity Layer entities
+                to a Crystal Space VFS file.
+            @end table                
+
+            @item cel/plugins/propclass
+            These are the various property classes which have already
+            been implemented for use with Crystal Entity Layer.  For more
+            information on these please see the section entitled Property
+            Classes
+
+            @item cel/plugins/stdphyslayer
+            This is the Crystal Entity Layer's Standard Physical Layer.
+@end table            
+
+@item cel/scripts 
+            This is where scripts used by the Crystal Entity Layer
+            applications and examples reside.
+@end table
+            
+@node Requirements, External Libraries, Directory Hierachy, Building
+@section Requirements
+
+In order to be able to build and install Crystal Entity Layer your
+development environment must meet the requirements for Crystal Space.
+
+For more information on these please see the Crystal Space documentation.
+
+If you are planning to use any form of scripting language in conjunction
+with Crystal Entity Layer (currently only Python is supported) then you
+will also need to have this scripting language installed.
+
+TODO: Document requirement for Jam, where and how to get it.
+
+@node External Libraries, Instructions, Requirements, Building
+@section External Libraries
+Crystal Entity Layer currently does not reply upon any external libraries
+apart from Crystal Space.
+
+TODO: Document Python Dependency for blpython
+
+@node Instructions, , External Libraries, Building
+@section Platform Specific Instructions
+This chapter contains instructions on how to build Crystal Entity Layer on 
+various platforms.
+
+Please keep in mind that Crystal Entity Layer is a multi-platform project and 
+not all features may be available on all platforms.  Also keep in mind that 
+changes made by the developers may inadvertently break certain features on 
+some platforms and prevent some modules from linking.
+
+If you are receiving errors when building on a particular platform as 
+according to these instruction please post a description of the problem you 
+are experiencing to the mailing list so this can be addressed as soon as 
+possible.
+
+@menu
+* Linux::Unix/Linux
+* Windows::Windows using Microsoft Visual C++
+* MinGW::Windows using MinGW
+* Cygwin::Windows using Cygwin
+@end menu
+
+@node Linux, Windows, , Instructions
+@subsection Unix/Linux
+This section describes how to build Crystal Entity Layer on Unix style 
+platforms such as Linux, FreeBSD, Solaris, etc.
+
+Crystal Entity Layer now uses jam as it's preferred build system.  The GNU 
+make build tool is no longer used.  
+
+In order to build Crystal Entity Layer on this platform:
+
+@enumerate
+@item Ensure that Crystal Space has been compiled correctly.
+
+@item Ensure that the CRYSTAL environment variable is set correctly. For 
+example:@*
+       export CRYSTAL=~/CS
+
+@item From the cel directory run the configure script, with the command:@*
+        ./configure
+
+@item Use jam to build the project@*
+        jam
+@end enumerate
+
+In order to test if Crystal Entity Layer has compiled correctly run the celtst 
+test application.
+
+@node Windows, MinGW, Linux, Instructions
+@subsection Windows using Microsoft Visual C++
+Coming Soon...
+
+@node MinGW, Cygwin, MinGW, Instructions
+@subsection Windows using MinGW
+Coming Soon...
+
+@node Cygwin, , MinGW, Instructions
+@subsection Windows using Cygwin
+Coming Soon...
+
+@node Configuring, Applications, Building, Top
+@chapter Configuring
+
+@menu
+* CEL Environment Variable::CEL Environment Variable
+@end menu
+
+@node CEL Environment Variable, , , Configuring
+@section CEL Environment Variable
+Crystal Entity Layer applications may use the CEL environment variable in 
+order to locate your Crystal Entity Layer installation.
+
+Please ensure this environment variable points to your CEL installation.
+
+TODO: Provide instructions on setting this under various OSs
+
+@node Applications, Tutorials, Configuring, Top
+@chapter Applications
+This chapter describes the various applications which are packaged with 
+Crystal Entity Layer.  These applications may either serve as test 
+applications in order to test the functionality of Crystal Entity Layer, as 
+examples of how to use Crystal Entity Layer or sometimes as both.
+
+@menu
+* AppOverview::Overview
+* AppCeltest::celtest
+* AppBootstrap::bootstrap
+@end menu
+
+@node AppOverview, AppCeltest, , Applications
+@section Overview
+The applications currently bundled with Crystal Entity Layer are:
+
+celtest
+    This is a test application designed to test the various Crystal Entity 
+    Layer modules and give a basic demonstration of what some of the property 
+    classes do.
+        
+bootstrap
+    TODO: Document bootstrap overview
+    
+@node AppCeltest, AppBootstrap, AppOverview, Applications
+@section celtest
+TODO: Document celtest
+
+@node AppBootstrap, , AppCelTest, Applications
+@section bootstrap
+TODO: Document bootstrap
+
+@node Tutorials, , Applications, Top
+@chapter Tutorials
+TODO: Create tutorials
+
+@bye
