@@ -41,6 +41,8 @@ public:
   }
   
 protected:
+  inline CS_ID intern_Register(void* obj);
+  
   void** list;
   CS_ID* freelist;
   CS_ID listsize;
