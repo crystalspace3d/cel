@@ -5,6 +5,13 @@
 	  have different lifespans, to prevent reuse of the same CS_ID
 	  to represent different objects and confusion of the 
 	  underlying entities.
+	- Matthias Braun then reverted this change based on design
+	  principles. Jorrit agrees.
+	- Jorrit then put back Keith's patch after discussion with Matthias.
+	  It seems to be the only fast solution to solve the problem right now.
+	  It is a hack though and another solution MUST be found.
+	  Personally I feel most for letting NumReg return numbers that
+	  are never reused. Perhaps requires some thinking.
 21-Jan-2003:
 	- Fixed a ref leak on 'view' in the engine property class.
 	  The 'new csView' wasn't properly embedded in a csPtr<iView>.

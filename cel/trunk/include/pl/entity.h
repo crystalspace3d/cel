@@ -56,6 +56,13 @@ struct iCelEntity : public iBase
   virtual CS_ID GetID () const = 0;
 
   /**
+   * Set the (unique) ID of the entity.
+   * @@@ UGLY! This should be removed as soon as we find another solution
+   * for this problem!!!! See history.txt entry of 23-Jan-2003.
+   */
+  virtual void SetID (CS_ID n) = 0;
+
+  /**
    * Get the list of property classes.
    */
   virtual iCelPropertyClassList* GetPropertyClassList () = 0;
