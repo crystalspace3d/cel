@@ -74,6 +74,7 @@ iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
   csRef<iCelEntity> en(pl->CreateEntity());
   if(!en.IsValid()) return NULL;
   en->SetName(name);
+  en->IncRef();
   return en;
 }
 %}
