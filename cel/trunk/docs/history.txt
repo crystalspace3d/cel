@@ -9,7 +9,6 @@ The history order is reversed so that new features are at the top.
 	  Turning while in mid-air (mid-air acrobatics) has been reenabled
 	  since the collision response system is not robust.
 	  Fixed linmove so that warp portals are handled correctly.
-
 23-Jun-2004
 	- Eric Sunshine fixed more bugs in cel-config.  It was almost
 	  completely broken for the case when CEL has been installed.  Also
