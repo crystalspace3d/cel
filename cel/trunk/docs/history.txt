@@ -1,3 +1,12 @@
+11-Nov-2001:
+	- Even though persistance is not operational yet I already
+	  decided on a redesign. I removed the notion of 'named data
+	  entries'. Everything works positional. It is now much simpler
+	  and also allows for smaller persistant data. Additionally
+	  I added the notion of a serial number for a databuffer. This
+	  is useful for testing what version we are trying to load
+	  and depending on that either rejecting the load or else trying
+	  to convert the old data.
 10-Nov-2001:
 	- Further work on persistance. Not functional yet.
 9-Nov-2001:

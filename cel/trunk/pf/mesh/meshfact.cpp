@@ -135,17 +135,12 @@ void celPcMesh::SetEntity (iCelEntity* entity)
   celPcMesh::entity = entity;
 }
 
-iCelDataBuffer* celPcMesh::GetDataBuffer ()
+iCelDataBuffer* celPcMesh::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcMesh::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcMesh::Load (iCelDataBuffer* databuf)
@@ -366,17 +361,12 @@ void celPcMeshSelect::SetEntity (iCelEntity* entity)
   celPcMeshSelect::entity = entity;
 }
 
-iCelDataBuffer* celPcMeshSelect::GetDataBuffer ()
+iCelDataBuffer* celPcMeshSelect::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcMeshSelect::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcMeshSelect::Load (iCelDataBuffer* databuf)

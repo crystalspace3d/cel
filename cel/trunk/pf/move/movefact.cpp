@@ -135,17 +135,12 @@ void celPcMovable::SetEntity (iCelEntity* entity)
   celPcMovable::entity = entity;
 }
 
-iCelDataBuffer* celPcMovable::GetDataBuffer ()
+iCelDataBuffer* celPcMovable::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcMovable::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcMovable::Load (iCelDataBuffer* databuf)
@@ -273,17 +268,12 @@ void celPcSolid::SetEntity (iCelEntity* entity)
   celPcSolid::entity = entity;
 }
 
-iCelDataBuffer* celPcSolid::GetDataBuffer ()
+iCelDataBuffer* celPcSolid::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcSolid::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcSolid::Load (iCelDataBuffer* databuf)
@@ -391,17 +381,12 @@ void celPcMovableConstraintCD::SetEntity (iCelEntity* entity)
   celPcMovableConstraintCD::entity = entity;
 }
 
-iCelDataBuffer* celPcMovableConstraintCD::GetDataBuffer ()
+iCelDataBuffer* celPcMovableConstraintCD::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcMovableConstraintCD::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
@@ -621,17 +606,12 @@ void celPcGravity::SetEntity (iCelEntity* entity)
   celPcGravity::entity = entity;
 }
 
-iCelDataBuffer* celPcGravity::GetDataBuffer ()
+iCelDataBuffer* celPcGravity::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcGravity::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcGravity::Load (iCelDataBuffer* databuf)

@@ -93,17 +93,12 @@ void celPcTest::SetEntity (iCelEntity* entity)
   celPcTest::entity = entity;
 }
 
-iCelDataBuffer* celPcTest::GetDataBuffer ()
+iCelDataBuffer* celPcTest::Save ()
 {
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  iCelDataBuffer* databuf = pl->CreateDataBuffer (1);
   pl->DecRef ();
   return databuf;
-}
-
-void celPcTest::Save (iCelDataBuffer* databuf)
-{
-  (void)databuf;
 }
 
 bool celPcTest::Load (iCelDataBuffer* databuf)
