@@ -78,6 +78,7 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 {
   delete[] entity_name_par;
   delete[] sector_name_par;
+
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -93,7 +94,8 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_name_par; entity_name_par = 0;
   delete[] sector_name_par; sector_name_par = 0;
-  entity_name_par = node->GetAttributeValue ("entity_name");
+  entity_name_par = csStrNew (node->GetAttributeValue ("entity_name"));
+
   if (!entity_name_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -101,7 +103,7 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
       "'entity_name' attribute is missing for the entersector trigger!");
     return false;
   }
-  sector_name_par = node->GetAttributeValue ("sector_name");
+  sector_name_par = csStrNew (node->GetAttributeValue ("sector_name"));
   if (!sector_name_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -115,7 +117,9 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 void celEnterSectorTriggerFactory::SetEntityNameParameter (
 	const char* entity_name)
 {
-  if (entity_name_par == entity_name) return;
+  if (entity_name_par == entity_name) 
+    return;
+
   delete[] entity_name_par;
   entity_name_par = csStrNew (entity_name);
 }
@@ -123,7 +127,9 @@ void celEnterSectorTriggerFactory::SetEntityNameParameter (
 void celEnterSectorTriggerFactory::SetSectorNameParameter (
 	const char* sector_name)
 {
-  if (sector_name_par == sector_name) return;
+  if (sector_name_par == sector_name) 
+    return;
+
   delete[] sector_name_par;
   sector_name_par = csStrNew (sector_name);
 }

@@ -68,8 +68,8 @@ class celEnterSectorTriggerFactory :
 {
 private:
   celEnterSectorTriggerType* type;
-  const char* entity_name_par;
-  const char* sector_name_par;
+  char* entity_name_par;
+  char* sector_name_par;
 
 public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
