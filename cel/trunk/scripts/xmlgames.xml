@@ -1340,6 +1340,11 @@
 		        <lvar name="oldy" value="?(#ent).y" />
 		    </if>
 		    <var name="#oldx+'_'+#oldy" value="''" />
+		    <!-- We have to check the old block -->
+		    <call event="ifempty_checkfall">
+		    	<par id="parid(x)" value="#oldx" />
+		    	<par id="parid(y)" value="#oldy" />
+		    </call>
 		</if>
 		<!--
 		<inventory propclass="pc(pcinventory)" />
@@ -1355,30 +1360,7 @@
 	      - Uses @x and @y parameters.
 	      -->
 	    <event name="clearblock_check">
-		<lvar name="mazepos" value="@x+'_'+@y" />
-		<lvar name="ent" value="?#mazepos" />
-		<if eval="#ent==''"> <stop /> </if>
-		<if eval="?(#ent).moving">
-		    <!-- Block is moving -->
-		    <lvar name="oldx" value="?(#ent).oldx" />
-		    <lvar name="oldy" value="?(#ent).oldy" />
-		    <if eval="#oldx==@x && #oldy==@y">
-		        <lvar name="oldx" value="?(#ent).x" />
-		        <lvar name="oldy" value="?(#ent).y" />
-		    </if>
-		    <var name="#oldx+'_'+#oldy" value="''" />
-		    <call event="ifempty_checkfall">
-		    	<par id="parid(x)" value="#oldx" />
-		    	<par id="parid(y)" value="#oldy" />
-		    </call>
-		</if>
-		<!--
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_rem child="#ent" />
-		<destroyentity name="#ent" />
-		-->
-		<expr eval="destroyentity(entity=#ent)" />
-		<var name="#mazepos" value="''" />
+	    	<call event="clearblock_nocheck"> <inherit /> </call>
 		<call event="ifempty_checkfall"> <inherit /> </call>
 	    </event>
 
