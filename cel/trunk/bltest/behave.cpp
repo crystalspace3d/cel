@@ -35,16 +35,16 @@ celBehaviour::~celBehaviour ()
 {
 }
 
-bool celBehaviour::SendMessage (const char* msg_id, ...)
+bool celBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
 {
   va_list arg;
-  va_start (arg, msg_id);
-  bool rc = SendMessageV (msg_id, arg);
+  va_start (arg, msg_info);
+  bool rc = SendMessageV (msg_id, msg_info, arg);
   va_end (arg);
   return rc;
 }
 
-bool celBehaviour::SendMessageV (const char* msg_id, va_list arg)
+bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info, va_list arg)
 {
   (void)arg;
   printf ("Got message '%s'\n", msg_id);

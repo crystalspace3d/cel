@@ -35,13 +35,13 @@ struct iCelBehaviour : public iBase
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */
-  virtual bool SendMessage (const char* msg_id, ...) = 0;
+  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...) = 0;
 
   /**
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */
-  virtual bool SendMessageV (const char* msg_id, va_list arg) = 0;
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg) = 0;
 };
 
 #endif // __CEL_BL_BEHAVE__

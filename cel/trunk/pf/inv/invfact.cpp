@@ -181,7 +181,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
 bool celPcInventory::RemoveAll ()
 {
   while (contents.Length () > 0)
-    if (!RemoveEntity (0)) return false;
+    if (!RemoveEntity ((iCelEntity*)contents[0])) return false;
   return true;
 }
 
@@ -401,6 +401,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
 bool celPcInventory::TestConstraints (const char* charName)
 {
   if (!TestLocalConstraints (charName)) return false;
+  if (!entity) return true;
 
   // Local contents seems to be ok. No check if this entity
   // also has characteristics and in that case check constraints
@@ -434,6 +435,7 @@ void celPcInventory::MarkDirty (const char* name)
       c->dirty = true;
     }
   }
+  if (!entity) return;
   iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
 		  iPcCharacteristics);
   if (pcchar)

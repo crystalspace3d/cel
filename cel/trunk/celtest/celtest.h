@@ -54,6 +54,7 @@ private:
 
   iCelPlLayer* pl;
   iCelBlLayer* bl;
+  iCelEntity* game;
  
   static bool CelTestEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);

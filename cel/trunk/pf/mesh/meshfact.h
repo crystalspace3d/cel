@@ -78,6 +78,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
+  void ClearMesh () { mesh = NULL; }
   void MoveMesh (iSector* sector, const csVector3& pos);
 
   SCF_DECLARE_IBASE;
