@@ -18,6 +18,14 @@ The history order is reversed so that new features are at the top.
 	  installation location, so the mounts are incorrect. We need instead
 	  to install a specially modified vfs.cfg which contains the correct
 	  mounts.)
+	- Andrew Dai added two new methods: GetPortalDisplacement() and
+	  ClearPortalDisplacement() to the iPcLinearMovement property class.
+	  They return the total displacement caused by travelling through space
+	  warping portals so far and allow that displacement to be reset to 0.
+	  This allows applications to more easily cope with the side-effects
+	  due to space warping portals.
+	- Andrew Dai fixed a bug in which portals did not affect an object's
+	  linear movement if that object had collision detection turned off.
 6-Dec-2004
 	- Eric Sunshine fixed long-term spelling errors:
 	    iCelPersistance         --> iCelPersistence

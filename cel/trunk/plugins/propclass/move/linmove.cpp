@@ -150,6 +150,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angDelta = 0;
   lastDRUpdate = 0;
 
+  portalDisplaced = 0.0f;
+
   path = 0;
   path_speed = 0;
   path_time  = 0;
@@ -503,6 +505,31 @@ bool celPcLinearMovement::MoveV (float delta)
   if (pccolldet)
     if(!pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable))
         return false;                   // We haven't moved so return early
+
+  csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(), oldpos);
+  csVector3 origNewpos = newpos;
+  bool mirror = false;
+
+  // Update position to account for portals
+  iSector* new_sector = movable->GetSectors ()->Get (0);
+  iSector* old_sector = new_sector;
+
+  // @@@ Jorrit: had to do this add!
+  // We need to measure slightly above the position of the actor or else
+  // we won't really cross a portal.
+  float height5 = (bottomSize.y + topSize.y) / 20.0;
+  newpos.y += height5;
+
+  transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
+      + csVector3 (0, height5, 0));
+
+  new_sector = new_sector->FollowSegment (transform_oldpos,
+      newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+  newpos.y -= height5;
+  if (new_sector != old_sector)
+      movable->SetSector (new_sector);
+
+  portalDisplaced += newpos - origNewpos;
 
   // move to the new position
   movable->GetTransform ().SetOrigin (newpos);
