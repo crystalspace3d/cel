@@ -43,10 +43,21 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
  * to get the ID of the parameter):
  * <ul>
  * <li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
+ * <li>LoadMeshPath: parameters 'path' (string), 'filename' (string)
+ *     and 'factoryname' (string).
  * </ul>
  */
 struct iPcMesh : public iBase
 {
+  /**
+   * Set the path to use. If this is not done then the filename
+   * in SetMesh() will be used alone. Otherwise this path is used to
+   * temporarily set the current VFS dir while loading (which will be
+   * restored afterwards) and the filename in SetMesh() is used relative
+   * to that. Note that this must be called before SetMesh().
+   */
+  virtual void SetPath (const char* path) = 0;
+
   /**
    * Set the mesh filename to use. Returns false on failure.
    * Note that this filename can refer to a mesh factory file or
