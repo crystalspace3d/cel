@@ -11,10 +11,10 @@ Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
 -->
 <HTML>
 <HEAD>
-<TITLE>Crystal Entity Layer: What Is CEL</TITLE>
+<TITLE>Crystal Entity Layer: Building</TITLE>
 
-<META NAME="description" CONTENT="Crystal Entity Layer: What Is CEL">
-<META NAME="keywords" CONTENT="Crystal Entity Layer: What Is CEL">
+<META NAME="description" CONTENT="Crystal Entity Layer: Building">
+<META NAME="keywords" CONTENT="Crystal Entity Layer: Building">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 <META NAME="Generator" CONTENT="texi2html 1.64">
@@ -25,55 +25,46 @@ Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
 
 <A NAME="SEC2"></A>
 <TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
-<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> &lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_3.html#SEC3"> &gt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> Up </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &gt;&gt; </A>]</TD>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.10.html#SEC1.10"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_2.1.html#SEC2.1"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_3.html#SEC3"> &gt;&gt; </A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top">Top</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_toc.html#SEC_Contents">Contents</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[Index]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_abt.html#SEC_About"> ? </A>]</TD>
 </TR></TABLE>
 <HR SIZE=1>
-<H2> 1.1 What Is Crystal Entity Layer? </H2>
+<H1> 2. Building and Installing </H1>
 <!--docid::SEC2::-->
+This chapter explains how to build and install Crystal Entity Layer.
 <P>
 
-Crystal Entity Layer is a plugin developed to be used in conjunction with 
-Crystal Space.  It is designed to make it easier for game developers to 
-create games based on Crystal Space by providing such concepts as entities,
-properties and behaviours.
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="cel_2.1.html#SEC2.1">2.1 Directory Hierachy</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="cel_2.2.html#SEC2.2">2.2 Requirements</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="cel_2.3.html#SEC2.3">2.3 External Libraries</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="cel_2.4.html#SEC2.4">2.4 Platform Specific Instructions</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+It will describe the pre-requisites for building and installing on each
+platform along with specific instructions on how to do this.
 </P><P>
 
-Crystal Space is a portable modular 3D SDK, including many components for 
-building various applications and games.  For more information on Crystal 
-Space please see the <A HREF="http://crystal.sf.net">Crystal Space web page</A>.
+If you have used Crystal Entity Layer on a platform which is not described
+please let us know via the mailing list so we can add instructions.
 </P><P>
 
-Crystal Entity Layer is still in development.  It's development efforts are
-currently hosted by SourceForge.  Anybody wishing to contribute should visit
-the <A HREF="http://cel.sf.net">Crystal Entity Layer</A> project page and
-<A HREF="http://www.sourceforge.net">SourceForge</A>.
-</P><P>
-
-Crystal Entity Layer is free and should remain free. Crystal Entity Layer 
-falls under the GNU copyleft license for libraries (LGPL). A copy of of the 
-LGPL is included in this manual for your perusal. In short, the LGPL allows 
-you to use CrystalSpace as a library in your products, even commercial 
-products, but modifications to the library or derivative works incorporating 
-parts of the library must be made freely available to everyone, under the 
-LGPL's terms. 
-</P><P>
-
-<A NAME="Concepts"></A>
+<A NAME="Directory Hierachy"></A>
 <HR SIZE=1>
 <TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
-<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> &lt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_3.html#SEC3"> &gt; </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> Up </A>]</TD>
-<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_12.html#SEC18"> &gt;&gt; </A>]</TD>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.10.html#SEC1.10"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_2.1.html#SEC2.1"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_1.html#SEC1"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_3.html#SEC3"> &gt;&gt; </A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="index.html#SEC_Top">Top</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="cel_toc.html#SEC_Contents">Contents</A>]</TD>
 <TD VALIGN="MIDDLE" ALIGN="LEFT">[Index]</TD>

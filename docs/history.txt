@@ -6,6 +6,23 @@ The history order is reversed so that new features are at the top.
 29-Nov-2004
 	- Jorrit fixed CEL so that it compiles again after the change
 	  of CS_USE_NEW_RENDERER to CS_USE_OLD_RENDERER.
+	- Eric Sunshine made the following changes:
+	    - Upgraded msvcgen so that synthesized project files search for
+	      CRYSTAL libraries in likely locations: ../CS & $(CRYSTAL)
+	    - Updated project for new official crystalspace3d.org domain.
+	    - Updated out-of-date README.txt.
+	    - Updated to reflect that new-renderer is now default. Renamed
+	      configure option --enable-new-renderer to --enable-old-renderer.
+	    - Updated Autoconf files from master copies in CS repository.
+	    - Updated Jam files from master copies in CS repository.
+	    - Updated msvcgen files from master copies in CS repository.
+	    - Updated texi2html from master copy in CS repository.
+	    - Removed TemplateToolkit and AppConfig Perl modules
+	      re-distributions.  Very few people need to generate MSVC project
+	      files, so this extra bulk is hardly warranted. Developers wanting
+	      to generate project files can install these Perl packages locally
+	      using normal Perl package installation mechanisms, such as CPAN
+	      (Unix) or PPM (Windows).
 27-Nov-2004
 	- Jorrit added a patch from Cirilo Bernardo which exposes the
 	  SetDistance() method of celPcCamera via iPcCamera.
