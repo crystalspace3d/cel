@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+7-Jul-2004
+	- Jorrit stated work on a new property class pczonemanager.
+	  Currently only the iPcZoneManager interface is partially
+	  defined. The idea is that this property class can be used instead
+	  of iPcRegion if your game needs zone handling (bigger maps
+	  with partial loading/unloading of regions).
 6-Jul-2004
 	- Jorrit got a patch from Thomas Degris <thomas.degris@lip6.fr>
 	  to set the looking direction of an actor directly through
