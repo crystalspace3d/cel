@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+18-Jul-2004
+	- Jorrit fixed the bltest behaviour layer to correctly test if the
+	  parameter to SendMessage() actually contains an entity.
 16-Jul-2004
 	- Jorrit extended pccamera with the option to set the far clipping
 	  plane. There are three modes:
