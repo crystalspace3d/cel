@@ -87,9 +87,6 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_DATA_CODELOCATION:
       arg.codelocation = other.arg.codelocation;
       break;
-    case CEL_DATA_LOCALVAR:
-      arg.localvar = other.arg.localvar;
-      break;
     case CEL_DATA_VECTOR2: arg.vec = other.arg.vec; break;
     case CEL_DATA_VECTOR3: arg.vec = other.arg.vec; break;
     case CEL_DATA_COLOR: arg.col = other.arg.col; break;
@@ -1969,6 +1966,33 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    default:
 	      return ReportError (behave, "Can't compare these types!");
 	  }
+	}
+	break;
+
+      case CEL_OPERATION_DEREFLVAR:
+        {
+          DUMP_EXEC ((":%04d: dereflvar varidx=%s\n", i-1, A2S (op.arg)));
+	  stack.Push (local_vars.GetExtend (op.arg.arg.ui));
+	}
+        break;
+      case CEL_OPERATION_LVAR:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg val = stack.Pop ();
+	  DUMP_EXEC ((":%04d: lvar varidx=%s value=%s\n", i-1, A2S (op.arg),
+	  	A2S (val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04d: lvar varidx=%s value=%s\n",
+	    	cbl->call_stack.Top (),
+	    	i-1, A2S (op.arg), A2S (val));
+	    fflush (stdout);
+	  }
+	  celXmlArg& lv = local_vars.GetExtend (op.arg.arg.ui);
+	  if (val.type == CEL_DATA_STRING)
+	    lv.SetString (val.arg.str.s, true);
+	  else
+	    lv = val;
 	}
 	break;
 
