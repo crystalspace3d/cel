@@ -54,7 +54,7 @@ public:
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id,
-  	iCelParameterBlock* msg_info, ...);
+  	celData& ret, iCelParameterBlock* msg_info, ...);
   virtual void* GetInternalObject () { return 0; }
 };
 
@@ -67,7 +67,7 @@ public:
   celBehaviourPrinter (iCelEntity* entity, iObjectRegistry* object_reg);
 
   virtual bool SendMessageV (const char* msg_id,
-  	iCelParameterBlock* params, va_list arg);
+  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -79,7 +79,7 @@ public:
   celBehaviourBox (iCelEntity* entity, iObjectRegistry* object_reg);
 
   virtual bool SendMessageV (const char* msg_id,
-  	iCelParameterBlock* params, va_list arg);
+  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -91,7 +91,7 @@ public:
   celBehaviourRoom (iCelEntity* entity, iObjectRegistry* object_reg);
 
   virtual bool SendMessageV (const char* msg_id,
-  	iCelParameterBlock* params, va_list arg);
+  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -107,7 +107,7 @@ public:
   virtual ~celBehaviourActor();
 
   virtual bool SendMessageV (const char* msg_id,
-  	iCelParameterBlock* params, va_list arg);
+  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 #endif // __CEL_BLTEST_BEHAVE__

@@ -374,7 +374,8 @@ bool celPcTimer::HandleEvent (iEvent& ev)
       CS_ASSERT (bh != 0);
       params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
       params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
-      bh->SendMessage ("pctimer_wakeupframe", params);
+      celData ret;
+      bh->SendMessage ("pctimer_wakeupframe", ret, params);
     }
     else
     {
@@ -392,7 +393,8 @@ bool celPcTimer::HandleEvent (iEvent& ev)
         }
         iCelBehaviour* bh = entity->GetBehaviour ();
         CS_ASSERT (bh != 0);
-        bh->SendMessage ("pctimer_wakeup", 0);
+	celData ret;
+        bh->SendMessage ("pctimer_wakeup", ret, 0);
       }
     }
   }
@@ -815,7 +817,8 @@ void celPcProperties::SetProperty (int index, float value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -830,7 +833,8 @@ void celPcProperties::SetProperty (int index, long value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -845,7 +849,8 @@ void celPcProperties::SetProperty (int index, bool value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -861,7 +866,8 @@ void celPcProperties::SetProperty (int index, const csVector2& value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -878,7 +884,8 @@ void celPcProperties::SetProperty (int index, const csVector3& value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -895,7 +902,8 @@ void celPcProperties::SetProperty (int index, const csColor& value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -910,7 +918,8 @@ void celPcProperties::SetProperty (int index, const char* value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -925,7 +934,8 @@ void celPcProperties::SetProperty (int index, iCelPropertyClass* value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -940,7 +950,8 @@ void celPcProperties::SetProperty (int index, iCelEntity* value)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_setproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", ret, params, index);
   }
 }
 
@@ -1062,7 +1073,8 @@ void celPcProperties::ClearProperty (int index)
   if (bh)
   {
     params->GetParameter (0).Set ((int32)index);
-    bh->SendMessage ("pcproperties_clearproperty", params, index);
+    celData ret;
+    bh->SendMessage ("pcproperties_clearproperty", ret, params, index);
   }
   property* p = properties[index];
   ClearPropertyValue (p);

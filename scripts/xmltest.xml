@@ -69,9 +69,23 @@
 	    <event name="init">
 	        <var name="normal" value="true" />
 	        <var name="dxdy" value="int(rand(4.0)-2.0)" />
+		<var name="counter" value="0" />
 		<print value="'dxdy:'+?dxdy" />
 	    </event>
+
+	    <event name="counter_test">
+	        <var name="counter" value="?counter+@d" />
+		<return value="?counter" />
+	    </event>
+
 	    <event name="makesmall">
+		<print value="result"/>
+	        <call event="counter_test">
+		    <par id="parid(d)" value="2" />
+		    <return var="result" />
+		</call>
+		<print value="'result: '+?result" />
+
 	        <var name="normal" value="false" />
 		<print value="makesmall" />
 	    	<default propclass="pc(pcbillboard)" />

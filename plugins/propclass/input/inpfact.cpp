@@ -366,7 +366,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != 0);
       *(p->command_end) = '0';
-      bh->SendMessage (p->command, 0);
+      celData ret;
+      bh->SendMessage (p->command, ret, 0);
       *(p->command_end) = 0;
     }
   }
@@ -378,7 +379,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != 0);
       *(p->command_end) = '_';
-      bh->SendMessage (p->command, 0);
+      celData ret;
+      bh->SendMessage (p->command, ret, 0);
       *(p->command_end) = 0;
     }
     else
@@ -387,7 +389,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       iCelBehaviour* bh = entity->GetBehaviour();
       CS_ASSERT(bh != 0);
       *(p->command_end) = '1';
-      bh->SendMessage (p->command, 0);
+      celData ret;
+      bh->SendMessage (p->command, ret, 0);
       *(p->command_end) = 0;
     }
   }

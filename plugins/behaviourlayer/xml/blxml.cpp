@@ -71,6 +71,7 @@ enum
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
+  XMLTOKEN_RETURN,
   XMLTOKEN_CALLSTACK,
   XMLTOKEN_VARIABLES,
   XMLTOKEN_TRACEON,
@@ -157,6 +158,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
+  xmltokens.Register ("return", XMLTOKEN_RETURN);
   xmltokens.Register ("variables", XMLTOKEN_VARIABLES);
   xmltokens.Register ("traceon", XMLTOKEN_TRACEON);
   xmltokens.Register ("traceoff", XMLTOKEN_TRACEOFF);
@@ -1068,15 +1070,24 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->GetArgument ().SetEventHandlers (handler, 0);
 	}
         break;
+      case XMLTOKEN_RETURN:
+        if (!ParseExpression (child, h, "value", "return"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_RETURN);
+	h->AddOperation (CEL_OPERATION_END);
+	break;
       case XMLTOKEN_CALL:
         {
 	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
 	  uint32 cnt = 0;
+	  csRef<iDocumentNode> return_node;
 	  while (child_it->HasNext ())
 	  {
 	    csRef<iDocumentNode> c = child_it->Next ();
 	    if (c->GetType () != CS_NODE_ELEMENT) continue;
-	    if (xmltokens.Request (c->GetValue ()) == XMLTOKEN_PAR) cnt++;
+	    csStringID child_id = xmltokens.Request (c->GetValue ());
+	    if (child_id == XMLTOKEN_PAR) cnt++;
+	    else if (child_id == XMLTOKEN_RETURN) { return_node = c; }
 	    else synldr->ReportBadToken (c);
 	  }
 	  if (cnt > 0)
@@ -1090,24 +1101,35 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    {
 	      csRef<iDocumentNode> c = child_it->Next ();
 	      if (c->GetType () != CS_NODE_ELEMENT) continue;
-              if (!ParseExpression (c, h, "id", "call/par"))
-	        return false;
-              if (!ParseExpression (c, h, "value", "call/par"))
-	        return false;
-	      h->AddOperation (CEL_OPERATION_ACTIONPARAM);
-	      h->GetArgument ().SetUInt32 (cnt);
-	      cnt++;
+	      csStringID child_id = xmltokens.Request (c->GetValue ());
+	      if (child_id != XMLTOKEN_RETURN)
+	      {
+                if (!ParseExpression (c, h, "id", "call/par"))
+	          return false;
+                if (!ParseExpression (c, h, "value", "call/par"))
+	          return false;
+	        h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	        h->GetArgument ().SetUInt32 (cnt);
+	        cnt++;
+	      }
 	    }
 	  }
 
+	  if (return_node)
+            if (!ParseExpression (return_node, h, "var", "return"))
+	      return false;
 	  const char* entname = child->GetAttributeValue ("entity");
 	  if (entname)
             if (!ParseExpression (child, h, "entity", "call"))
 	      return false;
           if (!ParseExpression (child, h, "event", "call"))
 	    return false;
-	  h->AddOperation (entname ? CEL_OPERATION_CALLENT :
-	  	CEL_OPERATION_CALL);
+	  if (return_node)
+	    h->AddOperation (entname ? CEL_OPERATION_CALLENT_RET :
+	  	  CEL_OPERATION_CALL_RET);
+	  else
+	    h->AddOperation (entname ? CEL_OPERATION_CALLENT :
+	  	  CEL_OPERATION_CALL);
 	}
 	break;
       case XMLTOKEN_ACTION:
@@ -1496,7 +1518,8 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
   behave->SetName (name);
   behave->SetBehaviourLayer (this);
   behave->SetScript (script);
-  behave->SendMessage ("init", 0);
+  celData ret;
+  behave->SendMessage ("init", ret, 0);
   return behave;
 }
 
