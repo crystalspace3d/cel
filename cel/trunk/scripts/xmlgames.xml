@@ -82,6 +82,14 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="black">
+	    <file>/cellib/images/black.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="save">
+	    <file>/cellib/images/save.png</file>
+	    <keepimage />
+        </texture>
         <texture name="number_0">
 	    <file>/cellib/images/number_0.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -209,6 +217,8 @@
         <material name="rock"> <texture>rock</texture> </material>
         <material name="brick_full"> <texture>brick_full</texture> </material>
         <material name="brick_broken"> <texture>brick_broken</texture> </material>
+        <material name="black"> <texture>black</texture> </material>
+        <material name="save"> <texture>save</texture> </material>
         <material name="number_0"> <texture>number_0</texture> </material>
         <material name="number_1"> <texture>number_1</texture> </material>
         <material name="number_2"> <texture>number_2</texture> </material>
@@ -274,6 +284,7 @@
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="10000" />
 		<var entity="puzzle_button" name="game" value="puzzle_main" />
+		<var entity="puzzle_button" name="game_bh" value="puzzle_main" />
 
 		<!-- Maze game button -->
 		<var name="material" value="apple" />
@@ -282,6 +293,7 @@
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="70000" />
 		<var entity="maze_button" name="game" value="maze_main" />
+		<var entity="maze_button" name="game_bh" value="maze_main" />
 
 		<!-- Boulderdash game button -->
 		<var name="material" value="slanted_stone" />
@@ -290,6 +302,16 @@
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="130000" />
 		<var entity="bdash_button" name="game" value="bdash_main" />
+		<var entity="bdash_button" name="game_bh" value="bdash_main" />
+
+		<!-- Boulderdash game edit button -->
+		<var name="material" value="slanted_stone" />
+		<createentity name="bdashedit_button" behaviour="game_button" />
+		<default propclass="pc(bdashedit_button,pcbillboard)" />
+	        <property id="propid(x)" value="130000" />
+	        <property id="propid(y)" value="130000" />
+		<var entity="bdashedit_button" name="game" value="bdash_main" />
+		<var entity="bdashedit_button" name="game_bh" value="bdashedit_main" />
 	    </event>
 
 	    <!--
@@ -302,7 +324,8 @@
 	        <destroyentity name="puzzle_button" />
 	        <destroyentity name="maze_button" />
 	        <destroyentity name="bdash_button" />
-		<createentity name="?game" behaviour="?game" />
+	        <destroyentity name="bdashedit_button" />
+		<createentity name="?game" behaviour="?game_bh" />
 	    </event>
 	</script>
 
@@ -380,11 +403,12 @@
 	    </event>
 
 	    <!--
-	      - Select this button. Fire up the 'puzzle' game.
+	      - Select this button. Fire up the right game.
 	      -->
 	    <event name="pcbillboard_select">
 	    	<sound name="boing" loop="false" />
 		<var entity="menu" name="game" value="?game" />
+		<var entity="menu" name="game_bh" value="?game_bh" />
 	        <call entity="menu" event="startgame" />
 	    </event>
 	</script>
@@ -1210,21 +1234,21 @@
 		<var name="explosion_stack" value="0" />
 
 		<!-- A stack of freed entities to reuse (per type) -->
-		<var name="'entstack_ '" value="0" />
-		<var name="'entstack_H'" value="0" />
-		<var name="'entstack_B'" value="0" />
-		<var name="'entstack_#'" value="0" />
-		<var name="'entstack_X'" value="0" />
-		<var name="'entstack_x'" value="0" />
-		<var name="'entstack_O'" value="0" />
-		<var name="'entstack_o'" value="0" />
-		<var name="'entstack_R'" value="0" />
-		<var name="'entstack_m'" value="0" />
-		<var name="'entstack_a'" value="0" />
-		<var name="'entstack_b'" value="0" />
-		<var name="'entstack_M'" value="0" />
-		<var name="'entstack_*'" value="0" />
-		<var name="'entstack_+'" value="0" />
+		<var name="'entstack_. '" value="0" />
+		<var name="'entstack_HH'" value="0" />
+		<var name="'entstack_#B'" value="0" />
+		<var name="'entstack_##'" value="0" />
+		<var name="'entstack_#R'" value="0" />
+		<var name="'entstack_#*'" value="0" />
+		<var name="'entstack_#+'" value="0" />
+		<var name="'entstack_XX'" value="0" />
+		<var name="'entstack_Xx'" value="0" />
+		<var name="'entstack_OO'" value="0" />
+		<var name="'entstack_Oo'" value="0" />
+		<var name="'entstack_Md'" value="0" />
+		<var name="'entstack_Ma'" value="0" />
+		<var name="'entstack_Mb'" value="0" />
+		<var name="'entstack_Mm'" value="0" />
 		<var name="'entstack_exp_c'" value="0" />
 		<var name="'entstack_exp_t'" value="0" />
 		<var name="'entstack_exp_l'" value="0" />
@@ -1236,21 +1260,21 @@
 		<var name="'entstack_exp_tr'" value="0" />
 
 		<!-- Create a table of materials per block type -->
-		<var name="'material_ '" value="''" />
-		<var name="'material_H'" value="''" />	<!-- Special value for hero -->
-		<var name="'material_B'" value="slanted_stone" />
-		<var name="'material_#'" value="sand_stone" />
-		<var name="'material_X'" value="diamond" />
-		<var name="'material_x'" value="diamond_bomb" />
-		<var name="'material_O'" value="bomb" />
-		<var name="'material_o'" value="bomb" />
-		<var name="'material_R'" value="rock" />
-		<var name="'material_m'" value="monster" />
-		<var name="'material_a'" value="apple" />
-		<var name="'material_b'" value="banana" />
-		<var name="'material_M'" value="mushroom" />
-		<var name="'material_*'" value="brick_full" />
-		<var name="'material_+'" value="brick_broken" />
+		<var name="'material_. '" value="black" />
+		<var name="'material_HH'" value="hero" />
+		<var name="'material_#B'" value="slanted_stone" />
+		<var name="'material_##'" value="sand_stone" />
+		<var name="'material_#R'" value="rock" />
+		<var name="'material_#*'" value="brick_full" />
+		<var name="'material_#+'" value="brick_broken" />
+		<var name="'material_XX'" value="diamond" />
+		<var name="'material_Xx'" value="diamond_bomb" />
+		<var name="'material_OO'" value="bomb" />
+		<var name="'material_Oo'" value="bomb" />
+		<var name="'material_Md'" value="monster" />
+		<var name="'material_Ma'" value="apple" />
+		<var name="'material_Mb'" value="banana" />
+		<var name="'material_Mm'" value="mushroom" />
 		<var name="'material_exp_c'" value="explosion_c" />
 		<var name="'material_exp_t'" value="explosion_t" />
 		<var name="'material_exp_l'" value="explosion_l" />
@@ -1261,21 +1285,21 @@
 		<var name="'material_exp_tl'" value="explosion_tl" />
 		<var name="'material_exp_tr'" value="explosion_tr" />
 		<!-- Create a table of behaviours per block type -->
-		<var name="'behaviour_ '" value="''" />
-		<var name="'behaviour_H'" value="''" />	<!-- Special value for hero -->
-		<var name="'behaviour_B'" value="bdash_nonmovable" />
-		<var name="'behaviour_#'" value="bdash_nonmovable" />
-		<var name="'behaviour_X'" value="bdash_diamond" />
-		<var name="'behaviour_x'" value="bdash_diamond_bomb" />
-		<var name="'behaviour_O'" value="bdash_bomb" />
-		<var name="'behaviour_o'" value="bdash_timedbomb" />
-		<var name="'behaviour_R'" value="bdash_movable" />
-		<var name="'behaviour_m'" value="bdash_diamond_monster" />
-		<var name="'behaviour_a'" value="bdash_apple_monster" />
-		<var name="'behaviour_b'" value="bdash_apple_monster" />
-		<var name="'behaviour_M'" value="bdash_mushroom_monster" />
-		<var name="'behaviour_*'" value="bdash_nonmovable" />
-		<var name="'behaviour_+'" value="bdash_nonmovable" />
+		<var name="'behaviour_. '" value="''" />
+		<var name="'behaviour_HH'" value="''" />	<!-- Special value for hero -->
+		<var name="'behaviour_#B'" value="bdash_nonmovable" />
+		<var name="'behaviour_##'" value="bdash_nonmovable" />
+		<var name="'behaviour_#R'" value="bdash_movable" />
+		<var name="'behaviour_#*'" value="bdash_nonmovable" />
+		<var name="'behaviour_#+'" value="bdash_nonmovable" />
+		<var name="'behaviour_XX'" value="bdash_diamond" />
+		<var name="'behaviour_Xx'" value="bdash_diamond_bomb" />
+		<var name="'behaviour_OO'" value="bdash_bomb" />
+		<var name="'behaviour_Oo'" value="bdash_timedbomb" />
+		<var name="'behaviour_Md'" value="bdash_diamond_monster" />
+		<var name="'behaviour_Ma'" value="bdash_apple_monster" />
+		<var name="'behaviour_Mb'" value="bdash_apple_monster" />
+		<var name="'behaviour_Mm'" value="bdash_mushroom_monster" />
 		<var name="'behaviour_exp_c'" value="bdash_explosion" />
 		<var name="'behaviour_exp_t'" value="bdash_explosion" />
 		<var name="'behaviour_exp_l'" value="bdash_explosion" />
@@ -1286,21 +1310,21 @@
 		<var name="'behaviour_exp_tl'" value="bdash_explosion" />
 		<var name="'behaviour_exp_tr'" value="bdash_explosion" />
 		<!-- Create a table of 'falloff' setting per block type -->
-		<var name="'falloff_ '" value="false" />
-		<var name="'falloff_H'" value="false" />
-		<var name="'falloff_B'" value="true" />
-		<var name="'falloff_#'" value="false" />
-		<var name="'falloff_X'" value="true" />
-		<var name="'falloff_x'" value="true" />
-		<var name="'falloff_O'" value="true" />
-		<var name="'falloff_o'" value="true" />
-		<var name="'falloff_R'" value="true" />
-		<var name="'falloff_m'" value="false" />
-		<var name="'falloff_a'" value="true" />
-		<var name="'falloff_b'" value="true" />
-		<var name="'falloff_M'" value="true" />
-		<var name="'falloff_*'" value="false" />
-		<var name="'falloff_+'" value="false" />
+		<var name="'falloff_. '" value="false" />
+		<var name="'falloff_HH'" value="false" />
+		<var name="'falloff_#B'" value="true" />
+		<var name="'falloff_##'" value="false" />
+		<var name="'falloff_#R'" value="true" />
+		<var name="'falloff_#*'" value="false" />
+		<var name="'falloff_#+'" value="false" />
+		<var name="'falloff_XX'" value="true" />
+		<var name="'falloff_Xx'" value="true" />
+		<var name="'falloff_OO'" value="true" />
+		<var name="'falloff_Oo'" value="true" />
+		<var name="'falloff_Md'" value="false" />
+		<var name="'falloff_Ma'" value="true" />
+		<var name="'falloff_Mb'" value="true" />
+		<var name="'falloff_Mm'" value="true" />
 		<var name="'falloff_exp_c'" value="false" />
 		<var name="'falloff_exp_t'" value="false" />
 		<var name="'falloff_exp_l'" value="false" />
@@ -1318,21 +1342,21 @@
 		  -	- '2': will cause an explosion if destroyed.
 		  -	- '3': will degrate to another blocktype (uses 'blockchange_' table).
 		  -->
-		<var name="'destroy_ '" value="1" />
-		<var name="'destroy_H'" value="1" />
-		<var name="'destroy_B'" value="0" />
-		<var name="'destroy_#'" value="1" />
-		<var name="'destroy_X'" value="1" />
-		<var name="'destroy_x'" value="1" />
-		<var name="'destroy_O'" value="2" />
-		<var name="'destroy_o'" value="2" />
-		<var name="'destroy_R'" value="1" />
-		<var name="'destroy_m'" value="1" />
-		<var name="'destroy_a'" value="1" />
-		<var name="'destroy_b'" value="1" />
-		<var name="'destroy_M'" value="1" />
-		<var name="'destroy_*'" value="3" />
-		<var name="'destroy_+'" value="1" />
+		<var name="'destroy_. '" value="1" />
+		<var name="'destroy_HH'" value="1" />
+		<var name="'destroy_#B'" value="0" />
+		<var name="'destroy_##'" value="1" />
+		<var name="'destroy_#R'" value="1" />
+		<var name="'destroy_#*'" value="3" />
+		<var name="'destroy_#+'" value="1" />
+		<var name="'destroy_XX'" value="1" />
+		<var name="'destroy_Xx'" value="1" />
+		<var name="'destroy_OO'" value="2" />
+		<var name="'destroy_Oo'" value="2" />
+		<var name="'destroy_Md'" value="1" />
+		<var name="'destroy_Ma'" value="1" />
+		<var name="'destroy_Mb'" value="1" />
+		<var name="'destroy_Mm'" value="1" />
 		<var name="'destroy_exp_c'" value="1" />
 		<var name="'destroy_exp_t'" value="1" />
 		<var name="'destroy_exp_l'" value="1" />
@@ -1347,7 +1371,7 @@
 		  - For all blocktypes where 'destroy_' == 3 we have a table
 		  - of what to change this block too when destroyed.
 		  -->
-		<var name="'blockchange_*'" value="'+'" />
+		<var name="'blockchange_#*'" value="'#+'" />
 
 		<!--
 		  - Create a table of 'explode' setting per block type.
@@ -1356,21 +1380,21 @@
 		  -	- '1': object explodes.
 		  -	- '2': object explodes with diamonds.
 		  -->
-		<var name="'explode_ '" value="0" />
-		<var name="'explode_H'" value="0" />
-		<var name="'explode_B'" value="0" />
-		<var name="'explode_#'" value="0" />
-		<var name="'explode_X'" value="0" />
-		<var name="'explode_x'" value="2" />
-		<var name="'explode_O'" value="1" />
-		<var name="'explode_o'" value="0" />
-		<var name="'explode_R'" value="0" />
-		<var name="'explode_m'" value="2" />
-		<var name="'explode_a'" value="0" />
-		<var name="'explode_b'" value="0" />
-		<var name="'explode_M'" value="0" />
-		<var name="'explode_*'" value="0" />
-		<var name="'explode_+'" value="0" />
+		<var name="'explode_. '" value="0" />
+		<var name="'explode_HH'" value="0" />
+		<var name="'explode_#B'" value="0" />
+		<var name="'explode_##'" value="0" />
+		<var name="'explode_#R'" value="0" />
+		<var name="'explode_#*'" value="0" />
+		<var name="'explode_#+'" value="0" />
+		<var name="'explode_XX'" value="0" />
+		<var name="'explode_Xx'" value="2" />
+		<var name="'explode_OO'" value="1" />
+		<var name="'explode_Oo'" value="0" />
+		<var name="'explode_Md'" value="2" />
+		<var name="'explode_Ma'" value="0" />
+		<var name="'explode_Mb'" value="0" />
+		<var name="'explode_Mm'" value="0" />
 		<var name="'explode_exp_c'" value="0" />
 		<var name="'explode_exp_t'" value="0" />
 		<var name="'explode_exp_l'" value="0" />
@@ -1382,74 +1406,13 @@
 		<var name="'explode_exp_tr'" value="0" />
 
 		<!--  Create the maze -->
-		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
-		<var name="row1"  value="'B #XXX#    *                               #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row2"  value="'B #XXX#    *                               #xxxxmmmmmmmmmmmmmmmB'" />
-		<var name="row3"  value="'B #XXX#    *    O        X                 #xxxxmmmmmmmmmmmmmmmB'" />
-		<var name="row4"  value="'B #XXX#       #####     XXX     m          #xxxxxxxxxxxxxxMMMMMB'" />
-		<var name="row5"  value="'B #####       #####    XXXXX        mm m   #xxxxm****xxxxxxxxxxB'" />
-		<var name="row6"  value="'B         X  X###x#  xXXxxXXX             m#xxxxxxmxxxxxxxxxxxxB'" />
-		<var name="row7"  value="'B  #    BBBBBBBB###  #XXXXxmXx#  X   Xx    #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row8"  value="'B    B         B     #XXmXXxXX# ### ###   ##xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row9"  value="'B   O  O       B   m #XXXXxXXX#            #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row10" value="'B#########     B     #XxXXXXXX#  #x  B     #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row11" value="'B#########   m B     ##########            #xxxmxxxxxxxxxxxxxxxB'" />
-		<var name="row12" value="'B#########     B                   R       #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row13" value="'B              B                   ##R  a  #xxxxxxxxxxxxxxxxxxxB'" />
-		<var name="row14" value="'B  ****     a  B   R   O         x   # B  #####################B'" />
-		<var name="row15" value="'B     *   a    B   #X X#      x                                B'" />
-		<var name="row16" value="'B  ****        B   #XXX#      #     #     #                    B'" />
-		<var name="row17" value="'B  *     a         #####                          X            B'" />
-		<var name="row18" value="'B  ****       a           a    a          a     B###B          B'" />
-		<var name="row19" value="'B            ***  *   * ***  **** *   *         B###B          B'" />
-		<var name="row20" value="'B    x       *  * *   * *  * *    **  *         B###B          B'" />
-		<var name="row21" value="'B            ***  *   * ***  ***  * * *         BBBBB          B'" />
-		<var name="row22" value="'B            *  * *   * *  * *    *  **      **************    B'" />
-		<var name="row23" value="'B       *    *  *  ***  ***  **** *   *      *       M  a *    B'" />
-		<var name="row24" value="'B       *                 H                  *a b aa  M a *    B'" />
-		<var name="row25" value="'B   bb  *    *   *   *     *   * * * ****    * aba b  a M *    B'" />
-		<var name="row26" value="'B   MM  *    ** **  * *   * *  * * * *       *   b   bb   *    B'" />
-		<var name="row27" value="'B   M   B    * * * *   * *   * * **  ***     **************    B'" />
-		<var name="row28" value="'B  b b  B    *   * ***** ***** * * * *                         B'" />
-		<var name="row29" value="'B  b  b B    *   * *   * *   * * * * ****                      B'" />
-		<var name="row30" value="'B   b b B                                                      B'" />
-		<var name="row31" value="'BBBBBBBBB  m  #XXXaXXaXXaXmmmmmmmmmmmmmmmmmmmBXXXXXXXXXXXXXX#  B'" />
-		<var name="row32" value="'B    #        #XmXXXXXXXXXXMXXXXXXXXXXXXXXXXXBXXXXXXXXXXXXXX#  B'" />
-		<var name="row33" value="'B    #        #XXXXXXXXXOXXXbOXXXXXXXXXXXXXXXBXOXXXXXXXXXXXX#  B'" />
-		<var name="row34" value="'B    #        #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXXOXXXXXXXXXX#  B'" />
-		<var name="row35" value="'B    #        #XXXXXmXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXOXXXXXXX#  B'" />
-		<var name="row36" value="'B   *****     #XXXXXXXXXRXXXXBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row37" value="'B            OOOROROROROOOROOBObRRObOOObOOOObOOOOOOOOXXXXXXX#  B'" />
-		<var name="row38" value="'BBBB         ##XXXXX***XXXXBBBXXX**XBBBXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row39" value="'B             #XXXXOmXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
-		<var name="row40" value="'B    B  BB BBB#XXXXXXXXXXXXXXOXOXXXXXXXXXXXBBBXXXXXRRRRRRRRR#  B'" />
-		<var name="row41" value="'B    B   B    #XXXXXXXmXXXXXOXXXXXRXXXXXXXXXXXXXXRRRaaaabaaa#  B'" />
-		<var name="row42" value="'B    BBB B    #XXXXX***OXXXXXXXXXXRXXXRXXXXXXXXXRRRaaaabaaaa#  B'" />
-		<var name="row43" value="'B        B    #XXXXXXXXXXXXXXXXaXXXXXXXXXaaaaXXRRRRaaRbaabXa#  B'" />
-		<var name="row44" value="'B*** #        #XXXXXXXXXXXmXXXXaXXXXXXXRXMXXaXXXXXRaaMaRRaaa#  B'" />
-		<var name="row45" value="'B    #  *  B# #XXXXXXmXXXXXXXXXaaaaaXXaaaaXXaXXbbbRaRRabbbbR#  B'" />
-		<var name="row46" value="'B  BBBB *  B# #XXXXXXXXXXXXXXXXXXXXXaXaXOXXXaXXXXXbRabbaaaaR#  B'" />
-		<var name="row47" value="'B       *  B# #XXXXXXXXXXmXXmXXXXXXXXaaXXXXOaaaaaaRaaaRaaRaa#  B'" />
-		<var name="row48" value="'B B B   *   # #############B#################################  B'" />
-		<var name="row49" value="'B B B  BBB  #      *       B                                   B'" />
-		<var name="row50" value="'B#BBB       #    B *    BBBB              aaa   aa             B'" />
-		<var name="row51" value="'B         ***    B***            ****   aa   a a a             B'" />
-		<var name="row52" value="'B    BBBB      B B        BBB           a BBBBB  a B  BBBBBBB  B'" />
-		<var name="row53" value="'BBBB**  B      B B BBBBB               a   bbbbbb  B           B'" />
-		<var name="row54" value="'B    B  BBBBB  BBB   B B              a    b B     B a ###     B'" />
-		<var name="row55" value="'B    B               B B          b  a     b B##   Ba       B  B'" />
-		<var name="row56" value="'B  BBB    B B          B   BB BB   bbbbbbb b B a###aB  a    B  B'" />
-		<var name="row57" value="'B    # B  B BBBB   B B     BB BB         bbb Ba M a B a a   B  B'" />
-		<var name="row58" value="'B  # # B  B        B B  B  BBOBB   * *  B bb B   MaM a a    B  B'" />
-		<var name="row59" value="'B    B B  BBBBB  BBBBBB B  BBXOB   * *  B a  BBB   MM aB # BB  B'" />
-		<var name="row60" value="'B # ##BBB B      B      B  BBXBB   * *  B  a      BBBaaB #     B'" />
-		<var name="row61" value="'B #       BBBB * B  m BBB    #     * *  B      B         #   BBB'" />
-		<var name="row62" value="'B    B B       * B                 * *         B         #     B'" />
-		<var name="row63" value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
+		<if eval="readfile(row,'/cellib/objects/maze.txt') == -1">
+		    <reporterror message="'Cannot open maze.txt!'" />
+		</if>
 		<for var="y" start="0" end="?dimension-1">
 		    <var name="row" value="?(row+?y)" />
 		    <for var="x" start="0" end="?dimension-1">
-		        <var name="blocktype" value="strsub(?row,?x,1)" />
+		        <var name="blocktype" value="strsub(?row,?x+?x,2)" />
 		        <call event="initblock" />
 		    </for>
 		</for>
@@ -1496,11 +1459,6 @@
 	    	<lvar name="sn" value="entstack_+#blocktype" />
 		<var name="#sn" value="?(#sn)+1" />
 		<var name="#sn+?#sn" value="@entity" />
-		<!--
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_rem child="@entity" />
-		<destroyentity name="@entity" />
-		-->
 	    </event>
 
 	    <!--
@@ -1509,13 +1467,13 @@
 	      - board.
 	      - This event uses ?x and ?y which should be set outside this routine.
 	      - This event also uses ?blocktype and the ?material_ and ?behaviour_ arrays.
-	      - This event will correctly handle the special 'H' block type (for hero)
+	      - This event will correctly handle the special 'HH' block type (for hero)
 	      - and set the hero start location (?hero_start_x and ?hero_start_y)
 	      - and the ?hero entity variable.
 	      -->
 	    <event name="initblock">
 	        <lvar name="mazepos" value="?x+'_'+?y" />
-	    	<if eval="?blocktype == 'H'">
+	    	<if eval="?blocktype == 'HH'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
 		    <var name="hero_x" value="?x" />
@@ -1527,17 +1485,8 @@
 		    <var name="#mazepos" value="''" />
 		    <stop />
 		</if>
-	    	<if eval="?blocktype != ' '">
+	    	<if eval="?blocktype != '. '">
 		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
-		    <!--
-		    <lvar name="entname" value="?entity_number" />
-		    <var name="entity_number" value="?entity_number+1" />
-		    <createentity name="#entname" behaviour="?(behaviour_+?blocktype)" />
-		    <lvar name="ent" value="ent(#entname)" />
-		    <var name="#mazepos" value="#ent" />
-		    <inventory propclass="pc(pcinventory)" />
-		    <inventory_add child="#ent" />
-		    -->
 		    <stop />
 	    	</if>
 		<var name="#mazepos" value="''" />
@@ -1571,11 +1520,6 @@
 		    	<par id="parid(y)" value="#oldy" />
 		    </call>
 		</if>
-		<!--
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_rem child="#ent" />
-		<destroyentity name="#ent" />
-		-->
 		<expr eval="destroyentity(entity=#ent)" />
 		<var name="#mazepos" value="''" />
 	    </event>
@@ -1609,7 +1553,7 @@
 	      -->
 	    <event name="setblock">
 		<var name="@x+'_'+@y" value="@entity" />
-		<if eval="@blocktype == ' '">
+		<if eval="@blocktype == '. '">
 		    <call event="checkfall"> <inherit /> </call>
 	    	</if>
 	    </event>
@@ -1640,7 +1584,7 @@
 	    	<lvar name="y" value="?(@entity).y" />
 		<call event="setblock">
 		    <par id="parid(entity)" value="''" />
-		    <par id="parid(blocktype)" value="' '" />
+		    <par id="parid(blocktype)" value="'. '" />
 		    <par id="parid(x)" value="?(@entity).oldx" />
 		    <par id="parid(y)" value="?(@entity).oldy" />
 		</call>
@@ -1673,7 +1617,7 @@
 	    <event name="get_blocktype">
 	        <lvar name="ent" value="get_entity(...)" />
 		<if eval="!#ent">
-		    <return value="' '" />
+		    <return value="'. '" />
 	        </if>
 		<return value="?(#ent).blocktype" />
 	    </event>
@@ -1796,48 +1740,48 @@
 		<sound name="clang" loop="false" />
 
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x-1" />
 			<par id="parid(y)" value="@y" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x+1" />
 			<par id="parid(y)" value="@y" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x-1" />
 			<par id="parid(y)" value="@y-1" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x+1" />
 			<par id="parid(y)" value="@y-1" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x-1" />
 			<par id="parid(y)" value="@y+1" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x+1" />
 			<par id="parid(y)" value="@y+1" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x" />
 			<par id="parid(y)" value="@y+1" />
 		</call>
 		<call event="diamond_explodeblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x" />
 			<par id="parid(y)" value="@y-1" />
 		</call>
 		<call event="clearblock_nocheck"> <inherit /> </call>
 		<call event="createblock">
-			<par id="parid(blocktype)" value="'X'" />
+			<par id="parid(blocktype)" value="'XX'" />
 			<par id="parid(x)" value="@x" />
 			<par id="parid(y)" value="@y" />
 		</call>
@@ -1852,7 +1796,7 @@
 	    	<lvar name="bt" value="get_blocktype(...)" />
 		<lvar name="destroy" value="?('destroy_'+#bt)" />
 		<if eval="#destroy!=0">
-		    <if eval="#bt=='H'">
+		    <if eval="#bt=='HH'">
 		    	<call event="addscore">
 			    <par id="parid(score)" value="-20" />
 			</call>
@@ -2006,7 +1950,7 @@
 		<var name="material" value="hero" />
 		<var name="speed" value="?bdash_main.herospeed" />
 		<super />
-	        <var name="blocktype" value="'H'" />
+	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pckeyinput" />
@@ -2076,7 +2020,7 @@
 
 	    <!--
 	      - Start moving the hero. This will set the block at
-	      - ?x+?dx,?y+?dy to 'H'.
+	      - ?x+?dx,?y+?dy to 'HH'.
 	      -->
 	    <event name="startmove">
 	        <var name="oldx" value="?x" />
@@ -2171,37 +2115,37 @@
 		<call event="checktake_+bdash_main::get_blocktype(x=?newx,y=?newy)" />
 	    </event>
 
-	    <event name="checktake_ ">
+	    <event name="checktake_. ">
 	    </event>
-	    <event name="checktake_#">
+	    <event name="checktake_##">
 	    	<call event="clearblock_check" />
 	    </event>
-	    <event name="checktake_B">
+	    <event name="checktake_#B">
 	    </event>
-	    <event name="checktake_O">
+	    <event name="checktake_#R">
 	    	<call event="trypush_dontmove" />
 	    </event>
-	    <event name="checktake_R">
+	    <event name="checktake_OO">
 	    	<call event="trypush_dontmove" />
 	    </event>
-	    <event name="checktake_x">
+	    <event name="checktake_Oo">
+	    </event>
+	    <event name="checktake_Xx">
 	    	<call event="trypush_dontmove" />
 	    </event>
-	    <event name="checktake_o">
-	    </event>
-	    <event name="checktake_X">
+	    <event name="checktake_XX">
 	    	<call event="takediamond" />
 		<call event="clearblock_check" />
 	    </event>
-	    <event name="checktake_a">
+	    <event name="checktake_Ma">
 	    	<call event="takeapple" />
 		<call event="clearblock_check" />
 	    </event>
-	    <event name="checktake_b">
+	    <event name="checktake_Mb">
 	    	<call event="takeapple" />
 		<call event="clearblock_check" />
 	    </event>
-	    <event name="checktake_M">
+	    <event name="checktake_Mm">
 	    	<call event="takemushroom" />
 		<call event="clearblock_nocheck" />
 	    </event>
@@ -2222,43 +2166,43 @@
 		<call event="checkmove_+bdash_main::get_blocktype(x=?newx,y=?newy)" />
 	    </event>
 
-	    <event name="checkmove_ ">
+	    <event name="checkmove_. ">
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_#">
+	    <event name="checkmove_##">
 	    	<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_B">
+	    <event name="checkmove_#B">
 	    </event>
-	    <event name="checkmove_O">
+	    <event name="checkmove_#R">
 	    	<call event="trypush" />
 	    </event>
-	    <event name="checkmove_R">
+	    <event name="checkmove_OO">
 	    	<call event="trypush" />
 	    </event>
-	    <event name="checkmove_x">
-	    	<call event="trypush" />
-	    </event>
-	    <event name="checkmove_o">
+	    <event name="checkmove_Oo">
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_X">
+	    <event name="checkmove_Xx">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_XX">
 	    	<call event="takediamond" />
 		<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_a">
+	    <event name="checkmove_Ma">
 	    	<call event="takeapple" />
 		<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_b">
+	    <event name="checkmove_Mb">
 	    	<call event="takeapple" />
 		<call event="clearblock_nocheck" />
 		<call event="startmove" />
 	    </event>
-	    <event name="checkmove_M">
+	    <event name="checkmove_Mm">
 	    	<call event="takemushroom" />
 		<call event="clearblock_nocheck" />
 		<call event="startmove" />
@@ -2277,7 +2221,7 @@
 	    <event name="pckeyinput_bomb1">
 	    	<if eval="!?bdash_main.(?x+'_'+?y)">
 		    <call entity="bdash_main" event="createblock">
-		        <par id="parid(blocktype)" value="'o'" />
+		        <par id="parid(blocktype)" value="'Oo'" />
 		        <par id="parid(x)" value="?x" />
 		        <par id="parid(y)" value="?y" />
 		    </call>
@@ -2396,6 +2340,7 @@
 	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
 	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
 	        <property id="propid(layer)" value="game" />
+		<bb_toback />
 	    	<call event="reinit" />
 	    </event>
 
@@ -3182,7 +3127,378 @@
 	    </event>
 	</script>
 
+	<!-- *****************************************************
+	  -  *****************************************************
+	  - This is the boulderdash game editor script.
+	  -  *****************************************************
+	  -  ***************************************************** -->
+	<script name="bdashedit_main">
+	    <superscript name="bdash_main" />
 
+	    <event name="init">
+	    	<super />
+	        <print value="EDITOR"/>
+
+		<!-- Create the menu -->
+		<expr eval="createmenuentity(blocktype='. ',x=0,y=0)" />
+		<expr eval="createmenuentity(blocktype='HH',x=1,y=0)" />
+		<expr eval="createmenuentity(blocktype='##',x=2,y=0)" />
+		<expr eval="createmenuentity(blocktype='#B',x=0,y=1)" />
+		<expr eval="createmenuentity(blocktype='#*',x=1,y=1)" />
+		<expr eval="createmenuentity(blocktype='#+',x=2,y=1)" />
+		<expr eval="createmenuentity(blocktype='#R',x=0,y=2)" />
+		<expr eval="createmenuentity(blocktype='XX',x=1,y=2)" />
+		<expr eval="createmenuentity(blocktype='Xx',x=2,y=2)" />
+		<expr eval="createmenuentity(blocktype='OO',x=0,y=3)" />
+		<expr eval="createmenuentity(blocktype='Oo',x=1,y=3)" />
+		<expr eval="createmenuentity(blocktype='Md',x=2,y=3)" />
+		<expr eval="createmenuentity(blocktype='Ma',x=0,y=4)" />
+		<expr eval="createmenuentity(blocktype='Mb',x=1,y=4)" />
+		<expr eval="createmenuentity(blocktype='Mm',x=2,y=4)" />
+		<var name="lasty" value="4" />
+
+		<!-- Create the save button -->
+		<inventory propclass="pc(pcinventory)" />
+		<createentity name="save_button" behaviour="bdashedit_save" />
+		<inventory_add child="ent(save_button)" />
+
+		<!-- Create our hero -->
+		<createentity name="hero" behaviour="bdash_hero_edit" />
+		<inventory_add child="ent(hero)" />
+	    </event>
+
+	    <!--
+	      - Create a menu entity. Parameters are
+	      - @blocktype, @x, and @y.
+	      -->
+	    <event name="createmenuentity">
+	        <lvar name="entname" value="menu_+@blocktype" />
+		<createentity name="#entname" behaviour="bdashedit_menuitem" />
+		<lvar name="ent" value="ent(#entname)" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="#ent" />
+		<call entity="#ent" event="realinit"> <inherit /> </call>
+	    </event>
+
+	    <!--
+	      - Save the board.
+	      -->
+	    <event name="save">
+		<for var="y" start="0" end="?dimension-1">
+		    <lvar name="row" value="''" />
+		    <for var="x" start="0" end="?dimension-1">
+		    	<lvar name="ent" value="?(?x+'_'+?y)" />
+			<lvar name="bt" value="'. '" />
+			<if eval="#ent!=''">
+			    <lvar name="bt" value="?#ent.blocktype" />
+			</if>
+		    	<lvar name="row" value="#row+#bt" />
+		    </for>
+		    <var name="row+?y" value="#row" />
+		</for>
+		<if eval="!writefile(row,'/cellib/objects/maze.txt',0,63)">
+		    <reporterror message="'Cannot write maze.txt!'" />
+		</if>
+	    </event>
+
+	    <!--
+	      - To avoid the entities from working we override createentity
+	      - so that we can supply another behaviour.
+	      - Create an entity with a given type. Possibly fetch it from the
+	      - free entity stack. Parameter is @blocktype. Returns the entity.
+	      -->
+	    <event name="createentity">
+	    	<lvar name="sn" value="entstack_+@blocktype" />
+	        <if eval="?#sn > 0">
+		    <lvar name="ent" value="?(#sn+?#sn)" />
+		    <property propclass="?(#ent).pcbb" id="propid(visible)" value="true" />
+		    <call entity="#ent" event="reinit" />
+		    <var name="#sn" value="?(#sn)-1" />
+		    <return value="#ent" />
+		</if>
+		<lvar name="entname" value="?entity_number" />
+		<var name="entity_number" value="?entity_number+1" />
+		<lvar name="bh" value="bdash_nonmovable" />
+		<createentity name="#entname" behaviour="#bh" />
+		<inventory propclass="pc(pcinventory)" />
+		<lvar name="ent" value="ent(#entname)" />
+		<inventory_add child="#ent" />
+		<return value="#ent" />
+	    </event>
+
+	    <event name="initblock">
+	        <lvar name="mazepos" value="?x+'_'+?y" />
+	    	<if eval="?blocktype == 'HH'">
+		    <var name="hero_start_x" value="?x" />
+		    <var name="hero_start_y" value="?y" />
+		    <var name="hero_x" value="?x" />
+		    <var name="hero_y" value="?y" />
+		</if>
+	    	<if eval="?blocktype != '. '">
+		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
+		    <stop />
+		</if>
+		<var name="#mazepos" value="''" />
+	    </event>
+
+	    <event name="ifempty_checkfall">
+	    </event>
+	    <event name="checkfall">
+	    </event>
+
+	</script>
+
+	<!-- *****************************************************
+	  - This script controls the behaviour of our hero in the editor.
+	  -  ***************************************************** -->
+	<script name="bdash_hero_edit">
+	    <superscript name="movingobject" />
+
+	    <!--
+	      - Initialize our hero.
+	      - Uses ?bdash_main.hero_start_x and ?bdash_main.hero_start_y for
+	      - the hero start location.
+	      -->
+	    <event name="init">
+		<var name="x" value="?bdash_main.hero_start_x" />
+		<var name="y" value="?bdash_main.hero_start_y" />
+		<var name="dim" value="?bdash_main.blockdim" />
+		<var name="material" value="hero" />
+		<var name="speed" value="?bdash_main.herospeed" />
+		<super />
+	        <var name="blocktype" value="'HH'" />
+		<default propclass="?pcbb" />
+	        <property id="propid(layer)" value="game" />
+	        <createpropclass name="pckeyinput" />
+		<default propclass="pc(pckeyinput)" />
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="right" />
+		    <par id="parid(command)" value="move_right" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="left" />
+		    <par id="parid(command)" value="move_left" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="up" />
+		    <par id="parid(command)" value="move_up" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="down" />
+		    <par id="parid(command)" value="move_down" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-right'" />
+		    <par id="parid(command)" value="take_right" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-left'" />
+		    <par id="parid(command)" value="take_left" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-up'" />
+		    <par id="parid(command)" value="take_up" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="'shift-down'" />
+		    <par id="parid(command)" value="take_down" />
+		</action>
+		<action id="propid(Bind)">
+		    <par id="parid(trigger)" value="space" />
+		    <par id="parid(command)" value="bomb" />
+		</action>
+	    </event>
+
+	    <!--
+	      - Routine used by the checktake events below to clear a block.
+	      - Uses ?newx, and ?newy for the position of the block to clear.
+	      -->
+	    <event name="clearblock_check">
+		<call entity="bdash_main" event="clearblock_check">
+		    <par id="parid(x)" value="?newx" />
+		    <par id="parid(y)" value="?newy" />
+		</call>
+	    </event>
+
+	    <!--
+	      - Routine used by the checkmove events below to clear a block.
+	      - This version does not force a falling object check because
+	      - it is supposed to be used when the player moves to the clear
+	      - block.
+	      - Uses ?newx, and ?newy for the position of the block to clear.
+	      -->
+	    <event name="clearblock_nocheck">
+		<call entity="bdash_main" event="clearblock_nocheck">
+		    <par id="parid(x)" value="?newx" />
+		    <par id="parid(y)" value="?newy" />
+		</call>
+	    </event>
+
+	    <!--
+	      - Start moving the hero. This will set the block at
+	      - ?x+?dx,?y+?dy to 'HH'.
+	      -->
+	    <event name="startmove">
+	        <var name="oldx" value="?x" />
+	        <var name="oldy" value="?y" />
+	        <super />
+		<var entity="bdash_main" name="hero_x" value="?x" />
+		<var entity="bdash_main" name="hero_y" value="?y" />
+	    </event>
+
+	    <!--
+	      - Our hero has stopped moving. This is called by the superscript
+	      - and we use this to clear the block where the hero started from.
+	      -->
+	    <event name="endmove">
+	    	<super />
+		<var entity="bdash_main" name="layer_movetox"
+			value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
+		<var entity="bdash_main" name="layer_movetoy"
+			value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
+		<call entity="bdash_main" event="ifempty_checkfall">
+		    <par id="parid(x)" value="?oldx" />
+		    <par id="parid(y)" value="?oldy" />
+	    	</call>
+	    </event>
+
+	    <!--
+	      - Check if a move is possible and perform the move
+	      - if so. Uses ?dx and ?dy to get the move direction and
+	      - ?x and ?y for current position.
+	      -->
+	    <event name="checkmove">
+	        <if eval="?moving">
+		    <stop />
+		</if>
+		<var name="newx" value="?x+?dx" />
+		<var name="newy" value="?y+?dy" />
+		<if eval="?newx < 0 || ?newx >= ?bdash_main.dimension">
+		    <stop />
+		</if>
+		<if eval="?newy < 0 || ?newy >= ?bdash_main.dimension">
+		    <stop />
+		</if>
+		<call event="startmove" />
+	    </event>
+
+	    <event name="pckeyinput_move_right1">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_left1">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_down1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_up1">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_right_">
+	    	<var name="dx" value="1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_left_">
+	    	<var name="dx" value="-1" />
+	    	<var name="dy" value="0" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_down_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="1" />
+		<call event="checkmove" />
+	    </event>
+	    <event name="pckeyinput_move_up_">
+	    	<var name="dx" value="0" />
+	    	<var name="dy" value="-1" />
+		<call event="checkmove" />
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a menu item.
+	  -  ***************************************************** -->
+        <script name="bdashedit_menuitem">
+	    <!--
+	      - Initialize this block.
+	      -->
+	    <event name="init">
+	    </event>
+
+	    <!--
+	      - Real initialization. Uses @blocktype, @x, and @y parameters.
+	      -->
+	    <event name="realinit">
+	        <var name="blocktype" value="@blocktype" />
+
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="block" />
+	        <property id="propid(materialname)" value="?bdash_main.(material_+?blocktype)" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="640+?bdash_main.blockdim" />
+	        <property id="propid(height)" value="640+?bdash_main.blockdim" />
+	        <property id="propid(layer)" value="menu" />
+	        <property id="propid(x)" value="240000+@x*(?bdash_main.blockdim+1000)" />
+	        <property id="propid(y)" value="10000+@y*(?bdash_main.blockdim+1000)" />
+	    </event>
+
+	    <event name="pcbillboard_select">
+	    	<lvar name="x" value="?bdash_main.hero_x" />
+	    	<lvar name="y" value="?bdash_main.hero_y" />
+		<call entity="bdash_main" event="clearblock_nocheck">
+		    <par id="parid(x)" value="#x" />
+		    <par id="parid(y)" value="#y" />
+		</call>
+		<call entity="bdash_main" event="createblock">
+		    <par id="parid(blocktype)" value="?blocktype" />
+		    <par id="parid(x)" value="#x" />
+		    <par id="parid(y)" value="#y" />
+		</call>
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles the save button.
+	  -  ***************************************************** -->
+        <script name="bdashedit_save">
+	    <!--
+	      - Initialize this block.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
+		<default propclass="?pcbb" />
+	        <property id="propid(name)" value="block" />
+	        <property id="propid(materialname)" value="save" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="true" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="19200*2" />
+	        <property id="propid(height)" value="19200" />
+	        <property id="propid(layer)" value="menu" />
+	        <property id="propid(x)" value="240000" />
+	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(?bdash_main.blockdim+1000)" />
+	    </event>
+
+	    <event name="pcbillboard_select">
+	    	<call entity="bdash_main" event="save" />
+	    </event>
+	</script>
     </addon>
 
     <addon plugin="celentity" entityname="menu">

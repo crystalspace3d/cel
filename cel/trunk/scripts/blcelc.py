@@ -3443,7 +3443,6 @@ class iLight(iBase):
     def GetCenter(*args): return apply(_blcelc.iLight_GetCenter,args)
     def SetCenter(*args): return apply(_blcelc.iLight_SetCenter,args)
     def GetSector(*args): return apply(_blcelc.iLight_GetSector,args)
-    def SetSector(*args): return apply(_blcelc.iLight_SetSector,args)
     def GetColor(*args): return apply(_blcelc.iLight_GetColor,args)
     def SetColor(*args): return apply(_blcelc.iLight_SetColor,args)
     def GetInfluenceRadius(*args): return apply(_blcelc.iLight_GetInfluenceRadius,args)
@@ -3468,7 +3467,6 @@ class iLight(iBase):
     def AddAffectedLightingInfo(*args): return apply(_blcelc.iLight_AddAffectedLightingInfo,args)
     def RemoveAffectedLightingInfo(*args): return apply(_blcelc.iLight_RemoveAffectedLightingInfo,args)
     def Setup(*args): return apply(_blcelc.iLight_Setup,args)
-    def GetNext(*args): return apply(_blcelc.iLight_GetNext,args)
     def __del__(self, destroy= _blcelc.delete_iLight):
         try:
             if self.thisown: destroy(self)
