@@ -25,6 +25,7 @@
 #include "iutil/event.h"
 
 #include "plugins/tools/quests/quests.h"
+#include "plugins/tools/quests/trig_entersector.h"
 
 //---------------------------------------------------------------------------
 
@@ -159,6 +160,11 @@ celQuestManager::~celQuestManager ()
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
+
+  celEnterSectorTriggerType* type_es = new celEnterSectorTriggerType (
+  	object_reg);
+  RegisterTriggerType (type_es);
+  type_es->DecRef ();
 
   return true;
 }

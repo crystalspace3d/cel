@@ -92,6 +92,7 @@ public:
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
 };
+
 /**
  * This is a manager for quests.
  */

@@ -53,6 +53,9 @@ struct iDocumentNode;
         <trigger type="clickonentity">
 	    <fireon entity_name="" />
 	</trigger>
+        <trigger type="cel.questtrigger.entersector">
+	    <fireon entity_name="player" sector_name="room" />
+	</trigger>
     </state>
 
     <start>notstarted</start>
@@ -94,14 +97,14 @@ struct iQuestTrigger : public iBase
 {
   /**
    * Register a callback with this trigger. When the trigger fires
-   * it will call this callback.
+   * it will call this callback. A trigger supports only one callback.
    */
   virtual void RegisterCallback (iQuestTriggerCallback* callback) = 0;
 
   /**
-   * Remove a callback.
+   * Clear the callback.
    */
-  virtual void UnregisterCallback (iQuestTriggerCallback* callback) = 0;
+  virtual void ClearCallback () = 0;
 };
 
 SCF_VERSION (iQuestTriggerFactory, 0, 0, 1);
@@ -353,6 +356,13 @@ struct iQuestManager : public iBase
    * by quests to decide when to go to another state or when
    * to activate a reward. Returns false on failure (trigger
    * type with that name already exists).
+   * <p>
+   * The following predefined trigger types are automatically
+   * registered in the quest manager:
+   * <ul>
+   * <li>cel.questtrigger.entersector: triggers when a camera (from
+   *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
+   * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
@@ -361,6 +371,11 @@ struct iQuestManager : public iBase
    * by quests to give out some kind of reward to the game.
    * Returns false on failure (reward type with that name
    * already exists).
+   * <p>
+   * The following predefined reward types are automatically
+   * registered in the quest manager:
+   * <ul>
+   * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
 
@@ -375,6 +390,44 @@ struct iQuestManager : public iBase
    * already exists).
    */
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
+};
+
+//-------------------------------------------------------------------------
+// Specific trigger implementations.
+//-------------------------------------------------------------------------
+
+SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain sector is entered. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is 'cel.questtype.entersector'.
+ * <p>
+ * In XML factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity_name</em>: the name of the entity that contains the
+ *     pccamera property class.
+ * <li><em>sector_name</em>: the name of the sector. As soon as the camera
+ *     enters that sector this trigger will fire.
+ * </ul>
+ */
+struct iEnterSectorQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pccamera property class
+   * on which this trigger will fire.
+   */
+  virtual void SetEntityName (const char* entity_name) = 0;
+
+  /**
+   * Set the name of the sector on which this trigger will fire
+   * as soon as the camera enters that sector.
+   */
+  virtual void SetSectorName (const char* sector_name) = 0;
 };
 
 #endif // __CEL_MGR_QUEST__
