@@ -29,6 +29,7 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
+#include "cstool/collider.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "csutil/csobject.h"
@@ -291,6 +292,7 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSolid);
   DG_TYPE (this, "celPcSolid()");
+  no_collider = false;
 }
 
 celPcSolid::~celPcSolid ()
@@ -324,7 +326,8 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
     return false;
   }
   celData* cd;
-  collider = 0;
+  collider_wrap = 0;
+  no_collider = false;
   cd = databuf->GetData (0);
   if (!cd)
   {
@@ -341,12 +344,14 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
 void celPcSolid::SetMesh (iPcMesh* mesh)
 {
   pcmesh = mesh;
-  collider = 0;
+  collider_wrap = 0;
+  no_collider = false;
 }
 
 iCollider* celPcSolid::GetCollider ()
 {
-  if (collider) return collider;
+  if (collider_wrap) return collider_wrap->GetCollider ();
+  if (no_collider) return 0;
   if (!pcmesh)
   {
     pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
@@ -356,12 +361,14 @@ iCollider* celPcSolid::GetCollider ()
 	GetObjectModel ()->GetPolygonMeshColldet ();
   if (pmesh)
   {
-    csRef<iCollideSystem> cdsys (
-    	CS_QUERY_REGISTRY (object_reg, iCollideSystem));
+    csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
     CS_ASSERT (cdsys != 0);
-    collider = cdsys->CreateCollider (pmesh);
+    collider_wrap = csPtr<csColliderWrapper> (new csColliderWrapper (
+    	pcmesh->GetMesh ()->QueryObject (), cdsys, pmesh));
+    return collider_wrap->GetCollider ();
   }
-  return collider;
+  no_collider = true;
+  return 0;
 }
 
 //---------------------------------------------------------------------------

@@ -41,6 +41,7 @@ struct iCelEntityList;
 struct iCollideSystem;
 class csVector3;
 class csReversibleTransform;
+class csColliderWrapper;
 
 /**
  * Factory for move.
@@ -118,7 +119,8 @@ class celPcSolid : public celPcCommon
 {
 private:
   csRef<iPcMesh> pcmesh;
-  csRef<iCollider> collider;
+  csRef<csColliderWrapper> collider_wrap;
+  bool no_collider;
 
 public:
   celPcSolid (iObjectRegistry* object_reg);
