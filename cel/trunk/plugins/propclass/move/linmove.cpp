@@ -161,7 +161,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   speed = 1.0f;
 
   deltaLimit = 0;
-  angDeltaLimit = 0.05f;
 
   if (action_initcd == csInvalidStringID)
   {
@@ -400,6 +399,11 @@ bool celPcLinearMovement::MoveSprite (float delta)
   //float local_max_interval;
   bool rc = false;
 
+  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
+      ->GetTransform ().GetT2O ();
+  float yrot = Matrix2YRot (transf);
+
+
   // Make sure time moves forward at least at this rate
 
   //float temp3=(vel.y==0.0f)
@@ -435,10 +439,26 @@ bool celPcLinearMovement::MoveSprite (float delta)
   {
     while (delta > local_max_interval)
     {
-      if (MoveV (local_max_interval))
-    	rc = true;
-      else // Can't move anymore
-    	return rc;
+      rc |= MoveV (local_max_interval);
+
+      if(pccolldet->QueryRevert())
+      {
+        // Revert Rotation for safety
+        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
+        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+      }
+      else
+      {
+          rc |= RotateV(local_max_interval);
+
+          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()
+              ->GetTransform ().GetT2O ();
+          yrot = Matrix2YRot (transf);
+      }
+
+      if (!rc)
+          return rc;
+
       delta -= local_max_interval;
       local_max_interval = MAX (MIN (MIN ((vel.y==0.0f)
       	? MAX_CD_INTERVAL
@@ -456,8 +476,8 @@ bool celPcLinearMovement::MoveSprite (float delta)
 
   if (!pccolldet || delta)
   {
-    if (MoveV (delta))
-      rc = true;
+    rc |= MoveV (delta);
+    rc |= RotateV(delta);
   }
 
   return rc;
@@ -484,9 +504,8 @@ bool celPcLinearMovement::MoveV (float delta)
 
   // Check for collisions and adjust position
   if (pccolldet)
-  {
-    pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable);
-  }
+    if(!pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable))
+        return false;                   // We haven't moved so return early
 
   // move to the new position
   movable->GetTransform ().SetOrigin (newpos);
@@ -563,34 +582,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
   else
   {
-      bool rc = false;
-      if (!angDeltaLimit)
-      {
-          rc = MoveSprite (delta);
-          rc = RotateV(angDeltaLimit) || rc;
-          return;
-      }
-
-      angDelta += delta;
-      if (angularVelocity.IsZero() || delta < angDeltaLimit)
-          rc = MoveSprite (delta);
-      else if (!vel.IsZero())
-      {
-          while (delta >= angDeltaLimit)
-          {
-              rc = MoveSprite (angDeltaLimit) || rc;
-              rc = RotateV (angDeltaLimit) || rc;
-              delta -=angDeltaLimit;
-              angDelta -=angDeltaLimit;
-          }
-          if (delta)
-              rc = MoveSprite(delta) || rc;
-      }
-      while (angDelta >= angDeltaLimit)
-      {
-          rc = RotateV(angDeltaLimit) || rc;
-          angDelta -= angDeltaLimit;
-      }
+    bool rc = MoveSprite (delta);
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
