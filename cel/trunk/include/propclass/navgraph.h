@@ -69,9 +69,9 @@ SCF_VERSION (iPcNavLink, 0, 0, 1);
 
 struct iPcNavLink : public iBase
 {
-  virtual void SetSource (csRef<iPcNavNode> newsource) = 0;
+  virtual void SetSource (iPcNavNode* newsource) = 0;
   virtual csRef<iPcNavNode> GetSource () = 0;
-  virtual void SetDest (csRef<iPcNavNode> newdest) = 0;
+  virtual void SetDest (iPcNavNode* newdest) = 0;
   virtual csRef<iPcNavNode> GetDest () = 0;
   virtual int GetLinkInfo () = 0;
   virtual void SetLinkInfo (int idata) = 0;
@@ -99,23 +99,23 @@ struct iPcNavGraph : public iBase
   // UGLY @@@
   virtual void* GetPrivateObject () = 0;
   virtual int Dump () = 0;
-  virtual int BuildNodeGraph( iSector* sector, iCelEntity* defaultent ) = 0;
-  virtual void SetRegion( csRef<iPcRegion> newregion ) = 0;
+  virtual int BuildNodeGraph (iSector* sector, iCelEntity* defaultent) = 0;
+  virtual void SetRegion (iPcRegion* newregion) = 0;
   virtual csRef<iPcRegion> GetRegion() = 0;
 
-  virtual int AddNode( iPcNavNode* node ) = 0;
-  virtual int RemoveNode( int i) = 0;
-  virtual iPcNavNode* GetNode( int i ) = 0;
-  virtual int GetNodeCount() const = 0;
-  virtual int FindNode( iPcNavNode* Node ) = 0;
+  virtual int AddNode (iPcNavNode* node) = 0;
+  virtual int RemoveNode (int i) = 0;
+  virtual iPcNavNode* GetNode (int i) = 0;
+  virtual int GetNodeCount () const = 0;
+  virtual int FindNode (iPcNavNode* Node) = 0;
 
-  virtual int AddLink( iPcNavLink* link ) = 0;
-  virtual int RemoveLink( int i) = 0;
-  virtual iPcNavLink* GetLink( int i ) = 0;
-  virtual int GetLinkCount() const = 0;
-  virtual int FindLink( iPcNavLink* link ) = 0;
+  virtual int AddLink (iPcNavLink* link) = 0;
+  virtual int RemoveLink (int i) = 0;
+  virtual iPcNavLink* GetLink (int i) = 0;
+  virtual int GetLinkCount () const = 0;
+  virtual int FindLink (iPcNavLink* link) = 0;
 
-  virtual void SetRules (csRef<iPcNavGraphRules> newrules) =0;
+  virtual void SetRules (iPcNavGraphRules* newrules) =0;
 
   virtual int FindNearestNode (csVector3* point, iSector* sector,
   	iCelEntity* ent) = 0;
