@@ -67,7 +67,8 @@ struct iPcLinearMovement : public iBase
    * with a maximum to reached. It returns true if this maximum has
    * has been reached.
    */
-  virtual void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach) = 0;
+  virtual void SetAngularVelocity (const csVector3& angle,
+  	const csVector3& angle_to_reach) = 0;
 
   /**
    * Set the current speed.

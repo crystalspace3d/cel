@@ -33,6 +33,7 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "ivaria/reporter.h"
+#include "celtool/stdparams.h"
 
 //---------------------------------------------------------------------------
 
@@ -61,6 +62,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcCommandInput::id_trigger = csInvalidStringID;
+csStringID celPcCommandInput::id_command = csInvalidStringID;
 csStringID celPcCommandInput::action_bind = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcCommandInput)
@@ -80,7 +83,6 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
   celPcCommandInput::object_reg = object_reg;
-  DG_TYPE (this, "celPcCommandInput()");
 
   maplist = 0;
   scfiEventHandler = 0;
@@ -88,7 +90,11 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   Activate ();
 
   if (action_bind == csInvalidStringID)
+  {
     action_bind = pl->FetchStringID ("cel.action.Bind");
+    id_trigger = pl->FetchStringID ("cel.parameter.trigger");
+    id_command = pl->FetchStringID ("cel.parameter.command");
+  }
 }
 
 celPcCommandInput::~celPcCommandInput ()
@@ -118,17 +124,11 @@ bool celPcCommandInput::PerformAction (csStringID actionId,
 {
   if (actionId == action_bind)
   {
-    const celData* p_t = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.trigger"));
-    if (!p_t) return false;
-    if (p_t->type != CEL_DATA_STRING) return false;
-    const celData* p_c = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.command"));
-    if (!p_c) return false;
-    if (p_c->type != CEL_DATA_STRING) return false;
-    iString* trigger = p_t->value.s;
-    iString* command = p_c->value.s;
-    Bind (trigger->GetData (), command->GetData ());
+    CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+    if (!trigger) return false;
+    CEL_FETCH_STRING_PAR (command,params,id_command);
+    if (!command) return false;
+    Bind (trigger, command);
     return true;
   }
   return false;

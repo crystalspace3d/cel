@@ -158,12 +158,9 @@ bool celPcTest::PerformAction (csStringID actionId,
 {
   if (actionId == action_print)
   {
-    const celData* p_msg = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.message"));
+    CEL_FETCH_STRING_PAR (msg,params,id_message);
     if (!p_msg) return false;
-    if (p_msg->type != CEL_DATA_STRING) return false;
-
-    Print ((const char*)*(p_msg->value.s));
+    Print (msg);
     return true;
   }
   return false;

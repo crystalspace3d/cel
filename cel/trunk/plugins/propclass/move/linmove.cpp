@@ -62,6 +62,7 @@
 #include "propclass/camera.h"
 #include "propclass/colldet.h"
 #include "propclass/solid.h"
+#include "celtool/stdparams.h"
 
 #include "linmove.h"
 
@@ -69,6 +70,9 @@ extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 
+csStringID celPcLinearMovement::id_body = csInvalidStringID;
+csStringID celPcLinearMovement::id_legs = csInvalidStringID;
+csStringID celPcLinearMovement::id_offset = csInvalidStringID;
 csStringID celPcLinearMovement::action_initcd = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
@@ -164,7 +168,12 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   deltaLimit = 0;
 
   if (action_initcd == csInvalidStringID)
+  {
     action_initcd = pl->FetchStringID ("cel.action.InitCD");
+    id_body = pl->FetchStringID ("cel.parameter.body");
+    id_legs = pl->FetchStringID ("cel.parameter.legs");
+    id_offset = pl->FetchStringID ("cel.parameter.offset");
+  }
 
   pl->CallbackPCEveryFrame (this, cscmdPreProcess);
 }
@@ -240,25 +249,13 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
 {
   if (actionId == action_initcd)
   {
-    const celData* p_body = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.body"));
+    CEL_FETCH_VECTOR3_VAR (body,params,id_body);
     if (!p_body) return false;
-    if (p_body->type != CEL_DATA_VECTOR3) return false;
-
-    const celData* p_legs = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.legs"));
+    CEL_FETCH_VECTOR3_VAR (legs,params,id_legs);
     if (!p_legs) return false;
-    if (p_legs->type != CEL_DATA_VECTOR3) return false;
-
-    const celData* p_offs = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.offset"));
-    if (!p_offs) return false;
-    if (p_offs->type != CEL_DATA_VECTOR3) return false;
-
-    csVector3 body (p_body->value.v.x, p_body->value.v.y, p_body->value.v.z);
-    csVector3 legs (p_legs->value.v.x, p_legs->value.v.y, p_legs->value.v.z);
-    csVector3 offs (p_offs->value.v.x, p_offs->value.v.y, p_offs->value.v.z);
-    bool rc = InitCD (body, legs, offs);
+    CEL_FETCH_VECTOR3_VAR (offset,params,id_offset);
+    if (!p_offset) return false;
+    bool rc = InitCD (body, legs, offset);
     // @@@ Error report!
     (void)rc;
     return true;
@@ -283,7 +280,8 @@ void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
   angleToReachFlag = false;
 }
 
-void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel, const csVector3& angleToReach)
+void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel,
+	const csVector3& angleToReach)
 {
   //targAngularVelocity = angleVel;
   //if (IsOnGround())
@@ -301,7 +299,7 @@ void celPcLinearMovement::SetVelocity (const csVector3& vel)
   targVel  = vel;
   if (IsOnGround())
   {
-	celPcLinearMovement::vel = vel;
+    celPcLinearMovement::vel = vel;
   }
 }
 

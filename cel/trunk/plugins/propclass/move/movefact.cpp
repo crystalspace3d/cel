@@ -29,6 +29,7 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
+#include "celtool/stdparams.h"
 #include "cstool/collider.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -543,6 +544,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 Property* celPcGravity::properties = 0;
 int celPcGravity::propertycount = 0;
 csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
+csStringID celPcGravity::id_force = csInvalidStringID;
 
 void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
 {
@@ -562,6 +564,8 @@ void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
 
     action_applypermanentforce = pl->FetchStringID (
     	"cel.action.ApplyPermanentForce");
+    id_force = pl->FetchStringID (
+    	"cel.parameter.force");
   }
 }
 
@@ -996,13 +1000,9 @@ bool celPcGravity::PerformAction (csStringID actionId,
 {
   if (actionId == action_applypermanentforce)
   {
-    const celData* p_force = params->GetParameter (pl->FetchStringID (
-    	"cel.parameter.force"));
+    CEL_FETCH_VECTOR3_VAR (force,params,id_force);
     if (!p_force) return false;
-    if (p_force->type != CEL_DATA_VECTOR3) return false;
-    csVector3 v (p_force->value.v.x, p_force->value.v.y,
-    	p_force->value.v.z);
-    ApplyPermanentForce (v);
+    ApplyPermanentForce (force);
     return true;
   }
   return false;
