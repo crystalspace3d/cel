@@ -33,14 +33,22 @@ SECTION_TAG_NAME ?= .crystalspace ;
 # platform specific rules
 
 ##  ConstructApplicationTarget target : options
-##    Constructs the application atrget name (ie. foo.exe for foo)
+##    Constructs the application target name (ie. foo.exe for foo)
 rule ConstructApplicationTarget
 {
   return $(<) ;
 }
-rule ConstructLibraryTarget
+rule ConstructStaticLibraryTarget
 {
   return lib$(<)$(SUFLIB) ;
+}
+rule ConstructSharedLibraryTarget
+{
+  return lib$(<).so.$(PACKAGE_VERSION) ; 
+}
+rule ConstructSharedLibraryLinkLib
+{
+  return lib$(<).so.$(PACKAGE_VERSION) ; 
 }
 rule ConstructPluginTarget
 {
@@ -106,6 +114,16 @@ rule SystemLinkPlugin
   Clean $(<)clean : $(target) ;
 }
 
+rule SystemLinkSharedLibrary
+{
+  LFlags $(<) : $(LINKLIBS) ;
+  Depends $(<) : $(>) ;
+  LinkSharedLibrary $(<) : $(>) : $(3) ;
+
+  Clean clean : $(<) ;
+  Clean $(<)clean : $(<) ;
+}
+
 actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
   $(CMD.LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
@@ -125,4 +143,10 @@ else
   {
     $(CMD.LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
   }
+}
+
+actions LinkSharedLibrary bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(CMD.LINK) -shared -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS) \
+    -Wl,-soname,$(<:BS)
 }

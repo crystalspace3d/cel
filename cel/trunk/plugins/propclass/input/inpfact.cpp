@@ -48,7 +48,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistance",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
   else
   {

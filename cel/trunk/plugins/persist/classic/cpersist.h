@@ -38,7 +38,16 @@ struct iCelPlLayer;
 struct iCelBlLayer;
 struct celData;
 
-class celPersistClassicContext : public iCelPersistanceContext
+#define CEL_PERSIST_BACKWARD_COMPAT
+#ifdef CEL_PERSIST_BACKWARD_COMPAT
+#  define CEL_PERSIST_PARENT_ROOT iCelPersistance
+#  define CEL_PERSIST_CONTEXT_PARENT_ROOT iCelPersistanceContext
+#else
+#  define CEL_PERSIST_PARENT_ROOT iCelPersistence
+#  define CEL_PERSIST_CONTEXT_PARENT_ROOT iCelPersistenceContext
+#endif
+
+class celPersistClassicContext : public CEL_PERSIST_CONTEXT_PARENT_ROOT
 {
 private:
   iObjectRegistry* object_reg;
@@ -117,9 +126,9 @@ public:
 };
 
 /**
- * This is the classic persistance layer.
+ * This is the classic persistence layer.
  */
-class celPersistClassic : public iCelPersistance
+class celPersistClassic : public CEL_PERSIST_PARENT_ROOT
 {
 public:
   SCF_DECLARE_IBASE;
@@ -132,7 +141,7 @@ public:
   virtual csPtr<iCelEntity> LoadEntity (const char* name);
   virtual bool SaveEntity (iCelEntity* entity, const char* name);
 
-  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode, 
+  virtual iCelPersistenceContext* CreateContext(iBase* data, int mode, 
       bool performmapping);
 
   struct Component : public iComponent

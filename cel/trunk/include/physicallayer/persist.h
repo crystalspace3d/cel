@@ -14,7 +14,8 @@
   
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+    MA 02111-1307, USA.
 */
 
 #ifndef __CEL_PL_PERSIST__
@@ -65,19 +66,19 @@ struct iCelDataBuffer : public iBase
   virtual celData* GetData (size_t idx) const = 0;
 };
 
-SCF_VERSION (iCelPersistance, 0, 0, 1);
-struct iCelPersistanceContext;
+SCF_VERSION (iCelPersistence, 0, 0, 1);
+struct iCelPersistenceContext;
 
 /**
  * This interface describes a module that can
  * persist CEL data.
  */
-struct iCelPersistance : public iBase
+struct iCelPersistence : public iBase
 {
   /**
    * Load an entity from the persistent data including
    * all property classes. 'name' is a name relevant for
-   * the given type of persistance. It can be a filename
+   * the given type of persistence. It can be a filename
    * for example (VFS).
    */
   virtual csPtr<iCelEntity> LoadEntity (const char* name) = 0;
@@ -90,13 +91,13 @@ struct iCelPersistance : public iBase
   /**
    * Create an persistence context
    */
-  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode,
+  virtual iCelPersistenceContext* CreateContext(iBase* data, int mode,
 	  bool performmapping = true) = 0;
 };
 
-SCF_VERSION (iCelPersistanceContext, 0, 0, 1);
+SCF_VERSION (iCelPersistenceContext, 0, 0, 1);
 
-struct iCelPersistanceContext : public iBase
+struct iCelPersistenceContext : public iBase
 {
   /**
    * Load an entity from the persitent data including all property classes.
@@ -120,5 +121,10 @@ struct iCelPersistanceContext : public iBase
   virtual void Clear () = 0;
 };
 
-#endif // __CEL_PL_PERSIST__
+// Deprecated: Backward compatibility for long-term spelling mistake.
+SCF_VERSION (iCelPersistance, 0, 0, 1);
+struct iCelPersistance : public iCelPersistence {};
+SCF_VERSION (iCelPersistanceContext, 0, 0, 1);
+struct iCelPersistanceContext : public iCelPersistenceContext {};
 
+#endif // __CEL_PL_PERSIST__

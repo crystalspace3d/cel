@@ -163,12 +163,24 @@
 			<File
 				RelativePath="..\plugins\tools\quests\quests.cpp">
 			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\reward_debugprint.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\tools\quests\quests.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\reward_debugprint.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_entersector.h">
 			</File>
 		</Filter>
 		<Filter
