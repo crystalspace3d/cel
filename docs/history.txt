@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+30-Jan-2004
+	- Jorrit fixed CEL after latest lighting related CS changes
+	  (removal of DeferUpdateLighting).
 29-Jan-2004
 	- Jorrit fixed the python plugin after recent changes in CS.
 	- Jorrit fixed cssys->csutil after recent changes in CS.

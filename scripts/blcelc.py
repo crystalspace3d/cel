@@ -2366,11 +2366,11 @@ class csPluginRequestArray(_object):
         _swig_setattr(self, csPluginRequestArray, 'this', apply(_blcelc.new_csPluginRequestArray,args))
         _swig_setattr(self, csPluginRequestArray, 'thisown', 1)
     def Length(*args): return apply(_blcelc.csPluginRequestArray_Length,args)
+    def Get(*args): return apply(_blcelc.csPluginRequestArray_Get,args)
     def Push(*args): return apply(_blcelc.csPluginRequestArray_Push,args)
     def Pop(*args): return apply(_blcelc.csPluginRequestArray_Pop,args)
     def Top(*args): return apply(_blcelc.csPluginRequestArray_Top,args)
     def Insert(*args): return apply(_blcelc.csPluginRequestArray_Insert,args)
-    def Get(*args): return apply(_blcelc.csPluginRequestArray_Get,args)
     def Truncate(*args): return apply(_blcelc.csPluginRequestArray_Truncate,args)
     def Empty(*args): return apply(_blcelc.csPluginRequestArray_Empty,args)
     def DeleteIndex(*args): return apply(_blcelc.csPluginRequestArray_DeleteIndex,args)
@@ -3471,6 +3471,8 @@ class iLight(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iLight_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iLight_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iLight instance at %s>" % (self.this,)
@@ -3481,6 +3483,8 @@ class iLightPtr(iLight):
         if not hasattr(self,"thisown"): _swig_setattr(self, iLight, 'thisown', 0)
         _swig_setattr(self, iLight,self.__class__,iLight)
 _blcelc.iLight_swigregister(iLightPtr)
+iLight_scfGetVersion = _blcelc.iLight_scfGetVersion
+
 
 class iLightList(iBase):
     __swig_setmethods__ = {}
@@ -5269,8 +5273,7 @@ class iSpriteCal3DFactoryState(iBase):
     def SetLoadFlags(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetLoadFlags,args)
     def SetBasePath(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetBasePath,args)
     def LoadCoreSkeleton(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreSkeleton,args)
-    def SetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetRenderScale,args)
-    def GetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetRenderScale,args)
+    def RescaleFactory(*args): return apply(_blcelc.iSpriteCal3DFactoryState_RescaleFactory,args)
     def LoadCoreAnimation(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreAnimation,args)
     def LoadCoreMesh(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMesh,args)
     def LoadCoreMorphTarget(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMorphTarget,args)
