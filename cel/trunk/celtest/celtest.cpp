@@ -71,6 +71,7 @@
 #include "pf/camera.h"
 #include "pf/gravity.h"
 #include "pf/timer.h"
+#include "pf/region.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -316,42 +317,12 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 
 bool CelTest::CreateRoom ()
 {
-  // @@@@!!!!
-  engine->SelectRegion ("room");
-  engine->GetCurrentRegion ()->DeleteAll ();
-
-  iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
-
-  float ow_bot = -.5;
-  float ow_top = 20;
-  float ow_dim = 4.5;
-
-  room = engine->CreateSector ("room");
-
-  iStatLight* light;
-  iLightList* ll = room->GetLights ();
-
-  light = engine->CreateLight (NULL, csVector3 (-3, 5, 0), 10,
-  	csColor (1, .6, .6), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
-
-  light = engine->CreateLight (NULL, csVector3 (3, 5,  0), 10,
-  	csColor (.3, .3, 1), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
-
-  light = engine->CreateLight (NULL, csVector3 (0, 5, -3), 10,
-  	csColor (.6, 1, .6), false);
-  ll->Add (light->QueryLight ());
-  light->DecRef ();
-
   iCelEntity* entity_room;
   iCelEntity* entity_box, * entity_dummy;
   iCelPropertyClass* pc;
-  iPcMesh* pcmesh;
   iPcInventory* pcinv_room;
   iPcMeshSelect* pcmeshsel;
+  iPcRegion* pcregion;
   
   //===============================
   // Create the room entity.
@@ -359,8 +330,18 @@ bool CelTest::CreateRoom ()
   entity_room = pl->CreateEntity (); entity_room->SetName ("room");
   entity_room->SetBehaviour (bl->CreateBehaviour (entity_room, "room"));
 
-  pc = CreatePropertyClass (entity_room, pfmove, "pcsolid");
+  pc = CreatePropertyClass (entity_room, pfengine, "pcregion");
   if (!pc) return false;
+  pcregion = SCF_QUERY_INTERFACE_FAST (pc, iPcRegion);
+  pcregion->SetWorldFile ("/lev/partsys", "world");
+  pcregion->SetRegionName ("partsys");
+  pcregion->Load ();
+  room = pcregion->GetStartSector ();
+  csVector3 startpos = pcregion->GetStartPosition ();
+  pcregion->DecRef ();
+
+  //pc = CreatePropertyClass (entity_room, pfmove, "pcsolid");
+  //if (!pc) return false;
 
   pc = CreatePropertyClass (entity_room, pfengine, "pccamera");
   if (!pc) return false;
@@ -389,90 +370,23 @@ bool CelTest::CreateRoom ()
   pcinv_room = SCF_QUERY_INTERFACE_FAST (pc, iPcInventory);
   // Decreffed later.
 
-  pc = CreatePropertyClass (entity_room, pfmesh, "pcmesh");
-  if (!pc) return false;
-  pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
-  pcmesh->CreateEmptyThing ();
-  iMeshWrapper* walls = pcmesh->GetMesh ();
-  iThingState* walls_state = SCF_QUERY_INTERFACE (walls->GetMeshObject (),
-  	iThingState);
-  iPolygon3D* p;
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, -ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, -ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_top, ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_top, ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (ow_dim, ow_top, ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, -ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, -ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  p = walls_state->CreatePolygon ();
-  p->SetMaterial (tm);
-  p->CreateVertex (csVector3 (ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_top, -ow_dim));
-  p->CreateVertex (csVector3 (-ow_dim, ow_bot, -ow_dim));
-  p->CreateVertex (csVector3 (ow_dim, ow_bot, -ow_dim));
-  p->SetTextureSpace (p->GetVertex (0), p->GetVertex (1), 3);
-
-  walls_state->DecRef ();
-
-  walls->GetMovable ()->SetSector (room);
-  walls->GetMovable ()->UpdateMove ();
-  walls->GetFlags ().Set (CS_ENTITY_CONVEX);
-  walls->SetZBufMode (CS_ZBUF_FILL);
-  walls->SetRenderPriority (engine->GetWallRenderPriority ());
-
-  pcmesh->DecRef ();
-
   //===============================
   // Engine init.
   //===============================
+  // @@@ CHECK LATER WHY THIS IS NEEDED!!!
   engine->Prepare ();
 
   iTextureManager* txtmgr = g3d->GetTextureManager ();
   txtmgr->SetPalette ();
 
   view->GetCamera ()->SetSector (room);
-  view->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0, 4, -5));
-  view->GetCamera ()->GetTransform ().LookAt (
-  	csVector3 (0, -.6, 1), csVector3 (0, 1, 0));
+  view->GetCamera ()->GetTransform ().SetOrigin (startpos);
 
   //===============================
   // Create the box entities.
   //===============================
   entity_box = CreateBoxEntity ("box", "box", .9, 200,
-  	1, 1000000, 60, 180, csVector3 (0));
+  	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
   entity_box->DecRef ();
@@ -706,14 +620,6 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
   if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
   if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg")) return false;
-
-  // First disable the lighting cache. Our app is simple enough
-  // not to need this.
-  engine->SetLightingCacheMode (0);
-
-  view = new csView (engine, g3d);
-  iGraphics2D* g2d = g3d->GetDriver2D ();
-  view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
   pftest = LoadPcFactory ("cel.pcfactory.test");
   if (!pftest) return false;

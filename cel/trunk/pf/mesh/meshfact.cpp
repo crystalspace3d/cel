@@ -198,6 +198,25 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
   engine->DecRef ();
 }
 
+void celPcMesh::SetMesh (iMeshWrapper* m)
+{
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  if (mesh)
+  {
+    mesh->DecRef ();
+    engine->GetMeshes ()->Remove (mesh);
+    mesh = NULL;
+  }
+
+  mesh = m;
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl->AttachEntity (mesh->QueryObject (), entity);
+  pl->DecRef ();
+
+  engine->DecRef ();
+}
+
 void celPcMesh::CreateEmptyThing ()
 {
   iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);

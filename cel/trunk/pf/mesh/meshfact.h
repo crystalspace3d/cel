@@ -82,6 +82,7 @@ public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
   void SetMesh (const char* factname, const char* filename);
+  void SetMesh (iMeshWrapper* mesh);
   void CreateEmptyThing ();
   iMeshWrapper* GetMesh () { return mesh; }
   void ClearMesh () { mesh = NULL; }
@@ -107,6 +108,10 @@ public:
     virtual void SetMesh (const char* factname, const char* filename)
     {
       scfParent->SetMesh (factname, filename);
+    }
+    virtual void SetMesh (iMeshWrapper* mesh)
+    {
+      scfParent->SetMesh (mesh);
     }
     virtual void CreateEmptyThing ()
     {

@@ -29,7 +29,7 @@ class csVector3;
 
 SCF_DECLARE_FAST_INTERFACE (iPcMesh)
 
-SCF_VERSION (iPcMesh, 0, 0, 1);
+SCF_VERSION (iPcMesh, 0, 0, 2);
 
 /**
  * This is a property class holding the representation of a mesh.
@@ -40,6 +40,12 @@ struct iPcMesh : public iBase
    * Set the mesh filename to use.
    */
   virtual void SetMesh (const char* factname, const char* filename) = 0;
+
+  /**
+   * Set the mesh to use directly. It is normally not recommended to use
+   * this function directly. iPcRegion will use it for its dummy entities.
+   */
+  virtual void SetMesh (iMeshWrapper* mesh) = 0;
 
   /**
    * Create an empty thing mesh (use instead of SetMesh()).

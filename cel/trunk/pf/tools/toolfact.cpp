@@ -311,7 +311,9 @@ bool celPcTimer::HandleEvent (iEvent& ev)
       {
         Clear ();
       }
-      entity->GetBehaviour ()->SendMessage ("timer_wakeup", NULL);
+      iCelBehaviour* bh = entity->GetBehaviour ();
+      CS_ASSERT (bh != NULL);
+      bh->SendMessage ("timer_wakeup", NULL);
     }
   }
   return false;

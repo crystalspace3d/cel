@@ -826,6 +826,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
       //@@@ More than one collider for pcsolid?
       iCollider* collider = solid_ent->GetCollider ();
       int num_colliders = 1;
+      if (!collider) num_colliders = 0;
       for (int j = 0 ; j < num_colliders ; j++)
       {
         iCollider* col = collider;
