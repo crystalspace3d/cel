@@ -824,6 +824,8 @@ Optional Features:
   --disable-cstest        Do not try to compile and run a test Crystal Space
                           program
   --enable-debug          build in debugging mode (default NO)
+  --enable-new-renderer   enable use of new renderer (_EXPERIMENTAL_!)
+                          (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4643,7 +4645,6 @@ if test "${enable_debug+set}" = set; then
   enableval="$enable_debug"
   test "$enableval" = "yes" && cs_build_mode="debug"
 fi;
-
 echo "$as_me:$LINENO: checking build mode" >&5
 echo $ECHO_N "checking build mode... $ECHO_C" >&6
 if test "${cs_build_mode+set}" = set; then
@@ -4656,6 +4657,28 @@ echo "$as_me:$LINENO: result: $cs_build_mode" >&5
 echo "${ECHO_T}$cs_build_mode" >&6
 cs_jamconfig_text="${cs_jamconfig_text}MODE ?= \"$cs_build_mode\" ;
 "
+
+#------------------------------------------------------------------------------
+# Determine whether the new renderer should be activated.
+#------------------------------------------------------------------------------
+echo "$as_me:$LINENO: checking whether to use new renderer" >&5
+echo $ECHO_N "checking whether to use new renderer... $ECHO_C" >&6
+# Check whether --enable-new-renderer or --disable-new-renderer was given.
+if test "${enable_new_renderer+set}" = set; then
+  enableval="$enable_new_renderer"
+
+else
+  enable_new_renderer=no
+fi;
+echo "$as_me:$LINENO: result: $enable_new_renderer" >&5
+echo "${ECHO_T}$enable_new_renderer" >&6
+cs_jamconfig_text="${cs_jamconfig_text}USE_NEW_RENDERER ?= \"$enable_new_renderer\" ;
+"
+if test $enable_new_renderer = yes; then
+  cs_jamconfig_text="${cs_jamconfig_text}SWIG.FLAGS += \"-DCS_USE_NEW_RENDERER\" ;
+"
+fi
+
 
 #-----------------------------------------------------------------------------
 # Output Installpaths/package info

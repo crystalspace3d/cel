@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 10-Feb-2004
 	- Jorrit fixed the CEL billboard manager so that it also works with
 	  New Renderer in CS.
+	- Eric Sunshine added a --enable-new-renderer option to configure.ac
+	  so that CEL can be tested against the new renderer.
 8-Feb-2004
 	- Eric Sunshine upgraded .m4 and .jam files to latest versions from
 	  Crystal Space CVS repository.  Centralized special-case handling of
