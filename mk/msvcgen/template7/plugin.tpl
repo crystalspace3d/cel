@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
+				AdditionalIncludeDirectories="..\include,c:\CS\include"
 				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
 				AdditionalOptions="%cflags%"
 				BasicRuntimeChecks="3"
@@ -39,11 +39,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 %lflags%"
-				AdditionalDependencies="libcsutil_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
+				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib %libs%"
 				OutputFile=".\debug\temp\%project%/%target%"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="c:\kwf\prog\CS\mk\visualc7\csdebug\libs,c:\kwf\prog\CS\mk\visualc7\csdebug\bin\libs"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csdebug\libs,c:\CS\mk\visualc7\csdebug\bin\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\%project%/%project%.pdb"
 				ImportLibrary=".\debug\temp\%project%/%project%.lib"/>
@@ -83,7 +83,7 @@ copy &quot;..\%metafile%&quot;  ..
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include,..\,..\..\CS\include"
+				AdditionalIncludeDirectories="..\include,..\,c:\CS\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
 				AdditionalOptions="%cflags%"
 				StringPooling="TRUE"
@@ -102,11 +102,11 @@ copy &quot;..\%metafile%&quot;  ..
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 %lflags%"
-				AdditionalDependencies="libcsutil.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
 				OutputFile=".\release\temp\%project%/%target%"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\CS\mk\visualc7\csrelease\bin\libs,..\..\CS\libs\cssys\win32\libs"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csrelease\bin\libs"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\%project%/%project%.pdb"
 				ImportLibrary=".\release\temp\%project%/%project%.lib"/>

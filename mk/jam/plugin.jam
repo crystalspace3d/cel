@@ -1,5 +1,21 @@
 #============================================================================
 # Rules for plugin creation
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
 
 SUFMETA ?= .csplugin ;
@@ -13,17 +29,15 @@ GRISTMETA ?= pluginmeta ;
 ##    generator.
 ##    You can specify the noinstall option if you don't want that an install
 ##    target is created.
-##    Don't specify any extensions for the plugin. If you have sourcefiles in
-##    subdirectories, then you'll need to use the SearchSubdir rule. Don't
-##    mention the subdirectory name again for the sourcefiles.
 ##    Options:
 ##	noinstall: Don't setup a default installation target.
 ##	independent: The target will not be made a dependency of the plugins
 ##		     and all target.
+##	nohelp: Do not invoke Help for this target.
 rule Plugin
 {
   # check options
-  CheckOptions noinstall independent : $(3) : $(<) ;
+  CheckOptions noinstall independent nohelp : $(3) : $(<) ;
 
   local metafile ;
   metafile = [ FAppendSuffix $(<) : $(SUFMETA) ] ;
@@ -48,8 +62,8 @@ rule Plugin
   if ! $(NO_STATIC_LINKING)
   {
     SubVariant static ;
-    Library $(<)_static : $(>) : $(3) independent noinstall ;
-    CFlags $(<)_static : -DCS_STATIC_LINKED ;
+    Library $(<)_static : $(>) : $(3) independent noinstall nohelp ;
+    CFlags $(<)_static : [ FDefines CS_STATIC_LINKED ] ;
     LFlags $(<)_static : $(LINKLIBS) ;
     SubVariant ;
   }
@@ -79,6 +93,13 @@ rule Plugin
 
   CFlags $(<) : $(PLUGIN.CFLAGS) ;
   LFlags $(<) : $(LINKLIBS) $(PLUGIN.LFLAGS) ;
+
+  if ! [ IsElem nohelp : $(3) ]
+  {
+    local desc = [ Description $(<) ] ;
+    if ! $(desc) { desc = "$(<) plugin" ; }
+    Help $(<) : "Build the $(desc)" ;
+  }
 }
 
 #----------------------------------------------------------------------------
@@ -106,3 +127,4 @@ rule PluginMetaData
 # Construct pseudo target plugins
 Depends exe : plugins ;
 NotFile plugins ;
+Help plugins : "Build all plugin modules" ;

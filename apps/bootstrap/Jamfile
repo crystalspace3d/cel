@@ -1,14 +1,13 @@
 SubDir TOP apps bootstrap ;
 
-Application bootstrap
-	: [ Wildcard *.cpp *.h ]
-;
+Application bootstrap : [ Wildcard *.cpp *.h ] ;
 CFlags bootstrap : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 
+if ! [ Property build : projgen ]
+{
 SubVariant static ;
-Application bootstrap_static
-	: [ Wildcard *.cpp *.h ]
-	: independent noinstall
-;
+Application bootstrap_static : [ Wildcard *.cpp *.h ] :
+  independent noinstall nohelp ;
 LinkStaticPlugins bootstrap_static : $(STATIC.PLUGINLIST) ;
 SubVariant ;
+}

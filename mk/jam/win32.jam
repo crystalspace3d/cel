@@ -1,5 +1,22 @@
 #============================================================================
 # Jam configuration and actions for Win32
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+# Copyright (C)2004 by Eric Sunshine <sunshine@sunshineco.com>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
 SHELL ?= "/bin/sh" ;
 
@@ -11,21 +28,30 @@ CMD.DLLWRAP ?= dllwrap ;
 USE_DLLWRAP ?= no ;
 
 NASM.FLAGS += -f win32 -DEXTERNC_UNDERSCORE ;
-CCFLAGS += -pipe -I/usr/include/directx ;
-C++FLAGS += -pipe -I/usr/include/directx ;
+CCFLAGS += -pipe ;
+C++FLAGS += -pipe ;
 LINKLIBS += -L/usr/lib/w32api -lgdi32 -lshell32 ;
-PLUGIN.LFLAGS += -mwindows -mconsole ;
+PLUGIN.LFLAGS += -mwindows ;
 WINDRES.FLAGS = --use-temp-file ;
-
-WAVEOUT.AVAILABLE = yes ;
-if ! $(MSVCGEN_CONFIG)
-{
-WAVEOUT.LFLAGS = -lwinmm ;
-}
 
 if "$(USE_DLLWRAP)" = "yes"
 {
 PLUGIN.LFLAGS = [ Filter $(PLUGIN.LFLAGS) : -shared ] ;
+}
+
+# Natively-built Jam 2.5 (and probably earlier) on Cygwin fails to perform
+# library scanning properly and think that all object files need to be rebuilt
+# (along with everything which depends upon them) when "jam install" follows
+# "jam all", so disable this feature.
+if $(OS) = "CYGWIN"
+{
+CMD.AR = "ar ru" ;
+NOARUPDATE = true ;
+NOARSCAN = true ;
+actions Archive
+{
+  $(CMD.AR) $(<) $(>)
+}
 }
 
 #----------------------------------------------------------------------------
@@ -52,11 +78,11 @@ FILEFLAGS 0x0
   {
     BLOCK "040904E4"
     {
-      VALUE "ProductName", "$(PACKAGE_NAME)"
+      VALUE "ProductName", "$(PRODUCT_NAME)"
       VALUE "ProductVersion", "$(PACKAGE_VERSION)"
       VALUE "FileVersion", "$(PACKAGE_VERSION)"
       VALUE "LegalCopyright", "$(PACKAGE_COPYRIGHT)"
-      VALUE "FileDescription", "$(DESCRIPTION)"
+      VALUE "FileDescription", "$(PRODUCT_DESCRIPTION)"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -87,6 +113,11 @@ __EOF__
 
 }
 
+actions GenerateIconRc
+{
+  echo '1 ICON "$(>)"' > $(<)
+}
+
 actions together CompileResources
 {
     cat $(>) | $(CMD.WINDRES) $(WINDRES.FLAGS) --include-dir=$(>:D) -o $(<)
@@ -97,6 +128,9 @@ rule CompileResources
     Depends $(<) : $(>) ;
 }
 
+##  Win32Resource basename : rcfiles
+##    Specify .rc files for the target known as basename.  The .rc files should
+##    already have SEARCH set appropriately.
 rule Win32Resource
 {
     local target = $($(<)_TARGET) ;
@@ -118,8 +152,8 @@ if $(USE_DLLWRAP) = "yes"
 {
 rule GenerateExportDefs
 {
-  SEARCH on $(<) = $(LOCATE.OBJECTS) ;
-  MakeLocate $(<) : $(LOCATE.OBJECTS) ;
+  SEARCH on $(<) = $(LOCATE_TARGET) ;
+  MakeLocate $(<) : $(LOCATE_TARGET) ;
   Depends $(<) : $(>) ;
 }
 
@@ -135,7 +169,7 @@ actions GenerateExportDefs
 # linking part
 
 ##  ConstructApplicationTarget target : options
-##    Constructs the application atrget name (ie. foo.exe for foo)
+##    Constructs the application target name (ie. foo.exe for foo)
 rule ConstructApplicationTarget
 {
   return $(<).exe ;
@@ -149,6 +183,7 @@ rule ConstructPluginTarget
   return $(<).dll ;
 }
 
+# Also invoked by msvcgen.jam.
 rule MakeVersionRc
 {
   # normalize version list
@@ -163,20 +198,27 @@ rule MakeVersionRc
   if ! $(v4) { v4 = 0 ; }
   PACKAGE_VERSION_LIST on $(<) = $(v1) $(v2) $(v3) $(v4) ;
       
-  local desc = "$(>)" ;
-  if $($(>)_help)
-  {
-    desc = $($(>)_help) ;
-  }
-  DESCRIPTION on $(<) = $(desc) ;
+  local desc = [ Description $(>) ] ;
+  if ! $(desc) { desc = "$(>)" ; }
+  PRODUCT_DESCRIPTION on $(<) = $(desc) ;
+
+  local name ;
+  if $(PACKAGE_LONGNAME) { name = $(PACKAGE_LONGNAME) ; }
+  else if $(PACKAGE_NAME) { name = $(PACKAGE_NAME) ; }
+  else { name = $(>) ; }
+  PRODUCT_NAME on $(<) = $(name) ;
       
   GenerateWin32VersionRc $(<) ;
 }
 
 rule MakeMetadataRc
 {
-  Depends $(<) : $($(>)_METAFILE) ;
-  GenerateWin32MetadataRc $(<) : $($(>)_METAFILE) ;
+  local metafile = $($(>)_METAFILE) ;
+  local metarc = $(<) ;
+  Depends $(metarc) : $(metafile) ;
+  GenerateWin32MetadataRc $(metarc) : $(metafile) ;
+  Clean $(>)clean : $(metarc) ;
+  Clean clean : $(metarc) ;
 }
 
 rule AppResourceWin32
@@ -189,6 +231,32 @@ rule AppResourceWin32
   Clean $(<)clean : $(versionrc) ;
   Clean clean : $(versionrc) ;
   Win32Resource $(<) : $(versionrc) ;
+
+  local icon = [ ApplicationIcon win32 : $(<) ] ;
+  if ! $(icon)
+  {
+    local apptype = gui ;
+    if [ IsElem console : $(>) ] { apptype = console ; }
+    icon = [ ApplicationIconDefault win32 : $(apptype) ] ;
+  }
+  if $(icon)
+  {
+    local iconcopy = [ DoObjectGrist $(icon) ] ;
+    MakeLocate $(iconcopy) : $(LOCATE_TARGET) ;
+    Depends $(iconcopy) : $(icon) ;
+    Copy $(iconcopy) : $(icon) ;
+    Clean $(<)clean : $(iconcopy) ;
+    Clean clean : $(iconcopy) ;
+
+    local iconrc = [ DoObjectGrist $(<)_iconrc.rc ] ;
+    MakeLocate $(iconrc) : $(LOCATE_TARGET) ;
+    Depends $(iconrc) : $(iconcopy) ;
+    GenerateIconRc $(iconrc) : $(iconcopy) ;
+    Clean $(<)clean : $(iconrc) ;
+    Clean clean : $(iconrc) ;
+
+    Win32Resource $(<) : $(iconrc) ;
+  }
 }    
 
 rule PluginResourceWin32
@@ -200,7 +268,6 @@ rule PluginResourceWin32
   SEARCH on $(versionrc) = $(LOCATE_TARGET) ;
   MakeVersionRc $(versionrc) : $(<) ;
   
-  # This is order sensitive; metarc is appended to the output of versionrc.
   if $(EMBED_META) = "yes"
   {
     metarc = [ DoObjectGrist $(<)_metarc.rc ] ;
@@ -226,7 +293,7 @@ rule SystemLinkApplication
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
 
-  AppResourceWin32 $(<) ;
+  AppResourceWin32 $(<) : $(3) ;
 }
 
 rule SystemInstallApplication

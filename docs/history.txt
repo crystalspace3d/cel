@@ -3,7 +3,31 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
-09-Apr-2004
+5-May-2004
+	- Eric Sunshine made the following changes:
+	    - Upgraded all the Autoconf and Jam utility files from the master
+	      sources in the Crystal Space repository. The local copies were
+	      extremely outdated.
+	    - Updated configure.ac to take advantage of new utility macros in
+	      order to simplify and unify.
+	    - Updated Jamfiles throughout the project to take advantage of new
+	      and improved facilities provided by the updated Jam utility
+	      files. In particular, Swig generation, documentation generation
+	      and installation, and header installation saw significant
+	      changes.
+	    - Added targets for converting the manual to HTML and Info formats.
+	      (Previously, there was no mechanism at all for dealing with the
+	      Texinfo sources.)
+	    - Enabled msvcgen support. New targets are msvc6gen, msvc7gen, and
+	      msvcgen (which generates all versions). In the future, there will
+	      also be "freeze" targets for copying the generated project files
+	      from the build directory to the source directory. Presently, you
+	      must perform the copy by hand.
+	    - Performed a lot of maintenance on the msvcgen template files to
+	      eradicate and correct much cruft and incorrectness.
+	    - Enabled and cleaned up 'help' messages, so "jam help" now
+	      actually presents useful information.
+9-Apr-2004
 	- Keith Fulton added function from Ondrej Hurt to dynamically set
 	  the max extrapolation interval in linmove instead of hardcoding
 	  it.  This helps with very slow frame rates.

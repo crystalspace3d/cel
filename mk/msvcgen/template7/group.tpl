@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\csrelease\temp\%project%"
-			IntermediateDirectory=".\csrelease\temp\%project%"
+			OutputDirectory=".\release\temp\%project%"
+			IntermediateDirectory=".\release\temp\%project%"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -24,17 +24,17 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\csrelease\temp\%project%/%project%.pch"
-				AssemblerListingLocation=".\csrelease\temp\%project%/"
-				ObjectFile=".\csrelease\temp\%project%/"
-				ProgramDataBaseFileName=".\csrelease\temp\%project%/"
+				PrecompiledHeaderFile=".\release\temp\%project%/%project%.pch"
+				AssemblerListingLocation=".\release\temp\%project%/"
+				ObjectFile=".\release\temp\%project%/"
+				ProgramDataBaseFileName=".\release\temp\%project%/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\csrelease\temp\%project%\%project%.lib"
+				OutputFile=".\release\temp\%project%\%project%.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -53,8 +53,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\csdebug\temp\%project%"
-			IntermediateDirectory=".\csdebug\temp\%project%"
+			OutputDirectory=".\debug\temp\%project%"
+			IntermediateDirectory=".\debug\temp\%project%"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -63,10 +63,10 @@
 				Optimization="0"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\csdebug\temp\%project%/%project%.pch"
-				AssemblerListingLocation=".\csdebug\temp\%project%/"
-				ObjectFile=".\csdebug\temp\%project%/"
-				ProgramDataBaseFileName=".\csdebug\temp\%project%/"
+				PrecompiledHeaderFile=".\debug\temp\%project%/%project%.pch"
+				AssemblerListingLocation=".\debug\temp\%project%/"
+				ObjectFile=".\debug\temp\%project%/"
+				ProgramDataBaseFileName=".\debug\temp\%project%/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -75,48 +75,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\csdebug\temp\%project%\%project%.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1031"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-		</Configuration>
-		<Configuration
-			Name="ExtensiveMemDebug|Win32"
-			OutputDirectory=".\csmemdbg\temp\%project%"
-			IntermediateDirectory=".\csmemdbg\temp\%project%"
-			ConfigurationType="4"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				RuntimeLibrary="5"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\csmemdbg\temp\%project%/%project%.pch"
-				AssemblerListingLocation=".\csmemdbg\temp\%project%/"
-				ObjectFile=".\csmemdbg\temp\%project%/"
-				ProgramDataBaseFileName=".\csmemdbg\temp\%project%/"
-				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\csmemdbg\temp\%project%\%project%.lib"
+				OutputFile=".\debug\temp\%project%\%project%.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>

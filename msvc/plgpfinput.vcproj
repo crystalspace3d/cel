@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.00"
+	Name="plgpfinput"
+	SccProjectName=""
+	SccLocalPath="">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\debug\temp\plgpfinput"
+			IntermediateDirectory=".\debug\temp\plgpfinput"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\include,c:\CS\include"
+				PreprocessorDefinitions="_DEBUG;_MT;WIN32;_WINDOWS;WIN32_VOLATILE;__CRYSTAL_SPACE__;CS_DEBUG"
+				AdditionalOptions=""
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\debug\temp\plgpfinput/plgpfinput.pch"
+				AssemblerListingLocation=".\debug\temp\plgpfinput/"
+				ObjectFile=".\debug\temp\plgpfinput/"
+				ProgramDataBaseFileName=".\debug\temp\plgpfinput/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 "
+				AdditionalDependencies="libcsutil_d.lib libcsgfx_d.lib libcstool_d.lib libcsgeom_d.lib odbc32.lib odbccp32.lib "
+				OutputFile=".\debug\temp\plgpfinput/pfinput.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csdebug\libs,c:\CS\mk\visualc7\csdebug\bin\libs"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\debug\temp\plgpfinput/plgpfinput.pdb"
+				ImportLibrary=".\debug\temp\plgpfinput/plgpfinput.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\debug\temp\plgpfinput/plgpfinput.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\release\temp\plgpfinput"
+			IntermediateDirectory=".\release\temp\plgpfinput"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\include,..\,c:\CS\include"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;_MT;WIN32;WIN32_VOLATILE;__CRYSTAL_SPACE__"
+				AdditionalOptions=""
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\release\temp\plgpfinput/plgpfinput.pch"
+				AssemblerListingLocation=".\release\temp\plgpfinput/"
+				ObjectFile=".\release\temp\plgpfinput/"
+				ProgramDataBaseFileName=".\release\temp\plgpfinput/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 "
+				AdditionalDependencies="libcsutil.lib libcsgfx.lib libcstool.lib libcsgeom.lib odbc32.lib odbccp32.lib $libs%"
+				OutputFile=".\release\temp\plgpfinput/pfinput.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="c:\CS\mk\visualc7\csrelease\bin\libs"
+				IgnoreDefaultLibraryNames="LIBCMTD"
+				ProgramDatabaseFile=".\release\temp\plgpfinput/plgpfinput.pdb"
+				ImportLibrary=".\release\temp\plgpfinput/plgpfinput.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\release\temp\plgpfinput/plgpfinput.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo Moving output to CEL root.
+copy &quot;$(TargetPath)&quot;  ..
+copy &quot;..\&quot;  ..
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+				<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\input\inpfact.h">
+			</File>
+
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\msvc\plgpfinput.rc">
+			</File>
+
+		</Filter>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\input\inpfact.cpp">
+			</File>
+
+		</Filter>
+
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

@@ -1,6 +1,25 @@
 #============================================================================
 # Rules for compiling applications
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
+
+# Use a more sensible and typical mode for executables than Jam's default.
+if "$(EXEMODE)" = "711" { EXEMODE = "+x" ; }
 
 ##  Application appname : sources [ : options ]
 ##    Build an application out of sourcefiles. All sourcefiles will be passed
@@ -14,18 +33,16 @@
 ##    intended to be used on commandline)
 ##    Some notes: You should not add the .exe extension to the appname - jam
 ##    will do that on win32.
-##    If you have sourcefiles in subdirectories, then you'll need to use the
-##    SearchSubdir rule. Never specify sourcefiles with paths, only specify
-##    the filenames.
 ##    Options:
 ##	console: Create a console application
-##	noinstall: Don't setup a default installation target.
+##	noinstall: Do not set up a default installation targets.
 ##	independent: The target will not be made a dependency of the apps and
 ##		     all target.
+##	nohelp: Do not invoke Help for this target.
 rule Application
 {
   # check options
-  CheckOptions noinstall console independent : $(3) : $(<) ;
+  CheckOptions noinstall console independent nohelp : $(3) : $(<) ;
 
   local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
   local sources = [ DoSourceGrist $(>) ] ;
@@ -71,6 +88,49 @@ rule Application
 
   CFlags $(<) : $(APPLICATION.CFLAGS) ;
   LFlags $(<) : $(LINKLIBS) $(APPLICATION.LFLAGS) ;      
+
+  if ! [ IsElem nohelp : $(3) ]
+  {
+    local desc = [ Description $(<) ] ;
+    if ! $(desc) { desc = "$(<) application" ; }
+    Help $(<) : "Build the $(desc)" ;
+  }
+}
+
+##  ShellScript scriptname : rule [ : options ]
+##    Build a shell script by invoking `rule', the script creation rule, which
+##    is passed `scriptname' and `options'.
+##    Options:
+##	noinstall: Do not set up a default installation target.
+##	nohelp: Do not invoke Help for this target.
+rule ShellScript
+{
+  CheckOptions noinstall nohelp : $(3) : $(<) ;
+
+  Always $(<)clean ;
+  NotFile $(<)clean ;
+  Clean clean : $(<) ;
+  Clean $(<)clean : $(<) ;
+  Depends apps : $(<) ;
+  MakeLocate $(<) : $(LOCATE.TARGETS) ;
+
+  if ! [ IsElem noinstall : $(3) ]
+  {
+    Depends install_bin : [ DoInstall $(<) : $(bindir) : $(INSTALL_PROGRAM) ] ;
+  }
+
+  $(2) $(<) : $(3) ;
+
+  MODE on $(<) = $(EXEMODE) ;
+  SUBDIR on $(<) = $(SUBDIR) ;
+  Chmod $(<) ;
+
+  if ! [ IsElem nohelp : $(3) ]
+  {
+    local desc = [ Description $(<) ] ;
+    if ! $(desc) { desc = "$(<) script" ; }
+    Help $(<) : "Build the $(desc)" ;
+  }
 }
 
 #----------------------------------------------------------------------------
@@ -80,3 +140,4 @@ rule Application
 # in Jambase
 Depends exe : apps ;
 NotFile apps ;
+Help apps : "Build all applications" ;

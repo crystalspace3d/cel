@@ -1,34 +1,48 @@
 #============================================================================
 # Rules for library creation
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
 
-##  Library libname : sources [[ : options ] : objects ]
+##  Library libname : sources [ : options ]
 ##    Build a library out of sourcefiles. All sourcefiles will be passed
 ##    to the Objects rule which tries to compile them into object-files. You
 ##    can create rules for your own filetypes with the UserObject rule. Header
 ##    files will just be ignored. They are only used for MSVC projectfile
-##    generation.  If additional objects are given (fourth argument), they
-##    should be the output of CompileObjects, and will be included in the
-##    library.
+##    generation.
 ##    Available options are 'shared' if you want to build a shared library on
 ##    platforms which support that. You can specify the 'noinstall' option if
-##    you don't want an install target is generated.
+##    you don't want an install target generated.
 ##    Don't specify any extensions for the library name, also leave out the
-##    leading "lib". If you have sourcefiles in subdirectories, then you'll
-##    need to use the SearchSubdir rule. Don't mention the subdirectory name
-##    again for the sourcefiles.
+##    leading "lib".
+##    Options:
+##	noinstall: Do not set up a default installation target.
+##	independent: The target will not be made a dependency of the libs and
+##		     all targets.
+##	shared: Create as a shared library on supported platforms.
+##	nohelp: Do not invoke Help for this target.
 rule Library
 {
   # check options
-  CheckOptions noinstall independent shared : $(3) : $(<) ;
+  CheckOptions noinstall independent shared nohelp : $(3) : $(<) ;
 
   local target = [ ConstructLibraryTarget $(<) : $(3) ] ;
   local sources = [ DoSourceGrist $(>) ] ;
   local objects = [ CompileObjects $(sources) ] ;
-  if $(4)
-  {
-    objects += $(4) ;
-  }
 
   $(<)_TYPE = library ;
   $(<)_OBJECTS = $(objects) ;
@@ -44,7 +58,7 @@ rule Library
   if $(target) != $(<)
   {
     Depends $(<) : $(target) ;
-    NotFile $(<) ;                                                              
+    NotFile $(<) ;
   }
 
   # library depends on its member objects
@@ -93,16 +107,32 @@ rule Library
   # Generate install rules
   if ! [ IsElem noinstall : $(3) ]
   {
-    Depends install_lib : [ DoInstall $(target) : $(libdir) ] ;
+    if "$(RANLIB)"
+    {
+      Depends install_lib : [ DoInstall $(target) : $(libdir) : : Ranlib ] ;
+    }
+    else
+    {
+      Depends install_lib : [ DoInstall $(target) : $(libdir)  ] ;
+    }
+    
+    # Add to global library list
+    INSTALLEDLIBS += $(<) ;
   }
 
-  if $(CRELIB) { CreLib $(target) : $(objects[1]) ; }
+  if $(CRELIB)
+  {
+    CreLib $(target) : $(objects[1]) ;
+  }
 
   Archive $(target) : $(objects) ;
   Clean $(<)clean : $(target) ;
   Depends clean : $(<)clean ;
 
-  if $(RANLIB) { Ranlib $(target) ; }
+  if $(RANLIB)
+  {
+    Ranlib $(target) ;
+  }
 
   # If we can't scan the library, we have to leave the .o's around.
   if ! ( $(NOARSCAN) || $(NOARUPDATE) )
@@ -112,6 +142,13 @@ rule Library
   
   CFlags $(<) : $(LIBRARY.CFLAGS) ;
   LFlags $(<) : $(LIBRARY.LFLAGS) ;
+
+  if ! [ IsElem nohelp : $(3) ]
+  {
+    local desc = [ Description $(<) ] ;
+    if ! $(desc) { desc = "$(<) library" ; }
+    Help $(<) : "Build the $(desc)" ;
+  }
 }
 
 ##  LibDepends libname : dependant libraries
@@ -137,3 +174,4 @@ actions together Ranlib
 # in Jambase
 Depends lib : libs ;
 NotFile libs ;
+Help libs : "Build all link libraries" ;

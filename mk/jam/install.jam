@@ -1,13 +1,26 @@
 #============================================================================
 # Rules for installation
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
 #============================================================================
-
-COPYDIRS ?= "cp -R" ;
 
 INSTALL ?= "install" ;
 INSTALL_PROGRAM ?= $(INSTALL) ;
-INSTALL_SCRIPT ?= $(INSTALL) ;
-INSTALL_DATA ?= "$(INSTALL) -m644" ;
+INSTALL_DATA ?= "$(INSTALL) -m 644" ;
 
 # set some paths
 appdatadir ?= [ ConcatDirs $(datadir) $(PACKAGE_NAME) ] ;
@@ -15,63 +28,67 @@ appdocdir ?= [ ConcatDirs $(datadir) doc $(PACKAGE_NAME) ] ;
 appconfdir ?= [ ConcatDirs $(sysconfdir) $(PACKAGE_NAME) ] ;
 plugindir ?= [ ConcatDirs $(libdir) $(PACKAGE_NAME) ] ;
 
+rule GristInstall
+{
+  local i, files ;
+  for i in $(<)
+  {
+    if $(i:G) { files += $(i) ; }
+    else { files += $(i:G=$(SUBDIR)) ; }
+  }
+  return $(files) ;
+}
+
 ##  InstallHeader headername [ : subdir ]
-##    DoInstall a headerfile into the includedir directory. A subdirectory
+##    DoInstall a header file into the includedir directory. A subdirectory
 ##    relative to the includedir can be specified.
 rule InstallHeader
 {
-    SEARCH on $(<:G=installheader) = $(SUBDIR) ;
-    Depends install_include : 
-	[ DoInstall $(<:G=installheader) : $(includedir) $(2) ] ;
-}
-
-##  InstallShellScript scriptname [ : subdir ]
-##    Installs a shell script into the bindir directory. A subdirectory
-##    relative to the bindir can be specified.
-rule InstallShellScript
-{
-    SEARCH on $(<:G=installscript) = $(SUBDIR) ;
-    Depends install_shellscript :
-        [ DoInstall $(<:G=installscript) : $(bindir) $(2) : $(INSTALL_SCRIPT) ]
-    ;
+    local files = [ GristInstall $(<) ] ;
+    SEARCH on $(files) = $(SUBDIR) ;
+    Depends install_include : [ DoInstall $(files) : $(includedir) $(2) ] ;
 }
 
 ##  InstallData files [ : subdir ]
 ##    Installs data files
 rule InstallData
 {
-    SEARCH on $(<:G=installdata) = $(SUBDIR) ;
-    Depends install_data :
-	[ DoInstall $(<:G=installdata) : $(appdatadir) $(2) ] ;
+    local files = [ GristInstall $(<) ] ;
+    SEARCH on $(files) = $(SUBDIR) ;
+    Depends install_data : [ DoInstall $(files) : $(appdatadir) $(2) ] ;
 }
 
 ##  InstallConfig files [ : subdir ]
 ##    Installs configuration files
 rule InstallConfig
 {
-    SEARCH on $(<:G=installconfig) = $(SUBDIR) ;
-    Depends install_config :
-	[ DoInstall $(<:G=installconfig) : $(appconfdir) $(2) ] ;
+    local files = [ GristInstall $(<) ] ;
+    SEARCH on $(files) = $(SUBDIR) ;
+    Depends install_config : [ DoInstall $(files) : $(appconfdir) $(2) ] ;
 }
 
 ##  InstallDoc files [ : subdir ]
 ##    Installs documentation files
 rule InstallDoc
 {
-    SEARCH on $(<:G=installdoc) = $(SUBDIR) ;
-    Depends install_doc : [ DoInstall $(<:G=installdoc) : $(appdocdir) $(2) ] ;
+    local files = [ GristInstall $(<) ] ;
+    SEARCH on $(files) = $(SUBDIR) ;
+    Depends install_doc : [ DoInstall $(files) : $(appdocdir) $(2) ] ;
 }
 
 ##  InstallMan files
-##    DoInstall man files
+##    Installs Unix manual files
 rule InstallMan
 {
-    local dir i ;
-    
-    SEARCH on $(<:G=installman) = $(SUBDIR) ;
-    for i in $(<:G=installman) {
-        dir = $(mandir) ;
-        switch $(i:S) {
+    local files = [ GristInstall $(<) ] ;
+    SEARCH on $(files) = $(SUBDIR) ;
+
+    local i ;
+    for i in $(files)
+    {
+        local dir = $(mandir) ;
+        switch $(i:S)
+        {
             case .1 : dir += man1 ;
             case .2 : dir += man2 ;
             case .3 : dir += man3 ;
@@ -88,10 +105,20 @@ rule InstallMan
     }
 }
 
-##  DoInstall sourcename : directories [ : installapp ]
-##    Creates a new installtarget for the given sources.  The target(s) are
-##    returned as function result.  (Note: We can't name this rule Install,
-##    because Jambase already defines an action for DoInstall :-/)
+##  DoInstall sourcenames : directories [ : installapp : [ postinstallrules ]]
+##    Creates a new install target for the given sources named by
+##    `sourcenames'.  `directories' is a list of directory components
+##    indicating the installation directory for `sourcename'.  `installapp' is
+##    the actual program to run to install the sources.  If not specified, then
+##    $(INSTALL_DATA) is used.  If the optional `postinstallrules' is provided,
+##    it is a list of Jam rules to invoke on the installed target after it is
+##    installed.  Each rule is invoked with the installed target as the first
+##    argument, and the source target as the second.  This rule returns the
+##    names of the installed targets, so it is convenient to use the results as
+##    the input for another rule.  For example:
+##        Depends install : [ DoInstall $(docfiles) : $(installdocdir) ] ;
+##    (Implementation Note: We can't name this rule Install, because Jambase
+##    already defines an action for DoInstall :-/)
 rule DoInstall
 {
     local targets target i dir gdir ;
@@ -115,6 +142,15 @@ rule DoInstall
 	{
             INSTALL_APP on $(target) = $(INSTALL_DATA) ;
         }
+
+	if "$(4)"
+	{
+	    local postrule ;
+	    for postrule in $(4)
+	    {
+		$(postrule) $(target) : $(i) ;
+	    }
+	}
     }
 
     Always $(targets) ;
@@ -124,21 +160,23 @@ rule DoInstall
 #----------------------------------------------------------------------------
 
 INSTALLTARGETS = install_bin install_plugin install_lib install_include
-		 install_shellscript install_data install_config
-                 install_doc ;
+		 install_data install_config install_doc ;
 
 Always install $(INSTALLTARGETS) ;
 NotFile install $(INSTALLTARGETS) ;
 Depends install : $(INSTALLTARGETS) ;
 
-Help install : "Install $(PACKAGE_NAME)" ;
+if ! $(PACKAGE_INSTALL_NAME) { PACKAGE_INSTALL_NAME = $(PACKAGE_LONGNAME) ; }
+if ! $(PACKAGE_INSTALL_NAME) { PACKAGE_INSTALL_NAME = $(PACKAGE_NAME) ; }
+if ! $(PACKAGE_INSTALL_NAME) { PACKAGE_INSTALL_NAME = "the project" ; }
+Help install : "Install $(PACKAGE_INSTALL_NAME)" ;
 
 actions Install1
 {
-  $(INSTALL_APP) $(INSTALLFLAGS) $(>) $(<) ;
+  $(INSTALL_APP) $(INSTALLFLAGS) $(>) $(<)
 }
 
 actions CopyDirs
 {
-  $(COPYDIRS) $(>) $(<)
+  $(DEEPCOPY) $(>) $(<)
 }
