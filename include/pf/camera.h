@@ -36,18 +36,23 @@ SCF_VERSION (iPcCamera, 0, 0, 1);
 struct iPcCamera : public iBase
 {
   /**
-   * Camer modes
+   * Camera modes
    */
   enum CameraMode
   {
-    freelook,
+    freelook = 0,
     follow
   };
 
   /**
    * Set camera mode
    */
-  virtual bool SetMode(CameraMode m, bool use_cd = true) = 0;
+  virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
+
+  /**
+   * Set the view rectangle to use on screen.
+   */
+  virtual void SetRectangle (int x, int y, int w, int h) = 0;
 
   /**
    * Get the camera.

@@ -5,6 +5,10 @@
 	  a property is set. The message prop_clearproperty is sent when
 	  a property is cleared. The index of the property is given as
 	  a parameter.
+	- Added SetRectangle() to iPcCamera. With this you can set the part
+	  of the screen that this camera will use. Also implemented
+	  persistance.
+	- Added persistance for the camera mode in iPcCamera implementation.
 20-Dec-2001:
 	- Matze added cel.cex, which makes cel usable together with cs-config
 16-Dec-2001:

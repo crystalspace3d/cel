@@ -59,6 +59,8 @@ private:
   csView* view;
   iView* iview;
   bool use_cd;
+  bool rect_set;
+  int rect_x, rect_y, rect_w, rect_h;
   iPcCamera::CameraMode cammode;
 
   void SetupEventHandler ();
@@ -71,11 +73,12 @@ public:
 
   iCamera* GetCamera () const;
   iView* GetView () const { return iview; }
+  void SetRectangle (int x, int y, int w, int h);
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true)
   {
-      celPcCamera::cammode=cammode;
-      celPcCamera::use_cd=use_cd;
-      return true;
+    celPcCamera::cammode=cammode;
+    celPcCamera::use_cd=use_cd;
+    return true;
   }
   
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -87,9 +90,13 @@ public:
   struct PcCamera : public iPcCamera
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
-    virtual bool SetMode(CameraMode m, bool use_cd = true)
+    virtual bool SetMode (CameraMode m, bool use_cd = true)
     {
       return scfParent->SetMode(m, use_cd);
+    }
+    virtual void SetRectangle (int x, int y, int w, int h)
+    {
+      scfParent->SetRectangle (x, y, w, h);
     }
     virtual iCamera* GetCamera () const
     {
