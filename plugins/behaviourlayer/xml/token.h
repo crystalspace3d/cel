@@ -46,6 +46,9 @@ enum
   CEL_TOKEN_ENTITY,	// entity(expr)
   CEL_TOKEN_PC,		// pc(expr,expr)
   CEL_TOKEN_IDENTIFIER,	// identifier
+  CEL_TOKEN_ID,		// id(expr)
+  CEL_TOKEN_PROPID,	// propid(expr)
+  CEL_TOKEN_PROPERTY,	// property(expr,expr)
 
   CEL_TOKEN_LAST
 };

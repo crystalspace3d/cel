@@ -41,8 +41,8 @@ enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
   CEL_OPERATION_PROPERTY,	// A:-		S:PC,ID,?	OS:-
-  CEL_OPERATION_GETPROPERTY,	// A: S, PC, ID
-  CEL_OPERATION_ACTION,		// A: PC, ID, S
+  CEL_OPERATION_GETPROPERTY,	// A:-		S:PC,ID		OS:?
+  CEL_OPERATION_ACTION,		// A:-		S:PC,ID,S	OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
   CEL_OPERATION_IF,		// A:E,E	S:?		OS:-
@@ -63,6 +63,8 @@ enum
   CEL_OPERATION_ADD,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MULT,		// A:-		S:?,?		OS:?
   CEL_OPERATION_DIV,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_CALCID,		// A:-		S:S		OS:ID
+  CEL_OPERATION_CALCPROPID,	// A:-		S:S		OS:ID
 
   CEL_OPERATION_FINALOP
 };
@@ -86,16 +88,6 @@ enum
   CEL_TYPE_VAR,
 
   CEL_TYPE_FINALTYPE
-};
-
-// A property class parameter resolver.
-struct celXmlPCResolver
-{
-  char* entname;
-  char* pcname;
-  iCelPropertyClass* pc;
-  celXmlPCResolver () : entname (0), pcname (0), pc (0) { }
-  ~celXmlPCResolver () { delete[] entname; delete[] pcname; }
 };
 
 struct celXmlArgList;
@@ -255,7 +247,6 @@ class celXmlScriptEventHandler
 {
 private:
   const char* name;
-  csArray<celXmlPCResolver> resolvers;
   csArray<celXmlOperation> operations;
   iCelPlLayer* pl;
   csArray<celXmlArg> stack;
@@ -269,9 +260,6 @@ public:
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
-
-  void ResolveParameters (iCelEntity* entity);
-  int GetResolver (const char* entname, const char* pcname);
 
   void AddOperation (int op);
 

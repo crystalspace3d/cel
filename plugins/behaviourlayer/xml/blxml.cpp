@@ -17,6 +17,7 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#include <ctype.h>
 #include "cssysdef.h"
 #include "iutil/document.h"
 #include "imap/services.h"
@@ -49,7 +50,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 enum
 {
   XMLTOKEN_PROPERTY,
-  XMLTOKEN_GETPROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_VAR,
   XMLTOKEN_TESTCOLLIDE,
@@ -91,7 +91,6 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
-  xmltokens.Register ("getproperty", XMLTOKEN_GETPROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
@@ -124,22 +123,6 @@ const char* celBlXml::GetAttributeValue (iDocumentNode* child,
   return rc;
 }
 
-csStringID celBlXml::GetAttributeID (iDocumentNode* child,
-	const char* prefix, const char* propname)
-{
-  const char* rc = child->GetAttributeValue (propname);
-  if (!rc)
-  {
-    synldr->ReportError (
-	"cel.behaviour.xml", child,
-	"Can't find attribute '%s'!", propname);
-    return csInvalidStringID;
-  }
-  csString p (prefix);
-  p += rc;
-  return pl->FetchStringID ((const char*)p);
-}
-
 const char* celBlXml::GetAttributeString (iDocumentNode* child,
 	const char* attrname, const char* parentname)
 {
@@ -155,57 +138,6 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
   return value;
 }
 
-bool celBlXml::ParseValueArg (iDocumentNode* child, celXmlScriptEventHandler* h)
-{
-  csRef<iDocumentAttributeIterator> it = child->GetAttributes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentAttribute> attr = it->Next ();
-    const char* attr_name = attr->GetName ();
-    csStringID id = xmltokens.Request (attr_name);
-    switch (id)
-    {
-      case XMLTOKEN_FLOAT:
-	h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
-	break;
-      case XMLTOKEN_STRING:
-        h->AddArgument ().SetString (attr->GetValue (), true);
-	break;
-      case XMLTOKEN_BOOL:
-        h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
-	break;
-      case XMLTOKEN_LONG:
-        h->AddArgument ().SetInt32 ((long)attr->GetValueAsInt ());
-	break;
-      case XMLTOKEN_VECTOR:
-        {
-	  csVector3 v;
-	  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y, &v.z);
-	  if (rc == 3)
-            h->AddArgument ().SetVector (v);
-	  else
-	  {
-	    csVector2 v2;
-	    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
-            h->AddArgument ().SetVector (v2);
-	  }
-        }
-	break;
-      case XMLTOKEN_COLOR:
-        {
-	  csColor v;
-	  csScanStr (attr->GetValue (), "%f,%f,%f", &v.red, &v.green, &v.blue);
-          h->AddArgument ().SetColor (v);
-        }
-	break;
-      case XMLTOKEN_VAR:
-	h->AddArgument ().SetVar (attr->GetValue ());
-	break;
-    }
-  }
-  return true;
-}
-
 bool celBlXml::ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	bool optional)
@@ -217,9 +149,11 @@ bool celBlXml::ParseExpression (iDocumentNode* child,
 		"Can't find attribute '%s' for '%s'!", attrname, name);
     return false;
   }
-  if (optional)
+  if (!input && optional)
   {
-    // @@@@@@@
+    h->AddOperation (CEL_OPERATION_PUSH);
+    h->AddArgument ().SetString (0, false);
+    return true;
   }
   char buf[100];
   sprintf (buf, "%s(%s)", name, attrname);
@@ -256,6 +190,123 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       if (!ParseExpression (input, child, h, name, 0))
         return false;
       h->AddOperation (CEL_OPERATION_DEREFVAR);
+      break;
+    case CEL_TOKEN_PROPERTY:
+      {
+        if (!ParseExpression (input, child, h, name, 0))
+          return false;
+	input = celXmlParseToken (input, token);
+	if (token != CEL_TOKEN_COMMA)
+	{
+          synldr->ReportError ("cel.behaviour.xml", child,
+		      "Expected ',' while parsing property for '%s'!", name);
+          return false;
+	}
+        if (!ParseExpression (input, child, h, name, 0))
+	  return false;
+	input = celXmlParseToken (input, token);
+	if (token != CEL_TOKEN_CLOSE)
+	{
+          synldr->ReportError ("cel.behaviour.xml", child,
+	      "Expected ')' while parsing property for '%s'!", name);
+          return false;
+	}
+        h->AddOperation (CEL_OPERATION_GETPROPERTY);
+      }
+      break;
+    case CEL_TOKEN_PROPID:
+      {
+	input = celXmlSkipWhiteSpace (input);
+        const char* i = input;
+	bool idconstant = true;
+	while (*i && *i != ')')
+	{
+	  if (!isalnum (*i) && *i != '_' && *i != '.')
+	  {
+	    idconstant = false;
+	    break;
+	  }
+	  i++;
+	}
+	if (!*i)
+	{
+          synldr->ReportError ("cel.behaviour.xml", child,
+		    "Missing ')' at end of 'propid' for '%s'!", name);
+          return false;
+	}
+	if (idconstant)
+	{
+	  const char* prefix = "cel.property.";
+	  char* str = new char [strlen (prefix) + i-input+1];
+	  strcpy (str, prefix);
+	  strncpy (str+strlen (prefix), input, i-input);
+	  str[strlen (prefix) + i-input] = 0;
+	  csStringID id = pl->FetchStringID (str);
+	  delete[] str;
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->AddArgument ().SetID (id);
+	  input = i+1;
+	}
+	else
+	{
+          if (!ParseExpression (input, child, h, name, 0))
+            return false;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_CLOSE)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		      "Missing ')' at end of 'propid' for '%s'!", name);
+            return false;
+	  }
+          h->AddOperation (CEL_OPERATION_CALCPROPID);
+	}
+      }
+      break;
+    case CEL_TOKEN_ID:
+      {
+	input = celXmlSkipWhiteSpace (input);
+        const char* i = input;
+	bool idconstant = true;
+	while (*i && *i != ')')
+	{
+	  if (!isalnum (*i) && *i != '_' && *i != '.')
+	  {
+	    idconstant = false;
+	    break;
+	  }
+	  i++;
+	}
+	if (!*i)
+	{
+          synldr->ReportError ("cel.behaviour.xml", child,
+		    "Missing ')' at end of 'id' for '%s'!", name);
+          return false;
+	}
+	if (idconstant)
+	{
+	  char* str = new char [i-input+1];
+	  strncpy (str, input, i-input);
+	  str[i-input] = 0;
+	  csStringID id = pl->FetchStringID (str);
+	  delete[] str;
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->AddArgument ().SetID (id);
+	  input = i+1;
+	}
+	else
+	{
+          if (!ParseExpression (input, child, h, name, 0))
+            return false;
+	  input = celXmlParseToken (input, token);
+	  if (token != CEL_TOKEN_CLOSE)
+	  {
+            synldr->ReportError ("cel.behaviour.xml", child,
+		      "Missing ')' at end of 'id' for '%s'!", name);
+            return false;
+	  }
+          h->AddOperation (CEL_OPERATION_CALCID);
+	}
+      }
       break;
     case CEL_TOKEN_IDENTIFIER:
       {
@@ -488,7 +539,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         input = pinput;	// Restore.
         return true;
       case CEL_TOKEN_MINUS:
-        if (stoppri > CEL_PRIORITY_ADD)
+        if (stoppri >= CEL_PRIORITY_ADD)
         {
           input = pinput; // Restore.
 	  return true;
@@ -498,7 +549,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         h->AddOperation (CEL_OPERATION_MINUS);
         break;
       case CEL_TOKEN_ADD:
-        if (stoppri > CEL_PRIORITY_ADD)
+        if (stoppri >= CEL_PRIORITY_ADD)
         {
           input = pinput; // Restore.
 	  return true;
@@ -508,7 +559,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         h->AddOperation (CEL_OPERATION_ADD);
         break;
       case CEL_TOKEN_MULT:
-        if (stoppri > CEL_PRIORITY_MULT)
+        if (stoppri >= CEL_PRIORITY_MULT)
         {
           input = pinput; // Restore.
 	  return true;
@@ -518,7 +569,7 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         h->AddOperation (CEL_OPERATION_MULT);
         break;
       case CEL_TOKEN_DIV:
-        if (stoppri > CEL_PRIORITY_MULT)
+        if (stoppri >= CEL_PRIORITY_MULT)
         {
           input = pinput; // Restore.
 	  return true;
@@ -613,55 +664,26 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  return false;
         h->AddOperation (CEL_OPERATION_PRINT);
         break;
-      case XMLTOKEN_GETPROPERTY:
-	{
-	  const char* entname = child->GetAttributeValue ("entity"); // Optional
-	  const char* pcname = GetAttributeValue (child, "propclass");
-	  if (!pcname) return false;
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
-	  if (propid == csInvalidStringID) return false;
-	  const char* varname = GetAttributeString (child, "var",
-	  	"getproperty");
-	  if (!varname) return false;
-	  h->AddOperation (CEL_OPERATION_GETPROPERTY);
-	  h->AddArgument ().SetString (varname, true);
-	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
-	  h->AddArgument ().SetID (propid);
-	}
-	break;
       case XMLTOKEN_PROPERTY:
         {
-	  const char* entname = child->GetAttributeValue ("entity"); // Optional
-	  const char* pcname = GetAttributeValue (child, "propclass");
-	  if (!pcname) return false;
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
-	  if (propid == csInvalidStringID) return false;
-
-	  h->AddOperation (CEL_OPERATION_PROPERTY);
-	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
-	  h->AddArgument ().SetID (propid);
-	  if (!ParseValueArg (child, h))
-	  {
-            synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"Value is missing for <property>!");
+          if (!ParseExpression (child, h, "propclass", "property", false))
 	    return false;
-	  }
+          if (!ParseExpression (child, h, "id", "property", false))
+	    return false;
+          if (!ParseExpression (child, h, "value", "property", false))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_PROPERTY);
 	}
 	break;
       case XMLTOKEN_ACTION:
         {
-	  const char* entname = child->GetAttributeValue ("entity"); // Optional
-	  const char* pcname = GetAttributeValue (child, "propclass");
-	  if (!pcname) return false;
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
-	  if (propid == csInvalidStringID) return false;
-	  const char* params = GetAttributeValue (child, "params");
-	  if (!params) return false;
+          if (!ParseExpression (child, h, "propclass", "action", false))
+	    return false;
+          if (!ParseExpression (child, h, "id", "action", false))
+	    return false;
+          if (!ParseExpression (child, h, "params", "action", true))
+	    return false;
 	  h->AddOperation (CEL_OPERATION_ACTION);
-	  h->AddArgument ().SetPC (h->GetResolver (entname, pcname));
-	  h->AddArgument ().SetID (propid);
-	  h->AddArgument ().SetString (params, true);
 	}
 	break;
       default:

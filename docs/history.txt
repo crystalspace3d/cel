@@ -13,6 +13,18 @@ The history order is reversed so that new features are at the top.
 	  It now attempts to minimize string allocation.
 	- Jorrit fixed the pc(entity,propclass) operator in the XML behaviour
 	  layer. Removed 'getpropclass' command since that is now obsolete.
+	- Jorrit added support for 'id' operator in the XML behaviour layer.
+	  This can be used to calculate id's for properties. Also added
+	  support for 'propid' which is a short-hand that also adds
+	  'cel.property.' in front of the id name.
+	- Jorrit changed expresion evaluation so that expressions are evaluated
+	  from left to right instead of right to left.
+	- Jorrit changed all other operations in the XML behaviour layer to
+	  use the new stack based system.
+	- Jorrit removed 'getproperty' by adding a 'property' operator to the
+	  XML behaviour layer.
+	- Jorrit removed the property class resolver system from the XML
+	  behaviour layer. This is no longer needed.
 1-Dec-2003
 	- Jorrit added error reporting to the XML behaviour layer (scripting
 	  module).
