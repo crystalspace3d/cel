@@ -357,6 +357,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.mesh", "pfmesh", NULL);
+  iSCF::SCF->RegisterClass ("cel.pcfactory.move", "pfmove", NULL);
   iSCF::SCF->RegisterClass ("cel.pcfactory.inventory", "pfinv", NULL);
 
   csInitializer::SetupCommandLineParser (object_reg, argc, argv);

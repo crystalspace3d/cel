@@ -8,6 +8,14 @@
 	  mouse button you will drag to the 0,1,0 plane in world space.
 	  This means orthogonal to the floor. With right mouse
 	  button you will drag to the 0,0,1 plane in camera space.
+	- Added 'pfmove' factory and implemented iPcMovable. At this
+	  moment this property class is only a thin wrapper on top
+	  of moving an iPcMesh directly but in the future it will
+	  be able to contrain movement by using attached
+	  iPcMovableConstraint property classes (not implemented yet).
+	- Extended iPcMeshSelect so it will by default look for a movable.
+	  If that cannot be find it will look for an iPcMesh instead (old
+	  behaviour).
 31-Oct-2001:
 	- Split 'selectmesh' message from 'pcmeshselect' property class
 	  'selectmesh_up' and 'selectmesh_down'.

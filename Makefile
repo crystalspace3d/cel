@@ -29,6 +29,7 @@ include csconfig.mak
 BLTEST=bltest${DLL}
 PFTEST=pftest${DLL}
 PFMESH=pfmesh${DLL}
+PFMOVE=pfmove${DLL}
 PFINV=pfinv${DLL}
 PLIMP=plimp${DLL}
 CELTEST=celtst${EXE}
@@ -44,6 +45,8 @@ PFTEST_SRC=$(wildcard pf/test/*.cpp)
 PFTEST_OBJS=$(addsuffix .o, $(basename $(PFTEST_SRC)))
 PFMESH_SRC=$(wildcard pf/mesh/*.cpp)
 PFMESH_OBJS=$(addsuffix .o, $(basename $(PFMESH_SRC)))
+PFMOVE_SRC=$(wildcard pf/move/*.cpp)
+PFMOVE_OBJS=$(addsuffix .o, $(basename $(PFMOVE_SRC)))
 PFINV_SRC=$(wildcard pf/inv/*.cpp)
 PFINV_OBJS=$(addsuffix .o, $(basename $(PFINV_SRC)))
 CELTEST_SRC=$(wildcard celtest/*.cpp)
@@ -67,6 +70,7 @@ PLIMP_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 BLTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFMESH_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
+PFMOVE_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 PFINV_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 
@@ -78,7 +82,7 @@ CELTEST_LINKFLAGS = $(shell ./cs-config --libs cstool csutil cssys csgfx csgeom)
 .cpp.o: $<
 	$(CCC) $(CXXFLAGS) -o $@ -c $<
 
-all: $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) $(PFINV)
+all: $(PLIMP) $(CELTEST) $(BLTEST) $(PFTEST) $(PFMESH) $(PFMOVE) $(PFINV)
 
 
 $(PLIMP): $(PLIMP_OBJS)
@@ -93,6 +97,9 @@ $(PFTEST): $(PFTEST_OBJS)
 $(PFMESH): $(PFMESH_OBJS)
 	$(DO.PLUGIN) $(PFMESH_LINKFLAGS)
 
+$(PFMOVE): $(PFMOVE_OBJS)
+	$(DO.PLUGIN) $(PFMOVE_LINKFLAGS)
+
 $(PFINV): $(PFINV_OBJS)
 	$(DO.PLUGIN) $(PFINV_LINKFLAGS)
 
@@ -100,8 +107,8 @@ $(CELTEST): $(CELTEST_OBJS)
 	$(DO.EXEC) $(CELTEST_LINKFLAGS)
 
 clean:
-	$(RM) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) $(PFINV_OBJS) \
-		$(CELTEST_OBJS) $(PLIMP) $(BLTEST) $(PFTEST) $(PFMESH) $(PFINV) $(CELTEST)
+	$(RM) $(PLIMP_OBJS) $(BLTEST_OBJS) $(PFTEST_OBJS) $(PFMESH_OBJS) $(PFMOVE_OBJS) $(PFINV_OBJS) \
+		$(CELTEST_OBJS) $(PLIMP) $(BLTEST) $(PFTEST) $(PFMESH) $(PFMOVE) $(PFINV) $(CELTEST)
 
 #------
 # Create dependencies
@@ -111,6 +118,7 @@ depend:
 	gcc -MM $(CXXFLAGS) $(BLTEST_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFTEST_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFMESH_SRC) >> makefile.dep
+	gcc -MM $(CXXFLAGS) $(PFMOVE_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(PFINV_SRC) >> makefile.dep
 	gcc -MM $(CXXFLAGS) $(CELTEST_SRC) >> makefile.dep
 
