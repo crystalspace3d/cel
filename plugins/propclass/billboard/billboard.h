@@ -44,17 +44,19 @@ CEL_DECLARE_FACTORY(Billboard)
 /**
  * This is a billboard property class.
  */
-class celPcBillboard : public celPcCommon
+class celPcBillboard : public celPcCommon, public iBillboardEventHandler
 {
 private:
   char* billboard_name;
   iBillboard* billboard;
   csRef<iBillboardManager> billboard_mgr;
+  bool events_enabled;
 
   enum propids
   {
     propid_billboardname = 0,
-    propid_materialname
+    propid_materialname,
+    propid_events
   };
 
   static Property* properties;
@@ -68,6 +70,8 @@ public:
 
   void SetBillboardName (const char* name);
   iBillboard* GetBillboard ();
+  void EnableEvents (bool e);
+  bool AreEventsEnabled () const { return events_enabled; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -78,7 +82,19 @@ public:
   // Override SetProperty from celPcCommon in order to provide support
   // for the materialname property.
   virtual bool SetProperty (csStringID, const char*);
+  virtual bool SetProperty (csStringID, bool);
   virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyBool (csStringID);
+
+  // For iBillboardEventHandler:
+  virtual void Select (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey);
+  virtual void MouseMove (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey);
+  virtual void Unselect (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey);
+  virtual void DoubleClick (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey);
 
   struct PcBillboard : public iPcBillboard
   {
@@ -94,6 +110,14 @@ public:
     virtual iBillboard* GetBillboard ()
     {
       return scfParent->GetBillboard ();
+    }
+    virtual void EnableEvents (bool e)
+    {
+      scfParent->EnableEvents (e);
+    }
+    virtual bool AreEventsEnabled () const
+    {
+      return scfParent->AreEventsEnabled ();
     }
   } scfiPcBillboard;
   friend struct PcBillboard;

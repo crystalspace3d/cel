@@ -17,6 +17,21 @@ The history order is reversed so that new features are at the top.
 	  manager.
 	- Jorrit added a billboard entity to the xmltest.xml script.
 	  The first billboard is visible! (in the lower-left corner).
+	- Jorrit added iBillboardEventHandler interface. Users of the
+	  billboard manager can use this to get notified about when a
+	  billboard is selected.
+	- Jorrit implemented a few additional functions in a billboard
+	  (to move and resize it).
+	- Jorrit added a new property to pcbillboard property class to
+	  enable/disable events.
+	- Jorrit implemented select, unselect, move, and doubleclick events
+	  for billboards. They translate to similar named property class
+	  events for the billboard property class (but with 'pcbillboard_'
+	  added in front of the message name (i.e. 'pcbillboard_select').
+	- Jorrit extended the xml behaviour layer so that you can now also
+	  set boolean properties using the <property> command.
+	- Jorrit changed the billboard manager to that the 0,0 location
+	  is now top-left of screen.
 21-Nov-2003
 	- Jorrit added a new billboard manager plugin. This plugin will be
 	  responsible (when it is ready) for managing billboards. A billboard

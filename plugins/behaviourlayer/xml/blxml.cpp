@@ -146,6 +146,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    {
 	      h->AddArgument ().SetString (attr->GetValue ());
 	    }
+	    else
+	    {
+	      attr = child->GetAttribute ("bool");
+	      if (attr)
+	      {
+	        h->AddArgument ().SetBool ((bool)attr->GetValueAsInt ());
+	      }
+	    }
 	  }
 	}
 	break;

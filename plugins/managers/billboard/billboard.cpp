@@ -62,14 +62,57 @@ bool celBillboard::SetMaterialName (const char* matname)
 
 void celBillboard::SetSize (int w, int h)
 {
+  celBillboard::w = w;
+  celBillboard::h = h;
 }
 
 void celBillboard::SetPosition (int x, int y)
 {
+  celBillboard::x = x;
+  celBillboard::y = y;
 }
 
 void celBillboard::Move (int dx, int dy)
 {
+  celBillboard::x += x;
+  celBillboard::y += y;
+}
+
+void celBillboard::FireMouseUp (int x, int y, int button)
+{
+  int i;
+  for (i = 0 ; i < handlers.Length () ; i++)
+    handlers[i]->Unselect (this, x, y, button);
+}
+
+void celBillboard::FireMouseDown (int x, int y, int button)
+{
+  int i;
+  for (i = 0 ; i < handlers.Length () ; i++)
+    handlers[i]->Select (this, x, y, button);
+}
+
+void celBillboard::FireMouseMove (int x, int y, int button)
+{
+  int i;
+  for (i = 0 ; i < handlers.Length () ; i++)
+    handlers[i]->MouseMove (this, x, y, button);
+}
+
+void celBillboard::FireMouseDoubleClick (int x, int y, int button)
+{
+  int i;
+  for (i = 0 ; i < handlers.Length () ; i++)
+    handlers[i]->DoubleClick (this, x, y, button);
+}
+
+
+bool celBillboard::In (int cx, int cy)
+{
+  if (cx >= x && cx < x+w && cy >= y && cy < y+h)
+    return true;
+  else
+    return false;
 }
 
 static G3DPolygonDPFX poly;
@@ -99,16 +142,27 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
     poly.mixmode = CS_FX_COPY;
   }
   poly.mat_handle = material->GetMaterialHandle ();
-  poly.vertices[0].Set (x, y);
-  poly.vertices[1].Set (x, y+h);
-  poly.vertices[2].Set (x+w, y+h);
-  poly.vertices[3].Set (x+w, y);
+  int fh = g3d->GetHeight ();
+  poly.vertices[0].Set (x, fh-y);
+  poly.vertices[1].Set (x+w, fh-y);
+  poly.vertices[2].Set (x+w, fh-y-h);
+  poly.vertices[3].Set (x, fh-y-h);
   poly.z[0] = 1;
   poly.z[1] = 1;
   poly.z[2] = 1;
   poly.z[3] = 1;
   g3d->SetZMode (CS_ZBUF_FILL);
   g3d->DrawPolygonFX (poly);
+}
+
+void celBillboard::AddEventHandler (iBillboardEventHandler* evh)
+{
+  handlers.Push (evh);
+}
+
+void celBillboard::RemoveEventHandler (iBillboardEventHandler* evh)
+{
+  handlers.Delete (evh);
 }
 
 //---------------------------------------------------------------------------
@@ -156,7 +210,8 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_Nothing;
+  unsigned int trigger = CSMASK_Nothing | CSMASK_MouseUp | CSMASK_MouseDown |
+  	CSMASK_MouseMove | CSMASK_MouseDoubleClick;
   q->RegisterListener (scfiEventHandler, trigger);
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
@@ -165,16 +220,62 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
+celBillboard* celBillboardManager::FindBillboard (int x, int y)
+{
+  // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
+  // @@@ KEEP Z-ORDER IN MIND!
+  int i;
+  for (i = 0 ; i < billboards.Length () ; i++)
+  {
+    if (billboards[i]->In (x, y))
+      return billboards[i];
+  }
+  return 0;
+}
+
 bool celBillboardManager::HandleEvent (iEvent& ev)
 {
-  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPostProcess)
+  switch (ev.Type)
   {
-    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-    int i;
-    for (i = 0 ; i < billboards.Length () ; i++)
-    {
-      billboards[i]->Draw (engine, g3d);
-    }
+    case csevBroadcast:
+      if (ev.Command.Code == cscmdPostProcess)
+      {
+        g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+        int i;
+        for (i = 0 ; i < billboards.Length () ; i++)
+        {
+          billboards[i]->Draw (engine, g3d);
+        }
+      }
+      break;
+    case csevMouseUp:
+      {
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+	if (bb)
+	  bb->FireMouseUp (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+      }
+      break;
+    case csevMouseDown:
+      {
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+	if (bb)
+	  bb->FireMouseDown (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+      }
+      break;
+    case csevMouseMove:
+      {
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+	if (bb)
+	  bb->FireMouseMove (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+      }
+      break;
+    case csevMouseDoubleClick:
+      {
+        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y);
+	if (bb)
+	  bb->FireMouseDoubleClick (ev.Mouse.Button, ev.Mouse.x, ev.Mouse.y);
+      }
+      break;
   }
   return false;
 }

@@ -25,9 +25,46 @@
 #include "csutil/flags.h"
 
 struct iImage;
+struct iBillboard;
+
+SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
+
+/**
+ * An event on some billboard (like being selected
+ * or something).
+ */
+struct iBillboardEventHandler : public iBase
+{
+  /**
+   * Billboard is selected.
+   */
+  virtual void Select (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey) = 0;
+
+  /**
+   * Mouse moves while billboard is selected.
+   */
+  virtual void MouseMove (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey) = 0;
+
+  /**
+   * Billboard is unselected.
+   */
+  virtual void Unselect (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey) = 0;
+
+  /**
+   * Billboard is double clicked.
+   */
+  virtual void DoubleClick (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey) = 0;
+};
+
+
 
 #define CEL_BILLBOARD_VISIBLE 1
 #define CEL_BILLBOARD_MOVABLE 2
+#define CEL_BILLBOARD_CLICKABLE 4
 
 SCF_VERSION (iBillboard, 0, 0, 1);
 
@@ -80,6 +117,16 @@ struct iBillboard : public iBase
    * Relative move.
    */
   virtual void Move (int dx, int dy) = 0;
+
+  /**
+   * Add an event handler to this billboard.
+   */
+  virtual void AddEventHandler (iBillboardEventHandler* evh) = 0;
+
+  /**
+   * Remove an event handler from this billboard.
+   */
+  virtual void RemoveEventHandler (iBillboardEventHandler* evh) = 0;
 };
 
 SCF_VERSION (iBillboardManager, 0, 0, 1);

@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 2;
+    propertycount = 3;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -69,12 +69,19 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_materialname].datatype = CEL_DATA_STRING;
     properties[propid_materialname].readonly = false;
     properties[propid_materialname].desc = "Name of material.";
+
+    properties[propid_events].id = pl->FetchStringID (
+    	"cel.property.pcbillboard.events");
+    properties[propid_events].datatype = CEL_DATA_BOOL;
+    properties[propid_events].readonly = false;
+    properties[propid_events].desc = "Enable events.";
   }
 }
 
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcBillboard)
+  SCF_IMPLEMENTS_INTERFACE (iBillboardEventHandler)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcBillboard)
 SCF_IMPLEMENT_IBASE_EXT_END
 
@@ -88,6 +95,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcBillboard);
   billboard_name = csStrNew ("default");
   billboard = 0;
+  events_enabled = false;
 
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
@@ -97,6 +105,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   propdata[propid_billboardname] = &billboard_name;
   propdata[propid_materialname] = 0;	// Handled in this class.
+  propdata[propid_events] = 0;		// Handled in this class.
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -106,6 +115,33 @@ celPcBillboard::~celPcBillboard ()
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;
+}
+
+bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_events].id)
+  {
+    EnableEvents (b);
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+bool celPcBillboard::GetPropertyBool (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_events].id)
+  {
+    return AreEventsEnabled ();
+  }
+  else
+  {
+    return celPcCommon::GetPropertyBool (propertyId);
+  }
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
@@ -143,13 +179,53 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
   }
 }
 
+void celPcBillboard::EnableEvents (bool e)
+{
+  if (events_enabled == e) return;
+  events_enabled = e;
+  GetBillboard ();
+  if (!billboard) return;
+  if (events_enabled)
+    billboard->AddEventHandler (this);
+  else
+    billboard->RemoveEventHandler (this);
+}
+
+void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  bh->SendMessage ("pcbillboard_select", 0, mouse_button, mousex, mousey);
+}
+
+void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  bh->SendMessage ("pcbillboard_move", 0, mouse_button, mousex, mousey);
+}
+
+void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  bh->SendMessage ("pcbillboard_unselect", 0, mouse_button, mousex, mousey);
+}
+
+void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  bh->SendMessage ("pcbillboard_doubleclick", 0, mouse_button, mousex, mousey);
+}
+
 #define BILLBOARD_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (3);
+  databuf->SetDataCount (4);
   databuf->GetData (0)->Set (billboard_name);
   if (billboard)
   {
@@ -161,6 +237,7 @@ csPtr<iCelDataBuffer> celPcBillboard::Save ()
     databuf->GetData (1)->Set ((const char*)0);
     databuf->GetData (2)->Set ((uint32)0);
   }
+  databuf->GetData (3)->Set (events_enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -184,6 +261,9 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
   GetBillboard ();
   if (billboard)
     billboard->GetFlags ().SetAll (cd->value.ul);
+
+  cd = databuf->GetData (3); if (!cd) return false;
+  EnableEvents (cd->value.b);
 
   return true;
 }
