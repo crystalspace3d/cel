@@ -493,7 +493,7 @@ static void mesh_reset ()
   {
     mesh_init = true;
     mesh.meshtype = CS_MESHTYPE_QUADS;
-    mesh.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
+    mesh.mixmode = CS_FX_COPY;
     mesh.z_buf_mode = CS_ZBUF_FILL;
   }
   mesh_indices_count = 0;
@@ -616,7 +616,7 @@ static void mesh_reset ()
     poly_init = true;
     poly.num = 4;
     poly.use_fog = false;
-    poly.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
+    poly.mixmode = CS_FX_COPY;
   }
 }
 
