@@ -142,6 +142,9 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.h">
 			</File>
 
@@ -157,6 +160,9 @@ copy &quot;..\plugins\propclass\tools\pftools.csplugin&quot;  ..
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\common\stdpcimp.cpp">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
 			</File>

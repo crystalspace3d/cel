@@ -103,6 +103,10 @@ PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..	copy ..\pl
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\common\stdpcimp.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\engine\engfact.h
 # End Source File
 
@@ -119,6 +123,10 @@ SOURCE=..\plugins\propclass\engine\pfengine.csplugin
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\common\stdpcimp.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\engine\engfact.cpp
