@@ -110,7 +110,6 @@ protected:
   csTicks lastDRUpdate;
   float deltaLimit;
  
-  bool RotateV (float delta);
   // Move local entity
   bool MoveV (float delta);
   bool MoveSprite (float delta);
@@ -132,8 +131,9 @@ public:
   void SetAngularVelocity (const csVector3& angle);
   void SetAngularVelocity (const csVector3& angle,
   	const csVector3& angle_to_reach);
-  void SetVelocity (const csVector3& vel );
+  void SetVelocity (const csVector3& vel);
   void GetVelocity (csVector3& v) const;
+  bool RotateV (float delta);
   /**
    * Get the current angular velocity vector.
    */
@@ -147,7 +147,7 @@ public:
   void GetCDDimensions (csVector3& body, csVector3& legs,
 	csVector3& shift, iPcCollisionDetection*& pc_cd);
   bool InitCD (iPcCollisionDetection *pc_cd=0);
-  void SetSpeed ( float speedz );
+  void SetSpeed (float speedz);
 
   void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
@@ -394,4 +394,3 @@ protected:
 };
 
 #endif 
-
