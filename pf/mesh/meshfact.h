@@ -67,7 +67,7 @@ public:
  */
 class celPcMesh : public iCelPropertyClass
 {
-private:
+public:
   iCelEntity* entity;
   iMeshWrapper* mesh;
   iObjectRegistry* object_reg;
