@@ -542,7 +542,7 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
     Report ("Expected property class, got something else: '%s'!",marker);
     return false;
   }
-  if (marker[3] == '0') { Report ("Read 0 Entity!"); return true; }	// NULL entity.
+  if (marker[3] == '0') { Report ("Read 0 Propclass!"); return true; }	// NULL entity.
   if (marker[3] == 'R')
   {
     // A reference.
@@ -658,16 +658,11 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     bool rc = true;
     rc = rc && Read (entid);
     rc = rc && Read (entname);
-    rc = rc && Read (bhlayername);
-    if (rc && bhlayername)
-      rc = rc && Read (bhname);
     uint16 c;
     rc = rc && Read (c);
     if (!rc)
     {
       Report ("Missing entity information!");
-      delete[] bhlayername;
-      delete[] bhname;
       delete[] entname;
       return false;
     }
@@ -676,17 +671,6 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     entity = FindOrCreateEntity (entid);
     entity->SetName(entname);
     delete[] entname;
-    if (bhlayername && bhname)
-    {
-      iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
-      if (!bl) return false;
-      iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
-      if (!bh) return false;
-      entity->SetBehaviour (bh);
-      bh->DecRef ();
-    }
-    delete[] bhname;
-    delete[] bhlayername;
 
     int i;
     for (i = 0 ; i < c ; i++)
@@ -699,6 +683,28 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
 	return false;
       }
     }
+
+    rc = rc && Read (bhlayername);   
+    if (rc && bhlayername)
+ 	rc = rc && Read (bhname);
+    if (!rc)
+    {
+	Report ("Missing behaviour information!");
+	delete[] bhlayername;
+	delete[] bhname;
+	return false;
+    }
+    if (bhlayername && bhname)
+    {
+      iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
+      if (!bl) return false;
+      iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
+      if (!bh) return false;
+      entity->SetBehaviour (bh);
+      bh->DecRef ();
+    }
+    delete[] bhname;
+    delete[] bhlayername;
   }
   else
   {
@@ -788,16 +794,6 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
   if (!WriteMarker ("ENTI")) return false;
   if (!Write (entity->GetID ())) return false;
   if (!Write (entity->GetName ())) return false;
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    if (!Write (bh->GetBehaviourLayer ()->GetName ())) return false;
-    if (!Write (bh->GetName ())) return false;
-  }
-  else
-  {
-    if (!Write ((char*)NULL)) return false;
-  }
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
   if (!Write ((uint16) pl->GetCount())) return false;
@@ -807,6 +803,17 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
     if (!Write (pl->Get (i)))
       return false;
   }
+
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {  
+    if (!Write (bh->GetBehaviourLayer ()->GetName ())) return false;
+    if (!Write (bh->GetName ())) return false;
+  }
+  else
+  {
+    if (!Write ((char*)NULL)) return false;
+  }  
   return true;
 }
 
