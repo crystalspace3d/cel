@@ -187,6 +187,7 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	csMatrix3 mat = rt.GetT2O();
 	
 	c->GetTransform().SetOrigin(movable->GetPosition());
+	c->SetSector(movable->GetSectors()->Get(0));
 	c->GetTransform().SetT2O(mat);
 
 	// move camera to followpos
@@ -214,6 +215,7 @@ bool celPcCamera::HandleEvent (iEvent& ev)
         csMatrix3 mat = rt.GetT2O();
 
 	c->GetTransform().SetOrigin(movable->GetPosition());
+	c->SetSector(movable->GetSectors()->Get(0));
         c->GetTransform().SetT2O(mat);
 
 	// move camera to followpos
