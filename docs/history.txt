@@ -1,12 +1,14 @@
+5-Mar-2002:
+	- Added iPcCamera::GetFollowPos() and GetMode().
 28-Feb-2002:
 	- Matze changed persistance to not IncRef entities while reading,
-	everyone who reads an entity with persistance has to IncRef this
-	itself now. On the other hand this solves an issue when multiple
-	persisted things refer to the same entity. Note that this is only for
-	datatbuffers, the LoadEntity function still returns an IncReffed
-	entity
+	  everyone who reads an entity with persistance has to IncRef this
+	  itself now. On the other hand this solves an issue when multiple
+	  persisted things refer to the same entity. Note that this is only for
+	  datatbuffers, the LoadEntity function still returns an IncReffed
+	  entity.
 	- Matze added Clear to persistace context to clear the internal hash
-	tables of the persistance plugin
+	  tables of the persistance plugin.
 27-Feb-2002:
 	- Matze fixed a wrong return.
 	- Matze removed the persistance Set(int) function.
