@@ -300,7 +300,6 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
   if (pf_list.Find (pf) != -1) return;
-  printf ("Registered Factory: %s\n", pf->GetName());
   pf_list.Push (pf);
   pf->IncRef ();
 }
