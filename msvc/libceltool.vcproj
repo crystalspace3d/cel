@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\libceltool"
+			OutputDirectory=".\release\libs"
 			IntermediateDirectory=".\release\temp\libceltool"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -38,34 +38,19 @@
 				ProgramDataBaseFileName=".\release\temp\libceltool/libceltool.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\libceltool\celtool_vc7.dll"
-				Version="4.0"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\libceltool/libceltool.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\bin\libs\libceltool.lib"
-				TargetMachine="1"
-				BaseAddress="" />
+				Name="VCLibrarianTool"
+				OutputFile=".\release\libs\libceltool.lib"
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				CommandLine="echo File is a lib, Copy skipped."/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -80,7 +65,7 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\libceltool"
+			OutputDirectory=".\debug\libs"
 			IntermediateDirectory=".\debug\temp\libceltool"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -103,34 +88,19 @@ copy &quot;$(TargetPath)&quot; ..
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\libceltool\celtool_vc7d.dll"
-				Version="1.0"
-				LinkIncremental="2"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\libceltool/libceltool.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\bin\libs/libceltool_d.lib"
-				TargetMachine="1"
-				BaseAddress="" />
+				Name="VCLibrarianTool"
+				OutputFile="debug\libs\libceltool_d.lib"
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				CommandLine="echo File is a lib, Copy skipped."/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
