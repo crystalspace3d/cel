@@ -61,7 +61,7 @@ public:
  */
 class celPcTest : public iCelPropertyClass
 {
-public:
+private:
   iCelEntity* entity;
 
 public:
