@@ -95,6 +95,13 @@ celPcInventory::celPcInventory ()
 celPcInventory::~celPcInventory ()
 {
   RemoveAll ();
+  while (constraints.Length () > 0)
+  {
+    constraint* c = (constraint*)constraints[0];
+    delete[] c->charName;
+    delete c;
+    constraints.Delete (0);
+  }
 }
 
 void celPcInventory::SetEntity (iCelEntity* entity)
@@ -193,6 +200,22 @@ bool celPcInventory::GetConstraints (const char* charName, float& minValue, floa
   return true;
 }
 
+void celPcInventory::RemoveConstraints (const char* charName)
+{
+  int i;
+  for (i = 0 ; i < constraints.Length () ; i++)
+  {
+    constraint* c = (constraint*)constraints[i];
+    if (!strcmp (charName, c->charName))
+    {
+      delete[] c->charName;
+      delete c;
+      constraints.Delete (i);
+      return;
+    }
+  }
+}
+
 float celPcInventory::GetCurrentCharacteristic (const char* charName) const
 {
   constraint* c = FindConstraint (charName);
@@ -203,6 +226,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
 void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
 {
   // This routine assumes the constraints are valid!!!
+  if (constraints.Length () <= 0) return;
   iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
   if (!pc) return;
   iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
@@ -221,6 +245,7 @@ void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
 
 const char* celPcInventory::TestAddEntity (iCelEntity* entity)
 {
+  if (constraints.Length () <= 0) return NULL;
   iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
   iPcCharacteristics* pcchar = NULL;
   if (pc)

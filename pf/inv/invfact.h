@@ -97,6 +97,7 @@ public:
 		  float totalMaxValue);
   bool GetConstraints (const char* charName, float& minValue, float& maxValue,
 		  float& totalMaxValue) const;
+  void RemoveConstraints (const char* charName);
   float GetCurrentCharacteristic (const char* charName) const;
   const char* TestAddEntity (iCelEntity* entity);
 
@@ -146,6 +147,10 @@ public:
 		  float& totalMaxValue) const
     {
       return scfParent->GetConstraints (charName, minValue, maxValue, totalMaxValue);
+    }
+    virtual void RemoveConstraints (const char* charName)
+    {
+      scfParent->RemoveConstraints (charName);
     }
     virtual float GetCurrentCharacteristic (const char* charName) const
     {
