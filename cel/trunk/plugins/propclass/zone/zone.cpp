@@ -238,36 +238,37 @@ void celRegion::Unload ()
   iRegion* cur_region = engine->CreateRegion (name);
 
   iCelPlLayer* pl = mgr->GetPL ();
-  size_t i;
-  for (i = 0 ; i < entities.Length () ; i++)
-    if (entities[i])
-    {
-      pl->RemoveEntity (entities[i]);
-    }
-  entities.DeleteAll ();
-
-  // We now scan every sector to see if there are entities
-  // in that that are not deleted yet. We will delete them here.
-  csSet<iSector*>::GlobalIterator it = sectors.GetIterator ();
-  while (it.HasNext ())
+  if (pl)
   {
-    iSector* s = it.Next ();
-    iMeshList* ml = s->GetMeshes ();
-    int i;
-    for (i = 0 ; i < ml->GetCount () ; i++)
+    size_t i;
+    for (i = 0 ; i < entities.Length () ; i++)
+      if (entities[i])
+        pl->RemoveEntity (entities[i]);
+
+    // We now scan every sector to see if there are entities
+    // in that that are not deleted yet. We will delete them here.
+    csSet<iSector*>::GlobalIterator it = sectors.GetIterator ();
+    while (it.HasNext ())
     {
-      iMeshWrapper* m = ml->Get (i);
-      iCelEntity* e = pl->FindAttachedEntity (m->QueryObject ());
-      if (e)
+      iSector* s = it.Next ();
+      iMeshList* ml = s->GetMeshes ();
+      int i;
+      for (i = 0 ; i < ml->GetCount () ; i++)
       {
-        // Check if the entity is also in other sectors. If so we
-	// will not remove it.
-	if (m->GetMovable ()->GetSectors ()->GetCount () <= 1)
-          pl->RemoveEntity (e);
+        iMeshWrapper* m = ml->Get (i);
+        iCelEntity* e = pl->FindAttachedEntity (m->QueryObject ());
+        if (e)
+        {
+          // Check if the entity is also in other sectors. If so we
+	  // will not remove it.
+	  if (m->GetMovable ()->GetSectors ()->GetCount () <= 1)
+            pl->RemoveEntity (e);
+        }
       }
     }
   }
 
+  entities.DeleteAll ();
   sectors.DeleteAll ();
 
   cur_region->DeleteAll ();

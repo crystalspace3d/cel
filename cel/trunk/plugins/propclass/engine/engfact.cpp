@@ -958,8 +958,9 @@ bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
   {
     csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
 
+printf ("1 %p %s\n", newregion, name); fflush (stdout);
     if (region)
-        region->PointCamera(camera, name);
+      region->PointCamera (camera, name);
     else
     {
       // camera->GetCamera ()->SetSector (0);
