@@ -1359,6 +1359,8 @@ class csIntersect3(_object):
     if _newclass:IntersectSegment = staticmethod(_blcelc.csIntersect3_IntersectSegment)
     __swig_getmethods__["IntersectTriangle"] = lambda x: _blcelc.csIntersect3_IntersectTriangle
     if _newclass:IntersectTriangle = staticmethod(_blcelc.csIntersect3_IntersectTriangle)
+    __swig_getmethods__["IntersectPolygon"] = lambda x: _blcelc.csIntersect3_IntersectPolygon
+    if _newclass:IntersectPolygon = staticmethod(_blcelc.csIntersect3_IntersectPolygon)
     __swig_getmethods__["Planes"] = lambda x: _blcelc.csIntersect3_Planes
     if _newclass:Planes = staticmethod(_blcelc.csIntersect3_Planes)
     __swig_getmethods__["Plane"] = lambda x: _blcelc.csIntersect3_Plane
@@ -1422,11 +1424,11 @@ class csIntersect3Ptr(csIntersect3):
         _swig_setattr(self, csIntersect3,self.__class__,csIntersect3)
 _blcelc.csIntersect3_swigregister(csIntersect3Ptr)
 
-csIntersect3_IntersectPolygon = _blcelc.csIntersect3_IntersectPolygon
-
 csIntersect3_IntersectSegment = _blcelc.csIntersect3_IntersectSegment
 
 csIntersect3_IntersectTriangle = _blcelc.csIntersect3_IntersectTriangle
+
+csIntersect3_IntersectPolygon = _blcelc.csIntersect3_IntersectPolygon
 
 csIntersect3_Plane = _blcelc.csIntersect3_Plane
 
@@ -1555,7 +1557,11 @@ class csPoly3D(_object):
     if _newclass:ComputeNormal = staticmethod(_blcelc.csPoly3D_ComputeNormal)
     __swig_getmethods__["ComputeNormal"] = lambda x: _blcelc.csPoly3D_ComputeNormal
     if _newclass:ComputeNormal = staticmethod(_blcelc.csPoly3D_ComputeNormal)
+    __swig_getmethods__["ComputeNormal"] = lambda x: _blcelc.csPoly3D_ComputeNormal
+    if _newclass:ComputeNormal = staticmethod(_blcelc.csPoly3D_ComputeNormal)
     def ComputeNormal(*args): return _blcelc.csPoly3D_ComputeNormal(*args)
+    __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
+    if _newclass:ComputePlane = staticmethod(_blcelc.csPoly3D_ComputePlane)
     __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
     if _newclass:ComputePlane = staticmethod(_blcelc.csPoly3D_ComputePlane)
     __swig_getmethods__["ComputePlane"] = lambda x: _blcelc.csPoly3D_ComputePlane
