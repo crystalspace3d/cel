@@ -1941,6 +1941,183 @@ class csPointPtr(csPoint):
         _swig_setattr(self, csPoint,self.__class__,csPoint)
 _blcelc.csPoint_swigregister(csPointPtr)
 
+CS_BOUNDINGBOX_MAXVALUE = _blcelc.CS_BOUNDINGBOX_MAXVALUE
+CS_BOX_CORNER_xy = _blcelc.CS_BOX_CORNER_xy
+CS_BOX_CORNER_xY = _blcelc.CS_BOX_CORNER_xY
+CS_BOX_CORNER_Xy = _blcelc.CS_BOX_CORNER_Xy
+CS_BOX_CORNER_XY = _blcelc.CS_BOX_CORNER_XY
+CS_BOX_CENTER2 = _blcelc.CS_BOX_CENTER2
+CS_BOX_EDGE_xy_Xy = _blcelc.CS_BOX_EDGE_xy_Xy
+CS_BOX_EDGE_Xy_xy = _blcelc.CS_BOX_EDGE_Xy_xy
+CS_BOX_EDGE_Xy_XY = _blcelc.CS_BOX_EDGE_Xy_XY
+CS_BOX_EDGE_XY_Xy = _blcelc.CS_BOX_EDGE_XY_Xy
+CS_BOX_EDGE_XY_xY = _blcelc.CS_BOX_EDGE_XY_xY
+CS_BOX_EDGE_xY_XY = _blcelc.CS_BOX_EDGE_xY_XY
+CS_BOX_EDGE_xY_xy = _blcelc.CS_BOX_EDGE_xY_xy
+CS_BOX_EDGE_xy_xY = _blcelc.CS_BOX_EDGE_xy_xY
+class csBox2(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csBox2, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csBox2, name)
+    def MinX(*args): return apply(_blcelc.csBox2_MinX,args)
+    def MinY(*args): return apply(_blcelc.csBox2_MinY,args)
+    def MaxX(*args): return apply(_blcelc.csBox2_MaxX,args)
+    def MaxY(*args): return apply(_blcelc.csBox2_MaxY,args)
+    def Min(*args): return apply(_blcelc.csBox2_Min,args)
+    def Max(*args): return apply(_blcelc.csBox2_Max,args)
+    def GetCorner(*args): return apply(_blcelc.csBox2_GetCorner,args)
+    def GetCenter(*args): return apply(_blcelc.csBox2_GetCenter,args)
+    def SetCenter(*args): return apply(_blcelc.csBox2_SetCenter,args)
+    def SetSize(*args): return apply(_blcelc.csBox2_SetSize,args)
+    def GetEdgeInfo(*args): return apply(_blcelc.csBox2_GetEdgeInfo,args)
+    def GetEdge(*args): return apply(_blcelc.csBox2_GetEdge,args)
+    __swig_getmethods__["Intersect"] = lambda x: _blcelc.csBox2_Intersect
+    if _newclass:Intersect = staticmethod(_blcelc.csBox2_Intersect)
+    __swig_getmethods__["Intersect"] = lambda x: _blcelc.csBox2_Intersect
+    if _newclass:Intersect = staticmethod(_blcelc.csBox2_Intersect)
+    def Intersect(*args): return apply(_blcelc.csBox2_Intersect,args)
+    def In(*args): return apply(_blcelc.csBox2_In,args)
+    def Overlap(*args): return apply(_blcelc.csBox2_Overlap,args)
+    def Contains(*args): return apply(_blcelc.csBox2_Contains,args)
+    def Empty(*args): return apply(_blcelc.csBox2_Empty,args)
+    def SquaredOriginDist(*args): return apply(_blcelc.csBox2_SquaredOriginDist,args)
+    def SquaredOriginMaxDist(*args): return apply(_blcelc.csBox2_SquaredOriginMaxDist,args)
+    def StartBoundingBox(*args): return apply(_blcelc.csBox2_StartBoundingBox,args)
+    def AddBoundingVertex(*args): return apply(_blcelc.csBox2_AddBoundingVertex,args)
+    def AddBoundingVertexSmart(*args): return apply(_blcelc.csBox2_AddBoundingVertexSmart,args)
+    def __init__(self,*args):
+        _swig_setattr(self, csBox2, 'this', apply(_blcelc.new_csBox2,args))
+        _swig_setattr(self, csBox2, 'thisown', 1)
+    def Set(*args): return apply(_blcelc.csBox2_Set,args)
+    def SetMin(*args): return apply(_blcelc.csBox2_SetMin,args)
+    def SetMax(*args): return apply(_blcelc.csBox2_SetMax,args)
+    def __iadd__(*args): return apply(_blcelc.csBox2___iadd__,args)
+    def __imul__(*args): return apply(_blcelc.csBox2___imul__,args)
+    def TestIntersect(*args): return apply(_blcelc.csBox2_TestIntersect,args)
+    def __del__(self, destroy= _blcelc.delete_csBox2):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csBox2 instance at %s>" % (self.this,)
+
+class csBox2Ptr(csBox2):
+    def __init__(self,this):
+        _swig_setattr(self, csBox2, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csBox2, 'thisown', 0)
+        _swig_setattr(self, csBox2,self.__class__,csBox2)
+_blcelc.csBox2_swigregister(csBox2Ptr)
+
+CS_BOX_CORNER_xyz = _blcelc.CS_BOX_CORNER_xyz
+CS_BOX_CORNER_xyZ = _blcelc.CS_BOX_CORNER_xyZ
+CS_BOX_CORNER_xYz = _blcelc.CS_BOX_CORNER_xYz
+CS_BOX_CORNER_xYZ = _blcelc.CS_BOX_CORNER_xYZ
+CS_BOX_CORNER_Xyz = _blcelc.CS_BOX_CORNER_Xyz
+CS_BOX_CORNER_XyZ = _blcelc.CS_BOX_CORNER_XyZ
+CS_BOX_CORNER_XYz = _blcelc.CS_BOX_CORNER_XYz
+CS_BOX_CORNER_XYZ = _blcelc.CS_BOX_CORNER_XYZ
+CS_BOX_CENTER3 = _blcelc.CS_BOX_CENTER3
+CS_BOX_SIDE_x = _blcelc.CS_BOX_SIDE_x
+CS_BOX_SIDE_X = _blcelc.CS_BOX_SIDE_X
+CS_BOX_SIDE_y = _blcelc.CS_BOX_SIDE_y
+CS_BOX_SIDE_Y = _blcelc.CS_BOX_SIDE_Y
+CS_BOX_SIDE_z = _blcelc.CS_BOX_SIDE_z
+CS_BOX_SIDE_Z = _blcelc.CS_BOX_SIDE_Z
+CS_BOX_INSIDE = _blcelc.CS_BOX_INSIDE
+CS_BOX_EDGE_Xyz_xyz = _blcelc.CS_BOX_EDGE_Xyz_xyz
+CS_BOX_EDGE_xyz_Xyz = _blcelc.CS_BOX_EDGE_xyz_Xyz
+CS_BOX_EDGE_xyz_xYz = _blcelc.CS_BOX_EDGE_xyz_xYz
+CS_BOX_EDGE_xYz_xyz = _blcelc.CS_BOX_EDGE_xYz_xyz
+CS_BOX_EDGE_xYz_XYz = _blcelc.CS_BOX_EDGE_xYz_XYz
+CS_BOX_EDGE_XYz_xYz = _blcelc.CS_BOX_EDGE_XYz_xYz
+CS_BOX_EDGE_XYz_Xyz = _blcelc.CS_BOX_EDGE_XYz_Xyz
+CS_BOX_EDGE_Xyz_XYz = _blcelc.CS_BOX_EDGE_Xyz_XYz
+CS_BOX_EDGE_Xyz_XyZ = _blcelc.CS_BOX_EDGE_Xyz_XyZ
+CS_BOX_EDGE_XyZ_Xyz = _blcelc.CS_BOX_EDGE_XyZ_Xyz
+CS_BOX_EDGE_XyZ_XYZ = _blcelc.CS_BOX_EDGE_XyZ_XYZ
+CS_BOX_EDGE_XYZ_XyZ = _blcelc.CS_BOX_EDGE_XYZ_XyZ
+CS_BOX_EDGE_XYZ_XYz = _blcelc.CS_BOX_EDGE_XYZ_XYz
+CS_BOX_EDGE_XYz_XYZ = _blcelc.CS_BOX_EDGE_XYz_XYZ
+CS_BOX_EDGE_XYZ_xYZ = _blcelc.CS_BOX_EDGE_XYZ_xYZ
+CS_BOX_EDGE_xYZ_XYZ = _blcelc.CS_BOX_EDGE_xYZ_XYZ
+CS_BOX_EDGE_xYZ_xYz = _blcelc.CS_BOX_EDGE_xYZ_xYz
+CS_BOX_EDGE_xYz_xYZ = _blcelc.CS_BOX_EDGE_xYz_xYZ
+CS_BOX_EDGE_xYZ_xyZ = _blcelc.CS_BOX_EDGE_xYZ_xyZ
+CS_BOX_EDGE_xyZ_xYZ = _blcelc.CS_BOX_EDGE_xyZ_xYZ
+CS_BOX_EDGE_xyZ_xyz = _blcelc.CS_BOX_EDGE_xyZ_xyz
+CS_BOX_EDGE_xyz_xyZ = _blcelc.CS_BOX_EDGE_xyz_xyZ
+CS_BOX_EDGE_xyZ_XyZ = _blcelc.CS_BOX_EDGE_xyZ_XyZ
+CS_BOX_EDGE_XyZ_xyZ = _blcelc.CS_BOX_EDGE_XyZ_xyZ
+class csBox3(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csBox3, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csBox3, name)
+    def MinX(*args): return apply(_blcelc.csBox3_MinX,args)
+    def MinY(*args): return apply(_blcelc.csBox3_MinY,args)
+    def MinZ(*args): return apply(_blcelc.csBox3_MinZ,args)
+    def MaxX(*args): return apply(_blcelc.csBox3_MaxX,args)
+    def MaxY(*args): return apply(_blcelc.csBox3_MaxY,args)
+    def MaxZ(*args): return apply(_blcelc.csBox3_MaxZ,args)
+    def Min(*args): return apply(_blcelc.csBox3_Min,args)
+    def Max(*args): return apply(_blcelc.csBox3_Max,args)
+    def GetCorner(*args): return apply(_blcelc.csBox3_GetCorner,args)
+    def GetEdgeInfo(*args): return apply(_blcelc.csBox3_GetEdgeInfo,args)
+    def GetFaceEdges(*args): return apply(_blcelc.csBox3_GetFaceEdges,args)
+    def GetCenter(*args): return apply(_blcelc.csBox3_GetCenter,args)
+    def SetCenter(*args): return apply(_blcelc.csBox3_SetCenter,args)
+    def SetSize(*args): return apply(_blcelc.csBox3_SetSize,args)
+    def GetSide(*args): return apply(_blcelc.csBox3_GetSide,args)
+    def GetVisibleSides(*args): return apply(_blcelc.csBox3_GetVisibleSides,args)
+    __swig_getmethods__["OtherSide"] = lambda x: _blcelc.csBox3_OtherSide
+    if _newclass:OtherSide = staticmethod(_blcelc.csBox3_OtherSide)
+    def GetEdge(*args): return apply(_blcelc.csBox3_GetEdge,args)
+    def In(*args): return apply(_blcelc.csBox3_In,args)
+    def Overlap(*args): return apply(_blcelc.csBox3_Overlap,args)
+    def Contains(*args): return apply(_blcelc.csBox3_Contains,args)
+    def Empty(*args): return apply(_blcelc.csBox3_Empty,args)
+    def StartBoundingBox(*args): return apply(_blcelc.csBox3_StartBoundingBox,args)
+    def AddBoundingVertex(*args): return apply(_blcelc.csBox3_AddBoundingVertex,args)
+    def AddBoundingVertexSmart(*args): return apply(_blcelc.csBox3_AddBoundingVertexSmart,args)
+    def __init__(self,*args):
+        _swig_setattr(self, csBox3, 'this', apply(_blcelc.new_csBox3,args))
+        _swig_setattr(self, csBox3, 'thisown', 1)
+    def Set(*args): return apply(_blcelc.csBox3_Set,args)
+    def SetMin(*args): return apply(_blcelc.csBox3_SetMin,args)
+    def SetMax(*args): return apply(_blcelc.csBox3_SetMax,args)
+    def AdjacentX(*args): return apply(_blcelc.csBox3_AdjacentX,args)
+    def AdjacentY(*args): return apply(_blcelc.csBox3_AdjacentY,args)
+    def AdjacentZ(*args): return apply(_blcelc.csBox3_AdjacentZ,args)
+    def Adjacent(*args): return apply(_blcelc.csBox3_Adjacent,args)
+    def CalculatePointSegment(*args): return apply(_blcelc.csBox3_CalculatePointSegment,args)
+    def GetConvexOutline(*args): return apply(_blcelc.csBox3_GetConvexOutline,args)
+    def Between(*args): return apply(_blcelc.csBox3_Between,args)
+    def ManhattanDistance(*args): return apply(_blcelc.csBox3_ManhattanDistance,args)
+    def SquaredOriginDist(*args): return apply(_blcelc.csBox3_SquaredOriginDist,args)
+    def SquaredOriginMaxDist(*args): return apply(_blcelc.csBox3_SquaredOriginMaxDist,args)
+    def ProjectBox(*args): return apply(_blcelc.csBox3_ProjectBox,args)
+    def ProjectOutline(*args): return apply(_blcelc.csBox3_ProjectOutline,args)
+    def ProjectBoxAndOutline(*args): return apply(_blcelc.csBox3_ProjectBoxAndOutline,args)
+    def __iadd__(*args): return apply(_blcelc.csBox3___iadd__,args)
+    def __imul__(*args): return apply(_blcelc.csBox3___imul__,args)
+    def TestIntersect(*args): return apply(_blcelc.csBox3_TestIntersect,args)
+    def __del__(self, destroy= _blcelc.delete_csBox3):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csBox3 instance at %s>" % (self.this,)
+
+class csBox3Ptr(csBox3):
+    def __init__(self,this):
+        _swig_setattr(self, csBox3, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csBox3, 'thisown', 0)
+        _swig_setattr(self, csBox3,self.__class__,csBox3)
+_blcelc.csBox3_swigregister(csBox3Ptr)
+csBox3_OtherSide = _blcelc.csBox3_OtherSide
+
+
 class csRGBcolor(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csRGBcolor, name, value)
@@ -2134,6 +2311,704 @@ csInitializer_DestroyApplication = _blcelc.csInitializer_DestroyApplication
 
 csInitializer__RequestPlugin = _blcelc.csInitializer__RequestPlugin
 
+
+class iAwsKey(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsKey, name)
+    def Type(*args): return apply(_blcelc.iAwsKey_Type,args)
+    def Name(*args): return apply(_blcelc.iAwsKey_Name,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iAwsKey_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iAwsKey_scfGetVersion)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsKey instance at %s>" % (self.this,)
+
+class iAwsKeyPtr(iAwsKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsKey, 'thisown', 0)
+        _swig_setattr(self, iAwsKey,self.__class__,iAwsKey)
+_blcelc.iAwsKey_swigregister(iAwsKeyPtr)
+aws_debug = cvar.aws_debug
+AWSF_AlwaysEraseWindows = cvar.AWSF_AlwaysEraseWindows
+AWSF_AlwaysRedrawWindows = cvar.AWSF_AlwaysRedrawWindows
+AWSF_RaiseOnMouseOver = cvar.AWSF_RaiseOnMouseOver
+AWSF_KeyboardControl = cvar.AWSF_KeyboardControl
+iAwsKey_scfGetVersion = _blcelc.iAwsKey_scfGetVersion
+
+
+class iAwsIntKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsIntKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsIntKey, name)
+    def Value(*args): return apply(_blcelc.iAwsIntKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsIntKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsIntKey instance at %s>" % (self.this,)
+
+class iAwsIntKeyPtr(iAwsIntKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsIntKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsIntKey, 'thisown', 0)
+        _swig_setattr(self, iAwsIntKey,self.__class__,iAwsIntKey)
+_blcelc.iAwsIntKey_swigregister(iAwsIntKeyPtr)
+
+class iAwsFloatKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsFloatKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsFloatKey, name)
+    def Value(*args): return apply(_blcelc.iAwsFloatKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsFloatKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsFloatKey instance at %s>" % (self.this,)
+
+class iAwsFloatKeyPtr(iAwsFloatKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsFloatKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsFloatKey, 'thisown', 0)
+        _swig_setattr(self, iAwsFloatKey,self.__class__,iAwsFloatKey)
+_blcelc.iAwsFloatKey_swigregister(iAwsFloatKeyPtr)
+
+class iAwsStringKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsStringKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsStringKey, name)
+    def Value(*args): return apply(_blcelc.iAwsStringKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsStringKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsStringKey instance at %s>" % (self.this,)
+
+class iAwsStringKeyPtr(iAwsStringKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsStringKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsStringKey, 'thisown', 0)
+        _swig_setattr(self, iAwsStringKey,self.__class__,iAwsStringKey)
+_blcelc.iAwsStringKey_swigregister(iAwsStringKeyPtr)
+
+class iAwsRectKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsRectKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsRectKey, name)
+    def Value(*args): return apply(_blcelc.iAwsRectKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsRectKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsRectKey instance at %s>" % (self.this,)
+
+class iAwsRectKeyPtr(iAwsRectKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsRectKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsRectKey, 'thisown', 0)
+        _swig_setattr(self, iAwsRectKey,self.__class__,iAwsRectKey)
+_blcelc.iAwsRectKey_swigregister(iAwsRectKeyPtr)
+
+class iAwsRGBKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsRGBKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsRGBKey, name)
+    def Value(*args): return apply(_blcelc.iAwsRGBKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsRGBKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsRGBKey instance at %s>" % (self.this,)
+
+class iAwsRGBKeyPtr(iAwsRGBKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsRGBKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsRGBKey, 'thisown', 0)
+        _swig_setattr(self, iAwsRGBKey,self.__class__,iAwsRGBKey)
+_blcelc.iAwsRGBKey_swigregister(iAwsRGBKeyPtr)
+
+class iAwsPointKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsPointKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsPointKey, name)
+    def Value(*args): return apply(_blcelc.iAwsPointKey_Value,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsPointKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsPointKey instance at %s>" % (self.this,)
+
+class iAwsPointKeyPtr(iAwsPointKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsPointKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsPointKey, 'thisown', 0)
+        _swig_setattr(self, iAwsPointKey,self.__class__,iAwsPointKey)
+_blcelc.iAwsPointKey_swigregister(iAwsPointKeyPtr)
+
+class iAwsConnectionKey(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsConnectionKey, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsConnectionKey, name)
+    def Sink(*args): return apply(_blcelc.iAwsConnectionKey_Sink,args)
+    def Trigger(*args): return apply(_blcelc.iAwsConnectionKey_Trigger,args)
+    def Signal(*args): return apply(_blcelc.iAwsConnectionKey_Signal,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsConnectionKey):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsConnectionKey instance at %s>" % (self.this,)
+
+class iAwsConnectionKeyPtr(iAwsConnectionKey):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsConnectionKey, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsConnectionKey, 'thisown', 0)
+        _swig_setattr(self, iAwsConnectionKey,self.__class__,iAwsConnectionKey)
+_blcelc.iAwsConnectionKey_swigregister(iAwsConnectionKeyPtr)
+
+class iAwsKeyContainer(iAwsKey):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKey]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsKeyContainer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKey]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsKeyContainer, name)
+    def Find(*args): return apply(_blcelc.iAwsKeyContainer_Find,args)
+    def Children(*args): return apply(_blcelc.iAwsKeyContainer_Children,args)
+    def Add(*args): return apply(_blcelc.iAwsKeyContainer_Add,args)
+    def GetAt(*args): return apply(_blcelc.iAwsKeyContainer_GetAt,args)
+    def Length(*args): return apply(_blcelc.iAwsKeyContainer_Length,args)
+    def Remove(*args): return apply(_blcelc.iAwsKeyContainer_Remove,args)
+    def RemoveAll(*args): return apply(_blcelc.iAwsKeyContainer_RemoveAll,args)
+    def Consume(*args): return apply(_blcelc.iAwsKeyContainer_Consume,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsKeyContainer):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsKeyContainer instance at %s>" % (self.this,)
+
+class iAwsKeyContainerPtr(iAwsKeyContainer):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsKeyContainer, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsKeyContainer, 'thisown', 0)
+        _swig_setattr(self, iAwsKeyContainer,self.__class__,iAwsKeyContainer)
+_blcelc.iAwsKeyContainer_swigregister(iAwsKeyContainerPtr)
+
+class iAwsComponentNode(iAwsKeyContainer):
+    __swig_setmethods__ = {}
+    for _s in [iAwsKeyContainer]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsComponentNode, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsKeyContainer]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsComponentNode, name)
+    def ComponentTypeName(*args): return apply(_blcelc.iAwsComponentNode_ComponentTypeName,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsComponentNode):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsComponentNode instance at %s>" % (self.this,)
+
+class iAwsComponentNodePtr(iAwsComponentNode):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsComponentNode, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsComponentNode, 'thisown', 0)
+        _swig_setattr(self, iAwsComponentNode,self.__class__,iAwsComponentNode)
+_blcelc.iAwsComponentNode_swigregister(iAwsComponentNodePtr)
+
+class iAws(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAws, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAws, name)
+    def GetPrefMgr(*args): return apply(_blcelc.iAws_GetPrefMgr,args)
+    def GetSinkMgr(*args): return apply(_blcelc.iAws_GetSinkMgr,args)
+    def SetPrefMgr(*args): return apply(_blcelc.iAws_SetPrefMgr,args)
+    def RegisterComponentFactory(*args): return apply(_blcelc.iAws_RegisterComponentFactory,args)
+    def FindComponentFactory(*args): return apply(_blcelc.iAws_FindComponentFactory,args)
+    def GetTopComponent(*args): return apply(_blcelc.iAws_GetTopComponent,args)
+    def SetTopComponent(*args): return apply(_blcelc.iAws_SetTopComponent,args)
+    def GetFocusedComponent(*args): return apply(_blcelc.iAws_GetFocusedComponent,args)
+    def SetFocusedComponent(*args): return apply(_blcelc.iAws_SetFocusedComponent,args)
+    def GetKeyboardFocusedComponent(*args): return apply(_blcelc.iAws_GetKeyboardFocusedComponent,args)
+    def ComponentAt(*args): return apply(_blcelc.iAws_ComponentAt,args)
+    def MouseInComponent(*args): return apply(_blcelc.iAws_MouseInComponent,args)
+    def Print(*args): return apply(_blcelc.iAws_Print,args)
+    def Redraw(*args): return apply(_blcelc.iAws_Redraw,args)
+    def Mark(*args): return apply(_blcelc.iAws_Mark,args)
+    def Unmark(*args): return apply(_blcelc.iAws_Unmark,args)
+    def Erase(*args): return apply(_blcelc.iAws_Erase,args)
+    def MaskEraser(*args): return apply(_blcelc.iAws_MaskEraser,args)
+    def InvalidateUpdateStore(*args): return apply(_blcelc.iAws_InvalidateUpdateStore,args)
+    def CaptureMouse(*args): return apply(_blcelc.iAws_CaptureMouse,args)
+    def ReleaseMouse(*args): return apply(_blcelc.iAws_ReleaseMouse,args)
+    def SetModal(*args): return apply(_blcelc.iAws_SetModal,args)
+    def UnSetModal(*args): return apply(_blcelc.iAws_UnSetModal,args)
+    def HandleEvent(*args): return apply(_blcelc.iAws_HandleEvent,args)
+    def SetupCanvas(*args): return apply(_blcelc.iAws_SetupCanvas,args)
+    def GetCanvas(*args): return apply(_blcelc.iAws_GetCanvas,args)
+    def G2D(*args): return apply(_blcelc.iAws_G2D,args)
+    def G3D(*args): return apply(_blcelc.iAws_G3D,args)
+    def CreateWindowFrom(*args): return apply(_blcelc.iAws_CreateWindowFrom,args)
+    def CreateEmbeddableComponent(*args): return apply(_blcelc.iAws_CreateEmbeddableComponent,args)
+    def CreateParmList(*args): return apply(_blcelc.iAws_CreateParmList,args)
+    def CreateTransition(*args): return apply(_blcelc.iAws_CreateTransition,args)
+    def CreateTransitionEx(*args): return apply(_blcelc.iAws_CreateTransitionEx,args)
+    def SetFlag(*args): return apply(_blcelc.iAws_SetFlag,args)
+    def ClearFlag(*args): return apply(_blcelc.iAws_ClearFlag,args)
+    def GetFlags(*args): return apply(_blcelc.iAws_GetFlags,args)
+    def GetObjectRegistry(*args): return apply(_blcelc.iAws_GetObjectRegistry,args)
+    def AllWindowsHidden(*args): return apply(_blcelc.iAws_AllWindowsHidden,args)
+    def ComponentIsInTransition(*args): return apply(_blcelc.iAws_ComponentIsInTransition,args)
+    def __del__(self, destroy= _blcelc.delete_iAws):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iAws_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iAws_scfGetVersion)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAws instance at %s>" % (self.this,)
+
+class iAwsPtr(iAws):
+    def __init__(self,this):
+        _swig_setattr(self, iAws, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAws, 'thisown', 0)
+        _swig_setattr(self, iAws,self.__class__,iAws)
+_blcelc.iAws_swigregister(iAwsPtr)
+iAws_scfGetVersion = _blcelc.iAws_scfGetVersion
+
+
+class iAwsPrefManager(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsPrefManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsPrefManager, name)
+    def Setup(*args): return apply(_blcelc.iAwsPrefManager_Setup,args)
+    def Load(*args): return apply(_blcelc.iAwsPrefManager_Load,args)
+    def NameToId(*args): return apply(_blcelc.iAwsPrefManager_NameToId,args)
+    def SelectDefaultSkin(*args): return apply(_blcelc.iAwsPrefManager_SelectDefaultSkin,args)
+    def LookupIntKey(*args): return apply(_blcelc.iAwsPrefManager_LookupIntKey,args)
+    def LookupStringKey(*args): return apply(_blcelc.iAwsPrefManager_LookupStringKey,args)
+    def LookupRectKey(*args): return apply(_blcelc.iAwsPrefManager_LookupRectKey,args)
+    def LookupRGBKey(*args): return apply(_blcelc.iAwsPrefManager_LookupRGBKey,args)
+    def LookupPointKey(*args): return apply(_blcelc.iAwsPrefManager_LookupPointKey,args)
+    def GetInt(*args): return apply(_blcelc.iAwsPrefManager_GetInt,args)
+    def GetFloat(*args): return apply(_blcelc.iAwsPrefManager_GetFloat,args)
+    def GetRect(*args): return apply(_blcelc.iAwsPrefManager_GetRect,args)
+    def GetString(*args): return apply(_blcelc.iAwsPrefManager_GetString,args)
+    def GetRGB(*args): return apply(_blcelc.iAwsPrefManager_GetRGB,args)
+    def FindWindowDef(*args): return apply(_blcelc.iAwsPrefManager_FindWindowDef,args)
+    def FindSkinDef(*args): return apply(_blcelc.iAwsPrefManager_FindSkinDef,args)
+    def RemoveWindowDef(*args): return apply(_blcelc.iAwsPrefManager_RemoveWindowDef,args)
+    def RemoveAllWindowDefs(*args): return apply(_blcelc.iAwsPrefManager_RemoveAllWindowDefs,args)
+    def RemoveSkinDef(*args): return apply(_blcelc.iAwsPrefManager_RemoveSkinDef,args)
+    def RemoveAllSkinDefs(*args): return apply(_blcelc.iAwsPrefManager_RemoveAllSkinDefs,args)
+    def SetColor(*args): return apply(_blcelc.iAwsPrefManager_SetColor,args)
+    def GetColor(*args): return apply(_blcelc.iAwsPrefManager_GetColor,args)
+    def FindColor(*args): return apply(_blcelc.iAwsPrefManager_FindColor,args)
+    def GetDefaultFont(*args): return apply(_blcelc.iAwsPrefManager_GetDefaultFont,args)
+    def GetFont(*args): return apply(_blcelc.iAwsPrefManager_GetFont,args)
+    def GetTexture(*args): return apply(_blcelc.iAwsPrefManager_GetTexture,args)
+    def SetTextureManager(*args): return apply(_blcelc.iAwsPrefManager_SetTextureManager,args)
+    def SetFontServer(*args): return apply(_blcelc.iAwsPrefManager_SetFontServer,args)
+    def SetDefaultFont(*args): return apply(_blcelc.iAwsPrefManager_SetDefaultFont,args)
+    def SetWindowMgr(*args): return apply(_blcelc.iAwsPrefManager_SetWindowMgr,args)
+    def SetupPalette(*args): return apply(_blcelc.iAwsPrefManager_SetupPalette,args)
+    def RegisterConstant(*args): return apply(_blcelc.iAwsPrefManager_RegisterConstant,args)
+    def ConstantExists(*args): return apply(_blcelc.iAwsPrefManager_ConstantExists,args)
+    def GetConstantValue(*args): return apply(_blcelc.iAwsPrefManager_GetConstantValue,args)
+    def CreateKeyFactory(*args): return apply(_blcelc.iAwsPrefManager_CreateKeyFactory,args)
+    def CreateConnectionNodeFactory(*args): return apply(_blcelc.iAwsPrefManager_CreateConnectionNodeFactory,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsPrefManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsPrefManager instance at %s>" % (self.this,)
+
+class iAwsPrefManagerPtr(iAwsPrefManager):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsPrefManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsPrefManager, 'thisown', 0)
+        _swig_setattr(self, iAwsPrefManager,self.__class__,iAwsPrefManager)
+_blcelc.iAwsPrefManager_swigregister(iAwsPrefManagerPtr)
+
+class iAwsSinkManager(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsSinkManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsSinkManager, name)
+    def RegisterSink(*args): return apply(_blcelc.iAwsSinkManager_RegisterSink,args)
+    def RemoveSink(*args): return apply(_blcelc.iAwsSinkManager_RemoveSink,args)
+    def FindSink(*args): return apply(_blcelc.iAwsSinkManager_FindSink,args)
+    def CreateSink(*args): return apply(_blcelc.iAwsSinkManager_CreateSink,args)
+    def CreateSlot(*args): return apply(_blcelc.iAwsSinkManager_CreateSlot,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsSinkManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsSinkManager instance at %s>" % (self.this,)
+
+class iAwsSinkManagerPtr(iAwsSinkManager):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsSinkManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsSinkManager, 'thisown', 0)
+        _swig_setattr(self, iAwsSinkManager,self.__class__,iAwsSinkManager)
+_blcelc.iAwsSinkManager_swigregister(iAwsSinkManagerPtr)
+
+class iAwsSink(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsSink, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsSink, name)
+    def GetTriggerID(*args): return apply(_blcelc.iAwsSink_GetTriggerID,args)
+    def HandleTrigger(*args): return apply(_blcelc.iAwsSink_HandleTrigger,args)
+    def RegisterTrigger(*args): return apply(_blcelc.iAwsSink_RegisterTrigger,args)
+    def GetError(*args): return apply(_blcelc.iAwsSink_GetError,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsSink):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsSink instance at %s>" % (self.this,)
+
+class iAwsSinkPtr(iAwsSink):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsSink, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsSink, 'thisown', 0)
+        _swig_setattr(self, iAwsSink,self.__class__,iAwsSink)
+_blcelc.iAwsSink_swigregister(iAwsSinkPtr)
+
+class iAwsSource(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsSource, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsSource, name)
+    def GetComponent(*args): return apply(_blcelc.iAwsSource_GetComponent,args)
+    def RegisterSlot(*args): return apply(_blcelc.iAwsSource_RegisterSlot,args)
+    def UnregisterSlot(*args): return apply(_blcelc.iAwsSource_UnregisterSlot,args)
+    def Broadcast(*args): return apply(_blcelc.iAwsSource_Broadcast,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsSource):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsSource instance at %s>" % (self.this,)
+
+class iAwsSourcePtr(iAwsSource):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsSource, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsSource, 'thisown', 0)
+        _swig_setattr(self, iAwsSource,self.__class__,iAwsSource)
+_blcelc.iAwsSource_swigregister(iAwsSourcePtr)
+
+class iAwsSlot(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsSlot, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsSlot, name)
+    def Connect(*args): return apply(_blcelc.iAwsSlot_Connect,args)
+    def Disconnect(*args): return apply(_blcelc.iAwsSlot_Disconnect,args)
+    def Emit(*args): return apply(_blcelc.iAwsSlot_Emit,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsSlot):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsSlot instance at %s>" % (self.this,)
+
+class iAwsSlotPtr(iAwsSlot):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsSlot, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsSlot, 'thisown', 0)
+        _swig_setattr(self, iAwsSlot,self.__class__,iAwsSlot)
+_blcelc.iAwsSlot_swigregister(iAwsSlotPtr)
+
+class iAwsLayoutManager(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsLayoutManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsLayoutManager, name)
+    def SetOwner(*args): return apply(_blcelc.iAwsLayoutManager_SetOwner,args)
+    def AddComponent(*args): return apply(_blcelc.iAwsLayoutManager_AddComponent,args)
+    def RemoveComponent(*args): return apply(_blcelc.iAwsLayoutManager_RemoveComponent,args)
+    def LayoutComponents(*args): return apply(_blcelc.iAwsLayoutManager_LayoutComponents,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsLayoutManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsLayoutManager instance at %s>" % (self.this,)
+
+class iAwsLayoutManagerPtr(iAwsLayoutManager):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsLayoutManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsLayoutManager, 'thisown', 0)
+        _swig_setattr(self, iAwsLayoutManager,self.__class__,iAwsLayoutManager)
+_blcelc.iAwsLayoutManager_swigregister(iAwsLayoutManagerPtr)
+
+class iAwsComponent(iAwsSource):
+    __swig_setmethods__ = {}
+    for _s in [iAwsSource]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsComponent, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iAwsSource]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsComponent, name)
+    def Create(*args): return apply(_blcelc.iAwsComponent_Create,args)
+    def Setup(*args): return apply(_blcelc.iAwsComponent_Setup,args)
+    def HandleEvent(*args): return apply(_blcelc.iAwsComponent_HandleEvent,args)
+    def GetProperty(*args): return apply(_blcelc.iAwsComponent_GetProperty,args)
+    def SetProperty(*args): return apply(_blcelc.iAwsComponent_SetProperty,args)
+    def Execute(*args): return apply(_blcelc.iAwsComponent_Execute,args)
+    def Invalidate(*args): return apply(_blcelc.iAwsComponent_Invalidate,args)
+    def Frame(*args): return apply(_blcelc.iAwsComponent_Frame,args)
+    def ClientFrame(*args): return apply(_blcelc.iAwsComponent_ClientFrame,args)
+    def Type(*args): return apply(_blcelc.iAwsComponent_Type,args)
+    def SetFlag(*args): return apply(_blcelc.iAwsComponent_SetFlag,args)
+    def ClearFlag(*args): return apply(_blcelc.iAwsComponent_ClearFlag,args)
+    def Flags(*args): return apply(_blcelc.iAwsComponent_Flags,args)
+    def WindowManager(*args): return apply(_blcelc.iAwsComponent_WindowManager,args)
+    def Parent(*args): return apply(_blcelc.iAwsComponent_Parent,args)
+    def Window(*args): return apply(_blcelc.iAwsComponent_Window,args)
+    def Layout(*args): return apply(_blcelc.iAwsComponent_Layout,args)
+    def SetParent(*args): return apply(_blcelc.iAwsComponent_SetParent,args)
+    def SetLayout(*args): return apply(_blcelc.iAwsComponent_SetLayout,args)
+    def AddToLayout(*args): return apply(_blcelc.iAwsComponent_AddToLayout,args)
+    def getPreferredSize(*args): return apply(_blcelc.iAwsComponent_getPreferredSize,args)
+    def getMinimumSize(*args): return apply(_blcelc.iAwsComponent_getMinimumSize,args)
+    def getInsets(*args): return apply(_blcelc.iAwsComponent_getInsets,args)
+    def Overlaps(*args): return apply(_blcelc.iAwsComponent_Overlaps,args)
+    def isHidden(*args): return apply(_blcelc.iAwsComponent_isHidden,args)
+    def SetFocusable(*args): return apply(_blcelc.iAwsComponent_SetFocusable,args)
+    def Focusable(*args): return apply(_blcelc.iAwsComponent_Focusable,args)
+    def isFocused(*args): return apply(_blcelc.iAwsComponent_isFocused,args)
+    def IsMaximized(*args): return apply(_blcelc.iAwsComponent_IsMaximized,args)
+    def Hide(*args): return apply(_blcelc.iAwsComponent_Hide,args)
+    def Show(*args): return apply(_blcelc.iAwsComponent_Show,args)
+    def SetFocus(*args): return apply(_blcelc.iAwsComponent_SetFocus,args)
+    def UnsetFocus(*args): return apply(_blcelc.iAwsComponent_UnsetFocus,args)
+    def Move(*args): return apply(_blcelc.iAwsComponent_Move,args)
+    def MoveTo(*args): return apply(_blcelc.iAwsComponent_MoveTo,args)
+    def Resize(*args): return apply(_blcelc.iAwsComponent_Resize,args)
+    def ResizeTo(*args): return apply(_blcelc.iAwsComponent_ResizeTo,args)
+    def Maximize(*args): return apply(_blcelc.iAwsComponent_Maximize,args)
+    def UnMaximize(*args): return apply(_blcelc.iAwsComponent_UnMaximize,args)
+    def LayoutChildren(*args): return apply(_blcelc.iAwsComponent_LayoutChildren,args)
+    def isDeaf(*args): return apply(_blcelc.iAwsComponent_isDeaf,args)
+    def SetDeaf(*args): return apply(_blcelc.iAwsComponent_SetDeaf,args)
+    def GetID(*args): return apply(_blcelc.iAwsComponent_GetID,args)
+    def SetID(*args): return apply(_blcelc.iAwsComponent_SetID,args)
+    def FindChild(*args): return apply(_blcelc.iAwsComponent_FindChild,args)
+    def DoFindChild(*args): return apply(_blcelc.iAwsComponent_DoFindChild,args)
+    def ChildAt(*args): return apply(_blcelc.iAwsComponent_ChildAt,args)
+    def AddChild(*args): return apply(_blcelc.iAwsComponent_AddChild,args)
+    def RemoveChild(*args): return apply(_blcelc.iAwsComponent_RemoveChild,args)
+    def GetChildCount(*args): return apply(_blcelc.iAwsComponent_GetChildCount,args)
+    def GetTopChild(*args): return apply(_blcelc.iAwsComponent_GetTopChild,args)
+    def ComponentAbove(*args): return apply(_blcelc.iAwsComponent_ComponentAbove,args)
+    def ComponentBelow(*args): return apply(_blcelc.iAwsComponent_ComponentBelow,args)
+    def SetComponentAbove(*args): return apply(_blcelc.iAwsComponent_SetComponentAbove,args)
+    def SetComponentBelow(*args): return apply(_blcelc.iAwsComponent_SetComponentBelow,args)
+    def AddToTabOrder(*args): return apply(_blcelc.iAwsComponent_AddToTabOrder,args)
+    def TabNext(*args): return apply(_blcelc.iAwsComponent_TabNext,args)
+    def TabPrev(*args): return apply(_blcelc.iAwsComponent_TabPrev,args)
+    def GetTabLength(*args): return apply(_blcelc.iAwsComponent_GetTabLength,args)
+    def GetTabComponent(*args): return apply(_blcelc.iAwsComponent_GetTabComponent,args)
+    def GetFirstFocusableChild(*args): return apply(_blcelc.iAwsComponent_GetFirstFocusableChild,args)
+    def Raise(*args): return apply(_blcelc.iAwsComponent_Raise,args)
+    def Lower(*args): return apply(_blcelc.iAwsComponent_Lower,args)
+    def HasChildren(*args): return apply(_blcelc.iAwsComponent_HasChildren,args)
+    def SetRedrawTag(*args): return apply(_blcelc.iAwsComponent_SetRedrawTag,args)
+    def RedrawTag(*args): return apply(_blcelc.iAwsComponent_RedrawTag,args)
+    def OnDraw(*args): return apply(_blcelc.iAwsComponent_OnDraw,args)
+    def OnMouseDown(*args): return apply(_blcelc.iAwsComponent_OnMouseDown,args)
+    def OnMouseUp(*args): return apply(_blcelc.iAwsComponent_OnMouseUp,args)
+    def OnMouseMove(*args): return apply(_blcelc.iAwsComponent_OnMouseMove,args)
+    def OnMouseClick(*args): return apply(_blcelc.iAwsComponent_OnMouseClick,args)
+    def OnMouseDoubleClick(*args): return apply(_blcelc.iAwsComponent_OnMouseDoubleClick,args)
+    def OnMouseExit(*args): return apply(_blcelc.iAwsComponent_OnMouseExit,args)
+    def OnMouseEnter(*args): return apply(_blcelc.iAwsComponent_OnMouseEnter,args)
+    def OnKeyboard(*args): return apply(_blcelc.iAwsComponent_OnKeyboard,args)
+    def OnLostFocus(*args): return apply(_blcelc.iAwsComponent_OnLostFocus,args)
+    def OnGainFocus(*args): return apply(_blcelc.iAwsComponent_OnGainFocus,args)
+    def OnFrame(*args): return apply(_blcelc.iAwsComponent_OnFrame,args)
+    def OnAdded(*args): return apply(_blcelc.iAwsComponent_OnAdded,args)
+    def OnResized(*args): return apply(_blcelc.iAwsComponent_OnResized,args)
+    def OnChildMoved(*args): return apply(_blcelc.iAwsComponent_OnChildMoved,args)
+    def OnRaise(*args): return apply(_blcelc.iAwsComponent_OnRaise,args)
+    def OnLower(*args): return apply(_blcelc.iAwsComponent_OnLower,args)
+    def OnChildHide(*args): return apply(_blcelc.iAwsComponent_OnChildHide,args)
+    def OnChildShow(*args): return apply(_blcelc.iAwsComponent_OnChildShow,args)
+    def OnSetFocus(*args): return apply(_blcelc.iAwsComponent_OnSetFocus,args)
+    def OnUnsetFocus(*args): return apply(_blcelc.iAwsComponent_OnUnsetFocus,args)
+    def Unlink(*args): return apply(_blcelc.iAwsComponent_Unlink,args)
+    def LinkAbove(*args): return apply(_blcelc.iAwsComponent_LinkAbove,args)
+    def LinkBelow(*args): return apply(_blcelc.iAwsComponent_LinkBelow,args)
+    def SetTopChild(*args): return apply(_blcelc.iAwsComponent_SetTopChild,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsComponent):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsComponent instance at %s>" % (self.this,)
+
+class iAwsComponentPtr(iAwsComponent):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsComponent, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsComponent, 'thisown', 0)
+        _swig_setattr(self, iAwsComponent,self.__class__,iAwsComponent)
+_blcelc.iAwsComponent_swigregister(iAwsComponentPtr)
+
+class iAwsComponentFactory(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsComponentFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsComponentFactory, name)
+    def Create(*args): return apply(_blcelc.iAwsComponentFactory_Create,args)
+    def Register(*args): return apply(_blcelc.iAwsComponentFactory_Register,args)
+    def RegisterConstant(*args): return apply(_blcelc.iAwsComponentFactory_RegisterConstant,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsComponentFactory):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsComponentFactory instance at %s>" % (self.this,)
+
+class iAwsComponentFactoryPtr(iAwsComponentFactory):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsComponentFactory, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsComponentFactory, 'thisown', 0)
+        _swig_setattr(self, iAwsComponentFactory,self.__class__,iAwsComponentFactory)
+_blcelc.iAwsComponentFactory_swigregister(iAwsComponentFactoryPtr)
+
+class iAwsKeyFactory(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsKeyFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsKeyFactory, name)
+    def Initialize(*args): return apply(_blcelc.iAwsKeyFactory_Initialize,args)
+    def AddToWindowList(*args): return apply(_blcelc.iAwsKeyFactory_AddToWindowList,args)
+    def AddFactory(*args): return apply(_blcelc.iAwsKeyFactory_AddFactory,args)
+    def AddIntKey(*args): return apply(_blcelc.iAwsKeyFactory_AddIntKey,args)
+    def AddStringKey(*args): return apply(_blcelc.iAwsKeyFactory_AddStringKey,args)
+    def AddRectKey(*args): return apply(_blcelc.iAwsKeyFactory_AddRectKey,args)
+    def AddRGBKey(*args): return apply(_blcelc.iAwsKeyFactory_AddRGBKey,args)
+    def AddPointKey(*args): return apply(_blcelc.iAwsKeyFactory_AddPointKey,args)
+    def AddConnectionKey(*args): return apply(_blcelc.iAwsKeyFactory_AddConnectionKey,args)
+    def AddConnectionNode(*args): return apply(_blcelc.iAwsKeyFactory_AddConnectionNode,args)
+    def GetThisNode(*args): return apply(_blcelc.iAwsKeyFactory_GetThisNode,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsKeyFactory):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsKeyFactory instance at %s>" % (self.this,)
+
+class iAwsKeyFactoryPtr(iAwsKeyFactory):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsKeyFactory, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsKeyFactory, 'thisown', 0)
+        _swig_setattr(self, iAwsKeyFactory,self.__class__,iAwsKeyFactory)
+_blcelc.iAwsKeyFactory_swigregister(iAwsKeyFactoryPtr)
+
+class iAwsConnectionNodeFactory(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iAwsConnectionNodeFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iAwsConnectionNodeFactory, name)
+    def Initialize(*args): return apply(_blcelc.iAwsConnectionNodeFactory_Initialize,args)
+    def AddConnectionKey(*args): return apply(_blcelc.iAwsConnectionNodeFactory_AddConnectionKey,args)
+    def GetThisNode(*args): return apply(_blcelc.iAwsConnectionNodeFactory_GetThisNode,args)
+    def __del__(self, destroy= _blcelc.delete_iAwsConnectionNodeFactory):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iAwsConnectionNodeFactory instance at %s>" % (self.this,)
+
+class iAwsConnectionNodeFactoryPtr(iAwsConnectionNodeFactory):
+    def __init__(self,this):
+        _swig_setattr(self, iAwsConnectionNodeFactory, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iAwsConnectionNodeFactory, 'thisown', 0)
+        _swig_setattr(self, iAwsConnectionNodeFactory,self.__class__,iAwsConnectionNodeFactory)
+_blcelc.iAwsConnectionNodeFactory_swigregister(iAwsConnectionNodeFactoryPtr)
 
 CS_POLYMESH_CLOSED = _blcelc.CS_POLYMESH_CLOSED
 CS_POLYMESH_NOTCLOSED = _blcelc.CS_POLYMESH_NOTCLOSED
@@ -4309,9 +5184,11 @@ class iSpriteCal3DFactoryState(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iSpriteCal3DFactoryState, name)
     def Create(*args): return apply(_blcelc.iSpriteCal3DFactoryState_Create,args)
     def ReportLastError(*args): return apply(_blcelc.iSpriteCal3DFactoryState_ReportLastError,args)
+    def SetLoadFlags(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetLoadFlags,args)
     def SetBasePath(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetBasePath,args)
-    def SetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetRenderScale,args)
     def LoadCoreSkeleton(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreSkeleton,args)
+    def SetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_SetRenderScale,args)
+    def GetRenderScale(*args): return apply(_blcelc.iSpriteCal3DFactoryState_GetRenderScale,args)
     def LoadCoreAnimation(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreAnimation,args)
     def LoadCoreMesh(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMesh,args)
     def LoadCoreMorphTarget(*args): return apply(_blcelc.iSpriteCal3DFactoryState_LoadCoreMorphTarget,args)
@@ -5713,16 +6590,6 @@ class iEvent(iBase):
     def AddVoidPtr(*args): return apply(_blcelc.iEvent_AddVoidPtr,args)
     def AddBool(*args): return apply(_blcelc.iEvent_AddBool,args)
     def Add(*args): return apply(_blcelc.iEvent_Add,args)
-    def FindInt8(*args): return apply(_blcelc.iEvent_FindInt8,args)
-    def FindUInt8(*args): return apply(_blcelc.iEvent_FindUInt8,args)
-    def FindInt16(*args): return apply(_blcelc.iEvent_FindInt16,args)
-    def FindUInt16(*args): return apply(_blcelc.iEvent_FindUInt16,args)
-    def FindUInt32(*args): return apply(_blcelc.iEvent_FindUInt32,args)
-    def FindFloat(*args): return apply(_blcelc.iEvent_FindFloat,args)
-    def FindDouble(*args): return apply(_blcelc.iEvent_FindDouble,args)
-    def FindString(*args): return apply(_blcelc.iEvent_FindString,args)
-    def FindVoidPtr(*args): return apply(_blcelc.iEvent_FindVoidPtr,args)
-    def FindBool(*args): return apply(_blcelc.iEvent_FindBool,args)
     def Find(*args): return apply(_blcelc.iEvent_Find,args)
     def Remove(*args): return apply(_blcelc.iEvent_Remove,args)
     def RemoveAll(*args): return apply(_blcelc.iEvent_RemoveAll,args)
@@ -6463,6 +7330,7 @@ class iDocumentAttribute(iBase):
     def GetValue(*args): return apply(_blcelc.iDocumentAttribute_GetValue,args)
     def GetValueAsInt(*args): return apply(_blcelc.iDocumentAttribute_GetValueAsInt,args)
     def GetValueAsFloat(*args): return apply(_blcelc.iDocumentAttribute_GetValueAsFloat,args)
+    def GetValueAsBool(*args): return apply(_blcelc.iDocumentAttribute_GetValueAsBool,args)
     def SetName(*args): return apply(_blcelc.iDocumentAttribute_SetName,args)
     def SetValue(*args): return apply(_blcelc.iDocumentAttribute_SetValue,args)
     def SetValueAsInt(*args): return apply(_blcelc.iDocumentAttribute_SetValueAsInt,args)
@@ -6533,6 +7401,7 @@ class iDocumentNode(iBase):
     def GetAttributeValue(*args): return apply(_blcelc.iDocumentNode_GetAttributeValue,args)
     def GetAttributeValueAsInt(*args): return apply(_blcelc.iDocumentNode_GetAttributeValueAsInt,args)
     def GetAttributeValueAsFloat(*args): return apply(_blcelc.iDocumentNode_GetAttributeValueAsFloat,args)
+    def GetAttributeValueAsBool(*args): return apply(_blcelc.iDocumentNode_GetAttributeValueAsBool,args)
     def RemoveAttribute(*args): return apply(_blcelc.iDocumentNode_RemoveAttribute,args)
     def RemoveAttributes(*args): return apply(_blcelc.iDocumentNode_RemoveAttributes,args)
     def SetAttribute(*args): return apply(_blcelc.iDocumentNode_SetAttribute,args)
@@ -7541,6 +8410,18 @@ _blcelc.iGraphics2D_swigregister(iGraphics2DPtr)
 iGraphics2D_scfGetVersion = _blcelc.iGraphics2D_scfGetVersion
 
 
+csmcNone = _blcelc.csmcNone
+csmcArrow = _blcelc.csmcArrow
+csmcLens = _blcelc.csmcLens
+csmcCross = _blcelc.csmcCross
+csmcPen = _blcelc.csmcPen
+csmcMove = _blcelc.csmcMove
+csmcSizeNWSE = _blcelc.csmcSizeNWSE
+csmcSizeNESW = _blcelc.csmcSizeNESW
+csmcSizeNS = _blcelc.csmcSizeNS
+csmcSizeEW = _blcelc.csmcSizeEW
+csmcStop = _blcelc.csmcStop
+csmcWait = _blcelc.csmcWait
 CSFONT_LARGE = _blcelc.CSFONT_LARGE
 CSFONT_ITALIC = _blcelc.CSFONT_ITALIC
 CSFONT_COURIER = _blcelc.CSFONT_COURIER
@@ -10607,6 +11488,30 @@ class iCelBlLayerPtr(iCelBlLayer):
 _blcelc.iCelBlLayer_swigregister(iCelBlLayerPtr)
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
+
+class iCelParameterBlock(iBase):
+    __swig_setmethods__ = {}
+    for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelParameterBlock, name)
+    def GetParameterCount(*args): return apply(_blcelc.iCelParameterBlock_GetParameterCount,args)
+    def GetParameter(*args): return apply(_blcelc.iCelParameterBlock_GetParameter,args)
+    def __del__(self, destroy= _blcelc.delete_iCelParameterBlock):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<C iCelParameterBlock instance at %s>" % (self.this,)
+
+class iCelParameterBlockPtr(iCelParameterBlock):
+    def __init__(self,this):
+        _swig_setattr(self, iCelParameterBlock, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelParameterBlock, 'thisown', 0)
+        _swig_setattr(self, iCelParameterBlock,self.__class__,iCelParameterBlock)
+_blcelc.iCelParameterBlock_swigregister(iCelParameterBlockPtr)
 
 class iCelBehaviour(iBase):
     __swig_setmethods__ = {}

@@ -10,6 +10,42 @@ The history order is reversed so that new features are at the top.
 	  CEL_DATA_... is used.
         - Daniel made some minor edits to the documentation and added
           preliminary build instructions for the Windows platform.
+	- Jorrit changed the way parameters are passed through SendMessage
+	  (from the property class to the behaviour). Instead of the generic
+	  iBase there is now a new iCelParameterBlock interface that is
+	  implemented by the property class and that the behaviour can use
+	  to access the parameters from the message.
+	- Jorrit fixed the python and thest behaviour layers to support this
+	  new system.
+	- Jorrit added celGenericParameterBlock in plugins/propclass/common.
+	  This can be used by property class implementations to make it
+	  easier to implement parameters.
+	- Jorrit added celOneParameterBlock in plugins/propclass/common.
+	  This can be used by property class implementations to make it
+	  easier to implement parameters when only one parameter is needed.
+	- Jorrit changed the pcbillboard property class to use the new
+	  iCelParameterBlock system (with parameters 'x', 'y', and 'button').
+	- Jorrit changed the pcinventory property class to use the new
+	  iCelParameterBlock system (with parameter 'entity').
+	- Jorrit changed the pcproperties property class to use the new
+	  iCelParameterBlock system (with parameter 'index').
+	- Jorrit removed iPcMeshSelectData (which was previously used to
+	  pass coordinates from pcmesh to behaviour) and changed it to use
+	  iCelParameterBlock instead (with parameters 'entity', 'x', 'y', and
+	  'button').
+	- Jorrit extended the XML behaviour layer parser with a more generic
+	  way to handle functions. Now CEL_TOKEN_FUNCTION is returned and
+	  a string hash is used to see which function it is. This is both
+	  faster and more general.
+	- Jorrit extended the XML behaviour layer with a new 'arg' function
+	  to get a parameter from the iCelParameterBlock that is given
+	  by SendMessage. By doing that XML behaviour layer scripts can now
+	  access the parameters from property classes.
+	- Jorrit added a new 'parid' function to the XML behaviour layer
+	  which is a conveniance for getting ids for parameters (it adds
+	  the prefix 'cel.behaviour.parameter.').
+	- Jorrit fixed a bug in the billboard manager. It was not properly
+	  sending out the x, y, and button information to the behaviour.
 2-Dec-2003
 	- Jorrit extended the XML behaviour layer to recognize identifiers
 	  as an easier way to make strings consisting only of '_',

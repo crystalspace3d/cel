@@ -242,6 +242,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     const char* extra_arg1 = cmdline->GetName (3);
     const char* extra_arg2 = cmdline->GetName (4);
     const char* extra_arg3 = cmdline->GetName (5);
+    // @@@ TODO:  Support iCelParameterBlock system!
     if (extra_arg3)
       behave->SendMessage (extra_method, 0, extra_arg1, extra_arg2, extra_arg3);
     else if (extra_arg2)

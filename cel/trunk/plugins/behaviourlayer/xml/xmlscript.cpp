@@ -486,7 +486,7 @@ bool celXmlScriptEventHandler::CheckStack (celBehaviourXml* behave)
 #endif
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
-	celBehaviourXml* behave)
+	celBehaviourXml* behave, iCelParameterBlock* params)
 {
   int stack_size = stack.Length ();
   int i = 0;
@@ -505,6 +505,57 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  return ReportError (behave, "Stack size mismatch!");
 	}
         return true;
+      case CEL_OPERATION_ARG:
+        {
+	  CHECK_STACK
+	  celXmlArg a_arg = stack.Pop ();
+          DUMP_EXEC (": arg %s\n", A2S (a_arg));
+	  csStringID id = ArgToID (a_arg);
+	  int si = stack.Push (celXmlArg ());
+	  const celData* data = params->GetParameter (id);
+	  if (!data)
+	    return ReportError (behave, "Can't find parameter!");
+	  switch (data->type)
+	  {
+	    case CEL_DATA_BOOL:
+	      stack[si].SetBool (data->value.b);
+	      break;
+	    case CEL_DATA_FLOAT:
+	      stack[si].SetFloat (data->value.f);
+	      break;
+	    case CEL_DATA_STRING:
+	      stack[si].SetString (data->value.s->GetData (), true);
+	      break;
+	    case CEL_DATA_LONG:
+	      stack[si].SetInt32 (data->value.l);
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetUInt32 (data->value.ul);
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor col (data->value.col.red, data->value.col.green,
+			data->value.col.blue);
+	        stack[si].SetColor (col);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v (data->value.v.x, data->value.v.y);
+	        stack[si].SetVector (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v (data->value.v.x, data->value.v.y, data->value.v.z);
+	        stack[si].SetVector (v);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Type not supported for 'arg'!");
+	  }
+	}
+	break;
       case CEL_OPERATION_PUSH:
         {
           DUMP_EXEC (": push %s\n", A2S (op.arg));
@@ -528,6 +579,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
 	  	FindByName (ArgToString (a_pc));
 	  stack[si].SetPC (other_pc);	// Can be 0.
+	}
+	break;
+      case CEL_OPERATION_CALCPARID:
+        {
+	  CHECK_STACK
+	  celXmlArg a_id = stack.Pop ();
+          DUMP_EXEC (": calcparid %s\n", A2S (a_id));
+	  int si = stack.Push (celXmlArg ());
+	  csString str = "cel.behaviour.parameter.";
+	  str += ArgToString (a_id);
+	  csStringID id = pl->FetchStringID ((const char*)str);
+	  stack[si].SetID (id);
 	}
 	break;
       case CEL_OPERATION_CALCPROPID:
@@ -1371,13 +1434,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	    if (truebranch)
-	      truebranch->Execute (entity, behave);
+	      truebranch->Execute (entity, behave, params);
 	  }
 	  else
 	  {
 	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
 	    if (falsebranch)
-	      falsebranch->Execute (entity, behave);
+	      falsebranch->Execute (entity, behave, params);
 	  }
 	}
 	break;
@@ -1404,7 +1467,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (varname, (long)v);
-	    truebranch->Execute (entity, behave);
+	    truebranch->Execute (entity, behave, params);
 	  }
 	}
 	break;
@@ -1468,13 +1531,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	    if (truebranch)
-	      truebranch->Execute (entity, behave);
+	      truebranch->Execute (entity, behave, params);
 	  }
 	  else
 	  {
 	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
 	    if (falsebranch)
-	      falsebranch->Execute (entity, behave);
+	      falsebranch->Execute (entity, behave, params);
 	  }
 	}
 	break;

@@ -256,6 +256,7 @@ celPythonBehaviour::celPythonBehaviour (celBlPython *scripter,
   celPythonBehaviour::py_object = py_object;
   celPythonBehaviour::name = csStrNew (name);
   tibase = SWIG_TypeQuery ("_p_iBase");  
+  tiparams = SWIG_TypeQuery ("_p_iCelParameterBlock");  
 }
 
 celPythonBehaviour::~celPythonBehaviour ()
@@ -266,17 +267,18 @@ celPythonBehaviour::~celPythonBehaviour ()
   delete[] name;
 }
 
-bool celPythonBehaviour::SendMessage (const char* msg_id, iBase* msg_info, ...)
+bool celPythonBehaviour::SendMessage (const char* msg_id,
+	iCelParameterBlock* params, ...)
 {
   va_list arg;
-  va_start (arg, msg_info);
-  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_start (arg, params);
+  bool rc = SendMessageV (msg_id, params, arg);
   va_end (arg);
   return rc;
 }
 
-bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celPythonBehaviour::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 { 
 
 /*  
@@ -307,7 +309,7 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
   }
 */
 
-  PyObject *pymessage_info = SWIG_NewPointerObj (msg_info, tibase, 0);
+  PyObject *pymessage_info = SWIG_NewPointerObj (params, tiparams, 0);
 
   PyObject *method = PyString_FromString (msg_id);
 
@@ -325,5 +327,3 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id, iBase* msg_info,
   return true;
 }
 
-
-                                     

@@ -172,8 +172,16 @@ const char* celXmlParseToken (const char* input, int& token)
         input++;
         while (isalnum (*input) || *input == '_')
 	  input++;
-        token = CEL_TOKEN_IDENTIFIER;
-	return input;
+	if (*input == '(')
+	{
+	  token = CEL_TOKEN_FUNCTION;
+	  return input+1;
+	}
+	else
+	{
+          token = CEL_TOKEN_IDENTIFIER;
+	  return input;
+        }
       }
       token = CEL_TOKEN_ERROR;
       return input;

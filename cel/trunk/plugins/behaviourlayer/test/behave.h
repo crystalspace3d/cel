@@ -53,7 +53,8 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
+  virtual bool SendMessage (const char* msg_id,
+  	iCelParameterBlock* msg_info, ...);
   virtual void* GetInternalObject () { return 0; }
 };
 
@@ -65,7 +66,8 @@ class celBehaviourPrinter : public celBehaviourGeneral
 public:
   celBehaviourPrinter (iCelEntity* entity, iObjectRegistry* object_reg);
 
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -76,7 +78,8 @@ class celBehaviourBox : public celBehaviourGeneral
 public:
   celBehaviourBox (iCelEntity* entity, iObjectRegistry* object_reg);
 
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -87,7 +90,8 @@ class celBehaviourRoom : public celBehaviourGeneral
 public:
   celBehaviourRoom (iCelEntity* entity, iObjectRegistry* object_reg);
 
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -102,7 +106,8 @@ public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourActor();
 
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
 };
 
 #endif // __CEL_BLTEST_BEHAVE__

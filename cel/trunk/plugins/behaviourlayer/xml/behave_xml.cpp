@@ -76,22 +76,23 @@ celBehaviourXml::~celBehaviourXml ()
   delete[] name;
 }
 
-bool celBehaviourXml::SendMessage (const char* msg_id, iBase* msg_info, ...)
+bool celBehaviourXml::SendMessage (const char* msg_id,
+	iCelParameterBlock* params, ...)
 {
   va_list arg;
-  va_start (arg, msg_info);
-  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_start (arg, params);
+  bool rc = SendMessageV (msg_id, params, arg);
   va_end (arg);
   return rc;
 }
 
-bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celBehaviourXml::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
   {
-    h->Execute (entity, this);
+    h->Execute (entity, this, params);
   }
   return h != 0;
 }
@@ -117,17 +118,17 @@ celBehaviourBootstrap::~celBehaviourBootstrap ()
 }
 
 bool celBehaviourBootstrap::SendMessage (const char* msg_id,
-	iBase* msg_info, ...)
+	iCelParameterBlock* params, ...)
 {
   va_list arg;
-  va_start (arg, msg_info);
-  bool rc = SendMessageV (msg_id, msg_info, arg);
+  va_start (arg, params);
+  bool rc = SendMessageV (msg_id, params, arg);
   va_end (arg);
   return rc;
 }
 
-bool celBehaviourBootstrap::SendMessageV (const char* msg_id, iBase* msg_info,
-	va_list arg)
+bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
+	iCelParameterBlock* params, va_list arg)
 {
   if (!strcmp (msg_id, "load"))
   {

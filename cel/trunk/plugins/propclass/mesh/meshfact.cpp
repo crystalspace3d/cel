@@ -481,13 +481,14 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::PcMeshSelect)
   SCF_IMPLEMENTS_INTERFACE (iPcMeshSelect)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_IBASE (celPcMeshSelect::PcMeshSelectData)
-  SCF_IMPLEMENTS_INTERFACE (iPcMeshSelectData)
-SCF_IMPLEMENT_IBASE_END
-
 SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
+
+csStringID celPcMeshSelect::id_x = csInvalidStringID;
+csStringID celPcMeshSelect::id_y = csInvalidStringID;
+csStringID celPcMeshSelect::id_button = csInvalidStringID;
+csStringID celPcMeshSelect::id_entity = csInvalidStringID;
 
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -514,6 +515,20 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   
   // Initialize the maximum selection distance to a very large number
   max_distance = 100000;
+
+  if (id_x == csInvalidStringID)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    id_x = pl->FetchStringID ("cel.behaviour.parameter.x");
+    id_y = pl->FetchStringID ("cel.behaviour.parameter.y");
+    id_button = pl->FetchStringID ("cel.behaviour.parameter.button");
+    id_entity = pl->FetchStringID ("cel.behaviour.parameter.entity");
+  }
+  params = new celGenericParameterBlock (4);
+  params->SetParameterDef (0, id_x, "x", CEL_DATA_LONG);
+  params->SetParameterDef (1, id_y, "y", CEL_DATA_LONG);
+  params->SetParameterDef (2, id_button, "button", CEL_DATA_LONG);
+  params->SetParameterDef (3, id_entity, "entity", CEL_DATA_ENTITY);
 
   SetupEventHandler ();
   DG_TYPE (this, "celPcMeshSelect()");
@@ -691,8 +706,11 @@ void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   CS_ASSERT (bh != 0);
-  mesh_sel_data.Select (ent, x, y, but);
-  bh->SendMessage (msg, &mesh_sel_data);
+  params->GetParameter (0).Set ((int32)x);
+  params->GetParameter (1).Set ((int32)y);
+  params->GetParameter (2).Set ((int32)but);
+  params->GetParameter (3).Set (ent);
+  bh->SendMessage (msg, params);
 }
 
 

@@ -69,6 +69,12 @@ enum
   XMLTOKEN_COLOR
 };
 
+enum
+{
+  XMLFUNCTION_ARG,
+  XMLFUNCTION_PARID
+};
+
 celBlXml::celBlXml (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
@@ -111,6 +117,9 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("long", XMLTOKEN_LONG);
   xmltokens.Register ("vector", XMLTOKEN_VECTOR);
   xmltokens.Register ("color", XMLTOKEN_COLOR);
+
+  functions.Register ("arg", XMLFUNCTION_ARG);
+  functions.Register ("parid", XMLFUNCTION_PARID);
 
   return true;
 }
@@ -212,6 +221,74 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       {
         input = pinput;	// Restore!
         h->AddOperation (CEL_OPERATION_DEREFVAR);
+      }
+      break;
+    case CEL_TOKEN_FUNCTION:
+      {
+        char str[256];	// @@@ Hardcoded!
+	strncpy (str, pinput, input-pinput-1);	// Copy all execpt '('.
+	str[input-pinput-1] = 0;
+	csStringID fun_id = functions.Request (str);
+	switch (fun_id)
+	{
+	  case XMLFUNCTION_PARID:
+	    {
+	      input = celXmlSkipWhiteSpace (input);
+              const char* i = input;
+	      bool idconstant = true;
+	      while (*i && *i != ')')
+	      {
+	        if (!isalnum (*i) && *i != '_' && *i != '.')
+	        {
+	          idconstant = false;
+	          break;
+	        }
+	        i++;
+	      }
+	      if (!*i)
+	      {
+                synldr->ReportError ("cel.behaviour.xml", child,
+		          "Missing ')' at end of 'parid' for '%s'!", name);
+                return false;
+	      }
+	      if (idconstant)
+	      {
+	        const char* prefix = "cel.behaviour.parameter.";
+	        char* str = new char [strlen (prefix) + i-input+1];
+	        strcpy (str, prefix);
+	        strncpy (str+strlen (prefix), input, i-input);
+	        str[strlen (prefix) + i-input] = 0;
+	        csStringID id = pl->FetchStringID (str);
+	        delete[] str;
+                h->AddOperation (CEL_OPERATION_PUSH);
+                h->GetArgument ().SetID (id);
+	        input = i;	// Right before close bracket.
+	      }
+	      else
+	      {
+                if (!ParseExpression (input, child, h, name, 0))
+                  return false;
+                h->AddOperation (CEL_OPERATION_CALCPARID);
+	      }
+	    }
+	    break;
+	  case XMLFUNCTION_ARG:
+	    if (!ParseExpression (input, child, h, name, CEL_PRIORITY_NORMAL))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_ARG);
+	    break;
+	  default:
+	    synldr->ReportError ("cel.behaviour.xml", child,
+		"Unknown function '%s' for '%s'!", str, name);
+	    return false;
+	}
+	input = celXmlParseToken (input, token);
+	if (token != CEL_TOKEN_CLOSE)
+	{
+	  synldr->ReportError ("cel.behaviour.xml", child,
+		"Expected ')' after '%s' for '%s'!", str, name);
+	  return false;
+	}
       }
       break;
     case CEL_TOKEN_PROPERTY:

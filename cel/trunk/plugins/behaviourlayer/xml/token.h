@@ -58,6 +58,7 @@ enum
   CEL_TOKEN_ID,		// id(expr)
   CEL_TOKEN_PROPID,	// propid(expr)
   CEL_TOKEN_PROPERTY,	// property(expr,expr)
+  CEL_TOKEN_FUNCTION,	// <identifier>(
 
   CEL_TOKEN_LAST
 };

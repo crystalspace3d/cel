@@ -139,6 +139,7 @@ private:
   PyObject* py_object;
   char* name;
   swig_type_info *tibase;
+  swig_type_info *tiparams;
 
 public:
   celPythonBehaviour (celBlPython* scripter, PyObject* py_ent,
@@ -149,8 +150,10 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return scripter; }
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessage (const char* msg_id,
+  	iCelParameterBlock* params, ...);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return (void*)py_object; }
 };
 

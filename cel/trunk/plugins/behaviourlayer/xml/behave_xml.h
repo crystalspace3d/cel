@@ -63,8 +63,10 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessage (const char* msg_id,
+  	iCelParameterBlock* params, ...);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return 0; }
 };
 
@@ -93,8 +95,10 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
-  virtual bool SendMessage (const char* msg_id, iBase* msg_info, ...);
-  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+  virtual bool SendMessage (const char* msg_id,
+  	iCelParameterBlock* params, ...);
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return 0; }
 };
 

@@ -32,6 +32,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
+#include "plugins/propclass/common/stdparams.h"
 #include "propclass/tooltip.h"
 #include "propclass/timer.h"
 #include "propclass/prop.h"
@@ -236,6 +237,9 @@ private:
   int FindOrNewProperty (const char* name);
   int FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
+
+  static csStringID id_index;
+  celOneParameterBlock* params;
 
 public:
   celPcProperties (iObjectRegistry* object_reg);
