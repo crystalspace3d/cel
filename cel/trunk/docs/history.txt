@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the 'super' keyword to the XML behaviour
 	  layer. With this keyword you can call the routine of the
 	  same name in the superscript.
+	- Andreas Busch added doxygen targets.
 21-Dec-2003
 	- Jorrit added 'strlen' and 'strsub' functions to the XML
 	  behaviour layer.

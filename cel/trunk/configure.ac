@@ -26,6 +26,9 @@ AS_IF([test -z "$CXX"],
     [AC_MSG_ERROR([Could not find a usable C++ compiler.])])
 CS_PROG_LINK
 
+AC_CHECK_PROGS([DOXYGEN], [doxygen])
+AS_IF([test -n "$DOXYGEN"], [CS_JAMCONFIG_PROPERTY([CMD.DOXYGEN], [$DOXYGEN])])
+
 AC_CHECK_PROGS([INSTALL], [install])
 AS_IF([test -n "$INSTALL"], [CS_JAMCONFIG_PROPERTY([CMD.INSTALL], [$INSTALL])])
 
@@ -90,3 +93,4 @@ so you can type 'jam' to build it.  (Building the project with GNU
 'make' is also supported, though deprecated and not necessarily well
 maintained.)
 ])
+
