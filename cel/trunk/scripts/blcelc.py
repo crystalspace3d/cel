@@ -1995,6 +1995,11 @@ class csBox2(_object):
     def __iadd__(*args): return apply(_blcelc.csBox2___iadd__,args)
     def __imul__(*args): return apply(_blcelc.csBox2___imul__,args)
     def TestIntersect(*args): return apply(_blcelc.csBox2_TestIntersect,args)
+    def __mul__(*args): return apply(_blcelc.csBox2___mul__,args)
+    def __ne__(*args): return apply(_blcelc.csBox2___ne__,args)
+    def __gt__(*args): return apply(_blcelc.csBox2___gt__,args)
+    def __add__(*args): return apply(_blcelc.csBox2___add__,args)
+    def __lt__(*args): return apply(_blcelc.csBox2___lt__,args)
     def __del__(self, destroy= _blcelc.delete_csBox2):
         try:
             if self.thisown: destroy(self)
@@ -2102,6 +2107,11 @@ class csBox3(_object):
     def __iadd__(*args): return apply(_blcelc.csBox3___iadd__,args)
     def __imul__(*args): return apply(_blcelc.csBox3___imul__,args)
     def TestIntersect(*args): return apply(_blcelc.csBox3_TestIntersect,args)
+    def __mul__(*args): return apply(_blcelc.csBox3___mul__,args)
+    def __ne__(*args): return apply(_blcelc.csBox3___ne__,args)
+    def __gt__(*args): return apply(_blcelc.csBox3___gt__,args)
+    def __add__(*args): return apply(_blcelc.csBox3___add__,args)
+    def __lt__(*args): return apply(_blcelc.csBox3___lt__,args)
     def __del__(self, destroy= _blcelc.delete_csBox3):
         try:
             if self.thisown: destroy(self)
@@ -5238,6 +5248,9 @@ class iSpriteCal3DState(iBase):
     def SetAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_SetAnimCycle,args)
     def AddAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_AddAnimCycle,args)
     def ClearAnimCycle(*args): return apply(_blcelc.iSpriteCal3DState_ClearAnimCycle,args)
+    def GetActiveAnimCount(*args): return apply(_blcelc.iSpriteCal3DState_GetActiveAnimCount,args)
+    def GetActiveAnims(*args): return apply(_blcelc.iSpriteCal3DState_GetActiveAnims,args)
+    def SetActiveAnims(*args): return apply(_blcelc.iSpriteCal3DState_SetActiveAnims,args)
     def SetAnimAction(*args): return apply(_blcelc.iSpriteCal3DState_SetAnimAction,args)
     def SetVelocity(*args): return apply(_blcelc.iSpriteCal3DState_SetVelocity,args)
     def SetLOD(*args): return apply(_blcelc.iSpriteCal3DState_SetLOD,args)

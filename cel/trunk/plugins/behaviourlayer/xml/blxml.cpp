@@ -84,6 +84,7 @@ enum
   XMLFUNCTION_RAND,
   XMLFUNCTION_TESTCOLLIDE,
   XMLFUNCTION_IF,
+  XMLFUNCTION_ENTNAME,
 
   XMLFUNCTION_LAST
 };
@@ -142,6 +143,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("rand", XMLFUNCTION_RAND);
   functions.Register ("testcollide", XMLFUNCTION_TESTCOLLIDE);
   functions.Register ("if", XMLFUNCTION_IF);
+  functions.Register ("entname", XMLFUNCTION_ENTNAME);
 
   return true;
 }
@@ -239,6 +241,11 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   csStringID fun_id = functions.Request (str);
   switch (fun_id)
   {
+    case XMLFUNCTION_ENTNAME:
+      {
+	h->AddOperation (CEL_OPERATION_ENTNAME);
+      }
+      break;
     case XMLFUNCTION_TESTCOLLIDE:
       {
         if (!ParseExpression (input, child, h, name, 0)) return false;
@@ -752,11 +759,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_CALL:
         {
-          if (!ParseExpression (child, h, "entity", "call"))
-	    return false;
+	  const char* entname = child->GetAttributeValue ("entity");
+	  if (entname)
+            if (!ParseExpression (child, h, "entity", "call"))
+	      return false;
           if (!ParseExpression (child, h, "event", "call"))
 	    return false;
-	  h->AddOperation (CEL_OPERATION_CALL);
+	  h->AddOperation (entname ? CEL_OPERATION_CALLENT :
+	  	CEL_OPERATION_CALL);
 	}
 	break;
       case XMLTOKEN_DESTROYENTITY:

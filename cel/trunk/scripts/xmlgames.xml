@@ -81,13 +81,15 @@
 		<!-- Clear the item at 3,3 -->
 		<property propclass="pc(p3_3,pcbillboard)"
 			id="propid(visible)" value="false" />
+		<property propclass="pc(p3_3,pcbillboard)"
+			id="propid(clickable)" value="false" />
 	        <var name="'grid'+3+'_'+3" value="''" />
 
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
 		<var name="allowmove" value="false" />
-		<for var="i" start="0" end="20" exec="fast_shuffle" />
-		<var name="allowmove" value="true" />
+		<var name="shuffle_count" value="100" />
+		<call event="fast_shuffle" />
 	    </event>
 	    <event name="fast_shuffle">
 	        <var name="dxdy" value="int(rand(4.0))" />
@@ -103,11 +105,16 @@
 		</if>
 		<var name="bx" value="?emptyx+?dx" />
 		<var name="by" value="?emptyy+?dy" />
-		<if eval="?bx < 4 && ?bx >= 0">
-		    <if eval="?by < 4 && ?by >= 0">
-			<var name="ent" value="?('grid'+?bx+'_'+?by)" />
-		        <print value="'block '+?bx+' '+?by+' ent:'+?ent" />
-		    </if>
+		<if eval="?bx < 4 && ?bx >= 0 && ?by < 4 && ?by >= 0">
+		    <true>
+		        <var name="ent" value="?('grid'+?bx+'_'+?by)" />
+		        <var entity="?ent" name="dx" value="-?dx" />
+		        <var entity="?ent" name="dy" value="-?dy" />
+		        <print value="'   move '+?dx+' '+?dy" />
+		    </true>
+		    <false>
+		        <call event="fast_shuffle" />
+		    </false>
 		</if>
 	    </event>
 	</script>
@@ -141,10 +148,20 @@
 	    </event>
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
-		<var entity="puzzle_main" name="allowmove" value="true" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(x)" value="1000+?curx*75000" />
 	        <property id="propid(y)" value="1000+?cury*75000" />
+		<if eval="?puzzle_main.shuffle_count>0">
+		    <true>
+		        <var entity="puzzle_main" name="shuffle_count"
+				value="?puzzle_main.shuffle_count-1" />
+		        <call entity="puzzle_main" event="fast_shuffle" />
+		    </true>
+		    <false>
+		        <var entity="puzzle_main" name="allowmove"
+				value="true" />
+		    </false>
+		</if>
 	    </event>
 
 	    <event name="move">
@@ -153,8 +170,14 @@
 		<var entity="puzzle_main" name="emptyy" value="?cury" />
 		<var name="intx1" value="float(?curx)" />
 		<var name="inty1" value="float(?cury)" />
+		<!-- Make current grid item empty -->
+	        <var entity="puzzle_main" name="'grid'+?curx+'_'+?cury"
+			value="''" />
 		<var name="curx" value="?curx+?dx" />
 		<var name="cury" value="?cury+?dy" />
+		<!-- Fill new grid item with current entity -->
+	        <var entity="puzzle_main" name="'grid'+?curx+'_'+?cury"
+			value="entname()" />
 		<var name="intx2" value="float(?curx)" />
 		<var name="inty2" value="float(?cury)" />
 		<var name="delta" value="0.0" />
@@ -163,10 +186,8 @@
 	    <event name="pcbillboard_select">
 	        <if eval="?puzzle_main.allowmove">
 		    <true>
-		        <var name="emptyx" value="?puzzle_main.emptyx" />
-		        <var name="emptyy" value="?puzzle_main.emptyy" />
-		        <var name="dx" value="?emptyx-?curx" />
-		        <var name="dy" value="?emptyy-?cury" />
+		        <var name="dx" value="?puzzle_main.emptyx-?curx" />
+		        <var name="dy" value="?puzzle_main.emptyy-?cury" />
 		        <if eval="(abs(?dx)==1&&?dy==0)||(abs(?dy)==1&&?dx==0)"
 			    true="move" />
 		    </true>
