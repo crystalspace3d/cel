@@ -1,7 +1,7 @@
 To compile PLIMP and CELTEST you first must run 'make csconfig'
 from the Crystal Space dir and copy the cs-config script to this dir.
-Then edit the csconfig.mak file unless you are on Linux. In future
-this will be automated.
+Then copy either conf_mingw.mak or conf_linux.mak to csconfig.mak.
+In future this will be automated.
 
 Microsoft Visual C++ users need to open "cel.dsw" then make sure the
 have set both paths to the CS include and lib files. For more info
