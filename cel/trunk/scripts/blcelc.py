@@ -4331,6 +4331,8 @@ class iTextureWrapper(iBase):
     def IsVisitRequired(*args): return _blcelc.iTextureWrapper_IsVisitRequired(*args)
     def SetKeepImage(*args): return _blcelc.iTextureWrapper_SetKeepImage(*args)
     def KeepImage(*args): return _blcelc.iTextureWrapper_KeepImage(*args)
+    def SetTextureClass(*args): return _blcelc.iTextureWrapper_SetTextureClass(*args)
+    def GetTextureClass(*args): return _blcelc.iTextureWrapper_GetTextureClass(*args)
     def __del__(self, destroy=_blcelc.delete_iTextureWrapper):
         try:
             if self.thisown: destroy(self)
@@ -9199,7 +9201,7 @@ class iTextureHandle(iBase):
     CS_TEXTURE_CUBE_NEG_Y = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Y
     CS_TEXTURE_CUBE_POS_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_POS_Z
     CS_TEXTURE_CUBE_NEG_Z = _blcelc.iTextureHandle_CS_TEXTURE_CUBE_NEG_Z
-    def GetMipMapDimensions(*args): return _blcelc.iTextureHandle_GetMipMapDimensions(*args)
+    def GetRendererDimensions(*args): return _blcelc.iTextureHandle_GetRendererDimensions(*args)
     def GetOriginalDimensions(*args): return _blcelc.iTextureHandle_GetOriginalDimensions(*args)
     def SetTextureTarget(*args): return _blcelc.iTextureHandle_SetTextureTarget(*args)
     def GetTextureTarget(*args): return _blcelc.iTextureHandle_GetTextureTarget(*args)
@@ -9210,9 +9212,10 @@ class iTextureHandle(iBase):
     def SetCacheData(*args): return _blcelc.iTextureHandle_SetCacheData(*args)
     def GetPrivateObject(*args): return _blcelc.iTextureHandle_GetPrivateObject(*args)
     def GetAlphaMap(*args): return _blcelc.iTextureHandle_GetAlphaMap(*args)
-    def GetCanvas(*args): return _blcelc.iTextureHandle_GetCanvas(*args)
     def GetAlphaType(*args): return _blcelc.iTextureHandle_GetAlphaType(*args)
     def Precache(*args): return _blcelc.iTextureHandle_Precache(*args)
+    def SetTextureClass(*args): return _blcelc.iTextureHandle_SetTextureClass(*args)
+    def GetTextureClass(*args): return _blcelc.iTextureHandle_GetTextureClass(*args)
     def __del__(self, destroy=_blcelc.delete_iTextureHandle):
         try:
             if self.thisown: destroy(self)
