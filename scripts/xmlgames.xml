@@ -1764,7 +1764,7 @@
 	      - and the ?hero entity variable.
 	      -->
 	    <event name="initblock">
-	        <lvar name="mazepos" value="?x+'_'+?y" />
+	        <lvar name="mazepos" value="maze_+?x+'_'+?y" />
 	    	<if eval="?blocktype == 'HH'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
@@ -1794,8 +1794,7 @@
 	      - Uses @x and @y parameters.
 	      -->
 	    <event name="clearblock_nocheck">
-		<lvar name="mazepos" value="@x+'_'+@y" />
-		<lvar name="ent" value="?#mazepos" />
+		<lvar name="ent" value="?maze[@x,@y]" />
 		<if eval="#ent==''"> <stop /> </if>
 		<if eval="?(#ent).moving">
 		    <!-- Block is moving -->
@@ -1805,7 +1804,7 @@
 		        <lvar name="oldx" value="?(#ent).x" />
 		        <lvar name="oldy" value="?(#ent).y" />
 		    </if>
-		    <var name="#oldx+'_'+#oldy" value="''" />
+		    <var name="maze_+#oldx+'_'+#oldy" value="''" />
 		    <!-- We have to check the old block -->
 		    <call event="ifempty_checkfall">
 		    	<par id="parid(x)" value="#oldx" />
@@ -1813,7 +1812,7 @@
 		    </call>
 		</if>
 		<expr eval="destroyentity(entity=#ent)" />
-		<var name="#mazepos" value="''" />
+		<var name="maze_+@x+'_'+@y" value="''" />
 	    </event>
 
 	    <!--
@@ -1844,7 +1843,7 @@
 	      - Uses parameters @entity, @blocktype, @x, and @y.
 	      -->
 	    <event name="setblock">
-		<var name="@x+'_'+@y" value="@entity" />
+		<var name="maze_+@x+'_'+@y" value="@entity" />
 		<if eval="@blocktype == '. '">
 		    <call event="checkfall"> <inherit /> </call>
 	    	</if>
@@ -1892,7 +1891,7 @@
 	      - Returns entity (can be hero too) or ''.
 	      -->
 	    <event name="get_entity">
-		<lvar name="ent" value="?(@x+'_'+@y)" />
+		<lvar name="ent" value="?maze[@x,@y]" />
 		<if eval="#ent">
 		    <return value="#ent" />
 		</if>
@@ -1943,7 +1942,7 @@
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
-		<lvar name="ent" value="?(@x+'_'+(@y-1))" />
+		<lvar name="ent" value="?maze[@x,@y-1]" />
 		<if eval="#ent">
 		    <true>
 		    	<if eval="?falldown[?#ent.blocktype]">
@@ -1952,7 +1951,7 @@
 		    </true>
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
-		        <lvar name="ent" value="?((@x-1)+'_'+(@y-1))" />
+		        <lvar name="ent" value="?maze[@x-1,@y-1]" />
 		        <if eval="#ent">
 		            <if eval="get_falloff(x=@x-1,y=@y)">
 				<if eval="?falldown[?#ent.blocktype]">
@@ -1960,7 +1959,7 @@
 			        </if>
 		            </if>
 		        </if>
-		        <lvar name="ent" value="?((@x+1)+'_'+(@y-1))" />
+		        <lvar name="ent" value="?maze[@x+1,@y-1]" />
 		        <if eval="#ent">
 		            <if eval="get_falloff(x=@x+1,y=@y)">
 				<if eval="?falldown[?#ent.blocktype]">
@@ -1972,7 +1971,7 @@
 		</if>
 		<lvar name="ent" value="get_entity(x=@x,y=@y+1)" />
 		<if eval="!#ent">
-		    <lvar name="ent" value="?((@x-1)+'_'+@y)" />
+		    <lvar name="ent" value="?maze[@x-1,@y]" />
 		    <if eval="#ent">
 		        <if eval="get_falloff(x=@x-1,y=@y+1)">
 			    <if eval="?falldown[?#ent.blocktype]">
@@ -1980,7 +1979,7 @@
 			    </if>
 		        </if>
 		    </if>
-		    <lvar name="ent" value="?((@x+1)+'_'+@y)" />
+		    <lvar name="ent" value="?maze[@x+1,@y]" />
 		    <if eval="#ent">
 		        <if eval="get_falloff(x=@x+1,y=@y+1)">
 			    <if eval="?falldown[?#ent.blocktype]">
@@ -2121,8 +2120,7 @@
 		    </if>
 		    <call event="createblock"> <inherit /> </call>
 		    <if eval="#destroy==2">
-		    	<lvar name="ent" value="?(@x+'_'+@y)" />
-			<call entity="#ent" event="explode_later" />
+			<call entity="?maze[@x,@y]" event="explode_later" />
 		    </if>
 		</if>
 	    </event>
@@ -2247,7 +2245,7 @@
 			        <par id="parid(y)" value="#y" />
 			    </call>
 			    <lvar name="cds" value="closedoor_stack+@color" />
-			    <var entity="bdash_main" name="#cds+?#cds" value="?(#x+'_'+#y)" />
+			    <var entity="bdash_main" name="#cds+?#cds" value="?maze[#x,#y]" />
 			    <var entity="bdash_main" name="#cds" value="?#cds+1" />
 		        </for>
 		        <var name="#ds" value="0" />
@@ -2270,7 +2268,7 @@
 			    <par id="parid(y)" value="#y" />
 			</call>
 			<lvar name="cds" value="opendoor_stack+@color" />
-			<var entity="bdash_main" name="#cds+?#cds" value="?(#x+'_'+#y)" />
+			<var entity="bdash_main" name="#cds+?#cds" value="?maze[#x,#y]" />
 			<var entity="bdash_main" name="#cds" value="?#cds+1" />
 		    </for>
 		    <var name="#ds" value="0" />
@@ -2797,7 +2795,7 @@
 	      - Movement events.
 	      -->
 	    <event name="pckeyinput_bomb1">
-	    	<if eval="!?bdash_main.(?x+'_'+?y)">
+	    	<if eval="!?bdash_main.maze[?x,?y]">
 		    <call entity="bdash_main" event="createblock">
 		        <par id="parid(blocktype)" value="'Oo'" />
 		        <par id="parid(x)" value="?x" />
@@ -3285,7 +3283,7 @@
 
 	    <event name="check_power">
 	    	<if eval="?bitin&@mask">
-		    <lvar name="ent" value="?bdash_main.((?x+@dx)+'_'+(?y+@dy))" />
+		    <lvar name="ent" value="?bdash_main.maze[?x+@dx,?y+@dy]" />
 		    <if eval="#ent==''"> <return value="0" /> </if>
 		    <lvar name="p" value="?#ent.power" />
 		    <if eval="#p > 0">
@@ -3466,7 +3464,7 @@
 	    <event name="endmove">
 	        <!-- Don't explode for pure horizontal moves -->
 	    	<if eval="?dy!=0">
-		    <if eval="?bdash_main.(?x+'_'+(?y+1)) != ''">
+		    <if eval="?bdash_main.maze[?x,?y+1] != ''">
 		        <call entity="bdash_main" event="new_explosion">
 			    <par id="parid(x)" value="?x" />
 			    <par id="parid(y)" value="?y" />
@@ -3487,7 +3485,7 @@
 	    <event name="endmove">
 	        <!-- Don't explode for pure horizontal moves -->
 	    	<if eval="?dy!=0">
-		    <if eval="?bdash_main.(?x+'_'+(?y+1)) != ''">
+		    <if eval="?bdash_main.maze[?x,?y+1] != ''">
 		        <call entity="bdash_main" event="new_diamond_explosion">
 			    <par id="parid(x)" value="?x" />
 			    <par id="parid(y)" value="?y" />
@@ -4128,7 +4126,7 @@
 		<for var="y" start="0" end="?dimension-1">
 		    <lvar name="row" value="''" />
 		    <for var="x" start="0" end="?dimension-1">
-		    	<lvar name="ent" value="?(?x+'_'+?y)" />
+		    	<lvar name="ent" value="?maze[?x,?y]" />
 			<lvar name="bt" value="'. '" />
 			<if eval="#ent!=''">
 			    <lvar name="bt" value="?#ent.blocktype" />
@@ -4168,7 +4166,7 @@
 	    </event>
 
 	    <event name="initblock">
-	        <lvar name="mazepos" value="?x+'_'+?y" />
+	        <lvar name="mazepos" value="maze_+?x+'_'+?y" />
 	    	<if eval="?blocktype == 'HH'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
