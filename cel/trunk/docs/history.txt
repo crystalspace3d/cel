@@ -14,6 +14,7 @@ The history order is reversed so that new features are at the top.
 	  due to the recent size_t changes.
 	- Jorrit changed all actions to use 'cel.action.' instead of
 	  'cel.property.'.
+	- Jorrit fixed bootstrap to use OPCODE.
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the
