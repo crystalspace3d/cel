@@ -46,16 +46,27 @@
 	        <property propclass="pcbillboard"
 			name="pcbillboard.materialname"
 			string="wood" />
-	        <property propclass="pcbillboard" name="pcbillboard.events"
+	        <property propclass="pcbillboard" name="pcbillboard.clickable"
 			bool="1" />
 	    </event>
 	    <event name="pcbillboard_select">
-	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb2" />
 	    </event>
 	    <event name="pcbillboard_unselect">
+	    </event>
+	</script>
+        <script name="bb2">
+	    <event name="init">
 	        <property propclass="pcbillboard" name="pcbillboard.name"
-			string="bb2" />
+			string="bb1" />
+	        <property propclass="pcbillboard"
+			name="pcbillboard.materialname"
+			string="wood" />
+	        <property propclass="pcbillboard" name="pcbillboard.movable"
+			bool="1" />
+	    </event>
+	    <event name="pcbillboard_select">
+	    </event>
+	    <event name="pcbillboard_unselect">
 	    </event>
 	</script>
     </addon>
@@ -303,6 +314,10 @@
 	    </addon>
 	</meshobj>
 
+	<addon plugin="celentity">
+	    <propclass name="pcbillboard" />
+            <behaviour name="bb2" />
+	</addon>
 	<addon plugin="celentity">
 	    <propclass name="pcbillboard" />
             <behaviour name="bb1" />

@@ -108,7 +108,11 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iEngine> engine;
 
-  celBillboard* FindBillboard (int x, int y);
+  celBillboard* moving_billboard;
+  int moving_dx;
+  int moving_dy;
+
+  celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
 public:
   celBillboardManager (iBase* parent);
