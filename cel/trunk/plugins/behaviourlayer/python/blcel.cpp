@@ -104159,6 +104159,7 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"CEL_DATA_UWORD", (long) CEL_DATA_UWORD, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_ULONG", (long) CEL_DATA_ULONG, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_FLOAT", (long) CEL_DATA_FLOAT, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"CEL_DATA_VECTOR2", (long) CEL_DATA_VECTOR2, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_VECTOR3", (long) CEL_DATA_VECTOR3, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_STRING", (long) CEL_DATA_STRING, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CEL_DATA_PCLASS", (long) CEL_DATA_PCLASS, 0, 0, 0},

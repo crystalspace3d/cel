@@ -415,6 +415,12 @@ bool celPcProperties::SetProperty (csStringID id, long v)
   return true;
 }
 
+bool celPcProperties::SetProperty (csStringID id, const csVector2& v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
 bool celPcProperties::SetProperty (csStringID id, const csVector3& v)
 {
   SetProperty (FindOrNewProperty (id), v);
@@ -465,6 +471,13 @@ float celPcProperties::GetPropertyFloat (csStringID id)
   int idx = FindProperty (id);
   if (idx == -1) return 0;
   return GetPropertyFloatIndex (idx);
+}
+
+bool celPcProperties::GetPropertyVector (csStringID id, csVector2& v)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyVectorIndex (idx, v);
 }
 
 bool celPcProperties::GetPropertyVector (csStringID id, csVector3& v)
@@ -522,6 +535,9 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
       case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);
 	break;
+      case CEL_DATA_VECTOR2:
+        databuf->GetData (j++)->Set (csVector2 (p->v.vec.x, p->v.vec.y));
+	break;
       case CEL_DATA_VECTOR3:
         databuf->GetData (j++)->Set (csVector3 (p->v.vec.x, p->v.vec.y,
 		p->v.vec.z));
@@ -572,6 +588,10 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
 	break;
       case CEL_DATA_STRING:
         p->v.s = csStrNew (*cd->value.s);
+	break;
+      case CEL_DATA_VECTOR2:
+        p->v.vec.x = cd->value.v.x;
+        p->v.vec.y = cd->value.v.y;
 	break;
       case CEL_DATA_VECTOR3:
         p->v.vec.x = cd->value.v.x;
@@ -643,6 +663,11 @@ void celPcProperties::SetProperty (const char* name, const char* value)
   SetProperty (FindOrNewProperty (name), value);
 }
 
+void celPcProperties::SetProperty (const char* name, const csVector2& value)
+{
+  SetProperty (FindOrNewProperty (name), value);
+}
+
 void celPcProperties::SetProperty (const char* name, const csVector3& value)
 {
   SetProperty (FindOrNewProperty (name), value);
@@ -706,6 +731,19 @@ void celPcProperties::SetProperty (int index, bool value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_BOOL;
   p->v.b = value;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
+}
+
+void celPcProperties::SetProperty (int index, const csVector2& value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_VECTOR2;
+  p->v.vec.x = value.x;
+  p->v.vec.y = value.y;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
     bh->SendMessage ("pcproperties_setproperty", 0, index);
@@ -808,6 +846,20 @@ bool celPcProperties::GetPropertyBoolIndex (int index) const
   property* p = properties[index];
   if (p->type == CEL_DATA_BOOL)
     return p->v.b;
+  else
+    return false;
+}
+
+bool celPcProperties::GetPropertyVectorIndex (int index, csVector2& v) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_VECTOR2)
+  {
+    v.x = p->v.vec.x;
+    v.y = p->v.vec.y;
+    return true;
+  }
   else
     return false;
 }

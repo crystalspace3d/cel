@@ -231,6 +231,7 @@ public:
   virtual bool SetProperty (csStringID, bool);
   virtual bool SetProperty (csStringID, float);
   virtual bool SetProperty (csStringID, long);
+  virtual bool SetProperty (csStringID, const csVector2&);
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool SetProperty (csStringID, const csColor&);
   virtual bool SetProperty (csStringID, iCelPropertyClass*);
@@ -239,6 +240,7 @@ public:
   virtual bool GetPropertyBool (csStringID);
   virtual long GetPropertyLong (csStringID);
   virtual float GetPropertyFloat (csStringID);
+  virtual bool GetPropertyVector (csStringID, csVector2&);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
@@ -255,6 +257,7 @@ public:
   void SetProperty (const char* name, long value);
   void SetProperty (const char* name, bool value);
   void SetProperty (const char* name, const char* value);
+  void SetProperty (const char* name, const csVector2& value);
   void SetProperty (const char* name, const csVector3& value);
   void SetProperty (const char* name, const csColor& value);
   void SetProperty (const char* name, iCelPropertyClass* pclass);
@@ -264,6 +267,7 @@ public:
   void SetProperty (int index, long value);
   void SetProperty (int index, bool value);
   void SetProperty (int index, const char* value);
+  void SetProperty (int index, const csVector2& value);
   void SetProperty (int index, const csVector3& value);
   void SetProperty (int index, const csColor& value);
   void SetProperty (int index, iCelPropertyClass* pclass);
@@ -272,6 +276,7 @@ public:
   float GetPropertyFloatIndex (int index) const;
   long GetPropertyLongIndex (int index) const;
   bool GetPropertyBoolIndex (int index) const;
+  bool GetPropertyVectorIndex (int index, csVector2& value) const;
   bool GetPropertyVectorIndex (int index, csVector3& value) const;
   bool GetPropertyColorIndex (int index, csColor& value) const;
   const char* GetPropertyStringIndex (int index) const;
@@ -308,6 +313,10 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
+    virtual void SetProperty (const char* name, const csVector2& value)
+    {
+      scfParent->SetProperty (name, value);
+    }
     virtual void SetProperty (const char* name, const csVector3& value)
     {
       scfParent->SetProperty (name, value);
@@ -337,6 +346,10 @@ public:
       scfParent->SetProperty (index, value);
     }
     virtual void SetProperty (int index, bool value)
+    {
+      scfParent->SetProperty (index, value);
+    }
+    virtual void SetProperty (int index, const csVector2& value)
     {
       scfParent->SetProperty (index, value);
     }
@@ -375,6 +388,10 @@ public:
     virtual bool GetPropertyBool (int index) const
     {
       return scfParent->GetPropertyBoolIndex (index);
+    }
+    virtual bool GetPropertyVector (int index, csVector2& v) const
+    {
+      return scfParent->GetPropertyVectorIndex (index, v);
     }
     virtual bool GetPropertyVector (int index, csVector3& v) const
     {

@@ -93,6 +93,14 @@ public:
     v.blue = data->value.col.blue;
     return true;
   }
+  bool Get (csVector2& v)
+  {
+    celData* data = databuf->GetData(j++);
+    if (data->type != CEL_DATA_VECTOR2) { rc=false; return false; }
+    v.x = data->value.v.x;
+    v.y = data->value.v.y;
+    return true;
+  }
   bool Get (csVector3& v)
   {
     celData* data = databuf->GetData(j++);

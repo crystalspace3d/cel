@@ -493,6 +493,14 @@ bool celPersistClassicContext::Read (celData* cd)
         cd->Set (v);
       }
       break;
+    case CEL_DATA_VECTOR2:
+      {
+        csVector2 v;
+        if (!Read (v.x)) return false;
+        if (!Read (v.y)) return false;
+        cd->Set (v);
+      }
+      break;
     case CEL_DATA_VECTOR3:
       {
         csVector3 v;
@@ -920,6 +928,12 @@ bool celPersistClassicContext::Write (celData* data)
       break;
     case CEL_DATA_FLOAT:
       if (!Write (data->value.f)) return false;
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+        if (!Write (data->value.v.x)) return false;
+	if (!Write (data->value.v.y)) return false;
+      }
       break;
     case CEL_DATA_VECTOR3:
       {

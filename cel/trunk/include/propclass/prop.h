@@ -26,6 +26,7 @@
 
 struct iCelEntity;
 struct iCelPropertyClass;
+class csVector2;
 class csVector3;
 class csColor;
 
@@ -55,6 +56,11 @@ struct iPcProperties : public iBase
    * Set property.
    */
   virtual void SetProperty (const char* name, const char* value) = 0;
+
+  /**
+   * Set property.
+   */
+  virtual void SetProperty (const char* name, const csVector2& value) = 0;
 
   /**
    * Set property.
@@ -100,6 +106,11 @@ struct iPcProperties : public iBase
   /**
    * Set property based on index.
    */
+  virtual void SetProperty (int index, const csVector2& value) = 0;
+
+  /**
+   * Set property based on index.
+   */
   virtual void SetProperty (int index, const csVector3& value) = 0;
 
   /**
@@ -131,6 +142,7 @@ struct iPcProperties : public iBase
    * <li>CEL_DATA_FLOAT
    * <li>CEL_DATA_BOOL
    * <li>CEL_DATA_STRING
+   * <li>CEL_DATA_VECTOR2
    * <li>CEL_DATA_VECTOR3
    * <li>CEL_DATA_COLOR
    * <li>CEL_DATA_PCLASS
@@ -153,6 +165,11 @@ struct iPcProperties : public iBase
    * Get property as bool. Returns false if wrong type.
    */
   virtual bool GetPropertyBool (int index) const = 0;
+
+  /**
+   * Get property as bool. Returns false if wrong type.
+   */
+  virtual bool GetPropertyVector (int index, csVector2& v) const = 0;
 
   /**
    * Get property as bool. Returns false if wrong type.
