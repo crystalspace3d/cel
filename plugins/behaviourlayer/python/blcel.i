@@ -8,6 +8,7 @@
 %include "celtool/initapp.h"
 
 %{
+#include "celtool/initapp.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
