@@ -24,6 +24,7 @@ The history order is reversed so that new features are at the top.
 	  instead of iImage.
 	- Jorrit added an event handler to the billboard manager so it will
 	  draw the billboards in the postProcess event.
+	- Jorrit added the first drawing code to billboards. Untested.
 20-Nov-2003
 	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
 	  layers can implement this interface in addition to iCelBlLayer.
