@@ -241,7 +241,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 	// Hit above head?
 	if (vel.y > 0 && ABS(newpos.y - MAX(line[0].y,line[1].y)) >
 			topSize.y + bottomSize.y)
-	  // Ouch
+	  // Ouch!
 	  vel.y = 0;
       }
 
@@ -313,8 +313,10 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     if (!onground)
     {
-        // Reaction force
-        vel = (mat.GetInverse()*localvel)/delta;
+        // Reaction force - Disabled because no distinction made between physics
+        // engine predicted velocity and player controlled velocity
+
+        // vel = (mat.GetInverse()*localvel)/delta;
 
         if (downstairs)
             // No steps here, so readjust position back up
