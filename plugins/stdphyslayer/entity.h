@@ -53,12 +53,17 @@ public:
   iCelPropertyClassList* GetPropertyClassList ();
   void SetBehaviour (iCelBehaviour* ent);
 
+  // Tell all sibling property classes that a property classes
+  // had been added or removed.
+  void NotifySiblingPropertyClasses ();
+
   SCF_DECLARE_IBASE_EXT (csObject);
 
   //--------------------- iCelEntity implementation --------------------//
   struct CelEntity : public iCelEntity
   {
     SCF_DECLARE_EMBEDDED_IBASE (celEntity);
+    celEntity* GetCelEntity () const { return (celEntity*)scfParent; }
     virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }

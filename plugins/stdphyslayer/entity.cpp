@@ -65,6 +65,16 @@ void celEntity::SetName (const char *name)
   if (name) pl->AddEntityName (this);
 }
 
+void celEntity::NotifySiblingPropertyClasses ()
+{
+  int i;
+  for (i = 0 ; i < plist->GetCount () ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    pc->PropertyClassesHaveChanged ();
+  }
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celEntityList)

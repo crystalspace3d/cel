@@ -163,8 +163,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   topCollider = 0;
   bottomCollider = 0;
 
-  pcmesh = 0;
-  pccolldet = 0;
   path = 0;
   path_speed = 0;
   path_time  = 0;
@@ -499,34 +497,34 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   }
   else
   {
-	  float interval = 0.05f;
-	  angDelta += delta;
-	  bool rc = false;
-	  if (delta < interval)
-	  {
-		rc = MoveSprite (delta);
-		delta = 0;
-	  }
-	  else
-	  {
-		  while (delta >= interval)
-		  {
-			  rc = MoveSprite (interval) || rc;
-			  rc = RotateV (interval) || rc;
-			  delta -=interval;
-			  angDelta -=interval;
-		  }
-		  if (delta)
-		  {
-			  rc = MoveSprite(delta) || rc;
-	  		delta = 0;
-		  }
-	  }
-	  while (angDelta >= interval)
-	  {
-		  rc = RotateV(interval) || rc;
-		  angDelta -= interval;
-	  }
+    float interval = 0.05f;
+    angDelta += delta;
+    bool rc = false;
+    if (delta < interval)
+    {
+      rc = MoveSprite (delta);
+      delta = 0;
+    }
+    else
+    {
+      while (delta >= interval)
+      {
+	rc = MoveSprite (interval) || rc;
+	rc = RotateV (interval) || rc;
+	delta -=interval;
+	angDelta -=interval;
+      }
+      if (delta)
+      {
+	rc = MoveSprite(delta) || rc;
+	delta = 0;
+      }
+    }
+    while (angDelta >= interval)
+    {
+      rc = RotateV(interval) || rc;
+      angDelta -= interval;
+    }
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
@@ -534,16 +532,11 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 
 bool celPcLinearMovement::HandleEvent (iEvent& ev)
 {
+  FindSiblingPropertyClasses ();
   if (!pcmesh)
   {
-    csRef<iPcMesh> pcmeshref;
-    pcmeshref = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    if (!pcmeshref)
-    {
-      MoveReport (object_reg, "No Mesh found on entity!");
-      return false;
-    }
-    pcmesh = pcmeshref; // Get out of csRef refcounting and just save ptr
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return false;
   }
 
   if (ev.Type != csevBroadcast || ev.Command.Code != cscmdPreProcess)
@@ -568,23 +561,22 @@ bool celPcLinearMovement::InitCD (iPcCollisionDetection *pc_cd)
   return InitCD (topSize, bottomSize, shift, pc_cd);
 }
 
-bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
-	const csVector3& shift,iPcCollisionDetection *pc_cd)
+void celPcLinearMovement::FindSiblingPropertyClasses ()
 {
+  if (HavePropertyClassesChanged ())
+  {
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  }
+}
+
+bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
+	const csVector3& shift, iPcCollisionDetection *pc_cd)
+{
+  FindSiblingPropertyClasses ();
   if (!pcmesh)
   {
-    csRef<iPcMesh> pcmeshref;
-    pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
-
-    if (!pcmeshref)
-    {
-      MoveReport (object_reg, "No Mesh found on entity!");
-      return false;
-    }
-    else
-    {
-      pcmesh = pcmeshref; // Pull ptr out of csRef
-    }
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return false;
   }
 
   topSize = body;

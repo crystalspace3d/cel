@@ -76,8 +76,8 @@ CEL_DECLARE_FACTORY (LinearMovement)
 class celPcLinearMovement : public celPcCommon
 {
 protected:
-  iPcMesh* pcmesh;
-  iPcCollisionDetection *pccolldet;
+  csWeakRef<iPcMesh> pcmesh;
+  csWeakRef<iPcCollisionDetection> pccolldet;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
   csWeakRef<iCelPlLayer> pl;
@@ -132,6 +132,8 @@ protected:
 
   bool SetPathDRData (iDataBuffer* data);
   csPtr<iDataBuffer> GetPathDRData();
+
+  void FindSiblingPropertyClasses ();
 
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);

@@ -48,6 +48,11 @@ class celPcCommon : public iCelPropertyClass
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
+  // This flag is true if we currently don't know the state of
+  // the sibling property classes (property classes in the same
+  // entity). It is set to true by PropertyClassesHaveChanged()
+  // and cleared by HavePropertyClassesChanged().
+  bool propclasses_dirty;
 
 protected:
   iCelEntity* entity;
@@ -67,6 +72,13 @@ public:
   virtual ~celPcCommon ();
 
   SCF_DECLARE_IBASE;
+
+  bool HavePropertyClassesChanged ()
+  {
+    if (!propclasses_dirty) return false;
+    propclasses_dirty = false;
+    return true;
+  }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
@@ -98,6 +110,10 @@ public:
   virtual const char* GetPropertyOrActionDescription (csStringID);
 	virtual int GetPropertyAndActionCount () const;
   virtual csStringID GetPropertyOrActionID (int);
+  virtual void PropertyClassesHaveChanged ()
+  {
+    propclasses_dirty = true;
+  }
 };
 
 #endif // __CEL_CELTOOL_STDPC__

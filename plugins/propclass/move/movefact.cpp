@@ -210,7 +210,7 @@ iPcMesh* celPcMovable::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
   return pcmesh;
 }
@@ -219,7 +219,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
 {
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;

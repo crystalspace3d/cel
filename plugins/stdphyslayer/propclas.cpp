@@ -21,6 +21,7 @@
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "plugins/stdphyslayer/propclas.h"
+#include "plugins/stdphyslayer/entity.h"
 
 //---------------------------------------------------------------------------
 
@@ -57,6 +58,8 @@ int celPropertyClassList::Add (iCelPropertyClass* obj)
 {
   int idx = prop_classes.Push (obj);
   obj->SetEntity (parent_entity);
+  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+	  ->NotifySiblingPropertyClasses ();
   DG_LINK (this, obj);
   return idx;
 }
@@ -69,6 +72,8 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
     DG_UNLINK (this, obj);
     obj->SetEntity (0);
     prop_classes.DeleteIndex (idx);
+    ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+	  ->NotifySiblingPropertyClasses ();
     return true;
   }
   else return false;
@@ -79,6 +84,8 @@ bool celPropertyClassList::Remove (int n)
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
   DG_UNLINK (this, prop_classes[n]);
   prop_classes.DeleteIndex (n);
+  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+	  ->NotifySiblingPropertyClasses ();
 
   return true;
 }

@@ -197,10 +197,9 @@ public://@@@
 
   csWeakRef<iPcRegion> region;
 
-  bool pc_checked;
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
-  void GetPcs ();
+  void FindSiblingPropertyClasses ();
 
   CameraData camData[iPcCamera::CameraMode_count];
   // velocity stuff
@@ -309,7 +308,7 @@ public:
 
   iPcLinearMovement* GetLinMove ()
   {
-    GetPcs ();
+    FindSiblingPropertyClasses ();
     return pclinmove;
   }
 

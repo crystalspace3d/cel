@@ -41,7 +41,7 @@ struct iCelDataBuffer;
 struct iCelPropertyChangeCallback;
 struct iCelParameterBlock;
 
-SCF_VERSION (iCelPropertyClass, 0, 0, 5);
+SCF_VERSION (iCelPropertyClass, 0, 0, 6);
 
 /**
  * This is a property class for an entity. A property class
@@ -237,6 +237,15 @@ struct iCelPropertyClass : public iBase
    * Get the description of the given property or action.
    */
   virtual const char* GetPropertyOrActionDescription (csStringID) = 0;
+
+  /**
+   * This method is called by the parent entity when there
+   * is a change in property class setting. i.e. another property
+   * class has been added or removed from the entity. This
+   * allows this property class to make adjustments to the
+   * references it keeps internally for other property classes.
+   */
+  virtual void PropertyClassesHaveChanged () = 0;
 };
 
 
