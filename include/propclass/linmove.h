@@ -52,7 +52,7 @@ struct iPcLinearMovement : public iBase
   /**
    * Set the orientation of the mesh with three given euler angles.
    */
-  virtual void SetRotation (const csVector3& angle) = 0;
+  virtual void SetAngularVelocity (const csVector3& angle) = 0;
 
   /**
    * Set the current speed.
@@ -63,10 +63,16 @@ struct iPcLinearMovement : public iBase
    * Set the current velocity vector.
    */
   virtual void SetVelocity (const csVector3& vel) = 0;
+
   /**
    * Get the current velocity vector.
    */
-  virtual void GetVelocity (csVector3& v) = 0;
+  virtual void GetVelocity (csVector3& v) const = 0;
+
+  /**
+   * Get the current angular velocity vector.
+   */
+  virtual void GetAngularVelocity (csVector3& v) const = 0;
 
   /**
    * Initialize CD box for the object.
@@ -84,20 +90,21 @@ struct iPcLinearMovement : public iBase
    */
   virtual bool InitCD (iPcCollisionDetection *pc_cd=NULL) = 0;
 
-  /**
-   * Returns data useful for dead reckoning.
-   */
-  virtual csPtr<iDataBuffer> GetDRData(csStringHash* msgstrings = 0) = 0;
+  /// Return all necessary data for Dead Reckoning
+  virtual void GetDRData(bool& on_ground,
+                         float& speed,
+                         csVector3& pos,
+                         float& yrot,
+                         iSector*& sector,
+                         csVector3& vel,
+                         float& ang_vel) = 0;
 
-  /**
-   * Applies dead reckoning data to this object.
-   */
-  virtual bool SetDRData (iDataBuffer* data, bool detectcheat, csStringHash* msgstrings = 0) = 0;
 
-  /**
-   * Checks whether a DR packet needs to be sent.
-   */
-  virtual bool NeedDRData (uint8& priority) = 0;
+  /// Sets all relevant dead reckoning data on this entity
+  virtual void SetDRData(bool on_ground,float speed,
+                         csVector3& pos,float yrot,iSector *sector,
+                         csVector3& vel,float ang_vel) = 0;
+
 
   /**
    * Set position and sector.
@@ -110,19 +117,13 @@ struct iPcLinearMovement : public iBase
   virtual void GetLastPosition (csVector3& pos, float& yrot,
   	iSector*& sector) = 0;
 
+  /// Is a csPath active now or standard DR movement?
+  virtual bool IsPath() const = 0;
+
   /**
    * Get sector.
    */
   virtual iSector* GetSector () = 0;
-
-  /**
-   * Set ready? @@@
-   */
-  virtual void SetReady (bool flag) = 0;    
-  /**
-   * Is ready? @@@
-   */
-  virtual bool IsReady() const = 0;    
 
   /**
    * This function actually moves and rotates the mesh, relighting

@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-May-2004
+	- Keith made big cleanup of linmove PC.  Took out all networking
+	  packing functions that were special for PlaneShift.  Also renamed
+	  some APIs to be more descriptive.
 23-May-2004
 	- Eric Sunshine eliminated numerous compilation errors regarding
 	  ambiguous assignment of csRef<> to csWeakRef<>.
