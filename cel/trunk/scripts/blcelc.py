@@ -2120,6 +2120,7 @@ class csBox3(_object):
     def SetCenter(*args): return _blcelc.csBox3_SetCenter(*args)
     def SetSize(*args): return _blcelc.csBox3_SetSize(*args)
     def GetSide(*args): return _blcelc.csBox3_GetSide(*args)
+    def GetAxisPlane(*args): return _blcelc.csBox3_GetAxisPlane(*args)
     def GetVisibleSides(*args): return _blcelc.csBox3_GetVisibleSides(*args)
     __swig_getmethods__["OtherSide"] = lambda x: _blcelc.csBox3_OtherSide
     if _newclass:OtherSide = staticmethod(_blcelc.csBox3_OtherSide)
