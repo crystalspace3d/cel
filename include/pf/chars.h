@@ -38,7 +38,7 @@ struct iPcCharacteristics : public iBase
    * Returns false if this is impossible because the entity
    * is currently in an inventory that does not allow this value.
    */
-  virtual bool SetCharProperty (const char* name, float value) = 0;
+  virtual bool SetCharacteristic (const char* name, float value) = 0;
 
   /**
    * Indicate how this characteristic is inherited if this object
@@ -47,48 +47,49 @@ struct iPcCharacteristics : public iBase
    * The value of this characteristic of the inventory will
    * be multiplied with 'factor' and added to 'add'.
    * <p>
-   * WARNING! Changing this
-   * with an already filled inventory may cause the inventory
-   * constraints to be invalidated! This function is usually only
-   * called at initialization.
+   * This function can fail if the new properties cause the
+   * current contents to fail.
    */
-  virtual void SetInheritedProperty (const char* name,
+  virtual bool SetInheritedCharacteristic (const char* name,
 		  float factor, float add) = 0;
 
   /**
    * Get characteristic property. This includes inherited
    * characteristics.
    */
-  virtual float GetCharProperty (const char* name) const = 0;
+  virtual float GetCharacteristic (const char* name) const = 0;
 
   /**
    * Get local characteristic property. This ignores inherited
    * characteristics.
    */
-  virtual float GetLocalCharProperty (const char* name) const = 0;
+  virtual float GetLocalCharacteristic (const char* name) const = 0;
 
   /**
    * Get inherited characteristic property. This ignores local
    * characteristic value.
    */
-  virtual float GetInheritedCharProperty (const char* name) const = 0;
+  virtual float GetInheritedCharacteristic (const char* name) const = 0;
 
   /**
    * Clear a characteristic. This can fail if the object is currently
    * in an inventory which requires strict presence of this
    * characteristic.
    */
-  virtual bool ClearProperty (const char* name) = 0;
+  virtual bool ClearCharacteristic (const char* name) = 0;
 
   /**
    * Returns true if a property is present.
    */
-  virtual bool HasProperty (const char* name) const = 0;
+  virtual bool HasCharacteristic (const char* name) const = 0;
 
   /**
-   * Clear all properties.
+   * Clear all properties. This function can fail if
+   * clearing a property causes a violation of parent
+   * inventories. In that case part of the properties
+   * may be cleared already.
    */
-  virtual void ClearAll () = 0;
+  virtual bool ClearAll () = 0;
 
   /**
    * Indicate that this object is added to some inventory.
@@ -103,6 +104,20 @@ struct iPcCharacteristics : public iBase
    * implementations!
    */
   virtual void RemoveFromInventory (iPcInventory* inv) = 0;
+
+  /**
+   * Mark this characteristic as dirty for all inventories
+   * this entity is in. If 'charName' == NULL then all characteristics
+   * will be marked dirty.
+   */
+  virtual void MarkDirty (const char* charName) = 0;
+
+  /**
+   * Test constraints for this characteristic for all inventories
+   * this entity is in. If 'charName' == NULL then all characteristics
+   * will be tested.
+   */
+  virtual bool TestConstraints (const char* charName) = 0;
 
   /**
    * Debug dump information.

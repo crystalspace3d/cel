@@ -41,14 +41,19 @@ struct iPcInventory : public iBase
   virtual bool AddEntity (iCelEntity* entity) = 0;
 
   /**
-   * Remove an entity.
+   * Remove an entity. This can fail if removing an entity causes
+   * an upstream inventory to fail its constraints.
    */
-  virtual void RemoveEntity (iCelEntity* entity) = 0;
+  virtual bool RemoveEntity (iCelEntity* entity) = 0;
 
   /**
-   * Remove all entities.
+   * Remove all entities. This can fail if removing entities
+   * causes upstream inventories to fail its constraints.
+   * In that case entities are removed until the first failure.
+   * To ensure correct removal for this inventory you should
+   * first clear all constraints.
    */
-  virtual void RemoveAll () = 0;
+  virtual bool RemoveAll () = 0;
 
   /**
    * Get the number of entities in this inventory.
@@ -65,8 +70,12 @@ struct iPcInventory : public iBase
    * characteristic. By default this is false
    * which means that the inventory will automatically assume
    * valid values when this characteristic is not present.
+   * <p>
+   * This function can fail if this inventory already has
+   * contents and entities in this inventory do not satisfy
+   * the strict condition.
    */
-  virtual void SetStrictCharacteristics (const char* charName, bool strict) = 0;
+  virtual bool SetStrictCharacteristics (const char* charName, bool strict) = 0;
 
   /**
    * Return the value of 'strict characteristics'.
@@ -76,12 +85,12 @@ struct iPcInventory : public iBase
   /**
    * Set the constraints for some characteristic. There is
    * a min and max value for one entity and also a total max
-   * value for the entire inventory. WARNING! Changing
-   * constraints when the inventory contains items in such a
-   * way that the current contents violates the new constraints
-   * will have no effect on the contents!
+   * value for the entire inventory.
+   * <p>
+   * This function can fail if the new constraints cause
+   * current contents to be invalidated.
    */
-  virtual void SetConstraints (const char* charName, float minValue, float maxValue,
+  virtual bool SetConstraints (const char* charName, float minValue, float maxValue,
 		  float totalMaxValue) = 0;
 
   /**
@@ -97,31 +106,29 @@ struct iPcInventory : public iBase
   virtual void RemoveConstraints (const char* charName) = 0;
 
   /**
+   * Remove all constraints.
+   */
+  virtual void RemoveAllConstraints () = 0;
+
+  /**
    * Get the current value for some characteristic.
    */
   virtual float GetCurrentCharacteristic (const char* charName) const = 0;
   
   /**
-   * Test if adding a given entity would work with the current constraints.
-   * If not the name of the violating characteristic is returned. Otherwise
-   * NULL is returned.
+   * Mark this characteristic as dirty for this inventory and
+   * all inventories this entity is in.
+   * If 'charName' == NULL then all characteristics
+   * will be marked dirty.
    */
-  virtual const char* TestAddEntity (iCelEntity* entity) = 0;
+  virtual void MarkDirty (const char* charName) = 0;
 
   /**
-   * Test if changing a characteristic of some entity inside this inventory
-   * would violate the inventory constraints. Returns true if ok.
-   * If 'newLocalValue' points to NULL this means that the entity no longer
-   * has that property.<br>
-   * Note that 'newLocalValue' is the new 'local' value of the entity. The
-   * inherited values are not included.
+   * Test constraints for this characteristic for this inventory
+   * and all inventories * this entity is in. If 'charName' == NULL
+   * then all characteristics will be tested.
    */
-  virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue) = 0;
-
-  /**
-   * Really update a characteristic for some entity.
-   */
-  virtual void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue) = 0;
+  virtual bool TestConstraints (const char* charName) = 0;
 
   /**
    * This is a debugging function to dump the contents of the inventory and

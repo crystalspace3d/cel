@@ -25,6 +25,8 @@
 
 //---------------------------------------------------------------------------
 
+#define DEF 0
+
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPfInventory)
@@ -94,14 +96,10 @@ celPcInventory::celPcInventory ()
 
 celPcInventory::~celPcInventory ()
 {
-  RemoveAll ();
-  while (constraints.Length () > 0)
-  {
-    constraint* c = (constraint*)constraints[0];
-    delete[] c->charName;
-    delete c;
-    constraints.Delete (0);
-  }
+  RemoveAllConstraints ();
+  bool rc = RemoveAll ();
+  (void)rc;
+  CS_ASSERT (rc);
 }
 
 void celPcInventory::SetEntity (iCelEntity* entity)
@@ -109,47 +107,82 @@ void celPcInventory::SetEntity (iCelEntity* entity)
   celPcInventory::entity = entity;
 }
 
-bool celPcInventory::AddEntity (iCelEntity* entity)
+bool celPcInventory::AddEntity (iCelEntity* child)
 {
-  if (contents.Find (entity) != -1) return true;
-  if (TestAddEntity (entity) != NULL) return false;
-  UpdateConstraints (entity, true);
-  contents.Push (entity);
-  entity->IncRef ();
+  if (contents.Find (child) != -1) return true;
 
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+  // Add our child. We will later test if this is valid and if
+  // not undo this change.
+  int idx = contents.Push (child);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
 		  iPcCharacteristics);
   if (pcchar)
   {
     pcchar->AddToInventory (&scfiPcInventory);
-    pcchar->DecRef ();
   }
+
+  // First try if everything is ok.
+  MarkDirty (NULL);
+  if (!TestConstraints (NULL))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (NULL);
+    contents.Delete (idx);
+    if (pcchar)
+    {
+      pcchar->RemoveFromInventory (&scfiPcInventory);
+      pcchar->DecRef ();
+    }
+    return false;
+  }
+
+  // Everything ok.
+  child->IncRef ();
+  if (pcchar) pcchar->DecRef ();
 
   return true;
 }
 
-void celPcInventory::RemoveEntity (iCelEntity* entity)
+bool celPcInventory::RemoveEntity (iCelEntity* child)
 {
-  int idx = contents.Find (entity);
-  if (idx == -1) return;
-  UpdateConstraints (entity, false);
-  contents.Delete (idx);
+  int idx = contents.Find (child);
+  if (idx == -1) return true;
 
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+  // Remove our child. We will later test if this is valid and if
+  // not undo this change.
+  contents.Delete (idx);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
 		  iPcCharacteristics);
   if (pcchar)
   {
     pcchar->RemoveFromInventory (&scfiPcInventory);
-    pcchar->DecRef ();
   }
 
-  entity->DecRef ();
+  // First try if everything is ok.
+  MarkDirty (NULL);
+  if (!TestConstraints (NULL))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (NULL);
+    contents.Push (child);
+    if (pcchar)
+    {
+      pcchar->AddToInventory (&scfiPcInventory);
+      pcchar->DecRef ();
+    }
+    return false;
+  }
+
+  child->DecRef ();
+  if (pcchar) pcchar->DecRef ();
+  return true;
 }
 
-void celPcInventory::RemoveAll ()
+bool celPcInventory::RemoveAll ()
 {
   while (contents.Length () > 0)
-    RemoveEntity (0);
+    if (!RemoveEntity (0)) return false;
+  return true;
 }
 
 iCelEntity* celPcInventory::GetEntity (int idx) const
@@ -180,14 +213,26 @@ celPcInventory::constraint* celPcInventory::NewConstraint (const char* name)
   c->minValue = -1000000000.;
   c->maxValue = 1000000000.;
   c->currentValue = 0.;
+  c->dirty = true;
   return c;
 }
 
-void celPcInventory::SetStrictCharacteristics (const char* charName, bool strict)
+bool celPcInventory::SetStrictCharacteristics (const char* charName, bool strict)
 {
   constraint* c = FindConstraint (charName);
   if (!c) c = NewConstraint (charName);
+  bool old_strict = c->strict;
   c->strict = strict;
+  if (!strict) return true;
+  if (old_strict) return true;
+  // Else we need to check if all entities satisfy the new strict condition.
+  if (!TestConstraints (charName))
+  {
+    // Undo.
+    c->strict = old_strict;
+    return false;
+  }
+  return true;
 }
 
 bool celPcInventory::HasStrictCharacteristics (const char* charName) const
@@ -197,14 +242,28 @@ bool celPcInventory::HasStrictCharacteristics (const char* charName) const
   else return false;
 }
 
-void celPcInventory::SetConstraints (const char* charName, float minValue, float maxValue,
+bool celPcInventory::SetConstraints (const char* charName, float minValue, float maxValue,
 		  float totalMaxValue)
 {
   constraint* c = FindConstraint (charName);
   if (!c) c = NewConstraint (charName);
+  float old_minValue = c->minValue;
+  float old_maxValue = c->maxValue;
+  float old_totalMaxValue = c->totalMaxValue;
   c->minValue = minValue;
   c->maxValue = maxValue;
   c->totalMaxValue = totalMaxValue;
+
+  // Check if valid.
+  if (!TestConstraints (charName))
+  {
+    // Undo.
+    c->minValue = old_minValue;
+    c->maxValue = old_maxValue;
+    c->totalMaxValue = old_totalMaxValue;
+    return false;
+  }
+  return true;
 }
 
 bool celPcInventory::GetConstraints (const char* charName, float& minValue, float& maxValue,
@@ -234,118 +293,154 @@ void celPcInventory::RemoveConstraints (const char* charName)
   }
 }
 
+void celPcInventory::RemoveAllConstraints ()
+{
+  while (constraints.Length () > 0)
+  {
+    constraint* c = (constraint*)constraints[0];
+    delete[] c->charName;
+    delete c;
+    constraints.Delete (0);
+  }
+}
+
 float celPcInventory::GetCurrentCharacteristic (const char* charName) const
 {
   constraint* c = FindConstraint (charName);
   if (!c) return 0.;
+  if (c->dirty)
+  {
+    int i;
+    c->currentValue = 0;
+    for (i = 0 ; i < contents.Length () ; i++)
+    {
+      iCelEntity* child = (iCelEntity*)contents[i];
+      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
+		      iPcCharacteristics);
+      if (pcchar)
+      {
+	c->currentValue += pcchar->GetCharacteristic (charName);
+	pcchar->DecRef ();
+      }
+      else
+      {
+	c->currentValue += DEF;
+      }
+    }
+    c->dirty = false;
+  }
   return c->currentValue;
 }
 
-void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
+bool celPcInventory::TestLocalConstraints (const char* charName)
 {
-  // This routine assumes the constraints are valid!!!
-  if (constraints.Length () <= 0) return;
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcCharacteristics);
-  if (!pcchar) return;
-  int i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  if (charName)
   {
-    constraint* c = (constraint*)constraints[i];
-    float value = pcchar->GetCharProperty (c->charName);
-    if (add) c->currentValue += value;
-    else c->currentValue -= value;
-  }
-  pcchar->DecRef ();
-  return;
-}
-
-const char* celPcInventory::TestAddEntity (iCelEntity* entity)
-{
-  if (constraints.Length () <= 0) return NULL;
-  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcCharacteristics);
-  int i;
-  for (i = 0 ; i < constraints.Length () ; i++)
-  {
-    constraint* c = (constraint*)constraints[i];
-    // If entity has no characteristics and the constraint is strict we fail.
-    if (!pcchar && c->strict) return c->charName;
-    if (pcchar)
+    //========
+    // This case is for when a characteristic is given.
+    //========
+    constraint* c = NULL;
+    c = FindConstraint (charName);
+    float minValue, maxValue, totalMaxValue;
+    bool strict;
+    if (c)
     {
-      bool hp = pcchar->HasProperty (c->charName);
-      // If entity doesn't have property and constraint is strict we fail.
-      if (!hp && c->strict) { pcchar->DecRef (); return c->charName; }
-      if (hp)
+      minValue = c->minValue;
+      maxValue = c->maxValue;
+      totalMaxValue = c->totalMaxValue;
+      strict = c->strict;
+    }
+    else
+    {
+      minValue = -10000000000.;
+      maxValue = 10000000000.;
+      totalMaxValue = 100000000000.;
+      strict = false;
+    }
+    float curValue = 0;
+    int i;
+    for (i = 0 ; i < contents.Length () ; i++)
+    {
+      iCelEntity* child = (iCelEntity*)contents[i];
+      iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (child->GetPropertyClassList (),
+		    iPcCharacteristics);
+      float child_val = DEF;
+      if (pcchar && pcchar->HasCharacteristic (charName))
       {
-	float value = pcchar->GetCharProperty (c->charName);
-	if (value < c->minValue || value > c->maxValue) { pcchar->DecRef (); return c->charName; }
-	if (c->currentValue + value > c->totalMaxValue) { pcchar->DecRef (); return c->charName; }
+        child_val = pcchar->GetCharacteristic (charName);
       }
+      else if (strict)
+      {
+        // If this constraint is strict we fail here because this
+        // child doesn't have this characteristic.
+        return false;
+      }
+      if (pcchar) pcchar->DecRef ();
+
+      if (child_val < minValue || child_val > maxValue) return false;
+      curValue += child_val;
+      if (child_val > totalMaxValue) return false;
     }
   }
-  if (pcchar) pcchar->DecRef ();
-  return NULL;
-}
-
-bool celPcInventory::TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue)
-{
-  constraint* c = FindConstraint (charName);
-  if (!c) return true;
-
-  if (!newLocalValue)
+  else
   {
-    // If there is no new value then we allow this setting only if characteristic is not strict.
-    return !c->strict;
+    //========
+    // This case is for when no characteristic is given.
+    //========
+    int i;
+    for (i = 0 ; i < constraints.Length () ; i++)
+    {
+      constraint* c = (constraint*)constraints[i];
+      if (!TestLocalConstraints (c->charName)) return false;
+    }
   }
-
-  iPcCharacteristics* pcchars = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-		  iPcCharacteristics);
-  if (!pcchars)
-  {
-    // If there are no characteristic for this entity we do the same treatment
-    // as if no value is given.
-    return !c->strict;
-  }
-
-  float inh_val = pcchars->GetInheritedCharProperty (charName);
-  float old_local_value = pcchars->GetLocalCharProperty (charName);
-
-  pcchars->DecRef ();
-
-  float new_value = inh_val + *newLocalValue;
-  if (new_value < c->minValue || new_value > c->maxValue) return false;
-
-  float old_value = inh_val + old_local_value;
-  float current = c->currentValue;
-  current -= old_value;
-  current += new_value;
-  if (current > c->totalMaxValue) return false;
 
   return true;
 }
 
-void celPcInventory::UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue)
+bool celPcInventory::TestConstraints (const char* charName)
 {
-  constraint* c = FindConstraint (charName);
-  if (!c) return;
+  if (!TestLocalConstraints (charName)) return false;
 
-  float oldLocalValue;
-  iPcCharacteristics* pcchars = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+  // Local contents seems to be ok. No check if this entity
+  // also has characteristics and in that case check constraints
+  // for that too.
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
 		  iPcCharacteristics);
-  if (pcchars)
+  if (pcchar)
   {
-    oldLocalValue = pcchars->GetLocalCharProperty (charName);
-    pcchars->DecRef ();
+    bool rc = pcchar->TestConstraints (charName);
+    pcchar->DecRef ();
+    return rc;
+  }
+
+  return true;
+}
+
+void celPcInventory::MarkDirty (const char* name)
+{
+  constraint* c = NULL;
+  if (name)
+  {
+    c = FindConstraint (name);
+    if (c) c->dirty = true;
   }
   else
   {
-    oldLocalValue = 0;
+    int i;
+    for (i = 0 ; i < constraints.Length () ; i++)
+    {
+      constraint* c = (constraint*)constraints[i];
+      c->dirty = true;
+    }
   }
-
-  c->currentValue -= oldLocalValue;
-  c->currentValue += newLocalValue;
-  return;
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (pcchar)
+  {
+    pcchar->MarkDirty (name);
+    pcchar->DecRef ();
+  }
 }
 
 void celPcInventory::Dump ()
@@ -358,7 +453,7 @@ void celPcInventory::Dump ()
     constraint* c = (constraint*)constraints[i];
     printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
 		    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
-		    c->currentValue, c->strict);
+		    GetCurrentCharacteristic (c->charName), c->strict);
   }
   printf ("Entities:\n");
   for (i = 0 ; i < contents.Length () ; i++)
@@ -407,53 +502,93 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (const char* na
   return NULL;
 }
 
-bool celPcCharacteristics::SetCharProperty (const char* name, float value)
+bool celPcCharacteristics::TestConstraints (const char* charName)
 {
-  charact* c = FindCharact (name);
-  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
-  // Test if the inventories are not violated.
   int i;
   for (i = 0 ; i < inventories.Length () ; i++)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
-    if (!inv->TestCharacteristicChange (entity, name, &value)) return false;
+    if (!inv->TestConstraints (charName)) return false;
   }
-  // Update the inventories.
-  for (i = 0 ; i < inventories.Length () ; i++)
-  {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
-    inv->UpdateCharacteristic (entity, name, value);
-  }
-
-  c->value = value;
   return true;
 }
 
-void celPcCharacteristics::SetInheritedProperty (const char* name, float factor, float add)
+void celPcCharacteristics::MarkDirty (const char* charName)
+{
+  int i;
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    inv->MarkDirty (charName);
+  }
+}
+
+bool celPcCharacteristics::SetCharacteristic (const char* name, float value)
 {
   charact* c = FindCharact (name);
   if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
+
+  // Remember the old value and then set the new value. After
+  // that we will test if inventories are ok.
+  float old_value = c->value;
+  c->value = value;
+
+  // First we mark all inventories that are a direct or indirect parent
+  // of this entity as dirty.
+  MarkDirty (name);
+
+  // If there is a violation we must undo our operation.
+  // Otherwise we can remain as we are.
+  if (!TestConstraints (name))
+  {
+    c->value = old_value;
+    // Mark parents as dirty again.
+    MarkDirty (name);
+    return false;
+  }
+ 
+  return true;
+}
+
+bool celPcCharacteristics::SetInheritedCharacteristic (const char* name, float factor, float add)
+{
+  charact* c = FindCharact (name);
+  if (!c) { c = new charact (); chars.Push (c); c->name = csStrNew (name); }
+  float old_factor = factor;
+  float old_add = add;
   c->factor = factor;
   c->add = add;
+
+  MarkDirty (name);
+  if (!TestConstraints (name))
+  {
+    MarkDirty (name);
+    c->factor = old_factor;
+    c->add = old_add;
+    return false;
+  }
+  return true;
 }
 
-float celPcCharacteristics::GetCharProperty (const char* name) const
+float celPcCharacteristics::GetCharacteristic (const char* name) const
 {
-  return GetLocalCharProperty (name) + GetInheritedCharProperty (name);
+  return GetLocalCharacteristic (name) + GetInheritedCharacteristic (name);
 }
 
-float celPcCharacteristics::GetLocalCharProperty (const char* name) const
+float celPcCharacteristics::GetLocalCharacteristic (const char* name) const
 {
   charact* c = FindCharact (name);
   if (c) return c->value;
   return 0;
 }
 
-float celPcCharacteristics::GetInheritedCharProperty (const char* name) const
+float celPcCharacteristics::GetInheritedCharacteristic (const char* name) const
 {
   charact* c = FindCharact (name);
   float factor = 0, add = 0;
   if (c) { factor = c->factor; add = c->add; }
+
+  if (ABS (factor) < SMALL_EPSILON) return add;
 
   iPcInventory* pcinv = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
 		  iPcInventory);
@@ -466,51 +601,48 @@ float celPcCharacteristics::GetInheritedCharProperty (const char* name) const
   return add;
 }
 
-bool celPcCharacteristics::HasProperty (const char* name) const
+bool celPcCharacteristics::HasCharacteristic (const char* name) const
 {
   charact* c = FindCharact (name);
   return c != NULL;
 }
 
-bool celPcCharacteristics::ClearProperty (const char* name)
+bool celPcCharacteristics::ClearCharacteristic (const char* name)
 {
   int i;
-  // Test if the inventories are not violated.
-  for (i = 0 ; i < inventories.Length () ; i++)
-  {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
-    if (!inv->TestCharacteristicChange (entity, name, NULL)) return false;
-  }
-  // Update inventories.
-  for (i = 0 ; i < inventories.Length () ; i++)
-  {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
-    inv->UpdateCharacteristic (entity, name, 0);
-  }
-
   for (i = 0 ; i < chars.Length () ; i++)
   {
     charact* c = (charact*)chars[i];
     if (!strcmp (name, c->name))
     {
       chars.Delete (i);
+      // First test if this doesn't invalidate constraints.
+      MarkDirty (name);
+      if (!TestConstraints (name))
+      {
+	// Undo our change.
+	MarkDirty (name);
+	chars.Push (c);
+	return false;
+      }
+
       delete[] c->name;
       delete c;
       return true;
     }
   }
+
   return true;
 }
 
-void celPcCharacteristics::ClearAll ()
+bool celPcCharacteristics::ClearAll ()
 {
   while (chars.Length () > 0)
   {
     charact* c = (charact*)chars[0];
-    delete[] c->name;
-    delete c;
-    chars.Delete (0);
+    if (!ClearCharacteristic (c->name)) return false;
   }
+  return true;
 }
 
 void celPcCharacteristics::AddToInventory (iPcInventory* inv)
@@ -535,7 +667,7 @@ void celPcCharacteristics::Dump ()
   {
     charact* c = (charact*)chars[i];
     printf ("  '%s' value=%g, local value=%g factor=%g add=%g\n", c->name,
-		    GetCharProperty (c->name), c->value, c->factor, c->add);
+		    GetCharacteristic (c->name), c->value, c->factor, c->add);
   }
   printf ("Inventories:\n");
   for (i = 0 ; i < inventories.Length () ; i++)

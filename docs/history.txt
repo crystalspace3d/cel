@@ -13,6 +13,24 @@
 	- Inherited characteristics now work. It is possible to modify
 	  the characteristic of the contents (i.e. for the NetHack
 	  Bag of Holding which reduces the weight of all objects inside).
+	- Small optimization on GetInheritedCharProperty(). If factor is very
+	  close to 0 it will not ask characteristics of inventory.
+	- Fixed 'make clean' target.
+	- Completely rewrote the inventory checking system. Now it
+	  may be *slightly* less optimal (but only slightly) but it
+	  is MUCH more robust and easier to understand. It is also completely
+	  safe now. Unless there are bugs in the code there is NO
+	  way to have an inventory with contents that doesn't satisfy
+	  the inventory constraints:
+	      - You are not allowed to change constraints for an
+	        inventory while objects are in the inventory that
+		violate that constraint.
+	      - You are not allowed to add/remove entities to an
+	        inventory if that would violate constraints.
+	      - You are not allowed to change characteristics of
+	        an entity if that would violate constraints of
+		parent inventories.
+	  If I made no bugs the system should be water-tight.
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object
