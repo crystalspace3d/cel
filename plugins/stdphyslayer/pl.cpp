@@ -126,6 +126,7 @@ void celPlLayer::RemoveEntity (celEntity *entity)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity(&entity->scfiCelEntity);
+    delete callback;
   }
 }
 
