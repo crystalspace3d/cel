@@ -196,7 +196,7 @@ The history order is reversed so that new features are at the top.
 	      top-level global include directory.
 	    - Updated cel-config to report the new installed header location
 	      for the --includedir and --cflags options.
-	    - Added a 'cs-configclean' target.
+	    - Added a 'cel-configclean' target.
 1-Aug-2004
 	- Jorrit renamed some badly named macros (CEL_FETCH_..._VAR to
 	  CEL_FETCH_..._PAR).
@@ -249,21 +249,21 @@ The history order is reversed so that new features are at the top.
 	  so that all property classes have it automatically.
 	- Jorrit implemented a new timing facility in the CEL physical layer.
 	  Basically there are four new functions in iCelPlLayer:
-	      - CallbackPCOnce()
-	      - RemoveCallbackPCOnce()
-	      - CallbackPCEveryFrame()
-	      - RemoveCallbackPCEveryFrame()
+	    - CallbackPCOnce()
+	    - RemoveCallbackPCOnce()
+	    - CallbackPCEveryFrame()
+	    - RemoveCallbackPCEveryFrame()
 	  Also iCelPropertyClass has been extended with two new functions:
-	      - TickOnce()
-	      - TickEveryFrame()
+	    - TickOnce()
+	    - TickEveryFrame()
 	  Using these new functions property classes can now register
 	  themselves as being interested in receiving events once or every
 	  frame.  This system has two main advantages:
-	      - A lot easier to use (no longer needed to implement an internal
-	        event handler)
-	      - More efficient as CS only gets to see one event handler instead
-	        of an event handler for every property class that needs
-		that.
+	    - A lot easier to use (no longer needed to implement an internal
+	      event handler)
+	    - More efficient as CS only gets to see one event handler instead
+	      of an event handler for every property class that needs
+	      that.
 	- Jorrit modified all property classes to use the new system. This
 	  makes the implementation of those property classes a lot easier
 	  to read.
@@ -672,7 +672,7 @@ The history order is reversed so that new features are at the top.
 10-Feb-2004
 	- Jorrit fixed the CEL billboard manager so that it also works with
 	  New Renderer in CS.
-	- Eric Sunshine added a --enable-new-renderer option to configure.ac
+	- Eric Sunshine added an --enable-new-renderer option to configure.ac
 	  so that CEL can be tested against the new renderer.
 	- Jorrit used CS_IMPLEMENT_STATIC_VAR to make sure the global arrays
 	  in the billboard manager are properly constructed on all platforms.
@@ -1049,7 +1049,7 @@ The history order is reversed so that new features are at the top.
 	- Matze fixed Jam rules so that cel-config builds correctly when
 	  building outside of the source tree.
 	- Eric Sunshine updated out-of-date mk/autoconf/*.m4 files, including
-	  the new crystal.m4 which now published CRYSTAL.INCLUDE_DIR.
+	  the new crystal.m4 which now publishes CRYSTAL.INCLUDE_DIR.
 	- Eric Sunshine fixed behaviorlayer/python/Jamfile so that it passes
 	  only -I$(CRYSTAL.INCLUDE_DIR) to Swig, rather than all of
 	  $(CRYSTAL.CFLAGS), which was clearly incorrect, and which caused Swig
