@@ -1,6 +1,9 @@
 18-Nov-2001:
 	- Debugging with DG_TYPE for 'celEntity'.
 	- Added 'c' key to clear game (debugging too).
+	- Implemented an extreme hack in the cache. It turns out that you cannot
+	  simply remove factory wrappers by doing DecRef() on them. You need to remove
+	  them from the engine. I have to find a better solution for this.
 16-Nov-2001:
 	- Implemented a cache in the physical layer. This cache will hold
 	  objects of type iBase and keeps a reference to them. This cache
