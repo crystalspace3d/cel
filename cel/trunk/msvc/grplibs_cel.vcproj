@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories=".;..;..\include"
+				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
 				PrecompiledHeaderFile="..\out\release\build\grplibs_cel\grplibs_cel.pch"
 				AssemblerListingLocation="..\out\release\build\grplibs_cel\"
 				ObjectFile="..\out\release\build\grplibs_cel\"
@@ -72,7 +72,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories=".;..;..\include"
+				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -95,7 +95,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories=".;..;..\include"
+				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
 				PrecompiledHeaderFile="..\out\debug\build\grplibs_cel\grplibs_cel.pch"
 				AssemblerListingLocation="..\out\debug\build\grplibs_cel\"
 				ObjectFile="..\out\debug\build\grplibs_cel\"
@@ -138,7 +138,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG"
-				AdditionalIncludeDirectories=".;..;..\include"
+				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

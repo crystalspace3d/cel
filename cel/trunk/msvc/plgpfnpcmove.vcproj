@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgstdphyslayer"
+	Name="plgpfnpcmove"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\release\build\plgstdphyslayer\"
+			OutputDirectory="..\out\release\build\plgpfnpcmove\"
+			IntermediateDirectory="..\out\release\build\plgpfnpcmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -32,10 +32,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
 				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
-				PrecompiledHeaderFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\release\build\plgstdphyslayer\"
-				ObjectFile="..\out\release\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pch"
+				AssemblerListingLocation="..\out\release\build\plgpfnpcmove\"
+				ObjectFile="..\out\release\build\plgpfnpcmove\"
+				ProgramDataBaseFileName="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -46,16 +46,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="1"
 				OptimizeReferences="1"
-				OutputFile="..\stdphyslayer.dll"
+				OutputFile="..\pfnpcmove.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\release\build\plgstdphyslayer\plgstdphyslayer.lib"
+				ImportLibrary="..\out\release\build\plgpfnpcmove\plgpfnpcmove.lib"
 				AdditionalOptions=""
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\release\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -66,7 +66,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpfnpcmove\plgpfnpcmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -86,8 +86,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\debug\build\plgstdphyslayer\"
+			OutputDirectory="..\out\debug\build\plgpfnpcmove\"
+			IntermediateDirectory="..\out\debug\build\plgpfnpcmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -103,10 +103,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=""
 				AdditionalIncludeDirectories=".;..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..;..\include"
-				PrecompiledHeaderFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\debug\build\plgstdphyslayer\"
-				ObjectFile="..\out\debug\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpfnpcmove\"
+				ObjectFile="..\out\debug\build\plgpfnpcmove\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -117,16 +117,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\stdphyslayer.dll"
+				OutputFile="..\pfnpcmove.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.lib"
+				ImportLibrary="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.lib"
 				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -137,7 +137,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpfnpcmove\plgpfnpcmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -161,48 +161,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\entity.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.cpp">
+				RelativePath="..\plugins\propclass\npcmove\npcmove.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\entity.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.h">
+				RelativePath="..\plugins\propclass\npcmove\npcmove.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgstdphyslayer.rc">
+				RelativePath="..\msvc\plgpfnpcmove.rc">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\stdphyslayer.csplugin">
+				RelativePath="..\plugins\propclass\npcmove\pfnpcmove.csplugin">
 			</File>
 		</Filter>
 	</Files>

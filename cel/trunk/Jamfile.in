@@ -5,7 +5,7 @@ SubDir TOP ;
 
 IncludeDir ;
 IncludeDir "include" ;
-IncludeDir $(BUILDTOP) : : ignoresubdir ;
+IncludeDir $(BUILDTOP) : : literal transient ;
 
 # Construct a distclean target
 CleanDir clean : out ;
@@ -38,6 +38,13 @@ MsvcGenSubDir TOP msvc : 6 ;
 MsvcGenSubDir TOP msvc : 7 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 MsvcGenWorkspace cel ;
+if [ Property build : projgen ]
+{
+  local hash = "\$" ;
+  IncludeDir .. .. CS include : : literal ;
+  IncludeDir "$(hash)(CRYSTAL)" include : : literal ;
+  IncludeDir "$(hash)(CRYSTAL)" include crystalspace : : literal ;
+}
 
 # include subdirectories
 SubInclude TOP docs ;
