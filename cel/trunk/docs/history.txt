@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+21-Sep-2003
+	- Keith made the sector param of pcmesh->MoveMesh() optional, so that
+	  position alone can be updated.
 18-Sep-2003
 	- Eric Sunshine removed a bunch of obsolete and useless
 	  SCF_EXPORT_CLASS() invocations from the various plugin modules.

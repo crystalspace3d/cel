@@ -63,8 +63,9 @@ struct iPcMesh : public iBase
   virtual iMeshWrapper* GetMesh () const = 0;
 
   /**
-   * Conveniance function to move the mesh to some sector and position
-   * and also update lighting.
+   * Convenience function to move the mesh to some sector and position
+   * and also update lighting.  If sector specified is NULL, sector
+   * is not updated.
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
 

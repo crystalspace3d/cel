@@ -418,7 +418,9 @@ void celPcMesh::CreateEmptyThing ()
 void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 {
   CS_ASSERT (mesh != 0);
-  mesh->GetMovable ()->SetSector (sector);
+  if (sector)
+      mesh->GetMovable ()->SetSector (sector);
+
   mesh->GetMovable ()->SetPosition (pos);
   mesh->GetMovable ()->UpdateMove ();
   mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
