@@ -22,25 +22,28 @@
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
+#include "csutil/weakref.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 
+#include "iengine/engine.h"
 #include "iengine/camera.h"
+#include "iengine/sector.h"
 
 struct iObjectRegistry;
 struct iEvent;
 
 /**
  * A standard trigger type that triggers whenever the camera
- * enters a specific sector. This trigger type listens to the
- * name 'cel.questtrigger.entersector'.
+ * enters a specific sector.
+ * This trigger type listens to the name 'cel.questtrigger.entersector'.
  */
 class celEnterSectorTriggerType : public iQuestTriggerType
 {
-private:
+public:
   iObjectRegistry* object_reg;
 
 public:
@@ -64,11 +67,12 @@ class celEnterSectorTriggerFactory :
 	public iEnterSectorQuestTriggerFactory
 {
 private:
-  char* entity_name;
-  char* sector_name;
+  celEnterSectorTriggerType* type;
+  const char* entity_name_par;
+  const char* sector_name_par;
 
 public:
-  celEnterSectorTriggerFactory ();
+  celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
   virtual ~celEnterSectorTriggerFactory ();
 
   SCF_DECLARE_IBASE;
@@ -78,8 +82,8 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iEnterSectorQuestTriggerFactory ----------------------
-  virtual void SetEntityName (const char* entity_name);
-  virtual void SetSectorName (const char* sector_name);
+  virtual void SetEntityNameParameter (const char* entity_name);
+  virtual void SetSectorNameParameter (const char* sector_name);
 };
 
 /**
@@ -90,16 +94,27 @@ class celEnterSectorTrigger :
 	public iCameraSectorListener
 {
 private:
+  celEnterSectorTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
+  csWeakRef<iSector> sector;
+  csWeakRef<iCamera> camera;
+  char* entity_name;
+  char* sector_name;
+
+  void FindSectorAndCamera ();
 
 public:
-  celEnterSectorTrigger ();
+  celEnterSectorTrigger (celEnterSectorTriggerType* type,
+  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+	const char* entity_name_par, const char* sector_name_par);
   virtual ~celEnterSectorTrigger ();
 
   SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();
+  virtual void ActivateTrigger ();
+  virtual void DeactivateTrigger ();
 
   //----------------------- iCameraSectorListener --------------------------
   virtual void NewSector (iCamera* camera, iSector* sector);

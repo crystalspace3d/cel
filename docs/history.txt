@@ -3,6 +3,15 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Dec-2004
+	- Jorrit did more work on the quest manager:
+	    - Completed implementation of the 'entersector' quest
+	      trigger.
+	    - Added a new predefined 'debugprint' reward which is
+	      useful for debugging purposes.
+	    - Added ActivateTrigger()/DeactivateTrigger().
+	    - Implemented Load() for quest factories.
+	    - Lots of other small changes.
 2-Dec-2004
 	- Jorrit restarted work on the quest manager. Added quest
 	  factory implementation.
