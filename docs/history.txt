@@ -48,6 +48,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit extended the celentity addon so that you can also create
 	  tagged property classes. Add the 'tag' attribute to the
 	  <propclass> statement.
+	- Jorrit fixed CEL for latest CS changes.
 13-Dec-2004
 	- Jorrit removed the OLD_RENDERER ifdef in CEL now that the old
 	  renderer has been removed from CS.

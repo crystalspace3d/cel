@@ -367,7 +367,7 @@ bool celPersistClassicContext::Read (int16& w)
   if (file->Read((char*) &w, 2) < 2)
     return false;
 
-  w = get_le_short(&w);
+  w = csGetLittleEndianShort (&w);
   return true;
 }
 
@@ -377,7 +377,7 @@ bool celPersistClassicContext::Read (uint16& uw)
   if (file->Read((char*) &uw, 2) < 2)
     return false;
   
-  uw = get_le_short (&uw);
+  uw = csGetLittleEndianShort (&uw);
   return true;
 }
 
@@ -387,7 +387,7 @@ bool celPersistClassicContext::Read (int32& l)
   if (file->Read((char*) &l, 4) < 4)
     return false;
   
-  l = get_le_long (&l);
+  l = csGetLittleEndianLong (&l);
   return true;
 }
 
@@ -397,7 +397,7 @@ bool celPersistClassicContext::Read (uint32& ul)
   if (file->Read((char*) &ul, 4) < 4)
     return false;
   
-  ul = get_le_long (&ul);
+  ul = csGetLittleEndianLong (&ul);
   return true;
 }
 
@@ -407,7 +407,7 @@ bool celPersistClassicContext::Read (float& f)
   if (file->Read((char*) &f, 4) < 4)
     return false;
 
-  f = convert_endian (f);
+  f = csConvertEndian (f);
   return true;
 }
 
@@ -979,28 +979,28 @@ bool celPersistClassicContext::Write (celData* data)
 bool celPersistClassicContext::Write (uint32 v)
 {
   WRITEDEBUG("UI32");
-  v = convert_endian(v);
+  v = csConvertEndian(v);
   return file->Write ((const char*) &v, 4);
 }
 
 bool celPersistClassicContext::Write (int32 v)
 {
   WRITEDEBUG("IT32");
-  v = convert_endian(v);
+  v = csConvertEndian(v);
   return file->Write ((const char*) &v, 4);
 }
 
 bool celPersistClassicContext::Write (uint16 v)
 {
   WRITEDEBUG("UI16");
-  v = convert_endian(v);
+  v = csConvertEndian(v);
   return file->Write ((const char*) &v, 2);
 }
 
 bool celPersistClassicContext::Write (int16 v)
 {
   WRITEDEBUG("IT16");
-  v = convert_endian(v);
+  v = csConvertEndian(v);
   return file->Write ((const char*) &v, 2);
 }
 
@@ -1019,6 +1019,6 @@ bool celPersistClassicContext::Write (int8 v)
 bool celPersistClassicContext::Write (float f)
 {
   WRITEDEBUG("FLT");
-  f = convert_endian (f);
+  f = csConvertEndian (f);
   return file->Write ((const char*)&f, 4);
 }
