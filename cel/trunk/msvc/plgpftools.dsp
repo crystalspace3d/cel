@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=plgpftools - Win32 Debug
+CFG=plgpftools - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=plgpftools - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "plgpftools.mak" CFG="plgpftools - Win32 Debug"
+!MESSAGE NMAKE /f "plgpftools.mak" CFG="plgpftools - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -38,26 +38,27 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "release\temp\plgpftools"
-# PROP Intermediate_Dir "release\temp\plgpftools"
+# PROP Output_Dir "..\out\release\build\plgpftools\"
+# PROP Intermediate_Dir "..\out\release\build\plgpftools\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /FD /c
-# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "." /I ".." /I "..\include" /D "NDEBUG" /D "_MT" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /FD /I ".." /I "..\include" /c
-# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
-# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
-# ADD BASE RSC /l 0x409 /d "NDEBUG" 
-# ADD RSC /l 0x409 /d "NDEBUG" /fo".\release\temp\plgpftools\plgpftools.res"
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /Gy /GF /MD /Ob2 /Og /Oi /Ot /Oy /D "_MT" /D "_MBCS" /D "NDEBUG" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "NDEBUG" /D "_WINDOWS"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\release\build\plgpftools\plgpftools.res" /D "NDEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo 
 LINK32=link.exe
-# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /dll /machine:I386 /out:"release\temp\plgpftools\pftools.dll"  /OPT:NOREF
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /OPT:NOREF /dll /out:"..\pftools.dll"  
 # Begin Special Build Tool
-TargetPath=".\release\temp\plgpftools\pftools.dll"
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "plgpftools - Win32 Debug"
@@ -69,48 +70,58 @@ PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "debug\temp\plgpftools"
-# PROP Intermediate_Dir "debug\temp\plgpftools"
+# PROP Output_Dir "..\out\debug\build\plgpftools\"
+# PROP Intermediate_Dir "..\out\debug\build\plgpftools\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GR /GX /G5 /ZI /Od /I "." /I ".." /I "..\include" /D "_DEBUG" /D "_MT" /D "WIN32" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD /I ".." /I "..\include" /c
-# SUBTRACT CPP /YX
-# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
-# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
-# ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" /fo".\debug\temp\plgpftools\plgpftools.res"
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /GR /MDd /ZI /Od /D "_MT" /D "_MBCS" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\debug\build\plgpftools\plgpftools.res" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo 
 LINK32=link.exe
-# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:1.0 /subsystem:windows /dll /profile /debug /machine:I386 /out:"debug\temp\plgpftools\pftools.dll" 
-# SUBTRACT LINK32 /profile
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pftools.dll"  
 # Begin Special Build Tool
-TargetPath=".\debug\temp\plgpftools\pftools.dll"
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # End Special Build Tool
 
 !ENDIF 
 
 # Begin Target
 
-# Name "plgpftools - Win32 Debug"
 # Name "plgpftools - Win32 Release"
+# Name "plgpftools - Win32 Debug"
+# Begin Group "Source Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\tools\toolfact.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\tools\spawn.cpp
+# End Source File
+# End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\spawn.h
+SOURCE=..\plugins\propclass\tools\toolfact.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\toolfact.h
+SOURCE=..\plugins\propclass\tools\spawn.h
 # End Source File
-
 # End Group
 # Begin Group "Resource Files"
 
@@ -123,21 +134,6 @@ SOURCE=..\msvc\plgpftools.rc
 
 SOURCE=..\plugins\propclass\tools\pftools.csplugin
 # End Source File
-
 # End Group
-# Begin Group "Source Files"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\plugins\propclass\tools\spawn.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\propclass\tools\toolfact.cpp
-# End Source File
-
-# End Group
-
 # End Target
 # End Project

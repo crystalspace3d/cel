@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgpfmove"
-			IntermediateDirectory=".\release\temp\plgpfmove"
+			OutputDirectory="..\out\release\build\plgpfmove\"
+			IntermediateDirectory="..\out\release\build\plgpfmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,60 +25,60 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgpfmove/plgpfmove.pch"
-				AssemblerListingLocation=".\release\temp\plgpfmove/"
-				ObjectFile=".\release\temp\plgpfmove/"
-				ProgramDataBaseFileName=".\release\temp\plgpfmove/plgpfmove.pdb"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\plgpfmove\plgpfmove.pch"
+				AssemblerListingLocation="..\out\release\build\plgpfmove\"
+				ObjectFile="..\out\release\build\plgpfmove\"
+				ProgramDataBaseFileName="..\out\release\build\plgpfmove\plgpfmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgpfmove\pfmove.dll"
-				Version="4.0"
 				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\pfmove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\release\build\plgpfmove\plgpfmove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgpfmove/plgpfmove.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgpfmove/plgpfmove.lib"
+				ProgramDatabaseFile="..\out\release\build\plgpfmove\plgpfmove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgpfmove/plgpfmove.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpfmove\plgpfmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -86,70 +86,70 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgpfmove"
-			IntermediateDirectory=".\debug\temp\plgpfmove"
+			OutputDirectory="..\out\debug\build\plgpfmove\"
+			IntermediateDirectory="..\out\debug\build\plgpfmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgpfmove/plgpfmove.pch"
-				AssemblerListingLocation=".\debug\temp\plgpfmove/"
-				ObjectFile=".\debug\temp\plgpfmove/"
-				ProgramDataBaseFileName=".\debug\temp\plgpfmove/plgpfmove.pdb"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\plgpfmove\plgpfmove.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpfmove\"
+				ObjectFile="..\out\debug\build\plgpfmove\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpfmove\plgpfmove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgpfmove\pfmove.dll"
-				Version="1.0"
 				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\pfmove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\debug\build\plgpfmove\plgpfmove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgpfmove/plgpfmove.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgpfmove/plgpfmove.lib"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\plgpfmove\plgpfmove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgpfmove/plgpfmove.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpfmove\plgpfmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -157,43 +157,9 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\move\colldet.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\linmove.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\movefact.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\navgraph.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\navgraphrulesfps.h">
-			</File>
-
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="">
-			<File
-				RelativePath="..\msvc\plgpfmove.rc">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\move\pfmove.csplugin">
-			</File>
-
-		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\move\colldet.cpp">
-			</File>
 			<File
 				RelativePath="..\plugins\propclass\move\linmove.cpp">
 			</File>
@@ -206,9 +172,39 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\propclass\move\navgraphrulesfps.cpp">
 			</File>
-
+			<File
+				RelativePath="..\plugins\propclass\move\colldet.cpp">
+			</File>
 		</Filter>
-
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\move\linmove.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\movefact.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\navgraph.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\navgraphrulesfps.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\colldet.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\msvc\plgpfmove.rc">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\move\pfmove.csplugin">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

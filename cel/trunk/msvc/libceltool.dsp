@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=libceltool - Win32 Debug
+CFG=libceltool - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=libceltool - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "libceltool.mak" CFG="libceltool - Win32 Debug"
+!MESSAGE NMAKE /f "libceltool.mak" CFG="libceltool - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -26,6 +26,7 @@ CFG=libceltool - Win32 Debug
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
 CPP=cl.exe
+MTL=midl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "libceltool - Win32 Release"
@@ -37,19 +38,25 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "release\bin\libs"
-# PROP Intermediate_Dir "release\temp\libceltool"
+# PROP Output_Dir "..\out\release\build\libceltool\"
+# PROP Intermediate_Dir "..\out\release\build\libceltool\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /vmb /vms /Gy /GF /W3 /Gm /G5 /Ob2 /Og /Oi /Ot /Oy /D "WIN32" /D "NDEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /Gy /GF /MD /W3 /Gm /GX /G5 /Ob2 /Og /Oi /Ot /Oy /I "." /I ".." /I "..\include" /D "NDEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /FD /I ".." /I "..\include" /c
-# ADD BASE RSC /l 0x409 /d "NDEBUG" 
-# ADD RSC /l 0x409 /d "NDEBUG" 
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /Gy /GF /MD /Ob2 /Og /Oi /Ot /Oy /D "_LIB" /D "_MT" /D "_MBCS" /D "NDEBUG" /D "_LIB" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "NDEBUG" /D "_LIB" /D "_WINDOWS"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\release\build\libceltool\libceltool.res" /D "NDEBUG" /D "_LIB" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\out\release\libs\libceltool.lib"
+LINK32=link.exe
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /OPT:NOREF   
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -63,19 +70,25 @@ SOURCE="$(InputPath)"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "debug\bin\libs"
-# PROP Intermediate_Dir "debug\temp\libceltool"
+# PROP Output_Dir "..\out\debug\build\libceltool\"
+# PROP Intermediate_Dir "..\out\debug\build\libceltool\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /ZI /Od /D "WIN32" /D "_DEBUG" /D "_LIB" /FD /c
-# ADD CPP /nologo /vmb /vms /MDd /W3 /Gm /GR /GX /G5 /ZI /Od /I "." /I ".." /I "..\include" /D "_DEBUG" /D "_MT" /D "_LIB" /D "WIN32" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /D "CS_DEBUG" /FD /I ".." /I "..\include" /c
-# ADD BASE RSC /l 0x409 /d "_DEBUG" 
-# ADD RSC /l 0x409 /d "_DEBUG" /d "CS_DEBUG" 
+# ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
+# ADD CPP /nologo /vmb /vms /W3 /Gm /GX /G5 /FD /c /GR /MDd /ZI /Od /D "_LIB" /D "_MT" /D "_MBCS" /D "_DEBUG" /D "CS_DEBUG" /D "_LIB" /D "_WINDOWS" /D "WIN32" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__"  /I "." /I ".." /I "..\include"
+# ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
+# ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "_DEBUG" /D "CS_DEBUG" /D "_LIB" /D "_WINDOWS"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /fo".\..\out\debug\build\libceltool\libceltool.res" /D "_DEBUG" /D "CS_DEBUG" /D "_LIB" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"debug\bin\libs\libceltool_d.lib"
+# ADD LIB32 /nologo /out:"..\out\debug\libs\libceltool_d.lib"
+LINK32=link.exe
+# ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept   
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -84,21 +97,19 @@ SOURCE="$(InputPath)"
 
 # Begin Target
 
-# Name "libceltool - Win32 Debug"
 # Name "libceltool - Win32 Release"
+# Name "libceltool - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\libs\celtool\stdparams.cpp
+SOURCE=..\libs\celtool\stdpcimp.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\libs\celtool\stdpcimp.cpp
+SOURCE=..\libs\celtool\stdparams.cpp
 # End Source File
-
 # End Group
-
 # End Target
 # End Project

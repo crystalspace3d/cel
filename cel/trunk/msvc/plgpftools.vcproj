@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgpftools"
-			IntermediateDirectory=".\release\temp\plgpftools"
+			OutputDirectory="..\out\release\build\plgpftools\"
+			IntermediateDirectory="..\out\release\build\plgpftools\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,60 +25,60 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgpftools/plgpftools.pch"
-				AssemblerListingLocation=".\release\temp\plgpftools/"
-				ObjectFile=".\release\temp\plgpftools/"
-				ProgramDataBaseFileName=".\release\temp\plgpftools/plgpftools.pdb"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\plgpftools\plgpftools.pch"
+				AssemblerListingLocation="..\out\release\build\plgpftools\"
+				ObjectFile="..\out\release\build\plgpftools\"
+				ProgramDataBaseFileName="..\out\release\build\plgpftools\plgpftools.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgpftools\pftools.dll"
-				Version="4.0"
 				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\pftools.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\release\build\plgpftools\plgpftools.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgpftools/plgpftools.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgpftools/plgpftools.lib"
+				ProgramDatabaseFile="..\out\release\build\plgpftools\plgpftools.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgpftools/plgpftools.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpftools\plgpftools.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -86,70 +86,70 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgpftools"
-			IntermediateDirectory=".\debug\temp\plgpftools"
+			OutputDirectory="..\out\debug\build\plgpftools\"
+			IntermediateDirectory="..\out\debug\build\plgpftools\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgpftools/plgpftools.pch"
-				AssemblerListingLocation=".\debug\temp\plgpftools/"
-				ObjectFile=".\debug\temp\plgpftools/"
-				ProgramDataBaseFileName=".\debug\temp\plgpftools/plgpftools.pdb"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\plgpftools\plgpftools.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpftools\"
+				ObjectFile="..\out\debug\build\plgpftools\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpftools\plgpftools.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgpftools\pftools.dll"
-				Version="1.0"
 				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\pftools.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\debug\build\plgpftools\plgpftools.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgpftools/plgpftools.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgpftools/plgpftools.lib"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\plgpftools\plgpftools.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgpftools/plgpftools.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpftools\plgpftools.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -157,16 +157,25 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\tools\spawn.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\tools\spawn.h">
-			</File>
-			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.h">
 			</File>
-
+			<File
+				RelativePath="..\plugins\propclass\tools\spawn.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -177,20 +186,7 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\propclass\tools\pftools.csplugin">
 			</File>
-
 		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\tools\spawn.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
-			</File>
-
-		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>

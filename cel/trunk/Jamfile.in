@@ -36,7 +36,7 @@ MsvcGenConfig CRYSTAL.LIBS.DEBUG :
   "libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib" ;
 MsvcGenSubDir TOP msvc : 6 ;
 MsvcGenSubDir TOP msvc : 7 ;
-MsvcGenTemplateDir TOP mk msvcgen template ;
+MsvcGenTemplateDir TOP mk msvcgen ;
 MsvcGenWorkspace cel ;
 
 # include subdirectories

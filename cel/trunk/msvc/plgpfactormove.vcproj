@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgpfactormove"
-			IntermediateDirectory=".\release\temp\plgpfactormove"
+			OutputDirectory="..\out\release\build\plgpfactormove\"
+			IntermediateDirectory="..\out\release\build\plgpfactormove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,60 +25,60 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgpfactormove/plgpfactormove.pch"
-				AssemblerListingLocation=".\release\temp\plgpfactormove/"
-				ObjectFile=".\release\temp\plgpfactormove/"
-				ProgramDataBaseFileName=".\release\temp\plgpfactormove/plgpfactormove.pdb"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\plgpfactormove\plgpfactormove.pch"
+				AssemblerListingLocation="..\out\release\build\plgpfactormove\"
+				ObjectFile="..\out\release\build\plgpfactormove\"
+				ProgramDataBaseFileName="..\out\release\build\plgpfactormove\plgpfactormove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgpfactormove\pfactormove.dll"
-				Version="4.0"
 				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\pfactormove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\release\build\plgpfactormove\plgpfactormove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgpfactormove/plgpfactormove.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgpfactormove/plgpfactormove.lib"
+				ProgramDatabaseFile="..\out\release\build\plgpfactormove\plgpfactormove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgpfactormove/plgpfactormove.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpfactormove\plgpfactormove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -86,70 +86,70 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgpfactormove"
-			IntermediateDirectory=".\debug\temp\plgpfactormove"
+			OutputDirectory="..\out\debug\build\plgpfactormove\"
+			IntermediateDirectory="..\out\debug\build\plgpfactormove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgpfactormove/plgpfactormove.pch"
-				AssemblerListingLocation=".\debug\temp\plgpfactormove/"
-				ObjectFile=".\debug\temp\plgpfactormove/"
-				ProgramDataBaseFileName=".\debug\temp\plgpfactormove/plgpfactormove.pdb"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\plgpfactormove\plgpfactormove.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpfactormove\"
+				ObjectFile="..\out\debug\build\plgpfactormove\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpfactormove\plgpfactormove.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgpfactormove\pfactormove.dll"
-				Version="1.0"
 				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\pfactormove.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\debug\build\plgpfactormove\plgpfactormove.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgpfactormove/plgpfactormove.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgpfactormove/plgpfactormove.lib"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\plgpfactormove\plgpfactormove.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgpfactormove/plgpfactormove.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpfactormove\plgpfactormove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -157,13 +157,19 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\actormove\actormove.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\plugins\propclass\actormove\actormove.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -174,17 +180,7 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\propclass\actormove\pfactormove.csplugin">
 			</File>
-
 		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\propclass\actormove\actormove.cpp">
-			</File>
-
-		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>

@@ -76,6 +76,19 @@ AS_IF([test $with_cs != no],
 
 CS_EMIT_CHECK_PYTHON
 
+#------------------------------------------------------------------------------
+# Check if TemplateToolkit2 is installed (needed for MSVC project generation).
+#------------------------------------------------------------------------------
+AS_IF([test -n "$PERL"],
+    [AC_CACHE_CHECK([for TemplateToolkit], [cs_cv_perl_tt2],
+	[AS_IF([AC_RUN_LOG(
+	    [$PERL -M'Template 2.11' -MTemplate::Plugin -e 0 1>&2])],
+	    [cs_cv_perl_tt2=yes],
+	    [cs_cv_perl_tt2=no])])
+    AC_PATH_PROGS([TTREE], [ttree])
+    AS_IF([test $cs_cv_perl_tt2 = yes && test -n "$TTREE"],
+	[CS_EMIT_BUILD_PROPERTY([TTREE], [$TTREE])])])
+
 #----------------------------------------------------------------------------
 # Package configuration switches
 #----------------------------------------------------------------------------

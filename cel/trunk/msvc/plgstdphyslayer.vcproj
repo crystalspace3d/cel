@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgstdphyslayer"
-			IntermediateDirectory=".\release\temp\plgstdphyslayer"
+			OutputDirectory="..\out\release\build\plgstdphyslayer\"
+			IntermediateDirectory="..\out\release\build\plgstdphyslayer\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,60 +25,60 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgstdphyslayer/plgstdphyslayer.pch"
-				AssemblerListingLocation=".\release\temp\plgstdphyslayer/"
-				ObjectFile=".\release\temp\plgstdphyslayer/"
-				ProgramDataBaseFileName=".\release\temp\plgstdphyslayer/plgstdphyslayer.pdb"
+				RuntimeLibrary="2"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pch"
+				AssemblerListingLocation="..\out\release\build\plgstdphyslayer\"
+				ObjectFile="..\out\release\build\plgstdphyslayer\"
+				ProgramDataBaseFileName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
+				LinkIncremental="1"
+				OptimizeReferences="1"
+				OutputFile="..\stdphyslayer.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\release\build\plgstdphyslayer\plgstdphyslayer.lib"
 				AdditionalOptions=""
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgstdphyslayer\stdphyslayer.dll"
-				Version="4.0"
-				LinkIncremental="1"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgstdphyslayer/plgstdphyslayer.pdb"
-				SubSystem="2"
-				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgstdphyslayer/plgstdphyslayer.lib"
+				ProgramDatabaseFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgstdphyslayer/plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -86,70 +86,70 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgstdphyslayer"
-			IntermediateDirectory=".\debug\temp\plgstdphyslayer"
+			OutputDirectory="..\out\debug\build\plgstdphyslayer\"
+			IntermediateDirectory="..\out\debug\build\plgstdphyslayer\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				OptimizeForProcessor="1"
-				AdditionalOptions="/I &quot;..&quot; /I &quot;..\include&quot;"
-				AdditionalIncludeDirectories=".,..,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_DEBUG"
 				MinimalRebuild="TRUE"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgstdphyslayer/plgstdphyslayer.pch"
-				AssemblerListingLocation=".\debug\temp\plgstdphyslayer/"
-				ObjectFile=".\debug\temp\plgstdphyslayer/"
-				ProgramDataBaseFileName=".\debug\temp\plgstdphyslayer/plgstdphyslayer.pdb"
 				BrowseInformation="1"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pch"
+				AssemblerListingLocation="..\out\debug\build\plgstdphyslayer\"
+				ObjectFile="..\out\debug\build\plgstdphyslayer\"
+				ProgramDataBaseFileName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				Detect64BitPortabilityProblems=""
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
-				AdditionalOptions=""
-				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgstdphyslayer\stdphyslayer.dll"
-				Version="1.0"
 				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				OutputFile="..\stdphyslayer.dll"
+				DelayLoadDLLs=""
+				ImportLibrary="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.lib"
+				AdditionalOptions=""
+				AdditionalDependencies="delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
+				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
-				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgstdphyslayer/plgstdphyslayer.pdb"
-				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgstdphyslayer/plgstdphyslayer.lib"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				ProgramDatabaseFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
 				TargetMachine="1"/>
 			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgstdphyslayer/plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo Moving output to build root.
-copy &quot;$(TargetPath)&quot; ..
-"/>
+				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,CS_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""/>
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".;..;..\include"
+				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -157,7 +157,26 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 	</Configurations>
 	<Files>
-				<Filter
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\plugins\stdphyslayer\message.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\entity.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\pl.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
@@ -175,7 +194,6 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\stdphyslayer\propclas.h">
 			</File>
-
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -186,29 +204,7 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\plugins\stdphyslayer\stdphyslayer.csplugin">
 			</File>
-
 		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\stdphyslayer\entity.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
-			</File>
-
-		</Filter>
-
 	</Files>
 	<Globals>
 	</Globals>
