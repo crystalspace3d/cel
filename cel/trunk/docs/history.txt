@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-Aug-2004
+        - Remi Bonnet fixed CEL_QUERY_PROPCLASS so that it use the new
+          scfInterface<Interface>::GetID() function instead of the old
+	  one that can't be used inside templates (stringify an 
+	  argument)
 24-Aug-2004
 	- Remi Bonnet added a GetRegion() function to the pcregion 
 	  propclass and fixed some functions that searched for sectors

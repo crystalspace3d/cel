@@ -28,8 +28,8 @@
 
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
   csPtr<Interface> (							    \
-  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID	    \
-	(#Interface), scfInterface<Interface>::GetVersion())))
+  (Interface*)((PcList)->FindByInterface (scfInterface<Interface>::GetID(), \
+     scfInterface<Interface>::GetVersion())))
 
 #define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
   CEL_QUERY_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
