@@ -299,37 +299,23 @@
 	    </event>
 
 	    <!--
-	      - Do the actual move. Subscripts can override this to
-	      - do additional stuff like check for collisions and so on.
-	      - Uses @x and @y parameters.
-	      -->
-	    <event name="actualmove">
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(x)" value="@x" />
-	        <property id="propid(y)" value="@y" />
-	    </event>
-
-	    <!--
 	      - Do the move transition of this object.
 	      - Uses ?srcx,?srcy, ?dstx,?dsty, and ?delta.
 	      -->
 	    <event name="pctimer_wakeupframe">
 	        <if eval="?moving">
-		    <call event="actualmove">
-	                <par id="parid(x)" value="intpol(?delta,?srcx,?dstx)" />
-	                <par id="parid(y)" value="intpol(?delta,?srcy,?dsty)" />
-		    </call>
+		    <default propclass="pc(pcbillboard)" />
 		    <if eval="?delta>=1">
 		        <true>
 			    <var name="moving" value="false" />
-			    <default propclass="pc(pcbillboard)" />
 			    <property id="propid(x)" value="?dstx" />
 			    <property id="propid(y)" value="?dsty" />
 			    <call event="endmove" />
 		        </true>
 		        <false>
-			    <var name="delta"
-			    	value="?delta+?speed*@elapsedticks" />
+			    <property id="propid(x)" value="intpol(?delta,?srcx,?dstx)" />
+			    <property id="propid(y)" value="intpol(?delta,?srcy,?dsty)" />
+			    <var name="delta" value="?delta+?speed*@elapsedticks" />
 		        </false>
 		    </if>
 		</if>
@@ -875,7 +861,7 @@
 	      - Override from superscript so that we can check collision
 	      - here.
 	      -->
-	    <event name="actualmove">
+	    <event name="pctimer_wakeupframe">
 	        <super />
 		<for var="i" start="1" end="?maze_main.monstercnt">
 		    <var name="pc" value="?maze_main.(bb_monster+?i)" />
@@ -1328,7 +1314,7 @@
 	      - Override from superscript so that we can check collision
 	      - here.
 	      -->
-	    <event name="actualmove">
+	    <event name="pctimer_wakeupframe">
 	        <super />
 		<var entity="bdash_main" name="layer_movetox" value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
 		<var entity="bdash_main" name="layer_movetoy" value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
