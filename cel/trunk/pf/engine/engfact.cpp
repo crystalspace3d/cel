@@ -744,9 +744,9 @@ bool celPcRegion::Load ()
   CS_ASSERT (pl != NULL);
   iCelPropertyClass* pc;
   csRef<iObjectIterator> iter (cur_region->QueryObject ()->GetIterator ());
-  while (!iter->IsFinished ())
+  while (iter->HasNext ())
   {
-    iObject* o = iter->GetObject ();
+    iObject* o = iter->Next ();
     csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (o, iMeshWrapper));
     if (m)
     {
@@ -761,7 +761,6 @@ bool celPcRegion::Load ()
       entities.Push (ent);
       DG_LINK (this, ent->QueryObject ());
     }
-    iter->Next ();
   }
   }
 

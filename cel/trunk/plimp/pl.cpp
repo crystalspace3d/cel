@@ -283,9 +283,9 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
   CS_ASSERT (engine != NULL);
   csRef<iObjectIterator> objit (engine->GetNearbyObjects (sector, pos, radius));
-  while (!objit->IsFinished ())
+  while (objit->HasNext ())
   {
-    iObject* obj = objit->GetObject ();
+    iObject* obj = objit->Next ();
     csRef<iMeshWrapper> m (SCF_QUERY_INTERFACE (obj, iMeshWrapper));
     if (m)
     {
@@ -301,7 +301,6 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     {
       list->Add (ent);
     }
-    objit->Next();
   }
   return list;
 }

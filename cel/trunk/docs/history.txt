@@ -1,3 +1,6 @@
+04-Jun-2003
+	- Keith Fulton fixed two places in CEL for the new CS iterator
+	  functions.
 27-May-2003
         - Boyan implemented new iScript interface extension methods
 	- Matze updated jam rules and moved over all improvements made in CS.
