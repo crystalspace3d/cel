@@ -299,8 +299,6 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   clear_zbuf = false;
   clear_screen = false;
 
-  pc_checked = false;
-
   // Most of these are default values that will be overwritten
   firstPersonPositionOffset = csVector3 (0, 1, 0);
   thirdPersonPositionOffset = csVector3 (0, 1, 3);
@@ -383,12 +381,10 @@ void celPcCamera::SetupEventHandler ()
   q->RegisterListener (scfiEventHandler, trigger);
 }
 
-void celPcCamera::GetPcs ()
+void celPcCamera::FindSiblingPropertyClasses ()
 {
-  if (!pc_checked)
+  if (HavePropertyClassesChanged ())
   {
-    if (!entity) return;
-    pc_checked = true;
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
@@ -399,7 +395,7 @@ void celPcCamera::GetLastPosition (csVector3& actor_pos,
 {
   // Try to get position and sector from either linmove or mesh if
   // linmove is not used.
-  GetPcs ();
+  FindSiblingPropertyClasses ();
   if (pclinmove)
   {
     pclinmove->GetLastPosition (actor_pos, actor_yrot, actor_sector);
