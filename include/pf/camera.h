@@ -25,6 +25,7 @@
 
 struct iCamera;
 struct iView;
+struct iPcRegion;
 
 SCF_DECLARE_FAST_INTERFACE (iPcCamera)
 
@@ -43,6 +44,12 @@ struct iPcCamera : public iBase
     freelook = 0,
     follow
   };
+
+  /**
+   * Set Camera to a Region
+   */
+  virtual bool SetRegion (iPcRegion* region, bool point = true,
+      const char* name = NULL) = 0;
 
   /**
    * Set camera mode

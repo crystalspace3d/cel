@@ -68,6 +68,11 @@ struct iPcRegion : public iBase
    */
   virtual void Unload () = 0;
 
+  /*
+   * Returns a sector
+   */
+  virtual iSector* FindSector (const char* sectorname) = 0;
+
   /**
    * Get start sector. The given name is the name
    * of the starting position to use. If NULL is
