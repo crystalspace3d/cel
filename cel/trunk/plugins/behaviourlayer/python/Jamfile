@@ -11,7 +11,7 @@ if $(PYTHON.AVAILABLE) = yes
     PYTHONFILES = [ Filter $(PYTHONFILES) : blcel.cpp ] ;
     PYTHONFILES += blcel.i ;
     # we need the CS include dirs...
-    SWIG.FLAGS on [ DoSourceGrist blcel.cpp ] = -python -c++ -shadow $(CRYSTAL.CFLAGS) ;
+    SWIG.FLAGS on [ DoSourceGrist blcel.cpp ] = -python -c++ -shadow -I$(CRYSTAL.INCLUDE_DIR) ;
   }
 
   Plugin blpython

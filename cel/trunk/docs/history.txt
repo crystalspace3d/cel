@@ -3,6 +3,17 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+5-Dec-2003
+	- Matze fixed Jam rules so that cel-config builds correctly when
+	  building outside of the source tree.
+	- Eric Sunshine updated out-of-date mk/autoconf/*.m4 files, including
+	  the new crystal.m4 which now published CRYSTAL.INCLUDE_DIR.
+	- Eric Sunshine fixed behaviorlayer/python/Jamfile so that it passes
+	  only -I$(CRYSTAL.INCLUDE_DIR) to Swig, rather than all of
+	  $(CRYSTAL.CFLAGS), which was clearly incorrect, and which caused Swig
+	  to complain in some cases.
+	- Eric Sunshine eliminated several compilation warnings from the
+	  project.
 4-Dec-2003
 	- Jorrit simplified the XML behaviour layer by removing support for
 	  multiple arguments for operations and only allowing one. Also unified

@@ -127,7 +127,9 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     Report (object_reg,"serialnr != INVENTORY_SERIAL.  Cannot load.");
     return false;
   }
+#ifdef CS_DEBUG
   int cnt_total = databuf->GetDataCount ();
+#endif
 
   RemoveAllConstraints ();
   RemoveAll ();
@@ -632,7 +634,9 @@ bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
     Report (object_reg,"serialnr != CHARACTERISTICS_SERIAL.  Cannot load.");
     return false;
   }
+#ifdef CS_DEBUG
   int cnt_total = databuf->GetDataCount ();
+#endif
 
   ClearAll ();
 
