@@ -1,0 +1,12 @@
+SubDir TOP plugins behaviourlayer python ;
+
+# XXX: Need to add swig support to jamrules...
+if $(PYTHON.AVAILABLE) = yes
+{
+  Plugin blpython
+	  : [ Wildcard *.cpp *.h ]
+  ;
+  ExternalLibs blpython : PYTHON ;
+  CFlags blpython : -DSWIG_GLOBAL ;
+}
+

@@ -1,0 +1,7 @@
+SubDir TOP plugins propclass tools ;
+
+Plugin pftools
+	: toolfact.cpp toolfact.h
+;
+LinkWith pftools : celcommon ;
+

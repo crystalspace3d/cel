@@ -1,6 +1,0 @@
-SubDir TOP plimp ;
-
-Plugin plimp
-	: [ Wildcard *.cpp *.h ]
-;
-

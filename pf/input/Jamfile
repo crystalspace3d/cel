@@ -1,7 +1,0 @@
-SubDir TOP pf input ;
-
-Plugin pfinput
-	: inpfact.cpp inpfact.h
-;
-LinkWith pfinput : celcommon ;
-

@@ -1,0 +1,11 @@
+SubDir TOP plugins propclass ;
+
+SubInclude TOP plugins propclass common ;
+SubInclude TOP plugins propclass engine ;
+SubInclude TOP plugins propclass input ;
+SubInclude TOP plugins propclass inv ;
+SubInclude TOP plugins propclass mesh ;
+SubInclude TOP plugins propclass move ;
+SubInclude TOP plugins propclass test ;
+SubInclude TOP plugins propclass tools ;
+

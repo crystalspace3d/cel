@@ -1,7 +1,0 @@
-SubDir TOP pf inv ;
-
-Plugin pfinv
-	: invfact.cpp invfact.h
-;
-LinkWith pfinv : celcommon ;
-
