@@ -367,6 +367,16 @@ void celBillboard::StackBottom ()
   mgr->StackBottom (this);
 }
 
+void celBillboard::StackUp ()
+{
+  mgr->StackUp (this);
+}
+
+void celBillboard::StackDown ()
+{
+  mgr->StackDown (this);
+}
+
 void celBillboard::FireMouseUp (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);

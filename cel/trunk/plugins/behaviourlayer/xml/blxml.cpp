@@ -57,6 +57,8 @@ enum
   XMLTOKEN_BB_MOVE,
   XMLTOKEN_BB_TOFRONT,
   XMLTOKEN_BB_TOBACK,
+  XMLTOKEN_BB_UP,
+  XMLTOKEN_BB_DOWN,
   XMLTOKEN_PAR,
   XMLTOKEN_VAR,
   XMLTOKEN_LVAR,
@@ -163,6 +165,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("bb_move", XMLTOKEN_BB_MOVE);
   xmltokens.Register ("bb_tofront", XMLTOKEN_BB_TOFRONT);
   xmltokens.Register ("bb_toback", XMLTOKEN_BB_TOBACK);
+  xmltokens.Register ("bb_up", XMLTOKEN_BB_UP);
+  xmltokens.Register ("bb_down", XMLTOKEN_BB_DOWN);
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("var", XMLTOKEN_VAR);
   xmltokens.Register ("lvar", XMLTOKEN_LVAR);
@@ -1328,26 +1332,69 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	h->AddOperation (CEL_OPERATION_STRSPLIT);
         break;
       case XMLTOKEN_BB_MOVE:
-        if (!ParseExpression (local_vars, child, h, "x", "bb_move"))
-	  return false;
-        if (!ParseExpression (local_vars, child, h, "y", "bb_move"))
-	  return false;
-	if (child->GetAttributeValue ("delta"))
-	{
-          if (!ParseExpression (local_vars, child, h, "delta", "bb_move"))
+        {
+	  bool pc = false;
+	  if (child->GetAttributeValue ("pc"))
+	  {
+            if (!ParseExpression (local_vars, child, h, "pc", "bb_move"))
+	      return false;
+	    pc = true;
+	  }
+          if (!ParseExpression (local_vars, child, h, "x", "bb_move"))
 	    return false;
-	  h->AddOperation (CEL_OPERATION_BB_MOVEDELTA);
-	}
-	else
-	{
-	  h->AddOperation (CEL_OPERATION_BB_MOVE);
+          if (!ParseExpression (local_vars, child, h, "y", "bb_move"))
+	    return false;
+	  if (child->GetAttributeValue ("delta"))
+	  {
+            if (!ParseExpression (local_vars, child, h, "delta", "bb_move"))
+	      return false;
+	    h->AddOperation (pc ? CEL_OPERATION_BB_MOVEDELTA_E : CEL_OPERATION_BB_MOVEDELTA);
+	  }
+	  else
+	  {
+	    h->AddOperation (pc ? CEL_OPERATION_BB_MOVE_E : CEL_OPERATION_BB_MOVE);
+	  }
 	}
         break;
       case XMLTOKEN_BB_TOFRONT:
-	h->AddOperation (CEL_OPERATION_BB_TOFRONT);
+	if (child->GetAttributeValue ("pc"))
+	{
+          if (!ParseExpression (local_vars, child, h, "pc", "bb_tofront"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_BB_TOFRONT_E);
+	}
+	else
+	  h->AddOperation (CEL_OPERATION_BB_TOFRONT);
         break;
       case XMLTOKEN_BB_TOBACK:
-	h->AddOperation (CEL_OPERATION_BB_TOBACK);
+	if (child->GetAttributeValue ("pc"))
+	{
+          if (!ParseExpression (local_vars, child, h, "pc", "bb_toback"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_BB_TOBACK_E);
+	}
+	else
+	  h->AddOperation (CEL_OPERATION_BB_TOBACK);
+        break;
+      case XMLTOKEN_BB_UP:
+	if (child->GetAttributeValue ("pc"))
+	{
+          if (!ParseExpression (local_vars, child, h, "pc", "bb_up"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_BB_UP_E);
+	}
+	else
+	  h->AddOperation (CEL_OPERATION_BB_UP);
+        break;
+      case XMLTOKEN_BB_DOWN:
+	if (child->GetAttributeValue ("pc"))
+	{
+          if (!ParseExpression (local_vars, child, h, "pc", "bb_down"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_BB_DOWN_E);
+	}
+	else
+	  h->AddOperation (CEL_OPERATION_BB_DOWN);
         break;
       case XMLTOKEN_BB_MOVELAYER:
         if (!ParseExpression (local_vars, child, h, "layer", "bb_movelayer"))

@@ -183,6 +183,8 @@ public:
   virtual void Move (int dx, int dy);
   virtual void StackTop ();
   virtual void StackBottom ();
+  virtual void StackUp ();
+  virtual void StackDown ();
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
   virtual void SetLayer (iBillboardLayer* layer)

@@ -3045,13 +3045,35 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
 	}
 	break;
+      case CEL_OPERATION_BB_MOVEDELTA_E:
+        {
+	  CHECK_STACK(4)
+	  celXmlArg adelta = stack.Pop ();
+	  celXmlArg ay = stack.Pop ();
+	  celXmlArg ax = stack.Pop ();
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_movedelta_e pc=%s x=%s y=%s delta=%s\n",
+	  	i-1, A2S (top), A2S (ax), A2S (ay), A2S (adelta)));
+	  int32 x = ArgToInt32 (ax);
+	  int32 y = ArgToInt32 (ay);
+	  int32 delta = ArgToInt32 (adelta);
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->MoveToPosition (delta, x, y);
+        }
+	break;
       case CEL_OPERATION_BB_MOVEDELTA:
         {
 	  CHECK_STACK(3)
 	  celXmlArg adelta = stack.Pop ();
 	  celXmlArg ay = stack.Pop ();
 	  celXmlArg ax = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_move x=%s y=%s delta=%s\n", i-1, A2S (ax),
+	  DUMP_EXEC ((":%04d: bb_movedelta x=%s y=%s delta=%s\n", i-1, A2S (ax),
 	  	A2S (ay), A2S (adelta)));
 	  int32 x = ArgToInt32 (ax);
 	  int32 y = ArgToInt32 (ay);
@@ -3072,6 +3094,78 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  behave->GetBillboard ()->GetBillboard ()->StackBottom ();
 	}
 	break;
+      case CEL_OPERATION_BB_UP:
+        {
+	  DUMP_EXEC ((":%04d: bb_up\n", i-1));
+	  behave->GetBillboard ()->GetBillboard ()->StackUp ();
+	}
+	break;
+      case CEL_OPERATION_BB_DOWN:
+        {
+	  DUMP_EXEC ((":%04d: bb_down\n", i-1));
+	  behave->GetBillboard ()->GetBillboard ()->StackDown ();
+	}
+	break;
+      case CEL_OPERATION_BB_TOFRONT_E:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_tofront_e pc=%s\n", i-1, A2S (top)));
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->StackTop ();
+	}
+	break;
+      case CEL_OPERATION_BB_TOBACK_E:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_toback_e pc=%s\n", i-1, A2S (top)));
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->StackBottom ();
+	}
+	break;
+      case CEL_OPERATION_BB_UP_E:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_up_e pc=%s\n", i-1, A2S (top)));
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->StackUp ();
+	}
+	break;
+      case CEL_OPERATION_BB_DOWN_E:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_down_e pc=%s\n", i-1, A2S (top)));
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->StackDown ();
+	}
+	break;
       case CEL_OPERATION_BB_MOVE:
         {
 	  CHECK_STACK(2)
@@ -3081,6 +3175,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 x = ArgToInt32 (ax);
 	  int32 y = ArgToInt32 (ay);
 	  behave->GetBillboard ()->GetBillboard ()->SetPosition (x, y);
+	}
+	break;
+      case CEL_OPERATION_BB_MOVE_E:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg ay = stack.Pop ();
+	  celXmlArg ax = stack.Pop ();
+	  celXmlArg top = stack.Pop ();
+	  DUMP_EXEC ((":%04d: bb_move_e pc=%s x=%s y=%s\n", i-1, A2S (top), A2S (ax), A2S (ay)));
+	  int32 x = ArgToInt32 (ax);
+	  int32 y = ArgToInt32 (ay);
+	  iCelPropertyClass* pc = ArgToPClass (top);
+	  if (!pc)
+	    return ReportError (behave, "Bad property class!\n");
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  if (!other_bb)
+	    return ReportError (behave,
+	    	"Property class is not a billboard!\n");
+	  other_bb->GetBillboard ()->SetPosition (x, y);
 	}
 	break;
       case CEL_OPERATION_BB_TESTCOLLIDE:
@@ -3097,8 +3210,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!other_bb)
 	    return ReportError (behave,
 	    	"Property class is not a billboard!\n");
-	  csRef<iPcBillboard> bb = CEL_QUERY_PROPCLASS (
-	  	entity->GetPropertyClassList (), iPcBillboard);
+	  iPcBillboard* bb = behave->GetBillboard ();
 	  if (!bb)
 	    return ReportError (behave,
 	    	"This entity does not have a pcbillboard!\n");

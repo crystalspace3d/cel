@@ -1369,6 +1369,7 @@
 	      - free entity stack. Parameter is @blocktype. Returns the entity.
 	      -->
 	    <event name="createentity">
+	    	<var name="blocktype" value="@blocktype" />	<!-- @@@ Ugly but some behaviours need it -->
 	    	<lvar name="sn" value="entstack_+@blocktype" />
 	        <if eval="?#sn > 0">
 		    <lvar name="ent" value="?(#sn+?#sn)" />
@@ -3014,11 +3015,6 @@
 	    <event name="falldown">
 		<return value="false" />
 	    </event>
-
-	    <!-- For editor -->
-	    <event name="toback">
-	    	<bb_toback />
-	    </event>
 	</script>
 
 	<!-- *****************************************************
@@ -3886,7 +3882,7 @@
 		<var entity="bdash_main" name="x" value="?x" />
 		<var entity="bdash_main" name="y" value="?y" />
 		<var name="companion_entity" value="bdash_main::createentity(blocktype='##')" />
-		<call entity="?companion_entity" event="toback" />
+		<bb_toback pc="pc(?companion_entity,pcbillboard)" />
 		<var entity="bdash_main" name="x" value="#keepx" />
 		<var entity="bdash_main" name="y" value="#keepy" />
 	    </event>
@@ -3899,7 +3895,7 @@
 	    	<lvar name="newx" value="?x+?dx" />
 	    	<lvar name="newy" value="?y+?dy" />
 		<var name="keep_entity" value="?bdash_main.maze[#newx,#newy]" />
-		<call entity="?keep_entity" event="toback" />
+		<bb_toback pc="pc(?keep_entity,pcbillboard)" />
 		<var entity="bdash_main" name="maze_+#newx+_+#newy" value="''" />
 	    	<super />
 	    </event>
@@ -3911,6 +3907,7 @@
 		    <par id="parid(entity)" value="ent()" />
 		    <par id="parid(bt)" value="'##'" />
 		</call>
+		<bb_move pc="pc(?companion_entity,pcbillboard)" x="?x*?dim" y="?y*?dim" delta="0" />
 		<call event="decidenewmove" />
 	    </event>
 
@@ -4451,7 +4448,7 @@
 		    <for var="x" start="0" end="?dimension-1">
 		    	<lvar name="ent" value="?maze[?x,?y]" />
 			<if eval="#ent">
-			    <call entity="#ent" event="toback" />
+			    <bb_toback pc="pc(#ent,pcbillboard)" />
 		        </if>
 		    </for>
 		</for>
@@ -4505,6 +4502,7 @@
 	      - free entity stack. Parameter is @blocktype. Returns the entity.
 	      -->
 	    <event name="createentity">
+	    	<var name="blocktype" value="@blocktype" />	<!-- @@@ Ugly but some behaviours need it -->
 	    	<lvar name="sn" value="entstack_+@blocktype" />
 	        <if eval="?#sn > 0">
 		    <lvar name="ent" value="?(#sn+?#sn)" />
@@ -4533,7 +4531,7 @@
 		</if>
 	    	<if eval="?blocktype != '. '">
 		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
-		    <call entity="?#mazepos" event="toback" />
+		    <bb_toback pc="pc(?#mazepos,pcbillboard)" />
 		    <stop />
 		</if>
 		<var name="#mazepos" value="''" />
