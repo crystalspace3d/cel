@@ -5,5 +5,7 @@
 	    - The start of CELTEST which is a test application for CEL.
 	  The test application works (i.e. it opens a CS window) but other
 	  than that there is nothing functional yet.
+	- Fixed a bug in factory definition of 'plimp'.
+	- Started work on 'bltest'.
 
 

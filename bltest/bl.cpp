@@ -18,46 +18,46 @@
 */
 
 #include "cssysdef.h"
-#include "plimp/pl.h"
-#include "plimp/entity.h"
+#include "bltest/bl.h"
 
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPlLayer)
+SCF_IMPLEMENT_FACTORY (celBlTest)
 
-SCF_EXPORT_CLASS_TABLE (plimp)
-  SCF_EXPORT_CLASS (celPlLayer, "cel.physicallayer", "CEL Physical Layer")
+SCF_EXPORT_CLASS_TABLE (bltest)
+  SCF_EXPORT_CLASS (celBlTest, "cel.behaviourlayer.test",
+  	"CEL Test Behaviour Layer")
 SCF_EXPORT_CLASS_TABLE_END
 
-SCF_IMPLEMENT_IBASE (celPlLayer)
-  SCF_IMPLEMENTS_INTERFACE (iCelPlLayer)
+SCF_IMPLEMENT_IBASE (celBlTest)
+  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
 SCF_IMPLEMENT_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPlLayer::Component)
+SCF_IMPLEMENT_EMBEDDED_IBASE (celBlTest::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPlLayer::celPlLayer (iBase* parent)
+celBlTest::celBlTest (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
 }
 
-celPlLayer::~celPlLayer ()
+celBlTest::~celBlTest ()
 {
 }
 
-bool celPlLayer::Initialize (iObjectRegistry* /*object_reg*/)
+bool celBlTest::Initialize (iObjectRegistry* /*object_reg*/)
 {
   return true;
 }
 
-iCelEntity* celPlLayer::CreateEntity ()
+iCelBlEntity* celBlTest::CreateBlEntity ()
 {
-  celEntity* entity = new celEntity ();
-  return entity;
+  return NULL;
 }
+
 
