@@ -340,9 +340,6 @@ bool CelTest::CreateRoom ()
   csVector3 startpos = pcregion->GetStartPosition ();
   pcregion->DecRef ();
 
-  //pc = CreatePropertyClass (entity_room, pfmove, "pcsolid");
-  //if (!pc) return false;
-
   pc = CreatePropertyClass (entity_room, pfengine, "pccamera");
   if (!pc) return false;
   iPcCamera* pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
