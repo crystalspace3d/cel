@@ -18,6 +18,8 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/vector3.h"
+#include "csgeom/math3d.h"
 #include "pf/mesh/meshfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
@@ -247,6 +249,9 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   cur_on_top = false;
   mouse_buttons = CEL_MOUSE_BUTTON1;
 
+  drag_normal.Set (0, 0, 1);
+  drag_normal_camera = true;
+
   // Initialize default behaviour.
   do_global = false;
   do_drag = false;
@@ -274,7 +279,7 @@ void celPcMeshSelect::SetupEventHandler ()
   CS_ASSERT (q != NULL);
   q->RemoveListener (&scfiEventHandler);
   unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
-  if (do_follow || do_drag || do_sendmove) trigger |= CSMASK_MouseMove;
+  if (do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
   q->RegisterListener (&scfiEventHandler, trigger);
   q->DecRef ();
 }
@@ -316,20 +321,28 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   iCelEntity* new_sel = NULL;
 
-  if (mouse_down || (do_follow && sel_entity))
+  // The following vectors are only set if needed.
+
+  // Vector from (0,0,0) to 'vc' in camera space corresponding to 
+  // the point we clicked on.
+  csVector3 vc;
+  // Vector from 'vo' to 'vw' in world space corresponding to
+  // same vector.
+  csVector3 vo, vw;
+
+  if (mouse_down || ((do_follow || do_drag) && sel_entity))
   {
-    csVector3 v;
     // Setup perspective vertex, invert mouse Y axis.
     csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
 
-    camera->InvPerspective (p, 1, v);
-    csVector3 vw = camera->GetTransform ().This2Other (v);
+    camera->InvPerspective (p, 1, vc);
+    vw = camera->GetTransform ().This2Other (vc);
 
     iSector* sector = camera->GetSector ();
-    csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
-    csVector3 isect, end = origin + (vw - origin) * 60;
+    vo = camera->GetTransform ().GetO2TTranslation ();
+    csVector3 isect, end = vo + (vw - vo) * 60;
 
-    iMeshWrapper* sel = sector->HitBeam (origin, end, isect, NULL);
+    iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
     iObject* sel_obj = sel->QueryObject ();
     celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (sel_obj, celEntityFinder);
     if (cef)
@@ -337,6 +350,37 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       new_sel = cef->GetPcMesh ()->GetEntity ();
       cef->DecRef ();
     }
+  }
+
+  if (do_drag && sel_entity)
+  {
+    iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (sel_entity->GetPropertyClassList (), iPcMesh);
+    CS_ASSERT (pcmesh != NULL);
+    iMeshWrapper* mesh = pcmesh->GetMesh ();
+    csVector3 mp = mesh->GetMovable ()->GetPosition ();
+
+    csVector3 v0, v1;
+    if (drag_normal_camera)
+    {
+      v0.Set (0);
+      v1 = vc;
+      mp = camera->GetTransform ().Other2This (mp);
+    }
+    else
+    {
+      v0 = vo;
+      v1 = vw;
+    }
+    csVector3 isect;
+    float dist;
+    if (csIntersect3::Plane (v0, v1, drag_normal, mp, isect, dist))
+    {
+      if (drag_normal_camera) isect = camera->GetTransform ().This2Other (isect);
+      mesh->GetMovable ()->SetPosition (isect);
+      mesh->GetMovable ()->UpdateMove ();
+    }
+
+    pcmesh->DecRef ();
   }
 
   if (do_follow)

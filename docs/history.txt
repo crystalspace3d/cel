@@ -1,5 +1,13 @@
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
+	- Implemented dragging. You can define a plane on which the
+	  object will be constrained while dragging. This plane can
+	  be defined in either camera or world space giving maximum
+	  control.
+	- Modified celtest with a demo of this dragging. With left
+	  mouse button you will drag to the 0,1,0 plane in world space.
+	  This means orthogonal to the floor. With right mouse
+	  button you will drag to the 0,0,1 plane in camera space.
 31-Oct-2001:
 	- Split 'selectmesh' message from 'pcmeshselect' property class
 	  'selectmesh_up' and 'selectmesh_down'.
