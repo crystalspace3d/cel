@@ -624,32 +624,36 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
 int celPcRegion::propertycount = 0;
 Property* celPcRegion::properties = 0;
 
-void celPcRegion::UpdateProperties( iObjectRegistry* object_reg )
+void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
 {
-  if( propertycount == 0 )
+  if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY( object_reg, iCelPlLayer ));
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );
     CS_ASSERT( pl != 0 );
 
     propertycount = 4;
     properties = new Property[propertycount];
 
-    properties[propid_worlddir].id = pl->FetchStringID( "cel.property.pcregion.worlddir" );
+    properties[propid_worlddir].id = pl->FetchStringID (
+    	"cel.property.pcregion.worlddir");
     properties[propid_worlddir].datatype = CEL_DATA_STRING;
     properties[propid_worlddir].readonly = false;
     properties[propid_worlddir].desc = "Map VFS path.";
 
-    properties[propid_worldfile].id = pl->FetchStringID( "cel.property.pcregion.worldfile" );
+    properties[propid_worldfile].id = pl->FetchStringID (
+    	"cel.property.pcregion.worldfile");
     properties[propid_worldfile].datatype = CEL_DATA_STRING;
     properties[propid_worldfile].readonly = false;
     properties[propid_worldfile].desc = "Map VFS file name.";
 
-    properties[propid_regionname].id = pl->FetchStringID( "cel.property.pcregion.regionname" );
+    properties[propid_regionname].id = pl->FetchStringID (
+    	"cel.property.pcregion.regionname");
     properties[propid_regionname].datatype = CEL_DATA_STRING;
     properties[propid_regionname].readonly = false;
     properties[propid_regionname].desc = "Name of this region.";
 
-    properties[propid_load].id = pl->FetchStringID( "cel.action.pcregion.load" );
+    properties[propid_load].id = pl->FetchStringID (
+    	"cel.action.pcregion.load");
     properties[propid_load].datatype = CEL_DATA_ACTION;
     properties[propid_load].readonly = true;
     properties[propid_load].desc = "Load the map.\nNo parameters";
