@@ -16,10 +16,12 @@ LINKLIBS += $(CRYSTAL_LIBS) ;
 prefix = "@prefix@" ;
 exec_prefix = "@exec_prefix@" ;
 libdir = "@libdir@" ;
-csconfdir = "@libdir@/csconfig" ;
+plugindir = "@libdir@/cel" ;
+csconfdir = "@bindir@" ;
 bindir = "@bindir@" ;
 includedir = "@includedir@" ;
 
+C++FLAGS += "-DLIBDIR='\"$(plugindir)\"'" ;
 
 #disabled for now (1 source file is ../common/stdpcimp.cpp that doesn't work
 #  because of the relative path...)
