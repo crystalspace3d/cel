@@ -60,7 +60,7 @@
         <pcfactory>cel.pcfactory.billboard</pcfactory>
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
-        <pcfactory>cel.pcfactory.pckeyinput</pcfactory>
+        <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
 
 	<!-- *****************************************************
 	  - This script is the superclass of moving objects. You cannot
@@ -373,8 +373,8 @@
 		<var name="material" value="hero" />
 		<var name="speed" value="?maze_main.herospeed" />
 		<super />
-	        <createpropclass name="pckeyinput" />
-		<default propclass="pc(pckeyinput)" />
+	        <createpropclass name="pccommandinput" />
+		<default propclass="pc(pccommandinput)" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="right" />
@@ -427,22 +427,22 @@
 	    <!--
 	      - Movement events.
 	      -->
-	    <event name="pckeyinput_right1">
+	    <event name="pccommandinput_right1">
 	    	<var name="dx" value="1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_left1">
+	    <event name="pccommandinput_left1">
 	    	<var name="dx" value="-1" />
 	    	<var name="dy" value="0" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_down1">
+	    <event name="pccommandinput_down1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="1" />
 		<call event="checkmove" />
 	    </event>
-	    <event name="pckeyinput_up1">
+	    <event name="pccommandinput_up1">
 	    	<var name="dx" value="0" />
 	    	<var name="dy" value="-1" />
 		<call event="checkmove" />

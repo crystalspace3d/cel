@@ -96,62 +96,62 @@ class actor:
 			velocity.y = 6.31
 			self.linmove.SetVelocity(velocity)
 
-	def pckeyinput_forward1(self,celentity,args):
+	def pccommandinput_forward1(self,celentity,args):
 		self.forward = 1
 		self.handle_movement(0)
-	def pckeyinput_forward0(self,celentity,args):
+	def pccommandinput_forward0(self,celentity,args):
 		self.forward = 0
 		self.handle_movement(0)
 
-	def pckeyinput_backward1(self,celEntity,args):
+	def pccommandinput_backward1(self,celEntity,args):
 		self.backward = 1
 		self.handle_movement(0)
-	def pckeyinput_backward0(self,celEntity,args):
+	def pccommandinput_backward0(self,celEntity,args):
 		self.backward = 0
 		self.handle_movement(0)
 
-	def pckeyinput_rotateleft1(self,celEntity,args):
+	def pccommandinput_rotateleft1(self,celEntity,args):
 		self.rotateleft = 1
 		self.handle_movement(0)
-	def pckeyinput_rotateleft0(self,celEntity,args):
+	def pccommandinput_rotateleft0(self,celEntity,args):
 		self.rotateleft = 0
 		self.handle_movement(0)
 
-	def pckeyinput_rotateright1(self,celEntity,args):
+	def pccommandinput_rotateright1(self,celEntity,args):
 		self.rotateright = 1
 		self.handle_movement(0)
-	def pckeyinput_rotateright0(self,celEntity,args):
+	def pccommandinput_rotateright0(self,celEntity,args):
 		self.rotateright = 0
 		self.handle_movement(0)
 
-	def pckeyinput_strafeleft1(self,celEntity,args):
+	def pccommandinput_strafeleft1(self,celEntity,args):
 		self.strafeleft = 1
 		self.handle_movement(0)
-	def pckeyinput_strafeleft0(self,celEntity,args):
+	def pccommandinput_strafeleft0(self,celEntity,args):
 		self.strafeleft = 0
 		self.handle_movement(0)
 
-	def pckeyinput_straferight1(self,celEntity,args):
+	def pccommandinput_straferight1(self,celEntity,args):
 		self.straferight = 1
 		self.handle_movement(0)
-	def pckeyinput_straferight0(self,celEntity,args):
+	def pccommandinput_straferight0(self,celEntity,args):
 		self.straferight = 0
 		self.handle_movement(0)
 
-	def pckeyinput_jump1(self,celEntity,args):
+	def pccommandinput_jump1(self,celEntity,args):
 		self.handle_movement(1)
-	def pckeyinput_jump0(self,celEntity,args):
+	def pccommandinput_jump0(self,celEntity,args):
 		dummy = 0
 
-	def pckeyinput_run1(self,celEntity,args):
+	def pccommandinput_run1(self,celEntity,args):
 		if not self.autorun:
 			self.running = 1
 		self.handle_movement(0)
-	def pckeyinput_run0(self,celEntity,args):
+	def pccommandinput_run0(self,celEntity,args):
 		if not self.autorun:
 			self.running = 0
 		self.handle_movement(0)
 
-	def pckeyinput_cammode1(self,celEntity,args):
+	def pccommandinput_cammode1(self,celEntity,args):
 		print "cam"
 

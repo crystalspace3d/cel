@@ -53,28 +53,28 @@ class physics_actor:
 		input.Bind("m", "cammode")
 		input.Bind(" ", "jump")
 
-	def pckeyinput_forward1(self,celentity,args):
+	def pccommandinput_forward1(self,celentity,args):
 		self.dynbody.AddForceDuration(csVector3(0,0,50),10000000)
-	def pckeyinput_forward0(self,celentity,args):
+	def pccommandinput_forward0(self,celentity,args):
 		self.dynbody.ClearForces()
 
-	def pckeyinput_backward1(self,celEntity,args):
+	def pccommandinput_backward1(self,celEntity,args):
 		self.dynbody.AddForceDuration(csVector3(0,0,-50),10000000)
-	def pckeyinput_backward0(self,celEntity,args):
+	def pccommandinput_backward0(self,celEntity,args):
 		self.dynbody.ClearForces()
 
-	def pckeyinput_strafeleft1(self,celEntity,args):
+	def pccommandinput_strafeleft1(self,celEntity,args):
 		self.dynbody.AddForceFrame(csVector3(-50,0,0))
-	def pckeyinput_strafeleft0(self,celEntity,args):
+	def pccommandinput_strafeleft0(self,celEntity,args):
 		dummy = 0
 
-	def pckeyinput_straferight1(self,celEntity,args):
+	def pccommandinput_straferight1(self,celEntity,args):
 		self.dynbody.AddForceFrame(csVector3(50,0,0))
-	def pckeyinput_straferight0(self,celEntity,args):
+	def pccommandinput_straferight0(self,celEntity,args):
 		dummy = 0
 
-	def pckeyinput_jump1(self,celEntity,args):
+	def pccommandinput_jump1(self,celEntity,args):
 		self.dynbody.AddForceDuration(csVector3(0,100,0),0.5)
-	def pckeyinput_jump0(self,celEntity,args):
+	def pccommandinput_jump0(self,celEntity,args):
 		dummy = 0
 

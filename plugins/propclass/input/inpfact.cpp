@@ -22,6 +22,7 @@
 #include "iutil/event.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
+#include "ivideo/graph2d.h"
 #include "csutil/event.h"
 #include "csutil/debug.h"
 #include "csutil/inputdef.h"
@@ -39,7 +40,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (CommandInput, "pckeyinput")
+CEL_IMPLEMENT_FACTORY (CommandInput, "pccommandinput")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -84,8 +85,17 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
   celPcCommandInput::object_reg = object_reg;
 
-  maplist = 0;
+  keylist = 0;
+  axislist = 0;
+  buttonlist = 0;
   scfiEventHandler = 0;
+  screenspace = false;
+
+  g2d = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
+  if (!g2d) {
+    Report (object_reg, "Can't find the graphics2d plugin!");
+    return;
+  }
 
   Activate ();
 
@@ -107,15 +117,37 @@ celPcCommandInput::~celPcCommandInput ()
     scfiEventHandler->DecRef ();
   }
 
-  //delete list of mappings
-  celKeyMap* o,* p=maplist;
-  while (p)
+  //delete list of key mappings
+  celKeyMap *kn, *k=keylist;
+  while (k)
   {
-    o = p->next;
-    if (p->command)
-      delete [] p->command;
-    delete p;
-    p=o;
+    kn = k->next;
+    if (k->command)
+      delete [] k->command;
+    delete k;
+    k=kn;
+  }
+
+  //delete list of axis mappings
+  celAxisMap *an, *a=axislist;
+  while (a)
+  {
+    an = a->next;
+    if (a->command)
+      delete [] a->command;
+    delete a;
+    a=an;
+  }
+
+  //delete list of button mappings
+  celButtonMap *bn, *b=buttonlist;
+  while (b)
+  {
+    bn = b->next;
+    if (b->command)
+      delete [] b->command;
+    delete b;
+    b=bn;
   }
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
 }
@@ -141,7 +173,7 @@ csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
   int cnt = 0;
-  celKeyMap* m = maplist;
+  celKeyMap* m = keylist;
   while (m)
   {
     cnt++;
@@ -149,8 +181,10 @@ csPtr<iCelDataBuffer> celPcCommandInput::Save ()
   }
   databuf->SetDataCount (cnt * 2);
 
+  //TODO: Implement this for axes and buttons!
+
   int j = 0;
-  m = maplist;
+  m = keylist;
   while (m)
   {
     databuf->GetData (j++)->Set ((uint32)m->key);
@@ -173,6 +207,9 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
   cnt /= 2;
   int i, j = 0;
   celData* cd;
+
+  //TODO: Implement this for axes and buttons!
+
   for (i = 0 ; i < cnt ; i++)
   {
     cd = databuf->GetData (j++);
@@ -190,7 +227,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     }
     celKeyMap* newmap = new celKeyMap ();
     // Add a new entry to key mapping list
-    newmap->next = maplist;
+    newmap->next = keylist;
     newmap->prev = 0;
     newmap->key = key;
     newmap->command = new char[strlen (*cd->value.s)+2];
@@ -199,9 +236,9 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
 
     newmap->is_on = false;
-    if (maplist)
-      maplist->prev = newmap;
-    maplist = newmap;
+    if (keylist)
+      keylist->prev = newmap;
+    keylist = newmap;
   }
   return true;
 }
@@ -216,7 +253,7 @@ void celPcCommandInput::Activate (bool activate)
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
-    q->RegisterListener (scfiEventHandler, CSMASK_Keyboard);
+    q->RegisterListener (scfiEventHandler, CSMASK_Input);
   }
   else
   {
@@ -233,74 +270,222 @@ void celPcCommandInput::Activate (bool activate)
 
 bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 {
-  // not implemented
+  //TODO: not implemented
   return false;
 }
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
-  utf32_char key, cooked; 
-  csKeyModifiers modifiers; 
-  if (!csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
-    return false;
-  uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-
-  // only bind single keys
-  //  if (shift != 0)
-  //      return false;
-
-  celKeyMap* newmap;
-  if (!(newmap = GetMap (key, mods)))
+  int type, numeric;
+  csString strtrigger = csString (triggername);
+  bool centered = false;
+  size_t centerpos = strtrigger.FindStr ("_centered");
+  if (centerpos < (size_t)-1) {
+	  centered = true;
+	  strtrigger.Truncate (centerpos);
+  }
+  const char* trig = strtrigger.GetData ();
+  csKeyModifiers modifiers;
+  csInputDefinition::ParseOther (trig, &type, &numeric, &modifiers);
+  if (type == csevKeyboard)
   {
-    newmap = new celKeyMap;
-    // Add a new entry to key mapping list
-    newmap->next=maplist;
-    newmap->prev=0;
-    newmap->key=key;
-    newmap->modifiers=mods;
-    newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
-    strcpy (newmap->command, "pckeyinput_");
-    strcat (newmap->command, command);
-    newmap->command_end = strchr (newmap->command, 0);
-    *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
+    utf32_char key, cooked;
+    csInputDefinition::ParseKey (trig, &key, &cooked, &modifiers);
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
 
-    newmap->is_on=false;
-    if (maplist)
-      maplist->prev = newmap;
-    maplist = newmap;
+    // only bind single keys
+    //  if (shift != 0)
+    //      return false;
+
+    celKeyMap* newkmap;
+    if (!(newkmap = GetMap (key, mods)))
+    {
+      newkmap = new celKeyMap;
+      // Add a new entry to key mapping list
+      newkmap->next=keylist;
+      newkmap->prev=0;
+      newkmap->key=key;
+      newkmap->modifiers=mods;
+      newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+      strcpy (newkmap->command, "pccommandinput_");
+      strcat (newkmap->command, command);
+      newkmap->command_end = strchr (newkmap->command, 0);
+      *(newkmap->command_end+1) = 0;	// Make sure there is an end there too.
+
+      newkmap->is_on=false;
+      if (keylist)
+        keylist->prev = newkmap;
+      keylist = newkmap;
+    }
+    else
+    {
+      delete [] newkmap->command;
+      newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+      strcpy (newkmap->command, "pccommandinput_");
+      strcat (newkmap->command, command);
+      newkmap->command_end = strchr (newkmap->command, 0);
+      *(newkmap->command_end+1) = 0;	// Make sure there is an end there too.
+    }
+
+    return true;
   }
   else
   {
-    delete [] newmap->command;
-    newmap->command = new char[strlen ("pckeyinput_")+strlen(command)+2];
-    strcpy (newmap->command, "pckeyinput_");
-    strcat (newmap->command, command);
-    newmap->command_end = strchr (newmap->command, 0);
-    *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
-  }
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    if (type == csevMouseMove || type == csevJoystickMove) {
+      celAxisMap* newamap;
+      if (!(newamap = GetAxisMap (type, numeric, mods)))
+      {
+        newamap = new celAxisMap;
+        // Add a new entry to axis mapping list
+        newamap->next = axislist;
+        newamap->prev = 0;
+        newamap->type = type;
+	newamap->numeric = numeric;
+        newamap->modifiers = mods;
+	newamap->recenter = centered;
+        newamap->command = new char[strlen ("pccommandinput_")+strlen(command)+1];
+        strcpy (newamap->command, "pccommandinput_");
+        strcat (newamap->command, command);
 
-  return true;
+        if (axislist)
+          axislist->prev = newamap;
+        axislist = newamap;
+      }
+      else
+      {
+        delete [] newamap->command;
+	newamap->recenter = centered;
+        newamap->command = new char[strlen ("pccommandinput_")+strlen(command)+1];
+        strcpy (newamap->command, "pccommandinput_");
+        strcat (newamap->command, command);
+      }
+    } else {
+      celButtonMap* newbmap;
+      if (!(newbmap = GetButtonMap (type, numeric, mods)))
+      {
+        newbmap = new celButtonMap;
+        // Add a new entry to button mapping list
+        newbmap->next=buttonlist;
+        newbmap->prev=0;
+        newbmap->type=type;
+	newbmap->numeric=numeric;
+        newbmap->modifiers=mods;
+        newbmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+        strcpy (newbmap->command, "pccommandinput_");
+        strcat (newbmap->command, command);
+        newbmap->command_end = strchr (newbmap->command, 0);
+        *(newbmap->command_end+1) = 0;	// Make sure there is an end there too.
+
+        newbmap->is_on=false;
+        if (buttonlist)
+          buttonlist->prev = newbmap;
+        buttonlist = newbmap;
+      }
+      else
+      {
+        delete [] newbmap->command;
+        newbmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+        strcpy (newbmap->command, "pccommandinput_");
+        strcat (newbmap->command, command);
+        newbmap->command_end = strchr (newbmap->command, 0);
+        *(newbmap->command_end+1) = 0;	// Make sure there is an end there too.
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
   utf32_char key, cooked;
+  int type, numeric;
   csKeyModifiers modifiers;
-  if (!csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
-    return false;
-  
-  uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-  celKeyMap* map;
-  if (!(map = GetMap (key, mods)))
-    return 0;
-
-  return map->command+11;
+  if (csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  {
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    celKeyMap* map;
+    if (!(map = GetMap (key, mods)))
+      return 0;
+    return map->command+15;
+  }
+  else if (csInputDefinition::ParseOther (triggername, &type, &numeric, &modifiers))
+  {
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    if (type == csevMouseMove || type == csevJoystickMove) {
+      celAxisMap* amap;
+      if (!(amap = GetAxisMap (type, numeric, mods)))
+        return 0;
+      return amap->command+15;
+    }
+    else
+    {
+      celButtonMap* bmap;
+      if (!(bmap = GetButtonMap (type, numeric, mods)))
+        return 0;
+      return bmap->command+15;
+    }
+  }
+  return 0;
 }
 
-bool celPcCommandInput::RemoveBind (const char* /*triggername*/,
-    const char* /*command*/)
+bool celPcCommandInput::RemoveBind (const char* triggername,
+    const char* command)
 {
-  //not implemented yet
+  utf32_char key, cooked;
+  int type, numeric;
+  csKeyModifiers modifiers;
+  if (csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  {
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    celKeyMap *pmap = 0, *map = keylist;
+    while (map) {
+      if (map->key == key && map->modifiers == mods)
+      {
+        pmap->next = map->next;
+	delete map;
+	return true;
+      }
+      pmap = map;
+      map = map->next;
+    }
+    return false;
+  }
+  else if (csInputDefinition::ParseOther (triggername, &type, &numeric, &modifiers))
+  {
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    if (type == csevMouseMove || type == csevJoystickMove)
+    {
+      celAxisMap *pamap = 0, *amap = axislist;
+      while (amap) {
+        if (amap->type == type && amap->numeric == numeric && amap->modifiers == mods)
+        {
+        pamap->next = amap->next;
+          delete amap;
+          return true;
+        }
+        pamap = amap;
+        amap = amap->next;
+      }
+      return false;
+    }
+    else
+    {
+      celButtonMap *pbmap = 0, *bmap = buttonlist;
+      while (bmap) {
+        if (bmap->type == type && bmap->numeric == numeric && bmap->modifiers == mods)
+        {
+          pbmap->next = bmap->next;
+          delete bmap;
+          return true;
+        }
+        pbmap = bmap;
+        bmap = bmap->next;
+      }
+      return false;
+    }
+  }
   return false;
 }
 
@@ -308,19 +493,41 @@ void celPcCommandInput::RemoveAllBinds ()
 {
   celKeyMap *key, *next;
   
-  key = maplist;
+  key = keylist;
   while (key)
   {
     next = key->next;
     delete key;
     key = next;
   }
-  maplist = 0;
+  keylist = 0;
+
+  celAxisMap *axis, *nexta;
+  
+  axis = axislist;
+  while (axis)
+  {
+    nexta = axis->next;
+    delete axis;
+    axis = nexta;
+  }
+  axislist = 0;
+
+  celButtonMap *button, *nextb;
+  
+  button = buttonlist;
+  while (button)
+  {
+    nextb = button->next;
+    delete button;
+    button = nextb;
+  }
+  buttonlist = 0;
 }
 
 celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 {
-  celKeyMap *p=maplist;
+  celKeyMap *p=keylist;
   while (p)
   {
     if (p->key==key && p->modifiers==mods)
@@ -331,62 +538,286 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
   return p;
 }
 
-bool celPcCommandInput::HandleEvent (iEvent &ev)
+celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric, uint32 mods) const
 {
-  CS_ASSERT(ev.Type==csevKeyboard);
-  utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
-  csKeyModifiers key_modifiers;
-  csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-  uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
-  uint32 type = csKeyEventHelper::GetEventType (&ev);
-
-  //find mapping
-  celKeyMap *p = maplist;
+  celAxisMap *p=axislist;
   while (p)
   {
-    if ((p->key == key) && ((modifiers & p->modifiers) == p->modifiers))
-    {
+    if (p->type==type && p->numeric==numeric && p->modifiers==mods)
       break;
-    }
     p=p->next;
   }
-  if (!p)
-    return false;
 
-  if (type == csKeyEventTypeUp)
+  return p;
+}
+
+celButtonMap* celPcCommandInput::GetButtonMap (int type, int numeric, uint32 mods) const
+{
+  celButtonMap *p=buttonlist;
+  while (p)
   {
-    if (p->is_on)
-    {
-      p->is_on=false;
-      iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != 0);
-      *(p->command_end) = '0';
-      celData ret;
-      bh->SendMessage (p->command, ret, 0);
-      *(p->command_end) = 0;
-    }
+    if (p->type==type && p->numeric==numeric && p->modifiers==mods)
+      break;
+    p=p->next;
   }
+
+  return p;
+}
+
+void celPcCommandInput::ScreenCoordinates (bool screen)
+{
+}
+
+float celPcCommandInput::ScreenToCentered (float screencoord, float axis)
+{
+  if (axis == 0)
+    return (screencoord * 2 / g2d->GetWidth ()) - 1;
   else
+    return (screencoord * 2 / g2d->GetHeight ()) - 1;
+}
+
+float celPcCommandInput::CenteredToScreen (float centeredcoord, float axis)
+{
+  if (axis == 0)
+    return (centeredcoord + 1) / 2 * g2d->GetWidth ();
+  else
+    return (centeredcoord + 1) / 2 * g2d->GetHeight ();
+}
+
+bool celPcCommandInput::HandleEvent (iEvent &ev)
+{
+  if (CS_IS_KEYBOARD_EVENT(ev))
   {
-    if (p->is_on)
+    utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
+    csKeyModifiers key_modifiers;
+    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    uint32 type = csKeyEventHelper::GetEventType (&ev);
+
+    //find mapping
+    celKeyMap *p = keylist;
+    while (p)
     {
-      // Send auto-repeat message.
-      iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != 0);
-      *(p->command_end) = '_';
-      celData ret;
-      bh->SendMessage (p->command, ret, 0);
-      *(p->command_end) = 0;
+      if ((p->key == key) && ((modifiers & p->modifiers) == p->modifiers))
+      {
+        break;
+      }
+      p=p->next;
+    }
+    if (!p)
+      return false;
+
+    if (type == csKeyEventTypeUp)
+    {
+      if (p->is_on)
+      {
+        p->is_on=false;
+        iCelBehaviour* bh = entity->GetBehaviour();
+        CS_ASSERT(bh != 0);
+        *(p->command_end) = '0';
+        celData ret;
+        bh->SendMessage (p->command, ret, 0);
+        *(p->command_end) = 0;
+      }
     }
     else
     {
-      p->is_on=true;
-      iCelBehaviour* bh = entity->GetBehaviour();
-      CS_ASSERT(bh != 0);
-      *(p->command_end) = '1';
-      celData ret;
-      bh->SendMessage (p->command, ret, 0);
-      *(p->command_end) = 0;
+      if (p->is_on)
+      {
+        // Send auto-repeat message.
+        iCelBehaviour* bh = entity->GetBehaviour();
+        CS_ASSERT(bh != 0);
+        *(p->command_end) = '_';
+        celData ret;
+        bh->SendMessage (p->command, ret, 0);
+        *(p->command_end) = 0;
+      }
+      else
+      {
+        p->is_on=true;
+        iCelBehaviour* bh = entity->GetBehaviour();
+        CS_ASSERT(bh != 0);
+        *(p->command_end) = '1';
+        celData ret;
+        bh->SendMessage (p->command, ret, 0);
+        *(p->command_end) = 0;
+      }
+    }
+  }
+  else if (CS_IS_MOUSE_EVENT(ev))
+  {
+    if (ev.Type == csevMouseMove)
+    {
+      //mouse move event
+      int modifiers = ev.Mouse.Modifiers;
+      //find mapping
+      celAxisMap *p = axislist;
+      while (p)
+      {
+        if ((modifiers & p->modifiers) == p->modifiers)
+        {
+	  float val;
+	  if (p->numeric == 0)
+            val = (float) ev.Mouse.x;
+	  else
+            val = (float) ev.Mouse.y;
+          celData ret;
+	  if (screenspace)
+            ret.Set (val);
+	  else {
+            ret.Set (ScreenToCentered (val, p->numeric));
+	  }
+          entity->GetBehaviour ()->SendMessage (p->command, ret, 0);
+	  if (p->recenter) {
+            // Recenter mouse so we don't lose focus
+            int width = g2d->GetWidth();
+            int height = g2d->GetHeight();
+            g2d->SetMousePosition (width / 2, height / 2);
+            g2d->SetMouseCursor (csmcNone);
+          }
+        }
+        p=p->next;
+      }
+    } else {
+      //mouse button event
+      int button = ev.Mouse.Button;
+      int modifiers = ev.Mouse.Modifiers;
+      //find mapping
+      celButtonMap *p = buttonlist;
+      while (p)
+      {
+        if ((p->numeric == button) && ((modifiers & p->modifiers) == p->modifiers) && ((1 << p->type) & CSMASK_Mouse))
+        {
+          break;
+        }
+        p=p->next;
+      }
+      if (!p)
+        return false;
+
+      if (ev.Type == (uint8) csevMouseUp)
+      {
+        if (p->is_on)
+        {
+          p->is_on=false;
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
+      else
+      {
+        if (p->is_on)
+        {
+          // Send auto-repeat message.
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '_';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+        else
+        {
+          p->is_on=true;
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
+    }
+  }
+  else if (CS_IS_JOYSTICK_EVENT(ev))
+  {
+    if (ev.Type == csevJoystickMove)
+    {
+      //joystick move event
+      int modifiers = ev.Joystick.Modifiers;
+      //find mapping
+      celAxisMap *p = axislist;
+      while (p)
+      {
+        if ((modifiers & p->modifiers) == p->modifiers)
+        {
+	  float val;
+	  if (p->numeric == 0)
+            val = (float) ev.Joystick.x;
+	  else
+            val = (float) ev.Joystick.y;
+          //The joystick driver returns values between -32767 and +32767.
+	  //Get the value in the range -1 to 1.
+          val = val / 32767;
+          celData ret;
+	  if (screenspace)
+            ret.Set (CenteredToScreen (val, p->numeric));
+	  else
+            ret.Set (val);
+          entity->GetBehaviour ()->SendMessage (p->command, ret, 0);
+        }
+        p=p->next;
+      }
+      if (!p)
+        return false;
+
+    } else {
+      //joystick button event
+      int button = ev.Joystick.Button;
+      int modifiers = ev.Joystick.Modifiers;
+      //find mapping
+      celButtonMap *p = buttonlist;
+      while (p)
+      {
+        if ((p->numeric == button) && ((modifiers & p->modifiers) == p->modifiers) && ((1 << p->type) & CSMASK_Joystick))
+        {
+          break;
+        }
+        p=p->next;
+      }
+      if (!p)
+        return false;
+
+      if (ev.Type == csevJoystickUp)
+      {
+        if (p->is_on)
+        {
+          p->is_on=false;
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
+      else
+      {
+        if (p->is_on)
+        {
+          // Send auto-repeat message.
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '_';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+        else
+        {
+          p->is_on=true;
+          iCelBehaviour* bh = entity->GetBehaviour();
+          CS_ASSERT(bh != 0);
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
     }
   }
 

@@ -29,7 +29,7 @@ SCF_VERSION (iPcActorMove, 0, 0, 1);
  * ActorMove property class. This property class makes a connection
  * between pclinmove and pccamera and makes it easier to control
  * movement for actors in a game. Typical usage would be to combine
- * it with pckeyinput and then in the behaviour layer send out
+ * it with pccommandinput and then in the behaviour layer send out
  * the appropriate calls here depending on the keys that are pressed.
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
