@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+30-Dec-2004
+	- Andrew Dai fixed another bug in NumRegLists::RegisterWithID
+	  where the list was not being cleared after being grown.
 28-Dec-2004
 	- Jorrit fixed a bug with NumRegLists::RegisterWithID(). First it
 	  would not update the listsize if the list grew. Secondly it would
