@@ -102,7 +102,6 @@ registerid:
     CS_ASSERT (freelistend < freelistsize);
     CS_ASSERT (freelist[freelistend] < listsize);  
     list[freelist[freelistend]] = obj;
-    printf ("Regsitered: %u (%p)\n", freelist[freelistend], obj);
     return freelist[freelistend];  
 }
 
