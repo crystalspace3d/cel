@@ -20,7 +20,14 @@
 #include "cssysdef.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
+#include "iutil/object.h"
 #include "ivaria/reporter.h"
+#include "cstool/sndwrap.h"
+
+#include "isound/source.h"
+#include "isound/handle.h"
+#include "isound/renderer.h"
+#include "iengine/engine.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -274,7 +281,8 @@ static const char* A2S (const celXmlArg& a)
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
-        str->Format ("{ent:%s}", a.arg.entity ? a.arg.entity->GetName () : "<null>");
+        str->Format ("{ent:%s}", a.arg.entity ? a.arg.entity->GetName ()
+		: "<null>");
 	used_strings.Push (str);
         return *str;
       }
@@ -517,6 +525,8 @@ bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
   va_end (arg);
   return false;
 }
+
+csRef<iSoundSource> sound_source;
 
 bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
 	celBehaviourXml* behave, bool& rc)
@@ -1796,7 +1806,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave, "Entity '%s' doesn't have 'pcproperties'!",
+	    return ReportError (behave,
+	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (a_ent));
 	  const char* varname = ArgToString (a_var);
 	  int idx = props->GetPropertyIndex (varname);
@@ -2219,7 +2230,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
 	    return ReportError (behave,
-	    	"Entity '%s' doesn't have 'pcproperties'!", EntityNameForError (a_ent));
+	    	"Entity '%s' doesn't have 'pcproperties'!",
+			EntityNameForError (a_ent));
 
 	  const char* varname = ArgToString (var);
 	  if (!varname)
@@ -2595,6 +2607,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (behave,
 	      	"Bad type for setting property value!");
 	  }
+	}
+        break;
+      case CEL_OPERATION_SOUND:
+        {
+	  CHECK_STACK
+	  celXmlArg a_loop = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_name = stack.Pop ();
+	  DUMP_EXEC (":%04d: sound name=%s loop=%s\n", i-1, A2S (a_name),
+	  	A2S (a_loop));
+	  csRef<iSoundRender> snd = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iSoundRender);
+	  if (!snd) break;
+	  csRef<iEngine> engine = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iEngine);
+	  if (!engine) break;
+	  csRef<iSoundWrapper> w = CS_GET_NAMED_CHILD_OBJECT (
+		engine->QueryObject (), iSoundWrapper, ArgToString (a_name));
+	  if (w) sound_source = w->GetSound ()->Play (ArgToBool (a_loop));
 	}
         break;
     }

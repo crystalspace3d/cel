@@ -65,6 +65,7 @@ enum
   XMLTOKEN_INVENTORY,
   XMLTOKEN_INVENTORY_ADD,
   XMLTOKEN_INVENTORY_REM,
+  XMLTOKEN_SOUND,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -137,6 +138,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("inventory", XMLTOKEN_INVENTORY);
   xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
   xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
+  xmltokens.Register ("sound", XMLTOKEN_SOUND);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -791,15 +793,26 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_SOUND:
+        if (!ParseExpression (child, h, "name", "sound")) return false;
+	if (child->GetAttributeValue ("loop"))
+	{
+          if (!ParseExpression (child, h, "loop", "sound")) return false;
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
+	  h->GetArgument ().SetBool (false);
+	}
+	h->AddOperation (CEL_OPERATION_SOUND);
+        break;
       case XMLTOKEN_STOP:
         h->AddOperation (CEL_OPERATION_END);
         break;
       case XMLTOKEN_CREATEPROPCLASS:
-        {
-          if (!ParseExpression (child, h, "name", "createpropclass"))
-	    return false;
-	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
-	}
+        if (!ParseExpression (child, h, "name", "createpropclass"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
 	break;
       case XMLTOKEN_CALL:
         {
@@ -814,20 +827,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	break;
       case XMLTOKEN_DESTROYENTITY:
-        {
-          if (!ParseExpression (child, h, "name", "destroyentity"))
-	    return false;
-	  h->AddOperation (CEL_OPERATION_DESTROYENTITY);
-	}
+        if (!ParseExpression (child, h, "name", "destroyentity")) return false;
+	h->AddOperation (CEL_OPERATION_DESTROYENTITY);
 	break;
       case XMLTOKEN_CREATEENTITY:
-        {
-          if (!ParseExpression (child, h, "name", "createentity"))
-	    return false;
-          if (!ParseExpression (child, h, "behaviour", "createentity"))
-	    return false;
-	  h->AddOperation (CEL_OPERATION_CREATEENTITY);
-	}
+        if (!ParseExpression (child, h, "name", "createentity")) return false;
+        if (!ParseExpression (child, h, "behaviour", "createentity"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CREATEENTITY);
 	break;
       case XMLTOKEN_VAR:
         {
