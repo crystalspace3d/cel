@@ -101,7 +101,7 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
   databuf->GetData (j++)->Set ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    constraint* c = (constraint*)constraints[i];
+    constraint* c = constraints[i];
     databuf->GetData (j++)->Set (c->charName);
     databuf->GetData (j++)->Set (c->minValue);
     databuf->GetData (j++)->Set (c->maxValue);
@@ -312,7 +312,7 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    constraint* c = (constraint*)constraints[i];
+    constraint* c = constraints[i];
     if (!strcmp (name, c->charName)) return c;
   }
   return 0;
@@ -398,12 +398,10 @@ void celPcInventory::RemoveConstraints (const char* charName)
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    constraint* c = (constraint*)constraints[i];
+    constraint* c = constraints[i];
     if (!strcmp (charName, c->charName))
     {
-      delete[] c->charName;
-      delete c;
-      constraints.Delete (i);
+      constraints.DeleteIndex (i);
       return;
     }
   }
@@ -411,13 +409,7 @@ void celPcInventory::RemoveConstraints (const char* charName)
 
 void celPcInventory::RemoveAllConstraints ()
 {
-  while (constraints.Length () > 0)
-  {
-    constraint* c = (constraint*)constraints[0];
-    delete[] c->charName;
-    delete c;
-    constraints.Delete (0);
-  }
+  constraints.DeleteAll ();
 }
 
 float celPcInventory::GetCurrentCharacteristic (const char* charName) const
@@ -500,7 +492,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     int i;
     for (i = 0 ; i < constraints.Length () ; i++)
     {
-      constraint* c = (constraint*)constraints[i];
+      constraint* c = constraints[i];
       if (!TestLocalConstraints (c->charName)) return false;
     }
   }
@@ -540,7 +532,7 @@ void celPcInventory::MarkDirty (const char* name)
     int i;
     for (i = 0 ; i < constraints.Length () ; i++)
     {
-      constraint* c = (constraint*)constraints[i];
+      constraint* c = constraints[i];
       c->dirty = true;
     }
   }
@@ -558,7 +550,7 @@ void celPcInventory::Dump ()
   printf ("Constraints:\n");
   for (i = 0 ; i < constraints.Length () ; i++)
   {
-    constraint* c = (constraint*)constraints[i];
+    constraint* c = constraints[i];
     printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
 		    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
 		    GetCurrentCharacteristic (c->charName), c->strict);
@@ -591,14 +583,6 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
-  while (chars.Length () > 0)
-  {
-    charact* c = (charact*) chars[0];
-    delete[] c->name;
-    delete c;
-        
-    chars.Delete (0);
-  }
 }
 
 #define CHARACTERISTICS_SERIAL 1
@@ -613,7 +597,7 @@ csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
   databuf->GetData (j++)->Set ((uint16)chars.Length ());
   for (i = 0 ; i < chars.Length () ; i++)
   {
-    charact* c = (charact*)chars[i];
+    charact* c = chars[i];
     databuf->GetData (j++)->Set (c->name);
     databuf->GetData (j++)->Set (c->value);
     databuf->GetData (j++)->Set (c->factor);
@@ -692,7 +676,7 @@ celPcCharacteristics::charact* celPcCharacteristics::FindCharact (
   int i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
-    charact* c = (charact*)chars[i];
+    charact* c = chars[i];
     if (!strcmp (name, c->name)) return c;
   }
   return 0;
@@ -703,7 +687,7 @@ bool celPcCharacteristics::TestConstraints (const char* charName)
   int i;
   for (i = 0 ; i < inventories.Length () ; i++)
   {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
+    iPcInventory* inv = inventories[i];
     if (!inv->TestConstraints (charName)) return false;
   }
   return true;
@@ -714,7 +698,7 @@ void celPcCharacteristics::MarkDirty (const char* charName)
   int i;
   for (i = 0 ; i < inventories.Length () ; i++)
   {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
+    iPcInventory* inv = inventories[i];
     inv->MarkDirty (charName);
   }
 }
@@ -809,10 +793,10 @@ bool celPcCharacteristics::ClearCharacteristic (const char* name)
   int i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
-    charact* c = (charact*)chars[i];
+    charact* c = chars[i];
     if (!strcmp (name, c->name))
     {
-      chars.Delete (i);
+      chars.Extract (i);
       // First test if this doesn't invalidate constraints.
       MarkDirty (name);
       if (!TestConstraints (name))
@@ -836,7 +820,7 @@ bool celPcCharacteristics::ClearAll ()
 {
   while (chars.Length () > 0)
   {
-    charact* c = (charact*)chars[0];
+    charact* c = chars[0];
     if (!ClearCharacteristic (c->name)) return false;
   }
   return true;
@@ -850,9 +834,7 @@ void celPcCharacteristics::AddToInventory (iPcInventory* inv)
 
 void celPcCharacteristics::RemoveFromInventory (iPcInventory* inv)
 {
-  int idx = inventories.Find (inv);
-  if (idx == -1) return;
-  inventories.Delete (idx);
+  inventories.Delete (inv);
 }
 
 void celPcCharacteristics::Dump ()
@@ -862,14 +844,14 @@ void celPcCharacteristics::Dump ()
   int i;
   for (i = 0 ; i < chars.Length () ; i++)
   {
-    charact* c = (charact*)chars[i];
+    charact* c = chars[i];
     printf ("  '%s' value=%g, local value=%g factor=%g add=%g\n", c->name,
 		    GetCharacteristic (c->name), c->value, c->factor, c->add);
   }
   printf ("Inventories:\n");
   for (i = 0 ; i < inventories.Length () ; i++)
   {
-    iPcInventory* inv = (iPcInventory*)inventories[i];
+    iPcInventory* inv = inventories[i];
     csRef<iCelPropertyClass> pc (
     	SCF_QUERY_INTERFACE (inv, iCelPropertyClass));
     if (pc)

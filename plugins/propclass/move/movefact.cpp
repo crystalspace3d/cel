@@ -619,7 +619,7 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   int i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
-    celForce* f = (celForce*)forces[i];
+    celForce* f = forces[i];
     db.Set (f->force);
     db.Set (f->time_remaining);
   }
@@ -738,12 +738,6 @@ iPcSolid* celPcGravity::GetSolid ()
 
 void celPcGravity::ClearForces ()
 {
-  int i;
-  for (i = 0 ; i < forces.Length () ; i++)
-  {
-    celForce* f = (celForce*)forces[i];
-    delete f;
-  }
   forces.DeleteAll ();
 }
 
@@ -948,7 +942,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     int i;
     for (i = 0 ; i < forces.Length () ; i++)
     {
-      celForce* f = (celForce*)forces[i];
+      celForce* f = forces[i];
       if (f->time_remaining < smallest_time)
         smallest_time = f->time_remaining;
       force += f->force;
@@ -967,12 +961,11 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     i = 0;
     while (i < forces.Length ())
     {
-      celForce* f = (celForce*)forces[i];
+      celForce* f = forces[i];
       f->time_remaining -= smallest_time;
       if (f->time_remaining < EPSILON)
       {
-        delete f;
-	forces.Delete (i);
+	forces.DeleteIndex (i);
       }
       else
       {
