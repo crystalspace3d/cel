@@ -477,7 +477,6 @@ bool celBillboard::In (int sx, int sy)
     return false;
 }
 
-#ifndef CS_USE_OLD_RENDERER
 static csSimpleRenderMesh mesh;
 static bool mesh_init = false;
 
@@ -606,92 +605,6 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   mesh_colors.Push (c);
   mesh_colors.Push (c);
 }
-#else
-static G3DPolygonDPFX poly;
-static bool poly_init = false;
-static void mesh_reset ()
-{
-  if (!poly_init)
-  {
-    poly_init = true;
-    poly.num = 4;
-    poly.use_fog = false;
-    poly.mixmode = CS_FX_COPY;
-  }
-}
-
-static void mesh_draw (iGraphics3D* g3d)
-{
-}
-
-void celBillboard::Draw (iGraphics3D* g3d, float z)
-{
-  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
-
-  int fw = g3d->GetWidth ();
-  int fh = g3d->GetHeight ();
-  csRect r;
-  GetRect (r);
-  if (r.xmax <= 0 || r.xmin >= fw-1) return;
-  if (r.ymax <= 0 || r.ymin >= fh-1) return;
-
-  SetupMaterial ();
-  if (!material) return;
-  material->Visit ();
-  poly.mat_handle = material->GetMaterialHandle ();
-
-  csVector2 uvtl = uv_topleft;
-  csVector2 uvbr = uv_botright;
-  if (r.xmin < 0)
-  {
-    int dx = r.xmax - r.xmin;
-    float rr = float (-r.xmin) / float (dx);
-    uvtl.x = (1-rr) * uvtl.x + uvbr.x * rr;
-    r.xmin = 0;
-  }
-  else if (r.xmax >= fw)
-  {
-    int dx = r.xmax - r.xmin;
-    float rr = float (r.xmax - fw+1) / float (dx);
-    uvbr.x = (1-rr) * uvbr.x + uvtl.x * rr;
-    r.xmax = fw-1;
-  }
-  if (r.ymin < 0)
-  {
-    int dy = r.ymax - r.ymin;
-    float rr = float (-r.ymin) / float (dy);
-    uvtl.y = (1-rr) * uvtl.y + uvbr.y * rr;
-    r.ymin = 0;
-  }
-  else if (r.ymax >= fh)
-  {
-    int dy = r.ymax - r.ymin;
-    float rr = float (r.ymax - fh-1) / float (dy);
-    uvbr.y = (1-rr) * uvbr.y + uvtl.y * rr;
-    r.ymax = fh-1;
-  }
-
-  poly.vertices[0].Set (r.xmin, fh-r.ymin);
-  poly.vertices[1].Set (r.xmax, fh-r.ymin);
-  poly.vertices[2].Set (r.xmax, fh-r.ymax);
-  poly.vertices[3].Set (r.xmin, fh-r.ymax);
-  poly.texels[0] = uvtl;
-  poly.texels[1].Set (uvbr.x, uvtl.y);
-  poly.texels[2] = uvbr;
-  poly.texels[3].Set (uvtl.x, uvbr.y);
-  poly.colors[0] = color;
-  poly.colors[1] = color;
-  poly.colors[2] = color;
-  poly.colors[3] = color;
-  float invz = 1.0 / z;
-  poly.z[0] = invz;
-  poly.z[1] = invz;
-  poly.z[2] = invz;
-  poly.z[3] = invz;
-  g3d->SetRenderState (G3DRENDERSTATE_ZBUFFERMODE, CS_ZBUF_FILL);
-  g3d->DrawPolygonFX (poly);
-}
-#endif
 
 void celBillboard::AddEventHandler (iBillboardEventHandler* evh)
 {
