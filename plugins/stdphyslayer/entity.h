@@ -37,7 +37,7 @@ class celEntity : public csObject
 private:
   celPropertyClassList* plist;
   csRef<iCelBehaviour> behaviour;
-  CS_ID entity_ID;
+  uint entity_ID;
   celPlLayer *pl;
 
 public:
@@ -46,9 +46,9 @@ public:
   celEntity (celPlLayer* pl);
   virtual ~celEntity ();
 
-  CS_ID GetEntityID ()
+  uint GetEntityID ()
   { return entity_ID; }
-  void SetEntityID (CS_ID ID)
+  void SetEntityID (uint ID)
   { entity_ID = ID; }
 
   virtual void SetName (const char *name);
@@ -70,8 +70,8 @@ public:
     virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }
-    virtual void SetID  (CS_ID n) { scfParent->SetEntityID (n); }
-    virtual CS_ID GetID () const
+    virtual void SetID  (uint n) { scfParent->SetEntityID (n); }
+    virtual uint GetID () const
     {
       return scfParent->entity_ID;
     }

@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+6-Mar-2005
+	- Jorrit fixed CEL for the removal of CS_ID in CS.
 4-Mar-2005
         - Andrew Craig fixed meshfact and stdphydlayer plugins for csIntersect3
 	  changes in CS.

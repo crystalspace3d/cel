@@ -33,14 +33,14 @@ public:
    *  Registers an object in the registry and returns the new ID, in error
    * case ID 0 is returned
    */
-  virtual CS_ID Register (void* obj);
+  virtual uint Register (void* obj);
   /**
    *  Registers an object in the registry with an ID. You shouldn't use this
    * function with this implementation. It should work though, but slow.
    */
-  virtual void RegisterWithID (void* obj, CS_ID id);
+  virtual void RegisterWithID (void* obj, uint id);
   /** Removes an registered object from registry */
-  virtual bool Remove (CS_ID id);
+  virtual bool Remove (uint id);
   /** Removes an registered object from registry (Note: this is slow you
    * should use Remove(id) if possible
    */
@@ -50,7 +50,7 @@ public:
   virtual void Clear();
 
   /** Returns the object with ID id from the list */
-  virtual void* Get(CS_ID id)
+  virtual void* Get(uint id)
   { 
     if (id>=listsize)
       return 0;
@@ -66,12 +66,12 @@ public:
   }
   
 protected:
-  inline CS_ID intern_Register(void* obj);
+  inline uint intern_Register(void* obj);
   
   void** list;
-  CS_ID* freelist;
-  CS_ID listsize;
-  CS_ID limit;
+  uint* freelist;
+  uint listsize;
+  uint limit;
   unsigned int freelistend;
   unsigned int freelistsize;
 };
@@ -88,21 +88,21 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual CS_ID Register(void* obj);
-  virtual void RegisterWithID(void* obj, CS_ID id);
+  virtual uint Register(void* obj);
+  virtual void RegisterWithID(void* obj, uint id);
   
-  virtual bool Remove(CS_ID id);
+  virtual bool Remove(uint id);
   virtual bool Remove(void* obj);
 
   virtual void Clear();
 
-  virtual void* Get(CS_ID id);
+  virtual void* Get(uint id);
   virtual unsigned int Length();
 
 private:
-  csHash<void*,CS_ID> reg;
-  CS_ID current_id;
-  CS_ID limit;
+  csHash<void*,uint> reg;
+  uint current_id;
+  uint limit;
 };
 
 
@@ -117,13 +117,13 @@ private:
   struct part
   {
     iNumReg* numreg;
-    CS_ID start;
-    CS_ID end;
+    uint start;
+    uint end;
   };
   csArray<struct part> regs;
 
 private:
-  int GetScopeOfID (CS_ID id);
+  int GetScopeOfID (uint id);
 
 public:
   celIDRegistry ();
@@ -143,17 +143,17 @@ public:
   /**
    * Register an object in the given scope. Error case return 0
    */
-  CS_ID Register (void* obj, int scope);
+  uint Register (void* obj, int scope);
 
   /**
    * Register an object with the provided ID.
    */
-  void RegisterWithID (void* obj, CS_ID id);
+  void RegisterWithID (void* obj, uint id);
 
   /**
    * Remove an object
    */
-  bool Remove (CS_ID id);
+  bool Remove (uint id);
 
   /**
    * Remove an object (slow)
@@ -168,7 +168,7 @@ public:
   /**
    * Get an object from its id.
    */
-  void* Get (CS_ID id);
+  void* Get (uint id);
 
   // Default scope. 
   int DefaultScope;

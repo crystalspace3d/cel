@@ -44,19 +44,19 @@ struct iNumReg : public iBase
    *  Registers an object in the registry and returns the new ID, in error
    * case ID 0 is returned
    */
-  virtual CS_ID Register (void *obj) = 0;
+  virtual uint Register (void *obj) = 0;
 
   /**
    *  Registers an object in the registry with the provided ID. You should call
    * this function only if you are sure the ID isn't allocated yet. It is also
    * advised to use the hash implementation for memory reasons.
    */
-  virtual void RegisterWithID (void *obj, CS_ID id) = 0;
+  virtual void RegisterWithID (void *obj, uint id) = 0;
 
   /**
    *  Removes an registered object from the registry
    */
-  virtual bool Remove (CS_ID id) = 0;
+  virtual bool Remove (uint id) = 0;
 
   /**
    *  Removes an registered object from the registry (Note: this is slow, 
@@ -72,7 +72,7 @@ struct iNumReg : public iBase
   /**
    *  Returns the object with ID id from the list.
    */
-  virtual void* Get (CS_ID id) = 0;
+  virtual void* Get (uint id) = 0;
 
   /**
    *  Returns the size of the buffer (This is NOT the count of objects in the

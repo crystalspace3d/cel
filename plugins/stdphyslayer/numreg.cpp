@@ -32,7 +32,7 @@ NumRegLists::NumRegLists(int limit, int freelistsize, int startsize)
 {
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
-  freelist = new CS_ID[freelistsize];
+  freelist = new uint[freelistsize];
   listsize = startsize;
   NumRegLists::limit = limit;
   freelistend = 0;
@@ -49,7 +49,7 @@ NumRegLists::~NumRegLists()
 
 #define ADDSIZE	100
 
-CS_ID NumRegLists::intern_Register(void* obj)
+uint NumRegLists::intern_Register(void* obj)
 {
   freelistend--;
   CS_ASSERT (freelistend < freelistsize);
@@ -59,7 +59,7 @@ CS_ID NumRegLists::intern_Register(void* obj)
   return freelist[freelistend];  
 }    
 
-CS_ID NumRegLists::Register (void* obj)
+uint NumRegLists::Register (void* obj)
 {
   CS_ASSERT(obj != 0);
   
@@ -69,7 +69,7 @@ CS_ID NumRegLists::Register (void* obj)
 
   // 2. find holes and fill freelist again
   // note that id number 0 stands for error and is reserved
-  for (CS_ID i=1; i<listsize && freelistend<freelistsize ;i++)
+  for (uint i=1; i<listsize && freelistend<freelistsize ;i++)
   {
     if (list[i]==0)
     {
@@ -84,7 +84,7 @@ CS_ID NumRegLists::Register (void* obj)
   // 3. extend list and append
   if (listsize<limit)
   {
-    CS_ID newsize;
+    uint newsize;
     if (listsize>=limit-ADDSIZE)
       newsize=limit;
     else
@@ -102,7 +102,7 @@ CS_ID NumRegLists::Register (void* obj)
 
     memset (list+listsize,0,(newsize-listsize)*sizeof(void*));
     //fill freelist
-    for (CS_ID i=listsize;i<newsize && freelistend<freelistsize;i++)
+    for (uint i=listsize;i<newsize && freelistend<freelistsize;i++)
     {
       CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
@@ -117,14 +117,14 @@ CS_ID NumRegLists::Register (void* obj)
   return 0;
 }
 
-void NumRegLists::RegisterWithID (void* obj, CS_ID id)
+void NumRegLists::RegisterWithID (void* obj, uint id)
 {
   CS_ASSERT(Get(id) == 0);
 
   // First, grow the list if the id is too big.
   while (id >= listsize)
   {
-    CS_ID newsize;
+    uint newsize;
     if (listsize >= limit - ADDSIZE)
       newsize = limit;
     else
@@ -145,7 +145,7 @@ void NumRegLists::RegisterWithID (void* obj, CS_ID id)
   }
 }
 
-bool NumRegLists::Remove (CS_ID num)
+bool NumRegLists::Remove (uint num)
 {
   CS_ASSERT(num<listsize);
   CS_ASSERT(list[num] != 0);
@@ -162,7 +162,7 @@ bool NumRegLists::Remove (void* obj)
 {
   CS_ASSERT(obj != 0);
   
-  CS_ID i;
+  uint i;
   // start loop at 1 because 0 is reserved as error value
   for (i=1;i<listsize;i++)
   {
@@ -180,7 +180,7 @@ bool NumRegLists::Remove (void* obj)
 
 void NumRegLists::Clear()
 {
-  for (CS_ID i=0;i<listsize;i++)
+  for (uint i=0;i<listsize;i++)
   {
     list[i]=0;
   }
@@ -203,7 +203,7 @@ NumRegHash::~NumRegHash ()
   Clear();
 }
 
-CS_ID NumRegHash::Register (void* obj)
+uint NumRegHash::Register (void* obj)
 {
   while (reg.Get(current_id, 0))
     current_id++;
@@ -226,7 +226,7 @@ CS_ID NumRegHash::Register (void* obj)
   return current_id;
 }
 
-void NumRegHash::RegisterWithID (void* obj, CS_ID id)
+void NumRegHash::RegisterWithID (void* obj, uint id)
 {
   CS_ASSERT (Get (id) == 0);
   CS_ASSERT (id < limit);
@@ -234,14 +234,14 @@ void NumRegHash::RegisterWithID (void* obj, CS_ID id)
   reg.Put (id, obj);
 }
 
-bool NumRegHash::Remove (CS_ID id)
+bool NumRegHash::Remove (uint id)
 {
   return reg.DeleteAll (id);
 }
 
 bool NumRegHash::Remove (void* obj)
 {
-  csHash<void*,CS_ID>::GlobalIterator it = reg.GetIterator ();
+  csHash<void*,uint>::GlobalIterator it = reg.GetIterator ();
 
   while (it.HasNext ())
   {
@@ -259,7 +259,7 @@ void NumRegHash::Clear ()
   reg.DeleteAll ();
 }
 
-void* NumRegHash::Get (CS_ID id)
+void* NumRegHash::Get (uint id)
 {
   return reg.Get (id, 0);
 }
@@ -284,7 +284,7 @@ celIDRegistry::~celIDRegistry ()
   regs.DeleteAll ();
 }
 
-int celIDRegistry::GetScopeOfID (CS_ID id)
+int celIDRegistry::GetScopeOfID (uint id)
 {
   for (size_t i = 0; i < regs.Length (); i++)
   {
@@ -328,9 +328,9 @@ int celIDRegistry::AddScope (csString impl, int size)
   return id;
 }
 
-CS_ID celIDRegistry::Register (void* obj, int scope)
+uint celIDRegistry::Register (void* obj, int scope)
 {
-  CS_ID local_id = regs[scope].numreg->Register (obj);
+  uint local_id = regs[scope].numreg->Register (obj);
 
   if (local_id == 0)
     return 0;
@@ -338,7 +338,7 @@ CS_ID celIDRegistry::Register (void* obj, int scope)
     return local_id + regs[scope].start;
 }
 
-void celIDRegistry::RegisterWithID (void* obj, CS_ID id)
+void celIDRegistry::RegisterWithID (void* obj, uint id)
 {
   int scope = GetScopeOfID (id);
   CS_ASSERT (scope != -1);
@@ -346,7 +346,7 @@ void celIDRegistry::RegisterWithID (void* obj, CS_ID id)
   regs[scope].numreg->RegisterWithID (obj, id - regs[scope].start);
 }
 
-bool celIDRegistry::Remove (CS_ID id)
+bool celIDRegistry::Remove (uint id)
 {
   int scope = GetScopeOfID (id);
   if (scope == -1)
@@ -372,7 +372,7 @@ void celIDRegistry::Clear ()
     regs[i].numreg->Clear();
 }
 
-void* celIDRegistry::Get (CS_ID id)
+void* celIDRegistry::Get (uint id)
 {
   int scope = GetScopeOfID (id);
   if (scope == -1)

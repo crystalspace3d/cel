@@ -63,17 +63,17 @@ struct iCelEntity : public iBase
 
   /**
    * Return the (unique) ID of the entity.
-   * \return A CS_ID uniquely representing this entity.
+   * \return A uint uniquely representing this entity.
    */
-  virtual CS_ID GetID () const = 0;
+  virtual uint GetID () const = 0;
 
   /**
    * Set the (unique) ID of the entity.
    * @@@ UGLY! This should be removed as soon as we find another solution
    * for this problem!!!! See history.txt entry of 23-Jan-2003.
-   * \param n A CS_ID to uniquely represent this entity.
+   * \param n A uint to uniquely represent this entity.
    */
-  virtual void SetID (CS_ID n) = 0;
+  virtual void SetID (uint n) = 0;
 
   /**
    * Get the list of property classes.

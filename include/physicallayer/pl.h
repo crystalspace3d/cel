@@ -74,7 +74,7 @@ struct iCelPlLayer : public iBase
    * ensure that the id provided isn't already used and that you use the
    * hash implementation of the numreg.
    */
-  virtual csPtr<iCelEntity> CreateEntity (CS_ID id) = 0;
+  virtual csPtr<iCelEntity> CreateEntity (uint id) = 0;
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -127,7 +127,7 @@ struct iCelPlLayer : public iBase
   /**
    * Returns the entity with ID id
    */
-  virtual iCelEntity* GetEntity (CS_ID id) = 0;
+  virtual iCelEntity* GetEntity (uint id) = 0;
 
   /**
    * Find an entity with a given name. This function will scan all entities
@@ -140,7 +140,7 @@ struct iCelPlLayer : public iBase
    * This is a conveniance function to get the behaviour that belongs
    * to the entity for a given ID.
    */
-  virtual iCelBehaviour* GetBehaviour (CS_ID id) = 0;
+  virtual iCelBehaviour* GetBehaviour (uint id) = 0;
 
   /**
    * Given an iObject, find the attached entity (if any).

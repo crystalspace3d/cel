@@ -103,7 +103,7 @@ public:
 
   virtual csPtr<iCelEntity> CreateEntity ();
   virtual csPtr<iCelEntity> CreateEntityInScope (int scope);
-  virtual csPtr<iCelEntity> CreateEntity (CS_ID id);
+  virtual csPtr<iCelEntity> CreateEntity (uint id);
   virtual csPtr<iCelEntity> CreateEntity (const char* entname,
   	iCelBlLayer* bl, const char* bhname, ...);
   virtual iCelEntity* FindEntity (const char* name);
@@ -111,8 +111,8 @@ public:
    * Remove an entity from the physical layer ID list.
    */
   virtual void RemoveEntity (iCelEntity* entity);
-  virtual iCelEntity* GetEntity (CS_ID id);
-  virtual iCelBehaviour* GetBehaviour (CS_ID id);
+  virtual iCelEntity* GetEntity (uint id);
+  virtual iCelBehaviour* GetBehaviour (uint id);
   
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);
