@@ -93,6 +93,9 @@ public:
   virtual const char* GetName () const { return "pcmovable"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcMovable : public iPcMovable
   {
@@ -151,6 +154,9 @@ public:
   virtual const char* GetName () const { return "pcsolid"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcSolid : public iPcSolid
   {
@@ -190,6 +196,9 @@ public:
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcMovableConstraintCD : public iPcMovableConstraint
   {
@@ -251,6 +260,9 @@ public:
   virtual const char* GetName () const { return "pcgravity"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcGravity : public iPcGravity
   {

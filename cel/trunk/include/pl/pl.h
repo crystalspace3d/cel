@@ -30,12 +30,14 @@ SCF_DECLARE_FAST_INTERFACE (iCelEntityList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClass)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassList)
 SCF_DECLARE_FAST_INTERFACE (iCelPropertyClassFactory)
+SCF_DECLARE_FAST_INTERFACE (iCelDataBuffer)
 SCF_DECLARE_FAST_INTERFACE (iCelBehaviour)
 SCF_DECLARE_FAST_INTERFACE (iObject)
 
 struct iObject;
 struct iCelEntity;
 struct iCelEntityList;
+struct iCelDataBuffer;
 struct iCelMessage;
 struct iCelPropertyClassFactory;
 struct iSector;
@@ -58,6 +60,14 @@ struct iCelPlLayer : public iBase
    * Create a message.
    */
   virtual iCelMessage* CreateMessage (const char* msg_string, ...) = 0;
+
+  /**
+   * Create a data buffer. Usually property class implementations
+   * will call this to create a data buffer for their own persistant
+   * data. The use of this is not required. A property class can just
+   * as well make its own implementation of iCelDataBuffer.
+   */
+  virtual iCelDataBuffer* CreateDataBuffer () = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).

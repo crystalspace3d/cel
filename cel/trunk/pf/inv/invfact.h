@@ -111,6 +111,9 @@ public:
   virtual const char* GetName () const { return "pcinventory"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcInventory : public iPcInventory
   {
@@ -226,6 +229,9 @@ public:
   virtual const char* GetName () const { return "pccharacteristics"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcCharacteristics : public iPcCharacteristics
   {

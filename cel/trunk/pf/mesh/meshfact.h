@@ -97,6 +97,9 @@ public:
   virtual const char* GetName () const { return "pcmesh"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcMesh : public iPcMesh
   {
@@ -286,6 +289,9 @@ public:
   virtual const char* GetName () const { return "pcmeshselect"; }
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer () { return NULL; }
+  virtual void Save () { }
+  virtual void Load () { }
 
   struct PcMeshSelect : public iPcMeshSelect
   {
