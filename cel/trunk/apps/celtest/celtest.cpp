@@ -79,6 +79,7 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
+#include "propclass/navgraph.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -256,11 +257,13 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_box, "pcmovable");
   if (!pc) return 0;
-  //pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
-  //pc = pl->CreatePropertyClass (entity_box, "pcmovableconst_cd");
-  //if (!pc) return 0;
-  //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
-  //pcmovable->AddConstraint (pcmovableconst);
+#if 1
+  pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
+  pc = pl->CreatePropertyClass (entity_box, "pcmovableconst_cd");
+  if (!pc) return 0;
+  pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
+  pcmovable->AddConstraint (pcmovableconst);
+#endif
 
   pc = pl->CreatePropertyClass (entity_box, "pctest");
   if (!pc) return 0;
@@ -338,11 +341,13 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
   if (!pc) return 0;
-  //pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
-  //pc = pl->CreatePropertyClass (entity_dummy, "pcmovableconst_cd");
-  //if (!pc) return 0;
-  //pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
-  //pcmovable->AddConstraint (pcmovableconst);
+#if 1
+  pcmovable = SCF_QUERY_INTERFACE (pc, iPcMovable);
+  pc = pl->CreatePropertyClass (entity_dummy, "pcmovableconst_cd");
+  if (!pc) return 0;
+  pcmovableconst = SCF_QUERY_INTERFACE (pc, iPcMovableConstraint);
+  pcmovable->AddConstraint (pcmovableconst);
+#endif
   pc = pl->CreatePropertyClass (entity_dummy, "pcmesh");
   if (!pc) return 0;
   pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
@@ -525,6 +530,100 @@ bool CelTest::CreateRoom ()
   	.3, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
+
+  // Create NavGraph Test Entities
+  //==============================
+  // Create Graph entity
+  csRef<iCelEntity> graph = pl->CreateEntity ();
+  CS_ASSERT (graph != 0);
+  graph->SetName ("navgraph1");
+  pc = pl->CreatePropertyClass (graph, "pcgraph");
+  CS_ASSERT (pc != 0);
+  csRef<iPcNavGraph> pcgraph = SCF_QUERY_INTERFACE (pc, iPcNavGraph);
+
+  /* TODO Test Loading Nodes from a file
+  pcgraph->SetRegion( pcregion ); // Tie this graph to the current region object
+  pcgraph->LoadNodesFromRegion( pcregion->GetRegionName() ); // Load all the nodes from this region
+  */
+
+  // Create FPS rules for graph navigation
+  csRef<iCelEntity> graphrulesfps = pl->CreateEntity ();
+  CS_ASSERT (graphrulesfps != 0);
+  graphrulesfps->SetName ("graphrulesfps");
+
+  // Create FPS ruleset
+  pc = pl->CreatePropertyClass (graphrulesfps, "pcgraphrulesfps");
+
+  CS_ASSERT (pc != 0);
+  csRef<iPcNavGraphRules> navrules = SCF_QUERY_INTERFACE (pc, iPcNavGraphRules);
+  pcgraph->SetRules (navrules);
+
+  // Create Node entities
+  int i, j;
+  for (i = -2; i<=2;i++)
+  {
+    for (j = -2; j<=2;j++)
+    {
+      pc = pl->CreatePropertyClass (graph, "pcnode");
+      csRef<iPcNavNode> pcnode = SCF_QUERY_INTERFACE (pc, iPcNavNode);
+      pcnode->SetPos (csVector3 (i,0,j));
+      pcgraph->AddNode (pcnode); // Add the Node PC to the graph
+    }
+  }
+
+  // Build Graph
+  //============
+  iCamera* camera = pccamera->GetCamera ();
+  iSector* sector = camera->GetSector();
+
+  // use this entity for testing the nav graph
+  iCelEntity* defaultent = entity_box;
+
+  pcgraph->BuildNodeGraph (sector, defaultent);
+  pcgraph->Dump (); // show all debug info
+
+  // Test graph
+  //===========
+
+  // Test FindNearestNode()
+  csVector3 v (-2, 0, 0);
+  int inearest = pcgraph->FindNearestNode (&v, sector, defaultent);
+  // test FindNearestNode method
+  csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+  	"crystalspace.application.celtest", "Nearest Node: %d", inearest );
+
+  // Test FindShortestPath()
+  // allocate up to 50 points on path
+  int* ipath = (int*) malloc (50 * sizeof( int ));
+  for (i = 0; i < 100; i++)
+  {
+    int itestnode = (int)(((float)rand()
+    	* (float) pcgraph->GetNodeCount()) / (float)RAND_MAX);
+    int ipathlength = 0;
+
+    // Test FindNearestNode method.
+    ipathlength = pcgraph->FindShortestPath (inearest, itestnode, ipath);
+    csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+    	"crystalspace.application.celtest",
+	"Find Shortest path: from %d to %d: %d steps",
+	inearest, itestnode, ipathlength-1 );
+
+    /* 
+      // Print out full path
+      for ( int j=0; j < ipathlength;j++)
+      {
+          csReport( object_reg, CS_REPORTER_SEVERITY_NOTIFY, "crystalspace.application.celtest",
+              "..... %d", ipath[j]);
+      }
+     */
+  }
+  free (ipath);
+
+  // Test FindNearestNode method.
+  csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+  	"crystalspace.application.celtest",
+	"Final Graph Stats: nodes: %d links: %d",
+	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
 #endif
 
   //===============================
@@ -748,6 +847,17 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (!LoadPcFactory ("cel.pcfactory.meshselect"))
     return false;
   if (!LoadPcFactory ("cel.pcfactory.pckeyinput"))
+    return false;
+
+  if (!LoadPcFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.link"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.node"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!LoadPcFactory ("cel.pcfactory.navgraphrulesfps"))
     return false;
 
   if (!LoadTextures ()) return false;
