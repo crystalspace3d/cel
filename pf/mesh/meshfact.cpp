@@ -239,10 +239,19 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   celPcMeshSelect::object_reg = object_reg;
   iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != NULL);
-  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown | CSMASK_MouseUp);
+  q->RegisterListener (&scfiEventHandler, CSMASK_MouseDown | CSMASK_MouseUp
+  	| CSMASK_MouseMove);
   q->DecRef ();
   camera = NULL;
-  global = false;
+
+  sel_entity = NULL;
+
+  // Initialize default behaviour.
+  do_global = false;
+  do_drag = false;
+  do_follow = false;
+  do_sendup = true;
+  do_senddown = true;
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
@@ -263,41 +272,75 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 {
   if (!camera) return false;
 
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  CS_ASSERT (bh != NULL);
+
   bool mouse_down = ev.Type == csevMouseDown;
+  bool mouse_up = ev.Type == csevMouseUp;
   int mouse_x = ev.Mouse.x;
   int mouse_y = ev.Mouse.y;
 
-  csVector3 v;
-  // Setup perspective vertex, invert mouse Y axis.
-  csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
+  iCelEntity* new_sel = NULL;
 
-  camera->InvPerspective (p, 1, v);
-  csVector3 vw = camera->GetTransform ().This2Other (v);
-
-  iSector* sector = camera->GetSector ();
-  csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
-  csVector3 isect, end = origin + (vw - origin) * 60;
-
-  iMeshWrapper* sel = sector->HitBeam (origin, end, isect, NULL);
-  iObject* sel_obj = sel->QueryObject ();
-  celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (sel_obj, celEntityFinder);
-  iCelEntity* ent = NULL;
-  if (cef)
+  if (mouse_down || (do_follow && sel_entity))
   {
-    ent = cef->GetPcMesh ()->GetEntity ();
-    cef->DecRef ();
-  }
-  if (sel)
-  {
-    if (ent && (global || ent == entity))
+    csVector3 v;
+    // Setup perspective vertex, invert mouse Y axis.
+    csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
+
+    camera->InvPerspective (p, 1, v);
+    csVector3 vw = camera->GetTransform ().This2Other (v);
+
+    iSector* sector = camera->GetSector ();
+    csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
+    csVector3 isect, end = origin + (vw - origin) * 60;
+
+    iMeshWrapper* sel = sector->HitBeam (origin, end, isect, NULL);
+    iObject* sel_obj = sel->QueryObject ();
+    celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (sel_obj, celEntityFinder);
+    if (cef)
     {
-      CS_ASSERT (entity->GetBehaviour () != NULL);
-      entity->GetBehaviour ()->SendMessage (
-      	mouse_down ? "selectmesh_down" : "selectmesh_up", ent);
+      new_sel = cef->GetPcMesh ()->GetEntity ();
+      cef->DecRef ();
+    }
+  }
+
+  if (do_follow)
+  {
+    if (mouse_down)
+    {
+      sel_entity = new_sel;
+      if (do_senddown && sel_entity)
+        bh->SendMessage ("selectmesh_down", sel_entity);
+      if (sel_entity) cur_on_top = true;
+      else cur_on_top = false;
+    }
+    else if (sel_entity) // For mouse_up and move.
+    {
+      bool old_cur_on_top = cur_on_top;
+      cur_on_top = (new_sel == sel_entity);
+      if (do_senddown && cur_on_top && (cur_on_top != old_cur_on_top))
+        bh->SendMessage ("selectmesh_down", sel_entity);
+      else if (do_sendup && ((mouse_up && cur_on_top) ||
+      		!cur_on_top && (cur_on_top != old_cur_on_top)))
+        bh->SendMessage ("selectmesh_up", sel_entity);
+      if (mouse_up) sel_entity = NULL;
     }
   }
   else
-    printf ("NO\n");
+  {
+    if (mouse_down)
+    {
+      sel_entity = new_sel;
+      if (do_senddown && sel_entity)
+        bh->SendMessage ("selectmesh_down", sel_entity);
+    }
+    else if (mouse_up)
+    {
+      if (do_sendup && sel_entity)
+        bh->SendMessage ("selectmesh_up", sel_entity);
+    }
+  }
 
   return false;
 }
