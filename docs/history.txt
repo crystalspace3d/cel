@@ -46,6 +46,7 @@
 	  sense that it is no longer possible to go through walls. A
 	  one-triangle collider with the size of the path is used to
 	  detect collisions along the movement path.
+	- Philip Wyett updated MSVC project files for CEL.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the
