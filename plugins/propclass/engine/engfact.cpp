@@ -987,6 +987,38 @@ bool celPcCamera::SetMode (iPcCamera::CameraMode cammode, bool use_cd)
   return true;
 }
 
+bool celPcCamera::SetModeName (const char* m, bool use_cd)
+{
+  iPcCamera::CameraMode mode;
+  if (!strcmp (m, "freelook")) mode = iPcCamera::freelook;
+  else if (!strcmp (m, "firstperson")) mode = iPcCamera::firstperson;
+  else if (!strcmp (m, "thirdperson")) mode = iPcCamera::thirdperson;
+  else if (!strcmp (m, "m64_thirdperson")) mode = iPcCamera::m64_thirdperson;
+  else if (!strcmp (m, "lara_thirdperson")) mode = iPcCamera::lara_thirdperson;
+  else if (!strcmp (m, "freelook")) mode = iPcCamera::freelook;
+  else return false;
+  return SetMode (mode, use_cd);
+}
+
+const char* celPcCamera::GetModeName () const
+{
+  return camalgo->GetName ();
+}
+
+iPcCamera::CameraMode celPcCamera::GetNextMode () const
+{
+  switch (cammode)
+  {
+    case iPcCamera::freelook: return iPcCamera::firstperson;
+    case iPcCamera::firstperson: return iPcCamera::thirdperson;
+    case iPcCamera::thirdperson: return iPcCamera::m64_thirdperson;
+    case iPcCamera::m64_thirdperson: return iPcCamera::lara_thirdperson;
+    case iPcCamera::lara_thirdperson: return iPcCamera::freelook;
+    default:
+      return cammode;
+  }
+}
+
 void celPcCamera::SetRectangle (int x, int y, int w, int h)
 {
   rect_x = x;

@@ -68,6 +68,21 @@ struct iPcCamera : public iBase
   virtual CameraMode GetMode () const = 0;
 
   /**
+   * Set camera mode by name.
+   */
+  virtual bool SetModeName (const char* m, bool use_cd = true) = 0;
+  /**
+   * Get camera mode name.
+   */
+  virtual const char* GetModeName () const = 0;
+
+  /**
+   * Get next possible camera mode. This is useful for looping over
+   * all camera modes with some key in a game.
+   */
+  virtual CameraMode GetNextMode () const = 0;
+
+  /**
    * Set spring parameters for the current camera mode.
    */
   virtual void SetSpringParameters (float springCoef,
