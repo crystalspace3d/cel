@@ -19,6 +19,8 @@ COMPILER.CFLAGS += -Wall ;
 COMPILER.CFLAGS.debug += -g3 -DCS_DEBUG ;
 COMPILER.LFLAGS.debug += -g3 -DCS_DEBUG ;
 COMPILER.CFLAGS.optimize += -O3 ;
+COMPILER.CFLAGS.profile += -g3 -pg ;
+COMPILER.LFLAGS.profile += -g3 -pg ;
 
 # we use crystal space everywhere
 C++FLAGS += "$(CRYSTAL.CFLAGS)" ;

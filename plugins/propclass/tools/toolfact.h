@@ -237,6 +237,7 @@ private:
   };
   csPDelArray<property> properties;
   csHash<int,csStrKey,csConstCharHashKeyHandler> properties_hash;
+  bool properties_hash_dirty;
 
   int NewProperty (const char* name);
   int FindProperty (csStringID id);

@@ -43,6 +43,7 @@ private:
 
   csRefArray<iCelEntity> entities;
   csHash<iCelEntity*,csStrKey,csConstCharHashKeyHandler> entities_hash;
+  bool entities_hash_dirty;
 
   csArray<iCelEntityRemoveCallback*> removecallbacks;
   csRefArray<iBase> cache;
@@ -57,6 +58,10 @@ public:
   bool Initialize (iObjectRegistry* object_reg);
 
   SCF_DECLARE_IBASE;
+
+  // For managing the names of entities (to find them faster).
+  void RemoveEntityName (celEntity* ent);
+  void AddEntityName (celEntity* ent);
 
   virtual csPtr<iCelEntity> CreateEntity ();
   virtual iCelEntity* FindEntity (const char* name);

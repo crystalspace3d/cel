@@ -442,6 +442,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_index, "index");
+  properties_hash_dirty = false;
 }
 
 celPcProperties::~celPcProperties ()
@@ -676,6 +677,7 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != PROPERTIES_SERIAL) return false;
+  properties_hash_dirty = true;
   int cnt = databuf->GetDataCount ();
   Clear ();
   celData* cd;
@@ -737,7 +739,7 @@ int celPcProperties::NewProperty (const char* name)
   p->type = CEL_DATA_NONE;
   int idx = properties.Length ();
   properties.Push (p);
-  properties_hash.Put (name, idx);
+  if (!properties_hash_dirty) properties_hash.Put (name, idx+1);	// +1 so that 0 is an error.
   return idx;
 }
 
@@ -803,23 +805,20 @@ void celPcProperties::SetProperty (const char* name, iCelEntity* value)
 
 int celPcProperties::GetPropertyIndex (const char* name)
 {
-  if (properties_hash.In (name))
-    return properties_hash.Get (name);
-  else
+  if (properties_hash_dirty)
   {
-    // It is possible the index is not in the hash. Scan it here.
+    properties_hash_dirty = false;
+    // Create the hash.
+    properties_hash.DeleteAll ();
     int i;
     for (i = 0 ; i < properties.Length () ; i++)
     {
       property* p = properties[i];
-      if (!strcmp (name, p->propName))
-      {
-        properties_hash.Put (name, i);
-	return i;
-      }
+      properties_hash.Put (p->propName, i+1);	// +1 so that 0 is an error
     }
-    return -1;
   }
+
+  return properties_hash.Get (name)-1;
 }
 
 void celPcProperties::SetProperty (int index, float value)
@@ -1096,7 +1095,7 @@ void celPcProperties::ClearProperty (int index)
   ClearPropertyValue (p);
   properties.DeleteIndex (index);
   // Properties hash is cleared because it is invalid now.
-  properties_hash.DeleteAll ();
+  properties_hash_dirty = true;
 }
 
 void celPcProperties::Clear ()
@@ -1105,6 +1104,8 @@ void celPcProperties::Clear ()
   {
     ClearProperty (0);
   }
+  properties_hash_dirty = false;
+  properties_hash.DeleteAll ();
 }
 
 int celPcProperties::GetPropertyCount () const

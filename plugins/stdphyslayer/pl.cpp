@@ -58,6 +58,7 @@ celPlLayer::celPlLayer (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+  entities_hash_dirty = false;
 }
 
 celPlLayer::~celPlLayer ()
@@ -116,22 +117,32 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   return csPtr<iCelEntity> (ientity);
 }
 
+void celPlLayer::RemoveEntityName (celEntity* ent)
+{
+  if (!entities_hash_dirty)
+    entities_hash.Delete (ent->GetName (), &(ent->scfiCelEntity));
+}
+
+void celPlLayer::AddEntityName (celEntity* ent)
+{
+  if (!entities_hash_dirty)
+    entities_hash.Put (ent->GetName (), &(ent->scfiCelEntity));
+}
+
 iCelEntity* celPlLayer::FindEntity (const char* name)
 {
-  iCelEntity* rc = entities_hash.Get (name);
-  if (rc) return rc;
-
-  int i;
-  for (i = 0 ; i < entities.Length () ; i++)
+  if (entities_hash_dirty)
   {
-    if (entities[i]->GetName ())
-      if (!strcmp (name, entities[i]->GetName ()))
-      {
-        entities_hash.Put (name, entities[i]);
-        return entities[i];
-      }
+    entities_hash_dirty = false;
+    int i;
+    entities_hash.DeleteAll ();
+    for (i = 0 ; i < entities.Length () ; i++)
+    {
+      if (entities[i]->GetName ())
+        entities_hash.Put (entities[i]->GetName (), entities[i]);
+    }
   }
-  return 0;
+  return entities_hash.Get (name);
 }
 
 void celPlLayer::RemoveEntity (iCelEntity *entity)
@@ -151,7 +162,7 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
     callback->RemoveEntity (entity);
   }
 
-  if (entity->GetName ())
+  if (!entities_hash_dirty && entity->GetName ())
     entities_hash.Delete (entity->GetName (), entity);
   entities.Delete (entity);
 }

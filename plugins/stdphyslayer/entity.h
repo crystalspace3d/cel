@@ -47,6 +47,8 @@ public:
   { return entity_ID; }
   void SetEntityID (CS_ID ID)
   { entity_ID = ID; }
+
+  virtual void SetName (const char *name);
     
   iCelPropertyClassList* GetPropertyClassList ();
   void SetBehaviour (iCelBehaviour* ent);
