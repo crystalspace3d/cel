@@ -618,10 +618,8 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
 #else
 static G3DPolygonDPFX poly;
 static bool poly_init = false;
-
-void celBillboard::Draw (iGraphics3D* g3d, float z)
+static void mesh_reset ()
 {
-  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
   if (!poly_init)
   {
     poly_init = true;
@@ -629,6 +627,15 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY | CS_FX_GOURAUD;
   }
+}
+
+static void mesh_draw (iGraphics3D* g3d)
+{
+}
+
+void celBillboard::Draw (iGraphics3D* g3d, float z)
+{
+  if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
 
   int fw = g3d->GetWidth ();
   int fh = g3d->GetHeight ();
