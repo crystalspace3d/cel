@@ -139,6 +139,7 @@ class iSCF(iBase):
     def CreateInstance(*args): return apply(_blcelc.iSCF_CreateInstance,args)
     def GetClassDescription(*args): return apply(_blcelc.iSCF_GetClassDescription,args)
     def GetClassDependencies(*args): return apply(_blcelc.iSCF_GetClassDependencies,args)
+    def GetPluginMetadata(*args): return apply(_blcelc.iSCF_GetPluginMetadata,args)
     def UnloadUnusedModules(*args): return apply(_blcelc.iSCF_UnloadUnusedModules,args)
     def RegisterClass(*args): return apply(_blcelc.iSCF_RegisterClass,args)
     def RegisterFactoryFunc(*args): return apply(_blcelc.iSCF_RegisterFactoryFunc,args)
@@ -395,32 +396,9 @@ class csString(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, csString, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csString, name)
-    def SetCapacity(*args): return apply(_blcelc.csString_SetCapacity,args)
-    def GetCapacity(*args): return apply(_blcelc.csString_GetCapacity,args)
-    def SetGrowsBy(*args): return apply(_blcelc.csString_SetGrowsBy,args)
-    def GetGrowsBy(*args): return apply(_blcelc.csString_GetGrowsBy,args)
-    def SetGrowsExponentially(*args): return apply(_blcelc.csString_SetGrowsExponentially,args)
-    def GetGrowsExponentially(*args): return apply(_blcelc.csString_GetGrowsExponentially,args)
-    def Free(*args): return apply(_blcelc.csString_Free,args)
-    def Truncate(*args): return apply(_blcelc.csString_Truncate,args)
-    def Reclaim(*args): return apply(_blcelc.csString_Reclaim,args)
-    def Clear(*args): return apply(_blcelc.csString_Clear,args)
     def GetData(*args): return apply(_blcelc.csString_GetData,args)
     def Length(*args): return apply(_blcelc.csString_Length,args)
     def IsEmpty(*args): return apply(_blcelc.csString_IsEmpty,args)
-    def SetAt(*args): return apply(_blcelc.csString_SetAt,args)
-    def GetAt(*args): return apply(_blcelc.csString_GetAt,args)
-    def DeleteAt(*args): return apply(_blcelc.csString_DeleteAt,args)
-    def Insert(*args): return apply(_blcelc.csString_Insert,args)
-    def Overwrite(*args): return apply(_blcelc.csString_Overwrite,args)
-    def Append(*args): return apply(_blcelc.csString_Append,args)
-    def Slice(*args): return apply(_blcelc.csString_Slice,args)
-    def SubString(*args): return apply(_blcelc.csString_SubString,args)
-    def FindFirst(*args): return apply(_blcelc.csString_FindFirst,args)
-    def FindLast(*args): return apply(_blcelc.csString_FindLast,args)
-    def Replace(*args): return apply(_blcelc.csString_Replace,args)
-    def Compare(*args): return apply(_blcelc.csString_Compare,args)
-    def CompareNoCase(*args): return apply(_blcelc.csString_CompareNoCase,args)
     def __init__(self,*args):
         _swig_setattr(self, csString, 'this', apply(_blcelc.new_csString,args))
         _swig_setattr(self, csString, 'thisown', 1)
@@ -428,30 +406,6 @@ class csString(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    def Clone(*args): return apply(_blcelc.csString_Clone,args)
-    def LTrim(*args): return apply(_blcelc.csString_LTrim,args)
-    def RTrim(*args): return apply(_blcelc.csString_RTrim,args)
-    def Trim(*args): return apply(_blcelc.csString_Trim,args)
-    def Collapse(*args): return apply(_blcelc.csString_Collapse,args)
-    def Format(*args): return apply(_blcelc.csString_Format,args)
-    def FormatV(*args): return apply(_blcelc.csString_FormatV,args)
-    def AsPadLeft(*args): return apply(_blcelc.csString_AsPadLeft,args)
-    __swig_getmethods__["PadLeft"] = lambda x: _blcelc.csString_PadLeft
-    if _newclass:PadLeft = staticmethod(_blcelc.csString_PadLeft)
-    def AsPadRight(*args): return apply(_blcelc.csString_AsPadRight,args)
-    __swig_getmethods__["PadRight"] = lambda x: _blcelc.csString_PadRight
-    if _newclass:PadRight = staticmethod(_blcelc.csString_PadRight)
-    def AsPadCenter(*args): return apply(_blcelc.csString_AsPadCenter,args)
-    __swig_getmethods__["PadCenter"] = lambda x: _blcelc.csString_PadCenter
-    if _newclass:PadCenter = staticmethod(_blcelc.csString_PadCenter)
-    def assign(*args): return apply(_blcelc.csString_assign,args)
-    def __iadd__(*args): return apply(_blcelc.csString___iadd__,args)
-    def __add__(*args): return apply(_blcelc.csString___add__,args)
-    def __eq__(*args): return apply(_blcelc.csString___eq__,args)
-    def __ne__(*args): return apply(_blcelc.csString___ne__,args)
-    def Downcase(*args): return apply(_blcelc.csString_Downcase,args)
-    def Upcase(*args): return apply(_blcelc.csString_Upcase,args)
-    def Detach(*args): return apply(_blcelc.csString_Detach,args)
     def __getitem__(*args): return apply(_blcelc.csString___getitem__,args)
     def __setitem__(*args): return apply(_blcelc.csString___setitem__,args)
     def __delitem__(*args): return apply(_blcelc.csString___delitem__,args)
@@ -464,12 +418,6 @@ class csStringPtr(csString):
         if not hasattr(self,"thisown"): _swig_setattr(self, csString, 'thisown', 0)
         _swig_setattr(self, csString,self.__class__,csString)
 _blcelc.csString_swigregister(csStringPtr)
-csString_PadLeft = _blcelc.csString_PadLeft
-
-csString_PadRight = _blcelc.csString_PadRight
-
-csString_PadCenter = _blcelc.csString_PadCenter
-
 
 class csVector2(_object):
     __swig_setmethods__ = {}
@@ -1988,6 +1936,8 @@ class csBox2(_object):
     def StartBoundingBox(*args): return apply(_blcelc.csBox2_StartBoundingBox,args)
     def AddBoundingVertex(*args): return apply(_blcelc.csBox2_AddBoundingVertex,args)
     def AddBoundingVertexSmart(*args): return apply(_blcelc.csBox2_AddBoundingVertexSmart,args)
+    def AddBoundingVertexTest(*args): return apply(_blcelc.csBox2_AddBoundingVertexTest,args)
+    def AddBoundingVertexSmartTest(*args): return apply(_blcelc.csBox2_AddBoundingVertexSmartTest,args)
     def __init__(self,*args):
         _swig_setattr(self, csBox2, 'this', apply(_blcelc.new_csBox2,args))
         _swig_setattr(self, csBox2, 'thisown', 1)
@@ -2087,6 +2037,8 @@ class csBox3(_object):
     def StartBoundingBox(*args): return apply(_blcelc.csBox3_StartBoundingBox,args)
     def AddBoundingVertex(*args): return apply(_blcelc.csBox3_AddBoundingVertex,args)
     def AddBoundingVertexSmart(*args): return apply(_blcelc.csBox3_AddBoundingVertexSmart,args)
+    def AddBoundingVertexTest(*args): return apply(_blcelc.csBox3_AddBoundingVertexTest,args)
+    def AddBoundingVertexSmartTest(*args): return apply(_blcelc.csBox3_AddBoundingVertexSmartTest,args)
     def __init__(self,*args):
         _swig_setattr(self, csBox3, 'this', apply(_blcelc.new_csBox3,args))
         _swig_setattr(self, csBox3, 'thisown', 1)
@@ -6679,8 +6631,6 @@ class iEvent(iBase):
     def AddUInt32(*args): return apply(_blcelc.iEvent_AddUInt32,args)
     def AddFloat(*args): return apply(_blcelc.iEvent_AddFloat,args)
     def AddDouble(*args): return apply(_blcelc.iEvent_AddDouble,args)
-    def AddString(*args): return apply(_blcelc.iEvent_AddString,args)
-    def AddVoidPtr(*args): return apply(_blcelc.iEvent_AddVoidPtr,args)
     def AddBool(*args): return apply(_blcelc.iEvent_AddBool,args)
     def Add(*args): return apply(_blcelc.iEvent_Add,args)
     def FindInt8(*args): return apply(_blcelc.iEvent_FindInt8,args)
@@ -6690,8 +6640,6 @@ class iEvent(iBase):
     def FindUInt32(*args): return apply(_blcelc.iEvent_FindUInt32,args)
     def FindFloat(*args): return apply(_blcelc.iEvent_FindFloat,args)
     def FindDouble(*args): return apply(_blcelc.iEvent_FindDouble,args)
-    def FindString(*args): return apply(_blcelc.iEvent_FindString,args)
-    def FindVoidPtr(*args): return apply(_blcelc.iEvent_FindVoidPtr,args)
     def FindBool(*args): return apply(_blcelc.iEvent_FindBool,args)
     def Find(*args): return apply(_blcelc.iEvent_Find,args)
     def Remove(*args): return apply(_blcelc.iEvent_Remove,args)
