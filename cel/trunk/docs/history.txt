@@ -19,6 +19,14 @@ The history order is reversed so that new features are at the top.
 	  an iCelPlLayer instead of an iObjectRegistry.
 	- Jorrit changed more functions like that. Also renamed all Create
 	  property classes to start with celCreate....
+	- Jorrit renamed LoadBehaviour() to CreateBehaviour() in python.
+	  Also changed the object registry parameter to iCelBlLayer instead.
+	- Jorrit added celRegisterPCFactory() to the python behaviour plugin.
+	  With that function it is possible to load property class factory
+	  plugins if they don't already exist.
+	- Jorrit replaced %addmethods with %extends to avoid swig warnings.
+	- Jorrit added scripts/smallgame.py which can be used together with
+	  bootstrap. Doesn't do much yet.
 29-Jun-2003
 	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
 	  up-to-date version from the Crystal Space project.  This fixes the

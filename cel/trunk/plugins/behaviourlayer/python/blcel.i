@@ -54,10 +54,8 @@ struct iCelEntity : public iBase
 
   iCelPropertyClassList* GetPropertyClassList ();
 
-  %addmethods {
-    iCelBehaviour *LoadBehaviour(iObjectRegistry *object_reg, const char *name) {
-      csRef<iCelBlLayer> bl(CS_QUERY_REGISTRY(object_reg, iCelBlLayer));
-      if(!bl.IsValid()) return 0;
+  %extend {
+    iCelBehaviour *CreateBehaviour(iCelBlLayer *bl, const char *name) {
       csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
       if(!bh.IsValid()) return 0;
       self->SetBehaviour(bh);
@@ -65,6 +63,18 @@ struct iCelEntity : public iBase
     }
   }
 };
+
+%{
+bool celRegisterPCFactory(iObjectRegistry* object_reg,const char* pcfactname) {
+  csRef<iPluginManager> plugin_mgr (
+  	CS_QUERY_REGISTRY (object_reg, iPluginManager));
+  csRef<iBase> pf (CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname));
+  if (!pf)
+    return false;
+  return true;
+}
+%}
+bool celRegisterPCFactory(iObjectRegistry* object_reg,const char* pcfactname);
 
 %{
 iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name) {
@@ -155,7 +165,7 @@ struct iCelPropertyClass : public iBase
 
   virtual bool PerformAction (csStringID actionID, const char* params) = 0;
 
-  %addmethods
+  %extend
   {
     bool SetPropertyLong (csStringID id, long l ) { return self->SetProperty (id, l); }
     bool SetPropertyFloat (csStringID id, float f) { return self->SetProperty (id, f); }
@@ -198,7 +208,7 @@ struct iPcRegion : public iBase
   virtual csVector3 GetStartPosition (const char* name = 0) = 0;
   virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
   
-  %addmethods {
+  %extend {
     bool LoadWorld(const char *vfsdir, const char *name) {
       self->SetWorldFile(vfsdir, name);
       return self->Load();
@@ -251,7 +261,7 @@ struct iPcCamera : public iBase
   virtual iCamera* GetCamera () const = 0;
   virtual iView* GetView () const = 0;
 
-  %addmethods {
+  %extend {
 
   }
 
