@@ -10,7 +10,7 @@ AC_JAM_FIXINSTALLDIRS
 
 dnl Check for libs
 dnl Check for Crystal Space
-AC_PATH_CRYSTAL(0.94,,
+AC_PATH_CRYSTAL(0.96,,
   AC_MSG_ERROR([
 *** Crystal Space couldn't be found. The latest version is always avaiable
 *** from http://crystal.linuxgames.com. 
@@ -38,5 +38,7 @@ AC_MSG_NOTICE([
 
 Please note that this project uses jam as build tool.
 So you have to type 'jam' now (not 'make').
+If you want to use the old make based build copy cs-config from CrystalSpace
+dir into this directory and make sure to set the CRYSTAL environment.
 ])
 
