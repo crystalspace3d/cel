@@ -55,6 +55,7 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 
 #include "pl/pl.h"
 #include "pl/propfact.h"
@@ -165,10 +166,10 @@ bool CelTest::HandleEvent (iEvent& ev)
     {
       printf ("Loading from '/this/savefile"); fflush (stdout);
       iCelPersistance* cp = CS_QUERY_REGISTRY (object_reg, iCelPersistance);
-      if (game) game->DecRef ();
-      game = cp->LoadEntity ("/this/savefile");
-      printf ("  success %08lx\n", game); fflush (stdout);
-      cp->DecRef ();
+      if (game) { game->DecRef (); game = NULL; }
+      //game = cp->LoadEntity ("/this/savefile");
+      //printf ("  success %08lx\n", game); fflush (stdout);
+      //cp->DecRef ();
     }
   }
   return false;
@@ -481,6 +482,8 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 {
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
+
+  csDebuggingGraph::SetupGraph (object_reg, true);
 
   // @@@ The code below is temporary until we have a general solution
   // in CS for having plugins outside the CS hierarchy (by an additional
