@@ -1,8 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(cel, 0.1)
 
-AC_CONFIG_HEADER(config.h)
-
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_JAM

@@ -6,8 +6,6 @@ rm -f $MACROFILE
 for i in `find mk/ -name "*.m4"`; do
 	cat $i >> $MACROFILE
 done
-echo autoheader
-autoheader
 echo autoconf
 autoconf
 
