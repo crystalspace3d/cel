@@ -51,6 +51,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "pfmove"=.\msvc\pfmove.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "pftest"=.\msvc\pftest.dsp - Package Owner=<4>
 
 Package=<5>
