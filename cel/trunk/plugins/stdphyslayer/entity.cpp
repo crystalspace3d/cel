@@ -40,7 +40,7 @@ celEntity::celEntity (celPlLayer* pl)
   plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = 0;
   celEntity::pl = pl;
-  entity_ID=0;  
+  entity_ID = 0;  
 }
 
 celEntity::~celEntity ()
@@ -56,6 +56,13 @@ void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
 iCelPropertyClassList* celEntity::GetPropertyClassList ()
 {
   return (iCelPropertyClassList*)plist;
+}
+
+void celEntity::SetName (const char *name)
+{
+  if (GetName ()) pl->RemoveEntityName (this);
+  csObject::SetName (name);
+  if (name) pl->AddEntityName (this);
 }
 
 //---------------------------------------------------------------------------
