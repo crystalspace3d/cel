@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Nov-2004
+	- Eric Sunshine fixed fragility in celIDRegistry::AddScope() where it
+	  would perform an uninitialized registration if the `impl' argument
+	  was not of a known type.
 29-Oct-2004
 	- Remi Bonnet added ID scopes to the physical layer to ease
 	  management of IDs when cel is used in a client <-> server
