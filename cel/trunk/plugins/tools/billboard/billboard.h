@@ -56,8 +56,11 @@ private:
   uint8* clickmap;
 
   void SetupMaterial ();
-  bool GetFromClickMap (int x, int y);
-  void SetClickMap (int x, int y, bool v);
+  // Input: texture coordinates.
+  bool GetFromClickMap (int tx, int ty);
+  // Input: texture coordinates.
+  void SetClickMap (int tx, int ty, bool v);
+  void TranslateScreenToTexture (int sx, int sy, int& tx, int& ty);
 
 public:
   celBillboard (iEngine* engine);
@@ -73,13 +76,13 @@ public:
   void Draw (iGraphics3D* g3d, float z);
 
   // Check if x,y is in billboard.
-  bool In (int cx, int cy);
+  bool In (int sx, int sy);
 
   // Fire event handlers.
-  void FireMouseUp (int x, int y, int button);
-  void FireMouseDown (int x, int y, int button);
-  void FireMouseMove (int x, int y, int button);
-  void FireMouseDoubleClick (int x, int y, int button);
+  void FireMouseUp (int sx, int sy, int button);
+  void FireMouseDown (int sx, int sy, int button);
+  void FireMouseMove (int sx, int sy, int button);
+  void FireMouseDoubleClick (int sx, int sy, int button);
 
   SCF_DECLARE_IBASE;
 
@@ -150,6 +153,8 @@ public:
   virtual void StackDown (iBillboard* bb);
   virtual void StackBefore (iBillboard* bb, iBillboard* other);
   virtual void StackAfter (iBillboard* bb, iBillboard* other);
+
+  virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2);
 
   struct Component : public iComponent
   {

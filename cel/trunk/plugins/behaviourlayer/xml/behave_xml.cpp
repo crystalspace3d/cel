@@ -76,12 +76,8 @@ bool celBehaviourXml::SendMessageV (const char* msg_id, iBase* msg_info,
     printf ("Found handler for '%s'\n", msg_id);
     h->ResolveParameters (entity);
     h->Execute (entity);
+    fflush (stdout);
   }
-  else
-  {
-    printf ("Didn't find handler for '%s'\n", msg_id);
-  }
-  fflush (stdout);
   return h != 0;
 }
 

@@ -216,6 +216,12 @@ struct iBillboardManager : public iBase
    * Put a billboard after the given other billboard.
    */
   virtual void StackAfter (iBillboard* bb, iBillboard* other) = 0;
+
+  /**
+   * Test if two billboards collide with each other and return true
+   * if they do.
+   */
+  virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2) = 0;
 };
 
 #endif // __CEL_MGR_BILLBOARD__

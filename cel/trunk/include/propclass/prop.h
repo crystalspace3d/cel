@@ -24,6 +24,9 @@
 #include "csutil/scf.h"
 #include "physicallayer/datatype.h"
 
+struct iCelEntity;
+struct iCelPropertyClass;
+
 SCF_VERSION (iPcProperties, 0, 0, 1);
 
 /**
@@ -52,6 +55,16 @@ struct iPcProperties : public iBase
   virtual void SetProperty (const char* name, const char* value) = 0;
 
   /**
+   * Set property.
+   */
+  virtual void SetProperty (const char* name, iCelPropertyClass* pclass) = 0;
+
+  /**
+   * Set property.
+   */
+  virtual void SetProperty (const char* name, iCelEntity* entity) = 0;
+
+  /**
    * Get the specified property index for a named property.
    * Returns -1 if not found.
    */
@@ -78,6 +91,16 @@ struct iPcProperties : public iBase
   virtual void SetProperty (int index, const char* value) = 0;
 
   /**
+   * Set property based on index.
+   */
+  virtual void SetProperty (int index, iCelPropertyClass* pc) = 0;
+
+  /**
+   * Set property based on index.
+   */
+  virtual void SetProperty (int index, iCelEntity* entity) = 0;
+
+  /**
    * Get the type of a property. Returns CEL_DATA_NONE if the
    * property is undefined. Note that only the following data types
    * are supported:
@@ -86,6 +109,8 @@ struct iPcProperties : public iBase
    * <li>CEL_DATA_FLOAT
    * <li>CEL_DATA_BOOL
    * <li>CEL_DATA_STRING
+   * <li>CEL_DATA_PCLASS
+   * <li>CEL_DATA_ENTITY
    * </ul>
    */
   virtual celDataType GetPropertyType (int index) const = 0;
@@ -109,6 +134,16 @@ struct iPcProperties : public iBase
    * Get property as string. Returns 0 if wrong type.
    */
   virtual const char* GetPropertyString (int index) const = 0;
+
+  /**
+   * Get property as property class. Returns 0 if wrong type.
+   */
+  virtual iCelPropertyClass* GetPropertyPClass (int index) const = 0;
+
+  /**
+   * Get property as entity. Returns 0 if wrong type.
+   */
+  virtual iCelEntity* GetPropertyEntity (int index) const = 0;
 
   /**
    * Clear a property.

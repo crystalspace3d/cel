@@ -79,6 +79,8 @@ public:
   virtual bool SetProperty (csStringID, bool);
   virtual bool SetProperty (csStringID, const char*);
   virtual bool SetProperty (csStringID, const csVector3&);
+  virtual bool SetProperty (csStringID, iCelPropertyClass* pclass);
+  virtual bool SetProperty (csStringID, iCelEntity* entity);
   virtual celDataType GetPropertyOrActionType (csStringID);
 	virtual bool IsPropertyReadOnly (csStringID);
   virtual long GetPropertyLong (csStringID);
@@ -86,6 +88,8 @@ public:
   virtual bool GetPropertyBool (csStringID);
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyVector (csStringID, csVector3&);
+  virtual iCelPropertyClass* GetPropertyPClass (csStringID);
+  virtual iCelEntity* GetPropertyEntity (csStringID);
   virtual bool PerformAction (csStringID, const char*) { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
 	virtual int GetPropertyAndActionCount () const;

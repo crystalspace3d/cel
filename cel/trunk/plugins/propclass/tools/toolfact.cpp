@@ -330,11 +330,143 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 }
 
 celPcProperties::~celPcProperties ()
 {
   Clear ();
+}
+
+int celPcProperties::FindProperty (csStringID id)
+{
+  int i;
+  for (i = 0 ; i < properties.Length () ; i++)
+  {
+    property* p = properties[i];
+    if (p->id == csInvalidStringID)
+    {
+      char* buf = new char[30+strlen (p->propName)];
+      strcpy (buf, "cel.property.pcproperties.");
+      strcat (buf, p->propName);
+      p->id = pl->FetchStringID (buf);
+      delete[] buf;
+    }
+    if (p->id == id) return i;
+  }
+  return -1;
+}
+
+int celPcProperties::FindOrNewProperty (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx != -1) return idx;
+  const char* propname = pl->FetchString (id);
+  return NewProperty (propname+26);
+}
+
+celDataType celPcProperties::GetPropertyOrActionType (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return CEL_DATA_NONE;
+  return properties[idx]->type;
+}
+
+csStringID celPcProperties::GetPropertyOrActionID (int i)
+{
+  property* p = properties[i];
+  if (p->id == csInvalidStringID)
+  {
+    char* buf = new char[30+strlen (p->propName)];
+    strcpy (buf, "cel.property.pcproperties.");
+    strcat (buf, p->propName);
+    p->id = pl->FetchStringID (buf);
+    delete[] buf;
+  }
+  return p->id;
+}
+
+const char* celPcProperties::GetPropertyOrActionDescription (csStringID id)
+{
+  return "none";
+}
+
+bool celPcProperties::SetProperty (csStringID id, const char* v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, bool v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, float v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, long v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, iCelPropertyClass* v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+bool celPcProperties::SetProperty (csStringID id, iCelEntity* v)
+{
+  SetProperty (FindOrNewProperty (id), v);
+  return true;
+}
+
+const char* celPcProperties::GetPropertyString (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyStringIndex (idx);
+}
+
+bool celPcProperties::GetPropertyBool (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return false;
+  return GetPropertyBoolIndex (idx);
+}
+
+long celPcProperties::GetPropertyLong (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyLongIndex (idx);
+}
+
+float celPcProperties::GetPropertyFloat (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyFloatIndex (idx);
+}
+
+iCelPropertyClass* celPcProperties::GetPropertyPClass (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyPClassIndex (idx);
+}
+
+iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
+{
+  int idx = FindProperty (id);
+  if (idx == -1) return 0;
+  return GetPropertyEntityIndex (idx);
 }
 
 #define PROPERTIES_SERIAL 1
@@ -363,6 +495,12 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
 	break;
       case CEL_DATA_STRING:
         databuf->GetData (j++)->Set (p->v.s);
+	break;
+      case CEL_DATA_PCLASS:
+        databuf->GetData (j++)->Set (p->pclass);
+	break;
+      case CEL_DATA_ENTITY:
+        databuf->GetData (j++)->Set (p->entity);
 	break;
       default:
         // @@@ Impossible!
@@ -401,6 +539,12 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
       case CEL_DATA_STRING:
         p->v.s = csStrNew (*cd->value.s);
 	break;
+      case CEL_DATA_PCLASS:
+        p->pclass = cd->value.pc;
+	break;
+      case CEL_DATA_ENTITY:
+        p->entity = cd->value.ent;
+	break;
       default:
         return false;
     }
@@ -412,6 +556,7 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
 int celPcProperties::NewProperty (const char* name)
 {
   property* p = new property ();
+  p->id = csInvalidStringID;	// Fetch later if needed.
   p->propName = csStrNew (name);
   p->type = CEL_DATA_NONE;
   int idx = properties.Length ();
@@ -429,6 +574,8 @@ int celPcProperties::FindOrNewProperty (const char* name)
 void celPcProperties::ClearPropertyValue (property* p)
 {
   if (p->type == CEL_DATA_STRING) delete[] p->v.s;
+  p->pclass = 0;
+  p->entity = 0;
   p->type = CEL_DATA_NONE;
 }
 
@@ -448,6 +595,16 @@ void celPcProperties::SetProperty (const char* name, bool value)
 }
 
 void celPcProperties::SetProperty (const char* name, const char* value)
+{
+  SetProperty (FindOrNewProperty (name), value);
+}
+
+void celPcProperties::SetProperty (const char* name, iCelPropertyClass* value)
+{
+  SetProperty (FindOrNewProperty (name), value);
+}
+
+void celPcProperties::SetProperty (const char* name, iCelEntity* value)
 {
   SetProperty (FindOrNewProperty (name), value);
 }
@@ -512,6 +669,30 @@ void celPcProperties::SetProperty (int index, const char* value)
     bh->SendMessage ("pcproperties_setproperty", 0, index);
 }
 
+void celPcProperties::SetProperty (int index, iCelPropertyClass* value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_PCLASS;
+  p->pclass = value;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
+}
+
+void celPcProperties::SetProperty (int index, iCelEntity* value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_ENTITY;
+  p->entity = value;
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+    bh->SendMessage ("pcproperties_setproperty", 0, index);
+}
+
 celDataType celPcProperties::GetPropertyType (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
@@ -519,7 +700,7 @@ celDataType celPcProperties::GetPropertyType (int index) const
   return p->type;
 }
 
-float celPcProperties::GetPropertyFloat (int index) const
+float celPcProperties::GetPropertyFloatIndex (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
@@ -529,7 +710,7 @@ float celPcProperties::GetPropertyFloat (int index) const
     return 0;
 }
 
-long celPcProperties::GetPropertyLong (int index) const
+long celPcProperties::GetPropertyLongIndex (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
@@ -539,7 +720,7 @@ long celPcProperties::GetPropertyLong (int index) const
     return 0;
 }
 
-bool celPcProperties::GetPropertyBool (int index) const
+bool celPcProperties::GetPropertyBoolIndex (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
@@ -549,12 +730,32 @@ bool celPcProperties::GetPropertyBool (int index) const
     return false;
 }
 
-const char* celPcProperties::GetPropertyString (int index) const
+const char* celPcProperties::GetPropertyStringIndex (int index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_STRING)
     return p->v.s;
+  else
+    return 0;
+}
+
+iCelPropertyClass* celPcProperties::GetPropertyPClassIndex (int index) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_PCLASS)
+    return p->pclass;
+  else
+    return 0;
+}
+
+iCelEntity* celPcProperties::GetPropertyEntityIndex (int index) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_ENTITY)
+    return p->entity;
   else
     return 0;
 }

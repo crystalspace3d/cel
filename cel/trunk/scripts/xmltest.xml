@@ -48,6 +48,7 @@
         <pcfactory>cel.pcfactory.gravity</pcfactory>
         <pcfactory>cel.pcfactory.movable</pcfactory>
         <pcfactory>cel.pcfactory.billboard</pcfactory>
+        <pcfactory>cel.pcfactory.properties</pcfactory>
         <script name="box">
 	    <event name="init">
 	        <property propclass="pcgravity" name="pcgravity.weight"
@@ -102,6 +103,23 @@
 	</script>
 
         <script name="generic_object">
+	</script>
+
+        <script name="lamp">
+	    <event name="init">
+	        <var name="isinit" bool="0" />
+	    </event>
+	    <event name="findpc">
+	        <getpropclass var="collidetest" entity="table_coffee"
+			propclass="pcbillboard" />
+	        <var name="isinit" bool="1" />
+	    </event>
+	    <event name="collide">
+	    </event>
+	    <event name="pcbillboard_unselect">
+	        <if var="isinit" false="findpc" />
+		<testcollide var="collidetest" true="collide" />
+	    </event>
 	</script>
     </addon>
 
@@ -395,20 +413,24 @@
 	        <property name="pcbillboard.name" string="lamp_desk" />
 	        <property name="pcbillboard.materialname" string="lamp_desk" />
 	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.clickable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
 	    </propclass>
-            <behaviour name="generic_object" />
+            <behaviour name="lamp" />
 	</addon>
 	<addon plugin="celentity" entityname="lamp_table">
+	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="lamp_table" />
 	        <property name="pcbillboard.materialname" string="lamp_table" />
 	        <property name="pcbillboard.movable" bool="1" />
+	        <property name="pcbillboard.clickable" bool="1" />
 	        <property name="pcbillboard.restack" bool="1" />
 	    </propclass>
-            <behaviour name="generic_object" />
+            <behaviour name="lamp" />
 	</addon>
 	<addon plugin="celentity" entityname="table_coffee">
+	    <propclass name="pcproperties" />
 	    <propclass name="pcbillboard">
 	        <property name="pcbillboard.name" string="table_coffee" />
 	        <property name="pcbillboard.materialname" string="table_coffee" />
