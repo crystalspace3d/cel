@@ -784,6 +784,36 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   return result;
 }
 
+iCollider* celPcLinearMovement::FindCollider (iObject* object)
+{
+  csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (object);
+  if (wrap)
+  {
+    return wrap->GetCollider ();
+  }
+  else
+  {
+    // There is no collider wrapper. In this case we test if there
+    // is a pcsolid for the entity. If not we'll add a null collider.
+    iCelEntity* ent = pl->FindAttachedEntity (object);
+    csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
+		ent->GetPropertyClassList (), iPcSolid);
+    if (pcsolid)
+    {
+      // Calling pcsolid->GetCollider() will cause a csColliderWrapper
+      // to be created.
+      return pcsolid->GetCollider ();
+    }
+    else
+    {
+      // Add a null collider so we don't check for pcsolid again.
+      csRef<csColliderWrapper> cw = csPtr<csColliderWrapper> (
+	  	new csColliderWrapper (object, cdsys, (iCollider*)0));
+    }
+  }
+  return 0;
+}
+
 /*
  * Iterates over the nearby entities to find collisions
  */
@@ -813,34 +843,7 @@ int celPcLinearMovement::CollisionDetect (csColliderWrapper *collidewrapper,
       cdsys->ResetCollisionPairs ();
       csReversibleTransform tr = meshWrapper->GetMovable ()
       	->GetFullTransform ();
-      csColliderWrapper* collide_wrap = csColliderWrapper::
-      	GetColliderWrapper (meshWrapper->QueryObject ());
-      iCollider* othercollider = 0;
-      if (collide_wrap)
-      {
-        othercollider = collide_wrap->GetCollider ();
-      }
-      else
-      {
-        // There is no collider wrapper. In this case we test if there
-	// is a pcsolid for the entity. If not we'll add a null collider.
-	iCelEntity* otherentity = pl->FindAttachedEntity (
-		meshWrapper->QueryObject ());
-	csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
-		otherentity->GetPropertyClassList (), iPcSolid);
-        if (pcsolid)
-	{
-	  othercollider = pcsolid->GetCollider ();
-	}
-	else
-	{
-	  // Add a null collider so we don't check for pcsolid again.
-	  csRef<csColliderWrapper> cw = csPtr<csColliderWrapper> (
-	  	new csColliderWrapper (meshWrapper->QueryObject (), cdsys,
-		(iCollider*)0));
-	}
-      }
-
+      iCollider* othercollider = FindCollider (meshWrapper->QueryObject ());
       if (othercollider && cdsys->Collide (collidewrapper->GetCollider (),
       	transform, othercollider, &tr))
       {

@@ -112,6 +112,11 @@ protected:
   bool MoveV (float delta);
   bool MoveSprite (float delta);
 
+  // Try to find the collider for an object. Can return 0 if there is none.
+  // This function uses csColliderWrapper if present. If not it will try
+  // if there is a pcsolid to get a collider from.
+  iCollider* FindCollider (iObject* object);
+
   // Returns a list of sectors near a position.
   int FindSectors (const csVector3& pos, float size, iSector** sectors);
 
