@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a gcc >= 3.3 compile error in pctest property class
 	  related to not casting size_t to the right type in celData->Set().
 	- Jorrit changed celtest to use opcode instead of rapid.
+	- Jorrit cleaned up celtest considerably. Made the code a lot nicer
+	  (a bit like Crystal Core), uses pclinmove now for movement and
+	  some other cleanups too.
 18-Jul-2004
 	- Jorrit fixed the bltest behaviour layer to correctly test if the
 	  parameter to SendMessage() actually contains an entity.

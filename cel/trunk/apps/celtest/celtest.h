@@ -21,6 +21,10 @@
 
 #include <stdarg.h>
 
+// CS Includes
+#include "csutil/csbaseeventh.h"
+#include "cstool/csapplicationframework.h"
+
 struct iEngine;
 struct iLoader;
 struct iGraphics3D;
@@ -39,11 +43,12 @@ struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
-class CelTest
+/**
+ * Main application class of CelTest.
+ */
+class CelTest : public csApplicationFramework,
+		public csBaseEventHandler
 {
-public:
-  iObjectRegistry* object_reg;
-
 private:
   csRef<iEngine> engine;
   csRef<iLoader> loader;
@@ -57,10 +62,25 @@ private:
   csRef<iCelBlLayer> blpython;
   csRef<iCelEntity> game;
  
-  static bool CelTestEventHandler (iEvent& ev);
-  bool HandleEvent (iEvent& ev);
-  void SetupFrame ();
-  void FinishFrame ();
+  /**
+   * Setup everything that needs to be rendered on screen. This routine
+   * is called from the event handler in response to a cscmdProcess
+   * broadcast message.
+   */
+  virtual void ProcessFrame ();
+
+  /**
+   * Finally render the screen. This routine is called from the event
+   * handler in response to a cscmdFinalProcess broadcast message.
+   */
+  virtual void FinishFrame ();
+
+  /**
+   * Handle keyboard events - ie key presses and releases.
+   * This routine is called from the event handler in response to a 
+   * csevKeyboard event.
+   */
+  virtual bool OnKeyboard (iEvent &event);
 
   bool LoadTextures ();
   bool LoadTexture (const char* txtName, const char* fileName);
@@ -80,10 +100,30 @@ private:
   
 public:
   CelTest ();
-  ~CelTest ();
+  virtual ~CelTest ();
 
-  bool Initialize (int argc, const char* const argv[]);
-  void Start ();
+  /**
+   * Final cleanup.
+   */
+  virtual void OnExit ();
+
+  /**
+   * Main initialization routine. This routine will set up some basic stuff
+   * (like load all needed plugins, setup the event handler, ...).
+   * In case of failure this routine will return false. You can assume
+   * that the error message has been reported to the user.
+   */
+  virtual bool OnInitialize (int argc, char* argv[]);
+
+  /**
+   * Run the application.
+   * First, there are some more initialization (everything that is needed 
+   * by CrystalCore to use Crystal Space and CEL), Then this routine fires up 
+   * the main event loop. This is where everything starts. This loop will 
+   * basically start firing events which actually causes Crystal Space to 
+   * function. Only when the program exits this function will return.
+   */
+  virtual bool Application ();
 };
 
 #endif // __CELTEST_H__

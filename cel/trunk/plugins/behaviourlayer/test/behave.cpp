@@ -31,6 +31,7 @@
 #include "propclass/camera.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
+#include "propclass/actormove.h"
 #include "propclass/timer.h"
 #include "plugins/behaviourlayer/test/behave.h"
 
@@ -259,76 +260,46 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
 
   if (pcinput_msg)
   {
-    csRef<iPcGravity> pcgravity (
-    	CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcGravity));
-    if (!pcgravity)
+    csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity,
+    	iPcActorMove);
+    if (!pcactormove)
       return false;
 
     if (!strcmp (msg_id+11, "forward1"))
-    {
-      pcgravity->ApplyForce(csVector3(0,0,-1*speed), 100000);
-    }
+      pcactormove->Forward (true);
     else if (!strcmp (msg_id+11, "forward0"))
-    {
-      pcgravity->ResetSpeed();
-      pcgravity->ClearForces();
-    }
+      pcactormove->Forward (false);
     else if (!strcmp (msg_id+11, "backward1"))
-    {
-      pcgravity->ApplyForce(csVector3(0,0,1*speed), 1000000);
-    }
+      pcactormove->Backward (true);
     else if (!strcmp (msg_id+11, "backward0"))
-    {
-      pcgravity->ResetSpeed();
-      pcgravity->ClearForces();
-    }
+      pcactormove->Backward (false);
     else if (!strcmp (msg_id+11, "strafeleft1"))
-    {
-      pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
-    }
+      pcactormove->StrafeLeft (true);
     else if (!strcmp (msg_id+11, "strafeleft0"))
-    {
-      pcgravity->ResetSpeed();
-      pcgravity->ClearForces();
-    }
+      pcactormove->StrafeLeft (false);
     else if (!strcmp (msg_id+11, "straferight1"))
-    {
-      pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
-    }
+      pcactormove->StrafeRight (true);
     else if (!strcmp (msg_id+11, "straferight0"))
-    {
-      pcgravity->ResetSpeed();
-      pcgravity->ClearForces();
-    }
+      pcactormove->StrafeRight (false);
+    else if (!strcmp (msg_id+11, "rotateleft1"))
+      pcactormove->RotateLeft (true);
+    else if (!strcmp (msg_id+11, "rotateleft0"))
+      pcactormove->RotateLeft (false);
+    else if (!strcmp (msg_id+11, "rotateright1"))
+      pcactormove->RotateRight (true);
+    else if (!strcmp (msg_id+11, "rotateright0"))
+      pcactormove->RotateRight (false);
     else if (!strcmp (msg_id+11, "run1"))
-    {
-      speed=2.5;
-    }
+      pcactormove->Run (true);
     else if (!strcmp (msg_id+11, "run0"))
-    {
-      speed=1;
-    }
+      pcactormove->Run (false);
     else if (!strcmp (msg_id+11, "cammode1"))
     {
-      fpscam = fpscam ? 0 : 1;
-      csRef<iPcCamera> pccam (
-      	CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera));
-      if (!pccam)
-      {
-        return false;
-      }
-
-      if (fpscam)
-      {
-        printf ("Switching to 3rd person view!\n");
-        pccam->SetMode (iPcCamera::thirdperson, true);
-      }
-      else
-      {
-        printf ("Free look mode\n");
-        pccam->SetMode (iPcCamera::freelook, false);
-      }
+      pcactormove->ToggleCameraMode ();
+      csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+      printf ("%s\n", pccamera->GetModeName ()); fflush (stdout);
     }
+    return true;
   }
 
   return bhroom->SendMessageV (msg_id, ret, params, arg);
