@@ -793,10 +793,9 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   csRef<iVFS> vfs (CS_QUERY_REGISTRY (object_reg, iVFS));
   CS_ASSERT (vfs != 0);
 #if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/apps$/celtest$/");
+  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
 #else // VFS_PKGDATADIR
   vfs->Mount ("cel", "$.$/");
-  vfs->Mount ("cel", "$.$/apps$/celtest$/");
 #endif // VFS_PKGDATADIR
   
   blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
