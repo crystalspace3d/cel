@@ -26,17 +26,34 @@
         <pcfactory>cel.pcfactory.properties</pcfactory>
         <pcfactory>cel.pcfactory.timer</pcfactory>
 
+	<!-- *****************************************************
+	  - This script handles the menu system of xmlgames.
+	  -  ***************************************************** -->
 	<script name="menu">
+	    <!--
+	      - Initialization.
+	      -->
 	    <event name="init">
 	        <print value="'Start initializing menu...'" />
-		<createentity name="but" behaviour="menu_button" />
+		<createentity name="but" behaviour="puzzle_button" />
 	    </event>
+
+	    <!--
+	      - Call this event if you want the menu to be made invisible.
+	      -->
 	    <event name="destroy">
 	        <print value="'Start destroying menu...'" />
 	        <destroyentity name="but" />
 	    </event>
 	</script>
-	<script name="menu_button">
+
+	<!-- *****************************************************
+	  - This script handles the button for the puzzle game.
+	  -  ***************************************************** -->
+	<script name="puzzle_button">
+	    <!--
+	      - Initialization.
+	      -->
 	    <event name="init">
 	        <createpropclass name="pcbillboard" />
 		<default propclass="pc(pcbillboard)" />
@@ -50,17 +67,31 @@
 	        <property id="propid(x)" value="10000" />
 	        <property id="propid(y)" value="10000" />
 	    </event>
+
+	    <!--
+	      - Select this button. Fire up the 'puzzle' game.
+	      -->
 	    <event name="pcbillboard_select">
 	        <call entity="menu" event="destroy" />
 		<createentity name="puzzle_main" behaviour="puzzle_main" />
 	    </event>
 	</script>
 
+	<!-- *****************************************************
+	  - This is the puzzle game script.
+	  -  ***************************************************** -->
 	<script name="puzzle_main">
-	    <event name="initcel">
+	    <!--
+	      - Initialize one tile. This will create the entity representing
+	      - the tile and it will set it at the right position on the puzzle
+	      - board.
+	      - This event uses ?x and ?y which should be set outside this routine.
+	      - It also uses ?uvtl for the texture mapping coordinates.
+	      -->
+	    <event name="inittile">
 	        <var name="ent" value="'p'+?x+'_'+?y" />
 		<print value="'Creating '+?ent" />
-		<createentity name="?ent" behaviour="moving_object" />
+		<createentity name="?ent" behaviour="moving_tile" />
 		<default propclass="pc(?ent,pcbillboard)" />
 	        <property id="propid(x)" value="1000+75000*?x" />
 	        <property id="propid(y)" value="1000+75000*?y" />
@@ -71,28 +102,58 @@
 		<!-- Set the 2d grid to contain the current entity -->
 	        <var name="'grid'+?x+'_'+?y" value="?ent" />
 	    </event>
+
+	    <!--
+	      - Initialize one row of the board.
+	      -->
 	    <event name="initrow">
-		<for var="x" start="0" end="3" exec="initcel" />
+		<for var="x" start="0" end="3" exec="inittile" />
 	    </event>
+
+	    <!--
+	      - Initialize the puzzle game.
+	      - The main puzzle entity maintains various variables to
+	      - keep board state:
+	      -    - grid<x>_<y>: an 2D array containing the name of the tile entity
+	      -      at location x,y. Or '' if this is the empty tile.
+	      -    - emptyx, emptyy: the location of the empty tile.
+	      -    - allowmove: if true the player can move tiles.
+	      -    - shuffle_count: if > 0 then we are randomizing the board.
+	      -    - speed: a float indicating the speed with which tiles should move.
+	      -->
 	    <event name="init">
 	        <var name="uvtl" value="[0,0]" />
 		<for var="y" start="0" end="3" exec="initrow" />
 
-		<!-- Clear the item at 3,3 -->
+		<!-- Clear the item at 3,3. This is the empty tile -->
 		<property propclass="pc(p3_3,pcbillboard)"
 			id="propid(visible)" value="false" />
 		<property propclass="pc(p3_3,pcbillboard)"
 			id="propid(clickable)" value="false" />
 	        <var name="'grid'+3+'_'+3" value="''" />
-
 	        <var name="emptyx" value="3" />
 	        <var name="emptyy" value="3" />
+
+		<var name="speed" value="0.1" />
 		<var name="allowmove" value="false" />
+		<!-- Start randomizing -->
+		<var name="prev_dxdy" value="1" />
 		<var name="shuffle_count" value="100" />
 		<call event="fast_shuffle" />
 	    </event>
+
+	    <!--
+	      - This routine is responsible for initiating a random move to
+	      - randomize the board. The tile that moved will itself call this
+	      - routine again if ?shuffle_count > 0. This routine will make sure
+	      - that a tile doesn't move to where it was before. It uses
+	      - ?prev_dxdy to do that.
+	      -->
 	    <event name="fast_shuffle">
 	        <var name="dxdy" value="int(rand(4.0))" />
+		<var name="dxdy"
+		    value="if(?prev_dxdy==(?dxdy^1),(?dxdy^1),?dxdy)" />
+		<var name="prev_dxdy" value="?dxdy" />
 		<if eval="?dxdy&2">
 		    <true>
 		        <var name="dx" value="0" />
@@ -113,14 +174,32 @@
 			<call entity="?ent" event="move" />
 		    </true>
 		    <false>
+		    	<!-- Try again -->
 		        <call event="fast_shuffle" />
 		    </false>
 		</if>
 	    </event>
+
+	    <!--
+	      - Start the game for real.
+	      -->
+	    <event name="start_game">
+		<var name="speed" value="0.01" />
+	        <var name="allowmove" value="true" />
+	    </event>
 	</script>
 
-        <script name="moving_object">
+	<!-- *****************************************************
+	  - This script handles all operations on a tile in the puzzle game.
+	  -  ***************************************************** -->
+        <script name="moving_tile">
+	    <!--
+	      - Initialize this tile.
+	      - It assumes ?puzzle_main.x and ?puzzle_main.y are set to the
+	      - location of the tile.
+	      -->
 	    <event name="init">
+	    	<!-- Create timer so we can do smooth movement of this tile -->
 	        <createpropclass name="pctimer" />
 	        <createpropclass name="pcbillboard" />
 		<default propclass="pc(pcbillboard)" />
@@ -137,6 +216,14 @@
 		<var name="cury" value="?righty" />
 	    </event>
 
+	    <!--
+	      - If this tile is moving then this event will be triggered
+	      - every frame. Here we check how much time has elapsed and
+	      - move the tile accordingly. If the tile has reached its
+	      - destination then we call 'stoptimer'.
+	      - The global ?puzzle_main.speed variable is used to control
+	      - movement speed.
+	      -->
 	    <event name="pctimer_wakeupframe">
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(x)"
@@ -144,8 +231,16 @@
 	        <property id="propid(y)"
 			value="1000+intpol(?delta,?inty1,?inty2)*75000" />
 		<if eval="?delta>=1" true="stoptimer" />
-		<var name="delta" value="?delta+0.01*param(parid(elapsedticks))" />
+		<var name="delta" value="?delta+?puzzle_main.speed*param(parid(elapsedticks))" />
 	    </event>
+
+	    <!--
+	      - The tile has moved its destination. Stop the timer.
+	      - If we are in shuffle mode (i.e. randomizing the board) then
+	      - we signal the main 'puzzle_main' entity to start moving another
+	      - tile. Otherwise we set ?puzzle_main.allowmove to true so that
+	      - the player can move another tile.
+	      -->
 	    <event name="stoptimer">
 		<action propclass="pc(pctimer)" id="propid(Clear)" />
 		<default propclass="pc(pcbillboard)" />
@@ -158,12 +253,16 @@
 		        <call entity="puzzle_main" event="fast_shuffle" />
 		    </true>
 		    <false>
-		        <var entity="puzzle_main" name="allowmove"
-				value="true" />
+		    	<call entity="puzzle_main" event="start_game" />
 		    </false>
 		</if>
 	    </event>
 
+	    <!--
+	      - Initiate the move of this tile to the location specified
+	      - by local variables ?dx and ?dy. Doing this will disable
+	      - other moves.
+	      -->
 	    <event name="move">
 		<var entity="puzzle_main" name="allowmove" value="false" />
 		<var entity="puzzle_main" name="emptyx" value="?curx" />
@@ -183,6 +282,12 @@
 		<var name="delta" value="0.0" />
 		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 	    </event>
+
+	    <!--
+	      - Select this tile. If movement is allowed then this will
+	      - check if the empty location is next to this block and if
+	      - so it will call 'move' to initiate the movement.
+	      -->
 	    <event name="pcbillboard_select">
 	        <if eval="?puzzle_main.allowmove">
 		    <true>
@@ -200,11 +305,5 @@
     <addon plugin="celentity" entityname="menu">
         <behaviour name="menu" />
     </addon>
-
-    <!--
-    <addon plugin="celentity" entityname="puzzle_main">
-        <behaviour name="puzzle_main" />
-    </addon>
-    -->
 </world>
 
