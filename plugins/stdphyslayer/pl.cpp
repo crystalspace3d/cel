@@ -66,8 +66,6 @@ celPlLayer::celPlLayer (iBase* parent)
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
 
-  idlist = new NumRegLists; 
-
   entities_hash_dirty = false;
   scfiEventHandler = 0;
 
@@ -94,8 +92,6 @@ celPlLayer::~celPlLayer ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
-
-  delete idlist;
 }
 
 bool celPlLayer::HandleEvent (iEvent& ev)
@@ -149,7 +145,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
-  idlist->Clear ();
+  idlist.Clear ();
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return false;	// Engine is required.
@@ -162,25 +158,23 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-void celPlLayer::ChangeNumReg(csString version)
+int celPlLayer::AddScope (csString version, int size)
 {
-  delete idlist;
-
-  if (version == "cel.numreg.lists")
-    idlist = new NumRegLists;
-  else if (version == "cel.numreg.hash")
-    idlist = new NumRegHash;
-  else
-    CS_ASSERT(0 && "Wrong num reg implementation");
+  return idlist.AddScope (version, size);
 }
 
 csPtr<iCelEntity> celPlLayer::CreateEntity ()
+{
+  return CreateEntityInScope (idlist.DefaultScope);
+}
+
+csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
 {
   CS_ID objid;
   
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
   iCelEntity* ientity = &entity->scfiCelEntity;
-  objid = idlist->Register (ientity);
+  objid = idlist.Register (ientity, scope);
   if (objid == 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -192,6 +186,19 @@ csPtr<iCelEntity> celPlLayer::CreateEntity ()
   entity->SetEntityID (objid);
   entities.Push (ientity);
   ientity->IncRef ();
+  return csPtr<iCelEntity> (ientity);
+}
+
+csPtr<iCelEntity> celPlLayer::CreateEntity (CS_ID entity_id)
+{
+  csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
+  iCelEntity* ientity = &entity->scfiCelEntity;
+  
+  entity->SetEntityID (entity_id);
+  idlist.RegisterWithID (ientity, entity_id);
+  entities.Push(ientity);
+  ientity->IncRef();
+
   return csPtr<iCelEntity> (ientity);
 }
 
@@ -271,7 +278,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
 
 void celPlLayer::RemoveEntity (iCelEntity *entity)
 {
-  if (!idlist->Remove (entity->GetID ()))
+  if (!idlist.Remove (entity->GetID ()))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
@@ -293,12 +300,12 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
 
 iCelEntity* celPlLayer::GetEntity (CS_ID id)
 {
-  return (iCelEntity*) idlist->Get (id);
+  return (iCelEntity*) idlist.Get (id);
 }
 
 iCelBehaviour* celPlLayer::GetBehaviour (CS_ID id)
 {
-  iCelEntity* ent = (iCelEntity*) idlist->Get (id);
+  iCelEntity* ent = (iCelEntity*) idlist.Get (id);
   if (ent)
   {
     return ent->GetBehaviour ();

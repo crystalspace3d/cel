@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Oct-2004
+	- Remi Bonnet added ID scopes to the physical layer to ease
+	  management of IDs when cel is used in a client <-> server
+	  application.
 28-Oct-2004
 	- Eric Sunshine updated Autoconf and Jam utility files from master
 	  copies in CS repository.

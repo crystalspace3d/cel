@@ -65,7 +65,7 @@ private:
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
-  iNumReg* idlist;
+  celIDRegistry idlist;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
 
@@ -97,6 +97,8 @@ public:
   void AddEntityName (celEntity* ent);
 
   virtual csPtr<iCelEntity> CreateEntity ();
+  virtual csPtr<iCelEntity> CreateEntityInScope (int scope);
+  virtual csPtr<iCelEntity> CreateEntity (CS_ID id);
   virtual csPtr<iCelEntity> CreateEntity (const char* entname,
   	iCelBlLayer* bl, const char* bhname, ...);
   virtual iCelEntity* FindEntity (const char* name);
@@ -155,7 +157,7 @@ public:
   virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where);
   virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where);
 
-  virtual void ChangeNumReg(csString new_version);
+  virtual int AddScope (csString impl, int size);
   
   struct Component : public iComponent
   {
