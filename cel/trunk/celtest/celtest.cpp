@@ -477,6 +477,7 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
     	"Error loading texture '%s'!", fileName);
     return false;
   }
+  pl->Cache (txt);
   iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName (txtName);
   if (mat) pl->Cache (mat);
   return true;
