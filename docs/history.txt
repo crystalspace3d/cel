@@ -10,6 +10,9 @@
 	- Changing of property values is now properly restricted by
 	  the parent inventory and the new values are also propagated
 	  to the inventory.
+	- Inherited characteristics now work. It is possible to modify
+	  the characteristic of the contents (i.e. for the NetHack
+	  Bag of Holding which reduces the weight of all objects inside).
 28-Oct-2001:
 	- Started work on the 'pfmesh' factory. This factory will support
 	  the 'pcmesh' property class so that you can attach a mesh object

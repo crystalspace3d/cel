@@ -495,7 +495,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   //===============================
   // Create the box entity.
   //===============================
-  entity_box = pl->CreateEntity ();
+  entity_box = pl->CreateEntity (); entity_box->SetName ("box");
   entity_box->SetBlEntity (bl->CreateBlEntity ("printer"));
 
   pc = CreatePropertyClass (entity_box, pftest, "pctest");
@@ -517,6 +517,16 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcinv->SetConstraints ("size", 0, 10, 100);
   pcinv->SetConstraints ("weight", 0, .5, 1000000);
   pcinv->SetStrictCharacteristics ("size", true);
+  // pcinv is decreffed later.
+
+  pc = CreatePropertyClass (entity_box, pfinv, "pccharacteristics");
+  if (!pc) return false;
+  pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
+  pcchars->SetCharProperty ("size", 3);
+  pcchars->SetCharProperty ("weight", 4);
+  pcchars->SetInheritedProperty ("size", 0, 0);
+  pcchars->SetInheritedProperty ("weight", .5, 0);
+  pcchars->DecRef ();
 
   //===============================
   // Create four dummy entities.
@@ -580,6 +590,10 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (pcchars->SetCharProperty ("size", 5)) printf ("Entity 1 resized to 5!\n");
   else printf ("Entity 1 NOT resized to 5!\n");
   pcinv->Dump ();
+  pcchars->DecRef ();
+
+  pcchars = CEL_QUERY_PROPCLASS (entity_box->GetPropertyClassList (), iPcCharacteristics);
+  pcchars->Dump ();
   pcchars->DecRef ();
 
   pcinv->DecRef ();
