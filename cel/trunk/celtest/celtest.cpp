@@ -62,6 +62,7 @@
 #include "bl/bl.h"
 #include "pf/test.h"
 #include "pf/mesh.h"
+#include "pf/meshsel.h"
 #include "pf/inv.h"
 #include "pf/chars.h"
 
@@ -510,6 +511,12 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   pcmesh->SetMesh ("sparkbox", "/this/celtest/data/sparkbox");
   pcmesh->MoveMesh (room, csVector3 (0));
   pcmesh->DecRef ();
+
+  pc = CreatePropertyClass (entity_box, pfmesh, "pcmeshselect");
+  if (!pc) return false;
+  iPcMeshSelect* pcmeshsel = SCF_QUERY_INTERFACE (pc, iPcMeshSelect);
+  pcmeshsel->SetCamera (view->GetCamera ());
+  pcmeshsel->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pfinv, "pcinventory");
   if (!pc) return false;

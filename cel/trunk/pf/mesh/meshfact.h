@@ -22,14 +22,17 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "iutil/eventh.h"
 #include "csutil/scf.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pf/mesh.h"
+#include "pf/meshsel.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
 struct iMeshFactoryWrapper;
+struct iCamera;
 
 /**
  * Factory for mesh.
@@ -48,8 +51,8 @@ public:
 
   virtual const char* GetName () const { return "pfmesh"; }
   virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 1; }
-  virtual const char* GetTypeName (int /*idx*/) const { return "pcmesh"; }
+  virtual int GetTypeCount () const { return 2; }
+  virtual const char* GetTypeName (int idx) const;
 
   struct Component : public iComponent
   {
@@ -99,6 +102,47 @@ public:
       scfParent->MoveMesh (sector, pos);
     }
   } scfiPcMesh;
+};
+
+/**
+ * This is a mesh selection property class.
+ */
+class celPcMeshSelect : public iCelPropertyClass
+{
+private:
+  iCelEntity* entity;
+  iObjectRegistry* object_reg;
+  iCamera* camera;
+
+public:
+  celPcMeshSelect (iObjectRegistry* object_reg);
+  virtual ~celPcMeshSelect ();
+
+  bool HandleEvent (iEvent& ev);
+  void SetCamera (iCamera* camera);
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return "pcmeshselect"; }
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
+
+  struct PcMeshSelect : public iPcMeshSelect
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
+    virtual void SetCamera (iCamera* camera)
+    {
+      scfParent->SetCamera (camera);
+    }
+  } scfiPcMeshSelect;
+  struct EventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return scfParent->HandleEvent (ev);
+    }
+  } scfiEventHandler;
 };
 
 #endif // __CEL_PF_MESHFACT__
