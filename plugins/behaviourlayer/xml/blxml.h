@@ -84,7 +84,8 @@ private:
 	const char* attrname, const char* name, char*& str);
   bool ParseExpressionInt (const char*& input, const char* pinput,
 	int token, const csStringArray& local_vars, iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* name, int stoppri);
+	celXmlScriptEventHandler* h, const char* name,
+	int stoppri);
   bool ParseExpression (const char*& input, const csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, int stoppri);

@@ -691,7 +691,8 @@ bool celBlXml::ParseExpressionInt (
 	const char*& input, const char* pinput, int token,
 	const csStringArray& local_vars,
 	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* name, int stoppri)
+	const char* name,
+	int stoppri)
 {
   switch (token)
   {
@@ -1056,16 +1057,38 @@ bool celBlXml::ParseExpressionInt (
         h->AddOperation (CEL_OPERATION_GE);
         break;
       case CEL_TOKEN_MINUS:
-        if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
-	  return false;
-        h->AddOperation (CEL_OPERATION_MINUS);
+        {
+          if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
+          if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
+	    return false;
+	  if (h->GetLastOperation () == CEL_OPERATION_PUSH)
+	  {
+	    h->ReplaceLastOperation (CEL_OPERATION_MINUS_I);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_MINUS);
+	  }
+	}
         break;
       case CEL_TOKEN_ADD:
-        if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
-	  return false;
-        h->AddOperation (CEL_OPERATION_ADD);
+        {
+          if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
+          if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
+	    return false;
+	  if (h->GetLastOperation () == CEL_OPERATION_PUSH)
+	  {
+	    h->ReplaceLastOperation (CEL_OPERATION_ADD_I);
+	  }
+	  else if (h->GetLastOperation () == CEL_OPERATION_PUSHSTR)
+	  {
+	    h->ReplaceLastOperation (CEL_OPERATION_ADD_I);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_ADD);
+	  }
+	}
         break;
       case CEL_TOKEN_MULT:
         if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
@@ -1098,7 +1121,8 @@ bool celBlXml::ParseExpressionInt (
 bool celBlXml::ParseExpression (const char*& input,
 	const csStringArray& local_vars,
 	iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* name, int stoppri)
+	celXmlScriptEventHandler* h, const char* name,
+	int stoppri)
 {
   int token;
   input = celXmlSkipWhiteSpace (input);
