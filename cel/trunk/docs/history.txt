@@ -4,6 +4,8 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 11-Dec-2003
+	- Eric Sunshine upgraded the Autoconf and Jam utility files to the
+	  latest versions from CS.
 	- Jorrit added a new celtool library. At this moment this library
 	  contains everything that used to be in plugins/propclass/common
 	  (that directory has now been removed): mainly the common code
@@ -23,9 +25,9 @@ The history order is reversed so that new features are at the top.
 	  wrong computations.
 7-Dec-2003
 	- Jorrit renamed the string ID's for properties from
-		cel.property.pccamera.bla
+	    cel.property.pccamera.bla
 	  to
-	  	cel.property.bla
+	    cel.property.bla
 	  It is redundant and unneeded to specify the property class
 	  there.
 	- Jorrit implemented a new notation in the XML behaviour layer for
