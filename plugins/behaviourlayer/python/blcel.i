@@ -154,7 +154,7 @@ struct iCelBehaviour : public iBase
   %extend {
     PyObject *GetPythonObject()
     {
-      return (PyObject*)self->GetInternalObject();
+      return (PyObject*)(self->GetInternalObject());
     }
   }
 };
@@ -280,7 +280,7 @@ struct iPcCommandInput : public iBase
 %{
 iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity)
 {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcinput");
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pckeyinput");
   if (!pc.IsValid()) return 0;
   csRef<iPcCommandInput> pcinput = SCF_QUERY_INTERFACE(pc, iPcCommandInput);
   if (!pcinput.IsValid()) return 0;
@@ -316,7 +316,8 @@ struct iPcLinearMovement : public iBase
 
 %{
 iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pclinmove");
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,
+  	"pclinearmovement");
   if (!pc.IsValid()) return 0;
   csRef<iPcLinearMovement> pclm = SCF_QUERY_INTERFACE(pc, iPcLinearMovement);
   if (!pclm.IsValid()) return 0;

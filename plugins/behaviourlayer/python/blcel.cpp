@@ -1831,7 +1831,7 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 }
 
 PyObject *iCelBehaviour_GetPythonObject(iCelBehaviour *self){
-      return (PyObject*)self->GetInternalObject();
+      return (PyObject*)(self->GetInternalObject());
     }
 bool iCelPropertyClass_SetPropertyLong(iCelPropertyClass *self,csStringID id,long l){ return self->SetProperty (id, l); }
 bool iCelPropertyClass_SetPropertyFloat(iCelPropertyClass *self,csStringID id,float f){ return self->SetProperty (id, f); }
@@ -1873,7 +1873,7 @@ iPcRegion *celQueryPC_iPcRegion (iCelPropertyClassList *pclist)
 
 iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity)
 {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcinput");
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pckeyinput");
   if (!pc.IsValid()) return 0;
   csRef<iPcCommandInput> pcinput = SCF_QUERY_INTERFACE(pc, iPcCommandInput);
   if (!pcinput.IsValid()) return 0;
@@ -1882,7 +1882,8 @@ iPcCommandInput *celCreateCommandInput (iCelPlLayer *pl, iCelEntity *entity)
 
 
 iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pclinmove");
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,
+  	"pclinearmovement");
   if (!pc.IsValid()) return 0;
   csRef<iPcLinearMovement> pclm = SCF_QUERY_INTERFACE(pc, iPcLinearMovement);
   if (!pclm.IsValid()) return 0;
