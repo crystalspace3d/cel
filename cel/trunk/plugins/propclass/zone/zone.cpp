@@ -205,7 +205,7 @@ bool celRegion::Load ()
     }
   }
 
-  mgr->FireZoneCallbacks ((iCelRegion*)this, true);
+  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
 
   loaded = true;
   return true;
@@ -215,7 +215,7 @@ void celRegion::Unload ()
 {
   if (!loaded) return;
 
-  mgr->FireZoneCallbacks ((iCelRegion*)this, false);
+  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_remregion");
 
   iEngine* engine = mgr->GetEngine ();
   iRegion* cur_region = engine->CreateRegion (name);
@@ -371,31 +371,11 @@ bool celPcZoneManager::PerformAction (csStringID /*actionId*/,
   return false;
 }
 
-void celPcZoneManager::AddZoneCallback (iCelZoneCallback* cb)
-{
-  callbacks.Push (cb);
-}
-
-void celPcZoneManager::RemoveZoneCallback (iCelZoneCallback* cb)
-{
-  callbacks.Delete (cb);
-}
-
-void celPcZoneManager::FireZoneCallbacks (iCelRegion* region, bool load)
+void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
 {
   params->GetParameter (0).SetIBase (region);
   celData ret;
-  entity->GetBehaviour ()->SendMessage (
-	load ? "pczonemanager_addregion" : "pczonemanager_remregion",
-	ret, params);
-
-  // @@@ Below is soon obsolete.
-  size_t i;
-  for (i = 0 ; i < callbacks.Length () ; i++)
-  {
-    if (load) callbacks[i]->RegionLoaded (region);
-    else callbacks[i]->RegionUnloaded (region);
-  }
+  entity->GetBehaviour ()->SendMessage (msgid, ret, params);
 }
 
 iCelZone* celPcZoneManager::CreateZone (const char* name)
