@@ -916,7 +916,7 @@ iSector* celPcLinearMovement::GetSector ()
 #define MAX_NONCHEAT_SPEED  7.07f
 #define SPEED_FUDGE_FACTOR  .5f
 
-bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat)
+bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings)
 {
   if (data->GetSize () <= sizeof (float) * 8)
   {
@@ -951,10 +951,16 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat)
   pos.y = *(tptr++);
   pos.z = *(tptr++);
 
+  csStringID* sidptr = (csStringID*)tptr;
+  csStringID sectorNameStrId = *(sidptr++);
+
   // Get onground flag
   // Find Action
-  char* actionnum = (char*) tptr++;
+  char* actionnum = (char*) sidptr;
   int i = *actionnum++;
+
+  const char* sectorName = (sectorNameStrId == csInvalidStringID) ?
+      actionnum : msgstrings->Request(sectorNameStrId);
 
   csRef<iSprite3DFactoryState> factstate = SCF_QUERY_INTERFACE (
     pcmesh->GetMesh ()->GetFactory ()->GetMeshObjectFactory (),
@@ -971,13 +977,13 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat)
   // The rest of the data contains the sector name, just cast it to char* and
   // compare with current sector name.
   if (strcmp (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0)
-  	->QueryObject ()->GetName (), actionnum) != 0)
+  	->QueryObject ()->GetName (), sectorName) != 0)
   {
     // Sector changed, find new sector and set it
-    iSector* newSector = engine->GetSectors ()->FindByName (actionnum);
+    iSector* newSector = engine->GetSectors ()->FindByName (sectorName);
     if (!newSector)
       Report (object_reg,
-      	"[celPcLinearMovement::SetDRData] Sector %s not found !\n", actionnum);
+      	"[celPcLinearMovement::SetDRData] Sector %s not found !\n", sectorName);
     else
       pcmesh->GetMesh ()->GetMovable ()->SetSector (newSector);
   }	
@@ -1189,7 +1195,7 @@ csPtr<iDataBuffer> celPcLinearMovement::GetPathDRData()
   return csPtr<iDataBuffer> (databuf);
 }
 
-csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
+csPtr<iDataBuffer> celPcLinearMovement::GetDRData (csStringHash* msgstrings)
 {
   if (path)
       return GetPathDRData ();
@@ -1197,11 +1203,14 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
   // Pack the important stuff into a databuffer.
   const char* sectorName = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()
   	->Get (0)->QueryObject ()->GetName ();
-  int sectorNameLen = strlen (sectorName);
+  csStringID sectorNameStrId = msgstrings ?
+      msgstrings->Request(sectorName) : csInvalidStringID;
+  int sectorNameLen = (sectorNameStrId == csInvalidStringID) ? strlen (sectorName) : 0;
   // It should be (sectorNameLen + 1), but for some reason crashes occur
   // if smaller than (sectorNameLen + 4).
-  int bufLen = (sizeof (float) * 8) + (sizeof (char) * (sectorNameLen + 4))
-  	+ 1 + 1;
+  int bufLen = (sizeof (float) * 8) + sizeof(csStringID)
+      + (sizeof (char) * (sectorNameLen + 4)) + 1 + 1;
+
   csRef<iDataBuffer> databuf = csPtr<iDataBuffer> (new csDataBuffer (bufLen));
   const csMatrix3& transf =
     pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
@@ -1228,6 +1237,10 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
   *(tptr++) = pos.x;
   *(tptr++) = pos.y;
   *(tptr++) = pos.z;
+
+  // string ID
+  csStringID* sidptr = (csStringID*)tptr;
+  *(sidptr++) = sectorNameStrId;
 
   // Append the current anim action to the message. Can optimize with 1 byte
   // later.
@@ -1257,15 +1270,18 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData ()
       action_number = -action_number;
   }
 
-  char* anum = (char*) tptr;
+  char* anum = (char*) sidptr;
   // Persist onground flag too so each client can do
   // its own gravity for all entities.
   *anum++ = action_number;
 
   // Send sector name.
-  char* dest = anum;
-  strncpy (dest, sectorName, sectorNameLen);
-  dest[sectorNameLen]=0;
+  if (sectorNameStrId == csInvalidStringID)
+  {
+      char* dest = anum;
+      strncpy (dest, sectorName, sectorNameLen);
+      dest[sectorNameLen]=0;
+  }
 
   // Save informations for DR.
   lastDRUpdate = csGetTicks ();

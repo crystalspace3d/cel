@@ -31,6 +31,7 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/strhash.h"
 #include "csutil/stringarray.h"
 #include "cstool/collider.h"
 #include "ivaria/collider.h"
@@ -184,13 +185,13 @@ public:
   }
 
   /// Returns dead reckoning data
-  csPtr<iDataBuffer> GetDRData ();
+  csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0);
 
   /**
    * Sets dead reckoning data and moves the entity accordingly
    * If data is 0 then UpdateDR () is called instead.
    */
-  bool SetDRData (iDataBuffer* data,bool detectcheat);
+  bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0);
   /**
    * Checks whether there is a need for sending a new DR packet
    * and if so, what the priority of the DR update should be.
@@ -317,13 +318,13 @@ public:
       return scfParent->InitCD ();
     }
 
-    virtual csPtr<iDataBuffer> GetDRData ()
+    virtual csPtr<iDataBuffer> GetDRData (csStringHash* msgstrings = 0)
     {
-      return scfParent->GetDRData ();
+      return scfParent->GetDRData (msgstrings);
     }
-    virtual bool SetDRData (iDataBuffer* data,bool detectcheat)
+    virtual bool SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings = 0)
     {
-      return scfParent->SetDRData (data,detectcheat);
+      return scfParent->SetDRData (data,detectcheat,msgstrings);
     }
     virtual bool NeedDRData (uint8& priority)
     {
