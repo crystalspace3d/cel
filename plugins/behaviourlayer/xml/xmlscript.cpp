@@ -2506,7 +2506,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_DEREFARRENT2:
         {
-	  CHECK_STACK(3)
+	  CHECK_STACK(4)
 	  celXmlArg a_index2 = stack.Pop ();
 	  celXmlArg a_index1 = stack.Pop ();
 	  celXmlArg a_array = stack.Pop ();
@@ -2556,7 +2556,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_index2 = stack.Pop ();
 	  celXmlArg a_index1 = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: derefarr2 arr=%s index1=%s\n", i-1,
+          DUMP_EXEC ((":%04d: derefarr2 arr=%s index1=%s index2=%s\n", i-1,
 	  	A2S (top), A2S (a_index1), A2S (a_index2)));
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
