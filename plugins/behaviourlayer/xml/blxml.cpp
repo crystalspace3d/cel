@@ -71,6 +71,8 @@ enum
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
+  XMLTOKEN_CALLSTACK,
+  XMLTOKEN_VARIABLES,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -152,6 +154,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
+  xmltokens.Register ("variables", XMLTOKEN_VARIABLES);
+  xmltokens.Register ("callstack", XMLTOKEN_CALLSTACK);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -1008,6 +1012,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->GetArgument ().SetBool (false);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
+        break;
+      case XMLTOKEN_CALLSTACK:
+        h->AddOperation (CEL_OPERATION_CALLSTACK);
+        break;
+      case XMLTOKEN_VARIABLES:
+        h->AddOperation (CEL_OPERATION_VARIABLES);
         break;
       case XMLTOKEN_STOP:
         h->AddOperation (CEL_OPERATION_END);
