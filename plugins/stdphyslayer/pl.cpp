@@ -102,15 +102,19 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   // First fire all property classes that must be fired every frame.
   bool compress = false;
   csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
+  csArray<iCelPropertyClass*> pcs;
   while (it.HasNext ())
   {
     size_t pc_idx = it.Next ();
     iCelPropertyClass* pc = weak_pcs[pc_idx];
     if (pc)
-      pc->TickEveryFrame ();
+      pcs.Push (pc);
     else
       compress = true;
   }
+  size_t i;
+  for (i = 0 ; i < pcs.Length () ; i++)
+    pcs[i]->TickEveryFrame ();
 
   // Then fire all property classes that are interested in receiving
   // events if the alloted time has exceeded. The property classes
@@ -118,15 +122,18 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   // one that will fire first.
   csTicks current_time = vc->GetCurrentTicks ();
   csArray<CallbackPCTiming>& cbs = cbinfo->timed_callbacks;
+  pcs.SetLength (0);
   while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
   {
     CallbackPCTiming pcfire = cbs.Pop ();
     iCelPropertyClass* pc = weak_pcs[pcfire.pc_idx];
     if (pc)
-      pc->TickOnce ();
+      pcs.Push (pc);
     else
       compress = true;
   }
+  for (i = 0 ; i < pcs.Length () ; i++)
+    pcs[i]->TickOnce ();
 
   if (compress) CompressCallbackPCInfo ();
 

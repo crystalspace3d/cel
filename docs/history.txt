@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+28-Aug-2004
+	- Jorrit fixed a bug in the physical layer when broadcasting
+	  TickOnce and TickEveryFrame. The problem was when in such
+	  a tick handler entities got removed and this causes the
+	  iterator to become invalid. Solved this by first making a
+	  copy of all property class pointers.
 27-Aug-2004
         - Remi Bonnet fixed CEL_QUERY_PROPCLASS so that it use the new
           scfInterface<Interface>::GetID() function instead of the old
