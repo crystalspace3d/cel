@@ -1,21 +1,29 @@
-# Misc...
-rule UserObject
-{
-	switch $(>:S)
-	{
-		case .h : return ;
-		case * : ECHO Unknown object type $(>) ;
-	}
-}
-
 #----------------------------------------------------------------------------
 # *** Application rules ***
 
+rule Header
+{
+# nothing yet...
+}
+
 rule Application
 {
-	MSVCApplication $(<) : $(>) ;
-	ApplicationFromObjects $(<) : $(>:S=$(SUFOBJ)) : $(3) : $(4) ;
-	Objects $(>) ;
+  MSVCApplication $(<) : $(>) ;
+
+  local _i _sources ;
+  
+  for _i in $(>)
+  {
+    switch $(_i:S)
+    {
+      case .h : Header $(<) : $(_i) ;
+      
+      case * : _sources += $(_i) ;
+    }
+  }
+  
+  ApplicationFromObjects $(<) : $(_sources:S=$(SUFOBJ)) : $(3) : $(4) ;
+  Objects $(_sources) ;
 }
 rule ApplicationFromObjects
 {
@@ -24,16 +32,12 @@ rule ApplicationFromObjects
 	_s = [ FGristFiles $(>) ] ;
 	_t = [ FAppendSuffix $(<) : $(SUFEXE) ] ;
 
-	# XXX: Disabled for now because this goes wrong when using subdirs
-	# and a dir in the root directory has the same name as the
-	# target :-/
-
 	# so 'jam foo' works when it's really foo.exe
-	#if $(_t) != $(<)
-	#{
-	#	Depends $(<) : $(_t) ;
-	#	NotFile $(<) ;
-	#}
+	if $(_t) != $(<)
+	{
+		Depends $(<) : $(_t) ;
+		NotFile $(<) ;
+	}
 
 	# make compiled sources a dependency of target
 	Depends exe : $(_t) ;
@@ -50,8 +54,14 @@ rule ApplicationFromObjects
 	NEEDLIBS on $(_t) += $(4) ;
 	NotFile ($4) ;
 	
+	# construct Install Targets
+	InstallApplication $(_t) ;
+
+	# construct Clean Targets
 	Clean clean : $(_t) ;
-	Clean $(<)clean : $(_t) ;
+	Clean $(<)clean : $(_t) $(_s) ;
+
+	# Invoke Link rule
 	Link $(_t) : $(_s) ;
 }
 
@@ -64,15 +74,38 @@ case NT :
         SUFDLL ?= .dll ;
 case MINGW32 :
         SUFDLL ?= .dll ;
+case MACOSX :
+	SUFDLL ?= .csplugin ;
 }
 #unix default
 SUFDLL ?= .so ;
 
+rule LinkPluginLibraries
+{
+  local _t = [ FAppendSuffix $(<) : $(SUFDLL) ] ;
+
+  Depends $(_t) : $(>:S=$(SUFLIB)) ;
+  NEEDLIBS on $(_t) += $(>:S=$(SUFLIB)) ;
+}
+
 rule Plugin
 {
-	MSVCPlugin $(<) : $(>) ;
-        PluginFromObjects $(<) : $(>:S=$(SUFOBJ)) : $(3) : $(4) ;
-        Objects $(>) ;
+  local _i _sources ;
+
+  MSVCPlugin $(<) : $(>) ;
+
+  for _i in $(>)
+  {
+    switch $(_i:S)
+    {
+      case .h : Header $(_i) ;
+
+      case * : _sources += $(_i) ;
+    }
+  }
+  
+  PluginFromObjects $(<) : $(_sources:S=$(SUFOBJ)) : $(3) : $(4) ;
+  Objects $(_sources) ;
 }
 rule PluginFromObjects
 {
@@ -104,28 +137,41 @@ rule PluginFromObjects
 
 	ADDLIBS on $(_t) += $(4) ;
 
+	# Construct Install Target
+	InstallPlugin $(_t) ;
+
+	# Construct Clean Target
         Clean clean : $(_t) ;
-	Clean $(<)clean : $(_t) ;
+	Clean $(<)clean : $(_t) $(_s) ;
+
+	# Invoke Link rule
 	NAME on $(_t) = $(<) ;
         LinkPlugin $(_t) : $(_s) ;
 }
 
 if $(OS) = "NT"
 {
-    actions LinkPlugin
+    actions LinkPlugin bind NEEDLIBS
     {
 	echo EXPORTS > deffile.tmp
 	echo $(NAME)_scfInitialize >> deffile.tmp
 	echo $(NAME)_scfFinalize >> deffile.tmp
-        dllwrap --def deffile.tmp --no-export-all-symbols --dllname $(NAME) -o $(<) $(>) $(ADDLIBS) $(LINKLIBS) -mwindows -mconsole
+        dllwrap --def deffile.tmp --no-export-all-symbols --dllname $(NAME) -o $(<) $(>) $(NEEDLIBS) $(ADDLIBS) $(LINKLIBS) -mwindows -mconsole
 	rm -f deffile.tmp
+    }
+}
+else if $(OS) = "MACOSX"
+{
+    actions LinkPlugin
+    {
+	$(LINK) -v -bundle -o $(<) $(>) $(ADDLIBS) $(LINKLIBS)
     }
 }
 else
 {
-    actions LinkPlugin
+    actions LinkPlugin bind NEEDLIBS
     {
-	$(LINK) -Wl,-shared -Wl,-soname -Wl,$(<) -o $(<) $(>) $(ADDLIBS) $(LINKLIBS)
+	$(LINK) -Wl,-shared -Wl,-soname -Wl,$(<) -o $(<) $(>) $(NEEDLIBS) $(ADDLIBS) $(LINKLIBS)
     }
 }
 
