@@ -58,6 +58,8 @@ private:
   iVirtualClock* vc;
   csView* view;
   iView* iview;
+  bool use_cd;
+  iPcCamera::CameraMode cammode;
 
   void SetupEventHandler ();
 
@@ -69,6 +71,12 @@ public:
 
   iCamera* GetCamera () const;
   iView* GetView () const { return iview; }
+  bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true)
+  {
+      celPcCamera::cammode=cammode;
+      celPcCamera::use_cd=use_cd;
+      return true;
+  }
   
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -79,6 +87,10 @@ public:
   struct PcCamera : public iPcCamera
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
+    virtual bool SetMode(CameraMode m, bool use_cd = true)
+    {
+      return scfParent->SetMode(m, use_cd);
+    }
     virtual iCamera* GetCamera () const
     {
       return scfParent->GetCamera ();

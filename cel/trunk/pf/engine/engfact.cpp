@@ -38,6 +38,7 @@
 #include "imap/parser.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
+#include "iengine/movable.h"
 #include "iengine/camera.h"
 #include "iengine/region.h"
 #include "iengine/campos.h"
@@ -79,6 +80,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
   scfiEventHandler = NULL;
+  
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = new csView (engine, g3d);
@@ -86,7 +88,8 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   view->DecRef ();
   g3d->DecRef ();
   SetupEventHandler ();
-
+  cammode=iPcCamera::freelook;
+  use_cd=false;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   CS_ASSERT (kbd != NULL);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
@@ -135,27 +138,54 @@ bool celPcCamera::HandleEvent (iEvent& ev)
     // First get elapsed time from the virtual clock.
     csTicks elapsed_time = vc->GetElapsedTicks ();
   
-    // Now rotate the camera according to keyboard state
-    float speed = (elapsed_time / 1000.0) * (0.03 * 20);
+    // Now rotate the camera according to its mode
+    switch (cammode)
+    {
+      case iPcCamera::freelook:
+      {
+	float speed = (elapsed_time / 1000.0) * (0.03 * 20);
+	
+	iCamera* c = view->GetCamera();
+	if (kbd->GetKeyState (CSKEY_SHIFT))
+	  speed*=2.5;
+	if (kbd->GetKeyState (CSKEY_RIGHT))
+	  c->GetTransform ().RotateThis (VEC_ROT_RIGHT, speed);
+	if (kbd->GetKeyState (CSKEY_LEFT))
+	  c->GetTransform ().RotateThis (VEC_ROT_LEFT, speed);
+	if (kbd->GetKeyState (CSKEY_PGUP))
+	  c->GetTransform ().RotateThis (VEC_TILT_UP, speed);
+	if (kbd->GetKeyState (CSKEY_PGDN))
+	  c->GetTransform ().RotateThis (VEC_TILT_DOWN, speed);
+	if (kbd->GetKeyState (CSKEY_UP))
+	  c->Move (VEC_FORWARD * 4 * speed);
+	if (kbd->GetKeyState (CSKEY_DOWN))
+	  c->Move (VEC_BACKWARD * 4 * speed);
+	break;
+      }
+      case iPcCamera::follow:
+      {
+	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
+	    iPcMesh);
+	csVector3 pos = pcmesh->GetMesh()->GetMovable()->GetPosition();
+	pcmesh->DecRef();
 
-    iCamera* c = view->GetCamera();
-    if (kbd->GetKeyState (CSKEY_RIGHT))
-      c->GetTransform ().RotateThis (VEC_ROT_RIGHT, speed);
-    if (kbd->GetKeyState (CSKEY_LEFT))
-      c->GetTransform ().RotateThis (VEC_ROT_LEFT, speed);
-    if (kbd->GetKeyState (CSKEY_PGUP))
-      c->GetTransform ().RotateThis (VEC_TILT_UP, speed);
-    if (kbd->GetKeyState (CSKEY_PGDN))
-      c->GetTransform ().RotateThis (VEC_TILT_DOWN, speed);
-    if (kbd->GetKeyState (CSKEY_UP))
-      c->Move (VEC_FORWARD * 4 * speed);
-    if (kbd->GetKeyState (CSKEY_DOWN))
-      c->Move (VEC_BACKWARD * 4 * speed);
+	iCamera* c = view->GetCamera();
+	c->GetTransform().SetOrigin(pos);
+	
+	// eventually enable collision detection for camera
+	c->OnlyPortals(!use_cd);
+	c->Move (VEC_BACKWARD*2/*+VEC_UP*2*/);
+	c->OnlyPortals(true);
+	c->Move (VEC_FORWARD*.2/*+VEC_DOWN*.2*/);
+	break;
+      }
+    }
 
     // Tell 3D driver we're going to display 3D things.
     if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS))
       view->Draw ();
   }
+
   return true;
 }
 

@@ -36,6 +36,20 @@ SCF_VERSION (iPcCamera, 0, 0, 1);
 struct iPcCamera : public iBase
 {
   /**
+   * Camer modes
+   */
+  enum CameraMode
+  {
+    freelook,
+    follow
+  };
+
+  /**
+   * Set camera mode
+   */
+  virtual bool SetMode(CameraMode m, bool use_cd = true) = 0;
+
+  /**
    * Get the camera.
    */
   virtual iCamera* GetCamera () const = 0;

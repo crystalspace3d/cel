@@ -66,6 +66,8 @@ iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
     ent = new celBehaviourRoom (entity, object_reg);
   else if (!strcmp (name, "box"))
     ent = new celBehaviourBox (entity, object_reg);
+  else if (!strcmp (name, "actor"))
+    ent = new celBehaviourActor (entity, object_reg);
   if (ent) ent->SetName (name);
   return ent;
 }

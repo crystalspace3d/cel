@@ -78,6 +78,7 @@ bool celPf##name::Initialize (iObjectRegistry* object_reg)		    \
   iCelPlLayer *pl = CS_QUERY_REGISTRY(object_reg, iCelPlLayer);		    \
   if (!pl) return false;						    \
   pl->RegisterPropertyClassFactory(this);				    \
+  pl->DecRef();								    \
   return true;								    \
 }									    \
 const char* celPf##name::GetName() const				    \

@@ -24,8 +24,8 @@
 #include "plimp/entity.h"
 #include "plimp/message.h"
 #include "pl/propfact.h"
-#include "pl/persist.h"
 #include "pl/propclas.h"
+#include "pl/persist.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
 #include "iengine/engine.h"
@@ -298,8 +298,8 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
-  printf ("Registered Factory: %s\n", pf->GetName());
   if (pf_list.Find (pf) != -1) return;
+  printf ("Registered Factory: %s\n", pf->GetName());
   pf_list.Push (pf);
   pf->IncRef ();
 }

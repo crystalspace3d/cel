@@ -83,5 +83,20 @@ public:
   virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
 };
 
+/**
+ * 'move' behaviour.
+ */
+class celBehaviourActor : public celBehaviourGeneral
+{
+  int fpscam;
+  float speed;
+  celBehaviourRoom *bhroom;
+public:
+  celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
+  virtual ~celBehaviourActor();
+
+  virtual bool SendMessageV (const char* msg_id, iBase* msg_info, va_list arg);
+};
+
 #endif // __CEL_BLTEST_BEHAVE__
 
