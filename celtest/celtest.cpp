@@ -84,7 +84,7 @@ CS_IMPLEMENT_APPLICATION
 
 // Define MINIMAL for a very minimal celtest.
 // Useful for debugging.
-#define MINIMAL 1
+#define MINIMAL 0
 
 //-----------------------------------------------------------------------------
 
@@ -478,7 +478,7 @@ bool CelTest::CreateRoom ()
   // Create the box entities.
   //===============================
 #if !MINIMAL
-  iCelEntity* entity_box;
+  csRef<iCelEntity> entity_box;
   entity_box = CreateBoxEntity ("box", "box", pccamera, .9, 200,
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;

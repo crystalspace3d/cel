@@ -1,4 +1,4 @@
-from blcel import *
+from blcelc import *
 
 class printer:
 	def __init__(self,celEntity):

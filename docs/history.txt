@@ -12,6 +12,7 @@
 	  other than PlaneShift.
 	- Jorrit reports: Conforming to the C++ standard I replaced all NULL
 	  with 0 (like was done in CS some time ago).
+	- Jorrit fixed scripts/printer.py so that it works again.
 24-Jun-2003
 	- Jorrit fixed the CEL python plugin to latest CS.
 	- Jorrit made celtest use OpenGL by default.
