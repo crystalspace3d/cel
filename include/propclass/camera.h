@@ -26,6 +26,7 @@
 struct iCamera;
 struct iView;
 struct iPcRegion;
+struct iPcZoneManager;
 
 SCF_VERSION (iPcCamera, 0, 0, 2);
 
@@ -57,6 +58,12 @@ struct iPcCamera : public iBase
    */
   virtual bool SetRegion (iPcRegion* region, bool point = true,
       const char* name = 0) = 0;
+
+  /**
+   * Set Camera to a zone manager
+   */
+  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+      const char* regionname, const char* name = 0) = 0;
 
   /**
    * Set camera mode.

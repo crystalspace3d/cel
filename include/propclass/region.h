@@ -82,7 +82,7 @@ struct iPcRegion : public iBase
    */
   virtual void Unload () = 0;
 
-  /*
+  /**
    * Returns a sector
    */
   virtual iSector* FindSector (const char* sectorname) = 0;

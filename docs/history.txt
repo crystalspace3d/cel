@@ -3,12 +3,36 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
-7-Jul-2004
+8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially
 	  defined. The idea is that this property class can be used instead
 	  of iPcRegion if your game needs zone handling (bigger maps
 	  with partial loading/unloading of regions).
+	- Jorrit fixed iPcRegion so it uses weak references to the entities
+	  that it created. That fixes the rare case where an automatic entity
+	  created from a loaded map file would be deleted during the game.
+	- Jorrit started implementing the new zone manager property class.
+	  There are four levels:
+	    - 'map': this is the lowest level map file (or world file). A
+	      game can be made out of different map files.
+	    - 'region': a region is a collection of map files. A region is
+	      always loaded and unloaded from the engine as a unit. A region
+	      can be made from several map files which are loaded/unloaded
+	      together.
+	    - 'zone': a zone is a collection of regions. A region can be
+	      in multiple zones. As soon as the player is in some region all
+	      zones that contain that region will be loaded.
+	    - 'level' (the iPcZoneManager itself). This is the entire playing
+	      ground. A level is a collection of zones and regions.
+	  The zone manager basically works except for one thing: it currently
+	  doesn't follow where the camera goes so loading/unloading of new
+	  zones is not automatic yet. This will be added soon.
+	  If you use iPcZoneManager then you will not use iPcRegion.
+	  The zone manager is a more powerful alternative for the simple
+	  iPcRegion.
+	- Jorrit added support for the zone manager to the pccamera property
+	  class (added iPcCamera->SetZoneManager()).
 6-Jul-2004
 	- Jorrit got a patch from Thomas Degris <thomas.degris@lip6.fr>
 	  to set the looking direction of an actor directly through

@@ -26,6 +26,29 @@
 
 struct iSector;
 struct iPcCamera;
+struct iPcMesh;
+struct iCelRegion;
+struct iCelEntity;
+
+SCF_VERSION (iCelZoneCallback, 0, 1, 0);
+
+/**
+ * This callback is useful if you want to know when some region is
+ * loaded or unloaded. This can be used if you want to create entities
+ * in some region and later remove them when the region is removed too.
+ */
+struct iCelZoneCallback : public iBase
+{
+  /**
+   * This is called right after a region has been loaded.
+   */
+  virtual void RegionLoaded (iCelRegion* region) = 0;
+
+  /**
+   * This is called right before a region will be unloaded.
+   */
+  virtual void RegionUnloaded (iCelRegion* region) = 0;
+};
 
 SCF_VERSION (iCelMapFile, 0, 1, 0);
 
@@ -78,7 +101,7 @@ struct iCelRegion : public iBase
   /**
    * Get the count of map files in this region.
    */
-  virtual int GetMapFileCount () const = 0;
+  virtual size_t GetMapFileCount () const = 0;
 
   /**
    * Get the specified map file.
@@ -97,42 +120,10 @@ struct iCelRegion : public iBase
   virtual void RemoveAllMapFiles () = 0;
 
   /**
-   * Load the region (load all map files). This will create the empty
-   * sector if CreateEmptySector() is used.
+   * Register an entity that should be removed as soon as this
+   * region is unloaded.
    */
-  virtual bool Load () = 0;
-
-  /**
-   * Unload the region.
-   */
-  virtual void Unload () = 0;
-
-  /*
-   * Returns a sector for this region.
-   */
-  virtual iSector* FindSector (const char* sectorname) = 0;
-
-  /**
-   * Get start sector. The given name is the name
-   * of the starting position to use. If 0 is
-   * given then the default position will be used.
-   */
-  virtual iSector* GetStartSector (const char* name = 0) = 0;
-
-  /**
-   * Get start position. The given name is the name
-   * of the starting position to use. If 0 is
-   * given then the default position will be used.
-   */
-  virtual csVector3 GetStartPosition (const char* name = 0) = 0;
-
-  /**
-   * Update the given pccamera so that it points to the
-   * starting position in this region. The given name is
-   * the name of the starting position to use. If 0
-   * is given then the default position will be used.
-   */
-  virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
+  virtual void AssociateEntity (iCelEntity* entity) = 0;
 };
 
 SCF_VERSION (iCelZone, 0, 1, 0);
@@ -147,15 +138,14 @@ struct iCelZone : public iBase
   virtual const char* GetName () const = 0;
 
   /**
-   * Create a region for this zone and associate it
-   * with this zone.
+   * Link a region with this zone.
    */
-  virtual iCelRegion* CreateRegion (const char* name) = 0;
+  virtual void LinkRegion (iCelRegion* region) = 0;
 
   /**
    * Get the count of regions in this zone.
    */
-  virtual int GetRegionCount () const = 0;
+  virtual size_t GetRegionCount () const = 0;
 
   /**
    * Get the specified region.
@@ -168,31 +158,32 @@ struct iCelZone : public iBase
   virtual iCelRegion* FindRegion (const char* name) const = 0;
 
   /**
-   * Delete the given region from this zone. Returns
+   * Unlink the region from this zone. Returns
    * false if the region could not be found in this zone.
    */
-  virtual bool RemoveRegion (iCelRegion* region) = 0;
+  virtual bool UnlinkRegion (iCelRegion* region) = 0;
 
   /**
-   * Remove all regions from this zone.
+   * Unlink all regions from this zone.
    */
-  virtual void RemoveAllRegions () = 0;
-
-  /**
-   * Load this zone. This will load all regions in this
-   * zone.
-   */
-  virtual bool Load () = 0;
-
-  /**
-   * Unload this zone. This will unload all regions in this
-   * zone unless they are needed in another zone that is
-   * still in memory.
-   */
-  virtual void Unload () = 0;
-
+  virtual void UnlinkAllRegions () = 0;
 };
 
+/** \name PointCamera error codes
+ * @{ */
+
+/// No error.
+#define CEL_ZONEERROR_OK 0
+
+/// Couldn't find the region.
+#define CEL_ZONEERROR_BADREGION 1
+
+/// Couldn't find the given start location.
+#define CEL_ZONEERROR_BADSTART 2
+
+/// Error loading zone!
+#define CEL_ZONEERROR_LOAD 3
+/** @} */
 
 SCF_VERSION (iPcZoneManager, 0, 1, 0);
 
@@ -209,6 +200,16 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
 struct iPcZoneManager : public iBase
 {
   /**
+   * Add a callback to listen to region loading/unloading events.
+   */
+  virtual void AddZoneCallback (iCelZoneCallback* cb) = 0;
+
+  /**
+   * Remove a callback to listen to region loading/unloading events.
+   */
+  virtual void RemoveZoneCallback (iCelZoneCallback* cb) = 0;
+
+  /**
    * Create a zone.
    */
   virtual iCelZone* CreateZone (const char* name) = 0;
@@ -216,7 +217,7 @@ struct iPcZoneManager : public iBase
   /**
    * Get the count of zones.
    */
-  virtual int GetZoneCount () const = 0;
+  virtual size_t GetZoneCount () const = 0;
 
   /**
    * Get the specified zone.
@@ -239,47 +240,68 @@ struct iPcZoneManager : public iBase
    */
   virtual void RemoveAllZones () = 0;
 
-
-
-
+  /**
+   * Create a region.
+   */
+  virtual iCelRegion* CreateRegion (const char* name) = 0;
 
   /**
-   * Load the region. This will create the empty sector if CreateEmptySector()
-   * is used.
+   * Get the count of regions.
    */
-  virtual bool Load () = 0;
+  virtual size_t GetRegionCount () const = 0;
 
   /**
-   * Unload the region.
+   * Get the specified region.
    */
-  virtual void Unload () = 0;
-
-  /*
-   * Returns a sector
-   */
-  virtual iSector* FindSector (const char* sectorname) = 0;
+  virtual iCelRegion* GetRegion (int idx) const = 0;
 
   /**
-   * Get start sector. The given name is the name
-   * of the starting position to use. If 0 is
-   * given then the default position will be used.
+   * Get the specified region.
    */
-  virtual iSector* GetStartSector (const char* name = 0) = 0;
+  virtual iCelRegion* FindRegion (const char* name) const = 0;
 
   /**
-   * Get start position. The given name is the name
-   * of the starting position to use. If 0 is
-   * given then the default position will be used.
+   * Delete the given region. Returns false if the region could
+   * not be found in this zone.
    */
-  virtual csVector3 GetStartPosition (const char* name = 0) = 0;
+  virtual bool RemoveRegion (iCelRegion* region) = 0;
 
   /**
-   * Update the given pccamera so that it points to the
-   * starting position in this region. The given name is
-   * the name of the starting position to use. If 0
+   * Remove all regions from this zone.
+   */
+  virtual void RemoveAllRegions () = 0;
+
+  /**
+   * Take the specified region (by name), load all zones associated
+   * with that region and then setup the given pccamera so that it
+   * points to the specified starting posision in this region. If 0
    * is given then the default position will be used.
+   * Returns one of:
+   * <ul>
+   * <li>#CEL_ZONEERROR_OK: no error
+   * <li>#CEL_ZONEERROR_BADREGION: can't find region
+   * <li>#CEL_ZONEERROR_BADSTART: can't find start
+   * <li>#CEL_ZONEERROR_LOAD: error loading zone
+   * </ul>
    */
-  virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
+  virtual int PointCamera (iPcCamera* pccamera, const char* regionname,
+  	const char* startname = 0) = 0;
+
+  /**
+   * Take the specified region (by name), load all zones associated
+   * with that region and then place the given pcmesh so that it
+   * is positioned at the specified starting posision in this region. If 0
+   * is given then the default position will be used.
+   * Returns one of:
+   * <ul>
+   * <li>#CEL_ZONEERROR_OK: no error
+   * <li>#CEL_ZONEERROR_BADREGION: can't find region
+   * <li>#CEL_ZONEERROR_BADSTART: can't find start
+   * <li>#CEL_ZONEERROR_LOAD: error loading zone
+   * </ul>
+   */
+  virtual int PointMesh (iPcMesh* pcmesh, const char* regionname,
+  	const char* startname = 0) = 0;
 };
 
 #endif // __CEL_PF_ZONE__

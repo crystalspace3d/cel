@@ -21,6 +21,7 @@
 #include "cssysdef.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
+#include "propclass/zone.h"
 #include "plugins/propclass/engine/engfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -924,9 +925,32 @@ void celPcCamera::SetSwingCoef (float swingCoef, int mode)
 }
 
 
+bool celPcCamera::SetZoneManager (iPcZoneManager* newzonemgr,
+	bool point, const char* regionname, const char *name)
+{
+  region = 0;
+  zonemgr = newzonemgr;
+
+  if (point)
+  {
+    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
+
+    if (zonemgr)
+      zonemgr->PointCamera (camera, regionname, name);
+    else
+    {
+      // camera->GetCamera ()->SetSector (0);
+      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
+    }
+  }
+
+  return true;
+}
+
 bool celPcCamera::SetRegion (iPcRegion* newregion, bool point,const char *name)
 {
   region = newregion;
+  zonemgr = 0;
 
   if (point)
   {
@@ -1465,9 +1489,10 @@ void celPcRegion::Unload ()
   {
     size_t i;
     for (i = 0 ; i < entities.Length () ; i++)
-    {
-      pl->RemoveEntity (entities[i]);
-    }
+      if (entities[i])
+      {
+        pl->RemoveEntity (entities[i]);
+      }
   }
   entities.DeleteAll ();
 
