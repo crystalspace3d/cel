@@ -58,9 +58,13 @@ private:
   bool ParseEventHandler (celXmlScriptEventHandler* h, iDocumentNode* node,
   	celXmlScript* script);
 
+  bool SkipComma (const char*& input, iDocumentNode* child,
+	const char* name);
   bool ParseExpression (iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
+  bool ParseFunction (const char*& input, const char* pinput,
+  	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
   bool ParseExpression (const char*& input, iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* name, int stoppri);
 

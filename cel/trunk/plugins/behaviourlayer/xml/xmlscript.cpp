@@ -635,18 +635,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  stack[si].SetPC (other_pc);	// Can be 0.
 	}
         break;
-#if 0
-      case CEL_OPERATION_ENTITY:
-        {
-	  CHECK_STACK
-	  celXmlArg ent = stack.Pop ();
-	  DUMP_EXEC (" entity %s\n", A2S (ent));
-	  iCelEntity* other_ent = pl->FindEntity (ArgToString (ent));
-	  int si = stack.Push (celXmlArg ());
-	  stack[si].SetEntity (other_ent);
-	}
-	break;
-#endif
       case CEL_OPERATION_VECTOR2:
         {
 	  CHECK_STACK
@@ -686,6 +674,110 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	ArgToFloat (elg), ArgToFloat (elb)));
 	}
 	break;
+      case CEL_OPERATION_FLOAT:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (": float %s\n", A2S (stack[si]));
+	  switch (stack[si].type)
+	  {
+	    case CEL_DATA_LONG:
+	      stack[si].SetFloat (float (stack[si].arg.i));
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetFloat (float (stack[si].arg.ui));
+	      break;
+	    case CEL_DATA_FLOAT:
+	      break;
+	    case CEL_DATA_BOOL:
+	      stack[si].SetFloat (float (stack[si].arg.b));
+	      break;
+	    case CEL_DATA_STRING:
+	      {
+	        float i;
+		if (stack[si].arg.str.s)
+		  sscanf (stack[si].arg.str.s, "%f", &i);
+		else
+		  i = 0.0;
+	        stack[si].SetFloat (i);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't convert element on stack to 'float'!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_INT:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (": int %s\n", A2S (stack[si]));
+	  switch (stack[si].type)
+	  {
+	    case CEL_DATA_LONG:
+	    case CEL_DATA_ULONG:
+	      break;
+	    case CEL_DATA_FLOAT:
+	      stack[si].SetInt32 (int32 (stack[si].arg.f));
+	      break;
+	    case CEL_DATA_BOOL:
+	      stack[si].SetInt32 (int32 (stack[si].arg.b));
+	      break;
+	    case CEL_DATA_STRING:
+	      {
+	        int i;
+		if (stack[si].arg.str.s)
+		  sscanf (stack[si].arg.str.s, "%d", &i);
+		else
+		  i = 0;
+	        stack[si].SetInt32 ((int32)i);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't convert element on stack to 'int'!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_SIGN:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (": sign %s\n", A2S (stack[si]));
+	  switch (stack[si].type)
+	  {
+	    case CEL_DATA_LONG:
+	      stack[si].arg.i = SIGN (stack[si].arg.i);
+	      break;
+	    case CEL_DATA_ULONG:
+	      stack[si].SetInt32 (stack[si].arg.ui > 0 ? 1 : 0);
+	      break;
+	    case CEL_DATA_FLOAT:
+	      stack[si].SetInt32 (SIGN (stack[si].arg.f));
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't calculate 'sign' for element on stack!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_ABS:
+        {
+	  CHECK_STACK
+	  int si = stack.Length ()-1;
+          DUMP_EXEC (": abs %s\n", A2S (stack[si]));
+	  switch (stack[si].type)
+	  {
+	    case CEL_DATA_LONG: stack[si].arg.i = ABS (stack[si].arg.i); break;
+	    case CEL_DATA_ULONG: break;
+	    case CEL_DATA_FLOAT: stack[si].arg.f = ABS (stack[si].arg.f); break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't calculate 'abs' for element on stack!");
+	  }
+	}
+	break;
       case CEL_OPERATION_UNARYMINUS:
         {
 	  CHECK_STACK
@@ -713,6 +805,167 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    default:
 	      return ReportError (behave, "Can't negate element on stack!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_INTPOL:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg a_int = stack.Pop ();
+          DUMP_EXEC (": intpol(%s,%s,%s)\n", A2S (a_int),
+	  	A2S (ela), A2S (elb));
+	  float delta = ArgToFloat (a_int);
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_DATA_FLOAT:
+	      {
+	        float fa = ArgToFloat (ela);
+	        float fb = ArgToFloat (elb);
+	        stack[si].SetFloat ((1.0-delta)*fa + delta*fb);
+	      }
+	      break;
+	    case CEL_DATA_LONG:
+	      {
+	        int32 fa = ArgToInt32 (ela);
+	        int32 fb = ArgToInt32 (elb);
+	        stack[si].SetInt32 (int32 (
+			(1.0-delta)*float (fa) + delta*float (fb)));
+	      }
+	      break;
+	    case CEL_DATA_ULONG:
+	      {
+	        uint32 fa = ArgToUInt32 (ela);
+	        uint32 fb = ArgToUInt32 (elb);
+	        stack[si].SetUInt32 (uint32 (
+			(1.0-delta)*float (fa) + delta*float (fb)));
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 fa = ArgToVector2 (ela);
+	        csVector2 fb = ArgToVector2 (elb);
+	        stack[si].SetVector ((1.0-delta)*fa + delta*fb);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 fa = ArgToVector3 (ela);
+	        csVector3 fb = ArgToVector3 (elb);
+	        stack[si].SetVector ((1.0-delta)*fa + delta*fb);
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor fa = ArgToColor (ela);
+	        csColor fb = ArgToColor (elb);
+	        stack[si].SetColor ((1.0-delta)*fa + delta*fb);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't 'interpolate' these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_MIN:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": min(%s,%s)\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_DATA_STRING:
+	      {
+	        const char* sa = ArgToString (ela);
+	        const char* sb = ArgToString (elb);
+	        if (strcmp (sa, sb) < 0)
+	          stack[si].SetString (sa, true);
+	        else
+	          stack[si].SetString (sb, true);
+	      }
+	      break;
+	    case CEL_DATA_FLOAT:
+	      {
+	        float fa = ArgToFloat (ela);
+	        float fb = ArgToFloat (elb);
+	        stack[si].SetFloat (MIN (fa, fb));
+	      }
+	      break;
+	    case CEL_DATA_LONG:
+	      {
+	        int32 fa = ArgToInt32 (ela);
+	        int32 fb = ArgToInt32 (elb);
+	        stack[si].SetInt32 (MIN (fa, fb));
+	      }
+	      break;
+	    case CEL_DATA_ULONG:
+	      {
+	        uint32 fa = ArgToUInt32 (ela);
+	        uint32 fb = ArgToUInt32 (elb);
+	        stack[si].SetUInt32 (MIN (fa, fb));
+	      }
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't calculate 'min' of these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_MAX:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": max(%s,%s)\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_DATA_STRING:
+	      {
+	        const char* sa = ArgToString (ela);
+	        const char* sb = ArgToString (elb);
+	        if (strcmp (sa, sb) > 0)
+	          stack[si].SetString (sa, true);
+	        else
+	          stack[si].SetString (sb, true);
+	      }
+	      break;
+	    case CEL_DATA_FLOAT:
+	      {
+	        float fa = ArgToFloat (ela);
+	        float fb = ArgToFloat (elb);
+	        stack[si].SetFloat (MAX (fa, fb));
+	      }
+	      break;
+	    case CEL_DATA_LONG:
+	      {
+	        int32 fa = ArgToInt32 (ela);
+	        int32 fb = ArgToInt32 (elb);
+	        stack[si].SetInt32 (MAX (fa, fb));
+	      }
+	      break;
+	    case CEL_DATA_ULONG:
+	      {
+	        uint32 fa = ArgToUInt32 (ela);
+	        uint32 fb = ArgToUInt32 (elb);
+	        stack[si].SetUInt32 (MAX (fa, fb));
+	      }
+	      break;
+	    default:
+	      return ReportError (behave,
+	      	"Can't calculate 'max' of these types!");
 	  }
 	}
 	break;
@@ -1259,12 +1512,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		stack[si].SetPC (l);
 	      }
 	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		//@@@ stack[si].SetEn (l);
-	      }
-	      break;
 	    default:
 	      return ReportError (behave, "Property '%s' has wrong type!",
 	      	varname);
@@ -1351,12 +1598,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 		iCelPropertyClass* l = props->GetPropertyPClass (idx);
 		stack[si].SetPC (l);
-	      }
-	      break;
-	    case CEL_DATA_ENTITY:
-	      {
-		iCelEntity* l = props->GetPropertyEntity (idx);
-		//@@@ stack[si].SetEn (l);
 	      }
 	      break;
 	    default:

@@ -61,18 +61,28 @@ enum
   XMLTOKEN_DEFAULT,
   XMLTOKEN_STOP,
 
-  XMLTOKEN_FLOAT,
-  XMLTOKEN_BOOL,
-  XMLTOKEN_STRING,
-  XMLTOKEN_LONG,
-  XMLTOKEN_VECTOR,
-  XMLTOKEN_COLOR
+  XMLTOKEN_LAST
 };
 
 enum
 {
+  XMLFUNCTION_PC,
   XMLFUNCTION_ARG,
-  XMLFUNCTION_PARID
+  XMLFUNCTION_PROPERTY,
+  XMLFUNCTION_ID,
+  XMLFUNCTION_PARID,
+  XMLFUNCTION_PROPID,
+  XMLFUNCTION_RGB,
+
+  XMLFUNCTION_ABS,
+  XMLFUNCTION_MIN,
+  XMLFUNCTION_MAX,
+  XMLFUNCTION_SIGN,
+  XMLFUNCTION_INTPOL,
+  XMLFUNCTION_INT,
+  XMLFUNCTION_FLOAT,
+
+  XMLFUNCTION_LAST
 };
 
 celBlXml::celBlXml (iBase* parent)
@@ -111,15 +121,20 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("default", XMLTOKEN_DEFAULT);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
-  xmltokens.Register ("float", XMLTOKEN_FLOAT);
-  xmltokens.Register ("bool", XMLTOKEN_BOOL);
-  xmltokens.Register ("string", XMLTOKEN_STRING);
-  xmltokens.Register ("long", XMLTOKEN_LONG);
-  xmltokens.Register ("vector", XMLTOKEN_VECTOR);
-  xmltokens.Register ("color", XMLTOKEN_COLOR);
-
+  functions.Register ("pc", XMLFUNCTION_PC);
   functions.Register ("arg", XMLFUNCTION_ARG);
+  functions.Register ("property", XMLFUNCTION_PROPERTY);
+  functions.Register ("id", XMLFUNCTION_ID);
   functions.Register ("parid", XMLFUNCTION_PARID);
+  functions.Register ("propid", XMLFUNCTION_PROPID);
+  functions.Register ("rgb", XMLFUNCTION_RGB);
+  functions.Register ("abs", XMLFUNCTION_ABS);
+  functions.Register ("min", XMLFUNCTION_MIN);
+  functions.Register ("max", XMLFUNCTION_MAX);
+  functions.Register ("sign", XMLFUNCTION_SIGN);
+  functions.Register ("intpol", XMLFUNCTION_INTPOL);
+  functions.Register ("int", XMLFUNCTION_INT);
+  functions.Register ("float", XMLFUNCTION_FLOAT);
 
   return true;
 }
@@ -192,6 +207,202 @@ bool celBlXml::ParseExpression (iDocumentNode* child,
   return true;
 }
 
+bool celBlXml::SkipComma (const char*& input, iDocumentNode* child,
+	const char* name)
+{
+  int token;
+  input = celXmlParseToken (input, token);
+  if (token != CEL_TOKEN_COMMA)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+		    "Expected ',' for '%s'!", name);
+    return false;
+  }
+  return true;
+}
+
+bool celBlXml::ParseFunction (const char*& input, const char* pinput,
+	iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* name)
+{
+  int token;
+  char str[256];	// @@@ Hardcoded!
+  strncpy (str, pinput, input-pinput-1);	// Copy all execpt '('.
+  str[input-pinput-1] = 0;
+  csStringID fun_id = functions.Request (str);
+  switch (fun_id)
+  {
+    case XMLFUNCTION_ABS:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_ABS);
+      }
+      break;
+    case XMLFUNCTION_MIN:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_MIN);
+      }
+      break;
+    case XMLFUNCTION_MAX:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_MAX);
+      }
+      break;
+    case XMLFUNCTION_SIGN:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_SIGN);
+      }
+      break;
+    case XMLFUNCTION_INTPOL:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_INTPOL);
+      }
+      break;
+    case XMLFUNCTION_INT:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_INT);
+      }
+      break;
+    case XMLFUNCTION_FLOAT:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_FLOAT);
+      }
+      break;
+    case XMLFUNCTION_RGB:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+        h->AddOperation (CEL_OPERATION_COLOR);
+      }
+      break;
+    case XMLFUNCTION_PC:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, child, h, name, 0))
+	    return false;
+          h->AddOperation (CEL_OPERATION_PC);
+	}
+	else
+	{
+	  input = pinput;	// Set back to ')'
+	  // We have only one argument to pc(). This means we search
+	  // for a property class for the current entity.
+          h->AddOperation (CEL_OPERATION_PCTHIS);
+	}
+      }
+      break;
+    case XMLFUNCTION_PROPERTY:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, child, h, name, 0)) return false;
+          h->AddOperation (CEL_OPERATION_GETPROPERTY);
+	}
+	else
+	{
+	  input = pinput;	// Set back to ')'
+	  // Use default property class.
+          h->AddOperation (CEL_OPERATION_GETPROPERTY1);
+	}
+      }
+      break;
+    case XMLFUNCTION_ID:
+    case XMLFUNCTION_PROPID:
+    case XMLFUNCTION_PARID:
+      {
+	input = celXmlSkipWhiteSpace (input);
+        const char* i = input;
+	bool idconstant = true;
+	while (*i && *i != ')')
+	{
+	  if (!isalnum (*i) && *i != '_' && *i != '.')
+	  {
+	    idconstant = false;
+	    break;
+	  }
+	  i++;
+	}
+	if (!*i)
+	{
+          synldr->ReportError ("cel.behaviour.xml", child,
+	     "Missing ')' at end of '%s' for '%s'!", str, name);
+          return false;
+	}
+	if (idconstant)
+	{
+	  const char* prefix;
+	  if (fun_id == XMLFUNCTION_PARID)
+	    prefix = "cel.behaviour.parameter.";
+	  else if (fun_id == XMLFUNCTION_PROPID)
+	    prefix = "cel.property.";
+	  else
+	    prefix = "";
+	  char* str = new char [strlen (prefix) + i-input+1];
+	  strcpy (str, prefix);
+	  strncpy (str+strlen (prefix), input, i-input);
+	  str[strlen (prefix) + i-input] = 0;
+	  csStringID id = pl->FetchStringID (str);
+	  delete[] str;
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->GetArgument ().SetID (id);
+	  input = i;	// Right before close bracket.
+	}
+	else
+	{
+          if (!ParseExpression (input, child, h, name, 0)) return false;
+          h->AddOperation (
+		fun_id == XMLFUNCTION_PARID
+		? CEL_OPERATION_CALCPARID
+		: fun_id == XMLFUNCTION_PROPID
+		? CEL_OPERATION_CALCPROPID
+		: CEL_OPERATION_CALCID);
+        }
+      }
+      break;
+    case XMLFUNCTION_ARG:
+      if (!ParseExpression (input, child, h, name, CEL_PRIORITY_NORMAL))
+        return false;
+      h->AddOperation (CEL_OPERATION_ARG);
+      break;
+    default:
+      synldr->ReportError ("cel.behaviour.xml", child,
+	  "Unknown function '%s' for '%s'!", str, name);
+      return false;
+  }
+  input = celXmlParseToken (input, token);
+  if (token != CEL_TOKEN_CLOSE)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+	"Expected ')' after '%s' for '%s'!", str, name);
+    return false;
+  }
+  return true;
+}
+
 bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name, int stoppri)
 {
@@ -224,197 +435,8 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       }
       break;
     case CEL_TOKEN_FUNCTION:
-      {
-        char str[256];	// @@@ Hardcoded!
-	strncpy (str, pinput, input-pinput-1);	// Copy all execpt '('.
-	str[input-pinput-1] = 0;
-	csStringID fun_id = functions.Request (str);
-	switch (fun_id)
-	{
-	  case XMLFUNCTION_PARID:
-	    {
-	      input = celXmlSkipWhiteSpace (input);
-              const char* i = input;
-	      bool idconstant = true;
-	      while (*i && *i != ')')
-	      {
-	        if (!isalnum (*i) && *i != '_' && *i != '.')
-	        {
-	          idconstant = false;
-	          break;
-	        }
-	        i++;
-	      }
-	      if (!*i)
-	      {
-                synldr->ReportError ("cel.behaviour.xml", child,
-		          "Missing ')' at end of 'parid' for '%s'!", name);
-                return false;
-	      }
-	      if (idconstant)
-	      {
-	        const char* prefix = "cel.behaviour.parameter.";
-	        char* str = new char [strlen (prefix) + i-input+1];
-	        strcpy (str, prefix);
-	        strncpy (str+strlen (prefix), input, i-input);
-	        str[strlen (prefix) + i-input] = 0;
-	        csStringID id = pl->FetchStringID (str);
-	        delete[] str;
-                h->AddOperation (CEL_OPERATION_PUSH);
-                h->GetArgument ().SetID (id);
-	        input = i;	// Right before close bracket.
-	      }
-	      else
-	      {
-                if (!ParseExpression (input, child, h, name, 0))
-                  return false;
-                h->AddOperation (CEL_OPERATION_CALCPARID);
-	      }
-	    }
-	    break;
-	  case XMLFUNCTION_ARG:
-	    if (!ParseExpression (input, child, h, name, CEL_PRIORITY_NORMAL))
-	      return false;
-	    h->AddOperation (CEL_OPERATION_ARG);
-	    break;
-	  default:
-	    synldr->ReportError ("cel.behaviour.xml", child,
-		"Unknown function '%s' for '%s'!", str, name);
-	    return false;
-	}
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_CLOSE)
-	{
-	  synldr->ReportError ("cel.behaviour.xml", child,
-		"Expected ')' after '%s' for '%s'!", str, name);
-	  return false;
-	}
-      }
-      break;
-    case CEL_TOKEN_PROPERTY:
-      {
-        if (!ParseExpression (input, child, h, name, 0))
-          return false;
-	input = celXmlParseToken (input, token);
-	if (token == CEL_TOKEN_CLOSE)
-	{
-	  // Use default property class.
-          h->AddOperation (CEL_OPERATION_GETPROPERTY1);
-	}
-	else
-	{
-	  if (token != CEL_TOKEN_COMMA)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-		        "Expected ',' while parsing property for '%s'!", name);
-            return false;
-	  }
-          if (!ParseExpression (input, child, h, name, 0))
-	    return false;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_CLOSE)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-	        "Expected ')' while parsing property for '%s'!", name);
-            return false;
-	  }
-          h->AddOperation (CEL_OPERATION_GETPROPERTY);
-        }
-      }
-      break;
-    case CEL_TOKEN_PROPID:
-      {
-	input = celXmlSkipWhiteSpace (input);
-        const char* i = input;
-	bool idconstant = true;
-	while (*i && *i != ')')
-	{
-	  if (!isalnum (*i) && *i != '_' && *i != '.')
-	  {
-	    idconstant = false;
-	    break;
-	  }
-	  i++;
-	}
-	if (!*i)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Missing ')' at end of 'propid' for '%s'!", name);
-          return false;
-	}
-	if (idconstant)
-	{
-	  const char* prefix = "cel.property.";
-	  char* str = new char [strlen (prefix) + i-input+1];
-	  strcpy (str, prefix);
-	  strncpy (str+strlen (prefix), input, i-input);
-	  str[strlen (prefix) + i-input] = 0;
-	  csStringID id = pl->FetchStringID (str);
-	  delete[] str;
-          h->AddOperation (CEL_OPERATION_PUSH);
-          h->GetArgument ().SetID (id);
-	  input = i+1;
-	}
-	else
-	{
-          if (!ParseExpression (input, child, h, name, 0))
-            return false;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_CLOSE)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-		      "Missing ')' at end of 'propid' for '%s'!", name);
-            return false;
-	  }
-          h->AddOperation (CEL_OPERATION_CALCPROPID);
-	}
-      }
-      break;
-    case CEL_TOKEN_ID:
-      {
-	input = celXmlSkipWhiteSpace (input);
-        const char* i = input;
-	bool idconstant = true;
-	while (*i && *i != ')')
-	{
-	  if (!isalnum (*i) && *i != '_' && *i != '.')
-	  {
-	    idconstant = false;
-	    break;
-	  }
-	  i++;
-	}
-	if (!*i)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Missing ')' at end of 'id' for '%s'!", name);
-          return false;
-	}
-	if (idconstant)
-	{
-	  char* str = new char [i-input+1];
-	  strncpy (str, input, i-input);
-	  str[i-input] = 0;
-	  csStringID id = pl->FetchStringID (str);
-	  delete[] str;
-          h->AddOperation (CEL_OPERATION_PUSH);
-          h->GetArgument ().SetID (id);
-	  input = i+1;
-	}
-	else
-	{
-          if (!ParseExpression (input, child, h, name, 0))
-            return false;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_CLOSE)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-		      "Missing ')' at end of 'id' for '%s'!", name);
-            return false;
-	  }
-          h->AddOperation (CEL_OPERATION_CALCID);
-	}
-      }
+      if (!ParseFunction (input, pinput, child, h, name))
+        return false;
       break;
     case CEL_TOKEN_IDENTIFIER:
       {
@@ -440,45 +462,6 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         h->AddOperation (CEL_OPERATION_PUSH);
         h->GetArgument ().SetString (str, true);
         delete[] str;
-      }
-      break;
-    case CEL_TOKEN_ENTITY:
-      {
-        if (!ParseExpression (input, child, h, name, 0))
-          return false;
-        h->AddOperation (CEL_OPERATION_ENTITY);
-      }
-      break;
-    case CEL_TOKEN_PC:
-      {
-        if (!ParseExpression (input, child, h, name, 0))
-          return false;
-	input = celXmlParseToken (input, token);
-	if (token == CEL_TOKEN_CLOSE)
-	{
-	  // We have only one argument to pc(). This means we search
-	  // for a property class for the current entity.
-          h->AddOperation (CEL_OPERATION_PCTHIS);
-	}
-	else
-	{
-	  if (token != CEL_TOKEN_COMMA)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-		      "Expected ',' while parsing pc for '%s'!", name);
-            return false;
-	  }
-          if (!ParseExpression (input, child, h, name, 0))
-	    return false;
-	  input = celXmlParseToken (input, token);
-	  if (token != CEL_TOKEN_CLOSE)
-	  {
-            synldr->ReportError ("cel.behaviour.xml", child,
-		      "Expected ')' while parsing pc for '%s'!", name);
-            return false;
-	  }
-          h->AddOperation (CEL_OPERATION_PC);
-        }
       }
       break;
     case CEL_TOKEN_INT32:
@@ -520,58 +503,17 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
         h->GetArgument ().SetFloat (i);
       }
       break;
-    case CEL_TOKEN_COLOR:
-      {
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_COMMA)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing color for '%s'!", name);
-          return false;
-	}
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_COMMA)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing color for '%s'!", name);
-          return false;
-	}
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_CLOSE)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing color for '%s'!", name);
-          return false;
-	}
-        h->AddOperation (CEL_OPERATION_COLOR);
-      }
-      break;
     case CEL_TOKEN_VECTOR:
       {
         int op = CEL_OPERATION_VECTOR2;
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
-	input = celXmlParseToken (input, token);
-	if (token != CEL_TOKEN_COMMA)
-	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing vector for '%s'!", name);
-          return false;
-	}
-        if (!ParseExpression (input, child, h, name, 0))
-	  return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, child, h, name, 0)) return false;
 	input = celXmlParseToken (input, token);
 	if (token == CEL_TOKEN_COMMA)
 	{
           op = CEL_OPERATION_VECTOR3;
-          if (!ParseExpression (input, child, h, name, 0))
-	    return false;
+          if (!ParseExpression (input, child, h, name, 0)) return false;
 	  input = celXmlParseToken (input, token);
 	}
 	if (token != CEL_TOKEN_VECTORCLOSE)

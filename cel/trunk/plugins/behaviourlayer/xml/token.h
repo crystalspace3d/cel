@@ -31,7 +31,6 @@ enum
   CEL_TOKEN_VECTOR,	// [expr,expr] or [expr,expr,expr]
   CEL_TOKEN_BOOLTRUE,	// true
   CEL_TOKEN_BOOLFALSE,	// false
-  CEL_TOKEN_COLOR,	// rgb(expr,expr,expr)
   CEL_TOKEN_INT32,	// 348 or -398
   CEL_TOKEN_UINT32,	// 348u
   CEL_TOKEN_FLOAT,	// 342.33 or -2.33e-33
@@ -52,12 +51,7 @@ enum
   CEL_TOKEN_COMMA,	// ,
   CEL_TOKEN_DOT,	// .
   CEL_TOKEN_VECTORCLOSE,// ]
-  CEL_TOKEN_ENTITY,	// entity(expr)
-  CEL_TOKEN_PC,		// pc(expr,expr)
   CEL_TOKEN_IDENTIFIER,	// identifier
-  CEL_TOKEN_ID,		// id(expr)
-  CEL_TOKEN_PROPID,	// propid(expr)
-  CEL_TOKEN_PROPERTY,	// property(expr,expr)
   CEL_TOKEN_FUNCTION,	// <identifier>(
 
   CEL_TOKEN_LAST
