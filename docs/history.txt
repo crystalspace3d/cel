@@ -1,3 +1,5 @@
+29-Dec-2001:
+	- Philip Wyett updated MSVC project files for CEL.
 28-Dec-2001:
 	- Renamed 'pcinput_' messages to 'pckeyinput_'.
 	- Implemented persistance in pckeyinput property class.
