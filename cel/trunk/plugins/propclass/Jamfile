@@ -12,4 +12,5 @@ SubInclude TOP plugins propclass billboard ;
 SubInclude TOP plugins propclass actormove ;
 SubInclude TOP plugins propclass zone ;
 SubInclude TOP plugins propclass mover ;
+SubInclude TOP plugins propclass trigger ;
 
