@@ -217,7 +217,7 @@ void celPcMesh::SetMesh (const char* factname, const char* filename)
 {
   delete[] fileName;
   fileName = csStrNew (filename);
-  delete[] factname;
+  delete[] factName;
   factName = csStrNew (factname);
 
   iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
