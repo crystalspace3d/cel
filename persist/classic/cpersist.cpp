@@ -601,7 +601,12 @@ bool celPersistClassicContext::Read (iCelPropertyClass*& pc)
     Report ("Expected property class, got something else: '%s'!",marker);
     return false;
   }
-  if (marker[3] == '0') { Report ("Read 0 Propclass!"); return true; }	// NULL entity.
+  if (marker[3] == '0')
+  {
+    // NULL entity.
+    Report ("Read 0 Propclass!");
+    return true;
+  }
   if (marker[3] == 'R')
   {
     // A reference.
