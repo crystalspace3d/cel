@@ -93,9 +93,6 @@ Package=<4>
     Project_Dep_Name plgbltest
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgblpython
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name plgblxml
     End Project Dependency
     Begin Project Dependency
@@ -210,9 +207,6 @@ Package=<4>
     Project_Dep_Name plgbltest
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgblpython
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name plgblxml
     End Project Dependency
     Begin Project Dependency
@@ -259,18 +253,6 @@ Package=<4>
 ###############################################################################
 
 Project: "plgaddon_xmlscripts"=.\plgaddon_xmlscripts.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "plgblpython"=.\plgblpython.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

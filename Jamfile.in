@@ -52,7 +52,7 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
 
-MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenConfig PYTHON.AVAILABLE : no ;
 MsvcGenConfig PYTHON.DEFINES : SWIG_GLOBAL ;
 
 # Header subdirectories (order sensitive: libraries before plugins and apps)
