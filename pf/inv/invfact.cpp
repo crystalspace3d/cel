@@ -106,7 +106,7 @@ bool celPcInventory::AddEntity (iCelEntity* entity)
 {
   if (contents.Find (entity) != -1) return true;
   if (TestAddEntity (entity) != NULL) return false;
-  UpdateConstraints (entity);
+  UpdateConstraints (entity, true);
   contents.Push (entity);
   entity->IncRef ();
   return true;
@@ -116,6 +116,7 @@ void celPcInventory::RemoveEntity (iCelEntity* entity)
 {
   int idx = contents.Find (entity);
   if (idx == -1) return;
+  UpdateConstraints (entity, false);
   contents.Delete (idx);
   entity->DecRef ();
 }
@@ -199,7 +200,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
   return c->currentValue;
 }
 
-void celPcInventory::UpdateConstraints (iCelEntity* entity)
+void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
 {
   // This routine assumes the constraints are valid!!!
   iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
@@ -211,7 +212,8 @@ void celPcInventory::UpdateConstraints (iCelEntity* entity)
   {
     constraint* c = (constraint*)constraints[i];
     float value = pcchar->GetCharProperty (c->charName);
-    c->currentValue += value;
+    if (add) c->currentValue += value;
+    else c->currentValue -= value;
   }
   pcchar->DecRef ();
   return;
