@@ -714,6 +714,7 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
     // An entity.
     entity = FindOrCreateEntity (entid);
     entity->SetName(entname);
+    Report ("  Reading entity %d ('%s')...\n",entid,entname);
     delete[] entname;
 
     int i;
@@ -839,6 +840,8 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
     if (!WriteID (entity)) return false;
     return true;
   }
+
+  Report (" CEL Persistence writing entity %d ('%s')...\n",entity->GetID(),entity->GetName() );
 
   entities.Add (entity);
   if (!WriteMarker ("ENTI")) return false;

@@ -27,6 +27,7 @@
 #include "pl/persist.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -43,6 +44,26 @@ SCF_EXPORT_CLASS_TABLE (pfinv)
   SCF_EXPORT_CLASS (celPfCharacteristics, "cel.pcfactory.characteristics",
 	"CEL Characteristics Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
+
+
+void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistance",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
 
 //---------------------------------------------------------------------------
 
@@ -98,7 +119,11 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
 bool celPcInventory::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != INVENTORY_SERIAL) return false;
+  if (serialnr != INVENTORY_SERIAL)
+  {
+    Report (object_reg,"serialnr != INVENTORY_SERIAL.  Cannot load.");
+    return false;
+  }
   int cnt_total = databuf->GetDataCount ();
 
   RemoveAllConstraints ();
@@ -106,30 +131,74 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
 
   celData* cd;
   int i, j = 0;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"cnt_constraints is not specified.  Cannot load.");
+    return false;
+  }
   int cnt_constraints = cd->value.uw;
   for (i = 0 ; i < cnt_constraints ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"constraint name not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     constraint* c = NewConstraint (*cd->value.s);
-    if (!c) return false;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    if (!c)
+    {
+      Report (object_reg,"constraint name is NULL for record %d.  Cannot load.",i);
+      return false;
+    }
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Min value not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->minValue = cd->value.f;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"maxValue not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->maxValue = cd->value.f;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"totalMaxValue not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->totalMaxValue = cd->value.f;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Strict flag not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->strict = cd->value.bo;
     c->dirty = true;
   }
 
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++); 
+  if (!cd)
+  {
+    Report (object_reg,"cnt_contents not specified.  Cannot load.");
+    return false;
+  }
   int cnt_contents = cd->value.uw;
   CS_ASSERT (cnt_total == 1+cnt_constraints*5 + 1+cnt_contents);
   for (i = 0 ; i < cnt_contents ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Contents entity not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     contents.Push (cd->value.ent);
     DG_LINK (this, cd->value.ent->QueryObject ());
     csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
@@ -555,27 +624,61 @@ csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
 bool celPcCharacteristics::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != CHARACTERISTICS_SERIAL) return false;
+  if (serialnr != CHARACTERISTICS_SERIAL)
+  {
+    Report (object_reg,"serialnr != CHARACTERISTICS_SERIAL.  Cannot load.");
+    return false;
+  }
   int cnt_total = databuf->GetDataCount ();
 
   ClearAll ();
 
   celData* cd;
   int i, j = 0;
-  cd = databuf->GetData (j++); if (!cd) return false;
+  cd = databuf->GetData (j++);
+  if (!cd)
+  {
+    Report (object_reg,"cnt_chars not specified.  Cannot load.");
+    return false;
+  }
+
   int cnt_chars = cd->value.uw;
   CS_ASSERT (cnt_total == 1+cnt_chars*4);
   for (i = 0 ; i < cnt_chars ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"character name not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     charact* c = new charact (); chars.Push (c);
     c->name = csStrNew (*cd->value.s);
-    if (!c) return false;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    if (!c)
+    {
+      Report (object_reg,"Character name string not specified for record %d.  Cannot load.",i);
+      return false;
+    }
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Value not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->value = cd->value.f;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Factor not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->factor = cd->value.f;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd)
+    {
+      Report (object_reg,"Add not specified for record %d.  Cannot load.",i);
+      return false;
+    }
     c->add = cd->value.f;
   }
 

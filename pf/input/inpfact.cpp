@@ -31,6 +31,7 @@
 #include "pl/datatype.h"
 #include "pl/persist.h"
 #include "bl/behave.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -42,6 +43,25 @@ SCF_EXPORT_CLASS_TABLE (pfinput)
   SCF_EXPORT_CLASS (celPfCommandInput, "cel.pcfactory.pckeyinput",
   	"CEL Key Input Property Class Factory")
 SCF_EXPORT_CLASS_TABLE_END
+
+void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistance",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
 
 //---------------------------------------------------------------------------
 
@@ -122,16 +142,30 @@ csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 bool celPcCommandInput::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != COMMANDINPUT_SERIAL) return false;
+  if (serialnr != COMMANDINPUT_SERIAL)
+  {
+    Report (object_reg,"serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
+    return false;
+  }
   int cnt = databuf->GetDataCount ();
   cnt /= 2;
   int i, j = 0;
   celData* cd;
   for (i = 0 ; i < cnt ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++);
+    if (!cd) 
+    {
+      Report (object_reg,"Key for map[%d] not specified.  Cannot load.",i);
+      return false;
+    }
     int key = cd->value.ul;
-    cd = databuf->GetData (j++); if (!cd) return false;
+    cd = databuf->GetData (j++); 
+    if (!cd) 
+    {
+      Report (object_reg,"Command for map[%d] not specified.  Cannot load.",i);
+      return false;
+    }
     celKeyMap* newmap = new celKeyMap ();
     // Add a new entry to key mapping list
     newmap->next = maplist;
