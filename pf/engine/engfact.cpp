@@ -94,9 +94,13 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   rect_set = false;
   region = NULL;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   CS_ASSERT (kbd != NULL);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != NULL);
+	angle_xz = angle_yz = 0.0; 
+	_button2 = false;
+	original_pos = csVector3(0,5,-3);
 
   DG_TYPE (this, "celPcCamera()");
 }
@@ -170,6 +174,7 @@ bool celPcCamera::HandleEvent (iEvent& ev)
       {
 	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
 	    iPcMesh);
+	if (!pcmesh) break;
 	csVector3 pos = pcmesh->GetMesh()->GetMovable()->GetPosition();
 	pcmesh->DecRef();
 
@@ -183,6 +188,52 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	c->Move (CS_VEC_FORWARD*.2/*+CS_VEC_DOWN*.2*/);
 	break;
       }
+      case iPcCamera::rotational:
+      {
+	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
+	if (!pcmesh) break;
+	csVector3 pos = pcmesh->GetMesh()->GetMovable()->GetPosition();
+	iCamera* c = view->GetCamera();
+
+	if (mouse->GetLastButton(2)) {
+		int delta_x, delta_y, current_x, current_y;
+
+		if (!_button2) {
+			_button2 = true;
+			base_x = current_x = mouse->GetLastX();
+			base_y = current_y = mouse->GetLastY();
+			//csVector camera = c->GetOrigin();
+			
+		} else {
+			current_x = mouse->GetLastX();
+			current_y = mouse->GetLastY();
+		}
+
+		delta_x = base_x - current_x;
+		delta_y = base_y - current_y;
+
+		float delta_yz = delta_x/100.0;
+		float delta_xz = delta_y/300.0;
+
+		_yz = angle_yz + delta_yz;
+		_xz = angle_xz + delta_xz;
+	} else {
+		_button2 = false;
+		angle_xz = _xz;
+		angle_yz = _yz;
+	}
+	
+	if (_yz > 3.14) _yz = -3.14;
+	if (_yz < -3.14) _yz = 3.14;
+	if (_xz > 1.3) _xz = 1.3;
+	if (_xz < -1.3) _xz = -1.3;
+	csVector3 V(cos(_yz)*cos(_xz),sin(_xz),sin(_yz)*cos(_xz));
+	csVector3 result = pos + V * 10.0;
+
+	c->MoveWorld(result - original_pos);
+	c->GetTransform().LookAt(pos-result,csVector3(0,1,0));
+	original_pos = result;
+	}
     }
 
     // Tell 3D driver we're going to display 3D things.

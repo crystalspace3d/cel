@@ -38,6 +38,7 @@ struct iGraphics3D;
 struct iEngine;
 struct iVirtualClock;
 struct iKeyboardDriver;
+struct iMouseDriver;
 class csView;
 
 /**
@@ -55,6 +56,7 @@ private:
   iGraphics3D* g3d;
   iEngine* engine;
   iKeyboardDriver* kbd;
+  iMouseDriver *mouse;
   iVirtualClock* vc;
   csView* view;
   iView* iview;
@@ -63,6 +65,11 @@ private:
   int rect_x, rect_y, rect_w, rect_h;
   iPcCamera::CameraMode cammode;
   iPcRegion* region;
+
+  csVector3 original_pos;
+  float angle_xz, angle_yz, _xz, _yz;
+  bool _button2;
+  int base_x, base_y;
 
   void SetupEventHandler ();
 
