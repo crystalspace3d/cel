@@ -31,6 +31,9 @@ struct iEvent;
 struct iSector;
 struct iView;
 
+struct iCelPlLayer;
+struct iCelBlLayer;
+
 #define OBJ_SPARKBOX "sparkbox"
 #define OBJ_MARBLEBOX "marblebox"
 
@@ -45,6 +48,9 @@ private:
   iVirtualClock* vc;
   iSector* room;
   iView* view;
+
+  iCelPlLayer* pl;
+  iCelBlLayer* bl;
  
   static bool CelTestEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);

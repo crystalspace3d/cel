@@ -28,6 +28,7 @@
 #include "iutil/objreg.h"
 #include "iutil/csinput.h"
 #include "iutil/virtclk.h"
+#include "iutil/plugin.h"
 #include "iengine/sector.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
@@ -54,6 +55,12 @@
 #include "ivaria/stdrep.h"
 #include "csutil/cmdhelp.h"
 
+#include "pl/pl.h"
+#include "pl/propfact.h"
+#include "pl/propclas.h"
+#include "pl/entity.h"
+#include "bl/bl.h"
+
 CS_IMPLEMENT_APPLICATION
 
 //-----------------------------------------------------------------------------
@@ -69,10 +76,14 @@ CelTest::CelTest ()
   kbd = NULL;
   vc = NULL;
   view = NULL;
+  pl = NULL;
+  bl = NULL;
 }
 
 CelTest::~CelTest ()
 {
+  if (pl) pl->DecRef ();
+  if (bl) bl->DecRef ();
   if (vc) vc->DecRef ();
   if (engine) engine->DecRef ();
   if (loader) loader->DecRef();
@@ -299,6 +310,13 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   object_reg = csInitializer::CreateEnvironment ();
   if (!object_reg) return false;
 
+  // @@@ The code below is temporary until we have a general solution
+  // in CS for having plugins outside the CS hierarchy (by an additional
+  // .csinfo file for every plugin for example).
+  iSCF::SCF->RegisterClass ("cel.physicallayer", "plimp", NULL);
+  iSCF::SCF->RegisterClass ("cel.behaviourlayer.test", "bltest", NULL);
+  iSCF::SCF->RegisterClass ("cel.pcfactory.test", "pftest", NULL);
+
   csInitializer::SetupCommandLineParser (object_reg, argc, argv);
   if (!csInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
@@ -378,6 +396,48 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     	"No iKeyboardDriver plugin!");
     return false;
   }
+
+  iPluginManager* plugin_mgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
+  pl = CS_LOAD_PLUGIN (plugin_mgr, "cel.physicallayer", iCelPlLayer);
+  if (!pl)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"CEL physical layer missing!");
+    return false;
+  }
+  bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.test", iCelBlLayer);
+  if (!bl)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"CEL test behaviour layer missing!");
+    return false;
+  }
+  iCelPropertyClassFactory* pftest = CS_LOAD_PLUGIN (plugin_mgr,
+  	"cel.pcfactory.test", iCelPropertyClassFactory);
+  if (!pftest)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"CEL test factory missing!");
+    return false;
+  }
+  pl->RegisterPropertyClassFactory (pftest);
+
+  iCelEntity* entity = pl->CreateEntity ();
+  iCelPropertyClass* pc = pftest->CreatePropertyClass ("pctest");
+  if (!pc)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celtest",
+    	"'pftest' doesn't seem to support 'pctest' property class!");
+    return false;
+  }
+  entity->GetPropertyClassList ()->Add (pc);
+
+  pftest->DecRef ();
+  plugin_mgr->DecRef ();
 
   // Open the main system. This will open all the previously loaded plug-ins.
   if (!csInitializer::OpenApplication (object_reg))
