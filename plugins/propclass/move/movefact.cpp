@@ -33,6 +33,7 @@
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "csutil/csobject.h"
+#include "csutil/scanstr.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
@@ -544,6 +545,31 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 
 //---------------------------------------------------------------------------
 
+Property* celPcGravity::properties = 0;
+int celPcGravity::propertycount = 0;
+csStringID celPcGravity::action_applypermanentforce = 0;
+
+void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT( pl != 0 );
+
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_weight].id = pl->FetchStringID (
+    	"cel.property.pcgravity.weight");
+    properties[propid_weight].datatype = CEL_DATA_FLOAT;
+    properties[propid_weight].readonly = false;
+    properties[propid_weight].desc = "Weight of this object";
+
+    action_applypermanentforce = pl->FetchStringID (
+    	"cel.property.pcgravity.ApplyPermanentForce");
+  }
+}
+
 SCF_IMPLEMENT_IBASE_EXT (celPcGravity)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcGravity)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -583,6 +609,15 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   unsigned int trigger = CSMASK_Nothing;
   q->RegisterListener (scfiEventHandler, trigger);
   DG_TYPE (this, "celPcGravity()");
+
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+
+  props = properties;
+  propcount = &propertycount;
+
+  propdata[propid_weight] = &weight;
+
 }
 
 celPcGravity::~celPcGravity ()
@@ -983,6 +1018,18 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
   }
 
   return true;
+}
+
+bool celPcGravity::PerformAction (csStringID actionId, const char* params)
+{
+  if (actionId == action_applypermanentforce)
+  {
+    csVector3 v;
+    csScanStr (params, "%f,%f,%f", &v.x, &v.y, &v.z);
+    ApplyPermanentForce (v);
+    return true;
+  }
+  return false;
 }
 
 //---------------------------------------------------------------------------

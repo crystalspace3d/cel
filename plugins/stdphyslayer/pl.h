@@ -74,6 +74,7 @@ public:
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
 
+  virtual bool LoadPropertyClassFactory (const char* plugin_id);
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);

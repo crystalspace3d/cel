@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_ADDON_CELENTITY__
-#define __CEL_ADDON_CELENTITY__
+#ifndef __CEL_ADDON_XMLSCRIPTS__
+#define __CEL_ADDON_XMLSCRIPTS__
 
 #include "iutil/comp.h"
 #include "imap/reader.h"
@@ -28,25 +28,29 @@ struct iObjectRegistry;
 struct iDocumentNode;
 struct iLoaderContext;
 struct iSyntaxService;
-struct iCelPlLayer;
+struct iCelBlLayer;
+struct iCelBlLayerGenerate;
 
 /**
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnCelEntity : public iLoaderPlugin
+class celAddOnXmlScripts : public iLoaderPlugin
 {
 private:
   iObjectRegistry* object_reg;
   csRef<iSyntaxService> synldr;
-  csRef<iCelPlLayer> pl;
+  csRef<iCelBlLayer> bl;
+  csRef<iCelBlLayerGenerate> blgen;
   csStringHash xmltokens;
+
+  void GetBlGen (iDocumentNode* child);
 
 public:
   SCF_DECLARE_IBASE;
  
-  celAddOnCelEntity (iBase* parent);
-  virtual ~celAddOnCelEntity ();
+  celAddOnXmlScripts (iBase* parent);
+  virtual ~celAddOnXmlScripts ();
   bool Initialize (iObjectRegistry* object_reg);
 
   virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
@@ -54,11 +58,11 @@ public:
 
   struct Component : public iComponent
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnCelEntity);
+    SCF_DECLARE_EMBEDDED_IBASE (celAddOnXmlScripts);
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
 };
 
-#endif // __CEL_ADDON_CELENTITY__
+#endif // __CEL_ADDON_XMLSCRIPTS__
 

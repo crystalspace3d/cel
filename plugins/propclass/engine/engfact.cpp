@@ -640,14 +640,8 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );
     CS_ASSERT( pl != 0 );
 
-    propertycount = 5;
+    propertycount = 4;
     properties = new Property[propertycount];
-
-    properties[propid_worlddir].id = pl->FetchStringID (
-    	"cel.property.pcregion.empty_sector");
-    properties[propid_worlddir].datatype = CEL_DATA_BOOL;
-    properties[propid_worlddir].readonly = false;
-    properties[propid_worlddir].desc = "Create an empty sector.";
 
     properties[propid_worlddir].id = pl->FetchStringID (
     	"cel.property.pcregion.worlddir");

@@ -135,7 +135,17 @@ struct iCelPlLayer : public iBase
   //-------------------------------------------------------------------------
 
   /**
+   * Load a property class plugin by class id if it doesn't already
+   * exist. Returns false on failure. This must be called before you can
+   * use property classes from this factory.
+   */
+  virtual bool LoadPropertyClassFactory (const char* plugin_id) = 0;
+
+  /**
    * Register a property class factory with this physical layer.
+   * It is not needed for apps to call this function as the property class
+   * factory itself will do it when it is loaded. To load a property class
+   * factory plugin you can use LoadPropertyClassFactory().
    */
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf) = 0;
 

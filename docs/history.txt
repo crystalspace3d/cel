@@ -3,6 +3,41 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+20-Nov-2003
+	- Jorrit added a new iCelBlLayerGenerate interface. Some behaviour
+	  layers can implement this interface in addition to iCelBlLayer.
+	  If they do implement this interface then it is possible to create
+	  new scripts dynamically by using the API in this interface.
+	- Jorrit added a new blxml behaviour layer. This is a very simple
+	  behaviour layer which will be used for simple games. There is
+	  one premade 'bootstrap' script which has an 'load' method that
+	  can be used by the bootstrap utility to load the initial level.
+	- Jorrit added a new xmlscripts addon which is able to create
+	  XML scripts for the bmxlm behaviour layer.
+	- Jorrit extended bootstrap so that you can now give the name
+	  of a behaviour method and one string argument. This method will
+	  be called on the behaviour right after creating the entity.
+	- Jorrit added iCelPlLayer->LoadPropertyClassFactory(). This is
+	  a conveniance function to check if a property class factory plugin
+	  is already loaded and if not try to load it.
+	- Jorrit added LoadPropertyClassFactory() to the python behaviour layer
+	  and changed celRegisterPCFactory() to use this instead of simply
+	  always loading the plugin.
+	- Jorrit added scripts/xmltest.xml as a first example 'game' using
+	  the new XML behaviour layer. This is still very primitive and
+	  can't be called a game really but it will be enhanced soon.
+	  To fire up the xmltest.xml example you can use the following
+	  command (on one line):
+	    bootstrap cel.behaviourlayer.xml bootstrap load /this/scripts
+	    	xmltest.xml 
+	- Jorrit fixed a bug in the property list of the pcregion property
+	  class. It set 5 properties but only 4 are defined. In addition
+	  there was a bogus first property set which was immediatelly
+	  overwritten.
+	- Jorrit added a standard weight property to the pcgravity property
+	  class.
+	- Jorrit added a 'ApplyPermanentForce' action to the pcgravity
+	  property class (works with PerformAction()).
 19-Nov-2003
 	- Jorrit made iPcLinearMovement->IsOnGround() use 'const' again.
 	  For some reason this was changed in Keith's latest commit but

@@ -80,16 +80,16 @@ bool celPcCommon::RemovePropertyChangeCallback (
 }
 
 
-bool celPcCommon::SetProperty( csStringID propertyId, long l )
+bool celPcCommon::SetProperty (csStringID propertyId, long l)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_LONG ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_LONG) 
       {
 	((long*)(propdata[i]))[0] = l;
 	return true;
@@ -99,16 +99,16 @@ bool celPcCommon::SetProperty( csStringID propertyId, long l )
   return false; 
 }
 
-bool celPcCommon::SetProperty( csStringID propertyId, float f )
+bool celPcCommon::SetProperty (csStringID propertyId, float f)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_FLOAT ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_FLOAT)
       {
 	((float*)(propdata[i]))[0] = f;
 	return true;
@@ -118,16 +118,16 @@ bool celPcCommon::SetProperty( csStringID propertyId, float f )
   return false; 
 }
 
-bool celPcCommon::SetProperty( csStringID propertyId, bool b )
+bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_BOOL ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_BOOL)
       {
 	((bool*)(propdata[i]))[0] = b;
 	return true;
@@ -137,19 +137,19 @@ bool celPcCommon::SetProperty( csStringID propertyId, bool b )
   return false; 
 }
 
-bool celPcCommon::SetProperty( csStringID propertyId, const char* s )
+bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_STRING ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_STRING)
       {
 	char** ptr = (char**) propdata[i];
-	if ( *ptr != s )
+	if  (*ptr != s)
 	  delete[] (*ptr);
 	*ptr = csStrNew( s );
 	return true;
@@ -161,14 +161,14 @@ bool celPcCommon::SetProperty( csStringID propertyId, const char* s )
 
 bool celPcCommon::SetProperty( csStringID propertyId, const csVector3& v )
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_VECTOR3 ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_VECTOR3)
       {
 	((csVector3*)(propdata[i]))[0] = v;
 	return true;
@@ -178,89 +178,92 @@ bool celPcCommon::SetProperty( csStringID propertyId, const csVector3& v )
   return false; 
 }
 
-celDataType celPcCommon::GetPropertyOrActionType( csStringID propertyId )
+celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 {
-  UpdateProperties( object_reg ); 
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return CEL_DATA_NONE;
+  if (!propcount) return CEL_DATA_NONE;
 
-  for( int i=0; i<(*propcount); i++ )
-    if( props[i].id == propertyId )
+  for (int i=0; i<(*propcount); i++)
+    if (props[i].id == propertyId)
       return props[i].datatype;
   return CEL_DATA_NONE;
 }
 
-bool celPcCommon::IsPropertyReadOnly( csStringID propertyId )
+bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  for( int i=0; i<(*propcount); i++ )
-    if( props[i].id == propertyId )
+  for (int i=0; i<(*propcount); i++)
+    if (props[i].id == propertyId)
       return props[i].readonly;
   return true;
 }
 
-long celPcCommon::GetPropertyLong( csStringID propertyId )
+long celPcCommon::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties( object_reg ); 
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return 0;
+  if (!propcount) return 0;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_LONG ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_LONG)
       {
 	return ((long*)(propdata[i]))[0];
-      } else return 0;
+      }
+      else return 0;
   }
   return 0;
 }
 
-float celPcCommon::GetPropertyFloat( csStringID propertyId )
+float celPcCommon::GetPropertyFloat (csStringID propertyId)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return 0;
+  if (!propcount) return 0;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_FLOAT ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_FLOAT)
       {
 	return ((float*)(propdata[i]))[0];
-      } else return 0;
+      }
+      else return 0;
   }
   return 0; 
 }
 
-bool celPcCommon::GetPropertyBool( csStringID propertyId )
+bool celPcCommon::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_BOOL ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_BOOL)
       {
 	return ((long*)(propdata[i]))[0];
-      } else return false;
+      }
+      else return false;
   }
   return false; 
 }
 
-const char* celPcCommon::GetPropertyString( csStringID propertyId )
+const char* celPcCommon::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return 0;
+  if (!propcount) return 0;
   
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_STRING ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_STRING)
       {
 	return ((const char**)(propdata[i]))[0];
       }
@@ -271,14 +274,14 @@ const char* celPcCommon::GetPropertyString( csStringID propertyId )
 
 bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v )
 {
-  UpdateProperties( object_reg ); 
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return false;
+  if (!propcount) return false;
 
-  for( int i=0; i<(*propcount); i++ )
+  for (int i=0; i<(*propcount); i++)
   {
-    if( props[i].id == propertyId )
-      if( props[i].datatype == CEL_DATA_VECTOR3 ) 
+    if (props[i].id == propertyId)
+      if (props[i].datatype == CEL_DATA_VECTOR3)
       {
 	v = ((csVector3*)(propdata[i]))[0];
 	return true;
@@ -288,32 +291,32 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v )
   return false;
 }
 
-const char* celPcCommon::GetPropertyOrActionDescription( csStringID propertyId )
+const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
 {
-  UpdateProperties( object_reg ); 
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return 0;
+  if (!propcount) return 0;
 
-  for( int i=0; i<(*propcount); i++ )
-    if( props[i].id == propertyId )
+  for (int i=0; i<(*propcount); i++)
+    if (props[i].id == propertyId)
       return props[i].desc;
   return 0;
 }
 
 int celPcCommon::GetPropertyAndActionCount() const
 {
-  UpdateProperties( object_reg ); 
+  UpdateProperties (object_reg);
 
-  if( !propcount ) return 0;
+  if (!propcount) return 0;
 
   return (*propcount);
 }
 
-csStringID celPcCommon::GetPropertyOrActionID( int i ) 
+csStringID celPcCommon::GetPropertyOrActionID (int i)
 { 
-  UpdateProperties( object_reg );
+  UpdateProperties (object_reg);
 
-  if( !props ) return csInvalidStringID;
+  if (!props) return csInvalidStringID;
   
   return props[i].id; 
 }

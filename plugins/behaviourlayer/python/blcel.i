@@ -32,6 +32,7 @@ struct iCelPlLayer : public iBase
   //virtual csPtr<iCelEntity> CreateEntity ();
   virtual iCelEntity* FindEntity (const char* name) = 0;
   virtual void RemoveEntity (iCelEntity* entity) = 0;
+  virtual bool LoadPropertyClassFactory (const char* plugin_id) = 0;
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
   	const char* propname);
   virtual const char* FetchString (csStringID id);
@@ -76,11 +77,10 @@ struct iCelEntity : public iBase
 %{
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
-  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-  	iPluginManager);
-  csRef<iBase> pf = CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname);
-  if (!pf) return false;
-  return true;
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
+  	iCelPlLayer);
+  bool rc = pl->LoadPropertyClassFactory (pcfactname);
+  return rc;
 }
 %}
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname);

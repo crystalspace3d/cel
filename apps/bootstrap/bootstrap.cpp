@@ -44,6 +44,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/bl.h"
+#include "behaviourlayer/behave.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -232,40 +233,24 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 
   bootstrap_entity = pl->CreateEntity ();
   bootstrap_entity->SetName ("bootstrap");
-  bootstrap_entity->SetBehaviour (bl->CreateBehaviour (bootstrap_entity,
-  	behaviour));
+  iCelBehaviour* behave = bl->CreateBehaviour (bootstrap_entity, behaviour);
+  bootstrap_entity->SetBehaviour (behave);
 
-#if 0
-  // XXX: This should be in a config file...
-  if (!LoadPcFactory ("cel.pcfactory.test"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.movable"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.solid"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.movableconst_cd"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.gravity"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.region"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.camera"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.tooltip"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.timer"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.inventory"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.characteristics"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.mesh"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.meshselect"))
-    return false;
-  if (!LoadPcFactory ("cel.pcfactory.pckeyinput"))
-    return false;
-#endif
+  const char* extra_method = cmdline->GetName (2);
+  if (extra_method)
+  {
+    const char* extra_arg1 = cmdline->GetName (3);
+    const char* extra_arg2 = cmdline->GetName (4);
+    const char* extra_arg3 = cmdline->GetName (5);
+    if (extra_arg3)
+      behave->SendMessage (extra_method, 0, extra_arg1, extra_arg2, extra_arg3);
+    else if (extra_arg2)
+      behave->SendMessage (extra_method, 0, extra_arg1, extra_arg2);
+    else if (extra_arg1)
+      behave->SendMessage (extra_method, 0, extra_arg1);
+    else
+      behave->SendMessage (extra_method, 0);
+  }
 
   return true;
 }

@@ -462,7 +462,7 @@ bool CelTest::CreateRoom ()
   pcregion->SetRegionName ("partsys");
 #endif
   if (!pcregion->Load ())
-      return false;
+    return false;
   room = pcregion->GetStartSector ();
 
   pc = pl->CreatePropertyClass (entity_room, "pcinventory");
@@ -665,22 +665,6 @@ bool CelTest::LoadTexture (const char* txtName, const char* fileName)
   return true;
 }
 
-bool CelTest::LoadPcFactory (const char* pcfactname)
-{
-  csRef<iPluginManager> plugin_mgr (
-  	CS_QUERY_REGISTRY (object_reg, iPluginManager));
-  csRef<iBase> pf (CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname));
-  if (!pf)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "crystalspace.application.celtest",
-	    "CEL '%s' plugin missing!", pcfactname);
-    return false;
-  }
-
-  return true;
-}
-
 bool CelTest::Initialize (int argc, const char* const argv[])
 {
   object_reg = csInitializer::CreateEnvironment (argc, argv);
@@ -822,44 +806,44 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   }
 
   // XXX: This should be in a config file...
-  if (!LoadPcFactory ("cel.pcfactory.test"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.movable"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.movable"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.solid"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.movableconst_cd"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.movableconst_cd"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.gravity"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.gravity"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.region"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.camera"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.camera"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.tooltip"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.timer"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.inventory"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.characteristics"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.mesh"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.meshselect"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.pckeyinput"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pckeyinput"))
     return false;
 
-  if (!LoadPcFactory ("cel.pcfactory.graph"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.link"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.node"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.navgraphrules"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
     return false;
-  if (!LoadPcFactory ("cel.pcfactory.navgraphrulesfps"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
     return false;
 
   if (!LoadTextures ()) return false;

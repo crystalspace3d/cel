@@ -1,3 +1,4 @@
 SubDir TOP plugins addons ;
 SubInclude TOP plugins addons celentity ;
+SubInclude TOP plugins addons xmlscripts ;
 

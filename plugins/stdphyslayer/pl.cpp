@@ -36,6 +36,7 @@
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
 #include "iutil/objreg.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
@@ -353,6 +354,27 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
 {
   return new celEntityList ();
+}
+
+bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
+{
+  csRef<iPluginManager> plugin_mgr =
+  	CS_QUERY_REGISTRY (object_reg, iPluginManager);
+  csRef<iBase> pf;
+  pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
+  if (!pf)
+  {
+    pf = CS_LOAD_PLUGIN_ALWAYS (plugin_mgr, plugin_id);
+  }
+  if (!pf)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	  "crystalspace.cel.physicallayer",
+	  "CEL '%s' property class factory plugin missing!", plugin_id);
+    return false;
+  }
+
+  return true;
 }
 
 void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
