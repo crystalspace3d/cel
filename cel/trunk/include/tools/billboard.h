@@ -89,9 +89,9 @@ SCF_VERSION (iBillboard, 0, 0, 1);
  * A billboard (2D image on screen).
  * Billboards work in a coordinate system independent of the size
  * of the screen. This coordinate system basically works on a virtual
- * screen with size 1024000 x 614400. These values were chosen because
+ * screen with size 307200 x 307200. These values were chosen because
  * they can fit most other standard resolutions without requiring fractions
- * (i.e. a 1280x1024 screen is exactly 1024000/800 x 614400/600).
+ * (i.e. a 1280x1024 screen is exactly 307200/240 x 307200/300).
  * For conveniance we call this coordinate system 'billboard space'.
  */
 struct iBillboard : public iBase

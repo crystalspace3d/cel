@@ -41,6 +41,13 @@ struct iEvent;
 
 class celBillboardManager;
 
+// Billboard space definition. This number is divisible
+// by 320, 480, 640, 600, 800, 1024, 1280, and 1600 and is
+// therefor very suitable for representing screen based locations
+// in a resolution independent way.
+#define BSX 307200
+#define BSY 307200
+
 /**
  * A billboard.
  */

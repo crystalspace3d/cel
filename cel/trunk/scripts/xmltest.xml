@@ -117,9 +117,9 @@
 	        <getproperty var="h" propclass="pcbillboard"
 			name="pcbillboard.height" />
 	        <property propclass="pcbillboard" name="pcbillboard.width"
-			long="50000" />
+			long="30000" />
 	        <property propclass="pcbillboard" name="pcbillboard.height"
-			long="50000" />
+			long="30000" />
 	    </event>
 	    <event name="makelarge">
 	        <var name="normal" bool="1" />
@@ -458,8 +458,8 @@
 	        <property name="pcbillboard.restack" bool="1" />
 	        <property name="pcbillboard.widthpct" float=".40" />
 	        <property name="pcbillboard.heightpct" float=".40" />
-	        <property name="pcbillboard.x" long="500000" />
-	        <property name="pcbillboard.y" long="300000" />
+	        <property name="pcbillboard.x" long="290000" />
+	        <property name="pcbillboard.y" long="290000" />
 	    </propclass>
             <behaviour name="lamp" />
 	</addon>
