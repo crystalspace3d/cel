@@ -14,6 +14,20 @@
 	  so that they are registered to the object registry.
 	- Actually implemented the 'global' option in pcmeshselect. I
 	  forgot to do that earlier.
+	- After adding an object to an inventory it is usually best
+	  to call DecRef() as the inventory now holds a reference
+	  (unless you also need to have the reference). Changed celtest
+	  for this. Unfortunatelly this does not fix the ref leaks in
+	  celtest yet.
+	- Added iPcSolid which is a property class that is going to be
+	  used for collision detection. iPcSolid is implemented by
+	  the 'pfmove' factory.
+	- Added iPcMovableConstraint and extended iPcMovable so that you can
+	  add constraints.
+	- Extended 'pfmove' factory with pcmovableconst_cd implementation of
+	  iPcMovableConstraint which uses iPcSolid to implement a constraint
+	  based on collision detection. This implementation is currently
+	  not operational yet.
 1-Nov-2001:
 	- Slightly changed the way that csconfig.mak works.
 	- Implemented dragging. You can define a plane on which the

@@ -53,6 +53,7 @@
 #include "imap/parser.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
+#include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
 
 #include "pl/pl.h"
@@ -65,6 +66,7 @@
 #include "pf/meshsel.h"
 #include "pf/inv.h"
 #include "pf/chars.h"
+#include "pf/move.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -190,6 +192,8 @@ bool CelTest::CreateRoom ()
   if (!pfmesh) return false;
   iCelPropertyClassFactory* pfinv = LoadPcFactory ("cel.pcfactory.inventory");
   if (!pfinv) return false;
+  iCelPropertyClassFactory* pfmove = LoadPcFactory ("cel.pcfactory.move");
+  if (!pfmove) return false;
 
   // @@@@!!!!
   engine->SelectRegion ("room");
@@ -227,12 +231,17 @@ bool CelTest::CreateRoom ()
   iPcCharacteristics* pcchars;
   iPcMesh* pcmesh;
   iPcInventory* pcinv, * pcinv_room;
+  iPcMovable* pcmovable;
+  iPcMovableConstraint* pcmovableconst;
   
   //===============================
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity (); entity_room->SetName ("room");
   entity_room->SetBehaviour (bl->CreateBehaviour ("printer"));
+
+  pc = CreatePropertyClass (entity_room, pfmove, "pcsolid");
+  if (!pc) return false;
 
   pc = CreatePropertyClass (entity_room, pfinv, "pcinventory");
   if (!pc) return false;
@@ -324,6 +333,19 @@ bool CelTest::CreateRoom ()
   entity_box = pl->CreateEntity (); entity_box->SetName ("box");
   entity_box->SetBehaviour (bl->CreateBehaviour ("printer"));
   if (!pcinv_room->AddEntity (entity_box)) return false;
+  entity_box->DecRef ();
+
+  pc = CreatePropertyClass (entity_box, pfmove, "pcsolid");
+  if (!pc) return false;
+  pc = CreatePropertyClass (entity_box, pfmove, "pcmovable");
+  if (!pc) return false;
+  pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
+  pc = CreatePropertyClass (entity_box, pfmove, "pcmovableconst_cd");
+  if (!pc) return false;
+  pcmovableconst = SCF_QUERY_INTERFACE_FAST (pc, iPcMovableConstraint);
+  pcmovable->AddConstraint (pcmovableconst);
+  pcmovableconst->DecRef ();
+  pcmovable->DecRef ();
 
   pc = CreatePropertyClass (entity_box, pftest, "pctest");
   if (!pc) return false;
@@ -419,15 +441,19 @@ bool CelTest::CreateRoom ()
   pcinv->Dump ();
   if (pcinv->AddEntity (entity_dummy1)) printf ("Entity 1 added!\n");
   else printf ("Entity 1 NOT added!\n");
+  entity_dummy1->DecRef ();
   pcinv->Dump ();
   if (pcinv->AddEntity (entity_dummy2)) printf ("Entity 2 added!\n");
   else printf ("Entity 2 NOT added!\n");
+  entity_dummy2->DecRef ();
   pcinv->Dump ();
   if (pcinv->AddEntity (entity_dummy3)) printf ("Entity 3 added!\n");
   else printf ("Entity 3 NOT added!\n");
+  entity_dummy3->DecRef ();
   pcinv->Dump ();
   if (pcinv->AddEntity (entity_dummy4)) printf ("Entity 4 added!\n");
   else printf ("Entity 4 NOT added!\n");
+  entity_dummy4->DecRef ();
   pcinv->Dump ();
 
   pcchars = CEL_QUERY_PROPCLASS (entity_dummy1->GetPropertyClassList (), iPcCharacteristics);
@@ -542,6 +568,7 @@ bool CelTest::Initialize (int argc, const char* const argv[])
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
 	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test", iCelBlLayer),
+	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.rapid", iCollideSystem),
 	CS_REQUEST_END))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,

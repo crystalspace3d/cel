@@ -24,15 +24,16 @@
 #include "csutil/scf.h"
 
 struct iSector;
+struct iPcMesh;
+struct iPcMovableConstraint;
 class csVector3;
 
 SCF_DECLARE_FAST_INTERFACE (iPcMovable)
+SCF_DECLARE_FAST_INTERFACE (iPcMovableConstraint)
 
 #define CEL_MOVE_FAIL 0
 #define CEL_MOVE_SUCCEED 1
 #define CEL_MOVE_PARTIAL 2
-
-struct iPcMesh;
 
 SCF_VERSION (iPcMovable, 0, 0, 1);
 
@@ -50,7 +51,7 @@ struct iPcMovable : public iBase
   /**
    * Get the current mesh on which we're working.
    */
-  virtual iPcMesh* GetMesh () const = 0;
+  virtual iPcMesh* GetMesh () = 0;
 
   /**
    * Move object while checking constraints.
@@ -62,6 +63,42 @@ struct iPcMovable : public iBase
    * </ul>
    */
   virtual int Move (iSector* sector, const csVector3& pos) = 0;
+
+  /**
+   * Add a constraint.
+   */
+  virtual void AddConstraint (iPcMovableConstraint* constraint) = 0;
+
+  /**
+   * Remove a constraint.
+   */
+  virtual void RemoveConstraint (iPcMovableConstraint* constraint) = 0;
+
+  /**
+   * Remove all constraints.
+   */
+  virtual void RemoveAllConstraints () = 0;
+};
+
+SCF_VERSION (iPcMovableConstraint, 0, 0, 1);
+
+/**
+ * A constraint for a movable.
+ */
+struct iPcMovableConstraint : public iBase
+{
+  /**
+   * Check if an object can move.
+   * Returns:
+   * <ul>
+   * <li>CEL_MOVE_FAIL: if no movement is possible.
+   * <li>CEL_MOVE_SUCCEED: if movement is possible.
+   * <li>CEL_MOVE_PARTIAL: if object can move partially.
+   * </ul>
+   * 'pos' will contain the final position that this constraint
+   * considered valid.
+   */
+  virtual int CheckMove (iSector* sector, const csVector3& from, const csVector3& to, csVector3& pos) = 0;
 };
 
 #endif // __CEL_PF_MOVE__
