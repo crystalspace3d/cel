@@ -1,3 +1,6 @@
+26-Jun-2003
+	- Jorrit added iCelPlLayer->GetBehaviour() as a conveniance function
+	  to directly get the behaviour associated with an entity ID.
 25-Jun-2003
 	- Jorrit ported pslinmove from the PlaneShift project to CEL. The
 	  code is currently mostly unchanged except for a few things:

@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -33,6 +33,7 @@ struct iCelMessage;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 struct iCelBlLayer;
+struct iCelBehaviour;
 struct iSector;
 struct iCamera;
 class csVector3;
@@ -45,7 +46,7 @@ struct iCelEntityRemoveCallback : public iBase
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 };
 
-SCF_VERSION (iCelPlLayer, 0, 0, 4);
+SCF_VERSION (iCelPlLayer, 0, 1, 0);
 
 /**
  * This is the Physical Layer itself.
@@ -86,7 +87,13 @@ struct iCelPlLayer : public iBase
    * Returns the entity with ID id
    */
   virtual iCelEntity* GetEntity (CS_ID id) = 0;
-  
+
+  /**
+   * This is a conveniance function to get the behaviour that belongs
+   * to the entity for a given ID.
+   */
+  virtual iCelBehaviour* GetBehaviour (CS_ID id) = 0;
+
   /**
    * Given an iObject, find the attached entity (if any).
    */
