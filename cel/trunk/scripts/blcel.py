@@ -1219,6 +1219,24 @@ class iCelPlLayerPtr(iBasePtr):
         val = blcelc.iCelPlLayer_CreateEntity(self.this)
         val = iCelEntityPtr(val)
         return val
+    def CreatePropertyClass(self,arg0,arg1):
+        val = blcelc.iCelPlLayer_CreatePropertyClass(self.this,arg0.this,arg1)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def FetchString(self,arg0):
+        val = blcelc.iCelPlLayer_FetchString(self.this,arg0)
+        return val
+    def GetBehaviourLayerCount(self):
+        val = blcelc.iCelPlLayer_GetBehaviourLayerCount(self.this)
+        return val
+    def GetBehaviourLayer(self,arg0):
+        val = blcelc.iCelPlLayer_GetBehaviourLayer(self.this,arg0)
+        val = iCelBlLayerPtr(val)
+        return val
+    def FindBehaviourLayer(self,arg0):
+        val = blcelc.iCelPlLayer_FindBehaviourLayer(self.this,arg0)
+        val = iCelBlLayerPtr(val)
+        return val
     def __repr__(self):
         return "<C iCelPlLayer instance>"
 class iCelPlLayer(iCelPlLayerPtr):
@@ -1238,9 +1256,168 @@ class iCelEntityPtr(iBasePtr):
     def SetName(self,arg0):
         val = blcelc.iCelEntity_SetName(self.this,arg0)
         return val
+    def SetBehaviour(self,arg0):
+        val = blcelc.iCelEntity_SetBehaviour(self.this,arg0.this)
+        return val
+    def GetBehaviour(self):
+        val = blcelc.iCelEntity_GetBehaviour(self.this)
+        val = iCelBehaviourPtr(val)
+        return val
+    def GetID(self):
+        val = blcelc.iCelEntity_GetID(self.this)
+        return val
+    def GetPropertyClassList(self):
+        val = blcelc.iCelEntity_GetPropertyClassList(self.this)
+        val = iCelPropertyClassListPtr(val)
+        return val
     def __repr__(self):
         return "<C iCelEntity instance>"
 class iCelEntity(iCelEntityPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelBlLayerPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelBlLayer_GetName(self.this)
+        return val
+    def CreateBehaviour(self,arg0,arg1):
+        val = blcelc.iCelBlLayer_CreateBehaviour(self.this,arg0.this,arg1)
+        val = iCelBehaviourPtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelBlLayer instance>"
+class iCelBlLayer(iCelBlLayerPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelBehaviourPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelBehaviour_GetName(self.this)
+        return val
+    def GetBehaviourLayer(self):
+        val = blcelc.iCelBehaviour_GetBehaviourLayer(self.this)
+        val = iCelBlLayerPtr(val)
+        return val
+    def SendMessageV(self,arg0,arg1,arg2):
+        val = blcelc.iCelBehaviour_SendMessageV(self.this,arg0,arg1.this,arg2)
+        return val
+    def __repr__(self):
+        return "<C iCelBehaviour instance>"
+class iCelBehaviour(iCelBehaviourPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelPropertyClassPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetName(self):
+        val = blcelc.iCelPropertyClass_GetName(self.this)
+        return val
+    def GetEntity(self):
+        val = blcelc.iCelPropertyClass_GetEntity(self.this)
+        val = iCelEntityPtr(val)
+        return val
+    def SetEntity(self,arg0):
+        val = blcelc.iCelPropertyClass_SetEntity(self.this,arg0.this)
+        return val
+    def GetPropertyOrActionType(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionType(self.this,arg0)
+        return val
+    def IsPropertyReadOnly(self,arg0):
+        val = blcelc.iCelPropertyClass_IsPropertyReadOnly(self.this,arg0)
+        return val
+    def GetPropertyLong(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyLong(self.this,arg0)
+        return val
+    def GetPropertyFloat(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyFloat(self.this,arg0)
+        return val
+    def GetPropertyBool(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyBool(self.this,arg0)
+        return val
+    def GetPropertyString(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyString(self.this,arg0)
+        return val
+    def GetPropertyVector(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_GetPropertyVector(self.this,arg0,arg1.this)
+        return val
+    def GetPropertyAndActionCount(self):
+        val = blcelc.iCelPropertyClass_GetPropertyAndActionCount(self.this)
+        return val
+    def GetPropertyOrActionID(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionID(self.this,arg0)
+        return val
+    def GetPropertyOrActionDescription(self,arg0):
+        val = blcelc.iCelPropertyClass_GetPropertyOrActionDescription(self.this,arg0)
+        return val
+    def PerformAction(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_PerformAction(self.this,arg0,arg1)
+        return val
+    def SetPropertyLong(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyLong(self.this,arg0,arg1)
+        return val
+    def SetPropertyFloat(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyFloat(self.this,arg0,arg1)
+        return val
+    def SetPropertyBool(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyBool(self.this,arg0,arg1)
+        return val
+    def SetPropertyString(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyString(self.this,arg0,arg1)
+        return val
+    def SetPropertyVector3(self,arg0,arg1):
+        val = blcelc.iCelPropertyClass_SetPropertyVector3(self.this,arg0,arg1.this)
+        return val
+    def __repr__(self):
+        return "<C iCelPropertyClass instance>"
+class iCelPropertyClass(iCelPropertyClassPtr):
+    def __init__(self,this):
+        self.this = this
+
+
+
+
+class iCelPropertyClassListPtr(iBasePtr):
+    def __init__(self,this):
+        self.this = this
+        self.thisown = 0
+    def GetCount(self):
+        val = blcelc.iCelPropertyClassList_GetCount(self.this)
+        return val
+    def Get(self,arg0):
+        val = blcelc.iCelPropertyClassList_Get(self.this,arg0)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def Find(self,arg0):
+        val = blcelc.iCelPropertyClassList_Find(self.this,arg0.this)
+        return val
+    def FindByName(self,arg0):
+        val = blcelc.iCelPropertyClassList_FindByName(self.this,arg0)
+        val = iCelPropertyClassPtr(val)
+        return val
+    def FindByInterface(self,arg0,arg1):
+        val = blcelc.iCelPropertyClassList_FindByInterface(self.this,arg0,arg1)
+        val = iBasePtr(val)
+        return val
+    def __repr__(self):
+        return "<C iCelPropertyClassList instance>"
+class iCelPropertyClassList(iCelPropertyClassListPtr):
     def __init__(self,this):
         self.this = this
 
@@ -1271,3 +1448,18 @@ MakeVersion = blcelc.MakeVersion
 
 #-------------- VARIABLE WRAPPERS ------------------
 
+CEL_DATA_NONE = blcelc.CEL_DATA_NONE
+CEL_DATA_BOOL = blcelc.CEL_DATA_BOOL
+CEL_DATA_BYTE = blcelc.CEL_DATA_BYTE
+CEL_DATA_WORD = blcelc.CEL_DATA_WORD
+CEL_DATA_LONG = blcelc.CEL_DATA_LONG
+CEL_DATA_UBYTE = blcelc.CEL_DATA_UBYTE
+CEL_DATA_UWORD = blcelc.CEL_DATA_UWORD
+CEL_DATA_ULONG = blcelc.CEL_DATA_ULONG
+CEL_DATA_FLOAT = blcelc.CEL_DATA_FLOAT
+CEL_DATA_VECTOR3 = blcelc.CEL_DATA_VECTOR3
+CEL_DATA_STRING = blcelc.CEL_DATA_STRING
+CEL_DATA_PCLASS = blcelc.CEL_DATA_PCLASS
+CEL_DATA_ENTITY = blcelc.CEL_DATA_ENTITY
+CEL_DATA_BUFFER = blcelc.CEL_DATA_BUFFER
+CEL_DATA_ACTION = blcelc.CEL_DATA_ACTION

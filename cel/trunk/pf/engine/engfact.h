@@ -14,7 +14,7 @@
   
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 #ifndef __CEL_PF_ENGFACT__
@@ -180,11 +180,18 @@ private:
   // which are used for collision detection.
   csVector entities;
 
-  static csStringID propid_worlddir;
-  static csStringID propid_worldfile;
-  static csStringID propid_regionname;
-  static void UpdatePropIDS (iObjectRegistry* object_reg);
+	enum propids {
+		propid_worlddir = 0,
+		propid_worldfile,
+		propid_regionname,
+		propid_load
+	};
 
+	static Property* properties;
+	static int			 propertycount;
+
+	static void UpdateProperties (iObjectRegistry* object_reg);
+  
 public:
   celPcRegion (iObjectRegistry* object_reg);
   virtual ~celPcRegion ();
@@ -207,12 +214,7 @@ public:
   virtual iCelDataBuffer* Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-  virtual bool SetProperty (csStringID, const char*);
-  virtual celDataType GetPropertyOrActionType (csStringID);
-  virtual bool IsPropertyReadOnly (csStringID);
-  virtual const char* GetPropertyString (csStringID);
-  virtual int GetPropertyAndActionCount () const { return 3; }
-  virtual csStringID GetPropertyOrActionID (int);
+	virtual bool PerformAction (csStringID, const char*);
 
   struct PcRegion : public iPcRegion
   {

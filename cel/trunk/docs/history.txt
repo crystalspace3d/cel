@@ -1,3 +1,21 @@
+18-Jul-2002:
+	- Several months ago I received a patch from Anders Stenberg.
+	  This patch does the following:
+	      - Added the blcel.physicallayer_ptr variable so that python
+	        scripts can access the pl more easily.
+	      - blpython.i contains lots more interfaces to CEL stuff
+	        (entities and property classes).
+	      - Getting a description string of a property. Will be useful
+	        for stuff like entity editors/viewers (within a level
+		editor for example).
+	      - Enable the subclass to just "register" a property, bind it
+	        to one of its members, and then all handling of
+		SetProperty/GetProperty is done "automatically". (Of course
+		it can be overloaded if you want some special voodoo. For
+		example, you can handle just one property with some special
+		stuff, and release it to celPcCommon::SetProperty in all other
+		cases.)
+	      - pcregion uses the new system described above.
 2-Jul-2002:
 	- Fixed CEL for the latest CS changes with regards to the _FAST
 	  macros.

@@ -33,8 +33,24 @@
  * and things like that.
  *
  * $Log$
- * Revision 1.3  2002/02/27 07:47:16  jorrit
- * Fixed the python behaviour layer.
+ * Revision 1.4  2002/07/18 14:33:36  jorrit
+ * 	- Several months ago I received a patch from Anders Stenberg.
+ * 	  This patch does the following:
+ * 	      - Added the blcel.physicallayer_ptr variable so that python
+ * 	        scripts can access the pl more easily.
+ * 	      - blpython.i contains lots more interfaces to CEL stuff
+ * 	        (entities and property classes).
+ * 	      - Getting a description string of a property. Will be useful
+ * 	        for stuff like entity editors/viewers (within a level
+ * 		editor for example).
+ * 	      - Enable the subclass to just "register" a property, bind it
+ * 	        to one of its members, and then all handling of
+ * 		SetProperty/GetProperty is done "automatically". (Of course
+ * 		it can be overloaded if you want some special voodoo. For
+ * 		example, you can handle just one property with some special
+ * 		stuff, and release it to celPcCommon::SetProperty in all other
+ * 		cases.)
+ * 	      - pcregion uses the new system described above.
  *
  ************************************************************************/
 
@@ -1096,6 +1112,7 @@ PyObject *ptrfree(PyObject *_PTRVALUE) {
 #include "pl/persist.h"
 #include "bl/bl.h"
 #include "bl/behave.h"
+#include "../pf/common/stdpcimp.h"
 static PyObject *_wrap_ptrcast(PyObject *self, PyObject *args) {
     PyObject * _resultobj;
     PyObject * _result;
@@ -7635,6 +7652,136 @@ static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) 
     return _resultobj;
 }
 
+#define iCelPlLayer_CreatePropertyClass(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreatePropertyClass(_swigarg0,_swigarg1))
+static PyObject *_wrap_iCelPlLayer_CreatePropertyClass(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelPropertyClass * _result;
+    iCelPlLayer * _arg0;
+    iCelEntity * _arg1;
+    char * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelPlLayer_CreatePropertyClass",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPlLayer_CreatePropertyClass. Expected _iCelPlLayer_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPlLayer_CreatePropertyClass. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelPropertyClass *)iCelPlLayer_CreatePropertyClass(_arg0,_arg1,_arg2);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelPropertyClass_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPlLayer_FetchString(_swigobj,_swigarg0)  (_swigobj->FetchString(_swigarg0))
+static PyObject *_wrap_iCelPlLayer_FetchString(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelPlLayer * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPlLayer_FetchString",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPlLayer_FetchString. Expected _iCelPlLayer_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPlLayer_FetchString. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelPlLayer_FetchString(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelPlLayer_GetBehaviourLayerCount(_swigobj)  (_swigobj->GetBehaviourLayerCount())
+static PyObject *_wrap_iCelPlLayer_GetBehaviourLayerCount(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iCelPlLayer * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelPlLayer_GetBehaviourLayerCount",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPlLayer_GetBehaviourLayerCount. Expected _iCelPlLayer_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iCelPlLayer_GetBehaviourLayerCount(_arg0);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPlLayer_GetBehaviourLayer(_swigobj,_swigarg0)  (_swigobj->GetBehaviourLayer(_swigarg0))
+static PyObject *_wrap_iCelPlLayer_GetBehaviourLayer(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelBlLayer * _result;
+    iCelPlLayer * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iCelPlLayer_GetBehaviourLayer",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPlLayer_GetBehaviourLayer. Expected _iCelPlLayer_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelBlLayer *)iCelPlLayer_GetBehaviourLayer(_arg0,_arg1);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelBlLayer_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPlLayer_FindBehaviourLayer(_swigobj,_swigarg0)  (_swigobj->FindBehaviourLayer(_swigarg0))
+static PyObject *_wrap_iCelPlLayer_FindBehaviourLayer(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelBlLayer * _result;
+    iCelPlLayer * _arg0;
+    char * _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPlLayer_FindBehaviourLayer",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPlLayer_FindBehaviourLayer. Expected _iCelPlLayer_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelBlLayer *)iCelPlLayer_FindBehaviourLayer(_arg0,_arg1);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelBlLayer_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
 static void *SwigiCelEntityToiBase(void *ptr) {
     iCelEntity *src;
     iBase *dest;
@@ -7686,9 +7833,991 @@ static PyObject *_wrap_iCelEntity_SetName(PyObject *self, PyObject *args) {
     return _resultobj;
 }
 
+#define iCelEntity_SetBehaviour(_swigobj,_swigarg0)  (_swigobj->SetBehaviour(_swigarg0))
+static PyObject *_wrap_iCelEntity_SetBehaviour(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelEntity * _arg0;
+    iCelBehaviour * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelEntity_SetBehaviour",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_SetBehaviour. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iCelBehaviour_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelEntity_SetBehaviour. Expected _iCelBehaviour_p.");
+        return NULL;
+        }
+    }
+    iCelEntity_SetBehaviour(_arg0,_arg1);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
+#define iCelEntity_GetBehaviour(_swigobj)  (_swigobj->GetBehaviour())
+static PyObject *_wrap_iCelEntity_GetBehaviour(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelBehaviour * _result;
+    iCelEntity * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelEntity_GetBehaviour",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_GetBehaviour. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelBehaviour *)iCelEntity_GetBehaviour(_arg0);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelBehaviour_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelEntity_GetID(_swigobj)  (_swigobj->GetID())
+static PyObject *_wrap_iCelEntity_GetID(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    CS_ID * _result;
+    iCelEntity * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelEntity_GetID",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_GetID. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = new CS_ID (iCelEntity_GetID(_arg0));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_CS_ID_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelEntity_GetPropertyClassList(_swigobj)  (_swigobj->GetPropertyClassList())
+static PyObject *_wrap_iCelEntity_GetPropertyClassList(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelPropertyClassList * _result;
+    iCelEntity * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelEntity_GetPropertyClassList",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelEntity_GetPropertyClassList. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelPropertyClassList *)iCelEntity_GetPropertyClassList(_arg0);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelPropertyClassList_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+static void *SwigiCelBlLayerToiBase(void *ptr) {
+    iCelBlLayer *src;
+    iBase *dest;
+    src = (iCelBlLayer *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iCelBlLayer_GetName(_swigobj)  (_swigobj->GetName())
+static PyObject *_wrap_iCelBlLayer_GetName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelBlLayer * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelBlLayer_GetName",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelBlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelBlLayer_GetName. Expected _iCelBlLayer_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelBlLayer_GetName(_arg0);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelBlLayer_CreateBehaviour(_swigobj,_swigarg0,_swigarg1)  (_swigobj->CreateBehaviour(_swigarg0,_swigarg1))
+static PyObject *_wrap_iCelBlLayer_CreateBehaviour(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelBehaviour * _result;
+    iCelBlLayer * _arg0;
+    iCelEntity * _arg1;
+    char * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelBlLayer_CreateBehaviour",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelBlLayer_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelBlLayer_CreateBehaviour. Expected _iCelBlLayer_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelBlLayer_CreateBehaviour. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelBehaviour *)iCelBlLayer_CreateBehaviour(_arg0,_arg1,_arg2);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelBehaviour_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+static void *SwigiCelBehaviourToiBase(void *ptr) {
+    iCelBehaviour *src;
+    iBase *dest;
+    src = (iCelBehaviour *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iCelBehaviour_GetName(_swigobj)  (_swigobj->GetName())
+static PyObject *_wrap_iCelBehaviour_GetName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelBehaviour * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelBehaviour_GetName",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelBehaviour_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelBehaviour_GetName. Expected _iCelBehaviour_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelBehaviour_GetName(_arg0);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelBehaviour_GetBehaviourLayer(_swigobj)  (_swigobj->GetBehaviourLayer())
+static PyObject *_wrap_iCelBehaviour_GetBehaviourLayer(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelBlLayer * _result;
+    iCelBehaviour * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelBehaviour_GetBehaviourLayer",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelBehaviour_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelBehaviour_GetBehaviourLayer. Expected _iCelBehaviour_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelBlLayer *)iCelBehaviour_GetBehaviourLayer(_arg0);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelBlLayer_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelBehaviour_SendMessageV(_swigobj,_swigarg0,_swigarg1,_swigarg2)  (_swigobj->SendMessageV(_swigarg0,_swigarg1,_swigarg2))
+static PyObject *_wrap_iCelBehaviour_SendMessageV(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelBehaviour * _arg0;
+    char * _arg1;
+    iBase * _arg2;
+    va_list * _arg3;
+    char * _argc0 = 0;
+    char * _argc2 = 0;
+    char * _argc3 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ssss:iCelBehaviour_SendMessageV",&_argc0,&_arg1,&_argc2,&_argc3)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelBehaviour_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelBehaviour_SendMessageV. Expected _iCelBehaviour_p.");
+        return NULL;
+        }
+    }
+    if (_argc2) {
+        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_iBase_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iCelBehaviour_SendMessageV. Expected _iBase_p.");
+        return NULL;
+        }
+    }
+    if (_argc3) {
+        if (SWIG_GetPtr(_argc3,(void **) &_arg3,"_va_list_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 4 of iCelBehaviour_SendMessageV. Expected _va_list_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelBehaviour_SendMessageV(_arg0,_arg1,_arg2,*_arg3);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static void *SwigiCelPropertyClassToiBase(void *ptr) {
+    iCelPropertyClass *src;
+    iBase *dest;
+    src = (iCelPropertyClass *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iCelPropertyClass_GetName(_swigobj)  (_swigobj->GetName())
+static PyObject *_wrap_iCelPropertyClass_GetName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelPropertyClass * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelPropertyClass_GetName",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetName. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelPropertyClass_GetName(_arg0);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetEntity(_swigobj)  (_swigobj->GetEntity())
+static PyObject *_wrap_iCelPropertyClass_GetEntity(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelEntity * _result;
+    iCelPropertyClass * _arg0;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelPropertyClass_GetEntity",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetEntity. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelEntity *)iCelPropertyClass_GetEntity(_arg0);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelEntity_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_SetEntity(_swigobj,_swigarg0)  (_swigobj->SetEntity(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_SetEntity(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelPropertyClass * _arg0;
+    iCelEntity * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_SetEntity",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetEntity. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iCelEntity_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetEntity. Expected _iCelEntity_p.");
+        return NULL;
+        }
+    }
+    iCelPropertyClass_SetEntity(_arg0,_arg1);
+    Py_INCREF(Py_None);
+    _resultobj = Py_None;
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyOrActionType(_swigobj,_swigarg0)  (_swigobj->GetPropertyOrActionType(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyOrActionType(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    celDataType * _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyOrActionType",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyOrActionType. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyOrActionType. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = new celDataType (iCelPropertyClass_GetPropertyOrActionType(_arg0,*_arg1));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_celDataType_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_IsPropertyReadOnly(_swigobj,_swigarg0)  (_swigobj->IsPropertyReadOnly(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_IsPropertyReadOnly(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_IsPropertyReadOnly",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_IsPropertyReadOnly. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_IsPropertyReadOnly. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_IsPropertyReadOnly(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyLong(_swigobj,_swigarg0)  (_swigobj->GetPropertyLong(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyLong(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    long  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyLong",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyLong. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyLong. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (long )iCelPropertyClass_GetPropertyLong(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("l",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyFloat(_swigobj,_swigarg0)  (_swigobj->GetPropertyFloat(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyFloat(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    float  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyFloat",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyFloat. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyFloat. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (float )iCelPropertyClass_GetPropertyFloat(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("f",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyBool(_swigobj,_swigarg0)  (_swigobj->GetPropertyBool(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyBool(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyBool",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyBool. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyBool. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_GetPropertyBool(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyString(_swigobj,_swigarg0)  (_swigobj->GetPropertyString(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyString(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyString",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyString. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyString. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelPropertyClass_GetPropertyString(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyVector(_swigobj,_swigarg0,_swigarg1)  (_swigobj->GetPropertyVector(_swigarg0,_swigarg1))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyVector(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    csVector3 * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char * _argc2 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelPropertyClass_GetPropertyVector",&_argc0,&_argc1,&_argc2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyVector. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyVector. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    if (_argc2) {
+        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iCelPropertyClass_GetPropertyVector. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_GetPropertyVector(_arg0,*_arg1,*_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyAndActionCount(_swigobj)  (_swigobj->GetPropertyAndActionCount())
+static PyObject *_wrap_iCelPropertyClass_GetPropertyAndActionCount(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iCelPropertyClass * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelPropertyClass_GetPropertyAndActionCount",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyAndActionCount. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iCelPropertyClass_GetPropertyAndActionCount(_arg0);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyOrActionID(_swigobj,_swigarg0)  (_swigobj->GetPropertyOrActionID(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyOrActionID(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    csStringID * _result;
+    iCelPropertyClass * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iCelPropertyClass_GetPropertyOrActionID",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyOrActionID. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    _result = new csStringID (iCelPropertyClass_GetPropertyOrActionID(_arg0,_arg1));
+    SWIG_MakePtr(_ptemp, (void *) _result,"_csStringID_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_GetPropertyOrActionDescription(_swigobj,_swigarg0)  (_swigobj->GetPropertyOrActionDescription(_swigarg0))
+static PyObject *_wrap_iCelPropertyClass_GetPropertyOrActionDescription(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    char * _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClass_GetPropertyOrActionDescription",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_GetPropertyOrActionDescription. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_GetPropertyOrActionDescription. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (char *)iCelPropertyClass_GetPropertyOrActionDescription(_arg0,*_arg1);
+    _resultobj = Py_BuildValue("s", _result);
+    return _resultobj;
+}
+
+#define iCelPropertyClass_PerformAction(_swigobj,_swigarg0,_swigarg1)  (_swigobj->PerformAction(_swigarg0,_swigarg1))
+static PyObject *_wrap_iCelPropertyClass_PerformAction(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelPropertyClass_PerformAction",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_PerformAction. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_PerformAction. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_PerformAction(_arg0,*_arg1,_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static bool  iCelPropertyClass_SetPropertyLong(iCelPropertyClass *self,csStringID  id,long  l) { return self->SetProperty (id, l); }
+static PyObject *_wrap_iCelPropertyClass_SetPropertyLong(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    long  _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ssl:iCelPropertyClass_SetPropertyLong",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetPropertyLong. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetPropertyLong. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_SetPropertyLong(_arg0,*_arg1,_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static bool  iCelPropertyClass_SetPropertyFloat(iCelPropertyClass *self,csStringID  id,float  f) { return self->SetProperty (id, f); }
+static PyObject *_wrap_iCelPropertyClass_SetPropertyFloat(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    float  _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ssf:iCelPropertyClass_SetPropertyFloat",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetPropertyFloat. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetPropertyFloat. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_SetPropertyFloat(_arg0,*_arg1,_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static bool  iCelPropertyClass_SetPropertyBool(iCelPropertyClass *self,csStringID  id,bool  b) { return self->SetProperty (id, b); }
+static PyObject *_wrap_iCelPropertyClass_SetPropertyBool(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    bool  _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    int tempbool2;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ssi:iCelPropertyClass_SetPropertyBool",&_argc0,&_argc1,&tempbool2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetPropertyBool. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetPropertyBool. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _arg2 = (bool ) tempbool2;
+    _result = (bool )iCelPropertyClass_SetPropertyBool(_arg0,*_arg1,_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static bool  iCelPropertyClass_SetPropertyString(iCelPropertyClass *self,csStringID  id,const char * s) { return self->SetProperty (id, s); }
+static PyObject *_wrap_iCelPropertyClass_SetPropertyString(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    char * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelPropertyClass_SetPropertyString",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetPropertyString. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetPropertyString. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_SetPropertyString(_arg0,*_arg1,_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static bool  iCelPropertyClass_SetPropertyVector3(iCelPropertyClass *self,csStringID  id,const csVector3 & v) { return self->SetProperty (id, v); }
+static PyObject *_wrap_iCelPropertyClass_SetPropertyVector3(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    bool  _result;
+    iCelPropertyClass * _arg0;
+    csStringID * _arg1;
+    csVector3 * _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char * _argc2 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"sss:iCelPropertyClass_SetPropertyVector3",&_argc0,&_argc1,&_argc2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClass_SetPropertyVector3. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_csStringID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClass_SetPropertyVector3. Expected _csStringID_p.");
+        return NULL;
+        }
+    }
+    if (_argc2) {
+        if (SWIG_GetPtr(_argc2,(void **) &_arg2,"_csVector3_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 3 of iCelPropertyClass_SetPropertyVector3. Expected _csVector3_p.");
+        return NULL;
+        }
+    }
+    _result = (bool )iCelPropertyClass_SetPropertyVector3(_arg0,*_arg1,*_arg2);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+static void *SwigiCelPropertyClassListToiBase(void *ptr) {
+    iCelPropertyClassList *src;
+    iBase *dest;
+    src = (iCelPropertyClassList *) ptr;
+    dest = (iBase *) src;
+    return (void *) dest;
+}
+
+#define iCelPropertyClassList_GetCount(_swigobj)  (_swigobj->GetCount())
+static PyObject *_wrap_iCelPropertyClassList_GetCount(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iCelPropertyClassList * _arg0;
+    char * _argc0 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"s:iCelPropertyClassList_GetCount",&_argc0)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClassList_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClassList_GetCount. Expected _iCelPropertyClassList_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iCelPropertyClassList_GetCount(_arg0);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClassList_Get(_swigobj,_swigarg0)  (_swigobj->Get(_swigarg0))
+static PyObject *_wrap_iCelPropertyClassList_Get(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelPropertyClass * _result;
+    iCelPropertyClassList * _arg0;
+    int  _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"si:iCelPropertyClassList_Get",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClassList_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClassList_Get. Expected _iCelPropertyClassList_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelPropertyClass *)iCelPropertyClassList_Get(_arg0,_arg1);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelPropertyClass_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPropertyClassList_Find(_swigobj,_swigarg0)  (_swigobj->Find(_swigarg0))
+static PyObject *_wrap_iCelPropertyClassList_Find(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    int  _result;
+    iCelPropertyClassList * _arg0;
+    iCelPropertyClass * _arg1;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClassList_Find",&_argc0,&_argc1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClassList_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClassList_Find. Expected _iCelPropertyClassList_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_iCelPropertyClass_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClassList_Find. Expected _iCelPropertyClass_p.");
+        return NULL;
+        }
+    }
+    _result = (int )iCelPropertyClassList_Find(_arg0,_arg1);
+    _resultobj = Py_BuildValue("i",_result);
+    return _resultobj;
+}
+
+#define iCelPropertyClassList_FindByName(_swigobj,_swigarg0)  (_swigobj->FindByName(_swigarg0))
+static PyObject *_wrap_iCelPropertyClassList_FindByName(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iCelPropertyClass * _result;
+    iCelPropertyClassList * _arg0;
+    char * _arg1;
+    char * _argc0 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ss:iCelPropertyClassList_FindByName",&_argc0,&_arg1)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClassList_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClassList_FindByName. Expected _iCelPropertyClassList_p.");
+        return NULL;
+        }
+    }
+    _result = (iCelPropertyClass *)iCelPropertyClassList_FindByName(_arg0,_arg1);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iCelPropertyClass_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
+#define iCelPropertyClassList_FindByInterface(_swigobj,_swigarg0,_swigarg1)  (_swigobj->FindByInterface(_swigarg0,_swigarg1))
+static PyObject *_wrap_iCelPropertyClassList_FindByInterface(PyObject *self, PyObject *args) {
+    PyObject * _resultobj;
+    iBase * _result;
+    iCelPropertyClassList * _arg0;
+    scfInterfaceID * _arg1;
+    int  _arg2;
+    char * _argc0 = 0;
+    char * _argc1 = 0;
+    char _ptemp[128];
+
+    self = self;
+    if(!PyArg_ParseTuple(args,"ssi:iCelPropertyClassList_FindByInterface",&_argc0,&_argc1,&_arg2)) 
+        return NULL;
+    if (_argc0) {
+        if (SWIG_GetPtr(_argc0,(void **) &_arg0,"_iCelPropertyClassList_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 1 of iCelPropertyClassList_FindByInterface. Expected _iCelPropertyClassList_p.");
+        return NULL;
+        }
+    }
+    if (_argc1) {
+        if (SWIG_GetPtr(_argc1,(void **) &_arg1,"_scfInterfaceID_p")) {
+            PyErr_SetString(PyExc_TypeError,"Type error in argument 2 of iCelPropertyClassList_FindByInterface. Expected _scfInterfaceID_p.");
+        return NULL;
+        }
+    }
+    _result = (iBase *)iCelPropertyClassList_FindByInterface(_arg0,*_arg1,_arg2);
+    SWIG_MakePtr(_ptemp, (char *) _result,"_iBase_p");
+    _resultobj = Py_BuildValue("s",_ptemp);
+    return _resultobj;
+}
+
 static PyMethodDef blcelcMethods[] = {
+	 { "iCelPropertyClassList_FindByInterface", _wrap_iCelPropertyClassList_FindByInterface, 1 },
+	 { "iCelPropertyClassList_FindByName", _wrap_iCelPropertyClassList_FindByName, 1 },
+	 { "iCelPropertyClassList_Find", _wrap_iCelPropertyClassList_Find, 1 },
+	 { "iCelPropertyClassList_Get", _wrap_iCelPropertyClassList_Get, 1 },
+	 { "iCelPropertyClassList_GetCount", _wrap_iCelPropertyClassList_GetCount, 1 },
+	 { "iCelPropertyClass_SetPropertyVector3", _wrap_iCelPropertyClass_SetPropertyVector3, 1 },
+	 { "iCelPropertyClass_SetPropertyString", _wrap_iCelPropertyClass_SetPropertyString, 1 },
+	 { "iCelPropertyClass_SetPropertyBool", _wrap_iCelPropertyClass_SetPropertyBool, 1 },
+	 { "iCelPropertyClass_SetPropertyFloat", _wrap_iCelPropertyClass_SetPropertyFloat, 1 },
+	 { "iCelPropertyClass_SetPropertyLong", _wrap_iCelPropertyClass_SetPropertyLong, 1 },
+	 { "iCelPropertyClass_PerformAction", _wrap_iCelPropertyClass_PerformAction, 1 },
+	 { "iCelPropertyClass_GetPropertyOrActionDescription", _wrap_iCelPropertyClass_GetPropertyOrActionDescription, 1 },
+	 { "iCelPropertyClass_GetPropertyOrActionID", _wrap_iCelPropertyClass_GetPropertyOrActionID, 1 },
+	 { "iCelPropertyClass_GetPropertyAndActionCount", _wrap_iCelPropertyClass_GetPropertyAndActionCount, 1 },
+	 { "iCelPropertyClass_GetPropertyVector", _wrap_iCelPropertyClass_GetPropertyVector, 1 },
+	 { "iCelPropertyClass_GetPropertyString", _wrap_iCelPropertyClass_GetPropertyString, 1 },
+	 { "iCelPropertyClass_GetPropertyBool", _wrap_iCelPropertyClass_GetPropertyBool, 1 },
+	 { "iCelPropertyClass_GetPropertyFloat", _wrap_iCelPropertyClass_GetPropertyFloat, 1 },
+	 { "iCelPropertyClass_GetPropertyLong", _wrap_iCelPropertyClass_GetPropertyLong, 1 },
+	 { "iCelPropertyClass_IsPropertyReadOnly", _wrap_iCelPropertyClass_IsPropertyReadOnly, 1 },
+	 { "iCelPropertyClass_GetPropertyOrActionType", _wrap_iCelPropertyClass_GetPropertyOrActionType, 1 },
+	 { "iCelPropertyClass_SetEntity", _wrap_iCelPropertyClass_SetEntity, 1 },
+	 { "iCelPropertyClass_GetEntity", _wrap_iCelPropertyClass_GetEntity, 1 },
+	 { "iCelPropertyClass_GetName", _wrap_iCelPropertyClass_GetName, 1 },
+	 { "iCelBehaviour_SendMessageV", _wrap_iCelBehaviour_SendMessageV, 1 },
+	 { "iCelBehaviour_GetBehaviourLayer", _wrap_iCelBehaviour_GetBehaviourLayer, 1 },
+	 { "iCelBehaviour_GetName", _wrap_iCelBehaviour_GetName, 1 },
+	 { "iCelBlLayer_CreateBehaviour", _wrap_iCelBlLayer_CreateBehaviour, 1 },
+	 { "iCelBlLayer_GetName", _wrap_iCelBlLayer_GetName, 1 },
+	 { "iCelEntity_GetPropertyClassList", _wrap_iCelEntity_GetPropertyClassList, 1 },
+	 { "iCelEntity_GetID", _wrap_iCelEntity_GetID, 1 },
+	 { "iCelEntity_GetBehaviour", _wrap_iCelEntity_GetBehaviour, 1 },
+	 { "iCelEntity_SetBehaviour", _wrap_iCelEntity_SetBehaviour, 1 },
 	 { "iCelEntity_SetName", _wrap_iCelEntity_SetName, 1 },
 	 { "iCelEntity_GetName", _wrap_iCelEntity_GetName, 1 },
+	 { "iCelPlLayer_FindBehaviourLayer", _wrap_iCelPlLayer_FindBehaviourLayer, 1 },
+	 { "iCelPlLayer_GetBehaviourLayer", _wrap_iCelPlLayer_GetBehaviourLayer, 1 },
+	 { "iCelPlLayer_GetBehaviourLayerCount", _wrap_iCelPlLayer_GetBehaviourLayerCount, 1 },
+	 { "iCelPlLayer_FetchString", _wrap_iCelPlLayer_FetchString, 1 },
+	 { "iCelPlLayer_CreatePropertyClass", _wrap_iCelPlLayer_CreatePropertyClass, 1 },
 	 { "iCelPlLayer_CreateEntity", _wrap_iCelPlLayer_CreateEntity, 1 },
 	 { "iObjectRegistry_Print", _wrap_iObjectRegistry_Print, 1 },
 	 { "iObjectRegistry_Query_iGraphics3D", _wrap_iObjectRegistry_Query_iGraphics3D, 1 },
@@ -7955,12 +9084,29 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_globals = SWIG_newvarlink();
 	 m = Py_InitModule("blcelc", blcelcMethods);
 	 d = PyModule_GetDict(m);
+	 PyDict_SetItemString(d,"CEL_DATA_NONE", PyInt_FromLong((long) CEL_DATA_NONE));
+	 PyDict_SetItemString(d,"CEL_DATA_BOOL", PyInt_FromLong((long) CEL_DATA_BOOL));
+	 PyDict_SetItemString(d,"CEL_DATA_BYTE", PyInt_FromLong((long) CEL_DATA_BYTE));
+	 PyDict_SetItemString(d,"CEL_DATA_WORD", PyInt_FromLong((long) CEL_DATA_WORD));
+	 PyDict_SetItemString(d,"CEL_DATA_LONG", PyInt_FromLong((long) CEL_DATA_LONG));
+	 PyDict_SetItemString(d,"CEL_DATA_UBYTE", PyInt_FromLong((long) CEL_DATA_UBYTE));
+	 PyDict_SetItemString(d,"CEL_DATA_UWORD", PyInt_FromLong((long) CEL_DATA_UWORD));
+	 PyDict_SetItemString(d,"CEL_DATA_ULONG", PyInt_FromLong((long) CEL_DATA_ULONG));
+	 PyDict_SetItemString(d,"CEL_DATA_FLOAT", PyInt_FromLong((long) CEL_DATA_FLOAT));
+	 PyDict_SetItemString(d,"CEL_DATA_VECTOR3", PyInt_FromLong((long) CEL_DATA_VECTOR3));
+	 PyDict_SetItemString(d,"CEL_DATA_STRING", PyInt_FromLong((long) CEL_DATA_STRING));
+	 PyDict_SetItemString(d,"CEL_DATA_PCLASS", PyInt_FromLong((long) CEL_DATA_PCLASS));
+	 PyDict_SetItemString(d,"CEL_DATA_ENTITY", PyInt_FromLong((long) CEL_DATA_ENTITY));
+	 PyDict_SetItemString(d,"CEL_DATA_BUFFER", PyInt_FromLong((long) CEL_DATA_BUFFER));
+	 PyDict_SetItemString(d,"CEL_DATA_ACTION", PyInt_FromLong((long) CEL_DATA_ACTION));
 /*
  * These are the pointer type-equivalency mappings. 
  * (Used by the SWIG pointer type-checker).
  */
 	 SWIG_RegisterMapping("_signed_long","_long",0);
+	 SWIG_RegisterMapping("_struct_iCelPropertyClassList","_iCelPropertyClassList",0);
 	 SWIG_RegisterMapping("_struct_iFontServer","_iFontServer",0);
+	 SWIG_RegisterMapping("_iCelBehaviour","_struct_iCelBehaviour",0);
 	 SWIG_RegisterMapping("_iMeshObject","_struct_iMeshObject",0);
 	 SWIG_RegisterMapping("_iEngine","_struct_iEngine",0);
 	 SWIG_RegisterMapping("_struct_iSectorList","_iSectorList",0);
@@ -7970,10 +9116,12 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_long","_signed_long",0);
 	 SWIG_RegisterMapping("_csRGBpixel","_struct_csRGBpixel",0);
 	 SWIG_RegisterMapping("_struct_iTextureHandle","_iTextureHandle",0);
+	 SWIG_RegisterMapping("_struct_iCelPropertyClass","_iCelPropertyClass",0);
 	 SWIG_RegisterMapping("_iSCF","_struct_iSCF",0);
 	 SWIG_RegisterMapping("_struct_iEventHandler","_iEventHandler",0);
 	 SWIG_RegisterMapping("_iCamera","_struct_iCamera",0);
 	 SWIG_RegisterMapping("_struct_iMaterialList","_iMaterialList",0);
+	 SWIG_RegisterMapping("_iCelBlLayer","_struct_iCelBlLayer",0);
 	 SWIG_RegisterMapping("_struct_iSector","_iSector",0);
 	 SWIG_RegisterMapping("_struct_csImageArea","_csImageArea",0);
 	 SWIG_RegisterMapping("_struct_iMaterialWrapper","_iMaterialWrapper",0);
@@ -7990,6 +9138,7 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_iGraphics2D","_struct_iGraphics2D",0);
 	 SWIG_RegisterMapping("_iTextureList","_struct_iTextureList",0);
 	 SWIG_RegisterMapping("_struct_iLightMap","_iLightMap",0);
+	 SWIG_RegisterMapping("_struct_iCelBehaviour","_iCelBehaviour",0);
 	 SWIG_RegisterMapping("_csPixelFormat","_struct_csPixelFormat",0);
 	 SWIG_RegisterMapping("_struct_csGraphics3DCaps","_csGraphics3DCaps",0);
 	 SWIG_RegisterMapping("_unsigned_long","_long",0);
@@ -8010,6 +9159,7 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_signed_short","_short",0);
 	 SWIG_RegisterMapping("_iPolygon3D","_struct_iPolygon3D",0);
 	 SWIG_RegisterMapping("_iMeshWrapper","_struct_iMeshWrapper",0);
+	 SWIG_RegisterMapping("_struct_iCelBlLayer","_iCelBlLayer",0);
 	 SWIG_RegisterMapping("_iSectorList","_struct_iSectorList",0);
 	 SWIG_RegisterMapping("_struct_iObjectRegistry","_iObjectRegistry",0);
 	 SWIG_RegisterMapping("_unsigned_int","_int",0);
@@ -8032,12 +9182,22 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_csImageArea","_struct_csImageArea",0);
 	 SWIG_RegisterMapping("_struct_csPixelFormat","_csPixelFormat",0);
 	 SWIG_RegisterMapping("_struct_iGraphics2D","_iGraphics2D",0);
+	 SWIG_RegisterMapping("_iCelPropertyClass","_struct_iCelPropertyClass",0);
 	 SWIG_RegisterMapping("_struct_iMaterialHandle","_iMaterialHandle",0);
 	 SWIG_RegisterMapping("_iMaterialHandle","_struct_iMaterialHandle",0);
 	 SWIG_RegisterMapping("_struct_iGraphics3D","_iGraphics3D",0);
 	 SWIG_RegisterMapping("_iImage","_struct_iImage",0);
+	 SWIG_RegisterMapping("_iCelPropertyClassList","_struct_iCelPropertyClassList",0);
 	 SWIG_RegisterMapping("_iThingState","_struct_iThingState",0);
 	 SWIG_RegisterMapping("_struct_iCameraPosition","_iCameraPosition",0);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelPropertyClassList",SwigiCelPropertyClassListToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iCelPropertyClassList",SwigiCelPropertyClassListToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelPropertyClass",SwigiCelPropertyClassToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iCelPropertyClass",SwigiCelPropertyClassToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelBehaviour",SwigiCelBehaviourToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iCelBehaviour",SwigiCelBehaviourToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelBlLayer",SwigiCelBlLayerToiBase);
+	 SWIG_RegisterMapping("_struct_iBase","_iCelBlLayer",SwigiCelBlLayerToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelEntity",SwigiCelEntityToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_iCelEntity",SwigiCelEntityToiBase);
 	 SWIG_RegisterMapping("_struct_iBase","_struct_iCelPlLayer",SwigiCelPlLayerToiBase);
@@ -8102,6 +9262,14 @@ SWIGEXPORT(void,initblcelc)() {
 	 SWIG_RegisterMapping("_iSector","_struct_iSector",0);
 	 SWIG_RegisterMapping("_iCameraPosition","_struct_iCameraPosition",0);
 	 SWIG_RegisterMapping("_iLightMap","_struct_iLightMap",0);
+	 SWIG_RegisterMapping("_iBase","_struct_iCelPropertyClassList",SwigiCelPropertyClassListToiBase);
+	 SWIG_RegisterMapping("_iBase","_iCelPropertyClassList",SwigiCelPropertyClassListToiBase);
+	 SWIG_RegisterMapping("_iBase","_struct_iCelPropertyClass",SwigiCelPropertyClassToiBase);
+	 SWIG_RegisterMapping("_iBase","_iCelPropertyClass",SwigiCelPropertyClassToiBase);
+	 SWIG_RegisterMapping("_iBase","_struct_iCelBehaviour",SwigiCelBehaviourToiBase);
+	 SWIG_RegisterMapping("_iBase","_iCelBehaviour",SwigiCelBehaviourToiBase);
+	 SWIG_RegisterMapping("_iBase","_struct_iCelBlLayer",SwigiCelBlLayerToiBase);
+	 SWIG_RegisterMapping("_iBase","_iCelBlLayer",SwigiCelBlLayerToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iCelEntity",SwigiCelEntityToiBase);
 	 SWIG_RegisterMapping("_iBase","_iCelEntity",SwigiCelEntityToiBase);
 	 SWIG_RegisterMapping("_iBase","_struct_iCelPlLayer",SwigiCelPlLayerToiBase);
