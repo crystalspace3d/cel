@@ -1,4 +1,6 @@
-11-Jan-2003
+25-Feb-2003
+	- Matze Braun fixed jam install rules
+11-Feb-2003
 	- Release of CEL 0.96r001.
 24-Jan-2003
 	- Eric Sunshine updated Makefile to work correctly with new -makevars
