@@ -98,6 +98,7 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
     poly.use_fog = false;
     poly.mixmode = CS_FX_COPY;
   }
+  poly.mat_handle = material->GetMaterialHandle ();
   poly.vertices[0].Set (x, y);
   poly.vertices[1].Set (x+w, y);
   poly.vertices[2].Set (x+w, y+h);
