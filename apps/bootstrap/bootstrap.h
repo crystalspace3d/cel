@@ -20,6 +20,9 @@
 #define __BOOTSTRAP_H__
 
 #include <stdarg.h>
+#include "behaviourlayer/bl.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
 
 struct iEngine;
 struct iLoader;
@@ -33,9 +36,6 @@ struct iView;
 class csVector3;
 
 struct iPcCamera;
-struct iCelEntity;
-struct iCelPlLayer;
-struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 

@@ -13,17 +13,18 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+    MA 02111-1307, USA.
 */
-#include "cssysdef.h"
 
+#include "cssysdef.h"
+#include "celtest.h"
 #include "csutil/sysfunc.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
 #include "csutil/cscolor.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
-#include "celtest.h"
 #include "csutil/event.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
@@ -60,6 +61,7 @@
 #include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
+#include "celtool/initapp.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -542,7 +544,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 {
   csDebuggingGraph::SetupGraph (object_reg);
 
-  if (!csInitializer::RequestPlugins (object_reg,
+  if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,
 	CS_REQUEST_ENGINE,

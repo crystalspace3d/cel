@@ -1,6 +1,12 @@
 #define __CEL__
 %module blcelc
+
 %include "ivaria/cspace.i"
+
+%ignore csInitializer::RequestPlugins;
+%ignore csInitializer::RequestPluginsV;
+%include "celtool/initapp.h"
+
 %{
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
@@ -687,4 +693,3 @@ enum celDataType
   CEL_DATA_COLOR,
   CEL_DATA_IBASE
 };
-

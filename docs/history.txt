@@ -19,6 +19,23 @@ The history order is reversed so that new features are at the top.
 	  tools -- the one running 'msvcgen' -- rather than to MSVC.)
 	- Eric Sunshine re-generated MSVC project files to take into account
 	  sources/headers recently added to the 'quests' module.
+	- Eric Sunshine added a new celInitializer class to the celtool
+	  library. This class is analogous to csInitializer. It provides the
+	  following facilities:
+	    - SetupCelPluginDirs(): Instructs SCF to also scan the CEL plugin
+	      directory or directories. It consults the CEL environment
+	      variable and the CEL_PLUGIN_DIR compile-time constant (if
+	      present).
+	    - RequestPlugins(...), RequestPlugins(csArray<csPluginRequest>),
+	      and RequestPluginsV(va_list): These are convenience wrappers
+	      around the corresponding csInitializer methods. They invoke
+	      SetupCelPluginDirs(), if necessary, before calling the wrapped
+	      methods.
+	- Eric Sunshine augmented the applications `bootstrap' and 'celtst' so
+	  that they invoke celInitializer::RequestPlugins() rather than
+	  csInitializer::RequestPlugins(). This allows them to work correctly
+	  even when CEL has been installed. (Previously, they worked only when
+	  run from the development/build directory.)
 3-Dec-2004
 	- Jorrit did more work on the quest manager:
 	    - Completed implementation of the 'entersector' quest
