@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgpfdynmove/plgpfdynmove.pdb"
-				ImportLibrary=".\debug\temp\plgpfdynmove/plgpfdynmove.lib"/>
+				ImportLibrary=".\debug\temp\plgpfdynmove/plgpfdynmove.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgpfdynmove/plgpfdynmove.pdb"
-				ImportLibrary=".\release\temp\plgpfdynmove/plgpfdynmove.lib"/>
+				ImportLibrary=".\release\temp\plgpfdynmove/plgpfdynmove.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

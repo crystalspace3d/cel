@@ -46,7 +46,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\debug\temp\plgpfinv/plgpfinv.pdb"
-				ImportLibrary=".\debug\temp\plgpfinv/plgpfinv.lib"/>
+				ImportLibrary=".\debug\temp\plgpfinv/plgpfinv.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -108,7 +109,8 @@ copy &quot;$(TargetPath)&quot;  ..
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				ProgramDatabaseFile=".\release\temp\plgpfinv/plgpfinv.pdb"
-				ImportLibrary=".\release\temp\plgpfinv/plgpfinv.lib"/>
+				ImportLibrary=".\release\temp\plgpfinv/plgpfinv.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
