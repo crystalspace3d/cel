@@ -84,13 +84,13 @@ fi
 
 if test "$no_cel" = "no"; then
     AC_MSG_RESULT($CEL_VERSION)
-    ifelse([$2], , :, [$2])
+    ifelse([$2], [], [:], [$2])
 else
     CEL_CFLAGS=""
     CEL_VERSION=""
     CEL_LIBS=""
     CEL_AVAILABLE="no"
-    ifelse([$3], , :, [$3])
+    ifelse([$3], [], [:], [$3])
 fi
 
 ])
@@ -114,7 +114,7 @@ dnl Test for cel and sets CEL_VERSION, CEL_CFLAGS, CEL_LIBS and CEL_AVAILABLE
 dnl variables (this version uses CS_SUBST for the results)
 AC_DEFUN([CS_PATH_CEL], [
 
-CS_PATH_CEL_HELPER($1,$2,$3)
+CS_PATH_CEL_HELPER([$1],[$2],[$3])
 
 CS_JAMCONFIG_PROPERTY([CEL_CFLAGS], [$CEL_CFLAGS])
 CS_JAMCONFIG_PROPERTY([CEL_LIBS], [$CEL_LINS])

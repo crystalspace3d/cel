@@ -40,14 +40,24 @@ actions CelConfigGen
 
 prefix="$(INSTALLDIR.PREFIX)"
 exec_prefix="\${prefix}"
-version="$(PACKAGE.VERSION)"
+version="$(PACKAGE_VERSION)"
+
 # test for release/source directory
 if test -e "\${CEL}/include/physicallayer/pl.h"; then
   includedir="\${CEL}/include"
 else
+  includedir="\${CEL}/include"
   includedir="$(INSTALLDIR.INCLUDE)"
 fi
-plugindir="$(INSTALLDIR.PLUGIN)"
+
+
+if test "x $(INSTALLDIR.PLUGIN) " = "x  "; then
+  plugindir="\${CEL}"
+else
+  plugindir="\${CEL}"
+  plugindir="$(INSTALLDIR.PLUGIN)"
+fi
+
 cflags="-I\${includedir}"
 libs="celtool"
 __END__
