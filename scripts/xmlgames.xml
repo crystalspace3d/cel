@@ -1183,17 +1183,17 @@
 	      - and set the hero start location (?hero_start_x and ?hero_start_y).
 	      -->
 	    <event name="initblock">
+	        <var name="entname" value="?x+'_'+?y" />
 	    	<if eval="?blocktype == 'H'">
 		    <var name="hero_start_x" value="?x" />
 		    <var name="hero_start_y" value="?y" />
 		    <createentity name="hero" behaviour="bdash_hero" />
 		    <inventory propclass="pc(pcinventory)" />
 		    <inventory_add child="hero" />
-		    <var name="mazeent+?x+'_'+?y" value="ent(hero)" />
+		    <var name="mazeent+?entname" value="ent(hero)" />
 		    <stop />
 		</if>
 	    	<if eval="?blocktype != ' '">
-	            <var name="entname" value="?x+'_'+?y" />
 		    <createentity name="?entname" behaviour="?(behaviour_+?blocktype)" />
 		    <var name="ent" value="ent(?entname)" />
 		    <var name="mazeent+?entname" value="?ent" />
@@ -1201,7 +1201,7 @@
 		    <inventory_add child="?ent" />
 		    <stop />
 	    	</if>
-		<var name="mazeent+?x+'_'+?y" value="''" />
+		<var name="mazeent+?entname" value="''" />
 	    </event>
 
 	    <!--
