@@ -13,10 +13,10 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
-
 #include "cssysdef.h"
+
 #include "cssys/sysfunc.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
@@ -59,6 +59,7 @@
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/debug.h"
+#include "cssys/csshlib.h"
 
 #include "pl/pl.h"
 #include "pl/propfact.h"
@@ -302,7 +303,7 @@ iCelEntity* CelTest::CreateBoxEntity (const char* name, const char* factName,
   if (!pc) return NULL;
   pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   char buf[150];
-  sprintf (buf, "/this/celtest/data/%s", factName);
+  sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
   pcmesh->DecRef ();
@@ -385,7 +386,7 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   if (!pc) return NULL;
   pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   char buf[150];
-  sprintf (buf, "/this/celtest/data/%s", factName);
+  sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
   pcmesh->DecRef ();
@@ -432,7 +433,7 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
 
   pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
   char buf[150];
-  sprintf (buf, "/this/celtest/data/large");
+  sprintf (buf, "/cel/data/large");
   pcmesh->SetMesh ("large", buf);
   pcmesh->MoveMesh (room, csVector3(0,0,0));
   pcmesh->DecRef ();
@@ -494,7 +495,7 @@ bool CelTest::CreateRoom ()
   if (!pc) return false;
   pcregion = SCF_QUERY_INTERFACE_FAST (pc, iPcRegion);
 #if MINIMAL
-  pcregion->SetWorldFile ("/this/celtest/data", "world");
+  pcregion->SetWorldFile ("/cel/data", "world");
   pcregion->SetRegionName ("minimal");
 #else
   pcregion->SetWorldFile ("/lev/partsys", "world");
@@ -777,6 +778,16 @@ bool CelTest::Initialize (int argc, const char* const argv[])
     return false;
   }
   pl->RegisterBehaviourLayer (bltest);
+  iVFS* vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  CS_ASSERT (vfs != NULL);
+#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
+  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/celtest$/");
+#else // VFS_PKGDATADIR
+  vfs->Mount ("cel", "$.$/");
+  vfs->Mount ("cel", "$.$/celtest$/");
+#endif // VFS_PKGDATADIR
+  vfs->DecRef ();
+  
   blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
   	"iCelBlLayer.Python", iCelBlLayer);
   if (!blpython)
@@ -843,6 +854,23 @@ void CelTest::Start ()
  *---------------------------------------------------------------------*/
 int main (int argc, char* argv[])
 {
+#ifdef LIBDIR
+  csAddLibraryPath(LIBDIR);
+  csAddLibraryPath("../blpython/.libs/");
+  csAddLibraryPath("../bltest/.libs/");
+  csAddLibraryPath("../celtest/.libs/");
+  csAddLibraryPath("../persist/classic/.libs/");
+  csAddLibraryPath("../pf/common/.libs/");
+  csAddLibraryPath("../pf/engine/.libs/");
+  csAddLibraryPath("../pf/input/.libs/");
+  csAddLibraryPath("../pf/inv/.libs/");
+  csAddLibraryPath("../pf/mesh/.libs/");
+  csAddLibraryPath("../pf/move/.libs/");
+  csAddLibraryPath("../pf/test/.libs/");
+  csAddLibraryPath("../pf/tools/.libs/");
+  csAddLibraryPath("../plimp/.libs/");
+#endif // LIBDIR
+  
   celtest = new CelTest ();
 
   if (celtest->Initialize (argc, argv))
