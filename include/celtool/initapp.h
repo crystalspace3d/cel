@@ -33,7 +33,7 @@
 /**
  * This class contains static member functions which can help set up an
  * application to use the Crystal Entity Layer. It is possible to do all the
- * setup on your own but using the functions below will considerably simplify
+ * setup on your own but using these utility methods will considerably simplify
  * the task.
  */
 class celInitializer : public csInitializer
@@ -46,7 +46,7 @@ protected:
 
 public:
   /**
-   * Instructs SCF to also scan the CEL plugin directory or directories This
+   * Instructs SCF to also scan the CEL plugin directory or directories. This
    * method is invoked automatically by celInitializer::RequestPlugins(), so
    * you do not normally need to call it. You may, however, want to call it
    * if you do not utilize celInitializer::RequestPlugins(). If you do call it
