@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 
 // define this to track save/loading problems
-#define PERSIST_DEBUG
+// #define PERSIST_DEBUG
 
 CS_IMPLEMENT_PLUGIN
 
