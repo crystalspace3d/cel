@@ -19,8 +19,8 @@
 
 #include <math.h>
 #include "cssysdef.h"
-#include "pf/mesh.h"
-#include "pf/solid.h"
+#include "propclass/mesh.h"
+#include "propclass/solid.h"
 #include "plugins/propclass/engine/engfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"

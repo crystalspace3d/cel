@@ -29,8 +29,8 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/camera.h"
-#include "pf/region.h"
+#include "propclass/camera.h"
+#include "propclass/region.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

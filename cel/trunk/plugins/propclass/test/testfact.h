@@ -27,7 +27,7 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/test.h"
+#include "propclass/test.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

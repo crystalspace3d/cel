@@ -29,8 +29,8 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/inv.h"
-#include "pf/chars.h"
+#include "propclass/inv.h"
+#include "propclass/chars.h"
 
 struct iCelEntity;
 struct iObjectRegistry;

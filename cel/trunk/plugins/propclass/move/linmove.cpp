@@ -53,7 +53,7 @@
 #include "pl/entity.h"
 #include "pl/persist.h"
 #include "bl/behave.h"
-#include "pf/camera.h"
+#include "propclass/camera.h"
 
 #include "plugins/propclass/move/linmove.h"
 

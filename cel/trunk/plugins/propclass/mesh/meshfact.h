@@ -28,8 +28,8 @@
 #include "pl/propfact.h"
 #include "pl/facttmpl.h"
 #include "plugins/propclass/common/stdpcimp.h"
-#include "pf/mesh.h"
-#include "pf/meshsel.h"
+#include "propclass/mesh.h"
+#include "propclass/meshsel.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
