@@ -115,6 +115,4 @@ public:
   static bool RequestPlugins(iObjectRegistry*,csArray<csPluginRequest> const&);
 };
 
-/** @} */
-
 #endif // __CELTOOL_INITAPP_H__
