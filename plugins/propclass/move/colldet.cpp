@@ -45,6 +45,7 @@
 #include <ivaria/collider.h>
 
 #include <imesh/thing.h>
+#include <imesh/terrain.h>
 #include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
 #include <igeom/objmodel.h>
@@ -470,6 +471,26 @@ iCollider* celPcCollisionDetection::FindCollider (iObject* object)
   return 0;
 }
 
+#if 0
+struct terr
+{
+  csWeakRef<iTerrainObjectState> terrain;
+  iMovable* movable;
+};
+
+SCF_VERSION (celTerrainInfo, 0, 0, 1);
+struct celTerrainInfo : public csObject
+{
+  // There is a weak ref so we have to use csSafeCopyArray.
+  csSafeCopyArray<terr> terrains;
+  SCF_DECLARE_IBASE_EXT (csObject);
+};
+
+SCF_IMPLEMENT_IBASE_EXT (celTerrainInfo)
+  SCF_IMPLEMENTS_INTERFACE (celTerrainInfo)
+SCF_IMPLEMENT_IBASE_EXT_END
+#endif
+
 /*
  * Iterates over the nearby meshes to find collisions
  */
@@ -479,6 +500,33 @@ int celPcCollisionDetection::CollisionDetect (
 	csReversibleTransform* transform,
 	csReversibleTransform* old_transform)
 {
+#if 0
+  // First we check if we find a 'celTerrainInfo' in this sector.
+  // This structure is used to quickly find available terrains.
+  csRef<celTerrainInfo> ti = CS_GET_CHILD_OBJECT (sector, celTerrainInfo);
+  if (!ti)
+  {
+    ti = csPtr<celTerrainInfo> (new celTerrainInfo ());
+    iMeshList* ml = sector->GetMeshes ();
+    int i;
+    for (i = 0 ; i < ml->GetCount () ; i++)
+    {
+      iMeshWrapper* m = ml->Get (i);
+      csRef<iTerrainObjectState> ts = SCF_QUERY_INTERFACE (m->GetMeshObject (),
+      	iTerrainObjectState);
+      if (ts)
+      {
+        terr t;
+	t.terrain = ts;
+	t.movable = m->GetMovable ();
+	ti->terrains.Push (t);
+      }
+    }
+    sector->QueryObject ()->ObjAdd ((csObject*)ti);
+  }
+#endif
+
+
   int hits = 0;
   int j;
   // This never changes during this function, calculate it early
