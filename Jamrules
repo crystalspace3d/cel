@@ -15,6 +15,9 @@ if ! $(JAMCONFIG_READ)
 C++FLAGS += "$(CRYSTAL.CFLAGS)" ;
 LINKLIBS += "$(CRYSTAL.LFLAGS)" ;
 
+# we don't link statically
+NO_STATIC_LINKING = yes ;
+
 include $(TOP)/mk/jam/build.jam ;
 
 IncludeDir $(TOP) $(TOP)/include ;
