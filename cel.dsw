@@ -75,6 +75,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "pftools"=.\msvc\pftools.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "plimp"=.\msvc\plimp.dsp - Package Owner=<4>
 
 Package=<5>

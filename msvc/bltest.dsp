@@ -58,7 +58,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 TargetPath=.\release\temp\bltest\bltest.dll
 SOURCE="$(InputPath)"
-PostBuild_Cmds=echo Moving output to CS root.	copy $(TargetPath)  ..
+PostBuild_Cmds=echo Moving output to CEL root.	copy $(TargetPath)  ..
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "bltest - Win32 Debug"
