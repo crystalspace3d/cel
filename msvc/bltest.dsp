@@ -122,5 +122,13 @@ SOURCE=..\bltest\behave.cpp
 SOURCE=..\bltest\bl.cpp
 # End Source File
 # End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\bltest.rc
+# End Source File
+# End Group
 # End Target
 # End Project
