@@ -402,7 +402,7 @@ bool celPcLinearMovement::MoveSprite (float delta)
     if (MoveV (delta))
       rc = true;
   }
-  if(IsOnGround() && vel != targVel)
+  if (IsOnGround() && vel != targVel)
   {
 	  vel.x = targVel.x;
 	  vel.z = targVel.z;
@@ -435,7 +435,7 @@ bool celPcLinearMovement::MoveV (float delta)
   // Check for collisions and adjust position
   if (pccolldet)
   {
-    pccolldet->AdjustForCollisions(oldpos,newpos,vel,delta,movable);
+    pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable);
   }
 
   // move to the new position
@@ -591,8 +591,9 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
     pc = pl->CreatePropertyClass(entity, "pccollisiondetection");
     if ( !pc )
     {
-        MoveReport (object_reg, "Could not create property class pccollisiondetection.");
-        return false;
+      MoveReport (object_reg,
+		"Could not create property class pccollisiondetection.");
+      return false;
     }
     csRef<iPcCollisionDetection> pctemp;
     pctemp = SCF_QUERY_INTERFACE(pc, iPcCollisionDetection);
@@ -604,7 +605,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
     pccolldet = pc_cd;
   }
 
-  return pccolldet->Init(topSize,bottomSize,shift);
+  return pccolldet->Init (topSize, bottomSize, shift);
 }
 
 bool celPcLinearMovement::IsOnGround () const
@@ -660,7 +661,8 @@ iSector* celPcLinearMovement::GetSector ()
 #define MAX_NONCHEAT_SPEED  7.07f
 #define SPEED_FUDGE_FACTOR  .5f
 
-bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStringHash* msgstrings)
+bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat,
+	csStringHash* msgstrings)
 {
   if (data->GetSize () <= sizeof (float) * 8)
   {
@@ -675,7 +677,7 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStrin
     return SetPathDRData (data);
   else
     if (pccolldet)
-      pccolldet->SetOnGround(*ptr++);
+      pccolldet->SetOnGround (*ptr++);
     else
       ptr++;
 
@@ -963,7 +965,8 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData (csStringHash* msgstrings)
   	->Get (0)->QueryObject ()->GetName ();
   csStringID sectorNameStrId = msgstrings ?
       msgstrings->Request(sectorName) : csInvalidStringID;
-  int sectorNameLen = (sectorNameStrId == csInvalidStringID) ? strlen (sectorName) : 0;
+  int sectorNameLen = (sectorNameStrId == csInvalidStringID)
+  	? strlen (sectorName) : 0;
   // It should be (sectorNameLen + 1), but for some reason crashes occur
   // if smaller than (sectorNameLen + 4).
   int bufLen = (sizeof (float) * 8) + sizeof(csStringID)
@@ -974,7 +977,7 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData (csStringHash* msgstrings)
     pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
 
   char *ptr = (char *) databuf->GetData ();
-  *ptr++ = (pccolldet)?pccolldet->IsOnGround():0;
+  *ptr++ = (pccolldet) ? pccolldet->IsOnGround() : 0;
 
   float* tptr = (float*)ptr;
 
@@ -1036,9 +1039,9 @@ csPtr<iDataBuffer> celPcLinearMovement::GetDRData (csStringHash* msgstrings)
   // Send sector name.
   if (sectorNameStrId == csInvalidStringID)
   {
-      char* dest = anum;
-      strncpy (dest, sectorName, sectorNameLen);
-      dest[sectorNameLen]=0;
+    char* dest = anum;
+    strncpy (dest, sectorName, sectorNameLen);
+    dest[sectorNameLen]=0;
   }
 
   // Save informations for DR.
