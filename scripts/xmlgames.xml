@@ -150,10 +150,13 @@
 	      - ?prev_dxdy to do that.
 	      -->
 	    <event name="fast_shuffle">
+	    	<!-- Try one of the four possible directions -->
 	        <var name="dxdy" value="int(rand(4.0))" />
+		<!-- If the direction is the opposite of the previous direction we change it -->
 		<var name="dxdy"
-		    value="if(?prev_dxdy==(?dxdy^1),(?dxdy^1),?dxdy)" />
+		    value="if(?prev_dxdy==(?dxdy^1),(?dxdy+1)%4,?dxdy)" />
 		<var name="prev_dxdy" value="?dxdy" />
+		<!-- Set ?dx and ?dy based on the four possible outcomes -->
 		<if eval="?dxdy&2">
 		    <true>
 		        <var name="dx" value="0" />
@@ -164,8 +167,10 @@
 		        <var name="dy" value="0" />
 		    </false>
 		</if>
+		<!-- Location of the tile we want to move -->
 		<var name="bx" value="?emptyx+?dx" />
 		<var name="by" value="?emptyy+?dy" />
+		<!-- Check if this is a valid location. If so we move it -->
 		<if eval="?bx < 4 && ?bx >= 0 && ?by < 4 && ?by >= 0">
 		    <true>
 		        <var name="ent" value="?('grid'+?bx+'_'+?by)" />
