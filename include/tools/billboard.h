@@ -33,6 +33,8 @@ SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
 /**
  * An event on some billboard (like being selected
  * or something).
+ * Note that all coordinates in this interface are given in billboard
+ * coordinates (see iBillboard for more information about what this means).
  */
 struct iBillboardEventHandler : public iBase
 {

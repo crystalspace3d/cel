@@ -134,14 +134,13 @@ private:
   float z_min;
   float z_max;
 
-  int screen_w_fact;
-  int screen_h_fact;
-
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
 public:
   csRef<iEngine> engine;
 
+  int screen_w_fact;
+  int screen_h_fact;
   void ScreenToBillboardSpace (int& x, int& y)
   {
     x *= screen_w_fact;

@@ -74,22 +74,6 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
   }
 }
 
-void celBillboard::GetSize (int& w, int& h)
-{
-  if (w == -1) SetupMaterial ();
-  w = celBillboard::w;
-  h = celBillboard::h;
-  mgr->ScreenToBillboardSpace (w, h);
-}
-
-void celBillboard::GetImageSize (int& w, int& h)
-{
-  if (image_w == -1) SetupMaterial ();
-  w = celBillboard::image_w;
-  h = celBillboard::image_h;
-  mgr->ScreenToBillboardSpace (w, h);
-}
-
 bool celBillboard::GetFromClickMap (int tx, int ty)
 {
   if (!has_clickmap)
@@ -128,8 +112,11 @@ void celBillboard::SetupMaterial ()
 
   if (w == -1)
   {
-    w = image_w;
-    h = image_h;
+    if (image_w != -1)
+    {
+      w = image_w * 1600 / mgr->screen_w_fact;
+      h = image_h * 1280 / mgr->screen_h_fact;
+    }
   }
 
   if (!has_clickmap)
@@ -193,9 +180,28 @@ bool celBillboard::SetMaterialName (const char* matname)
   return true;
 }
 
+void celBillboard::GetSize (int& w, int& h)
+{
+  if (celBillboard::w == -1) SetupMaterial ();
+  w = celBillboard::w;
+  h = celBillboard::h;
+  mgr->ScreenToBillboardSpace (w, h);
+}
+
+void celBillboard::GetImageSize (int& w, int& h)
+{
+  if (image_w == -1) SetupMaterial ();
+  w = celBillboard::image_w;
+  h = celBillboard::image_h;
+  mgr->ScreenToBillboardSpace (w, h);
+  w = w * 1600 / mgr->screen_w_fact;
+  h = h * 1280 / mgr->screen_h_fact;
+}
+
 void celBillboard::SetSize (int w, int h)
 {
   mgr->BillboardToScreenspace (w, h);
+printf ("    screen w=%d h=%d\n", w, h); fflush (stdout);
   celBillboard::w = w;
   celBillboard::h = h;
 }

@@ -26,6 +26,8 @@ The history order is reversed so that new features are at the top.
 	  can make 2D applications that are fully resolution independent.
 	  The values above where chosen because they are divisible by
 	  most common screen resolutions so that no fraction is required.
+	- Jorrit did some additional corrections to the resolution independent
+	  billboard manager.
 26-Nov-2003
 	- Daniel added first draft of CEL documentation.  Any feedback welcome.
 	- Jorrit added first primitive version of TestCollision() function
