@@ -4,6 +4,7 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 22-Dec-2003
+	- Daniel added comments to iCelEntity and iCelEntityList.
 	- Jorrit added the 'super' keyword to the XML behaviour
 	  layer. With this keyword you can call the routine of the
 	  same name in the superscript.
