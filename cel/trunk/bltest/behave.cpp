@@ -271,55 +271,58 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
   if (!strcmp (msg_id, "+forward"))
   {
     pcgravity->ApplyForce(csVector3(0,0,-1*speed), 10000);
-  } else
-  if (!strcmp (msg_id, "-forward"))
+  }
+  else if (!strcmp (msg_id, "-forward"))
   {
     pcgravity->ClearForces();
-  } else
-  if (!strcmp (msg_id, "+backward"))
+  }
+  else if (!strcmp (msg_id, "+backward"))
   {
     pcgravity->ApplyForce(csVector3(0,0,1*speed), 100000);
-  } else
-  if (!strcmp (msg_id, "-backward"))
+  }
+  else if (!strcmp (msg_id, "-backward"))
   {
     pcgravity->ClearForces();
-  } else
-  if (!strcmp (msg_id, "+strafeleft"))
+  }
+  else if (!strcmp (msg_id, "+strafeleft"))
   {
     pcgravity->ApplyForce(csVector3(-1*speed,0,0), 100000);
-  } else
-  if (!strcmp (msg_id, "-strafeleft"))
+  }
+  else if (!strcmp (msg_id, "-strafeleft"))
   {
     pcgravity->ClearForces();
-  } else
-  if (!strcmp (msg_id, "+straferight"))
+  }
+  else if (!strcmp (msg_id, "+straferight"))
   {
     pcgravity->ApplyForce(csVector3(1*speed,0,0), 100000);
-  } else
-  if (!strcmp (msg_id, "-straferight"))
+  }
+  else if (!strcmp (msg_id, "-straferight"))
   {
     pcgravity->ClearForces();
-  } else
-  if (!strcmp (msg_id, "+run"))
+  }
+  else if (!strcmp (msg_id, "+run"))
   {
     speed=2.5;
-  } else
-  if (!strcmp (msg_id, "-run"))
+  }
+  else if (!strcmp (msg_id, "-run"))
   {
     speed=1;
-  } else
-  if (!strcmp (msg_id, "+cammode"))
+  }
+  else if (!strcmp (msg_id, "+cammode"))
   {
     fpscam = fpscam ? 0 : 1;
     iPcCamera* pccam;
     pccam = CEL_QUERY_PROPCLASS(entity->GetPropertyClassList(), iPcCamera);
     if (!pccam)
+    {
+      pcgravity->DecRef ();
       return false;
-       
+    }
+
     if (fpscam)
     {
       printf ("Switching to 3rd person view!\n");
-      pccam->SetMode (iPcCamera::follow, true);	
+      pccam->SetMode (iPcCamera::follow, true);
     }
     else
     {
@@ -327,7 +330,9 @@ bool celBehaviourActor::SendMessageV (const char* msg_id, iBase* msg_info,
       pccam->SetMode (iPcCamera::freelook, false);
     }
   }
-  
+
+  pcgravity->DecRef ();
+
   return bhroom->SendMessageV (msg_id, msg_info, arg);
 }
 

@@ -329,7 +329,7 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
   pcchars->DecRef ();
- 
+
   pc = pl->CreatePropertyClass (entity_dummy, "pcsolid");
   if (!pc) return NULL;
   pc = pl->CreatePropertyClass (entity_dummy, "pcgravity");
@@ -361,7 +361,7 @@ iCelEntity* CelTest::CreateDummyEntity (const char* name,
 }
 
 iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
-    const csVector3& /*pos*/) 
+    const csVector3& /*pos*/)
 {
   iCelPropertyClass* pc;
   iPcMesh* pcmesh;
@@ -371,8 +371,8 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   iPcMovableConstraint* pcmovableconst;
   iPcGravity* pcgravity;
 
-  // The Real Camera 
-  
+  // The Real Camera
+
   iCelEntity* entity_cam = pl->CreateEntity ();
   entity_cam->SetName (name);
   entity_cam->SetBehaviour (bl->CreateBehaviour (entity_cam, "actor"));
@@ -383,10 +383,10 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   if (!pcinp) return NULL;
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
-  pcinp->Bind ("shift", "run");  
+  pcinp->Bind ("shift", "run");
   pcinp->Bind ("m", "cammode");
   pcinp->DecRef();
-  
+
   pc = pl->CreatePropertyClass (entity_cam, "pccamera");
   if (!pc) return NULL;
   pccamera = SCF_QUERY_INTERFACE_FAST (pc, iPcCamera);
@@ -407,6 +407,7 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   if (!pc) return NULL;
   pcgravity = SCF_QUERY_INTERFACE_FAST (pc, iPcGravity);
   pcgravity->SetWeight (.3);
+  pcgravity->DecRef ();
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
   if (!pc) return NULL;
   pcmovable = SCF_QUERY_INTERFACE_FAST (pc, iPcMovable);
@@ -416,7 +417,7 @@ iCelEntity* CelTest::CreateActor (const char* name, const char* /*factname*/,
   pcmovable->AddConstraint (pcmovableconst);
   pcmovableconst->DecRef ();
   pcmovable->DecRef ();
-			      
+
   pc = pl->CreatePropertyClass (entity_cam, "pctooltip");
   if (!pc) return NULL;
 
@@ -445,7 +446,7 @@ bool CelTest::CreateRoom ()
   iCelPropertyClass* pc;
   iPcInventory* pcinv_room;
   iPcRegion* pcregion;
-  
+
   //===============================
   // Create the room entity.
   //===============================
@@ -464,9 +465,6 @@ bool CelTest::CreateRoom ()
 #endif
   pcregion->Load ();
   room = pcregion->GetStartSector ();
-
-  pc = pl->CreatePropertyClass (entity_room, "pctooltip");
-  if (!pc) return false;
 
   pc = pl->CreatePropertyClass (entity_room, "pcinventory");
   if (!pc) return false;
@@ -602,7 +600,7 @@ bool CelTest::LoadPcFactory (const char* pcfactname)
 	    "CEL '%s' plugin missing!", pcfactname);
     return false;
   }
-	 
+
   pf->DecRef ();
   return true;
 }
