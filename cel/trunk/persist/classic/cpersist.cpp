@@ -277,7 +277,7 @@ bool celPersistClassicContext::CheckMarker (const char* comp)
 #ifdef PERSIST_DEBUG
 #define READDEBUG(x)  { if (!CheckMarker(x)) {			    \
   Report ("Expected marker: %s, got something else!\n",x);	    \
-  CS_ASSERT(false)						    \
+  CS_ASSERT(false);						    \
   return false;							    \
   }								    \
 }
