@@ -24,8 +24,7 @@
 // can be quite costly to recurse over the entire tree.
 #define CEL_PLUGIN_SCAN_RECURSE false
 
-void celInitializer::setup_plugin_dirs(iObjectRegistry* reg,
-  char const* detected_dir)
+void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
 {
   static bool done = false;
   if (!done)
@@ -41,8 +40,8 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* reg,
       cel_paths.AddOnce(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
     }
 
-    if (detected_dir != 0)
-      cel_paths.AddOnce(detected_dir, CEL_PLUGIN_SCAN_RECURSE, "cel");
+    if (dir0 != 0)
+      cel_paths.AddOnce(dir0, CEL_PLUGIN_SCAN_RECURSE, "cel");
 
     scfInitialize(&cel_paths);
     done = true;
@@ -60,7 +59,6 @@ bool celInitializer::RequestPlugins(iObjectRegistry* r, ...)
 
 bool celInitializer::RequestPluginsV(iObjectRegistry* r, va_list args)
 {
-  SetupConfigManager(r, 0);
   SetupCelPluginDirs(r);
   return superclass::RequestPluginsV(r, args);
 }
@@ -68,7 +66,6 @@ bool celInitializer::RequestPluginsV(iObjectRegistry* r, va_list args)
 bool celInitializer::RequestPlugins(iObjectRegistry* r,
   csArray<csPluginRequest> const& a)
 {
-  SetupConfigManager(r, 0);
   SetupCelPluginDirs(r);
   return superclass::RequestPlugins(r, a);
 }
