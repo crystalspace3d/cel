@@ -373,6 +373,10 @@ bool celPcTimer::HandleEvent (iEvent& ev)
 {
   if (ev.Type == csevBroadcast && ev.Command.Code == cscmdPreProcess)
   {
+    // To prevent the entity from being deleted during
+    // the call of pctimer_wakeupframe we keep a temporary reference
+    // here.
+    csRef<iCelEntity> ref = entity;
     if (wakeupframe)
     {
       iCelBehaviour* bh = entity->GetBehaviour ();
