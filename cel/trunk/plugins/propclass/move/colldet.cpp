@@ -212,7 +212,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     mat = rt.GetT2O ();
 
     csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
-            oldpos);
+      oldpos);
 
     // Part1: find body collisions => movement
     // Find possible colliding sectors.
@@ -225,7 +225,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     cdsys->ResetCollisionPairs ();
 
     hits += CollisionDetect (topCollider, current_sector,
-            &transform_newpos, &transform_oldpos);
+      &transform_newpos, &transform_oldpos);
 
     for (i = 0; i < num_our_cd; i++ )
     {
@@ -240,9 +240,9 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       {
         // Hit above head?
         if (ABS(newpos.y - MAX(line[0].y,line[1].y)) >
-            topSize.y + bottomSize.y)
+          topSize.y + bottomSize.y)
           // Ouch!
-        vel.y = 0;
+          vel.y = 0;
       }
 
       localvel = -(localvel % vec) % vec;
@@ -259,7 +259,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     cdsys->ResetCollisionPairs ();	
 
     hits += CollisionDetect (bottomCollider, current_sector,
-            &transform_newpos, &transform_oldpos);
+      &transform_newpos, &transform_oldpos);
 
     // Falling unless proven otherwise
     onground = false;
@@ -282,7 +282,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       cdsys->ResetCollisionPairs ();	
 
       hits += CollisionDetect (bottomCollider, current_sector,
-                &transform_newpos, &transform_oldpos);
+        &transform_newpos, &transform_oldpos);
     }
 
     if (hits > 0)
@@ -305,11 +305,14 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
         if (FindIntersection (cd,line))
           max_y = MAX(MAX(line[0].y, line[1].y),max_y);
       }
-      if (onground && max_y <= newpos.y + bottomSize.y && max_y != -1e9)
-        newpos.y = max_y - 0.01f;
+      if (onground)
+      {
+        if (max_y <= newpos.y + bottomSize.y && max_y != -1e9)
+          newpos.y = max_y - 0.01f;
 
-      if (vel.y < 0 )
-        vel.y = 0;
+        if (vel.y < 0 )
+          vel.y = 0;
+      }
     }
 
     if (!onground)
@@ -326,15 +329,15 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       // gravity! move down!
       vel.y  -= 19.6 * delta;
       /*
-       * Terminal velocity
-       *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-       *   / 3.28 feet/meter = 53.65 m/s
-       */
+      * Terminal velocity
+      *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+      *   / 3.28 feet/meter = 53.65 m/s
+      */
       if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
         vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
     }
 
-        
+
     if ((newpos - oldpos).IsZero(0.0001f))
     {
       // No movement
@@ -349,7 +352,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
     if (CollisionDetect (topCollider, current_sector,
-          &transform_newpos,&transform_oldpos) > 0)
+      &transform_newpos,&transform_oldpos) > 0)
     {
       // No move possible without a collision
       newpos = oldpos;
@@ -369,11 +372,11 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
       newpos.y += height5;
 
       transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
-              + csVector3 (0, height5, 0));
+        + csVector3 (0, height5, 0));
       bool mirror = false;
 
       new_sector = new_sector->FollowSegment (transform_oldpos,
-                newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+        newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
       newpos.y -= height5;
       if (new_sector != old_sector)
         movable->SetSector (new_sector);

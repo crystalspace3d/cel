@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+26-Oct-2004
+	- Fixed a bug with slopes in which you would always slide down
+	  slopes slowly even though onground == false at that time, this
+	  was inconsistent behaviour.
 21-Oct-2004
         - Philip Wyett eliminated garray.h deprecation warnings.
 17-Oct-2004
