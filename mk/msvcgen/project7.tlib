@@ -29,7 +29,7 @@
   load(respfile, 'doc');
   FOREACH f IN my.doc.customize; PROCESS $f | null; END;
 
-  files = filter(my.doc.file).split('\|').sort;
+  files = striproots(filter(my.doc.file).split('\|')).split('\|').sort;
 END -%]
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
@@ -66,7 +66,8 @@ END -%]
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
-				CompileAs="0"/>
+				CompileAs="0"
+				TreatWChar_tAsBuiltInType="TRUE"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool

@@ -3,6 +3,13 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+9-Mar-2005
+	- Eric Sunshine updated Autoconf, Jam, and msvcgen files from master
+	  copies in CS repository.
+	- Eric Sunshine fixed problem with yesterday's Python/SWIG-related
+	  change where the configure script unconditionally requested the
+	  `cspycommon' library from CS_PATH_CRYSTAL_JAM() even if Python was
+	  not detected or was explicitly disabled.
 8-Mar-2005
 	- Jorrit added a new 'SetPosition' action to pclinmove.
 	- Eric Sunshine removed the CS_IMPLEMENT_APPLICATION from celtest which

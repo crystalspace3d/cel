@@ -22,13 +22,14 @@ AC_PREREQ([2.56])
 #------------------------------------------------------------------------------
 # CS_EMIT_BUILD_PROPERTY(KEY, VALUE, [APPEND], [EMPTY-OKAY], [EMITTER],
 #                        [UNCONDITIONAL])
-#	A utility function which invokes CS_JAMCONFIG_PROPERTY() if VALUE is
-#	not the empty string (after leading and trailing whitespace is
-#	stripped). If EMPTY-OKAY is not an empty string, then the property is
-#	emitted even if VALUE is empty; that is, it is emitted unconditionally.
-#	If APPEND is the empty string, then the value is set via "?=";
-#	otherwise it is appended to the existing value of the Jam variable via
-#	"+=". EMITTER is a macro name, such as CS_JAMCONFIG_PROPERTY or
+#	A utility function which invokes an emitter to record the KEY/VALUE
+#	tuple if VALUE is not the empty string (after leading and trailing
+#	whitespace is stripped). If EMPTY-OKAY is not an empty string, then the
+#	property is emitted even if VALUE is empty; that is, it is emitted
+#	unconditionally.  If APPEND is the empty string, then the emitter sets
+#	the key's value directly (though it may be overridden by the
+#	environment), otherwise the emitter appends VALUE to the existing value
+#	of the key.  EMITTER is a macro name, such as CS_JAMCONFIG_PROPERTY or
 #	CS_MAKEFILE_PROPERTY, which performs the actual task of emitting the
 #	KEY/VALUE tuple; it should also accept APPEND as an optional third
 #	argument. If EMITTER is omitted, CS_JAMCONFIG_PROPERTY is used.  Some
@@ -51,9 +52,9 @@ AC_DEFUN([CS_EMIT_BUILD_PROPERTY],
 
 #------------------------------------------------------------------------------
 # CS_EMIT_BUILD_RESULT(CACHE-VAR, PREFIX, [EMITTER])
-#	Record the results of CS_CHECK_BUILD() or CS_CHECK_LIB_WITH() via Jam
-#	variables in the Jam text cache.  If CACHE-VAR indicates that the build
-#	succeeded, then the following properties are emitted:
+#	Record the results of CS_CHECK_BUILD() or CS_CHECK_LIB_WITH() via some
+#	emitter.  If CACHE-VAR indicates that the build succeeded, then the
+#	following properties are emitted:
 #
 #	PREFIX.AVAILABLE = yes
 #	PREFIX.CFLAGS = $CACHE-VAR_cflags
@@ -73,7 +74,7 @@ AC_DEFUN([CS_EMIT_BUILD_RESULT],
 
 
 #------------------------------------------------------------------------------
-# CS_EMIT_BUILD_FLAGS(MESSAGE, CACHE-VAR, FLAGS, [LANGUAGE], JAM-VARIABLE,
+# CS_EMIT_BUILD_FLAGS(MESSAGE, CACHE-VAR, FLAGS, [LANGUAGE], EMITTER-KEY,
 #                     [APPEND], [ACTION-IF-RECOGNIZED],
 #                     [ACTION-IF-NOT-RECOGNIZED], [EMITTER])
 #	A convenience wrapper for CS_CHECK_BUILD_FLAGS() which also records the
@@ -86,15 +87,16 @@ AC_DEFUN([CS_EMIT_BUILD_RESULT],
 #	order until one is found which is recognized by the compiler.  After
 #	that, no further flags are checked.  LANGUAGE is typically either C or
 #	C++ and specifies which compiler to use for the test.  If LANGUAGE is
-#	omitted, C is used.  JAM-VARIABLE is the name of the variable to insert
-#	into the Jam text cache if a usable flag is encountered.  If APPEND is
-#	not the empty string, then the flag is appended to the existing value
-#	of the Jam variable.  If the command-line option was recognized, then
-#	ACTION-IF-RECOGNIZED is invoked, otherwise ACTION-IF-NOT-RECOGNIZED is
-#	invoked.  EMITTER is a macro name, such as CS_JAMCONFIG_PROPERTY or
-#	CS_MAKEFILE_PROPERTY, which performs the actual task of emitting the
-#	KEY/VALUE tuple; it should also accept APPEND as an optional third
-#	argument. If EMITTER is omitted, CS_JAMCONFIG_PROPERTY is used.
+#	omitted, C is used.  EMITTER-KEY is the name to pass as the emitter's
+#	"key" argument if a usable flag is encountered.  If APPEND is not the
+#	empty string, then the discovered flag is appended to the existing
+#	value of the EMITTER-KEY.  If the command-line option was recognized,
+#	then ACTION-IF-RECOGNIZED is invoked, otherwise
+#	ACTION-IF-NOT-RECOGNIZED is invoked.  EMITTER is a macro name, such as
+#	CS_JAMCONFIG_PROPERTY or CS_MAKEFILE_PROPERTY, which performs the
+#	actual task of emitting the KEY/VALUE tuple; it should also accept
+#	APPEND as an optional third argument. If EMITTER is omitted,
+#	CS_JAMCONFIG_PROPERTY is used.
 #------------------------------------------------------------------------------
 AC_DEFUN([CS_EMIT_BUILD_FLAGS],
     [CS_CHECK_BUILD_FLAGS([$1], [$2], [$3], [$4],
@@ -139,3 +141,25 @@ AC_DEFUN([CS_EMITTER_OPTIONAL],
 #------------------------------------------------------------------------------
 AC_DEFUN([CS_NULL_EMITTER], [:
 ])
+
+
+
+#------------------------------------------------------------------------------
+# CS_SUBST_EMITTER(KEY, VALUE, [APPEND])
+#	An emitter wrapped around AC_SUBST(). Invokes AC_SUBST(KEY,VALUE).  The
+#	APPEND argument is ignored.  Suitable for use as the EMITTER argument
+#	of one of the CS_EMIT_FOO() macros.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_SUBST_EMITTER], [AC_SUBST([$1],[$2])])
+
+
+
+#------------------------------------------------------------------------------
+# CS_DEFINE_EMITTER(KEY, VALUE, [APPEND])
+#	An emitter wrapped around AC_DEFINE_UNQUOTED(). Invokes
+#	AC_DEFINE_UNQUOTED(KEY,VALUE).  The APPEND argument is ignored.
+#	Suitable for use as the EMITTER argument of one of the CS_EMIT_FOO()
+#	macros.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_DEFINE_EMITTER],
+    [AC_DEFINE_UNQUOTED([$1],[$2],[Define when feature is available])])

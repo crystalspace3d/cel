@@ -77,13 +77,16 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-[CS_PATH_CRYSTAL_JAM([0.99], [],
-  [AC_MSG_ERROR([
+  [cs_desired_libs='cstool csgfx csgeom csutil'
+  AS_IF([test $cs_cv_python != no],
+    [cs_desired_libs="$cs_desired_libs cspycommon"])
+  CS_PATH_CRYSTAL_JAM([0.99], [],
+    [AC_MSG_ERROR([
 *** Crystal Space could not be found. The latest version is always available
 *** from http://www.crystalspace3d.org/
 *** Also, be sure that you have either installed Crystal Space or set the
 *** CRYSTAL environment variable properly.
-])], [cspycommon csgeom csgfx csutil cstool])])
+])], [$cs_desired_libs])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches
