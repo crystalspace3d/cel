@@ -72,6 +72,9 @@ void celBillboard::Move (int dx, int dy)
 {
 }
 
+static G3DPolygonDPFX poly;
+static bool poly_init = false;
+
 void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
 {
   if (!flags.Check (CEL_BILLBOARD_VISIBLE)) return;
@@ -80,6 +83,31 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d)
     material = engine->FindMaterial (materialname);
     if (!material) return;
   }
+  if (!poly_init)
+  {
+    poly_init = true;
+    poly.num = 4;
+    poly.texels[0].Set (0, 0);
+    poly.texels[1].Set (1, 0);
+    poly.texels[2].Set (1, 1);
+    poly.texels[3].Set (0, 1);
+    poly.colors[0].Set (1, 1, 1);
+    poly.colors[1].Set (1, 1, 1);
+    poly.colors[2].Set (1, 1, 1);
+    poly.colors[3].Set (1, 1, 1);
+    poly.use_fog = false;
+    poly.mixmode = CS_FX_COPY;
+  }
+  poly.vertices[0].Set (x, y);
+  poly.vertices[1].Set (x+w, y);
+  poly.vertices[2].Set (x+w, y+h);
+  poly.vertices[3].Set (x, y+h);
+  poly.z[0] = 1;
+  poly.z[1] = 1;
+  poly.z[2] = 1;
+  poly.z[3] = 1;
+  g3d->SetZMode (CS_ZBUF_USE);
+  g3d->DrawPolygonFX (poly);
 }
 
 //---------------------------------------------------------------------------
