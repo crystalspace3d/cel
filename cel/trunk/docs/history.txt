@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+10-Dec-2004
+	- Eric Sunshine disabled generation of the `blpython' MSVC project file
+	  for now since we do not presently support Python plugin building from
+	  MSVC (even CS does not yet support this).
 8-Dec-2004
 	- Andrew Dai made it so that it is possible for gravity to be applied
 	  to linear movement even if collision detection is turned off. This
