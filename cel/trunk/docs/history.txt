@@ -3,6 +3,11 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+13-Nov-2004
+	- Andrew Dai fixed a bug with the field lastDRUpdate not being
+	  updated in celPcLinearMovement::SetDRData().
+	- Andrew Dai added a celPcLinearMovement::TimeDiff() method to get
+	  the time between the last DR update and the current time.
 12-Nov-2004
 	- Jorrit fixed a bug in the camera class where it would
 	  incorrectly test if fixed distance clipping was needed.

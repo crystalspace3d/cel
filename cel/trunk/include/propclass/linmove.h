@@ -112,6 +112,9 @@ struct iPcLinearMovement : public iBase
    */
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;
 
+   /// Returns the difference in time between now and when the last DR update or extrapolation took place
+  virtual csTicks TimeDiff(void) = 0;
+
   /// Return all necessary data for Dead Reckoning
   virtual void GetDRData(bool& on_ground,
                          float& speed,
