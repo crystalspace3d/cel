@@ -3,5 +3,5 @@ SubDir TOP plugins propclass move ;
 Plugin pfmove
 	: [ Wildcard *.cpp *.h ]
 ;
-LinkWith pfmove : celcommon ;
+LinkWith pfmove : celtool ;
 

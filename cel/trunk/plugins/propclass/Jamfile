@@ -1,6 +1,5 @@
 SubDir TOP plugins propclass ;
 
-SubInclude TOP plugins propclass common ;
 SubInclude TOP plugins propclass engine ;
 SubInclude TOP plugins propclass input ;
 SubInclude TOP plugins propclass inv ;

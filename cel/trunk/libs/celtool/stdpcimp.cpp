@@ -19,8 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "csutil/debug.h"
-#include "plugins/propclass/common/stdpcimp.h"
+#include "celtool/stdpcimp.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propchg.h"
@@ -37,14 +36,12 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (0);
   celPcCommon::object_reg = object_reg;
-  DG_ADDI (this, "celPcCommon()");
   entity = 0;
   propcount = 0;
 }
 
 celPcCommon::~celPcCommon ()
 {
-  DG_REM (this);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)

@@ -25,7 +25,7 @@
 #include "csutil/scf.h"
 
 // PcCommon defs
-#include "plugins/propclass/common/stdpcimp.h"
+#include "celtool/stdpcimp.h"
 #include "propclass/region.h"
 
 // Template

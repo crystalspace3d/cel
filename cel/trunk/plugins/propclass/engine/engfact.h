@@ -28,7 +28,7 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
-#include "plugins/propclass/common/stdpcimp.h"
+#include "celtool/stdpcimp.h"
 #include "propclass/camera.h"
 #include "propclass/region.h"
 

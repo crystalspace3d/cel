@@ -27,8 +27,8 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
-#include "plugins/propclass/common/stdpcimp.h"
-#include "plugins/propclass/common/stdparams.h"
+#include "celtool/stdpcimp.h"
+#include "celtool/stdparams.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 

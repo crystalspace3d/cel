@@ -20,6 +20,7 @@ Help maintainerclean :
 SubInclude TOP apps ;
 SubInclude TOP include ;
 SubInclude TOP plugins ;
+SubInclude TOP libs ;
 
 # generate cel-config
 rule CelConfigGen
