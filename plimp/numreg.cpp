@@ -56,6 +56,7 @@ CS_ID NumReg::Register (void* obj)
   }
 
   // 2. find wholes and fill freelist again
+  // note that id number 0 stands for error and is reserved
   for (CS_ID i=1;i<listsize && freelistend<freelistsize-1;i++)
   {
     if (list[i]==NULL)
@@ -136,8 +137,7 @@ bool NumReg::Remove (void* obj)
   CS_ASSERT(obj != NULL);
   
   CS_ID i;
-  // @@@ Note to MatzeB: start a loop over a
-  // C++ array with 1 instead of 0? That looks weird.
+  // start loop at 1 because 0 is reserved as error value
   for (i=1;i<listsize;i++)
   {
     if (list[i] == obj)
