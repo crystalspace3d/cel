@@ -31,12 +31,14 @@ SCF_VERSION (iPcRegion, 0, 1, 0);
 
 /**
  * The representation of a region.
+ * <p>
  * This property class supports the following actions (add prefix
  * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
  * <li>Load: no parameters.
  * </ul>
+ * <p>
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * <ul>

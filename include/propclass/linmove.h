@@ -46,6 +46,14 @@ struct iPcCollisionDetection;
  * <p>
  * This property class supports dead reckoning which is useful for
  * networking.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.property.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
+ *     (vector3).
+ * </ul>
  */
 struct iPcLinearMovement : public iBase
 {
@@ -90,12 +98,12 @@ struct iPcLinearMovement : public iBase
    * origin is at the bottom center of the actor.
    */
   virtual bool InitCD (const csVector3& body, const csVector3& legs,
-  	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL)=0;
+  	const csVector3& shift,iPcCollisionDetection *pc_cd=0)=0;
 
   /**
    * Initialize CD again?@@@
    */
-  virtual bool InitCD (iPcCollisionDetection *pc_cd=NULL) = 0;
+  virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;
 
   /// Return all necessary data for Dead Reckoning
   virtual void GetDRData(bool& on_ground,

@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 12-Jul-2004
 	- Jorrit fixed a dependency for addon_celentity plugin (with
 	  celtool).
+	- Jorrit added support for vectors (3d and 2d) to the addon_celentity
+	  plugin (for actions).
+	- Jorrit added a new 'InitCD' action for pclinmove.
+	- Jorrit did some more API doc enhancements for the property classes.
 11-Jul-2004
 	- Jorrit added the ability for the pcspawn property class to
 	  also send an initialization message with parameters to the

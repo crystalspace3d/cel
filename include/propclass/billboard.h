@@ -29,27 +29,23 @@ SCF_VERSION (iPcBillboard, 0, 0, 1);
 
 /**
  * Billboard property class.
- * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.parameter.' to get the ID):
- * <ul>
- * <li>x
- * <li>y
- * <li>button
- * </ul>
+ * <p>
  * This property class can send out the following messages
- * to the behaviour:
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcbillboard_select: billboard is selected (x,y,button)
  * <li>pcbillboard_move: billboard is moved (x,y,button)
  * <li>pcbillboard_unselect: billboard is unselected (x,y,button)
  * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  * </ul>
+ * <p>
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * <ul>
  * <li>name (string, read/write): name of the billboard.
  * <li>materialname (string, read/write): name of the material.
- * <li>materialnamefast (string, read/write): name of the material (faster way to set).
+ * <li>materialnamefast (string, read/write): name of the material (faster
+ *     way to set).
  * <li>clickable (bool, read/write): clickable yes or no.
  * <li>movable (bool, read/write): movable yes or no.
  * <li>visible (bool, read/write): visible yes or no.

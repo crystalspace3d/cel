@@ -126,6 +126,8 @@ protected:
 
   void FindSiblingPropertyClasses ();
 
+  static csStringID action_initcd;
+
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);
   virtual ~celPcLinearMovement ();
@@ -133,7 +135,8 @@ public:
   bool HandleEvent (iEvent& ev);
 
   void SetAngularVelocity (const csVector3& angle);
-  void SetAngularVelocity (const csVector3& angle, const csVector3& angle_to_reach);
+  void SetAngularVelocity (const csVector3& angle,
+  	const csVector3& angle_to_reach);
   void SetVelocity (const csVector3& vel );
   void GetVelocity (csVector3& v) const;
   /**
@@ -145,8 +148,8 @@ public:
   }
 
   bool InitCD (const csVector3& body, const csVector3& legs,
-  	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL);
-  bool InitCD (iPcCollisionDetection *pc_cd=NULL);
+  	const csVector3& shift,iPcCollisionDetection *pc_cd = 0);
+  bool InitCD (iPcCollisionDetection *pc_cd=0);
   void SetSpeed ( float speedz );
 
   void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
@@ -176,6 +179,8 @@ public:
   virtual const char* GetName () const { return "pclinearmovement"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+
   iSector* GetSector ();
 
   /**
@@ -288,11 +293,11 @@ public:
     }
 
     virtual bool InitCD (const csVector3& top, const csVector3& bottom,
-    	const csVector3& shift,iPcCollisionDetection *pc_cd=NULL)
+    	const csVector3& shift,iPcCollisionDetection *pc_cd=0)
     {
       return scfParent->InitCD (top, bottom, shift,pc_cd);
     }
-    virtual bool InitCD (iPcCollisionDetection *pc_cd=NULL)
+    virtual bool InitCD (iPcCollisionDetection *pc_cd=0)
     {
       return scfParent->InitCD (pc_cd);
     }

@@ -224,16 +224,32 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	    csStringID par_id = xmltokens.Request (par_value);
 	    if (par_id == XMLTOKEN_PAR)
 	    {
-	      csStringID parid = GetAttributeID (par_child, "cel.parameter.", "name");
+	      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
+	      	"name");
 	      if (parid == csInvalidStringID) return false;
-	      params->SetParameterDef (par_idx, parid, par_child->GetAttributeValue (
-	      	"name"));
+	      params->SetParameterDef (par_idx, parid,
+	      	par_child->GetAttributeValue ("name"));
 	      par_idx++;
 	      const char* str_value = par_child->GetAttributeValue ("string");
 	      if (str_value)
 	      {
 	        params->GetParameter (par_idx-1).Set (str_value);
 		continue;
+	      }
+	      const char* vec_value = par_child->GetAttributeValue ("vector");
+	      if (vec_value)
+	      {
+		csVector3 v;
+		int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+		if (rc == 3)
+		  params->GetParameter (par_idx-1).Set (v);
+		else
+		{
+		  csVector2 v2;
+		  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
+		  params->GetParameter (par_idx-1).Set (v2);
+		}
+	        continue;
 	      }
 	      synldr->ReportError (
 	        "cel.addons.celentity",

@@ -34,13 +34,9 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
 
 /**
  * This is a general property class.
- * This property class sends out messages with the following supported
- * parameters (add prefix 'cel.parameter.' to get the ID):
- * <ul>
- * <li>index
- * </ul>
+ * <p>
  * This property class can send out the following messages
- * to the behaviour:
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcproperties_setproperty: sets the property (index)
  * <li>pcproperties_clearproperty: clears the property (index)
