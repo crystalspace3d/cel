@@ -14,6 +14,10 @@
 	- Extended pcmesh property class so that a csObject is attached
 	  to the mesh in the engine with which it is possible to find the
 	  entity again.
+	- The 'pcmeshselect' property class now sends a 'selectmesh' message
+	  to the behaviour. 'bltest' reacts on this message and prints out
+	  the selected entity (try clicking on the small object in celtest).
+	- Added declarations for FAST SCF queries to include/pl/pl.h.
 29-Oct-2001:
 	- Basic inventory handling seems to work now. Celtest demonstrates
 	  (in text form only at the moment) one box entity and four

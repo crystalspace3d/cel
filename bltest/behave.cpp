@@ -18,6 +18,8 @@
 */
 
 #include "cssysdef.h"
+#include "pl/pl.h"
+#include "pl/entity.h"
 #include "bltest/behave.h"
 
 //---------------------------------------------------------------------------
@@ -48,6 +50,15 @@ bool celBehaviour::SendMessageV (const char* msg_id, iBase* msg_info, va_list ar
 {
   (void)arg;
   printf ("Got message '%s'\n", msg_id);
+  if (!strcmp (msg_id, "selectmesh"))
+  {
+    iCelEntity* ent = SCF_QUERY_INTERFACE_FAST (msg_info, iCelEntity);
+    if (ent)
+    {
+      printf ("  SELECTED ENTITY '%s'\n", ent->GetName ());
+      ent->DecRef ();
+    }
+  }
   return false;
 }
 
