@@ -33,7 +33,7 @@ celEntity::celEntity ()
 {
   SCF_CONSTRUCT_IBASE (NULL);
   name = NULL;
-  plist = new celPropertyClassList ();
+  plist = new celPropertyClassList (this);
   bl_entity = NULL;
 }
 

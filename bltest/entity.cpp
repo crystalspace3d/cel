@@ -35,9 +35,19 @@ celBlEntity::~celBlEntity ()
 {
 }
 
-bool celBlEntity::SendMessage (iCelMessage* msg)
+bool celBlEntity::SendMessage (const char* msg_id, ...)
 {
-  (void)msg;
+  va_list arg;
+  va_start (arg, msg_id);
+  bool rc = SendMessageV (msg_id, arg);
+  va_end (arg);
+  return rc;
+}
+
+bool celBlEntity::SendMessageV (const char* msg_id, va_list arg)
+{
+  (void)arg;
+  printf ("Got message '%s'\n", msg_id);
   return false;
 }
 

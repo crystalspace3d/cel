@@ -27,9 +27,10 @@ SCF_IMPLEMENT_IBASE (celPropertyClassList)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassList)
 SCF_IMPLEMENT_IBASE_END
 
-celPropertyClassList::celPropertyClassList ()
+celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
 {
   SCF_CONSTRUCT_IBASE (NULL);
+  celPropertyClassList::parent_entity = parent_entity;
 }
 
 celPropertyClassList::~celPropertyClassList ()
@@ -53,6 +54,7 @@ int celPropertyClassList::Add (iCelPropertyClass* obj)
 {
   int idx = prop_classes.Push (obj);
   obj->IncRef ();
+  obj->SetEntity (parent_entity);
   return idx;
 }
 
@@ -62,6 +64,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   if (idx != -1)
   {
     prop_classes.Delete (idx);
+    obj->SetEntity (NULL);
     obj->DecRef ();
     return true;
   }
@@ -73,6 +76,7 @@ bool celPropertyClassList::Remove (int n)
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
   iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[n];
   prop_classes.Delete (n);
+  obj->SetEntity (NULL);
   obj->DecRef ();
   return true;
 }

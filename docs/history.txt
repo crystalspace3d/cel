@@ -36,4 +36,8 @@
 	- Added definition of iCelMessage.
 	- Added iCelPlLayer::CreateMessage().
 	- Added implementation of iCelMessage to plimp. Unfinished.
+	- Changed iCelBlEntity so that targetted messages to an entity
+	  no longer use iCelMessage but directly pass the information
+	  to the bl entity.
+	- Further work on bltest and celtest. A message is now printed.
 
