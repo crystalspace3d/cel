@@ -642,7 +642,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
     iCamera* c = view->GetCamera ();
 
     // First set the camera back on where the sector is.
-    c->SetSector (actor_sector);
+    if (c->GetSector () != actor_sector)
+      c->SetSector (actor_sector);
     //c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
 		    //This2OtherRelative (csVector3 (0, 0, .1)));
     c->GetTransform ().SetOrigin (actor_pos+csVector3 (0, 0.1f, 0));

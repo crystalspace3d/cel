@@ -187,7 +187,7 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
  * <li>pczonemanager_remregion: region will be removed (region)
  * <li>pczonemanager_startloading: loading of regions starts
  * <li>pczonemanager_stoploading: loading of regions stops
- * <li>pczonemanager_errorloading: loading of regions stops with error
+ * <li>pczonemanager_errorloading: loading of regions stops with error (region)
  * </ul>
  */
 struct iPcZoneManager : public iBase

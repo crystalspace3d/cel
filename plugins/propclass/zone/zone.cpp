@@ -305,37 +305,6 @@ iCelRegion* celZone::FindRegion (const char* name) const
   return 0;
 }
 
-bool celZone::Load ()
-{
-  if (loaded) return true;
-  size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
-    if (!regions[i]->Load ())
-      return false;
-  loaded = true;
-  return true;
-}
-
-void celZone::Unload ()
-{
-  if (!loaded) return;
-  size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
-    regions[i]->Unload ();
-  loaded = false;
-}
-
-bool celZone::CheckLoaded ()
-{
-  if (loaded) return true;
-  size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
-    if (!regions[i]->IsLoaded ())
-      return false;
-  loaded = true;
-  return true;
-}
-
 bool celZone::ContainsRegion (celRegion* region)
 {
   int idx = regions.Find (region);
@@ -414,7 +383,7 @@ bool celPcZoneManager::PerformAction (csStringID /*actionId*/,
 
 void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
 {
-  params->GetParameter (0).SetIBase (region);
+  if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
   entity->GetBehaviour ()->SendMessage (msgid, ret, params);
 }
@@ -481,41 +450,52 @@ void celPcZoneManager::RemoveAllRegions ()
 
 bool celPcZoneManager::ActivateRegion (celRegion* region)
 {
-  celData ret;
-  iCelBehaviour* bl = entity->GetBehaviour ();
-
   // The 'first' flag is used to see if we need to do some loading
   // work. In that case we send a message to the behaviour layer so that
   // it may possible open up a loading screen or something.
   bool first = true;
-
   size_t i;
+
+  // First we make a set of all regions that we need to load.
+  csSet<celRegion*> loadable_regions;
   for (i = 0 ; i < zones.Length () ; i++)
-    if (region && zones[i]->ContainsRegion (region))
+    if (zones[i]->ContainsRegion (region))
     {
-      if (!zones[i]->CheckLoaded ())
+      size_t j;
+      for (j = 0 ; j < zones[i]->GetRegionCount () ; j++)
+        loadable_regions.Add ((celRegion*)zones[i]->GetRegion (j));
+    }
+
+  for (i = 0 ; i < regions.Length () ; i++)
+  {
+    celRegion* r = regions[i];
+    if (loadable_regions.In (r))
+    {
+      if (!r->IsLoaded ())
       {
         if (first)
 	{
 	  first = false;
-	  bl->SendMessage ("pczonemanager_startloading", ret, 0);
+	  SendZoneMessage (0, "pczonemanager_startloading");
 	}
-        if (!zones[i]->Load ())
+	if (!r->Load ())
 	{
-	  bl->SendMessage ("pczonemanager_errorloading", ret, 0);
+	  SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
           return false;
-        }
+	}
       }
     }
     else
     {
-      zones[i]->Unload ();
+      r->Unload ();
     }
+  }
+  
   // If first is false that means we sent a message indiciating that loading
   // started. So we have to send a message indicating that loading finished
   // too.
   if (!first)
-    bl->SendMessage ("pczonemanager_stoploading", ret, 0);
+    SendZoneMessage (0, "pczonemanager_stoploading");
 
   return true;
 }
