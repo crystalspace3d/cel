@@ -88,6 +88,15 @@ struct iPcCamera : public iBase
   virtual float GetRoll() = 0;
 
   /**
+   * Set LookAt yaw angle (rotation around Y axis) for follow and 1st person modes
+   */
+  virtual void SetYaw(float angle) = 0;
+  /**
+   * Get LookAt roll for follow and 1st person modes
+   */
+  virtual float GetYaw() = 0;
+
+  /**
    * Set the view rectangle to use on screen.
    */
   virtual void SetRectangle (int x, int y, int w, int h) = 0;

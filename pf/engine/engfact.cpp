@@ -101,7 +101,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   followat.Set(0,0,0);
 
   // Starting angles to the object (in radians)
-  roll = pitch = angle_xz = angle_yz = _yz = _xz = 0.0;
+  roll = pitch = yaw = angle_xz = angle_yz = _yz = _xz = 0.0;
   // starting distance from the object
   _dist = dist_y = 10.0;
 
@@ -195,7 +195,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
     // rotation to adjust for pitch angle
     c->GetTransform().RotateThis(csXRotMatrix3(pitch));
-
+    // rotation to adjust for yaw angle
+    c->GetTransform().RotateThis(csYRotMatrix3(yaw));
 	break;
       }
       case iPcCamera::firstperson:
@@ -225,6 +226,8 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 
     // rotation to adjust for pitch angle
     c->GetTransform().RotateThis(csXRotMatrix3(pitch));
+    // rotation to adjust for yaw angle
+    c->GetTransform().RotateThis(csYRotMatrix3(yaw));
         break;
       }
       case iPcCamera::rotational:
