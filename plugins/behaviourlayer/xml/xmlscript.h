@@ -52,12 +52,15 @@ enum
   CEL_OPERATION_VARENT,		// A:-		S:S,S,?		OS:-
   CEL_OPERATION_PRINT,		// A:-		S:S		OS:-
   CEL_OPERATION_IF,		// A:E,E	S:?		OS:-
+  CEL_OPERATION_IFGOTO,		// A:C		S:?		OS:-
+  CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
   CEL_OPERATION_FOR,		// A:E		S:S,?,?		OS:-
-  CEL_OPERATION_TESTCOLLIDE,	// A:E,E	S:S		OS:-
+  CEL_OPERATION_CALL,		// A:-		S:S,S		OS:-
+  CEL_OPERATION_TESTCOLLIDE,	// A:-		S:S		OS:-
+  CEL_OPERATION_DESTROYENTITY,	// A:-		S:S		OS:-
   CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CREATEPROPCLASS,// A:-		S:S		OS:-
   CEL_OPERATION_DEFAULTPC,	// A:-		S:PC		OS:-
-
   CEL_OPERATION_PUSH,		// A:?		S:-		OS:?
   CEL_OPERATION_DEREFVAR,	// A:-		S:S		OS:?
   CEL_OPERATION_DEREFVARENT,	// A:-		S:S,S		OS:?
@@ -97,6 +100,8 @@ enum
 
 #define CEL_DATA_EVENTHANDLER CEL_DATA_LAST
 #define CEL_DATA_ID (CEL_DATA_LAST+1)
+#define CEL_DATA_CODELOCATION (CEL_DATA_LAST+2)
+#define CEL_DATA_LOCALVAR (CEL_DATA_LAST+3)
 
 // One argument.
 struct celXmlArg
@@ -119,6 +124,8 @@ struct celXmlArg
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
     struct { float red, green, blue; } col;
+    int codelocation;
+    int localvar;
   } arg;
   celXmlArg () : type (CEL_DATA_NONE) { }
   celXmlArg (const celXmlArg& other);
@@ -187,6 +194,18 @@ struct celXmlArg
     type = CEL_DATA_ID;
     arg.id = id;
   }
+  void SetLocalVar (int localvar)
+  {
+    Cleanup ();
+    type = CEL_DATA_LOCALVAR;
+    arg.localvar = localvar;
+  }
+  void SetCodeLocation (int location)
+  {
+    Cleanup ();
+    type = CEL_DATA_CODELOCATION;
+    arg.codelocation = location;
+  }
   void SetEventHandlers (celXmlScriptEventHandler* h_true,
   	celXmlScriptEventHandler* h_false)
   {
@@ -237,6 +256,7 @@ private:
   csArray<celXmlOperation> operations;
   iCelPlLayer* pl;
   csArray<celXmlArg> stack;
+  csArray<celXmlArg> local_vars;
 
   bool ReportError (celBehaviourXml* behave, const char* msg, ...);
   bool CheckStack (celBehaviourXml* behave);
@@ -252,6 +272,15 @@ public:
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();
+  // Get argument index for last operation.
+  int GetLastArgumentIndex () { return operations.Length ()-1; }
+  // Get argument with index.
+  celXmlArg& GetArgument (int idx);
+
+  // Add a local variable. Return index.
+  int AddLocalVariable ();
+  // Get a local variable with index.
+  celXmlArg& GetLocalVariable (int idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
   	iCelParameterBlock* params);

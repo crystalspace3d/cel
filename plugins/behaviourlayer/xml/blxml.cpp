@@ -52,10 +52,11 @@ enum
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_VAR,
-  XMLTOKEN_TESTCOLLIDE,
   XMLTOKEN_IF,
   XMLTOKEN_FOR,
   XMLTOKEN_PRINT,
+  XMLTOKEN_CALL,
+  XMLTOKEN_DESTROYENTITY,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
   XMLTOKEN_DEFAULT,
@@ -73,7 +74,6 @@ enum
   XMLFUNCTION_PARID,
   XMLFUNCTION_PROPID,
   XMLFUNCTION_RGB,
-
   XMLFUNCTION_ABS,
   XMLFUNCTION_MIN,
   XMLFUNCTION_MAX,
@@ -82,6 +82,7 @@ enum
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
   XMLFUNCTION_RAND,
+  XMLFUNCTION_TESTCOLLIDE,
 
   XMLFUNCTION_LAST
 };
@@ -113,10 +114,11 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("var", XMLTOKEN_VAR);
-  xmltokens.Register ("testcollide", XMLTOKEN_TESTCOLLIDE);
   xmltokens.Register ("if", XMLTOKEN_IF);
   xmltokens.Register ("for", XMLTOKEN_FOR);
   xmltokens.Register ("print", XMLTOKEN_PRINT);
+  xmltokens.Register ("call", XMLTOKEN_CALL);
+  xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
   xmltokens.Register ("default", XMLTOKEN_DEFAULT);
@@ -137,6 +139,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
   functions.Register ("rand", XMLFUNCTION_RAND);
+  functions.Register ("testcollide", XMLFUNCTION_TESTCOLLIDE);
 
   return true;
 }
@@ -234,6 +237,12 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   csStringID fun_id = functions.Request (str);
   switch (fun_id)
   {
+    case XMLFUNCTION_TESTCOLLIDE:
+      {
+        if (!ParseExpression (input, child, h, name, 0)) return false;
+	h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
+      }
+      break;
     case XMLFUNCTION_ABS:
       {
         if (!ParseExpression (input, child, h, name, 0)) return false;
@@ -700,6 +709,22 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
 	}
 	break;
+      case XMLTOKEN_CALL:
+        {
+          if (!ParseExpression (child, h, "entity", "call"))
+	    return false;
+          if (!ParseExpression (child, h, "event", "call"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_CALL);
+	}
+	break;
+      case XMLTOKEN_DESTROYENTITY:
+        {
+          if (!ParseExpression (child, h, "name", "destroyentity"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_DESTROYENTITY);
+	}
+	break;
       case XMLTOKEN_CREATEENTITY:
         {
           if (!ParseExpression (child, h, "name", "createentity"))
@@ -722,36 +747,27 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->AddOperation (entname ? CEL_OPERATION_VARENT : CEL_OPERATION_VAR);
 	}
 	break;
-      case XMLTOKEN_TESTCOLLIDE:
-        {
-          if (!ParseExpression (child, h, "pcbillboard", "testcollide"))
-	    return false;
-	  const char* truename = GetAttributeString (child, "true", 0);
-          celXmlScriptEventHandler* truehandler = truename
-	  	? script->FindOrCreateEventHandler (truename)
-		: 0;
-	  const char* falsename = GetAttributeString (child, "false", 0);
-          celXmlScriptEventHandler* falsehandler = falsename
-	  	? script->FindOrCreateEventHandler (falsename)
-		: 0;
-	  h->AddOperation (CEL_OPERATION_TESTCOLLIDE);
-	  h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
-	}
-        break;
       case XMLTOKEN_FOR:
         {
-          if (!ParseExpression (child, h, "var", "for"))
-	    return false;
-          if (!ParseExpression (child, h, "start", "for"))
-	    return false;
-          if (!ParseExpression (child, h, "end", "for"))
-	    return false;
 	  const char* execname = GetAttributeString (child, "exec", 0);
-          celXmlScriptEventHandler* handler = execname
+	  if (execname)
+	  {
+            if (!ParseExpression (child, h, "var", "for"))
+	      return false;
+            if (!ParseExpression (child, h, "start", "for"))
+	      return false;
+            if (!ParseExpression (child, h, "end", "for"))
+	      return false;
+            celXmlScriptEventHandler* handler = execname
 	  	? script->FindOrCreateEventHandler (execname)
 		: 0;
-	  h->AddOperation (CEL_OPERATION_FOR);
-	  h->GetArgument ().SetEventHandlers (handler, 0);
+	    h->AddOperation (CEL_OPERATION_FOR);
+	    h->GetArgument ().SetEventHandlers (handler, 0);
+	  }
+	  else
+	  {
+	    // @@@ Not yet supported!
+	  }
 	}
         break;
       case XMLTOKEN_IF:
@@ -759,15 +775,44 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (child, h, "eval", "if"))
 	    return false;
 	  const char* truename = GetAttributeString (child, "true", 0);
-          celXmlScriptEventHandler* truehandler = truename
+	  const char* falsename = GetAttributeString (child, "false", 0);
+	  if (truename || falsename)
+	  {
+            celXmlScriptEventHandler* truehandler = truename
 	  	? script->FindOrCreateEventHandler (truename)
 		: 0;
-	  const char* falsename = GetAttributeString (child, "false", 0);
-          celXmlScriptEventHandler* falsehandler = falsename
+            celXmlScriptEventHandler* falsehandler = falsename
 	  	? script->FindOrCreateEventHandler (falsename)
 		: 0;
-	  h->AddOperation (CEL_OPERATION_IF);
-	  h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
+	    h->AddOperation (CEL_OPERATION_IF);
+	    h->GetArgument ().SetEventHandlers (truehandler, falsehandler);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_IFGOTO);
+	    int ifgoto_idx = h->GetLastArgumentIndex ();
+	    csRef<iDocumentNode> truechild = child->GetNode ("true");
+	    csRef<iDocumentNode> falsechild = child->GetNode ("false");
+	    if (truechild && falsechild)
+	    {
+	      if (!ParseEventHandler (h, truechild, script))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_GOTO);
+	      int goto_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
+	      if (!ParseEventHandler (h, falsechild, script))
+	        return false;
+	      int last_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (goto_idx).SetCodeLocation (last_idx+1);
+	    }
+	    else if (truechild)
+	    {
+	      if (!ParseEventHandler (h, truechild, script))
+	        return false;
+	      int last_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (ifgoto_idx).SetCodeLocation (last_idx+1);
+	    }
+	  }
 	}
         break;
       case XMLTOKEN_PRINT:
@@ -809,7 +854,6 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	return false;
     }
   }
-  h->AddOperation (CEL_OPERATION_END);
   return true;
 }
 
@@ -844,6 +888,7 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
         delete script;
 	return false;
       }
+      h->AddOperation (CEL_OPERATION_END);
     }
     else
     {

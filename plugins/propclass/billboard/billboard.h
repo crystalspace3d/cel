@@ -45,7 +45,7 @@ CEL_DECLARE_FACTORY(Billboard)
 /**
  * This is a billboard property class.
  */
-class celPcBillboard : public celPcCommon, public iBillboardEventHandler
+class celPcBillboard : public celPcCommon
 {
 private:
   char* billboard_name;
@@ -110,13 +110,13 @@ public:
   virtual float GetPropertyFloat (csStringID);
 
   // For iBillboardEventHandler:
-  virtual void Select (iBillboard* billboard, int mouse_button,
+  void Select (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
-  virtual void MouseMove (iBillboard* billboard, int mouse_button,
+  void MouseMove (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
-  virtual void Unselect (iBillboard* billboard, int mouse_button,
+  void Unselect (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
-  virtual void DoubleClick (iBillboard* billboard, int mouse_button,
+  void DoubleClick (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
 
   struct PcBillboard : public iPcBillboard
@@ -144,6 +144,40 @@ public:
     }
   } scfiPcBillboard;
   friend struct PcBillboard;
+
+  // Not embedded to avoid problems with circular refs!
+  struct BillboardEventHandler : public iBillboardEventHandler
+  {
+    celPcBillboard* parent;
+    BillboardEventHandler (celPcBillboard* parent)
+    {
+      SCF_CONSTRUCT_IBASE (0);
+      BillboardEventHandler::parent = parent;
+    }
+    virtual ~BillboardEventHandler () { }
+    SCF_DECLARE_IBASE;
+    virtual void Select (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+    {
+      parent->Select (billboard, mouse_button, mousex, mousey);
+    }
+    virtual void MouseMove (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+    {
+      parent->MouseMove (billboard, mouse_button, mousex, mousey);
+    }
+    virtual void Unselect (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+    {
+      parent->Unselect (billboard, mouse_button, mousex, mousey);
+    }
+    virtual void DoubleClick (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+    {
+      parent->DoubleClick (billboard, mouse_button, mousex, mousey);
+    }
+  }* scfiBillboardEventHandler;
+  friend struct BillboardEventHandler;
 };
 
 #endif // __CEL_PF_BILLFACT__

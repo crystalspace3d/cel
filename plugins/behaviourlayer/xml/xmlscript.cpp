@@ -65,6 +65,12 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_DATA_PCLASS: arg.pc = other.arg.pc; break;
     case CEL_DATA_ID: arg.id = other.arg.id; break;
     case CEL_DATA_EVENTHANDLER: arg.h = other.arg.h; break;
+    case CEL_DATA_CODELOCATION:
+      arg.codelocation = other.arg.codelocation;
+      break;
+    case CEL_DATA_LOCALVAR:
+      arg.localvar = other.arg.localvar;
+      break;
     case CEL_DATA_VECTOR2: arg.vec = other.arg.vec; break;
     case CEL_DATA_VECTOR3: arg.vec = other.arg.vec; break;
     case CEL_DATA_COLOR: arg.col = other.arg.col; break;
@@ -509,7 +515,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_arg = stack.Pop ();
-          DUMP_EXEC (": arg %s\n", A2S (a_arg));
+          DUMP_EXEC (":%04d: arg %s\n", i-1, A2S (a_arg));
 	  csStringID id = ArgToID (a_arg);
 	  int si = stack.Push (celXmlArg ());
 	  const celData* data = params->GetParameter (id);
@@ -558,7 +564,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_PUSH:
         {
-          DUMP_EXEC (": push %s\n", A2S (op.arg));
+          DUMP_EXEC (":%04d: push %s\n", i-1, A2S (op.arg));
 	  if (op.arg.type == CEL_DATA_STRING)
 	  {
 	    // Optimization for strings. Don't copy the string.
@@ -573,7 +579,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC (": pcthis %s\n", A2S (a_pc));
+          DUMP_EXEC (":%04d: pcthis %s\n", i-1, A2S (a_pc));
 
 	  int si = stack.Push (celXmlArg ());
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
@@ -585,7 +591,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC (": calcparid %s\n", A2S (a_id));
+          DUMP_EXEC (":%04d: calcparid %s\n", i-1, A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 	  csString str = "cel.behaviour.parameter.";
 	  str += ArgToString (a_id);
@@ -597,7 +603,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC (": calcpropid %s\n", A2S (a_id));
+          DUMP_EXEC (":%04d: calcpropid %s\n", i-1, A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 	  csString str = "cel.property.";
 	  str += ArgToString (a_id);
@@ -609,7 +615,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
-          DUMP_EXEC (": calcid %s\n", A2S (a_id));
+          DUMP_EXEC (":%04d: calcid %s\n", i-1, A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 	  csStringID id = pl->FetchStringID (ArgToString (a_id));
 	  stack[si].SetID (id);
@@ -621,7 +627,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_pc = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_ent = stack.Pop ();
-          DUMP_EXEC (": pc %s %s\n", A2S (a_ent), A2S (a_pc));
+          DUMP_EXEC (":%04d: pc %s %s\n", i-1, A2S (a_ent), A2S (a_pc));
 
 	  int si = stack.Push (celXmlArg ());
 	  iCelEntity* other_ent = pl->FindEntity (ArgToString (a_ent));
@@ -641,7 +647,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg ely = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg elx = stack.Pop ();
-          DUMP_EXEC (": vector2 %s, %s\n", A2S (elx), A2S (ely));
+          DUMP_EXEC (":%04d: vector2 %s, %s\n", i-1, A2S (elx), A2S (ely));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetVector (csVector2 (ArgToFloat (elx), ArgToFloat (ely)));
 	}
@@ -654,7 +660,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg ely = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg elx = stack.Pop ();
-          DUMP_EXEC (": vector3 %s, %s, %s\n", A2S (elx), A2S (ely), A2S (elz));
+          DUMP_EXEC (":%04d: vector3 %s, %s, %s\n", i-1, A2S (elx), A2S (ely), A2S (elz));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetVector (csVector3 (ArgToFloat (elx),
 	  	ArgToFloat (ely), ArgToFloat (elz)));
@@ -668,7 +674,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elg = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg elr = stack.Pop ();
-          DUMP_EXEC (": color %s, %s, %s\n", A2S (elr), A2S (elg), A2S (elb));
+          DUMP_EXEC (":%04d: color %s, %s, %s\n", i-1, A2S (elr), A2S (elg), A2S (elb));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetColor (csColor (ArgToFloat (elr),
 	  	ArgToFloat (elg), ArgToFloat (elb)));
@@ -678,7 +684,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": rand(%s)\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: rand(%s)\n", i-1, A2S (stack[si]));
 	  float f = ArgToFloat (stack[si]);
 	  stack[si].SetFloat (float (rand () % 10000) * f / 10000.0);
 	}
@@ -687,7 +693,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": float %s\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: float %s\n", i-1, A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
 	    case CEL_DATA_LONG:
@@ -721,7 +727,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": int %s\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: int %s\n", i-1, A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
 	    case CEL_DATA_LONG:
@@ -753,7 +759,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": sign %s\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: sign %s\n", i-1, A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
 	    case CEL_DATA_LONG:
@@ -775,7 +781,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": abs %s\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: abs %s\n", i-1, A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
 	    case CEL_DATA_LONG: stack[si].arg.i = ABS (stack[si].arg.i); break;
@@ -791,7 +797,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  int si = stack.Length ()-1;
-          DUMP_EXEC (": unaryminus %s\n", A2S (stack[si]));
+          DUMP_EXEC (":%04d: unaryminus %s\n", i-1, A2S (stack[si]));
 	  switch (stack[si].type)
 	  {
 	    case CEL_DATA_LONG: stack[si].arg.i = -stack[si].arg.i; break;
@@ -825,7 +831,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg ela = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_int = stack.Pop ();
-          DUMP_EXEC (": intpol(%s,%s,%s)\n", A2S (a_int),
+          DUMP_EXEC (":%04d: intpol(%s,%s,%s)\n", i-1, A2S (a_int),
 	  	A2S (ela), A2S (elb));
 	  float delta = ArgToFloat (a_int);
 	  int t = GetCalculationType (ela, elb);
@@ -888,7 +894,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": min(%s,%s)\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: min(%s,%s)\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -936,7 +942,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": max(%s,%s)\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: max(%s,%s)\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -984,7 +990,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s - %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s - %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1022,7 +1028,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s + %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s + %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1083,7 +1089,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s * %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s * %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1154,7 +1160,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s / %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s / %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1205,7 +1211,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s && %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s && %s\n", i-1, A2S (ela), A2S (elb));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetBool (ArgToBool (ela) && ArgToBool (elb));
 	}
@@ -1216,7 +1222,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s || %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s || %s\n", i-1, A2S (ela), A2S (elb));
 	  int si = stack.Push (celXmlArg ());
 	  stack[si].SetBool (ArgToBool (ela) || ArgToBool (elb));
 	}
@@ -1227,7 +1233,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s != %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s != %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1283,7 +1289,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s == %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s == %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1339,7 +1345,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s < %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s < %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1368,7 +1374,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s <= %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s <= %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1397,7 +1403,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s > %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s > %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1426,7 +1432,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": %s >= %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (":%04d: %s >= %s\n", i-1, A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -1454,7 +1460,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg top = stack.Pop ();
-          DUMP_EXEC (": derefvar %s\n", A2S (top));
+          DUMP_EXEC (":%04d: derefvar %s\n", i-1, A2S (top));
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (top);
@@ -1533,7 +1539,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_var = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_ent = stack.Pop ();
-          DUMP_EXEC (": derefvarent ent=%s var=%s\n", A2S (a_ent), A2S (a_var));
+          DUMP_EXEC (":%04d: derefvarent ent=%s var=%s\n", i-1, A2S (a_ent),
+	  	A2S (a_var));
 	  const char* entname = ArgToString (a_ent);
 	  iCelEntity* other_ent = pl->FindEntity (entname);
 	  if (!other_ent)
@@ -1620,7 +1627,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg top = stack.Pop ();
-          DUMP_EXEC (": createpropclass %s\n", A2S (top));
+          DUMP_EXEC (":%04d: createpropclass %s\n", i-1, A2S (top));
 	  const char* s = ArgToString (top);
 	  iCelPropertyClass* pc = pl->CreatePropertyClass (entity, s);
 	  if (!pc)
@@ -1635,7 +1642,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg abh = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg aent = stack.Pop ();
-	  DUMP_EXEC (": createentity %s (behaviour=%s)\n",
+	  DUMP_EXEC (":%04d: createentity %s (behaviour=%s)\n", i-1,
 	  	A2S (aent), A2S (abh));
 	  csRef<iCelEntity> ent = pl->CreateEntity ();
 	  const char* entname = ArgToString (aent);
@@ -1655,11 +1662,41 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  ent->SetBehaviour (bh);
 	}
         break;
+      case CEL_OPERATION_CALL:
+        {
+	  CHECK_STACK
+	  celXmlArg aevent = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg aent = stack.Pop ();
+	  DUMP_EXEC (":%04d: call ent=%s event=%s\n", i-1, A2S (aent),
+	  	A2S (aevent));
+	  const char* entname = ArgToString (aent);
+	  const char* eventname = ArgToString (aevent);
+	  iCelEntity* ent = pl->FindEntity (entname);
+	  if (!ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity with name '%s'!", entname);
+	  ent->GetBehaviour ()->SendMessage (eventname, 0);
+	}
+        break;
+      case CEL_OPERATION_DESTROYENTITY:
+        {
+	  CHECK_STACK
+	  celXmlArg aent = stack.Pop ();
+	  DUMP_EXEC (":%04d: destroyentity %s\n", i-1, A2S (aent));
+	  const char* entname = ArgToString (aent);
+	  iCelEntity* ent = pl->FindEntity (entname);
+	  if (!ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity with name '%s'!", entname);
+	  pl->RemoveEntity (ent);
+	}
+        break;
       case CEL_OPERATION_TESTCOLLIDE:
         {
 	  CHECK_STACK
 	  celXmlArg apc = stack.Pop ();
-	  DUMP_EXEC (": testcollide %s\n", A2S (apc));
+	  DUMP_EXEC (":%04d: testcollide %s\n", i-1, A2S (apc));
 	  iCelPropertyClass* pc = ArgToPClass (apc);
 	  if (!pc)
 	    return ReportError (behave, "Bad property class!\n");
@@ -1679,19 +1716,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!bbmgr)
 	    return ReportError (behave,
 	    	"Billboard manager is missing!\n");
-	  if (bbmgr->TestCollision (bb->GetBillboard (),
-	  	other_bb->GetBillboard ()))
-	  {
-	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
-	    if (truebranch)
-	      truebranch->Execute (entity, behave, params);
-	  }
-	  else
-	  {
-	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
-	    if (falsebranch)
-	      falsebranch->Execute (entity, behave, params);
-	  }
+	  int si = stack.Push (celXmlArg ());
+	  stack[si].SetBool (bbmgr->TestCollision (bb->GetBillboard (),
+	  	other_bb->GetBillboard ()));
 	}
 	break;
       case CEL_OPERATION_FOR:
@@ -1702,7 +1729,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_start = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_var = stack.Pop ();
-	  DUMP_EXEC (": for var=%s start=%s end=%s\n", A2S (a_var),
+	  DUMP_EXEC (":%04d: for var=%s start=%s end=%s\n", i-1, A2S (a_var),
 	  	A2S (a_start), A2S (a_end));
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -1721,11 +1748,80 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_GOTO:
+        {
+	  DUMP_EXEC (":%04d: goto :%d:\n", i-1, op.arg.arg.codelocation);
+	  i = op.arg.arg.codelocation;
+	}
+	break;
+      case CEL_OPERATION_IFGOTO:
+        {
+	  CHECK_STACK
+	  celXmlArg eval = stack.Pop ();
+	  DUMP_EXEC (":%04d: ifgoto %s :%d:\n", i-1, A2S (eval),
+	  	op.arg.arg.codelocation);
+	  bool rc = false;
+	  switch (eval.type)
+	  {
+	    case CEL_DATA_STRING:
+	      {
+	        const char* s = ArgToString (eval);
+	        rc = s ? *s != 0 : false;
+	      }
+	      break;
+	    case CEL_DATA_PCLASS:
+	      rc = ArgToPClass (eval) != 0;
+	      break;
+	    case CEL_DATA_BOOL:
+	      rc = ArgToBool (eval);
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v = ArgToVector2 (eval);
+		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v = ArgToVector3 (eval);
+		rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
+			ABS (v.z) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v = ArgToColor (eval);
+		rc = ABS (v.red) >= SMALL_EPSILON ||
+			ABS (v.green) >= SMALL_EPSILON ||
+			ABS (v.blue) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_FLOAT:
+	      {
+	        float f = ArgToFloat (eval);
+	        rc = ABS (f) >= SMALL_EPSILON;
+	      }
+	      break;
+	    case CEL_DATA_LONG:
+	      rc = ArgToInt32 (eval) != 0;
+	      break;
+	    case CEL_DATA_ULONG:
+	      rc = ArgToUInt32 (eval) != 0;
+	      break;
+	    default:
+	      return ReportError (behave, "Can't test on this type!");
+	  }
+	  if (!rc)
+	  {
+	    i = op.arg.arg.codelocation;
+	  }
+	}
+	break;
       case CEL_OPERATION_IF:
         {
 	  CHECK_STACK
 	  celXmlArg eval = stack.Pop ();
-	  DUMP_EXEC (": if %s\n", A2S (eval));
+	  DUMP_EXEC (":%04d: if %s\n", i-1, A2S (eval));
 	  bool rc = false;
 	  switch (eval.type)
 	  {
@@ -1795,7 +1891,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg el = stack.Pop ();
-	  DUMP_EXEC (": print %s\n", A2S (el));
+	  DUMP_EXEC (":%04d: print %s\n", i-1, A2S (el));
 	  const char* s = ArgToString (el);
 	  printf ("%s\n", s);
 	  fflush (stdout);
@@ -1809,7 +1905,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_id = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC (": action pc=%s id=%d s=%s\n", A2S (a_pc),
+          DUMP_EXEC (":%04d: action pc=%s id=%d s=%s\n", i-1, A2S (a_pc),
 	  	A2S (a_id), A2S (a_val));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
@@ -1825,7 +1921,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg var = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_ent = stack.Pop ();
-	  DUMP_EXEC (": varent ent=%s var=%s value=%s\n", A2S (a_ent),
+	  DUMP_EXEC (":%04d: varent ent=%s var=%s value=%s\n", i-1, A2S (a_ent),
 	  	A2S (var), A2S (val));
 
 	  const char* entname = ArgToString (a_ent);
@@ -1899,7 +1995,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg val = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg var = stack.Pop ();
-	  DUMP_EXEC (": var var=%s value=%s\n", A2S (var), A2S (val));
+	  DUMP_EXEC (":%04d: var var=%s value=%s\n", i-1, A2S (var), A2S (val));
 
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -1961,7 +2057,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_id = stack.Pop ();
-	  DUMP_EXEC (": getproperty1 id=%s\n", A2S (a_id));
+	  DUMP_EXEC (":%04d: getproperty1 id=%s\n", i-1, A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 
 	  iCelPropertyClass* pc = default_pc;
@@ -2018,7 +2114,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_id = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC (": getproperty pc=%s id=%s\n", A2S (a_pc), A2S (a_id));
+	  DUMP_EXEC (":%04d: getproperty pc=%s id=%s\n", i-1, A2S (a_pc), A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
@@ -2073,7 +2169,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC (": defaultpc pc=%s\n", A2S (a_pc));
+	  DUMP_EXEC (":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
 	    return ReportError (behave, "Property class is 0!");
@@ -2088,7 +2184,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_id = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC (": property pc=%s id=%s val=%s\n", A2S (a_pc),
+          DUMP_EXEC (":%04d: property pc=%s id=%s val=%s\n", i-1, A2S (a_pc),
 	  	A2S (a_id), A2S (a_val));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
@@ -2141,6 +2237,17 @@ celXmlArg& celXmlScriptEventHandler::GetArgument ()
 {
   celXmlOperation& op = operations[operations.Length ()-1];
   return op.arg;
+}
+
+celXmlArg& celXmlScriptEventHandler::GetArgument (int idx)
+{
+  celXmlOperation& op = operations[idx];
+  return op.arg;
+}
+
+int celXmlScriptEventHandler::AddLocalVariable ()
+{
+  return local_vars.Push (celXmlArg ());
 }
 
 //---------------------------------------------------------------------------

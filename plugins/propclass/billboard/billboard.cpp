@@ -155,13 +155,16 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT (celPcBillboard)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardEventHandler)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcBillboard)
 SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcBillboard::PcBillboard)
   SCF_IMPLEMENTS_INTERFACE (iPcBillboard)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_IBASE (celPcBillboard::BillboardEventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iBillboardEventHandler)
+SCF_IMPLEMENT_IBASE_END
 
 csStringID celPcBillboard::id_x = csInvalidStringID;
 csStringID celPcBillboard::id_y = csInvalidStringID;
@@ -174,6 +177,8 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   billboard_name = csStrNew ("default");
   billboard = 0;
   events_enabled = false;
+
+  scfiBillboardEventHandler = 0;
 
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
@@ -218,6 +223,7 @@ celPcBillboard::~celPcBillboard ()
   }
   delete[] billboard_name;
   delete params;
+  delete scfiBillboardEventHandler;
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)
@@ -601,12 +607,14 @@ void celPcBillboard::EnableEvents (bool e)
   if (!billboard) return;
   if (events_enabled)
   {
-    billboard->AddEventHandler (this);
+    if (!scfiBillboardEventHandler)
+      scfiBillboardEventHandler = new BillboardEventHandler (this);
+    billboard->AddEventHandler (scfiBillboardEventHandler);
     billboard->GetFlags ().Set (CEL_BILLBOARD_CLICKABLE);
   }
   else
   {
-    billboard->RemoveEventHandler (this);
+    billboard->RemoveEventHandler (scfiBillboardEventHandler);
     billboard->GetFlags ().Reset (CEL_BILLBOARD_CLICKABLE);
   }
 }
