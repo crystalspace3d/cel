@@ -759,47 +759,47 @@ void celPcProperties::ClearPropertyValue (property* p)
 
 void celPcProperties::SetProperty (const char* name, float value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, long value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, bool value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, const char* value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, const csVector2& value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, const csVector3& value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, const csColor& value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, iCelPropertyClass* value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 void celPcProperties::SetProperty (const char* name, iCelEntity* value)
 {
-  SetProperty (FindOrNewProperty (name), value);
+  SetPropertyIndex (FindOrNewProperty (name), value);
 }
 
 size_t celPcProperties::GetPropertyIndex (const char* name)
