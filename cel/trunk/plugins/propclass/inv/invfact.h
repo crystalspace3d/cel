@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "csutil/refarr.h"
 #include "csutil/array.h"
+#include "csutil/parray.h"
 #include "csutil/scf.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
