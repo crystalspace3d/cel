@@ -1,3 +1,7 @@
+24-Jan-2003
+	- Eric Sunshine updated Makefile to work correctly with new -makevars
+	  fragments from cs-config which might now contain references to
+	  makefile variables such as $(OUT), $(CFLAGS.I), $(LFLAGS.L), etc.
 23-Jan-2003:
 	- Keith Fulton added a SetID to iCelEntity so it is possible
 	  for an external app to override the CS_ID assigned to an
