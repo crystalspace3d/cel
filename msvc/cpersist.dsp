@@ -114,5 +114,13 @@ SOURCE=..\persist\classic\cpersist.h
 SOURCE=..\persist\classic\cpersist.cpp
 # End Source File
 # End Group
+# Begin Group "Resource Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\cpersist.rc
+# End Source File
+# End Group
 # End Target
 # End Project
