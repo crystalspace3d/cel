@@ -36,9 +36,9 @@
 #include "cssys/sysfunc.h"
 
 //CEL includes
-#include "pl/propclas.h"
-#include "pl/propfact.h"
-#include "pl/facttmpl.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/propfact.h"
+#include "physicallayer/facttmpl.h"
 #include "propclass/mesh.h"
 #include "propclass/linmove.h"
 #include "plugins/propclass/common/stdpcimp.h"

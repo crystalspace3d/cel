@@ -21,7 +21,7 @@
 #define __CEL_BLTEST_BL__
 
 #include "iutil/comp.h"
-#include "bl/bl.h"
+#include "behaviourlayer/bl.h"
 
 struct iObjectRegistry;
 struct iCelEntity;

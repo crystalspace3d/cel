@@ -26,11 +26,11 @@
 #include "csutil/inpnames.h"
 #include "csutil/csevent.h"
 #include "plugins/propclass/input/inpfact.h"
-#include "pl/pl.h"
-#include "pl/entity.h"
-#include "pl/datatype.h"
-#include "pl/persist.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/datatype.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/behave.h"
 #include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------

@@ -22,7 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
-#include "pl/datatype.h"
+#include "physicallayer/datatype.h"
 
 SCF_VERSION (iPcProperties, 0, 0, 1);
 

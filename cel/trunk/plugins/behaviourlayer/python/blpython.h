@@ -24,8 +24,8 @@
 #include "ivaria/script.h"
 #include "csutil/csinput.h"
 #include "csutil/csvector.h"
-#include "bl/bl.h"
-#include "bl/behave.h"
+#include "behaviourlayer/bl.h"
+#include "behaviourlayer/behave.h"
 
 #include "Python.h"
 

@@ -16,6 +16,8 @@
 		- celtest
 	- Jorrit renamed include/pf to include/propclass. This will break
 	  all games that use CEL. The change is easy though.
+	- Jorrit renamed include/bl to include/behaviourlayer and
+	  include/pl to include/physicallayer.
 25-Jun-2003
 	- Jorrit ported pslinmove from the PlaneShift project to CEL. The
 	  code is currently mostly unchanged except for a few things:

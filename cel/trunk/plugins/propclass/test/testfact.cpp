@@ -21,10 +21,10 @@
 #include "iutil/objreg.h"
 #include "csutil/debug.h"
 #include "plugins/propclass/test/testfact.h"
-#include "pl/pl.h"
-#include "pl/entity.h"
-#include "pl/persist.h"
-#include "bl/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/behave.h"
 
 //---------------------------------------------------------------------------
 
