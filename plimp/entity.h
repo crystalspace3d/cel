@@ -64,7 +64,7 @@ public:
       return scfParent->behaviour;
     }
   } scfiCelEntity;
-  friend class CelEntity;
+  friend struct CelEntity;
 };
 
 /**
