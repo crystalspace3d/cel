@@ -24,6 +24,7 @@
 #include "csutil/hash.h"
 #include "csutil/hashhandlers.h"
 #include "csutil/parray.h"
+#include "csutil/refarr.h"
 #include "csutil/strhash.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
@@ -47,6 +48,7 @@ private:
   char* materialname;
   iMaterialWrapper* material;
   int x, y, w, h;
+  csRefArray<iBillboardEventHandler> handlers;
 
 public:
   celBillboard ();
@@ -58,7 +60,17 @@ public:
     name = csStrNew (n);
   }
 
+  // Draw billboard (requires 3D mode of g3d).
   void Draw (iEngine* engine, iGraphics3D* g3d);
+
+  // Check if x,y is in billboard.
+  bool In (int cx, int cy);
+
+  // Fire event handlers.
+  void FireMouseUp (int x, int y, int button);
+  void FireMouseDown (int x, int y, int button);
+  void FireMouseMove (int x, int y, int button);
+  void FireMouseDoubleClick (int x, int y, int button);
 
   SCF_DECLARE_IBASE;
 
@@ -79,6 +91,9 @@ public:
     y = celBillboard::y;
   }
   virtual void Move (int dx, int dy);
+
+  virtual void AddEventHandler (iBillboardEventHandler* evh);
+  virtual void RemoveEventHandler (iBillboardEventHandler* evh);
 };
 
 /**
@@ -92,6 +107,8 @@ private:
   csHash<celBillboard*,const char*,csConstCharHashKeyHandler> billboards_hash;
   csRef<iGraphics3D> g3d;
   csRef<iEngine> engine;
+
+  celBillboard* FindBillboard (int x, int y);
 
 public:
   celBillboardManager (iBase* parent);

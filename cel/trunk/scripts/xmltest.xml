@@ -46,6 +46,16 @@
 	        <property propclass="pcbillboard"
 			name="pcbillboard.materialname"
 			string="wood" />
+	        <property propclass="pcbillboard" name="pcbillboard.events"
+			bool="1" />
+	    </event>
+	    <event name="pcbillboard_select">
+	        <property propclass="pcbillboard" name="pcbillboard.name"
+			string="bb2" />
+	    </event>
+	    <event name="pcbillboard_unselect">
+	        <property propclass="pcbillboard" name="pcbillboard.name"
+			string="bb2" />
 	    </event>
 	</script>
     </addon>

@@ -40,9 +40,10 @@ struct iCelPropertyClass;
 #define CEL_TYPE_INT32 2
 #define CEL_TYPE_FLOAT 3
 #define CEL_TYPE_STRING 4
-#define CEL_TYPE_PC 5
-#define CEL_TYPE_ID 6
-#define CEL_TYPE_ARGLIST 7
+#define CEL_TYPE_BOOL 5
+#define CEL_TYPE_PC 6
+#define CEL_TYPE_ID 7
+#define CEL_TYPE_ARGLIST 8
 
 // A property class parameter resolver.
 struct celXmlPCResolver
@@ -65,6 +66,7 @@ struct celXmlArg
     int32 i;
     float f;
     const char* s;
+    bool b;
     int pc;
     csStringID id;
     celXmlArgList* a;
@@ -94,6 +96,12 @@ struct celXmlArg
     Cleanup ();
     type = CEL_TYPE_FLOAT;
     arg.f = f;
+  }
+  void SetBool (bool b)
+  {
+    Cleanup ();
+    type = CEL_TYPE_BOOL;
+    arg.b = b;
   }
   void SetString (const char* s)
   {

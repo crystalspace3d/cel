@@ -46,6 +46,16 @@ struct iPcBillboard : public iBase
    * Get the billboard.
    */
   virtual iBillboard* GetBillboard () = 0;
+
+  /**
+   * Enable or disable listening for events for this billboard.
+   */
+  virtual void EnableEvents (bool e) = 0;
+
+  /**
+   * Return true if events are enabled.
+   */
+  virtual bool AreEventsEnabled () const = 0;
 };
 
 #endif // __CEL_PF_BILLBOARD__
