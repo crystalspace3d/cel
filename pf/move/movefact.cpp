@@ -47,6 +47,7 @@
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
 #include "igeom/polymesh.h"
+#include "igeom/objmodel.h"
 #include "imesh/object.h"
 
 //---------------------------------------------------------------------------
@@ -343,8 +344,8 @@ iCollider* celPcSolid::GetCollider ()
     pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
   }
   CS_ASSERT (pcmesh != NULL);
-  csRef<iPolygonMesh> pmesh (SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->
-  	GetMeshObject (), iPolygonMesh));
+  iPolygonMesh* pmesh = pcmesh->GetMesh ()->GetMeshObject ()->
+	GetObjectModel ()->GetPolygonMeshColldet ();
   if (pmesh)
   {
     csRef<iCollideSystem> cdsys (

@@ -1,3 +1,6 @@
+25-May-2003
+	- Jorrit changed pcsolid property class to use GetObjectModel() for
+	  the CD mesh instead of the deprecated SCF_QUERY_INTERFACE.
 16-May-2003
         - Boyan added celFindNearbyEntities() function
 12-May-2003
