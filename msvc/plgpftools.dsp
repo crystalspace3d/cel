@@ -88,7 +88,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pftools.dll"  
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pftools.dll"  
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -104,11 +104,11 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\toolfact.cpp
+SOURCE=..\plugins\propclass\tools\spawn.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\spawn.cpp
+SOURCE=..\plugins\propclass\tools\toolfact.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -116,11 +116,11 @@ SOURCE=..\plugins\propclass\tools\spawn.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\toolfact.h
+SOURCE=..\plugins\propclass\tools\spawn.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\tools\spawn.h
+SOURCE=..\plugins\propclass\tools\toolfact.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

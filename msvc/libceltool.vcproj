@@ -157,10 +157,10 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\libs\celtool\stdpcimp.cpp">
+				RelativePath="..\libs\celtool\stdparams.cpp">
 			</File>
 			<File
-				RelativePath="..\libs\celtool\stdparams.cpp">
+				RelativePath="..\libs\celtool\stdpcimp.cpp">
 			</File>
 		</Filter>
 	</Files>

@@ -161,19 +161,19 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
 				RelativePath="..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
+				RelativePath="..\plugins\stdphyslayer\message.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\stdphyslayer\pl.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
 			</File>
 		</Filter>
 		<Filter

@@ -88,7 +88,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfmove.dll"  
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfmove.dll"  
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -102,6 +102,10 @@ SOURCE="$(InputPath)"
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\colldet.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\move\linmove.cpp
@@ -118,14 +122,14 @@ SOURCE=..\plugins\propclass\move\navgraph.cpp
 
 SOURCE=..\plugins\propclass\move\navgraphrulesfps.cpp
 # End Source File
-# Begin Source File
-
-SOURCE=..\plugins\propclass\move\colldet.cpp
-# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\move\colldet.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\move\linmove.h
@@ -141,10 +145,6 @@ SOURCE=..\plugins\propclass\move\navgraph.h
 # Begin Source File
 
 SOURCE=..\plugins\propclass\move\navgraphrulesfps.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\propclass\move\colldet.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

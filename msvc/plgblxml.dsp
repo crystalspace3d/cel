@@ -88,7 +88,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\blxml.dll"  
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib  /nologo /version:4.0 /subsystem:windows /machine:I386 /debug /pdbtype:sept /dll /out:"..\blxml.dll"  
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -112,11 +112,11 @@ SOURCE=..\plugins\behaviourlayer\xml\blxml.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\xml\xmlscript.cpp
+SOURCE=..\plugins\behaviourlayer\xml\token.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\xml\token.cpp
+SOURCE=..\plugins\behaviourlayer\xml\xmlscript.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -132,11 +132,11 @@ SOURCE=..\plugins\behaviourlayer\xml\blxml.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\xml\xmlscript.h
+SOURCE=..\plugins\behaviourlayer\xml\token.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\behaviourlayer\xml\token.h
+SOURCE=..\plugins\behaviourlayer\xml\xmlscript.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
