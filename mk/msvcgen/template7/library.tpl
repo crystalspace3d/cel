@@ -73,7 +73,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="1"
-				AdditionalOptions="%cflags%"
+				AdditionalOptions="%debugcflags%"
 				AdditionalIncludeDirectories="..\..;..\"
 				PreprocessorDefinitions="_DEBUG,_LIB,WIN32,_WINDOWS,WIN32_VOLATILE,__CRYSTAL_SPACE__,CS_DEBUG"
 				MinimalRebuild="TRUE"

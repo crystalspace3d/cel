@@ -255,7 +255,7 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   if (!pc) return 0;
   csRef<iPcGravity> pcgravity (SCF_QUERY_INTERFACE (pc, iPcGravity));
   pcgravity->SetWeight (weight);
-  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
+  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8f, 0));
   pc = pl->CreatePropertyClass (entity_box, "pcmovable");
   if (!pc) return 0;
 #if 1
@@ -338,7 +338,7 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   if (!pc) return 0;
   pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
   pcgravity->SetWeight (weight);
-  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
+  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8f, 0));
   pc = pl->CreatePropertyClass (entity_dummy, "pcmovable");
   if (!pc) return 0;
 #if 1
@@ -405,7 +405,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name, const char* /*factname
   pc = pl->CreatePropertyClass (entity_cam, "pcgravity");
   if (!pc) return 0;
   pcgravity = SCF_QUERY_INTERFACE (pc, iPcGravity);
-  pcgravity->SetWeight (.3);
+  pcgravity->SetWeight (.3f);
   //pcgravity->ApplyPermanentForce (csVector3 (0, -9.8, 0));
   pc = pl->CreatePropertyClass (entity_cam, "pcmovable");
   if (!pc) return 0;
@@ -485,12 +485,12 @@ bool CelTest::CreateRoom ()
   //===============================
 #if !MINIMAL
   csRef<iCelEntity> entity_box;
-  entity_box = CreateBoxEntity ("box", "box", pccamera, .9, 200,
+  entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
 
-  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3, 50,
+  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
   if (!entity_box) return false;
@@ -501,33 +501,33 @@ bool CelTest::CreateRoom ()
   // Create dummy entities.
   //===============================
   entity_dummy = CreateDummyEntity ("dummy1", "large",
-  	.3, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0), false);
+  	.3f, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
 #if !MINIMAL
   entity_dummy = CreateDummyEntity ("dummy2", "small",
-  	.4, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
+  	.4f, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   entity_dummy = CreateDummyEntity ("dummy3", "large",
-  	.2, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0), false);
+  	.2f, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   entity_dummy = CreateDummyEntity ("dummy4", "medium",
-  	.7, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0), false);
+  	.7f, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   entity_dummy = CreateDummyEntity ("dummy5", "small",
-  	.1, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0), true);
+  	.1f, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   entity_dummy = CreateDummyEntity ("dummy6", "medium",
-  	.3, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
+  	.3f, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 

@@ -45,6 +45,6 @@ if $(PYTHON.AVAILABLE) = yes
   # blpython plugin.
   #--------
   Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp ;
-  ExternalLibs blpython : PYTHON ;
+  ExternalLibs blpython : PYTHON CRYSTAL ;
   CFlags blpython : [ FDefines SWIG_GLOBAL ] ;
 }

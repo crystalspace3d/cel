@@ -18,6 +18,9 @@ The history order is reversed so that new features are at the top.
 	      dependence will be eliminated in the future, allowing these files
 	      to be retired).
 	    - Fixed broken @node and @menu directives in cel.txi.
+	- res updated the msvcgen settings to utilize the new "debug settings" 
+	  feature.
+	- res fixed some double vs float MSVC warnings.
 13-May-2004
 	- Jorrit ported the camera handling code that is used in PlaneShift
 	  to pccamera. This is a very significant change which considerably

@@ -3,4 +3,5 @@ SubDir TOP plugins persist classic ;
 Plugin cpersist
 	: cpersist.cpp cpersist.h
 ;
+ExternalLibs cpersist : CRYSTAL ;
 

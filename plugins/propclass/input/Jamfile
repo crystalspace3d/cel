@@ -3,5 +3,6 @@ SubDir TOP plugins propclass input ;
 Plugin pfinput
 	: inpfact.cpp inpfact.h
 ;
+ExternalLibs pfinput : CRYSTAL ;
 LinkWith pfinput : celtool ;
 

@@ -2,6 +2,7 @@ SubDir TOP apps bootstrap ;
 
 Application bootstrap : [ Wildcard *.cpp *.h ] ;
 CFlags bootstrap : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+ExternalLibs bootstrap : CRYSTAL ;
 
 if ! [ Property build : projgen ]
 {

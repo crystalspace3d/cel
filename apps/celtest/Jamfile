@@ -4,3 +4,4 @@ Application celtst
 	: [ Wildcard *.cpp *.h ]
 ;
 CFlags celtst : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+ExternalLibs celtst : CRYSTAL ;

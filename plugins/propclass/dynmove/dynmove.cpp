@@ -104,7 +104,7 @@ celPcDynamicSystem::celPcDynamicSystem (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDynamicSystem);
   DG_TYPE (this, "celPcDynamicSystem()");
-  delta = 0.01;
+  delta = 0.01f;
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != 0);
@@ -210,7 +210,7 @@ iDynamicSystem* celPcDynamicSystem::GetDynamicSystem ()
       return 0;
     }
     dynsystem = dynamics->CreateSystem ();
-    dynsystem->SetGravity (csVector3 (0, -9.8, 0));
+    dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
   }
   return dynsystem;
 }
