@@ -93,6 +93,8 @@ public:
 
   bool HandleEvent (iEvent& ev);
 
+  iEngine* GetEngine () const { return engine; }
+
   SCF_DECLARE_IBASE;
 
   // For managing the names of entities (to find them faster).

@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 7-Jan-2004
 	- Jorrit worked further on the entity tracker. Not finished yet.
 	- Jorrit added lots of missing SCF_DESTRUCT_EMBEDDED_IBASE calls.
+	- Jorrit finished the new entity tracker implementation. This is
+	  completely untested code! Use at your own risk!
 30-Dec-2004
 	- Andrew Dai fixed another bug in NumRegLists::RegisterWithID
 	  where the list was not being cleared after being grown.

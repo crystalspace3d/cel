@@ -25,6 +25,10 @@
 #include "plugins/stdphyslayer/pl.h"
 
 struct iCelEntity;
+struct iMeshWrapper;
+class celSectorcb;
+class celMeshcb;
+class celEntityList;
 
 /**
  * A list of property classes.
@@ -32,13 +36,27 @@ struct iCelEntity;
 class celEntityTracker : public iCelEntityTracker
 {
 private:
-  iCelPlLayer* pl;
+  celPlLayer* pl;
   csSet<iCelEntity*> entities;
+  csSet<iMeshWrapper*> entity_meshes;
   char* name;
+  csRef<celSectorcb> sector_cb;
+  csRefArray<celMeshcb> mesh_cbs;
+  csHash<celMeshcb*,iSector*> index_mesh_cbs;
+
+  void FindNearbyEntities (celEntityList* list,
+	iSector* sector, const csVector3& pos, float sqradius,
+	csArray<iSector*>& visited_sectors);
 
 public:
   celEntityTracker (celPlLayer* pl, const char* name);
   virtual ~celEntityTracker ();
+
+  const csSet<iCelEntity*>& GetEntities () const { return entities; }
+  const csSet<iMeshWrapper*>& GetEntityMeshes () const { return entity_meshes; }
+
+  void RegisterSector (celMeshcb* cb);
+  void UnregisterSector (iSector* sector);
 
   SCF_DECLARE_IBASE;
 
