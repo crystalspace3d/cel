@@ -54,7 +54,7 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
 CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
 
-void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);

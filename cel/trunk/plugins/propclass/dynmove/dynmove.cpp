@@ -45,7 +45,7 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(DynamicSystem, "pcdynsys")
 CEL_IMPLEMENT_FACTORY(DynamicBody, "pcdynbody")
 
-void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -64,7 +64,7 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_end (arg);
 }
 
-void Notify (iObjectRegistry* object_reg, const char* msg, ...)
+static void Notify (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);

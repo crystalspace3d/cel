@@ -190,6 +190,16 @@ struct iBillboard : public iBase
   virtual void Move (int dx, int dy) = 0;
 
   /**
+   * Bring this billboard to the top of the stack (first visible).
+   */
+  virtual void StackTop () = 0;
+
+  /**
+   * Bring this billboard to the bottom of the stack.
+   */
+  virtual void StackBottom () = 0;
+
+  /**
    * Set the top-left coordinate of the texture (default 0,0).
    * Range from 0,0 - 1,1.
    */

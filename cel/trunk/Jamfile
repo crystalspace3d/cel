@@ -17,11 +17,11 @@ Help maintainerclean :
 		"Cleanup all objectfiles, buildconfig and generated files." ;
 
 # include subdirectories
-SubInclude TOP apps ;
 SubInclude TOP docs ;
 SubInclude TOP include ;
-SubInclude TOP plugins ;
 SubInclude TOP libs ;
+SubInclude TOP plugins ;
+SubInclude TOP apps ;
 
 # generate cel-config
 rule CelConfigGen

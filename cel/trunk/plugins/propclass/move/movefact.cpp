@@ -62,7 +62,7 @@ CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
 CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
 CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
 
-void Report (iObjectRegistry* object_reg, const char* msg, ...)
+void MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -81,7 +81,7 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_end (arg);
 }
 
-void Notify (iObjectRegistry* object_reg, const char* msg, ...)
+void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -148,7 +148,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MOVABLE_SERIAL)
   {
-    Report (object_reg,"serialnr != MOVABLE_SERIAL.  Cannot load.");
+    MoveReport (object_reg,"serialnr != MOVABLE_SERIAL.  Cannot load.");
     return false;
   }
 
@@ -159,7 +159,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (j++);
   if (!cd)
   {
-    Report (object_reg,"Property class not specified.  Cannot load.");
+    MoveReport (object_reg,"Property class not specified.  Cannot load.");
     return false;
   }
   iCelPropertyClass* pc = cd->value.pc;
@@ -174,13 +174,13 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (j++);
   if (!cd)
   {
-    Report (object_reg,"cnt_constraints not specified.  Cannot load.");
+    MoveReport (object_reg,"cnt_constraints not specified.  Cannot load.");
     return false;
   }
   int cnt_constraints = cd->value.uw;
   if (cnt_total != 1+1+cnt_constraints)
   {
-    Report (object_reg,"Cnt_total is %d and should be %d.  Cannot load.",cnt_total, 2+cnt_constraints);
+    MoveReport (object_reg,"Cnt_total is %d and should be %d.  Cannot load.",cnt_total, 2+cnt_constraints);
     return false;
   }
 
@@ -189,7 +189,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
     cd = databuf->GetData (j++);
     if (!cd)
     {
-      Report (object_reg,"iPcMovableConstraint not specified for element %d.  Cannot load.",i);
+      MoveReport (object_reg,"iPcMovableConstraint not specified for element %d.  Cannot load.",i);
       return false;
     }
     csRef<iPcMovableConstraint> pcm (SCF_QUERY_INTERFACE (cd->value.pc,
@@ -319,12 +319,12 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != SOLID_SERIAL)
   {
-    Report (object_reg,"serialnr != SOLID_SERIAL.  Cannot load.");
+    MoveReport (object_reg,"serialnr != SOLID_SERIAL.  Cannot load.");
     return false;
   }
   if (databuf->GetDataCount () != 1)
   {
-    Report (object_reg,"Msg does not specify the correct data.  Cannot load.");
+    MoveReport (object_reg,"Msg does not specify the correct data.  Cannot load.");
     return false;
   }
   celData* cd;
@@ -333,7 +333,7 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (0);
   if (!cd)
   {
-    Report (object_reg,"iPcMesh prop class not specified.  Cannot load.");
+    MoveReport (object_reg,"iPcMesh prop class not specified.  Cannot load.");
     return false;
   }
   csRef<iPcMesh> pcm;
@@ -459,12 +459,12 @@ bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MOVABLECONST_CD_SERIAL)
   {
-    Report (object_reg,"serialnr != MOVABLECONST_CD_SERIAL.  Cannot load.");
+    MoveReport (object_reg,"serialnr != MOVABLECONST_CD_SERIAL.  Cannot load.");
     return false;
   }
   if (databuf->GetDataCount () != 0)
   {
-    Report (object_reg,"Msg does not specify correct data.  Cannot load.");
+    MoveReport (object_reg,"Msg does not specify correct data.  Cannot load.");
     return false;
   }
   return true;
@@ -671,7 +671,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != GRAVITY2_SERIAL)
   {
-    Report (object_reg,"serialnr != GRAVITY2_SERIAL.  Cannot load.");
+    MoveReport (object_reg,"serialnr != GRAVITY2_SERIAL.  Cannot load.");
     return false;
   }
   celDataBufHelper db(databuf);
@@ -689,7 +689,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 
   if (!db.AllOk())
   {
-    Report (object_reg,"databuf not ok.  Cannot load.");
+    MoveReport (object_reg,"databuf not ok.  Cannot load.");
     return false;
   }
 
@@ -701,7 +701,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 
   if (!db.AllOk())
   {
-    Report (object_reg,"databuf not ok.  Cannot load.");
+    MoveReport (object_reg,"databuf not ok.  Cannot load.");
     return false;
   }
 
@@ -716,7 +716,7 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
   }
   if (!db.AllOk())
   {
-    Report (object_reg,"databuf not ok.  Cannot load.");
+    MoveReport (object_reg,"databuf not ok.  Cannot load.");
     return false;
   }
 

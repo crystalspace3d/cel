@@ -2703,6 +2703,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	delta, x, y);
 	}
 	break;
+      case CEL_OPERATION_BB_TOFRONT:
+        {
+	  DUMP_EXEC ((":%04d: bb_tofront\n", i-1));
+	  behave->GetBillboard ()->GetBillboard ()->StackTop ();
+	}
+	break;
+      case CEL_OPERATION_BB_TOBACK:
+        {
+	  DUMP_EXEC ((":%04d: bb_toback\n", i-1));
+	  behave->GetBillboard ()->GetBillboard ()->StackBottom ();
+	}
+	break;
       case CEL_OPERATION_BB_MOVE:
         {
 	  CHECK_STACK(2)

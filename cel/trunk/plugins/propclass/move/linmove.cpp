@@ -63,7 +63,7 @@
 
 #include "plugins/propclass/move/linmove.h"
 
-extern void Report (iObjectRegistry* object_reg, const char* msg, ...);
+extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 
@@ -134,19 +134,19 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   q->RegisterListener (scfiEventHandler, ~CSMASK_Broadcast);
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  if (!vc) Report (object_reg, "iVirtualClock Missing!");
+  if (!vc) MoveReport (object_reg, "iVirtualClock Missing!");
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine)
   {
-    Report (object_reg, "Engine missing!");
+    MoveReport (object_reg, "Engine missing!");
     return;
   }
 
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
-    Report (object_reg, "Physical layer missing!");
+    MoveReport (object_reg, "Physical layer missing!");
     return;
   }
 
@@ -487,7 +487,7 @@ bool celPcLinearMovement::HandleEvent (iEvent& ev)
     pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
     if (!pcmeshref)
     {
-      Report (object_reg, "No Mesh found on entity!");
+      MoveReport (object_reg, "No Mesh found on entity!");
       return false;
     }
     pcmesh = pcmeshref; // Get out of csRef refcounting and just save ptr
@@ -523,7 +523,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
     if (!pcmeshref)
     {
-      Report (object_reg, "No Mesh found on entity!");
+      MoveReport (object_reg, "No Mesh found on entity!");
       return false;
     }
     else
@@ -542,7 +542,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
     pc = pl->CreatePropertyClass(entity, "pccollisiondetection");
     if ( !pc )
     {
-        Report (object_reg, "Could not create property class pccollisiondetection.");
+        MoveReport (object_reg, "Could not create property class pccollisiondetection.");
         return false;
     }
     csRef<iPcCollisionDetection> pctemp;
@@ -615,7 +615,7 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStrin
 {
   if (data->GetSize () <= sizeof (float) * 8)
   {
-    Report (object_reg,
+    MoveReport (object_reg,
     	"Received DR packet with wrong site: %u should be at least %u\n",
 	data->GetSize (), sizeof (float) * 11+1);
     return false;
@@ -691,7 +691,7 @@ bool celPcLinearMovement::SetDRData (iDataBuffer* data,bool detectcheat, csStrin
     // Sector changed, find new sector and set it
     iSector* newSector = engine->GetSectors ()->FindByName (sectorName);
     if (!newSector)
-      Report (object_reg,
+      MoveReport (object_reg,
       	"[celPcLinearMovement::SetDRData] Sector %s not found !\n", sectorName);
     else
       pcmesh->GetMesh ()->GetMovable ()->SetSector (newSector);
