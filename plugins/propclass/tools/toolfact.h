@@ -229,10 +229,6 @@ private:
   static csStringID id_index;
   celOneParameterBlock* params;
 
-  static csStringID id_name;
-  static csStringID id_value;
-  static csStringID action_setproperty;
-
 public:
   celPcProperties (iObjectRegistry* object_reg);
   virtual ~celPcProperties ();
@@ -303,7 +299,6 @@ public:
   virtual const char* GetName () const { return "pcproperties"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcProperties : public iPcProperties
   {

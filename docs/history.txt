@@ -28,6 +28,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for a new SetProperty action to the
 	  iPcProperties property class so that you can set properties from
 	  within an XML addon file.
+	- Jorrit reverted the SetProperty action change. It is unneeded since
+	  you can already set properties by using the normal property system.
+	  /me needs to wake up.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at
