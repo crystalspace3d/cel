@@ -117,6 +117,10 @@ SOURCE=..\msvc\appceltst.rc
 
 SOURCE=..\apps\celtest\celtest.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\apps\celtest\ctmain.cpp
+# End Source File
 
 # End Group
 

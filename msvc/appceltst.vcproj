@@ -164,6 +164,9 @@ copy &quot;$(TargetPath)&quot; ..
 			<File
 				RelativePath="..\apps\celtest\celtest.cpp">
 			</File>
+			<File
+				RelativePath="..\apps\celtest\ctmain.cpp">
+			</File>
 
 		</Filter>
 
