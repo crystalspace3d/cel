@@ -10,6 +10,11 @@ The history order is reversed so that new features are at the top.
 	  will execute a behaviour from that plugin. This can be used to
 	  fire up a game using CEL.
 	- 'bootstrap' now basically works.
+	- Jorrit changed the celCreateEntity() function in the blcel.i
+	  swig wrapper to use an iCelPlLayer argument instead of an
+	  iObjectRegistry. That's a lot more efficient and you can easily
+	  get the current iCelPlLayer by using the 'physicallayer_ptr'
+	  in python scripts.
 29-Jun-2003
 	- Eric Sunshine replaced the outdated mk/autoconf/progver.m4 with an
 	  up-to-date version from the Crystal Space project.  This fixes the
