@@ -59,4 +59,5 @@ layer).
 
 Save sector position in pccamera.
 
+pcinput_... to pckeyinput_... messages...
 
