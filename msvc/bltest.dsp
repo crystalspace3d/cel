@@ -103,11 +103,11 @@ PostBuild_Cmds=echo Moving output to CS root.	copy $(TargetPath)  ..
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\bltest\bl.h
+SOURCE=..\bltest\behave.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\bltest\entity.h
+SOURCE=..\bltest\bl.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -115,11 +115,11 @@ SOURCE=..\bltest\entity.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\bltest\bl.cpp
+SOURCE=..\bltest\behave.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\bltest\entity.cpp
+SOURCE=..\bltest\bl.cpp
 # End Source File
 # End Group
 # End Target
