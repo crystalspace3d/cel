@@ -292,11 +292,8 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     if (m)
     {
       bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-      if (invisible) 
-      {
-        objit->Next();
-        continue;
-      }
+      if (invisible)       
+        continue;      
     }
     iCelEntity* ent = FindAttachedEntity (obj);
     if (ent)
