@@ -59,6 +59,7 @@ enum
   CEL_TOKEN_BITNOT,	// ~
   CEL_TOKEN_COMMA,	// ,
   CEL_TOKEN_DOT,	// .
+  CEL_TOKEN_DOTDOTDOT,	// ...
   CEL_TOKEN_VECTORCLOSE,// ]
   CEL_TOKEN_IDENTIFIER,	// identifier
   CEL_TOKEN_FUNCTION,	// <identifier>(

@@ -377,8 +377,10 @@ static bool ArgToBool (const celXmlArg& a)
     case CEL_DATA_ULONG: return bool (a.arg.ui);
     case CEL_DATA_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
     case CEL_DATA_BOOL: return a.arg.b;
+    case CEL_DATA_ENTITY: return a.arg.entity != 0;
+    case CEL_DATA_PCLASS: return a.arg.pc != 0;
     case CEL_DATA_STRING:
-      return a.arg.str.s ? !strcmp (a.arg.str.s, "true") : false;
+      return a.arg.str.s ? (*a.arg.str.s != 0) : false;
     default:
       return false;
   }
@@ -543,7 +545,7 @@ bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
       rc = eval.arg.entity != 0;
       break;
     case CEL_DATA_PCLASS:
-      rc = ArgToPClass (eval) != 0;
+      rc = eval.arg.pc != 0;
       break;
     case CEL_DATA_BOOL:
       rc = ArgToBool (eval);
@@ -1342,11 +1344,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG: top.SetBool (!top.arg.ui); break;
 	    case CEL_DATA_FLOAT: top.SetBool (ABS (top.arg.f) >= SMALL_EPSILON); break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
+	    case CEL_DATA_ENTITY:
+	    case CEL_DATA_PCLASS:
 	    case CEL_DATA_STRING:
-	      {
-	        const char* rc = ArgToString (top);
-	        top.SetBool (rc != 0 && *rc != 0);
-	      }
+	      top.SetBool (!ArgToBool (top));
 	      break;
 	    default:
 	      return ReportError (behave, "Can't log-not element on stack!");
@@ -2385,7 +2386,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find entity '%s' for 'callent'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
 	}
@@ -2404,7 +2405,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find entity '%s' for 'callent'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
 	  iPcProperties* props = behave->GetProperties ();
@@ -2422,7 +2423,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg aevent = stack.Pop ();
 	  DUMP_EXEC ((":%04d: call event=%s\n", i-1, A2S (aevent)));
 	  const char* eventname = ArgToString (aevent);
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  behave->SendMessage (eventname, ret, action_params);
 	}
@@ -2439,11 +2440,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find entity '%s' for 'callent_restack'!",
 	    	EntityNameForError (top));
 	  const char* eventname = op.arg.arg.str.s;
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
-	  if (!celData2celXmlArg (ret, top))
-	      return ReportError (behave, "Type not supported for event function call!");
+	  celData2celXmlArg (ret, top);
 	}
         break;
       case CEL_OPERATION_CALL_ERS2:
@@ -2458,23 +2458,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find entity '%s' for 'callent_restack'!",
 	    	EntityNameForError (top));
 	  const char* eventname = op.arg.arg.str.s;
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
-	  if (!celData2celXmlArg (ret, top))
-	      return ReportError (behave, "Type not supported for event function call!");
+	  celData2celXmlArg (ret, top);
 	}
         break;
       case CEL_OPERATION_CALL_RS:
         {
 	  DUMP_EXEC ((":%04d: call_rs event=%s\n", i-1, A2S (op.arg)));
 	  const char* eventname = op.arg.arg.str.s;
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  behave->SendMessage (eventname, ret, action_params);
 	  int si = stack.Push (celXmlArg ());
-	  if (!celData2celXmlArg (ret, stack[si]))
-	      return ReportError (behave, "Type not supported for event function call!");
+	  celData2celXmlArg (ret, stack[si]);
 	}
         break;
       case CEL_OPERATION_CALL_R:
@@ -2485,7 +2483,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: call_r event=%s return=%s\n", i-1,
 	  	A2S (aevent), A2S (aret)));
 	  const char* eventname = ArgToString (aevent);
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  behave->SendMessage (eventname, ret, action_params);
 	  iPcProperties* props = behave->GetProperties ();
@@ -2552,7 +2550,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  csStringID id = ArgToID (a_id);
-	  csRef<celVariableParameterBlock> ref = action_params;
+	  csRef<iCelParameterBlock> ref = action_params;
 	  pc->PerformAction (id, action_params);
 	}
         break;
@@ -2806,11 +2804,17 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  fflush (stdout);
 	}
 	break;
+      case CEL_OPERATION_INHERITPARAMS:
+        {
+	  DUMP_EXEC ((":%04d: inheritparams\n", i-1));
+          action_params = params;
+        }
+        break;
       case CEL_OPERATION_ACTIONPARAMS:
         {
 	  DUMP_EXEC ((":%04d: actionparams\n", i-1));
-          action_params = csPtr<celVariableParameterBlock> (
-		new celVariableParameterBlock ());
+          action_params = csPtr<iCelParameterBlock> (
+		(iCelParameterBlock*)new celVariableParameterBlock ());
         }
         break;
       case CEL_OPERATION_ACTIONPARAM:
@@ -2821,8 +2825,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: param idx=%d id=%s val=%s\n", i-1,
 	  	op.arg.arg.ui, A2S (a_id), A2S (a_val)));
 	  CS_ASSERT (action_params != 0);
-	  action_params->SetParameterDef (op.arg.arg.ui, ArgToID (a_id), "");
-	  celData& data = action_params->GetParameter ((int)op.arg.arg.ui);
+	  celVariableParameterBlock* vb = (celVariableParameterBlock*)(iCelParameterBlock*)
+	  	action_params;
+	  vb->SetParameterDef (op.arg.arg.ui, ArgToID (a_id), "");
+	  celData& data = vb->GetParameter ((int)op.arg.arg.ui);
 	  switch (a_val.type)
 	  {
 	    case CEL_DATA_ENTITY: data.Set (a_val.arg.entity); break;

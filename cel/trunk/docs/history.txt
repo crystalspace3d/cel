@@ -3,6 +3,20 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+14-Jan-2004
+	- Jorrit did the following changes to the XML behaviour
+	  layer:
+	    - Changed the meaning of converting strings to boolean.
+	      An empty string becomes false and a non-empty string
+	      becomes true (as opposed to only the 'true'
+	      string becoming true like it was before).
+	    - Fixed logical not for strings. It was working reversed.
+	    - Added the ability to convert entity and pclass to
+	      bool too.
+	    - Added the 'expr' keyword which evaluates an expression
+	      and then throws the result away.
+	    - Added the ability to inherit parameters from the caller
+	      to functions being called.
 13-Jan-2004
 	- Jorrit added support for scoped functions to the XML behaviour
 	  layer (i.e. calling a function from another entity script using

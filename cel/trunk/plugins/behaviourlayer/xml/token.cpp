@@ -145,6 +145,11 @@ const char* celXmlParseToken (const char* input, int& token)
       }
       if (*input == '.' && !isdigit (*(input+1)))
       {
+        if (*(input+1) == '.' && *(input+2) == '.')
+        {
+          token = CEL_TOKEN_DOTDOTDOT;
+	  return input+3;
+        }
         token = CEL_TOKEN_DOT;
         return input+1;
       }
