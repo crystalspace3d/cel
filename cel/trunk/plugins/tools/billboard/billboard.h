@@ -219,9 +219,9 @@ private:
   {
     celBillboard* bb;
     int delta;
-    csTicks tot_delta;
-    int srcx, srcy;
-    int dstx, dsty;
+    float tot_delta;
+    float srcx, srcy;
+    float dstx, dsty;
   };
   csArray<movingBillboard> moving_billboards;
 
