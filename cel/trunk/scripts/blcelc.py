@@ -9729,6 +9729,8 @@ class iReporterListener(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iReporterListener_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iReporterListener_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iReporterListener instance at %s>" % (self.this,)
@@ -9739,6 +9741,8 @@ class iReporterListenerPtr(iReporterListener):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporterListener, 'thisown', 0)
         _swig_setattr(self, iReporterListener,self.__class__,iReporterListener)
 _blcelc.iReporterListener_swigregister(iReporterListenerPtr)
+iReporterListener_scfGetVersion = _blcelc.iReporterListener_scfGetVersion
+
 
 class iReporterIterator(iBase):
     __swig_setmethods__ = {}
@@ -9756,6 +9760,8 @@ class iReporterIterator(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iReporterIterator_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iReporterIterator_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iReporterIterator instance at %s>" % (self.this,)
@@ -9766,6 +9772,8 @@ class iReporterIteratorPtr(iReporterIterator):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporterIterator, 'thisown', 0)
         _swig_setattr(self, iReporterIterator,self.__class__,iReporterIterator)
 _blcelc.iReporterIterator_swigregister(iReporterIteratorPtr)
+iReporterIterator_scfGetVersion = _blcelc.iReporterIterator_scfGetVersion
+
 
 class iReporter(iBase):
     __swig_setmethods__ = {}
@@ -9789,6 +9797,8 @@ class iReporter(iBase):
         try:
             if self.thisown: destroy(self)
         except: pass
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iReporter_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iReporter_scfGetVersion)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<C iReporter instance at %s>" % (self.this,)
@@ -9799,6 +9809,8 @@ class iReporterPtr(iReporter):
         if not hasattr(self,"thisown"): _swig_setattr(self, iReporter, 'thisown', 0)
         _swig_setattr(self, iReporter,self.__class__,iReporter)
 _blcelc.iReporter_swigregister(iReporterPtr)
+iReporter_scfGetVersion = _blcelc.iReporter_scfGetVersion
+
 
 class csReporterHelper(_object):
     __swig_setmethods__ = {}
@@ -10248,6 +10260,12 @@ class iJoint(iBase):
     def GetMinimumAngle(*args): return apply(_blcelc.iJoint_GetMinimumAngle,args)
     def SetMaximumAngle(*args): return apply(_blcelc.iJoint_SetMaximumAngle,args)
     def GetMaximumAngle(*args): return apply(_blcelc.iJoint_GetMaximumAngle,args)
+    def SetBounce(*args): return apply(_blcelc.iJoint_SetBounce,args)
+    def GetBounce(*args): return apply(_blcelc.iJoint_GetBounce,args)
+    def SetDesiredVelocity(*args): return apply(_blcelc.iJoint_SetDesiredVelocity,args)
+    def GetDesiredVelocity(*args): return apply(_blcelc.iJoint_GetDesiredVelocity,args)
+    def SetMaxForce(*args): return apply(_blcelc.iJoint_SetMaxForce,args)
+    def GetMaxForce(*args): return apply(_blcelc.iJoint_GetMaxForce,args)
     def __del__(self, destroy= _blcelc.delete_iJoint):
         try:
             if self.thisown: destroy(self)

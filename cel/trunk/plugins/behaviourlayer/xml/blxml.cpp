@@ -61,6 +61,9 @@ enum
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
   XMLTOKEN_DEFAULT,
+  XMLTOKEN_INVENTORY,
+  XMLTOKEN_INVENTORY_ADD,
+  XMLTOKEN_INVENTORY_REM,
   XMLTOKEN_STOP,
 
   XMLTOKEN_LAST
@@ -126,6 +129,9 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
   xmltokens.Register ("default", XMLTOKEN_DEFAULT);
+  xmltokens.Register ("inventory", XMLTOKEN_INVENTORY);
+  xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
+  xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
 
   functions.Register ("pc", XMLFUNCTION_PC);
@@ -896,6 +902,21 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         if (!ParseExpression (child, h, "propclass", "default"))
 	  return false;
         h->AddOperation (CEL_OPERATION_DEFAULTPC);
+        break;
+      case XMLTOKEN_INVENTORY:
+        if (!ParseExpression (child, h, "propclass", "inventory"))
+	  return false;
+        h->AddOperation (CEL_OPERATION_DEFAULTINV);
+        break;
+      case XMLTOKEN_INVENTORY_ADD:
+        if (!ParseExpression (child, h, "child", "inventory_add"))
+	  return false;
+        h->AddOperation (CEL_OPERATION_INVENTORY_ADD);
+        break;
+      case XMLTOKEN_INVENTORY_REM:
+        if (!ParseExpression (child, h, "child", "inventory_rem"))
+	  return false;
+        h->AddOperation (CEL_OPERATION_INVENTORY_REM);
         break;
       case XMLTOKEN_PROPERTY:
         {

@@ -30,6 +30,7 @@
 #include "behaviourlayer/bl.h"
 #include "propclass/prop.h"
 #include "propclass/billboard.h"
+#include "propclass/inv.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
 
@@ -498,6 +499,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   int stack_size = stack.Length ();
   int i = 0;
   csWeakRef<iCelPropertyClass> default_pc;
+  csWeakRef<iPcInventory> default_inv;
   DUMP_EXEC (":::: entity=%s behave=%s\n", entity->GetName (),
   	behave->GetName ());
 
@@ -2385,7 +2387,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_id = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC (":%04d: getproperty pc=%s id=%s\n", i-1, A2S (a_pc), A2S (a_id));
+	  DUMP_EXEC (":%04d: getproperty pc=%s id=%s\n", i-1, A2S (a_pc),
+	  	A2S (a_id));
 	  int si = stack.Push (celXmlArg ());
 
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
@@ -2434,6 +2437,52 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    default:
 	      return ReportError (behave, "Type not supported!");
 	  }
+	}
+	break;
+      case CEL_OPERATION_INVENTORY_ADD:
+        {
+	  CHECK_STACK
+	  celXmlArg a_ent = stack.Pop ();
+	  DUMP_EXEC (":%04d: inventory_add ent=%s\n", i-1, A2S (a_ent));
+
+	  const char* entname = ArgToString (a_ent);
+	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  if (!other_ent)
+	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    	entname);
+	  if (!default_inv)
+	    return ReportError (behave, "Default inventory isn't set!");
+	  default_inv->AddEntity (other_ent);
+	}
+	break;
+      case CEL_OPERATION_INVENTORY_REM:
+        {
+	  CHECK_STACK
+	  celXmlArg a_ent = stack.Pop ();
+	  DUMP_EXEC (":%04d: inventory_rem ent=%s\n", i-1, A2S (a_ent));
+
+	  const char* entname = ArgToString (a_ent);
+	  iCelEntity* other_ent = pl->FindEntity (entname);
+	  if (!other_ent)
+	    return ReportError (behave, "Couldn't find entity '%s'!",
+	    	entname);
+	  if (!default_inv)
+	    return ReportError (behave, "Default inventory isn't set!");
+	  default_inv->RemoveEntity (other_ent);
+	}
+	break;
+      case CEL_OPERATION_DEFAULTINV:
+        {
+	  CHECK_STACK
+	  celXmlArg a_pc = stack.Pop ();
+	  DUMP_EXEC (":%04d: defaultinv pc=%s\n", i-1, A2S (a_pc));
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc)
+	    return ReportError (behave, "Property class is 0!");
+	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
+	  if (!inv)
+	    return ReportError (behave, "Property class is not an inventory!");
+	  default_inv = inv;
 	}
 	break;
       case CEL_OPERATION_DEFAULTPC:

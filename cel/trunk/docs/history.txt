@@ -4,6 +4,11 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 14-Dec-2003
+	- Jorrit added the following commands to the XML behaviour layer:
+	      - 'inventory' to set the current inventory on which further
+	        commands will operate.
+	      - 'inventory_add' to add an entity to a inventory.
+	      - 'inventory_rem' to remove an entity from a inventory.
 	- Eric Sunshine added --with[out]-python option to python.m4 to allow
 	  users to disable this module if desired.
 	- Eric Sunshine fixed python.m4 so that the "Python SDK usable" check
