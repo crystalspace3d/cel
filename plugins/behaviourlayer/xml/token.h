@@ -41,6 +41,12 @@ enum
   CEL_TOKEN_ADD,	// +
   CEL_TOKEN_MULT,	// *
   CEL_TOKEN_DIV,	// /
+  CEL_TOKEN_EQ,		// ==
+  CEL_TOKEN_NE,		// !=
+  CEL_TOKEN_LE,		// <=
+  CEL_TOKEN_GE,		// >=
+  CEL_TOKEN_LT,		// <
+  CEL_TOKEN_GT,		// >
   CEL_TOKEN_COMMA,	// ,
   CEL_TOKEN_VECTORCLOSE,// ]
   CEL_TOKEN_ENTITY,	// entity(expr)
@@ -55,8 +61,16 @@ enum
 
 #define CEL_PRIORITY_ONETERM -1 
 #define CEL_PRIORITY_NORMAL 0
-#define CEL_PRIORITY_ADD 1
-#define CEL_PRIORITY_MULT 2
+#define CEL_PRIORITY_LOGOR 1
+#define CEL_PRIORITY_LOGAND 2
+#define CEL_PRIORITY_BITOR 3
+#define CEL_PRIORITY_BITXOR 4
+#define CEL_PRIORITY_BITAND 5
+#define CEL_PRIORITY_EQUAL 6
+#define CEL_PRIORITY_LTGT 7
+#define CEL_PRIORITY_BITSHIFT 8
+#define CEL_PRIORITY_ADDSUB 9
+#define CEL_PRIORITY_MULTDIV 10
 
 /**
  * Skip white space.

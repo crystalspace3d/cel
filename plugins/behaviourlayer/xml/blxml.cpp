@@ -555,43 +555,63 @@ bool celBlXml::ParseExpression (const char*& input, iDocumentNode* child,
       case CEL_TOKEN_VECTORCLOSE:
         input = pinput;	// Restore.
         return true;
+      case CEL_TOKEN_EQ:
+        if (stoppri >= CEL_PRIORITY_EQUAL) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_EQUAL))
+	  return false;
+        h->AddOperation (CEL_OPERATION_EQ);
+        break;
+      case CEL_TOKEN_NE:
+        if (stoppri >= CEL_PRIORITY_EQUAL) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_EQUAL))
+	  return false;
+        h->AddOperation (CEL_OPERATION_NE);
+        break;
+      case CEL_TOKEN_LT:
+        if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LTGT))
+	  return false;
+        h->AddOperation (CEL_OPERATION_LT);
+        break;
+      case CEL_TOKEN_LE:
+        if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LTGT))
+	  return false;
+        h->AddOperation (CEL_OPERATION_LE);
+        break;
+      case CEL_TOKEN_GT:
+        if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LTGT))
+	  return false;
+        h->AddOperation (CEL_OPERATION_GT);
+        break;
+      case CEL_TOKEN_GE:
+        if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_LTGT))
+	  return false;
+        h->AddOperation (CEL_OPERATION_GE);
+        break;
       case CEL_TOKEN_MINUS:
-        if (stoppri >= CEL_PRIORITY_ADD)
-        {
-          input = pinput; // Restore.
-	  return true;
-        }
-        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ADD))
+        if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ADDSUB))
 	  return false;
         h->AddOperation (CEL_OPERATION_MINUS);
         break;
       case CEL_TOKEN_ADD:
-        if (stoppri >= CEL_PRIORITY_ADD)
-        {
-          input = pinput; // Restore.
-	  return true;
-        }
-        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ADD))
+        if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_ADDSUB))
 	  return false;
         h->AddOperation (CEL_OPERATION_ADD);
         break;
       case CEL_TOKEN_MULT:
-        if (stoppri >= CEL_PRIORITY_MULT)
-        {
-          input = pinput; // Restore.
-	  return true;
-        }
-        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_MULT))
+        if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_MULTDIV))
 	  return false;
         h->AddOperation (CEL_OPERATION_MULT);
         break;
       case CEL_TOKEN_DIV:
-        if (stoppri >= CEL_PRIORITY_MULT)
-        {
-          input = pinput; // Restore.
-	  return true;
-        }
-        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_MULT))
+        if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
+        if (!ParseExpression (input, child, h, name, CEL_PRIORITY_MULTDIV))
 	  return false;
         h->AddOperation (CEL_OPERATION_DIV);
         break;

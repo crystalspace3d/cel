@@ -675,7 +675,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": minus %s - %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (": %s - %s\n", A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -713,7 +713,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": add %s + %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (": %s + %s\n", A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -774,7 +774,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": mult %s * %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (": %s * %s\n", A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -845,7 +845,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg elb = stack.Pop ();
 	  CHECK_STACK
 	  celXmlArg ela = stack.Pop ();
-          DUMP_EXEC (": mult %s / %s\n", A2S (ela), A2S (elb));
+          DUMP_EXEC (": %s / %s\n", A2S (ela), A2S (elb));
 	  int t = GetCalculationType (ela, elb);
 	  int si = stack.Push (celXmlArg ());
 	  switch (t)
@@ -887,6 +887,234 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_TYPE_UINT32:
 	      stack[si].SetUInt32 (ArgToUInt32 (ela) / ArgToUInt32 (elb));
 	      break;
+	  }
+	}
+	break;
+      case CEL_OPERATION_NE:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s != %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_BOOL:
+	      stack[si].SetBool (ArgToBool (ela) != ArgToBool (elb));
+	      break;
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
+	      	>= SMALL_EPSILON);
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) != ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) != ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_VECTOR2:
+	      stack[si].SetBool (!((ArgToVector2 (ela) - ArgToVector2 (elb))
+	      	< SMALL_EPSILON));
+	      break;
+	    case CEL_TYPE_VECTOR3:
+	      stack[si].SetBool (!((ArgToVector3 (ela) - ArgToVector3 (elb))
+	      	< SMALL_EPSILON));
+	      break;
+	    case CEL_TYPE_PC:
+	      stack[si].SetBool (ArgToPClass (ela) != ArgToPClass (elb));
+	      break;
+	    case CEL_TYPE_ID:
+	      stack[si].SetBool (ArgToID (ela) != ArgToID (elb));
+	      break;
+	    case CEL_TYPE_COLOR:
+	      {
+	        csColor c1 = ArgToColor (ela);
+	        csColor c2 = ArgToColor (elb);
+	        stack[si].SetBool (!(ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        		     ABS (c1.green-c2.green) < SMALL_EPSILON &&
+	        		     ABS (c1.blue-c2.blue) < SMALL_EPSILON));
+	      }
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      	ArgToString (elb)));
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_EQ:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s == %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_BOOL:
+	      stack[si].SetBool (ArgToBool (ela) == ArgToBool (elb));
+	      break;
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ABS (ArgToFloat (ela) - ArgToFloat (elb))
+	      	< SMALL_EPSILON);
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) == ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) == ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_VECTOR2:
+	      stack[si].SetBool ((ArgToVector2 (ela) - ArgToVector2 (elb))
+	      	< SMALL_EPSILON);
+	      break;
+	    case CEL_TYPE_VECTOR3:
+	      stack[si].SetBool ((ArgToVector3 (ela) - ArgToVector3 (elb))
+	      	< SMALL_EPSILON);
+	      break;
+	    case CEL_TYPE_PC:
+	      stack[si].SetBool (ArgToPClass (ela) == ArgToPClass (elb));
+	      break;
+	    case CEL_TYPE_ID:
+	      stack[si].SetBool (ArgToID (ela) == ArgToID (elb));
+	      break;
+	    case CEL_TYPE_COLOR:
+	      {
+	        csColor c1 = ArgToColor (ela);
+	        csColor c2 = ArgToColor (elb);
+	        stack[si].SetBool (ABS (c1.red-c2.red) < SMALL_EPSILON &&
+	        		   ABS (c1.green-c2.green) < SMALL_EPSILON &&
+	        		   ABS (c1.blue-c2.blue) < SMALL_EPSILON);
+	      }
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (!strcmp (ArgToString (ela),
+	      	ArgToString (elb)));
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_LT:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s < %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ArgToFloat (ela) < ArgToFloat (elb));
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) < ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) < ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      	ArgToString (elb)) < 0);
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_LE:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s <= %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ArgToFloat (ela) <= ArgToFloat (elb));
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) <= ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) <= ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      	ArgToString (elb)) <= 0);
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_GT:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s > %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ArgToFloat (ela) > ArgToFloat (elb));
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) > ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) > ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      	ArgToString (elb)) > 0);
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
+	  }
+	}
+	break;
+      case CEL_OPERATION_GE:
+        {
+	  CHECK_STACK
+	  celXmlArg elb = stack.Pop ();
+	  CHECK_STACK
+	  celXmlArg ela = stack.Pop ();
+          DUMP_EXEC (": %s >= %s\n", A2S (ela), A2S (elb));
+	  int t = GetCalculationType (ela, elb);
+	  int si = stack.Push (celXmlArg ());
+	  switch (t)
+	  {
+	    case CEL_TYPE_FLOAT:
+	      stack[si].SetBool (ArgToFloat (ela) >= ArgToFloat (elb));
+	      break;
+	    case CEL_TYPE_INT32:
+	      stack[si].SetBool (ArgToInt32 (ela) >= ArgToInt32 (elb));
+	      break;
+	    case CEL_TYPE_UINT32:
+	      stack[si].SetBool (ArgToUInt32 (ela) >= ArgToUInt32 (elb));
+	      break;
+	    case CEL_TYPE_STRING:
+	      stack[si].SetBool (strcmp (ArgToString (ela),
+	      	ArgToString (elb)) >= 0);
+	      break;
+	    default:
+	      return ReportError (behave, "Can't compare these types!");
 	  }
 	}
 	break;
