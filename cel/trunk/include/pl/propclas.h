@@ -23,6 +23,10 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+#define CEL_QUERY_PROPCLASS(PcList,Interface)		\
+  (Interface*)((PcList)->FindByInterface (iSCF::SCF->GetInterfaceID (#Interface), \
+  	VERSION_##Interface))
+
 struct iCelEntity;
 
 SCF_VERSION (iCelPropertyClass, 0, 0, 1);
@@ -96,6 +100,12 @@ struct iCelPropertyClassList : public iBase
    * Find a property class by name.
    */
   virtual iCelPropertyClass* FindByName (const char *Name) const = 0;
+
+  /**
+   * Find a property class by SCF interface. Return that interface
+   * with ref-count incremented with one.
+   */
+  virtual iBase* FindByInterface (scfInterfaceID id, int version) const = 0;
 };
 
 #endif // __CEL_PL_PROPCLASS__

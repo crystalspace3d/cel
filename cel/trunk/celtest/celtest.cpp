@@ -572,6 +572,16 @@ bool CelTest::Initialize (int argc, const char* const argv[])
   if (pcinv->AddEntity (entity_dummy4)) printf ("Entity 4 added!\n");
   else printf ("Entity 4 NOT added!\n");
   pcinv->Dump ();
+
+  pcchars = CEL_QUERY_PROPCLASS (entity_dummy1->GetPropertyClassList (), iPcCharacteristics);
+  if (pcchars->SetCharProperty ("size", 9)) printf ("Entity 1 resized to 9!\n");
+  else printf ("Entity 1 NOT resized to 9!\n");
+  pcinv->Dump ();
+  if (pcchars->SetCharProperty ("size", 5)) printf ("Entity 1 resized to 5!\n");
+  else printf ("Entity 1 NOT resized to 5!\n");
+  pcinv->Dump ();
+  pcchars->DecRef ();
+
   pcinv->DecRef ();
 
   //===============================

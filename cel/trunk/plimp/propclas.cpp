@@ -108,4 +108,15 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
   return NULL;
 }
 
+iBase* celPropertyClassList::FindByInterface (scfInterfaceID id, int version) const
+{
+  int i;
+  for (i = 0 ; i < prop_classes.Length () ; i++)
+  {
+    iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[i];
+    iBase* interf = (iBase*)(obj->QueryInterface (id, version));
+    if (interf) return interf;
+  }
+  return NULL;
+}
 
