@@ -5,5 +5,23 @@ Implement iPcMovable and iPcMovableConstraint. An iPcMovable
 will be able to have pointers to several constraints.
 Implement iPcMeshSelect so it moves the mesh through
 the iPcMovable if present (if not present use iPcMesh
-directly).
+directly). Note that a constraint can allow a particular
+move operation, disallow a move, or partly allow a
+move (for example is an obstacle if half-way in
+the desired movement vector).
+
+Implement iPcInventoryConstraints for behaviour/game-defined
+constraints in inventory system.
+
+Allow SendMessage() to return a result from behaviour
+to property class (i.e. in order to implement constraints
+for example).
+
+Implement iPcSolid for collision detection. One of the
+iPcMovableConstraint implementations can use this to
+constrain movement according to collision detection rules.
+
+iPcSolid can also be used by a iPcForce property class
+which will implement a force based physics system.
+
 
