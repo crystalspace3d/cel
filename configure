@@ -3292,13 +3292,6 @@ if test -n "$INSTALL"; then
 fi
 
 
-# Jambase in Jam 2.4 has a bug where it incorrectly defines RANLIB as "" for
-# MacOS/X, and this bogus value will override a RANLIB set via ?= in Jamconfig,
-# thus we must use CS_JAMCONFIG_PROPERTY()'s "unconditional" option to force a
-# correct value for RANLIB.  This is especially important for MacOS/X Panther
-# which expects us to use the -s option with ranlib, which we can accomplish
-# via "RANLIB += -s"; but this will work correctly only if RANLIB has a
-# meaningful value in the first place.
 if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
 set dummy ${ac_tool_prefix}ranlib; ac_word=$2
@@ -3380,7 +3373,7 @@ else
 fi
 
 if test -n "$RANLIB"; then
-  cs_jamconfig_text="${cs_jamconfig_text}RANLIB = \"$RANLIB\" ;
+  cs_jamconfig_text="${cs_jamconfig_text}RANLIB ?= \"$RANLIB\" ;
 "
 fi
 
@@ -3520,13 +3513,6 @@ fi
             ;;
         darwin*)
 
-
-
-    # MacOS/X Panther ranlib complains if -s option is omitted.
-    if test -n "$RANLIB"; then
-  cs_jamconfig_text="${cs_jamconfig_text}RANLIB += \"-s\" ;
-"
-fi
 
 
     # Both MacOS/X and Darwin are identified via $host_os as "darwin".  We need

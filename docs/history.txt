@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Feb-2004
+	- Eric Sunshine upgraded .m4 and .jam files to latest versions from
+	  Crystal Space CVS repository.  Centralized special-case handling of
+	  RANLIB on MacOS/X.
 5-Feb-2004
 	- Eric Sunshine upgraded documentation install Jam rules to work with
 	  latest cel/mk/jam/*.jam files.  This eliminates Jam warning about
