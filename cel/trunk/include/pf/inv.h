@@ -119,6 +119,11 @@ struct iPcInventory : public iBase
   virtual bool TestCharacteristicChange (iCelEntity* entity, const char* charName, float* newLocalValue) = 0;
 
   /**
+   * Really update a characteristic for some entity.
+   */
+  virtual void UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue) = 0;
+
+  /**
    * This is a debugging function to dump the contents of the inventory and
    * all constraints.
    */

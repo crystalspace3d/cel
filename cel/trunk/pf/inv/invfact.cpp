@@ -117,11 +117,10 @@ bool celPcInventory::AddEntity (iCelEntity* entity)
   contents.Push (entity);
   entity->IncRef ();
 
-  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
-  if (pc)
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (pcchar)
   {
-    iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
-    CS_ASSERT (pcchar != NULL);
     pcchar->AddToInventory (&scfiPcInventory);
     pcchar->DecRef ();
   }
@@ -136,11 +135,10 @@ void celPcInventory::RemoveEntity (iCelEntity* entity)
   UpdateConstraints (entity, false);
   contents.Delete (idx);
 
-  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
-  if (pc)
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (pcchar)
   {
-    iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
-    CS_ASSERT (pcchar != NULL);
     pcchar->RemoveFromInventory (&scfiPcInventory);
     pcchar->DecRef ();
   }
@@ -247,10 +245,9 @@ void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
 {
   // This routine assumes the constraints are valid!!!
   if (constraints.Length () <= 0) return;
-  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
-  if (!pc) return;
-  iPcCharacteristics* pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
-  CS_ASSERT (pcchar != NULL);
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (!pcchar) return;
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
@@ -266,13 +263,8 @@ void celPcInventory::UpdateConstraints (iCelEntity* entity, bool add)
 const char* celPcInventory::TestAddEntity (iCelEntity* entity)
 {
   if (constraints.Length () <= 0) return NULL;
-  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
-  iPcCharacteristics* pcchar = NULL;
-  if (pc)
-  {
-    pcchar = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
-    CS_ASSERT (pcchar != NULL);
-  }
+  iPcCharacteristics* pcchar = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
   int i;
   for (i = 0 ; i < constraints.Length () ; i++)
   {
@@ -307,12 +299,18 @@ bool celPcInventory::TestCharacteristicChange (iCelEntity* entity, const char* c
     return !c->strict;
   }
 
-  iCelPropertyClass* pc = entity->GetPropertyClassList ()->FindByName ("pccharacteristics");
-  CS_ASSERT (pc != NULL);
-  iPcCharacteristics* pcchars = SCF_QUERY_INTERFACE (pc, iPcCharacteristics);
-  CS_ASSERT (pcchars != NULL);
+  iPcCharacteristics* pcchars = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (!pcchars)
+  {
+    // If there are no characteristic for this entity we do the same treatment
+    // as if no value is given.
+    return !c->strict;
+  }
+
   float inh_val = pcchars->GetInheritedCharProperty (charName);
   float old_local_value = pcchars->GetLocalCharProperty (charName);
+
   pcchars->DecRef ();
 
   float new_value = inh_val + *newLocalValue;
@@ -325,6 +323,29 @@ bool celPcInventory::TestCharacteristicChange (iCelEntity* entity, const char* c
   if (current > c->totalMaxValue) return false;
 
   return true;
+}
+
+void celPcInventory::UpdateCharacteristic (iCelEntity* entity, const char* charName, float newLocalValue)
+{
+  constraint* c = FindConstraint (charName);
+  if (!c) return;
+
+  float oldLocalValue;
+  iPcCharacteristics* pcchars = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+		  iPcCharacteristics);
+  if (pcchars)
+  {
+    oldLocalValue = pcchars->GetLocalCharProperty (charName);
+    pcchars->DecRef ();
+  }
+  else
+  {
+    oldLocalValue = 0;
+  }
+
+  c->currentValue -= oldLocalValue;
+  c->currentValue += newLocalValue;
+  return;
 }
 
 void celPcInventory::Dump ()
@@ -396,6 +417,12 @@ bool celPcCharacteristics::SetCharProperty (const char* name, float value)
     iPcInventory* inv = (iPcInventory*)inventories[i];
     if (!inv->TestCharacteristicChange (entity, name, &value)) return false;
   }
+  // Update the inventories.
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    inv->UpdateCharacteristic (entity, name, value);
+  }
 
   c->value = value;
   return true;
@@ -433,6 +460,12 @@ bool celPcCharacteristics::ClearProperty (const char* name)
   {
     iPcInventory* inv = (iPcInventory*)inventories[i];
     if (!inv->TestCharacteristicChange (entity, name, NULL)) return false;
+  }
+  // Update inventories.
+  for (i = 0 ; i < inventories.Length () ; i++)
+  {
+    iPcInventory* inv = (iPcInventory*)inventories[i];
+    inv->UpdateCharacteristic (entity, name, 0);
   }
 
   for (i = 0 ; i < chars.Length () ; i++)
