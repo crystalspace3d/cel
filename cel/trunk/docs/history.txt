@@ -1,3 +1,9 @@
+6-Mar-2002:
+	- Matze made the internal mapping of persistance (ids from localhost
+	  to ids from other host) accessible through some functions in
+	  iCelPersistContext. You can now also choose if mapping should be
+	  used. By default mapping is performed while loading a file and not
+	  while reading one.
 5-Mar-2002:
 	- Added iPcCamera::GetFollowPos() and GetMode().
 	- Matze fixed pckeyinput for latest CS changes

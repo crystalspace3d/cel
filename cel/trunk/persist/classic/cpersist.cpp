@@ -75,14 +75,15 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-iCelPersistanceContext* celPersistClassic::CreateContext(iBase* data, int mode)
+iCelPersistanceContext* celPersistClassic::CreateContext(iBase* data, int mode
+    , bool performmapping)
 {
   iFile* file = SCF_QUERY_INTERFACE(data, iFile);
   if (!file)
     return NULL;
 
   celPersistClassicContext* context = new celPersistClassicContext;
-  if (!context->Initialize(object_reg, file, mode))
+  if (!context->Initialize(object_reg, file, mode, performmapping))
   {
     file->DecRef();
     delete context;
@@ -100,7 +101,7 @@ bool celPersistClassic::SaveEntity (iCelEntity* entity, const char* name)
   
   iFile* mf = SCF_QUERY_INTERFACE (&m, iFile);
   context = new celPersistClassicContext;
-  if (!context->Initialize(object_reg, mf, CEL_PERSIST_MODE_READ))
+  if (!context->Initialize(object_reg, mf, CEL_PERSIST_MODE_WRITE, false))
   {
     context->DecRef();
     return false;
@@ -141,7 +142,7 @@ iCelEntity* celPersistClassic::LoadEntity (const char* name)
   vfs->DecRef ();
   csMemFile mf((const char*) data->GetData(), data->GetSize());
   context = new celPersistClassicContext;
-  if (!context->Initialize(object_reg, &mf, CEL_PERSIST_MODE_WRITE))
+  if (!context->Initialize(object_reg, &mf, CEL_PERSIST_MODE_READ, true))
     return NULL;
 
   if (!context->CheckMarker ("CEL0"))
@@ -203,9 +204,10 @@ void celPersistClassicContext::Clear()
 }
 
 bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
-    iFile* file, int mode)
+    iFile* file, int mode, bool performmapping)
 {
   celPersistClassicContext::object_reg = object_reg;
+  celPersistClassicContext::performmapping = performmapping;
   
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
@@ -261,18 +263,41 @@ iCelEntity* celPersistClassicContext::FindEntity (CS_ID id)
 
 iCelEntity* celPersistClassicContext::FindOrCreateEntity (CS_ID id)
 {
-  /* FIXME: hash is very inefficient used that way, as the range of id is
-   * probably only between 0 and some hundreds
-   */
-  iCelEntity* entity = (iCelEntity*)read_entities.Get (id);
-  if (!entity)
+  iCelEntity* entity;
+  
+  if (!performmapping)
   {
-    entity = pl->CreateEntity ();
-    if (entity)
-      read_entities.Put (id, entity);
+    entity = pl->GetEntity(id);
+    if (!entity)
+      Report ("No mapping of entities but entity not found (ID '%u').", id);
+  }
+  else
+  {
+    entity = (iCelEntity*)read_entities.Get (id);
+    if (!entity)
+    {
+      entity = pl->CreateEntity ();
+      if (entity)
+      {
+	read_entities.Put (id, entity);
+	CS_ID* tmpid = new CS_ID(id);
+	read_ids.Put (entity->GetID(), tmpid);
+      }
+    }
   }
 
   return entity;
+}
+
+iCelEntity* celPersistClassicContext::GetMappedEntity(CS_ID id)
+{
+  return FindEntity(id);
+}
+
+CS_ID celPersistClassicContext::GetMappedID(iCelEntity* entity)
+{
+  CS_ID* id = (CS_ID*) read_ids.Get(entity->GetID());
+  return id ? *id : 0;
 }
 
 bool celPersistClassicContext::ReadMarker (char* marker)
@@ -731,6 +756,17 @@ bool celPersistClassicContext::Write (const char* s)
   return true;
 }
 
+bool celPersistClassicContext::WriteID (iCelEntity* entity)
+{
+  if (performmapping)
+  {
+    CS_ID id = GetMappedID(entity);
+    return Write(id);
+  }
+  else
+    return Write(entity->GetID());
+}
+
 bool celPersistClassicContext::Write (iCelPropertyClass* pc)
 {
   if (!pc)
@@ -745,7 +781,7 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
     if (!WriteMarker ("PCLR")) return false;
     iCelEntity* pc_ent = pc->GetEntity ();
     // First write entity ID, then property class name.
-    if (!Write (pc_ent->GetID ())) return false;
+    if (!WriteID (pc_ent)) return false;
     if (!Write (pc->GetName ())) return false;
     return true;
   }
@@ -756,7 +792,7 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
   printf ("%s - %p\n", pc->GetName(), pc_ent);
   printf (" %s\n", pc_ent->GetName());
   // First write entity ID, then property class name.
-  if (!Write (pc_ent->GetID ())) return false;
+  if (!WriteID (pc_ent)) return false;
   if (!Write (pc->GetName ())) return false;
   iCelDataBuffer* db = pc->Save ();
   if (!db) return false;
@@ -781,13 +817,13 @@ bool celPersistClassicContext::Write (iCelEntity* entity)
   if (ref)
   {
     if (!WriteMarker ("ENTR")) return false;
-    if (!Write (entity->GetID ())) return false;
+    if (!WriteID (entity)) return false;
     return true;
   }
 
   entities.Add (entity);
   if (!WriteMarker ("ENTI")) return false;
-  if (!Write (entity->GetID ())) return false;
+  if (!WriteID (entity)) return false;
   if (!Write (entity->GetName ())) return false;
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();

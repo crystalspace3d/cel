@@ -90,7 +90,8 @@ struct iCelPersistance : public iBase
   /**
    * Create an persistence context
    */
-  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode) = 0;
+  virtual iCelPersistanceContext* CreateContext(iBase* data, int mode,
+	  bool performmapping = true) = 0;
 };
 
 SCF_VERSION (iCelPersistanceContext, 0, 0, 1);
@@ -106,6 +107,12 @@ struct iCelPersistanceContext : public iBase
    * Save an entity to persistent data.
    */
   virtual bool SaveEntity (iCelEntity* entity) = 0;
+
+  /* returns the ID mapped to the ID on the other side of the connection */
+  virtual CS_ID GetMappedID(iCelEntity* entity) = 0;
+
+  /* returns the entitiy after mapping the ID */
+  virtual iCelEntity* GetMappedEntity(CS_ID id) = 0;
 
   /**
    * Clears internal data and buffers (like list of already saved entities)
