@@ -1143,15 +1143,15 @@
 		<var name="row49" value="'B                                                              B'" />
 		<var name="row50" value="'B                                                              B'" />
 		<var name="row51" value="'B                                                              B'" />
-		<var name="row52" value="'B                                                              B'" />
-		<var name="row53" value="'B                                                              B'" />
-		<var name="row54" value="'B                                                              B'" />
-		<var name="row55" value="'B                                                              B'" />
-		<var name="row56" value="'B                                                              B'" />
-		<var name="row57" value="'B                                                              B'" />
-		<var name="row58" value="'B                                                              B'" />
-		<var name="row59" value="'B                                                              B'" />
-		<var name="row60" value="'B                                                              B'" />
+		<var name="row52" value="'B                            X                                 B'" />
+		<var name="row53" value="'B                           XOX                                B'" />
+		<var name="row54" value="'B                          XXXXX                               B'" />
+		<var name="row55" value="'B                         XOXOXOX                              B'" />
+		<var name="row56" value="'B                        XXXXXXXXX                             B'" />
+		<var name="row57" value="'B                       XXOXOXOXOXX                            B'" />
+		<var name="row58" value="'B                      XXXXXXXXXXXXX                           B'" />
+		<var name="row59" value="'B                     XXXXXXXXXXXXXXX                          B'" />
+		<var name="row60" value="'B                  ######################                      B'" />
 		<var name="row61" value="'B                                                              B'" />
 		<var name="row62" value="'B                                                              B'" />
 		<var name="row63" value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
@@ -1335,73 +1335,76 @@
 	      -->
 	    <event name="checkfall">
 	    	<!-- First check if the block above us can fall down -->
-		<var name="cfx" value="@x" />
-		<var name="cfy" value="@y" />
-	    	<var name="mazepos" value="?cfx+'_'+(?cfy-1)" />
+	    	<var name="mazepos" value="@x+'_'+(@y-1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent != ''">
 		    <true>
 		        <call entity="?ent" event="falldown">
 		            <par id="parid(dx)" value="0" />
 		            <par id="parid(dy)" value="1" />
+			    <return var="fallen" />
 			</call>
 			<if eval="?fallen"> <stop/> </if>
 		    </true>
 		    <false>
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
-	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy-1)" />
+	    	        <var name="mazepos" value="(@x-1)+'_'+(@y-1)" />
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
-	    	            <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
+	    	            <var name="mazepos" value="(@x-1)+'_'+@y" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
 		                <call entity="?ent" event="falldown">
 				    <par id="parid(dx)" value="1" />
 				    <par id="parid(dy)" value="1" />
+			    	    <return var="fallen" />
 				</call>
 				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
-	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy-1)" />
+	    	        <var name="mazepos" value="(@x+1)+'_'+(@y-1)" />
 		        <var name="ent" value="?(mazeent+?mazepos)" />
 		        <if eval="?ent != ''">
-	    	            <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
+	    	            <var name="mazepos" value="(@x+1)+'_'+@y" />
 		            <var name="below_block" value="?(maze+?mazepos)" />
 		            <if eval="?(falloff_+?below_block)">
 		                <call entity="?ent" event="falldown">
 				    <par id="parid(dx)" value="-1" />
 				    <par id="parid(dy)" value="1" />
+			    	    <return var="fallen" />
 				</call>
 				<if eval="?fallen"> <stop/> </if>
 		            </if>
 		        </if>
 		    </false>
 		</if>
-	    	<var name="mazepos" value="?cfx+'_'+(?cfy+1)" />
+	    	<var name="mazepos" value="@x+'_'+(@y+1)" />
 		<var name="ent" value="?(mazeent+?mazepos)" />
 		<if eval="?ent == ''">
-	    	    <var name="mazepos" value="(?cfx-1)+'_'+?cfy" />
+	    	    <var name="mazepos" value="(@x-1)+'_'+@y" />
 		    <var name="ent" value="?(mazeent+?mazepos)" />
 		    <if eval="?ent != ''">
-	    	        <var name="mazepos" value="(?cfx-1)+'_'+(?cfy+1)" />
+	    	        <var name="mazepos" value="(@x-1)+'_'+(@y+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
 		            <call entity="?ent" event="falldown">
 				<par id="parid(dx)" value="1" />
 				<par id="parid(dy)" value="1" />
+			    	<return var="fallen" />
 			    </call>
 			    <if eval="?fallen"> <stop/> </if>
 		        </if>
 		    </if>
-	    	    <var name="mazepos" value="(?cfx+1)+'_'+?cfy" />
+	    	    <var name="mazepos" value="(@x+1)+'_'+@y" />
 		    <var name="ent" value="?(mazeent+?mazepos)" />
 		    <if eval="?ent != ''">
-	    	        <var name="mazepos" value="(?cfx+1)+'_'+(?cfy+1)" />
+	    	        <var name="mazepos" value="(@x+1)+'_'+(@y+1)" />
 		        <var name="below_block" value="?(maze+?mazepos)" />
 		        <if eval="?(falloff_+?below_block)">
 		            <call entity="?ent" event="falldown">
 				<par id="parid(dx)" value="-1" />
 				<par id="parid(dy)" value="1" />
+			    	<return var="fallen" />
 			    </call>
 			    <if eval="?fallen"> <stop/> </if>
 		        </if>
@@ -1598,7 +1601,7 @@
 	      - This block doesn't support falling down.
 	      -->
 	    <event name="falldown">
-	    	<var entity="bdash_main" name="fallen" value="false" />
+		<return value="false" />
 	    </event>
 
 	    <!--
@@ -1682,7 +1685,7 @@
 	      - This block doesn't support falling down.
 	      -->
 	    <event name="falldown">
-	    	<var entity="bdash_main" name="fallen" value="false" />
+		<return value="false" />
 	    </event>
 	</script>
 
@@ -1734,12 +1737,12 @@
 	      -->
 	    <event name="falldown">
 	        <if eval="?moving">
-		    <stop />
+		    <return value="false" />
 		</if>
 		<var name="dx" value="@dx" />
 		<var name="dy" value="@dy" />
 		<call event="startmove" />
-	    	<var entity="bdash_main" name="fallen" value="true" />
+		<return value="true" />
 	    </event>
 	</script>
 

@@ -5364,6 +5364,7 @@ class iSpriteCal3DState(iBase):
     def BlendMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_BlendMorphTarget,args)
     def ClearMorphTarget(*args): return apply(_blcelc.iSpriteCal3DState_ClearMorphTarget,args)
     def FindSocket(*args): return apply(_blcelc.iSpriteCal3DState_FindSocket,args)
+    def SetMaterial(*args): return apply(_blcelc.iSpriteCal3DState_SetMaterial,args)
     def __del__(self, destroy= _blcelc.delete_iSpriteCal3DState):
         try:
             if self.thisown: destroy(self)
@@ -5718,6 +5719,9 @@ class csPolyTextureMapping(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, csPolyTextureMapping, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csPolyTextureMapping, name)
+    def __init__(self,*args):
+        _swig_setattr(self, csPolyTextureMapping, 'this', apply(_blcelc.new_csPolyTextureMapping,args))
+        _swig_setattr(self, csPolyTextureMapping, 'thisown', 1)
     __swig_setmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_set
     __swig_getmethods__["m_obj2tex"] = _blcelc.csPolyTextureMapping_m_obj2tex_get
     if _newclass:m_obj2tex = property(_blcelc.csPolyTextureMapping_m_obj2tex_get,_blcelc.csPolyTextureMapping_m_obj2tex_set)
@@ -5781,9 +5785,6 @@ class csPolyTextureMapping(_object):
     __swig_setmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_set
     __swig_getmethods__["lmv2"] = _blcelc.csPolyTextureMapping_lmv2_get
     if _newclass:lmv2 = property(_blcelc.csPolyTextureMapping_lmv2_get,_blcelc.csPolyTextureMapping_lmv2_set)
-    def __init__(self,*args):
-        _swig_setattr(self, csPolyTextureMapping, 'this', apply(_blcelc.new_csPolyTextureMapping,args))
-        _swig_setattr(self, csPolyTextureMapping, 'thisown', 1)
     def __del__(self, destroy= _blcelc.delete_csPolyTextureMapping):
         try:
             if self.thisown: destroy(self)
@@ -8233,6 +8234,76 @@ class G3DPolygonMeshPtr(G3DPolygonMesh):
         _swig_setattr(self, G3DPolygonMesh,self.__class__,G3DPolygonMesh)
 _blcelc.G3DPolygonMesh_swigregister(G3DPolygonMeshPtr)
 
+CS_MESHTYPE_TRIANGLES = _blcelc.CS_MESHTYPE_TRIANGLES
+CS_MESHTYPE_QUADS = _blcelc.CS_MESHTYPE_QUADS
+CS_MESHTYPE_TRIANGLESTRIP = _blcelc.CS_MESHTYPE_TRIANGLESTRIP
+CS_MESHTYPE_TRIANGLEFAN = _blcelc.CS_MESHTYPE_TRIANGLEFAN
+CS_MESHTYPE_POINTS = _blcelc.CS_MESHTYPE_POINTS
+CS_MESHTYPE_POINT_SPRITES = _blcelc.CS_MESHTYPE_POINT_SPRITES
+CS_MESHTYPE_LINES = _blcelc.CS_MESHTYPE_LINES
+CS_MESHTYPE_LINESTRIP = _blcelc.CS_MESHTYPE_LINESTRIP
+CS_MESHTYPE_POLYGON = _blcelc.CS_MESHTYPE_POLYGON
+class csSimpleRenderMesh(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csSimpleRenderMesh, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csSimpleRenderMesh, name)
+    __swig_setmethods__["meshtype"] = _blcelc.csSimpleRenderMesh_meshtype_set
+    __swig_getmethods__["meshtype"] = _blcelc.csSimpleRenderMesh_meshtype_get
+    if _newclass:meshtype = property(_blcelc.csSimpleRenderMesh_meshtype_get,_blcelc.csSimpleRenderMesh_meshtype_set)
+    __swig_setmethods__["indexCount"] = _blcelc.csSimpleRenderMesh_indexCount_set
+    __swig_getmethods__["indexCount"] = _blcelc.csSimpleRenderMesh_indexCount_get
+    if _newclass:indexCount = property(_blcelc.csSimpleRenderMesh_indexCount_get,_blcelc.csSimpleRenderMesh_indexCount_set)
+    __swig_setmethods__["indices"] = _blcelc.csSimpleRenderMesh_indices_set
+    __swig_getmethods__["indices"] = _blcelc.csSimpleRenderMesh_indices_get
+    if _newclass:indices = property(_blcelc.csSimpleRenderMesh_indices_get,_blcelc.csSimpleRenderMesh_indices_set)
+    __swig_setmethods__["vertexCount"] = _blcelc.csSimpleRenderMesh_vertexCount_set
+    __swig_getmethods__["vertexCount"] = _blcelc.csSimpleRenderMesh_vertexCount_get
+    if _newclass:vertexCount = property(_blcelc.csSimpleRenderMesh_vertexCount_get,_blcelc.csSimpleRenderMesh_vertexCount_set)
+    __swig_setmethods__["vertices"] = _blcelc.csSimpleRenderMesh_vertices_set
+    __swig_getmethods__["vertices"] = _blcelc.csSimpleRenderMesh_vertices_get
+    if _newclass:vertices = property(_blcelc.csSimpleRenderMesh_vertices_get,_blcelc.csSimpleRenderMesh_vertices_set)
+    __swig_setmethods__["texcoords"] = _blcelc.csSimpleRenderMesh_texcoords_set
+    __swig_getmethods__["texcoords"] = _blcelc.csSimpleRenderMesh_texcoords_get
+    if _newclass:texcoords = property(_blcelc.csSimpleRenderMesh_texcoords_get,_blcelc.csSimpleRenderMesh_texcoords_set)
+    __swig_setmethods__["colors"] = _blcelc.csSimpleRenderMesh_colors_set
+    __swig_getmethods__["colors"] = _blcelc.csSimpleRenderMesh_colors_get
+    if _newclass:colors = property(_blcelc.csSimpleRenderMesh_colors_get,_blcelc.csSimpleRenderMesh_colors_set)
+    __swig_setmethods__["texture"] = _blcelc.csSimpleRenderMesh_texture_set
+    __swig_getmethods__["texture"] = _blcelc.csSimpleRenderMesh_texture_get
+    if _newclass:texture = property(_blcelc.csSimpleRenderMesh_texture_get,_blcelc.csSimpleRenderMesh_texture_set)
+    __swig_setmethods__["shader"] = _blcelc.csSimpleRenderMesh_shader_set
+    __swig_getmethods__["shader"] = _blcelc.csSimpleRenderMesh_shader_get
+    if _newclass:shader = property(_blcelc.csSimpleRenderMesh_shader_get,_blcelc.csSimpleRenderMesh_shader_set)
+    __swig_setmethods__["dynDomain"] = _blcelc.csSimpleRenderMesh_dynDomain_set
+    __swig_getmethods__["dynDomain"] = _blcelc.csSimpleRenderMesh_dynDomain_get
+    if _newclass:dynDomain = property(_blcelc.csSimpleRenderMesh_dynDomain_get,_blcelc.csSimpleRenderMesh_dynDomain_set)
+    __swig_setmethods__["alphaType"] = _blcelc.csSimpleRenderMesh_alphaType_set
+    __swig_getmethods__["alphaType"] = _blcelc.csSimpleRenderMesh_alphaType_get
+    if _newclass:alphaType = property(_blcelc.csSimpleRenderMesh_alphaType_get,_blcelc.csSimpleRenderMesh_alphaType_set)
+    __swig_setmethods__["z_buf_mode"] = _blcelc.csSimpleRenderMesh_z_buf_mode_set
+    __swig_getmethods__["z_buf_mode"] = _blcelc.csSimpleRenderMesh_z_buf_mode_get
+    if _newclass:z_buf_mode = property(_blcelc.csSimpleRenderMesh_z_buf_mode_get,_blcelc.csSimpleRenderMesh_z_buf_mode_set)
+    __swig_setmethods__["mixmode"] = _blcelc.csSimpleRenderMesh_mixmode_set
+    __swig_getmethods__["mixmode"] = _blcelc.csSimpleRenderMesh_mixmode_get
+    if _newclass:mixmode = property(_blcelc.csSimpleRenderMesh_mixmode_get,_blcelc.csSimpleRenderMesh_mixmode_set)
+    def __init__(self,*args):
+        _swig_setattr(self, csSimpleRenderMesh, 'this', apply(_blcelc.new_csSimpleRenderMesh,args))
+        _swig_setattr(self, csSimpleRenderMesh, 'thisown', 1)
+    def __del__(self, destroy= _blcelc.delete_csSimpleRenderMesh):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __repr__(self):
+        return "<C csSimpleRenderMesh instance at %s>" % (self.this,)
+
+class csSimpleRenderMeshPtr(csSimpleRenderMesh):
+    def __init__(self,this):
+        _swig_setattr(self, csSimpleRenderMesh, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, csSimpleRenderMesh, 'thisown', 0)
+        _swig_setattr(self, csSimpleRenderMesh,self.__class__,csSimpleRenderMesh)
+_blcelc.csSimpleRenderMesh_swigregister(csSimpleRenderMeshPtr)
+
 class iGraphics3D(iBase):
     __swig_setmethods__ = {}
     for _s in [iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -8271,6 +8342,7 @@ class iGraphics3D(iBase):
     def SetRenderState(*args): return apply(_blcelc.iGraphics3D_SetRenderState,args)
     def GetRenderState(*args): return apply(_blcelc.iGraphics3D_GetRenderState,args)
     def CreateRenderBuffer(*args): return apply(_blcelc.iGraphics3D_CreateRenderBuffer,args)
+    def CreateInterleavedRenderBuffers(*args): return apply(_blcelc.iGraphics3D_CreateInterleavedRenderBuffers,args)
     def SetBufferState(*args): return apply(_blcelc.iGraphics3D_SetBufferState,args)
     def SetTextureState(*args): return apply(_blcelc.iGraphics3D_SetTextureState,args)
     def DrawMesh(*args): return apply(_blcelc.iGraphics3D_DrawMesh,args)
@@ -8300,6 +8372,7 @@ class iGraphics3D(iBase):
     def IsLightmapOK(*args): return apply(_blcelc.iGraphics3D_IsLightmapOK,args)
     def CreatePolygonRenderer(*args): return apply(_blcelc.iGraphics3D_CreatePolygonRenderer,args)
     def SetWorldToCamera(*args): return apply(_blcelc.iGraphics3D_SetWorldToCamera,args)
+    def DrawSimpleMesh(*args): return apply(_blcelc.iGraphics3D_DrawSimpleMesh,args)
     def __del__(self, destroy= _blcelc.delete_iGraphics3D):
         try:
             if self.thisown: destroy(self)

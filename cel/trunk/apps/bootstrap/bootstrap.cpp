@@ -247,15 +247,17 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     const char* extra_arg1 = cmdline->GetName (3);
     const char* extra_arg2 = cmdline->GetName (4);
     const char* extra_arg3 = cmdline->GetName (5);
+    celData ret;
     // @@@ TODO:  Support iCelParameterBlock system!
     if (extra_arg3)
-      behave->SendMessage (extra_method, 0, extra_arg1, extra_arg2, extra_arg3);
+      behave->SendMessage (extra_method, ret, 0,
+      	extra_arg1, extra_arg2, extra_arg3);
     else if (extra_arg2)
-      behave->SendMessage (extra_method, 0, extra_arg1, extra_arg2);
+      behave->SendMessage (extra_method, ret, 0, extra_arg1, extra_arg2);
     else if (extra_arg1)
-      behave->SendMessage (extra_method, 0, extra_arg1);
+      behave->SendMessage (extra_method, ret, 0, extra_arg1);
     else
-      behave->SendMessage (extra_method, 0);
+      behave->SendMessage (extra_method, ret, 0);
   }
 
   return true;

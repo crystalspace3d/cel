@@ -78,17 +78,17 @@ celBehaviourXml::~celBehaviourXml ()
 }
 
 bool celBehaviourXml::SendMessage (const char* msg_id,
-	iCelParameterBlock* params, ...)
+	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, params, arg);
+  bool rc = SendMessageV (msg_id, ret, params, arg);
   va_end (arg);
   return rc;
 }
 
 bool celBehaviourXml::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
@@ -96,7 +96,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
     celBlXml* cbl = (celBlXml*)bl;
     cbl->call_stack.Push (msg_id);
     cbl->call_stack_params.Push (params);
-    h->Execute (entity, this, params);
+    h->Execute (entity, this, ret, params);
     cbl->call_stack_params.Pop ();
     cbl->call_stack.Pop ();
   }
@@ -112,7 +112,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
         celBlXml* cbl = (celBlXml*)bl;
         cbl->call_stack.Push (msg_id);
 	cbl->call_stack_params.Push (params);
-	h->Execute (entity, this, params);
+	h->Execute (entity, this, ret, params);
         cbl->call_stack_params.Pop ();
 	cbl->call_stack.Pop ();
 	break;
@@ -147,17 +147,17 @@ celBehaviourBootstrap::~celBehaviourBootstrap ()
 }
 
 bool celBehaviourBootstrap::SendMessage (const char* msg_id,
-	iCelParameterBlock* params, ...)
+	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, params, arg);
+  bool rc = SendMessageV (msg_id, ret, params, arg);
   va_end (arg);
   return rc;
 }
 
 bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData&, iCelParameterBlock* params, va_list arg)
 {
   if (!strcmp (msg_id, "load"))
   {

@@ -782,7 +782,7 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 #endif
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
-	celBehaviourXml* behave, iCelParameterBlock* params,
+	celBehaviourXml* behave, celData& ret, iCelParameterBlock* params,
 	int startop)
 {
   // We keep a reference to the entity here to prevent
@@ -2402,7 +2402,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
 	  CS_ASSERT (handler != 0);
 	  DUMP_EXEC ((":%04d: calli %s\n", i-1, handler->GetName ()));
-	  handler->Execute (entity, behave, params);
+	  celData ret;
+	  cbl->call_stack.Push (handler->GetName ());
+	  cbl->call_stack_params.Push (params);
+	  handler->Execute (entity, behave, ret, params);
+	  cbl->call_stack_params.Pop ();
+	  cbl->call_stack.Pop ();
 	}
         break;
       case CEL_OPERATION_CALLENT:
@@ -2419,7 +2424,84 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
 	  csRef<celGenericParameterBlock> ref = action_params;
-	  ent->GetBehaviour ()->SendMessage (eventname, action_params);
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	}
+        break;
+      case CEL_OPERATION_CALLENT_RET:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg aevent = stack.Pop ();
+	  celXmlArg aent = stack.Pop ();
+	  celXmlArg aret = stack.Pop ();
+	  DUMP_EXEC ((":%04d: callent_ret ent=%s event=%s return=%s\n", i-1,
+		A2S (aent), A2S (aevent), A2S (aret)));
+	  iCelEntity* ent = ArgToEntity (aent, pl);
+	  if (!ent)
+	    return ReportError (behave,
+	    	"Couldn't find entity '%s' for 'callent'!",
+	    	EntityNameForError (aent));
+	  const char* eventname = ArgToString (aevent);
+	  csRef<celGenericParameterBlock> ref = action_params;
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (aret);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  switch (ret.type)
+	  {
+	    case CEL_DATA_BOOL:
+	      props->SetProperty (varname, ret.value.bo);
+	      break;
+	    case CEL_DATA_FLOAT:
+	      props->SetProperty (varname, ret.value.f);
+	      break;
+	    case CEL_DATA_STRING:
+	      props->SetProperty (varname, (const char*)(*ret.value.s));
+	      break;
+	    case CEL_DATA_ULONG:
+	      props->SetProperty (varname, (long)ret.value.ul);
+	      break;
+	    case CEL_DATA_LONG:
+	      props->SetProperty (varname, (long)ret.value.l);
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor col;
+		col.red = ret.value.col.red;
+		col.green = ret.value.col.green;
+		col.blue = ret.value.col.blue;
+	        props->SetProperty (varname, col);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 vec;
+		vec.x = ret.value.v.x;
+		vec.y = ret.value.v.y;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 vec;
+		vec.x = ret.value.v.x;
+		vec.y = ret.value.v.y;
+		vec.z = ret.value.v.z;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_DATA_ENTITY:
+	      props->SetProperty (varname, ret.value.ent);
+	      break;
+	    case CEL_DATA_PCLASS:
+	      props->SetProperty (varname, ret.value.pc);
+	      break;
+	    default:
+	      return ReportError (behave, "Bad type of value for call/return!");
+	  }
 	}
         break;
       case CEL_OPERATION_CALL:
@@ -2429,9 +2511,125 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: call event=%s\n", i-1, A2S (aevent)));
 	  const char* eventname = ArgToString (aevent);
 	  csRef<celGenericParameterBlock> ref = action_params;
-	  behave->SendMessage (eventname, action_params);
+	  celData ret;
+	  behave->SendMessage (eventname, ret, action_params);
 	}
         break;
+      case CEL_OPERATION_CALL_RET:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg aevent = stack.Pop ();
+	  celXmlArg aret = stack.Pop ();
+	  DUMP_EXEC ((":%04d: call_ret event=%s return=%s\n", i-1,
+	  	A2S (aevent), A2S (aret)));
+	  const char* eventname = ArgToString (aevent);
+	  csRef<celGenericParameterBlock> ref = action_params;
+	  celData ret;
+	  behave->SendMessage (eventname, ret, action_params);
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* varname = ArgToString (aret);
+	  if (!varname)
+	    return ReportError (behave, "Illegal variable name!");
+	  switch (ret.type)
+	  {
+	    case CEL_DATA_BOOL:
+	      props->SetProperty (varname, ret.value.bo);
+	      break;
+	    case CEL_DATA_FLOAT:
+	      props->SetProperty (varname, ret.value.f);
+	      break;
+	    case CEL_DATA_STRING:
+	      props->SetProperty (varname, (const char*)(*ret.value.s));
+	      break;
+	    case CEL_DATA_ULONG:
+	      props->SetProperty (varname, (long)ret.value.ul);
+	      break;
+	    case CEL_DATA_LONG:
+	      props->SetProperty (varname, (long)ret.value.l);
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor col;
+		col.red = ret.value.col.red;
+		col.green = ret.value.col.green;
+		col.blue = ret.value.col.blue;
+	        props->SetProperty (varname, col);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 vec;
+		vec.x = ret.value.v.x;
+		vec.y = ret.value.v.y;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 vec;
+		vec.x = ret.value.v.x;
+		vec.y = ret.value.v.y;
+		vec.z = ret.value.v.z;
+	        props->SetProperty (varname, vec);
+	      }
+	      break;
+	    case CEL_DATA_ENTITY:
+	      props->SetProperty (varname, ret.value.ent);
+	      break;
+	    case CEL_DATA_PCLASS:
+	      props->SetProperty (varname, ret.value.pc);
+	      break;
+	    default:
+	      return ReportError (behave, "Bad type of value for call/return!");
+	  }
+	}
+        break;
+      case CEL_OPERATION_RETURN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg a_val = stack.Pop ();
+	  DUMP_EXEC ((":%04d: return val=%s\n", i-1, A2S (a_val)));
+	  switch (a_val.type)
+	  {
+	    case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
+	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
+	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
+	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
+	    case CEL_DATA_BOOL: ret.SetBool (a_val.arg.b); break;
+	    case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
+	    case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+	        ret.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+		v.z = a_val.arg.vec.z;
+	        ret.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v;
+		v.red = a_val.arg.col.red;
+		v.green = a_val.arg.col.green;
+		v.blue = a_val.arg.col.blue;
+	        ret.Set (v);
+	      }
+	      break;
+	    default:
+	      return ReportError (behave, "Bad type of value for return!");
+	  }
+	}
+	break;
       case CEL_OPERATION_ACTION:
         {
 	  CHECK_STACK(2)
@@ -2532,11 +2730,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 v;
 	  celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	  CS_ASSERT (truebranch != 0);
+	  celData ret;
+	  cbl->call_stack.Push (truebranch->GetName ());
+	  cbl->call_stack_params.Push (params);
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (varname, (long)v);
-	    truebranch->Execute (entity, behave, params);
+	    truebranch->Execute (entity, behave, ret, params);
 	  }
+	  cbl->call_stack_params.Pop ();
+	  cbl->call_stack.Pop ();
 	}
 	break;
       case CEL_OPERATION_FORI:
@@ -2557,11 +2760,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 end = ArgToInt32 (a_end);
 	  int32 v;
 	  int endlocation = op.arg.arg.codelocation;
+	  celData ret;
+	  cbl->call_stack.Push (GetName ());
+	  cbl->call_stack_params.Push (params);
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (copy_varname, (long)v);
-	    Execute (entity, behave, params, i);
+	    Execute (entity, behave, ret, params, i);
 	  }
+	  cbl->call_stack_params.Pop ();
+	  cbl->call_stack.Pop ();
 	  delete[] copy_varname;
 	  i = endlocation;
 	}
@@ -2628,17 +2836,30 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: if %s\n", i-1, A2S (eval)));
 	  bool rc = false;
 	  if (!EvaluateTrue (eval, behave, rc)) return false;
+	  celData ret;
 	  if (rc)
 	  {
 	    celXmlScriptEventHandler* truebranch = op.arg.arg.h.h_true;
 	    if (truebranch)
-	      truebranch->Execute (entity, behave, params);
+	    {
+	      cbl->call_stack.Push (truebranch->GetName ());
+	      cbl->call_stack_params.Push (params);
+	      truebranch->Execute (entity, behave, ret, params);
+	      cbl->call_stack_params.Pop ();
+	      cbl->call_stack.Pop ();
+	    }
 	  }
 	  else
 	  {
 	    celXmlScriptEventHandler* falsebranch = op.arg.arg.h.h_false;
 	    if (falsebranch)
-	      falsebranch->Execute (entity, behave, params);
+	    {
+	      cbl->call_stack.Push (falsebranch->GetName ());
+	      cbl->call_stack_params.Push (params);
+	      falsebranch->Execute (entity, behave, ret, params);
+	      cbl->call_stack_params.Pop ();
+	      cbl->call_stack.Pop ();
+	    }
 	  }
 	}
 	break;
@@ -2705,7 +2926,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value!");
+	      return ReportError (behave, "Bad type of value for action/param!");
 	  }
         }
         break;
@@ -2782,7 +3003,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value!");
+	      return ReportError (behave, "Bad type of value for var!");
 	  }
 	}
 	break;
@@ -2867,7 +3088,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value!");
+	      return ReportError (behave, "Bad type of value for var!");
 	  }
 	}
 	break;
@@ -2940,7 +3161,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value!");
+	      return ReportError (behave, "Bad type of value for var!");
 	  }
 	}
 	break;
@@ -3014,7 +3235,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      props->SetProperty (varname, val.arg.pc);
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value!");
+	      return ReportError (behave, "Bad type of value for var!");
 	  }
 	}
 	break;

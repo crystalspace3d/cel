@@ -249,14 +249,16 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     if (bh)
     {
       params->GetParameter (0).Set (child);
-      bh->SendMessage ("pcinventory_addchild", params);
+      celData ret;
+      bh->SendMessage ("pcinventory_addchild", ret, params);
     }
   }
   bh = child->GetBehaviour ();
   if (bh)
   {
     params->GetParameter (0).Set (entity);
-    bh->SendMessage ("pcinventory_added", params);
+    celData ret;
+    bh->SendMessage ("pcinventory_added", ret, params);
   }
 
   return true;
@@ -299,14 +301,16 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     if (bh)
     {
       params->GetParameter (0).Set (child);
-      bh->SendMessage ("pcinventory_removechild", params);
+      celData ret;
+      bh->SendMessage ("pcinventory_removechild", ret, params);
     }
   }
   bh = child->GetBehaviour ();
   if (bh)
   {
     params->GetParameter (0).Set (entity);
-    bh->SendMessage ("pcinventory_removed", params);
+    celData ret;
+    bh->SendMessage ("pcinventory_removed", ret, params);
   }
 
   return true;

@@ -268,17 +268,17 @@ celPythonBehaviour::~celPythonBehaviour ()
 }
 
 bool celPythonBehaviour::SendMessage (const char* msg_id,
-	iCelParameterBlock* params, ...)
+	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, params, arg);
+  bool rc = SendMessageV (msg_id, ret, params, arg);
   va_end (arg);
   return rc;
 }
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData&, iCelParameterBlock* params, va_list arg)
 { 
 
 /*  

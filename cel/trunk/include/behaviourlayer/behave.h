@@ -78,16 +78,17 @@ struct iCelBehaviour : public iBase
   /**
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
+   * The 'ret' parameter can be used to return values.
    */
   virtual bool SendMessage (const char* msg_id,
-  	iCelParameterBlock* params, ...) = 0;
+  	celData& ret, iCelParameterBlock* params, ...) = 0;
 
   /**
    * Send a message to this entity. Returns true if the
    * message was understood and handled by the entity.
    */
   virtual bool SendMessageV (const char* msg_id,
-  	iCelParameterBlock* params, va_list arg) = 0;
+  	celData& ret, iCelParameterBlock* params, va_list arg) = 0;
 
   /**
    * This is a function intended for implementations of behaviour layers.

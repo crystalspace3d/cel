@@ -55,11 +55,11 @@ celBehaviourGeneral::~celBehaviourGeneral ()
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id,
-	iCelParameterBlock* params, ...)
+	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, params, arg);
+  bool rc = SendMessageV (msg_id, ret, params, arg);
   va_end (arg);
   return rc;
 }
@@ -72,7 +72,7 @@ celBehaviourPrinter::celBehaviourPrinter (iCelEntity* entity,
 }
 
 bool celBehaviourPrinter::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg; (void)params;
   printf ("Got message '%s'\n", msg_id);
@@ -87,7 +87,7 @@ celBehaviourRoom::celBehaviourRoom (iCelEntity* entity,
 }
 
 bool celBehaviourRoom::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
   // @@@ Should store the id's for the parameters below.
@@ -158,7 +158,7 @@ celBehaviourBox::celBehaviourBox (iCelEntity* entity,
 }
 
 bool celBehaviourBox::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -247,7 +247,7 @@ celBehaviourActor::~celBehaviourActor()
 }
 
 bool celBehaviourActor::SendMessageV (const char* msg_id,
-	iCelParameterBlock* params, va_list arg)
+	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pckeyinput_", 11) == 0;
 
@@ -326,6 +326,6 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
     }
   }
 
-  return bhroom->SendMessageV (msg_id, params, arg);
+  return bhroom->SendMessageV (msg_id, ret, params, arg);
 }
 

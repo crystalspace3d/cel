@@ -81,9 +81,12 @@ enum
   CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
   CEL_OPERATION_FOR,		// A:EH		S:S,?,?		OS:-
   CEL_OPERATION_FORI,		// A:C		S:S,?,?		OS:-
+  CEL_OPERATION_RETURN,		// A:-		S:?		OS:-
   CEL_OPERATION_CALL,		// A:-		S:S		OS:-
+  CEL_OPERATION_CALL_RET,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CALLI,		// A:EH		S:-		OS:-
   CEL_OPERATION_CALLENT,	// A:-		S:E,S		OS:-
+  CEL_OPERATION_CALLENT_RET,	// A:-		S:E,S,S		OS:-
   CEL_OPERATION_BB_TESTCOLLIDE,	// A:-		S:PC		OS:-
   CEL_OPERATION_BB_MOVELAYER,	// A:-		S:S,I,I		OS:-
   CEL_OPERATION_DESTROYENTITY,	// A:-		S:E		OS:-
@@ -346,7 +349,7 @@ public:
   celXmlArg& GetLocalVariable (int idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
-  	iCelParameterBlock* params, int startop = 0);
+  	celData& ret, iCelParameterBlock* params, int startop = 0);
 };
 
 /**

@@ -710,7 +710,8 @@ void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
   params->GetParameter (1).Set ((int32)y);
   params->GetParameter (2).Set ((int32)but);
   params->GetParameter (3).Set (ent);
-  bh->SendMessage (msg, params);
+  celData ret;
+  bh->SendMessage (msg, ret, params);
 }
 
 
