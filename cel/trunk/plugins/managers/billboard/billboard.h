@@ -64,7 +64,7 @@ public:
   void Draw (iEngine* engine, iGraphics3D* g3d, float z);
 
   // Check if x,y is in billboard.
-  bool In (int cx, int cy);
+  bool In (iEngine* engine, int cx, int cy);
 
   // Fire event handlers.
   void FireMouseUp (int x, int y, int button);
