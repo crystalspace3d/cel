@@ -202,6 +202,16 @@ public:
    */
   void ExtrapolatePosition (float delta);
 
+  /**
+   * This function calls ExtrapolatePosition with a certain time
+   * but calculates the delta relative to the last update, not
+   * a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  void UpdateDR(csTicks ticks);
+
+
   struct PcLinearMovement : public iPcLinearMovement
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
@@ -280,6 +290,10 @@ public:
     virtual void ExtrapolatePosition (float delta)
     {
       scfParent->ExtrapolatePosition (delta);
+    }
+    virtual void UpdateDR(csTicks ticks)
+    {
+      scfParent->UpdateDR(ticks);
     }
   } scfiPcLinearMovement;
 

@@ -136,6 +136,15 @@ struct iPcLinearMovement : public iBase
    * if necessary.
    */
   virtual void ExtrapolatePosition (float delta) = 0;
+
+  /**
+   * This function calls ExtrapolatePosition with a certain time
+   * but calculates the delta relative to the last update, not
+   * a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  virtual void UpdateDR (csTicks ticks) = 0;
 };
 
 #endif
