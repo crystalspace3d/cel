@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+23-Jun-2004
+	- Eric Sunshine fixed more bugs in cel-config.  It was almost
+	  completely broken for the case when CEL has been installed.  Also
+	  cleaned up much inconsistency in the script.
 22-Jun-2004
 	- Eric Sunshine fixed bugs in CelConfigGen rule (Jamfile.in) where it
 	  was using non-existent and obsolete Jam variables, as well as broken
