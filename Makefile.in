@@ -144,38 +144,38 @@ BLPYTHON_INC=$(wildcard $(SRCDIR)/plugins/behaviourlayer/python/*.h)
 BLPYTHON_INF=$(SRCDIR)/plugins/behaviourlayer/python/blpython.csplugin
 BLPYTHON_INF_OUT=$(OUT)/plpython.csplugin
 BLPYTHON_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(BLPYTHON_SRC))))
-PFTEST_SRC=$(wildcard $(SRCDIR)/plugins/propclass/test/*.cpp plugins/propclass/common/*.cpp)
-PFTEST_INC=$(wildcard $(SRCDIR)/plugins/propclass/test/*.h plugins/propclass/common/*.h)
+PFTEST_SRC=$(wildcard $(SRCDIR)/plugins/propclass/test/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFTEST_INC=$(wildcard $(SRCDIR)/plugins/propclass/test/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFTEST_INF=$(SRCDIR)/plugins/propclass/test/pftest.csplugin
 PFTEST_INF_OUT=$(OUT)/pftest.csplugin
 PFTEST_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFTEST_SRC))))
-PFMESH_SRC=$(wildcard $(SRCDIR)/plugins/propclass/mesh/*.cpp plugins/propclass/common/*.cpp)
-PFMESH_INC=$(wildcard $(SRCDIR)/plugins/propclass/mesh/*.h plugins/propclass/common/*.h)
+PFMESH_SRC=$(wildcard $(SRCDIR)/plugins/propclass/mesh/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFMESH_INC=$(wildcard $(SRCDIR)/plugins/propclass/mesh/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFMESH_INF=$(SRCDIR)/plugins/propclass/mesh/pfmesh.csplugin
 PFMESH_INF_OUT=$(OUT)/pfmesh.csplugin
 PFMESH_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFMESH_SRC))))
-PFMOVE_SRC=$(wildcard $(SRCDIR)/plugins/propclass/move/*.cpp plugins/propclass/common/*.cpp)
-PFMOVE_INC=$(wildcard $(SRCDIR)/plugins/propclass/move/*.h plugins/propclass/common/*.h)
+PFMOVE_SRC=$(wildcard $(SRCDIR)/plugins/propclass/move/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFMOVE_INC=$(wildcard $(SRCDIR)/plugins/propclass/move/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFMOVE_INF=$(SRCDIR)/plugins/propclass/move/pfmove.csplugin
 PFMOVE_INF_OUT=$(OUT)/pfmove.csplugin
 PFMOVE_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFMOVE_SRC))))
-PFTOOLS_SRC=$(wildcard $(SRCDIR)/plugins/propclass/tools/*.cpp plugins/propclass/common/*.cpp)
-PFTOOLS_INC=$(wildcard $(SRCDIR)/plugins/propclass/tools/*.h plugins/propclass/common/*.h)
+PFTOOLS_SRC=$(wildcard $(SRCDIR)/plugins/propclass/tools/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFTOOLS_INC=$(wildcard $(SRCDIR)/plugins/propclass/tools/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFTOOLS_INF=$(SRCDIR)/plugins/propclass/tools/pftools.csplugin
 PFTOOLS_INF_OUT=$(OUT)/pftools.csplugin
 PFTOOLS_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFTOOLS_SRC))))
-PFENG_SRC=$(wildcard $(SRCDIR)/plugins/propclass/engine/*.cpp plugins/propclass/common/*.cpp)
-PFENG_INC=$(wildcard $(SRCDIR)/plugins/propclass/engine/*.h plugins/propclass/common/*.h)
+PFENG_SRC=$(wildcard $(SRCDIR)/plugins/propclass/engine/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFENG_INC=$(wildcard $(SRCDIR)/plugins/propclass/engine/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFENG_INF=$(SRCDIR)/plugins/propclass/engine/pfengine.csplugin
 PFENG_INF_OUT=$(OUT)/pfengine.csplugin
 PFENG_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFENG_SRC))))
-PFINV_SRC=$(wildcard $(SRCDIR)/plugins/propclass/inv/*.cpp plugins/propclass/common/*.cpp)
-PFINV_INC=$(wildcard $(SRCDIR)/plugins/propclass/inv/*.h plugins/propclass/common/*.h)
+PFINV_SRC=$(wildcard $(SRCDIR)/plugins/propclass/inv/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFINV_INC=$(wildcard $(SRCDIR)/plugins/propclass/inv/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFINV_INF=$(SRCDIR)/plugins/propclass/inv/pfinv.csplugin
 PFINV_INF_OUT=$(OUT)/pfinv.csplugin
 PFINV_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFINV_SRC))))
-PFINPUT_SRC=$(wildcard $(SRCDIR)/plugins/propclass/input/*.cpp plugins/propclass/common/*.cpp)
-PFINPUT_INC=$(wildcard $(SRCDIR)/plugins/propclass/input/*.h plugins/propclass/common/*.h)
+PFINPUT_SRC=$(wildcard $(SRCDIR)/plugins/propclass/input/*.cpp $(SRCDIR)/plugins/propclass/common/*.cpp)
+PFINPUT_INC=$(wildcard $(SRCDIR)/plugins/propclass/input/*.h $(SRCDIR)/plugins/propclass/common/*.h)
 PFINPUT_INF=$(SRCDIR)/plugins/propclass/input/pfinput.csplugin
 PFINPUT_INF_OUT=$(OUT)/pfinput.csplugin
 PFINPUT_OBJS=$(addprefix $(OUT)/,$(addsuffix .o, $(basename $(PFINPUT_SRC))))
@@ -368,8 +368,8 @@ distclean: clean
 #------
 blpythonswig:
 	swig -python -I$(CSDIR)/include -I$(CSDIR)/include/ivaria -c++ -shadow \
-		-o plugins/behaviourlayer/python/blcel.cpp plugins/behaviourlayer/python/blpython.i
-	mv plugins/behaviourlayer/python/blcelc.py scripts
+		-o $(SRCDIR)/plugins/behaviourlayer/python/blcel.cpp $(SRCDIR)/plugins/behaviourlayer/python/blpython.i
+	mv $(SRCDIR)/plugins/behaviourlayer/python/blcelc.py $(SRCDIR)/scripts
 
 #------
 # Create dependencies
