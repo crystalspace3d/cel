@@ -39,10 +39,10 @@ SCF_VERSION (iPcBillboard, 0, 0, 1);
  * This property class can send out the following messages
  * to the behaviour:
  * <ul>
- * <li>pcbillboard_select: billboard is selected
- * <li>pcbillboard_move: billboard is moved
- * <li>pcbillboard_unselect: billboard is unselected
- * <li>pcbillboard_doubleclick: billboard is double clicked
+ * <li>pcbillboard_select: billboard is selected (x,y,button)
+ * <li>pcbillboard_move: billboard is moved (x,y,button)
+ * <li>pcbillboard_unselect: billboard is unselected (x,y,button)
+ * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  * </ul>
  */
 struct iPcBillboard : public iBase

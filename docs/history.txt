@@ -27,6 +27,9 @@ The history order is reversed so that new features are at the top.
 	    pczonemanager_stoploading: loading stops
 	    pczonemanager_errorloading: loading stops with error
 	  This can be used for setting up a loading screen.
+	- Jorrit extended the API documentation for all property classes
+	  so that every message also shows the parameters that are valid
+	  for that message.
 8-Jul-2004
 	- Jorrit started work on a new property class pczonemanager.
 	  Currently only the iPcZoneManager interface is partially

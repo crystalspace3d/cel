@@ -47,9 +47,9 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
  * This property class can send out the following messages
  * to the behaviour:
  * <ul>
- * <li>pcmeshsel_down: mesh is selected
- * <li>pcmeshsel_up: mesh is unselected
- * <li>pcmeshsel_move: mesh is moved
+ * <li>pcmeshsel_down: mesh is selected (x,y,button,entity)
+ * <li>pcmeshsel_up: mesh is unselected (x,y,button,entity)
+ * <li>pcmeshsel_move: mesh is moved (x,y,button,entity)
  * </ul>
  */
 struct iPcMeshSelect : public iBase
