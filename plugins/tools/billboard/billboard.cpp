@@ -157,8 +157,8 @@ void celBillboard::Draw (iEngine* engine, iGraphics3D* g3d, float z)
   material->Visit ();
   if (w == -1)
   {
-    material->GetMaterialHandle ()->GetTexture ()->GetMipMapDimensions (
-    	0, w, h);
+    material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
+    	w, h);
   }
   poly.mat_handle = material->GetMaterialHandle ();
   int fh = g3d->GetHeight ();
