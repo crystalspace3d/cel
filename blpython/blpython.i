@@ -1,3 +1,4 @@
+#define __CEL__
 %module blcelc
 %include cspace.i
 %{
@@ -77,6 +78,16 @@ iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name) {
 }
 %}
 iCelEntity *celCreateEntity(iObjectRegistry *object_reg, const char *name);
+
+////////
+%{
+iCelEntity *scfQueryInterface_iCelEntity(iBase *base) {
+  csRef<iCelEntity> ent(SCF_QUERY_INTERFACE (base, iCelEntity));
+  return ent;
+}
+%}
+iCelEntity *scfQueryInterface_iCelEntity(iBase *base);
+/////////
 
 struct iCelBlLayer : public iBase
 {
@@ -271,6 +282,14 @@ iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc) {
 }
 %}
 iPcTimer *scfQuery_iPcTimer(iCelPropertyClass *pc);
+
+%{
+iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc) {
+  csRef<iPcInventory> pcInventory(SCF_QUERY_INTERFACE(pc, iPcInventory));
+  return pcInventory;
+}
+%}
+iPcInventory *scfQuery_iPcInventory(iCelPropertyClass *pc);
 
 #define CEL_MOUSE_BUTTON1 1
 #define CEL_MOUSE_BUTTON2 2
@@ -516,4 +535,3 @@ enum celDataType
   CEL_DATA_BUFFER,
   CEL_DATA_ACTION
 };
-
