@@ -18,14 +18,23 @@
 */
 
 #include "cssysdef.h"
+#include "pf/mesh.h"
+#include "pf/solid.h"
 #include "pf/engine/engfact.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
 #include "bl/behave.h"
 #include "csutil/util.h"
 #include "iutil/objreg.h"
+#include "iutil/object.h"
+#include "iutil/vfs.h"
+#include "imap/parser.h"
 #include "iengine/engine.h"
+#include "iengine/mesh.h"
 #include "iengine/camera.h"
+#include "iengine/region.h"
+#include "iengine/campos.h"
+#include "iengine/sector.h"
 #include "cstool/csview.h"
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
@@ -66,10 +75,24 @@ bool celPfEngine::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
+const char* celPfEngine::GetTypeName (int idx) const
+{
+  switch (idx)
+  {
+    case 0: return "pccamera";
+    case 1: return "pcregion";
+    default: return NULL;
+  }
+}
+
 iCelPropertyClass* celPfEngine::CreatePropertyClass (const char* type)
 {
-  if (strcmp (type, "pccamera")) return NULL;
-  return new celPcCamera (object_reg);
+  if (!strcmp (type, "pccamera"))
+    return new celPcCamera (object_reg);
+  else if (!strcmp (type, "pcregion"))
+    return new celPcRegion (object_reg);
+  else
+    return NULL;
 }
 
 //---------------------------------------------------------------------------
@@ -128,6 +151,207 @@ void celPcCamera::Load (iCelDataBuffer* databuf)
 iCamera* celPcCamera::GetCamera () const
 {
   return iview->GetCamera ();
+}
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celPcRegion)
+  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRegion)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRegion::PcRegion)
+  SCF_IMPLEMENTS_INTERFACE (iPcRegion)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPcRegion::celPcRegion (iObjectRegistry* object_reg)
+{
+  SCF_CONSTRUCT_IBASE (NULL);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRegion);
+  celPcRegion::object_reg = object_reg;
+  worlddir = NULL;
+  worldfile = NULL;
+  regionname = NULL;
+  loaded = false;
+}
+
+celPcRegion::~celPcRegion ()
+{
+  Unload ();
+  delete[] worlddir;
+  delete[] worldfile;
+  delete[] regionname;
+}
+
+void celPcRegion::SetEntity (iCelEntity* entity)
+{
+  celPcRegion::entity = entity;
+}
+
+iCelDataBuffer* celPcRegion::GetDataBuffer ()
+{
+  iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelDataBuffer* databuf = pl->CreateDataBuffer ();
+  pl->DecRef ();
+  return databuf;
+}
+
+void celPcRegion::Save (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcRegion::Load (iCelDataBuffer* databuf)
+{
+  (void)databuf;
+}
+
+void celPcRegion::SetWorldFile (const char* vfsdir, const char* name)
+{
+  delete[] worlddir;
+  delete[] worldfile;
+  worlddir = csStrNew (vfsdir);
+  worldfile = csStrNew (name);
+}
+
+void celPcRegion::SetRegionName (const char* name)
+{
+  delete[] regionname;
+  regionname = csStrNew (name);
+}
+
+bool celPcRegion::Load ()
+{
+  bool rc = true;
+
+  if (loaded) return true;
+  if (!worlddir) return false;
+  if (!worldfile) return false;
+  if (!regionname) return false;
+
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  iRegion* old_region = engine->GetCurrentRegion ();
+  engine->SelectRegion (regionname);
+  iRegion* cur_region = engine->GetCurrentRegion ();
+  cur_region->DeleteAll ();
+
+  iLoader* loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  CS_ASSERT (loader != NULL);
+  iVFS* VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
+  CS_ASSERT (VFS != NULL);
+  VFS->ChDir (worlddir);
+  VFS->DecRef ();
+  // Load the level file which is called 'world'.
+  if (!loader->LoadMapFile (worldfile, false, true))
+  {
+    rc = false;
+    goto cleanup;
+  }
+  cur_region->Prepare ();
+  loaded = true;
+
+  {
+    // Create entities for all meshes in this region.
+    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT (pl != NULL);
+    iCelPropertyClassFactory* pfmove = pl->FindPropertyClassFactory ("pfmove");
+    CS_ASSERT (pfmove != NULL);
+    iCelPropertyClassFactory* pfmesh = pl->FindPropertyClassFactory ("pfmesh");
+    CS_ASSERT (pfmesh != NULL);
+    iCelPropertyClass* pc;
+    iObjectIterator* iter = cur_region->QueryObject ()->GetIterator ();
+    while (!iter->IsFinished ())
+    {
+      iObject* o = iter->GetObject ();
+      iMeshWrapper* m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
+      if (m)
+      {
+        iCelEntity* ent = pl->CreateEntity ();
+        ent->SetName ("__dummy__");
+
+        pc = pfmesh->CreatePropertyClass ("pcmesh");
+        ent->GetPropertyClassList ()->Add (pc);
+        iPcMesh* pcmesh = SCF_QUERY_INTERFACE_FAST (pc, iPcMesh);
+        pcmesh->SetMesh (m);
+        pcmesh->DecRef ();
+        pc->DecRef ();
+
+        pc = pfmove->CreatePropertyClass ("pcsolid");
+        ent->GetPropertyClassList ()->Add (pc);
+        pc->DecRef ();
+
+        entities.Push (ent);
+
+        m->DecRef ();
+      }
+      iter->Next ();
+    }
+    iter->DecRef ();
+    pl->DecRef ();
+  }
+
+cleanup:
+  engine->SelectRegion (old_region);
+  engine->DecRef ();
+  loader->DecRef ();
+  return rc;
+}
+
+void celPcRegion::Unload ()
+{
+  if (!loaded) return;
+  loaded = false;
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+
+  iRegion* old_region = engine->GetCurrentRegion ();
+  engine->SelectRegion (regionname);
+
+  int i;
+  for (i = 0 ; i < entities.Length () ; i++)
+  {
+    iCelEntity* ent = (iCelEntity*)entities[i];
+    ent->DecRef ();
+  }
+  entities.SetLength (0);
+
+  engine->GetCurrentRegion ()->DeleteAll ();
+  engine->SelectRegion (old_region);
+
+  engine->DecRef ();
+}
+
+iSector* celPcRegion::GetStartSector ()
+{
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  iSector* sector;
+  if (engine->GetCameraPositions ()->GetCount () > 0)
+  {
+    iCameraPosition* campos = engine->GetCameraPositions ()->Get (0);
+    sector = engine->GetSectors ()->FindByName (campos->GetSector ());
+  }
+  else
+  {
+    sector = engine->GetSectors ()->FindByName ("room");
+  }
+  engine->DecRef ();
+  return sector;
+}
+
+csVector3 celPcRegion::GetStartPosition ()
+{
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  csVector3 pos (0);
+  if (engine->GetCameraPositions ()->GetCount () > 0)
+  {
+    iCameraPosition* campos = engine->GetCameraPositions ()->Get (0);
+    pos = campos->GetPosition ();
+  }
+  engine->DecRef ();
+  return pos;
 }
 
 //---------------------------------------------------------------------------

@@ -24,9 +24,11 @@
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/csvector.h"
 #include "pl/propclas.h"
 #include "pl/propfact.h"
 #include "pf/camera.h"
+#include "pf/region.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -49,8 +51,8 @@ public:
 
   virtual const char* GetName () const { return "pfengine"; }
   virtual iCelPropertyClass* CreatePropertyClass (const char* type);
-  virtual int GetTypeCount () const { return 1; }
-  virtual const char* GetTypeName (int idx) const { return "pccamera"; }
+  virtual int GetTypeCount () const { return 2; }
+  virtual const char* GetTypeName (int idx) const;
 
   struct Component : public iComponent
   {
@@ -99,6 +101,87 @@ public:
       return scfParent->GetView ();
     }
   } scfiPcCamera;
+};
+
+/**
+ * This is a region property class.
+ */
+class celPcRegion : public iCelPropertyClass
+{
+private:
+  iCelEntity* entity;
+  iObjectRegistry* object_reg;
+  char* worlddir;
+  char* worldfile;
+  char* regionname;
+  bool loaded;
+  // This property class maintains private child entities
+  // which are used for collision detection.
+  csVector entities;
+
+public:
+  celPcRegion (iObjectRegistry* object_reg);
+  virtual ~celPcRegion ();
+
+  void SetWorldFile (const char* vfsdir, const char* name);
+  const char* GetWorldDir () const { return worlddir; }
+  const char* GetWorldFile () const { return worldfile; }
+  void SetRegionName (const char* name);
+  const char* GetRegionName () const { return regionname; }
+  bool Load ();
+  void Unload ();
+  iSector* GetStartSector ();
+  csVector3 GetStartPosition ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return "pcregion"; }
+  virtual iCelEntity* GetEntity () { return entity; }
+  virtual void SetEntity (iCelEntity* entity);
+  virtual iCelDataBuffer* GetDataBuffer ();
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Load (iCelDataBuffer* databuf);
+
+  struct PcRegion : public iPcRegion
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcRegion);
+    virtual void SetWorldFile (const char* vfsdir, const char* name)
+    {
+      scfParent->SetWorldFile (vfsdir, name);
+    }
+    virtual const char* GetWorldDir () const
+    {
+      return scfParent->GetWorldDir ();
+    }
+    virtual const char* GetWorldFile () const
+    {
+      return scfParent->GetWorldFile ();
+    }
+    virtual void SetRegionName (const char* name)
+    {
+      scfParent->SetRegionName (name);
+    }
+    virtual const char* GetRegionName () const
+    {
+      return scfParent->GetRegionName ();
+    }
+    virtual bool Load ()
+    {
+      return scfParent->Load ();
+    }
+    virtual void Unload ()
+    {
+      scfParent->Unload ();
+    }
+    virtual iSector* GetStartSector ()
+    {
+      return scfParent->GetStartSector ();
+    }
+    virtual csVector3 GetStartPosition ()
+    {
+      return scfParent->GetStartPosition ();
+    }
+  } scfiPcRegion;
 };
 
 #endif // __CEL_PF_ENGFACT__

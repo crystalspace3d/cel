@@ -1,5 +1,18 @@
 9-Nov-2001:
 	- Fixed CELTEST for latest changes in CS (CreateEnvironment...).
+	- Started working on pcregion property class. This property class
+	  represents a region in the world.
+	- 'pcregion' will automatically create individual entities for
+	  all meshes in a world. These entities will get a pcmesh
+	  and pcsolid property class so that the collision detection system
+	  works nicely. Note that there is a crash at exit in the destruction
+	  of this. I have to investigate this later.
+	- Changed celtest to use the new pcregion property class. It will now
+	  load the partsys level from CS and put the entities there (boxes
+	  and objects). Note that there are still several problems.
+	  The 'pcmovable' does not yet support moving through portals so
+	  don't try to drag an object out of the starting room yet or it
+	  will drop through the floor.
 8-Nov-2001:
 	- Started work on persistance. Nothing works yet. Created
 	  iCelDataBuffer which the persistance system will use to save/load
