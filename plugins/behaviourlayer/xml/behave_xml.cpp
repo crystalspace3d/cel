@@ -97,6 +97,7 @@ iPcProperties* celBehaviourXml::GetProperties ()
 celBehaviourXml::~celBehaviourXml ()
 {
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourXml::SendMessage (const char* msg_id,
@@ -215,6 +216,7 @@ celBehaviourBootstrap::celBehaviourBootstrap (iCelEntity* entity,
 celBehaviourBootstrap::~celBehaviourBootstrap ()
 {
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourBootstrap::SendMessage (const char* msg_id,

@@ -61,6 +61,7 @@ celPf##name::celPf##name (iBase *parent)				    \
 }									    \
 celPf##name::~celPf##name()						    \
 {									    \
+  SCF_DESTRUCT_IBASE ();						    \
 }									    \
 bool celPf##name::Initialize (iObjectRegistry* object_reg)		    \
 {									    \

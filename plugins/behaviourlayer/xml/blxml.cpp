@@ -143,6 +143,8 @@ celBlXml::~celBlXml ()
   }
   fflush (stdout);
 #endif
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlXml::Initialize (iObjectRegistry* object_reg)

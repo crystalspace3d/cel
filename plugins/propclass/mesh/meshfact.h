@@ -407,7 +407,10 @@ public:
       SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
-    virtual ~EventHandler () { }
+    virtual ~EventHandler ()
+    {
+      SCF_DESTRUCT_IBASE ();
+    }
     SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {

@@ -123,6 +123,7 @@ public:
   	const csVector3& pos, float radius);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
+  virtual csPtr<iCelEntityTracker> CreateEntityTracker ();
 
   virtual bool LoadPropertyClassFactory (const char* plugin_id);
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
@@ -180,7 +181,10 @@ public:
       SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
-    virtual ~EventHandler () { }
+    virtual ~EventHandler ()
+    {
+      SCF_DESTRUCT_IBASE ();
+    }
 
     SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)

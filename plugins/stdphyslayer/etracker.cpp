@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2004 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -19,35 +19,53 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
-#include "plugins/stdphyslayer/message.h"
+#include "csutil/debug.h"
+#include "plugins/stdphyslayer/etracker.h"
+#include "plugins/stdphyslayer/entity.h"
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMessage)
-  SCF_IMPLEMENTS_INTERFACE (iCelMessage)
+SCF_IMPLEMENT_IBASE (celEntityTracker)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntityTracker)
 SCF_IMPLEMENT_IBASE_END
 
-celMessage::celMessage (const char* msg_string, va_list /*arg*/)
+celEntityTracker::celEntityTracker (celPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celMessage::msg_string = csStrNew (msg_string);
-  num_parms = 0;
-  parm_strings = 0;
+  celEntityTracker::pl = pl;
 }
 
-celMessage::~celMessage ()
+celEntityTracker::~celEntityTracker ()
 {
-  delete[] msg_string;
-  int i;
-  for (i = 0 ; i < num_parms ; i++)
-    delete[] parm_strings[i];
-  delete[] parm_strings;
   SCF_DESTRUCT_IBASE ();
 }
 
-const char* celMessage::GetMessageParameter (int idx) const
+bool celEntityTracker::AddEntity (iCelEntity* entity)
 {
-  CS_ASSERT (idx >= 0 && idx < num_parms);
-  return parm_strings[idx];
+  return false;
+}
+
+void celEntityTracker::RemoveEntity (iCelEntity* entity)
+{
+}
+
+size_t celEntityTracker::GetEntityCount () const
+{
+  return 0;
+}
+
+iCelEntity* celEntityTracker::GetEntity (size_t idx) const
+{
+  return 0;
+}
+
+void celEntityTracker::RemoveEntities ()
+{
+}
+
+csPtr<iCelEntityList> celEntityTracker::FindNearbyEntities (iSector* sector,
+  	const csVector3& pos, float radius)
+{
+  return 0;
 }
 

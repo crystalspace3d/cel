@@ -400,7 +400,10 @@ public:
     vertex_indices[2] = 2;
     flags.Set (CS_POLYMESH_CONVEX);
   }
-  virtual ~celPolygonMeshTriangle () { }
+  virtual ~celPolygonMeshTriangle ()
+  {
+    SCF_DESTRUCT_IBASE ();
+  }
 
   SCF_DECLARE_IBASE;
 

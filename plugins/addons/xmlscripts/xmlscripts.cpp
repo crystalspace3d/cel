@@ -66,6 +66,8 @@ celAddOnXmlScripts::celAddOnXmlScripts (iBase* parent)
 
 celAddOnXmlScripts::~celAddOnXmlScripts ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnXmlScripts::Initialize (iObjectRegistry* object_reg)

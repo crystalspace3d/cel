@@ -70,6 +70,8 @@ celPersistClassic::celPersistClassic (iBase* parent)
 
 celPersistClassic::~celPersistClassic ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
@@ -179,6 +181,8 @@ celPersistClassicContext::~celPersistClassicContext()
     
   if (performmapping)
     pl->UnregisterRemoveCallback(&scfiCelEntityRemoveCallback);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntityRemoveCallback);
+  SCF_DESTRUCT_IBASE ();
 }
 
 void celPersistClassicContext::Clear()

@@ -53,6 +53,7 @@ celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
 celBehaviourGeneral::~celBehaviourGeneral ()
 {
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id,

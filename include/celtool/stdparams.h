@@ -90,6 +90,7 @@ public:
     for (i = 0 ; i < count ; i++)
       delete[] names[i];
     delete[] names;
+    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
@@ -143,6 +144,7 @@ public:
   }
   virtual ~celVariableParameterBlock ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
@@ -199,6 +201,7 @@ public:
   virtual ~celOneParameterBlock ()
   {
     delete[] name;
+    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (csStringID id, const char* parname)
