@@ -122,6 +122,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   fileName = NULL;
   factName = NULL;
   factory_ptr = NULL;
+  entity = NULL;
   DG_ADDI (this, "celPcMesh()");
 }
 
@@ -263,6 +264,8 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   m_o2t.m33 = cd->value.f;
   csReversibleTransform tr (m_o2t, v_o2t);
   mesh->GetMovable ()->SetTransform (tr);
+  mesh->GetMovable ()->UpdateMove ();
+  mesh->DeferUpdateLighting (CS_NLIGHT_STATIC|CS_NLIGHT_DYNAMIC, 10);
 
   return true;
 }

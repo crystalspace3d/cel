@@ -364,6 +364,7 @@ bool celPersistClassic::Read (char*& data, size_t& remaining,
           if (Read (data, remaining, db))
           {
             iCelEntity* entity = FindOrCreateEntity (entname);
+	    pc->SetEntity (entity);
 	    if (pc->Load (db))
 	    {
 	      entity->GetPropertyClassList ()->Add (pc);
