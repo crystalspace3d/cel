@@ -7,5 +7,16 @@
 	  than that there is nothing functional yet.
 	- Fixed a bug in factory definition of 'plimp'.
 	- Started work on 'bltest'.
-
+26-Oct-2001:
+	- Added iCelPropertyClassFactory interface. A property class
+	  factory is responsible for creation of property classes. Every
+	  factory will handle a number of property class types.
+	- Extended iCelPlLayer with a number of methods to register and
+	  query property class factories.
+	- Added include/pf dir which will contain public SCF interfaces
+	  for specific property class factories. Added include/pf/test.h
+	  which will be a test interface for our test property class
+	  factory.
+	- Added 'pf/test' dir which will contain the implementation of the
+	  'test' factory. This resuls in the third plugin.
 

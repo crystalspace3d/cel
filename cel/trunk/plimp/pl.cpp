@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "plimp/pl.h"
 #include "plimp/entity.h"
+#include "pl/propfact.h"
 
 //---------------------------------------------------------------------------
 
@@ -48,6 +49,12 @@ celPlLayer::celPlLayer (iBase* parent)
 
 celPlLayer::~celPlLayer ()
 {
+  int i;
+  for (i = 0 ; i < pf_list.Length () ; i++)
+  {
+    iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[i];
+    pf->DecRef ();
+  }
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* /*object_reg*/)
@@ -59,5 +66,46 @@ iCelEntity* celPlLayer::CreateEntity ()
 {
   celEntity* entity = new celEntity ();
   return entity;
+}
+
+void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
+{
+  if (pf_list.Find (pf) != -1) return;
+  pf_list.Push (pf);
+  pf->IncRef ();
+}
+
+void celPlLayer::UnregisterPropertyClassFactory (
+  	iCelPropertyClassFactory* pf)
+{
+  int idx = pf_list.Find (pf);
+  if (idx == -1) return;
+  pf_list.Delete (idx);
+  pf->DecRef ();
+}
+
+int celPlLayer::GetPropertyClassFactoryCount () const
+{
+  return pf_list.Length ();
+}
+
+iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (int idx) const
+{
+  CS_ASSERT (idx >= 0 && idx < pf_list.Length ());
+  iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[idx];
+  return pf;
+}
+
+iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
+  	const char* name) const
+{
+  int i;
+  for (i = 0 ; i < pf_list.Length () ; i++)
+  {
+    iCelPropertyClassFactory* pf = (iCelPropertyClassFactory*)pf_list[i];
+    if (!strcmp (pf->GetName (), name))
+      return pf;
+  }
+  return NULL;
 }
 
