@@ -4,9 +4,44 @@
 	    <file>/cellib/images/to_the_tavern.jpg</file>
 	    <keepimage />
         </texture>
+        <texture name="leaves">
+	    <file>/cellib/images/leaves.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="light_wood">
+	    <file>/cellib/images/light_wood.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="dark_wood">
+	    <file>/cellib/images/dark_wood.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="sand_stone">
+	    <file>/cellib/images/sand_stone.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="marble">
+	    <file>/cellib/images/marble.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="chocolate">
+	    <file>/cellib/images/chocolate.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="slanted_stone">
+	    <file>/cellib/images/slanted_stone.png</file>
+	    <keepimage />
+        </texture>
     </textures>
     <materials>
 	<material name="picture1"> <texture>picture1</texture> </material>
+        <material name="leaves"> <texture>leaves</texture> </material>
+        <material name="light_wood"> <texture>light_wood</texture> </material>
+        <material name="dark_wood"> <texture>dark_wood</texture> </material>
+        <material name="sand_stone"> <texture>sand_stone</texture> </material>
+        <material name="marble"> <texture>marble</texture> </material>
+        <material name="chocolate"> <texture>chocolate</texture> </material>
+        <material name="slanted_stone"> <texture>slanted_stone</texture> </material>
     </materials>
     <sounds>
         <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
@@ -40,15 +75,34 @@
 	      -->
 	    <event name="init">
 	        <print value="'Start initializing menu...'" />
-		<createentity name="but" behaviour="puzzle_button" />
+
+		<!-- Puzzle game button -->
+		<var name="material" value="picture1" />
+		<createentity name="puzzle_button" behaviour="game_button" />
+		<default propclass="pc(puzzle_button,pcbillboard)" />
+	        <property id="propid(x)" value="10000" />
+	        <property id="propid(y)" value="10000" />
+		<var entity="puzzle_button" name="game" value="puzzle_main" />
+
+		<!-- Maze game button -->
+		<var name="material" value="slanted_stone" />
+		<createentity name="maze_button" behaviour="game_button" />
+		<default propclass="pc(maze_button,pcbillboard)" />
+	        <property id="propid(x)" value="10000" />
+	        <property id="propid(y)" value="70000" />
+		<var entity="maze_button" name="game" value="maze_main" />
 	    </event>
 
 	    <!--
-	      - Call this event if you want the menu to be made invisible.
+	      - Call this event to start a game. This will destroy the menu
+	      - and create the game entity. Needs the ?game variable to be
+	      - set to the name of the game (the button will do that).
 	      -->
-	    <event name="destroy">
+	    <event name="startgame">
 	        <print value="'Start destroying menu...'" />
-	        <destroyentity name="but" />
+	        <destroyentity name="puzzle_button" />
+	        <destroyentity name="maze_button" />
+		<createentity name="?game" behaviour="?game" />
 	    </event>
 	</script>
 
@@ -82,31 +136,47 @@
 	      - Go to the main menu.
 	      -->
 	    <event name="pcbillboard_select">
-		<call entity="?game_entity" event="destroy" />
+		<call event="destroygame" />
 		<call entity="menu" event="init" />
 		<destroyentity name="?game_entity" />
 	    </event>
+
+	    <!--
+	      - Destroy all resources created by the current game.
+	      -->
+	    <event name="destroygame">
+	        <print value="'Start destroying game...'" />
+		<inventory propclass="pc(?game_entity,pcinventory)" />
+		<while eval="inventory_count()>0" >
+		    <var name="child" value="inventory_get(0)" />
+		    <print value="'    destroy '+?child" />
+		    <inventory_rem child="?child" />
+		    <destroyentity name="?child" />
+		</while>
+	    </event>
+
 	</script>
 
 	<!-- *****************************************************
-	  - This script handles the button for the puzzle game.
+	  - This script handles the button for a game.
+	  - Needs the ?menu.material variable for the material of
+	  - the button.
 	  -  ***************************************************** -->
-	<script name="puzzle_button">
+	<script name="game_button">
 	    <!--
 	      - Initialization.
 	      -->
 	    <event name="init">
 	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(name)" value="picture1" />
-	        <property id="propid(materialname)" value="picture1" />
+	        <property id="propid(materialname)" value="?menu.material" />
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
 	        <property id="propid(restack)" value="true" />
 	        <property id="propid(width)" value="50000" />
 	        <property id="propid(height)" value="50000" />
-	        <property id="propid(x)" value="10000" />
-	        <property id="propid(y)" value="10000" />
 	    </event>
 
 	    <!--
@@ -114,39 +184,17 @@
 	      -->
 	    <event name="pcbillboard_select">
 	    	<sound name="boing" loop="false" />
-	        <call entity="menu" event="destroy" />
-		<createentity name="puzzle_main" behaviour="puzzle_main" />
+		<var entity="menu" name="game" value="?game" />
+	        <call entity="menu" event="startgame" />
 	    </event>
 	</script>
 
 	<!-- *****************************************************
+	  -  *****************************************************
 	  - This is the puzzle game script.
+	  -  *****************************************************
 	  -  ***************************************************** -->
 	<script name="puzzle_main">
-	    <!--
-	      - Initialize one tile. This will create the entity representing
-	      - the tile and it will set it at the right position on the puzzle
-	      - board.
-	      - This event uses ?x and ?y which should be set outside this routine.
-	      - It also uses ?uvtl for the texture mapping coordinates.
-	      -->
-	    <event name="inittile">
-	        <var name="ent" value="'p'+?x+'_'+?y" />
-		<print value="'Creating '+?ent" />
-		<createentity name="?ent" behaviour="moving_tile" />
-		<var name="ent" value="ent(?ent)" />
-		<inventory propclass="pc(pcinventory)" />
-		<inventory_add child="?ent" />
-		<default propclass="pc(?ent,pcbillboard)" />
-	        <property id="propid(x)" value="1000+?tiledim*?x" />
-	        <property id="propid(y)" value="1000+?tiledim*?y" />
-		<var name="tl" value="[?x,?y]*?tiledimuv" />
-	        <property id="propid(uv_topleft)" value="?tl" />
-	        <property id="propid(uv_botright)" value="?tl+[?tiledimuv,?tiledimuv]" />
-		<!-- Set the 2d grid to contain the current entity -->
-	        <var name="'grid'+?x+'_'+?y" value="?ent" />
-	    </event>
-
 	    <!--
 	      - Initialize the puzzle game.
 	      - The main puzzle entity maintains various variables to
@@ -205,17 +253,27 @@
 	    </event>
 
 	    <!--
-	      - Destroy all resources created by this game.
+	      - Initialize one tile. This will create the entity representing
+	      - the tile and it will set it at the right position on the puzzle
+	      - board.
+	      - This event uses ?x and ?y which should be set outside this routine.
+	      - It also uses ?uvtl for the texture mapping coordinates.
 	      -->
-	    <event name="destroy">
-	        <print value="'Start destroying game...'" />
+	    <event name="inittile">
+	        <var name="ent" value="'p'+?x+'_'+?y" />
+		<print value="'Creating '+?ent" />
+		<createentity name="?ent" behaviour="moving_tile" />
+		<var name="ent" value="ent(?ent)" />
 		<inventory propclass="pc(pcinventory)" />
-		<while eval="inventory_count()>0" >
-		    <var name="child" value="inventory_get(0)" />
-		    <print value="'    destroy '+?child" />
-		    <inventory_rem child="?child" />
-		    <destroyentity name="?child" />
-		</while>
+		<inventory_add child="?ent" />
+		<default propclass="pc(?ent,pcbillboard)" />
+	        <property id="propid(x)" value="1000+?tiledim*?x" />
+	        <property id="propid(y)" value="1000+?tiledim*?y" />
+		<var name="tl" value="[?x,?y]*?tiledimuv" />
+	        <property id="propid(uv_topleft)" value="?tl" />
+	        <property id="propid(uv_botright)" value="?tl+[?tiledimuv,?tiledimuv]" />
+		<!-- Set the 2d grid to contain the current entity -->
+	        <var name="'grid'+?x+'_'+?y" value="?ent" />
 	    </event>
 
 	    <!--
@@ -380,6 +438,185 @@
 			<call event="move"/>
 		    </if>
 		</if>
+	    </event>
+	</script>
+
+	<!-- *****************************************************
+	  -  *****************************************************
+	  - This is the maze game script.
+	  -  *****************************************************
+	  -  ***************************************************** -->
+	<script name="maze_main">
+	    <event name="init">
+	        <print value="MAZE"/>
+	        <createpropclass name="pcinventory" />
+
+		<!-- Set some defaults -->
+		<var name="dimension" value="16" />
+		<var name="blockdim" value="18000" />
+
+		<!-- Create the menu back button -->
+		<createentity name="back_button" behaviour="back_button" />
+		<var entity="back_button" name="game_entity" value="ent()" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="back_button" />
+
+		<!--  Create the maze -->
+		<for var="x" start="0" end="?dimension-1">
+		    <for var="y" start="0" end="?dimension-1">
+		        <var name="maze+?x+'_'+?y" value="' '" />
+		    </for>
+		</for>
+		<for var="x" start="0" end="?dimension-1">
+		    <var name="maze+?x+'_0'" value="B" />
+		    <var name="maze+?x+'_'+(?dimension-1)" value="B" />
+		    <var name="'maze0_'+?x" value="B" />
+		    <var name="'maze'+(?dimension-1)+'_'+?x" value="B" />
+		</for>
+		<var name="maze2_1" value="B" />
+		<var name="maze2_2" value="B" />
+		<var name="maze2_3" value="B" />
+
+		<var name="maze4_2" value="B" />
+		<var name="maze4_3" value="B" />
+		<var name="maze5_3" value="B" />
+		<var name="maze6_1" value="B" />
+		<var name="maze7_3" value="B" />
+
+		<var name="maze8_1" value="B" />
+		<var name="maze8_2" value="B" />
+		<var name="maze8_3" value="B" />
+		<var name="maze9_3" value="B" />
+		<var name="maze11_2" value="B" />
+		<var name="maze11_3" value="B" />
+
+		<var name="maze13_1" value="B" />
+		<var name="maze13_3" value="B" />
+
+		<var name="maze1_5" value="B" />
+		<var name="maze2_5" value="B" />
+		<var name="maze2_7" value="B" />
+		<var name="maze3_5" value="B" />
+		<var name="maze3_7" value="B" />
+
+		<var name="maze4_7" value="B" />
+		<var name="maze5_4" value="B" />
+		<var name="maze5_5" value="B" />
+		<var name="maze5_6" value="B" />
+		<var name="maze5_7" value="B" />
+		<var name="maze7_4" value="B" />
+		<var name="maze7_5" value="B" />
+		<var name="maze7_6" value="B" />
+		<var name="maze7_7" value="B" />
+
+		<var name="maze9_5" value="B" />
+		<var name="maze9_6" value="B" />
+		<var name="maze9_7" value="B" />
+		<var name="maze10_6" value="B" />
+		<var name="maze11_4" value="B" />
+		<var name="maze11_5" value="B" />
+		<var name="maze11_6" value="B" />
+
+		<var name="maze13_4" value="B" />
+		<var name="maze13_5" value="B" />
+		<var name="maze13_6" value="B" />
+		<var name="maze13_7" value="B" />
+		<var name="maze14_7" value="B" />
+
+		<var name="maze1_9" value="B" />
+		<var name="maze2_9" value="B" />
+		<var name="maze3_9" value="B" />
+		<var name="maze2_11" value="B" />
+		<var name="maze3_11" value="B" />
+
+		<var name="maze4_11" value="B" />
+		<var name="maze5_9" value="B" />
+		<var name="maze5_10" value="B" />
+		<var name="maze5_11" value="B" />
+		<var name="maze6_9" value="B" />
+		<var name="maze7_9" value="B" />
+		<var name="maze7_11" value="B" />
+
+		<var name="maze8_9" value="B" />
+		<var name="maze8_11" value="B" />
+		<var name="maze9_8" value="B" />
+		<var name="maze9_9" value="B" />
+		<var name="maze9_11" value="B" />
+		<var name="maze10_11" value="B" />
+		<var name="maze11_8" value="B" />
+		<var name="maze11_9" value="B" />
+		<var name="maze11_10" value="B" />
+		<var name="maze11_11" value="B" />
+
+		<var name="maze12_9" value="B" />
+		<var name="maze13_9" value="B" />
+		<var name="maze13_11" value="B" />
+		<var name="maze14_11" value="B" />
+
+		<var name="maze2_12" value="B" />
+		<var name="maze2_13" value="B" />
+
+		<var name="maze4_13" value="B" />
+		<var name="maze4_14" value="B" />
+		<var name="maze6_13" value="B" />
+		<var name="maze7_13" value="B" />
+
+		<var name="maze8_13" value="B" />
+		<var name="maze9_13" value="B" />
+		<var name="maze10_13" value="B" />
+		<var name="maze11_13" value="B" />
+
+		<var name="maze12_13" value="B" />
+		<var name="maze13_13" value="B" />
+
+
+		<!-- Create billboards for all blocks in the maze -->
+		<for var="x" start="0" end="?dimension-1">
+		    <for var="y" start="0" end="?dimension-1">
+		        <if eval="?(maze+?x+'_'+?y)=='B'" true="initblock" />
+		    </for>
+		</for>
+	    </event>
+
+	    <!--
+	      - Initialize one block. This will create the entity representing
+	      - the block and it will set it at the right position on the puzzle
+	      - board.
+	      - This event uses ?x and ?y which should be set outside this routine.
+	      -->
+	    <event name="initblock">
+	        <var name="ent" value="'p'+?x+'_'+?y" />
+		<print value="'Creating '+?ent" />
+		<createentity name="?ent" behaviour="block" />
+		<var name="ent" value="ent(?ent)" />
+		<inventory propclass="pc(pcinventory)" />
+		<inventory_add child="?ent" />
+	    </event>
+
+	</script>
+
+	<!-- *****************************************************
+	  - This script handles all operations on a block in the maze game.
+	  -  ***************************************************** -->
+        <script name="block">
+	    <!--
+	      - Initialize this block.
+	      - It assumes ?maze_main.x and ?maze_main.y are set to the
+	      - x,y index of the block.
+	      - Also uses ?maze_main.blockdim.
+	      -->
+	    <event name="init">
+	        <createpropclass name="pcbillboard" />
+		<default propclass="pc(pcbillboard)" />
+	        <property id="propid(name)" value="block" />
+	        <property id="propid(materialname)" value="slanted_stone" />
+	        <property id="propid(movable)" value="false" />
+	        <property id="propid(clickable)" value="false" />
+	        <property id="propid(restack)" value="false" />
+	        <property id="propid(width)" value="500+?maze_main.blockdim" />
+	        <property id="propid(height)" value="500+?maze_main.blockdim" />
+	        <property id="propid(x)" value="?maze_main.x*?maze_main.blockdim" />
+	        <property id="propid(y)" value="?maze_main.y*?maze_main.blockdim" />
 	    </event>
 	</script>
 

@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Dec-2003
+	- Jorrit worked a little on xmlgames. Added a new maze game.
+	  Unfinished.
 18-Dec-2003
 	- Jorrit added a local vfs.cfg for CEL to specify the following
 	  CEL mount points:
