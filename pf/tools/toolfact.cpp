@@ -194,9 +194,8 @@ bool celPcTooltip::HandleEvent (iEvent& ev)
     //fnt->GetMaxSize (fw, fh);
     //int sw = G2D->GetWidth ();
     //int sh = G2D->GetHeight ();
-    int fgcolor = G3D->GetTextureManager ()->FindRGB (text_r, text_g, text_b);
-    int bgcolor = bg_r == -1 ? 0 : G3D->GetTextureManager ()->
-    	FindRGB (bg_r, bg_g, bg_b);
+    int fgcolor = G2D->FindRGB (text_r, text_g, text_b);
+    int bgcolor = bg_r == -1 ? 0 : G2D->FindRGB (bg_r, bg_g, bg_b);
     //G2D->DrawBox (x, y, w, h, bgcolor);
     //int maxlen = fnt->GetLength (text, w-10);
     G2D->Write (fnt, x, y, fgcolor, bgcolor, text);
