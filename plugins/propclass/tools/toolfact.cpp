@@ -412,6 +412,9 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcProperties::PcProperties)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 csStringID celPcProperties::id_index = csInvalidStringID;
+csStringID celPcProperties::id_name = csInvalidStringID;
+csStringID celPcProperties::id_value = csInvalidStringID;
+csStringID celPcProperties::action_setproperty = csInvalidStringID;
 
 celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -419,7 +422,12 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
   if (id_index == csInvalidStringID)
+  {
     id_index = pl->FetchStringID ("cel.parameter.index");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_value = pl->FetchStringID ("cel.parameter.value");
+    action_setproperty = pl->FetchStringID ("cel.action.SetProperty");
+  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_index, "index");
   properties_hash_dirty = false;
@@ -430,6 +438,47 @@ celPcProperties::~celPcProperties ()
   Clear ();
   delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcProperties);
+}
+
+bool celPcProperties::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_setproperty)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!name) return false;
+    const celData* p_value = params->GetParameter (id_value);
+    if (!p_value) return false;
+    switch (p_value->type)
+    {
+      case CEL_DATA_VECTOR3:
+        {
+          csVector3 v (p_value->value.v.x, p_value->value.v.y,
+	  	p_value->value.v.z);
+          SetProperty (name, v);
+        }
+	break;
+      case CEL_DATA_STRING:
+        {
+	  const char* s = p_value->value.s->GetData ();
+          SetProperty (name, s ? s : "");
+	}
+	break;
+      case CEL_DATA_FLOAT:
+        SetProperty (name, p_value->value.f);
+	break;
+      case CEL_DATA_LONG:
+        SetProperty (name, (long)(p_value->value.l));
+	break;
+      case CEL_DATA_BOOL:
+        SetProperty (name, p_value->value.bo);
+	break;
+      default:
+        return false;	// @@@ Error reporting?
+    }
+    return true;
+  }
+  return false;
 }
 
 size_t celPcProperties::FindProperty (csStringID id)
