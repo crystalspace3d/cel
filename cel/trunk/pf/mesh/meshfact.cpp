@@ -339,10 +339,13 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     csVector3 isect, end = vo + (vw - vo) * 60;
 
     iMeshWrapper* sel = sector->HitBeam (vo, end, isect, NULL);
-    iObject* sel_obj = sel->QueryObject ();
-    iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    new_sel = pl->FindAttachedEntity (sel_obj);
-    pl->DecRef ();
+    if (sel)
+    {
+      iObject* sel_obj = sel->QueryObject ();
+      iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      new_sel = pl->FindAttachedEntity (sel_obj);
+      pl->DecRef ();
+    }
   }
 
   if (do_drag && sel_entity)

@@ -24,15 +24,18 @@
 #include "csutil/scf.h"
 #include "bl/behave.h"
 
+struct iCelEntity;
+
 /**
  * 'printer' behaviour.
  */
 struct celBehaviourPrinter : public iCelBehaviour
 {
 private:
+  iCelEntity* entity;
 
 public:
-  celBehaviourPrinter ();
+  celBehaviourPrinter (iCelEntity* entity);
   virtual ~celBehaviourPrinter ();
 
   SCF_DECLARE_IBASE;
@@ -47,9 +50,10 @@ public:
 struct celBehaviourRoom : public iCelBehaviour
 {
 private:
+  iCelEntity* entity;
 
 public:
-  celBehaviourRoom ();
+  celBehaviourRoom (iCelEntity* entity);
   virtual ~celBehaviourRoom ();
 
   SCF_DECLARE_IBASE;

@@ -20,7 +20,9 @@
 #include "cssysdef.h"
 #include "pl/pl.h"
 #include "pl/entity.h"
+#include "pl/propclas.h"
 #include "pf/meshsel.h"
+#include "pf/tooltip.h"
 #include "bltest/behave.h"
 
 //---------------------------------------------------------------------------
@@ -29,9 +31,10 @@ SCF_IMPLEMENT_IBASE (celBehaviourPrinter)
   SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celBehaviourPrinter::celBehaviourPrinter ()
+celBehaviourPrinter::celBehaviourPrinter (iCelEntity* entity)
 {
   SCF_CONSTRUCT_IBASE (NULL);
+  celBehaviourPrinter::entity = entity;
 }
 
 celBehaviourPrinter::~celBehaviourPrinter ()
@@ -86,9 +89,10 @@ SCF_IMPLEMENT_IBASE (celBehaviourRoom)
   SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-celBehaviourRoom::celBehaviourRoom ()
+celBehaviourRoom::celBehaviourRoom (iCelEntity* entity)
 {
   SCF_CONSTRUCT_IBASE (NULL);
+  celBehaviourRoom::entity = entity;
 }
 
 celBehaviourRoom::~celBehaviourRoom ()
@@ -115,11 +119,16 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id, iBase* msg_info,
     	iPcMeshSelectData);
     if (dat)
     {
+      iPcTooltip* pctooltip = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcTooltip);
       iCelEntity* ent = dat->GetEntity ();
       if (ent)
       {
-	printf ("FOLLOW '%s'\n", ent->GetName ());
+	pctooltip->SetText (ent->GetName ());
+	pctooltip->Show (50, 50);
       }
+      else
+	pctooltip->Hide ();
+      pctooltip->DecRef ();
       dat->DecRef ();
     }
   }

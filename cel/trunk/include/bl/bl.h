@@ -24,6 +24,7 @@
 #include "csutil/scf.h"
 
 struct iCelBehaviour;
+struct iCelEntity;
 
 SCF_VERSION (iCelBlLayer, 0, 0, 1);
 
@@ -37,7 +38,7 @@ struct iCelBlLayer : public iBase
    * The given name is specific to the BL implementation. It can
    * be the name of a script for example.
    */
-  virtual iCelBehaviour* CreateBehaviour (const char* name) = 0;
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name) = 0;
 };
 
 #endif // __CEL_BL_BL__
