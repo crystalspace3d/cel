@@ -46,7 +46,7 @@ private:
   csRef<iSyntaxService> synldr;
   csRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
-  csHash<celXmlScript*,const char*,csConstCharHashKeyHandler> scripts_hash;
+  csHash<celXmlScript*,csStrKey,csConstCharHashKeyHandler> scripts_hash;
   csStringHash xmltokens;
 
   const char* GetAttributeValue (iDocumentNode* child,

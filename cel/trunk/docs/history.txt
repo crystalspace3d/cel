@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+24-Nov-2003
+	- Jorrit fixed all CEL hashes that used const char* as a key.
+	  In CS there is now a new csStrKey that safely makes copies of
+	  the key so that is now used.
 23-Nov-2003
 	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
 	  by overriding SetProperty() and GetPropertyString() from

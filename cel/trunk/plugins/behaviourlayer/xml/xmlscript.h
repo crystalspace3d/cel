@@ -173,7 +173,7 @@ class celXmlScript
 private:
   char* name;
   csPDelArray<celXmlScriptEventHandler> event_handlers;
-  csHash<celXmlScriptEventHandler*,const char*,
+  csHash<celXmlScriptEventHandler*,csStrKey,
   	csConstCharHashKeyHandler> event_handlers_hash;
 
 public:

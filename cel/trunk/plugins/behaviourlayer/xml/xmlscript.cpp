@@ -191,23 +191,13 @@ celXmlScriptEventHandler* celXmlScript::CreateEventHandler (const char* name)
   celXmlScriptEventHandler* h = new celXmlScriptEventHandler ();
   h->SetName (name);
   event_handlers.Push (h);
-//printf ("CREATE name=%s h=%p this=%p csHashCompute=%d\n", name, h, this,
-//csHashCompute (name) % 257);
   event_handlers_hash.Put (name, h);
   return h;
 }
 
 celXmlScriptEventHandler* celXmlScript::GetEventHandler (const char* name)
 {
-  //@@@@@@@@@@@@ INVESTIGATE! This doesn't work for some reason.
-  // No idea why.
-  celXmlScriptEventHandler* h = event_handlers_hash.Get (name);
-//printf ("GET name=%s h=%p this=%p size=%d\n", name, h, this,
-//event_handlers_hash.GetSize());
-int i;
-for (i = 0 ; i < event_handlers.Length () ; i++)
-if (!strcmp (event_handlers[i]->GetName (), name)) return event_handlers[i];
-  return h;
+  return event_handlers_hash.Get (name);
 }
 
 //---------------------------------------------------------------------------
