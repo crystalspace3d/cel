@@ -17,7 +17,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "0.99"
       VALUE "FileVersion", "0.99"
       VALUE "LegalCopyright", "(C)2002-2004 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "pfengine"
+      VALUE "FileDescription", "pfzone"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -32,19 +32,14 @@ FILEFLAGS 0x0
 17485 RCDATA 
 {
   "<?xml version=""1.0""?>",
-  "<!-- pfengine.csplugin -->",
+  "<!-- pfzone.csplugin -->",
   "<plugin>",
   "  <scf>",
   "    <classes>",
   "      <class>",
-  "        <name>cel.pcfactory.camera</name>",
-  "        <implementation>celPfCamera</implementation>",
-  "	<description>CEL Camera Property Class Factory</description>",
-  "      </class>",
-  "      <class>",
-  "        <name>cel.pcfactory.region</name>",
-  "        <implementation>celPfRegion</implementation>",
-  "	<description>CEL Region Property Class Factory</description>",
+  "        <name>cel.pcfactory.zonemanager</name>",
+  "        <implementation>celPfZoneManager</implementation>",
+  "	<description>CEL Zone Manager Property Class Factory</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

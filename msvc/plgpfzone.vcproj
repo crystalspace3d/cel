@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgaddon_celentity"
+	Name="plgpfzone"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\release\temp\plgaddon_celentity"
-			IntermediateDirectory=".\release\temp\plgaddon_celentity"
+			OutputDirectory=".\release\temp\plgpfzone"
+			IntermediateDirectory=".\release\temp\plgpfzone"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -32,10 +32,10 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\release\temp\plgaddon_celentity/plgaddon_celentity.pch"
-				AssemblerListingLocation=".\release\temp\plgaddon_celentity/"
-				ObjectFile=".\release\temp\plgaddon_celentity/"
-				ProgramDataBaseFileName=".\release\temp\plgaddon_celentity/plgaddon_celentity.pdb"
+				PrecompiledHeaderFile=".\release\temp\plgpfzone/plgpfzone.pch"
+				AssemblerListingLocation=".\release\temp\plgpfzone/"
+				ObjectFile=".\release\temp\plgpfzone/"
+				ProgramDataBaseFileName=".\release\temp\plgpfzone/plgpfzone.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -46,17 +46,17 @@
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions=""
 				AdditionalDependencies="delayimp.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib libcstool.lib libcsgfx.lib libcsgeom.lib libcsutil.lib"
-				OutputFile="release\temp\plgaddon_celentity\addon_celentity.dll"
+				OutputFile="release\temp\plgpfzone\pfzone.dll"
 				Version="4.0"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				DelayLoadDLLs=""
-				ProgramDatabaseFile=".\release\temp\plgaddon_celentity/plgaddon_celentity.pdb"
+				ProgramDatabaseFile=".\release\temp\plgpfzone/plgpfzone.pdb"
 				SubSystem="2"
 				OptimizeReferences="1"
-				ImportLibrary=".\release\temp\plgaddon_celentity/plgaddon_celentity.lib"
+				ImportLibrary=".\release\temp\plgpfzone/plgpfzone.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\release\temp\plgaddon_celentity/plgaddon_celentity.tlb"/>
+				TypeLibraryName=".\release\temp\plgpfzone/plgpfzone.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to build root.
@@ -86,8 +86,8 @@ copy &quot;$(TargetPath)&quot; ..
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\debug\temp\plgaddon_celentity"
-			IntermediateDirectory=".\debug\temp\plgaddon_celentity"
+			OutputDirectory=".\debug\temp\plgpfzone"
+			IntermediateDirectory=".\debug\temp\plgpfzone"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@ copy &quot;$(TargetPath)&quot; ..
 				MinimalRebuild="TRUE"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\debug\temp\plgaddon_celentity/plgaddon_celentity.pch"
-				AssemblerListingLocation=".\debug\temp\plgaddon_celentity/"
-				ObjectFile=".\debug\temp\plgaddon_celentity/"
-				ProgramDataBaseFileName=".\debug\temp\plgaddon_celentity/plgaddon_celentity.pdb"
+				PrecompiledHeaderFile=".\debug\temp\plgpfzone/plgpfzone.pch"
+				AssemblerListingLocation=".\debug\temp\plgpfzone/"
+				ObjectFile=".\debug\temp\plgpfzone/"
+				ProgramDataBaseFileName=".\debug\temp\plgpfzone/plgpfzone.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -117,7 +117,7 @@ copy &quot;$(TargetPath)&quot; ..
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions=""
 				AdditionalDependencies="libcstool_d.lib libcsgfx_d.lib libcsgeom_d.lib libcsutil_d.lib"
-				OutputFile="debug\temp\plgaddon_celentity\addon_celentity.dll"
+				OutputFile="debug\temp\plgpfzone\pfzone.dll"
 				Version="1.0"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -125,9 +125,9 @@ copy &quot;$(TargetPath)&quot; ..
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMTD"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\debug\temp\plgaddon_celentity/plgaddon_celentity.pdb"
+				ProgramDatabaseFile=".\debug\temp\plgpfzone/plgpfzone.pdb"
 				SubSystem="2"
-				ImportLibrary=".\debug\temp\plgaddon_celentity/plgaddon_celentity.lib"
+				ImportLibrary=".\debug\temp\plgpfzone/plgpfzone.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -135,7 +135,7 @@ copy &quot;$(TargetPath)&quot; ..
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\debug\temp\plgaddon_celentity/plgaddon_celentity.tlb"/>
+				TypeLibraryName=".\debug\temp\plgpfzone/plgpfzone.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="echo Moving output to build root.
@@ -161,7 +161,7 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\addons\celentity\celentity.h">
+				RelativePath="..\plugins\propclass\zone\zone.h">
 			</File>
 
 		</Filter>
@@ -169,10 +169,10 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgaddon_celentity.rc">
+				RelativePath="..\msvc\plgpfzone.rc">
 			</File>
 			<File
-				RelativePath="..\plugins\addons\celentity\addon_celentity.csplugin">
+				RelativePath="..\plugins\propclass\zone\pfzone.csplugin">
 			</File>
 
 		</Filter>
@@ -180,7 +180,7 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\addons\celentity\celentity.cpp">
+				RelativePath="..\plugins\propclass\zone\zone.cpp">
 			</File>
 
 		</Filter>

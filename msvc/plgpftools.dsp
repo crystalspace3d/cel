@@ -104,6 +104,10 @@ PostBuild_Cmds=echo Moving output to build root.	copy "$(TargetPath)" ..
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\tools\spawn.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\tools\toolfact.h
 # End Source File
 
@@ -124,6 +128,10 @@ SOURCE=..\plugins\propclass\tools\pftools.csplugin
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\tools\spawn.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\tools\toolfact.cpp

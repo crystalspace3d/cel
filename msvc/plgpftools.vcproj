@@ -161,6 +161,9 @@ copy &quot;$(TargetPath)&quot; ..
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\tools\spawn.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.h">
 			</File>
 
@@ -179,6 +182,9 @@ copy &quot;$(TargetPath)&quot; ..
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\tools\spawn.cpp">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
 			</File>
