@@ -49,6 +49,7 @@
 #include "cstool/csview.h"
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
+#include "qsqrt.h"
 
 //---------------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
   scfiEventHandler = NULL;
-  
+
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = new csView (engine, g3d);
@@ -99,8 +100,12 @@ celPcCamera::celPcCamera (iObjectRegistry* object_reg)
   CS_ASSERT (vc != NULL);
   followpos.Set(0,0,0);
   followat.Set(0,0,0);
-  angle_xz = angle_yz = _yz = _xz = 0.0;    // staring angles to the object (in radians)
-  _dist = dist_y = 10.0;				// starting distance from the object
+
+  // Starting angles to the object (in radians)
+  angle_xz = angle_yz = _yz = _xz = 0.0;
+  // starting distance from the object
+  _dist = dist_y = 10.0;
+
   alter_angle = alter_dist = false;
   DG_TYPE (this, "celPcCamera()");
 }
@@ -145,14 +150,14 @@ bool celPcCamera::HandleEvent (iEvent& ev)
   {
     // First get elapsed time from the virtual clock.
     csTicks elapsed_time = vc->GetElapsedTicks ();
-    
+
     // Now rotate the camera according to its mode
     switch (cammode)
     {
       case iPcCamera::freelook:
       {
 	float speed = (elapsed_time / 1000.0) * (0.03 * 20);
-	
+
 	iCamera* c = view->GetCamera();
 	if (kbd->GetKeyState (CSKEY_SHIFT))
 	  speed*=2.5;
@@ -177,97 +182,137 @@ bool celPcCamera::HandleEvent (iEvent& ev)
 	if (!pcmesh) break;
 	iMovable* movable = pcmesh->GetMesh()->GetMovable();
 	pcmesh->DecRef();
-	
+
 	iCamera* c = view->GetCamera();
-	
+
 	csReversibleTransform rt = movable->GetFullTransform();
 	csMatrix3 mat = rt.GetT2O();
-	
+
 	c->GetTransform().SetOrigin(movable->GetPosition());
+	c->SetSector (movable->GetSectors ()->Get (0));
 	c->GetTransform().SetT2O(mat);
-	
+
 	// move camera to followpos
 	c->OnlyPortals(!use_cd);
 	c->Move (followpos);
 	c->OnlyPortals(true);
 	c->Move (followpos*-0.1);
-	
+
 	// transform the lookat vector
 	csVector3 lookat = (movable->GetPosition() -
 	    c->GetTransform().GetOrigin()) + (mat * followat);
 	c->GetTransform().LookAt(lookat, csVector3(0,1,0));
 	break;
       }
+      case iPcCamera::firstperson:
+      {
+        iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
+		iPcMesh);
+        if (!pcmesh) break;
+        iMovable* movable = pcmesh->GetMesh()->GetMovable();
+        pcmesh->DecRef();
+
+        iCamera* c = view->GetCamera();
+
+        csReversibleTransform rt = movable->GetFullTransform();
+        csMatrix3 mat = rt.GetT2O();
+
+	c->GetTransform().SetOrigin(movable->GetPosition());
+	c->SetSector(movable->GetSectors()->Get(0));
+        c->GetTransform().SetT2O(mat);
+
+	// move camera to followpos
+	c->OnlyPortals(!use_cd);
+        c->Move (followpos);
+        c->OnlyPortals(true);
+        c->Move (followpos*-0.1);
+
+	//rotate camera 180 degs
+	c->GetTransform().RotateThis(csVector3(0,1,0), 3.14f);
+        break;
+      }
       case iPcCamera::rotational:
       {
-      	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(), iPcMesh);
+      	iPcMesh* pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList(),
+	  iPcMesh);
 	if (!pcmesh) break;
 	csBox3 b;
 	csVector3 pos;
 	pcmesh->GetMesh()->GetWorldBoundingBox(b);
 	pos = b.GetCenter();
-	float min_dist = sqrt(pow(pos.x - b.Max().x, 2) + pow(pos.y - b.Max().y,2) + pow(pos.z - b.Max().z,2));
-	
+	float min_dist = qsqrt (pow(pos.x - b.Max().x, 2)
+		+ pow(pos.y - b.Max().y,2) + pow(pos.z - b.Max().z,2));
+
 	iCamera* c = view->GetCamera();
-	
-	if (mouse->GetLastButton(1) && mouse->GetLastButton(2)) {
+
+	if (mouse->GetLastButton(1) && mouse->GetLastButton(2))
+	{
 	  int _delta_y, _current_y;
-	  
-	  if (!alter_dist) {
+
+	  if (!alter_dist)
+	  {
 	    alter_dist = true;
 	    base_y_d = _current_y = mouse->GetLastY();
-	  } else
+	  }
+	  else
+	  {
 	    _current_y = mouse->GetLastY();
-	  
+	  }
+
 	  _delta_y = base_y_d - _current_y;
 	  float delta_dist = _delta_y/100.0;
 	  _dist = dist_y + delta_dist;
 	  if (_dist < min_dist) _dist = min_dist;
-	} else {
+	}
+	else
+	{
 	  alter_dist = false;
 	  dist_y = _dist;
 	}
-	
-	if (!mouse->GetLastButton(1) && mouse->GetLastButton(2)) {
+
+	if (!mouse->GetLastButton(1) && mouse->GetLastButton(2))
+	{
 	  int delta_x, delta_y, current_x, current_y;
-	  
-	  if (!alter_angle) {
+
+	  if (!alter_angle)
+	  {
 	    alter_angle = true;
 	    base_x = current_x = mouse->GetLastX();
 	    base_y = current_y = mouse->GetLastY();
 	    //csVector camera = c->GetOrigin();
-	    
-	  } else {
+	  }
+	  else
+	  {
 	    current_x = mouse->GetLastX();
 	    current_y = mouse->GetLastY();
 	  }
-	  
+
 	  delta_x = base_x - current_x;
 	  delta_y = base_y - current_y;
-	  
+
 	  float delta_yz = delta_x/200.0;
 	  float delta_xz = delta_y/300.0;
-	  
+
 	  _yz = angle_yz + delta_yz;
 	  _xz = angle_xz + delta_xz;
 	} else {
 	  alter_angle = false;
-	  
+
 	  angle_xz = _xz;
 	  angle_yz = _yz;
 	}
-	
+
 	if (_xz > 1.3) _xz = 1.3;
 	if (_xz < -1.3) _xz = -1.3;
-	
+
 	csVector3 V(cos(_yz)*cos(_xz),sin(_xz),sin(_yz)*cos(_xz));
 	csVector3 result = pos + V * _dist;
-	
+
 	c->GetTransform().SetOrigin(result);
 	c->GetTransform().LookAt(pos-result,csVector3(0,1,0));
       }
     }
-    
+
     // Tell 3D driver we're going to display 3D things.
     if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS))
       view->Draw ();
@@ -299,7 +344,7 @@ bool celPcCamera::SetMode (iPcCamera::CameraMode cammode, bool use_cd)
     celPcCamera::use_cd=use_cd;
     view->GetCamera()->OnlyPortals(!use_cd);
     return true;
-}  
+}
 
 void celPcCamera::SetRectangle (int x, int y, int w, int h)
 {
@@ -372,9 +417,9 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   const char* sectname;
   db.Get(sectname);
   iSector* sector = region->FindSector(sectname);
-  if (!sector) 
+  if (!sector)
     return false;
-  
+
   db.Get(v_o2t);
 
   db.Get(m_o2t.m11);
@@ -392,7 +437,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 
   if (!db.AllOk())
     return false;
-  
+
   view->GetCamera ()->SetSector(sector);
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
@@ -436,14 +481,14 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
 
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
-  
+
   props = properties;
   propcount = &propertycount;
 
   propdata[propid_worlddir] = &worlddir;
   propdata[propid_worldfile] = &worldfile;
   propdata[propid_regionname] = &regionname;
-  
+
   worlddir = NULL;
   worldfile = NULL;
   regionname = NULL;
@@ -469,12 +514,12 @@ iCelDataBuffer* celPcRegion::Save ()
   pl->DecRef ();
   databuf->SetDataCount (4);
   celDataBufHelper db(databuf);
-  
+
   db.Set (worlddir);
   db.Set (worldfile);
   db.Set (regionname);
   db.SetBool (loaded);
-  
+
   return databuf;
 }
 
@@ -484,12 +529,12 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   if (serialnr != REGION_SERIAL) return false;
   if (databuf->GetDataCount () != 4) return false;
   celDataBufHelper db(databuf);
-  
+
   Unload ();
   delete[] worlddir; worlddir = NULL;
   delete[] worldfile; worldfile = NULL;
   delete[] regionname; regionname = NULL;
-  
+
   const char* strp;
   if (!db.Get(strp)) return false;
   worlddir = csStrNew(strp);
@@ -515,7 +560,7 @@ void celPcRegion::UpdateProperties( iObjectRegistry* object_reg )
   {
     iCelPlLayer* pl = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );
     CS_ASSERT( pl != NULL );
-    
+
     propertycount = 4;
     properties = new Property[propertycount];
 
@@ -625,13 +670,13 @@ bool celPcRegion::Load ()
     if (m)
     {
       iCelEntity* ent = pl->CreateEntity ();
-      ent->SetName ("__dummy__");
-      
+      ent->SetName ("");
+
       pc = pl->CreatePropertyClass (ent, "pcmesh");
       iPcMesh* pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
       pcmesh->SetMesh (m);
       pcmesh->DecRef ();
-        
+
       pc = pl->CreatePropertyClass (ent, "pcsolid");
       entities.Push (ent);
       DG_LINK (this, ent->QueryObject ());
@@ -725,7 +770,7 @@ csVector3 celPcRegion::GetStartPosition (const char* name)
 void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
 {
   CS_ASSERT(pccamera != NULL);
-  
+
   iEngine* engine = CS_QUERY_REGISTRY(object_reg, iEngine);
   if (engine->GetCameraPositions()->GetCount() > 0)
   {
@@ -739,7 +784,7 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
       return;
     }
   }
-  
+
   iSector* s = GetStartSector (name);
   pccamera->GetCamera ()->SetSector (s);
   pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
