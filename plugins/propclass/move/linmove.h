@@ -103,10 +103,8 @@ protected:
 
   //Collision vars
   csVector3 shift;
-  csRef<iCollider> topCollider;
   csVector3 topSize;
 
-  csRef<iCollider> bottomCollider;
   csVector3 bottomSize;
 
   // Maximum interval at which to perform CD
