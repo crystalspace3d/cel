@@ -1,0 +1,9 @@
+24-Oct-2001:
+	- Added the very first code for CEL. Today I added:
+	    - The include files for PL and BL. These are SCF interfaces.
+	    - The start of PLIMP which is the implementation of the PL.
+	    - The start of CELTEST which is a test application for CEL.
+	  The test application works (i.e. it opens a CS window) but other
+	  than that there is nothing functional yet.
+
+
