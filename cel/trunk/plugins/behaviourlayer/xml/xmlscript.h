@@ -263,7 +263,7 @@ struct celXmlArg
   {
     Cleanup ();
     type = CEL_DATA_STRING;
-    arg.str.s = s;
+    arg.str.s = (char*) s;
     arg.str.cleanup = true;
   }
   void SetString (const char* s, bool copy)
@@ -277,7 +277,7 @@ struct celXmlArg
     }
     else
     {
-      arg.str.s = s;
+      arg.str.s = (char*) s;
       arg.str.cleanup = false;
     }
   }
