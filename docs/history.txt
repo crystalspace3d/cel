@@ -45,4 +45,10 @@
 	  the 'pcmesh' property class so that you can attach a mesh object
 	  with an entity.
 	- 'celtest' now shows an entity that has a mesh attached to it.
+	- Started work on the 'pvinv' factory for inventories. This inventory
+	  supports two property classes: 'pcinventory' and 'pccharacteristics'.
+	  The 'pccharacteristics' is typically used for entities that are
+	  put in the inventory. The entity that has the inventory
+	  property class will use the characteristics to see if the object
+	  fits in the inventory.
 
