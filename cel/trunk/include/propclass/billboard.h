@@ -44,6 +44,27 @@ SCF_VERSION (iPcBillboard, 0, 0, 1);
  * <li>pcbillboard_unselect: billboard is unselected (x,y,button)
  * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  * </ul>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>name (string, read/write): name of the billboard.
+ * <li>materialname (string, read/write): name of the material.
+ * <li>materialnamefast (string, read/write): name of the material (faster way to set).
+ * <li>clickable (bool, read/write): clickable yes or no.
+ * <li>movable (bool, read/write): movable yes or no.
+ * <li>visible (bool, read/write): visible yes or no.
+ * <li>restack (bool, read/write): restackable on selection yes or no.
+ * <li>color (color, read/write): color of this billboard.
+ * <li>width (long, read/write): width of this billboard.
+ * <li>height (long, read/write): height of this billboard.
+ * <li>widthpct (float, read/write): width of this billboard in percentage.
+ * <li>heightpct (float, read/write): height of this billboard in percentage.
+ * <li>x (long, read/write): x position of this billboard.
+ * <li>y (long, read/write): y position of this billboard.
+ * <li>uv_topleft (vector2, read/write): topleft uv coordinate in material.
+ * <li>uv_botright (vector2, read/write): botright uv coordinate in material.
+ * <li>layer (string, read/write): layer name.
+ * </ul>
  */
 struct iPcBillboard : public iBase
 {

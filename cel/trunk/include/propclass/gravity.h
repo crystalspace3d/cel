@@ -39,6 +39,11 @@ SCF_VERSION (iPcGravity, 0, 0, 1);
  * <ul>
  * <li>ApplyPermanentForce: parameters 'force' (csVector3).
  * </ul>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>weight (float, read/write): the weight of the object.
+ * </ul>
  */
 struct iPcGravity : public iBase
 {
