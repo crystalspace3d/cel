@@ -23,6 +23,7 @@
 #include "iutil/comp.h"
 #include "imap/reader.h"
 #include "csutil/strhash.h"
+#include "csutil/weakref.h"
 
 #include "tools/entityloader.h"
 
@@ -40,8 +41,8 @@ class celAddOnCelEntity : public iLoaderPlugin, public iEntityLoader
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iSyntaxService> synldr;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iSyntaxService> synldr;
+  csWeakRef<iCelPlLayer> pl;
   csStringHash xmltokens;
 
   const char* GetAttributeValue (iDocumentNode* child,

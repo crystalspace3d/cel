@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine removed the CS_IMPLEMENT_APPLICATION from celtest which
 	  was added yesterday. It turns out that this macro was already present
 	  in a different compilation unit in that project.
+	- Jorrit fixed a memory leak in the celentity addon by using
+	  weak references to pl and syntax services instead of a full ref.
 7-Mar-2005
 	- Eric Sunshine added missing CS_IMPLEMENT_APPLICATION to celtest.
 	  This fixes "undefined reference to `scfStaticallyLinked'" error at
