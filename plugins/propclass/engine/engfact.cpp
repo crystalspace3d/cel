@@ -679,6 +679,19 @@ void celPcCamera::CenterCamera ()
 
 void celPcCamera::TickEveryFrame ()
 {
+  Draw();
+}
+
+void celPcCamera::SetAutoDraw(bool auto_draw)
+{
+  if (auto_draw)
+    pl->CallbackPCEveryFrame(this, cscmdProcess);
+  else
+    pl->RemoveCallbackPCEveryFrame(this, cscmdProcess);
+}
+
+void celPcCamera::Draw()
+{
   CheckModeChange ();
 
   // First get elapsed time from the virtual clock.

@@ -45,6 +45,7 @@ public:
   virtual size_t Add (iCelPropertyClass* obj);
   virtual bool Remove (iCelPropertyClass* obj);
   virtual bool Remove (size_t n);
+  virtual bool RemoveByInterface (scfInterfaceID id, int version);
   virtual void RemoveAll ();
   virtual size_t Find (iCelPropertyClass* obj) const;
   virtual iCelPropertyClass* FindByName (const char* name) const;

@@ -274,6 +274,15 @@ struct iPcCamera : public iBase
    * Get the minimum distance used for adaptive distance clipping.
    */
   virtual float GetAdaptiveMinDistance () const = 0;
+  /**
+   * Set the auto-draw option. If this option is enabled, the camera will
+   * automatically render.
+   */
+  virtual void SetAutoDraw (bool auto_draw) = 0;
+  /**
+   * Render. This will clear the screen then draw on top of it.
+   */
+  virtual void Draw() = 0;
 };
 
 #endif // __CEL_PF_CAMERA__
