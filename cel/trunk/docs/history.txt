@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	  it with:
 	    bootstrap cel.behaviourlayer.python scripts/physicstest/physicstest
 	  (note: do not add the '.py' at the end!).
+	- Jorrit moved smallgame to scripts/smallgame.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is
