@@ -86,9 +86,9 @@ public:
 
   // Get / Set access
   csRef<iPcRegion> GetRegion() { return region; }
-  void SetRegion (csRef<iPcRegion> newregion) { region = newregion; }
+  void SetRegion (iPcRegion* newregion) { region = newregion; }
 
-  void SetRules (csRef<iPcNavGraphRules> newrules) { navgraphrules = newrules; }
+  void SetRules (iPcNavGraphRules* newrules) { navgraphrules = newrules; }
 
   int AddNode( iPcNavNode* node ) { return aNodes.Push( node );}
   int RemoveNode( int i) {return aNodes.Delete( i ); }
@@ -174,7 +174,7 @@ public:
       return scfParent->GetLinkCount();
     }    
 
-    virtual void SetRegion (csRef<iPcRegion> newregion)
+    virtual void SetRegion (iPcRegion* newregion)
     {
       scfParent->SetRegion (newregion);
     }    
@@ -184,11 +184,10 @@ public:
         return scfParent->GetRegion ();
     }
 
-    virtual void SetRules (csRef<iPcNavGraphRules> newrules)
+    virtual void SetRules (iPcNavGraphRules* newrules)
     {
       scfParent->SetRules (newrules);
     }    
-
   } scfiPcNavGraph;
 };
 
@@ -226,14 +225,14 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   csRef<iPcNavNode> GetSource() { return SourceNode; }
-  void SetSource (csRef<iPcNavNode> newsource )
+  void SetSource (iPcNavNode* newsource )
   {
     SourceNode = newsource;
     RecalcLength();
   }
 
   csRef<iPcNavNode> GetDest() { return DestNode; }
-  void SetDest (csRef<iPcNavNode> newdest)
+  void SetDest (iPcNavNode* newdest)
   {
     DestNode = newdest;
     RecalcLength();
@@ -248,7 +247,7 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcNavLink);
 
-    virtual void SetSource (csRef<iPcNavNode> newsource)
+    virtual void SetSource (iPcNavNode* newsource)
     {
       scfParent->SetSource (newsource);
     }    
@@ -258,7 +257,7 @@ public:
       return scfParent->GetSource( );
     }
 
-    virtual void SetDest (csRef<iPcNavNode> newdest)
+    virtual void SetDest (iPcNavNode* newdest)
     {
       scfParent->SetDest (newdest);
     }    

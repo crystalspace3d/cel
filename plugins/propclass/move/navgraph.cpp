@@ -33,8 +33,10 @@
 
     CLASSES
 
-    NavGraph:   Implementation independent logic (managing data, loading saving etc.)
-    NavNode:    Defined point in 3d space that is used as a "stepping stone" to build paths
+    NavGraph:   Implementation independent logic (managing data, loading
+    		saving etc.)
+    NavNode:    Defined point in 3d space that is used as a "stepping stone"
+    		to build paths
     NavLink:    Single steps along a path
     NavPath:    A complete stored path between two locations
 
