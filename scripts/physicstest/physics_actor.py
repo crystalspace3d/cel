@@ -57,14 +57,14 @@ class physics_actor:
 		input.Bind(" ", "jump")
 
 	def pckeyinput_forward1(self,celentity,args):
-		self.dynbody.AddForceFrame(csVector3(0,0,50))
+		self.dynbody.AddForceDuration(csVector3(0,0,50),10000000)
 	def pckeyinput_forward0(self,celentity,args):
-		dummy = 0
+		self.dynbody.ClearForces()
 
 	def pckeyinput_backward1(self,celEntity,args):
-		self.dynbody.AddForceFrame(csVector3(0,0,-50))
+		self.dynbody.AddForceDuration(csVector3(0,0,-50),10000000)
 	def pckeyinput_backward0(self,celEntity,args):
-		dummy = 0
+		self.dynbody.ClearForces()
 
 	def pckeyinput_strafeleft1(self,celEntity,args):
 		self.dynbody.AddForceFrame(csVector3(-50,0,0))
@@ -77,7 +77,7 @@ class physics_actor:
 		dummy = 0
 
 	def pckeyinput_jump1(self,celEntity,args):
-		self.dynbody.AddForceFrame(csVector3(0,5000,0))
+		self.dynbody.AddForceDuration(csVector3(0,100,0),0.5)
 	def pckeyinput_jump0(self,celEntity,args):
 		dummy = 0
 
