@@ -47,17 +47,11 @@ CS_ID NumReg::Register (void* obj)
   
   // 1. try to fill up just released positions
   if (freelistend>0)
-  {
-    freelistend--;
-    CS_ASSERT (freelistend < freelistsize);
-    CS_ASSERT (freelist[freelistend] < listsize);
-    list[freelist[freelistend]] = obj;
-    return freelist[freelistend];
-  }
+      goto registerid;
 
-  // 2. find wholes and fill freelist again
+  // 2. find holes and fill freelist again
   // note that id number 0 stands for error and is reserved
-  for (CS_ID i=1;i<listsize && freelistend<freelistsize-1;i++)
+  for (CS_ID i=0; i<listsize && freelistend<freelistsize-1 ;i++)
   {
     if (list[i]==NULL)
     {
@@ -67,13 +61,7 @@ CS_ID NumReg::Register (void* obj)
     }
   }
   if (freelistend>0)
-  {
-    freelistend--;
-    CS_ASSERT (freelistend < freelistsize);
-    CS_ASSERT (freelist[freelistend] < listsize);
-    list[freelist[freelistend]] = obj;
-    return freelist[freelistend];
-  }
+      goto registerid;
 
   // 3. extend list and append
   if (listsize<limit)
@@ -104,16 +92,18 @@ CS_ID NumReg::Register (void* obj)
     list = newlist;
   }
   if (freelistend>0)
-  {
+      goto registerid;
+  
+  //list has reached limit and is full
+  return 0;
+  
+registerid:
     freelistend--;
     CS_ASSERT (freelistend < freelistsize);
-    CS_ASSERT (freelist[freelistend] < listsize);
+    CS_ASSERT (freelist[freelistend] < listsize);  
     list[freelist[freelistend]] = obj;
-    return freelist[freelistend];
-  }
-  
-  //list has reached limit and is full  
-  return 0;
+    printf ("Regsitered: %u (%p)\n", freelist[freelistend], obj);
+    return freelist[freelistend];  
 }
 
 bool NumReg::Remove (CS_ID num)
@@ -121,12 +111,9 @@ bool NumReg::Remove (CS_ID num)
   CS_ASSERT(num<listsize);
   CS_ASSERT(list[num] != NULL);
   
-  if (freelistend<freelistsize)
-  {
-    freelistend++;  
-    CS_ASSERT (freelistend < freelistsize);
-    freelist[freelistend]=num;
-  }
+  if (freelistend < freelistsize-1)
+    freelist[freelistend++] = num;
+
   list[num]=NULL;
 
   return true;
