@@ -81,6 +81,11 @@ celPlLayer::~celPlLayer ()
 	  entity->GetID(), entity->GetName());
     }
   }
+  for (int i = 0; i < removecallbacks.Length(); i++)
+  {
+    iCelEntityRemoveCallback* callback = removecallbacks[i];
+    delete callback;
+  }
 }
 
 bool celPlLayer::Initialize (iObjectRegistry* object_reg)
@@ -126,7 +131,6 @@ void celPlLayer::RemoveEntity (celEntity *entity)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity(&entity->scfiCelEntity);
-    delete callback;
   }
 }
 
