@@ -734,6 +734,7 @@ bool celPcGravity::HandleEvent (iEvent& ev)
 
     float delta_t1, delta_t2;
     csTicks elapsed_time = vc->GetElapsedTicks ();
+    if (!elapsed_time) return false;
     delta_t1 = elapsed_time/1000.0;
 
     grav_speed += csVector3 (0, -9.8, 0) * delta_t1;
