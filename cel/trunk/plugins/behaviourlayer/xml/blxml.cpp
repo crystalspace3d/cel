@@ -128,11 +128,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (!pcname) return false;
 	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
 	  if (propid == csInvalidStringID) return false;
-	  float f = child->GetAttributeValueAsFloat ("float");
+
 	  h->AddOperation (CEL_OPERATION_PROPERTY);
 	  h->AddArgument ().SetPC (h->GetResolver (pcname));
 	  h->AddArgument ().SetID (propid);
-	  h->AddArgument ().SetFloat (f);
+
+	  csRef<iDocumentAttribute> attr;
+	  attr = child->GetAttribute ("float");
+	  if (attr)
+	  {
+	    h->AddArgument ().SetFloat (attr->GetValueAsFloat ());
+	  }
+	  else
+	  {
+	    attr = child->GetAttribute ("string");
+	    if (attr)
+	    {
+	      h->AddArgument ().SetString (attr->GetValue ());
+	    }
+	  }
 	}
 	break;
       case XMLTOKEN_ACTION:

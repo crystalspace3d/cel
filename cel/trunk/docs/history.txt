@@ -3,6 +3,20 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+23-Nov-2003
+	- Jorrit fixed the 'materialname' property in the pcbillboard plugin
+	  by overriding SetProperty() and GetPropertyString() from
+	  celPcCommon and handling this property seperately.
+	- Jorrit enhanced the celentity addon so that it is now also possible
+	  to define entities without a mesh. Just place the 'addon' out
+	  a meshobj definition to do this.
+	- Jorrit extended the xml behaviour layer so that you can now also
+	  set string properties using the <property> command (instead of
+	  only float).
+	- Jorrit implemented some missing functions in the billboard
+	  manager.
+	- Jorrit added a billboard entity to the xmltest.xml script.
+	  The first billboard is visible! (in the lower-left corner).
 21-Nov-2003
 	- Jorrit added a new billboard manager plugin. This plugin will be
 	  responsible (when it is ready) for managing billboards. A billboard
