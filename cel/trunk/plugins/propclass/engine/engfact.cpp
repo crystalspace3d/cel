@@ -644,25 +644,25 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
     properties = new Property[propertycount];
 
     properties[propid_worlddir].id = pl->FetchStringID (
-    	"cel.property.pcregion.worlddir");
+    	"cel.property.worlddir");
     properties[propid_worlddir].datatype = CEL_DATA_STRING;
     properties[propid_worlddir].readonly = false;
     properties[propid_worlddir].desc = "Map VFS path.";
 
     properties[propid_worldfile].id = pl->FetchStringID (
-    	"cel.property.pcregion.worldfile");
+    	"cel.property.worldfile");
     properties[propid_worldfile].datatype = CEL_DATA_STRING;
     properties[propid_worldfile].readonly = false;
     properties[propid_worldfile].desc = "Map VFS file name.";
 
     properties[propid_regionname].id = pl->FetchStringID (
-    	"cel.property.pcregion.regionname");
+    	"cel.property.regionname");
     properties[propid_regionname].datatype = CEL_DATA_STRING;
     properties[propid_regionname].readonly = false;
     properties[propid_regionname].desc = "Name of this region.";
 
     properties[propid_load].id = pl->FetchStringID (
-    	"cel.action.pcregion.load");
+    	"cel.action.load");
     properties[propid_load].datatype = CEL_DATA_ACTION;
     properties[propid_load].readonly = true;
     properties[propid_load].desc = "Load the map.\nNo parameters";

@@ -59,93 +59,93 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.name");
+    	"cel.property.name");
     properties[propid_billboardname].datatype = CEL_DATA_STRING;
     properties[propid_billboardname].readonly = false;
     properties[propid_billboardname].desc = "Name of billboard.";
 
     properties[propid_materialname].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.materialname");
+    	"cel.property.materialname");
     properties[propid_materialname].datatype = CEL_DATA_STRING;
     properties[propid_materialname].readonly = false;
     properties[propid_materialname].desc = "Name of material.";
 
     properties[propid_clickable].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.clickable");
+    	"cel.property.clickable");
     properties[propid_clickable].datatype = CEL_DATA_BOOL;
     properties[propid_clickable].readonly = false;
     properties[propid_clickable].desc = "Enable mouse events.";
 
     properties[propid_movable].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.movable");
+    	"cel.property.movable");
     properties[propid_movable].datatype = CEL_DATA_BOOL;
     properties[propid_movable].readonly = false;
     properties[propid_movable].desc = "Make movable.";
 
     properties[propid_visible].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.visible");
+    	"cel.property.visible");
     properties[propid_visible].datatype = CEL_DATA_BOOL;
     properties[propid_visible].readonly = false;
     properties[propid_visible].desc = "Make visible.";
 
     properties[propid_restack].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.restack");
+    	"cel.property.restack");
     properties[propid_restack].datatype = CEL_DATA_BOOL;
     properties[propid_restack].readonly = false;
     properties[propid_restack].desc = "Make restackable on selection.";
 
     properties[propid_color].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.color");
+    	"cel.property.color");
     properties[propid_color].datatype = CEL_DATA_COLOR;
     properties[propid_color].readonly = false;
     properties[propid_color].desc = "Color of this billboard.";
 
     properties[propid_width].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.width");
+    	"cel.property.width");
     properties[propid_width].datatype = CEL_DATA_LONG;
     properties[propid_width].readonly = false;
     properties[propid_width].desc = "Width in pixels.";
 
     properties[propid_height].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.height");
+    	"cel.property.height");
     properties[propid_height].datatype = CEL_DATA_LONG;
     properties[propid_height].readonly = false;
     properties[propid_height].desc = "Height in pixels.";
 
     properties[propid_widthpct].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.widthpct");
+    	"cel.property.widthpct");
     properties[propid_widthpct].datatype = CEL_DATA_FLOAT;
     properties[propid_widthpct].readonly = false;
     properties[propid_widthpct].desc =
     	"Width in percentage relative to original texture (1==full size).";
 
     properties[propid_heightpct].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.heightpct");
+    	"cel.property.heightpct");
     properties[propid_heightpct].datatype = CEL_DATA_FLOAT;
     properties[propid_heightpct].readonly = false;
     properties[propid_heightpct].desc =
     	"Height in percentage relative to original texture (1==full size).";
 
     properties[propid_x].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.x");
+    	"cel.property.x");
     properties[propid_x].datatype = CEL_DATA_LONG;
     properties[propid_x].readonly = false;
     properties[propid_x].desc = "X position of billboard.";
 
     properties[propid_y].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.y");
+    	"cel.property.y");
     properties[propid_y].datatype = CEL_DATA_LONG;
     properties[propid_y].readonly = false;
     properties[propid_y].desc = "Y position of billboard.";
 
     properties[propid_uv_topleft].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.uv_topleft");
+    	"cel.property.uv_topleft");
     properties[propid_uv_topleft].datatype = CEL_DATA_VECTOR2;
     properties[propid_uv_topleft].readonly = false;
     properties[propid_uv_topleft].desc = "Top-left UV coordinate.";
 
     properties[propid_uv_botright].id = pl->FetchStringID (
-    	"cel.property.pcbillboard.uv_botright");
+    	"cel.property.uv_botright");
     properties[propid_uv_botright].datatype = CEL_DATA_VECTOR2;
     properties[propid_uv_botright].readonly = false;
     properties[propid_uv_botright].desc = "Bottom-right UV coordinate.";
