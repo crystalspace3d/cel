@@ -29,9 +29,9 @@
 #
 # - Upgrade module Jamfiles to mention headers from the CS/include/module
 #   directory.  This will allow related headers to appear in the generated
-#   project files.  For instance, the libcsutil project should mention headers
-#   from CS/include/csengine, in addition to the ones from CS/libs/csengine
-#   which it currently mentions.
+#   project files.  For instance, the libcsengine project should mention
+#   headers from CS/include/csengine, in addition to the ones from
+#   CS/libs/csengine which it currently mentions.
 #
 # - When PERL5.SDK.AVAILABLE is "yes", Jam reports that it doesn't know how to
 #   locate or create <grist>csperlxs.c.
@@ -41,6 +41,7 @@ if $(MSVCGEN_CONFIG)
 
 MSVCGEN = "$(PERL) $(TOP)/mk/msvcgen/msvcgen.pl" ;
 MKVERRES = "$(SHELL) $(TOP)/libs/cssys/win32/mkverres.sh" ;
+MKMETADATARES = "$(SHELL) $(TOP)/libs/cssys/win32/mkmetadatares.sh" ;
 MERGERES = "$(SHELL) $(TOP)/libs/cssys/win32/mergeres.sh" ;
 
 MSVCGEN_BUILD_ROOT = $(BUILDTOP)/out ;
@@ -77,10 +78,10 @@ else
 # Override some rules
 
 
-## MavcProject target : sources : type : target-with-ext
+## MsvcProject target : sources : type : target-with-ext
 rule MsvcProject
 {
-  local resource msvcname target fragments fragroot files i ;
+  local rcpath resource msvcname target fragments fragroot files i ;
 
   switch $(3)
   {
@@ -137,10 +138,56 @@ rule MsvcProject
   if $(3) = "plugin" || $(3) = "appgui" || $(3) = "appcon"
   {
     resource = $(msvcname:S=.rc) ;
-    files += $(resource) ;
+    # @@@ Uber-ugly
+    rcpath = ../../../mk/visualc7/$(msvcname:S=.rc) ;
+    #files += $(resource) ;
+    Depends $(target) : $(resource) ;
     LOCATE on $(resource) = $(MSVCGEN_LOCATE_TARGET) ;
+    SEARCH on $(resource) = $(MSVCGEN_LOCATE_FRAGMENT) ;
     NAME on $(resource) = $(<) ;
-    ResourceGen $(resource) ;
+    #RCNAME on $(<) = $(resource) ;
+    $(<)_RCNAME = $(resource) ;
+    #ResourceGen $(resource) ;
+  
+    local versionrc = $(resource:S=.vrctmp) ;
+  
+    # normalize version list
+    local v1, v2, v3, v4 ;
+    v1 = $(PACKAGE.VERSION.LIST[1]) ;
+    if ! $(v1) { v1 = 0 ; }
+    v2 = $(PACKAGE.VERSION.LIST[2]) ;
+    if ! $(v2) { v2 = 0 ; }
+    v3 = $(PACKAGE.VERSION.LIST[3]) ;
+    if ! $(v3) { v3 = 0 ; }
+    v4 = $(PACKAGE.VERSION.LIST[4]) ;
+    if ! $(v4) { v4 = 0 ; }
+    PACKAGE.VERSION.LIST on $(versionrc) = $(v1) $(v2) $(v3) $(v4) ;
+	
+    # @@@ The "Help" rule is usually invoked after 'Plugin'/'Application',
+    # so "$(<)_help" is empty...
+    DESCRIPTION on $(versionrc) = $($(<)_help) ;
+	
+    LOCATE on $(versionrc) = $(MSVCGEN_LOCATE_FRAGMENT) ;
+    
+    GenerateWin32VersionRc $(versionrc) ;
+    Always $(versionrc) ;
+    Win32Resource $(<) : $(versionrc) ;
+    RmTemps $(target) : $(versionrc) ;
+    
+    if $(3) = "plugin" 
+    {
+      local metarc = $(resource:S=.mrctmp) ;
+    
+      LOCATE on $(metarc) = $(MSVCGEN_LOCATE_FRAGMENT) ;
+      SEARCH on $(metarc) = $(SEARCH_SOURCE) ;
+    
+      Depends $(metarc) : $($(<)_METAFILE) ;
+      GenerateWin32MetadataRc $(metarc) : $($(<)_METAFILE) ;
+      Always $(metarc) ;
+      Win32Resource $(<) : $(metarc) ;
+      RmTemps $(target) : $(metarc) ;
+    }
+  
     Always $(resource) ;
   }
   
@@ -156,7 +203,7 @@ rule MsvcProject
 
   Depends msvcgen : $(target) ;
   Depends $(target) : $(files) $(MSVCGEN_LOCATE_FRAGMENT:G=dir) ;
-  MsvcProjectGen $(target) : $(files) ;
+  MsvcProjectGen $(target) : $(files) $(rcpath) ;
   Always $(target) ;
 
   MSVCWorkspace csall : $(fragments) : $(fragroot) ;
@@ -168,7 +215,7 @@ rule MsvcProject
 
 rule Application
 {
-  _Options $(<) : $(3) ;
+#  _Options $(<) : $(3) ;
 
   local projtype ;
   if $(CONSOLEAPP_$(<)) = "yes"
@@ -186,6 +233,12 @@ rule Application
 
 rule Plugin
 {
+  local metafile ;
+  metafile = [ FAppendSuffix $(<) : $(SUFMETA) ] ;
+  SEARCH on $(metafile) = $(SEARCH_SOURCE) ;
+
+  $(<)_METAFILE = $(metafile) ;
+  
   MsvcProject $(<) : $(>) : plugin : $(<:S=.dll) ;
   CompileGroups $(<) : all plugins ;
 }
@@ -241,6 +294,18 @@ rule LFlags
   LFLAGS on $($(<)_TARGET) += $(>) ;
 }
 
+rule ExternalLibs
+{
+  local i ;
+  
+  for i in $(>)
+  {
+    CFlags $(<) : $($(i).CFLAGS) ;
+    LFlags $(<) : $($(i).LFLAGS) ;
+    MsvcExternalLibrary $(<) : $($(i).MSVCLIBS) ;
+  }
+}
+
 rule MSVCWorkspace
 {
   local target ;
@@ -253,6 +318,13 @@ rule MSVCWorkspace
   MsvcWorkspaceGen $(target) : $(3) ;
 
   RmTemps $(target) : $(>) ;
+}
+
+rule Win32Resource
+{
+  Depends $(<) : $($(<)_RCNAME) ;
+  Depends $($(<)_RCNAME) : $(>) ;
+  MergeRcs $($(<)_RCNAME) : $(>) ;
 }
 
 #----------------------------------------------------------------------------
@@ -292,11 +364,9 @@ actions together MsvcWorkspaceGen
   $(>)
 }
 
-actions ResourceGen
+actions together MergeRcs
 {
-  $(MKVERRES) '$(<:S=.rctmp)' '$($(NAME)_help)' $(TOP)/include/csver.h
-  $(MERGERES) '$(<)' '$(TOP)' '../..' '$(<:S=.rctmp)' '$($(NAME)_WIN32RESOURCE)'
-  $(RM) $(<:S=.rctmp)
+  $(MERGERES) '$(<)' '$(TOP)' '../..' '$(>)'
 }
 
 #----------------------------------------------------------------------------

@@ -57,7 +57,7 @@ fi
 if test "x$no_cs" = "x" ; then
 	min_cs_version=ifelse([$1], ,0.94,$1)
 	AC_MSG_CHECKING(for Crystal Space - version >= $min_cs_version)
-	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --includes $4`
+	CRYSTAL_CFLAGS=`$CSCONF $csconf_args --cxxflags $4`
 	CRYSTAL_LIBS=`$CSCONF $csconf_args --libs $4`
 	CRYSTAL_VERSION=`$CSCONF --version $4`
 
