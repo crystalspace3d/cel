@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+3-Aug-2003
+	- Jorrit removed various usages of csVector.
 2-Aug-2003
 	- Jorrit fixed CEL for latest CS changes (DeleteIndex instead
 	  of Delete).

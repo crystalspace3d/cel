@@ -21,10 +21,10 @@
 #define __CEL_PF_TOOLFACT__
 
 #include "cstypes.h"
-#include "csutil/csvector.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
+#include "csutil/parray.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -194,8 +194,6 @@ public:
 class celPcProperties : public celPcCommon
 {
 private:
-  csVector properties;
-
   struct property
   {
     char* propName;
@@ -208,6 +206,7 @@ private:
       char* s;
     } v;
   };
+  csPDelArray<property> properties;
 
   int NewProperty (const char* name);
   int FindOrNewProperty (const char* name);

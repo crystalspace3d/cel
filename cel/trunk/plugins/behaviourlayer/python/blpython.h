@@ -23,7 +23,6 @@
 #include "iutil/comp.h"
 #include "ivaria/script.h"
 #include "csutil/csinput.h"
-#include "csutil/csvector.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
 

@@ -21,11 +21,11 @@
 #define __CEL_PF_MOVEFACT__
 
 #include "cstypes.h"
-#include "csutil/csvector.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
 #include "csutil/refarr.h"
+#include "csutil/parray.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -207,7 +207,7 @@ private:
     csVector3 force;
     float time_remaining;
   };
-  csVector forces;		// Forces plus duration.
+  csPDelArray<celForce> forces;	// Forces plus duration.
 
   csVector3 infinite_forces;	// Infinite duration forces.
 

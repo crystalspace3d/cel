@@ -30,7 +30,7 @@
 #include "behaviourlayer/bl.h"
 #include "csutil/flags.h"
 #include "csutil/csobject.h"
-#include "csutil/csvector.h"
+#include "csutil/parray.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -181,7 +181,7 @@ csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
 class celDataBuffer : public iCelDataBuffer
 {
 private:
-  csVector data;
+  csPDelArray<celData> data;
   long serialnr;
 
 public:
@@ -203,19 +203,14 @@ public:
   }
   virtual void SetDataCount (int cnt)
   {
-    int i;
-    for (i = cnt ; i < data.Length () ; i++)
-    {
-      celData* cd = (celData*)data[i];
-      delete cd;
-    }
     int old_cnt = data.Length ();
     data.SetLength (cnt);
+    int i;
     for (i = old_cnt ; i < cnt ; i++)
     {
       celData* cd = new celData ();
       cd->type = CEL_DATA_NONE;
-      data[i] = cd;
+      data.Put (i, cd);
     }
   }
   virtual int GetDataCount () const
@@ -225,7 +220,7 @@ public:
   virtual celData* GetData (int idx) const
   {
     CS_ASSERT (idx >= 0 && idx < data.Length ());
-    return (celData*)data[idx];
+    return data[idx];
   }
 };
 

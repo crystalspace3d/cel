@@ -42712,7 +42712,7 @@ static PyObject *_wrap_iSprite2DUVAnimationFrame_GetName(PyObject *self, PyObjec
     
     if(!PyArg_ParseTuple(args,(char *)"O:iSprite2DUVAnimationFrame_GetName",&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSprite2DUVAnimationFrame,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (char *)(arg1)->GetName();
+    result = (char *)((iSprite2DUVAnimationFrame const *)arg1)->GetName();
     
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
     return resultobj;
@@ -42994,7 +42994,7 @@ static PyObject *_wrap_iSprite2DUVAnimation_GetName(PyObject *self, PyObject *ar
     
     if(!PyArg_ParseTuple(args,(char *)"O:iSprite2DUVAnimation_GetName",&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iSprite2DUVAnimation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (char *)(arg1)->GetName();
+    result = (char *)((iSprite2DUVAnimation const *)arg1)->GetName();
     
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
     return resultobj;

@@ -23,8 +23,8 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "csutil/refarr.h"
+#include "csutil/array.h"
 #include "csutil/scf.h"
-#include "csutil/csvector.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -48,8 +48,6 @@ class celPcInventory : public celPcCommon
 {
 private:
   csRefArray<iCelEntity> contents;
-  csVector constraints;
-
   struct constraint
   {
     char* charName;
@@ -59,7 +57,10 @@ private:
     float currentValue;
     bool strict;
     bool dirty;
+    constraint () : charName (0) { }
+    ~constraint () { delete[] charName; }
   };
+  csPDelArray<constraint> constraints;
 
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
@@ -169,8 +170,6 @@ public:
 class celPcCharacteristics : public celPcCommon
 {
 private:
-  csVector chars;
-
   struct charact
   {
     char* name;
@@ -179,11 +178,13 @@ private:
     float add;		// For inherited properties
 
     charact () : name (0), value (0), factor (0), add (0) { }
+    ~charact () { delete[] name; }
   };
+  csPDelArray<charact> chars;
   
   charact* FindCharact (const char* name) const;
 
-  csVector inventories;
+  csArray<iPcInventory*> inventories;
 
 public:
   celPcCharacteristics (iObjectRegistry* object_reg);
