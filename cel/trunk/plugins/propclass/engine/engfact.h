@@ -272,7 +272,7 @@ private:
   static int propertycount;
 
   static void UpdateProperties (iObjectRegistry* object_reg);
-  
+ 
 public:
   celPcRegion (iObjectRegistry* object_reg);
   virtual ~celPcRegion ();

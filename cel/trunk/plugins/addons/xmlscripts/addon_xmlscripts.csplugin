@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_xmlscripts.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.xmlscripts</name>
+        <implementation>celAddOnXmlScripts</implementation>
+	<description>CEL AddOn for Defining XML Scripts</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

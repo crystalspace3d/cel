@@ -235,6 +235,18 @@ private:
   bool HandleForce (float delta_t, iCollider* this_collider,
     iCelEntityList* cd_list);
 
+  enum propids
+  {
+    propid_weight = 0,
+    propid_applyforce
+  };
+
+  static Property* properties;
+  static int propertycount;
+  static csStringID action_applypermanentforce;
+
+  static void UpdateProperties (iObjectRegistry* object_reg);
+ 
 public:
   celPcGravity (iObjectRegistry* object_reg);
   virtual ~celPcGravity ();
@@ -261,6 +273,7 @@ public:
   virtual const char* GetName () const { return "pcgravity"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, const char* params);
 
   struct PcGravity : public iPcGravity
   {

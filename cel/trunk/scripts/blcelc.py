@@ -10463,6 +10463,7 @@ class iCelPlLayer(iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPlLayer, name)
     def FindEntity(*args): return apply(_blcelc.iCelPlLayer_FindEntity,args)
     def RemoveEntity(*args): return apply(_blcelc.iCelPlLayer_RemoveEntity,args)
+    def LoadPropertyClassFactory(*args): return apply(_blcelc.iCelPlLayer_LoadPropertyClassFactory,args)
     def CreatePropertyClass(*args): return apply(_blcelc.iCelPlLayer_CreatePropertyClass,args)
     def FetchString(*args): return apply(_blcelc.iCelPlLayer_FetchString,args)
     def GetBehaviourLayerCount(*args): return apply(_blcelc.iCelPlLayer_GetBehaviourLayerCount,args)

@@ -62,7 +62,6 @@ private:
   void SetupFrame ();
   void FinishFrame ();
 
-  bool LoadPcFactory (const char* classname);
   bool LoadTextures ();
   bool LoadTexture (const char* txtName, const char* fileName);
   bool CreateRoom ();

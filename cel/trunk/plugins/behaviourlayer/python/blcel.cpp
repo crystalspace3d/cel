@@ -1920,11 +1920,10 @@ iCelBehaviour *iCelEntity_CreateBehaviour(iCelEntity *self,iCelBlLayer *bl,char 
 
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
-  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-  	iPluginManager);
-  csRef<iBase> pf = CS_LOAD_PLUGIN_ALWAYS(plugin_mgr, pcfactname);
-  if (!pf) return false;
-  return true;
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
+  	iCelPlLayer);
+  bool rc = pl->LoadPropertyClassFactory (pcfactname);
+  return rc;
 }
 
 
@@ -93638,6 +93637,24 @@ static PyObject *_wrap_iCelPlLayer_RemoveEntity(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iCelPlLayer_LoadPropertyClassFactory(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    char *arg2 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"Os:iCelPlLayer_LoadPropertyClassFactory",&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_iCelPlLayer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (bool)(arg1)->LoadPropertyClassFactory((char const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCelPlLayer_CreatePropertyClass(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
@@ -102792,6 +102809,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"_CS_GET_FIRST_NAMED_CHILD_OBJECT", _wrap__CS_GET_FIRST_NAMED_CHILD_OBJECT, METH_VARARGS },
 	 { (char *)"iCelPlLayer_FindEntity", _wrap_iCelPlLayer_FindEntity, METH_VARARGS },
 	 { (char *)"iCelPlLayer_RemoveEntity", _wrap_iCelPlLayer_RemoveEntity, METH_VARARGS },
+	 { (char *)"iCelPlLayer_LoadPropertyClassFactory", _wrap_iCelPlLayer_LoadPropertyClassFactory, METH_VARARGS },
 	 { (char *)"iCelPlLayer_CreatePropertyClass", _wrap_iCelPlLayer_CreatePropertyClass, METH_VARARGS },
 	 { (char *)"iCelPlLayer_FetchString", _wrap_iCelPlLayer_FetchString, METH_VARARGS },
 	 { (char *)"iCelPlLayer_GetBehaviourLayerCount", _wrap_iCelPlLayer_GetBehaviourLayerCount, METH_VARARGS },
