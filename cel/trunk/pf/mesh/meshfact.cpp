@@ -155,16 +155,16 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   visible = true;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
-  char* factn = cd->value.s ? csStrNew (cd->value.s) : NULL;
+  char* factn = cd->value.s ? csStrNew (*cd->value.s) : NULL;
   cd = databuf->GetData (1); if (!cd) return false;
-  char* filen = cd->value.s ? csStrNew (cd->value.s) : NULL;
+  char* filen = cd->value.s ? csStrNew (*cd->value.s) : NULL;
 
   SetMesh (factn, filen);
   delete[] factn;
   delete[] filen;
 
   cd = databuf->GetData (2); if (!cd) return false;
-  SetAction (cd->value.s);
+  SetAction (*cd->value.s);
   cd = databuf->GetData (3); if (!cd) return false;
   if (cd->value.bo) Show ();
   else Hide ();
@@ -178,7 +178,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    iSector* s = engine->GetSectors ()->FindByName (cd->value.s);
+    iSector* s = engine->GetSectors ()->FindByName (*cd->value.s);
     CS_ASSERT (s != NULL);
     mesh->GetMovable ()->GetSectors ()->Add (s);
   }

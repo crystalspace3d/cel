@@ -21,7 +21,7 @@
 #define __CEL_PL_DATATYPE__
 
 #include "cstypes.h"
-#include "csutil/util.h"
+#include "csutil/scfstr.h"
 #include "csgeom/vector3.h"
 #include "pl/persist.h"
 
@@ -67,7 +67,7 @@ struct celData
     int32 l;
     uint32 ul;
     float f;
-    char* s;
+    iString* s;
     struct
     {
       float x, y, z;
@@ -84,7 +84,7 @@ struct celData
   }
   void Clear ()
   {
-    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) delete[] value.s;
+    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->DecRef ();
     else if (type == CEL_DATA_BUFFER && value.db) value.db->DecRef ();
     type = CEL_DATA_NONE;
   }
@@ -113,7 +113,7 @@ struct celData
   {
     Clear ();
     type = CEL_DATA_STRING;
-    value.s = csStrNew (s);
+    value.s = new scfString (s);
   }
   void Set (iCelPropertyClass* pc)
   {
@@ -138,7 +138,7 @@ struct celData
   {
     Clear ();
     type = CEL_DATA_ACTION;
-    value.s = csStrNew (s);
+    value.s = new scfString (s);
   }
 };
 

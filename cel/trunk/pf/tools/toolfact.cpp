@@ -131,7 +131,7 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
   delete[] text; text = NULL;
   cd = databuf->GetData (3); if (!cd) return false;
- text = csStrNew (cd->value.s);
+ text = csStrNew (*cd->value.s);
   cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
   cd = databuf->GetData (5); if (!cd) return false; text_g = cd->value.ub;
   cd = databuf->GetData (6); if (!cd) return false; text_b = cd->value.ub;
@@ -410,7 +410,7 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
   for (i = 0 ; i < cnt / 3 ; i++)
   {
     cd = databuf->GetData (j++); if (!cd) return false;
-    int idx = NewProperty (cd->value.s);
+    int idx = NewProperty (*cd->value.s);
     cd = databuf->GetData (j++); if (!cd) return false;
     property* p = (property*)properties[idx];
     p->type = (celDataType)cd->value.ub;
@@ -426,7 +426,7 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
         p->v.b = cd->value.bo;
 	break;
       case CEL_DATA_STRING:
-        p->v.s = csStrNew (cd->value.s);
+        p->v.s = csStrNew (*cd->value.s);
 	break;
       default:
         return false;
