@@ -8,6 +8,14 @@ The history order is reversed so that new features are at the top.
 	  the actor.
 	- Jorrit added iPcCamera::SetPitchVelocity() so that you can change
 	  pitch velocity (useful for looking up/down).
+	- Jorrit fixed a big bug in the handling of the timers in the
+	  standard physical layer. In case a property class was deleted
+	  but the ref table was not yet compressed the hash still contained
+	  an index to that property class (even though the weak ref table
+	  entry was 0 for that pc). This caused the function to register
+	  a new callback to fail because it thought there was already a
+	  callback for that pc. This could cause pctimer (among others) to
+	  fail in some cases.
 3-Sep-2004
 	- Eric Sunshine upgraded CEL to completely new (from scratch) msvcgen
 	  facility based upon TemplateToolkit.

@@ -702,6 +702,12 @@ size_t celPlLayer::WeakRegPC (iCelPropertyClass* pc)
     pc_idx = weak_pcs.Push (pc);
     weak_pcs_hash.Put (pc, pc_idx);
   }
+  else if (weak_pcs[pc_idx] == 0)
+  {
+    // The pc_idx is there but the pc has been deleted in the mean time.
+    // In that case we will update the pc in the table.
+    weak_pcs[pc_idx] = pc;
+  }
   return pc_idx;
 }
 
@@ -741,7 +747,7 @@ void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
 {
   size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
   // If our pc is not yet in the weak_pcs table then it can't possibly
-  // be in th every_frame table so we can return here already.
+  // be in the every_frame table so we can return here already.
   if (pc_idx == (size_t)~0) return;
 
   CallbackPCInfo* cbinfo = GetCBInfo (where);
