@@ -62,12 +62,15 @@ celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
 
   firing_messages = false;
   delete_me = false;
+  is_moving = false;
 
   celBillboard::layer = layer;
 }
 
 celBillboard::~celBillboard ()
 {
+  if (is_moving)
+    mgr->RemoveMovingBillboard (this);
   delete[] name;
   delete[] materialname;
   delete[] clickmap;
@@ -317,6 +320,11 @@ void celBillboard::GetPosition (int& x, int& y) const
 {
   x = bb_x;
   y = bb_y;
+}
+
+void celBillboard::MoveToPosition (csTicks delta, int x, int y)
+{
+  mgr->MoveToPosition (this, delta, x, y);
 }
 
 void celBillboard::SetPositionScreen (int x, int y)
@@ -583,11 +591,91 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
 
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
 
   return true;
+}
+
+int celBillboardManager::FindMovingBillboard (celBillboard* bb)
+{
+  int i;
+  for (i = 0 ; i < moving_billboards.Length () ; i++)
+  {
+    if (bb == moving_billboards[i].bb) return i;
+  }
+  return -1;
+}
+
+void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
+{
+  int i = moving_billboards.Length ()-1;
+  while (i >= 0)
+  {
+    movingBillboard& mbb = moving_billboards[i];
+    mbb.delta -= elapsed;
+    if (mbb.delta <= 0)
+    {
+      mbb.bb->SetPosition (mbb.dstx, mbb.dsty);
+      mbb.bb->is_moving = false;
+      moving_billboards.DeleteIndex (i);
+    }
+    else
+    {
+      float d = float (mbb.delta) / float (mbb.tot_delta);
+      mbb.bb->SetPosition (
+      	int ((1.0-d) * float (mbb.dstx) + d * float (mbb.srcx)),
+      	int ((1.0-d) * float (mbb.dsty) + d * float (mbb.srcy)));
+    }
+    i--;
+  }
+}
+
+void celBillboardManager::RemoveMovingBillboard (celBillboard* bb)
+{
+  int i = FindMovingBillboard (bb);
+  moving_billboards.DeleteIndex (i);
+  bb->is_moving = false;
+}
+
+void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta, int x, int y)
+{
+  if (bb->is_moving)
+  {
+    int i = FindMovingBillboard (bb);
+    CS_ASSERT (i != -1);
+    if (delta == 0)
+    {
+      moving_billboards.DeleteIndex (i);
+      bb->is_moving = false;
+      bb->SetPosition (x, y);
+      return;
+    }
+    movingBillboard& mbb = moving_billboards[i];
+    mbb.delta = delta;
+    mbb.tot_delta = delta;
+    bb->GetPosition (mbb.srcx, mbb.srcy);
+    mbb.dstx = x;
+    mbb.dsty = y;
+    return;
+  }
+  if (delta == 0)
+  {
+    bb->SetPosition (x, y);
+    return;
+  }
+
+  bb->is_moving = true;
+  movingBillboard mbb;
+  mbb.bb = bb;
+  mbb.delta = delta;
+  mbb.tot_delta = delta;
+  bb->GetPosition (mbb.srcx, mbb.srcy);
+  mbb.dstx = x;
+  mbb.dsty = y;
+  moving_billboards.Push (mbb);
 }
 
 celBillboard* celBillboardManager::FindBillboard (int x, int y,
@@ -613,7 +701,11 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
   switch (ev.Type)
   {
     case csevBroadcast:
-      if (ev.Command.Code == cscmdPostProcess)
+      if (ev.Command.Code == cscmdPreProcess)
+      {
+        HandleMovingBillboards (vc->GetElapsedTicks ());
+      }
+      else if (ev.Command.Code == cscmdPostProcess)
       {
         if (billboards.Length () > 0)
 	{

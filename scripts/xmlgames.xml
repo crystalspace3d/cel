@@ -72,6 +72,11 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
+        <texture name="rock">
+	    <file>/cellib/images/rock.png</file>
+	    <transparent red="0" green="0" blue="0" />
+	    <keepimage />
+        </texture>
         <texture name="explosion_c">
 	    <file>/cellib/images/explosion_c.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -135,6 +140,7 @@
         <material name="mushroom"> <texture>mushroom</texture> </material>
         <material name="diamond"> <texture>diamond</texture> </material>
         <material name="bomb"> <texture>bomb</texture> </material>
+        <material name="rock"> <texture>rock</texture> </material>
         <material name="explosion_c"> <texture>explosion_c</texture> </material>
         <material name="explosion_b"> <texture>explosion_b</texture> </material>
         <material name="explosion_t"> <texture>explosion_t</texture> </material>
@@ -361,22 +367,12 @@
 	    </event>
 
 	    <!--
-	      - Do the move transition of this object.
-	      - Uses ?srcx,?srcy, ?dstx,?dsty, and ?delta.
+	      - The move ends.
 	      -->
-	    <event name="pctimer_wakeupframe">
+	    <event name="pctimer_wakeup">
 	        <if eval="?moving">
-		    <if eval="?delta>=1">
-		        <true>
-			    <var name="moving" value="false" />
-			    <bb_move x="?dstx" y="?dsty" />
-			    <call event="endmove" />
-		        </true>
-		        <false>
-			    <bb_move x="intpol(?delta,?srcx,?dstx)" y="intpol(?delta,?srcy,?dsty)" />
-			    <var name="delta" value="?delta+?speed*@elapsedticks" />
-		        </false>
-		    </if>
+		    <var name="moving" value="false" />
+		    <call event="endmove" />
 		</if>
 	    </event>
 
@@ -399,7 +395,11 @@
 		<var name="dsty" value="?y*?dim" />
 		<var name="delta" value="0.0" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="propid(WakeUp)">
+		    <par id="parid(time)" value="int(1000*?speed)" />
+		    <par id="parid(repeat)" value="false" />
+		</action>
+		<bb_move x="?dstx" y="?dsty" delta="int(1000*?speed)" />
 	    </event>
 	</script>
 
@@ -664,9 +664,9 @@
 		<!-- Set some defaults -->
 		<var name="dimension" value="16" />
 		<var name="blockdim" value="18000" />
-		<var name="herospeed" value="0.03" />
-		<var name="monsterspeed" value="0.003" />
-		<var name="fruitspeed" value="0.002" />
+		<var name="herospeed" value=".1" />
+		<var name="monsterspeed" value=".4" />
+		<var name="fruitspeed" value=".4" />
 		<var name="fruitmax" value="5" />
 		<var name="fruitcnt" value="0" />
 		<var name="monstercnt" value="2" />
@@ -768,7 +768,7 @@
 	        <var name="dxdy" value="int(rand(4.0))" />
 		<call event="calcdxdy" />
 
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
+		<call event="endmove" />
 	    </event>
 
 	    <!--
@@ -777,12 +777,8 @@
 	      - ?x and ?y for current position. If it can't move
 	      - in some direction it will change direction.
 	      -->
-	    <event name="pctimer_wakeupframe">
+	    <event name="endmove">
 	        <super />
-	        <if eval="?moving">
-		    <stop />
-		</if>
-		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 		<!-- Check if there is a free block sideways. If so we have a random
 		     chance of trying that direction -->
 		<if eval="rand(5)>3">
@@ -814,6 +810,7 @@
 		    <false>
 			<var name="dxdy" value="int(rand(4.0))" />
 			<call event="calcdxdy" />
+			<call event="endmove" />
 		    </false>
 		</if>
 	    </event>
@@ -916,7 +913,7 @@
 	      - Override from superscript so that we can check collision
 	      - here.
 	      -->
-	    <event name="pctimer_wakeupframe">
+	    <event name="endmove">
 	        <super />
 		<for var="i" start="1" end="?maze_main.monstercnt">
 		    <var name="pc" value="?maze_main.(bb_monster+?i)" />
@@ -1007,9 +1004,9 @@
 		<!-- Set some defaults -->
 		<var name="dimension" value="64" />
 		<var name="blockdim" value="19200" />
-		<var name="herospeed" value="0.03" />
+		<var name="herospeed" value="0.07" />
+		<var name="fallspeed" value="0.15" />
 		<var name="boardspeed" value="0.003" />
-		<var name="fallspeed" value="0.006" />
 
 		<!-- Size of the visible area in blocks -->
 		<var name="vis" value="307200/?blockdim" />
@@ -1034,6 +1031,7 @@
 		<var name="'material_X'" value="diamond" />
 		<var name="'material_O'" value="bomb" />
 		<var name="'material_o'" value="bomb" />
+		<var name="'material_R'" value="rock" />
 		<var name="'material_exp_c'" value="explosion_c" />
 		<var name="'material_exp_t'" value="explosion_t" />
 		<var name="'material_exp_l'" value="explosion_l" />
@@ -1051,6 +1049,7 @@
 		<var name="'behaviour_X'" value="bdash_diamond" />
 		<var name="'behaviour_O'" value="bdash_bomb" />
 		<var name="'behaviour_o'" value="bdash_timedbomb" />
+		<var name="'behaviour_R'" value="bdash_movable" />
 		<var name="'behaviour_exp_c'" value="bdash_explosion" />
 		<var name="'behaviour_exp_t'" value="bdash_explosion" />
 		<var name="'behaviour_exp_l'" value="bdash_explosion" />
@@ -1067,7 +1066,8 @@
 		<var name="'falloff_#'" value="false" />
 		<var name="'falloff_X'" value="true" />
 		<var name="'falloff_O'" value="false" />
-		<var name="'falloff_o'" value="false" />
+		<var name="'falloff_o'" value="true" />
+		<var name="'falloff_R'" value="true" />
 		<var name="'falloff_exp_c'" value="false" />
 		<var name="'falloff_exp_t'" value="false" />
 		<var name="'falloff_exp_l'" value="false" />
@@ -1091,15 +1091,16 @@
 		<var name="'explode_X'" value="1" />
 		<var name="'explode_O'" value="2" />
 		<var name="'explode_o'" value="2" />
-		<var name="'explode_exp_c'" value="0" />
-		<var name="'explode_exp_t'" value="0" />
-		<var name="'explode_exp_l'" value="0" />
-		<var name="'explode_exp_b'" value="0" />
-		<var name="'explode_exp_r'" value="0" />
-		<var name="'explode_exp_bl'" value="0" />
-		<var name="'explode_exp_br'" value="0" />
-		<var name="'explode_exp_tl'" value="0" />
-		<var name="'explode_exp_tr'" value="0" />
+		<var name="'explode_R'" value="1" />
+		<var name="'explode_exp_c'" value="1" />
+		<var name="'explode_exp_t'" value="1" />
+		<var name="'explode_exp_l'" value="1" />
+		<var name="'explode_exp_b'" value="1" />
+		<var name="'explode_exp_r'" value="1" />
+		<var name="'explode_exp_bl'" value="1" />
+		<var name="'explode_exp_br'" value="1" />
+		<var name="'explode_exp_tl'" value="1" />
+		<var name="'explode_exp_tr'" value="1" />
 
 		<!--  Create the maze -->
 		<var name="row0"  value="'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'" />
@@ -1116,20 +1117,20 @@
 		<var name="row11" value="'B#########     B     ##########                                B'" />
 		<var name="row12" value="'B#########     B                                               B'" />
 		<var name="row13" value="'B              B                   #       B                   B'" />
-		<var name="row14" value="'B              B       O               B  #                    B'" />
+		<var name="row14" value="'B              B   R   O               B  #                    B'" />
 		<var name="row15" value="'B              B   #X X#                                       B'" />
 		<var name="row16" value="'B              B   #XHX#     B      #     #                    B'" />
 		<var name="row17" value="'B                  #XXX#     B    X   X                        B'" />
 		<var name="row18" value="'B                  #####     B    B   #                        B'" />
-		<var name="row19" value="'B                 O          B                                 B'" />
-		<var name="row20" value="'B                ###         B                                 B'" />
+		<var name="row19" value="'B             R  RO          B                                 B'" />
+		<var name="row20" value="'B            #######         B                                 B'" />
 		<var name="row21" value="'B                            B                                 B'" />
 		<var name="row22" value="'B                BBB         B                                 B'" />
 		<var name="row23" value="'B       B                    B                                 B'" />
 		<var name="row24" value="'B       B                    B                                 B'" />
 		<var name="row25" value="'B       B                    B                                 B'" />
 		<var name="row26" value="'B       B                                                      B'" />
-		<var name="row27" value="'B       B    O                                                 B'" />
+		<var name="row27" value="'B       B    O         RRR                                     B'" />
 		<var name="row28" value="'B       B    ##XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row29" value="'B       B     #XXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
 		<var name="row30" value="'B       B     #XXXXXXXXXXXOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#  B'" />
@@ -1202,11 +1203,9 @@
 		    <inventory propclass="pc(pcinventory)" />
 		    <var name="hero" value="ent(hero)" />
 		    <inventory_add child="?hero" />
-		    <var name="maze+#mazepos" value="' '" />
 		    <var name="mazeent+#mazepos" value="''" />
 		    <stop />
 		</if>
-		<var name="maze+#mazepos" value="?blocktype" />
 	    	<if eval="?blocktype != ' '">
 		    <lvar name="entname" value="#mazepos+'_'+?entity_number" />
 		    <var name="entity_number" value="?entity_number+1" />
@@ -1242,13 +1241,11 @@
 		        <lvar name="oldy" value="?(#ent).y" />
 		    </if>
 		    <lvar name="old_mazepos" value="#oldx+'_'+#oldy" />
-		    <var name="maze+#old_mazepos" value="' '" />
 		    <var name="mazeent+#old_mazepos" value="''" />
 		</if>
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_rem child="#ent" />
 		<destroyentity name="#ent" />
-	        <var name="maze+#mazepos" value="' '" />
 		<var name="mazeent+#mazepos" value="''" />
 	    </event>
 
@@ -1287,7 +1284,6 @@
 	      -->
 	    <event name="setblock">
 	    	<lvar name="mazepos" value="@x+'_'+@y" />
-	        <var name="maze+#mazepos" value="@blocktype" />
 		<var name="mazeent+#mazepos" value="@entity" />
 		<if eval="@blocktype == ' '">
 		    <call event="checkfall">
@@ -1340,6 +1336,7 @@
 	    <event name="get_entity_nohero">
 		<return value="?(mazeent+@x+'_'+@y)" />
 	    </event>
+
 	    <!--
 	      - Get the entity at some position. This uses both the maze information
 	      - as the position of the hero. Use @x and @y parameters.
@@ -1354,6 +1351,34 @@
 		    <return value="?hero" />
 	        </if>
 		<return value="''" />
+	    </event>
+
+	    <!--
+	      - Get the block type at some position. Parameters are @x
+	      - and @y.
+	      -->
+	    <event name="get_blocktype">
+	        <lvar name="ent" value="get_entity(x=@x,y=@y)" />
+		<if eval="#ent == ''">
+		    <return value="' '" />
+	        </if>
+		<return value="?(#ent).blocktype" />
+	    </event>
+
+	    <!--
+	      - Get the falloff property for a given block. In case the
+	      - block is moving this will always return false.
+	      - Parameters are @x and @y.
+	      -->
+	    <event name="get_falloff">
+	        <lvar name="ent" value="get_entity(x=@x,y=@y)" />
+		<if eval="#ent == ''">
+		    <return value="false" />
+	        </if>
+		<if eval="?(#ent).moving">
+		    <return value="false" />
+		</if>
+		<return value="?(falloff_+?(#ent).blocktype)" />
 	    </event>
 
 	    <!--
@@ -1383,9 +1408,7 @@
 		        <!-- Then we check if the block at -1,-1 from us can fall down -->
 		        <lvar name="ent" value="get_entity(x=@x-1,y=@y-1)" />
 		        <if eval="#ent != ''">
-	    	            <lvar name="mazepos" value="(@x-1)+'_'+@y" />
-		            <lvar name="below_block" value="?(maze+#mazepos)" />
-		            <if eval="?(falloff_+#below_block)">
+		            <if eval="get_falloff(x=@x-1,y=@y)">
 		                <call entity="#ent" event="falldown">
 				    <par id="parid(dx)" value="1" />
 				    <par id="parid(dy)" value="1" />
@@ -1396,9 +1419,7 @@
 		        </if>
 		        <lvar name="ent" value="get_entity(x=@x+1,y=@y-1)" />
 		        <if eval="#ent != ''">
-	    	            <lvar name="mazepos" value="(@x+1)+'_'+@y" />
-		            <lvar name="below_block" value="?(maze+#mazepos)" />
-		            <if eval="?(falloff_+#below_block)">
+		            <if eval="get_falloff(x=@x+1,y=@y)">
 		                <call entity="#ent" event="falldown">
 				    <par id="parid(dx)" value="-1" />
 				    <par id="parid(dy)" value="1" />
@@ -1413,9 +1434,7 @@
 		<if eval="#ent == ''">
 		    <lvar name="ent" value="get_entity(x=@x-1,y=@y)" />
 		    <if eval="#ent != ''">
-	    	        <lvar name="mazepos" value="(@x-1)+'_'+(@y+1)" />
-		        <lvar name="below_block" value="?(maze+#mazepos)" />
-		        <if eval="?(falloff_+#below_block)">
+		        <if eval="get_falloff(x=@x-1,y=@y+1)">
 		            <call entity="#ent" event="falldown">
 				<par id="parid(dx)" value="1" />
 				<par id="parid(dy)" value="1" />
@@ -1426,9 +1445,7 @@
 		    </if>
 		    <lvar name="ent" value="get_entity(x=@x+1,y=@y)" />
 		    <if eval="#ent != ''">
-	    	        <lvar name="mazepos" value="(@x+1)+'_'+(@y+1)" />
-		        <lvar name="below_block" value="?(maze+#mazepos)" />
-		        <if eval="?(falloff_+#below_block)">
+		        <if eval="get_falloff(x=@x+1,y=@y+1)">
 		            <call entity="#ent" event="falldown">
 				<par id="parid(dx)" value="-1" />
 				<par id="parid(dy)" value="1" />
@@ -1456,9 +1473,7 @@
 		        <par id="parid(y)" value="#y" />
 		    </call>
 	    	</if>
-	    	<lvar name="mazepos" value="#x+'_'+#y" />
-		<lvar name="below_block" value="?(maze+#mazepos)" />
-		<if eval="?(falloff_+#below_block)">
+		<if eval="get_falloff(x=#x,y=#y)">
 		    <lvar name="ent" value="get_entity(x=#x-1,y=#y)" />
 		    <if eval="#ent == ''">
 		    	<lvar name="x" value="(#x-1)" />
@@ -1484,9 +1499,7 @@
 	      - Parameters: @x, @y, and @blocktype.
 	      -->
 	    <event name="explodeblock">
-	    	<lvar name="mazepos" value="@x+'_'+@y" />
-		<lvar name="oldblocktype" value="?(maze+#mazepos)" />
-		<lvar name="explode" value="?('explode_'+#oldblocktype)" />
+		<lvar name="explode" value="?('explode_'+get_blocktype(x=@x,y=@y))" />
 		<if eval="#explode!=0">
 		    <call event="clearblock_nocheck">
 			<par id="parid(x)" value="@x" />
@@ -1498,6 +1511,7 @@
 			<par id="parid(y)" value="@y" />
 		    </call>
 		    <if eval="#explode==2">
+			<lvar name="mazepos" value="@x+'_'+@y" />
 		    	<lvar name="ent" value="?(mazeent+#mazepos)" />
 			<call entity="#ent" event="explode_later" />
 		    </if>
@@ -1604,8 +1618,7 @@
 	  - All scripts below (for blocks and hero) have the following common
 	  - events:
 	  -	- falldown: Called on the object when it could potentially fall down.
-	  -	  Uses @dx and @dy parameters. Sets ?bdashmain.fallen to
-	  -	  true if object did really started falling.
+	  -	  Uses @dx and @dy parameters. Returns true if object really falls.
 	  -->
 
 	<!-- *****************************************************
@@ -1654,16 +1667,6 @@
 	    </event>
 
 	    <!--
-	      - Override from superscript so that we can check collision
-	      - here.
-	      -->
-	    <event name="pctimer_wakeupframe">
-	        <super />
-		<var entity="bdash_main" name="layer_movetox" value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
-		<var entity="bdash_main" name="layer_movetoy" value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
-	    </event>
-
-	    <!--
 	      - Routine used by the checkmove events below to clear a block.
 	      - This version does not force a falling object check because
 	      - it is supposed to be used when the player moves to the clear
@@ -1693,10 +1696,27 @@
 	      -->
 	    <event name="endmove">
 	    	<super />
-		<call entity="bdash_main" event="checkfall">
+		<var entity="bdash_main" name="layer_movetox" value="(?bdash_main.vis/2-?x)*?bdash_main.blockdim" />
+		<var entity="bdash_main" name="layer_movetoy" value="(?bdash_main.vis/2-?y)*?bdash_main.blockdim" />
+		<call entity="bdash_main" event="ifempty_checkfall">
 		    <par id="parid(x)" value="?oldx" />
 		    <par id="parid(y)" value="?oldy" />
 	    	</call>
+	    </event>
+
+	    <!--
+	      - Perform a push if possible.
+	      -->
+	    <event name="trypush">
+	    	<if eval="?dy==0">
+		    <if eval="bdash_main::get_entity(x=?newx+?dx,y=?newy) == ''">
+		    	<lvar name="ent" value="bdash_main::get_entity(x=?newx,y=?newy)" />
+			<var entity="#ent" name="dx" value="?dx" />
+			<var entity="#ent" name="dy" value="?dy" />
+			<call entity="#ent" event="startmove" />
+			<call event="startmove" />
+		    </if>
+		</if>
 	    </event>
 
 	    <!--
@@ -1712,8 +1732,7 @@
 		</if>
 		<var name="newx" value="?x+?dx" />
 		<var name="newy" value="?y+?dy" />
-	    	<var name="mazepos" value="?newx+'_'+?newy" />
-		<call event="checkmove_+?bdash_main.(maze+?mazepos)" />
+		<call event="checkmove_+bdash_main::get_blocktype(x=?newx,y=?newy)" />
 	    </event>
 
 	    <event name="checkmove_ ">
@@ -1726,6 +1745,13 @@
 	    <event name="checkmove_B">
 	    </event>
 	    <event name="checkmove_O">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_R">
+	    	<call event="trypush" />
+	    </event>
+	    <event name="checkmove_o">
+		<call event="startmove" />
 	    </event>
 	    <event name="checkmove_X">
 		<sound name="bloop" loop="false" />
@@ -1750,6 +1776,10 @@
 		        <par id="parid(x)" value="?x" />
 		        <par id="parid(y)" value="?y" />
 		    </call>
+		    <call entity="bdash_main" event="ifempty_checkfall">
+		        <par id="parid(x)" value="?x" />
+		        <par id="parid(y)" value="?y+1" />
+	    	    </call>
 	        </if>
 	    </event>
 	    <event name="pckeyinput_right1">
@@ -1810,12 +1840,13 @@
 		<var name="moving" value="false" />
 	        <var name="x" value="?bdash_main.x" />
 	        <var name="y" value="?bdash_main.y" />
+	        <var name="blocktype" value="?bdash_main.blocktype" />
 
 	        <createpropclass name="pcbillboard" />
 	        <createpropclass name="pcproperties" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(name)" value="block" />
-	        <property id="propid(materialname)" value="?bdash_main.(material_+?bdash_main.blocktype)" />
+	        <property id="propid(materialname)" value="?bdash_main.(material_+?blocktype)" />
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="false" />
 	        <property id="propid(restack)" value="false" />
@@ -1907,11 +1938,14 @@
 	    <superscript name="bdash_movable" />
 
 	    <event name="endmove">
-		<if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
-		    <call entity="bdash_main" event="new_explosion">
-			<par id="parid(x)" value="?x" />
-			<par id="parid(y)" value="?y" />
-		    </call>
+	        <!-- Don't explode for pure horizontal moves -->
+	    	<if eval="?dy!=0">
+		    <if eval="?bdash_main.(mazeent+?x+'_'+(?y+1)) != ''">
+		        <call entity="bdash_main" event="new_explosion">
+			    <par id="parid(x)" value="?x" />
+			    <par id="parid(y)" value="?y" />
+		        </call>
+		    </if>
 		</if>
 		<super />
 	    </event>
@@ -1930,6 +1964,7 @@
 		<var name="anim" value="200" />
 		<action propclass="pc(pctimer)" id="propid(WakeUpFrame)" />
 		<default propclass="?pcbb" />
+		<var name="offset" value="0" />
 		<var name="origx" value="property(?pcbb,propid(x))" />
 		<var name="origy" value="property(?pcbb,propid(y))" />
 	    </event>
@@ -1940,17 +1975,21 @@
 	    </event>
 
 	    <event name="pctimer_wakeupframe">
-	    	<super />
 		<if eval="?timeout==-1">
 		    <var name="timeout" value="2000" />
 		    <stop />
 		</if>
 		<var name="timeout" value="?timeout-@elapsedticks" />
 		<if eval="?timeout<0">
+		    <call entity="bdash_main" event="clearblock_nocheck">
+			<par id="parid(x)" value="?x" />
+			<par id="parid(y)" value="?y" />
+		    </call>
 		    <call entity="bdash_main" event="new_explosion">
 			<par id="parid(x)" value="?x" />
 			<par id="parid(y)" value="?y" />
 		    </call>
+		    <stop />
 		</if>
 		<var name="anim" value="?anim-@elapsedticks" />
 		<if eval="?anim<0">
@@ -1961,8 +2000,10 @@
 		<lvar name="dim" value="(600-?anim)*#bd/600.0" />
 	        <property id="propid(width)" value="#dim" />
 	        <property id="propid(height)" value="#dim" />
-	        <property id="propid(x)" value="?origx+(#bd-#dim)/2" />
-	        <property id="propid(y)" value="?origy+(#bd-#dim)/2" />
+		<lvar name="old_offset" value="?offset" />
+		<var name="offset" value="(#bd-#dim)/2" />
+		<property id="propid(x)" value="property(?pcbb,propid(x))-#old_offset+?offset" />
+		<property id="propid(y)" value="property(?pcbb,propid(y))-#old_offset+?offset" />
 	    </event>
 	</script>
 

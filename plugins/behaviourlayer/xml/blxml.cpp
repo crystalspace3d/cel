@@ -1151,7 +1151,16 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  return false;
         if (!ParseExpression (local_vars, child, h, "y", "bb_move"))
 	  return false;
-	h->AddOperation (CEL_OPERATION_BB_MOVE);
+	if (child->GetAttributeValue ("delta"))
+	{
+          if (!ParseExpression (local_vars, child, h, "delta", "bb_move"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_BB_MOVEDELTA);
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_BB_MOVE);
+	}
         break;
       case XMLTOKEN_BB_MOVELAYER:
         if (!ParseExpression (local_vars, child, h, "layer", "bb_movelayer"))

@@ -223,6 +223,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   scfiEventHandler = 0;
   enabled = false;
   wakeupframe = false;
+  wakeuponce = false;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
@@ -282,18 +283,19 @@ bool celPcTimer::PerformAction (csStringID actionId,
   return false;
 }
 
-#define TIMER_SERIAL 2
+#define TIMER_SERIAL 3
 
 csPtr<iCelDataBuffer> celPcTimer::Save ()
 {
   csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
   csRef<iCelDataBuffer> databuf (pl->CreateDataBuffer (TIMER_SERIAL));
-  databuf->SetDataCount (5);
+  databuf->SetDataCount (6);
   databuf->GetData (0)->SetBool (enabled);
   databuf->GetData (1)->Set ((int32)wakeup);
   databuf->GetData (2)->Set ((int32)wakeup_todo);
   databuf->GetData (3)->SetBool (repeat);
   databuf->GetData (4)->SetBool (wakeupframe);
+  databuf->GetData (5)->SetBool (wakeuponce);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -301,7 +303,7 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TIMER_SERIAL) return false;
-  if (databuf->GetDataCount () != 5) return false;
+  if (databuf->GetDataCount () != 6) return false;
   celData* cd;
   cd = databuf->GetData (0); if (!cd) return false;
   enabled = cd->value.bo;
@@ -313,6 +315,8 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
   repeat = cd->value.bo;
   cd = databuf->GetData (4); if (!cd) return false;
   wakeupframe = cd->value.bo;
+  cd = databuf->GetData (5); if (!cd) return false;
+  wakeuponce = cd->value.bo;
 
   return true;
 }
@@ -321,6 +325,7 @@ void celPcTimer::Clear ()
 {
   enabled = false;
   wakeupframe = false;
+  wakeuponce = false;
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
@@ -332,7 +337,7 @@ void celPcTimer::Clear ()
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
-  wakeupframe = false;
+  wakeuponce = true;
   if (!scfiEventHandler)
   {
     scfiEventHandler = new EventHandler (this);
@@ -377,7 +382,7 @@ bool celPcTimer::HandleEvent (iEvent& ev)
       celData ret;
       bh->SendMessage ("pctimer_wakeupframe", ret, params);
     }
-    else
+    if (wakeuponce)
     {
       csTicks elapsed = vc->GetElapsedTicks ();
       wakeup_todo += elapsed;
@@ -389,7 +394,14 @@ bool celPcTimer::HandleEvent (iEvent& ev)
         }
         else
         {
-          Clear ();
+	  if (wakeupframe)
+	  {
+	    wakeuponce = false;
+	  }
+	  else
+	  {
+            Clear ();
+	  }
         }
         iCelBehaviour* bh = entity->GetBehaviour ();
         CS_ASSERT (bh != 0);
