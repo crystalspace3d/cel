@@ -458,8 +458,8 @@
 	        <property name="pcbillboard.restack" bool="1" />
 	        <property name="pcbillboard.widthpct" float=".40" />
 	        <property name="pcbillboard.heightpct" float=".40" />
-	        <property name="pcbillboard.x" long="290000" />
-	        <property name="pcbillboard.y" long="290000" />
+	        <property name="pcbillboard.x" long="160000" />
+	        <property name="pcbillboard.y" long="160000" />
 	    </propclass>
             <behaviour name="lamp" />
 	</addon>
