@@ -26,7 +26,7 @@
 SCF_DECLARE_FAST_INTERFACE (iPcMeshSelectData)
 SCF_DECLARE_FAST_INTERFACE (iPcMeshSelect)
 
-struct iCamera;
+struct iPcCamera;
 struct iPcMovable;
 struct iPcMesh;
 class csVector3;
@@ -69,7 +69,7 @@ struct iPcMeshSelect : public iBase
   /**
    * Set the camera to use for mesh selection.
    */
-  virtual void SetCamera (iCamera* camera) = 0;
+  virtual void SetCamera (iPcCamera* camera) = 0;
 
   /**
    * Indicate (with a bit-mask) for which buttons this
@@ -141,11 +141,13 @@ struct iPcMeshSelect : public iBase
    * space which means that the object will drag according
    * to screen coordinates.
    */
-  virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space) = 0;
+  virtual void SetDragPlaneNormal (const csVector3& drag_normal,
+  	bool camera_space) = 0;
   /**
    * Get the drag normal and camera space flag.
    */
-  virtual void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const = 0;
+  virtual void GetDragPlaneNormal (csVector3& drag_normal,
+  	bool& camera_space) const = 0;
 
   /**
    * If true then also send messages on mouse move (only

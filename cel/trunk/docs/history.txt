@@ -1,3 +1,33 @@
+13-Nov-2001:
+	- Modified pcmeshsel property class to work through
+	  the pccamera property class instead of using iCamera
+	  directly. This also fixes the bug with saving of the
+	  pcmeshsel property class.
+	- Added an event handler to pccamera. It is now responsible for
+	  drawing and moving the camera. celtest no longer contains code
+	  for this. In the future it will be possible to say how the camera
+	  should move (first person, third person, fixed camera position,
+	  user defined movement strategy, ...).
+	- Extended pcregion with the ability to initialize a pccamera to
+	  a given starting position. Also extended pcregion with the ability
+	  to go to a named starting position as opposed to only the default
+	  one.
+	- 'celtest' no longer has a pointer to the default view. It doesn't
+	  even know what entity holds the view or camera.
+	- Classic persistance module now writes a marker 'CEL0' in front
+	  of the saved file. That makes it easier to recognize saved CEL
+	  files.
+	- Fixed the crash at exit in CEL by actually fixing a bug in CS :-)
+	- Use the reporter for error reporting in classic persistance module.
+	  Only for loading at this moment and only for the persistance module
+	  itself. The individual property classes do not yet use the
+	  reporter to report their errors.
+	- Fixed a bug in pcregion loader.
+	- Fixed a bug in pcmesh loader. Forgot to save the factory name
+	  and properly initialize the mesh.
+	- Implemented loading in CEL persistance module. At this moment loading
+	  itself seems to work (i.e. it does not crash). However celtest
+	  crashes right after loading so I have to investigate why.
 12-Nov-2001:
 	- Created new cpersist plugin. This plugin will implement
 	  'classic persistance' for CEL. This plugin does not do

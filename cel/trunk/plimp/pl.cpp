@@ -195,11 +195,11 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
   celEntityFinder* cef = CS_GET_CHILD_OBJECT_FAST (object, celEntityFinder);
   if (cef)
   {
-    cef->DecRef ();
-    if (cef->GetEntity () != entity) return;
+    if (cef->GetEntity () != entity) { cef->DecRef (); return; }
     iObject* cef_obj = SCF_QUERY_INTERFACE_FAST (cef, iObject);
     object->ObjRemove (cef_obj);
     cef_obj->DecRef ();
+    cef->DecRef ();
   }
 }
 

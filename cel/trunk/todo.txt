@@ -52,4 +52,9 @@ name of entities are unique? Unique name generator.
 IMPORTANT: Consider class names for entities in addition to
 names? i.e. name: "small box", class: "box".
 
+Add support for KEY/VALUE system for placement of entities.
+
+Use reporter to report error conditions (especially in persistance
+layer).
+
 

@@ -32,6 +32,10 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct iGraphics3D;
+struct iEngine;
+struct iVirtualClock;
+struct iKeyboardDriver;
 class csView;
 
 /**
@@ -70,12 +74,20 @@ class celPcCamera : public iCelPropertyClass
 private:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
+  iGraphics3D* g3d;
+  iEngine* engine;
+  iKeyboardDriver* kbd;
+  iVirtualClock* vc;
   csView* view;
   iView* iview;
+
+  void SetupEventHandler ();
 
 public:
   celPcCamera (iObjectRegistry* object_reg);
   virtual ~celPcCamera ();
+
+  bool HandleEvent (iEvent& ev);
 
   iCamera* GetCamera () const;
   iView* GetView () const { return iview; }
@@ -101,6 +113,14 @@ public:
       return scfParent->GetView ();
     }
   } scfiPcCamera;
+  struct EventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return scfParent->HandleEvent (ev);
+    }
+  } scfiEventHandler;
 };
 
 /**
@@ -115,6 +135,10 @@ private:
   char* worldfile;
   char* regionname;
   bool loaded;
+
+  iPcCamera* pointcamera;
+  char* startname;
+
   // This property class maintains private child entities
   // which are used for collision detection.
   csVector entities;
@@ -130,8 +154,9 @@ public:
   const char* GetRegionName () const { return regionname; }
   bool Load ();
   void Unload ();
-  iSector* GetStartSector ();
-  csVector3 GetStartPosition ();
+  iSector* GetStartSector (const char* name);
+  csVector3 GetStartPosition (const char* name);
+  void PointCamera (iPcCamera* pccamera, const char* name);
 
   SCF_DECLARE_IBASE;
 
@@ -173,13 +198,17 @@ public:
     {
       scfParent->Unload ();
     }
-    virtual iSector* GetStartSector ()
+    virtual iSector* GetStartSector (const char* name = NULL)
     {
-      return scfParent->GetStartSector ();
+      return scfParent->GetStartSector (name);
     }
-    virtual csVector3 GetStartPosition ()
+    virtual csVector3 GetStartPosition (const char* name = NULL)
     {
-      return scfParent->GetStartPosition ();
+      return scfParent->GetStartPosition (name);
+    }
+    virtual void PointCamera (iPcCamera* pccamera, const char* name = NULL)
+    {
+      scfParent->PointCamera (pccamera, name);
     }
   } scfiPcRegion;
 };

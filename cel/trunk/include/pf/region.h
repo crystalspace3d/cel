@@ -25,6 +25,7 @@
 #include "csutil/scf.h"
 
 struct iSector;
+struct iPcCamera;
 
 SCF_DECLARE_FAST_INTERFACE (iPcRegion)
 
@@ -68,14 +69,26 @@ struct iPcRegion : public iBase
   virtual void Unload () = 0;
 
   /**
-   * Get start sector.
+   * Get start sector. The given name is the name
+   * of the starting position to use. If NULL is
+   * given then the default position will be used.
    */
-  virtual iSector* GetStartSector () = 0;
+  virtual iSector* GetStartSector (const char* name = NULL) = 0;
 
   /**
-   * Get start position.
+   * Get start position. The given name is the name
+   * of the starting position to use. If NULL is
+   * given then the default position will be used.
    */
-  virtual csVector3 GetStartPosition () = 0;
+  virtual csVector3 GetStartPosition (const char* name = NULL) = 0;
+
+  /**
+   * Update the given pccamera so that it points to the
+   * starting position in this region. The given name is
+   * the name of the starting position to use. If NULL
+   * is given then the default position will be used.
+   */
+  virtual void PointCamera (iPcCamera* pccamera, const char* name = NULL) = 0;
 };
 
 #endif // __CEL_PF_REGION__

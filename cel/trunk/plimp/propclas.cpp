@@ -76,7 +76,6 @@ bool celPropertyClassList::Remove (int n)
   CS_ASSERT (n >= 0 && n < prop_classes.Length ());
   iCelPropertyClass* obj = (iCelPropertyClass*)prop_classes[n];
   prop_classes.Delete (n);
-  obj->SetEntity (NULL);
   obj->DecRef ();
   return true;
 }

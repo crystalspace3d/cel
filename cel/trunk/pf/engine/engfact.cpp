@@ -29,6 +29,11 @@
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
+#include "iutil/virtclk.h"
+#include "iutil/csinput.h"
+#include "iutil/eventq.h"
+#include "iutil/event.h"
+#include "iutil/evdefs.h"
 #include "imap/parser.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -101,29 +106,91 @@ iCelPropertyClass* celPfEngine::CreatePropertyClass (const char* type)
 SCF_IMPLEMENT_IBASE (celPcCamera)
   SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::PcCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCamera::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcCamera::celPcCamera (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_IBASE (NULL);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiEventHandler);
   celPcCamera::object_reg = object_reg;
-  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  iGraphics3D* g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   view = new csView (engine, g3d);
   iview = SCF_QUERY_INTERFACE (view, iView);
   view->DecRef ();
   g3d->DecRef ();
-  engine->DecRef ();
+  SetupEventHandler ();
+
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  CS_ASSERT (kbd != NULL);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  CS_ASSERT (vc != NULL);
 }
 
 celPcCamera::~celPcCamera ()
 {
+  if (kbd) kbd->DecRef ();
+  if (vc) vc->DecRef ();
   if (iview) iview->DecRef ();
+  if (engine) engine->DecRef ();
+  if (g3d) g3d->DecRef ();
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  if (q)
+  {
+    q->RemoveListener (&scfiEventHandler);
+    q->DecRef ();
+  }
+}
+
+void celPcCamera::SetupEventHandler ()
+{
+  iEventQueue* q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  CS_ASSERT (q != NULL);
+  q->RemoveListener (&scfiEventHandler);
+  unsigned int trigger = CSMASK_Nothing;
+  q->RegisterListener (&scfiEventHandler, trigger);
+  q->DecRef ();
+}
+
+bool celPcCamera::HandleEvent (iEvent& ev)
+{
+  if (ev.Type == csevBroadcast && ev.Command.Code == cscmdProcess)
+  {
+    // First get elapsed time from the virtual clock.
+    csTicks elapsed_time = vc->GetElapsedTicks ();
+  
+    // Now rotate the camera according to keyboard state
+    float speed = (elapsed_time / 1000.0) * (0.03 * 20);
+
+    iCamera* c = view->GetCamera();
+    if (kbd->GetKeyState (CSKEY_RIGHT))
+      c->GetTransform ().RotateThis (VEC_ROT_RIGHT, speed);
+    if (kbd->GetKeyState (CSKEY_LEFT))
+      c->GetTransform ().RotateThis (VEC_ROT_LEFT, speed);
+    if (kbd->GetKeyState (CSKEY_PGUP))
+      c->GetTransform ().RotateThis (VEC_TILT_UP, speed);
+    if (kbd->GetKeyState (CSKEY_PGDN))
+      c->GetTransform ().RotateThis (VEC_TILT_DOWN, speed);
+    if (kbd->GetKeyState (CSKEY_UP))
+      c->Move (VEC_FORWARD * 4 * speed);
+    if (kbd->GetKeyState (CSKEY_DOWN))
+      c->Move (VEC_BACKWARD * 4 * speed);
+
+    // Tell 3D driver we're going to display 3D things.
+    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS))
+      view->Draw ();
+  }
+  return true;
 }
 
 void celPcCamera::SetEntity (iCelEntity* entity)
@@ -175,6 +242,8 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   worldfile = NULL;
   regionname = NULL;
   loaded = false;
+  pointcamera = NULL;
+  startname = NULL;
 }
 
 celPcRegion::~celPcRegion ()
@@ -183,6 +252,8 @@ celPcRegion::~celPcRegion ()
   delete[] worlddir;
   delete[] worldfile;
   delete[] regionname;
+  if (pointcamera) pointcamera->DecRef ();
+  delete[] startname;
 }
 
 void celPcRegion::SetEntity (iCelEntity* entity)
@@ -197,11 +268,17 @@ iCelDataBuffer* celPcRegion::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (REGION_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (4);
+  databuf->SetDataCount (6);
   databuf->GetData (0)->Set (worlddir);
   databuf->GetData (1)->Set (worldfile);
   databuf->GetData (2)->Set (regionname);
   databuf->GetData (3)->Set (loaded);
+  iCelPropertyClass* pc = NULL;
+  if (pointcamera)
+    pc = SCF_QUERY_INTERFACE_FAST (pointcamera, iCelPropertyClass);
+  databuf->GetData (4)->Set (pc);
+  if (pc) pc->DecRef ();
+  databuf->GetData (5)->Set (startname);
   return databuf;
 }
 
@@ -209,7 +286,7 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != REGION_SERIAL) return false;
-  if (databuf->GetDataCount () != 4) return false;
+  if (databuf->GetDataCount () != 6) return false;
   celData* cd;
   Unload ();
   delete[] worlddir; worlddir = NULL;
@@ -223,8 +300,21 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   regionname = csStrNew (cd->value.s);
   cd = databuf->GetData (3); if (!cd) return false;
   bool load = cd->value.bo;
+  cd = databuf->GetData (4); if (!cd) return false;
+  iPcCamera* pcm = NULL;
+  if (cd->value.pc) pcm = SCF_QUERY_INTERFACE_FAST (cd->value.pc, iPcCamera);
+  cd = databuf->GetData (5); if (!cd) return false;
 
-  if (load) return Load ();
+  if (load)
+  {
+    bool rc = Load ();
+    if (rc)
+    {
+      PointCamera (pcm, cd->value.s);
+      if (pcm) pcm->DecRef ();
+    }
+    return rc;
+  }
   else Unload ();
 
   return true;
@@ -346,15 +436,18 @@ void celPcRegion::Unload ()
   engine->DecRef ();
 }
 
-iSector* celPcRegion::GetStartSector ()
+iSector* celPcRegion::GetStartSector (const char* name)
 {
   iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != NULL);
   iSector* sector;
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
-    iCameraPosition* campos = engine->GetCameraPositions ()->Get (0);
-    sector = engine->GetSectors ()->FindByName (campos->GetSector ());
+    iCameraPosition* campos =
+    	name ? engine->GetCameraPositions ()->FindByName (name)
+	     : engine->GetCameraPositions ()->Get (0);
+    sector = engine->GetSectors ()->FindByName (
+    	campos ? campos->GetSector () : "room");
   }
   else
   {
@@ -364,18 +457,37 @@ iSector* celPcRegion::GetStartSector ()
   return sector;
 }
 
-csVector3 celPcRegion::GetStartPosition ()
+csVector3 celPcRegion::GetStartPosition (const char* name)
 {
   iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != NULL);
   csVector3 pos (0);
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
-    iCameraPosition* campos = engine->GetCameraPositions ()->Get (0);
-    pos = campos->GetPosition ();
+    iCameraPosition* campos =
+    	name ? engine->GetCameraPositions ()->FindByName (name)
+	     : engine->GetCameraPositions ()->Get (0);
+    if (campos) pos = campos->GetPosition ();
   }
   engine->DecRef ();
   return pos;
+}
+
+void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
+{
+  delete[] startname;
+  if (name) startname = csStrNew (name);
+  else startname = NULL;
+  if (pccamera) pccamera->IncRef ();
+  if (pointcamera) pointcamera->DecRef ();
+  pointcamera = pccamera;
+  if (pccamera)
+  {
+    iSector* s = GetStartSector (name);
+    csVector3 p = GetStartPosition (name);
+    pccamera->GetCamera ()->SetSector (s);
+    pccamera->GetCamera ()->GetTransform ().SetOrigin (p);
+  }
 }
 
 //---------------------------------------------------------------------------

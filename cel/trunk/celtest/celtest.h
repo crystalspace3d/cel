@@ -32,6 +32,7 @@ struct iSector;
 struct iView;
 class csVector3;
 
+struct iPcCamera;
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCelBlLayer;
@@ -48,7 +49,6 @@ private:
   iKeyboardDriver* kbd;
   iVirtualClock* vc;
   iSector* room;
-  iView* view;
 
   iCelPlLayer* pl;
   iCelBlLayer* bl;
@@ -71,6 +71,7 @@ private:
   	iCelPropertyClassFactory* pf, const char* name);
   bool CreateRoom ();
   iCelEntity* CreateBoxEntity (const char* name, const char* factName,
+  	iPcCamera* pccamera,
   	float weight, float size,
 	float max_indiv_weight, float max_weight,
 	float max_indiv_size, float max_size,

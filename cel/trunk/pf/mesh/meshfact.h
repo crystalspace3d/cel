@@ -32,6 +32,7 @@
 struct iCelEntity;
 struct iMeshWrapper;
 struct iMeshFactoryWrapper;
+struct iPcCamera;
 struct iCamera;
 class csVector3;
 
@@ -76,8 +77,9 @@ private:
   iObjectRegistry* object_reg;
   bool visible;
   char* fileName;
+  char* factName;
 
-  iMeshFactoryWrapper* LoadMeshFactory (const char* fileName);
+  iMeshFactoryWrapper* LoadMeshFactory ();
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
@@ -157,7 +159,7 @@ class celPcMeshSelect : public iCelPropertyClass
 private:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
-  iCamera* camera;
+  iPcCamera* pccamera;
 
   // If the following var is non-NULL then we
   // are busy selecting a mesh and are waiting for a mouse up
@@ -248,7 +250,7 @@ public:
   virtual ~celPcMeshSelect ();
 
   bool HandleEvent (iEvent& ev);
-  void SetCamera (iCamera* camera);
+  void SetCamera (iPcCamera* pccamera);
 
   void SetMouseButtons (int buttons) { mouse_buttons = buttons; }
   int GetMouseButtons () const { return mouse_buttons; }
@@ -302,9 +304,9 @@ public:
   struct PcMeshSelect : public iPcMeshSelect
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
-    virtual void SetCamera (iCamera* camera)
+    virtual void SetCamera (iPcCamera* pccamera)
     {
-      scfParent->SetCamera (camera);
+      scfParent->SetCamera (pccamera);
     }
     virtual void SetMouseButtons (int buttons)
     {
@@ -346,11 +348,13 @@ public:
     {
       return scfParent->HasDragMode ();
     }
-    virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
+    virtual void SetDragPlaneNormal (const csVector3& drag_normal,
+    	bool camera_space)
     {
       scfParent->SetDragPlaneNormal (drag_normal, camera_space);
     }
-    virtual void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const
+    virtual void GetDragPlaneNormal (csVector3& drag_normal,
+    	bool& camera_space) const
     {
       scfParent->GetDragPlaneNormal (drag_normal, camera_space);
     }
