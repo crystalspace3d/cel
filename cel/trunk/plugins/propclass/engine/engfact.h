@@ -762,9 +762,21 @@ public:
     {
       scfParent->CenterCamera ();
     }
+    virtual void SetPitch (float pitch)
+    {
+      scfParent->SetPitch (pitch);
+    }
+    virtual float GetPitch () const
+    {
+      return scfParent->GetPitch ();
+    }
     virtual void SetPitchVelocity (float pitchVel)
     {
       scfParent->SetPitchVelocity (pitchVel);
+    }
+    virtual float GetPitchVelocity () const
+    {
+      return scfParent->GetPitchVelocity ();
     }
 
     virtual void SetRectangle (int x, int y, int w, int h)
