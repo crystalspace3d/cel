@@ -161,11 +161,34 @@ iCelDataBuffer* celPcMesh::Save ()
   iCelPlLayer* pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelDataBuffer* databuf = pl->CreateDataBuffer (MESH_SERIAL);
   pl->DecRef ();
-  databuf->SetDataCount (4);
-  databuf->GetData (0)->Set (factName);
-  databuf->GetData (1)->Set (fileName);
-  databuf->GetData (2)->Set (GetAction ());
-  databuf->GetData (3)->Set (visible);
+  iMovable* mov = mesh->GetMovable ();
+  iSectorList* sl = mov->GetSectors ();
+  databuf->SetDataCount (4+1+sl->GetCount ()+3+9);
+  int i, j = 0;
+  databuf->GetData (j++)->Set (factName);
+  databuf->GetData (j++)->Set (fileName);
+  databuf->GetData (j++)->Set (GetAction ());
+  databuf->GetData (j++)->Set (visible);
+
+  databuf->GetData (j++)->Set ((uint16)(sl->GetCount ()));
+  for (i = 0 ; i < sl->GetCount () ; i++)
+  {
+    databuf->GetData (j++)->Set (sl->Get (i)->QueryObject ()->GetName ());
+  }
+  csReversibleTransform& tr = mov->GetTransform ();
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().x);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().y);
+  databuf->GetData (j++)->Set (tr.GetO2TTranslation ().z);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m11);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m12);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m13);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m21);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m22);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m23);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m31);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m32);
+  databuf->GetData (j++)->Set (tr.GetO2T ().m33);
+
   return databuf;
 }
 
@@ -173,7 +196,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MESH_SERIAL) return false;
-  if (databuf->GetDataCount () != 4) return false;
+  //int cnt_total = databuf->GetDataCount ();
   Clear ();
   visible = true;
   celData* cd;
@@ -191,6 +214,50 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   cd = databuf->GetData (3); if (!cd) return false;
   if (cd->value.bo) Show ();
   else Hide ();
+
+  cd = databuf->GetData (4); if (!cd) return false;
+  uint16 cnt = cd->value.uw;
+  mesh->GetMovable ()->ClearSectors ();
+  iEngine* engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != NULL);
+  int i, j = 5;
+  for (i = 0 ; i < cnt ; i++)
+  {
+    cd = databuf->GetData (j++); if (!cd) return false;
+    iSector* s = engine->GetSectors ()->FindByName (cd->value.s);
+    CS_ASSERT (s != NULL);
+    mesh->GetMovable ()->GetSectors ()->Add (s);
+  }
+  engine->DecRef ();
+
+  csMatrix3 m_o2t;
+  csVector3 v_o2t;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.x = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.y = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  v_o2t.z = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m11 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m12 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m13 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m21 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m22 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m23 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m31 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m32 = cd->value.f;
+  cd = databuf->GetData (j++); if (!cd) return false;
+  m_o2t.m33 = cd->value.f;
+  csReversibleTransform tr (m_o2t, v_o2t);
+  mesh->GetMovable ()->SetTransform (tr);
 
   return true;
 }

@@ -28,6 +28,9 @@
 	- Implemented loading in CEL persistance module. At this moment loading
 	  itself seems to work (i.e. it does not crash). However celtest
 	  crashes right after loading so I have to investigate why.
+	- Fixed a bad bug in pcmesh::SetMesh().
+	- Added loading/saving of position of mesh. This doesn't fix the
+	  loading problem though. Loading still crashes.
 12-Nov-2001:
 	- Created new cpersist plugin. This plugin will implement
 	  'classic persistance' for CEL. This plugin does not do
