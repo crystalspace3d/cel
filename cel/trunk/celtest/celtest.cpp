@@ -500,7 +500,7 @@ bool CelTest::CreateRoom ()
   iPcCamera *pccamera = CEL_QUERY_PROPCLASS
     (entity_dummy->GetPropertyClassList(), iPcCamera);
   if (!pccamera) return false;
-  pcregion->PointCamera (pccamera);
+  pccamera->SetRegion (pcregion);
   pcregion->DecRef ();
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_dummy->DecRef ();

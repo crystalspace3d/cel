@@ -735,6 +735,8 @@ bool celPersistClassicContext::Write (iCelPropertyClass* pc)
   pclasses.Add (pc);
   if (!WriteMarker ("PCLI")) return false;
   iCelEntity* pc_ent = pc->GetEntity ();
+  printf ("%s - %p\n", pc->GetName(), pc_ent);
+  printf (" %s\n", pc_ent->GetName());
   // First write entity ID, then property class name.
   if (!Write (pc_ent->GetID ())) return false;
   if (!Write (pc->GetName ())) return false;

@@ -1,3 +1,7 @@
+20-Jab-2002:
+	- Matze changed ref behaviour for Region: Camera is taken ref to
+	  region now.
+	- This allowed to fix camera loading
 17-Jan-2002:
 	- Matze fixed several bugs/cleaned up/commented in ID registry
 	- introduced celDataBufHelper class to make the Save/Load functions

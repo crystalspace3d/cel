@@ -62,6 +62,7 @@ private:
   bool rect_set;
   int rect_x, rect_y, rect_w, rect_h;
   iPcCamera::CameraMode cammode;
+  iPcRegion* region;
 
   void SetupEventHandler ();
 
@@ -73,6 +74,7 @@ public:
 
   iCamera* GetCamera () const;
   iView* GetView () const { return iview; }
+  bool SetRegion (iPcRegion* region, bool point, const char* name);
   void SetRectangle (int x, int y, int w, int h);
   bool SetMode (iPcCamera::CameraMode cammode, bool use_cd = true)
   {
@@ -90,6 +92,11 @@ public:
   struct PcCamera : public iPcCamera
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcCamera);
+    virtual bool SetRegion (iPcRegion* region, bool point = true,
+	const char* name = NULL)
+    {
+      return scfParent->SetRegion(region,point,name);
+    }
     virtual bool SetMode (CameraMode m, bool use_cd = true)
     {
       return scfParent->SetMode(m, use_cd);
@@ -140,9 +147,6 @@ private:
   char* regionname;
   bool loaded;
 
-  iPcCamera* pointcamera;
-  char* startname;
-
   // This property class maintains private child entities
   // which are used for collision detection.
   csVector entities;
@@ -166,6 +170,7 @@ public:
   iSector* GetStartSector (const char* name);
   csVector3 GetStartPosition (const char* name);
   void PointCamera (iPcCamera* pccamera, const char* name);
+  iSector* FindSector (const char* name);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -202,6 +207,10 @@ public:
     virtual const char* GetRegionName () const
     {
       return scfParent->GetRegionName ();
+    }
+    virtual iSector* FindSector(const char* name)
+    {
+      return scfParent->FindSector(name);
     }
     virtual bool Load ()
     {
