@@ -141,7 +141,8 @@ static void CleanupTemporaryStrings ()
   }
 }
 
-static const char* ArgToString (const char* prefix, const char* prefix2, const celXmlArg& a)
+static const char* ArgToString (const char* prefix, const char* prefix2,
+		const celXmlArg& a)
 {
   switch (a.type)
   {
@@ -190,7 +191,8 @@ static const char* ArgToString (const char* prefix, const char* prefix2, const c
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_[%g,%g,%g]", prefix, prefix2, a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
+        str->Format ("%s_%s_[%g,%g,%g]", prefix, prefix2,
+			a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
 	used_strings.Push (str);
         return *str;
       }
@@ -204,7 +206,8 @@ static const char* ArgToString (const char* prefix, const char* prefix2, const c
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_ent(%s)", prefix, prefix2, a.arg.entity ? a.arg.entity->GetName () : "<null>");
+        str->Format ("%s_%s_ent(%s)", prefix, prefix2,
+			a.arg.entity ? a.arg.entity->GetName () : "<null>");
 	used_strings.Push (str);
         return *str;
       }
@@ -218,7 +221,8 @@ static const char* ArgToString (const char* prefix, const char* prefix2, const c
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_%s_rgb(%g,%g,%g)", prefix, prefix2, a.arg.col.red, a.arg.col.green,
+        str->Format ("%s_%s_rgb(%g,%g,%g)", prefix, prefix2,
+			a.arg.col.red, a.arg.col.green,
       	  a.arg.col.blue);
 	used_strings.Push (str);
         return *str;
@@ -291,7 +295,8 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
-        str->Format ("%s_ent(%s)", prefix, a.arg.entity ? a.arg.entity->GetName () : "<null>");
+        str->Format ("%s_ent(%s)", prefix,
+			a.arg.entity ? a.arg.entity->GetName () : "<null>");
 	used_strings.Push (str);
         return *str;
       }
