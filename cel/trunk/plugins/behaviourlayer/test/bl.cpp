@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "plugins/behaviourlayer/test/bl.h"
 #include "plugins/behaviourlayer/test/behave.h"
+#include "include/physicallayer/entity.h"
 
 //---------------------------------------------------------------------------
 
@@ -68,6 +69,7 @@ iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
     ent->SetName (name);
     ent->SetBehaviourLayer (this);
   }
+  entity->SetBehaviour (ent);
   return ent;
 }
 

@@ -755,7 +755,6 @@ bool celPersistClassicContext::Read (iCelEntity*& entity)
       if (!bl) return false;
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
       if (!bh) return false;
-      entity->SetBehaviour (bh);
       bh->DecRef ();
     }
     delete[] bhname;

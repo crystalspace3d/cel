@@ -41,7 +41,8 @@ struct iCelBlLayer : public iBase
   /**
    * Create a new behaviour layer entity.
    * The given name is specific to the BL implementation. It can
-   * be the name of a script for example.
+   * be the name of a script for example. This function will also
+   * call entity->SetBehaviour() with the new behaviour.
    */
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
   	const char* name) = 0;

@@ -70,7 +70,6 @@ struct iCelEntity : public iBase
     {
       csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
       if (!bh.IsValid()) return 0;
-      self->SetBehaviour(bh);
       return bh;
     }
   }

@@ -2807,7 +2807,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (behave,
 	    	"Couldn't create behaviour '%s' for '%s'!",
 	    	bhname, entname);
-	  ent->SetBehaviour (bh);
 	}
         break;
       case CEL_OPERATION_CALL_I:
