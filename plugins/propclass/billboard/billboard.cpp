@@ -673,7 +673,7 @@ void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
   params->GetParameter (2).Set ((int32)mouse_button);
   iCelBehaviour* bh = entity->GetBehaviour ();
   celData ret;
-  bh->SendMessage ("pcbillboard_select", ret, params,
+  bh->SendMessage ("pcbillboard_select", this, ret, params,
   	mouse_button, mousex, mousey);
 }
 
@@ -685,7 +685,7 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
   params->GetParameter (2).Set ((int32)mouse_button);
   iCelBehaviour* bh = entity->GetBehaviour ();
   celData ret;
-  bh->SendMessage ("pcbillboard_move", ret, params,
+  bh->SendMessage ("pcbillboard_move", this, ret, params,
   	mouse_button, mousex, mousey);
 }
 
@@ -697,7 +697,7 @@ void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
   params->GetParameter (2).Set ((int32)mouse_button);
   iCelBehaviour* bh = entity->GetBehaviour ();
   celData ret;
-  bh->SendMessage ("pcbillboard_unselect", ret, params,
+  bh->SendMessage ("pcbillboard_unselect", this, ret, params,
   	mouse_button, mousex, mousey);
 }
 
@@ -709,7 +709,7 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
   params->GetParameter (2).Set ((int32)mouse_button);
   iCelBehaviour* bh = entity->GetBehaviour ();
   celData ret;
-  bh->SendMessage ("pcbillboard_doubleclick", ret, params,
+  bh->SendMessage ("pcbillboard_doubleclick", this, ret, params,
   	mouse_button, mousex, mousey);
 }
 

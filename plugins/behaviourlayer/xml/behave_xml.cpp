@@ -101,16 +101,18 @@ celBehaviourXml::~celBehaviourXml ()
 }
 
 bool celBehaviourXml::SendMessage (const char* msg_id,
+  	iCelPropertyClass* pc,
 	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, ret, params, arg);
+  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
   va_end (arg);
   return rc;
 }
 
 bool celBehaviourXml::SendMessageV (const char* msg_id,
+  	iCelPropertyClass* /*pc*/,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   celBlXml* cbl = (celBlXml*)bl;
@@ -220,16 +222,18 @@ celBehaviourBootstrap::~celBehaviourBootstrap ()
 }
 
 bool celBehaviourBootstrap::SendMessage (const char* msg_id,
+	iCelPropertyClass* pc,
 	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, ret, params, arg);
+  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
   va_end (arg);
   return rc;
 }
 
 bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
+	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
   if (!strcmp (msg_id, "load"))

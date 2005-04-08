@@ -28,6 +28,7 @@
 #include "physicallayer/datatype.h"
 
 struct iCelBlLayer;
+struct iCelPropertyClass;
 
 SCF_VERSION (iCelParameterBlock, 0, 0, 1);
 
@@ -81,6 +82,7 @@ struct iCelBehaviour : public iBase
    * The 'ret' parameter can be used to return values.
    */
   virtual bool SendMessage (const char* msg_id,
+  	iCelPropertyClass* pc,
   	celData& ret, iCelParameterBlock* params, ...) = 0;
 
   /**
@@ -88,6 +90,7 @@ struct iCelBehaviour : public iBase
    * message was understood and handled by the entity.
    */
   virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc,
   	celData& ret, iCelParameterBlock* params, va_list arg) = 0;
 
   /**

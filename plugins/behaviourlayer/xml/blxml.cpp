@@ -1977,7 +1977,7 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
   behave->SetScript (script);
   celData ret;
   entity->SetBehaviour (behave);
-  behave->SendMessage ("init", ret, 0);
+  behave->SendMessage ("init", 0, ret, 0);
   return behave;
 }
 

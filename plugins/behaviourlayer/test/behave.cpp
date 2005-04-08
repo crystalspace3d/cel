@@ -57,11 +57,12 @@ celBehaviourGeneral::~celBehaviourGeneral ()
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id,
+	iCelPropertyClass* pc,
 	celData& ret, iCelParameterBlock* params, ...)
 {
   va_list arg;
   va_start (arg, params);
-  bool rc = SendMessageV (msg_id, ret, params, arg);
+  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
   va_end (arg);
   return rc;
 }
@@ -74,6 +75,7 @@ celBehaviourPrinter::celBehaviourPrinter (iCelEntity* entity,
 }
 
 bool celBehaviourPrinter::SendMessageV (const char* msg_id,
+	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg; (void)params;
@@ -89,6 +91,7 @@ celBehaviourRoom::celBehaviourRoom (iCelEntity* entity,
 }
 
 bool celBehaviourRoom::SendMessageV (const char* msg_id,
+	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
@@ -160,6 +163,7 @@ celBehaviourBox::celBehaviourBox (iCelEntity* entity,
 }
 
 bool celBehaviourBox::SendMessageV (const char* msg_id,
+	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg;
@@ -255,6 +259,7 @@ celBehaviourActor::~celBehaviourActor()
 }
 
 bool celBehaviourActor::SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
@@ -303,6 +308,6 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
     return true;
   }
 
-  return bhroom->SendMessageV (msg_id, ret, params, arg);
+  return bhroom->SendMessageV (msg_id, pc, ret, params, arg);
 }
 
