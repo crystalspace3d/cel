@@ -2856,7 +2856,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
 	}
         break;
       case CEL_OPERATION_CALL_ER:
@@ -2875,7 +2875,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (aret);
@@ -2893,7 +2893,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  behave->SendMessage (eventname, ret, action_params);
+	  behave->SendMessage (eventname, 0, ret, action_params);
 	}
         break;
       case CEL_OPERATION_CALL_ERS:
@@ -2910,7 +2910,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
 	  celData2celXmlArg (ret, top);
 	}
         break;
@@ -2928,7 +2928,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, ret, action_params);
+	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
 	  celData2celXmlArg (ret, top);
 	}
         break;
@@ -2938,7 +2938,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  behave->SendMessage (eventname, ret, action_params);
+	  behave->SendMessage (eventname, 0, ret, action_params);
 	  int si = stack.Push (celXmlArg ());
 	  celData2celXmlArg (ret, stack[si]);
 	}
@@ -2953,7 +2953,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  behave->SendMessage (eventname, ret, action_params);
+	  behave->SendMessage (eventname, 0, ret, action_params);
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (aret);

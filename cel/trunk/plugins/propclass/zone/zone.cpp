@@ -416,7 +416,7 @@ void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
 {
   if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
-  entity->GetBehaviour ()->SendMessage (msgid, ret, params);
+  entity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
 }
 
 iCelZone* celPcZoneManager::CreateZone (const char* name)

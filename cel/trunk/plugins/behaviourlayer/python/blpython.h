@@ -148,9 +148,11 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return scripter; }
-  virtual bool SendMessage (const char* msg_id, celData& ret,
+  virtual bool SendMessage (const char* msg_id,
+  	iCelPropertyClass* pc, celData& ret,
   	iCelParameterBlock* params, ...);
-  virtual bool SendMessageV (const char* msg_id, celData& ret,
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc, celData& ret,
   	iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return (void*)py_object; }
 };

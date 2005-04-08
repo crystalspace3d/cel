@@ -3,6 +3,15 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+8-Apr-2005
+	- Jorrit extended iCelBehaviour->SendMessage() with an additional
+	  iCelPropertyClass* parameter (second parameter). This allows behaviour
+	  layers to identify the property class from which the message
+	  arrived. This can in turn be used to fetch the tag from the property
+	  class and by doing that you can have multiple property classes on
+	  the same entity and still act on each one differently. A useful
+	  example is the ability to add multiple pctimer property classes for
+	  one entity.
 6-Apr-2005
 	- David Bronke added a "where" parameter to iPcTimer::WakeUpFrame ()
 	  to allow a callback to be called somewhere other than

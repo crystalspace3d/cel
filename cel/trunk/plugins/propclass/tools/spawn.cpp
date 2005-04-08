@@ -163,7 +163,7 @@ void celPcSpawn::TickOnce ()
   celData ret;
   if (spawninfo[idx].msg_id && newent->GetBehaviour ())
   {
-    newent->GetBehaviour ()->SendMessage (spawninfo[idx].msg_id, ret,
+    newent->GetBehaviour ()->SendMessage (spawninfo[idx].msg_id, this, ret,
 		spawninfo[idx].params);
   }
 
@@ -173,7 +173,7 @@ void celPcSpawn::TickOnce ()
   ref = entity;
   params->GetParameter (0).Set (newent);
   params->GetParameter (1).Set (spawninfo[idx].behaviour);
-  bh->SendMessage ("pcspawn_newentity", ret, params);
+  bh->SendMessage ("pcspawn_newentity", this, ret, params);
 }
 
 void celPcSpawn::Reset ()

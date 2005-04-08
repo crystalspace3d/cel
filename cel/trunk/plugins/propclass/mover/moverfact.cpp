@@ -169,7 +169,7 @@ void celPcMover::SendMessage (const char* msg)
   {
     csRef<iCelEntity> ref = entity;
     celData ret;
-    bh->SendMessage (msg, ret, 0);
+    bh->SendMessage (msg, this, ret, 0);
   }
 }
 

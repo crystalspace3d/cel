@@ -438,7 +438,7 @@ void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
 {
   if (ent) params->GetParameter (0).SetIBase (ent);
   celData ret;
-  destentity->GetBehaviour ()->SendMessage (msgid, ret, params);
+  destentity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
 }
 
 //---------------------------------------------------------------------------

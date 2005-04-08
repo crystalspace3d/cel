@@ -616,7 +616,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         CS_ASSERT(bh != 0);
         *(p->command_end) = '0';
         celData ret;
-        bh->SendMessage (p->command, ret, 0);
+        bh->SendMessage (p->command, this, ret, 0);
         *(p->command_end) = 0;
       }
     }
@@ -629,7 +629,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         CS_ASSERT(bh != 0);
         *(p->command_end) = '_';
         celData ret;
-        bh->SendMessage (p->command, ret, 0);
+        bh->SendMessage (p->command, this, ret, 0);
         *(p->command_end) = 0;
       }
       else
@@ -639,7 +639,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         CS_ASSERT(bh != 0);
         *(p->command_end) = '1';
         celData ret;
-        bh->SendMessage (p->command, ret, 0);
+        bh->SendMessage (p->command, this, ret, 0);
         *(p->command_end) = 0;
       }
     }
@@ -667,7 +667,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  else {
             ret.Set (ScreenToCentered (val, p->numeric));
 	  }
-          entity->GetBehaviour ()->SendMessage (p->command, ret, 0);
+          entity->GetBehaviour ()->SendMessage (p->command, this, ret, 0);
 	  if (p->recenter) {
             // Recenter mouse so we don't lose focus
             int width = g2d->GetWidth();
@@ -704,7 +704,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '0';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
       }
@@ -717,7 +717,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '_';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
         else
@@ -727,7 +727,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '1';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
       }
@@ -758,7 +758,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             ret.Set (CenteredToScreen (val, p->numeric));
 	  else
             ret.Set (val);
-          entity->GetBehaviour ()->SendMessage (p->command, ret, 0);
+          entity->GetBehaviour ()->SendMessage (p->command, this, ret, 0);
         }
         p=p->next;
       }
@@ -791,7 +791,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '0';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
       }
@@ -804,7 +804,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '_';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
         else
@@ -814,7 +814,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           CS_ASSERT(bh != 0);
           *(p->command_end) = '1';
           celData ret;
-          bh->SendMessage (p->command, ret, 0);
+          bh->SendMessage (p->command, this, ret, 0);
           *(p->command_end) = 0;
         }
       }

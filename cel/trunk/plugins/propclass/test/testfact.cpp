@@ -175,7 +175,7 @@ void celPcTest::Print (const char* msg)
   CS_ASSERT (ble != 0);
   celData ret;
   params->GetParameter (0).Set (msg);
-  ble->SendMessage ("pctest_print", ret, params);
+  ble->SendMessage ("pctest_print", this, ret, params);
 
   counter++;
   size_t l = strlen (msg);
