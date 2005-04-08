@@ -41,20 +41,21 @@
 00022 <span class="preprocessor"></span>
 00023 <span class="preprocessor">#include "cstypes.h"</span>
 00024 <span class="preprocessor">#include "csutil/scf.h"</span>
-00025 
-00026 SCF_VERSION (<a class="code" href="structiPcTimer.html">iPcTimer</a>, 0, 0, 1);
-00027 
-<a name="l00047"></a><a class="code" href="structiPcTimer.html">00047</a> <span class="keyword">struct </span><a class="code" href="structiPcTimer.html">iPcTimer</a> : <span class="keyword">public</span> iBase
-00048 {
-00054   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a0">WakeUp</a> (csTicks t, <span class="keywordtype">bool</span> repeat) = 0;
-00055 
-00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a1">WakeUpFrame</a> () = 0;
-00060 
-00064   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a2">Clear</a> () = 0;
-00065 };
-00066 
-00067 <span class="preprocessor">#endif // __CEL_PF_TIMER__</span>
-00068 <span class="preprocessor"></span>
+00025 <span class="preprocessor">#include "iutil/evdefs.h"</span>
+00026 
+00027 SCF_VERSION (<a class="code" href="structiPcTimer.html">iPcTimer</a>, 0, 0, 1);
+00028 
+<a name="l00048"></a><a class="code" href="structiPcTimer.html">00048</a> <span class="keyword">struct </span><a class="code" href="structiPcTimer.html">iPcTimer</a> : <span class="keyword">public</span> iBase
+00049 {
+00055   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a0">WakeUp</a> (csTicks t, <span class="keywordtype">bool</span> repeat) = 0;
+00056 
+00060   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a1">WakeUpFrame</a> (<span class="keywordtype">int</span> where = cscmdPreProcess) = 0;
+00061 
+00065   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#a2">Clear</a> () = 0;
+00066 };
+00067 
+00068 <span class="preprocessor">#endif // __CEL_PF_TIMER__</span>
+00069 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.3.9.1 
 </small></address> </div></body> </html>
