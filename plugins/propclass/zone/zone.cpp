@@ -42,7 +42,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/string.h"
 #include "iutil/stringarray.h"
-#include "imap/parser.h"
+#include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"

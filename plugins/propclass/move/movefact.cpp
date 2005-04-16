@@ -46,7 +46,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/engine.h"
-#include "imap/parser.h"
+#include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
 #include "csgeom/polymesh.h"
