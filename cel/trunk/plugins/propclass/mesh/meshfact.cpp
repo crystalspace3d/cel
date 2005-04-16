@@ -44,7 +44,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/engine.h"
-#include "imap/parser.h"
+#include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "imesh/object.h"
 #include "imesh/sprite3d.h"

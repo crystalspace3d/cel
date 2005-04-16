@@ -40,7 +40,7 @@
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
-#include "imap/parser.h"
+#include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"

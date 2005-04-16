@@ -39,7 +39,7 @@
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
-#include "imap/parser.h"
+#include "imap/loader.h"
 #include "isound/renderer.h"
 #include "isound/loader.h"
 

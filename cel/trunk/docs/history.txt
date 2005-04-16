@@ -3,6 +3,8 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+16-Apr-2005
+	- res changed imap/parser.h to imap/loader.h.
 8-Apr-2005
 	- Jorrit extended iCelBehaviour->SendMessage() with an additional
 	  iCelPropertyClass* parameter (second parameter). This allows behaviour
