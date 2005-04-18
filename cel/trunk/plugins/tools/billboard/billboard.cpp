@@ -162,21 +162,8 @@ void celBillboard::SetupMaterial ()
 
   if (image_w == -1)
   {
-    if (material->GetMaterialHandle ())
-    {
-      material->GetMaterialHandle ()->GetTexture ()->GetOriginalDimensions (
-    	image_w, image_h);
-    }
-    else
-    {
-      // Material is not yet prepared. So we get the original image
-      // and try to get the size from that. We assume here that the
-      // renderer only scaled the image to po2 dimensions at Prepare()
-      // time.
-      CS_ASSERT (image != 0);
-      image_w = image->GetWidth ();
-      image_h = image->GetHeight ();
-    }
+    material->GetMaterial()->GetTexture ()->GetOriginalDimensions (
+      image_w, image_h);
   }
 
   if (bb_w == -1)
@@ -530,7 +517,7 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   SetupMaterial ();
   if (!material) return;
   material->Visit ();
-  iTextureHandle* txt = material->GetMaterialHandle ()->GetTexture ();
+  iTextureHandle* txt = material->GetMaterial()->GetTexture ();
   if (txt != mesh.texture)
   {
     mesh_draw (g3d);
