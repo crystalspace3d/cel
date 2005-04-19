@@ -177,8 +177,13 @@ static inline int FindIntersection (const csCollisionPair& cd,
 {
   csVector3 tri1[3]; tri1[0]=cd.a1; tri1[1]=cd.b1; tri1[2]=cd.c1;
   csVector3 tri2[3]; tri2[0]=cd.a2; tri2[1]=cd.b2; tri2[2]=cd.c2;
+  csSegment3 isect;
+  bool coplanar, ret;
 
-  return csMath3::FindIntersection (tri1, tri2, line);
+  ret = csIntersect3::TriangleTriangle (tri1, tri2, isect, coplanar);
+  line[0]=isect.Start ();
+  line[1]=isect.End ();
+  return ret;
 }
 
 bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
