@@ -3,6 +3,12 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+19-Apr-2005
+	- David Bronke switched from csMath3::FindIntersection() to
+	  csIntersect3::TriangleTriangle() in
+	  plugins/propclass/move/linmove.cpp and
+	  plugins/propclass/move/colldet.cpp to allow it to work with the
+	  latest CVS of CS.
 18-Apr-2005
 	- res fixed the billboard plugin for the iMaterialHandle removal.
 16-Apr-2005

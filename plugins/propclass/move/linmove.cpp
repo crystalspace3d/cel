@@ -272,7 +272,7 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
   {
     CEL_FETCH_VECTOR3_PAR (body,params,id_body);
     if (!p_body) return false;
-    CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
+    CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
     if (!p_legs) return false;
     CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
     if (!p_offset) return false;
@@ -306,8 +306,13 @@ static inline int FindIntersection (const csCollisionPair& cd,
 {
   csVector3 tri1[3]; tri1[0]=cd.a1; tri1[1]=cd.b1; tri1[2]=cd.c1;
   csVector3 tri2[3]; tri2[0]=cd.a2; tri2[1]=cd.b2; tri2[2]=cd.c2;
+  csSegment3 isect;
+  bool coplanar, ret;
 
-  return csMath3::FindIntersection (tri1, tri2, line);
+  ret = csIntersect3::TriangleTriangle (tri1, tri2, isect, coplanar);
+  line[0]=isect.Start ();
+  line[1]=isect.End ();
+  return ret;
 }
 
 void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel)
