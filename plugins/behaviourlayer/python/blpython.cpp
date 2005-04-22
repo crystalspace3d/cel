@@ -138,7 +138,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
     realname = name;
   }
 
-  py_module = PyImport_ImportModule (realname.GetData ());
+  py_module = PyImport_ImportModule (CS_CONST_CAST(char*,realname.GetData()));
   if (py_module != 0) 
   {
     py_dict = PyModule_GetDict (py_module);
@@ -200,19 +200,20 @@ bool celBlPython::RunText (const char* Text)
 
 bool celBlPython::Store (const char* name, void* data, void* tag)
 {
-  PyObject * obj = csWrapTypedObject(data, (const char*)tag, 0);
+  bool ok = false;
+  PyObject *obj = csWrapTypedObject(data, (const char*)tag, 0);
   char *mod_name = csStrNew(name);
-  char * var_name = strrchr(mod_name, '.');
-  if(!var_name)
-    return false;
-  *var_name = 0;
-  ++var_name;
-  PyObject * module = PyImport_ImportModule(mod_name);
-  PyModule_AddObject(module, (char*)var_name, obj);
-
+  char *var_name = strrchr(mod_name, '.');
+  if (var_name)
+  {
+    *var_name = '\0';
+    ++var_name;
+    PyObject *module = PyImport_ImportModule(mod_name);
+    PyModule_AddObject(module, var_name, obj);
+    ok = true;
+  }
   delete[] mod_name;
-
-  return true;
+  return ok;
 }
 
 bool celBlPython::LoadModule (const char *name)
@@ -281,7 +282,6 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
 	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 { 
-
 /*  
   // Ugly but usefull - not need to restart application, only behaviour sending message "reload" :)
   if (!strcmp(msg_id, "reload"))
@@ -327,4 +327,3 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
     
   return true;
 }
-
