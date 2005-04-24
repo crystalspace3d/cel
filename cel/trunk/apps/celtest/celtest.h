@@ -97,6 +97,7 @@ private:
 	bool python);
   csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
 	const csVector3& pos);
+  csPtr<iCelEntity> CreateQuest (const char *name);
   
 public:
   CelTest ();

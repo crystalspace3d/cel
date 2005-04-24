@@ -41,23 +41,7 @@ struct iEvent;
  * enters a specific sector.
  * This trigger type listens to the name 'cel.questtrigger.entersector'.
  */
-class celEnterSectorTriggerType : public iQuestTriggerType
-{
-public:
-  iObjectRegistry* object_reg;
-
-public:
-  celEnterSectorTriggerType (iObjectRegistry* object_reg);
-  virtual ~celEnterSectorTriggerType ();
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const
-  {
-    return "cel.questtrigger.entersector";
-  }
-  virtual csPtr<iQuestTriggerFactory> CreateTriggerFactory ();
-};
+CEL_DECLARE_TRIGGERTYPE(EnterSector,"cel.questtrigger.entersector")
 
 /**
  * The 'entersector' trigger factory.
@@ -78,7 +62,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params);
+      const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iEnterSectorQuestTriggerFactory ----------------------
@@ -105,7 +89,7 @@ private:
 
 public:
   celEnterSectorTrigger (celEnterSectorTriggerType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const celQuestParams& params,
 	const char* entity_name_par, const char* sector_name_par);
   virtual ~celEnterSectorTrigger ();
 

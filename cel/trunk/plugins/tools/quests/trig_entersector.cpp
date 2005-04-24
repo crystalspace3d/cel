@@ -35,28 +35,7 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEnterSectorTriggerType)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)
-SCF_IMPLEMENT_IBASE_END
-
-celEnterSectorTriggerType::celEnterSectorTriggerType (
-	iObjectRegistry* object_reg)
-{
-  SCF_CONSTRUCT_IBASE (0);
-  celEnterSectorTriggerType::object_reg = object_reg;
-}
-
-celEnterSectorTriggerType::~celEnterSectorTriggerType ()
-{
-  SCF_DESTRUCT_IBASE ();
-}
-
-csPtr<iQuestTriggerFactory> celEnterSectorTriggerType::CreateTriggerFactory ()
-{
-  celEnterSectorTriggerFactory* fact = new
-  	celEnterSectorTriggerFactory (this);
-  return fact;
-}
+CEL_IMPLEMENT_TRIGGERTYPE(EnterSector)
 
 //---------------------------------------------------------------------------
 
@@ -83,7 +62,7 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
-    const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+    const celQuestParams& params)
 {
   celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
   	params, entity_name_par, sector_name_par);
@@ -143,7 +122,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celEnterSectorTrigger::celEnterSectorTrigger (
 	celEnterSectorTriggerType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const celQuestParams& params,
 	const char* entity_name_par, const char* sector_name_par)
 {
   SCF_CONSTRUCT_IBASE (0);

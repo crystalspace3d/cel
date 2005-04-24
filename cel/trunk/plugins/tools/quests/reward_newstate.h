@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_REWARD_DEBUGPRINT__
-#define __CEL_TOOLS_QUESTS_REWARD_DEBUGPRINT__
+#ifndef __CEL_TOOLS_QUESTS_REWARD_NEWSTATE__
+#define __CEL_TOOLS_QUESTS_REWARD_NEWSTATE__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -28,6 +28,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
+#include "physicallayer/entity.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -37,22 +38,23 @@ struct iEvent;
  * output. This can be useful for debugging purposes.
  * This reward type listens to the name 'cel.questreward.debugprint'.
  */
-CEL_DECLARE_REWARDTYPE(DebugPrint,"cel.questreward.debugprint")
+CEL_DECLARE_REWARDTYPE(NewState,"cel.questreward.newstate")
 
 /**
  * The 'debugprint' reward factory.
  */
-class celDebugPrintRewardFactory :
+class celNewStateRewardFactory :
 	public iQuestRewardFactory,
-	public iDebugPrintQuestRewardFactory
+	public iNewStateQuestRewardFactory
 {
 private:
-  celDebugPrintRewardType* type;
-  char* msg_par;
+  celNewStateRewardType* type;
+  char* state_par;
+  char* entity_name_par;
 
 public:
-  celDebugPrintRewardFactory (celDebugPrintRewardType* type);
-  virtual ~celDebugPrintRewardFactory ();
+  celNewStateRewardFactory (celNewStateRewardType* type);
+  virtual ~celNewStateRewardFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -60,30 +62,35 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iDebugPrintQuestRewardFactory -----------------------
-  virtual void SetMessageParameter (const char* msg);
+  //----------------- iNewStateQuestRewardFactory -----------------------
+  virtual void SetStateParameter (const char* state);
+  virtual void SetEntityNameParameter (const char* entity_name);
 };
 
 /**
  * The 'printdebug' reward.
  */
-class celDebugPrintReward :
+class celNewStateReward :
 	public iQuestReward
 {
 private:
-  celDebugPrintRewardType* type;
-  char* msg;
+  celNewStateRewardType* type;
+  char* state;
+  char* entity_name;
+  csWeakRef<iCelEntity> entity;
+  csWeakRef<iQuest> quest;
 
 public:
-  celDebugPrintReward (celDebugPrintRewardType* type,
+  celNewStateReward (celNewStateRewardType* type,
   	const celQuestParams& params,
-	const char* msg_par);
-  virtual ~celDebugPrintReward ();
+	const char* state_par,
+	const char* entity_name_par);
+  virtual ~celNewStateReward ();
 
   SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };
 
-#endif // __CEL_TOOLS_QUESTS_REWARD_DEBUGPRINT__
+#endif // __CEL_TOOLS_QUESTS_REWARD_NEWSTATE__
 

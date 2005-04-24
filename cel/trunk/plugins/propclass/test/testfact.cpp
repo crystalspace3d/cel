@@ -71,6 +71,7 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 
 celPcTest::~celPcTest ()
 {
+  delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTest);
 }
 
@@ -93,11 +94,11 @@ void celPcTest::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_counter].readonly = false;
     properties[propid_counter].desc = "Print counter.";
 
-    properties[propid_counter].id = pl->FetchStringID (
+    properties[propid_max].id = pl->FetchStringID (
     	"cel.property.max");
-    properties[propid_counter].datatype = CEL_DATA_LONG;
-    properties[propid_counter].readonly = false;
-    properties[propid_counter].desc = "Max length.";
+    properties[propid_max].datatype = CEL_DATA_LONG;
+    properties[propid_max].readonly = false;
+    properties[propid_max].desc = "Max length.";
   }
 }
 

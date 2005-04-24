@@ -29,6 +29,7 @@
 #include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/trig_entersector.h"
 #include "plugins/tools/quests/reward_debugprint.h"
+#include "plugins/tools/quests/reward_newstate.h"
 
 //---------------------------------------------------------------------------
 
@@ -111,9 +112,38 @@ celQuestFactory::~celQuestFactory ()
 }
 
 csPtr<iQuest> celQuestFactory::CreateQuest (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+      const celQuestParams& params)
 {
-  return 0;
+  celQuest* q = new celQuest ();
+  celQuestFactoryStates::GlobalIterator it = states.GetIterator ();
+  while (it.HasNext ())
+  {
+    celQuestStateFactory* sf = it.Next ();
+    const csRefArray<celQuestTriggerResponseFactory>& responses
+    	= sf->GetResponses ();
+    int stateidx = q->AddState (sf->GetName ());
+    size_t i;
+    for (i = 0 ; i < responses.Length () ; i++)
+    {
+      celQuestTriggerResponseFactory* respfact = responses[i];
+      iQuestTriggerFactory* trigfact = respfact->GetTriggerFactory ();
+      const csRefArray<iQuestRewardFactory>& rewfacts
+        = respfact->GetRewardFactories ();
+
+      int respidx = q->AddStateResponse (stateidx);
+      csRef<iQuestTrigger> trig = trigfact->CreateTrigger (params);
+      if (!trig) return 0;	// @@@ Report
+      q->SetStateTrigger (stateidx, respidx, trig);
+      size_t j;
+      for (j = 0 ; j < rewfacts.Length () ; j++)
+      {
+        csRef<iQuestReward> rew = rewfacts[j]->CreateReward (params);
+	if (!rew) return 0;
+        q->AddStateReward (stateidx, respidx, rew);
+      }
+    }
+  }
+  return csPtr<iQuest> (q);
 }
 
 bool celQuestFactory::LoadTriggerResponse (
@@ -335,50 +365,54 @@ bool celQuest::SwitchState (const char* state)
   // THAT often either.
   size_t i, j;
   for (i = 0 ; i < states.Length () ; i++)
-    if (strcmp (state, states[i].GetName ()) == 0)
+  {
+    if (strcmp (state, states[i]->GetName ()) == 0)
     {
       if (i == (size_t)current_state) return true;	// Nothing happens.
       if (current_state != -1)
       {
-	celQuestState& st = states[current_state];
-        for (j = 0 ; j < st.GetResponseCount () ; j++)
-          st.GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
+	celQuestState* st = states[current_state];
+        for (j = 0 ; j < st->GetResponseCount () ; j++)
+          st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
       }
       current_state = i;
-      celQuestState& st = states[current_state];
-      for (j = 0 ; j < st.GetResponseCount () ; j++)
-        st.GetResponse (j)->GetTrigger ()->ActivateTrigger ();
+      celQuestState* st = states[current_state];
+      for (j = 0 ; j < st->GetResponseCount () ; j++)
+      {
+        st->GetResponse (j)->GetTrigger ()->ActivateTrigger ();
+      }
       return true;
     }
+  }
   return false;
 }
 
 const char* celQuest::GetCurrentState () const
 {
   if (current_state == -1) return 0;
-  return states[current_state].GetName ();
+  return states[current_state]->GetName ();
 }
 
 int celQuest::AddState (const char* name)
 {
-  return states.Push (celQuestState (name));
+  return states.Push (new celQuestState (name));
 }
 
 int celQuest::AddStateResponse (int stateidx)
 {
-  return states[stateidx].AddResponse ();
+  return states[stateidx]->AddResponse ();
 }
 
 void celQuest::SetStateTrigger (int stateidx, int responseidx,
 	iQuestTrigger* trigger)
 {
-  states[stateidx].GetResponse (responseidx)->SetTrigger (trigger);
+  states[stateidx]->GetResponse (responseidx)->SetTrigger (trigger);
 }
 
 void celQuest::AddStateReward (int stateidx, int responseidx,
 	iQuestReward* reward)
 {
-  states[stateidx].GetResponse (responseidx)->AddReward (reward);
+  states[stateidx]->GetResponse (responseidx)->AddReward (reward);
 }
 
 //---------------------------------------------------------------------------
@@ -417,6 +451,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celDebugPrintRewardType* type = new celDebugPrintRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celNewStateRewardType* type = new celNewStateRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
@@ -471,7 +512,7 @@ iQuestRewardType* celQuestManager::GetRewardType (const char* name)
 }
 
 const char* celQuestManager::ResolveParameter (
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const celQuestParams& params,
 	const char* param)
 {
   if (param == 0) return param;

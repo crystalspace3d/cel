@@ -35,28 +35,7 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDebugPrintRewardType)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)
-SCF_IMPLEMENT_IBASE_END
-
-celDebugPrintRewardType::celDebugPrintRewardType (
-	iObjectRegistry* object_reg)
-{
-  SCF_CONSTRUCT_IBASE (0);
-  celDebugPrintRewardType::object_reg = object_reg;
-}
-
-celDebugPrintRewardType::~celDebugPrintRewardType ()
-{
-  SCF_DESTRUCT_IBASE ();
-}
-
-csPtr<iQuestRewardFactory> celDebugPrintRewardType::CreateRewardFactory ()
-{
-  celDebugPrintRewardFactory* fact = new
-  	celDebugPrintRewardFactory (this);
-  return fact;
-}
+CEL_IMPLEMENT_REWARDTYPE(DebugPrint)
 
 //---------------------------------------------------------------------------
 
