@@ -58,6 +58,8 @@ struct iDocumentNode;
 </quest>
 */
 
+typedef csHash<csStrKey,csStrKey,csConstCharHashKeyHandler> celQuestParams;
+
 //-------------------------------------------------------------------------
 // Triggers
 //-------------------------------------------------------------------------
@@ -129,8 +131,7 @@ struct iQuestTriggerFactory : public iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iQuestTrigger> CreateTrigger (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+  virtual csPtr<iQuestTrigger> CreateTrigger (const celQuestParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -196,8 +197,7 @@ struct iQuestRewardFactory : public iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iQuestReward> CreateReward (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+  virtual csPtr<iQuestReward> CreateReward (const celQuestParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -324,8 +324,7 @@ struct iQuestFactory : public iBase
    * \param params are the parameters with which this quest is
    * instantiated.
    */
-  virtual csPtr<iQuest> CreateQuest (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params) = 0;
+  virtual csPtr<iQuest> CreateQuest (const celQuestParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -392,6 +391,8 @@ struct iQuestManager : public iBase
    * <ul>
    * <li>cel.questreward.debugprint: print a debug message on stdout.
    *     See iDebugPrintQuestRewardFactory.
+   * <li>cel.questreward.newstate: switch to a new state
+   *     See iNewStateQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -422,11 +423,11 @@ struct iQuestManager : public iBase
    * it will just return the unmodified string.
    */
   virtual const char* ResolveParameter (
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const celQuestParams& params,
 	const char* param) = 0;
 
   /**
-   * Load a bunch of quests from this factory.
+   * Load a bunch of quest factories.
    * \param node is a node containing \<quest\> children.
    * \return false on error (reporter is used to report).
    */
@@ -503,6 +504,120 @@ struct iDebugPrintQuestRewardFactory : public iBase
    */
   virtual void SetMessageParameter (const char* msg) = 0;
 };
+
+SCF_VERSION (iNewStateQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that switches
+ * to another state. You can query this interface
+ * from the reward factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.newstate'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'reward' node:
+ * <ul>
+ * <li><em>state</em>: the new state.
+ * <li><em>entity_name</em>: the name of the entity containing the
+ *     pcquest property class.
+ * </ul>
+ */
+struct iNewStateQuestRewardFactory : public iBase
+{
+  /**
+   * Set the state to go to (either a state string
+   * or a parameter if it starts with '$').
+   * \param state is the name of the state or a parameter (starts
+   * with '$').
+   */
+  virtual void SetStateParameter (const char* state) = 0;
+
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this reward will work.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+};
+
+/**
+ * Conveniance to declare a new reward type class.
+ */
+#define CEL_DECLARE_REWARDTYPE(name,id)					\
+class cel##name##RewardType : public iQuestRewardType			\
+{									\
+public:									\
+  iObjectRegistry* object_reg;						\
+  cel##name##RewardType (iObjectRegistry* object_reg);			\
+  virtual ~cel##name##RewardType ();					\
+  SCF_DECLARE_IBASE;							\
+  virtual const char* GetName () const { return id; }			\
+  virtual csPtr<iQuestRewardFactory> CreateRewardFactory ();		\
+};
+
+/**
+ * Conveniance to implement a new reward type class.
+ */
+#define CEL_IMPLEMENT_REWARDTYPE(name)					\
+SCF_IMPLEMENT_IBASE (cel##name##RewardType)				\
+  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)				\
+SCF_IMPLEMENT_IBASE_END							\
+cel##name##RewardType::cel##name##RewardType (				\
+	iObjectRegistry* object_reg)					\
+{									\
+  SCF_CONSTRUCT_IBASE (0);						\
+  cel##name##RewardType::object_reg = object_reg;			\
+}									\
+cel##name##RewardType::~cel##name##RewardType ()			\
+{									\
+  SCF_DESTRUCT_IBASE ();						\
+}									\
+csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
+{									\
+  cel##name##RewardFactory* fact = new					\
+  	cel##name##RewardFactory (this);				\
+  return fact;								\
+}
+
+/**
+ * Conveniance to declare a new trigger type class.
+ */
+#define CEL_DECLARE_TRIGGERTYPE(name,id)				\
+class cel##name##TriggerType : public iQuestTriggerType			\
+{									\
+public:									\
+  iObjectRegistry* object_reg;						\
+  cel##name##TriggerType (iObjectRegistry* object_reg);			\
+  virtual ~cel##name##TriggerType ();					\
+  SCF_DECLARE_IBASE;							\
+  virtual const char* GetName () const { return id; }			\
+  virtual csPtr<iQuestTriggerFactory> CreateTriggerFactory ();		\
+};
+
+/**
+ * Conveniance to implement a new trigger type class.
+ */
+#define CEL_IMPLEMENT_TRIGGERTYPE(name)					\
+SCF_IMPLEMENT_IBASE (cel##name##TriggerType)				\
+  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)				\
+SCF_IMPLEMENT_IBASE_END							\
+cel##name##TriggerType::cel##name##TriggerType (			\
+	iObjectRegistry* object_reg)					\
+{									\
+  SCF_CONSTRUCT_IBASE (0);						\
+  cel##name##TriggerType::object_reg = object_reg;			\
+}									\
+cel##name##TriggerType::~cel##name##TriggerType ()			\
+{									\
+  SCF_DESTRUCT_IBASE ();						\
+}									\
+csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
+{									\
+  cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \
+  return fact;								\
+}
 
 #endif // __CEL_MGR_QUEST__
 

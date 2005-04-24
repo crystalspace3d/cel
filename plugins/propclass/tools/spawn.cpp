@@ -80,6 +80,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
 celPcSpawn::~celPcSpawn ()
 {
+  delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
 }
 

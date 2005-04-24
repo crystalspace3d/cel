@@ -99,6 +99,19 @@ public:
 };
 
 /**
+ * 'quest' behaviour.
+ */
+class celBehaviourQuest : public celBehaviourGeneral
+{
+public:
+  celBehaviourQuest (iCelEntity* entity, iObjectRegistry* object_reg);
+
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+};
+
+/**
  * 'move' behaviour.
  */
 class celBehaviourActor : public celBehaviourGeneral

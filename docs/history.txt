@@ -3,6 +3,24 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+24-Apr-2005
+	- Jorrit created conveniance macros to make it easier to implement
+	  new reward and trigger types for the quest manager:
+	      - CEL_DECLARE_REWARDTYPE
+	      - CEL_IMPLEMENT_REWARDTYPE
+	      - CEL_DECLARE_TRIGGERTYPE
+	      - CEL_IMPLEMENT_TRIGGERTYPE
+23-Apr-2005
+	- Jorrit added a new quest property class which complements
+	  the already existing quest manager.
+	- Jorrit fixed a small memory leak in the test, meshselect, and
+	  spawn property classes.
+	- Jorrit fixed a bug in test property class with handing properties.
+	- Jorrit added a 'quest' behaviour to the test behaviour layer.
+	- Jorrit added a test quest to celtest.
+	- Jorrit implemented the missing iQuestFactory::CreateQuest()
+	  routine.
+	- Jorrit added a 'NewState' reward for the quest manager.
 22-Apr-2005
 	- Eric Sunshine fixed memory leak in celBlPython::Store(). Also fixed
 	  compilation error due to removal of non-const version of

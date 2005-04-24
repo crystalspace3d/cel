@@ -24,6 +24,7 @@
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
+#include "csutil/parray.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -47,6 +48,15 @@ public:
   celQuestTriggerResponseFactory ();
   virtual ~celQuestTriggerResponseFactory ();
 
+  iQuestTriggerFactory* GetTriggerFactory () const
+  {
+    return trigger_factory;
+  }
+  const csRefArray<iQuestRewardFactory>& GetRewardFactories () const
+  {
+    return reward_factories;
+  }
+
   SCF_DECLARE_IBASE;
 
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
@@ -66,12 +76,19 @@ public:
   celQuestStateFactory (const char* name);
   virtual ~celQuestStateFactory ();
 
+  const csRefArray<celQuestTriggerResponseFactory>& GetResponses () const
+  {
+    return responses;
+  }
+
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
 };
 
+typedef csHash<csRef<celQuestStateFactory>,csStrKey,
+  	csConstCharHashKeyHandler> celQuestFactoryStates;
 /**
  * A quest factory.
  */
@@ -80,8 +97,7 @@ class celQuestFactory : public iQuestFactory
 private:
   celQuestManager* questmgr;
   char* name;
-  csHash<csRef<celQuestStateFactory>,csStrKey,
-  	csConstCharHashKeyHandler> states;
+  celQuestFactoryStates states;
 
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "plugins/tools/quests/quests.tok"
@@ -99,7 +115,7 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (
-      const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params);
+      const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
@@ -111,7 +127,7 @@ public:
 struct celQuestStateResponse : public iQuestTriggerCallback
 {
 private:
-  csWeakRef<iQuestTrigger> trigger;
+  csRef<iQuestTrigger> trigger;
   csRefArray<iQuestReward> rewards;
 
 public:
@@ -157,7 +173,7 @@ public:
 class celQuest : public iQuest
 {
 private:
-  csArray<celQuestState> states;
+  csPDelArray<celQuestState> states;
   int current_state;
 
 public:
@@ -209,7 +225,7 @@ public:
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);
   virtual const char* ResolveParameter (
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const celQuestParams& params,
 	const char* param);
   virtual bool Load (iDocumentNode* node);
 

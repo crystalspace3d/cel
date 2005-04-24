@@ -83,10 +83,12 @@
 #include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
+#include "propclass/quest.h"
 
 // Define MINIMAL for a very minimal celtest.
 // Useful for debugging.
 #define MINIMAL 0
+#define PATHFIND_VERBOSE 0
 
 //-----------------------------------------------------------------------------
 
@@ -350,10 +352,100 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   return csPtr<iCelEntity> (entity_cam);
 }
 
+csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
+{
+  // The Quest Entity
+  csRef<iCelEntity> entity_quest = pl->CreateEntity (name, bltest, "quest",
+  	"pcquest",
+	(void*)0);
+  if (!entity_quest) return 0;
+
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
+  iQuestTriggerType* typetrig_entersector = qm->GetTriggerType (
+  	"cel.questtrigger.entersector");
+  iQuestRewardType* typerew_debugprint = qm->GetRewardType (
+  	"cel.questreward.debugprint");
+  iQuestRewardType* typerew_newstate = qm->GetRewardType (
+  	"cel.questreward.newstate");
+  csRef<iQuestTriggerFactory> trigfact;
+  csRef<iQuestRewardFactory> rewfact;
+  csRef<iEnterSectorQuestTriggerFactory> tf_entersector;
+  csRef<iDebugPrintQuestRewardFactory> rf_debugprint;
+  csRef<iNewStateQuestRewardFactory> rf_newstate;
+
+  //-----------------------------------------------------------
+  // Create 'testquest'.
+  //-----------------------------------------------------------
+  iQuestFactory* fact = qm->CreateQuestFactory ("testquest");
+
+  iQuestStateFactory* state_start = fact->CreateState ("start");
+  iQuestTriggerResponseFactory* start_response1 =
+  	state_start->CreateTriggerResponseFactory ();
+  trigfact = typetrig_entersector->CreateTriggerFactory ();
+  tf_entersector = SCF_QUERY_INTERFACE (trigfact,
+  	iEnterSectorQuestTriggerFactory);
+  tf_entersector->SetEntityNameParameter ("camera");
+  tf_entersector->SetSectorNameParameter ("room0,1");
+  start_response1->SetTriggerFactory (trigfact);
+
+  rewfact = typerew_debugprint->CreateRewardFactory ();
+  rf_debugprint = SCF_QUERY_INTERFACE (rewfact,
+  	iDebugPrintQuestRewardFactory);
+  rf_debugprint->SetMessageParameter ("Done!");
+  start_response1->AddRewardFactory (rewfact);
+
+  rewfact = typerew_newstate->CreateRewardFactory ();
+  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iNewStateQuestRewardFactory);
+  rf_newstate->SetStateParameter ("middle");
+  rf_newstate->SetEntityNameParameter (name);
+  start_response1->AddRewardFactory (rewfact);
+
+  iQuestStateFactory* state_middle = fact->CreateState ("middle");
+  iQuestTriggerResponseFactory* middle_response1 =
+  	state_middle->CreateTriggerResponseFactory ();
+  trigfact = typetrig_entersector->CreateTriggerFactory ();
+  tf_entersector = SCF_QUERY_INTERFACE (trigfact,
+  	iEnterSectorQuestTriggerFactory);
+  tf_entersector->SetEntityNameParameter ("camera");
+  tf_entersector->SetSectorNameParameter ("room");
+  middle_response1->SetTriggerFactory (trigfact);
+
+  rewfact = typerew_debugprint->CreateRewardFactory ();
+  rf_debugprint = SCF_QUERY_INTERFACE (rewfact,
+  	iDebugPrintQuestRewardFactory);
+  rf_debugprint->SetMessageParameter ("And Back!");
+  middle_response1->AddRewardFactory (rewfact);
+
+  rewfact = typerew_newstate->CreateRewardFactory ();
+  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iNewStateQuestRewardFactory);
+  rf_newstate->SetStateParameter ("end");
+  rf_newstate->SetEntityNameParameter (name);
+  middle_response1->AddRewardFactory (rewfact);
+
+  fact->CreateState ("end");
+
+  //-----------------------------------------------------------
+
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest,
+    iPcQuest);
+  celQuestParams params;
+  if (!pcquest->NewQuest ("testquest", params))
+  {
+    ReportError ("Error creating quest '%s'!", "testquest");
+    return 0;
+  }
+  pcquest->GetQuest ()->SwitchState ("start");
+
+  return csPtr<iCelEntity> (entity_quest);
+}
+
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
   csRef<iCelEntity> entity_dummy;
+  csRef<iCelEntity> entity_quest;
 
   //===============================
   // Create the room entity.
@@ -389,6 +481,8 @@ bool CelTest::CreateRoom ()
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  entity_quest = CreateQuest ("myquest");
+  if (!entity_quest) return false;
 
   //===============================
   // Create the box entities.
@@ -488,7 +582,9 @@ bool CelTest::CreateRoom ()
   iCelEntity* defaultent = entity_box;
 
   pcgraph->BuildNodeGraph (sector, defaultent);
+#if PATHFIND_VERBOSE
   pcgraph->Dump (); // show all debug info
+#endif
 
   // Test graph
   //===========
@@ -497,7 +593,9 @@ bool CelTest::CreateRoom ()
   csVector3 v (-2, 0, 0);
   int inearest = pcgraph->FindNearestNode (&v, sector, defaultent);
   // test FindNearestNode method
+#if PATHFIND_VERBOSE
   ReportInfo ("Nearest Node: %d", inearest );
+#endif
 
   // Test FindShortestPath()
   // allocate up to 50 points on path
@@ -510,8 +608,10 @@ bool CelTest::CreateRoom ()
 
     // Test FindNearestNode method.
     ipathlength = pcgraph->FindShortestPath (inearest, itestnode, ipath);
+#if PATHFIND_VERBOSE
     ReportInfo ("Find Shortest path: from %d to %d: %d steps",
 	inearest, itestnode, ipathlength-1 );
+#endif
 
     /* 
       // Print out full path
@@ -524,9 +624,11 @@ bool CelTest::CreateRoom ()
   }
   free (ipath);
 
+#if PATHFIND_VERBOSE
   // Test FindNearestNode method.
   ReportInfo ("Final Graph Stats: nodes: %d links: %d",
 	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
+#endif
 #endif
 
   //===============================
@@ -679,6 +781,8 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
     return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))

@@ -673,6 +673,7 @@ celPcMeshSelect::~celPcMeshSelect ()
     scfiEventHandler->DecRef ();
   }
   SetCamera (0);
+  delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
 }
 

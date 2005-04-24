@@ -157,6 +157,21 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
 
 //---------------------------------------------------------------------------
 
+celBehaviourQuest::celBehaviourQuest (iCelEntity* entity,
+	iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
+{
+}
+
+bool celBehaviourQuest::SendMessageV (const char* msg_id,
+	iCelPropertyClass*,
+	celData&, iCelParameterBlock* params, va_list arg)
+{
+  return false;
+}
+
+//---------------------------------------------------------------------------
+
+
 celBehaviourBox::celBehaviourBox (iCelEntity* entity,
 	iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
 {
