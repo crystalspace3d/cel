@@ -24,6 +24,7 @@
 #include "csutil/weakrefarr.h"
 #include "csutil/hashhandlers.h"
 #include "csutil/hash.h"
+#include "csutil/set.h"
 #include "iutil/comp.h"
 #include "iutil/event.h"
 #include "iutil/eventh.h"

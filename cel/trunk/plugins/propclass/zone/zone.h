@@ -29,6 +29,7 @@
 #include "csutil/refarr.h"
 #include "csutil/util.h"
 #include "csutil/hash.h"
+#include "csutil/set.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"

@@ -21,6 +21,7 @@
 #define __CEL_PLIMP_ETRACKER__
 
 #include "csutil/hash.h"
+#include "csutil/set.h"
 
 #include "plugins/stdphyslayer/pl.h"
 

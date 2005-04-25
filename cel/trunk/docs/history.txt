@@ -17,6 +17,7 @@ The history order is reversed so that new features are at the top.
 	  to make it easiers to make quests from code.
 	- Jorrit added a conveniance method iQuestManager->SetTimeoutTrigger()
 	  to make it easiers to make quests from code.
+	- res updated some files for the csSet<> relocation.
 24-Apr-2005
 	- Jorrit created conveniance macros to make it easier to implement
 	  new reward and trigger types for the quest manager:

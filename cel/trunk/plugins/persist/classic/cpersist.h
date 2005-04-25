@@ -22,6 +22,7 @@
 
 #include "csutil/hash.h"
 #include "csutil/refarr.h"
+#include "csutil/set.h"
 #include "iutil/comp.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"

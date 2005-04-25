@@ -33,6 +33,7 @@
 #include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "csutil/hash.h"
+#include "csutil/set.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
