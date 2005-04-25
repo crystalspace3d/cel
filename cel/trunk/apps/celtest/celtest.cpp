@@ -362,11 +362,9 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   if (!entity_quest) return 0;
 
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
-  iQuestRewardType* typerew_changeprop = qm->GetRewardType (
-  	"cel.questreward.changeproperty");
   csRef<iQuestTriggerFactory> trigfact;
   csRef<iQuestRewardFactory> rewfact;
-  csRef<iChangePropertyQuestRewardFactory> rf_changeprop;
+  iChangePropertyQuestRewardFactory* rf_changeprop;
 
   //-----------------------------------------------------------
   // Create 'testquest'.
@@ -379,14 +377,8 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   	state_init->CreateTriggerResponseFactory ();
 
   qm->SetTimeoutTrigger (init_response1, "1000");
-
-  rewfact = typerew_changeprop->CreateRewardFactory ();
-  rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
-  	iChangePropertyQuestRewardFactory);
-  rf_changeprop->SetEntityNameParameter (name);
-  rf_changeprop->SetPropertyNameParameter ("counter");
+  rf_changeprop = qm->AddChangePropertyReward (init_response1, name, "counter");
   rf_changeprop->SetLongParameter ("0");
-  init_response1->AddRewardFactory (rewfact);
 
   qm->AddNewStateReward (init_response1, name, "start");
 
@@ -406,15 +398,8 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
 
   qm->SetMeshEnterSectorTrigger (middle_response1, "camera", "room");
   qm->AddDebugPrintReward (middle_response1, "And Back!");
-
-  rewfact = typerew_changeprop->CreateRewardFactory ();
-  rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
-  	iChangePropertyQuestRewardFactory);
-  rf_changeprop->SetEntityNameParameter (name);
-  rf_changeprop->SetPropertyNameParameter ("counter");
+  rf_changeprop = qm->AddChangePropertyReward (middle_response1, name, "counter");
   rf_changeprop->SetDiffParameter ("1");
-  middle_response1->AddRewardFactory (rewfact);
-
   qm->AddNewStateReward (middle_response1, name, "end");
 
   // ---- end ----

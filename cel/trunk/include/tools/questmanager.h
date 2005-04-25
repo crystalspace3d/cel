@@ -26,6 +26,7 @@
 #include "csutil/hashhandlers.h"
 
 struct iDocumentNode;
+struct iChangePropertyQuestRewardFactory;
 
 /*
 <quest name="test">
@@ -454,6 +455,15 @@ struct iQuestManager : public iBase
   virtual iQuestRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg_par) = 0;
+
+  /**
+   * Conveniance method to add a 'changeproperty' reward factory
+   * to a response factory. You need to specify exactly which value
+   * should be modified after calling this.
+   */
+  virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par) = 0;
 
   /**
    * Conveniance method to set a 'timeout' trigger factory
