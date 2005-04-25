@@ -488,6 +488,15 @@ struct iQuestManager : public iBase
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par) = 0;
+
+  /**
+   * Conveniance method to set an 'propertychange' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par,
+	const char* value_par) = 0;
 };
 
 // @@@ TODO:
@@ -525,6 +534,50 @@ struct iTimeoutQuestTriggerFactory : public iBase
   virtual void SetTimeoutParameter (const char* timeout_par) = 0;
 };
 
+SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain property gets some value. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.propertychange'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity_name</em>: the name of the entity that contains the
+ *     pcproperties property class.
+ * <li><em>property</em>: the name of the property.
+ * <li><em>value</em>: the value on which this trigger will fire.
+ * </ul>
+ */
+struct iPropertyChangeQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcproperties property class
+   * on which this trigger will fire.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+
+  /**
+   * Set the name of the property on which this trigger will fire.
+   * \param prop_name is the name of the property or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPropertyNameParameter (const char* prop_name) = 0;
+
+  /**
+   * Set the value of the property on which this trigger will fire.
+   * \param value is the varlue or a parameter (starts with '$').
+   */
+  virtual void SetValueParameter (const char* value) = 0;
+};
+
 SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
 
 /**
@@ -550,7 +603,7 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
 struct iEnterSectorQuestTriggerFactory : public iBase
 {
   /**
-   * Set the name of the entity containing the pccamera property class
+   * Set the name of the entity containing the pccamera or pcmesh property class
    * on which this trigger will fire.
    * \param entity_name is the name of the entity or a parameter (starts
    * with '$').

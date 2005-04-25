@@ -26,9 +26,23 @@
 
 struct iCelEntity;
 struct iCelPropertyClass;
+struct iPcProperties;
 class csVector2;
 class csVector3;
 class csColor;
+
+SCF_VERSION (iPcPropertyListener, 0, 0, 1);
+
+/**
+ * Listen for property changes.
+ */
+struct iPcPropertyListener : public iBase
+{
+  /**
+   * Property was changed or cleared.
+   */
+  virtual void PropertyChanged (iPcProperties* pcprop, size_t idx) = 0;
+};
 
 SCF_VERSION (iPcProperties, 0, 0, 1);
 
@@ -44,6 +58,16 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
  */
 struct iPcProperties : public iBase
 {
+  /**
+   * Add a property listener. Property listeners are called right before
+   * the behaviour is called.
+   */
+  virtual void AddPropertyListener (iPcPropertyListener* listener) = 0;
+  /**
+   * Remove a property listener.
+   */
+  virtual void RemovePropertyListener (iPcPropertyListener* listener) = 0;
+
   /**
    * Set property.
    */

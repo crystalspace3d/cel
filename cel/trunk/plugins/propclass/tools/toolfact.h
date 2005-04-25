@@ -219,6 +219,7 @@ private:
   csPDelArray<property> properties;
   csHash<size_t, csStrKey, csConstCharHashKeyHandler> properties_hash;
   bool properties_hash_dirty;
+  csRefArray<iPcPropertyListener> listeners;
 
   size_t NewProperty (const char* name);
   size_t FindProperty (csStringID id);
@@ -293,6 +294,9 @@ public:
   size_t GetPropertyCount () const;
   const char* GetPropertyName (size_t idx) const;
   void Dump ();
+  void AddPropertyListener (iPcPropertyListener* listener);
+  void RemovePropertyListener (iPcPropertyListener* listener);
+  void FirePropertyListeners (size_t idx);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -303,6 +307,14 @@ public:
   struct PcProperties : public iPcProperties
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcProperties);
+    virtual void AddPropertyListener (iPcPropertyListener* listener)
+    {
+      scfParent->AddPropertyListener (listener);
+    }
+    virtual void RemovePropertyListener (iPcPropertyListener* listener)
+    {
+      scfParent->RemovePropertyListener (listener);
+    }
     virtual void SetProperty (const char* name, float value)
     {
       scfParent->SetProperty (name, value);

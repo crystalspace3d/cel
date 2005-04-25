@@ -362,8 +362,6 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   if (!entity_quest) return 0;
 
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
-  csRef<iQuestTriggerFactory> trigfact;
-  csRef<iQuestRewardFactory> rewfact;
   iChangePropertyQuestRewardFactory* rf_changeprop;
 
   //-----------------------------------------------------------
@@ -377,10 +375,11 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   	state_init->CreateTriggerResponseFactory ();
 
   qm->SetTimeoutTrigger (init_response1, "1000");
-  rf_changeprop = qm->AddChangePropertyReward (init_response1, name, "counter");
+  qm->AddDebugPrintReward (init_response1, "$message");
+  qm->AddNewStateReward (init_response1, "$ent", "start");
+  rf_changeprop = qm->AddChangePropertyReward (init_response1,
+  	"$ent", "counter");
   rf_changeprop->SetLongParameter ("0");
-
-  qm->AddNewStateReward (init_response1, name, "start");
 
   // ---- start ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
@@ -389,7 +388,13 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
 
   qm->SetMeshEnterSectorTrigger (start_response1, "camera", "room0,1");
   qm->AddDebugPrintReward (start_response1, "Done!");
-  qm->AddNewStateReward (start_response1, name, "middle");
+  qm->AddNewStateReward (start_response1, "$ent", "middle");
+
+  iQuestTriggerResponseFactory* start_response2 =
+  	state_start->CreateTriggerResponseFactory ();
+  qm->SetPropertyChangeTrigger (start_response2, "$ent", "counter", "5");
+  qm->AddDebugPrintReward (start_response2, "We reached 5!");
+  qm->AddNewStateReward (start_response2, "$ent", "end");
 
   // ---- middle ----
   iQuestStateFactory* state_middle = fact->CreateState ("middle");
@@ -397,10 +402,11 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   	state_middle->CreateTriggerResponseFactory ();
 
   qm->SetMeshEnterSectorTrigger (middle_response1, "camera", "room");
+  qm->AddNewStateReward (middle_response1, "$ent", "start");
   qm->AddDebugPrintReward (middle_response1, "And Back!");
-  rf_changeprop = qm->AddChangePropertyReward (middle_response1, name, "counter");
+  rf_changeprop = qm->AddChangePropertyReward (middle_response1,
+  	"$ent", "counter");
   rf_changeprop->SetDiffParameter ("1");
-  qm->AddNewStateReward (middle_response1, name, "end");
 
   // ---- end ----
   fact->CreateState ("end");
@@ -410,6 +416,8 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest,
     iPcQuest);
   celQuestParams params;
+  params.Put ("message", "Hallo Hallo!");
+  params.Put ("ent", name);
   if (!pcquest->NewQuest ("testquest", params))
   {
     ReportError ("Error creating quest '%s'!", "testquest");

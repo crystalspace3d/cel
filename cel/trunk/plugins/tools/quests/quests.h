@@ -176,6 +176,9 @@ private:
   csPDelArray<celQuestState> states;
   int current_state;
 
+  /// Deactivate a state (deactivate all triggers).
+  void DeactivateState (size_t stateidx);
+
 public:
   celQuest ();
   virtual ~celQuest ();
@@ -248,6 +251,9 @@ public:
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par);
+  virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par, const char* value_par);
 
   struct Component : public iComponent
   {
