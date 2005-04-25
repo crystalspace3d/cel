@@ -30,6 +30,7 @@
 #include "plugins/tools/quests/trig_entersector.h"
 #include "plugins/tools/quests/trig_meshentersector.h"
 #include "plugins/tools/quests/trig_timeout.h"
+#include "plugins/tools/quests/trig_propertychange.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -357,7 +358,17 @@ celQuest::celQuest ()
 
 celQuest::~celQuest ()
 {
+  DeactivateState (current_state);
   SCF_DESTRUCT_IBASE ();
+}
+
+void celQuest::DeactivateState (size_t stateidx)
+{
+  if (stateidx == (size_t)-1) return;
+  celQuestState* st = states[stateidx];
+  size_t j;
+  for (j = 0 ; j < st->GetResponseCount () ; j++)
+    st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
 }
 
 bool celQuest::SwitchState (const char* state)
@@ -372,12 +383,7 @@ bool celQuest::SwitchState (const char* state)
     if (strcmp (state, states[i]->GetName ()) == 0)
     {
       if (i == (size_t)current_state) return true;	// Nothing happens.
-      if (current_state != -1)
-      {
-	celQuestState* st = states[current_state];
-        for (j = 0 ; j < st->GetResponseCount () ; j++)
-          st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
-      }
+      DeactivateState (current_state);
       current_state = i;
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
@@ -444,6 +450,13 @@ celQuestManager::~celQuestManager ()
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
+
+  {
+    celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
 
   {
     celTimeoutTriggerType* type = new celTimeoutTriggerType (
@@ -649,6 +662,21 @@ iQuestTriggerFactory* celQuestManager::SetMeshEnterSectorTrigger (
   	trigfact, iEnterSectorQuestTriggerFactory);
   newstate->SetEntityNameParameter (entity_par);
   newstate->SetSectorNameParameter (sector_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par, const char* value_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.propertychange");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iPropertyChangeQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (
+  	trigfact, iPropertyChangeQuestTriggerFactory);
+  newstate->SetEntityNameParameter (entity_par);
+  newstate->SetPropertyNameParameter (prop_par);
+  newstate->SetValueParameter (value_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }

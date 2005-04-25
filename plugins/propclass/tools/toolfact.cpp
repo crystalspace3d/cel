@@ -811,6 +811,7 @@ void celPcProperties::SetPropertyIndex (size_t index, float value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_FLOAT;
   p->v.f = value;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -827,6 +828,7 @@ void celPcProperties::SetPropertyIndex (size_t index, long value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_LONG;
   p->v.l = value;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -843,6 +845,7 @@ void celPcProperties::SetPropertyIndex (size_t index, bool value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_BOOL;
   p->v.b = value;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -860,6 +863,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector2& value)
   p->type = CEL_DATA_VECTOR2;
   p->v.vec.x = value.x;
   p->v.vec.y = value.y;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -878,6 +882,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector3& value)
   p->v.vec.x = value.x;
   p->v.vec.y = value.y;
   p->v.vec.z = value.z;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -896,6 +901,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csColor& value)
   p->v.col.red = value.red;
   p->v.col.green = value.green;
   p->v.col.blue = value.blue;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -912,6 +918,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const char* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_STRING;
   p->v.s = csStrNew (value);
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -928,6 +935,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelPropertyClass* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_PCLASS;
   p->pclass = value;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -944,6 +952,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_ENTITY;
   p->entity = value;
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -1067,6 +1076,7 @@ iCelEntity* celPcProperties::GetPropertyEntityIndex (size_t index) const
 void celPcProperties::ClearProperty (size_t index)
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
+  FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
@@ -1105,6 +1115,26 @@ const char* celPcProperties::GetPropertyName (size_t index) const
 
 void celPcProperties::Dump ()
 {
+}
+
+void celPcProperties::AddPropertyListener (iPcPropertyListener* listener)
+{
+  listeners.Push (listener);
+}
+
+void celPcProperties::RemovePropertyListener (iPcPropertyListener* listener)
+{
+  listeners.Delete (listener);
+}
+
+void celPcProperties::FirePropertyListeners (size_t idx)
+{
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
+    listeners[i]->PropertyChanged (&scfiPcProperties, idx);
+  }
 }
 
 //---------------------------------------------------------------------------

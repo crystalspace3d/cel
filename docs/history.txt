@@ -23,6 +23,13 @@ The history order is reversed so that new features are at the top.
 	- res updated some files for the csSet<> relocation.
 	- Jorrit added a conveniance method
 	  iQuestManager->AddChangePropertyReward().
+	- Jorrit extended celtest to test the quest parameter system too.
+	- Jorrit added a new iPcPropertyListener interface and a way to
+	  listen to property changes from outside the behaviour context.
+	- Jorrit added a new predefined trigger to listen for property
+	  changes.
+	- Jorrit deactivated triggers when a quest is cleaned up. That
+	  may potentially fix memory leaks.
 24-Apr-2005
 	- Jorrit created conveniance macros to make it easier to implement
 	  new reward and trigger types for the quest manager:
