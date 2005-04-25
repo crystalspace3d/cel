@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  property values (set or add values).
 	- Jorrit implemented a new predefined trigger that fires when a
 	  certain time has expired.
+	- Jorrit added a conveniance method iQuestManager->AddNewStateReward()
+	  to make it easiers to make quests from code.
 24-Apr-2005
 	- Jorrit created conveniance macros to make it easier to implement
 	  new reward and trigger types for the quest manager:
