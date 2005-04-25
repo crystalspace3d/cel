@@ -456,12 +456,28 @@ struct iQuestManager : public iBase
   	const char* msg_par) = 0;
 
   /**
-   * Conveniance method to add a 'timeout' trigger factory
+   * Conveniance method to set a 'timeout' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par) = 0;
+
+  /**
+   * Conveniance method to set an 'entersector' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetEnterSectorTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par) = 0;
+
+  /**
+   * Conveniance method to set an 'meshentersector' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par) = 0;
 };
 
 // @@@ TODO:

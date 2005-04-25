@@ -611,4 +611,32 @@ iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
   return trigfact;
 }
 
+iQuestTriggerFactory* celQuestManager::SetEnterSectorTrigger (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.entersector");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (
+  	trigfact, iEnterSectorQuestTriggerFactory);
+  newstate->SetEntityNameParameter (entity_par);
+  newstate->SetSectorNameParameter (sector_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetMeshEnterSectorTrigger (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.meshentersector");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (
+  	trigfact, iEnterSectorQuestTriggerFactory);
+  newstate->SetEntityNameParameter (entity_par);
+  newstate->SetSectorNameParameter (sector_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
 //---------------------------------------------------------------------------
