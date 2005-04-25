@@ -598,6 +598,20 @@ iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
   return rewfact;
 }
 
+iChangePropertyQuestRewardFactory* celQuestManager::AddChangePropertyReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.changeproperty");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iChangePropertyQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (
+  	rewfact, iChangePropertyQuestRewardFactory);
+  newstate->SetEntityNameParameter (entity_par);
+  newstate->SetPropertyNameParameter (prop_par);
+  response->AddRewardFactory (rewfact);
+  return newstate;
+}
+
 iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* timeout_par)

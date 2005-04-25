@@ -235,6 +235,10 @@ public:
   virtual iQuestRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg_par);
+  virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par);
+
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
