@@ -13,6 +13,10 @@ The history order is reversed so that new features are at the top.
 	  certain time has expired.
 	- Jorrit added a conveniance method iQuestManager->AddNewStateReward()
 	  to make it easiers to make quests from code.
+	- Jorrit added a conveniance method iQuestManager->AddDebugPrintReward()
+	  to make it easiers to make quests from code.
+	- Jorrit added a conveniance method iQuestManager->SetTimeoutTrigger()
+	  to make it easiers to make quests from code.
 24-Apr-2005
 	- Jorrit created conveniance macros to make it easier to implement
 	  new reward and trigger types for the quest manager:

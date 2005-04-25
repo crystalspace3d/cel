@@ -364,17 +364,12 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
   iQuestTriggerType* typetrig_meshentersector = qm->GetTriggerType (
   	"cel.questtrigger.meshentersector");
-  iQuestTriggerType* typetrig_timeout = qm->GetTriggerType (
-  	"cel.questtrigger.timeout");
-  iQuestRewardType* typerew_debugprint = qm->GetRewardType (
-  	"cel.questreward.debugprint");
   iQuestRewardType* typerew_changeprop = qm->GetRewardType (
   	"cel.questreward.changeproperty");
   csRef<iQuestTriggerFactory> trigfact;
   csRef<iQuestRewardFactory> rewfact;
   csRef<iEnterSectorQuestTriggerFactory> tf_entersector;
   csRef<iTimeoutQuestTriggerFactory> tf_timeout;
-  csRef<iDebugPrintQuestRewardFactory> rf_debugprint;
   csRef<iChangePropertyQuestRewardFactory> rf_changeprop;
 
   //-----------------------------------------------------------
@@ -387,11 +382,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* init_response1 =
   	state_init->CreateTriggerResponseFactory ();
 
-  trigfact = typetrig_timeout->CreateTriggerFactory ();
-  tf_timeout = SCF_QUERY_INTERFACE (trigfact,
-  	iTimeoutQuestTriggerFactory);
-  tf_timeout->SetTimeoutParameter ("1000");
-  init_response1->SetTriggerFactory (trigfact);
+  qm->SetTimeoutTrigger (init_response1, "1000");
 
   rewfact = typerew_changeprop->CreateRewardFactory ();
   rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
@@ -415,12 +406,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   tf_entersector->SetSectorNameParameter ("room0,1");
   start_response1->SetTriggerFactory (trigfact);
 
-  rewfact = typerew_debugprint->CreateRewardFactory ();
-  rf_debugprint = SCF_QUERY_INTERFACE (rewfact,
-  	iDebugPrintQuestRewardFactory);
-  rf_debugprint->SetMessageParameter ("Done!");
-  start_response1->AddRewardFactory (rewfact);
-
+  qm->AddDebugPrintReward (start_response1, "Done!");
   qm->AddNewStateReward (start_response1, name, "middle");
 
   // ---- middle ----
@@ -434,11 +420,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   tf_entersector->SetSectorNameParameter ("room");
   middle_response1->SetTriggerFactory (trigfact);
 
-  rewfact = typerew_debugprint->CreateRewardFactory ();
-  rf_debugprint = SCF_QUERY_INTERFACE (rewfact,
-  	iDebugPrintQuestRewardFactory);
-  rf_debugprint->SetMessageParameter ("And Back!");
-  middle_response1->AddRewardFactory (rewfact);
+  qm->AddDebugPrintReward (middle_response1, "And Back!");
 
   rewfact = typerew_changeprop->CreateRewardFactory ();
   rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
