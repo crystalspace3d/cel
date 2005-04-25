@@ -238,6 +238,12 @@ public:
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
+  virtual iQuestTriggerFactory* SetEnterSectorTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par);
+  virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par);
 
   struct Component : public iComponent
   {

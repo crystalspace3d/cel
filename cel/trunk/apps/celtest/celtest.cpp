@@ -362,14 +362,10 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   if (!entity_quest) return 0;
 
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
-  iQuestTriggerType* typetrig_meshentersector = qm->GetTriggerType (
-  	"cel.questtrigger.meshentersector");
   iQuestRewardType* typerew_changeprop = qm->GetRewardType (
   	"cel.questreward.changeproperty");
   csRef<iQuestTriggerFactory> trigfact;
   csRef<iQuestRewardFactory> rewfact;
-  csRef<iEnterSectorQuestTriggerFactory> tf_entersector;
-  csRef<iTimeoutQuestTriggerFactory> tf_timeout;
   csRef<iChangePropertyQuestRewardFactory> rf_changeprop;
 
   //-----------------------------------------------------------
@@ -399,13 +395,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* start_response1 =
   	state_start->CreateTriggerResponseFactory ();
 
-  trigfact = typetrig_meshentersector->CreateTriggerFactory ();
-  tf_entersector = SCF_QUERY_INTERFACE (trigfact,
-  	iEnterSectorQuestTriggerFactory);
-  tf_entersector->SetEntityNameParameter ("camera");
-  tf_entersector->SetSectorNameParameter ("room0,1");
-  start_response1->SetTriggerFactory (trigfact);
-
+  qm->SetMeshEnterSectorTrigger (start_response1, "camera", "room0,1");
   qm->AddDebugPrintReward (start_response1, "Done!");
   qm->AddNewStateReward (start_response1, name, "middle");
 
@@ -413,13 +403,8 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   iQuestStateFactory* state_middle = fact->CreateState ("middle");
   iQuestTriggerResponseFactory* middle_response1 =
   	state_middle->CreateTriggerResponseFactory ();
-  trigfact = typetrig_meshentersector->CreateTriggerFactory ();
-  tf_entersector = SCF_QUERY_INTERFACE (trigfact,
-  	iEnterSectorQuestTriggerFactory);
-  tf_entersector->SetEntityNameParameter ("camera");
-  tf_entersector->SetSectorNameParameter ("room");
-  middle_response1->SetTriggerFactory (trigfact);
 
+  qm->SetMeshEnterSectorTrigger (middle_response1, "camera", "room");
   qm->AddDebugPrintReward (middle_response1, "And Back!");
 
   rewfact = typerew_changeprop->CreateRewardFactory ();
