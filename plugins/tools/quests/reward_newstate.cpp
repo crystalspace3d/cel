@@ -153,7 +153,6 @@ void celNewStateReward::Reward ()
     if (!quest) return;
   }
   quest->SwitchState (state);
-  printf ("New state!\n"); fflush (stdout);
 }
 
 //---------------------------------------------------------------------------

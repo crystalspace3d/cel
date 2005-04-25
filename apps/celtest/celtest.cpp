@@ -357,31 +357,66 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   // The Quest Entity
   csRef<iCelEntity> entity_quest = pl->CreateEntity (name, bltest, "quest",
   	"pcquest",
+	"pcproperties",
 	(void*)0);
   if (!entity_quest) return 0;
 
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
-  iQuestTriggerType* typetrig_entersector = qm->GetTriggerType (
-  	"cel.questtrigger.entersector");
+  iQuestTriggerType* typetrig_meshentersector = qm->GetTriggerType (
+  	"cel.questtrigger.meshentersector");
+  iQuestTriggerType* typetrig_timeout = qm->GetTriggerType (
+  	"cel.questtrigger.timeout");
   iQuestRewardType* typerew_debugprint = qm->GetRewardType (
   	"cel.questreward.debugprint");
   iQuestRewardType* typerew_newstate = qm->GetRewardType (
   	"cel.questreward.newstate");
+  iQuestRewardType* typerew_changeprop = qm->GetRewardType (
+  	"cel.questreward.changeproperty");
   csRef<iQuestTriggerFactory> trigfact;
   csRef<iQuestRewardFactory> rewfact;
   csRef<iEnterSectorQuestTriggerFactory> tf_entersector;
+  csRef<iTimeoutQuestTriggerFactory> tf_timeout;
   csRef<iDebugPrintQuestRewardFactory> rf_debugprint;
   csRef<iNewStateQuestRewardFactory> rf_newstate;
+  csRef<iChangePropertyQuestRewardFactory> rf_changeprop;
 
   //-----------------------------------------------------------
   // Create 'testquest'.
   //-----------------------------------------------------------
   iQuestFactory* fact = qm->CreateQuestFactory ("testquest");
 
+  // ---- init ----
+  iQuestStateFactory* state_init = fact->CreateState ("init");
+  iQuestTriggerResponseFactory* init_response1 =
+  	state_init->CreateTriggerResponseFactory ();
+
+  trigfact = typetrig_timeout->CreateTriggerFactory ();
+  tf_timeout = SCF_QUERY_INTERFACE (trigfact,
+  	iTimeoutQuestTriggerFactory);
+  tf_timeout->SetTimeoutParameter ("1000");
+  init_response1->SetTriggerFactory (trigfact);
+
+  rewfact = typerew_changeprop->CreateRewardFactory ();
+  rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
+  	iChangePropertyQuestRewardFactory);
+  rf_changeprop->SetEntityNameParameter (name);
+  rf_changeprop->SetPropertyNameParameter ("counter");
+  rf_changeprop->SetLongParameter ("0");
+  init_response1->AddRewardFactory (rewfact);
+
+  rewfact = typerew_newstate->CreateRewardFactory ();
+  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iNewStateQuestRewardFactory);
+  rf_newstate->SetStateParameter ("start");
+  rf_newstate->SetEntityNameParameter (name);
+  init_response1->AddRewardFactory (rewfact);
+
+  // ---- start ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
   iQuestTriggerResponseFactory* start_response1 =
   	state_start->CreateTriggerResponseFactory ();
-  trigfact = typetrig_entersector->CreateTriggerFactory ();
+
+  trigfact = typetrig_meshentersector->CreateTriggerFactory ();
   tf_entersector = SCF_QUERY_INTERFACE (trigfact,
   	iEnterSectorQuestTriggerFactory);
   tf_entersector->SetEntityNameParameter ("camera");
@@ -401,10 +436,11 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_newstate->SetEntityNameParameter (name);
   start_response1->AddRewardFactory (rewfact);
 
+  // ---- middle ----
   iQuestStateFactory* state_middle = fact->CreateState ("middle");
   iQuestTriggerResponseFactory* middle_response1 =
   	state_middle->CreateTriggerResponseFactory ();
-  trigfact = typetrig_entersector->CreateTriggerFactory ();
+  trigfact = typetrig_meshentersector->CreateTriggerFactory ();
   tf_entersector = SCF_QUERY_INTERFACE (trigfact,
   	iEnterSectorQuestTriggerFactory);
   tf_entersector->SetEntityNameParameter ("camera");
@@ -417,6 +453,14 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_debugprint->SetMessageParameter ("And Back!");
   middle_response1->AddRewardFactory (rewfact);
 
+  rewfact = typerew_changeprop->CreateRewardFactory ();
+  rf_changeprop = SCF_QUERY_INTERFACE (rewfact,
+  	iChangePropertyQuestRewardFactory);
+  rf_changeprop->SetEntityNameParameter (name);
+  rf_changeprop->SetPropertyNameParameter ("counter");
+  rf_changeprop->SetDiffParameter ("1");
+  middle_response1->AddRewardFactory (rewfact);
+
   rewfact = typerew_newstate->CreateRewardFactory ();
   rf_newstate = SCF_QUERY_INTERFACE (rewfact,
   	iNewStateQuestRewardFactory);
@@ -424,6 +468,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_newstate->SetEntityNameParameter (name);
   middle_response1->AddRewardFactory (rewfact);
 
+  // ---- end ----
   fact->CreateState ("end");
 
   //-----------------------------------------------------------
@@ -436,7 +481,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
     ReportError ("Error creating quest '%s'!", "testquest");
     return 0;
   }
-  pcquest->GetQuest ()->SwitchState ("start");
+  pcquest->GetQuest ()->SwitchState ("init");
 
   return csPtr<iCelEntity> (entity_quest);
 }
@@ -783,6 +828,8 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
     return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))

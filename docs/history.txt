@@ -3,6 +3,14 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+25-Apr-2005
+	- Jorrit implemented a new predefined trigger that checks when
+	  a mesh enters a sector. It is similar to the already existing
+	  trigger that checks when a camera enters a sector.
+	- Jorrit implemented a new predefined reward that can change
+	  property values (set or add values).
+	- Jorrit implemented a new predefined trigger that fires when a
+	  certain time has expired.
 24-Apr-2005
 	- Jorrit created conveniance macros to make it easier to implement
 	  new reward and trigger types for the quest manager:

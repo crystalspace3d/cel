@@ -211,14 +211,11 @@ void celPcTooltip::TickEveryFrame ()
   while (lineit.HasNext ())
   {
     line = lineit.Next ();
-    printf ("printing line: %s\n", line.GetData ());
     fflush (stdout);
     if (justify == CEL_TOOLTIP_CENTER)
       offset = (width - fnt->GetLength (line.GetData (), width)) / 2;
     else if (justify == CEL_TOOLTIP_RIGHT)
       offset = (width - fnt->GetLength (line.GetData (), width));
-    printf ("offset: %d\n", offset);
-    fflush (stdout);
     G2D->Write (fnt, x + offset, y + (linenum * fnt->GetTextHeight ()), fgcolor, bgcolor, line.GetData ());
     linenum++;
   }
