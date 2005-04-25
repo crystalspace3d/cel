@@ -446,6 +446,22 @@ struct iQuestManager : public iBase
   virtual iQuestRewardFactory* AddNewStateReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par) = 0;
+
+  /**
+   * Conveniance method to add a 'debugprint' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddDebugPrintReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* msg_par) = 0;
+
+  /**
+   * Conveniance method to add a 'timeout' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetTimeoutTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* timeout_par) = 0;
 };
 
 // @@@ TODO:

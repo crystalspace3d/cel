@@ -585,4 +585,30 @@ iQuestRewardFactory* celQuestManager::AddNewStateReward (
   return rewfact;
 }
 
+iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
+	iQuestTriggerResponseFactory* response,
+  	const char* msg_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.debugprint");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDebugPrintQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iDebugPrintQuestRewardFactory);
+  newstate->SetMessageParameter (msg_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
+	iQuestTriggerResponseFactory* response,
+  	const char* timeout_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.timeout");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTimeoutQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (trigfact,
+  	iTimeoutQuestTriggerFactory);
+  newstate->SetTimeoutParameter (timeout_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
 //---------------------------------------------------------------------------
