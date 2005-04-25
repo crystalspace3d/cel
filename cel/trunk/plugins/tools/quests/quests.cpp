@@ -28,8 +28,11 @@
 
 #include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/trig_entersector.h"
+#include "plugins/tools/quests/trig_meshentersector.h"
+#include "plugins/tools/quests/trig_timeout.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
+#include "plugins/tools/quests/reward_changeproperty.h"
 
 //---------------------------------------------------------------------------
 
@@ -443,7 +446,21 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   celQuestManager::object_reg = object_reg;
 
   {
+    celTimeoutTriggerType* type = new celTimeoutTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
     celEnterSectorTriggerType* type = new celEnterSectorTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
+    celMeshEnterSectorTriggerType* type = new celMeshEnterSectorTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
@@ -458,6 +475,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celNewStateRewardType* type = new celNewStateRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celChangePropertyRewardType* type = new celChangePropertyRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();

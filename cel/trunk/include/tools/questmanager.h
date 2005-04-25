@@ -370,6 +370,10 @@ struct iQuestManager : public iBase
    * <ul>
    * <li>cel.questtrigger.entersector: triggers when a camera (from
    *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
+   * <li>cel.questtrigger.meshentersector: triggers when a mesh (from
+   *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
+   * <li>cel.questtrigger.timeout: triggers after a specified time.
+   *     See iTimeoutQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -391,8 +395,10 @@ struct iQuestManager : public iBase
    * <ul>
    * <li>cel.questreward.debugprint: print a debug message on stdout.
    *     See iDebugPrintQuestRewardFactory.
-   * <li>cel.questreward.newstate: switch to a new state
+   * <li>cel.questreward.newstate: switch to a new state.
    *     See iNewStateQuestRewardFactory.
+   * <li>cel.questreward.changeproperty: change a property.
+   *     See iChangePropertyQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -434,9 +440,40 @@ struct iQuestManager : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
+// @@@ TODO:
+// Trigger: inventory operations
+// Trigger: property values
+// Reward: inventory operations
+
 //-------------------------------------------------------------------------
 // Specific trigger implementations.
 //-------------------------------------------------------------------------
+
+SCF_VERSION (iTimeoutQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain time has expired. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is 'cel.questtrigger.timeout'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>timeout</em>: timeout value.
+ * </ul>
+ */
+struct iTimeoutQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the timeout on which this trigger will fire.
+   * \param timeout_par is the timeout value (in ms) or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTimeoutParameter (const char* timeout_par) = 0;
+};
 
 SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
 
@@ -447,14 +484,17 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
  * this factory as opposed to loading its definition from an XML
  * document.
  * <p>
- * The predefined name of this trigger type is 'cel.questtrigger.entersector'.
+ * The predefined name of this trigger type is 'cel.questtrigger.entersector'
+ * for the version that listens to camera changes and
+ * 'cel.questtrigger.meshentersector' for the version that listens to mesh
+ * changes.
  * <p>
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * <ul>
  * <li><em>entity_name</em>: the name of the entity that contains the
- *     pccamera property class.
+ *     pccamera or pcmesh property class.
  * <li><em>sector_name</em>: the name of the sector. As soon as the camera
- *     enters that sector this trigger will fire.
+ *     or mesh enters that sector this trigger will fire.
  * </ul>
  */
 struct iEnterSectorQuestTriggerFactory : public iBase
@@ -540,6 +580,83 @@ struct iNewStateQuestRewardFactory : public iBase
    * with '$').
    */
   virtual void SetEntityNameParameter (const char* entity_name) = 0;
+};
+
+SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that changes the value
+ * of a property. You can query this interface
+ * from the reward factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.changeproperty'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'reward' node:
+ * <ul>
+ * <li><em>entity_name</em>: the name of the entity containing the
+ *     pcproperties property class.
+ * <li><em>property</em>: the name of the property.
+ * <li><em>string_value</em>: the new string value of the property.
+ * <li><em>long_value</em>: the new long value of the property.
+ * <li><em>float_value</em>: the new float value of the property.
+ * <li><em>bool_value</em>: the new bool value of the property.
+ * <li><em>diff</em>: this long or float value will be added to the property.
+ * <li><em>toggle</em>: toggle the boolean or long value.
+ * </ul>
+ */
+struct iChangePropertyQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcproperties property class
+   * on which this reward will work.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+
+  /**
+   * Set the name of the property.
+   * \param prop_name is the name of the property or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPropertyNameParameter (const char* prop_name) = 0;
+
+  /**
+   * Set the string value.
+   * \param pstring is the string or a parameter (starts with '$').
+   */
+  virtual void SetStringParameter (const char* pstring) = 0;
+
+  /**
+   * Set the long value.
+   * \param plong is the long or a parameter (starts with '$').
+   */
+  virtual void SetLongParameter (const char* plong) = 0;
+
+  /**
+   * Set the float value.
+   * \param pfloat is the float or a parameter (starts with '$').
+   */
+  virtual void SetFloatParameter (const char* pfloat) = 0;
+
+  /**
+   * Set the boolean value.
+   * \param pbool is the bool or a parameter (starts with '$').
+   */
+  virtual void SetBoolParameter (const char* pbool) = 0;
+
+  /**
+   * Set the diff.
+   * \param pdiff is the long/float or a parameter (starts with '$').
+   */
+  virtual void SetDiffParameter (const char* pdiff) = 0;
+
+  /**
+   * Set the toggle.
+   */
+  virtual void SetToggle () = 0;
 };
 
 /**

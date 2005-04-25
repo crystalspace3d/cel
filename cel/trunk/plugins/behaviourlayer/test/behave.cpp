@@ -79,7 +79,7 @@ bool celBehaviourPrinter::SendMessageV (const char* msg_id,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
   (void)arg; (void)params;
-  printf ("Got message '%s'\n", msg_id);
+  //printf ("Got message '%s'\n", msg_id);
   return false;
 }
 

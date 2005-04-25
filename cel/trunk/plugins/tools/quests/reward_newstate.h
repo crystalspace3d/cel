@@ -36,12 +36,12 @@ struct iEvent;
 /**
  * A standard reward type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This reward type listens to the name 'cel.questreward.debugprint'.
+ * This reward type listens to the name 'cel.questreward.newstate'.
  */
 CEL_DECLARE_REWARDTYPE(NewState,"cel.questreward.newstate")
 
 /**
- * The 'debugprint' reward factory.
+ * The 'newstate' reward factory.
  */
 class celNewStateRewardFactory :
 	public iQuestRewardFactory,
@@ -68,7 +68,7 @@ public:
 };
 
 /**
- * The 'printdebug' reward.
+ * The 'newstate' reward.
  */
 class celNewStateReward :
 	public iQuestReward
