@@ -229,6 +229,10 @@ public:
 	const char* param);
   virtual bool Load (iDocumentNode* node);
 
+  virtual iQuestRewardFactory* AddNewStateReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* state_par);
+
   struct Component : public iComponent
   {
     SCF_DECLARE_EMBEDDED_IBASE (celQuestManager);

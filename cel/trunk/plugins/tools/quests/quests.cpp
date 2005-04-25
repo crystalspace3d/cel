@@ -571,4 +571,18 @@ bool celQuestManager::Load (iDocumentNode* node)
   return true;
 }
 
+iQuestRewardFactory* celQuestManager::AddNewStateReward (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* state_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.newstate");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iNewStateQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iNewStateQuestRewardFactory);
+  newstate->SetStateParameter (state_par);
+  newstate->SetEntityNameParameter (entity_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
 //---------------------------------------------------------------------------

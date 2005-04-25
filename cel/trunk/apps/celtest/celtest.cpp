@@ -368,8 +368,6 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   	"cel.questtrigger.timeout");
   iQuestRewardType* typerew_debugprint = qm->GetRewardType (
   	"cel.questreward.debugprint");
-  iQuestRewardType* typerew_newstate = qm->GetRewardType (
-  	"cel.questreward.newstate");
   iQuestRewardType* typerew_changeprop = qm->GetRewardType (
   	"cel.questreward.changeproperty");
   csRef<iQuestTriggerFactory> trigfact;
@@ -377,7 +375,6 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   csRef<iEnterSectorQuestTriggerFactory> tf_entersector;
   csRef<iTimeoutQuestTriggerFactory> tf_timeout;
   csRef<iDebugPrintQuestRewardFactory> rf_debugprint;
-  csRef<iNewStateQuestRewardFactory> rf_newstate;
   csRef<iChangePropertyQuestRewardFactory> rf_changeprop;
 
   //-----------------------------------------------------------
@@ -404,12 +401,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_changeprop->SetLongParameter ("0");
   init_response1->AddRewardFactory (rewfact);
 
-  rewfact = typerew_newstate->CreateRewardFactory ();
-  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
-  	iNewStateQuestRewardFactory);
-  rf_newstate->SetStateParameter ("start");
-  rf_newstate->SetEntityNameParameter (name);
-  init_response1->AddRewardFactory (rewfact);
+  qm->AddNewStateReward (init_response1, name, "start");
 
   // ---- start ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
@@ -429,12 +421,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_debugprint->SetMessageParameter ("Done!");
   start_response1->AddRewardFactory (rewfact);
 
-  rewfact = typerew_newstate->CreateRewardFactory ();
-  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
-  	iNewStateQuestRewardFactory);
-  rf_newstate->SetStateParameter ("middle");
-  rf_newstate->SetEntityNameParameter (name);
-  start_response1->AddRewardFactory (rewfact);
+  qm->AddNewStateReward (start_response1, name, "middle");
 
   // ---- middle ----
   iQuestStateFactory* state_middle = fact->CreateState ("middle");
@@ -461,12 +448,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   rf_changeprop->SetDiffParameter ("1");
   middle_response1->AddRewardFactory (rewfact);
 
-  rewfact = typerew_newstate->CreateRewardFactory ();
-  rf_newstate = SCF_QUERY_INTERFACE (rewfact,
-  	iNewStateQuestRewardFactory);
-  rf_newstate->SetStateParameter ("end");
-  rf_newstate->SetEntityNameParameter (name);
-  middle_response1->AddRewardFactory (rewfact);
+  qm->AddNewStateReward (middle_response1, name, "end");
 
   // ---- end ----
   fact->CreateState ("end");

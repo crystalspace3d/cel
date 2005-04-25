@@ -438,6 +438,14 @@ struct iQuestManager : public iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Conveniance method to add a 'newstate' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddNewStateReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* state_par) = 0;
 };
 
 // @@@ TODO:
