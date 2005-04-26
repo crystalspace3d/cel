@@ -241,6 +241,9 @@ public:
   virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par);
+  virtual iQuestRewardFactory* AddInventoryReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par);
 
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,

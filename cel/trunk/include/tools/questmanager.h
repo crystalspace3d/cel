@@ -400,6 +400,8 @@ struct iQuestManager : public iBase
    *     See iNewStateQuestRewardFactory.
    * <li>cel.questreward.changeproperty: change a property.
    *     See iChangePropertyQuestRewardFactory.
+   * <li>cel.questreward.inventory: manipulate inventory.
+   *     See iInventoryQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -457,6 +459,14 @@ struct iQuestManager : public iBase
   	const char* msg_par) = 0;
 
   /**
+   * Convenience method to add an 'inventory' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddInventoryReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par) = 0;
+
+  /**
    * Convenience method to add a 'changeproperty' reward factory
    * to a response factory. You need to specify exactly which value
    * should be modified after calling this.
@@ -501,7 +511,6 @@ struct iQuestManager : public iBase
 
 // @@@ TODO:
 // Trigger: inventory operations
-// Trigger: property values
 // Reward: inventory operations
 
 //-------------------------------------------------------------------------
@@ -760,6 +769,43 @@ struct iChangePropertyQuestRewardFactory : public iBase
    * Set the toggle.
    */
   virtual void SetToggle () = 0;
+};
+
+SCF_VERSION (iInventoryQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that manipulates the inventory.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.inventory'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'reward' node:
+ * <ul>
+ * <li><em>entity_name</em>: the name of the entity containing the
+ *     pcinventory property class.
+ * <li><em>child_entity_name</em>: the name of the entity that will
+ *     be added to or removed from the inventory.
+ * </ul>
+ */
+struct iInventoryQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcinventory property class
+   * on which this reward will work.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+
+  /**
+   * Set the name of the entity that will be put in or out the inventory.
+   * \param entity_name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetChildEntityNameParameter (const char* entity_name) = 0;
+
 };
 
 /**

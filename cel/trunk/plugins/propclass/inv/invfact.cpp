@@ -239,6 +239,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   }
 
   // Send messages.
+  FireInventoryListenersAdd (child);
   iCelBehaviour* bh;
   if (entity)
   {
@@ -291,6 +292,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   }
 
   // Send messages.
+  FireInventoryListenersRemove (child);
   iCelBehaviour* bh;
   if (entity)
   {
@@ -583,6 +585,36 @@ void celPcInventory::Dump ()
     printf ("  '%s'\n", ent->GetName ());
   }
   fflush (stdout);
+}
+
+void celPcInventory::AddInventoryListener (iPcInventoryListener* listener)
+{
+  listeners.Push (listener);
+}
+
+void celPcInventory::RemoveInventoryListener (iPcInventoryListener* listener)
+{
+  listeners.Delete (listener);
+}
+
+void celPcInventory::FireInventoryListenersAdd (iCelEntity* entity)
+{
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
+    listeners[i]->AddChild (&scfiPcInventory, entity);
+  }
+}
+
+void celPcInventory::FireInventoryListenersRemove (iCelEntity* entity)
+{
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
+    listeners[i]->RemoveChild (&scfiPcInventory, entity);
+  }
 }
 
 //---------------------------------------------------------------------------
