@@ -3,6 +3,10 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+26-Apr-2005
+	- Eric Sunshine performed project-wide spelling corrections:
+	    conveniance --> convenience
+	    conveniant  --> convenient
 25-Apr-2005
 	- Jorrit implemented a new predefined trigger that checks when
 	  a mesh enters a sector. It is similar to the already existing
@@ -11,17 +15,18 @@ The history order is reversed so that new features are at the top.
 	  property values (set or add values).
 	- Jorrit implemented a new predefined trigger that fires when a
 	  certain time has expired.
-	- Jorrit added a conveniance method iQuestManager->AddNewStateReward()
+	- Jorrit added a convenience method iQuestManager->AddNewStateReward()
 	  to make it easiers to make quests from code.
-	- Jorrit added a conveniance method iQuestManager->AddDebugPrintReward()
+	- Jorrit added a convenience method
+	  iQuestManager->AddDebugPrintReward() to make it easiers to make
+	  quests from code.
+	- Jorrit added a convenience method iQuestManager->SetTimeoutTrigger()
 	  to make it easiers to make quests from code.
-	- Jorrit added a conveniance method iQuestManager->SetTimeoutTrigger()
-	  to make it easiers to make quests from code.
-	- Jorrit added conveniance methods
+	- Jorrit added convenience methods
 	  iQuestManager->SetEnterSectorTrigger() and
 	  iQuestManager->SetMeshEnterSectorTrigger().
 	- res updated some files for the csSet<> relocation.
-	- Jorrit added a conveniance method
+	- Jorrit added a convenience method
 	  iQuestManager->AddChangePropertyReward().
 	- Jorrit extended celtest to test the quest parameter system too.
 	- Jorrit added a new iPcPropertyListener interface and a way to
@@ -31,12 +36,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit deactivated triggers when a quest is cleaned up. That
 	  may potentially fix memory leaks.
 24-Apr-2005
-	- Jorrit created conveniance macros to make it easier to implement
+	- Jorrit created convenience macros to make it easier to implement
 	  new reward and trigger types for the quest manager:
-	      - CEL_DECLARE_REWARDTYPE
-	      - CEL_IMPLEMENT_REWARDTYPE
-	      - CEL_DECLARE_TRIGGERTYPE
-	      - CEL_IMPLEMENT_TRIGGERTYPE
+	    CEL_DECLARE_REWARDTYPE
+	    CEL_IMPLEMENT_REWARDTYPE
+	    CEL_DECLARE_TRIGGERTYPE
+	    CEL_IMPLEMENT_TRIGGERTYPE
 23-Apr-2005
 	- Jorrit added a new quest property class which complements
 	  the already existing quest manager.
@@ -267,7 +272,7 @@ The history order is reversed so that new features are at the top.
 	    - CEL_REMOVE_PROPCLASS_TAG_ENT: same as CEL_REMOVE_PROPCLASS_ENT
 	      but with tag.
 	    - Added iCelPlLayer->CreateTaggedPropertyClass() which is a
-	      conveniance function to create a tagged property class.
+	      convenience function to create a tagged property class.
 	    - Added iCelPropertyClass->SetTag() and GetTag() to set and get the
 	      tag for a property class.
 	  The celPcCommon class has been extended with a SetTag() and GetTag()
@@ -1035,7 +1040,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pccolldet so that the 'shift' value now works
 	  correctly.
 11-May-2004
-	- Jorrit added a new iCelPlLayer->CreateEntity() conveniance function
+	- Jorrit added a new iCelPlLayer->CreateEntity() convenience function
 	  so you can easily create an entity, set a name, create a behaviour,
 	  and then create all property classes with a single call. This should
 	  make entity creation in code look a bit nicer.
@@ -1279,7 +1284,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for local variables to the XML behaviour layer.
 	  These are a lot faster, use less memory, and can prevent programming
 	  errors in recursive functions.
-	- Jorrit added celVariableParameterBlock conveniance class to celtool
+	- Jorrit added celVariableParameterBlock convenience class to celtool
 	  library.
 	- Jorrit added the ability to call events as functions from within an
 	  expression in the XML behaviour layer.
@@ -1291,7 +1296,7 @@ The history order is reversed so that new features are at the top.
 	      calls.
 	    - Added 'return' statement so it is now possible to return values
 	      through 'call'.
-	- Jorrit added new bb_move conveniance command to the XML behaviour
+	- Jorrit added new bb_move convenience command to the XML behaviour
 	  layer to move a billboard.
 9-Jan-2004
 	- Jorrit added 'traceon' and 'traceoff' commands to the XML behaviour
@@ -1564,7 +1569,7 @@ The history order is reversed so that new features are at the top.
 	  SendMessage.  By doing that XML behaviour layer scripts can now
 	  access the parameters from property classes.
 	- Jorrit added a new 'parid' function to the XML behaviour layer which
-	  is a conveniance for getting ids for parameters (it adds the prefix
+	  is a convenience for getting ids for parameters (it adds the prefix
 	  'cel.behaviour.parameter.').
 	- Jorrit fixed a bug in the billboard manager. It was not properly
 	  sending out the x, y, and button information to the behaviour.
@@ -1855,7 +1860,7 @@ The history order is reversed so that new features are at the top.
 	  of a behaviour method and one string argument. This method will
 	  be called on the behaviour right after creating the entity.
 	- Jorrit added iCelPlLayer->LoadPropertyClassFactory(). This is
-	  a conveniance function to check if a property class factory plugin
+	  a convenience function to check if a property class factory plugin
 	  is already loaded and if not try to load it.
 	- Jorrit added LoadPropertyClassFactory() to the python behaviour layer
 	  and changed celRegisterPCFactory() to use this instead of simply
@@ -2746,9 +2751,9 @@ The history order is reversed so that new features are at the top.
 18-Nov-2001:
 	- Debugging with DG_TYPE for 'celEntity'.
 	- Added 'c' key to clear game (debugging too).
-	- Implemented an extreme hack in the cache. It turns out that you cannot
-	  simply remove factory wrappers by doing DecRef() on them. You need
-	  to remove them from the engine. I have to find a better solution
+	- Implemented an extreme hack in the cache. It turns out that you
+	  cannot simply remove factory wrappers by doing DecRef() on them. You
+	  need to remove them from the engine. I have to find a better solution
 	  for this.
 16-Nov-2001:
 	- Implemented a cache in the physical layer. This cache will hold
@@ -2935,7 +2940,7 @@ The history order is reversed so that new features are at the top.
 	- Made four dummy objects visible. Changed selection code in
 	  celtest so that the room behaviour will now control selection
 	  and dragging of all other objects.
-	- Added conveniance iPcMesh::SetAction() function which will
+	- Added convenience iPcMesh::SetAction() function which will
 	  work if the mesh is a 3D sprite.
 	- Added 'box' behaviour to 'bltest'.
 	- Fixed a bug in 'pcmeshsel' where it would not deselect the entity

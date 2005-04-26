@@ -137,7 +137,7 @@ struct iCelPlLayer : public iBase
   virtual iCelEntity* FindEntity (const char* name) = 0;
 
   /**
-   * This is a conveniance function to get the behaviour that belongs
+   * This is a convenience function to get the behaviour that belongs
    * to the entity for a given ID.
    */
   virtual iCelBehaviour* GetBehaviour (uint id) = 0;
@@ -223,7 +223,7 @@ struct iCelPlLayer : public iBase
   	const char* name) const = 0;
 
   /**
-   * Conveniance function to create a property class from a registered class
+   * Convenience function to create a property class from a registered class
    * factory.
    * Note that the reference count of the returned class is not turned up.
    */
@@ -231,7 +231,7 @@ struct iCelPlLayer : public iBase
       (iCelEntity* entity, const char* propname) = 0;
 
   /**
-   * Conveniance function to create a property class with a tag from a
+   * Convenience function to create a property class with a tag from a
    * registered class factory.
    * Note that the reference count of the returned class is not turned up.
    */
