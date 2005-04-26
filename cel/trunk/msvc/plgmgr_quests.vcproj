@@ -171,10 +171,25 @@
 				RelativePath="..\plugins\tools\quests\quests.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_changeproperty.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\reward_debugprint.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_newstate.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_meshentersector.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_propertychange.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_timeout.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -184,10 +199,25 @@
 				RelativePath="..\plugins\tools\quests\quests.h">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_changeproperty.h">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\reward_debugprint.h">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_newstate.h">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_meshentersector.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_propertychange.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_timeout.h">
 			</File>
 		</Filter>
 		<Filter

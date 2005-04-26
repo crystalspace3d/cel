@@ -99,6 +99,9 @@ Package=<4>
     Project_Dep_Name libpfmover_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfquest_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libpftest_static
     End Project Dependency
     Begin Project Dependency
@@ -160,6 +163,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfquest
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpftest
@@ -258,6 +264,9 @@ Package=<4>
     Project_Dep_Name libpfmover_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfquest_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libpftest_static
     End Project Dependency
     Begin Project Dependency
@@ -331,6 +340,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfquest
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpftest
@@ -544,6 +556,18 @@ Package=<4>
 ###############################################################################
 
 Project: "libpfmover_static"=.\libpfmover_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfquest_static"=.\libpfquest_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -826,6 +850,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpfmover"=.\plgpfmover.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfquest"=.\plgpfquest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
