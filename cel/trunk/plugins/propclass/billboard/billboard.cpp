@@ -718,35 +718,22 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
 csPtr<iCelDataBuffer> celPcBillboard::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
-  databuf->SetDataCount (10);
-  databuf->GetData (0)->Set (billboard_name);
+  databuf->Add (billboard_name);
   if (billboard)
   {
-    databuf->GetData (1)->Set (billboard->GetMaterialName ());
-    databuf->GetData (2)->Set ((uint32)billboard->GetFlags ().Get ());
-    databuf->GetData (3)->Set (billboard->GetColor ());
+    databuf->Add (billboard->GetMaterialName ());
+    databuf->Add ((uint32)billboard->GetFlags ().Get ());
+    databuf->Add (billboard->GetColor ());
     int x, y, w, h;
     billboard->GetPosition (x, y);
     billboard->GetSize (w, h);
-    databuf->GetData (4)->Set ((int32)x);
-    databuf->GetData (5)->Set ((int32)y);
-    databuf->GetData (6)->Set ((int32)w);
-    databuf->GetData (7)->Set ((int32)h);
-    databuf->GetData (8)->Set (billboard->GetLayer ()->GetName ());
+    databuf->Add ((int32)x);
+    databuf->Add ((int32)y);
+    databuf->Add ((int32)w);
+    databuf->Add ((int32)h);
+    databuf->Add (billboard->GetLayer ()->GetName ());
   }
-  else
-  {
-    databuf->GetData (1)->Set ((const char*)0);
-    databuf->GetData (2)->Set ((uint32)0);
-    csColor col (0, 0, 0);
-    databuf->GetData (3)->Set (col);
-    databuf->GetData (4)->Set ((int32)0);
-    databuf->GetData (5)->Set ((int32)0);
-    databuf->GetData (6)->Set ((int32)0);
-    databuf->GetData (7)->Set ((int32)0);
-    databuf->GetData (8)->Set ((const char*)0);
-  }
-  databuf->GetData (9)->Set (events_enabled);
+  databuf->Add (events_enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -755,55 +742,34 @@ bool celPcBillboard::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != BILLBOARD_SERIAL) return false;
-  if (databuf->GetDataCount () != 10) return false;
-  celData* cd;
 
   delete[] billboard_name; billboard_name = 0;
-  cd = databuf->GetData (0); if (!cd) return false;
-  billboard_name = csStrNew (*cd->value.s);
+  billboard_name = csStrNew (databuf->GetString ()->GetData ());
 
-  cd = databuf->GetData (1); if (!cd) return false;
   GetBillboard ();
   if (billboard)
-    billboard->SetMaterialName (*cd->value.s);
-
-  cd = databuf->GetData (2); if (!cd) return false;
-  if (billboard)
-    billboard->GetFlags ().SetAll (cd->value.ul);
-
-  cd = databuf->GetData (3); if (!cd) return false;
-  if (billboard)
   {
-    csColor col (cd->value.col.red, cd->value.col.green,
-    	cd->value.col.blue);
+    billboard->SetMaterialName (databuf->GetString ()->GetData ());
+    billboard->GetFlags ().SetAll (databuf->GetUInt32 ());
+    csColor col;
+    databuf->GetColor (col);
     billboard->SetColor (col);
-  }
-  int x, y, w, h;
-  cd = databuf->GetData (4); if (!cd) return false;
-  x = cd->value.l;
-  cd = databuf->GetData (5); if (!cd) return false;
-  y = cd->value.l;
-  cd = databuf->GetData (6); if (!cd) return false;
-  w = cd->value.l;
-  cd = databuf->GetData (7); if (!cd) return false;
-  h = cd->value.l;
-  if (billboard)
-  {
+
+    int x = databuf->GetInt32 ();
+    int y = databuf->GetInt32 ();
+    int w = databuf->GetInt32 ();
+    int h = databuf->GetInt32 ();
     billboard->SetPosition (x, y);
     billboard->SetSize (w, h);
-  }
 
-  cd = databuf->GetData (8); if (!cd) return false;
-  if (billboard)
-  {
-    iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (*cd->value.s);
+    const char* layername = databuf->GetString ()->GetData ();
+    iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (layername);
     if (!layer)
-      layer = billboard_mgr->CreateBillboardLayer (*cd->value.s);
+      layer = billboard_mgr->CreateBillboardLayer (layername);
     billboard->SetLayer (layer);
   }
 
-  cd = databuf->GetData (9); if (!cd) return false;
-  EnableEvents (cd->value.b);
+  EnableEvents (databuf->GetBool ());
 
   return true;
 }

@@ -132,12 +132,10 @@ celPcCollisionDetection::~celPcCollisionDetection ()
 csPtr<iCelDataBuffer> celPcCollisionDetection::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COLLDET_SERIAL);
-  databuf->SetDataCount (3);
-  int j = 0;
 
-  databuf->GetData (j++)->Set (topSize);
-  databuf->GetData (j++)->Set (bottomSize);
-  databuf->GetData (j++)->Set (shift);
+  databuf->Add (topSize);
+  databuf->Add (bottomSize);
+  databuf->Add (shift);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -147,24 +145,10 @@ bool celPcCollisionDetection::Load (iCelDataBuffer* databuf)
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != COLLDET_SERIAL)
     return false;
-  if (databuf->GetDataCount () != 3)
-    return false;
 
-  celData* cd;
-  cd = databuf->GetData (0);
-  topSize.x = cd->value.v.x;
-  topSize.y = cd->value.v.y;
-  topSize.z = cd->value.v.z;
-
-  cd = databuf->GetData (1);
-  bottomSize.x = cd->value.v.x;
-  bottomSize.y = cd->value.v.y;
-  bottomSize.z = cd->value.v.z;
-
-  cd = databuf->GetData (2);
-  shift.x = cd->value.v.x;
-  shift.y = cd->value.v.y;
-  shift.z = cd->value.v.z;
+  databuf->GetVector3 (topSize);
+  databuf->GetVector3 (bottomSize);
+  databuf->GetVector3 (shift);
 
   if (!Init (topSize, bottomSize, shift))
     return false;

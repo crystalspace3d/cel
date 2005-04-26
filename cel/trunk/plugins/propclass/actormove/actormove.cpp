@@ -89,7 +89,6 @@ celPcActorMove::~celPcActorMove ()
 csPtr<iCelDataBuffer> celPcActorMove::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ACTORMOVE_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -98,7 +97,6 @@ bool celPcActorMove::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ACTORMOVE_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 
@@ -321,7 +319,6 @@ void celPcNpcMove::TickOnce ()
 csPtr<iCelDataBuffer> celPcNpcMove::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (NPCMOVE_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -330,7 +327,6 @@ bool celPcNpcMove::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != NPCMOVE_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 

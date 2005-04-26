@@ -26,7 +26,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
-#include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
@@ -405,8 +404,6 @@ void celPcTrigger::TickOnce ()
 csPtr<iCelDataBuffer> celPcTrigger::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TRIGGER_SERIAL);
-  databuf->SetDataCount (0);
-
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -416,12 +413,6 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   if (serialnr != TRIGGER_SERIAL)
   {
     Report (object_reg, "serialnr != TRIGGER_SERIAL.  Cannot load.");
-    return false;
-  }
-  if (databuf->GetDataCount () != 0)
-  {
-    Report (object_reg, "0 data elements required, not %d.  Cannot load.",
-    	databuf->GetDataCount () );
     return false;
   }
 

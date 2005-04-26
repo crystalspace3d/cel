@@ -179,16 +179,15 @@ csPtr<iCelDataBuffer> celPcCommandInput::Save ()
     cnt++;
     m = m->next;
   }
-  databuf->SetDataCount (cnt * 2);
+  databuf->Add ((int32)cnt);
 
   //TODO: Implement this for axes and buttons!
 
-  int j = 0;
   m = keylist;
   while (m)
   {
-    databuf->GetData (j++)->Set ((uint32)m->key);
-    databuf->GetData (j++)->Set (m->command);
+    databuf->Add ((uint32)m->key);
+    databuf->Add (m->command);
     m = m->next;
   }
 
@@ -203,35 +202,22 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     Report (object_reg,"serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
     return false;
   }
-  int cnt = databuf->GetDataCount ();
-  cnt /= 2;
-  int i, j = 0;
-  celData* cd;
+  int cnt = databuf->GetInt32 ();
+  int i;
 
   //TODO: Implement this for axes and buttons!
 
   for (i = 0 ; i < cnt ; i++)
   {
-    cd = databuf->GetData (j++);
-    if (!cd) 
-    {
-      Report (object_reg,"Key for map[%d] not specified.  Cannot load.",i);
-      return false;
-    }
-    int key = cd->value.ul;
-    cd = databuf->GetData (j++); 
-    if (!cd) 
-    {
-      Report (object_reg,"Command for map[%d] not specified.  Cannot load.",i);
-      return false;
-    }
+    int key = databuf->GetUInt32 ();
+    const char* cmd = databuf->GetString ()->GetData ();
     celKeyMap* newmap = new celKeyMap ();
     // Add a new entry to key mapping list
     newmap->next = keylist;
     newmap->prev = 0;
     newmap->key = key;
-    newmap->command = new char[strlen (*cd->value.s)+2];
-    strcpy (newmap->command, *cd->value.s);
+    newmap->command = new char[strlen (cmd)+2];
+    strcpy (newmap->command, cmd);
     newmap->command_end = strchr (newmap->command, 0);
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
 

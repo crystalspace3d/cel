@@ -10,6 +10,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added iPcInventoryListener and a new listener system so
 	  that you can listen to inventory changes outside a behaviour.
 	- Jorrit added a new predefined reward to add entities to an inventory.
+	- Jorrit completely changed the way that the persistance data
+	  is gathered. The iCelDataBuffer interface has new methods and is
+	  now a lot easier to use. This doesn't completely fix the
+	  persistence system though. Property classes are not all fixed
+	  yet.
 25-Apr-2005
 	- Jorrit implemented a new predefined trigger that checks when
 	  a mesh enters a sector. It is similar to the already existing

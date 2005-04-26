@@ -144,7 +144,6 @@ const char* celPcQuest::GetPropertyString (csStringID propertyId)
 csPtr<iCelDataBuffer> celPcQuest::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (QUEST_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -152,7 +151,6 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != QUEST_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
 
   return true;
 }

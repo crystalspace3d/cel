@@ -84,17 +84,15 @@ celPcTooltip::~celPcTooltip ()
 csPtr<iCelDataBuffer> celPcTooltip::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TOOLTIP_SERIAL);
-  databuf->SetDataCount (10);
-  databuf->GetData (0)->Set (visible);
-  databuf->GetData (1)->Set ((uint16)x);
-  databuf->GetData (2)->Set ((uint16)y);
-  //databuf->GetData (3)->Set (text);
-  databuf->GetData (4)->Set ((uint8)text_r);
-  databuf->GetData (5)->Set ((uint8)text_g);
-  databuf->GetData (6)->Set ((uint8)text_b);
-  databuf->GetData (7)->Set ((int16)bg_r);	// Room for negative.
-  databuf->GetData (8)->Set ((int16)bg_g);
-  databuf->GetData (9)->Set ((int16)bg_b);
+  databuf->Add (visible);
+  databuf->Add ((uint16)x);
+  databuf->Add ((uint16)y);
+  databuf->Add ((uint8)text_r);
+  databuf->Add ((uint8)text_g);
+  databuf->Add ((uint8)text_b);
+  databuf->Add ((int16)bg_r);	// Room for negative.
+  databuf->Add ((int16)bg_g);
+  databuf->Add ((int16)bg_b);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -103,20 +101,15 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TOOLTIP_SERIAL) return false;
-  if (databuf->GetDataCount () != 10) return false;
-  celData* cd;
-  cd = databuf->GetData (0); if (!cd) return false; visible = cd->value.bo;
-  cd = databuf->GetData (1); if (!cd) return false; x = cd->value.uw;
-  cd = databuf->GetData (2); if (!cd) return false; y = cd->value.uw;
-  //delete[] text; text = 0;
-  //cd = databuf->GetData (3); if (!cd) return false;
-  //text = csStrNew (*cd->value.s);
-  cd = databuf->GetData (4); if (!cd) return false; text_r = cd->value.ub;
-  cd = databuf->GetData (5); if (!cd) return false; text_g = cd->value.ub;
-  cd = databuf->GetData (6); if (!cd) return false; text_b = cd->value.ub;
-  cd = databuf->GetData (7); if (!cd) return false; bg_r = cd->value.w;
-  cd = databuf->GetData (8); if (!cd) return false; bg_g = cd->value.w;
-  cd = databuf->GetData (9); if (!cd) return false; bg_b = cd->value.w;
+  visible = databuf->GetBool ();
+  x = databuf->GetUInt16 ();
+  y = databuf->GetUInt16 ();
+  text_r = databuf->GetUInt8 ();
+  text_g = databuf->GetUInt8 ();
+  text_b = databuf->GetUInt8 ();
+  bg_r = databuf->GetInt16 ();
+  bg_g = databuf->GetInt16 ();
+  bg_b = databuf->GetInt16 ();
 
   return true;
 }
@@ -300,12 +293,11 @@ bool celPcTimer::PerformAction (csStringID actionId,
 csPtr<iCelDataBuffer> celPcTimer::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TIMER_SERIAL);
-  databuf->SetDataCount (5);
-  databuf->GetData (0)->Set (enabled);
-  databuf->GetData (1)->Set ((int32)wakeup);
-  databuf->GetData (2)->Set (repeat);
-  databuf->GetData (3)->Set (wakeupframe);
-  databuf->GetData (4)->Set (wakeuponce);
+  databuf->Add (enabled);
+  databuf->Add ((int32)wakeup);
+  databuf->Add (repeat);
+  databuf->Add (wakeupframe);
+  databuf->Add (wakeuponce);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -313,18 +305,11 @@ bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TIMER_SERIAL) return false;
-  if (databuf->GetDataCount () != 5) return false;
-  celData* cd;
-  cd = databuf->GetData (0); if (!cd) return false;
-  enabled = cd->value.bo;
-  cd = databuf->GetData (1); if (!cd) return false;
-  wakeup = cd->value.l;
-  cd = databuf->GetData (2); if (!cd) return false;
-  repeat = cd->value.bo;
-  cd = databuf->GetData (3); if (!cd) return false;
-  wakeupframe = cd->value.bo;
-  cd = databuf->GetData (4); if (!cd) return false;
-  wakeuponce = cd->value.bo;
+  enabled = databuf->GetBool ();
+  wakeup = databuf->GetInt32 ();
+  repeat = databuf->GetBool ();
+  wakeupframe = databuf->GetBool ();
+  wakeuponce = databuf->GetBool ();
 
   return true;
 }
@@ -610,43 +595,43 @@ iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
 csPtr<iCelDataBuffer> celPcProperties::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROPERTIES_SERIAL);
-  databuf->SetDataCount (properties.Length ()*3);
-  size_t i, j = 0;
+  size_t i;
+  databuf->Add ((uint32)properties.Length ());
   for (i = 0 ; i < properties.Length () ; i++)
   {
     property* p = properties[i];
-    databuf->GetData (j++)->Set (p->propName);
-    databuf->GetData (j++)->Set ((uint8)p->type);
+    databuf->Add (p->propName);
+    databuf->Add ((uint8)p->type);
     switch (p->type)
     {
       case CEL_DATA_FLOAT:
-        databuf->GetData (j++)->Set (p->v.f);
+        databuf->Add (p->v.f);
 	break;
       case CEL_DATA_LONG:
-        databuf->GetData (j++)->Set ((int32)p->v.l);
+        databuf->Add ((int32)p->v.l);
 	break;
       case CEL_DATA_BOOL:
-        databuf->GetData (j++)->Set (p->v.b);
+        databuf->Add (p->v.b);
 	break;
       case CEL_DATA_STRING:
-        databuf->GetData (j++)->Set (p->v.s);
+        databuf->Add (p->v.s);
 	break;
       case CEL_DATA_VECTOR2:
-        databuf->GetData (j++)->Set (csVector2 (p->v.vec.x, p->v.vec.y));
+        databuf->Add (csVector2 (p->v.vec.x, p->v.vec.y));
 	break;
       case CEL_DATA_VECTOR3:
-        databuf->GetData (j++)->Set (csVector3 (p->v.vec.x, p->v.vec.y,
+        databuf->Add (csVector3 (p->v.vec.x, p->v.vec.y,
 		p->v.vec.z));
 	break;
       case CEL_DATA_COLOR:
-        databuf->GetData (j++)->Set (csVector3 (p->v.col.red, p->v.col.green,
+        databuf->Add (csVector3 (p->v.col.red, p->v.col.green,
 		p->v.col.blue));
 	break;
       case CEL_DATA_PCLASS:
-        databuf->GetData (j++)->Set (p->pclass);
+        databuf->Add (p->pclass);
 	break;
       case CEL_DATA_ENTITY:
-        databuf->GetData (j++)->Set (p->entity);
+        databuf->Add (p->entity);
 	break;
       default:
         // @@@ Impossible!
@@ -661,15 +646,14 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != PROPERTIES_SERIAL) return false;
   properties_hash_dirty = true;
-  size_t cnt = databuf->GetDataCount ();
+  size_t cnt = databuf->GetUInt32 ();
   Clear ();
   celData* cd;
-  size_t i, j = 0;
-  for (i = 0 ; i < cnt / 3 ; i++)
+  size_t i;
+  for (i = 0 ; i < cnt ; i++)
   {
-    cd = databuf->GetData (j++); if (!cd) return false;
-    size_t idx = NewProperty (*cd->value.s);
-    cd = databuf->GetData (j++); if (!cd) return false;
+    size_t idx = NewProperty (databuf->GetString ()->GetData ());
+    cd = databuf->GetData (); if (!cd) return false;
     property* p = properties[idx];
     p->type = (celDataType)cd->value.ub;
     switch (p->type)

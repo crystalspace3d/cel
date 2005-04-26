@@ -150,7 +150,6 @@ void celPcMover::UpdateProperties (iObjectRegistry* object_reg)
 csPtr<iCelDataBuffer> celPcMover::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVER_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -158,7 +157,6 @@ bool celPcMover::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MOVER_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
   return true;
 }
 

@@ -372,18 +372,19 @@ csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
 class celDataBuffer : public iCelDataBuffer
 {
 private:
-  csPDelArray<celData> data;
+  csArray<celData> data;
   long serialnr;
+  size_t posidx;
 
 public:
   celDataBuffer (long serialnr)
   {
     SCF_CONSTRUCT_IBASE (0);
     celDataBuffer::serialnr = serialnr;
+    posidx = 0;
   }
   virtual ~celDataBuffer ()
   {
-    SetDataCount (0);
     SCF_DESTRUCT_IBASE ();
   }
 
@@ -393,26 +394,29 @@ public:
   {
     return serialnr;
   }
-  virtual void SetDataCount (size_t cnt)
-  {
-    size_t old_cnt = data.Length ();
-    data.SetLength (cnt);
-    size_t i;
-    for (i = old_cnt ; i < cnt ; i++)
-    {
-      celData* cd = new celData ();
-      cd->type = CEL_DATA_NONE;
-      data.Put (i, cd);
-    }
-  }
   virtual size_t GetDataCount () const
   {
     return data.Length ();
   }
-  virtual celData* GetData (size_t idx) const
+  virtual celData* GetData ()
+  {
+    if (posidx >= data.Length ()) return 0;
+    posidx++;
+    return &data[posidx-1];
+  }
+  virtual celData* GetData (size_t idx)
   {
     CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.Length ());
-    return data[idx];
+    return &data[idx];
+  }
+  virtual void Reset ()
+  {
+    posidx = 0;
+  }
+  virtual celData* AddData ()
+  {
+    size_t idx = data.Push (celData ());
+    return &data[idx];
   }
 };
 
