@@ -423,7 +423,7 @@ struct iQuestManager : public iBase
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
 
   /**
-   * This is a conveniance function to resolve a quest parameter during
+   * This is a convenience function to resolve a quest parameter during
    * creation of the rewards and triggers. This routine knows how to
    * recognize parameter usage (starting with '$') and will in that case
    * try to resolve the parameter by finding it in 'params'. Otherwise
@@ -441,7 +441,7 @@ struct iQuestManager : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 
   /**
-   * Conveniance method to add a 'newstate' reward factory
+   * Convenience method to add a 'newstate' reward factory
    * to a response factory.
    */
   virtual iQuestRewardFactory* AddNewStateReward (
@@ -449,7 +449,7 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* state_par) = 0;
 
   /**
-   * Conveniance method to add a 'debugprint' reward factory
+   * Convenience method to add a 'debugprint' reward factory
    * to a response factory.
    */
   virtual iQuestRewardFactory* AddDebugPrintReward (
@@ -457,7 +457,7 @@ struct iQuestManager : public iBase
   	const char* msg_par) = 0;
 
   /**
-   * Conveniance method to add a 'changeproperty' reward factory
+   * Convenience method to add a 'changeproperty' reward factory
    * to a response factory. You need to specify exactly which value
    * should be modified after calling this.
    */
@@ -466,7 +466,7 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* prop_par) = 0;
 
   /**
-   * Conveniance method to set a 'timeout' trigger factory
+   * Convenience method to set a 'timeout' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
@@ -474,7 +474,7 @@ struct iQuestManager : public iBase
   	const char* timeout_par) = 0;
 
   /**
-   * Conveniance method to set an 'entersector' trigger factory
+   * Convenience method to set an 'entersector' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetEnterSectorTrigger (
@@ -482,7 +482,7 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* sector_par) = 0;
 
   /**
-   * Conveniance method to set an 'meshentersector' trigger factory
+   * Convenience method to set an 'meshentersector' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
@@ -490,7 +490,7 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* sector_par) = 0;
 
   /**
-   * Conveniance method to set an 'propertychange' trigger factory
+   * Convenience method to set an 'propertychange' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
@@ -763,7 +763,7 @@ struct iChangePropertyQuestRewardFactory : public iBase
 };
 
 /**
- * Conveniance to declare a new reward type class.
+ * Convenience to declare a new reward type class.
  */
 #define CEL_DECLARE_REWARDTYPE(name,id)					\
 class cel##name##RewardType : public iQuestRewardType			\
@@ -778,7 +778,7 @@ public:									\
 };
 
 /**
- * Conveniance to implement a new reward type class.
+ * Convenience to implement a new reward type class.
  */
 #define CEL_IMPLEMENT_REWARDTYPE(name)					\
 SCF_IMPLEMENT_IBASE (cel##name##RewardType)				\
@@ -802,7 +802,7 @@ csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
 }
 
 /**
- * Conveniance to declare a new trigger type class.
+ * Convenience to declare a new trigger type class.
  */
 #define CEL_DECLARE_TRIGGERTYPE(name,id)				\
 class cel##name##TriggerType : public iQuestTriggerType			\
@@ -817,7 +817,7 @@ public:									\
 };
 
 /**
- * Conveniance to implement a new trigger type class.
+ * Convenience to implement a new trigger type class.
  */
 #define CEL_IMPLEMENT_TRIGGERTYPE(name)					\
 SCF_IMPLEMENT_IBASE (cel##name##TriggerType)				\

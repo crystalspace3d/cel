@@ -43,7 +43,7 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty quest factory.  <a href="#a5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a6">ResolveParameter</a> (const csHash&lt; csStrKey, csStrKey, csConstCharHashKeyHandler &gt; &amp;params, const char *param)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a conveniance function to resolve a quest parameter during creation of the rewards and triggers.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to resolve a quest parameter during creation of the rewards and triggers.  <a href="#a6"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a7">Load</a> (iDocumentNode *node)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a bunch of quests from this factory.  <a href="#a7"></a><br></td></tr>
@@ -316,7 +316,7 @@ cel.questtrigger.entersector: triggers when a camera (from entity) enters a sect
     <td>
 
 <p>
-This is a conveniance function to resolve a quest parameter during creation of the rewards and triggers. 
+This is a convenience function to resolve a quest parameter during creation of the rewards and triggers. 
 <p>
 This routine knows how to recognize parameter usage (starting with '$') and will in that case try to resolve the parameter by finding it in 'params'. Otherwise it will just return the unmodified string.     </td>
   </tr>

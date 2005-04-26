@@ -122,7 +122,7 @@ SCF_VERSION (iBillboard, 0, 0, 1);
  * screen with size 307200 x 307200. These values were chosen because
  * they can fit most other standard resolutions without requiring fractions
  * (i.e. a 1280x1024 screen is exactly 307200/240 x 307200/300).
- * For conveniance we call this coordinate system 'billboard space'.
+ * For convenience we call this coordinate system 'billboard space'.
  */
 struct iBillboard : public iBase
 {
