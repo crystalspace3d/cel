@@ -38,16 +38,7 @@ struct iCelPlLayer;
 struct iCelBlLayer;
 struct celData;
 
-#define CEL_PERSIST_BACKWARD_COMPAT
-#ifdef CEL_PERSIST_BACKWARD_COMPAT
-#  define CEL_PERSIST_PARENT_ROOT iCelPersistance
-#  define CEL_PERSIST_CONTEXT_PARENT_ROOT iCelPersistanceContext
-#else
-#  define CEL_PERSIST_PARENT_ROOT iCelPersistence
-#  define CEL_PERSIST_CONTEXT_PARENT_ROOT iCelPersistenceContext
-#endif
-
-class celPersistClassicContext : public CEL_PERSIST_CONTEXT_PARENT_ROOT
+class celPersistClassicContext : public iCelPersistenceContext
 {
 private:
   iObjectRegistry* object_reg;
@@ -128,15 +119,53 @@ public:
 /**
  * This is the classic persistence layer.
  */
-class celPersistClassic : public CEL_PERSIST_PARENT_ROOT
+class celPersistClassic : public iCelPersistence
 {
+private:
+  bool WriteMarker (const char* s);
+  bool Write (const char* s);
+  bool Write (iCelDataBuffer* db);
+  bool Write (celData* data);
+  bool Write (uint32 v);
+  bool Write (int32 v);
+  bool Write (uint16 v);
+  bool Write (int16 v);
+  bool Write (uint8 v);
+  bool Write (int8 v);
+  bool Write (float f);
+  bool Write (iCelPropertyClass* pc, bool savelocal);
+  bool Write (iCelEntity* entity, bool savelocal);
+
+  bool ReadMarker (char* marker);
+  bool CheckMarker (const char* comp);
+  bool Read (int8& b);
+  bool Read (uint8& ub);
+  bool Read (int16& w);
+  bool Read (uint16& uw);
+  bool Read (int32& l);
+  bool Read (uint32& ul);
+  bool Read (float& f);
+  bool Read (char*& str);
+  bool Read (celData* cd);
+  bool Read (iCelDataBuffer*& db);
+  bool Read (iCelEntity* entity, iCelPropertyClass*& pc);
+  bool Read (iCelEntity*& entity);
+
+  void Report (const char* msg, ...);
+
 public:
   SCF_DECLARE_IBASE;
   csRef<iVFS> vfs;
+  iFile* file;
+  iCelLocalEntitySet* set;
+  csHash<size_t,iCelEntity*> entities_map;
   
   celPersistClassic (iBase* parent);
   virtual ~celPersistClassic ();
   bool Initialize (iObjectRegistry* object_reg);
+
+  virtual bool Load (iCelLocalEntitySet* set, const char* name);
+  virtual bool Save (iCelLocalEntitySet* set, const char* name);
 
   virtual csPtr<iCelEntity> LoadEntity (const char* name);
   virtual bool SaveEntity (iCelEntity* entity, const char* name);

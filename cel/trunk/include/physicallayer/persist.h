@@ -24,6 +24,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/util.h"
+#include "csutil/array.h"
 
 #include "physicallayer/datatype.h"
 
@@ -188,7 +189,61 @@ struct iCelDataBuffer : public iBase
   }
 };
 
-SCF_VERSION (iCelPersistence, 0, 0, 1);
+SCF_VERSION (iCelLocalEntitySet, 0, 0, 1);
+
+/**
+ * A local entity set define the set of entities that are considered
+ * 'local' to the saved file. That means that all entities that are in
+ * this list will be saved and all entities that are not in this list
+ * (but are still referred too from entities in this set) will be
+ * saved as references.
+ */
+struct iCelLocalEntitySet : public iBase
+{
+  /// Number of entities managed by this set.
+  virtual size_t GetEntityCount () const = 0;
+  
+  /// Get the specified entity.
+  virtual iCelEntity* GetEntity (size_t idx) const = 0;
+
+  /// Add an entity to the local set.
+  virtual void AddEntity (iCelEntity* entity) = 0;
+
+  /// Test if an entity is local (is in this set).
+  virtual bool IsLocal (iCelEntity* entity) = 0;
+  /// Test if a property class is local (is in this set).
+  virtual bool IsLocal (iCelPropertyClass* pc) = 0;
+
+  /**
+   * This routine will be called by the persistance layer whenever
+   * it needs to save a non-local entity. So this routine should
+   * return a databuffer that can identify a non-local entity.
+   */
+  virtual csPtr<iCelDataBuffer> SaveExternalEntity (iCelEntity* entity) = 0;
+
+  /**
+   * This routine will be called by the persistance layer whenever
+   * it needs to find a non-local entity. Basically it should return
+   * an already existing entity from the databuffer.
+   */
+  virtual iCelEntity* FindExternalEntity (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * This routine will be called by the persistance layer whenever
+   * it needs to save a non-local property class. So this routine should
+   * return a databuffer that can identify a non-local property class.
+   */
+  virtual csPtr<iCelDataBuffer> SaveExternalPC (iCelPropertyClass* pc) = 0;
+
+  /**
+   * This routine will be called by the persistance layer whenever
+   * it needs to find a non-local property class. Basically it should return
+   * an already existing property class from the databuffer.
+   */
+  virtual iCelPropertyClass* FindExternalPC (iCelDataBuffer* databuf) = 0;
+};
+
+SCF_VERSION (iCelPersistence, 0, 1, 0);
 
 /**
  * This interface describes a module that can
@@ -196,6 +251,27 @@ SCF_VERSION (iCelPersistence, 0, 0, 1);
  */
 struct iCelPersistence : public iBase
 {
+  /**
+   * Load a local entity set. 'name' is a name relevant for the
+   * given type of persistence. It can be a filename for example
+   * (VFS).
+   * \param set is an empty local entity set that will be filled
+   * by this routine.
+   * \param name identifies the saved data.
+   * \return false on error. Reporting will be already done.
+   */
+  virtual bool Load (iCelLocalEntitySet* set, const char* name) = 0;
+
+  /**
+   * Save a local entity set. 'name' is a name relevant for the
+   * given type of persistence. It can be a filename for example
+   * (VFS).
+   * \param set is a local entity set with entities to be saved.
+   * \param name identifies the saved data.
+   * \return false on error. Reporting will be already done.
+   */
+  virtual bool Save (iCelLocalEntitySet* set, const char* name) = 0;
+
   /**
    * Load an entity from the persistent data including
    * all property classes. 'name' is a name relevant for
@@ -241,11 +317,5 @@ struct iCelPersistenceContext : public iBase
    */
   virtual void Clear () = 0;
 };
-
-// Deprecated: Backward compatibility for long-term spelling mistake.
-SCF_VERSION (iCelPersistance, 0, 0, 1);
-struct iCelPersistance : public iCelPersistence {};
-SCF_VERSION (iCelPersistanceContext, 0, 0, 1);
-struct iCelPersistanceContext : public iCelPersistenceContext {};
 
 #endif // __CEL_PL_PERSIST__

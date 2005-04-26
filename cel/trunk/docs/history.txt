@@ -15,6 +15,17 @@ The history order is reversed so that new features are at the top.
 	  now a lot easier to use. This doesn't completely fix the
 	  persistence system though. Property classes are not all fixed
 	  yet.
+	- Jorrit removed the iCelPersistance and iCelPersistanceContext
+	  interfaces. Everything should now use iCelPersistence
+	  and iCelPersistenceContext instead.
+	- Jorrit started work on a complete rewrite of the persistance
+	  layer plugin. The idea is that the iCelPersistenceContext
+	  interface will be removed. Instead there is a new iCelLocalEntitySet
+	  interface that defines the set of entities that are 'local' to the
+	  saved block. That interface also provides methods to save/load
+	  references to entities and property classes that are not local
+	  (i.e. not part of the local block). The old system has not yet been
+	  removed. First the new system has to be tested.
 25-Apr-2005
 	- Jorrit implemented a new predefined trigger that checks when
 	  a mesh enters a sector. It is similar to the already existing
