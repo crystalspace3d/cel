@@ -108,11 +108,31 @@ SOURCE=..\plugins\tools\quests\quests.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_changeproperty.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\reward_debugprint.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_newstate.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_entersector.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_meshentersector.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_propertychange.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_timeout.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -124,11 +144,31 @@ SOURCE=..\plugins\tools\quests\quests.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_changeproperty.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\reward_debugprint.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_newstate.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_entersector.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_meshentersector.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_propertychange.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_timeout.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
