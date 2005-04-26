@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
 	    conveniant  --> convenient
+	- Jorrit added iPcInventoryListener and a new listener system so
+	  that you can listen to inventory changes outside a behaviour.
+	- Jorrit added a new predefined reward to add entities to an inventory.
 25-Apr-2005
 	- Jorrit implemented a new predefined trigger that checks when
 	  a mesh enters a sector. It is similar to the already existing

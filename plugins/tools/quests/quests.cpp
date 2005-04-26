@@ -34,6 +34,7 @@
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
+#include "plugins/tools/quests/reward_inventory.h"
 
 //---------------------------------------------------------------------------
 
@@ -500,6 +501,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  {
+    celInventoryRewardType* type = new celInventoryRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
   return true;
 }
 
@@ -607,6 +615,20 @@ iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
   csRef<iDebugPrintQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
   	iDebugPrintQuestRewardFactory);
   newstate->SetMessageParameter (msg_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iQuestRewardFactory* celQuestManager::AddInventoryReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.inventory");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iInventoryQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iInventoryQuestRewardFactory);
+  newstate->SetEntityNameParameter (entity_par);
+  newstate->SetChildEntityNameParameter (child_entity_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }

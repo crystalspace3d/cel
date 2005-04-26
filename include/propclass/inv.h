@@ -24,6 +24,25 @@
 #include "csutil/scf.h"
 
 struct iCelEntity;
+struct iPcInventory;
+
+SCF_VERSION (iPcInventoryListener, 0, 0, 1);
+
+/**
+ * Listen to inventory changes.
+ */
+struct iPcInventoryListener : public iBase
+{
+  /**
+   * A child is added to this inventory.
+   */
+  virtual void AddChild (iPcInventory* inventory, iCelEntity* entity) = 0;
+
+  /**
+   * A child is removed from this inventory.
+   */
+  virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity) = 0;
+};
 
 SCF_VERSION (iPcInventory, 0, 0, 1);
 
@@ -42,6 +61,16 @@ SCF_VERSION (iPcInventory, 0, 0, 1);
  */
 struct iPcInventory : public iBase
 {
+  /**
+   * Add an inventory listener. Inventory listeners are called right before
+   * the behaviour is called.
+   */
+  virtual void AddInventoryListener (iPcInventoryListener* listener) = 0;
+  /**
+   * Remove an inventory listener.
+   */
+  virtual void RemoveInventoryListener (iPcInventoryListener* listener) = 0;
+
   /**
    * Add an entity. Returns false if the entity could
    * not be added (capacity exceeded for example).

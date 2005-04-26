@@ -63,6 +63,7 @@ private:
     ~constraint () { delete[] charName; }
   };
   csPDelArray<constraint> constraints;
+  csRefArray<iPcInventoryListener> listeners;
 
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
@@ -94,6 +95,11 @@ public:
   bool TestConstraints (const char* charName);
   void Dump ();
 
+  void AddInventoryListener (iPcInventoryListener* listener);
+  void RemoveInventoryListener (iPcInventoryListener* listener);
+  void FireInventoryListenersAdd (iCelEntity* entity);
+  void FireInventoryListenersRemove (iCelEntity* entity);
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcinventory"; }
@@ -103,6 +109,14 @@ public:
   struct PcInventory : public iPcInventory
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcInventory);
+    virtual void AddInventoryListener (iPcInventoryListener* listener)
+    {
+      scfParent->AddInventoryListener (listener);
+    }
+    virtual void RemoveInventoryListener (iPcInventoryListener* listener)
+    {
+      scfParent->RemoveInventoryListener (listener);
+    }
     virtual bool AddEntity (iCelEntity* entity)
     {
       return scfParent->AddEntity (entity);
