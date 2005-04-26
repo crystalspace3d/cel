@@ -20,7 +20,6 @@
 #include <math.h>
 #include "cssysdef.h"
 #include "propclass/mesh.h"
-#include "propclass/solid.h"
 #include "plugins/propclass/zone/zone.h"
 #include "propclass/camera.h"
 #include "physicallayer/pl.h"
@@ -50,6 +49,8 @@
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
+#include "cstool/collider.h"
+#include "ivaria/collider.h"
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
 #include "csqsqrt.h"
@@ -201,9 +202,31 @@ bool celRegion::Load ()
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
 
+  // Create colliders for all meshes in this region.
+  csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
+  	engine, cur_region);
+
+  // Find all sectors and entities loaded in this region.
+  iCelPlLayer* pl = mgr->GetPL ();
+  csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
+  while (iter->HasNext ())
+  {
+    iObject* o = iter->Next ();
+    csRef<iSector> sector = SCF_QUERY_INTERFACE (o, iSector);
+    if (sector) { sectors.Add (sector); continue; }
+    iCelEntity* e = pl->FindAttachedEntity (o);
+    if (e)
+    {
+      // There was an entity attached. This entity is probably
+      // created by an addon. We will register this entity as
+      // one that needs to be deleted when the region is unloaded.
+      entities.Push (e);
+    }
+  }
+
+#if 0
   // Create entities for all meshes in this region unless there is already
   // an entity for them (an addon may have created them for example).
-  iCelPlLayer* pl = mgr->GetPL ();
   iCelPropertyClass* pc;
   csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
   while (iter->HasNext ())
@@ -242,6 +265,7 @@ bool celRegion::Load ()
       }
     }
   }
+#endif
 
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
 
@@ -362,6 +386,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   if (id_region == csInvalidStringID)
     id_region = pl->FetchStringID ("cel.parameter.region");
