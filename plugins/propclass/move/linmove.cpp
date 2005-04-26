@@ -208,14 +208,12 @@ celPcLinearMovement::~celPcLinearMovement ()
 csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
-  databuf->SetDataCount (5);
-  int j = 0;
 
-  databuf->GetData (j++)->Set (topSize);
-  databuf->GetData (j++)->Set (bottomSize);
-  databuf->GetData (j++)->Set (shift);
-  databuf->GetData (j++)->Set (vel);
-  databuf->GetData (j++)->Set (angularVelocity);
+  databuf->Add (topSize);
+  databuf->Add (bottomSize);
+  databuf->Add (shift);
+  databuf->Add (vel);
+  databuf->Add (angularVelocity);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -225,42 +223,17 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
     return false;
-  if (databuf->GetDataCount () != 5)
-    return false;
 
-  celData* cd;
-  cd = databuf->GetData (0);
-  topSize.x = cd->value.v.x;
-  topSize.y = cd->value.v.y;
-  topSize.z = cd->value.v.z;
-
-  cd = databuf->GetData (1);
-  bottomSize.x = cd->value.v.x;
-  bottomSize.y = cd->value.v.y;
-  bottomSize.z = cd->value.v.z;
-
-  intervalSize.x = MIN(topSize.x, bottomSize.x);
-  intervalSize.y = MIN(topSize.y, bottomSize.y);
-  intervalSize.z = MIN(topSize.z, bottomSize.z);
-
-
-  cd = databuf->GetData (2);
-  shift.x = cd->value.v.x;
-  shift.y = cd->value.v.y;
-  shift.z = cd->value.v.z;
+  databuf->GetVector3 (topSize);
+  databuf->GetVector3 (bottomSize);
+  databuf->GetVector3 (intervalSize);
+  databuf->GetVector3 (shift);
 
   if (!InitCD (topSize, bottomSize, shift, 0))
     return false;
 
-  cd = databuf->GetData (3);
-  vel.x = cd->value.v.x;
-  vel.y = cd->value.v.y;
-  vel.z = cd->value.v.z;
-
-  cd = databuf->GetData (4);
-  angularVelocity.x = cd->value.v.x;
-  angularVelocity.y = cd->value.v.y;
-  angularVelocity.z = cd->value.v.z;
+  databuf->GetVector3 (vel);
+  databuf->GetVector3 (angularVelocity);
 
   return true;
 }

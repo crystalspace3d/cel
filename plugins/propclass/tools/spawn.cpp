@@ -95,7 +95,6 @@ bool celPcSpawn::PerformAction (csStringID /*actionId*/,
 csPtr<iCelDataBuffer> celPcSpawn::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SPAWN_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -103,7 +102,6 @@ bool celPcSpawn::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != SPAWN_SERIAL) return false;
-  if (databuf->GetDataCount () != 0) return false;
 
   return true;
 }

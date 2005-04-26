@@ -27,7 +27,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
-#include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -1214,36 +1213,34 @@ void celPcCamera::SetRectangle (int x, int y, int w, int h)
 csPtr<iCelDataBuffer> celPcCamera::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
-  databuf->SetDataCount (3+11+7+2);
-  celDataBufHelper db(databuf);
 
   csRef<iCelPropertyClass> pc;
   if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
-  db.Set (pc);
-  db.Set (view->GetCamera()->GetSector()->QueryObject()->GetName());
+  databuf->Add (pc);
+  databuf->Add (view->GetCamera()->GetSector()->QueryObject()->GetName());
   const csTransform& tr = view->GetCamera ()->GetTransform ();
-  db.Set (tr.GetO2TTranslation ());
+  databuf->Add (tr.GetO2TTranslation ());
 
-  db.Set (tr.GetO2T ().m11);
-  db.Set (tr.GetO2T ().m12);
-  db.Set (tr.GetO2T ().m13);
-  db.Set (tr.GetO2T ().m21);
-  db.Set (tr.GetO2T ().m22);
-  db.Set (tr.GetO2T ().m23);
-  db.Set (tr.GetO2T ().m31);
-  db.Set (tr.GetO2T ().m32);
-  db.Set (tr.GetO2T ().m33);
+  databuf->Add (tr.GetO2T ().m11);
+  databuf->Add (tr.GetO2T ().m12);
+  databuf->Add (tr.GetO2T ().m13);
+  databuf->Add (tr.GetO2T ().m21);
+  databuf->Add (tr.GetO2T ().m22);
+  databuf->Add (tr.GetO2T ().m23);
+  databuf->Add (tr.GetO2T ().m31);
+  databuf->Add (tr.GetO2T ().m32);
+  databuf->Add (tr.GetO2T ().m33);
 
-  db.Set ((uint8)cammode);
-  db.Set (use_cd);
-  db.Set (rect_set);
-  db.Set ((uint16)rect_x);
-  db.Set ((uint16)rect_y);
-  db.Set ((uint16)rect_w);
-  db.Set ((uint16)rect_h);
+  databuf->Add ((uint8)cammode);
+  databuf->Add (use_cd);
+  databuf->Add (rect_set);
+  databuf->Add ((uint16)rect_x);
+  databuf->Add ((uint16)rect_y);
+  databuf->Add ((uint16)rect_w);
+  databuf->Add ((uint16)rect_h);
 
-  db.Set (clear_zbuf);
-  db.Set (clear_screen);
+  databuf->Add (clear_zbuf);
+  databuf->Add (clear_screen);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -1256,73 +1253,53 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
     Report (object_reg, "serialnr != CAMERA_SERIAL.  Cannot load.");
     return false;
   }
-  if (databuf->GetDataCount () != 3+11+7+2)
-  {
-    Report (object_reg, "23 data elements required.  Cannot load.");
-    return false;
-  }
-  celDataBufHelper db(databuf);
 
   csMatrix3 m_o2t;
   csVector3 v_o2t;
 
-  iCelPropertyClass* pc;
-  if (!db.Get(pc))
+  iCelPropertyClass* pc = databuf->GetPC ();
+  if (!pc)
   {
     Report (object_reg,"Cannot load property class.");
     return false;
   }
-  if (pc)
-    region = SCF_QUERY_INTERFACE (pc, iPcRegion);
+  region = SCF_QUERY_INTERFACE (pc, iPcRegion);
   if (region)
     SetRegion (region, false, 0);
 
-  const char* sectname;
-  db.Get (sectname);
+  const char* sectname = databuf->GetString ()->GetData ();
   iSector* sector = region->FindSector (sectname);
   if (!sector)
   {
     Report (object_reg,"Illegal sector specified.  Cannot load.");
     return false;
   }
-  db.Get (v_o2t);
+  databuf->GetVector3 (v_o2t);
 
-  db.Get (m_o2t.m11);
-  db.Get (m_o2t.m12);
-  db.Get (m_o2t.m13);
-  db.Get (m_o2t.m21);
-  db.Get (m_o2t.m22);
-  db.Get (m_o2t.m23);
-  db.Get (m_o2t.m31);
-  db.Get (m_o2t.m32);
-  db.Get (m_o2t.m33);
+  m_o2t.m11 = databuf->GetFloat ();
+  m_o2t.m12 = databuf->GetFloat ();
+  m_o2t.m13 = databuf->GetFloat ();
+  m_o2t.m21 = databuf->GetFloat ();
+  m_o2t.m22 = databuf->GetFloat ();
+  m_o2t.m23 = databuf->GetFloat ();
+  m_o2t.m31 = databuf->GetFloat ();
+  m_o2t.m32 = databuf->GetFloat ();
+  m_o2t.m33 = databuf->GetFloat ();
 
-  if (!db.AllOk ())
-  {
-    Report (object_reg,"transformation matrix badly specified.  Cannot load.");
-    return false;
-  }
   view->GetCamera ()->SetSector(sector);
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
 
-  db.Get ((uint8&)cammode);
-  db.Get (use_cd);
-  db.Get (rect_set);
-  db.Get ((uint16&)rect_x);
-  db.Get ((uint16&)rect_y);
-  db.Get ((uint16&)rect_w);
-  db.Get ((uint16&)rect_h);
+  cammode = (iPcCamera::CameraMode)databuf->GetUInt8 ();
+  use_cd = databuf->GetBool ();
+  rect_set = databuf->GetBool ();
+  rect_x = databuf->GetUInt16 ();
+  rect_y = databuf->GetUInt16 ();
+  rect_w = databuf->GetUInt16 ();
+  rect_h = databuf->GetUInt16 ();
 
-  db.Get (clear_zbuf);
-  db.Get (clear_screen);
-
-  if (!db.AllOk())
-  {
-    Report (object_reg,
-    	"Camera transformation matrix badly specified.  Cannot load.");
-    return false;
-  }
+  clear_zbuf = databuf->GetBool ();
+  clear_screen = databuf->GetBool ();
 
   if (rect_set)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
@@ -1381,14 +1358,12 @@ celPcRegion::~celPcRegion ()
 csPtr<iCelDataBuffer> celPcRegion::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
-  databuf->SetDataCount (5);
-  celDataBufHelper db (databuf);
 
-  db.Set (empty_sector);
-  db.Set (worlddir);
-  db.Set (worldfile);
-  db.Set (regionname);
-  db.Set (loaded);
+  databuf->Add (empty_sector);
+  databuf->Add (worlddir);
+  databuf->Add (worldfile);
+  databuf->Add (regionname);
+  databuf->Add (loaded);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -1401,49 +1376,17 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
     Report (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
     return false;
   }
-  if (databuf->GetDataCount () != 5)
-  {
-    Report (object_reg, "5 data elements required, not %d.  Cannot load.",
-    	databuf->GetDataCount () );
-    return false;
-  }
-  celDataBufHelper db (databuf);
 
   Unload ();
   delete[] worlddir; worlddir = 0;
   delete[] worldfile; worldfile = 0;
   delete[] regionname; regionname = 0;
 
-  if (!db.Get (empty_sector))
-  {
-    Report (object_reg, "Empty sector not specified.  Cannot load.");
-    return false;
-  }
-  const char* strp;
-  if (!db.Get (strp))
-  {
-    Report (object_reg, "Worlddir not specified.  Cannot load.");
-    return false;
-  }
-  worlddir = csStrNew (strp);
-  if (!db.Get (strp))
-  {
-    Report (object_reg, "Worldfile not specified.  Cannot load.");
-    return false;
-  }
-  worldfile = csStrNew (strp);
-  if (!db.Get (strp))
-  {
-    Report (object_reg, "Regionname not specified.  Cannot load.");
-    return false;
-  }
-  regionname = csStrNew (strp);
-  bool load;
-  if (!db.Get (load))
-  {
-    Report (object_reg, "load flag not specified.  Cannot load.");
-    return false;
-  }
+  empty_sector = databuf->GetBool ();
+  worlddir = csStrNew (databuf->GetString ()->GetData ());
+  worldfile = csStrNew (databuf->GetString ()->GetData ());
+  regionname = csStrNew (databuf->GetString ()->GetData ());
+  bool load = databuf->GetBool ();
 
   if (load && !Load ())
   {

@@ -36,7 +36,7 @@
 #include "plugins/propclass/dynmove/dynmove.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
-#include "physicallayer/databhlp.h"
+#include "physicallayer/persist.h"
 
 //---------------------------------------------------------------------------
 
@@ -200,12 +200,10 @@ iDynamicSystem* celPcDynamicSystem::GetDynamicSystem ()
 csPtr<iCelDataBuffer> celPcDynamicSystem::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNSYS_SERIAL);
-  databuf->SetDataCount (4);
-  int j = 0;
-  databuf->GetData (j++)->Set (dynsystem->GetGravity ());
-  databuf->GetData (j++)->Set (dynsystem->GetLinearDampener ());
-  databuf->GetData (j++)->Set (dynsystem->GetRollingDampener ());
-  databuf->GetData (j++)->Set (delta);
+  databuf->Add (dynsystem->GetGravity ());
+  databuf->Add (dynsystem->GetLinearDampener ());
+  databuf->Add (dynsystem->GetRollingDampener ());
+  databuf->Add (delta);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -218,25 +216,14 @@ bool celPcDynamicSystem::Load (iCelDataBuffer* databuf)
     return false;
   }
 
-  if (databuf->GetDataCount () != 4)
-  {
-    Report (object_reg, "Msg does not specify the correct data. Cannot load.");
-    return false;
-  }
-
-  celDataBufHelper db (databuf);
   csVector3 gravity;
-  float lineardampener;
-  float rollingdampener;
-  db.Get (gravity);
-  db.Get (lineardampener);
-  db.Get (rollingdampener);
-  db.Get (delta);
+  databuf->GetVector3 (gravity);
+  float lineardampener = databuf->GetFloat ();
+  float rollingdampener = databuf->GetFloat ();
+  delta = databuf->GetFloat ();
 
   if (!GetDynamicSystem ())
-  {
     return false;
-  }
 
   dynsystem->SetGravity (gravity);
   dynsystem->SetLinearDampener (lineardampener);
@@ -335,64 +322,62 @@ csPtr<iCelDataBuffer> celPcDynamicBody::Save ()
     case CEL_BODY_PLANE: body_info_cnt = 4; break;
     case CEL_BODY_MESH: body_info_cnt = 0; break;
   }
-  databuf->SetDataCount (2+1+body_info_cnt+5+1);
   csRef<iCelPropertyClass> pc;
-  int j = 0;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
-  databuf->GetData (j++)->Set (pc);
+  databuf->Add (pc);
   if (dynsystem) pc = SCF_QUERY_INTERFACE (dynsystem, iCelPropertyClass);
-  databuf->GetData (j++)->Set (pc);
-  databuf->GetData (j++)->Set (CS_STATIC_CAST(int32,btype));
+  databuf->Add (pc);
+  databuf->Add (int32 (btype));
   switch (btype)
   {
     case CEL_BODY_SPHERE:
       {
         sphere_data* sd = (sphere_data*)bdata;
-        databuf->GetData (j++)->Set (sd->radius);
-        databuf->GetData (j++)->Set (sd->offset);
+        databuf->Add (sd->radius);
+        databuf->Add (sd->offset);
       }
       break;
     case CEL_BODY_BOX:
       {
         box_data* bd = (box_data*)bdata;
-        databuf->GetData (j++)->Set (bd->size);
+        databuf->Add (bd->size);
         const csMatrix3& m = bd->transform.GetO2T ();
-        databuf->GetData (j++)->Set (m.Row1 ());
-        databuf->GetData (j++)->Set (m.Row2 ());
-        databuf->GetData (j++)->Set (m.Row3 ());
-        databuf->GetData (j++)->Set (bd->transform.GetO2TTranslation ());
+        databuf->Add (m.Row1 ());
+        databuf->Add (m.Row2 ());
+        databuf->Add (m.Row3 ());
+        databuf->Add (bd->transform.GetO2TTranslation ());
       }
       break;
     case CEL_BODY_CYLINDER:
       {
         cylinder_data* cd = (cylinder_data*)bdata;
-        databuf->GetData (j++)->Set (cd->length);
-        databuf->GetData (j++)->Set (cd->radius);
+        databuf->Add (cd->length);
+        databuf->Add (cd->radius);
         const csMatrix3& m = cd->transform.GetO2T ();
-        databuf->GetData (j++)->Set (m.Row1 ());
-        databuf->GetData (j++)->Set (m.Row2 ());
-        databuf->GetData (j++)->Set (m.Row3 ());
-        databuf->GetData (j++)->Set (cd->transform.GetO2TTranslation ());
+        databuf->Add (m.Row1 ());
+        databuf->Add (m.Row2 ());
+        databuf->Add (m.Row3 ());
+        databuf->Add (cd->transform.GetO2TTranslation ());
       }
       break;
     case CEL_BODY_PLANE:
       {
         plane_data* pd = (plane_data*)bdata;
-        databuf->GetData (j++)->Set (pd->plane.A ());
-        databuf->GetData (j++)->Set (pd->plane.B ());
-        databuf->GetData (j++)->Set (pd->plane.C ());
-        databuf->GetData (j++)->Set (pd->plane.D ());
+        databuf->Add (pd->plane.A ());
+        databuf->Add (pd->plane.B ());
+        databuf->Add (pd->plane.C ());
+        databuf->Add (pd->plane.D ());
       }
       break;
     case CEL_BODY_MESH:
       break;
   }
-  databuf->GetData (j++)->Set (friction);
-  databuf->GetData (j++)->Set (elasticity);
-  databuf->GetData (j++)->Set (softness);
-  databuf->GetData (j++)->Set (density);
-  databuf->GetData (j++)->Set (mass);
-  databuf->GetData (j++)->Set (is_static);
+  databuf->Add (friction);
+  databuf->Add (elasticity);
+  databuf->Add (softness);
+  databuf->Add (density);
+  databuf->Add (mass);
+  databuf->Add (is_static);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -403,11 +388,6 @@ bool celPcDynamicBody::Load (iCelDataBuffer* databuf)
   if (serialnr != DYNBODY_SERIAL)
   {
     Report (object_reg, "serialnr != DYNBODY_SERIAL.  Cannot load.");
-    return false;
-  }
-  if (databuf->GetDataCount () < 9)
-  {
-    Report (object_reg, "Msg does not specify the correct data.  Cannot load.");
     return false;
   }
 // @@@ TODO

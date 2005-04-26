@@ -530,14 +530,6 @@ bool celPersistClassicContext::Read (celData* cd)
 	cd->Set (ent);
       }
       break;
-    case CEL_DATA_BUFFER:
-      {
-        iCelDataBuffer* db;
-	if (!Read (db)) return false;
-	cd->Set (db);
-	db->DecRef ();
-      }
-      break;
     case CEL_DATA_IBASE:
       Report ("Data type iBase is not allowed for persistence!");
       return false;
@@ -567,11 +559,10 @@ bool celPersistClassicContext::Read (iCelDataBuffer*& db)
   }
   dbref = pl->CreateDataBuffer (ser);
   db = dbref;
-  db->SetDataCount (cnt);
   int i;
   for (i = 0 ; i < cnt ; i++)
   {
-    if (!Read (db->GetData (i)))
+    if (!Read (db->AddData ()))
     {
       Report ("Error reading data entry %d!", i);
       db = 0;
@@ -965,9 +956,6 @@ bool celPersistClassicContext::Write (celData* data)
       break;
     case CEL_DATA_ENTITY:
       if (!Write (data->value.ent)) return false;
-      break;
-    case CEL_DATA_BUFFER:
-      if (!Write (data->value.db)) return false;
       break;
     case CEL_DATA_IBASE:
       Report ("Data type iBase is not allowed for persistence!");

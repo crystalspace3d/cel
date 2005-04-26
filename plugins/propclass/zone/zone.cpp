@@ -27,7 +27,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
-#include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
@@ -383,8 +382,6 @@ celPcZoneManager::~celPcZoneManager ()
 csPtr<iCelDataBuffer> celPcZoneManager::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);
-  databuf->SetDataCount (0);
-
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -394,12 +391,6 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
   if (serialnr != ZONEMANAGER_SERIAL)
   {
     Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
-    return false;
-  }
-  if (databuf->GetDataCount () != 0)
-  {
-    Report (object_reg, "0 data elements required, not %d.  Cannot load.",
-    	databuf->GetDataCount () );
     return false;
   }
 

@@ -25,7 +25,10 @@
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
-#include "physicallayer/persist.h"
+//#include "physicallayer/persist.h"
+
+struct iCelPropertyClass;
+struct iCelEntity;
 
 /**
  * Type for celData.
@@ -46,7 +49,6 @@ enum celDataType
   CEL_DATA_STRING,
   CEL_DATA_PCLASS,
   CEL_DATA_ENTITY,
-  CEL_DATA_BUFFER,
   CEL_DATA_ACTION,
   CEL_DATA_COLOR,
   CEL_DATA_IBASE,
@@ -81,7 +83,6 @@ struct celData
     } col;
     iCelPropertyClass* pc;
     iCelEntity* ent;
-    iCelDataBuffer* db;
     iBase* ibase;
   } value;
 
@@ -93,7 +94,6 @@ struct celData
   void Clear ()
   {
     if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->DecRef ();
-    else if (type == CEL_DATA_BUFFER && value.db) value.db->DecRef ();
     type = CEL_DATA_NONE;
   }
   /**
@@ -147,13 +147,6 @@ struct celData
     Clear ();
     type = CEL_DATA_ENTITY;
     value.ent = ent;
-  }
-  void Set (iCelDataBuffer* db)
-  {
-    Clear ();
-    type = CEL_DATA_BUFFER;
-    value.db = db;
-    db->IncRef ();
   }
   void SetAction (const char* s)
   {

@@ -27,7 +27,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/datatype.h"
 #include "physicallayer/persist.h"
-#include "physicallayer/databhlp.h"
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "cstool/collider.h"
@@ -129,17 +128,16 @@ celPcMovable::~celPcMovable ()
 csPtr<iCelDataBuffer> celPcMovable::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVABLE_SERIAL);
-  databuf->SetDataCount (1+1+constraints.Length ());
-  size_t i, j = 0;
+  size_t i;
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
-  databuf->GetData (j++)->Set (pc);
-  databuf->GetData (j++)->Set ((uint16)constraints.Length ());
+  databuf->Add (pc);
+  databuf->Add ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
-    csRef<iCelPropertyClass> pc (SCF_QUERY_INTERFACE (pcm, iCelPropertyClass));
-    databuf->GetData (j++)->Set (pc);
+    csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (pcm, iCelPropertyClass);
+    databuf->Add (pc);
   }
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -153,17 +151,9 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
     return false;
   }
 
-  int cnt_total = databuf->GetDataCount ();
-  celData* cd;
   RemoveAllConstraints ();
-  int i, j = 0;
-  cd = databuf->GetData (j++);
-  if (!cd)
-  {
-    MoveReport (object_reg,"Property class not specified.  Cannot load.");
-    return false;
-  }
-  iCelPropertyClass* pc = cd->value.pc;
+  int i;
+  iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcMesh> pcm;
   if (pc)
   {
@@ -172,29 +162,11 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   }
   SetMesh (pcm);
 
-  cd = databuf->GetData (j++);
-  if (!cd)
-  {
-    MoveReport (object_reg,"cnt_constraints not specified.  Cannot load.");
-    return false;
-  }
-  int cnt_constraints = cd->value.uw;
-  if (cnt_total != 1+1+cnt_constraints)
-  {
-    MoveReport (object_reg,"Cnt_total is %d and should be %d.  Cannot load.",cnt_total, 2+cnt_constraints);
-    return false;
-  }
-
+  int cnt_constraints = databuf->GetUInt16 ();
   for (i = 0 ; i < cnt_constraints ; i++)
   {
-    cd = databuf->GetData (j++);
-    if (!cd)
-    {
-      MoveReport (object_reg,"iPcMovableConstraint not specified for element %d.  Cannot load.",i);
-      return false;
-    }
-    csRef<iPcMovableConstraint> pcm (SCF_QUERY_INTERFACE (cd->value.pc,
-    	iPcMovableConstraint));
+    csRef<iPcMovableConstraint> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (),
+    	iPcMovableConstraint);
     CS_ASSERT (pcm != 0);
     AddConstraint (pcm);
   }
@@ -308,10 +280,9 @@ celPcSolid::~celPcSolid ()
 csPtr<iCelDataBuffer> celPcSolid::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOLID_SERIAL);
-  databuf->SetDataCount (1);
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
-  databuf->GetData (0)->Set (pc);
+  databuf->Add (pc);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -323,23 +294,13 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
     MoveReport (object_reg,"serialnr != SOLID_SERIAL.  Cannot load.");
     return false;
   }
-  if (databuf->GetDataCount () != 1)
-  {
-    MoveReport (object_reg,"Msg does not specify the correct data.  Cannot load.");
-    return false;
-  }
-  celData* cd;
+
   collider_wrap = 0;
   no_collider = false;
-  cd = databuf->GetData (0);
-  if (!cd)
-  {
-    MoveReport (object_reg,"iPcMesh prop class not specified.  Cannot load.");
-    return false;
-  }
   csRef<iPcMesh> pcm;
-  if (cd->value.pc)
-    pcm = SCF_QUERY_INTERFACE (cd->value.pc, iPcMesh);
+  iCelPropertyClass* pc = databuf->GetPC ();
+  if (pc)
+    pcm = SCF_QUERY_INTERFACE (pc, iPcMesh);
   SetMesh (pcm);
   return true;
 }
@@ -454,7 +415,6 @@ celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 csPtr<iCelDataBuffer> celPcMovableConstraintCD::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVABLECONST_CD_SERIAL);
-  databuf->SetDataCount (0);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -464,11 +424,6 @@ bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
   if (serialnr != MOVABLECONST_CD_SERIAL)
   {
     MoveReport (object_reg,"serialnr != MOVABLECONST_CD_SERIAL.  Cannot load.");
-    return false;
-  }
-  if (databuf->GetDataCount () != 0)
-  {
-    MoveReport (object_reg,"Msg does not specify correct data.  Cannot load.");
     return false;
   }
   return true;
@@ -623,30 +578,28 @@ celPcGravity::~celPcGravity ()
 csPtr<iCelDataBuffer> celPcGravity::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAVITY2_SERIAL);
-  databuf->SetDataCount (8+forces.Length ()*2);
-  celDataBufHelper db(databuf);
 
   csRef<iCelPropertyClass> pc;
   if (pcmovable) pc = SCF_QUERY_INTERFACE (pcmovable, iCelPropertyClass);
   else pc = 0;
-  db.Set (pc);
+  databuf->Add (pc);
   if (pcsolid) pc = SCF_QUERY_INTERFACE (pcsolid, iCelPropertyClass);
   else pc = 0;
-  db.Set (pc);
+  databuf->Add (pc);
 
-  db.Set (weight);
-  db.Set (current_speed);
-  db.Set (infinite_forces);
-  db.Set (is_resting);
-  db.Set (active);
+  databuf->Add (weight);
+  databuf->Add (current_speed);
+  databuf->Add (infinite_forces);
+  databuf->Add (is_resting);
+  databuf->Add (active);
 
-  db.Set ((uint16)forces.Length ());
+  databuf->Add ((uint16)forces.Length ());
   size_t i;
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce* f = forces[i];
-    db.Set (f->force);
-    db.Set (f->time_remaining);
+    databuf->Add (f->force);
+    databuf->Add (f->time_remaining);
   }
   
   return csPtr<iCelDataBuffer> (databuf);
@@ -660,50 +613,31 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
     MoveReport (object_reg,"serialnr != GRAVITY2_SERIAL.  Cannot load.");
     return false;
   }
-  celDataBufHelper db(databuf);
   iCelPropertyClass* pc;
 
-  db.Get(pc);
+  pc = databuf->GetPC ();
   csRef<iPcMovable> pcm;
   if (pc) pcm = SCF_QUERY_INTERFACE (pc, iPcMovable);
   SetMovable (pcm);
 
-  db.Get(pc);
+  pc = databuf->GetPC ();
   csRef<iPcSolid> pcs;
   if (pc) pcs = SCF_QUERY_INTERFACE (pc, iPcSolid);
   SetSolid (pcs);
 
-  if (!db.AllOk())
-  {
-    MoveReport (object_reg,"databuf not ok.  Cannot load.");
-    return false;
-  }
+  weight = databuf->GetFloat ();
+  databuf->GetVector3 (current_speed);
+  databuf->GetVector3 (infinite_forces);
+  is_resting = databuf->GetBool ();
+  active = databuf->GetBool ();
 
-  db.Get(weight);
-  db.Get(current_speed);
-  db.Get(infinite_forces);
-  db.Get(is_resting);
-  db.Get(active);
-
-  if (!db.AllOk())
-  {
-    MoveReport (object_reg,"databuf not ok.  Cannot load.");
-    return false;
-  }
-
-  uint16 num_forces;
+  uint16 num_forces = databuf->GetUInt16 ();
   int i;
-  db.Get(num_forces);
   for (i = 0 ; i < num_forces ; i++)
   {
     celForce* f = new celForce ();
-    db.Get(f->force);
-    db.Get(f->time_remaining);
-  }
-  if (!db.AllOk())
-  {
-    MoveReport (object_reg,"databuf not ok.  Cannot load.");
-    return false;
+    databuf->GetVector3 (f->force);
+    f->time_remaining = databuf->GetFloat ();
   }
 
   return true;

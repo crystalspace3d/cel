@@ -134,9 +134,8 @@ long celPcTest::GetPropertyLong (csStringID propertyId)
 csPtr<iCelDataBuffer> celPcTest::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  databuf->SetDataCount (2);
-  databuf->GetData (0)->Set (CS_STATIC_CAST(int32,counter));
-  databuf->GetData (1)->Set (CS_STATIC_CAST(int32,max));
+  databuf->Add (int32 (counter));
+  databuf->Add (int32 (max));
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -144,13 +143,9 @@ bool celPcTest::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TEST_SERIAL) return false;
-  if (databuf->GetDataCount () != 2) return false;
 
-  celData* cd;
-  cd = databuf->GetData (0); if (!cd) return false;
-  counter = cd->value.l;
-  cd = databuf->GetData (1); if (!cd) return false;
-  max = cd->value.l;
+  counter = databuf->GetInt32 ();
+  max = databuf->GetInt32 ();
 
   return true;
 }
