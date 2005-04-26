@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2001-2003 by Jorrit Tyberghein
+    Copyright (C) 2001-2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -62,6 +62,7 @@
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
+#include "celtool/persisthelper.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -135,6 +136,28 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
       q->GetEventOutlet ()->Broadcast (cscmdQuit);
     }
+    else if (code == 's')
+    {
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+      	iCelPersistence);
+      celStandardLocalEntitySet set (pl);
+      if (!p->Save (&set, "/this/savefile"))
+      {
+        printf ("Error!\n");
+	fflush (stdout);
+      }
+    }
+    else if (code == 'l')
+    {
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+      	iCelPersistence);
+      celStandardLocalEntitySet set (pl);
+      if (!p->Load (&set, "/this/savefile"))
+      {
+        printf ("Error!\n");
+	fflush (stdout);
+      }
+    }
   }
   return false;
 }
@@ -151,10 +174,8 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   	"pcmesh",
   	"pcmeshselect",
 	"pctimer",
+	"pclinearmovement",
 	"pcsolid",
-	"pcgravity",
-	"pcmovable",
-	"pcmovableconst_cd",
 	"pcinventory",
 	"pccharacteristics",
 	"pctest",
@@ -166,17 +187,6 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   pcmeshsel->SetCamera (pccamera);
   pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
 
-  csRef<iPcGravity> pcgravity = CEL_QUERY_PROPCLASS_ENT (entity_box,
-  	iPcGravity);
-  pcgravity->SetWeight (weight);
-  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8f, 0));
-
-  csRef<iPcMovable> pcmovable = CEL_QUERY_PROPCLASS_ENT (entity_box,
-  	iPcMovable);
-  csRef<iPcMovableConstraint> pcmovableconst = CEL_QUERY_PROPCLASS_ENT (
-  	entity_box, iPcMovableConstraint);
-  pcmovable->AddConstraint (pcmovableconst);
-
   csRef<iPcTest> pctest = CEL_QUERY_PROPCLASS_ENT (entity_box, iPcTest);
   pctest->Print ("Hello world!");
 
@@ -185,6 +195,10 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
+
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_box,
+    iPcLinearMovement);
+  pclinmove->InitCD (pcmesh->GetMesh (), 10.0f);
 
   csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (entity_box,
   	iPcInventory);
@@ -216,9 +230,7 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   	"pctimer",
 	"pccharacteristics",
 	"pcsolid",
-	"pcgravity",
-	"pcmovable",
-	"pcmovableconst_cd",
+	"pclinearmovement",
 	"pcmesh",
   	(void*)0);
 
@@ -230,24 +242,15 @@ csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
   pcchars->SetCharacteristic ("size", size);
   pcchars->SetCharacteristic ("weight", weight);
 
-  csRef<iPcGravity> pcgravity = CEL_QUERY_PROPCLASS_ENT (entity_dummy,
-  	iPcGravity);
-  pcgravity->SetWeight (weight);
-  pcgravity->ApplyPermanentForce (csVector3 (0, -9.8f, 0));
-
-  csRef<iPcMovable> pcmovable = CEL_QUERY_PROPCLASS_ENT (entity_dummy,
-  	iPcMovable);
-  csRef<iPcMovableConstraint> pcmovableconst = CEL_QUERY_PROPCLASS_ENT (
-  	entity_dummy, iPcMovableConstraint);
-  pcmovable->AddConstraint (pcmovableconst);
-
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcMesh);
   char buf[150];
   sprintf (buf, "/cel/data/%s", factName);
   pcmesh->SetMesh (factName, buf);
   pcmesh->MoveMesh (room, pos);
 
-  pcgravity->ApplyForce (force, 1);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_dummy,
+    iPcLinearMovement);
+  pclinmove->InitCD (pcmesh->GetMesh (), 10.0f);
 
   return csPtr<iCelEntity> (entity_dummy);
 }
@@ -737,8 +740,6 @@ bool CelTest::Application ()
   // XXX: This should be in a config file...
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.movable"))
-    return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
@@ -746,10 +747,6 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.movableconst_cd"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.gravity"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
     return false;

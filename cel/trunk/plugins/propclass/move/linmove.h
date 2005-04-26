@@ -149,6 +149,8 @@ public:
     v = angularVelocity;
   }
 
+  bool InitCD (iMeshWrapper* mesh, float percentage,
+  	iPcCollisionDetection* pc_cd = 0);
   bool InitCD (const csVector3& body, const csVector3& legs,
   	const csVector3& shift,iPcCollisionDetection *pc_cd = 0);
   void GetCDDimensions (csVector3& body, csVector3& legs,
@@ -319,6 +321,11 @@ public:
       scfParent->GetAngularVelocity (v);
     }
 
+    virtual bool InitCD (iMeshWrapper* mesh, float percentage,
+  	iPcCollisionDetection* pc_cd = 0)
+    {
+      return scfParent->InitCD (mesh, percentage, pc_cd);
+    }
     virtual bool InitCD (const csVector3& top, const csVector3& bottom,
     	const csVector3& shift,iPcCollisionDetection *pc_cd=0)
     {

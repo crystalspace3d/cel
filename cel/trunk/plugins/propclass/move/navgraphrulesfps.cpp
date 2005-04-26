@@ -284,7 +284,7 @@ int celPcNavGraphRulesFPS::TraverseLink (celPcNavGraph* graph,
   }
   else
   {
-    MoveNotify (object_reg, ".. NO MOVABLECONSTRAINT on entity!!");
+    //MoveNotify (object_reg, ".. NO MOVABLECONSTRAINT on entity!!");
     iResult = CEL_MOVE_SUCCEED;
   }
   return iResult;

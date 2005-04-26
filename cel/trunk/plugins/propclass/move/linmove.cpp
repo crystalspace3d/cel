@@ -708,6 +708,19 @@ void celPcLinearMovement::GetCDDimensions (csVector3& body, csVector3& legs,
   pc_cd = pccolldet;
 }
 
+bool celPcLinearMovement::InitCD (iMeshWrapper* mesh, float percentage,
+  	iPcCollisionDetection* pc_cd)
+{
+  csBox3 bbox;
+  mesh->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox (bbox);
+  csVector3 body = bbox.Max () - bbox.Min ();
+  csVector3 legs = body;
+  csVector3 shift (0); shift.y = bbox.MinY ();
+  legs.y = percentage * legs.y / 100.0f;
+  body.y = (100.0f-percentage) * body.y / 100.0f;
+  return InitCD (body, legs, shift, pc_cd);
+}
+
 bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 	const csVector3& shift, iPcCollisionDetection *pc_cd)
 {

@@ -1537,10 +1537,12 @@ bool celPcRegion::Load ()
   loaded = true;
   printf ("LoadOK!\n");
 
-  // Create entities for all meshes in this region unless there is already
-  // an entity for them (an addon may have created them for example).
-  {
-  iCelPropertyClass* pc;
+  // Create colliders for all meshes in this region.
+  csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  csColliderHelper::InitializeCollisionWrappers (cdsys, engine, cur_region);
+
+  // Find all entities in this region. We keep those in a list so we can
+  // unload them later if region is unloaded.
   csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
   while (iter->HasNext ())
   {
@@ -1548,28 +1550,11 @@ bool celPcRegion::Load ()
     iCelEntity* e = pl->FindAttachedEntity (o);
     if (e)
     {
-      // There was already an entity attached. This entity is probably
-      // created by an addon. We will also register this entity as
+      // There was an entity attached. This entity is probably
+      // created by an addon. We will register this entity as
       // one that needs to be deleted when the region is unloaded.
       entities.Push (e);
     }
-    else
-    {
-      csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
-      if (m)
-      {
-        csRef<iCelEntity> ent = pl->CreateEntity ();
-        ent->SetName ("");
-
-        pc = pl->CreatePropertyClass (ent, "pcmesh");
-        csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
-        pcmesh->SetMesh (m);
-
-        pc = pl->CreatePropertyClass (ent, "pcsolid");
-        entities.Push (ent);
-      }
-    }
-  }
   }
 
   return true;

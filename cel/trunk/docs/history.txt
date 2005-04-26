@@ -26,6 +26,22 @@ The history order is reversed so that new features are at the top.
 	  references to entities and property classes that are not local
 	  (i.e. not part of the local block). The old system has not yet been
 	  removed. First the new system has to be tested.
+	- Jorrit added a new convenience method to iPcLinearMovement with
+	  which you can more easily initialize the collider from a mesh.
+	- Jorrit modified celtest so that it no longer uses the obsolete
+	  pcmovable/pcgravity system. Instead all entities now use
+	  pclinmove. The actor was already using pclinmove.
+	- Jorrit changed the way pcregion and pczonemanager work.
+	  Previously both property classes would create dummy entities for
+	  all meshes in the loaded map. Every entity would get a pcmesh
+	  and a pcsolid property class. This was only done for collision
+	  detection. However pclinmove also supports collision detection
+	  through the regular CS csColliderWrapper system. So instead of
+	  making relatively heavy entities with two property classes the
+	  region and zone manager will now only create colliders. This
+	  simplifies and speeds up both property classes and also helps
+	  conserve some memory and overhead in the physical layer (who has
+	  to manage all those entities).
 25-Apr-2005
 	- Jorrit implemented a new predefined trigger that checks when
 	  a mesh enters a sector. It is similar to the already existing

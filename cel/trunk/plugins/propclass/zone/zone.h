@@ -46,6 +46,7 @@ struct iObjectRegistry;
 struct iEngine;
 struct iLoader;
 struct iVFS;
+struct iCollideSystem;
 struct iCelPlLayer;
 struct iPcCamera;
 struct iPcMesh;
@@ -219,6 +220,7 @@ private:
   csRef<iEngine> engine;
   csRef<iLoader> loader;
   csRef<iVFS> vfs;
+  csRef<iCollideSystem> cdsys;
 
   csRef<cameraSectorListener> camlistener;
   csRef<meshmoveListener> meshlistener;
@@ -252,6 +254,7 @@ public:
   iLoader* GetLoader () const { return loader; }
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
+  iCollideSystem* GetCDSystem () const { return cdsys; }
 
   // Activate some sector. This will first find the region that this
   // sector is in and then it will activate that region.
