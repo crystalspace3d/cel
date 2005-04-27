@@ -138,6 +138,16 @@ struct iCelPlLayer : public iBase
   virtual iCelEntity* GetEntity (uint id) = 0;
 
   /**
+   * Get the total number of entities.
+   */
+  virtual size_t GetEntityCount () const = 0;
+
+  /**
+   * Get the specific entity by index (not by ID).
+   */
+  virtual iCelEntity* GetEntityByIndex (size_t idx) const = 0;
+
+  /**
    * Find an entity with a given name. This function will scan all entities
    * (at maximum) the first time it is called for a given entity. Later on
    * it will use a hash for faster finding.

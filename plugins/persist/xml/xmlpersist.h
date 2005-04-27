@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_PERSIST_CLASSIC__
-#define __CEL_PERSIST_CLASSIC__
+#ifndef __CEL_PERSIST_XML__
+#define __CEL_PERSIST_XML__
 
 #include "csutil/hash.h"
 #include "csutil/refarr.h"
@@ -27,9 +27,10 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
 
-class celPersistClassic;
+class celPersistXML;
 struct iFile;
 struct iVFS;
+struct iDocumentNode;
 struct iObjectRegistry;
 struct iCelPropertyClass;
 struct iCelEntity;
@@ -39,24 +40,15 @@ struct iCelBlLayer;
 struct celData;
 
 /**
- * This is the classic persistence layer.
+ * This is the XML persistence layer.
  */
-class celPersistClassic : public iCelPersistence
+class celPersistXML : public iCelPersistence
 {
 private:
-  bool WriteMarker (const char* s);
-  bool Write (const char* s);
-  bool Write (iCelDataBuffer* db);
-  bool Write (celData* data);
-  bool Write (uint32 v);
-  bool Write (int32 v);
-  bool Write (uint16 v);
-  bool Write (int16 v);
-  bool Write (uint8 v);
-  bool Write (int8 v);
-  bool Write (float f);
-  bool Write (iCelPropertyClass* pc, bool savelocal);
-  bool Write (iCelEntity* entity, bool savelocal);
+  bool Write (iDocumentNode* node, iCelDataBuffer* db);
+  bool Write (iDocumentNode* node, celData* data);
+  bool Write (iDocumentNode* node, iCelPropertyClass* pc, bool savelocal);
+  bool Write (iDocumentNode* node, iCelEntity* entity, bool savelocal);
 
   bool ReadMarker (char* marker);
   bool CheckMarker (const char* comp);
@@ -82,8 +74,8 @@ public:
   iCelLocalEntitySet* set;
   csHash<size_t,iCelEntity*> entities_map;
   
-  celPersistClassic (iBase* parent);
-  virtual ~celPersistClassic ();
+  celPersistXML (iBase* parent);
+  virtual ~celPersistXML ();
   bool Initialize (iObjectRegistry* object_reg);
 
   virtual bool Load (iCelLocalEntitySet* set, const char* name);
@@ -91,7 +83,7 @@ public:
 
   struct Component : public iComponent
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPersistClassic);
+    SCF_DECLARE_EMBEDDED_IBASE (celPersistXML);
     virtual bool Initialize (iObjectRegistry* p)
     { return scfParent->Initialize (p); }
   } scfiComponent;
@@ -99,5 +91,5 @@ protected:
   iObjectRegistry* object_reg;
 };
 
-#endif // __CEL_PERSIST_CLASSIC__
+#endif // __CEL_PERSIST_XML__
 

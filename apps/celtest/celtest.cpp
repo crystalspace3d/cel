@@ -86,6 +86,7 @@
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
 
+#define PATHFIND_ENABLE 0
 #define PATHFIND_VERBOSE 0
 
 //-----------------------------------------------------------------------------
@@ -138,9 +139,17 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
       	iCelPersistence);
       celStandardLocalEntitySet set (pl);
+      size_t i;
+      for (i = 0 ; i < pl->GetEntityCount () ; i++)
+        set.AddEntity (pl->GetEntityByIndex (i));
       if (!p->Save (&set, "/this/savefile"))
       {
         printf ("Error!\n");
+	fflush (stdout);
+      }
+      else
+      {
+        printf ("Saved to /this/savefile!\n");
 	fflush (stdout);
       }
     }
@@ -348,7 +357,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
       csVector3 (0.0f, -0.4f, 0.0f));
   }
 
-
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -517,6 +525,7 @@ bool CelTest::CreateRoom ()
   // Create NavGraph Test Entities
   //==============================
   // Create Graph entity
+#if PATHFIND_ENABLE
   csRef<iCelEntity> graph = pl->CreateEntity ("navgraph1", 0, 0,
   	"pcgraph",
   	(void*)0);
@@ -608,6 +617,7 @@ bool CelTest::CreateRoom ()
   ReportInfo ("Final Graph Stats: nodes: %d links: %d",
 	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
 #endif
+#endif // PATHFIND_ENABLE
 
   //===============================
   game = entity_room;
@@ -655,7 +665,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
 		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistence.classic", iCelPersistence),
+	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
 	CS_REQUEST_END))

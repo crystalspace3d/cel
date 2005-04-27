@@ -24,10 +24,11 @@
 #include "physicallayer/propfact.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
-#include "plugins/persist/classic/cpersist.h"
+#include "plugins/persist/xml/xmlpersist.h"
 #include "csutil/csendian.h"
 #include "csutil/memfile.h"
 #include "csutil/cscolor.h"
+#include "csutil/xmltiny.h"
 #include "iutil/vfs.h"
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"
@@ -39,33 +40,33 @@
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celPersistClassic)
+SCF_IMPLEMENT_FACTORY (celPersistXML)
 
-SCF_IMPLEMENT_IBASE (celPersistClassic)
+SCF_IMPLEMENT_IBASE (celPersistXML)
   SCF_IMPLEMENTS_INTERFACE (iCelPersistence)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
 SCF_IMPLEMENT_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistClassic::Component)
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistXML::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPersistClassic::celPersistClassic (iBase* parent)
+celPersistXML::celPersistXML (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
-celPersistClassic::~celPersistClassic ()
+celPersistXML::~celPersistXML ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
   SCF_DESTRUCT_IBASE ();
 }
 
-bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
+bool celPersistXML::Initialize (iObjectRegistry* object_reg)
 {
-  celPersistClassic::object_reg = object_reg;
+  celPersistXML::object_reg = object_reg;
 
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   if (!vfs) return false;
@@ -73,14 +74,14 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-void celPersistClassic::Report (const char* msg, ...)
+void celPersistXML::Report (const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
 
   csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persist.classic",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persist.xml",
     	msg, arg);
   else
   {
@@ -94,36 +95,21 @@ void celPersistClassic::Report (const char* msg, ...)
 
 //------------------------------------------------------------------------
 
-bool celPersistClassic::WriteMarker (const char* s)
+bool celPersistXML::Write (iDocumentNode* node, iCelDataBuffer* db)
 {
-  if (!file->Write (s, 4)) return false;
-  return true;
-}
-
-bool celPersistClassic::Write (const char* s)
-{
-  uint16 l = s ? strlen (s) : 0;
-  if (!Write (l)) return false;
-  if (s && !file->Write (s, l)) return false;
-  return true;
-}
-
-bool celPersistClassic::Write (iCelDataBuffer* db)
-{
-  if (!Write ((int32) db->GetSerialNumber())) return false;
-  if (!Write ((uint16) db->GetDataCount())) return false;
+  node->SetAttributeAsInt ("serial", db->GetSerialNumber ());
   size_t i;
   for (i = 0 ; i < db->GetDataCount () ; i++)
   {
-    if (!Write (db->GetData (i)))
+    if (!Write (node, db->GetData (i)))
       return false;
   }
   return true;
 }
 
-bool celPersistClassic::Write (celData* data)
+bool celPersistXML::Write (iDocumentNode* node, celData* data)
 {
-  if (!Write ((uint8) data->type)) return false;
+  csRef<iDocumentNode> attrnode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
   switch (data->type)
   {
     case CEL_DATA_NONE:
@@ -131,57 +117,66 @@ bool celPersistClassic::Write (celData* data)
       CS_ASSERT (false);
       break;
     case CEL_DATA_BOOL:
-      if (!Write ((uint8)data->value.bo)) return false;
+      attrnode->SetValue ("bool");
+      attrnode->SetAttributeAsInt ("v", int (data->value.bo));
       break;
     case CEL_DATA_BYTE:
-      if (!Write (data->value.b)) return false;
+      attrnode->SetValue ("byte");
+      attrnode->SetAttributeAsInt ("v", int (data->value.b));
       break;
     case CEL_DATA_WORD:
-      if (!Write (data->value.w)) return false;
+      attrnode->SetValue ("word");
+      attrnode->SetAttributeAsInt ("v", int (data->value.w));
       break;
     case CEL_DATA_LONG:
-      if (!Write (data->value.l)) return false;
+      attrnode->SetValue ("long");
+      attrnode->SetAttributeAsInt ("v", int (data->value.l));
       break;
     case CEL_DATA_UBYTE:
-      if (!Write (data->value.ub)) return false;
+      attrnode->SetValue ("ubyte");
+      attrnode->SetAttributeAsInt ("v", int (data->value.ub));
       break;
     case CEL_DATA_UWORD:
-      if (!Write (data->value.uw)) return false;
+      attrnode->SetValue ("uworld");
+      attrnode->SetAttributeAsInt ("v", int (data->value.uw));
       break;
     case CEL_DATA_ULONG:
-      if (!Write (data->value.ul)) return false;
+      attrnode->SetValue ("ulong");
+      attrnode->SetAttributeAsInt ("v", int (data->value.ul));
       break;
     case CEL_DATA_FLOAT:
-      if (!Write (data->value.f)) return false;
+      attrnode->SetValue ("float");
+      attrnode->SetAttributeAsFloat ("v", data->value.f);
       break;
     case CEL_DATA_VECTOR2:
-      {
-        if (!Write (data->value.v.x)) return false;
-	if (!Write (data->value.v.y)) return false;
-      }
+      attrnode->SetValue ("vector2");
+      attrnode->SetAttributeAsFloat ("x", data->value.v.x);
+      attrnode->SetAttributeAsFloat ("y", data->value.v.y);
       break;
     case CEL_DATA_VECTOR3:
-      {
-        if (!Write (data->value.v.x)) return false;
-	if (!Write (data->value.v.y)) return false;
-	if (!Write (data->value.v.z)) return false;
-      }
+      attrnode->SetValue ("vector3");
+      attrnode->SetAttributeAsFloat ("x", data->value.v.x);
+      attrnode->SetAttributeAsFloat ("y", data->value.v.y);
+      attrnode->SetAttributeAsFloat ("z", data->value.v.z);
       break;
     case CEL_DATA_COLOR:
-      {
-        if (!Write (data->value.col.red)) return false;
-	if (!Write (data->value.col.green)) return false;
-	if (!Write (data->value.col.blue)) return false;
-      }
+      attrnode->SetValue ("color");
+      attrnode->SetAttributeAsFloat ("r", data->value.col.red);
+      attrnode->SetAttributeAsFloat ("g", data->value.col.green);
+      attrnode->SetAttributeAsFloat ("b", data->value.col.blue);
       break;
     case CEL_DATA_STRING:
-      if (!Write (*data->value.s)) return false;
+      attrnode->SetValue ("string");
+      if (!data->value.s->IsEmpty ())
+        attrnode->SetAttribute ("v", *data->value.s);
       break;
     case CEL_DATA_PCLASS:
-      if (!Write (data->value.pc, false)) return false;
+      attrnode->SetValue ("pc");
+      if (!Write (attrnode, data->value.pc, false)) return false;
       break;
     case CEL_DATA_ENTITY:
-      if (!Write (data->value.ent, false)) return false;
+      attrnode->SetValue ("entity");
+      if (!Write (attrnode, data->value.ent, false)) return false;
       break;
     case CEL_DATA_IBASE:
       Report ("Data type iBase is not allowed for persistence!");
@@ -194,145 +189,119 @@ bool celPersistClassic::Write (celData* data)
   return true;
 }
 
-bool celPersistClassic::Write (uint32 v)
+bool celPersistXML::Write (iDocumentNode* node,
+	iCelPropertyClass* pc, bool savelocal)
 {
-  v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 4);
-}
+  csRef<iDocumentNode> pcnode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  pcnode->SetValue ("pc");
 
-bool celPersistClassic::Write (int32 v)
-{
-  v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 4);
-}
-
-bool celPersistClassic::Write (uint16 v)
-{
-  v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 2);
-}
-
-bool celPersistClassic::Write (int16 v)
-{
-  v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 2);
-}
-
-bool celPersistClassic::Write (uint8 v)
-{
-  return file->Write ((const char*) &v, 1);
-}
-
-bool celPersistClassic::Write (int8 v)
-{
-  return file->Write ((const char*) &v, 1);
-}
-
-bool celPersistClassic::Write (float f)
-{
-  f = csConvertEndian (f);
-  return file->Write ((const char*)&f, 4);
-}
-
-bool celPersistClassic::Write (iCelPropertyClass* pc, bool savelocal)
-{
   if (!pc)
   {
     // 0 pc.
-    if (!WriteMarker ("PCL0")) return false;
+    pcnode->SetAttribute ("null", "true");
     return true;
   }
   if (!set->IsLocal (pc))
   {
     // This is a non-local pc.
-    if (!WriteMarker ("PCLE")) return false;
+    pcnode->SetAttribute ("extref", "true");
     csRef<iCelDataBuffer> db = set->SaveExternalPC (pc);
-    return Write (db);
+    return Write (pcnode, db);
   }
   else if (!savelocal)
   {
     // This is a local pc and we're not saving local pc's.
     // In that case we still have to save a reference.
-    if (!WriteMarker ("PCLR")) return false;
     size_t entity_idx = entities_map.Get (pc->GetEntity (),
     	csArrayItemNotFound);
     CS_ASSERT(entity_idx != csArrayItemNotFound);
-    if (!Write ((uint32)entity_idx)) return false;
-    if (!Write (pc->GetName ())) return false;
-    if (!Write (pc->GetTag ())) return false;
+    pcnode->SetAttributeAsInt ("locref", entity_idx);
+    pcnode->SetAttribute ("name", pc->GetName ());
+    if (pc->GetTag ())
+      pcnode->SetAttribute ("tag", pc->GetTag ());
     return true;
   }
 
-  if (!WriteMarker ("PCLI")) return false;
-  // First write entity ID, then property class name.
-  if (!Write (pc->GetName ())) return false;
-  if (!Write (pc->GetTag ())) return false;
+  if (pc->GetName ())
+    pcnode->SetAttribute ("name", pc->GetName ());
+  if (pc->GetTag ())
+    pcnode->SetAttribute ("tag", pc->GetTag ());
+
   csRef<iCelDataBuffer> db = pc->Save ();
-  if (!db) return false;
-  return Write (db);
+  if (!db)
+  {
+    printf ("pc '%s' doesn't support saving!\n", pc->GetName ());
+    fflush (stdout);
+    return false;
+  }
+  return Write (pcnode, db);
 }
 
-bool celPersistClassic::Write (iCelEntity* entity, bool savelocal)
+bool celPersistXML::Write (iDocumentNode* node,
+	iCelEntity* entity, bool savelocal)
 {
+  csRef<iDocumentNode> entnode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  entnode->SetValue ("entity");
+
   if (!entity)
   {
     // 0 entity.
-    if (!WriteMarker ("ENT0")) return false;
+    entnode->SetAttribute ("null", "true");
     return true;
   }
   if (!set->IsLocal (entity))
   {
     // This is a non-local entity.
-    if (!WriteMarker ("ENTE")) return false;
+    entnode->SetAttribute ("extref", "true");
     csRef<iCelDataBuffer> db = set->SaveExternalEntity (entity);
-    return Write (db);
+    return Write (entnode, db);
   }
   else if (!savelocal)
   {
     // This is a local entity and we're not saving local entities.
     // In that case we still have to save a reference.
-    if (!WriteMarker ("ENTR")) return false;
     size_t idx = entities_map.Get (entity, csArrayItemNotFound);
     CS_ASSERT(idx != csArrayItemNotFound);
-    if (!Write ((uint32)idx)) return false;
+    entnode->SetAttributeAsInt ("locref", idx);
     return true;
   }
 
-  if (!WriteMarker ("ENTI")) return false;
-  if (!Write (entity->GetName ())) return false;
+  if (entity->GetName ())
+    entnode->SetAttribute ("name", entity->GetName ());
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
-  if (!Write ((uint16) pl->GetCount())) return false;
   size_t i;
   for (i = 0 ; i < pl->GetCount () ; i++)
   {
-    if (!Write (pl->Get (i), true))
-      return false;
+    if (!Write (entnode, pl->Get (i), true))
+    {
+      printf ("Error writing pc!\n"); fflush (stdout);
+      return false;	// @@@ Report
+    }
   }
 
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-  {  
-    if (!Write (bh->GetBehaviourLayer ()->GetName ())) return false;
-    if (!Write (bh->GetName ())) return false;
-  }
-  else
   {
-    if (!Write ((char*)0)) return false;
-  }  
+    csRef<iDocumentNode> behnode = entnode->CreateNodeBefore (
+    	CS_NODE_ELEMENT, 0);
+    behnode->SetValue ("behaviour");
+    behnode->SetAttribute ("layer", bh->GetBehaviourLayer ()->GetName ());
+    behnode->SetAttribute ("name", bh->GetName ());
+  }
   return true;
 }
 
 //------------------------------------------------------------------------
 
-bool celPersistClassic::ReadMarker (char* marker)
+bool celPersistXML::ReadMarker (char* marker)
 {
   if (file->Read (marker, 4) < 4)
     return false;
   return true;
 }
 
-bool celPersistClassic::CheckMarker (const char* comp)
+bool celPersistXML::CheckMarker (const char* comp)
 {
   char marker[5];
   if (!ReadMarker (marker))
@@ -348,21 +317,21 @@ bool celPersistClassic::CheckMarker (const char* comp)
   return true;
 }
 
-bool celPersistClassic::Read (int8& b)
+bool celPersistXML::Read (int8& b)
 {
   if (file->Read((char*) &b, 1) < 1)
     return false;
   return true;
 }
 
-bool celPersistClassic::Read (uint8& ub)
+bool celPersistXML::Read (uint8& ub)
 {
   if (file->Read((char*) &ub, 1) < 1)
     return false;
   return true;
 }
 
-bool celPersistClassic::Read (int16& w)
+bool celPersistXML::Read (int16& w)
 {
   if (file->Read((char*) &w, 2) < 2)
     return false;
@@ -370,7 +339,7 @@ bool celPersistClassic::Read (int16& w)
   return true;
 }
 
-bool celPersistClassic::Read (uint16& uw)
+bool celPersistXML::Read (uint16& uw)
 {
   if (file->Read((char*) &uw, 2) < 2)
     return false;
@@ -378,7 +347,7 @@ bool celPersistClassic::Read (uint16& uw)
   return true;
 }
 
-bool celPersistClassic::Read (int32& l)
+bool celPersistXML::Read (int32& l)
 {
   if (file->Read((char*) &l, 4) < 4)
     return false;
@@ -386,7 +355,7 @@ bool celPersistClassic::Read (int32& l)
   return true;
 }
 
-bool celPersistClassic::Read (uint32& ul)
+bool celPersistXML::Read (uint32& ul)
 {
   if (file->Read((char*) &ul, 4) < 4)
     return false;
@@ -394,7 +363,7 @@ bool celPersistClassic::Read (uint32& ul)
   return true;
 }
 
-bool celPersistClassic::Read (float& f)
+bool celPersistXML::Read (float& f)
 {
   if (file->Read((char*) &f, 4) < 4)
     return false;
@@ -402,7 +371,7 @@ bool celPersistClassic::Read (float& f)
   return true;
 }
 
-bool celPersistClassic::Read (char*& str)
+bool celPersistXML::Read (char*& str)
 {
   uint16 l;
   if (!Read (l)) return false;
@@ -420,7 +389,7 @@ bool celPersistClassic::Read (char*& str)
   return true;
 }
 
-bool celPersistClassic::Read (celData* cd)
+bool celPersistXML::Read (celData* cd)
 {
   uint8 t;
   uint8 ub;
@@ -525,7 +494,7 @@ bool celPersistClassic::Read (celData* cd)
   return true;
 }
 
-bool celPersistClassic::Read (iCelDataBuffer*& db)
+bool celPersistXML::Read (iCelDataBuffer*& db)
 {
   int32 ser;
   db = 0;
@@ -560,7 +529,7 @@ bool celPersistClassic::Read (iCelDataBuffer*& db)
   return true;
 }
 
-bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
+bool celPersistXML::Read (iCelEntity* entity, iCelPropertyClass*& pc)
 {
   char marker[5];
   pc = 0;
@@ -675,7 +644,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
   return true;
 }
 
-bool celPersistClassic::Read (iCelEntity*& entity)
+bool celPersistXML::Read (iCelEntity*& entity)
 {
   char marker[5];
   entity = 0;
@@ -781,7 +750,7 @@ bool celPersistClassic::Read (iCelEntity*& entity)
 //------------------------------------------------------------------------
 
 #define CEL_MARKER "CEL1"
-bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
+bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
 {
   csRef<iDataBuffer> data = vfs->ReadFile (name);
   if (!data)
@@ -789,7 +758,7 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
 
   csMemFile mf ((const char*) data->GetData(), data->GetSize());
   file = &mf;
-  celPersistClassic::set = set;
+  celPersistXML::set = set;
 
   if (!CheckMarker (CEL_MARKER))
   {
@@ -826,16 +795,17 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
   return true;
 }
 
-bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
+bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
 {
-  csMemFile m;
-  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
-  file = mf;
-  celPersistClassic::set = set;
+  celPersistXML::set = set;
+  csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
+  if (!xml)
+    xml.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = xml->CreateDocument ();
+  csRef<iDocumentNode> root = doc->CreateRoot ();
+  csRef<iDocumentNode> parent = root->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  parent->SetValue ("celentities");
 
-  if (!WriteMarker (CEL_MARKER)) return false;
-
-  if (!Write ((uint32)(set->GetEntityCount ()))) return false;
   size_t i;
   entities_map.DeleteAll ();
   for (i = 0 ; i < set->GetEntityCount () ; i++)
@@ -843,10 +813,18 @@ bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
   for (i = 0 ; i < set->GetEntityCount () ; i++)
   {
     iCelEntity* ent = set->GetEntity (i);
-    if (!Write (ent, true)) return false;
+    if (!Write (parent, ent, true))
+    {
+      printf ("Error writing entity!\n"); fflush (stdout);
+      return false;	// @@@ Report
+    }
   }
 
-  vfs->WriteFile (name, m.GetData (), m.GetSize ());
+  if (doc->Write (vfs, name) != 0)
+  {
+    printf ("Error writing doc!\n"); fflush (stdout);
+    return false;	// @@@ Report
+  }
 
   return true;
 }
