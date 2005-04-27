@@ -1,7 +1,7 @@
 /*
   Crystal Space Entity Layer
   Copyright (C) 2001 PlaneShift Team (info@planeshift.it,
-  Copyright (C) 2001-2003 by Jorrit Tyberghein
+  Copyright (C) 2001-2005 by Jorrit Tyberghein
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -209,6 +209,10 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
 
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (pccolldet,
+  	iCelPropertyClass);
+  databuf->Add (pc);
+
   databuf->Add (topSize);
   databuf->Add (bottomSize);
   databuf->Add (shift);
@@ -224,12 +228,15 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   if (seriallnr != LINMOVE_SERIAL)
     return false;
 
+  iCelPropertyClass* pc = databuf->GetPC ();
+  csRef<iPcCollisionDetection> pccd = SCF_QUERY_INTERFACE (pc,
+  	iPcCollisionDetection);
+
   databuf->GetVector3 (topSize);
   databuf->GetVector3 (bottomSize);
-  databuf->GetVector3 (intervalSize);
   databuf->GetVector3 (shift);
 
-  if (!InitCD (topSize, bottomSize, shift, 0))
+  if (!InitCD (topSize, bottomSize, shift, pccd))
     return false;
 
   databuf->GetVector3 (vel);

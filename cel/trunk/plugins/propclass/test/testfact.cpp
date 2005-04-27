@@ -67,6 +67,9 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
   propcount = &propertycount;
   propdata[propid_counter] = &counter;	// Automatically handled.
   propdata[propid_max] = 0;		// Handled in this class.
+
+  counter = 0;
+  max = 0;
 }
 
 celPcTest::~celPcTest ()
