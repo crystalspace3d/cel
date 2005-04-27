@@ -39,7 +39,6 @@ private:
   csRef<iCelBehaviour> behaviour;
   uint entity_ID;
   celPlLayer *pl;
-  bool transient;
 
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
@@ -54,9 +53,6 @@ public:
 
   virtual void SetName (const char *name);
 
-  void SetTransient (bool tr) { transient = tr; }
-  bool IsTransient () const { return transient; }
-    
   iCelPropertyClassList* GetPropertyClassList ();
   void SetBehaviour (iCelBehaviour* ent);
 
@@ -74,14 +70,6 @@ public:
     virtual iObject* QueryObject () { return scfParent; }
     virtual const char* GetName () const { return scfParent->GetName (); }
     virtual void SetName (const char* n) { scfParent->SetName (n); }
-    virtual void SetTransient (bool tr)
-    {
-      scfParent->SetTransient (tr);
-    }
-    virtual bool IsTransient () const
-    {
-      return scfParent->IsTransient ();
-    }
     virtual void SetID  (uint n) { scfParent->SetEntityID (n); }
     virtual uint GetID () const
     {

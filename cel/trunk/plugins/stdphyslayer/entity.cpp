@@ -43,7 +43,6 @@ celEntity::celEntity (celPlLayer* pl)
   behaviour = 0;
   celEntity::pl = pl;
   entity_ID = 0;
-  transient = false;
 }
 
 celEntity::~celEntity ()
