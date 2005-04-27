@@ -32,15 +32,8 @@ struct iCelPropertyClass;
 struct iCelEntity;
 struct iFile;
 struct celData;
-struct iCelPersistenceContext;
 
 SCF_VERSION (iCelDataBuffer, 0, 0, 1);
-
-enum
-{
-    CEL_PERSIST_MODE_READ = 1,
-    CEL_PERSIST_MODE_WRITE = 2
-};
 
 /**
  * This interface describes persistable data.
@@ -271,51 +264,6 @@ struct iCelPersistence : public iBase
    * \return false on error. Reporting will be already done.
    */
   virtual bool Save (iCelLocalEntitySet* set, const char* name) = 0;
-
-  /**
-   * Load an entity from the persistent data including
-   * all property classes. 'name' is a name relevant for
-   * the given type of persistence. It can be a filename
-   * for example (VFS).
-   */
-  virtual csPtr<iCelEntity> LoadEntity (const char* name) = 0;
-
-  /**
-   * Save an entity to persistent data.
-   */
-  virtual bool SaveEntity (iCelEntity* entity, const char* name) = 0;
-
-  /**
-   * Create an persistence context
-   */
-  virtual iCelPersistenceContext* CreateContext(iBase* data, int mode,
-	  bool performmapping = true) = 0;
-};
-
-SCF_VERSION (iCelPersistenceContext, 0, 0, 1);
-
-struct iCelPersistenceContext : public iBase
-{
-  /**
-   * Load an entity from the persitent data including all property classes.
-   */
-  virtual csPtr<iCelEntity> LoadEntity () = 0;
-
-  /**
-   * Save an entity to persistent data.
-   */
-  virtual bool SaveEntity (iCelEntity* entity) = 0;
-
-  /* returns the ID mapped to the ID on the other side of the connection */
-  virtual uint GetMappedID(iCelEntity* entity) = 0;
-
-  /* returns the entitiy after mapping the ID */
-  virtual iCelEntity* GetMappedEntity(uint id) = 0;
-
-  /**
-   * Clears internal data and buffers (like list of already saved entities)
-   */
-  virtual void Clear () = 0;
 };
 
 #endif // __CEL_PL_PERSIST__

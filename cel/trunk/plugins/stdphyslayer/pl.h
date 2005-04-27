@@ -117,6 +117,9 @@ public:
    */
   virtual void RemoveEntity (iCelEntity* entity);
   virtual iCelEntity* GetEntity (uint id);
+  virtual size_t GetEntityCount () const { return entities.Length (); }
+  virtual iCelEntity* GetEntityByIndex (size_t idx) const
+  { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);
   
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,

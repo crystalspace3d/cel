@@ -8,12 +8,6 @@
         <implementation>celPersistClassic</implementation>
 	<description>CEL Classic Persistence Module</description>
       </class>
-      <!-- Deprecated: Backward compatibility for long-term spelling error. -->
-      <class>
-        <name>cel.persistance.classic</name>
-        <implementation>celPersistClassic</implementation>
-	<description>CEL Classic Persistence Module</description>
-      </class>
     </classes>
   </scf>
 </plugin>

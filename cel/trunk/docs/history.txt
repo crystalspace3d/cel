@@ -71,6 +71,21 @@ The history order is reversed so that new features are at the top.
 	  that region (so you can use shared lightmaps that way). Otherwise
 	  the cache manager would be set differently for every map in the
 	  region.
+	- Jorrit removed the old persistence system (including
+	  iCelPersistanceContext) since it is not working properly anyway
+	  and it is in the way of doing further improvements.
+	- Jorrit started an XML persistence system (even before the other one
+	  is working fine) mostly because it is easier to debug if the saving
+	  worked correct.
+	- Jorrit finished the XML saver. It seems to work fine. The loader
+	  is not yet ready.
+	- Jorrit changed celtest to use the XML persistance layer. If you
+	  press 's' the XML saver will now correctly save to 'savefile'.
+	- Jorrit added iCelPlLayer->GetEntityCount() and GetEntityByIndex()
+	  so that you can now retrieve all entities in the system.
+	- Jorrit disabled the path finding entity in celtest for a while
+	  (use PATHFIND_ENABLE to include it again). It is in the way of
+	  testing the persistence system.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
