@@ -303,11 +303,19 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
 	iLoaderContext* ldr_context, iBase* context)
 {
-  // If the context is not a mesh we will create a standalone entity.
-  csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
-  iCelEntity* ent = Load (node, mesh);
-  csRef<iBase> ent_return = (iBase*)ent;
-  return csPtr<iBase> (ent_return);
+  if (pl->IsEntityAddonAllowed ())
+  {
+    // If the context is not a mesh we will create a standalone entity.
+    csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
+    iCelEntity* ent = Load (node, mesh);
+    csRef<iBase> ent_return = (iBase*)ent;
+    return csPtr<iBase> (ent_return);
+  }
+  else
+  {
+    // Entity addons are not allowed. Do nothing.
+    return 0;
+  }
 }
 
 iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)

@@ -110,8 +110,12 @@ public:
    * regionname and create entities for all meshes in this region
    * unless there is already an entity for them (an addon may have
    * created them for example).
+   * \param allow_entity_addon if false then entity addons will not
+   * be allowed to create entities. This is used when loading this
+   * pcregion. The persistence layer will take care of creating the other
+   * entities so it is not needed (or even desired) to load them here.
    */
-  bool Load ();
+  bool Load (bool allow_entity_addon = true);
   /**
    * Unload the region by removing all entities from this region
    * and removing it from the engines region list.

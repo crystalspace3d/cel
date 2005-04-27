@@ -48,6 +48,29 @@ The history order is reversed so that new features are at the top.
 	  camera and region are now in two seperate source files).
 	- Jorrit did the same for the timer, tooltip, and property property
 	  classes in toolfact.cpp.
+	- Jorrit fixed a bug in pcregion. It would not restore the VFS path
+	  after loading.
+	- Jorrit added iCelPlLayer->IsEntityAddonAllowed() and
+	  SetEntityAddonAllowed(). With these calls you can allow or disallow
+	  the cel entity addon from creating entities. Normally the entity
+	  addon will create entities from within a CS world file transparently
+	  when that world file is loaded from within pcregion or
+	  pczonemanager. However, we don't want that to happen when the
+	  pcregion or pczonemanager property classes is persisted from a
+	  saved game file because then the other entities will be loaded
+	  from that game file too.
+	- Jorrit changed celentity addon to check for that flag.
+	- Jorrit fixed pcregion and pczonemanager to disable that flag
+	  when loading from persistance layer.
+	- Jorrit removed the MINIMAL setup from celtest. It is not working
+	  properly and it is not useful either.
+	- Jorrit copied the partsys level over from CS so that the CEL version
+	  can use addons. Added an addon to it to test this in celtest.
+	- Jorrit added iCelRegion->SetCachePath(). If you use that function then
+	  the zone manager will use a single cache manager for all maps in
+	  that region (so you can use shared lightmaps that way). Otherwise
+	  the cache manager would be set differently for every map in the
+	  region.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
