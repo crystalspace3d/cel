@@ -44,6 +44,10 @@ The history order is reversed so that new features are at the top.
 	  Previously save and load simply assumed the mesh was always created
 	  from a factory.
 	- Jorrit changed the path and other strings in pcmesh to csString.
+	- Jorrit seperated the camera code in a seperate source file (so
+	  camera and region are now in two seperate source files).
+	- Jorrit did the same for the timer, tooltip, and property property
+	  classes in toolfact.cpp.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
