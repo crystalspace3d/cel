@@ -8,7 +8,7 @@ The history order is reversed so that new features are at the top.
 	  instead of an csArray. Also changed the name to the more consistent
 	  AddEntityRemoveCallback() and RemoveEntityRemoveCallback().
 	- Jorrit also removed a very dangerous loop in the physical layer.
-	  This loop was calling 'delete' on the remove callbakcs. But that's
+	  This loop was calling 'delete' on the remove callbacks. But that's
 	  illegal since those callbacks are likely allocated in another
 	  plugin.
 	- Jorrit added a new callback (iCelNewEntityCallback) to the PL so
@@ -27,8 +27,7 @@ The history order is reversed so that new features are at the top.
 	  of creating another entity or property class. For example, entities
 	  created by addons during loading of pcregion or pczonemanager are
 	  transient since they will be created again when that property class
-	  is loaded. The persistence layer currently doesn't use this flag
-	  yet.
+	  is loaded. The persistence layer currently doesn't use this flag yet.
 	- Jorrit changed pcregion and pczonemanager to set new entities as
 	  transient.
 	- Jorrit added 'l' and 's' keys to celtest to test the new saving
