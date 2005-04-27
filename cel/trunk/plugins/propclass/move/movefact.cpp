@@ -321,15 +321,13 @@ iCollider* celPcSolid::GetCollider ()
     pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
   }
   CS_ASSERT (pcmesh != 0);
-  iPolygonMesh* pmesh = pcmesh->GetMesh ()->GetMeshObject ()->
-	GetObjectModel ()->GetPolygonMeshColldet ();
-  if (pmesh)
+  if (pcmesh->GetMesh ())
   {
     csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
     	iCollideSystem);
     CS_ASSERT (cdsys != 0);
-    collider_wrap = csPtr<csColliderWrapper> (new csColliderWrapper (
-    	pcmesh->GetMesh ()->QueryObject (), cdsys, pmesh));
+    collider_wrap = csColliderHelper::InitializeCollisionWrapper (
+    	cdsys, pcmesh->GetMesh ());
     return collider_wrap->GetCollider ();
   }
   no_collider = true;

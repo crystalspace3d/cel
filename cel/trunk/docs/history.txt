@@ -19,7 +19,7 @@ The history order is reversed so that new features are at the top.
 	  and also it is more correct since this method will now also catch
 	  new entities that don't have a visual representation (no mesh).
 	- Jorrit changed pczonemanager in a similar manner. In addition
-	  the zone manager will also use the engine sector callbacks so that
+	  the zone manager will also use the engine sector callback so that
 	  it learns about new sectors.
 	- Jorrit added the notion of transient entities. A transient entity
 	  is one that doesn't require saving by the persistence layer. This
@@ -33,6 +33,10 @@ The history order is reversed so that new features are at the top.
 	  transient.
 	- Jorrit added 'l' and 's' keys to celtest to test the new saving
 	  system. Unfinished.
+	- Jorrit changed pcsolid to use csColliderHelper class to make the
+	  collider wrapper. That makes it support all possible cases better
+	  (like factories having collider information and hierarchical
+	  meshes).
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
