@@ -915,7 +915,7 @@ public:
 /**
  * This is a region property class.
  */
-class celPcRegion : public celPcCommon
+class celPcRegion : public celPcCommon, public iCelNewEntityCallback
 {
 private:
   bool empty_sector;
@@ -1004,6 +1004,9 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+
+  // For iCelNewEntityCallback.
+  virtual void NewEntity (iCelEntity* entity);
 
   struct PcRegion : public iPcRegion
   {

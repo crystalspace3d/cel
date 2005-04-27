@@ -3,6 +3,34 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+27-Apr-2005
+	- Jorrit fixed the remove callbacks in the PL by using a csRefArray
+	  instead of an csArray. Also changed the name to the more consistent
+	  AddEntityRemoveCallback() and RemoveEntityRemoveCallback().
+	- Jorrit also removed a very dangerous loop in the physical layer.
+	  This loop was calling 'delete' on the remove callbakcs. But that's
+	  illegal since those callbacks are likely allocated in another
+	  plugin.
+	- Jorrit added a new callback (iCelNewEntityCallback) to the PL so
+	  that one can get notified when new entities are created.
+	- Jorrit changed pcregion so that it uses the new callback to find out
+	  about new entities instead of having to scan the entire region.
+	  First of all this is faster (no need to scan all objects in region)
+	  and also it is more correct since this method will now also catch
+	  new entities that don't have a visual representation (no mesh).
+	- Jorrit changed pczonemanager in a similar manner. In addition
+	  the zone manager will also use the engine sector callbacks so that
+	  it learns about new sectors.
+	- Jorrit added the notion of transient entities. A transient entity
+	  is one that doesn't require saving by the persistence layer. This
+	  is useful for entities that are created automatically as the result
+	  of creating another entity or property class. For example, entities
+	  created by addons during loading of pcregion or pczonemanager are
+	  transient since they will be created again when that property class
+	  is loaded. The persistence layer currently doesn't use this flag
+	  yet.
+	- Jorrit changed pcregion and pczonemanager to set new entities as
+	  transient.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience

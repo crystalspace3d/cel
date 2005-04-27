@@ -62,7 +62,8 @@ private:
   csHash<iCelEntity*,csStrKey,csConstCharHashKeyHandler> entities_hash;
   bool entities_hash_dirty;
 
-  csArray<iCelEntityRemoveCallback*> removecallbacks;
+  csRefArray<iCelEntityRemoveCallback> removecallbacks;
+  csRefArray<iCelNewEntityCallback> newcallbacks;
   csRefArray<iBase> cache;
   iObjectRegistry* object_reg;
   csStringSet string_registry;
@@ -148,8 +149,11 @@ public:
   virtual iCelBlLayer* GetBehaviourLayer (size_t idx) const;
   virtual iCelBlLayer* FindBehaviourLayer (const char* name) const;
 
-  virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* callback);
-  virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* callback);
+  virtual void AddEntityRemoveCallback (iCelEntityRemoveCallback* callback);
+  virtual void RemoveEntityRemoveCallback (iCelEntityRemoveCallback* callback);
+  virtual void AddNewEntityCallback (iCelNewEntityCallback* callback);
+  virtual void RemoveNewEntityCallback (iCelNewEntityCallback* callback);
+  void FireNewEntityCallbacks (iCelEntity* entity);
 
   virtual void Cache (iBase* object);
   virtual void Uncache (iBase* object);

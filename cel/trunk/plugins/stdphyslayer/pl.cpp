@@ -80,12 +80,6 @@ celPlLayer::~celPlLayer ()
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
 
-  for (size_t j = 0 ; j < removecallbacks.Length() ; j++)
-  {
-    iCelEntityRemoveCallback* callback = removecallbacks[j];
-    delete callback;
-  }
-
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
@@ -189,6 +183,9 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   entity->SetEntityID (objid);
   entities.Push (ientity);
   ientity->IncRef ();
+
+  FireNewEntityCallbacks (ientity);
+
   return csPtr<iCelEntity> (ientity);
 }
 
@@ -201,6 +198,8 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
   idlist.RegisterWithID (ientity, entity_id);
   entities.Push(ientity);
   ientity->IncRef();
+
+  FireNewEntityCallbacks (ientity);
 
   return csPtr<iCelEntity> (ientity);
 }
@@ -672,17 +671,40 @@ iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
   return 0;
 }
 
-void celPlLayer::RegisterRemoveCallback (iCelEntityRemoveCallback* callback)
+void celPlLayer::AddEntityRemoveCallback (iCelEntityRemoveCallback* callback)
 {
   int idx = removecallbacks.Find (callback);
   if (idx != -1) return;
   removecallbacks.Push (callback);
 }
 
-void celPlLayer::UnregisterRemoveCallback (iCelEntityRemoveCallback* callback)
+void celPlLayer::RemoveEntityRemoveCallback (iCelEntityRemoveCallback* callback)
 {
   if (removecallbacks.Find (callback) == csArrayItemNotFound) return;
   removecallbacks.Delete (callback);
+}
+
+void celPlLayer::AddNewEntityCallback (iCelNewEntityCallback* callback)
+{
+  int idx = newcallbacks.Find (callback);
+  if (idx != -1) return;
+  newcallbacks.Push (callback);
+}
+
+void celPlLayer::RemoveNewEntityCallback (iCelNewEntityCallback* callback)
+{
+  if (newcallbacks.Find (callback) == csArrayItemNotFound) return;
+  newcallbacks.Delete (callback);
+}
+
+void celPlLayer::FireNewEntityCallbacks (iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0; i < newcallbacks.Length(); i++)
+  {
+    iCelNewEntityCallback* callback = newcallbacks[i];
+    callback->NewEntity (entity);
+  }
 }
 
 CallbackPCInfo* celPlLayer::GetCBInfo (int where)

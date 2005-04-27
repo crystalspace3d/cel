@@ -958,7 +958,7 @@ celPersistClassicContext::~celPersistClassicContext()
   Clear();
     
   if (performmapping)
-    pl->UnregisterRemoveCallback(&scfiCelEntityRemoveCallback);
+    pl->RemoveEntityRemoveCallback(&scfiCelEntityRemoveCallback);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntityRemoveCallback);
   SCF_DESTRUCT_IBASE ();
 }
@@ -1002,7 +1002,7 @@ bool celPersistClassicContext::Initialize(iObjectRegistry* object_reg,
   (void) mode;
 
   if (performmapping)
-    pl->RegisterRemoveCallback(&scfiCelEntityRemoveCallback);
+    pl->AddEntityRemoveCallback(&scfiCelEntityRemoveCallback);
 
   return true;
 }

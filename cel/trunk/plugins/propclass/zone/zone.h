@@ -38,6 +38,7 @@
 #include "celtool/stdparams.h"
 #include "propclass/camera.h"
 #include "propclass/zone.h"
+#include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/movable.h"
 
@@ -129,7 +130,9 @@ public:
   virtual const char* GetSectorName () const { return sectorname; }
 };
 
-class celRegion : public iCelRegion
+class celRegion : public iCelRegion,
+	public iCelNewEntityCallback,
+	public iEngineSectorCallback
 {
 private:
   celPcZoneManager* mgr;
@@ -173,6 +176,13 @@ public:
   virtual bool RemoveMapFile (iCelMapFile* mapfile);
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
+
+  // For iCelNewEntityCallback.
+  virtual void NewEntity (iCelEntity* entity);
+
+  // For iEngineSectorCallback.
+  virtual void NewSector (iEngine* engine, iSector* sector);
+  virtual void RemoveSector (iEngine* engine, iSector* sector);
 };
 
 class celZone : public iCelZone
