@@ -577,7 +577,6 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
     Report ("Error parsing document '%s': '%s'!", name, error);
     return false;
   }
-
   celPersistXML::set = set;
   iDocumentNode* root = doc->GetRoot ();
   csRef<iDocumentNode> parent = root->GetNode ("celentities");

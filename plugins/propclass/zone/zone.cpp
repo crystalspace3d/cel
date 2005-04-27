@@ -167,9 +167,6 @@ void celRegion::NewEntity (iCelEntity* entity)
   // created by an addon. We will register this entity as
   // one that needs to be deleted when the region is unloaded.
   entities.Push (entity);
-
-  // Mark entity as transient (no need to save it by persistence layer).
-  entity->SetTransient (true);
 }
 
 void celRegion::NewSector (iEngine*, iSector* sector)
@@ -199,8 +196,7 @@ bool celRegion::Load (bool allow_entity_addon)
 
   // First we register ourselves as a callback to the physical layer so
   // that we get to know about entities created during loading. Those
-  // entities are to be marked as transient (meaning they don't have to be
-  // saved by the persistence layer).
+  // entities are to be registered so we can unload them later.
   pl->AddNewEntityCallback ((iCelNewEntityCallback*)this);
   // We also need a callback to find new sectors.
   engine->AddEngineSectorCallback ((iEngineSectorCallback*)this);

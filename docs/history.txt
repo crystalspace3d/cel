@@ -90,6 +90,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed several bugs in the classic persistance plugin.
 	- Jorrit implemented loading in the XML persistance plugin. Doesn't
 	  work though.
+	- Jorrit removed the transient flag from entities again. This is not
+	  useful since we are going to save all those entities anyway. i.e.
+	  we solved it differently by disallowing the celentity addon.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
