@@ -136,6 +136,8 @@ void celMapFile::SetSectorName (const char* name)
 
 SCF_IMPLEMENT_IBASE (celRegion)
   SCF_IMPLEMENTS_INTERFACE (iCelRegion)
+  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
+  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
 SCF_IMPLEMENT_IBASE_END
 
 iCelMapFile* celRegion::CreateMapFile ()
@@ -159,6 +161,26 @@ void celRegion::RemoveAllMapFiles ()
   mapfiles.SetLength (0);
 }
 
+void celRegion::NewEntity (iCelEntity* entity)
+{
+  // There was an entity attached. This entity is probably
+  // created by an addon. We will register this entity as
+  // one that needs to be deleted when the region is unloaded.
+  entities.Push (entity);
+
+  // Mark entity as transient (no need to save it by persistence layer).
+  entity->SetTransient (true);
+}
+
+void celRegion::NewSector (iEngine*, iSector* sector)
+{
+  sectors.Add (sector);
+}
+
+void celRegion::RemoveSector (iEngine*, iSector*)
+{
+}
+
 bool celRegion::Load ()
 {
   if (loaded) return true;
@@ -167,6 +189,16 @@ bool celRegion::Load ()
   iLoader* loader = mgr->GetLoader ();
   iRegion* cur_region = engine->CreateRegion (name);
   cur_region->DeleteAll ();
+
+  iCelPlLayer* pl = mgr->GetPL ();
+
+  // First we register ourselves as a callback to the physical layer so
+  // that we get to know about entities created during loading. Those
+  // entities are to be marked as transient (meaning they don't have to be
+  // saved by the persistence layer).
+  pl->AddNewEntityCallback ((iCelNewEntityCallback*)this);
+  // We also need a callback to find new sectors.
+  engine->AddEngineSectorCallback ((iEngineSectorCallback*)this);
 
   size_t i;
   for (i = 0 ; i < mapfiles.Length () ; i++)
@@ -187,7 +219,11 @@ bool celRegion::Load ()
       engine->SetCacheManager (0);
       engine->GetCacheManager ();
       if (!loader->LoadMapFile (mf->GetFile (), false, cur_region, false, true))
+      {
+	pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
+	engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
         return false;
+      }
       if (mf->GetPath ())
       {
         mgr->GetVFS ()->PopDir ();
@@ -195,9 +231,14 @@ bool celRegion::Load ()
     }
     else
     {
+      pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
+      engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
       return false;
     }
   }
+
+  pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
+  engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
 
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
@@ -205,67 +246,6 @@ bool celRegion::Load ()
   // Create colliders for all meshes in this region.
   csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
   	engine, cur_region);
-
-  // Find all sectors and entities loaded in this region.
-  iCelPlLayer* pl = mgr->GetPL ();
-  csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
-  while (iter->HasNext ())
-  {
-    iObject* o = iter->Next ();
-    csRef<iSector> sector = SCF_QUERY_INTERFACE (o, iSector);
-    if (sector) { sectors.Add (sector); continue; }
-    iCelEntity* e = pl->FindAttachedEntity (o);
-    if (e)
-    {
-      // There was an entity attached. This entity is probably
-      // created by an addon. We will register this entity as
-      // one that needs to be deleted when the region is unloaded.
-      entities.Push (e);
-    }
-  }
-
-#if 0
-  // Create entities for all meshes in this region unless there is already
-  // an entity for them (an addon may have created them for example).
-  iCelPropertyClass* pc;
-  csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
-  while (iter->HasNext ())
-  {
-    iObject* o = iter->Next ();
-
-    csRef<iSector> sector = SCF_QUERY_INTERFACE (o, iSector);
-    if (sector)
-    {
-      sectors.Add (sector);
-      continue;
-    }
-
-    iCelEntity* e = pl->FindAttachedEntity (o);
-    if (e)
-    {
-      // There was already an entity attached. This entity is probably
-      // created by an addon. We will also register this entity as
-      // one that needs to be deleted when the region is unloaded.
-      entities.Push (e);
-    }
-    else
-    {
-      csRef<iMeshWrapper> m = SCF_QUERY_INTERFACE (o, iMeshWrapper);
-      if (m)
-      {
-        csRef<iCelEntity> ent = pl->CreateEntity ();
-        ent->SetName ("");
-
-        pc = pl->CreatePropertyClass (ent, "pcmesh");
-        csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
-        pcmesh->SetMesh (m);
-
-        pc = pl->CreatePropertyClass (ent, "pcsolid");
-        entities.Push (ent);
-      }
-    }
-  }
-#endif
 
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
 

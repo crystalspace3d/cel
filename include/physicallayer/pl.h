@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2001-2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -40,6 +40,14 @@ class csVector3;
 class csString;
 
 struct iCelEntityTracker;
+
+SCF_VERSION (iCelNewEntityCallback, 0, 0, 2);
+
+struct iCelNewEntityCallback : public iBase
+{
+  /** this function is called for entities that are added */
+  virtual void NewEntity (iCelEntity* entity) = 0;
+};
 
 SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
@@ -310,12 +318,24 @@ struct iCelPlLayer : public iBase
    * This registers a callback that is called each time when an entity is
    * removed.
    */
-  virtual void RegisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
+  virtual void AddEntityRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
 
   /**
    * Removes an registered RemoveCallback.
    */
-  virtual void UnregisterRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
+  virtual void RemoveEntityRemoveCallback (
+  	iCelEntityRemoveCallback* clback) = 0;
+
+  /**
+   * This registers a callback that is called each time when an entity is
+   * added.
+   */
+  virtual void AddNewEntityCallback (iCelNewEntityCallback* clback) = 0;
+
+  /**
+   * Removes an registered NewCallback.
+   */
+  virtual void RemoveNewEntityCallback (iCelNewEntityCallback* clback) = 0;
 
   //-------------------------------------------------------------------------
 

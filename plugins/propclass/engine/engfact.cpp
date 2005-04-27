@@ -1316,6 +1316,7 @@ iCamera* celPcCamera::GetCamera () const
 
 SCF_IMPLEMENT_IBASE_EXT (celPcRegion)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRegion)
+  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
 SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRegion::PcRegion)
@@ -1485,6 +1486,17 @@ void celPcRegion::SetRegionName (const char* name)
   }
 }
 
+void celPcRegion::NewEntity (iCelEntity* entity)
+{
+  // There was an entity attached. This entity is probably
+  // created by an addon. We will register this entity as
+  // one that needs to be deleted when the region is unloaded.
+  entities.Push (entity);
+
+  // Mark entity as transient (no need to save it by persistence layer).
+  entity->SetTransient (true);
+}
+
 bool celPcRegion::Load ()
 {
   if (loaded)
@@ -1526,12 +1538,23 @@ bool celPcRegion::Load ()
   csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
   CS_ASSERT (VFS != 0);
   VFS->ChDir (worlddir);
+
+  // First we register ourselves as a callback to the physical layer so
+  // that we get to know about entities created during loading. Those
+  // entities are to be marked as transient (meaning they don't have to be
+  // saved by the persistence layer).
+  pl->AddNewEntityCallback ((iCelNewEntityCallback*)this);
+
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile (worldfile, false, cur_region, false, true))
   {
+    pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
     Report (object_reg, "Could not load map file '%s'.", worldfile);
     return false;
   }
+
+  pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
+
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
   loaded = true;
@@ -1540,22 +1563,6 @@ bool celPcRegion::Load ()
   // Create colliders for all meshes in this region.
   csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   csColliderHelper::InitializeCollisionWrappers (cdsys, engine, cur_region);
-
-  // Find all entities in this region. We keep those in a list so we can
-  // unload them later if region is unloaded.
-  csRef<iObjectIterator> iter = cur_region->QueryObject ()->GetIterator ();
-  while (iter->HasNext ())
-  {
-    iObject* o = iter->Next ();
-    iCelEntity* e = pl->FindAttachedEntity (o);
-    if (e)
-    {
-      // There was an entity attached. This entity is probably
-      // created by an addon. We will register this entity as
-      // one that needs to be deleted when the region is unloaded.
-      entities.Push (e);
-    }
-  }
 
   return true;
 }

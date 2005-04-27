@@ -62,6 +62,20 @@ struct iCelEntity : public iBase
   virtual void SetName (const char* n) = 0;
 
   /**
+   * Mark this entity as transient. A transient entity will not be
+   * saved by the persistence system. This is useful for entities that
+   * are created automatically as a result of creating another entity.
+   * Saving them is not needed since recreation of the original entity
+   * will bring them back to life.
+   */
+  virtual void SetTransient (bool tr) = 0;
+
+  /**
+   * Is this entity transient?
+   */
+  virtual bool IsTransient () const = 0;
+
+  /**
    * Return the (unique) ID of the entity.
    * \return A uint uniquely representing this entity.
    */
