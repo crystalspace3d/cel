@@ -189,12 +189,9 @@ bool celPersistXML::Write (iDocumentNode* node, celData* data)
   return true;
 }
 
-bool celPersistXML::Write (iDocumentNode* node,
+bool celPersistXML::Write (iDocumentNode* pcnode,
 	iCelPropertyClass* pc, bool savelocal)
 {
-  csRef<iDocumentNode> pcnode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-  pcnode->SetValue ("pc");
-
   if (!pc)
   {
     // 0 pc.
@@ -237,12 +234,9 @@ bool celPersistXML::Write (iDocumentNode* node,
   return Write (pcnode, db);
 }
 
-bool celPersistXML::Write (iDocumentNode* node,
+bool celPersistXML::Write (iDocumentNode* entnode,
 	iCelEntity* entity, bool savelocal)
 {
-  csRef<iDocumentNode> entnode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-  entnode->SetValue ("entity");
-
   if (!entity)
   {
     // 0 entity.
@@ -273,7 +267,10 @@ bool celPersistXML::Write (iDocumentNode* node,
   size_t i;
   for (i = 0 ; i < pl->GetCount () ; i++)
   {
-    if (!Write (entnode, pl->Get (i), true))
+    csRef<iDocumentNode> pcnode = entnode->CreateNodeBefore (
+    	CS_NODE_ELEMENT, 0);
+    pcnode->SetValue ("pc");
+    if (!Write (pcnode, pl->Get (i), true))
     {
       printf ("Error writing pc!\n"); fflush (stdout);
       return false;	// @@@ Report
@@ -813,7 +810,10 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
   for (i = 0 ; i < set->GetEntityCount () ; i++)
   {
     iCelEntity* ent = set->GetEntity (i);
-    if (!Write (parent, ent, true))
+    csRef<iDocumentNode> entnode = parent->CreateNodeBefore (
+    	CS_NODE_ELEMENT, 0);
+    entnode->SetValue ("entity");
+    if (!Write (entnode, ent, true))
     {
       printf ("Error writing entity!\n"); fflush (stdout);
       return false;	// @@@ Report

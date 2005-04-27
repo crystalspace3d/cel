@@ -47,8 +47,8 @@ class celPersistXML : public iCelPersistence
 private:
   bool Write (iDocumentNode* node, iCelDataBuffer* db);
   bool Write (iDocumentNode* node, celData* data);
-  bool Write (iDocumentNode* node, iCelPropertyClass* pc, bool savelocal);
-  bool Write (iDocumentNode* node, iCelEntity* entity, bool savelocal);
+  bool Write (iDocumentNode* pcnode, iCelPropertyClass* pc, bool savelocal);
+  bool Write (iDocumentNode* entnode, iCelEntity* entity, bool savelocal);
 
   bool ReadMarker (char* marker);
   bool CheckMarker (const char* comp);
