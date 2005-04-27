@@ -139,9 +139,10 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
       	iCelPersistence);
       celStandardLocalEntitySet set (pl);
-      size_t i;
-      for (i = 0 ; i < pl->GetEntityCount () ; i++)
-        set.AddEntity (pl->GetEntityByIndex (i));
+      set.AddEntity (boxentity);
+      //size_t i;
+      //for (i = 0 ; i < pl->GetEntityCount () ; i++)
+        //set.AddEntity (pl->GetEntityByIndex (i));
       if (!p->Save (&set, "/this/savefile"))
       {
         printf ("Error!\n");
@@ -151,6 +152,8 @@ bool CelTest::OnKeyboard (iEvent &ev)
       {
         printf ("Saved to /this/savefile!\n");
 	fflush (stdout);
+	pl->RemoveEntity (boxentity);
+	boxentity = 0;
       }
     }
     else if (code == 'l')
@@ -162,6 +165,10 @@ bool CelTest::OnKeyboard (iEvent &ev)
       {
         printf ("Error!\n");
 	fflush (stdout);
+      }
+      else
+      {
+        boxentity = set.GetEntity (0);
       }
     }
   }
@@ -483,11 +490,11 @@ bool CelTest::CreateRoom ()
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
 
-  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
+  boxentity = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
-  if (!entity_box) return false;
-  if (!pcinv_room->AddEntity (entity_box)) return false;
+  if (!boxentity) return false;
+  //if (!pcinv_room->AddEntity (boxentity)) return false;
 
   //===============================
   // Create dummy entities.

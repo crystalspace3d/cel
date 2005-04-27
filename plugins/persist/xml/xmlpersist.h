@@ -50,20 +50,10 @@ private:
   bool Write (iDocumentNode* pcnode, iCelPropertyClass* pc, bool savelocal);
   bool Write (iDocumentNode* entnode, iCelEntity* entity, bool savelocal);
 
-  bool ReadMarker (char* marker);
-  bool CheckMarker (const char* comp);
-  bool Read (int8& b);
-  bool Read (uint8& ub);
-  bool Read (int16& w);
-  bool Read (uint16& uw);
-  bool Read (int32& l);
-  bool Read (uint32& ul);
-  bool Read (float& f);
-  bool Read (char*& str);
-  bool Read (celData* cd);
-  bool Read (iCelDataBuffer*& db);
-  bool Read (iCelEntity* entity, iCelPropertyClass*& pc);
-  bool Read (iCelEntity*& entity);
+  bool Read (iDocumentNode* node, celData* cd);
+  bool Read (iDocumentNode* node, iCelDataBuffer*& db);
+  bool Read (iDocumentNode* pcnode, iCelEntity* entity, iCelPropertyClass*& pc);
+  bool Read (iDocumentNode* entnode, iCelEntity*& entity);
 
   void Report (const char* msg, ...);
 
