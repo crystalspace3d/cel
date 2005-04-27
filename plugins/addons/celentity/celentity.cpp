@@ -308,7 +308,6 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   iCelEntity* ent = Load (node, mesh);
   csRef<iBase> ent_return = (iBase*)ent;
   return csPtr<iBase> (ent_return);
-
 }
 
 iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
