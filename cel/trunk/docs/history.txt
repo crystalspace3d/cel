@@ -86,6 +86,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit disabled the path finding entity in celtest for a while
 	  (use PATHFIND_ENABLE to include it again). It is in the way of
 	  testing the persistence system.
+	- Jorrit compacted the XML save format slightly.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
