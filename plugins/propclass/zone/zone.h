@@ -137,6 +137,7 @@ class celRegion : public iCelRegion,
 private:
   celPcZoneManager* mgr;
   char* name;
+  csString cache_path;
   bool loaded;
   csRefArray<celMapFile> mapfiles;
   csSet<iSector*> sectors;
@@ -158,7 +159,13 @@ public:
     SCF_DESTRUCT_IBASE ();
   }
 
-  bool Load ();
+  /**
+   * \param allow_entity_addon if false then entity addons will not
+   * be allowed to create entities. This is used when loading this
+   * region. The persistence layer will take care of creating the other
+   * entities so it is not needed (or even desired) to load them here.
+   */
+  bool Load (bool allow_entity_addon);
   void Unload ();
   bool IsLoaded () const { return loaded; }
 
@@ -167,6 +174,8 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
+  virtual void SetCachePath (const char* path);
+  virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
   virtual size_t GetMapFileCount () const { return mapfiles.Length (); }
   virtual iCelMapFile* GetMapFile (int idx) const

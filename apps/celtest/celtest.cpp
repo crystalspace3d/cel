@@ -86,9 +86,6 @@
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
 
-// Define MINIMAL for a very minimal celtest.
-// Useful for debugging.
-#define MINIMAL 0
 #define PATHFIND_VERBOSE 0
 
 //-----------------------------------------------------------------------------
@@ -451,13 +448,8 @@ bool CelTest::CreateRoom ()
   engine->Prepare ();
 
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcRegion);
-#if MINIMAL
-  pcregion->SetWorldFile ("/cel/data", "world");
-  pcregion->SetRegionName ("minimal");
-#else
-  pcregion->SetWorldFile ("/lev/partsys", "world");
-  pcregion->SetRegionName ("partsys");
-#endif
+  pcregion->SetWorldFile ("/cellib/lev", "world");
+  pcregion->SetRegionName ("celworld");
   if (!pcregion->Load ())
     return false;
   room = pcregion->GetStartSector ();
@@ -477,7 +469,6 @@ bool CelTest::CreateRoom ()
   //===============================
   // Create the box entities.
   //===============================
-#if !MINIMAL
   csRef<iCelEntity> entity_box;
   entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
   	1, 1000000, 60, 180, csVector3 (0, 0, 2));
@@ -489,7 +480,6 @@ bool CelTest::CreateRoom ()
   	csVector3 (-4, 0, 0));
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
-#endif
 
   //===============================
   // Create dummy entities.
@@ -499,7 +489,6 @@ bool CelTest::CreateRoom ()
   if (!entity_dummy) return false;
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
-#if !MINIMAL
   entity_dummy = CreateDummyEntity ("dummy2", "small",
   	.4f, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
   if (!entity_dummy) return false;
@@ -619,7 +608,6 @@ bool CelTest::CreateRoom ()
   ReportInfo ("Final Graph Stats: nodes: %d links: %d",
 	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
 #endif
-#endif
 
   //===============================
   game = entity_room;
@@ -629,15 +617,11 @@ bool CelTest::CreateRoom ()
 
 bool CelTest::LoadTextures ()
 {
-#if MINIMAL
-  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
-#else
   if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
   if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
   if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
   if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg"))
     return false;
-#endif
   return true;
 }
 

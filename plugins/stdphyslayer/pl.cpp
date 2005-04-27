@@ -71,6 +71,7 @@ celPlLayer::celPlLayer (iBase* parent)
   scfiEventHandler = 0;
 
   compress_delay = 1000;
+  allow_entity_addon = true;
 }
 
 celPlLayer::~celPlLayer ()

@@ -78,7 +78,7 @@ struct iCelMapFile : public iBase
   virtual const char* GetSectorName () const = 0;
 };
 
-SCF_VERSION (iCelRegion, 0, 1, 0);
+SCF_VERSION (iCelRegion, 0, 1, 1);
 
 /**
  * A region. A region is a collection of map files
@@ -88,6 +88,21 @@ struct iCelRegion : public iBase
 {
   /// Get the name of this region.
   virtual const char* GetName () const = 0;
+
+  /**
+   * Set the VFS path that will be used during the call to engine->Prepare()
+   * after loading this region. By default this is not set which means that
+   * the lightmaps are supposed to come from every individual map file.
+   * If you set this path then you say that the cache manager is setup at
+   * this directory instead.
+   */
+  virtual void SetCachePath (const char* path) = 0;
+
+  /**
+   * Get the VFS path for the cache manager.
+   * Returns 0 if path is not used.
+   */
+  virtual const char* GetCachePath () const = 0;
 
   /**
    * Create a map file for this region and associate it

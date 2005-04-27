@@ -71,6 +71,9 @@ private:
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
 
+  // Allow the creation of entities in entity addons.
+  bool allow_entity_addon;
+
   // For timed callbacks:
   csWeakRefArray<iCelPropertyClass> weak_pcs;	// Weak refs to pcs.
   csHash<size_t, iCelPropertyClass*> weak_pcs_hash;// Where is pc in weak_pcs.
@@ -133,6 +136,11 @@ public:
   virtual iCelEntityTracker* CreateEntityTracker (const char* name);
   virtual iCelEntityTracker* FindEntityTracker (const char* name);
   virtual void RemoveEntityTracker (iCelEntityTracker* tracker);
+
+  virtual void SetEntityAddonAllowed (bool allow)
+  { allow_entity_addon = allow; }
+  virtual bool IsEntityAddonAllowed () const
+  { return allow_entity_addon; }
 
   virtual bool LoadPropertyClassFactory (const char* plugin_id);
   virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);

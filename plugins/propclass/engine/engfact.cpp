@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2001-2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -158,7 +158,7 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   regionname = csStrNew (databuf->GetString ()->GetData ());
   bool load = databuf->GetBool ();
 
-  if (load && !Load ())
+  if (load && !Load (false))
   {
     EngReport (object_reg,
     	"Could not load the specified map into the region.  Cannot load.");
@@ -266,7 +266,7 @@ void celPcRegion::NewEntity (iCelEntity* entity)
   entity->SetTransient (true);
 }
 
-bool celPcRegion::Load ()
+bool celPcRegion::Load (bool allow_entity_addon)
 {
   if (loaded)
   {
@@ -306,6 +306,7 @@ bool celPcRegion::Load ()
   CS_ASSERT (loader != 0);
   csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
   CS_ASSERT (VFS != 0);
+  VFS->PushDir ();
   VFS->ChDir (worlddir);
 
   // First we register ourselves as a callback to the physical layer so
@@ -314,18 +315,34 @@ bool celPcRegion::Load ()
   // saved by the persistence layer).
   pl->AddNewEntityCallback ((iCelNewEntityCallback*)this);
 
-  // Load the level file which is called 'world'.
-  if (!loader->LoadMapFile (worldfile, false, cur_region, false, true))
+  // If we don't allow the entity addon to work then we mark this here
+  // in the physical layer.
+  bool prev_allow_entity_addon;
+  if (!allow_entity_addon)
   {
-    pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
-    EngReport (object_reg, "Could not load map file '%s'.", worldfile);
+    prev_allow_entity_addon = pl->IsEntityAddonAllowed ();
+    pl->SetEntityAddonAllowed (false);
+  }
+
+  // Load the level file which is called 'world'.
+  bool rc = loader->LoadMapFile (worldfile, false, cur_region, false, true);
+
+  // Restore everything.
+  pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
+  if (!allow_entity_addon)
+    pl->SetEntityAddonAllowed (prev_allow_entity_addon);
+
+  if (!rc)
+  {
+    EngReport (object_reg, "Could not load map file '%s/%s'.",
+    	worlddir, worldfile);
+    VFS->PopDir ();
     return false;
   }
 
-  pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
-
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
+  VFS->PopDir ();
   loaded = true;
   printf ("LoadOK!\n");
 

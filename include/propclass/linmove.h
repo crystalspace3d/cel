@@ -54,8 +54,8 @@ struct iMeshWrapper;
  * <ul>
  * <li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3).
- * <li>SetPosition: parameters 'sector' (string), 'position' (vector3), and 'yrot'
- *     (y rotation degrees).
+ * <li>SetPosition: parameters 'sector' (string), 'position' (vector3), and
+ *     'yrot' (y rotation degrees).
  * </ul>
  */
 struct iPcLinearMovement : public iBase

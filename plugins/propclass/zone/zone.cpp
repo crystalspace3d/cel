@@ -181,7 +181,12 @@ void celRegion::RemoveSector (iEngine*, iSector*)
 {
 }
 
-bool celRegion::Load ()
+void celRegion::SetCachePath (const char* path)
+{
+  cache_path = path;
+}
+
+bool celRegion::Load (bool allow_entity_addon)
 {
   if (loaded) return true;
 
@@ -200,7 +205,27 @@ bool celRegion::Load ()
   // We also need a callback to find new sectors.
   engine->AddEngineSectorCallback ((iEngineSectorCallback*)this);
 
+  // If we don't allow the entity addon to work then we mark this here
+  // in the physical layer.
+  bool prev_allow_entity_addon;
+  if (!allow_entity_addon)
+  {
+    prev_allow_entity_addon = pl->IsEntityAddonAllowed ();
+    pl->SetEntityAddonAllowed (false);
+  }
+
+  // If there is a cache path we use that for the cachemanager.
+  if (!cache_path.IsEmpty ())
+  {
+    mgr->GetVFS ()->PushDir ();
+    mgr->GetVFS ()->ChDir (cache_path);
+    engine->SetCacheManager (0);
+    engine->GetCacheManager ();
+    mgr->GetVFS ()->PopDir ();
+  }
+
   size_t i;
+  bool rc = true;
   for (i = 0 ; i < mapfiles.Length () ; i++)
   {
     celMapFile* mf = mapfiles[i];
@@ -216,29 +241,29 @@ bool celRegion::Load ()
         mgr->GetVFS ()->PushDir ();
         mgr->GetVFS ()->ChDir (mf->GetPath ());
       }
-      engine->SetCacheManager (0);
-      engine->GetCacheManager ();
-      if (!loader->LoadMapFile (mf->GetFile (), false, cur_region, false, true))
+      if (cache_path.IsEmpty ())
       {
-	pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
-	engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
-        return false;
+        engine->SetCacheManager (0);
+        engine->GetCacheManager ();
       }
+      rc = loader->LoadMapFile (mf->GetFile (), false, cur_region,
+      	false, true);
       if (mf->GetPath ())
       {
         mgr->GetVFS ()->PopDir ();
       }
+      if (!rc) break;
+        return false;
     }
-    else
-    {
-      pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
-      engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
-      return false;
-    }
+    else break;
   }
 
+  // Restore everything.
   pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
   engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
+  if (!allow_entity_addon)
+    pl->SetEntityAddonAllowed (prev_allow_entity_addon);
+  if (!rc) return false;
 
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
@@ -505,7 +530,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
 	  first = false;
 	  SendZoneMessage (0, "pczonemanager_startloading");
 	}
-	if (!r->Load ())
+	if (!r->Load (true))
 	{
 	  SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
           return false;

@@ -190,6 +190,20 @@ struct iCelPlLayer : public iBase
    */
   virtual void RemoveEntityTracker (iCelEntityTracker* tracker) = 0;
 
+  /**
+   * Enable or disable the operations of the cel entity addon. This addon
+   * will enable users to add entities from a CS world file. This addon
+   * will not do that if this flag is disabled (enabled by default). This is
+   * mostly used by the persistance layer to prevent the addons from working
+   * then since the entities will be loaded otherwise in that situation.
+   */
+  virtual void SetEntityAddonAllowed (bool allow) = 0;
+
+  /**
+   * Query if entity addons are allowed.
+   */
+  virtual bool IsEntityAddonAllowed () const = 0;
+
   //-------------------------------------------------------------------------
 
   /**
