@@ -38,6 +38,7 @@ struct iMeshWrapper;
 struct iMeshFactoryWrapper;
 struct iPcCamera;
 struct iCamera;
+struct iEngine;
 class csVector3;
 
 /**
@@ -53,11 +54,23 @@ class celPcMesh : public celPcCommon
 {
 private:
   csRef<iMeshWrapper> mesh;
+  csWeakRef<iEngine> engine;
   bool visible;
-  char* path;
-  char* fileName;
-  char* factName;
+  csString path;
+  csString fileName;
+  csString factName;
   csRef<iMeshFactoryWrapper> factory_ptr;
+
+  enum celPcMeshCreationFlag
+  {
+    CEL_CREATE_NONE = 0,
+    CEL_CREATE_FACTORY,
+    CEL_CREATE_MESH,
+    CEL_CREATE_THING
+  };
+
+  // This flag indicates how the mesh was created.
+  celPcMeshCreationFlag creation_flag;
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
@@ -69,6 +82,9 @@ private:
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID action_movemesh;
+
+  // Remove the mesh from this pcmesh.
+  void RemoveMesh ();
 
 public:
   celPcMesh (iObjectRegistry* object_reg);

@@ -99,10 +99,9 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
   visible = true;
-  fileName = 0;
-  factName = 0;
-  path = 0;
   factory_ptr = 0;
+  creation_flag = CEL_CREATE_NONE;
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   if (action_loadmesh == csInvalidStringID)
   {
@@ -125,21 +124,25 @@ celPcMesh::~celPcMesh ()
 
 void celPcMesh::Clear ()
 {
-  delete[] fileName; fileName = 0;
-  delete[] factName; factName = 0;
-  delete[] path; path = 0;
+  fileName.Empty ();
+  factName.Empty ();
+  path.Empty ();
+  RemoveMesh ();
+  factory_ptr = 0;
+}
+
+void celPcMesh::RemoveMesh ()
+{
   if (mesh)
   {
     if (pl)
       pl->UnattachEntity (mesh->QueryObject (), entity);
-
-    csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-    CS_ASSERT (engine != 0);
-    engine->RemoveObject (mesh);
+    if (creation_flag != CEL_CREATE_MESH)
+      engine->RemoveObject (mesh);
     mesh = 0;
     FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
   }
-  factory_ptr = 0;
+  creation_flag = CEL_CREATE_NONE;
 }
 
 bool celPcMesh::PerformAction (csStringID actionId,
@@ -176,7 +179,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
     if (!sector) return false;
     CEL_FETCH_VECTOR3_PAR (position,params,id_position);
     if (!p_position) return false;
-    csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
     iSector* sect = engine->FindSector (sector);
     if (!sect)
     {
@@ -189,36 +191,55 @@ bool celPcMesh::PerformAction (csStringID actionId,
   return false;
 }
 
-#define MESH_SERIAL 1
+#define MESH_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcMesh::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESH_SERIAL);
-  iMovable* mov = mesh->GetMovable ();
-  iSectorList* sl = mov->GetSectors ();
   int i;
-  databuf->Add (factName);
-  databuf->Add (fileName);
-  databuf->Add (path);
-  databuf->Add (GetAction ());
+  databuf->Add ((uint8)creation_flag);
+  if (creation_flag == CEL_CREATE_FACTORY)
+  {
+    databuf->Add (factName);
+    databuf->Add (fileName);
+    databuf->Add (path);
+  }
+  else if (creation_flag == CEL_CREATE_MESH)
+  {
+    /// @@@ Note: this requires a unique name for the mesh!
+    databuf->Add (mesh->QueryObject ()->GetName ());
+  }
+  else if (creation_flag == CEL_CREATE_THING)
+  {
+    // @@@ Loading or saving meshes with this creation option is
+    // not going to work properly as we can't easily save the thing data itself.
+    // Perhaps we should consider combining this with the thing saver somehow.
+  }
+
   databuf->Add (visible);
 
-  databuf->Add ((uint16)(sl->GetCount ()));
-  for (i = 0 ; i < sl->GetCount () ; i++)
+  if (mesh)
   {
-    databuf->Add (sl->Get (i)->QueryObject ()->GetName ());
+    databuf->Add (GetAction ());
+    iMovable* mov = mesh->GetMovable ();
+    iSectorList* sl = mov->GetSectors ();
+    databuf->Add ((uint16)(sl->GetCount ()));
+    for (i = 0 ; i < sl->GetCount () ; i++)
+    {
+      databuf->Add (sl->Get (i)->QueryObject ()->GetName ());
+    }
+    csReversibleTransform& tr = mov->GetTransform ();
+    databuf->Add (tr.GetO2TTranslation ());
+    databuf->Add (tr.GetO2T ().m11);
+    databuf->Add (tr.GetO2T ().m12);
+    databuf->Add (tr.GetO2T ().m13);
+    databuf->Add (tr.GetO2T ().m21);
+    databuf->Add (tr.GetO2T ().m22);
+    databuf->Add (tr.GetO2T ().m23);
+    databuf->Add (tr.GetO2T ().m31);
+    databuf->Add (tr.GetO2T ().m32);
+    databuf->Add (tr.GetO2T ().m33);
   }
-  csReversibleTransform& tr = mov->GetTransform ();
-  databuf->Add (tr.GetO2TTranslation ());
-  databuf->Add (tr.GetO2T ().m11);
-  databuf->Add (tr.GetO2T ().m12);
-  databuf->Add (tr.GetO2T ().m13);
-  databuf->Add (tr.GetO2T ().m21);
-  databuf->Add (tr.GetO2T ().m22);
-  databuf->Add (tr.GetO2T ().m23);
-  databuf->Add (tr.GetO2T ().m31);
-  databuf->Add (tr.GetO2T ().m32);
-  databuf->Add (tr.GetO2T ().m33);
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -234,48 +255,66 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
   Clear ();
   visible = true;
-  char* factn = csStrNew (databuf->GetString ()->GetData ());
-  char* filen = csStrNew (databuf->GetString ()->GetData ());
-  char* pathn = csStrNew (databuf->GetString ()->GetData ());
-  SetPath (pathn);
-  delete[] pathn;
 
-  SetMesh (factn, filen);
-  delete[] factn;
-  delete[] filen;
+  creation_flag = (celPcMeshCreationFlag)(databuf->GetUInt8 ());
+  if (creation_flag == CEL_CREATE_FACTORY)
+  {
+    const char* factn = databuf->GetString ()->GetData ();
+    const char* filen = databuf->GetString ()->GetData ();
+    const char* pathn = databuf->GetString ()->GetData ();
+    SetPath (pathn);
+    SetMesh (factn, filen);
+  }
+  else if (creation_flag == CEL_CREATE_MESH)
+  {
+    const char* meshname = databuf->GetString ()->GetData ();
+    iMeshWrapper* m = engine->FindMeshObject (meshname);
+    if (!m)
+    {
+      Report (object_reg, "Can't find mesh '%s' for loading entity!",
+      	meshname);
+      return false;
+    }
+    SetMesh (m);
+  }
+  else if (creation_flag == CEL_CREATE_THING)
+  {
+    CreateEmptyThing ();
+  }
 
-  SetAction (databuf->GetString ()->GetData (), true);
   if (databuf->GetBool ()) Show ();
   else Hide ();
 
-  uint16 cnt = databuf->GetUInt16 ();
-  mesh->GetMovable ()->ClearSectors ();
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  CS_ASSERT (engine != 0);
-  int i;
-  for (i = 0 ; i < cnt ; i++)
+  if (mesh)
   {
-    iSector* s = engine->GetSectors ()->FindByName (
-    	databuf->GetString ()->GetData ());
-    CS_ASSERT (s != 0);
-    mesh->GetMovable ()->GetSectors ()->Add (s);
-  }
+    SetAction (databuf->GetString ()->GetData (), true);
+    uint16 cnt = databuf->GetUInt16 ();
+    mesh->GetMovable ()->ClearSectors ();
+    int i;
+    for (i = 0 ; i < cnt ; i++)
+    {
+      iSector* s = engine->GetSectors ()->FindByName (
+    	  databuf->GetString ()->GetData ());
+      CS_ASSERT (s != 0);
+      mesh->GetMovable ()->GetSectors ()->Add (s);
+    }
 
-  csMatrix3 m_o2t;
-  csVector3 v_o2t;
-  databuf->GetVector3 (v_o2t);
-  m_o2t.m11 = databuf->GetFloat ();
-  m_o2t.m12 = databuf->GetFloat ();
-  m_o2t.m13 = databuf->GetFloat ();
-  m_o2t.m21 = databuf->GetFloat ();
-  m_o2t.m22 = databuf->GetFloat ();
-  m_o2t.m23 = databuf->GetFloat ();
-  m_o2t.m31 = databuf->GetFloat ();
-  m_o2t.m32 = databuf->GetFloat ();
-  m_o2t.m33 = databuf->GetFloat ();
-  csReversibleTransform tr (m_o2t, v_o2t);
-  mesh->GetMovable ()->SetTransform (tr);
-  mesh->GetMovable ()->UpdateMove ();
+    csMatrix3 m_o2t;
+    csVector3 v_o2t;
+    databuf->GetVector3 (v_o2t);
+    m_o2t.m11 = databuf->GetFloat ();
+    m_o2t.m12 = databuf->GetFloat ();
+    m_o2t.m13 = databuf->GetFloat ();
+    m_o2t.m21 = databuf->GetFloat ();
+    m_o2t.m22 = databuf->GetFloat ();
+    m_o2t.m23 = databuf->GetFloat ();
+    m_o2t.m31 = databuf->GetFloat ();
+    m_o2t.m32 = databuf->GetFloat ();
+    m_o2t.m33 = databuf->GetFloat ();
+    csReversibleTransform tr (m_o2t, v_o2t);
+    mesh->GetMovable ()->SetTransform (tr);
+    mesh->GetMovable ()->UpdateMove ();
+  }
 
   return true;
 }
@@ -283,7 +322,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  if (path)
+  if (!path.IsEmpty ())
   {
     // If we have a path then we first ChDir to that.
     vfs->PushDir ();
@@ -294,7 +333,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   CS_ASSERT (loader != 0);
   iBase* result;
   bool success = loader->Load (fileName, result, 0, false, true);
-  if (path)
+  if (!path.IsEmpty ())
   {
     vfs->PopDir ();
   }
@@ -302,11 +341,10 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"cel.pfmesh.loadmeshfactory",
-    	"Error loading mesh object factory or library '%s'!", fileName);
+    	"Error loading mesh object factory or library '%s'!",
+	(const char*)fileName);
     return 0;
   }
-
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   csRef<iMeshFactoryWrapper> imeshfact;
   if (result == 0)
@@ -332,7 +370,8 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"cel.pfmesh.loadmeshfactory",
-    	"Error loading mesh object factory '%s'!", fileName);
+    	"Error loading mesh object factory '%s'!",
+	(const char*)fileName);
     return 0;
   }
   return imeshfact;
@@ -340,36 +379,18 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
 void celPcMesh::SetPath (const char* path)
 {
-  if (path != celPcMesh::path)
-  {
-    delete[] celPcMesh::path;
-    celPcMesh::path = csStrNew (path);
-  }
+  celPcMesh::path = path;
 }
 
 bool celPcMesh::SetMesh (const char* factname, const char* filename)
 {
-  if (filename != fileName)
-  {
-    delete[] fileName;
-    fileName = csStrNew (filename);
-  }
-  if (factname != factName)
-  {
-    delete[] factName;
-    factName = csStrNew (factname);
-  }
+  fileName = filename;
+  factName = factname;
 
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  CS_ASSERT (engine != 0);
-  if (mesh)
-  {
-    engine->RemoveObject (mesh);
-    mesh = 0;
-    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
-  }
+  RemoveMesh ();
+  creation_flag = CEL_CREATE_FACTORY;
 
-  if (factname && filename)
+  if (!factName.IsEmpty () && !fileName.IsEmpty ())
   {
     csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
 				        	->FindByName (factname);
@@ -401,42 +422,29 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
 
 void celPcMesh::SetMesh (iMeshWrapper* m)
 {
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != 0);
-  if (mesh)
-  {
-    engine->RemoveObject (mesh);
-    mesh = 0;
-    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
-  }
-
+  RemoveMesh ();
+  creation_flag = CEL_CREATE_MESH;
   mesh = m;
-  pl->AttachEntity (mesh->QueryObject (), entity);
+  if (mesh)
+    pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
 void celPcMesh::CreateEmptyThing ()
 {
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
-  CS_ASSERT (engine != 0);
-  if (mesh)
-  {
-    engine->RemoveObject (mesh);
-    mesh = 0;
-    FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
-  }
+  RemoveMesh ();
+  creation_flag = CEL_CREATE_THING;
 
   mesh = engine->CreateThingMesh (0, 0);
-
   pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
 void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 {
-  CS_ASSERT (mesh != 0);
+  if (!mesh) return;
   if (sector)
-      mesh->GetMovable ()->SetSector (sector);
+    mesh->GetMovable ()->SetSector (sector);
 
   mesh->GetMovable ()->SetPosition (pos);
   mesh->GetMovable ()->UpdateMove ();
@@ -445,7 +453,7 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
-  CS_ASSERT (mesh != 0);
+  if (!mesh) return;
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -457,7 +465,7 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 
 void celPcMesh::SetReverseAction (bool reverse)
 {
-  CS_ASSERT (mesh != 0);
+  if (!mesh) return;
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -468,7 +476,7 @@ void celPcMesh::SetReverseAction (bool reverse)
 
 const char* celPcMesh::GetAction ()
 {
-  CS_ASSERT (mesh != 0);
+  if (!mesh) return 0;
   csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
   	iSprite3DState));
   if (state)
@@ -483,14 +491,14 @@ void celPcMesh::Hide ()
 {
   if (!visible) return;
   visible = false;
-  mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+  if (mesh) mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 }
 
 void celPcMesh::Show ()
 {
   if (visible) return;
   visible = true;
-  mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+  if (mesh) mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
 }
 
 //---------------------------------------------------------------------------

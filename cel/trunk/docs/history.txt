@@ -37,6 +37,14 @@ The history order is reversed so that new features are at the top.
 	  collider wrapper. That makes it support all possible cases better
 	  (like factories having collider information and hierarchical
 	  meshes).
+	- Jorrit made pcmesh slightly more optimal by remembering the reference
+	  to the engine.
+	- Jorrit changed pcmesh so that it now keeps track of how the mesh
+	  got there in the first place. This enables the save and load routines
+	  to more precisely save information about how to get the mesh again.
+	  Previously save and load simply assumed the mesh was always created
+	  from a factory.
+	- Jorrit changed the path and other strings in pcmesh to csString.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
