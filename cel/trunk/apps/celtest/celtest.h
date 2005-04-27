@@ -61,6 +61,7 @@ private:
   csRef<iCelBlLayer> bltest;
   csRef<iCelBlLayer> blpython;
   csRef<iCelEntity> game;
+  csRef<iCelEntity> boxentity;
  
   /**
    * Setup everything that needs to be rendered on screen. This routine

@@ -87,6 +87,9 @@ The history order is reversed so that new features are at the top.
 	  (use PATHFIND_ENABLE to include it again). It is in the way of
 	  testing the persistence system.
 	- Jorrit compacted the XML save format slightly.
+	- Jorrit fixed several bugs in the classic persistance plugin.
+	- Jorrit implemented loading in the XML persistance plugin. Doesn't
+	  work though.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience

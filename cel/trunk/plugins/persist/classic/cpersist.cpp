@@ -598,9 +598,11 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
     // A reference.
     uint entid;
     char* pcname = 0;
+    char* tag = 0;
     bool rc = true;
     rc = rc && Read (entid);
     rc = rc && Read (pcname);
+    rc = rc && Read (tag);
     if (rc)
     {
       iCelEntity* entity = set->GetEntity (entid);
@@ -609,7 +611,10 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
 	Report ("Cannot find entity for '%s'!", pcname);
 	rc = false;
       }
-      pc = entity->GetPropertyClassList ()->FindByName (pcname);
+      if (tag)
+        pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tag);
+      else
+        pc = entity->GetPropertyClassList ()->FindByName (pcname);
       if (!pc)
       {
         Report ("Cannot find property class '%s' for entity '%s'!",
@@ -618,6 +623,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
       }
     }
     delete[] pcname;
+    delete[] tag;
     return rc;
   }
   else if (marker[3] == 'I')
@@ -678,7 +684,6 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
 bool celPersistClassic::Read (iCelEntity*& entity)
 {
   char marker[5];
-  entity = 0;
   if (!ReadMarker (marker))
   {
     Report ("File truncated while reading entity marker!");
@@ -690,7 +695,11 @@ bool celPersistClassic::Read (iCelEntity*& entity)
     Report ("Expected entity, got something else: %s",marker);
     return false;
   }
-  if (marker[3] == '0') return true;	// 0 entity.
+  if (marker[3] == '0')
+  {
+    entity = 0;
+    return true;	// 0 entity.
+  }
   if (marker[3] == 'R')
   {
     // A reference.
@@ -811,6 +820,7 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     csRef<iCelEntity> ent = pl->CreateEntity ();
     entities_map.Put (ent, i);
+    set->AddEntity (ent);
   }
 
   for (i = 0 ; i < cnt ; i++)

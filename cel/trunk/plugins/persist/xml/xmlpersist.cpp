@@ -291,233 +291,106 @@ bool celPersistXML::Write (iDocumentNode* entnode,
 
 //------------------------------------------------------------------------
 
-bool celPersistXML::ReadMarker (char* marker)
+bool celPersistXML::Read (iDocumentNode* node, celData* cd)
 {
-  if (file->Read (marker, 4) < 4)
-    return false;
-  return true;
-}
+  // @@@ Using a tokenizer would be better here.
 
-bool celPersistXML::CheckMarker (const char* comp)
-{
-  char marker[5];
-  if (!ReadMarker (marker))
-    return false;
-  marker[4] = 0;
-  
-  if (strncmp (marker, comp, 4))
+  const char* value = node->GetValue ();
+  if (!strcmp ("bool", value))
   {
-    Report ("Expected marker '%s' but got '%s'!", comp, marker);
-    return false;
+    cd->Set ((bool)(node->GetAttributeValueAsInt ("v")));
   }
-
-  return true;
-}
-
-bool celPersistXML::Read (int8& b)
-{
-  if (file->Read((char*) &b, 1) < 1)
-    return false;
-  return true;
-}
-
-bool celPersistXML::Read (uint8& ub)
-{
-  if (file->Read((char*) &ub, 1) < 1)
-    return false;
-  return true;
-}
-
-bool celPersistXML::Read (int16& w)
-{
-  if (file->Read((char*) &w, 2) < 2)
-    return false;
-  w = csGetLittleEndianShort (&w);
-  return true;
-}
-
-bool celPersistXML::Read (uint16& uw)
-{
-  if (file->Read((char*) &uw, 2) < 2)
-    return false;
-  uw = csGetLittleEndianShort (&uw);
-  return true;
-}
-
-bool celPersistXML::Read (int32& l)
-{
-  if (file->Read((char*) &l, 4) < 4)
-    return false;
-  l = csGetLittleEndianLong (&l);
-  return true;
-}
-
-bool celPersistXML::Read (uint32& ul)
-{
-  if (file->Read((char*) &ul, 4) < 4)
-    return false;
-  ul = csGetLittleEndianLong (&ul);
-  return true;
-}
-
-bool celPersistXML::Read (float& f)
-{
-  if (file->Read((char*) &f, 4) < 4)
-    return false;
-  f = csConvertEndian (f);
-  return true;
-}
-
-bool celPersistXML::Read (char*& str)
-{
-  uint16 l;
-  if (!Read (l)) return false;
-  if (l)
+  else if (!strcmp ("byte", value))
   {
-    str = new char[l+1];
-    if (file->Read((char*) str, l) < l) {
-      delete [] str;
-      str = 0;
-      return false;
-    }
-    str[l] = 0;
+    cd->Set ((int8)(node->GetAttributeValueAsInt ("v")));
   }
-  else str = 0;
-  return true;
-}
-
-bool celPersistXML::Read (celData* cd)
-{
-  uint8 t;
-  uint8 ub;
-  int8 b;
-  uint16 uw;
-  int16 w;
-  uint32 ul;
-  int32 l;
-  float f;
-  char* s;
-
-  if (!Read (t)) return false;
-  switch (t)
+  else if (!strcmp ("ubyte", value))
   {
-    case CEL_DATA_ACTION:
-    case CEL_DATA_NONE:
-      return false;
-    case CEL_DATA_BOOL:
-      if (!Read (ub)) return false;
-      cd->Set ((bool)ub);
-      break;
-    case CEL_DATA_BYTE:
-      if (!Read (b)) return false;
-      cd->Set (b);
-      break;
-    case CEL_DATA_WORD:
-      if (!Read (w)) return false;
-      cd->Set (w);
-      break;
-    case CEL_DATA_LONG:
-      if (!Read (l)) return false;
-      cd->Set (l);
-      break;
-    case CEL_DATA_UBYTE:
-      if (!Read (ub)) return false;
-      cd->Set (ub);
-      break;
-    case CEL_DATA_UWORD:
-      if (!Read (uw)) return false;
-      cd->Set (uw);
-      break;
-    case CEL_DATA_ULONG:
-      if (!Read (ul)) return false;
-      cd->Set (ul);
-      break;
-    case CEL_DATA_FLOAT:
-      if (!Read (f)) return false;
-      cd->Set (f);
-      break;
-    case CEL_DATA_STRING:
-      if (!Read (s)) return false;
-      cd->Set (s);
-      delete[] s;
-      break;
-    case CEL_DATA_COLOR:
-      {
-        csColor v;
-        if (!Read (v.red)) return false;
-        if (!Read (v.green)) return false;
-        if (!Read (v.blue)) return false;
-        cd->Set (v);
-      }
-      break;
-    case CEL_DATA_VECTOR2:
-      {
-        csVector2 v;
-        if (!Read (v.x)) return false;
-        if (!Read (v.y)) return false;
-        cd->Set (v);
-      }
-      break;
-    case CEL_DATA_VECTOR3:
-      {
-        csVector3 v;
-        if (!Read (v.x)) return false;
-        if (!Read (v.y)) return false;
-        if (!Read (v.z)) return false;
-        cd->Set (v);
-      }
-      break;
-    case CEL_DATA_PCLASS:
-      {
-        iCelPropertyClass* pc;
-	if (!Read (0, pc)) return false;
-	cd->Set (pc);
-      }
-      break;
-    case CEL_DATA_ENTITY:
-      {
-        iCelEntity* ent;
-	if (!Read (ent)) return false;
-	cd->Set (ent);
-      }
-      break;
-    case CEL_DATA_IBASE:
-      Report ("Data type iBase is not allowed for persistence!");
-      return false;
-    default:
-      Report ("Found unknown Data type!");
-      return false;
+    cd->Set ((uint8)(node->GetAttributeValueAsInt ("v")));
+  }
+  else if (!strcmp ("world", value))
+  {
+    cd->Set ((int16)(node->GetAttributeValueAsInt ("v")));
+  }
+  else if (!strcmp ("uworld", value))
+  {
+    cd->Set ((uint16)(node->GetAttributeValueAsInt ("v")));
+  }
+  else if (!strcmp ("long", value))
+  {
+    cd->Set ((int32)(node->GetAttributeValueAsInt ("v")));
+  }
+  else if (!strcmp ("ulong", value))
+  {
+    cd->Set ((uint32)(node->GetAttributeValueAsInt ("v")));
+  }
+  else if (!strcmp ("float", value))
+  {
+    cd->Set (node->GetAttributeValueAsFloat ("v"));
+  }
+  else if (!strcmp ("string", value))
+  {
+    cd->Set (node->GetAttributeValue ("v"));
+  }
+  else if (!strcmp ("color", value))
+  {
+    csColor v;
+    v.red = node->GetAttributeValueAsFloat ("r");
+    v.green = node->GetAttributeValueAsFloat ("g");
+    v.blue = node->GetAttributeValueAsFloat ("b");
+    cd->Set (v);
+  }
+  else if (!strcmp ("vector2", value))
+  {
+    csVector2 v;
+    v.x = node->GetAttributeValueAsFloat ("x");
+    v.y = node->GetAttributeValueAsFloat ("y");
+    cd->Set (v);
+  }
+  else if (!strcmp ("vector3", value))
+  {
+    csVector3 v;
+    v.x = node->GetAttributeValueAsFloat ("x");
+    v.y = node->GetAttributeValueAsFloat ("y");
+    v.z = node->GetAttributeValueAsFloat ("z");
+    cd->Set (v);
+  }
+  else if (!strcmp ("pc", value))
+  {
+    iCelPropertyClass* pc;
+    if (!Read (node, 0, pc)) return false;
+    cd->Set (pc);
+  }
+  else if (!strcmp ("entity", value))
+  {
+    iCelEntity* ent;
+    if (!Read (node, ent)) return false;
+    cd->Set (ent);
+  }
+  else
+  {
+    Report ("Found unknown Data type '%s'!", value);
+    return false;
   }
   return true;
 }
 
-bool celPersistXML::Read (iCelDataBuffer*& db)
+bool celPersistXML::Read (iDocumentNode* node, iCelDataBuffer*& db)
 {
-  int32 ser;
-  db = 0;
-  csRef<iCelDataBuffer> dbref;
-  if (!Read (ser))
-  {
-    Report ("File truncated while reading data buffer serial number!");
-    return false;
-  }
-  uint16 cnt;
-  if (!Read (cnt))
-  {
-    Report ("File truncated while reading number of data entries!");
-    return false;
-  }
+  int32 ser = (int32)node->GetAttributeValueAsInt ("serial");
+  // @@@ Not efficient.
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  dbref = pl->CreateDataBuffer (ser);
+  csRef<iCelDataBuffer> dbref = pl->CreateDataBuffer (ser);
   db = dbref;
-  int i;
-  for (i = 0 ; i < cnt ; i++)
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
   {
-    if (!Read (db->AddData ()))
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    if (!Read (child, db->AddData ()))
     {
-      Report ("Error reading data entry %d!", i);
-      db = 0;
-      dbref = 0;
+      Report ("Error reading data entry %s!", child->GetValue ());
       return false;
     }
   }
@@ -526,219 +399,158 @@ bool celPersistXML::Read (iCelDataBuffer*& db)
   return true;
 }
 
-bool celPersistXML::Read (iCelEntity* entity, iCelPropertyClass*& pc)
+bool celPersistXML::Read (iDocumentNode* pcnode,
+	iCelEntity* entity, iCelPropertyClass*& pc)
 {
-  char marker[5];
-  pc = 0;
-  if (!ReadMarker (marker))
+  csRef<iDocumentAttribute> attr;
+  attr = pcnode->GetAttribute ("null");
+  if (attr != 0)
   {
-    Report ("File truncated while reading property class marker!");
-    return false;
-  }
-  marker[4]=0;
-  if (strncmp (marker, "PCL", 3))
-  {
-    Report ("Expected property class, got something else: '%s'!",marker);
-    return false;
-  }
-  if (marker[3] == '0')
-  {
-    // 0 entity.
-    Report ("Read 0 Propclass!");
+    pc = 0;
     return true;
   }
-  if (marker[3] == 'E')
+  attr = pcnode->GetAttribute ("extref");
+  if (attr != 0)
   {
     iCelDataBuffer* db;
-    if (!Read (db))
+    if (!Read (pcnode, db))
     {
       Report ("Error reading external property class reference!");
       return false;
     }
-    pc = set->FindExternalPC (db);
+    pc = set->FindExternalPC (db); // @@@ Check?
     db->DecRef ();
     return true;
   }
-  if (marker[3] == 'R')
+  attr = pcnode->GetAttribute ("locref");
+  if (attr != 0)
   {
     // A reference.
-    uint entid;
-    char* pcname = 0;
-    bool rc = true;
-    rc = rc && Read (entid);
-    rc = rc && Read (pcname);
-    if (rc)
+    const char* pcname = pcnode->GetAttributeValue ("name");
+    uint32 entid = (uint32)attr->GetValueAsInt ();
+    entity = set->GetEntity (entid);
+    if (!entity)
     {
-      iCelEntity* entity = set->GetEntity (entid);
-      if (!entity)
-      {
-	Report ("Cannot find entity for '%s'!", pcname);
-	rc = false;
-      }
+      Report ("Cannot find entity for '%s'!", pcname);
+      return false;
+    }
+    const char* tag = pcnode->GetAttributeValue ("tag");
+    if (tag)
+      pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tag);
+    else
       pc = entity->GetPropertyClassList ()->FindByName (pcname);
-      if (!pc)
-      {
-        Report ("Cannot find property class '%s' for entity '%s'!",
-		pcname, entity->GetName());
-	rc = false;
-      }
-    }
-    delete[] pcname;
-    return rc;
-  }
-  else if (marker[3] == 'I')
-  {
-    uint entid;
-    char* pcname = 0;
-    bool rc = true;
-    rc = rc && Read (pcname);
-    if (rc)
+    if (!pc)
     {
-      rc = false;
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-      iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
-      if (pf)
-      {
-        csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
-        pc = pcref;
-	pcref->IncRef ();	// Avoid smart pointer release.
-	if (pc)
-	{
-          iCelDataBuffer* db;
-          if (Read (db))
-          {
-	    pc->SetEntity (entity);
-	    if (pc->Load (db))
-	    {
-	      Report ("Adding PC '%s' to Entity '%s'",
-		  pcname, entity->GetName());
-	      entity->GetPropertyClassList ()->Add (pc);
-	      rc = true;
-	    }
-	    else
-              Report ("Property class '%s' for entity with id '%u' failed to load!",
-	      	pcname, entid);
-	    pc->DecRef ();
-	    db->DecRef ();
-          }
-        }
-	else
-          Report ("Cannot create property class '%s'!",	pcname);
-      }
-      else
-        Report ("Cannot find property class factory for '%s'!", pcname);
+      Report ("Cannot find property class '%s' for entity '%s'!",
+		pcname, entity->GetName());
+      return false;
     }
-    delete[] pcname;
-    if (!rc) pc = 0;
-    return rc;
+    return true;
+  }
+
+  const char* pcname = pcnode->GetAttributeValue ("name");
+  const char* tagname = pcnode->GetAttributeValue ("tag");
+
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
+  if (!pf)
+  {
+    Report ("Couldn't create property class '%s'!", pcname);
+    return false;
+  }
+  csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
+  pc = pcref;
+  if (tagname) pc->SetTag (tagname);
+  iCelDataBuffer* db;
+  if (!Read (pcnode, db))
+  {
+    Report ("Error loading property class '%s'!", pcname);
+    return false;
+  }
+  pc->SetEntity (entity);
+  if (!pc->Load (db))
+  {
+    Report ("Error loading property class '%s'!", pcname);
+    return false;
   }
   else
   {
-    Report ("Bad property class marker!");
-    return false;
+    Report ("Adding PC '%s' to Entity '%s'", pcname, entity->GetName());
+    entity->GetPropertyClassList ()->Add (pc);
   }
+  db->DecRef ();
 
   return true;
 }
 
-bool celPersistXML::Read (iCelEntity*& entity)
+bool celPersistXML::Read (iDocumentNode* entnode, iCelEntity*& entity)
 {
-  char marker[5];
-  entity = 0;
-  if (!ReadMarker (marker))
+  csRef<iDocumentAttribute> attr;
+  attr = entnode->GetAttribute ("null");
+  if (attr != 0)
   {
-    Report ("File truncated while reading entity marker!");
-    return false;
-  }
-  marker[4]='\0';
-  if (strncmp (marker, "ENT", 3))
-  {
-    Report ("Expected entity, got something else: %s",marker);
-    return false;
-  }
-  if (marker[3] == '0') return true;	// 0 entity.
-  if (marker[3] == 'R')
-  {
-    // A reference.
-    uint32 entid;
-    if (!Read (entid))
-    {
-      Report ("Expected entity ID, got something else!");
-      return false;
-    }
-    entity = set->GetEntity (entid);
+    entity = 0;
     return true;
   }
-  else if (marker[3] == 'E')
+  attr = entnode->GetAttribute ("extref");
+  if (attr != 0)
   {
     iCelDataBuffer* db;
-    if (!Read (db))
+    if (!Read (entnode, db))
     {
       Report ("Error reading external entity reference!");
       return false;
     }
     entity = set->FindExternalEntity (db);
     db->DecRef ();
+    return true;
   }
-  else if (marker[3] == 'I')
+  attr = entnode->GetAttribute ("locref");
+  if (attr != 0)
   {
-    // In this case we know the entity is already given to this
-    // routine.
-    uint entid;
-    char* entname = 0, * bhname = 0, * bhlayername = 0;
-    bool rc = true;
-    rc = rc && Read (entname);
-    uint16 c;
-    rc = rc && Read (c);
-    if (!rc)
-    {
-      Report ("Missing entity information!");
-      delete[] entname;
-      return false;
-    }
+    // A reference.
+    uint32 entid = (uint32)attr->GetValueAsInt ();
+    entity = set->GetEntity (entid);
+    return true;
+  }
 
-    // An entity.
-    entity->SetName (entname);
-    Report ("  Reading entity %d ('%s')...\n",entid,entname);
-    delete[] entname;
+  // In this case we know the entity is already given to this
+  // routine.
+  const char* entname = entnode->GetAttributeValue ("name");
+  if (entname) entity->SetName (entname);
 
-    int i;
-    for (i = 0 ; i < c ; i++)
+  csRef<iDocumentNodeIterator> it = entnode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> pcnode = it->Next ();
+    if (pcnode->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = pcnode->GetValue ();
+    if (!strcmp ("pc", value))
     {
       iCelPropertyClass* pc;
-      if (!Read (entity, pc))
+      if (!Read (pcnode, entity, pc))
       {
 	entity = 0;
 	return false;
       }
     }
-
-    rc = rc && Read (bhlayername);   
-    if (rc && bhlayername)
-      rc = rc && Read (bhname);
-    if (!rc)
+    else if (!strcmp ("behaviour", value))
     {
-      Report ("Missing behaviour information!");
-      delete[] bhlayername;
-      delete[] bhname;
-      return false;
-    }
-    if (bhlayername && bhname)
-    {
+      const char* layer = pcnode->GetAttributeValue ("layer");
+      const char* bname = pcnode->GetAttributeValue ("name");
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-      iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
+      iCelBlLayer* bl = pl->FindBehaviourLayer (layer);
       if (!bl) return false;
-      iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
+      iCelBehaviour* bh = bl->CreateBehaviour (entity, bname);
       if (!bh) return false;
       bh->DecRef ();
     }
-    delete[] bhname;
-    delete[] bhlayername;
-  }
-  else
-  {
-    Report ("Bad entity marker!");
-    return false;
+    else
+    {
+      Report ("File doesn't seem to be valid: expected 'pc' in entity '%s'!",
+      	entname);
+      return false;
+    }
   }
 
   return true;
@@ -746,47 +558,71 @@ bool celPersistXML::Read (iCelEntity*& entity)
 
 //------------------------------------------------------------------------
 
-#define CEL_MARKER "CEL1"
 bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
 {
   csRef<iDataBuffer> data = vfs->ReadFile (name);
   if (!data)
+  {
+    Report ("Failed to read file '%s'!", name);
     return false;
+  }
 
-  csMemFile mf ((const char*) data->GetData(), data->GetSize());
-  file = &mf;
+  csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
+  if (!xml)
+    xml.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = xml->CreateDocument ();
+  const char* error = doc->Parse (data, true);
+  if (error != 0)
+  {
+    Report ("Error parsing document '%s': '%s'!", name, error);
+    return false;
+  }
+
   celPersistXML::set = set;
-
-  if (!CheckMarker (CEL_MARKER))
+  iDocumentNode* root = doc->GetRoot ();
+  csRef<iDocumentNode> parent = root->GetNode ("celentities");
+  if (!parent)
   {
-    Report ("File is not a CEL file, bad marker '%s'!", CEL_MARKER);
+    Report ("File '%s' doesn't seem to be a valid XML save file!", name);
     return false;
   }
 
-  uint32 cnt;
-  if (!Read (cnt))
-  {
-    Report ("Failed to load entity!");
-    return false;
-  }
-  size_t i;
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+
+  size_t idx = 0;
   entities_map.DeleteAll ();
-  for (i = 0 ; i < cnt ; i++)
+  csRef<iDocumentNodeIterator> it = parent->GetNodes ();
+  while (it->HasNext ())
   {
-    // @@@ Not efficient! Store pl!
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    csRef<iCelEntity> ent = pl->CreateEntity ();
-    entities_map.Put (ent, i);
-  }
-
-  for (i = 0 ; i < cnt ; i++)
-  {
-    iCelEntity* ent = set->GetEntity (i);
-    if (!Read (ent))
+    csRef<iDocumentNode> entnode = it->Next ();
+    if (entnode->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = entnode->GetValue ();
+    if (!strcmp ("entity", value))
     {
-      Report ("Failed to load entity!");
+      csRef<iCelEntity> ent = pl->CreateEntity ();
+      entities_map.Put (ent, idx);
+      set->AddEntity (ent);
+      idx++;
+    }
+    else
+    {
+      Report ("File '%s' doesn't seem to be valid: expected 'entity'!", name);
       return false;
     }
+  }
+
+  // Loop again to actually load the entities.
+  idx = 0;
+  it = parent->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> entnode = it->Next ();
+    if (entnode->GetType () != CS_NODE_ELEMENT) continue;
+    // No need to check for entity anymore. Previous loop does that.
+    iCelEntity* ent = set->GetEntity (idx);
+    idx++;
+    if (!Read (entnode, ent))
+      return false;
   }
 
   return true;
