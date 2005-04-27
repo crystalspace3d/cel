@@ -423,62 +423,69 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
     return true;
   }
   attr = pcnode->GetAttribute ("locref");
+
+  // Either we have a local ref (attr != 0) or not. But in any case
+  // we first want to try to find if the pc already exists. In that
+  // case we reuse it even if it is not a ref.
   if (attr != 0)
   {
     // A reference.
-    const char* pcname = pcnode->GetAttributeValue ("name");
     uint32 entid = (uint32)attr->GetValueAsInt ();
     entity = set->GetEntity (entid);
-    if (!entity)
-    {
-      Report ("Cannot find entity for '%s'!", pcname);
-      return false;
-    }
-    const char* tag = pcnode->GetAttributeValue ("tag");
-    if (tag)
-      pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tag);
-    else
-      pc = entity->GetPropertyClassList ()->FindByName (pcname);
-    if (!pc)
-    {
-      Report ("Cannot find property class '%s' for entity '%s'!",
-		pcname, entity->GetName());
-      return false;
-    }
-    return true;
   }
 
   const char* pcname = pcnode->GetAttributeValue ("name");
   const char* tagname = pcnode->GetAttributeValue ("tag");
+  if (tagname)
+    pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tagname);
+  else
+    pc = entity->GetPropertyClassList ()->FindByName (pcname);
+
+  bool loadpcdata = true;
+  if (attr != 0)
+  {
+    // A reference.
+    if (pc) return true;
+
+    // We couldn't find the pc. So we create it here by falling through
+    // to the next code. Later on that pc will be picked up.
+    // We set loadpcdata to false because we don't want to load the
+    // PC data here. We only want to create it so that it can be used
+    // later.
+    loadpcdata = false;
+  }
 
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
-  if (!pf)
+  if (!pc)
   {
-    Report ("Couldn't create property class '%s'!", pcname);
-    return false;
-  }
-  csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
-  pc = pcref;
-  if (tagname) pc->SetTag (tagname);
-  iCelDataBuffer* db;
-  if (!Read (pcnode, db))
-  {
-    Report ("Error loading property class '%s'!", pcname);
-    return false;
-  }
-  pc->SetEntity (entity);
-  if (!pc->Load (db))
-  {
-    Report ("Error loading property class '%s'!", pcname);
-    return false;
-  }
-  else
-  {
-    Report ("Adding PC '%s' to Entity '%s'", pcname, entity->GetName());
+    iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
+    if (!pf)
+    {
+      Report ("Couldn't create property class '%s'!", pcname);
+      return false;
+    }
+    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
+    pc = pcref;
+    if (tagname) pc->SetTag (tagname);
+    pc->SetEntity (entity);
+    printf ("Adding PC '%s' to Entity '%s'\n", pcname, entity->GetName());
     entity->GetPropertyClassList ()->Add (pc);
   }
-  db->DecRef ();
+  if (loadpcdata)
+  {
+    iCelDataBuffer* db;
+    if (!Read (pcnode, db))
+    {
+      Report ("Error loading property class '%s'!", pcname);
+      return false;
+    }
+    if (!pc->Load (db))
+    {
+      Report ("Error loading property class '%s'!", pcname);
+      return false;
+    }
+    db->DecRef ();
+  }
 
   return true;
 }
@@ -578,8 +585,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
     return false;
   }
   celPersistXML::set = set;
-  iDocumentNode* root = doc->GetRoot ();
-  csRef<iDocumentNode> parent = root->GetNode ("celentities");
+  csRef<iDocumentNode> parent = doc->GetRoot ()->GetNode ("celentities");
   if (!parent)
   {
     Report ("File '%s' doesn't seem to be a valid XML save file!", name);

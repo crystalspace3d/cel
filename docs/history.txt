@@ -61,7 +61,7 @@ The history order is reversed so that new features are at the top.
 	  from that game file too.
 	- Jorrit changed celentity addon to check for that flag.
 	- Jorrit fixed pcregion and pczonemanager to disable that flag
-	  when loading from persistance layer.
+	  when loading from persistence layer.
 	- Jorrit removed the MINIMAL setup from celtest. It is not working
 	  properly and it is not useful either.
 	- Jorrit copied the partsys level over from CS so that the CEL version
@@ -79,7 +79,7 @@ The history order is reversed so that new features are at the top.
 	  worked correct.
 	- Jorrit finished the XML saver. It seems to work fine. The loader
 	  is not yet ready.
-	- Jorrit changed celtest to use the XML persistance layer. If you
+	- Jorrit changed celtest to use the XML persistence layer. If you
 	  press 's' the XML saver will now correctly save to 'savefile'.
 	- Jorrit added iCelPlLayer->GetEntityCount() and GetEntityByIndex()
 	  so that you can now retrieve all entities in the system.
@@ -87,12 +87,27 @@ The history order is reversed so that new features are at the top.
 	  (use PATHFIND_ENABLE to include it again). It is in the way of
 	  testing the persistence system.
 	- Jorrit compacted the XML save format slightly.
-	- Jorrit fixed several bugs in the classic persistance plugin.
-	- Jorrit implemented loading in the XML persistance plugin. Doesn't
+	- Jorrit fixed several bugs in the classic persistence plugin.
+	- Jorrit implemented loading in the XML persistence plugin. Doesn't
 	  work though.
 	- Jorrit removed the transient flag from entities again. This is not
 	  useful since we are going to save all those entities anyway. i.e.
 	  we solved it differently by disallowing the celentity addon.
+	- Jorrit fixed a crash in XML persistence loader.
+	- Jorrit fixed persistence in the pclinmove property class. Load() and
+	  Save() were not symmetrical.
+	- Jorrit fixed an initialization error in the pctest property class.
+	- Jorrit changed persistence in pclinmove so that it also saves the
+	  reference to the pccolldet property class that is used.
+	- Jorrit fixed the XML persistence loader so that it will create
+	  property classes for local entities if it can't find them. Later
+	  on the actual data of the property class will arrive so that the
+	  property class can be loaded for real. At least that allows
+	  saving of entities in random order so that you can have references
+	  to property classes that are not yet saved.
+	- Jorrit reports that with these changes the small box in celtest
+	  now saves and loads perfectly. More work still has to be done on
+	  fully implementing saving/loading for all property classes.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
@@ -100,7 +115,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added iPcInventoryListener and a new listener system so
 	  that you can listen to inventory changes outside a behaviour.
 	- Jorrit added a new predefined reward to add entities to an inventory.
-	- Jorrit completely changed the way that the persistance data
+	- Jorrit completely changed the way that the persistence data
 	  is gathered. The iCelDataBuffer interface has new methods and is
 	  now a lot easier to use. This doesn't completely fix the
 	  persistence system though. Property classes are not all fixed
@@ -108,7 +123,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit removed the iCelPersistance and iCelPersistanceContext
 	  interfaces. Everything should now use iCelPersistence
 	  and iCelPersistenceContext instead.
-	- Jorrit started work on a complete rewrite of the persistance
+	- Jorrit started work on a complete rewrite of the persistence
 	  layer plugin. The idea is that the iCelPersistenceContext
 	  interface will be removed. Instead there is a new iCelLocalEntitySet
 	  interface that defines the set of entities that are 'local' to the
@@ -826,7 +841,7 @@ The history order is reversed so that new features are at the top.
 	    - An action.
 	    - One property that is handled automatically.
 	    - One property that is handled manually.
-	    - Working persistance.
+	    - Working persistence.
 	  This is done to make pctest a good template to start creating a new
 	  property class from.
 	- Jorrit did another optimization on the timing facility in
@@ -1158,7 +1173,7 @@ The history order is reversed so that new features are at the top.
 		- thirdperson
 		- m64_thirdperson
 		- lara_thirdperson
-	  Note that temporarily camera persistance is broken. I need
+	  Note that temporarily camera persistence is broken. I need
 	  to write out and read the new fields.
 	- Jorrit added iPcCamera->SetModeName(), GetModeName() and
 	  GetNextNode().
@@ -1788,7 +1803,7 @@ The history order is reversed so that new features are at the top.
 29-Nov-2003
 	- Jorrit added support for csVector2 properties to the pcproperties
 	  property class, to the generic property system, to the
-	  persistance layer, and the XML behaviour layer.
+	  persistence layer, and the XML behaviour layer.
 	- Jorrit added support for setting different uv ranges for a billboard
 	  so that you can now show part of a texture.
 	- Jorrit completed support for 2D vectors in the XML behaviour layer
@@ -1811,8 +1826,8 @@ The history order is reversed so that new features are at the top.
 	  is easier to use.
 27-Nov-2003
 	- Jorrit added support for 'width', 'height', 'x', and 'y'
-	  properties to the pcbillboard. Also added persistance for these
-	  values and fixed a bug in persistance too.
+	  properties to the pcbillboard. Also added persistence for these
+	  values and fixed a bug in persistence too.
 	- Jorrit fixed a bug in the XML behaviour layer with regards to
 	  arguments and some types of those arguments.
 	- Jorrit added support for using 'var' for setting a property
@@ -2138,7 +2153,7 @@ The history order is reversed so that new features are at the top.
 25-Aug-2003
 	- Jorrit added first version of the pfdynmove property class. This
 	  property class supports ODE for physics. This version works but is
-	  not complete yet because it lacks correct persistance.
+	  not complete yet because it lacks correct persistence.
 	- Jorrit added iPcRegion->CreateEmptySector(). This way it is easy
 	  to create a region that just represents an empty sector (that
 	  will be filled later with other objects).
@@ -2606,14 +2621,14 @@ The history order is reversed so that new features are at the top.
 	  like the current action
 26-Mar-2002:
 	- Matze added a RemoveEntity callback, that makes it possible for the
-	  persistance layer contexts to only keep soft refs to entities
+	  persistence layer contexts to only keep soft refs to entities
 	- Applied a patch from Loic Dachary, it adds autoconf support to cel
 	  which brings a nice install and build system (on platforms that
 	  support autoconf/automake). He also included the license into some
 	  headers that missed it... I just replaced the COPYING file by a
 	  LGPL one...
 6-Mar-2002:
-	- Matze made the internal mapping of persistance (ids from localhost
+	- Matze made the internal mapping of persistence (ids from localhost
 	  to ids from other host) accessible through some functions in
 	  iCelPersistContext. You can now also choose if mapping should be
 	  used. By default mapping is performed while loading a file and not
@@ -2622,20 +2637,20 @@ The history order is reversed so that new features are at the top.
 	- Added iPcCamera::GetFollowPos() and GetMode().
 	- Matze fixed pckeyinput for latest CS changes
 28-Feb-2002:
-	- Matze changed persistance to not IncRef entities while reading,
-	  everyone who reads an entity with persistance has to IncRef this
+	- Matze changed persistence to not IncRef entities while reading,
+	  everyone who reads an entity with persistence has to IncRef this
 	  itself now. On the other hand this solves an issue when multiple
 	  persisted things refer to the same entity. Note that this is only for
 	  datatbuffers, the LoadEntity function still returns an IncReffed
 	  entity.
 	- Matze added Clear to persistace context to clear the internal hash
-	  tables of the persistance plugin.
+	  tables of the persistence plugin.
 27-Feb-2002:
 	- Matze fixed a wrong return.
-	- Matze removed the persistance Set(int) function.
+	- Matze removed the persistence Set(int) function.
 	- Fixed the python behaviour layer.
 	- Added some sanity checks to NumReg code using CS_ASSERT.
-	- fixed a bug in camera persistance
+	- fixed a bug in camera persistence
 26-Feb-2002:
 	- improved followmode. It now accepts 2 relative positions:
 	    -the position of the camera relative to the mesh
@@ -2661,16 +2676,16 @@ The history order is reversed so that new features are at the top.
 	- Matze fixed several bugs/cleaned up/commented in ID registry
 	- introduced celDataBufHelper class to make the Save/Load functions
 	  easier
-	- more fixes, persistance at least doesn't crash anymore now
+	- more fixes, persistence at least doesn't crash anymore now
 15-Jan-2002:
 	- Fixed more of the bugs I introduced and cleaned stuff up alot
-	- persistance is working now, but some property classes seem to be
+	- persistence is working now, but some property classes seem to be
 	  buggy
 	- reenabled the csMemFile buffer, after fixing a bug in CS
 14-Jan-2002:
-	- Matze changed persistance plugin, to accept streams thourgh iFile
+	- Matze changed persistence plugin, to accept streams thourgh iFile
 	  interface.
-	- Also changed persistance to use ID's instead of entity names
+	- Also changed persistence to use ID's instead of entity names
 	- Added some macros that help debugging save/load functions
 	- Saving seems to work, while loading fails for some reasons... I
 	  suspect a bug in csMemFile (I'll investigate tomorrow), but also
@@ -2704,7 +2719,7 @@ The history order is reversed so that new features are at the top.
 	- Philip Wyett updated MSVC project files for CEL.
 28-Dec-2001:
 	- Renamed 'pcinput_' messages to 'pckeyinput_'.
-	- Implemented persistance in pckeyinput property class.
+	- Implemented persistence in pckeyinput property class.
 	- Added the first version of the 'blpython' plugin. This is
 	  a general behaviour layer for python scripting. It compiles
 	  and links but it otherwise not functional.
@@ -2715,9 +2730,9 @@ The history order is reversed so that new features are at the top.
 	  layers that may be loaded at the same time.
 	- Added a registry of behaviour layers to the physical layer.
 	- Added GetBehaviourLayer() function to iCelBehaviour.
-	- Made the persistance plugin independent from the behaviour
+	- Made the persistence plugin independent from the behaviour
 	  layer that is chosen by also writing and reading the name
-	  of the behaviour layer. This allows persistance to work correctly
+	  of the behaviour layer. This allows persistence to work correctly
 	  if multiple behaviour layers are in memory (and behaviours from
 	  various behaviour layers are used).
 	- The python behaviour layer plugin is now actually working and
@@ -2770,22 +2785,22 @@ The history order is reversed so that new features are at the top.
 	  pl/datatype.h.
 	- There were already three places where some kind of datatype
 	  was defined:
-	    - persistance (celData and celDataType).
+	    - persistence (celData and celDataType).
 	    - iPcProperties (CEL_PROPERTY_... define).
 	    - The new properties in iCelPropertyClass (type_...).
 	  Rationalized this by using the celData and celDataType definitions
 	  everywhere. To do this celDataType had to be extended with csVector3.
-	- Updated the persistance layer to also support csVector3 directly
+	- Updated the persistence layer to also support csVector3 directly
 	  now (CEL_DATA_VECTOR3). Updated several of the property classes
 	  load/save functions to use csVector3 instead of three floats.
 	- Added CEL_DATA_ACTION to celDataType. This is not supported by
-	  the persistance layer though and only needed for iCelPropertyClass.
+	  the persistence layer though and only needed for iCelPropertyClass.
 	  Added celData->SetAction() to set an action.
 	- Fixed a memory leak in the pcinput property class which was
 	  not deleting the event handler.
 	- Fixed a memory leak in celtest. The actor entity was not added
 	  to the room inventory.
-	- Changed persistance in pcgravity to use the new CEL_DATA_VECTOR3.
+	- Changed persistence in pcgravity to use the new CEL_DATA_VECTOR3.
 	- Fixed a few memory leaks in bltest.
 	- Rationalized the SendMessage names to the convention:
 		'pcbla_msgname'.
@@ -2803,8 +2818,8 @@ The history order is reversed so that new features are at the top.
 	  a parameter.
 	- Added SetRectangle() to iPcCamera. With this you can set the part
 	  of the screen that this camera will use. Also implemented
-	  persistance.
-	- Added persistance for the camera mode in iPcCamera implementation.
+	  persistence.
+	- Added persistence for the camera mode in iPcCamera implementation.
 20-Dec-2001:
 	- Matze added cel.cex, which makes cel usable together with cs-config.
 16-Dec-2001:
@@ -2850,19 +2865,19 @@ The history order is reversed so that new features are at the top.
 	- Added a minimal test level to make debugging easier.
 	  You can enable this minimal test by defining MINIMAL as 1
 	  in celtest.
-	- Fixed a bad bug in the persistance loader. It was acccidently
+	- Fixed a bad bug in the persistence loader. It was acccidently
 	  adding every property class twice to the entity.
 	- Fixed a ref count leak on entities in the inventory loader.
-	- Fixed a bug in persistance layer which prevented persistance
+	- Fixed a bug in persistence layer which prevented persistence
 	  from working properly. It turned out that the entity was not
 	  set for the property classes.
 	- Fixed a bug in the mesh loader. It would not correctly call
-	  DeferUpdateLighting() after loading from the persistance layer.
+	  DeferUpdateLighting() after loading from the persistence layer.
 	- Persistance is now ALMOST working. For simple situations I managed
 	  to get it working fully.
 	- Implemented correct persistence for pccamera so that the current
 	  position of the camera is also remembered.
-	- Fixed a crash bug in cel with persistance and inventory.
+	- Fixed a crash bug in cel with persistence and inventory.
 	  Related to ref counting again.
 19-Nov-2001:
 	- CS now has a feature to remove an object from the engine in general.
@@ -2915,7 +2930,7 @@ The history order is reversed so that new features are at the top.
 	  Fixed this by making the event handlers seperate objects. This
 	  means that additional references on them will not cause a higher
 	  ref count for the property class.
-	- Enabled persistance again (loading). Still crashes though.
+	- Enabled persistence again (loading). Still crashes though.
 	- Remove the region in pcregion::Unload().
 	- Fixed another big memory leak in the gravity property class.
 	  It was leaking pcsolid instances.
@@ -2937,18 +2952,18 @@ The history order is reversed so that new features are at the top.
 	  one.
 	- 'celtest' no longer has a pointer to the default view. It doesn't
 	  even know what entity holds the view or camera.
-	- Classic persistance module now writes a marker 'CEL0' in front
+	- Classic persistence module now writes a marker 'CEL0' in front
 	  of the saved file. That makes it easier to recognize saved CEL
 	  files.
 	- Fixed the crash at exit in CEL by actually fixing a bug in CS :-)
-	- Use the reporter for error reporting in classic persistance module.
-	  Only for loading at this moment and only for the persistance module
+	- Use the reporter for error reporting in classic persistence module.
+	  Only for loading at this moment and only for the persistence module
 	  itself. The individual property classes do not yet use the
 	  reporter to report their errors.
 	- Fixed a bug in pcregion loader.
 	- Fixed a bug in pcmesh loader. Forgot to save the factory name
 	  and properly initialize the mesh.
-	- Implemented loading in CEL persistance module. At this moment loading
+	- Implemented loading in CEL persistence module. At this moment loading
 	  itself seems to work (i.e. it does not crash). However celtest
 	  crashes right after loading so I have to investigate why.
 	- Fixed a bad bug in pcmesh::SetMesh().
@@ -2956,18 +2971,18 @@ The history order is reversed so that new features are at the top.
 	  loading problem though. Loading still crashes.
 12-Nov-2001:
 	- Created new cpersist plugin. This plugin will implement
-	  'classic persistance' for CEL. This plugin does not do
+	  'classic persistence' for CEL. This plugin does not do
 	  anything at the moment except compile and register.
 	- Philip Wyett updated the MSVC project files for the new
-	  persistance plugin.
+	  persistence plugin.
 	- Added GetName() to iCelBehaviour. This is needed to be able
-	  to save the associated behaviour name in the persistance layer.
+	  to save the associated behaviour name in the persistence layer.
 	- Added GetFactoryName() to iCelPropertyClass. This is needed
 	  to be able to save the associated factory name in the
-	  persistance layer.
-	- Worked on persistance a lot now. All property classes now have
+	  persistence layer.
+	- Worked on persistence a lot now. All property classes now have
 	  full support for loading and saving (untested).
-	- Implemented saving in the classic persistance plugin.
+	- Implemented saving in the classic persistence plugin.
 	  At this moment it doesn't work yet (crashes) and I also need
 	  to implement a system to avoid saving the same entity or
 	  property class twice or more then once.
@@ -2985,7 +3000,7 @@ The history order is reversed so that new features are at the top.
 	- The three fixes bug make sure that at least saving doesn't crash
 	  anymore. However there is still too much information saved as
 	  duplicate entities/property classes are not detected.
-	- The current implementation of CEL/persistance assumes that
+	- The current implementation of CEL/persistence assumes that
 	  all entities have a unique name. I have to think more about this
 	  issue (like having a unique name generation utility or something)
 	  but in the mean time I fixed celtest so that the boxes have
@@ -2996,7 +3011,7 @@ The history order is reversed so that new features are at the top.
 	  time the same entity or property class comes back in the save
 	  tree a reference is used.
 11-Nov-2001:
-	- Even though persistance is not operational yet I already
+	- Even though persistence is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data
 	  entries'. Everything works positional. It is now much simpler
 	  and also allows for smaller persistant data. Additionally
@@ -3005,7 +3020,7 @@ The history order is reversed so that new features are at the top.
 	  and depending on that either rejecting the load or else trying
 	  to convert the old data.
 10-Nov-2001:
-	- Further work on persistance. Not functional yet.
+	- Further work on persistence. Not functional yet.
 9-Nov-2001:
 	- Fixed CELTEST for latest changes in CS (CreateEnvironment...).
 	- Started working on pcregion property class. This property class
@@ -3028,12 +3043,12 @@ The history order is reversed so that new features are at the top.
 	  better already. An object in the box no longer affects collision
 	  detection of objects not in the box.
 8-Nov-2001:
-	- Started work on persistance. Nothing works yet. Created
-	  iCelDataBuffer which the persistance system will use to save/load
+	- Started work on persistence. Nothing works yet. Created
+	  iCelDataBuffer which the persistence system will use to save/load
 	  information.
 	- Slightly changed prototype of Load() and Save() so that they
 	  now expect a pointer to the data buffer on which they must operate.
-	- Added stub code for persistance to all property classes.
+	- Added stub code for persistence to all property classes.
 	- Fixed a bug in the gravity property class which could cause
 	  celtest to hang on very fast systems.
 	- Added iCelPersistance interface.
