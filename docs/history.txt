@@ -31,6 +31,8 @@ The history order is reversed so that new features are at the top.
 	  yet.
 	- Jorrit changed pcregion and pczonemanager to set new entities as
 	  transient.
+	- Jorrit added 'l' and 's' keys to celtest to test the new saving
+	  system. Unfinished.
 26-Apr-2005
 	- Eric Sunshine performed project-wide spelling corrections:
 	    conveniance --> convenience
