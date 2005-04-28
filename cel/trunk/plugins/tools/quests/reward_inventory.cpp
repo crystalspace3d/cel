@@ -61,7 +61,7 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
   	params, entity_name_par, child_entity_name_par);
@@ -116,7 +116,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_name_par,
 	const char* child_entity_name_par)
 {

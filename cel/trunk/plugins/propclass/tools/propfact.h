@@ -74,7 +74,7 @@ private:
     csWeakRef<iCelPropertyClass> pclass;
   };
   csPDelArray<property> properties;
-  csHash<size_t, csStrKey, csConstCharHashKeyHandler> properties_hash;
+  csHash<size_t, csStrKey> properties_hash;
   bool properties_hash_dirty;
   csRefArray<iPcPropertyListener> listeners;
 
