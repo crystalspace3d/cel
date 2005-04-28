@@ -108,6 +108,11 @@ struct iCelPlLayer : public iBase
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 
   /**
+   * Remove all entities.
+   */
+  virtual void RemoveEntities () = 0;
+
+  /**
    * Create a message.
    */
   virtual csPtr<iCelMessage> CreateMessage (const char* msg_string, ...) = 0;

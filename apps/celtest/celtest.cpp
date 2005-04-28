@@ -139,10 +139,9 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
       	iCelPersistence);
       celStandardLocalEntitySet set (pl);
-      set.AddEntity (boxentity);
-      //size_t i;
-      //for (i = 0 ; i < pl->GetEntityCount () ; i++)
-        //set.AddEntity (pl->GetEntityByIndex (i));
+      size_t i;
+      for (i = 0 ; i < pl->GetEntityCount () ; i++)
+        set.AddEntity (pl->GetEntityByIndex (i));
       if (!p->Save (&set, "/this/savefile"))
       {
         printf ("Error!\n");
@@ -152,8 +151,8 @@ bool CelTest::OnKeyboard (iEvent &ev)
       {
         printf ("Saved to /this/savefile!\n");
 	fflush (stdout);
-	pl->RemoveEntity (boxentity);
-	boxentity = 0;
+	pl->RemoveEntities ();
+	game = 0;
       }
     }
     else if (code == 'l')
@@ -168,7 +167,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
       }
       else
       {
-        boxentity = set.GetEntity (0);
+        game = pl->FindEntity ("room");
       }
     }
   }
@@ -490,11 +489,11 @@ bool CelTest::CreateRoom ()
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
 
-  boxentity = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
+  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
   	1, 1000000, 5, 48,
   	csVector3 (-4, 0, 0));
-  if (!boxentity) return false;
-  //if (!pcinv_room->AddEntity (boxentity)) return false;
+  if (!entity_box) return false;
+  if (!pcinv_room->AddEntity (entity_box)) return false;
 
   //===============================
   // Create dummy entities.
@@ -573,7 +572,7 @@ bool CelTest::CreateRoom ()
   iCamera* camera = pccamera->GetCamera ();
   iSector* sector = camera->GetSector();
 
-  // use this entity for testing the nav graph
+	  // use this entity for testing the nav graph
   iCelEntity* defaultent = entity_box;
 
   pcgraph->BuildNodeGraph (sector, defaultent);

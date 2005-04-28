@@ -144,6 +144,29 @@ const char* celPcQuest::GetPropertyString (csStringID propertyId)
 csPtr<iCelDataBuffer> celPcQuest::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (QUEST_SERIAL);
+
+  databuf->Add (questname);
+
+  databuf->Add ((uint32)quest_params.GetSize ());
+  celQuestParams::GlobalIterator it = quest_params.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStrKey key;
+    csStrKey value = it.Next (key);
+    databuf->Add (key);
+    databuf->Add (value);
+  }
+
+  if (quest)
+  {
+    databuf->Add (true);
+    databuf->Add (quest->GetCurrentState ());
+  }
+  else
+  {
+    databuf->Add (false);
+  }
+  
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -151,6 +174,30 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != QUEST_SERIAL) return false;
+
+  questname = databuf->GetString ()->GetData ();
+
+  celQuestParams qp;
+  uint32 count = databuf->GetUInt32 ();
+  size_t i;
+  for (i = 0 ; i < count ; i++)
+  {
+    const char* key = databuf->GetString ()->GetData ();
+    const char* value = databuf->GetString ()->GetData ();
+    qp.Put (key, value);
+  }
+
+  bool has_quest = databuf->GetBool ();
+  if (has_quest)
+  {
+    if (!NewQuest (questname, qp))
+      return false;
+    quest->SwitchState (databuf->GetString ()->GetData ());
+  }
+  else
+  {
+    quest_params = qp;
+  }
 
   return true;
 }
@@ -206,11 +253,30 @@ bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
 {
   // @@@ Report error on reporter here?
   GetQuestManager ();
-  if (!quest_mgr) return false;
+  if (!quest_mgr)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.propclass.quest",
+	  "Couldn't find quest manager!");
+    return false;
+  }
   iQuestFactory* fact = quest_mgr->GetQuestFactory (name);
-  if (!fact) return false;
+  if (!fact)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.propclass.quest",
+	  "Couldn't find quest factory '%s'!", name);
+    return false;
+  }
   quest = fact->CreateQuest (params);
-  if (!quest) return false;
+  if (!quest)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.propclass.quest",
+	  "Couldn't create quest from factory '%s'!", name);
+    return false;
+  }
+  quest_params = params;
   questname = name;
   return true;
 }

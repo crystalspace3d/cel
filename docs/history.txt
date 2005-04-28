@@ -11,6 +11,23 @@ The history order is reversed so that new features are at the top.
 	    persistant  --> persistent
 	- Jorrit cleaned up the XML persistence loader a bit. Better error
 	  reporting.
+	- Jorrit implemented load/save in pcquest property class.
+	- Jorrit added iCelPlLayer->RemoveEntities() to remove all entities.
+	- Jorrit modified celtest to load/save all entities at once.
+	- Jorrit fixed a bug in the cel entity addon where it would return
+	  0 if it didn't create an entity.
+	- Jorrit fixed a spelling mistake in the XML persistence layer that
+	  would cause it to fail parsing 'word' entities (it was spelled
+	  as 'world' accidentally).
+	- Jorrit added better error reporting to the pcquest property class.
+	- Jorrit fixed linmove saving by also saving the reference to the
+	  mesh.
+	- Jorrit fixed pccamera loading so that it correctly restores the
+	  camera mode.
+	- Jorrit reports that with these changes the complete saving and
+	  loading of all entities works nearly perfectly now. There are a few
+	  remaining issues with the quest manager and so but the basic
+	  stuff works great.
 27-Apr-2005
 	- Jorrit fixed the remove callbacks in the PL by using a csRefArray
 	  instead of an csArray. Also changed the name to the more consistent

@@ -314,7 +314,10 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   else
   {
     // Entity addons are not allowed. Do nothing.
-    return 0;
+    // IncRef because we return a csPtr. We have to return something
+    // that is not 0 here.
+    IncRef ();
+    return (iLoaderPlugin*)this;
   }
 }
 

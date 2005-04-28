@@ -1271,8 +1271,8 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
 
-  cammode = (iPcCamera::CameraMode)databuf->GetUInt8 ();
-  use_cd = databuf->GetBool ();
+  iPcCamera::CameraMode mode = (iPcCamera::CameraMode)databuf->GetUInt8 ();
+  bool cd = databuf->GetBool ();
   rect_set = databuf->GetBool ();
   rect_x = databuf->GetUInt16 ();
   rect_y = databuf->GetUInt16 ();
@@ -1281,6 +1281,7 @@ bool celPcCamera::Load (iCelDataBuffer* databuf)
 
   clear_zbuf = databuf->GetBool ();
   clear_screen = databuf->GetBool ();
+  SetMode (mode, cd);
 
   if (rect_set)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);

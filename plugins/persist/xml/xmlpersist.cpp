@@ -140,7 +140,7 @@ bool celPersistXML::Write (iDocumentNode* node, celData* data)
       attrnode->SetAttributeAsInt ("v", int (data->value.ub));
       break;
     case CEL_DATA_UWORD:
-      attrnode->SetValue ("uworld");
+      attrnode->SetValue ("uword");
       attrnode->SetAttributeAsInt ("v", int (data->value.uw));
       break;
     case CEL_DATA_ULONG:
@@ -301,11 +301,11 @@ bool celPersistXML::Read (iDocumentNode* node, celData* cd)
   {
     cd->Set ((uint8)(node->GetAttributeValueAsInt ("v")));
   }
-  else if (!strcmp ("world", value))
+  else if (!strcmp ("word", value))
   {
     cd->Set ((int16)(node->GetAttributeValueAsInt ("v")));
   }
-  else if (!strcmp ("uworld", value))
+  else if (!strcmp ("uword", value))
   {
     cd->Set ((uint16)(node->GetAttributeValueAsInt ("v")));
   }
@@ -360,7 +360,7 @@ bool celPersistXML::Read (iDocumentNode* node, celData* cd)
     if (!Read (node, ent)) return false;
     cd->Set (ent);
   }
-  else return Report ("Found unknown Data type '%s'!", value);
+  else return Report ("Found unknown data type '%s'!", value);
   return true;
 }
 

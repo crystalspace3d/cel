@@ -344,7 +344,7 @@ bool celPcCollisionDetection::Init (const csVector3& body,
 
     if (!pcmeshref)
     {
-      MoveReport (object_reg, "No Mesh found on entity!");
+      MoveReport (object_reg, "Colldet: No Mesh found on entity!");
       return false;
     }
     else

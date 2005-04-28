@@ -209,8 +209,16 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
 
-  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (pccolldet,
-  	iCelPropertyClass);
+  csRef<iCelPropertyClass> pc;
+  if (pccolldet)
+    pc = SCF_QUERY_INTERFACE (pccolldet, iCelPropertyClass);
+  else
+    pc = 0;
+  databuf->Add (pc);
+  if (pcmesh)
+    pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+  else
+    pc = 0;
   databuf->Add (pc);
 
   databuf->Add (topSize);
@@ -229,8 +237,12 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
     return false;
 
   iCelPropertyClass* pc = databuf->GetPC ();
-  csRef<iPcCollisionDetection> pccd = SCF_QUERY_INTERFACE (pc,
-  	iPcCollisionDetection);
+  csRef<iPcCollisionDetection> pccd;
+  if (pc)
+    pccd = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
+  pc = databuf->GetPC ();
+  pcmesh = 0;
+  if (pc) pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
   databuf->GetVector3 (topSize);
   databuf->GetVector3 (bottomSize);
@@ -359,7 +371,7 @@ bool celPcLinearMovement::RotateV (float delta)
 {
   if (!pcmesh || !pcmesh->GetMesh ())
   {
-    MoveReport (object_reg, "No Mesh found on entity!");
+    MoveReport (object_reg, "Linmove: No Mesh found on entity!");
     return false;
   }      
 
