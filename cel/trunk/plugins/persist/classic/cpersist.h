@@ -68,12 +68,13 @@ private:
   bool Read (uint32& ul);
   bool Read (float& f);
   bool Read (char*& str);
+  bool Read (csString& str);
   bool Read (celData* cd);
-  bool Read (iCelDataBuffer*& db);
+  bool Read (csRef<iCelDataBuffer>& db);
   bool Read (iCelEntity* entity, iCelPropertyClass*& pc);
   bool Read (iCelEntity*& entity);
 
-  void Report (const char* msg, ...);
+  bool Report (const char* msg, ...);
 
 public:
   SCF_DECLARE_IBASE;
