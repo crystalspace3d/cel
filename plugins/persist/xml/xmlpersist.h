@@ -23,6 +23,7 @@
 #include "csutil/hash.h"
 #include "csutil/refarr.h"
 #include "csutil/set.h"
+#include "csutil/weakref.h"
 #include "iutil/comp.h"
 #include "physicallayer/persist.h"
 #include "physicallayer/datatype.h"
@@ -51,17 +52,17 @@ private:
   bool Write (iDocumentNode* entnode, iCelEntity* entity, bool savelocal);
 
   bool Read (iDocumentNode* node, celData* cd);
-  bool Read (iDocumentNode* node, iCelDataBuffer*& db);
+  bool Read (iDocumentNode* node, csRef<iCelDataBuffer>& db);
   bool Read (iDocumentNode* pcnode, iCelEntity* entity, iCelPropertyClass*& pc);
   bool Read (iDocumentNode* entnode, iCelEntity*& entity);
 
-  void Report (const char* msg, ...);
+  bool Report (const char* msg, ...);
 
 public:
   SCF_DECLARE_IBASE;
   csRef<iVFS> vfs;
-  iFile* file;
   iCelLocalEntitySet* set;
+  csWeakRef<iCelPlLayer> pl;
   csHash<size_t,iCelEntity*> entities_map;
   
   celPersistXML (iBase* parent);

@@ -75,6 +75,8 @@ private:
   bool Read (iCelEntity*& entity);
 
   bool Report (const char* msg, ...);
+  bool ReportTrunc ();
+  bool ReportWrite ();
 
 public:
   SCF_DECLARE_IBASE;
