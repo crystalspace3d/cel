@@ -62,7 +62,7 @@ celNewStateRewardFactory::~celNewStateRewardFactory ()
 }
 
 csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celNewStateReward* trig = new celNewStateReward (type,
   	params, state_par, entity_name_par);
@@ -119,7 +119,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celNewStateReward::celNewStateReward (
 	celNewStateRewardType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* state_par,
 	const char* entity_name_par)
 {

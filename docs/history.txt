@@ -28,6 +28,7 @@ The history order is reversed so that new features are at the top.
 	  loading of all entities works nearly perfectly now. There are a few
 	  remaining issues with the quest manager and so but the basic
 	  stuff works great.
+	- res fixed CEL for the csHash<> changes in CS.
 27-Apr-2005
 	- Jorrit fixed the remove callbacks in the PL by using a csRefArray
 	  instead of an csArray. Also changed the name to the more consistent

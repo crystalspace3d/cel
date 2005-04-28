@@ -22,7 +22,6 @@
 
 #include "csutil/refarr.h"
 #include "csutil/weakrefarr.h"
-#include "csutil/hashhandlers.h"
 #include "csutil/hash.h"
 #include "csutil/set.h"
 #include "iutil/comp.h"
@@ -55,11 +54,11 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
-  csHash<iCelPropertyClassFactory*,csStrKey,csConstCharHashKeyHandler> pf_hash;
+  csHash<iCelPropertyClassFactory*,csStrKey> pf_hash;
   csRefArray<iCelBlLayer> bl_list;
 
   csRefArray<iCelEntity> entities;
-  csHash<iCelEntity*,csStrKey,csConstCharHashKeyHandler> entities_hash;
+  csHash<iCelEntity*,csStrKey> entities_hash;
   bool entities_hash_dirty;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;

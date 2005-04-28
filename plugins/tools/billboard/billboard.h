@@ -22,7 +22,6 @@
 
 #include "csutil/util.h"
 #include "csutil/hash.h"
-#include "csutil/hashhandlers.h"
 #include "csutil/parray.h"
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
@@ -216,7 +215,7 @@ private:
   // Note: the billboard at the end of the following array is the top of
   // the stack.
   csPDelArray<celBillboard> billboards;
-  csHash<celBillboard*,csStrKey,csConstCharHashKeyHandler> billboards_hash;
+  csHash<celBillboard*,csStrKey> billboards_hash;
 
   csPDelArray<celBillboardLayer> layers;
   celBillboardLayer* default_layer;

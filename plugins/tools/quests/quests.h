@@ -87,8 +87,7 @@ public:
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
 };
 
-typedef csHash<csRef<celQuestStateFactory>,csStrKey,
-  	csConstCharHashKeyHandler> celQuestFactoryStates;
+typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
 /**
  * A quest factory.
  */
@@ -207,12 +206,9 @@ public:
   iObjectRegistry* object_reg;
 
 private:
-  csHash<csRef<iQuestTriggerType>,csStrKey,
-  	csConstCharHashKeyHandler> trigger_types;
-  csHash<csRef<iQuestRewardType>,csStrKey,
-  	csConstCharHashKeyHandler> reward_types;
-  csHash<csRef<celQuestFactory>,csStrKey,
-  	csConstCharHashKeyHandler> quest_factories;
+  csHash<csRef<iQuestTriggerType>,csStrKey> trigger_types;
+  csHash<csRef<iQuestRewardType>,csStrKey> reward_types;
+  csHash<csRef<celQuestFactory>,csStrKey> quest_factories;
 
 public:
   celQuestManager (iBase* parent);

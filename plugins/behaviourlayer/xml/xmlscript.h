@@ -25,7 +25,6 @@
 #include "csutil/weakref.h"
 #include "csutil/util.h"
 #include "csutil/parray.h"
-#include "csutil/hashhandlers.h"
 #include "csutil/hash.h"
 #include "csutil/strhash.h"
 #include "csgeom/vector2.h"
@@ -405,8 +404,7 @@ class celXmlScript
 private:
   char* name;
   csPDelArray<celXmlScriptEventHandler> event_handlers;
-  csHash<celXmlScriptEventHandler*,csStrKey,
-  	csConstCharHashKeyHandler> event_handlers_hash;
+  csHash<celXmlScriptEventHandler*,csStrKey> event_handlers_hash;
   iCelPlLayer* pl;
   celXmlScript* superscript;
 

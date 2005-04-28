@@ -59,7 +59,7 @@ struct iChangePropertyQuestRewardFactory;
 </quest>
 */
 
-typedef csHash<csStrKey,csStrKey,csConstCharHashKeyHandler> celQuestParams;
+typedef csHash<csStrKey,csStrKey> celQuestParams;
 
 //-------------------------------------------------------------------------
 // Triggers

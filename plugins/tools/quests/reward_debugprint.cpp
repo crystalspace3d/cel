@@ -60,7 +60,7 @@ celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 }
 
 csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celDebugPrintReward* trig = new celDebugPrintReward (type,
   	params, msg_par);
@@ -99,7 +99,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celDebugPrintReward::celDebugPrintReward (
 	celDebugPrintRewardType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* msg_par)
 {
   SCF_CONSTRUCT_IBASE (0);
