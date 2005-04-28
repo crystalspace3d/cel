@@ -306,6 +306,14 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
   entities.Delete (entity);
 }
 
+void celPlLayer::RemoveEntities ()
+{
+  while (entities.Length () > 0)
+  {
+    RemoveEntity (entities[0]);
+  }
+}
+
 iCelEntity* celPlLayer::GetEntity (uint id)
 {
   return (iCelEntity*) idlist.Get (id);

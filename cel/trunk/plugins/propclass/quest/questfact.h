@@ -70,6 +70,7 @@ private:
   csRef<iQuestManager> quest_mgr;
   void GetQuestManager ();
 
+  celQuestParams quest_params;
   csString questname;
   csRef<iQuest> quest;
 
