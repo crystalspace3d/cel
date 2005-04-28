@@ -73,7 +73,7 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-void celPersistClassic::Report (const char* msg, ...)
+bool celPersistClassic::Report (const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -90,6 +90,7 @@ void celPersistClassic::Report (const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 //------------------------------------------------------------------------
@@ -402,6 +403,27 @@ bool celPersistClassic::Read (float& f)
   return true;
 }
 
+bool celPersistClassic::Read (csString& str)
+{
+  uint16 l;
+  if (!Read (l)) return false;
+  if (l)
+  {
+    char* newstr = new char[l+1];
+    if (file->Read((char*) newstr, l) < l)
+    {
+      delete [] newstr;
+      str.Empty ();
+      return false;
+    }
+    newstr[l] = 0;
+    str = newstr;
+    delete[] newstr;
+  }
+  else str.Empty ();
+  return true;
+}
+
 bool celPersistClassic::Read (char*& str)
 {
   uint16 l;
@@ -409,7 +431,8 @@ bool celPersistClassic::Read (char*& str)
   if (l)
   {
     str = new char[l+1];
-    if (file->Read((char*) str, l) < l) {
+    if (file->Read((char*) str, l) < l)
+    {
       delete [] str;
       str = 0;
       return false;
@@ -525,11 +548,10 @@ bool celPersistClassic::Read (celData* cd)
   return true;
 }
 
-bool celPersistClassic::Read (iCelDataBuffer*& db)
+bool celPersistClassic::Read (csRef<iCelDataBuffer>& db)
 {
   int32 ser;
   db = 0;
-  csRef<iCelDataBuffer> dbref;
   if (!Read (ser))
   {
     Report ("File truncated while reading data buffer serial number!");
@@ -542,8 +564,7 @@ bool celPersistClassic::Read (iCelDataBuffer*& db)
     return false;
   }
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  dbref = pl->CreateDataBuffer (ser);
-  db = dbref;
+  db = pl->CreateDataBuffer (ser);
   int i;
   for (i = 0 ; i < cnt ; i++)
   {
@@ -551,12 +572,10 @@ bool celPersistClassic::Read (iCelDataBuffer*& db)
     {
       Report ("Error reading data entry %d!", i);
       db = 0;
-      dbref = 0;
       return false;
     }
   }
 
-  if (dbref) dbref->IncRef (); // Avoid smart pointer release.
   return true;
 }
 
@@ -565,117 +584,89 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
   char marker[5];
   pc = 0;
   if (!ReadMarker (marker))
-  {
-    Report ("File truncated while reading property class marker!");
-    return false;
-  }
+    return Report ("File truncated while reading property class marker!");
   marker[4]=0;
   if (strncmp (marker, "PCL", 3))
-  {
-    Report ("Expected property class, got something else: '%s'!",marker);
-    return false;
-  }
+{
+CS_ASSERT (false);
+    return Report ("Expected property class, got something else: '%s'!",marker);
+}
   if (marker[3] == '0')
   {
     // 0 entity.
-    Report ("Read 0 Propclass!");
+    printf ("Read 0 Propclass!\n");
     return true;
   }
   if (marker[3] == 'E')
   {
-    iCelDataBuffer* db;
+    csRef<iCelDataBuffer> db;
     if (!Read (db))
-    {
-      Report ("Error reading external property class reference!");
-      return false;
-    }
+      return Report ("Error reading external property class reference!");
     pc = set->FindExternalPC (db);
-    db->DecRef ();
     return true;
   }
+
+  // Either we have a local ref (attr != 0) or not. But in any case
+  // we first want to try to find if the pc already exists. In that
+  // case we reuse it even if it is not a ref.
   if (marker[3] == 'R')
   {
     // A reference.
     uint entid;
-    char* pcname = 0;
-    char* tag = 0;
-    bool rc = true;
-    rc = rc && Read (entid);
-    rc = rc && Read (pcname);
-    rc = rc && Read (tag);
-    if (rc)
-    {
-      iCelEntity* entity = set->GetEntity (entid);
-      if (!entity)
-      {
-	Report ("Cannot find entity for '%s'!", pcname);
-	rc = false;
-      }
-      if (tag)
-        pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tag);
-      else
-        pc = entity->GetPropertyClassList ()->FindByName (pcname);
-      if (!pc)
-      {
-        Report ("Cannot find property class '%s' for entity '%s'!",
-		pcname, entity->GetName());
-	rc = false;
-      }
-    }
-    delete[] pcname;
-    delete[] tag;
-    return rc;
+    if (!Read (entid))
+      return Report ("Cannot read entity id!");
+    entity = set->GetEntity (entid);
   }
-  else if (marker[3] == 'I')
-  {
-    uint entid;
-    char* pcname = 0;
-    bool rc = true;
-    rc = rc && Read (pcname);
-    if (rc)
-    {
-      rc = false;
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-      iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
-      if (pf)
-      {
-        csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
-        pc = pcref;
-	pcref->IncRef ();	// Avoid smart pointer release.
-	if (pc)
-	{
-          iCelDataBuffer* db;
-          if (Read (db))
-          {
-	    pc->SetEntity (entity);
-	    if (pc->Load (db))
-	    {
-	      Report ("Adding PC '%s' to Entity '%s'",
-		  pcname, entity->GetName());
-	      entity->GetPropertyClassList ()->Add (pc);
-	      rc = true;
-	    }
-	    else
-              Report ("Property class '%s' for entity with id '%u' failed to load!",
-	      	pcname, entid);
-	    pc->DecRef ();
-	    db->DecRef ();
-          }
-        }
-	else
-          Report ("Cannot create property class '%s'!",	pcname);
-      }
-      else
-        Report ("Cannot find property class factory for '%s'!", pcname);
-    }
-    delete[] pcname;
-    if (!rc) pc = 0;
-    return rc;
-  }
+  else if (marker[3] != 'I')
+    return Report ("Bad property class marker!");
+
+  csString pcname;
+  if (!Read (pcname))
+    return Report ("Cannot read property class name!");
+  csString tagname;
+  if (!Read (tagname))
+    return Report ("Cannot read property class tag name!");
+  if (tagname)
+    pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tagname);
   else
+    pc = entity->GetPropertyClassList ()->FindByName (pcname);
+
+  bool loadpcdata = true;
+  if (marker[3] == 'R')
   {
-    Report ("Bad property class marker!");
-    return false;
+    // A reference.
+    if (pc) return true;
+
+    // We couldn't find the pc. So we create it here by falling through
+    // to the next code. Later on that pc will be picked up.
+    // We set loadpcdata to false because we don't want to load the
+    // PC data here. We only want to create it so that it can be used
+    // later.
+    loadpcdata = false;
+  }
+
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pc)
+  {
+    iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
+    if (!pf)
+      return Report ("Couldn't create property class '%s'!",
+      	(const char*)pcname);
+    csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
+    pc = pcref;
+    if (tagname) pc->SetTag (tagname);
+    pc->SetEntity (entity);
+    printf ("Adding PC '%s' to Entity '%s'\n", (const char*)pcname,
+    	entity->GetName());
+    entity->GetPropertyClassList ()->Add (pc);
+  }
+  if (loadpcdata)
+  {
+    csRef<iCelDataBuffer> db;
+    if (!Read (db))
+      return Report ("Error loading property class '%s'!", (const char*)pcname);
+    if (!pc->Load (db))
+      return Report ("Error loading property class '%s'!", (const char*)pcname);
   }
 
   return true;
@@ -685,16 +676,10 @@ bool celPersistClassic::Read (iCelEntity*& entity)
 {
   char marker[5];
   if (!ReadMarker (marker))
-  {
-    Report ("File truncated while reading entity marker!");
-    return false;
-  }
+    return Report ("File truncated while reading entity marker!");
   marker[4]='\0';
   if (strncmp (marker, "ENT", 3))
-  {
-    Report ("Expected entity, got something else: %s",marker);
-    return false;
-  }
+    return Report ("Expected entity, got something else: %s",marker);
   if (marker[3] == '0')
   {
     entity = 0;
@@ -705,45 +690,33 @@ bool celPersistClassic::Read (iCelEntity*& entity)
     // A reference.
     uint32 entid;
     if (!Read (entid))
-    {
-      Report ("Expected entity ID, got something else!");
-      return false;
-    }
+      return Report ("Expected entity ID, got something else!");
     entity = set->GetEntity (entid);
     return true;
   }
   else if (marker[3] == 'E')
   {
-    iCelDataBuffer* db;
+    csRef<iCelDataBuffer> db;
     if (!Read (db))
-    {
-      Report ("Error reading external entity reference!");
-      return false;
-    }
+      return Report ("Error reading external entity reference!");
     entity = set->FindExternalEntity (db);
-    db->DecRef ();
   }
   else if (marker[3] == 'I')
   {
     // In this case we know the entity is already given to this
     // routine.
     uint entid;
-    char* entname = 0, * bhname = 0, * bhlayername = 0;
+    csString entname, bhname, bhlayername;
     bool rc = true;
     rc = rc && Read (entname);
     uint16 c;
     rc = rc && Read (c);
     if (!rc)
-    {
-      Report ("Missing entity information!");
-      delete[] entname;
-      return false;
-    }
+      return Report ("Missing entity information!");
 
     // An entity.
     entity->SetName (entname);
-    Report ("  Reading entity %d ('%s')...\n",entid,entname);
-    delete[] entname;
+    printf ("  Reading entity %d ('%s')...\n",entid,(const char*)entname);
 
     int i;
     for (i = 0 ; i < c ; i++)
@@ -760,13 +733,8 @@ bool celPersistClassic::Read (iCelEntity*& entity)
     if (rc && bhlayername)
       rc = rc && Read (bhname);
     if (!rc)
-    {
-      Report ("Missing behaviour information!");
-      delete[] bhlayername;
-      delete[] bhname;
-      return false;
-    }
-    if (bhlayername && bhname)
+      return Report ("Missing behaviour information!");
+    if (!bhlayername.IsEmpty () && !bhname.IsEmpty ())
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
@@ -775,8 +743,6 @@ bool celPersistClassic::Read (iCelEntity*& entity)
       if (!bh) return false;
       bh->DecRef ();
     }
-    delete[] bhname;
-    delete[] bhlayername;
   }
   else
   {
