@@ -114,7 +114,7 @@ struct iCelPlLayer : public iBase
 
   /**
    * Create a data buffer. Usually property class implementations
-   * will call this to create a data buffer for their own persistant
+   * will call this to create a data buffer for their own persistent
    * data. The use of this is not required. A property class can just
    * as well make its own implementation of iCelDataBuffer.
    */
@@ -204,7 +204,7 @@ struct iCelPlLayer : public iBase
    * Enable or disable the operations of the cel entity addon. This addon
    * will enable users to add entities from a CS world file. This addon
    * will not do that if this flag is disabled (enabled by default). This is
-   * mostly used by the persistance layer to prevent the addons from working
+   * mostly used by the persistence layer to prevent the addons from working
    * then since the entities will be loaded otherwise in that situation.
    */
   virtual void SetEntityAddonAllowed (bool allow) = 0;
