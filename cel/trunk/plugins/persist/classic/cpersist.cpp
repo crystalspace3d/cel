@@ -93,38 +93,48 @@ bool celPersistClassic::Report (const char* msg, ...)
   return false;
 }
 
+bool celPersistClassic::ReportTrunc ()
+{
+  return Report ("File is truncated!");
+}
+
+bool celPersistClassic::ReportWrite ()
+{
+  return Report ("Error while writing to file!");
+}
+
 //------------------------------------------------------------------------
 
 bool celPersistClassic::WriteMarker (const char* s)
 {
-  if (!file->Write (s, 4)) return false;
+  if (!file->Write (s, 4)) return ReportWrite ();
   return true;
 }
 
 bool celPersistClassic::Write (const char* s)
 {
   uint16 l = s ? strlen (s) : 0;
-  if (!Write (l)) return false;
-  if (s && !file->Write (s, l)) return false;
+  if (!Write (l)) return ReportWrite ();
+  if (s && !file->Write (s, l)) return ReportWrite ();
   return true;
 }
 
 bool celPersistClassic::Write (iCelDataBuffer* db)
 {
-  if (!Write ((int32) db->GetSerialNumber())) return false;
-  if (!Write ((uint16) db->GetDataCount())) return false;
+  if (!Write ((int32) db->GetSerialNumber())) return ReportWrite ();
+  if (!Write ((uint16) db->GetDataCount())) return ReportWrite ();
   size_t i;
   for (i = 0 ; i < db->GetDataCount () ; i++)
   {
     if (!Write (db->GetData (i)))
-      return false;
+      return ReportWrite ();
   }
   return true;
 }
 
 bool celPersistClassic::Write (celData* data)
 {
-  if (!Write ((uint8) data->type)) return false;
+  if (!Write ((uint8) data->type)) return ReportWrite ();
   switch (data->type)
   {
     case CEL_DATA_NONE:
@@ -132,61 +142,61 @@ bool celPersistClassic::Write (celData* data)
       CS_ASSERT (false);
       break;
     case CEL_DATA_BOOL:
-      if (!Write ((uint8)data->value.bo)) return false;
+      if (!Write ((uint8)data->value.bo)) return ReportWrite ();
       break;
     case CEL_DATA_BYTE:
-      if (!Write (data->value.b)) return false;
+      if (!Write (data->value.b)) return ReportWrite ();
       break;
     case CEL_DATA_WORD:
-      if (!Write (data->value.w)) return false;
+      if (!Write (data->value.w)) return ReportWrite ();
       break;
     case CEL_DATA_LONG:
-      if (!Write (data->value.l)) return false;
+      if (!Write (data->value.l)) return ReportWrite ();
       break;
     case CEL_DATA_UBYTE:
-      if (!Write (data->value.ub)) return false;
+      if (!Write (data->value.ub)) return ReportWrite ();
       break;
     case CEL_DATA_UWORD:
-      if (!Write (data->value.uw)) return false;
+      if (!Write (data->value.uw)) return ReportWrite ();
       break;
     case CEL_DATA_ULONG:
-      if (!Write (data->value.ul)) return false;
+      if (!Write (data->value.ul)) return ReportWrite ();
       break;
     case CEL_DATA_FLOAT:
-      if (!Write (data->value.f)) return false;
+      if (!Write (data->value.f)) return ReportWrite ();
       break;
     case CEL_DATA_VECTOR2:
       {
-        if (!Write (data->value.v.x)) return false;
-	if (!Write (data->value.v.y)) return false;
+        if (!Write (data->value.v.x)) return ReportWrite ();
+	if (!Write (data->value.v.y)) return ReportWrite ();
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        if (!Write (data->value.v.x)) return false;
-	if (!Write (data->value.v.y)) return false;
-	if (!Write (data->value.v.z)) return false;
+        if (!Write (data->value.v.x)) return ReportWrite ();
+	if (!Write (data->value.v.y)) return ReportWrite ();
+	if (!Write (data->value.v.z)) return ReportWrite ();
       }
       break;
     case CEL_DATA_COLOR:
       {
-        if (!Write (data->value.col.red)) return false;
-	if (!Write (data->value.col.green)) return false;
-	if (!Write (data->value.col.blue)) return false;
+        if (!Write (data->value.col.red)) return ReportWrite ();
+	if (!Write (data->value.col.green)) return ReportWrite ();
+	if (!Write (data->value.col.blue)) return ReportWrite ();
       }
       break;
     case CEL_DATA_STRING:
-      if (!Write (*data->value.s)) return false;
+      if (!Write (*data->value.s)) return ReportWrite ();
       break;
     case CEL_DATA_PCLASS:
-      if (!Write (data->value.pc, false)) return false;
+      if (!Write (data->value.pc, false)) return ReportWrite ();
       break;
     case CEL_DATA_ENTITY:
-      if (!Write (data->value.ent, false)) return false;
+      if (!Write (data->value.ent, false)) return ReportWrite ();
       break;
     case CEL_DATA_IBASE:
       Report ("Data type iBase is not allowed for persistence!");
-      return false;
+      return ReportWrite ();
     default:
       Report ("Found a DataType I'm not able to write!");
       CS_ASSERT (false);
@@ -240,13 +250,13 @@ bool celPersistClassic::Write (iCelPropertyClass* pc, bool savelocal)
   if (!pc)
   {
     // 0 pc.
-    if (!WriteMarker ("PCL0")) return false;
+    if (!WriteMarker ("PCL0")) return ReportWrite ();
     return true;
   }
   if (!set->IsLocal (pc))
   {
     // This is a non-local pc.
-    if (!WriteMarker ("PCLE")) return false;
+    if (!WriteMarker ("PCLE")) return ReportWrite ();
     csRef<iCelDataBuffer> db = set->SaveExternalPC (pc);
     return Write (db);
   }
@@ -254,22 +264,24 @@ bool celPersistClassic::Write (iCelPropertyClass* pc, bool savelocal)
   {
     // This is a local pc and we're not saving local pc's.
     // In that case we still have to save a reference.
-    if (!WriteMarker ("PCLR")) return false;
+    if (!WriteMarker ("PCLR")) return ReportWrite ();
     size_t entity_idx = entities_map.Get (pc->GetEntity (),
     	csArrayItemNotFound);
     CS_ASSERT(entity_idx != csArrayItemNotFound);
-    if (!Write ((uint32)entity_idx)) return false;
-    if (!Write (pc->GetName ())) return false;
-    if (!Write (pc->GetTag ())) return false;
+    if (!Write ((uint32)entity_idx)) return ReportWrite ();
+    if (!Write (pc->GetName ())) return ReportWrite ();
+    if (!Write (pc->GetTag ())) return ReportWrite ();
     return true;
   }
 
-  if (!WriteMarker ("PCLI")) return false;
+  if (!WriteMarker ("PCLI")) return ReportWrite ();
   // First write entity ID, then property class name.
-  if (!Write (pc->GetName ())) return false;
-  if (!Write (pc->GetTag ())) return false;
+  if (!Write (pc->GetName ())) return ReportWrite ();
+  if (!Write (pc->GetTag ())) return ReportWrite ();
   csRef<iCelDataBuffer> db = pc->Save ();
-  if (!db) return false;
+  if (!db)
+    return Report ("Property class '%s' doesn't support writing!",
+    	pc->GetName ());
   return Write (db);
 }
 
@@ -278,32 +290,34 @@ bool celPersistClassic::Write (iCelEntity* entity, bool savelocal)
   if (!entity)
   {
     // 0 entity.
-    if (!WriteMarker ("ENT0")) return false;
+    if (!WriteMarker ("ENT0")) return ReportWrite ();
     return true;
   }
   if (!set->IsLocal (entity))
   {
     // This is a non-local entity.
-    if (!WriteMarker ("ENTE")) return false;
+    if (!WriteMarker ("ENTE")) return ReportWrite ();
     csRef<iCelDataBuffer> db = set->SaveExternalEntity (entity);
+    if (!db)
+      return Report ("External entity is not properly saved!");
     return Write (db);
   }
   else if (!savelocal)
   {
     // This is a local entity and we're not saving local entities.
     // In that case we still have to save a reference.
-    if (!WriteMarker ("ENTR")) return false;
+    if (!WriteMarker ("ENTR")) return ReportWrite ();
     size_t idx = entities_map.Get (entity, csArrayItemNotFound);
     CS_ASSERT(idx != csArrayItemNotFound);
-    if (!Write ((uint32)idx)) return false;
+    if (!Write ((uint32)idx)) return ReportWrite ();
     return true;
   }
 
-  if (!WriteMarker ("ENTI")) return false;
-  if (!Write (entity->GetName ())) return false;
+  if (!WriteMarker ("ENTI")) return ReportWrite ();
+  if (!Write (entity->GetName ())) return ReportWrite ();
 
   iCelPropertyClassList* pl = entity->GetPropertyClassList ();
-  if (!Write ((uint16) pl->GetCount())) return false;
+  if (!Write ((uint16) pl->GetCount())) return ReportWrite ();
   size_t i;
   for (i = 0 ; i < pl->GetCount () ; i++)
   {
@@ -314,12 +328,12 @@ bool celPersistClassic::Write (iCelEntity* entity, bool savelocal)
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {  
-    if (!Write (bh->GetBehaviourLayer ()->GetName ())) return false;
-    if (!Write (bh->GetName ())) return false;
+    if (!Write (bh->GetBehaviourLayer ()->GetName ())) return ReportWrite ();
+    if (!Write (bh->GetName ())) return ReportWrite ();
   }
   else
   {
-    if (!Write ((char*)0)) return false;
+    if (!Write ((char*)0)) return ReportWrite ();
   }  
   return true;
 }
@@ -329,7 +343,7 @@ bool celPersistClassic::Write (iCelEntity* entity, bool savelocal)
 bool celPersistClassic::ReadMarker (char* marker)
 {
   if (file->Read (marker, 4) < 4)
-    return false;
+    return ReportTrunc ();
   return true;
 }
 
@@ -337,36 +351,31 @@ bool celPersistClassic::CheckMarker (const char* comp)
 {
   char marker[5];
   if (!ReadMarker (marker))
-    return false;
+    return ReportTrunc ();
   marker[4] = 0;
-  
   if (strncmp (marker, comp, 4))
-  {
-    Report ("Expected marker '%s' but got '%s'!", comp, marker);
-    return false;
-  }
-
+    return Report ("Expected marker '%s' but got '%s'!", comp, marker);
   return true;
 }
 
 bool celPersistClassic::Read (int8& b)
 {
   if (file->Read((char*) &b, 1) < 1)
-    return false;
+    return ReportTrunc ();
   return true;
 }
 
 bool celPersistClassic::Read (uint8& ub)
 {
   if (file->Read((char*) &ub, 1) < 1)
-    return false;
+    return ReportTrunc ();
   return true;
 }
 
 bool celPersistClassic::Read (int16& w)
 {
   if (file->Read((char*) &w, 2) < 2)
-    return false;
+    return ReportTrunc ();
   w = csGetLittleEndianShort (&w);
   return true;
 }
@@ -374,7 +383,7 @@ bool celPersistClassic::Read (int16& w)
 bool celPersistClassic::Read (uint16& uw)
 {
   if (file->Read((char*) &uw, 2) < 2)
-    return false;
+    return ReportTrunc ();
   uw = csGetLittleEndianShort (&uw);
   return true;
 }
@@ -382,7 +391,7 @@ bool celPersistClassic::Read (uint16& uw)
 bool celPersistClassic::Read (int32& l)
 {
   if (file->Read((char*) &l, 4) < 4)
-    return false;
+    return ReportTrunc ();
   l = csGetLittleEndianLong (&l);
   return true;
 }
@@ -390,7 +399,7 @@ bool celPersistClassic::Read (int32& l)
 bool celPersistClassic::Read (uint32& ul)
 {
   if (file->Read((char*) &ul, 4) < 4)
-    return false;
+    return ReportTrunc ();
   ul = csGetLittleEndianLong (&ul);
   return true;
 }
@@ -398,7 +407,7 @@ bool celPersistClassic::Read (uint32& ul)
 bool celPersistClassic::Read (float& f)
 {
   if (file->Read((char*) &f, 4) < 4)
-    return false;
+    return ReportTrunc ();
   f = csConvertEndian (f);
   return true;
 }
@@ -414,7 +423,7 @@ bool celPersistClassic::Read (csString& str)
     {
       delete [] newstr;
       str.Empty ();
-      return false;
+      return ReportTrunc ();
     }
     newstr[l] = 0;
     str = newstr;
@@ -435,7 +444,7 @@ bool celPersistClassic::Read (char*& str)
     {
       delete [] str;
       str = 0;
-      return false;
+      return ReportTrunc ();
     }
     str[l] = 0;
   }
@@ -460,7 +469,7 @@ bool celPersistClassic::Read (celData* cd)
   {
     case CEL_DATA_ACTION:
     case CEL_DATA_NONE:
-      return false;
+      return Report ("Bad type in persisted data!");
     case CEL_DATA_BOOL:
       if (!Read (ub)) return false;
       cd->Set ((bool)ub);
@@ -539,11 +548,9 @@ bool celPersistClassic::Read (celData* cd)
       }
       break;
     case CEL_DATA_IBASE:
-      Report ("Data type iBase is not allowed for persistence!");
-      return false;
+      return Report ("Data type iBase is not allowed for persistence!");
     default:
-      Report ("Found unknown Data type!");
-      return false;
+      return Report ("Found unknown Data type!");
   }
   return true;
 }
@@ -552,29 +559,15 @@ bool celPersistClassic::Read (csRef<iCelDataBuffer>& db)
 {
   int32 ser;
   db = 0;
-  if (!Read (ser))
-  {
-    Report ("File truncated while reading data buffer serial number!");
-    return false;
-  }
+  if (!Read (ser)) return false;
   uint16 cnt;
-  if (!Read (cnt))
-  {
-    Report ("File truncated while reading number of data entries!");
-    return false;
-  }
+  if (!Read (cnt)) return false;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   db = pl->CreateDataBuffer (ser);
   int i;
   for (i = 0 ; i < cnt ; i++)
-  {
     if (!Read (db->AddData ()))
-    {
-      Report ("Error reading data entry %d!", i);
-      db = 0;
-      return false;
-    }
-  }
+      return Report ("Error reading data entry %d!", i);
 
   return true;
 }
@@ -584,17 +577,13 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
   char marker[5];
   pc = 0;
   if (!ReadMarker (marker))
-    return Report ("File truncated while reading property class marker!");
+    return false;
   marker[4]=0;
   if (strncmp (marker, "PCL", 3))
-{
-CS_ASSERT (false);
     return Report ("Expected property class, got something else: '%s'!",marker);
-}
   if (marker[3] == '0')
   {
     // 0 entity.
-    printf ("Read 0 Propclass!\n");
     return true;
   }
   if (marker[3] == 'E')
@@ -614,18 +603,18 @@ CS_ASSERT (false);
     // A reference.
     uint entid;
     if (!Read (entid))
-      return Report ("Cannot read entity id!");
+      return false;
     entity = set->GetEntity (entid);
   }
   else if (marker[3] != 'I')
-    return Report ("Bad property class marker!");
+    return Report ("Bad property class marker '%s'!", marker);
 
   csString pcname;
   if (!Read (pcname))
-    return Report ("Cannot read property class name!");
+    return false;
   csString tagname;
   if (!Read (tagname))
-    return Report ("Cannot read property class tag name!");
+    return false;
   if (tagname)
     pc = entity->GetPropertyClassList ()->FindByNameAndTag (pcname, tagname);
   else
@@ -676,7 +665,7 @@ bool celPersistClassic::Read (iCelEntity*& entity)
 {
   char marker[5];
   if (!ReadMarker (marker))
-    return Report ("File truncated while reading entity marker!");
+    return false;
   marker[4]='\0';
   if (strncmp (marker, "ENT", 3))
     return Report ("Expected entity, got something else: %s",marker);
@@ -707,12 +696,9 @@ bool celPersistClassic::Read (iCelEntity*& entity)
     // routine.
     uint entid;
     csString entname, bhname, bhlayername;
-    bool rc = true;
-    rc = rc && Read (entname);
+    if (!Read (entname)) return false;
     uint16 c;
-    rc = rc && Read (c);
-    if (!rc)
-      return Report ("Missing entity information!");
+    if (!Read (c)) return false;
 
     // An entity.
     entity->SetName (entname);
@@ -729,26 +715,23 @@ bool celPersistClassic::Read (iCelEntity*& entity)
       }
     }
 
-    rc = rc && Read (bhlayername);   
-    if (rc && bhlayername)
-      rc = rc && Read (bhname);
-    if (!rc)
-      return Report ("Missing behaviour information!");
+    if (!Read (bhlayername))
+      return false;
+    if (!Read (bhname))
+      return false;
     if (!bhlayername.IsEmpty () && !bhname.IsEmpty ())
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
-      if (!bl) return false;
+      if (!bl) return Report ("Couldn't find behaviour layer '%s'!",
+      	(const char*)bhlayername);
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bhname);
-      if (!bh) return false;
+      if (!bh) return Report ("Couldn't create behaviour '%s'!",
+      	(const char*)bhname);
       bh->DecRef ();
     }
   }
-  else
-  {
-    Report ("Bad entity marker!");
-    return false;
-  }
+  else return Report ("Bad entity marker!");
 
   return true;
 }

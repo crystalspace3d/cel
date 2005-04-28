@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine (once again) fixed spelling errors:
 	    persistance --> persistence
 	    persistant  --> persistent
+	- Jorrit cleaned up the XML persistence loader a bit. Better error
+	  reporting.
 27-Apr-2005
 	- Jorrit fixed the remove callbacks in the PL by using a csRefArray
 	  instead of an csArray. Also changed the name to the more consistent

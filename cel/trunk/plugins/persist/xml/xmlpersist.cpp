@@ -70,11 +70,13 @@ bool celPersistXML::Initialize (iObjectRegistry* object_reg)
 
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   if (!vfs) return false;
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl) return false;
   
   return true;
 }
 
-void celPersistXML::Report (const char* msg, ...)
+bool celPersistXML::Report (const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -91,6 +93,7 @@ void celPersistXML::Report (const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 //------------------------------------------------------------------------
@@ -179,12 +182,9 @@ bool celPersistXML::Write (iDocumentNode* node, celData* data)
       if (!Write (attrnode, data->value.ent, false)) return false;
       break;
     case CEL_DATA_IBASE:
-      Report ("Data type iBase is not allowed for persistence!");
-      return false;
+      return Report ("Data type iBase is not allowed for persistence!");
     default:
-      Report ("Found a DataType I'm not able to write!");
-      CS_ASSERT (false);
-      break;
+      return Report ("Found a DataType I'm not able to write!");
   }
   return true;
 }
@@ -226,11 +226,7 @@ bool celPersistXML::Write (iDocumentNode* pcnode,
 
   csRef<iCelDataBuffer> db = pc->Save ();
   if (!db)
-  {
-    printf ("pc '%s' doesn't support saving!\n", pc->GetName ());
-    fflush (stdout);
-    return false;
-  }
+    return Report ("pc '%s' doesn't support saving!\n", pc->GetName ());
   return Write (pcnode, db);
 }
 
@@ -271,10 +267,7 @@ bool celPersistXML::Write (iDocumentNode* entnode,
     	CS_NODE_ELEMENT, 0);
     pcnode->SetValue ("pc");
     if (!Write (pcnode, pl->Get (i), true))
-    {
-      printf ("Error writing pc!\n"); fflush (stdout);
-      return false;	// @@@ Report
-    }
+      return Report ("Error writing property class!\n");
   }
 
   iCelBehaviour* bh = entity->GetBehaviour ();
@@ -367,21 +360,14 @@ bool celPersistXML::Read (iDocumentNode* node, celData* cd)
     if (!Read (node, ent)) return false;
     cd->Set (ent);
   }
-  else
-  {
-    Report ("Found unknown Data type '%s'!", value);
-    return false;
-  }
+  else return Report ("Found unknown Data type '%s'!", value);
   return true;
 }
 
-bool celPersistXML::Read (iDocumentNode* node, iCelDataBuffer*& db)
+bool celPersistXML::Read (iDocumentNode* node, csRef<iCelDataBuffer>& db)
 {
   int32 ser = (int32)node->GetAttributeValueAsInt ("serial");
-  // @@@ Not efficient.
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  csRef<iCelDataBuffer> dbref = pl->CreateDataBuffer (ser);
-  db = dbref;
+  db = pl->CreateDataBuffer (ser);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -389,13 +375,9 @@ bool celPersistXML::Read (iDocumentNode* node, iCelDataBuffer*& db)
     csRef<iDocumentNode> child = it->Next ();
     if (child->GetType () != CS_NODE_ELEMENT) continue;
     if (!Read (child, db->AddData ()))
-    {
-      Report ("Error reading data entry %s!", child->GetValue ());
-      return false;
-    }
+      return Report ("Error reading data entry %s!", child->GetValue ());
   }
 
-  if (dbref) dbref->IncRef (); // Avoid smart pointer release.
   return true;
 }
 
@@ -412,14 +394,10 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
   attr = pcnode->GetAttribute ("extref");
   if (attr != 0)
   {
-    iCelDataBuffer* db;
+    csRef<iCelDataBuffer> db;
     if (!Read (pcnode, db))
-    {
-      Report ("Error reading external property class reference!");
-      return false;
-    }
+      return Report ("Error reading external property class reference!");
     pc = set->FindExternalPC (db); // @@@ Check?
-    db->DecRef ();
     return true;
   }
   attr = pcnode->GetAttribute ("locref");
@@ -455,15 +433,11 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
     loadpcdata = false;
   }
 
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pc)
   {
     iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
     if (!pf)
-    {
-      Report ("Couldn't create property class '%s'!", pcname);
-      return false;
-    }
+      return Report ("Couldn't create property class '%s'!", pcname);
     csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
     pc = pcref;
     if (tagname) pc->SetTag (tagname);
@@ -473,18 +447,11 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
   }
   if (loadpcdata)
   {
-    iCelDataBuffer* db;
+    csRef<iCelDataBuffer> db;
     if (!Read (pcnode, db))
-    {
-      Report ("Error loading property class '%s'!", pcname);
-      return false;
-    }
+      return Report ("Error loading property class '%s'!", pcname);
     if (!pc->Load (db))
-    {
-      Report ("Error loading property class '%s'!", pcname);
-      return false;
-    }
-    db->DecRef ();
+      return Report ("Error loading property class '%s'!", pcname);
   }
 
   return true;
@@ -502,14 +469,10 @@ bool celPersistXML::Read (iDocumentNode* entnode, iCelEntity*& entity)
   attr = entnode->GetAttribute ("extref");
   if (attr != 0)
   {
-    iCelDataBuffer* db;
+    csRef<iCelDataBuffer> db;
     if (!Read (entnode, db))
-    {
-      Report ("Error reading external entity reference!");
-      return false;
-    }
+      return Report ("Error reading external entity reference!");
     entity = set->FindExternalEntity (db);
-    db->DecRef ();
     return true;
   }
   attr = entnode->GetAttribute ("locref");
@@ -545,19 +508,14 @@ bool celPersistXML::Read (iDocumentNode* entnode, iCelEntity*& entity)
     {
       const char* layer = pcnode->GetAttributeValue ("layer");
       const char* bname = pcnode->GetAttributeValue ("name");
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelBlLayer* bl = pl->FindBehaviourLayer (layer);
-      if (!bl) return false;
+      if (!bl) return Report ("Couldn't find behaviour layer '%s'!", layer);
       iCelBehaviour* bh = bl->CreateBehaviour (entity, bname);
-      if (!bh) return false;
+      if (!bh) return Report ("Couldn't create behaviour '%s'!", bname);
       bh->DecRef ();
     }
-    else
-    {
-      Report ("File doesn't seem to be valid: expected 'pc' in entity '%s'!",
+    else return Report ("File not valid: expected 'pc' in entity '%s'!",
       	entname);
-      return false;
-    }
   }
 
   return true;
@@ -569,10 +527,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
 {
   csRef<iDataBuffer> data = vfs->ReadFile (name);
   if (!data)
-  {
-    Report ("Failed to read file '%s'!", name);
-    return false;
-  }
+    return Report ("Failed to read file '%s'!", name);
 
   csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
   if (!xml)
@@ -580,19 +535,11 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
   csRef<iDocument> doc = xml->CreateDocument ();
   const char* error = doc->Parse (data, true);
   if (error != 0)
-  {
-    Report ("Error parsing document '%s': '%s'!", name, error);
-    return false;
-  }
+    return Report ("Error parsing document '%s': '%s'!", name, error);
   celPersistXML::set = set;
   csRef<iDocumentNode> parent = doc->GetRoot ()->GetNode ("celentities");
   if (!parent)
-  {
-    Report ("File '%s' doesn't seem to be a valid XML save file!", name);
-    return false;
-  }
-
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    return Report ("File '%s' doesn't seem to be a valid XML save file!", name);
 
   size_t idx = 0;
   entities_map.DeleteAll ();
@@ -610,10 +557,8 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
       idx++;
     }
     else
-    {
-      Report ("File '%s' doesn't seem to be valid: expected 'entity'!", name);
-      return false;
-    }
+      return Report ("File '%s' doesn't seem to be valid: expected 'entity'!",
+      	name);
   }
 
   // Loop again to actually load the entities.
@@ -655,17 +600,11 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
     	CS_NODE_ELEMENT, 0);
     entnode->SetValue ("entity");
     if (!Write (entnode, ent, true))
-    {
-      printf ("Error writing entity!\n"); fflush (stdout);
-      return false;	// @@@ Report
-    }
+      return Report ("Error writing entity in '%s'!", name);
   }
 
   if (doc->Write (vfs, name) != 0)
-  {
-    printf ("Error writing doc!\n"); fflush (stdout);
-    return false;	// @@@ Report
-  }
+    return Report ("Error writing file '%s'!", name);
 
   return true;
 }
