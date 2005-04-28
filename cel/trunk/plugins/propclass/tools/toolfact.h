@@ -28,7 +28,6 @@
 #include "csutil/parray.h"
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
-#include "csutil/hashhandlers.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"

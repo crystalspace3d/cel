@@ -72,7 +72,7 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 }
 
 csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celChangePropertyReward* trig = new celChangePropertyReward (type,
   	params, prop_par, entity_name_par, string_par, long_par,
@@ -186,7 +186,7 @@ SCF_IMPLEMENT_IBASE_END
 
 celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	const csHash<csStrKey,csStrKey,csConstCharHashKeyHandler>& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* prop_par,
 	const char* entity_name_par,
 	const char* string_par,

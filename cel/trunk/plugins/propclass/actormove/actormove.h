@@ -28,7 +28,6 @@
 #include "csutil/parray.h"
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
-#include "csutil/hashhandlers.h"
 #include "imesh/spritecal3d.h"
 #include "imesh/sprite3d.h"
 

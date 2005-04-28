@@ -22,7 +22,6 @@
 
 #include "csutil/util.h"
 #include "csutil/hash.h"
-#include "csutil/hashhandlers.h"
 #include "csutil/parray.h"
 #include "csutil/strhash.h"
 #include "iutil/comp.h"
@@ -62,7 +61,7 @@ public:
     int count;
   };
   csArray<celProfileInfo> profile_info;
-  csHash<int, csStrKey, csConstCharHashKeyHandler> profile_info_hash;
+  csHash<int, csStrKey> profile_info_hash;
 #endif
 
 private:
@@ -70,7 +69,7 @@ private:
   csRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
-  csHash<celXmlScript*,csStrKey,csConstCharHashKeyHandler> scripts_hash;
+  csHash<celXmlScript*,csStrKey> scripts_hash;
   csStringHash xmltokens;
   csStringHash functions;
 
