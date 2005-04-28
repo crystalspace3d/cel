@@ -23,7 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/hash.h"
-#include "csutil/hashhandlers.h"
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
