@@ -4,8 +4,11 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 28-Apr-2005
-	- Jorrit fixed classic persistance plugin so it also correctly saves
+	- Jorrit fixed classic persistence plugin so it also correctly saves
 	  and loads entities. Also cleaned it up slightly.
+	- Eric Sunshine (once again) fixed spelling errors:
+	    persistance --> persistence
+	    persistant  --> persistent
 27-Apr-2005
 	- Jorrit fixed the remove callbacks in the PL by using a csRefArray
 	  instead of an csArray. Also changed the name to the more consistent
@@ -69,13 +72,12 @@ The history order is reversed so that new features are at the top.
 	  properly and it is not useful either.
 	- Jorrit copied the partsys level over from CS so that the CEL version
 	  can use addons. Added an addon to it to test this in celtest.
-	- Jorrit added iCelRegion->SetCachePath(). If you use that function then
-	  the zone manager will use a single cache manager for all maps in
-	  that region (so you can use shared lightmaps that way). Otherwise
-	  the cache manager would be set differently for every map in the
-	  region.
+	- Jorrit added iCelRegion->SetCachePath(). If you use that function
+	  then the zone manager will use a single cache manager for all maps in
+	  that region (so you can use shared lightmaps that way). Otherwise the
+	  cache manager would be set differently for every map in the region.
 	- Jorrit removed the old persistence system (including
-	  iCelPersistanceContext) since it is not working properly anyway
+	  iCelPersistenceContext) since it is not working properly anyway
 	  and it is in the way of doing further improvements.
 	- Jorrit started an XML persistence system (even before the other one
 	  is working fine) mostly because it is easier to debug if the saving
@@ -123,7 +125,7 @@ The history order is reversed so that new features are at the top.
 	  now a lot easier to use. This doesn't completely fix the
 	  persistence system though. Property classes are not all fixed
 	  yet.
-	- Jorrit removed the iCelPersistance and iCelPersistanceContext
+	- Jorrit removed the iCelPersistence and iCelPersistenceContext
 	  interfaces. Everything should now use iCelPersistence
 	  and iCelPersistenceContext instead.
 	- Jorrit started work on a complete rewrite of the persistence
@@ -2876,7 +2878,7 @@ The history order is reversed so that new features are at the top.
 	  set for the property classes.
 	- Fixed a bug in the mesh loader. It would not correctly call
 	  DeferUpdateLighting() after loading from the persistence layer.
-	- Persistance is now ALMOST working. For simple situations I managed
+	- Persistence is now ALMOST working. For simple situations I managed
 	  to get it working fully.
 	- Implemented correct persistence for pccamera so that the current
 	  position of the camera is also remembered.
@@ -3017,7 +3019,7 @@ The history order is reversed so that new features are at the top.
 	- Even though persistence is not operational yet I already
 	  decided on a redesign. I removed the notion of 'named data
 	  entries'. Everything works positional. It is now much simpler
-	  and also allows for smaller persistant data. Additionally
+	  and also allows for smaller persistent data. Additionally
 	  I added the notion of a serial number for a databuffer. This
 	  is useful for testing what version we are trying to load
 	  and depending on that either rejecting the load or else trying

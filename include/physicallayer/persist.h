@@ -208,28 +208,28 @@ struct iCelLocalEntitySet : public iBase
   virtual bool IsLocal (iCelPropertyClass* pc) = 0;
 
   /**
-   * This routine will be called by the persistance layer whenever
+   * This routine will be called by the persistence layer whenever
    * it needs to save a non-local entity. So this routine should
    * return a databuffer that can identify a non-local entity.
    */
   virtual csPtr<iCelDataBuffer> SaveExternalEntity (iCelEntity* entity) = 0;
 
   /**
-   * This routine will be called by the persistance layer whenever
+   * This routine will be called by the persistence layer whenever
    * it needs to find a non-local entity. Basically it should return
    * an already existing entity from the databuffer.
    */
   virtual iCelEntity* FindExternalEntity (iCelDataBuffer* databuf) = 0;
 
   /**
-   * This routine will be called by the persistance layer whenever
+   * This routine will be called by the persistence layer whenever
    * it needs to save a non-local property class. So this routine should
    * return a databuffer that can identify a non-local property class.
    */
   virtual csPtr<iCelDataBuffer> SaveExternalPC (iCelPropertyClass* pc) = 0;
 
   /**
-   * This routine will be called by the persistance layer whenever
+   * This routine will be called by the persistence layer whenever
    * it needs to find a non-local property class. Basically it should return
    * an already existing property class from the databuffer.
    */
