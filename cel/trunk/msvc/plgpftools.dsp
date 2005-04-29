@@ -104,7 +104,15 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\tools\propfact.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\tools\spawn.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\tools\timerfact.cpp
 # End Source File
 # Begin Source File
 
@@ -116,7 +124,15 @@ SOURCE=..\plugins\propclass\tools\toolfact.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\tools\propfact.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\tools\spawn.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\tools\timerfact.h
 # End Source File
 # Begin Source File
 

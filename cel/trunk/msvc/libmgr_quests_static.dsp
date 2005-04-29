@@ -120,6 +120,10 @@ SOURCE=..\plugins\tools\quests\reward_debugprint.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_inventory.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\reward_newstate.cpp
 # End Source File
 # Begin Source File
@@ -153,6 +157,10 @@ SOURCE=..\plugins\tools\quests\reward_changeproperty.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\reward_debugprint.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\reward_inventory.h
 # End Source File
 # Begin Source File
 

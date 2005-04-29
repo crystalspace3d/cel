@@ -166,7 +166,13 @@
 				RelativePath="..\msvc\libpftools_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\propclass\tools\propfact.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\tools\spawn.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\tools\timerfact.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.cpp">
@@ -176,7 +182,13 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\tools\propfact.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\tools\spawn.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\tools\timerfact.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\tools\toolfact.h">

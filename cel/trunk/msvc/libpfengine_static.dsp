@@ -108,12 +108,20 @@ SOURCE=..\msvc\libpfengine_staticreg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\propclass\engine\camerafact.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\engine\engfact.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\plugins\propclass\engine\camerafact.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\engine\engfact.h

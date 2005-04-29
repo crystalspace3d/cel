@@ -168,12 +168,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\engine\camerafact.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\engine\engfact.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\plugins\propclass\engine\camerafact.h">
+			</File>
 			<File
 				RelativePath="..\plugins\propclass\engine\engfact.h">
 			</File>
