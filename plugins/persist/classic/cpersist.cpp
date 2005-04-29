@@ -694,7 +694,6 @@ bool celPersistClassic::Read (iCelEntity*& entity)
   {
     // In this case we know the entity is already given to this
     // routine.
-    uint entid;
     csString entname, bhname, bhlayername;
     if (!Read (entname)) return false;
     uint16 c;
@@ -702,7 +701,8 @@ bool celPersistClassic::Read (iCelEntity*& entity)
 
     // An entity.
     entity->SetName (entname);
-    printf ("  Reading entity %d ('%s')...\n",entid,(const char*)entname);
+    printf ("  Reading entity %lu ('%s')...\n",
+	    (unsigned long)entity->GetID(), (const char*)entname);
 
     int i;
     for (i = 0 ; i < c ; i++)
