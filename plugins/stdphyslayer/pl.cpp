@@ -279,8 +279,17 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
   return entities_hash.Get (name,0);
 }
 
-void celPlLayer::RemoveEntity (iCelEntity *entity)
+void celPlLayer::RemoveEntityIndex (size_t idx)
 {
+  if (idx == csArrayItemNotFound) return;
+
+  // To avoid a problem where the destructor of an entity can
+  // cause a call to RemoveEntity() itself (and cause entities.Delete()
+  // to be nested inside another entities.Delete()) we first add an
+  // extra reference to the entity to prevent the entity from being
+  // deleted in the call to entities.Delete().
+  csRef<iCelEntity> entity = entities[idx];
+
   // First register this entity from all trackers.
   size_t i;
   for (i = 0 ; i < trackers.Length () ; i++)
@@ -303,15 +312,38 @@ void celPlLayer::RemoveEntity (iCelEntity *entity)
 
   if (!entities_hash_dirty && entity->GetName ())
     entities_hash.Delete (entity->GetName (), entity);
-  entities.Delete (entity);
+  entities.DeleteIndex (idx);
+}
+
+void celPlLayer::RemoveEntity (iCelEntity *entity)
+{
+  RemoveEntityIndex (entities.Find (entity));
 }
 
 void celPlLayer::RemoveEntities ()
 {
+#ifdef CS_DEBUG
+  // We use weakrefs to test if the entities are really gone after
+  // calling RemoveEntities(). This assumes that the caller has no refs
+  // on his own so this is only a warning.
+  size_t i;
+  csWeakRefArray<iCelEntity> weakrefs;
+  for (i = 0 ; i < entities.Length () ; i++)
+    weakrefs.Push (entities[i]);
+#endif
   while (entities.Length () > 0)
   {
-    RemoveEntity (entities[0]);
+    RemoveEntityIndex (entities.Length ()-1);
   }
+#ifdef CS_DEBUG
+  for (i = 0 ; i < weakrefs.Length () ; i++)
+    if (weakrefs[i] != 0)
+    {
+      printf ("Entity '%s' not removed (ref count %d)\n",
+      	weakrefs[i]->GetName (), weakrefs[i]->GetRefCount ());
+      fflush (stdout);
+    }
+#endif
 }
 
 iCelEntity* celPlLayer::GetEntity (uint id)

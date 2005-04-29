@@ -115,6 +115,7 @@ public:
    * Remove an entity from the physical layer ID list.
    */
   virtual void RemoveEntity (iCelEntity* entity);
+  void RemoveEntityIndex (size_t idx);
   virtual void RemoveEntities ();
   virtual iCelEntity* GetEntity (uint id);
   virtual size_t GetEntityCount () const { return entities.Length (); }
