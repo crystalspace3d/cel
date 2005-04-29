@@ -15,36 +15,36 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_cpersist[] =
+static char const metainfo_xmlpersist[] =
 "<?xml version=\"1.0\"?>"
 "<!-- cpersist.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.persistence.classic</name>"
-"        <implementation>celPersistClassic</implementation>"
-"	<description>CEL Classic Persistence Module</description>"
+"        <name>cel.persistence.xml</name>"
+"        <implementation>celPersistXML</implementation>"
+"	<description>CEL XML Persistence Module</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celPersistClassic_FACTORY_REGISTER_DEFINED 
-  #define celPersistClassic_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPersistClassic) 
+  #ifndef celPersistXML_FACTORY_REGISTER_DEFINED 
+  #define celPersistXML_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPersistXML) 
   #endif
 
-class cpersist
+class xmlpersist
 {
-SCF_REGISTER_STATIC_LIBRARY(cpersist,metainfo_cpersist)
-  #ifndef celPersistClassic_FACTORY_REGISTERED 
-  #define celPersistClassic_FACTORY_REGISTERED 
-    celPersistClassic_StaticInit celPersistClassic_static_init__; 
+SCF_REGISTER_STATIC_LIBRARY(xmlpersist,metainfo_xmlpersist)
+  #ifndef celPersistXML_FACTORY_REGISTERED 
+  #define celPersistXML_FACTORY_REGISTERED 
+    celPersistXML_StaticInit celPersistXML_static_init__; 
   #endif
 public:
- cpersist();
+ xmlpersist();
 };
-cpersist::cpersist() {}
+xmlpersist::xmlpersist() {}
 
 }

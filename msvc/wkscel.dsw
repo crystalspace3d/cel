@@ -117,6 +117,9 @@ Package=<4>
     Project_Dep_Name libstdphyslayer_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libxmlpersist_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgaddon_celentity
     End Project Dependency
     Begin Project Dependency
@@ -181,6 +184,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgstdphyslayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgxmlpersist
     End Project Dependency
 }}}
 
@@ -281,6 +287,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name libstdphyslayer_static
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxmlpersist_static
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -358,6 +367,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgstdphyslayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgxmlpersist
     End Project Dependency
 }}}
 
@@ -628,6 +640,18 @@ Package=<4>
 ###############################################################################
 
 Project: "libstdphyslayer_static"=.\libstdphyslayer_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libxmlpersist_static"=.\libxmlpersist_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -940,6 +964,18 @@ Package=<4>
 ###############################################################################
 
 Project: "plgstdphyslayer"=.\plgstdphyslayer.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "plgxmlpersist"=.\plgxmlpersist.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
