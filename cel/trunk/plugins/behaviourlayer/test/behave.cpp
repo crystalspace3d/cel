@@ -29,6 +29,7 @@
 #include "propclass/meshsel.h"
 #include "propclass/tooltip.h"
 #include "propclass/camera.h"
+#include "propclass/defcam.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/actormove.h"
@@ -317,8 +318,9 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
     else if (!strcmp (msg_id+15, "cammode1"))
     {
       pcactormove->ToggleCameraMode ();
-      csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
-      printf ("%s\n", pccamera->GetModeName ()); fflush (stdout);
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
+      if (pcdefcamera)
+        printf ("%s\n", pcdefcamera->GetModeName ()); fflush (stdout);
     }
     return true;
   }

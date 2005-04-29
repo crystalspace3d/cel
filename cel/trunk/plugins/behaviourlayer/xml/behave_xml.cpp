@@ -278,7 +278,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
       return false;
     }
     pccamera = SCF_QUERY_INTERFACE (pc, iPcCamera);
-    pccamera->SetMode (iPcCamera::firstperson);
+    //pccamera->SetMode (iPcCamera::firstperson);
     pccamera->SetRegion (pcregion);
 
     return true;

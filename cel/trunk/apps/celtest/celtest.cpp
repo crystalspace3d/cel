@@ -76,7 +76,7 @@
 #include "propclass/chars.h"
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
-#include "propclass/camera.h"
+#include "propclass/defcam.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
@@ -273,7 +273,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pccommandinput",
-	"pccamera",
+	"pcdefaultcamera",
 	"pcactormove",
 	"pcmesh",
 	"pcmeshselect",
@@ -294,21 +294,21 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("d", "straferight");
   pcinp->Bind (" ", "jump");
 
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcCamera);
-  pccamera->SetMode (iPcCamera::firstperson);
+  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcDefaultCamera);
+  pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
-  pccamera->SetMode (iPcCamera::thirdperson);
+  pccamera->SetMode (iPcDefaultCamera::thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMode (iPcCamera::m64_thirdperson);
+  pccamera->SetMode (iPcDefaultCamera::m64_thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
   pccamera->SetTurnSpeed (1.0f);
-  pccamera->SetMode (iPcCamera::lara_thirdperson);
+  pccamera->SetMode (iPcDefaultCamera::lara_thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
   pccamera->SetTurnSpeed (1.0f);
   pccamera->SetSwingCoef (0.7f);
-  pccamera->SetMode (iPcCamera::freelook);
+  pccamera->SetMode (iPcDefaultCamera::freelook);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
@@ -750,7 +750,7 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.camera"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
     return false;

@@ -1,6 +1,8 @@
 SubDir TOP plugins propclass ;
 
 SubInclude TOP plugins propclass engine ;
+SubInclude TOP plugins propclass defcam ;
+SubInclude TOP plugins propclass simpcam ;
 SubInclude TOP plugins propclass input ;
 SubInclude TOP plugins propclass inv ;
 SubInclude TOP plugins propclass mesh ;

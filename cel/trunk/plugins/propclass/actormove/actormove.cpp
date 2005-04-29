@@ -107,6 +107,7 @@ void celPcActorMove::FindSiblingPropertyClasses ()
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+    pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
     checked_spritestate = false;
   }
 }
@@ -271,13 +272,13 @@ void celPcActorMove::HandleMovement (bool jump)
 void celPcActorMove::ToggleCameraMode ()
 {
   FindSiblingPropertyClasses ();
-  if (!pccamera)
+  if (!pcdefcamera)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pccamera is missing!");
+		    "cel.pcactormove", "pcdefaultcamera is missing!");
     return;
   }
-  pccamera->SetMode (pccamera->GetNextMode ());
+  pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
 }
 
 //---------------------------------------------------------------------------

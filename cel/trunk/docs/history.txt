@@ -4,6 +4,13 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 29-Apr-2005
+	- David Bronke split up iPcCamera and celPcCamera into a new, more
+	  general camera architecture. iPcCamera is now the basic camera
+	  interface, the original iPcCamera has become iPcDefaultCamera, and a
+	  new iPcSimpleCamera has been added. celPcCamera is now simply a
+	  default implementation, and no longer provides an implementation for
+	  iPcCamera directly. Instead, you must use one of the specific
+	  implementations: celPcDefaultCamera or celPcSimpleCamera.
 	- Eric Sunshine (blindly) fixed bug in celPersistClassic::Read() where
 	  `entid' was being used uninitialized.
 	- Jorrit added a test to iCelPlLayer->RemoveEntities() that only occurs

@@ -36,124 +36,32 @@ SCF_VERSION (iPcCamera, 0, 0, 3);
 struct iPcCamera : public iBase
 {
   /**
-   * Camera modes
-   */
-  enum CameraMode
-  {
-    freelook = 0,
-    firstperson,
-    thirdperson,
-    m64_thirdperson,
-    lara_thirdperson,
-
-    actual_data,	// The actual camera data
-    last_actual,	// Keep reference to the actual data last frame
-    transition,
-    camerror,		// Error between actual camera pos and ideal.
-
-    CameraMode_count
-  };
-
-  /**
    * Set Camera to a Region
+   * \param region is a pointer to the region to add the camera to.
+   * \param point if true, set the camera to a given start position.
+   * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetRegion (iPcRegion* region, bool point = true,
       const char* name = 0) = 0;
 
   /**
    * Set Camera to a zone manager
+   * \param zonemgr is a pointer to the zone manager to add the camera to.
+   * \param point if true, set the camera to a given start position.
+   * \param regionname is the name of the region to add the camera to.
+   * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
       const char* regionname, const char* name = 0) = 0;
 
   /**
-   * Set camera mode.
-   */
-  virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
-  /**
-   * Get camera mode.
-   */
-  virtual CameraMode GetMode () const = 0;
-
-  /**
-   * Set camera mode by name.
-   */
-  virtual bool SetModeName (const char* m, bool use_cd = true) = 0;
-  /**
-   * Get camera mode name.
-   */
-  virtual const char* GetModeName () const = 0;
-
-  /**
-   * Get next possible camera mode. This is useful for looping over
-   * all camera modes with some key in a game.
-   */
-  virtual CameraMode GetNextMode () const = 0;
-
-  /**
-   * Set spring parameters for the current camera mode.
-   */
-  virtual void SetSpringParameters (float springCoef,
-  	float intertialDampeningCoef, float springLength) = 0;
-
-  /**
-   * Set the minimum and maximum distance between camera and
-   * player. Only used by m64_thirdperson, lara_thirdperson, and
-   * freelook.
-   */
-  virtual void SetMinMaxCameraDistance (float minDistance,
-  	float maxDistance) = 0;
-
-  /** 
-   * Set the turn speed for the camera. Only used by lara_thirdperson
-   * and m64_thirdperson.
-   */
-  virtual void SetTurnSpeed (float turnSpeed) = 0;
-
-  /**
-   * Set the swing coefficient for the camera. Only used by lara_thirdperson.
-   */
-  virtual void SetSwingCoef (float swingCoef) = 0;
-
-  /**
-   * Set offset for first person camera (offset for camera
-   * relative to player model).
-   */
-  virtual void SetFirstPersonOffset (const csVector3& offset) = 0;
-
-  /**
-   * Set offset for third person camera (offset for camera
-   * relative to player model).
-   */
-  virtual void SetThirdPersonOffset (const csVector3& offset) = 0;
-
-  /**
-   * Center camera in any mode except first person mode. This will
-   * basically force the camera behind the actor.
-   */
-  virtual void CenterCamera () = 0; 
-
-  /**
-   * Control pitch.
-   */
-  virtual void SetPitch (float pitch) = 0;
-  /**
-   * Get current pitch.
-   */
-  virtual float GetPitch () const = 0;
-
-  /**
-   * Control velocity of pitch. This can be useful for looking up or
-   * down.
-   */
-  virtual void SetPitchVelocity (float pitchVel) = 0;
-  /**
-   * Get current pitch velocity.
-   */
-  virtual float GetPitchVelocity () const = 0;
-
-  /**
    * Set the view rectangle to use on screen.
+   * \param x is the distance from the left side of the screen to the left side
+   *        of the view.
+   * \param y is the distance from the top of the screen to the top of the
+   *        view.
+   * \param w is the width of the view.
+   * \param h is the height of the view.
    */
   virtual void SetRectangle (int x, int y, int w, int h) = 0;
 
@@ -168,76 +76,45 @@ struct iPcCamera : public iBase
   virtual iView* GetView () const = 0;
 
   /**
-   * Moves the pitch (up/down) of the camera
-   * @param deltaPitch the amount to move from the current pitch
-   * @param mode Optional - the camera mode to apply it to (leave blank for
-   * current)
-   */
-  virtual void MovePitch (float deltaPitch, int mode = -1) = 0;
-
-  /**
-   * Sets the yaw (left/right) of the camera
-   * @param yaw the new yaw of the camera
-   * @param mode Optional - the camera mode to apply it to (leave blank for
-   * current)
-   */
-  virtual void SetYaw (float yaw, int mode = -1) = 0;
-
-  /**
-   * Moves the yaw (left/right) of the camera
-   * @param deltaYaw the amount to move from the current yaw
-   * @param mode Optional - the camera mode to apply it to (leave blank for
-   * current)
-   */
-  virtual void MoveYaw (float deltaYaw, int mode = -1) = 0;
-
-  /**
-   * Returns the yaw (left/right) of the camera
-   * @param mode Optional - the camera mode to get it from (leave blank for
-   * current)
-   * @return the yaw (left/right) of the camera
-   */
-  virtual float GetYaw (int mode = -1) const = 0;
-
-  /**
-   * Sets the yaw (up/down) velocity of the camera
-   * @param yawVel the velocity of the yaw
-   */
-  virtual void SetYawVelocity (float yawVel) = 0;
-
-  /**
-   * Gets the yaw (up/down) velocity of the camera
-   * @return the yaw (up/down) of the camera
-   */
-  virtual float GetYawVelocity () const = 0;
-
-  /**
    * Set flag indicating if the camera should clear z-buffer every frame.
    * Off by default unless the loaded map specifies this.
+   * \param flag if set to true, the camera will clear the z-buffer every
+   *        frame, otherwise it will not clear the z-buffer.
    */
   virtual void SetClearZBuffer (bool flag) = 0;
 
-  /// Get the clear zbuffer flag.
+  /**
+   * Get the clear zbuffer flag.
+   */
   virtual bool GetClearZBuffer () const = 0;
 
   /**
    * Set flag indicating if the camera should clear screen every frame.
    * Off by default unless the loaded map specifies this.
+   * \param flag if set to true, the camera will clear the screen every frame,
+   *        otherwise it will not clear the screen.
    */
   virtual void SetClearScreen (bool flag) = 0;
 
-  /// Get the clear screen flag.
+  /**
+   * Get the clear screen flag.
+   */
   virtual bool GetClearScreen () const = 0;
 
-  /// Disable distance clipping.
+  /**
+   * Disable distance clipping.
+   */
   virtual void DisableDistanceClipping () = 0;
+
   /**
    * Enable fixed distance clipping.
    * In this mode there is a fixed plane at the specified distance.
    * All geometry that is fully behind that plane will not be rendered.
    * This can speed up rendering.
+   * \param dist is the distance from the camera to the "far" clipping plane.
    */
   virtual void EnableFixedDistanceClipping (float dist) = 0;
+
   /**
    * Enable adaptive distance clipping. In this mode the clipping plane
    * will vary depending on the desired minimum and maximum fps.
@@ -250,45 +127,49 @@ struct iPcCamera : public iBase
    */
   virtual void EnableAdaptiveDistanceClipping (float min_fps,
 	float max_fps, float min_dist) = 0;
+
   /**
    * Returns true if we use distance clipping (either fixed or adaptive).
    */
   virtual bool UseDistanceClipping () const = 0;
+
   /**
    * Returns true if we use fixed distance clipping (as opposed to adaptive).
    */
   virtual bool UseFixedDistanceClipping () const = 0;
+
   /**
    * Get the fixed distance (returns < 0 if adaptive is used).
    */
   virtual float GetFixedDistance () const = 0;
+
   /**
    * Get the minimum fps used for adaptive distance clipping.
    */
   virtual float GetAdaptiveMinFPS () const = 0;
+
   /**
    * Get the maximum fps used for adaptive distance clipping.
    */
   virtual float GetAdaptiveMaxFPS () const = 0;
+
   /**
    * Get the minimum distance used for adaptive distance clipping.
    */
   virtual float GetAdaptiveMinDistance () const = 0;
+
   /**
    * Set the auto-draw option. If this option is enabled, the camera will
    * automatically render.
+   * \param auto_draw will cause the camera to automatically render every frame
+   *        if set to true, or do nothing if set to false.
    */
   virtual void SetAutoDraw (bool auto_draw) = 0;
+
   /**
    * Render. This will clear the screen then draw on top of it.
    */
-  virtual void Draw() = 0;
-  /**
-   * Set the distance between the character's eyes and the camera.
-   * The camera algorithms are responsible for calculating the actual
-   * position of the camera.
-   */
-  virtual void SetDistance (float distance, int mode=-1) = 0;
+  virtual void Draw () = 0;
 };
 
 #endif // __CEL_PF_CAMERA__
