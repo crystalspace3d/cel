@@ -3,6 +3,9 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+29-Apr-2005
+	- Eric Sunshine (blindly) fixed bug in celPersistClassic::Read() where
+	  `entid' was being used uninitialized.
 28-Apr-2005
 	- Jorrit fixed classic persistence plugin so it also correctly saves
 	  and loads entities. Also cleaned it up slightly.
