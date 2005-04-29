@@ -97,8 +97,9 @@ struct iPcLinearMovement : public iBase
    * Initialize CD box for the object from a mesh.
    * \param mesh is the mesh from which to calculate the entire box.
    * \param percentage is a number between 0 and 100 indicating where
-   * the 'legs' collider stops and the 'body' collider starts. 0 means
-   * a very thin 'legs' collider and 100 a very thin 'body' collider.
+   *        the 'legs' collider stops and the 'body' collider starts. 0 means
+   *        a very thin 'legs' collider and 100 a very thin 'body' collider.
+   * \param pc_cd is a pointer to the collision detection property class.
    */
   virtual bool InitCD (iMeshWrapper* mesh, float percentage,
   	iPcCollisionDetection* pc_cd = 0) = 0;

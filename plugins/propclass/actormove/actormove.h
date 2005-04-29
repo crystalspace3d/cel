@@ -40,6 +40,7 @@
 #include "propclass/npcmove.h"
 #include "propclass/linmove.h"
 #include "propclass/camera.h"
+#include "propclass/defcam.h"
 #include "propclass/mesh.h"
 
 struct iCelEntity;
@@ -63,6 +64,7 @@ private:
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcCamera> pccamera;
+  csWeakRef<iPcDefaultCamera> pcdefcamera;
 
   bool checked_spritestate;
   csWeakRef<iSpriteCal3DState> sprcal3d;
