@@ -6,6 +6,15 @@ The history order is reversed so that new features are at the top.
 29-Apr-2005
 	- Eric Sunshine (blindly) fixed bug in celPersistClassic::Read() where
 	  `entid' was being used uninitialized.
+	- Jorrit added a test to iCelPlLayer->RemoveEntities() that only occurs
+	  in debug mode. That test will check if any entities are still in
+	  memory after removing all entities from the physical layer. If so
+	  it will print out the entity names and the number of references.
+	- Jorrit worked around a problem where destroying an entity
+	  (RemoveEntity()) would cause the destructor of that entity (or
+	  a property class in that entity) to itself call RemoveEntity() again.
+	  The result of this would be two nested calls of csRefArray::Delete()
+	  which would corrupt the array.
 28-Apr-2005
 	- Jorrit fixed classic persistence plugin so it also correctly saves
 	  and loads entities. Also cleaned it up slightly.

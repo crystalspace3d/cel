@@ -151,8 +151,8 @@ bool CelTest::OnKeyboard (iEvent &ev)
       {
         printf ("Saved to /this/savefile!\n");
 	fflush (stdout);
-	pl->RemoveEntities ();
 	game = 0;
+	pl->RemoveEntities ();
       }
     }
     else if (code == 'l')
