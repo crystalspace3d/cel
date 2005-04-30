@@ -234,7 +234,7 @@ public:
     {
       scfParent->Draw ();
     }
-  } scfiPcSimpleCamera;
+  } scfiPcSimpleCamera, scfiPcCamera;
 };
 
 #endif // __CEL_PF_SIMPLE_CAMERA_FACTORY__

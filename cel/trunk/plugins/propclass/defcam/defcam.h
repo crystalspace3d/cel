@@ -817,7 +817,7 @@ public:
     {
       scfParent->Draw ();
     }
-  } scfiPcDefaultCamera;
+  } scfiPcDefaultCamera, scfiPcCamera;
 };
 
 #endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__
