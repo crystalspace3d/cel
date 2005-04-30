@@ -473,11 +473,8 @@ bool CelTest::CreateRoom ()
 
   entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
   if (!entity_dummy) return false;
-  printf ("1\n"); fflush (stdout);
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity_dummy, iPcCamera);
-  printf ("2\n"); fflush (stdout);
   if (!pccamera) return false;
-  printf ("3\n"); fflush (stdout);
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
   entity_quest = CreateQuest ("myquest");
