@@ -318,7 +318,8 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
     else if (!strcmp (msg_id+15, "cammode1"))
     {
       pcactormove->ToggleCameraMode ();
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
       if (pcdefcamera)
         printf ("%s\n", pcdefcamera->GetModeName ()); fflush (stdout);
     }

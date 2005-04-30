@@ -948,7 +948,8 @@ void celPcDefaultCamera::CheckModeChange ()
   inTransitionPhase = true;
 }
 
-bool celPcDefaultCamera::SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd)
+bool celPcDefaultCamera::SetMode (iPcDefaultCamera::CameraMode cammode,
+	bool use_cd)
 {
   // Reset camera velocities.
   SetYawVelocity (0.0f);
