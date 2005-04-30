@@ -134,7 +134,7 @@ public:
 
   void SetAutoDraw (bool auto_draw);
 
-  void Draw ();
+  virtual void Draw ();
 
   virtual const char* GetName () const { return "pccamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
