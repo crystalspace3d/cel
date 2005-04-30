@@ -74,16 +74,19 @@ csStringID celPcSimpleCamera::param_drawmesh = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcSimpleCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSimpleCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSimpleCamera::PcSimpleCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcSimpleCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   : celPcCameraCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);

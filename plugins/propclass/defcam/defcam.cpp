@@ -242,16 +242,19 @@ void CAFreeLook::SetupMode ()
 
 SCF_IMPLEMENT_IBASE_EXT (celPcDefaultCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcDefaultCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcDefaultCamera::PcDefaultCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcDefaultCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   : celPcCameraCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
   modeset_needed = false;
   cammode = iPcDefaultCamera::freelook;

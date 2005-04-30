@@ -22,6 +22,9 @@ The history order is reversed so that new features are at the top.
 	  a property class in that entity) to itself call RemoveEntity() again.
 	  The result of this would be two nested calls of csRefArray::Delete()
 	  which would corrupt the array.
+	- Jorrit fixed CEL so that CEL_QUERY_PROPCLASS_ENT for iPcCamera
+	  works again. celtest is still partially broken though. Camera
+	  modes don't work.
 28-Apr-2005
 	- Jorrit fixed classic persistence plugin so it also correctly saves
 	  and loads entities. Also cleaned it up slightly.
