@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass simpcam ;
+
+Plugin pfsimpcam
+	: simpcam.cpp simpcam.h
+;
+ExternalLibs pfsimpcam : CRYSTAL ;
+LinkWith pfsimpcam : celtool ;
+
