@@ -333,6 +333,7 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
 celPcDefaultCamera::~celPcDefaultCamera ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcDefaultCamera::FindSiblingPropertyClasses ()

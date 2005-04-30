@@ -126,6 +126,7 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
 celPcSimpleCamera::~celPcSimpleCamera ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcSimpleCamera::FindSiblingPropertyClasses ()
