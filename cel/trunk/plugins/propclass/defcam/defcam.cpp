@@ -1024,34 +1024,12 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
 csPtr<iCelDataBuffer> celPcDefaultCamera::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DEFAULT_CAMERA_SERIAL);
-
-  csRef<iCelPropertyClass> pc;
-  if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
-  databuf->Add (pc);
-  databuf->Add (view->GetCamera()->GetSector()->QueryObject()->GetName());
-  const csTransform& tr = view->GetCamera ()->GetTransform ();
-  databuf->Add (tr.GetO2TTranslation ());
-
-  databuf->Add (tr.GetO2T ().m11);
-  databuf->Add (tr.GetO2T ().m12);
-  databuf->Add (tr.GetO2T ().m13);
-  databuf->Add (tr.GetO2T ().m21);
-  databuf->Add (tr.GetO2T ().m22);
-  databuf->Add (tr.GetO2T ().m23);
-  databuf->Add (tr.GetO2T ().m31);
-  databuf->Add (tr.GetO2T ().m32);
-  databuf->Add (tr.GetO2T ().m33);
+  SaveCommon (databuf);
 
   databuf->Add ((uint8)cammode);
   databuf->Add (use_cd);
-  databuf->Add (rect_set);
-  databuf->Add ((uint16)rect_x);
-  databuf->Add ((uint16)rect_y);
-  databuf->Add ((uint16)rect_w);
-  databuf->Add ((uint16)rect_h);
 
-  databuf->Add (clear_zbuf);
-  databuf->Add (clear_screen);
+  // @@@ TODO: save cammode specific parameters.
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -1065,56 +1043,12 @@ bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
     return false;
   }
 
-  csMatrix3 m_o2t;
-  csVector3 v_o2t;
+  if (!LoadCommon (databuf)) return false;
 
-  iCelPropertyClass* pc = databuf->GetPC ();
-  if (!pc)
-  {
-    Report (object_reg,"Cannot load property class.");
-    return false;
-  }
-  region = SCF_QUERY_INTERFACE (pc, iPcRegion);
-  if (region)
-    SetRegion (region, false, 0);
-
-  const char* sectname = databuf->GetString ()->GetData ();
-  iSector* sector = region->FindSector (sectname);
-  if (!sector)
-  {
-    Report (object_reg,"Illegal sector specified.  Cannot load.");
-    return false;
-  }
-  databuf->GetVector3 (v_o2t);
-
-  m_o2t.m11 = databuf->GetFloat ();
-  m_o2t.m12 = databuf->GetFloat ();
-  m_o2t.m13 = databuf->GetFloat ();
-  m_o2t.m21 = databuf->GetFloat ();
-  m_o2t.m22 = databuf->GetFloat ();
-  m_o2t.m23 = databuf->GetFloat ();
-  m_o2t.m31 = databuf->GetFloat ();
-  m_o2t.m32 = databuf->GetFloat ();
-  m_o2t.m33 = databuf->GetFloat ();
-
-  view->GetCamera ()->SetSector(sector);
-  csOrthoTransform tr (m_o2t, v_o2t);
-  view->GetCamera ()->SetTransform (tr);
-
-  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf->GetUInt8 ();
+  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf
+  	->GetUInt8 ();
   bool cd = databuf->GetBool ();
-  rect_set = databuf->GetBool ();
-  rect_x = databuf->GetUInt16 ();
-  rect_y = databuf->GetUInt16 ();
-  rect_w = databuf->GetUInt16 ();
-  rect_h = databuf->GetUInt16 ();
-
-  clear_zbuf = databuf->GetBool ();
-  clear_screen = databuf->GetBool ();
   SetMode (mode, cd);
-
-  if (rect_set)
-    view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
 
   return true;
 }
