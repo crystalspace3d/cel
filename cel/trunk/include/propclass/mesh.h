@@ -69,8 +69,11 @@ struct iPcMesh : public iBase
   /**
    * Set the mesh to use directly. It is normally not recommended to use
    * this function directly. iPcRegion will use it for its dummy entities.
+   * \param do_remove if true then this pcmesh will remove the mesh
+   * on destruction. By default this will not happen if you use SetMesh()
+   * on an already existing mesh.
    */
-  virtual void SetMesh (iMeshWrapper* mesh) = 0;
+  virtual void SetMesh (iMeshWrapper* mesh, bool do_remove = false) = 0;
 
   /**
    * Create an empty thing mesh (use instead of SetMesh()).
