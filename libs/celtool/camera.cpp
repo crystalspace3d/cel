@@ -222,12 +222,8 @@ void celPcCameraCommon::TickEveryFrame ()
   Draw();
 }
 
-#define CAMERA_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcCameraCommon::Save ()
+void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
 {
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
-
   csRef<iCelPropertyClass> pc;
   if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
   databuf->Add (pc);
@@ -253,19 +249,10 @@ csPtr<iCelDataBuffer> celPcCameraCommon::Save ()
 
   databuf->Add (clear_zbuf);
   databuf->Add (clear_screen);
-
-  return csPtr<iCelDataBuffer> (databuf);
 }
 
-bool celPcCameraCommon::Load (iCelDataBuffer* databuf)
+bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
 {
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != CAMERA_SERIAL)
-  {
-    Report (object_reg, "serialnr != CAMERA_SERIAL.  Cannot load.");
-    return false;
-  }
-
   csMatrix3 m_o2t;
   csVector3 v_o2t;
 
@@ -315,6 +302,26 @@ bool celPcCameraCommon::Load (iCelDataBuffer* databuf)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
 
   return true;
+}
+
+#define CAMERA_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcCameraCommon::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
+  SaveCommon (databuf);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCameraCommon::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+  return LoadCommon (databuf);
 }
 
 //---------------------------------------------------------------------------

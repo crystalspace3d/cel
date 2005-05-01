@@ -134,6 +134,17 @@ public:
 
   void SetAutoDraw (bool auto_draw);
 
+  /**
+   * In the Save() implementation of the subclass you can call this
+   * function to save the common data members.
+   */
+  void SaveCommon (iCelDataBuffer* databuf);
+  /**
+   * In the Load() implementation of the subclass you can call this
+   * function to load the common data members. Returns false on failure.
+   */
+  bool LoadCommon (iCelDataBuffer* databuf);
+
   virtual void Draw ();
 
   virtual const char* GetName () const { return "pccamera"; }

@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	  pcmesh to remove the mesh even if it was not created inside pcmesh.
 	  So call pcmesh->SetMesh (mesh, true) if you want pcmesh to destroy
 	  the mesh wrapper when the pcmesh itself is destroyed.
+	- Jorrit added celPcCameraCommon::LoadCommon() and SaveCommon().
+	  Subclasses of celPcCameraCommon can use that in their Load()/Save()
+	  implementations to save or load the common camera fields.
 30-Apr-2005
 	- Jorrit fixed CEL so that CEL_QUERY_PROPCLASS_ENT for iPcCamera
 	  works again. celtest is still partially broken though. Camera
