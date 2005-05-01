@@ -137,6 +137,7 @@ void celPcMesh::RemoveMesh ()
   {
     if (pl)
       pl->UnattachEntity (mesh->QueryObject (), entity);
+    // CEL_CREATE_MESHREMOVE is also removed here.
     if (creation_flag != CEL_CREATE_MESH)
       engine->RemoveObject (mesh);
     mesh = 0;
@@ -204,7 +205,8 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
     databuf->Add (fileName);
     databuf->Add (path);
   }
-  else if (creation_flag == CEL_CREATE_MESH)
+  else if (creation_flag == CEL_CREATE_MESH
+  	|| creation_flag == CEL_CREATE_MESHREMOVE)
   {
     /// @@@ Note: this requires a unique name for the mesh!
     databuf->Add (mesh->QueryObject ()->GetName ());
@@ -265,7 +267,8 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
     SetPath (pathn);
     SetMesh (factn, filen);
   }
-  else if (creation_flag == CEL_CREATE_MESH)
+  else if (creation_flag == CEL_CREATE_MESH ||
+  	   creation_flag == CEL_CREATE_MESHREMOVE)
   {
     const char* meshname = databuf->GetString ()->GetData ();
     iMeshWrapper* m = engine->FindMeshObject (meshname);
@@ -275,7 +278,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
       	meshname);
       return false;
     }
-    SetMesh (m);
+    SetMesh (m, creation_flag == CEL_CREATE_MESHREMOVE);
   }
   else if (creation_flag == CEL_CREATE_THING)
   {
@@ -420,10 +423,13 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
   return true;
 }
 
-void celPcMesh::SetMesh (iMeshWrapper* m)
+void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
 {
   RemoveMesh ();
-  creation_flag = CEL_CREATE_MESH;
+  if (do_remove)
+    creation_flag = CEL_CREATE_MESHREMOVE;
+  else
+    creation_flag = CEL_CREATE_MESH;
   mesh = m;
   if (mesh)
     pl->AttachEntity (mesh->QueryObject (), entity);

@@ -627,7 +627,7 @@ public:
    */
   void SetSwingCoef (float swingCoef, int mode = -1);
 
-  void Draw ();
+  virtual void Draw ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 

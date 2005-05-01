@@ -66,6 +66,7 @@ private:
     CEL_CREATE_NONE = 0,
     CEL_CREATE_FACTORY,
     CEL_CREATE_MESH,
+    CEL_CREATE_MESHREMOVE,
     CEL_CREATE_THING
   };
 
@@ -104,7 +105,7 @@ public:
   /**
    * Assign a mesh from a meshwrapper to this pcmesh.
    */
-  void SetMesh (iMeshWrapper* mesh);
+  void SetMesh (iMeshWrapper* mesh, bool do_remove);
   /**
    * Creates an empty thing mesh for this pcmesh-entity.
    */
@@ -161,9 +162,9 @@ public:
     {
       return scfParent->SetMesh (factname, filename);
     }
-    virtual void SetMesh (iMeshWrapper* mesh)
+    virtual void SetMesh (iMeshWrapper* mesh, bool do_remove)
     {
-      scfParent->SetMesh (mesh);
+      scfParent->SetMesh (mesh, do_remove);
     }
     virtual void CreateEmptyThing ()
     {
