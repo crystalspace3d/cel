@@ -3,6 +3,24 @@ http://cel.sourceforge.net/
 
 The history order is reversed so that new features are at the top.
 
+2-May-2005
+	- Eric Sunshine rewrote blcel.i essentially from scratch, eliminating
+	  all of ugly copy/paste content, and making it much, much simpler to
+	  maintain.
+	- Eric Sunshine updated blcel.i to account for camera refactoring by
+	  David Bronke.
+	- Eric Sunshine fixed linkage problem in Python behaviour layer where
+	  conflicting definitions of Swig runtime code were found in both
+	  libcrystalspace_python.a and blcel.o. Specifically, removed #define
+	  SWIG_GLOBAL since CEL now inherits the Swig runtime goop from
+	  libcrystalspace_python.a.
+	- Eric Sunshine added configure.ac checks for compilation warning
+	  enabling and disabling flags. The Python behaviour layer now employs
+	  these flags at build time to turn off some warnings from
+	  Swig-generated code over which we have no control. This makes the
+	  build log more friendly.
+	- Eric Sunshine re-ordered some #include statements in Python-related
+	  files in order to eliminate some compilation warnings.
 1-May-2005
 	- Jorrit added a parameter to iPcMesh->SetMesh() so that you can force
 	  pcmesh to remove the mesh even if it was not created inside pcmesh.

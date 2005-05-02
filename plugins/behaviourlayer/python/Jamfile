@@ -52,5 +52,7 @@ if $(PYTHON.AVAILABLE) = yes
   Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp ;
   LinkWith blpython : celtool ;
   ExternalLibs blpython : PYTHON CRYSTAL ;
-  CFlags blpython : [ FDefines SWIG_GLOBAL ] ;
+  CFlags blpython :
+    $(COMPILER.C++FLAGS.WARNING.NO_UNUSED) 
+    $(COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED) ;
 }

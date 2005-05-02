@@ -3,10 +3,6 @@
 
 %import "ivaria/cspace.i"
 
-%ignore csInitializer::RequestPlugins;
-%ignore csInitializer::RequestPluginsV;
-%include "celtool/initapp.h"
-
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
@@ -19,6 +15,8 @@
 #include "behaviourlayer/behave.h"
 #include "propclass/region.h"
 #include "propclass/camera.h"
+#include "propclass/defcam.h"
+#include "propclass/simpcam.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/timer.h"
@@ -74,10 +72,9 @@
 
 %}
 
-
-//=======================================================================
-
-// some macros
+//=============================================================================
+// Helper macros.
+//=============================================================================
 
 %define CEL_PC_CREATE(pcType, funcName, pcname)
 %inline %{
@@ -131,22 +128,17 @@ CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 %enddef
 
-// ======================================================================
-struct iCelPlLayer : public iBase
-{
-  //virtual csPtr<iCelEntity> CreateEntity ();
-  virtual iCelEntity* FindEntity (const char* name) = 0;
-  virtual void RemoveEntity (iCelEntity* entity) = 0;
-  virtual bool LoadPropertyClassFactory (const char* plugin_id) = 0;
-  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
-  	const char* propname);
-  virtual const char* FetchString (csStringID id);
+//=============================================================================
+// Published interfaces and functions.
+//=============================================================================
 
-  virtual int GetBehaviourLayerCount () const = 0;
-  virtual iCelBlLayer* GetBehaviourLayer (int idx) const = 0;
-  virtual iCelBlLayer* FindBehaviourLayer (const char* name) const = 0;  
-};
+%ignore celInitializer::RequestPlugins;
+%ignore celInitializer::RequestPluginsV;
+%include "celtool/initapp.h"
 
+//-----------------------------------------------------------------------------
+
+%include "physicallayer/pl.h"
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 {
@@ -155,27 +147,17 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 }
 %}
 
-struct iCelEntity : public iBase
-{
-  const char* GetName () const;
-  void SetName (const char* n);
-  
-  virtual void SetBehaviour (iCelBehaviour* ent);
-  virtual iCelBehaviour* GetBehaviour ();
+//-----------------------------------------------------------------------------
 
-  virtual uint GetID () const = 0;
-
-  iCelPropertyClassList* GetPropertyClassList ();
-
-  %extend {
-    iCelBehaviour *CreateBehaviour(iCelBlLayer *bl, const char *name)
-    {
-      csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
-      if (!bh.IsValid()) return 0;
-      return bh;
-    }
+%include "physicallayer/entity.h"
+%extend iCelEntity {
+  iCelBehaviour *CreateBehaviour(iCelBlLayer *bl, const char *name)
+  {
+    csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
+    if (!bh.IsValid()) return 0;
+    return bh;
   }
-};
+}
 
 %inline %{
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
@@ -206,18 +188,6 @@ iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 }
 %}
 
-struct iCelEntityList : public iBase
-{
-  virtual int GetCount () const = 0;
-  virtual iCelEntity* Get (int n) const = 0;
-  virtual int Add (iCelEntity* obj) = 0;
-  virtual bool Remove (iCelEntity* obj) = 0;
-  virtual bool Remove (int n) = 0;
-  virtual void RemoveAll () = 0;
-  virtual int Find (iCelEntity* obj) const = 0;
-  virtual iCelEntity* FindByName (const char *Name) const = 0;
-};
-
 %inline %{
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 	iSector *sector, csVector3 pos, float radius)
@@ -230,13 +200,9 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 }
 %}
 
-struct iCelBlLayer : public iBase
-{
-  virtual const char* GetName () const = 0;
-  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
-  	const char* name) = 0;
-};
+//-----------------------------------------------------------------------------
 
+%include "behaviourlayer/bl.h"
 %inline %{
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
@@ -245,187 +211,62 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 }
 %}
 
-struct iCelParameterBlock : public iBase
-{
-  virtual int GetParameterCount () const = 0;
-  virtual const char* GetParameter (int idx, csStringID& id,
-  	celDataType& t) const = 0;
-  virtual const celData* GetParameter (csStringID id) const = 0;
-};
+//-----------------------------------------------------------------------------
 
-struct iCelBehaviour : public iBase
-{
-  virtual const char* GetName () const = 0;
-  virtual iCelBlLayer* GetBehaviourLayer () const = 0;
-  virtual bool SendMessage(const char* msg_id,
-  	iCelPropertyClass* pc, celData& ret,
-	iCelParameterBlock *params) = 0;
-
-  %extend {
-    PyObject *GetPythonObject()
-    {
-      PyObject* obj = (PyObject*)(self->GetInternalObject());
-      Py_INCREF (obj);
-      return obj;
-    }
-  }
-};
-
-struct iCelPropertyClass : public iBase
-{
-  virtual const char* GetName () const = 0;
-
-  virtual iCelEntity* GetEntity () = 0;
-  virtual void SetEntity (iCelEntity* entity) = 0;
-
-  virtual celDataType GetPropertyOrActionType (
-  	csStringID propertyID) = 0;
-
-  virtual bool IsPropertyReadOnly (csStringID propertyID) = 0;
-  virtual long GetPropertyLong (csStringID propertyID) = 0;
-  virtual float GetPropertyFloat (csStringID propertyID) = 0;
-  virtual bool GetPropertyBool (csStringID propertyID) = 0;
-  virtual const char* GetPropertyString (csStringID propertyID) = 0;
-  virtual bool GetPropertyVector (csStringID propertyID, csVector3& v) = 0;
-  virtual int GetPropertyAndActionCount () const = 0;
-  virtual csStringID GetPropertyOrActionID (int i) = 0;
-  virtual const char* GetPropertyOrActionDescription (csStringID propertyID) = 0;
-
-  virtual bool PerformAction (csStringID actionID, 
-  	iCelParameterBlock* params) = 0;
-
-  %extend
+%ignore iCelBehaviour::SendMessageV;
+%include "behaviourlayer/behave.h"
+%extend iCelBehaviour {
+  PyObject *GetPythonObject()
   {
-    bool SetPropertyLong (csStringID id, long l )
-    { return self->SetProperty (id, l); }
-    bool SetPropertyFloat (csStringID id, float f)
-    { return self->SetProperty (id, f); }
-    bool SetPropertyBool (csStringID id, bool b)
-    { return self->SetProperty (id, b); }
-    bool SetPropertyString (csStringID id, const char* s)
-    { return self->SetProperty (id, s); }
-    bool SetPropertyVector3 (csStringID id, const csVector3& v)
-    { return self->SetProperty (id, v); }
+    PyObject* obj = (PyObject*)(self->GetInternalObject());
+    Py_INCREF (obj);
+    return obj;
   }
-};
+}
 
-struct iCelPropertyClassList : public iBase
-{
-  virtual int GetCount ();
-  virtual iCelPropertyClass* Get (int n);
-  virtual int Find (iCelPropertyClass* obj);
-  virtual iCelPropertyClass* FindByName (const char *Name);
-  virtual iBase* FindByInterface (scfInterfaceID id, int version);
-};
+//-----------------------------------------------------------------------------
 
-//=======================================================================
+%ignore iCelPropertyClass::SetProperty;
+%include "physicallayer/propclas.h"
+%extend iCelPropertyClass {
+  bool SetPropertyLong (csStringID id, long l )
+  { return self->SetProperty (id, l); }
+  bool SetPropertyFloat (csStringID id, float f)
+  { return self->SetProperty (id, f); }
+  bool SetPropertyBool (csStringID id, bool b)
+  { return self->SetProperty (id, b); }
+  bool SetPropertyString (csStringID id, const char* s)
+  { return self->SetProperty (id, s); }
+  bool SetPropertyVector3 (csStringID id, const csVector3& v)
+  { return self->SetProperty (id, v); }
+}
 
-struct iPcDynamicSystem : public iBase
-{
-  virtual iDynamicSystem* GetDynamicSystem () = 0;
-  virtual void AddForceDuration (iPcDynamicBody* pcbody,
-  	const csVector3& force, float seconds) = 0;
-  virtual void AddForceFrame (iPcDynamicBody* pcbody,
-  	const csVector3& force) = 0;
-  virtual void ClearForces (iPcDynamicBody* pcbody) = 0;
-  virtual void ClearAllForces () = 0;
-};
+//-----------------------------------------------------------------------------
 
+%include "propclass/dynmove.h"
 CEL_PC(iPcDynamicSystem, DynamicSystem, pcdynsys)
 CEL_PC_QUERY_CLASSLIST(iPcDynamicSystem)
-
-//=======================================================================
-
-struct iPcDynamicBody : public iBase
-{
-  virtual void SetMesh (iPcMesh* mesh) = 0;
-  virtual iPcMesh* GetMesh () = 0;
-  virtual void SetDynamicSystem (iPcDynamicSystem* dynsys) = 0;
-  virtual iPcDynamicSystem* GetDynamicSystem () = 0;
-  virtual iRigidBody* GetBody () = 0;
-  virtual void SetParameters (float friction, float density,
-  	float elasticity, float softness, float mass) = 0;
-  virtual void MakeStatic (bool stat) = 0;
-  virtual bool IsStatic () const = 0;
-  virtual void AttachColliderSphere (float radius, const csVector3& offset) = 0;
-  virtual void AttachColliderCylinder (float length, float radius,
-  	const csOrthoTransform& trans) = 0;
-  virtual void AttachColliderBox (const csVector3& size,
-  	const csOrthoTransform& trans) = 0;
-  virtual void AttachColliderPlane (const csPlane3& plane) = 0;
-  virtual void AttachColliderMesh () = 0;
-  virtual void AddForceOnce (const csVector3& force) = 0;
-  virtual void AddForceDuration (const csVector3& force, float seconds) = 0;
-  virtual void AddForceFrame (const csVector3& force) = 0;
-  virtual void ClearForces () = 0;
-};
-
 CEL_PC(iPcDynamicBody, DynamicBody, pcdynbody)
 CEL_PC_QUERY_CLASSLIST(iPcDynamicBody)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iBillboard : public iBase
-{
-  virtual const char* GetName () const = 0;
-  virtual csFlags& GetFlags () = 0;
-  virtual bool SetMaterialName (const char* matname) = 0;
-  virtual const char* GetMaterialName () = 0;
-  virtual void SetSize (int w, int h) = 0;
-  virtual void GetImageSize (int& w, int& h) = 0;
-  virtual void GetSize (int& w, int& h) = 0;
-  virtual void SetPosition (int x, int y) = 0;
-  virtual void GetPosition (int& x, int& y) const = 0;
-  virtual void Move (int dx, int dy) = 0;
-};
+%include "tools/billboard.h"
 
-struct iBillboardManager : public iBase
-{
-  virtual iBillboard* CreateBillboard (const char* name) = 0;
-  virtual iBillboard* FindBillboard (const char* name) const = 0;
-  virtual void RemoveBillboard (iBillboard* billboard) = 0;
-  virtual int GetBillboardCount () const = 0;
-  virtual iBillboard* GetBillboard (int idx) const = 0;
-  virtual void RemoveAll () = 0;
-  virtual void SetFlags (uint32 flags, uint32 mask) = 0;
-};
-
-struct iPcBillboard : public iBase
-{
-  virtual void SetBillboardName (const char* name) = 0;
-  virtual const char* GetBillboardName () = 0;
-  virtual iBillboard* GetBillboard () = 0;
-};
-
+%include "propclass/billboard.h"
 CEL_PC(iPcBillboard, Billboard, pcbillboard)
 CEL_PC_QUERY_CLASSLIST(iPcBillboard)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcRegion : public iBase
-{
-  virtual void SetWorldFile (const char* vfsdir, const char* name) = 0;
-  virtual const char* GetWorldDir () const = 0;
-  virtual const char* GetWorldFile () const = 0;
-  virtual void CreateEmptySector (const char* name) = 0;
-  virtual void SetRegionName (const char* name) = 0;
-  virtual const char* GetRegionName () const = 0;
-  virtual bool Load () = 0;
-  virtual void Unload () = 0;
-  virtual iSector* FindSector (const char* sectorname) = 0;
-  virtual iSector* GetStartSector (const char* name = 0) = 0;
-  virtual csVector3 GetStartPosition (const char* name = 0) = 0;
-  virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
-  
-  %extend {
-    bool LoadWorld (const char *vfsdir, const char *name)
-    {
-      self->SetWorldFile (vfsdir, name);
-      return self->Load ();
-    }
+%include "propclass/region.h"
+%extend iPcRegion {
+  bool LoadWorld (const char *vfsdir, const char *name)
+  {
+    self->SetWorldFile (vfsdir, name);
+    return self->Load ();
   }
-
-};
+}
 
 %inline %{
 iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
@@ -444,276 +285,71 @@ CEL_PC_GET(iPcRegion, Region)
 CEL_PC_QUERY(iPcRegion)
 CEL_PC_QUERY_CLASSLIST(iPcRegion)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcCommandInput : public iBase
-{
-  virtual void Activate (bool activate=true) = 0;
-  virtual bool LoadConfig (const char* fname) = 0;
-  virtual bool Bind (const char* triggername, const char* command) = 0;
-  virtual const char* GetBind (const char* triggername) const = 0;
-  virtual bool RemoveBind (const char* triggername, const char* command) = 0;
-};
-
+%include "propclass/input.h"
 CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcLinearMovement : public iBase
-{
-  virtual void SetAngularVelocity (const csVector3& angle) = 0;
-  virtual void SetAngularVelocity (const csVector3& angle,
-  	const csVector3& angle_to_reach) = 0;
-  virtual void SetSpeed (float speedZ) = 0;
-  virtual void SetVelocity (const csVector3& vel) = 0;
-  virtual void GetVelocity (csVector3& v) const = 0;
-  virtual void GetAngularVelocity (csVector3& v) const = 0;
-  virtual bool InitCD (const csVector3& body, const csVector3& legs,
-  	const csVector3& shift,iPcCollisionDetection *pc_cd=0)=0;
-  virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;
-  virtual void GetDRData(bool& on_ground,
-                         float& speed,
-                         csVector3& pos,
-                         float& yrot,
-                         iSector*& sector,
-                         csVector3& vel,
-                         float& ang_vel) = 0;
-  virtual void SetDRData(bool on_ground,float speed,
-                         csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,float ang_vel) = 0;
-  virtual void SetPosition (const csVector3& pos, float yrot,
-  	const iSector* sector) = 0;
-  virtual void GetLastPosition (csVector3& pos, float& yrot,
-  	iSector*& sector) = 0;
-  virtual bool IsPath() const = 0;
-  virtual iSector* GetSector () = 0;
-  virtual void ExtrapolatePosition (float delta) = 0;
-  virtual void UpdateDRDelta (csTicks ticksdelta) = 0;
-  virtual void UpdateDR (csTicks ticks) = 0;
-  virtual void SetPath (iPath *newpath) = 0;
-  virtual void SetPathTime (float timeval) = 0;
-  virtual void SetPathSpeed (float speed) = 0;
-  virtual void SetPathAction (int which, const char *action) = 0;
-  virtual void SetPathSector (const char *sectorname) = 0;
-  virtual bool IsOnGround () const = 0;
-  virtual void SetDeltaLimit(float deltaLimit) = 0;
-};
-
+%include "propclass/linmove.h"
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcCamera : public iBase
-{
-  enum CameraMode
-  {
-    freelook = 0,
-    firstperson,
-    thirdperson,
-    m64_thirdperson,
-    lara_thirdperson
-  };
-  virtual bool SetRegion (iPcRegion* region, bool point = true,
-      const char* name = 0) = 0;
-  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-      const char* regionname, const char* name = 0) = 0;
-  virtual bool SetMode (CameraMode m, bool use_cd = true) = 0;
-  virtual CameraMode GetMode () const = 0;
-  virtual bool SetModeName (const char* m, bool use_cd = true) = 0;
-  virtual const char* GetModeName () const = 0;
-  virtual CameraMode GetNextMode () const = 0;
-  virtual void SetSpringParameters (float springCoef,
-  	float intertialDampeningCoef, float springLength) = 0;
-  virtual void SetMinMaxCameraDistance (float minDistance,
-  	float maxDistance) = 0;
-  virtual void SetTurnSpeed (float turnSpeed) = 0;
-  virtual void SetSwingCoef (float swingCoef) = 0;
-  virtual void SetFirstPersonOffset (const csVector3& offset) = 0;
-  virtual void SetThirdPersonOffset (const csVector3& offset) = 0;
-  virtual void SetRectangle (int x, int y, int w, int h) = 0;
-  virtual iCamera* GetCamera () const = 0;
-  virtual iView* GetView () const = 0;
-  virtual void SetClearZBuffer (bool flag) = 0;
-  virtual bool GetClearZBuffer () const = 0;
-  virtual void SetClearScreen (bool flag) = 0;
-  virtual bool GetClearScreen () const = 0;
-  virtual void DisableDistanceClipping () = 0;
-  virtual void EnableFixedDistanceClipping (float dist) = 0;
-  virtual void EnableAdaptiveDistanceClipping (float min_fps,
-	float max_fps, float min_dist) = 0;
-  virtual bool UseDistanceClipping () const = 0;
-  virtual bool UseFixedDistanceClipping () const = 0;
-  virtual float GetFixedDistance () const = 0;
-  virtual float GetAdaptiveMinFPS () const = 0;
-  virtual float GetAdaptiveMaxFPS () const = 0;
-  virtual float GetAdaptiveMinDistance () const = 0;
-};
-
+%include "propclass/camera.h"
 CEL_PC(iPcCamera, Camera, pccamera)
 
-//=======================================================================
+%include "propclass/defcam.h"
+CEL_PC(iPcDefaultCamera, DefaultCamera, pcdefcam)
 
-#define CEL_MOUSE_BUTTON1 1
-#define CEL_MOUSE_BUTTON2 2
-#define CEL_MOUSE_BUTTON3 4
+%include "propclass/simpcam.h"
+CEL_PC(iPcSimpleCamera, SimpleCamera, pcsimpcam)
 
-struct iPcMeshSelect : public iBase
-{
-  virtual void SetCamera (iPcCamera* camera) = 0;
-  virtual void SetMouseButtons (int buttons) = 0;
-  virtual int GetMouseButtons () const = 0;
-  virtual void SetGlobalSelection (bool glob) = 0;
-  virtual bool HasGlobalSelection () const = 0;
-  virtual void SetFollowMode (bool follow) = 0;
-  virtual bool HasFollowMode () const = 0;
-  virtual void SetFollowAlwaysMode (bool followalways) = 0;
-  virtual bool HasFollowAlwaysMode () const = 0;
-  virtual void SetDragMode (bool drag) = 0;
-  virtual bool HasDragMode () const = 0;
-  virtual void SetDragPlaneNormal (const csVector3& drag_normal,
-  	bool camera_space) = 0;
-  virtual void GetDragPlaneNormal (csVector3& drag_normal,
-  	bool& camera_space) const = 0;
-  virtual void SetSendmoveEvent (bool mov) = 0;
-  virtual bool HasSendmoveEvent () const = 0;
-  virtual void SetSendupEvent (bool su) = 0;
-  virtual bool HasSendupEvent () const = 0;
-  virtual void SetSenddownEvent (bool sd) = 0;
-  virtual bool HasSenddownEvent () const = 0;
-};
+//-----------------------------------------------------------------------------
 
+%include "propclass/meshsel.h"
 CEL_PC(iPcMeshSelect, MeshSelect, pcmeshselect)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcMesh : public iBase
-{
-  %name(LoadMesh) virtual bool SetMesh (const char* factname,
-  	const char* filename) = 0;
-  virtual void SetMesh (iMeshWrapper* mesh) = 0;
-  virtual void CreateEmptyThing () = 0;
-  virtual iMeshWrapper* GetMesh () const = 0;
-  virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
-  virtual void SetAction (const char* actionName, bool reset = false) = 0;
-  virtual const char* GetAction () = 0;
-  virtual void Hide () = 0;
-  virtual void Show () = 0;
-  virtual bool IsVisible () const = 0;
-};
-
+%rename(LoadMesh) iPcMesh::SetMesh;
+%include "propclass/mesh.h"
 CEL_PC(iPcMesh, Mesh, pcmesh)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcTimer : public iBase
-{
-  virtual void WakeUp (csTicks t, bool repeat) = 0;
-  virtual void Clear () = 0;
-};
-
+%include "propclass/timer.h"
 CEL_PC(iPcTimer, Timer, pctimer)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcSolid : public iBase
-{
-  virtual void SetMesh (iPcMesh* mesh) = 0;
-  virtual iPcMesh* GetMesh () const = 0;
-  virtual iCollider* GetCollider () = 0;
-};
-
+%include "propclass/solid.h"
 CEL_PC(iPcSolid, Solid, pcsolid)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcGravity : public iBase
-{
-  %name(CreateGravityColliderFromMesh) virtual void CreateGravityCollider (
-  	iPcMesh* mesh) = 0;
-  virtual void CreateGravityCollider (const csVector3& dim,
-  	const csVector3& offs) = 0;
-  virtual iCollider* GetGravityCollider () = 0;
-  virtual void SetMovable (iPcMovable* movable) = 0;
-  virtual iPcMovable* GetMovable () = 0;
-  virtual void SetSolid (iPcSolid* solid) = 0;
-  virtual iPcSolid* GetSolid () = 0;
-  virtual void SetWeight (float w) = 0;
-  virtual float GetWeight () const = 0;
-  virtual void ClearForces () = 0;
-  virtual void ClearPermanentForces () = 0;
-  virtual void ResetSpeed () = 0;
-  virtual void ApplyForce (const csVector3& force, float time) = 0;
-  virtual void ApplyPermanentForce (const csVector3& force) = 0;
-  virtual bool IsResting () const = 0;
-  virtual void SetActive (bool activate) = 0;
-  virtual bool IsActive () const = 0;
-};
-
+%rename(CreateGravityColliderFromMesh) iPcGravity::CreateGravityCollider;
+%include "propclass/gravity.h"
 CEL_PC(iPcGravity, Gravity, pcgravity)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcMovable : public iBase
-{
-  virtual void SetMesh (iPcMesh* mesh) = 0;
-  virtual iPcMesh* GetMesh () = 0;
-  %name(SetPos) virtual int Move (iSector* sector, const csVector3& pos) = 0;
-  virtual int Move (const csVector3& relpos) = 0;
-  virtual void AddConstraint (iPcMovableConstraint* constraint) = 0;
-  virtual void RemoveConstraint (iPcMovableConstraint* constraint) = 0;
-  virtual void RemoveAllConstraints () = 0;
-};
-
+%rename(SetPos) iPcMovable::Move;
+%include "propclass/move.h"
 CEL_PC(iPcMovable, Movable, pcmovable)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcInventory : public iBase
-{
-  virtual bool AddEntity (iCelEntity* entity) = 0;
-  virtual bool RemoveEntity (iCelEntity* entity) = 0;
-  virtual bool RemoveAll () = 0;
-  virtual int GetEntityCount () const = 0;
-  virtual iCelEntity* GetEntity (int idx) const = 0;
-  virtual bool SetStrictCharacteristics (const char* charName, bool strict) = 0;
-  virtual bool HasStrictCharacteristics (const char* charName) const = 0;
-  virtual bool SetConstraints (const char* charName, float minValue,
-  	float maxValue, float totalMaxValue) = 0;
-  virtual bool GetConstraints (const char* charName, float& minValue,
-  	float& maxValue, float& totalMaxValue) const = 0;
-  virtual void RemoveConstraints (const char* charName) = 0;
-  virtual void RemoveAllConstraints () = 0;
-  virtual float GetCurrentCharacteristic (const char* charName) const = 0;
-  virtual void MarkDirty (const char* charName) = 0;
-  virtual bool TestConstraints (const char* charName) = 0;
-  virtual void Dump () = 0;
-};
-
+%include "propclass/inv.h"
 CEL_PC(iPcInventory, Inventory, pcinventory)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
-struct iPcCharacteristics : public iBase
-{
-  virtual bool SetCharacteristic (const char* name, float value) = 0;
-  virtual bool SetInheritedCharacteristic (const char* name, float factor,
-  	float add) = 0;
-  virtual float GetCharacteristic (const char* name) const = 0;
-  virtual float GetLocalCharacteristic (const char* name) const = 0;
-  virtual float GetInheritedCharacteristic (const char* name) const = 0;
-  virtual bool ClearCharacteristic (const char* name) = 0;
-  virtual bool HasCharacteristic (const char* name) const = 0;
-  virtual bool ClearAll () = 0;
-  virtual void AddToInventory (iPcInventory* inv) = 0;
-  virtual void RemoveFromInventory (iPcInventory* inv) = 0;
-  virtual void MarkDirty (const char* charName) = 0;
-  virtual bool TestConstraints (const char* charName) = 0;
-  virtual void Dump () = 0;
-};
-
+%include "propclass/chars.h"
 CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
 
-//=======================================================================
+//-----------------------------------------------------------------------------
 
 enum celDataType
 {

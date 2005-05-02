@@ -16,13 +16,11 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#include <Python.h>
+
 #include "cssysdef.h"
 #include "csutil/csstring.h"
 #include "plugins/behaviourlayer/python/blpython.h"
-
-extern "C" {
-#include "Python.h"
-}
 
 // The NextStep compiler does not allow C++ expressions in `extern "C"'
 // functions.  This thin cover function works around that limitation.
