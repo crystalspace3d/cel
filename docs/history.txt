@@ -41,6 +41,7 @@ The history order is reversed so that new features are at the top.
 	  trigger.
 	- Jorrit fixed an assymetry between Save() and Load() of the
 	  pcproperties property class.
+	- res fixed CEL for the latest CS csHash<> changes.
 1-May-2005
 	- Jorrit added a parameter to iPcMesh->SetMesh() so that you can force
 	  pcmesh to remove the mesh even if it was not created inside pcmesh.

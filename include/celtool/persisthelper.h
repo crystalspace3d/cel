@@ -42,7 +42,7 @@ private:
   iCelPlLayer* pl;
 
   csArray<iCelEntity*> local_entities;
-  csSet<iCelEntity*> local_entities_set;
+  csSet<csPtrKey<iCelEntity> > local_entities_set;
 
 public:
   celStandardLocalEntitySet (iCelPlLayer* pl);

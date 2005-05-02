@@ -76,7 +76,7 @@ private:
   // For timed callbacks:
   csWeakRefArray<iCelTimerListener> weak_listeners;
   // Where is listener in weak_listeners.
-  csHash<size_t, iCelTimerListener*> weak_listeners_hash;
+  csHash<size_t, csPtrKey<iCelTimerListener> > weak_listeners_hash;
   CallbackInfo callbacks_pre;
   CallbackInfo callbacks_process;
   CallbackInfo callbacks_post;

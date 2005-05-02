@@ -293,7 +293,7 @@ void celRegion::Unload ()
 
     // We now scan every sector to see if there are entities
     // in that that are not deleted yet. We will delete them here.
-    csSet<iSector*>::GlobalIterator it = sectors.GetIterator ();
+    csSet<csPtrKey<iSector> >::GlobalIterator it = sectors.GetIterator ();
     while (it.HasNext ())
     {
       iSector* s = it.Next ();
@@ -505,7 +505,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
   size_t i;
 
   // First we make a set of all regions that we need to load.
-  csSet<celRegion*> loadable_regions;
+  csSet<csPtrKey<celRegion> > loadable_regions;
   for (i = 0 ; i < zones.Length () ; i++)
     if (zones[i]->ContainsRegion (region))
     {

@@ -83,7 +83,7 @@ public:
   csRef<iVFS> vfs;
   iFile* file;
   iCelLocalEntitySet* set;
-  csHash<size_t,iCelEntity*> entities_map;
+  csHash<size_t, csPtrKey<iCelEntity> > entities_map;
   
   celPersistClassic (iBase* parent);
   virtual ~celPersistClassic ();
