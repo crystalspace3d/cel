@@ -31,6 +31,8 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 
+#include "physicallayer/pl.h"
+
 struct iObjectRegistry;
 struct iEvent;
 class celQuestManager;
@@ -88,6 +90,7 @@ public:
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
+
 /**
  * A quest factory.
  */
@@ -123,14 +126,20 @@ public:
 /**
  * A trigger and rewards. This is basically a response for a quest.
  */
-struct celQuestStateResponse : public iQuestTriggerCallback
+struct celQuestStateResponse :
+	public iQuestTriggerCallback,
+	public iCelTimerListener
 {
 private:
+  iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
   csRefArray<iQuestReward> rewards;
 
+  // Count how many rewards we still have to hand out.
+  size_t reward_counter;
+
 public:
-  celQuestStateResponse ();
+  celQuestStateResponse (iCelPlLayer* pl);
   virtual ~celQuestStateResponse ();
 
   void SetTrigger (iQuestTrigger* trigger);
@@ -139,7 +148,11 @@ public:
 
   SCF_DECLARE_IBASE;
 
+  // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger);
+  // --- For iCelTimerListener ----------------------------
+  virtual void TickEveryFrame ();
+  virtual void TickOnce () { }
 };
 
 /**
@@ -148,12 +161,14 @@ public:
 class celQuestState
 {
 private:
+  iCelPlLayer* pl;
   char* name;
   csRefArray<celQuestStateResponse> responses;
 
 public:
-  celQuestState (const char* name)
+  celQuestState (iCelPlLayer* pl, const char* name)
   {
+    celQuestState::pl = pl;
     celQuestState::name = csStrNew (name);
   }
   ~celQuestState () { delete[] name; }
@@ -172,20 +187,28 @@ public:
 class celQuest : public iQuest
 {
 private:
+  iCelPlLayer* pl;
+
   csPDelArray<celQuestState> states;
   int current_state;
 
   /// Deactivate a state (deactivate all triggers).
   void DeactivateState (size_t stateidx);
 
+  /// Load/switch state.
+  bool SwitchState (const char* state, iCelDataBuffer* databuf);
+
 public:
-  celQuest ();
+  celQuest (iCelPlLayer* pl);
   virtual ~celQuest ();
 
   SCF_DECLARE_IBASE;
   
   virtual bool SwitchState (const char* state);
   virtual const char* GetCurrentState () const;
+
+  virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
+  virtual void SaveState (iCelDataBuffer* databuf);
 
   // Add a state, returns the state index.
   int AddState (const char* name);
@@ -204,6 +227,7 @@ class celQuestManager : public iQuestManager
 {
 public:
   iObjectRegistry* object_reg;
+  csWeakRef<iCelPlLayer> pl;
 
 private:
   csHash<csRef<iQuestTriggerType>,csStrKey> trigger_types;

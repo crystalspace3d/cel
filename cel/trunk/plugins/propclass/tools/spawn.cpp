@@ -179,10 +179,10 @@ void celPcSpawn::Reset ()
 {
   sequence_cur = 0;
   if (maxdelay > mindelay)
-    pl->CallbackPCOnce (this, rand () % (maxdelay-mindelay) + mindelay,
-    	cscmdPreProcess);
+    pl->CallbackOnce ((iCelTimerListener*)this,
+    	rand () % (maxdelay-mindelay) + mindelay, cscmdPreProcess);
   else
-    pl->CallbackPCOnce (this, mindelay, cscmdPreProcess);
+    pl->CallbackOnce ((iCelTimerListener*)this, mindelay, cscmdPreProcess);
 }
 
 void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,

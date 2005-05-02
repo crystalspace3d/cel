@@ -96,19 +96,19 @@ bool celPlLayer::HandleEvent (iEvent& ev)
 {
   if (ev.Type != csevBroadcast) return false;
 
-  CallbackPCInfo* cbinfo = GetCBInfo (ev.Command.Code);
+  CallbackInfo* cbinfo = GetCBInfo (ev.Command.Code);
   if (!cbinfo) return false;
 
   // First fire all property classes that must be fired every frame.
   bool compress = false;
   csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
-  csArray<iCelPropertyClass*> pcs;
+  csArray<iCelTimerListener*> pcs;
   while (it.HasNext ())
   {
     size_t pc_idx = it.Next ();
-    iCelPropertyClass* pc = weak_pcs[pc_idx];
-    if (pc)
-      pcs.Push (pc);
+    iCelTimerListener* listener = weak_listeners[pc_idx];
+    if (listener)
+      pcs.Push (listener);
     else
       compress = true;
   }
@@ -121,21 +121,21 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   // are added in reverse order so that the top of the array is the
   // one that will fire first.
   csTicks current_time = vc->GetCurrentTicks ();
-  csArray<CallbackPCTiming>& cbs = cbinfo->timed_callbacks;
+  csArray<CallbackTiming>& cbs = cbinfo->timed_callbacks;
   pcs.SetLength (0);
   while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
   {
-    CallbackPCTiming pcfire = cbs.Pop ();
-    iCelPropertyClass* pc = weak_pcs[pcfire.pc_idx];
-    if (pc)
-      pcs.Push (pc);
+    CallbackTiming pcfire = cbs.Pop ();
+    iCelTimerListener* listener = weak_listeners[pcfire.pc_idx];
+    if (listener)
+      pcs.Push (listener);
     else
       compress = true;
   }
   for (i = 0 ; i < pcs.Length () ; i++)
     pcs[i]->TickOnce ();
 
-  if (compress) CompressCallbackPCInfo ();
+  if (compress) CompressCallbackInfo ();
 
   return true;
 }
@@ -748,7 +748,7 @@ void celPlLayer::FireNewEntityCallbacks (iCelEntity* entity)
   }
 }
 
-CallbackPCInfo* celPlLayer::GetCBInfo (int where)
+CallbackInfo* celPlLayer::GetCBInfo (int where)
 {
   switch (where)
   {
@@ -762,12 +762,13 @@ CallbackPCInfo* celPlLayer::GetCBInfo (int where)
 
 struct pc_idx
 {
-  iCelPropertyClass* pc;
+  iCelTimerListener* listener;
   size_t idx;
-  pc_idx (iCelPropertyClass* p_pc, size_t p_idx) : pc (p_pc), idx (p_idx) { }
+  pc_idx (iCelTimerListener* p_listener, size_t p_idx)
+  	: listener (p_listener), idx (p_idx) { }
 };
 
-void celPlLayer::CompressCallbackPCInfo ()
+void celPlLayer::CompressCallbackInfo ()
 {
   compress_delay--;
   if (compress_delay > 0) return;
@@ -775,20 +776,20 @@ void celPlLayer::CompressCallbackPCInfo ()
 
   // First copy all weak ref PC's that are still relevant to 'store' and
   // remember original index.
-  size_t orig_pcs_length = weak_pcs.Length ();
+  size_t orig_pcs_length = weak_listeners.Length ();
   csArray<pc_idx> store;
   size_t i;
   for (i = 0 ; i < orig_pcs_length ; i++)
-    if (weak_pcs[i])
-      store.Push (pc_idx (weak_pcs[i], i));
+    if (weak_listeners[i])
+      store.Push (pc_idx (weak_listeners[i], i));
 
   // Delete the weak array and build it again.
-  weak_pcs.DeleteAll ();
-  weak_pcs_hash.DeleteAll ();
+  weak_listeners.DeleteAll ();
+  weak_listeners_hash.DeleteAll ();
   for (i = 0 ; i < store.Length () ; i++)
   {
-    weak_pcs.Push (store[i].pc);
-    weak_pcs_hash.Put (store[i].pc, i);
+    weak_listeners.Push (store[i].listener);
+    weak_listeners_hash.Put (store[i].listener, i);
   }
 
   // Now create a reverse table to map from original index to new index.
@@ -803,7 +804,7 @@ void celPlLayer::CompressCallbackPCInfo ()
   int where;
   for (where = 0 ; where < 4 ; where++)
   {
-    CallbackPCInfo* cbinfo = GetCBInfo (p[where]);
+    CallbackInfo* cbinfo = GetCBInfo (p[where]);
     csSet<size_t> newset;
     csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
     while (it.HasNext ())
@@ -834,34 +835,34 @@ void celPlLayer::CompressCallbackPCInfo ()
   delete[] map;
 }
 
-size_t celPlLayer::WeakRegPC (iCelPropertyClass* pc)
+size_t celPlLayer::WeakRegListener (iCelTimerListener* listener)
 {
-  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
+  size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
   if (pc_idx == (size_t)~0)
   {
     // Not found yet. Add it.
-    pc_idx = weak_pcs.Push (pc);
-    weak_pcs_hash.Put (pc, pc_idx);
+    pc_idx = weak_listeners.Push (listener);
+    weak_listeners_hash.Put (listener, pc_idx);
   }
-  else if (weak_pcs[pc_idx] == 0)
+  else if (weak_listeners[pc_idx] == 0)
   {
-    // The pc_idx is there but the pc has been deleted in the mean time.
-    // In that case we will update the pc in the table.
-    weak_pcs[pc_idx] = pc;
+    // The pc_idx is there but the listener has been deleted in the mean time.
+    // In that case we will update the listener in the table.
+    weak_listeners[pc_idx] = listener;
   }
   return pc_idx;
 }
 
-void celPlLayer::CallbackPCEveryFrame (iCelPropertyClass* pc, int where)
+void celPlLayer::CallbackEveryFrame (iCelTimerListener* listener, int where)
 {
-  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
-  size_t pc_idx = WeakRegPC (pc);
+  size_t pc_idx = WeakRegListener (listener);
   cbinfo->every_frame.Add (pc_idx);
 }
 
-static int CompareTimedCallback (CallbackPCTiming const& r1,
-	CallbackPCTiming const& r2)
+static int CompareTimedCallback (CallbackTiming const& r1,
+	CallbackTiming const& r2)
 {
   // Reverse sort!
   if (r1.time_to_fire < r2.time_to_fire) return 1;
@@ -869,13 +870,13 @@ static int CompareTimedCallback (CallbackPCTiming const& r1,
   else return 0;
 }
 
-void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
+void celPlLayer::CallbackOnce (iCelTimerListener* listener, csTicks delta,
 	int where)
 {
-  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
-  CallbackPCTiming cbtime;
-  size_t pc_idx = WeakRegPC (pc);
+  CallbackTiming cbtime;
+  size_t pc_idx = WeakRegListener (listener);
   cbtime.pc_idx = pc_idx;
   cbtime.time_to_fire = vc->GetCurrentTicks () + delta;
 
@@ -884,25 +885,26 @@ void celPlLayer::CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
   cbinfo->timed_callbacks.InsertSorted (cbtime, CompareTimedCallback);
 }
 
-void celPlLayer::RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where)
+void celPlLayer::RemoveCallbackEveryFrame (iCelTimerListener* listener,
+	int where)
 {
-  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
-  // If our pc is not yet in the weak_pcs table then it can't possibly
+  size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
+  // If our pc is not yet in the weak_listeners table then it can't possibly
   // be in the every_frame table so we can return here already.
   if (pc_idx == (size_t)~0) return;
 
-  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  CallbackInfo* cbinfo = GetCBInfo (where);
   cbinfo->every_frame.Delete (pc_idx);
 }
 
-void celPlLayer::RemoveCallbackPCOnce (iCelPropertyClass* pc, int where)
+void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
 {
-  size_t pc_idx = weak_pcs_hash.Get (pc, (size_t)~0);
-  // If our pc is not yet in the weak_pcs table then it can't possibly
+  size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
+  // If our pc is not yet in the weak_listeners table then it can't possibly
   // be in the timed_callbacks table so we can return here already.
   if (pc_idx == (size_t)~0) return;
 
-  CallbackPCInfo* cbinfo = GetCBInfo (where);
+  CallbackInfo* cbinfo = GetCBInfo (where);
   size_t i;
   for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
     if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)

@@ -120,7 +120,7 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   if (param_drawmesh == csInvalidStringID)
     param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
 
-  pl->CallbackPCEveryFrame (this, cscmdProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdProcess);
 }
 
 celPcSimpleCamera::~celPcSimpleCamera ()

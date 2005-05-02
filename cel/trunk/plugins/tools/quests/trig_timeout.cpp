@@ -29,6 +29,7 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "physicallayer/persist.h"
 #include "propclass/camera.h"
 
 #include "plugins/tools/quests/trig_timeout.h"
@@ -144,9 +145,21 @@ void celTimeoutTrigger::DeactivateTrigger ()
 
 bool celTimeoutTrigger::Perform (iTimerEvent* ev)
 {
-printf ("TIMEOUT FIRE\n"); fflush (stdout);
   if (callback) callback->TriggerFired ((iQuestTrigger*)this);
   return false;
+}
+
+bool celTimeoutTrigger::LoadAndActivateTrigger (iCelDataBuffer* databuf)
+{
+  uint32 tl = databuf->GetUInt32 ();
+  timer->RemoveAllTimerEvents ();
+  timer->AddTimerEvent ((iTimerEvent*)this, tl);
+  return true;
+}
+
+void celTimeoutTrigger::SaveTriggerState (iCelDataBuffer* databuf)
+{
+  databuf->Add ((uint32)timer->GetTimeLeft (0));
 }
 
 //---------------------------------------------------------------------------

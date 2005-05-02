@@ -188,5 +188,15 @@ void celEnterSectorTrigger::DeactivateTrigger ()
   camera->RemoveCameraSectorListener ((iCameraSectorListener*)this);
 }
 
+bool celEnterSectorTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celEnterSectorTrigger::SaveTriggerState (iCelDataBuffer*)
+{
+}
+
 //---------------------------------------------------------------------------
 

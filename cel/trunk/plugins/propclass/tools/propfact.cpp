@@ -259,7 +259,7 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
   {
     property* p = properties[i];
     databuf->Add (p->propName);
-    databuf->Add ((uint8)p->type);
+    //databuf->Add ((uint8)p->type);
     switch (p->type)
     {
       case CEL_DATA_FLOAT:
@@ -313,7 +313,8 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
     size_t idx = NewProperty (databuf->GetString ()->GetData ());
     cd = databuf->GetData (); if (!cd) return false;
     property* p = properties[idx];
-    p->type = (celDataType)cd->value.ub;
+    //p->type = (celDataType)cd->value.ub;
+    p->type = cd->type;
     switch (p->type)
     {
       case CEL_DATA_FLOAT:

@@ -146,16 +146,16 @@ void celPcTimer::Clear ()
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
-  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
-  pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
 }
 
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
   wakeuponce = true;
-  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
-  pl->CallbackPCOnce (this, t, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->CallbackOnce ((iCelTimerListener*)this, t, cscmdPreProcess);
 
   celPcTimer::repeat = repeat;
   wakeup = t;
@@ -166,7 +166,7 @@ void celPcTimer::WakeUpFrame (int where)
   if (wakeupframe) return;
   enabled = true;
   wakeupframe = true;
-  pl->CallbackPCEveryFrame (this, where);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, where);
 }
 
 void celPcTimer::TickEveryFrame ()
@@ -197,7 +197,7 @@ void celPcTimer::TickOnce ()
   {
     if (repeat)
     {
-      pl->CallbackPCOnce (this, wakeup, cscmdPreProcess);
+      pl->CallbackOnce ((iCelTimerListener*)this, wakeup, cscmdPreProcess);
     }
     else
     {

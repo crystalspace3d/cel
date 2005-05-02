@@ -99,6 +99,8 @@ public:
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual void DeactivateTrigger ();
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iCameraSectorListener --------------------------
   virtual void NewSector (iCamera* camera, iSector* sector);

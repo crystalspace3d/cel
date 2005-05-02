@@ -194,5 +194,15 @@ void celMeshEnterSectorTrigger::DeactivateTrigger ()
   mesh->GetMovable ()->RemoveListener ((iMovableListener*)this);
 }
 
+bool celMeshEnterSectorTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celMeshEnterSectorTrigger::SaveTriggerState (iCelDataBuffer*)
+{
+}
+
 //---------------------------------------------------------------------------
 

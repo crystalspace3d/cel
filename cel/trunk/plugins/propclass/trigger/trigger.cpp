@@ -126,7 +126,7 @@ celPcTrigger::~celPcTrigger ()
   send_to_self = false;	// Prevent sending messages to this entity.
   LeaveAllEntities ();
   if (pl)
-    pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
+    pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
   delete params;
   delete[] monitor_entity;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTrigger);
@@ -240,20 +240,20 @@ void celPcTrigger::MonitorEntity (const char* entityname)
 void celPcTrigger::EnableTrigger (bool en)
 {
   enabled = en;
-  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
   if (enabled)
-    pl->CallbackPCOnce (this, delay+(rand () % (jitter+jitter))-jitter,
-  	cscmdPreProcess);
+    pl->CallbackOnce ((iCelTimerListener*)this,
+    	delay+(rand () % (jitter+jitter))-jitter, cscmdPreProcess);
 }
 
 void celPcTrigger::SetMonitorDelay (csTicks delay, csTicks jitter)
 {
   celPcTrigger::delay = delay;
   celPcTrigger::jitter = jitter;
-  pl->RemoveCallbackPCOnce (this, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
   if (enabled)
-    pl->CallbackPCOnce (this, delay+(rand () % (jitter+jitter))-jitter,
-  	cscmdPreProcess);
+    pl->CallbackOnce ((iCelTimerListener*)this,
+    	delay+(rand () % (jitter+jitter))-jitter, cscmdPreProcess);
 }
 
 void celPcTrigger::LeaveAllEntities ()
@@ -395,7 +395,8 @@ void celPcTrigger::TickOnce ()
         SendTriggerMessage (ent, entity, "pctrigger_leavetrigger");
     }
   }
-  pl->CallbackPCOnce (this, delay+(rand () % (jitter+jitter))-jitter,
+  pl->CallbackOnce ((iCelTimerListener*)this,
+  	delay+(rand () % (jitter+jitter))-jitter,
   	cscmdPreProcess);
 }
 

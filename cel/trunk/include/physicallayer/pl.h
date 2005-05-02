@@ -43,6 +43,10 @@ struct iCelEntityTracker;
 
 SCF_VERSION (iCelNewEntityCallback, 0, 0, 2);
 
+/**
+ * Implement this interface if you want to know when new entities
+ * are added.
+ */
 struct iCelNewEntityCallback : public iBase
 {
   /** this function is called for entities that are added */
@@ -51,10 +55,36 @@ struct iCelNewEntityCallback : public iBase
 
 SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
+/**
+ * Implement this interface if you want to know when entities
+ * are removed.
+ */
 struct iCelEntityRemoveCallback : public iBase
 {
   /** this function is called for entities that are removed */
   virtual void RemoveEntity (iCelEntity* entity) = 0;
+};
+
+
+SCF_VERSION (iCelTimerListener, 0, 0, 1);
+
+/**
+ * Generic timing system in CEL. If you want to get a tick every
+ * frame or after a while you can implement this and register.
+ */
+struct iCelTimerListener : public iBase
+{
+  /**
+   * This function is called by the physical layer when a broadcast
+   * is needed. Use iCelPlLayer->CallbackEveryFrame() to register.
+   */
+  virtual void TickEveryFrame () = 0;
+
+  /**
+   * This function is called by the physical layer when a broadcast
+   * is needed. Use iCelPlLayer->CallbackOnce() to register.
+   */
+  virtual void TickOnce () = 0;
 };
 
 SCF_VERSION (iCelPlLayer, 0, 3, 2);
@@ -369,35 +399,35 @@ struct iCelPlLayer : public iBase
   //-------------------------------------------------------------------------
 
   /**
-   * Register this property class as one that is interested in getting
-   * an event every frame. This will call iCelPropertyClass->Tick().
-   * \param pc is the property class.
+   * Register this listener as one that is interested in getting
+   * an event every frame. This will call TickEveryFrame().
+   * \param listener is the iCelTimerListener listener.
    * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
    * or cscmdFinalProcess.
    */
-  virtual void CallbackPCEveryFrame (iCelPropertyClass* pc, int where) = 0;
+  virtual void CallbackEveryFrame (iCelTimerListener* listener, int where) = 0;
 
   /**
-   * Register this property class as one that is interested in getting
-   * an event in 'delta' milliseconds. This will call iCelPropertyClass->Tick().
-   * \param pc is the property class.
+   * Register this listener as one that is interested in getting
+   * an event in 'delta' milliseconds. This will call Tick().
+   * \param listener is the iCelTimerListener listener.
    * \param delta is the time to wait before firing in milliseconds.
    * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
    * or cscmdFinalProcess.
    */
-  virtual void CallbackPCOnce (iCelPropertyClass* pc, csTicks delta,
+  virtual void CallbackOnce (iCelTimerListener* listener, csTicks delta,
   	int where) = 0;
 
   /**
-   * Remove all 'every-frame' callbacks to a specific pc.
+   * Remove all 'every-frame' callbacks to a specific listener.
    */
-  virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc,
+  virtual void RemoveCallbackEveryFrame (iCelTimerListener* listener,
   	int where) = 0;
 
   /**
-   * Remove all 'once' callbacks to a specific pc.
+   * Remove all 'once' callbacks to a specific listener.
    */
-  virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where) = 0;
+  virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where) = 0;
 
   /**
    * Add an ID scope to the physical layer.

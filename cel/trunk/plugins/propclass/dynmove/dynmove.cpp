@@ -101,7 +101,7 @@ celPcDynamicSystem::celPcDynamicSystem (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDynamicSystem);
   delta = 0.01f;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
 }
 
 celPcDynamicSystem::~celPcDynamicSystem ()

@@ -36,15 +36,15 @@ struct iVirtualClock;
 struct iEvent;
 class celEntity;
 
-struct CallbackPCTiming
+struct CallbackTiming
 {
   size_t pc_idx;
   csTicks time_to_fire;
 };
-struct CallbackPCInfo
+struct CallbackInfo
 {
   csSet<size_t> every_frame;
-  csArray<CallbackPCTiming> timed_callbacks;
+  csArray<CallbackTiming> timed_callbacks;
 };
 
 /**
@@ -74,18 +74,19 @@ private:
   bool allow_entity_addon;
 
   // For timed callbacks:
-  csWeakRefArray<iCelPropertyClass> weak_pcs;	// Weak refs to pcs.
-  csHash<size_t, iCelPropertyClass*> weak_pcs_hash;// Where is pc in weak_pcs.
-  CallbackPCInfo callbacks_pre;
-  CallbackPCInfo callbacks_process;
-  CallbackPCInfo callbacks_post;
-  CallbackPCInfo callbacks_final;
+  csWeakRefArray<iCelTimerListener> weak_listeners;
+  // Where is listener in weak_listeners.
+  csHash<size_t, iCelTimerListener*> weak_listeners_hash;
+  CallbackInfo callbacks_pre;
+  CallbackInfo callbacks_process;
+  CallbackInfo callbacks_post;
+  CallbackInfo callbacks_final;
   int compress_delay;
-  void CompressCallbackPCInfo ();
-  // Register a PC to weak ref table and return index.
-  size_t WeakRegPC (iCelPropertyClass* pc);
+  void CompressCallbackInfo ();
+  // Register a listener to weak ref table and return index.
+  size_t WeakRegListener (iCelTimerListener* listener);
   // 'where' is one of the cscmdProcess flags.
-  CallbackPCInfo* GetCBInfo (int where);
+  CallbackInfo* GetCBInfo (int where);
 
   // List of trackers.
   csRefArray<iCelEntityTracker> trackers;
@@ -179,10 +180,12 @@ public:
     return string_registry.Request (id);
   }
 
-  virtual void CallbackPCEveryFrame (iCelPropertyClass* pc, int where);
-  virtual void CallbackPCOnce (iCelPropertyClass* pc, csTicks delta, int where);
-  virtual void RemoveCallbackPCEveryFrame (iCelPropertyClass* pc, int where);
-  virtual void RemoveCallbackPCOnce (iCelPropertyClass* pc, int where);
+  virtual void CallbackEveryFrame (iCelTimerListener* listener, int where);
+  virtual void CallbackOnce (iCelTimerListener* listener,
+  	csTicks delta, int where);
+  virtual void RemoveCallbackEveryFrame (iCelTimerListener* listener,
+  	int where);
+  virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
 
   virtual int AddScope (csString impl, int size);
   

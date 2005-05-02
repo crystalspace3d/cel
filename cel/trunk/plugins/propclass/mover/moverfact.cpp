@@ -90,7 +90,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 
 celPcMover::~celPcMover ()
 {
-  pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMover);
 }
 
@@ -222,7 +222,7 @@ void celPcMover::Interrupt ()
   if (is_moving)
   {
     is_moving = false;
-    pl->RemoveCallbackPCEveryFrame (this, cscmdPreProcess);
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
     SendMessage ("pcmover_interrupted");
   }
 }
