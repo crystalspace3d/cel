@@ -60,7 +60,7 @@
 00041   <span class="keyword">const</span> <span class="keywordtype">char</span>*           desc;
 00042 };
 00043 
-<a name="l00049"></a><a class="code" href="classcelPcCommon.html">00049</a> <span class="keyword">class </span><a class="code" href="classcelPcCommon.html">celPcCommon</a> : <span class="keyword">public</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>
+<a name="l00049"></a><a class="code" href="classcelPcCommon.html">00049</a> <span class="keyword">class </span><a class="code" href="classcelPcCommon.html">celPcCommon</a> : <span class="keyword">public</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>, <span class="keyword">public</span> <a class="code" href="structiCelTimerListener.html">iCelTimerListener</a>
 00050 {
 00051 <span class="keyword">private</span>:
 00052   csRefArray&lt;iCelPropertyChangeCallback&gt; callbacks;
@@ -135,12 +135,14 @@
 00121   {
 00122     propclasses_dirty = <span class="keyword">true</span>;
 00123   }
-<a name="l00124"></a><a class="code" href="classcelPcCommon.html#a34">00124</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a34">TickEveryFrame</a> () { }
-<a name="l00125"></a><a class="code" href="classcelPcCommon.html#a35">00125</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a35">TickOnce</a> () { }
-00126 };
-00127 
-00128 <span class="preprocessor">#endif // __CEL_CELTOOL_STDPC__</span>
-00129 <span class="preprocessor"></span>
+00124 
+00125   <span class="comment">// --- For iCelTimerListener -----------------------------------------</span>
+<a name="l00126"></a><a class="code" href="classcelPcCommon.html#a34">00126</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a34">TickEveryFrame</a> () { }
+<a name="l00127"></a><a class="code" href="classcelPcCommon.html#a35">00127</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a35">TickOnce</a> () { }
+00128 };
+00129 
+00130 <span class="preprocessor">#endif // __CEL_CELTOOL_STDPC__</span>
+00131 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>

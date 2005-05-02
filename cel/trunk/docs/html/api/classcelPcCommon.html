@@ -23,7 +23,9 @@
 <p>Inheritance diagram for celPcCommon:
 <p><center><img src="classcelPcCommon.png" usemap="#celPcCommon_map" border="0" alt=""></center>
 <map name="celPcCommon_map">
-<area href="structiCelPropertyClass.html" alt="iCelPropertyClass" shape="rect" coords="0,0,114,24">
+<area href="structiCelPropertyClass.html" alt="iCelPropertyClass" shape="rect" coords="0,0,136,24">
+<area href="structiCelTimerListener.html" alt="iCelTimerListener" shape="rect" coords="146,0,282,24">
+<area href="structcelPcCameraCommon.html" alt="celPcCameraCommon" shape="rect" coords="73,112,209,136">
 </map>
 <a href="classcelPcCommon-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -1299,11 +1301,13 @@ Implements <a class="el" href="structiCelPropertyClass.html#a1">iCelPropertyClas
 <p>
 This function is called by the physical layer when a broadcast is needed. 
 <p>
-Use iCelPlLayer-&gt;CallbackPCEveryFrame() to register a PC for this. 
+Use iCelPlLayer-&gt;CallbackEveryFrame() to register. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a34">iCelPropertyClass</a>.
+Implements <a class="el" href="structiCelTimerListener.html#a0">iCelTimerListener</a>.
 <p>
-Definition at line <a class="el" href="stdpcimp_8h-source.html#l00124">124</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
+Reimplemented in <a class="el" href="structcelPcCameraCommon.html#a29">celPcCameraCommon</a>.
+<p>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00126">126</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a35" doxytag="celPcCommon::TickOnce"></a><p>
@@ -1332,11 +1336,11 @@ Definition at line <a class="el" href="stdpcimp_8h-source.html#l00124">124</a> o
 <p>
 This function is called by the physical layer when a broadcast is needed. 
 <p>
-Use iCelPlLayer-&gt;CallbackPCOnce() to register a PC for this. 
+Use iCelPlLayer-&gt;CallbackOnce() to register. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a35">iCelPropertyClass</a>.
+Implements <a class="el" href="structiCelTimerListener.html#a1">iCelTimerListener</a>.
 <p>
-Definition at line <a class="el" href="stdpcimp_8h-source.html#l00125">125</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00127">127</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
