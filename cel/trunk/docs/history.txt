@@ -4,6 +4,8 @@ http://cel.sourceforge.net/
 The history order is reversed so that new features are at the top.
 
 2-May-2005
+	- David Bronke added a comment to iPcMesh::SetMesh to fix a doxygen
+	  warning.
 	- Eric Sunshine rewrote blcel.i essentially from scratch, eliminating
 	  all of ugly copy/paste content, and making it much, much simpler to
 	  maintain.
@@ -36,6 +38,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed the cameras again. The problem was that Draw()
 	  in celPcCameraCommon was not declared virtual. So subclasses couldn't
 	  override it.
+	- David Bronke fixed his messed up commit. Added the _contents_ of
+	  plugins/propclass/defcam and plugins/propclass/simpcam (not just the
+	  directories themselves) and actually removed
+	  plugins/propclass/engine/camerafact.* from the repository. This
+	  should fix CEL.
 29-Apr-2005
 	- David Bronke split up iPcCamera and celPcCamera into a new, more
 	  general camera architecture. iPcCamera is now the basic camera
