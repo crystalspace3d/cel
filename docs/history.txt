@@ -23,6 +23,24 @@ The history order is reversed so that new features are at the top.
 	  build log more friendly.
 	- Eric Sunshine re-ordered some #include statements in Python-related
 	  files in order to eliminate some compilation warnings.
+	- Jorrit added a mechanism in quests so that triggers can save their
+	  current state. That way the timeout trigger can save how much time
+	  has already elapsed and then restore the trigger correctly when
+	  it is loaded.
+	- Jorrit generalized the timing mechanism in celPlLayer. Upto now
+	  this mechanism was specific for property classes. Now it is more
+	  general. There is a new iCelTimerListener interface that you can
+	  implement to get notified every frame or at specific intervals.
+	  celPcCommon implements that interface so for property classes there
+	  is little change.
+	- Jorrit added a one-frame delay before a quest gives rewards in
+	  response to a trigger. That fixes all kinds of internal racing
+	  conditions where a reward could cause states to change but some
+	  other rewards of the old state were not yet finished. This also
+	  prevents triggers from being fired while busy firing the same
+	  trigger.
+	- Jorrit fixed an assymetry between Save() and Load() of the
+	  pcproperties property class.
 1-May-2005
 	- Jorrit added a parameter to iPcMesh->SetMesh() so that you can force
 	  pcmesh to remove the mesh even if it was not created inside pcmesh.

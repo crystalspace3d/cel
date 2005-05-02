@@ -296,7 +296,7 @@ celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNpcMove);
   checked_spritestate = false;
-  pl->CallbackPCOnce (this, 50, cscmdPreProcess);
+  pl->CallbackOnce ((iCelTimerListener*)this, 50, cscmdPreProcess);
 }
 
 celPcNpcMove::~celPcNpcMove ()

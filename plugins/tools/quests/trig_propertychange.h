@@ -99,6 +99,8 @@ public:
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual void DeactivateTrigger ();
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iPcPropertyListener ----------------------------
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);

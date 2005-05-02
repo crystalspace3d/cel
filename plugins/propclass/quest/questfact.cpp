@@ -161,6 +161,7 @@ csPtr<iCelDataBuffer> celPcQuest::Save ()
   {
     databuf->Add (true);
     databuf->Add (quest->GetCurrentState ());
+    quest->SaveState (databuf);
   }
   else
   {
@@ -192,7 +193,8 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
   {
     if (!NewQuest (questname, qp))
       return false;
-    quest->SwitchState (databuf->GetString ()->GetData ());
+    if (!quest->LoadState (databuf->GetString ()->GetData (), databuf))
+      return false;
   }
   else
   {

@@ -390,10 +390,41 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
 
   qm->SetTimeoutTrigger (init_response1, "1000");
   qm->AddDebugPrintReward (init_response1, "$message");
-  qm->AddNewStateReward (init_response1, "$ent", "start");
   rf_changeprop = qm->AddChangePropertyReward (init_response1,
   	"$ent", "counter");
   rf_changeprop->SetLongParameter ("0");
+  rf_changeprop = qm->AddChangePropertyReward (init_response1,
+  	"$ent", "countdown");
+  rf_changeprop->SetLongParameter ("5");
+  qm->AddNewStateReward (init_response1, "$ent", "countdown");
+
+  // ---- countdown ----
+  iQuestStateFactory* state_countdown = fact->CreateState ("countdown");
+  iQuestTriggerResponseFactory* countdown_response1 =
+  	state_countdown->CreateTriggerResponseFactory ();
+  
+  qm->SetPropertyChangeTrigger (countdown_response1, "$ent", "countdown", "0");
+  qm->AddDebugPrintReward (countdown_response1, "Done!");
+  qm->AddNewStateReward (countdown_response1, "$ent", "start");
+
+  iQuestTriggerResponseFactory* countdown_response2 =
+  	state_countdown->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (countdown_response2, "1000");
+  qm->AddDebugPrintReward (countdown_response2, "countdown");
+  rf_changeprop = qm->AddChangePropertyReward (countdown_response2,
+  	"$ent", "countdown");
+  rf_changeprop->SetDiffParameter ("-1");
+  qm->AddNewStateReward (countdown_response2, "$ent", "countdown2");
+
+  // ---- countdown2 ----
+  // Countdown2 only exists because it currently can give problems to
+  // switch to the same state due to a problem with some triggers not
+  // being able to handle this recursively (i.e. timeout).
+  iQuestStateFactory* state_countdown2 = fact->CreateState ("countdown2");
+  iQuestTriggerResponseFactory* countdown2_response1 =
+  	state_countdown2->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (countdown2_response1, "1");
+  qm->AddNewStateReward (countdown2_response1, "$ent", "countdown");
 
   // ---- start ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
@@ -401,7 +432,7 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
   	state_start->CreateTriggerResponseFactory ();
 
   qm->SetMeshEnterSectorTrigger (start_response1, "camera", "room0,1");
-  qm->AddDebugPrintReward (start_response1, "Done!");
+  qm->AddDebugPrintReward (start_response1, "Go!");
   qm->AddNewStateReward (start_response1, "$ent", "middle");
 
   iQuestTriggerResponseFactory* start_response2 =

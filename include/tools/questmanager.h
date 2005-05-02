@@ -26,6 +26,7 @@
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
+struct iCelDataBuffer;
 
 /*
 <quest name="test">
@@ -116,6 +117,18 @@ struct iQuestTrigger : public iBase
    * Deactivate the trigger. Note that triggers start deactivated.
    */
   virtual void DeactivateTrigger () = 0;
+
+  /**
+   * Activate the trigger and load state from databuf (persistence).
+   * \return false on failure (data in buffer doesn't match what we
+   * expect).
+   */
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save trigger state.
+   */
+  virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
 };
 
 SCF_VERSION (iQuestTriggerFactory, 0, 0, 1);
@@ -251,6 +264,19 @@ struct iQuest : public iBase
    * Get current state name of this quest.
    */
   virtual const char* GetCurrentState () const = 0;
+
+  /**
+   * This is a special version of SwitchState() that needs to be used
+   * in case you are loading a quest from a CEL databuffer (persistence).
+   * \return false on failure (data in buffer doesn't match what we want).
+   */
+  virtual bool LoadState (const char* state, iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save the state to the persistence layer. To restore later use
+   * LoadState().
+   */
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
 };
 
 SCF_VERSION (iQuestTriggerResponseFactory, 0, 0, 1);

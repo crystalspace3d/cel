@@ -46,7 +46,7 @@ struct Property
  * from which all other property classes can inherit.
  * This makes it easier to write a property class.
  */
-class celPcCommon : public iCelPropertyClass
+class celPcCommon : public iCelPropertyClass, public iCelTimerListener
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -121,6 +121,8 @@ public:
   {
     propclasses_dirty = true;
   }
+
+  // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }
 };

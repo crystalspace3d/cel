@@ -119,7 +119,7 @@ celQuestFactory::~celQuestFactory ()
 csPtr<iQuest> celQuestFactory::CreateQuest (
       const celQuestParams& params)
 {
-  celQuest* q = new celQuest ();
+  celQuest* q = new celQuest (questmgr->pl);
   celQuestFactoryStates::GlobalIterator it = states.GetIterator ();
   while (it.HasNext ())
   {
@@ -307,9 +307,11 @@ SCF_IMPLEMENT_IBASE (celQuestStateResponse)
   SCF_IMPLEMENTS_INTERFACE (iQuestTriggerCallback)
 SCF_IMPLEMENT_IBASE_END
 
-celQuestStateResponse::celQuestStateResponse ()
+celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
+  reward_counter = 0;
+  celQuestStateResponse::pl = pl;
 }
 
 celQuestStateResponse::~celQuestStateResponse ()
@@ -330,16 +332,30 @@ void celQuestStateResponse::AddReward (iQuestReward* reward)
 
 void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger)
 {
-  size_t i;
-  for (i = 0 ; i < rewards.Length () ; i++)
-    rewards[i]->Reward ();
+  reward_counter++;
+  if (reward_counter == 1)
+  {
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  }
+}
+
+void celQuestStateResponse::TickEveryFrame ()
+{
+  while (reward_counter > 0)
+  {
+    size_t i;
+    for (i = 0 ; i < rewards.Length () ; i++)
+      rewards[i]->Reward ();
+    reward_counter--;
+  }
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
 }
 
 //---------------------------------------------------------------------------
 
 size_t celQuestState::AddResponse ()
 {
-  celQuestStateResponse* response = new celQuestStateResponse ();
+  celQuestStateResponse* response = new celQuestStateResponse (pl);
   size_t idx = responses.Push (response);
   response->DecRef ();
   return idx;
@@ -351,9 +367,10 @@ SCF_IMPLEMENT_IBASE (celQuest)
   SCF_IMPLEMENTS_INTERFACE (iQuest)
 SCF_IMPLEMENT_IBASE_END
 
-celQuest::celQuest ()
+celQuest::celQuest (iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
+  celQuest::pl = pl;
   current_state = -1;
 }
 
@@ -372,7 +389,7 @@ void celQuest::DeactivateState (size_t stateidx)
     st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
 }
 
-bool celQuest::SwitchState (const char* state)
+bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
 {
   // @@@ This code could be slow with really complex
   // quests that have lots of states. In practice most quests
@@ -383,18 +400,45 @@ bool celQuest::SwitchState (const char* state)
   {
     if (strcmp (state, states[i]->GetName ()) == 0)
     {
-      if (i == (size_t)current_state) return true;	// Nothing happens.
       DeactivateState (current_state);
       current_state = i;
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
-      {
-        st->GetResponse (j)->GetTrigger ()->ActivateTrigger ();
-      }
+	if (databuf)
+	{
+          if (!st->GetResponse (j)->GetTrigger ()
+	  	->LoadAndActivateTrigger (databuf))
+	    return false;	// @@@ Report?
+	}
+	else
+	{
+          st->GetResponse (j)->GetTrigger ()->ActivateTrigger ();
+        }
       return true;
     }
   }
   return false;
+}
+
+bool celQuest::SwitchState (const char* state)
+{
+  return SwitchState (state, 0);
+}
+
+bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
+{
+  return SwitchState (state, databuf);
+}
+
+void celQuest::SaveState (iCelDataBuffer* databuf)
+{
+  if (size_t (current_state) != csArrayItemNotFound)
+  {
+    celQuestState* st = states[current_state];
+    size_t i;
+    for (i = 0 ; i < st->GetResponseCount () ; i++)
+      st->GetResponse (i)->GetTrigger ()->SaveTriggerState (databuf);
+  }
 }
 
 const char* celQuest::GetCurrentState () const
@@ -405,7 +449,7 @@ const char* celQuest::GetCurrentState () const
 
 int celQuest::AddState (const char* name)
 {
-  return states.Push (new celQuestState (name));
+  return states.Push (new celQuestState (pl, name));
 }
 
 int celQuest::AddStateResponse (int stateidx)
@@ -451,6 +495,7 @@ celQuestManager::~celQuestManager ()
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 
   {
     celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (

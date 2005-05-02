@@ -554,7 +554,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   has_gravity_collider = false;
   gravity_mesh = 0;
 
-  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
 
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];

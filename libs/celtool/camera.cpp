@@ -40,14 +40,15 @@ celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
 
   DisableDistanceClipping ();
 
-  pl->CallbackPCEveryFrame (this, cscmdProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdProcess);
 }
 
 celPcCameraCommon::~celPcCameraCommon ()
 {
 }
 
-bool celPcCameraCommon::SetRegion (iPcRegion* newregion, bool point, const char *name)
+bool celPcCameraCommon::SetRegion (iPcRegion* newregion, bool point,
+	const char *name)
 {
   region = newregion;
   zonemgr = 0;
@@ -198,9 +199,9 @@ void celPcCameraCommon::AdaptDistanceClipping (csTicks elapsed_time)
 void celPcCameraCommon::SetAutoDraw(bool auto_draw)
 {
   if (auto_draw)
-    pl->CallbackPCEveryFrame(this, cscmdProcess);
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdProcess);
   else
-    pl->RemoveCallbackPCEveryFrame(this, cscmdProcess);
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdProcess);
 }
 
 void celPcCameraCommon::Draw ()

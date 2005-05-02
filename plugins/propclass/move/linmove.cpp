@@ -195,7 +195,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
    */
   topSize.Set(0, 0, 0);
 
-  pl->CallbackPCEveryFrame (this, cscmdPreProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
 }
 
 celPcLinearMovement::~celPcLinearMovement ()
