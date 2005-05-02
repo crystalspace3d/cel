@@ -313,7 +313,7 @@ bool celPcRegion::Load (bool allow_entity_addon)
 
   // If we don't allow the entity addon to work then we mark this here
   // in the physical layer.
-  bool prev_allow_entity_addon;
+  bool prev_allow_entity_addon = false;
   if (!allow_entity_addon)
   {
     prev_allow_entity_addon = pl->IsEntityAddonAllowed ();
