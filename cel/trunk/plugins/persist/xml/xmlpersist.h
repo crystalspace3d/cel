@@ -63,7 +63,7 @@ public:
   csRef<iVFS> vfs;
   iCelLocalEntitySet* set;
   csWeakRef<iCelPlLayer> pl;
-  csHash<size_t,iCelEntity*> entities_map;
+  csHash<size_t, csPtrKey<iCelEntity> > entities_map;
   
   celPersistXML (iBase* parent);
   virtual ~celPersistXML ();

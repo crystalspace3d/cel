@@ -552,7 +552,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
     if (!strcmp ("entity", value))
     {
       csRef<iCelEntity> ent = pl->CreateEntity ();
-      entities_map.Put (ent, idx);
+      entities_map.Put ((iCelEntity*)ent, idx);
       set->AddEntity (ent);
       idx++;
     }

@@ -42,8 +42,8 @@ class celMeshcb : public iSectorMeshCallback
 private:
   iSector* sector;
   csWeakRef<celEntityTracker> tracker;
-  csSet<iMeshWrapper*> portals;
-  csSet<iMeshWrapper*> meshes;
+  csSet<csPtrKey<iMeshWrapper> > portals;
+  csSet<csPtrKey<iMeshWrapper> > meshes;
 
 public:
   celMeshcb (celEntityTracker* tracker, iSector* sector)
@@ -58,13 +58,16 @@ public:
   }
 
   iSector* GetSector () const { return sector; }
-  const csSet<iMeshWrapper*>& GetPortals () const { return portals; }
-  const csSet<iMeshWrapper*>& GetMeshes () const { return meshes; }
+  const csSet<csPtrKey<iMeshWrapper> >& GetPortals () const 
+  { return portals; }
+  const csSet<csPtrKey<iMeshWrapper> >& GetMeshes () const 
+  { return meshes; }
 
   /// Register all portals and entities for a new sector.
   void RegisterPortalsAndEntities ()
   {
-    const csSet<iMeshWrapper*>& entity_meshes = tracker->GetEntityMeshes ();
+    const csSet<csPtrKey<iMeshWrapper> >& entity_meshes = 
+      tracker->GetEntityMeshes ();
     int i, cnt;
     iMeshList* ml = sector->GetMeshes ();
     cnt = ml->GetCount ();
@@ -238,11 +241,12 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
   celMeshcb* cb = index_mesh_cbs.Get (sector, 0);
   if (cb)
   {
-    const csSet<iMeshWrapper*>& meshes = cb->GetMeshes ();
-    csSet<iMeshWrapper*>::GlobalIterator meshes_it = meshes.GetIterator ();
+    const csSet<csPtrKey<iMeshWrapper> >& meshes = cb->GetMeshes ();
+    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator meshes_it = 
+      meshes.GetIterator ();
     while (meshes_it.HasNext ())
     {
-      iMeshWrapper* mesh = meshes_it.Next ();
+      csPtrKey<iMeshWrapper> mesh = meshes_it.Next ();
       bool invisible = mesh->GetFlags ().Check (CS_ENTITY_INVISIBLE);
       if (invisible) continue;
       csVector3 mpos = mesh->GetMovable ()->GetFullPosition ();
@@ -253,11 +257,12 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
       }
     }
 
-    const csSet<iMeshWrapper*>& portals = cb->GetPortals ();
-    csSet<iMeshWrapper*>::GlobalIterator portals_it = portals.GetIterator ();
+    const csSet<csPtrKey<iMeshWrapper> >& portals = cb->GetPortals ();
+    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portals_it = 
+      portals.GetIterator ();
     while (portals_it.HasNext ())
     {
-      iMeshWrapper* mesh = portals_it.Next ();
+      csPtrKey<iMeshWrapper> mesh = portals_it.Next ();
       bool invisible = mesh->GetFlags ().Check (CS_ENTITY_INVISIBLE);
       if (invisible) continue;
       csVector3 mpos = mesh->GetMovable ()->GetFullPosition ();

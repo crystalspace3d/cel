@@ -140,7 +140,7 @@ private:
   csString cache_path;
   bool loaded;
   csRefArray<celMapFile> mapfiles;
-  csSet<iSector*> sectors;
+  csSet<csPtrKey<iSector> > sectors;
 
   // This property class maintains private child entities.
   csWeakRefArray<iCelEntity> entities;

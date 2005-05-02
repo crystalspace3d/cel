@@ -768,7 +768,7 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
     // @@@ Not efficient! Store pl!
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     csRef<iCelEntity> ent = pl->CreateEntity ();
-    entities_map.Put (ent, i);
+    entities_map.Put ((iCelEntity*)ent, i);
     set->AddEntity (ent);
   }
 

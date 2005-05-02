@@ -358,10 +358,10 @@ void celPcTrigger::TickOnce ()
     size_t i;
 
     // Fill a set with all entities that are currently in trigger.
-    csSet<iCelEntity*> previous_entities;
+    csSet<csPtrKey<iCelEntity> > previous_entities;
     for (i = 0 ; i < entities_in_trigger.Length () ; i++)
       if (entities_in_trigger[i])
-        previous_entities.Add (entities_in_trigger[i]);
+        previous_entities.Add ((iCelEntity*)entities_in_trigger[i]);
 
     // Now clear our entities_in_trigger table. We will fill it again.
     entities_in_trigger.SetLength (0);
@@ -385,7 +385,7 @@ void celPcTrigger::TickOnce ()
 
     // All entities that are still in the set were in the trigger
     // last time but are not any longer.
-    csSet<iCelEntity*>::GlobalIterator it = previous_entities.GetIterator ();
+    csSet<csPtrKey<iCelEntity> >::GlobalIterator it = previous_entities.GetIterator ();
     while (it.HasNext ())
     {
       iCelEntity* ent = it.Next ();
