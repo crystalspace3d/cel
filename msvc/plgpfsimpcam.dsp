@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="plgpfengine" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="plgpfsimpcam" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=plgpfengine - Win32 Release
+CFG=plgpfsimpcam - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "plgpfengine.mak".
+!MESSAGE NMAKE /f "plgpfsimpcam.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "plgpfengine.mak" CFG="plgpfengine - Win32 Release"
+!MESSAGE NMAKE /f "plgpfsimpcam.mak" CFG="plgpfsimpcam - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "plgpfengine - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "plgpfengine - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfsimpcam - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "plgpfsimpcam - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "plgpfengine - Win32 Release"
+!IF  "$(CFG)" == "plgpfsimpcam - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -38,8 +38,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\out\release\build\plgpfengine\"
-# PROP Intermediate_Dir "..\out\release\build\plgpfengine\"
+# PROP Output_Dir "..\out\release\build\plgpfsimpcam\"
+# PROP Intermediate_Dir "..\out\release\build\plgpfsimpcam\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
@@ -47,7 +47,7 @@ RSC=rc.exe
 # ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "NDEBUG" /D "_WINDOWS"
 # ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409 /fo".\..\out\release\build\plgpfengine\plgpfengine.res" /D "NDEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include" /i "..\..\..\CS\include" /i "$(CRYSTAL)\include" /i "$(CRYSTAL)\include\crystalspace"
+# ADD RSC /l 0x409 /fo".\..\out\release\build\plgpfsimpcam\plgpfsimpcam.res" /D "NDEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include" /i "..\..\..\CS\include" /i "$(CRYSTAL)\include" /i "$(CRYSTAL)\include\crystalspace"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -56,12 +56,12 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib  /nologo /version:4.0 /machine:I386 /OPT:NOREF /dll /out:"..\pfengine.dll" /subsystem:windows /libpath:"..\..\..\CS\out\release\libs" /libpath:"..\..\..\CS\libs\csutil\win32" /libpath:"$(CRYSTAL)\out\release\libs" /libpath:"$(CRYSTAL)\libs" /libpath:"$(CRYSTAL)\libs\csutil\win32" 
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib  /nologo /version:4.0 /machine:I386 /OPT:NOREF /dll /out:"..\pfsimpcam.dll" /subsystem:windows /libpath:"..\..\..\CS\out\release\libs" /libpath:"..\..\..\CS\libs\csutil\win32" /libpath:"$(CRYSTAL)\out\release\libs" /libpath:"$(CRYSTAL)\libs" /libpath:"$(CRYSTAL)\libs\csutil\win32" 
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "plgpfengine - Win32 Debug"
+!ELSEIF  "$(CFG)" == "plgpfsimpcam - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -70,8 +70,8 @@ SOURCE="$(InputPath)"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\out\debug\build\plgpfengine\"
-# PROP Intermediate_Dir "..\out\debug\build\plgpfengine\"
+# PROP Output_Dir "..\out\debug\build\plgpfsimpcam\"
+# PROP Intermediate_Dir "..\out\debug\build\plgpfsimpcam\"
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /vmb /vms /W3 /Gm /G5 /D "WIN32" /FD /c
@@ -79,7 +79,7 @@ SOURCE="$(InputPath)"
 # ADD BASE MTL /nologo /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /mktyplib203 /o "NUL" /win32 /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS"
 # ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409 /fo".\..\out\debug\build\plgpfengine\plgpfengine.res" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include" /i "..\..\..\CS\include" /i "$(CRYSTAL)\include" /i "$(CRYSTAL)\include\crystalspace"
+# ADD RSC /l 0x409 /fo".\..\out\debug\build\plgpfsimpcam\plgpfsimpcam.res" /D "_DEBUG" /D "CS_DEBUG" /D "_WINDOWS" /D "CS_WIN32_CSCONFIG" /D "__CRYSTAL_SPACE__" /i "." /i ".." /i "..\include" /i "..\..\..\CS\include" /i "$(CRYSTAL)\include" /i "$(CRYSTAL)\include\crystalspace"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -88,7 +88,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo 
 LINK32=link.exe
 # ADD BASE LINK32 user32.lib gdi32.lib advapi32.lib /nologo /machine:I386
-# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib  /nologo /version:4.0 /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfengine.dll" /subsystem:windows /libpath:"..\..\..\CS\out\debug\libs" /libpath:"..\..\..\CS\libs\csutil\win32" /libpath:"$(CRYSTAL)\out\debug\libs" /libpath:"$(CRYSTAL)\libs" /libpath:"$(CRYSTAL)\libs\csutil\win32" 
+# ADD LINK32 shell32.lib user32.lib gdi32.lib advapi32.lib delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib  /nologo /version:4.0 /machine:I386 /debug /pdbtype:sept /dll /out:"..\pfsimpcam.dll" /subsystem:windows /libpath:"..\..\..\CS\out\debug\libs" /libpath:"..\..\..\CS\libs\csutil\win32" /libpath:"$(CRYSTAL)\out\debug\libs" /libpath:"$(CRYSTAL)\libs" /libpath:"$(CRYSTAL)\libs\csutil\win32" 
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 # End Special Build Tool
@@ -97,14 +97,14 @@ SOURCE="$(InputPath)"
 
 # Begin Target
 
-# Name "plgpfengine - Win32 Release"
-# Name "plgpfengine - Win32 Debug"
+# Name "plgpfsimpcam - Win32 Release"
+# Name "plgpfsimpcam - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\engine\engfact.cpp
+SOURCE=..\plugins\propclass\simpcam\simpcam.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -112,7 +112,7 @@ SOURCE=..\plugins\propclass\engine\engfact.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\plugins\propclass\engine\engfact.h
+SOURCE=..\plugins\propclass\simpcam\simpcam.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -120,11 +120,11 @@ SOURCE=..\plugins\propclass\engine\engfact.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\msvc\plgpfengine.rc
+SOURCE=..\msvc\plgpfsimpcam.rc
 # End Source File
 # Begin Source File
 
-SOURCE=..\plugins\propclass\engine\pfengine.csplugin
+SOURCE=..\plugins\propclass\simpcam\pfsimpcam.csplugin
 # End Source File
 # End Group
 # End Target

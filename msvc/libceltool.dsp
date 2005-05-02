@@ -104,6 +104,10 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\libs\celtool\camera.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\libs\celtool\initapp.cpp
 # End Source File
 # Begin Source File
@@ -122,6 +126,10 @@ SOURCE=..\libs\celtool\stdpcimp.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\libs\celtool\..\..\include\celtool\camera.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\libs\celtool\..\..\include\celtool\initapp.h

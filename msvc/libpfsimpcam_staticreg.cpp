@@ -15,36 +15,36 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_pfengine[] =
+static char const metainfo_pfsimpcam[] =
 "<?xml version=\"1.0\"?>"
-"<!-- pfengine.csplugin -->"
+"<!-- pfsimpcam.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.pcfactory.region</name>"
-"        <implementation>celPfRegion</implementation>"
-"	<description>CEL Region Property Class Factory</description>"
+"        <name>cel.pcfactory.simplecamera</name>"
+"        <implementation>celPfSimpleCamera</implementation>"
+"	<description>CEL Simple Camera Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celPfRegion_FACTORY_REGISTER_DEFINED 
-  #define celPfRegion_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRegion) 
+  #ifndef celPfSimpleCamera_FACTORY_REGISTER_DEFINED 
+  #define celPfSimpleCamera_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSimpleCamera) 
   #endif
 
-class pfengine
+class pfsimpcam
 {
-SCF_REGISTER_STATIC_LIBRARY(pfengine,metainfo_pfengine)
-  #ifndef celPfRegion_FACTORY_REGISTERED 
-  #define celPfRegion_FACTORY_REGISTERED 
-    celPfRegion_StaticInit celPfRegion_static_init__; 
+SCF_REGISTER_STATIC_LIBRARY(pfsimpcam,metainfo_pfsimpcam)
+  #ifndef celPfSimpleCamera_FACTORY_REGISTERED 
+  #define celPfSimpleCamera_FACTORY_REGISTERED 
+    celPfSimpleCamera_StaticInit celPfSimpleCamera_static_init__; 
   #endif
 public:
- pfengine();
+ pfsimpcam();
 };
-pfengine::pfengine() {}
+pfsimpcam::pfsimpcam() {}
 
 }

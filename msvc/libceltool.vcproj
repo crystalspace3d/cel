@@ -163,6 +163,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\libs\celtool\camera.cpp">
+			</File>
+			<File
 				RelativePath="..\libs\celtool\initapp.cpp">
 			</File>
 			<File
@@ -178,6 +181,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\libs\celtool\..\..\include\celtool\camera.h">
+			</File>
 			<File
 				RelativePath="..\libs\celtool\..\..\include\celtool\initapp.h">
 			</File>
