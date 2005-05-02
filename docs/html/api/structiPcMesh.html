@@ -29,7 +29,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a1">SetMesh</a> (const char *factname, const char *filename)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh filename to use.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a2">SetMesh</a> (iMeshWrapper *mesh)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a2">SetMesh</a> (iMeshWrapper *mesh, bool do_remove=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to use directly.  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a3">CreateEmptyThing</a> ()=0</td></tr>
@@ -308,9 +308,18 @@ This only works for 3D sprites. For other mesh objects nothing will happen.     
           <td class="md" nowrap valign="top">virtual void iPcMesh::SetMesh           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">iMeshWrapper *&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>mesh</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
+          <td class="mdname" nowrap> <em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>do_remove</em> = <code>false</code></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
         </tr>
       </table>
     </td>
@@ -326,7 +335,13 @@ This only works for 3D sprites. For other mesh objects nothing will happen.     
 <p>
 Set the mesh to use directly. 
 <p>
-It is normally not recommended to use this function directly. <a class="el" href="structiPcRegion.html">iPcRegion</a> will use it for its dummy entities.     </td>
+It is normally not recommended to use this function directly. <a class="el" href="structiPcRegion.html">iPcRegion</a> will use it for its dummy entities. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>mesh</em>&nbsp;</td><td>a pointer to an iMeshWrapper that will be attached to the pcmesh. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>do_remove</em>&nbsp;</td><td>if true then this pcmesh will remove the mesh on destruction. By default this will not happen if you use <a class="el" href="structiPcMesh.html#a1">SetMesh()</a> on an already existing mesh. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a1" doxytag="iPcMesh::SetMesh"></a><p>

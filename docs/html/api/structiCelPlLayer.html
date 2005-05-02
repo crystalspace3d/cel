@@ -149,30 +149,30 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a41">FetchString</a> (csStringID id)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find the string that corresponds with some ID.  <a href="#a41"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a42">AddEntityRemoveCallback</a> (iCelEntityRemoveCallback *clback)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a42">AddEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is removed.  <a href="#a42"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a43">RemoveEntityRemoveCallback</a> (iCelEntityRemoveCallback *clback)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a43">RemoveEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes an registered RemoveCallback.  <a href="#a43"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a44">AddNewEntityCallback</a> (iCelNewEntityCallback *clback)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a44">AddNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is added.  <a href="#a44"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a45">RemoveNewEntityCallback</a> (iCelNewEntityCallback *clback)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a45">RemoveNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes an registered NewCallback.  <a href="#a45"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a46">CallbackPCEveryFrame</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, int where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a46">CallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this property class as one that is interested in getting an event every frame.  <a href="#a46"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a47">CallbackPCOnce</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, csTicks delta, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event every frame.  <a href="#a46"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a47">CallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, csTicks delta, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this property class as one that is interested in getting an event in 'delta' milliseconds.  <a href="#a47"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a48">RemoveCallbackPCEveryFrame</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event in 'delta' milliseconds.  <a href="#a47"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a48">RemoveCallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'every-frame' callbacks to a specific pc.  <a href="#a48"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a49">RemoveCallbackPCOnce</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'every-frame' callbacks to a specific listener.  <a href="#a48"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a49">RemoveCallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'once' callbacks to a specific pc.  <a href="#a49"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'once' callbacks to a specific listener.  <a href="#a49"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a50">AddScope</a> (csString version, int size)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an ID scope to the physical layer.  <a href="#a50"></a><br></td></tr>
@@ -182,7 +182,7 @@ This is the Physical Layer itself.
 <p>
 
 <p>
-Definition at line <a class="el" href="pl_8h-source.html#l00065">65</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="pl_8h-source.html#l00095">95</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a42" doxytag="iCelPlLayer::AddEntityRemoveCallback"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -191,7 +191,7 @@ Definition at line <a class="el" href="pl_8h-source.html#l00065">65</a> of file 
         <tr>
           <td class="md" nowrap valign="top">virtual void iCelPlLayer::AddEntityRemoveCallback           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">iCelEntityRemoveCallback *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>clback</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
@@ -221,7 +221,7 @@ This registers a callback that is called each time when an entity is removed.
         <tr>
           <td class="md" nowrap valign="top">virtual void iCelPlLayer::AddNewEntityCallback           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">iCelNewEntityCallback *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>clback</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
@@ -351,16 +351,16 @@ Cache an SCF object.
 This effectively means that the PL will keep a references to this object. This function will not add the object if it is already cached so it is safe to call multiple times.     </td>
   </tr>
 </table>
-<a class="anchor" name="a46" doxytag="iCelPlLayer::CallbackPCEveryFrame"></a><p>
+<a class="anchor" name="a46" doxytag="iCelPlLayer::CallbackEveryFrame"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iCelPlLayer::CallbackPCEveryFrame           </td>
+          <td class="md" nowrap valign="top">virtual void iCelPlLayer::CallbackEveryFrame           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td>
-          <td class="mdname" nowrap> <em>pc</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>listener</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -385,27 +385,27 @@ This effectively means that the PL will keep a references to this object. This f
     <td>
 
 <p>
-Register this property class as one that is interested in getting an event every frame. 
+Register this listener as one that is interested in getting an event every frame. 
 <p>
-This will call iCelPropertyClass-&gt;Tick(). <dl compact><dt><b>Parameters:</b></dt><dd>
+This will call TickEveryFrame(). <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pc</em>&nbsp;</td><td>is the property class. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>listener</em>&nbsp;</td><td>is the <a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> listener. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be cscmdPreProcess, cscmdProcess, cscmdPostProcess, or cscmdFinalProcess. </td></tr>
   </table>
 </dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a47" doxytag="iCelPlLayer::CallbackPCOnce"></a><p>
+<a class="anchor" name="a47" doxytag="iCelPlLayer::CallbackOnce"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iCelPlLayer::CallbackPCOnce           </td>
+          <td class="md" nowrap valign="top">virtual void iCelPlLayer::CallbackOnce           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td>
-          <td class="mdname" nowrap> <em>pc</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>listener</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -436,11 +436,11 @@ This will call iCelPropertyClass-&gt;Tick(). <dl compact><dt><b>Parameters:</b><
     <td>
 
 <p>
-Register this property class as one that is interested in getting an event in 'delta' milliseconds. 
+Register this listener as one that is interested in getting an event in 'delta' milliseconds. 
 <p>
-This will call iCelPropertyClass-&gt;Tick(). <dl compact><dt><b>Parameters:</b></dt><dd>
+This will call Tick(). <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pc</em>&nbsp;</td><td>is the property class. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>listener</em>&nbsp;</td><td>is the <a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> listener. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>delta</em>&nbsp;</td><td>is the time to wait before firing in milliseconds. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be cscmdPreProcess, cscmdProcess, cscmdPostProcess, or cscmdFinalProcess. </td></tr>
   </table>
@@ -1493,16 +1493,16 @@ Register a property class factory with this physical layer.
 It is not needed for apps to call this function as the property class factory itself will do it when it is loaded. To load a property class factory plugin you can use <a class="el" href="structiCelPlLayer.html#a24">LoadPropertyClassFactory()</a>.     </td>
   </tr>
 </table>
-<a class="anchor" name="a48" doxytag="iCelPlLayer::RemoveCallbackPCEveryFrame"></a><p>
+<a class="anchor" name="a48" doxytag="iCelPlLayer::RemoveCallbackEveryFrame"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveCallbackPCEveryFrame           </td>
+          <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveCallbackEveryFrame           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td>
-          <td class="mdname" nowrap> <em>pc</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>listener</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -1527,21 +1527,21 @@ It is not needed for apps to call this function as the property class factory it
     <td>
 
 <p>
-Remove all 'every-frame' callbacks to a specific pc. 
+Remove all 'every-frame' callbacks to a specific listener. 
 <p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a49" doxytag="iCelPlLayer::RemoveCallbackPCOnce"></a><p>
+<a class="anchor" name="a49" doxytag="iCelPlLayer::RemoveCallbackOnce"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveCallbackPCOnce           </td>
+          <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveCallbackOnce           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td>
-          <td class="mdname" nowrap> <em>pc</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>listener</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -1566,7 +1566,7 @@ Remove all 'every-frame' callbacks to a specific pc.
     <td>
 
 <p>
-Remove all 'once' callbacks to a specific pc. 
+Remove all 'once' callbacks to a specific listener. 
 <p>
     </td>
   </tr>
@@ -1638,7 +1638,7 @@ Remove an entity from the physical layer.
         <tr>
           <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveEntityRemoveCallback           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">iCelEntityRemoveCallback *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>clback</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
@@ -1698,7 +1698,7 @@ Remove a tracker.
         <tr>
           <td class="md" nowrap valign="top">virtual void iCelPlLayer::RemoveNewEntityCallback           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">iCelNewEntityCallback *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>clback</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>

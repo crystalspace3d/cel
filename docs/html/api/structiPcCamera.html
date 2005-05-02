@@ -18,14 +18,16 @@
 <h1>iPcCamera Struct Reference</h1>The representation of a camera.  
 <a href="#_details">More...</a>
 <p>
-<code>#include &lt;<a class="el" href="camera_8h-source.html">propclass/camera.h</a>&gt;</code>
+<code>#include &lt;<a class="el" href="propclass_2camera_8h-source.html">propclass/camera.h</a>&gt;</code>
 <p>
+<p>Inheritance diagram for iPcCamera:
+<p><center><img src="structiPcCamera.png" usemap="#iPcCamera_map" border="0" alt=""></center>
+<map name="iPcCamera_map">
+<area href="classiPcDefaultCamera.html" alt="iPcDefaultCamera" shape="rect" coords="0,56,114,80">
+<area href="structiPcSimpleCamera.html" alt="iPcSimpleCamera" shape="rect" coords="124,56,238,80">
+</map>
 <a href="structiPcCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
-<tr><td colspan="2"><br><h2>Public Types</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#w10">CameraMode</a> </td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Camera modes.  <a href="structiPcCamera.html#w10">More...</a><br></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a0">SetRegion</a> (<a class="el" href="structiPcRegion.html">iPcRegion</a> *region, bool point=true, const char *name=0)=0</td></tr>
 
@@ -33,194 +35,68 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a1">SetZoneManager</a> (<a class="el" href="structiPcZoneManager.html">iPcZoneManager</a> *zonemgr, bool point, const char *regionname, const char *name=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a2">SetMode</a> (<a class="el" href="structiPcCamera.html#w10">CameraMode</a> m, bool use_cd=true)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a2">SetRectangle</a> (int x, int y, int w, int h)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set camera mode.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcCamera.html#w10">CameraMode</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a3">GetMode</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the view rectangle to use on screen.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCamera *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a3">GetCamera</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get camera mode.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a4">SetModeName</a> (const char *m, bool use_cd=true)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the camera.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iView *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a4">GetView</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set camera mode by name.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a5">GetModeName</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the view.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a5">SetClearZBuffer</a> (bool flag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get camera mode name.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcCamera.html#w10">CameraMode</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a6">GetNextMode</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear z-buffer every frame.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a6">GetClearZBuffer</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get next possible camera mode.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a7">SetSpringParameters</a> (float springCoef, float intertialDampeningCoef, float springLength)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a7">SetClearScreen</a> (bool flag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set spring parameters for the current camera mode.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a8">SetMinMaxCameraDistance</a> (float minDistance, float maxDistance)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear screen every frame.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a8">GetClearScreen</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the minimum and maximum distance between camera and player.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a9">SetTurnSpeed</a> (float turnSpeed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear screen flag.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a9">DisableDistanceClipping</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the turn speed for the camera.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a10">SetSwingCoef</a> (float swingCoef)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable distance clipping.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a10">EnableFixedDistanceClipping</a> (float dist)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the swing coefficient for the camera.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a11">SetFirstPersonOffset</a> (const csVector3 &amp;offset)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fixed distance clipping.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a11">EnableAdaptiveDistanceClipping</a> (float min_fps, float max_fps, float min_dist)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set offset for first person camera (offset for camera relative to player model).  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a12">SetThirdPersonOffset</a> (const csVector3 &amp;offset)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable adaptive distance clipping.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a12">UseDistanceClipping</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set offset for third person camera (offset for camera relative to player model).  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a13">CenterCamera</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use distance clipping (either fixed or adaptive).  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a13">UseFixedDistanceClipping</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Center camera in any mode except first person mode.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a14">SetPitch</a> (float pitch)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use fixed distance clipping (as opposed to adaptive).  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a14">GetFixedDistance</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Control pitch.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a15">GetPitch</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a15">GetAdaptiveMinFPS</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get current pitch.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a16">SetPitchVelocity</a> (float pitchVel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum fps used for adaptive distance clipping.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a16">GetAdaptiveMaxFPS</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Control velocity of pitch.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a17">GetPitchVelocity</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum fps used for adaptive distance clipping.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a17">GetAdaptiveMinDistance</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get current pitch velocity.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a18">SetRectangle</a> (int x, int y, int w, int h)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum distance used for adaptive distance clipping.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a18">SetAutoDraw</a> (bool auto_draw)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the view rectangle to use on screen.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCamera *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a19">GetCamera</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the auto-draw option.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a19">Draw</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the camera.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iView *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a20">GetView</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the view.  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a21">MovePitch</a> (float deltaPitch, int mode=-1)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Moves the pitch (up/down) of the camera.  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a22">SetYaw</a> (float yaw, int mode=-1)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the yaw (left/right) of the camera.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a23">MoveYaw</a> (float deltaYaw, int mode=-1)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Moves the yaw (left/right) of the camera.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a24">GetYaw</a> (int mode=-1) const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the yaw (left/right) of the camera.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a25">SetYawVelocity</a> (float yawVel)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the yaw (up/down) velocity of the camera.  <a href="#a25"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a26">GetYawVelocity</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the yaw (up/down) velocity of the camera.  <a href="#a26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a27">SetClearZBuffer</a> (bool flag)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear z-buffer every frame.  <a href="#a27"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a28">GetClearZBuffer</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#a28"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a29">SetClearScreen</a> (bool flag)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear screen every frame.  <a href="#a29"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a30">GetClearScreen</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear screen flag.  <a href="#a30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a31">DisableDistanceClipping</a> ()=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable distance clipping.  <a href="#a31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a32">EnableFixedDistanceClipping</a> (float dist)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fixed distance clipping.  <a href="#a32"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a33">EnableAdaptiveDistanceClipping</a> (float min_fps, float max_fps, float min_dist)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable adaptive distance clipping.  <a href="#a33"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a34">UseDistanceClipping</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use distance clipping (either fixed or adaptive).  <a href="#a34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a35">UseFixedDistanceClipping</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use fixed distance clipping (as opposed to adaptive).  <a href="#a35"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a36">GetFixedDistance</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#a36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a37">GetAdaptiveMinFPS</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum fps used for adaptive distance clipping.  <a href="#a37"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a38">GetAdaptiveMaxFPS</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum fps used for adaptive distance clipping.  <a href="#a38"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a39">GetAdaptiveMinDistance</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum distance used for adaptive distance clipping.  <a href="#a39"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a40">SetAutoDraw</a> (bool auto_draw)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the auto-draw option.  <a href="#a40"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a41">Draw</a> ()=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a41"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a42">SetDistance</a> (float distance, int mode=-1)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the distance between the character's eyes and the camera.  <a href="#a42"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a19"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The representation of a camera. 
 <p>
 
 <p>
-Definition at line <a class="el" href="camera_8h-source.html#l00036">36</a> of file <a class="el" href="camera_8h-source.html">camera.h</a>.<hr><h2>Member Enumeration Documentation</h2>
-<a class="anchor" name="w10" doxytag="iPcCamera::CameraMode"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">enum <a class="el" href="structiPcCamera.html#w10">iPcCamera::CameraMode</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Camera modes. 
-<p>
-
-<p>
-Definition at line <a class="el" href="camera_8h-source.html#l00041">41</a> of file <a class="el" href="camera_8h-source.html">camera.h</a>.    </td>
-  </tr>
-</table>
-<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a13" doxytag="iPcCamera::CenterCamera"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::CenterCamera           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Center camera in any mode except first person mode. 
-<p>
-This will basically force the camera behind the actor.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a31" doxytag="iPcCamera::DisableDistanceClipping"></a><p>
+Definition at line <a class="el" href="propclass_2camera_8h-source.html#l00036">36</a> of file <a class="el" href="propclass_2camera_8h-source.html">camera.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a9" doxytag="iPcCamera::DisableDistanceClipping"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -249,7 +125,7 @@ Disable distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a41" doxytag="iPcCamera::Draw"></a><p>
+<a class="anchor" name="a19" doxytag="iPcCamera::Draw"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -275,10 +151,12 @@ Disable distance clipping.
 <p>
 Render. 
 <p>
-This will clear the screen then draw on top of it.     </td>
+This will clear the screen then draw on top of it. 
+<p>
+Implemented in <a class="el" href="structiPcSimpleCamera.html#a3">iPcSimpleCamera</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a33" doxytag="iPcCamera::EnableAdaptiveDistanceClipping"></a><p>
+<a class="anchor" name="a11" doxytag="iPcCamera::EnableAdaptiveDistanceClipping"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -330,7 +208,7 @@ In this mode the clipping plane will vary depending on the desired minimum and m
     </td>
   </tr>
 </table>
-<a class="anchor" name="a32" doxytag="iPcCamera::EnableFixedDistanceClipping"></a><p>
+<a class="anchor" name="a10" doxytag="iPcCamera::EnableFixedDistanceClipping"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -357,10 +235,15 @@ In this mode the clipping plane will vary depending on the desired minimum and m
 <p>
 Enable fixed distance clipping. 
 <p>
-In this mode there is a fixed plane at the specified distance. All geometry that is fully behind that plane will not be rendered. This can speed up rendering.     </td>
+In this mode there is a fixed plane at the specified distance. All geometry that is fully behind that plane will not be rendered. This can speed up rendering. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>dist</em>&nbsp;</td><td>is the distance from the camera to the "far" clipping plane. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
-<a class="anchor" name="a38" doxytag="iPcCamera::GetAdaptiveMaxFPS"></a><p>
+<a class="anchor" name="a16" doxytag="iPcCamera::GetAdaptiveMaxFPS"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -389,7 +272,7 @@ Get the maximum fps used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a39" doxytag="iPcCamera::GetAdaptiveMinDistance"></a><p>
+<a class="anchor" name="a17" doxytag="iPcCamera::GetAdaptiveMinDistance"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -418,7 +301,7 @@ Get the minimum distance used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a37" doxytag="iPcCamera::GetAdaptiveMinFPS"></a><p>
+<a class="anchor" name="a15" doxytag="iPcCamera::GetAdaptiveMinFPS"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -447,7 +330,7 @@ Get the minimum fps used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19" doxytag="iPcCamera::GetCamera"></a><p>
+<a class="anchor" name="a3" doxytag="iPcCamera::GetCamera"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -476,7 +359,7 @@ Get the camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a30" doxytag="iPcCamera::GetClearScreen"></a><p>
+<a class="anchor" name="a8" doxytag="iPcCamera::GetClearScreen"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -505,7 +388,7 @@ Get the clear screen flag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a28" doxytag="iPcCamera::GetClearZBuffer"></a><p>
+<a class="anchor" name="a6" doxytag="iPcCamera::GetClearZBuffer"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -534,7 +417,7 @@ Get the clear zbuffer flag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a36" doxytag="iPcCamera::GetFixedDistance"></a><p>
+<a class="anchor" name="a14" doxytag="iPcCamera::GetFixedDistance"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -563,152 +446,7 @@ Get the fixed distance (returns &lt; 0 if adaptive is used).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="iPcCamera::GetMode"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual <a class="el" href="structiPcCamera.html#w10">CameraMode</a> iPcCamera::GetMode           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get camera mode. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a5" doxytag="iPcCamera::GetModeName"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual const char* iPcCamera::GetModeName           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get camera mode name. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a6" doxytag="iPcCamera::GetNextMode"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual <a class="el" href="structiPcCamera.html#w10">CameraMode</a> iPcCamera::GetNextMode           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get next possible camera mode. 
-<p>
-This is useful for looping over all camera modes with some key in a game.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a15" doxytag="iPcCamera::GetPitch"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual float iPcCamera::GetPitch           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get current pitch. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a17" doxytag="iPcCamera::GetPitchVelocity"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual float iPcCamera::GetPitchVelocity           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get current pitch velocity. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a20" doxytag="iPcCamera::GetView"></a><p>
+<a class="anchor" name="a4" doxytag="iPcCamera::GetView"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -737,163 +475,7 @@ Get the view.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a24" doxytag="iPcCamera::GetYaw"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual float iPcCamera::GetYaw           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">int&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>mode</em> = <code>-1</code>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Returns the yaw (left/right) of the camera. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>Optional - the camera mode to get it from (leave blank for current) </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>the yaw (left/right) of the camera </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a26" doxytag="iPcCamera::GetYawVelocity"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual float iPcCamera::GetYawVelocity           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Gets the yaw (up/down) velocity of the camera. 
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>the yaw (up/down) of the camera </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a21" doxytag="iPcCamera::MovePitch"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::MovePitch           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>deltaPitch</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>int&nbsp;</td>
-          <td class="mdname" nowrap> <em>mode</em> = <code>-1</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Moves the pitch (up/down) of the camera. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>deltaPitch</em>&nbsp;</td><td>the amount to move from the current pitch </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>Optional - the camera mode to apply it to (leave blank for current) </td></tr>
-  </table>
-</dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a23" doxytag="iPcCamera::MoveYaw"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::MoveYaw           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>deltaYaw</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>int&nbsp;</td>
-          <td class="mdname" nowrap> <em>mode</em> = <code>-1</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Moves the yaw (left/right) of the camera. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>deltaYaw</em>&nbsp;</td><td>the amount to move from the current yaw </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>Optional - the camera mode to apply it to (leave blank for current) </td></tr>
-  </table>
-</dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a40" doxytag="iPcCamera::SetAutoDraw"></a><p>
+<a class="anchor" name="a18" doxytag="iPcCamera::SetAutoDraw"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -920,10 +502,15 @@ Moves the yaw (left/right) of the camera.
 <p>
 Set the auto-draw option. 
 <p>
-If this option is enabled, the camera will automatically render.     </td>
+If this option is enabled, the camera will automatically render. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>auto_draw</em>&nbsp;</td><td>will cause the camera to automatically render every frame if set to true, or do nothing if set to false. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
-<a class="anchor" name="a29" doxytag="iPcCamera::SetClearScreen"></a><p>
+<a class="anchor" name="a7" doxytag="iPcCamera::SetClearScreen"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -950,10 +537,15 @@ If this option is enabled, the camera will automatically render.     </td>
 <p>
 Set flag indicating if the camera should clear screen every frame. 
 <p>
-Off by default unless the loaded map specifies this.     </td>
+Off by default unless the loaded map specifies this. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>flag</em>&nbsp;</td><td>if set to true, the camera will clear the screen every frame, otherwise it will not clear the screen. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
-<a class="anchor" name="a27" doxytag="iPcCamera::SetClearZBuffer"></a><p>
+<a class="anchor" name="a5" doxytag="iPcCamera::SetClearZBuffer"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -980,256 +572,15 @@ Off by default unless the loaded map specifies this.     </td>
 <p>
 Set flag indicating if the camera should clear z-buffer every frame. 
 <p>
-Off by default unless the loaded map specifies this.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a42" doxytag="iPcCamera::SetDistance"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetDistance           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>distance</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>int&nbsp;</td>
-          <td class="mdname" nowrap> <em>mode</em> = <code>-1</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
+Off by default unless the loaded map specifies this. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>flag</em>&nbsp;</td><td>if set to true, the camera will clear the z-buffer every frame, otherwise it will not clear the z-buffer. </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set the distance between the character's eyes and the camera. 
-<p>
-The camera algorithms are responsible for calculating the actual position of the camera.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a11" doxytag="iPcCamera::SetFirstPersonOffset"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetFirstPersonOffset           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const csVector3 &amp;&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>offset</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set offset for first person camera (offset for camera relative to player model). 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a8" doxytag="iPcCamera::SetMinMaxCameraDistance"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetMinMaxCameraDistance           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>minDistance</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>float&nbsp;</td>
-          <td class="mdname" nowrap> <em>maxDistance</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set the minimum and maximum distance between camera and player. 
-<p>
-Only used by m64_thirdperson, lara_thirdperson, and freelook.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a2" doxytag="iPcCamera::SetMode"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual bool iPcCamera::SetMode           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiPcCamera.html#w10">CameraMode</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>bool&nbsp;</td>
-          <td class="mdname" nowrap> <em>use_cd</em> = <code>true</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set camera mode. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a4" doxytag="iPcCamera::SetModeName"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual bool iPcCamera::SetModeName           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const char *&nbsp;</td>
-          <td class="mdname" nowrap> <em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>bool&nbsp;</td>
-          <td class="mdname" nowrap> <em>use_cd</em> = <code>true</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set camera mode by name. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a14" doxytag="iPcCamera::SetPitch"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetPitch           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>pitch</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Control pitch. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a16" doxytag="iPcCamera::SetPitchVelocity"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetPitchVelocity           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>pitchVel</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Control velocity of pitch. 
-<p>
-This can be useful for looking up or down.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a18" doxytag="iPcCamera::SetRectangle"></a><p>
+<a class="anchor" name="a2" doxytag="iPcCamera::SetRectangle"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1277,6 +628,14 @@ This can be useful for looking up or down.     </td>
 <p>
 Set the view rectangle to use on screen. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>is the distance from the left side of the screen to the left side of the view. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>is the distance from the top of the screen to the top of the view. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>w</em>&nbsp;</td><td>is the width of the view. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>h</em>&nbsp;</td><td>is the height of the view. </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -1322,219 +681,11 @@ Set the view rectangle to use on screen.
 <p>
 Set Camera to a Region. 
 <p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a7" doxytag="iPcCamera::SetSpringParameters"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetSpringParameters           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>springCoef</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>float&nbsp;</td>
-          <td class="mdname" nowrap> <em>intertialDampeningCoef</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>float&nbsp;</td>
-          <td class="mdname" nowrap> <em>springLength</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set spring parameters for the current camera mode. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a10" doxytag="iPcCamera::SetSwingCoef"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetSwingCoef           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>swingCoef</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set the swing coefficient for the camera. 
-<p>
-Only used by lara_thirdperson.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a12" doxytag="iPcCamera::SetThirdPersonOffset"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetThirdPersonOffset           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const csVector3 &amp;&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>offset</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set offset for third person camera (offset for camera relative to player model). 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a9" doxytag="iPcCamera::SetTurnSpeed"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetTurnSpeed           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>turnSpeed</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set the turn speed for the camera. 
-<p>
-Only used by lara_thirdperson and m64_thirdperson.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a22" doxytag="iPcCamera::SetYaw"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetYaw           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname" nowrap> <em>yaw</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>int&nbsp;</td>
-          <td class="mdname" nowrap> <em>mode</em> = <code>-1</code></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Sets the yaw (left/right) of the camera. 
-<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>yaw</em>&nbsp;</td><td>the new yaw of the camera </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>Optional - the camera mode to apply it to (leave blank for current) </td></tr>
-  </table>
-</dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a25" doxytag="iPcCamera::SetYawVelocity"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcCamera::SetYawVelocity           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>yawVel</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Sets the yaw (up/down) velocity of the camera. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>yawVel</em>&nbsp;</td><td>the velocity of the yaw </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>region</em>&nbsp;</td><td>is a pointer to the region to add the camera to. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>if true, set the camera to a given start position. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>is the name of the start position to move the camera to. </td></tr>
   </table>
 </dl>
     </td>
@@ -1588,10 +739,18 @@ Sets the yaw (up/down) velocity of the camera.
 <p>
 Set Camera to a zone manager. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>zonemgr</em>&nbsp;</td><td>is a pointer to the zone manager to add the camera to. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>if true, set the camera to a given start position. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>regionname</em>&nbsp;</td><td>is the name of the region to add the camera to. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>is the name of the start position to move the camera to. </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a34" doxytag="iPcCamera::UseDistanceClipping"></a><p>
+<a class="anchor" name="a12" doxytag="iPcCamera::UseDistanceClipping"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1620,7 +779,7 @@ Returns true if we use distance clipping (either fixed or adaptive).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a35" doxytag="iPcCamera::UseFixedDistanceClipping"></a><p>
+<a class="anchor" name="a13" doxytag="iPcCamera::UseFixedDistanceClipping"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1650,7 +809,7 @@ Returns true if we use fixed distance clipping (as opposed to adaptive).
   </tr>
 </table>
 <hr>The documentation for this struct was generated from the following file:<ul>
-<li>propclass/<a class="el" href="camera_8h-source.html">camera.h</a></ul>
+<li>propclass/<a class="el" href="propclass_2camera_8h-source.html">camera.h</a></ul>
 <hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
