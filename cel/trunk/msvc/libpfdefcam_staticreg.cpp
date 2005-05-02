@@ -15,36 +15,36 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_pfengine[] =
+static char const metainfo_pfdefcam[] =
 "<?xml version=\"1.0\"?>"
-"<!-- pfengine.csplugin -->"
+"<!-- pfdefcam.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.pcfactory.region</name>"
-"        <implementation>celPfRegion</implementation>"
-"	<description>CEL Region Property Class Factory</description>"
+"        <name>cel.pcfactory.defaultcamera</name>"
+"        <implementation>celPfDefaultCamera</implementation>"
+"	<description>CEL Default Camera Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celPfRegion_FACTORY_REGISTER_DEFINED 
-  #define celPfRegion_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRegion) 
+  #ifndef celPfDefaultCamera_FACTORY_REGISTER_DEFINED 
+  #define celPfDefaultCamera_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfDefaultCamera) 
   #endif
 
-class pfengine
+class pfdefcam
 {
-SCF_REGISTER_STATIC_LIBRARY(pfengine,metainfo_pfengine)
-  #ifndef celPfRegion_FACTORY_REGISTERED 
-  #define celPfRegion_FACTORY_REGISTERED 
-    celPfRegion_StaticInit celPfRegion_static_init__; 
+SCF_REGISTER_STATIC_LIBRARY(pfdefcam,metainfo_pfdefcam)
+  #ifndef celPfDefaultCamera_FACTORY_REGISTERED 
+  #define celPfDefaultCamera_FACTORY_REGISTERED 
+    celPfDefaultCamera_StaticInit celPfDefaultCamera_static_init__; 
   #endif
 public:
- pfengine();
+ pfdefcam();
 };
-pfengine::pfengine() {}
+pfdefcam::pfdefcam() {}
 
 }

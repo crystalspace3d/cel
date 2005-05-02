@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libpfengine_static"
+	Name="libpfsimpcam_static"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\libpfengine_static\"
-			IntermediateDirectory="..\out\release\build\libpfengine_static\"
+			OutputDirectory="..\out\release\build\libpfsimpcam_static\"
+			IntermediateDirectory="..\out\release\build\libpfsimpcam_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -34,10 +34,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\release\build\libpfengine_static\libpfengine_static.pch"
-				AssemblerListingLocation="..\out\release\build\libpfengine_static\"
-				ObjectFile="..\out\release\build\libpfengine_static\"
-				ProgramDataBaseFileName="..\out\release\build\libpfengine_static\libpfengine_static.pdb"
+				PrecompiledHeaderFile="..\out\release\build\libpfsimpcam_static\libpfsimpcam_static.pch"
+				AssemblerListingLocation="..\out\release\build\libpfsimpcam_static\"
+				ObjectFile="..\out\release\build\libpfsimpcam_static\"
+				ProgramDataBaseFileName="..\out\release\build\libpfsimpcam_static\libpfsimpcam_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -56,12 +56,12 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\libpfengine_static\libpfengine_static.pdb"
+				ProgramDatabaseFile="..\out\release\build\libpfsimpcam_static\libpfsimpcam_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\release\libs\libpfengine_static.lib"
+				OutputFile="..\out\release\libs\libpfsimpcam_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -69,7 +69,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\libpfengine_static\libpfengine_static.tlb"/>
+				TypeLibraryName="..\out\release\build\libpfsimpcam_static\libpfsimpcam_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -89,8 +89,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\libpfengine_static\"
-			IntermediateDirectory="..\out\debug\build\libpfengine_static\"
+			OutputDirectory="..\out\debug\build\libpfsimpcam_static\"
+			IntermediateDirectory="..\out\debug\build\libpfsimpcam_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -106,10 +106,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\debug\build\libpfengine_static\libpfengine_static.pch"
-				AssemblerListingLocation="..\out\debug\build\libpfengine_static\"
-				ObjectFile="..\out\debug\build\libpfengine_static\"
-				ProgramDataBaseFileName="..\out\debug\build\libpfengine_static\libpfengine_static.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\libpfsimpcam_static\libpfsimpcam_static.pch"
+				AssemblerListingLocation="..\out\debug\build\libpfsimpcam_static\"
+				ObjectFile="..\out\debug\build\libpfsimpcam_static\"
+				ProgramDataBaseFileName="..\out\debug\build\libpfsimpcam_static\libpfsimpcam_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems=""
@@ -126,12 +126,12 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\libpfengine_static\libpfengine_static.pdb"
+				ProgramDatabaseFile="..\out\debug\build\libpfsimpcam_static\libpfsimpcam_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\debug\libs\libpfengine_static_d.lib"
+				OutputFile="..\out\debug\libs\libpfsimpcam_static_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -139,7 +139,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\libpfengine_static\libpfengine_static.tlb"/>
+				TypeLibraryName="..\out\debug\build\libpfsimpcam_static\libpfsimpcam_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -163,17 +163,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\libpfengine_staticreg.cpp">
+				RelativePath="..\msvc\libpfsimpcam_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\propclass\engine\engfact.cpp">
+				RelativePath="..\plugins\propclass\simpcam\simpcam.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\propclass\engine\engfact.h">
+				RelativePath="..\plugins\propclass\simpcam\simpcam.h">
 			</File>
 		</Filter>
 	</Files>
