@@ -60,6 +60,22 @@ AS_IF([test -n "$SWIG"],
 #----------------------------------------------------------------------------
 CS_CHECK_HOST
 
+#------------------------------------------------------------------------------
+# Check how to enable and disable compilation warnings, and how to promote
+# diagnostics from warning to error status.
+#------------------------------------------------------------------------------
+CS_COMPILER_WARNINGS([C++], [cs_cv_prog_cxx_enable_warnings],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
+	[$cs_cv_prog_cxx_enable_warnings], [+])])
+
+CS_COMPILER_IGNORE_UNUSED([C++], [cs_cv_prog_cxx_ignore_unused],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.WARNING.NO_UNUSED],
+	[$cs_cv_prog_cxx_ignore_unused])])
+
+CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED],
+	[$cs_cv_prog_cxx_ignore_uninitialized])])
+
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------

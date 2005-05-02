@@ -19,14 +19,14 @@
 #ifndef __BLPYTHON_H__
 #define __BLPYTHON_H__
 
+#include <Python.h>
+
 #include "iutil/eventh.h"
 #include "iutil/comp.h"
 #include "ivaria/script.h"
 #include "csutil/csinput.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
-
-#include "Python.h"
 
 extern "C" {
   extern void init_cspace ();
