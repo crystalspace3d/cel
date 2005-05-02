@@ -27,7 +27,7 @@ The history order is reversed so that new features are at the top.
 	  current state. That way the timeout trigger can save how much time
 	  has already elapsed and then restore the trigger correctly when
 	  it is loaded.
-	- Jorrit generalized the timing mechanism in celPlLayer. Upto now
+	- Jorrit generalized the timing mechanism in celPlLayer. Up until now
 	  this mechanism was specific for property classes. Now it is more
 	  general. There is a new iCelTimerListener interface that you can
 	  implement to get notified every frame or at specific intervals.
