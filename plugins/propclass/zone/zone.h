@@ -265,6 +265,14 @@ private:
   csString last_regionname;
   csString last_startname;
 
+  csStringHash xmltokens;
+#define CS_TOKEN_ITEM_FILE "plugins/propclass/zone/zone.tok"
+#include "cstool/tokenlist.h"
+
+  bool ParseRegion (iDocumentNode* regionnode, iCelRegion* region);
+  bool ParseZone (iDocumentNode* zonenode, iCelZone* zone);
+  bool ParseStart (iDocumentNode* startnode);
+
 public:
   celPcZoneManager (iObjectRegistry* object_reg);
   virtual ~celPcZoneManager ();
@@ -291,6 +299,8 @@ public:
 
   void SendZoneMessage (iCelRegion* region, const char* msgid);
 
+  bool Load (iDocumentNode* node);
+
   iCelZone* CreateZone (const char* name);
   size_t GetZoneCount () const { return zones.Length (); }
   iCelZone* GetZone (int idx) const { return (iCelZone*)zones[idx]; }
@@ -315,6 +325,10 @@ public:
   struct PcZoneManager : public iPcZoneManager
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcZoneManager);
+    virtual bool Load (iDocumentNode* node)
+    {
+      return scfParent->Load (node);
+    }
     virtual iCelZone* CreateZone (const char* name)
     {
       return scfParent->CreateZone (name);

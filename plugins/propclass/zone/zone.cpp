@@ -40,6 +40,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/string.h"
 #include "iutil/stringarray.h"
+#include "iutil/document.h"
 #include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -62,7 +63,7 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (ZoneManager, "pczonemanager")
 
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -79,6 +80,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 //---------------------------------------------------------------------------
@@ -248,7 +250,7 @@ bool celRegion::Load (bool allow_entity_addon)
       {
         mgr->GetVFS ()->PopDir ();
       }
-      if (!rc) break;
+      if (!rc)
         return false;
     }
     else break;
@@ -393,6 +395,8 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     id_region = pl->FetchStringID ("cel.parameter.region");
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
+
+  InitTokenTable (xmltokens);
 }
 
 celPcZoneManager::~celPcZoneManager ()
@@ -415,11 +419,7 @@ bool celPcZoneManager::LoadFirstPass (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ZONEMANAGER_SERIAL)
-  {
-    Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
-    return false;
-  }
-
+    return Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
   return true;
 }
 
@@ -433,11 +433,7 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ZONEMANAGER_SERIAL)
-  {
-    Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
-    return false;
-  }
-
+    return Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
   return true;
 }
 
@@ -452,6 +448,166 @@ void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
   if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
   entity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
+}
+
+bool celPcZoneManager::ParseRegion (iDocumentNode* regionnode,
+	iCelRegion* region)
+{
+  csRef<iDocumentNodeIterator> it = regionnode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_MAP:
+	{
+	  const char* file = child->GetAttributeValue ("file");
+	  if (!file)
+            return Report (object_reg,
+	    	"'file' attribute is missing for the map!");
+	  const char* path = child->GetAttributeValue ("path");
+	  iCelMapFile* mapfile = region->CreateMapFile ();
+          if (!mapfile)
+            return Report (object_reg, "Error creating map '%s'!", file);
+	  mapfile->SetPath (path);
+	  mapfile->SetFile (file);
+	}
+        break;
+      default:
+        return Report (object_reg, "Unknown token '%s' in the region!", value);
+    }
+  }
+
+  return true;
+}
+
+bool celPcZoneManager::ParseZone (iDocumentNode* zonenode, iCelZone* zone)
+{
+  csRef<iDocumentNodeIterator> it = zonenode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_REGION:
+	{
+	  const char* regionname = child->GetContentsValue ();
+	  if (!regionname)
+            return Report (object_reg, "Region name missing for zone!");
+          iCelRegion* region = FindRegion (regionname);
+          if (!region)
+            return Report (object_reg, "Can't find region '%s'!", regionname);
+	  zone->LinkRegion (region);
+	}
+        break;
+      default:
+        return Report (object_reg, "Unknown token '%s' in the zone!", value);
+    }
+  }
+
+  return true;
+}
+
+bool celPcZoneManager::ParseStart (iDocumentNode* startnode)
+{
+  csRef<iDocumentNodeIterator> it = startnode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_REGION:
+	{
+	  const char* regionname = child->GetContentsValue ();
+	  if (!regionname)
+            return Report (object_reg, "Region name missing for start!");
+          iCelRegion* region = FindRegion (regionname);
+          if (!region)
+            return Report (object_reg, "Can't find region '%s'!", regionname);
+	  last_regionname = regionname;
+	}
+        break;
+      case XMLTOKEN_NAME:
+	{
+	  const char* startname = child->GetContentsValue ();
+	  if (!startname)
+            return Report (object_reg, "Name missing for start!");
+	  last_startname = startname;
+	}
+        break;
+      default:
+        return Report (object_reg, "Unknown token '%s' in the start section!",
+		value);
+    }
+  }
+
+  return true;
+}
+
+bool celPcZoneManager::Load (iDocumentNode* levelnode)
+{
+  csRef<iDocumentNodeIterator> it = levelnode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_MOUNT:
+        {
+	  const char* vfsname = child->GetAttributeValue ("vfs");
+	  const char* realname = child->GetAttributeValue ("real");
+	  if (!vfs->Mount (vfsname, realname))
+	    return Report (object_reg, "Error mounting '%s' on '%s'!",
+	    	realname, vfsname);
+	}
+	break;
+      case XMLTOKEN_REGION:
+	{
+	  const char* regionname = child->GetAttributeValue ("name");
+	  if (!regionname)
+            return Report (object_reg, "Region name missing!");
+          iCelRegion* region = CreateRegion (regionname);
+          if (!region)
+            return Report (object_reg, "Error creating region '%s'!",
+	    	regionname);
+	  if (!ParseRegion (child, region))
+	    return false;
+	}
+        break;
+      case XMLTOKEN_ZONE:
+        {
+	  const char* zonename = child->GetAttributeValue ("name");
+	  if (!zonename)
+            return Report (object_reg, "Zone name missing!");
+          iCelZone* zone = CreateZone (zonename);
+          if (!zone)
+            return Report (object_reg, "Error creating zone '%s'!", zonename);
+	  if (!ParseZone (child, zone))
+	    return false;
+	}
+        break;
+      case XMLTOKEN_START:
+	if (!ParseStart (child))
+	  return false;
+        break;
+      default:
+        return Report (object_reg, "Unknown token '%s' in the level!", value);
+    }
+  }
+
+  return true;
 }
 
 iCelZone* celPcZoneManager::CreateZone (const char* name)

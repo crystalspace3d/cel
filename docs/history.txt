@@ -45,6 +45,11 @@ The history order is reversed so that new features are at the top.
 	  supported.
 	- Jorrit fixed the quest manager so that it ignores quest factories
 	  that are already there (in the XML loader).
+	- Jorrit added iPcZoneManager->Load() so that you can load a zone
+	  manager setup from XML. This code used to be part of Crystal Core
+	  and is now moved here.
+	- Jorrit fixed a big bug in the zone manager. It would always fail
+	  to load.
 2-May-2005
 	- David Bronke added a comment to iPcMesh::SetMesh to fix a doxygen
 	  warning.
