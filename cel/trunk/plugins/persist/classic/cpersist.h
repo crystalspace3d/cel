@@ -57,6 +57,7 @@ private:
   bool Write (float f);
   bool Write (iCelPropertyClass* pc, bool savelocal);
   bool Write (iCelEntity* entity, bool savelocal);
+  bool WriteFirstPass (iCelEntity* entity);
 
   bool ReadMarker (char* marker);
   bool CheckMarker (const char* comp);
@@ -73,6 +74,7 @@ private:
   bool Read (csRef<iCelDataBuffer>& db);
   bool Read (iCelEntity* entity, iCelPropertyClass*& pc);
   bool Read (iCelEntity*& entity);
+  bool ReadFirstPass (iCelEntity* entity);
 
   bool Report (const char* msg, ...);
   bool ReportTrunc ();

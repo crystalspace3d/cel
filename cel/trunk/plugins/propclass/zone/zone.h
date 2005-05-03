@@ -282,6 +282,8 @@ public:
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pczonemanager"; }
+  virtual csPtr<iCelDataBuffer> SaveFirstPass ();
+  virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 

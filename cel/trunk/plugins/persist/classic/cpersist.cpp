@@ -334,7 +334,37 @@ bool celPersistClassic::Write (iCelEntity* entity, bool savelocal)
   else
   {
     if (!Write ((char*)0)) return ReportWrite ();
+    if (!Write ((char*)0)) return ReportWrite ();
   }  
+  return true;
+}
+
+bool celPersistClassic::WriteFirstPass (iCelEntity* entity)
+{
+  iCelPropertyClassList* plist = entity->GetPropertyClassList ();
+  if (!WriteMarker ("ENT1")) return ReportWrite ();
+  size_t i;
+  for (i = 0 ; i < plist->GetCount () ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    csRef<iCelDataBuffer> db = pc->SaveFirstPass ();
+    if (db)
+    {
+      // Yes, we have one.
+      if (!Write ((uint8)1))
+        return ReportWrite ();
+      if (!WriteMarker ("PCL1")) return ReportWrite ();
+      // First write entity ID, then property class name.
+      if (!Write (pc->GetName ())) return ReportWrite ();
+      if (!Write (pc->GetTag ())) return ReportWrite ();
+      if (!Write (db))
+        return false;
+    }
+  }
+  // Close the list.
+  if (!Write ((uint8)0))
+    return ReportWrite ();
+
   return true;
 }
 
@@ -595,7 +625,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
     return true;
   }
 
-  // Either we have a local ref (attr != 0) or not. But in any case
+  // Either we have a local ref or not. But in any case
   // we first want to try to find if the pc already exists. In that
   // case we reuse it even if it is not a ref.
   if (marker[3] == 'R')
@@ -736,6 +766,43 @@ bool celPersistClassic::Read (iCelEntity*& entity)
   return true;
 }
 
+bool celPersistClassic::ReadFirstPass (iCelEntity* entity)
+{
+  if (!CheckMarker ("ENT1"))
+    return false;
+  uint8 c;
+  if (!Read (c)) return false;
+  while (c)
+  {
+    if (!CheckMarker ("PCL1"))
+      return false;
+    csString pcname;
+    if (!Read (pcname)) return false;
+    csString tagname;
+    if (!Read (tagname)) return false;
+
+    // @@@ Not efficient! Store pl!
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
+    if (!pf)
+      return Report ("Couldn't create property class '%s'!",
+      	(const char*)pcname);
+    csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
+    if (tagname) pc->SetTag (tagname);
+    pc->SetEntity (entity);
+    entity->GetPropertyClassList ()->Add (pc);
+    csRef<iCelDataBuffer> db;
+    if (!Read (db))
+      return Report ("Error loading property class '%s'!", (const char*)pcname);
+    if (!pc->LoadFirstPass (db))
+      return Report ("Error loading property class '%s'!", (const char*)pcname);
+
+    if (!Read (c)) return false;
+  }
+
+  return true;
+}
+
 //------------------------------------------------------------------------
 
 #define CEL_MARKER "CEL1"
@@ -763,6 +830,8 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
   }
   size_t i;
   entities_map.DeleteAll ();
+
+  // --- First pass -----------------------------------
   for (i = 0 ; i < cnt ; i++)
   {
     // @@@ Not efficient! Store pl!
@@ -770,8 +839,11 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
     csRef<iCelEntity> ent = pl->CreateEntity ();
     entities_map.Put ((iCelEntity*)ent, i);
     set->AddEntity (ent);
+    if (!ReadFirstPass (ent)) return false;
   }
 
+  // --- Second pass ----------------------------------
+  if (!CheckMarker ("SECO")) return false;
   for (i = 0 ; i < cnt ; i++)
   {
     iCelEntity* ent = set->GetEntity (i);
@@ -799,6 +871,16 @@ bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
   entities_map.DeleteAll ();
   for (i = 0 ; i < set->GetEntityCount () ; i++)
     entities_map.Put (set->GetEntity (i), i);
+
+  // --- First pass -----------------------------------
+  for (i = 0 ; i < set->GetEntityCount () ; i++)
+  {
+    iCelEntity* ent = set->GetEntity (i);
+    if (!WriteFirstPass (ent)) return false;
+  }
+
+  // --- Second pass ----------------------------------
+  if (!WriteMarker ("SECO")) return false;
   for (i = 0 ; i < set->GetEntityCount () ; i++)
   {
     iCelEntity* ent = set->GetEntity (i);

@@ -50,11 +50,13 @@ private:
   bool Write (iDocumentNode* node, celData* data);
   bool Write (iDocumentNode* pcnode, iCelPropertyClass* pc, bool savelocal);
   bool Write (iDocumentNode* entnode, iCelEntity* entity, bool savelocal);
+  bool WriteFirstPass (iDocumentNode* entnode, iCelEntity* entity);
 
   bool Read (iDocumentNode* node, celData* cd);
   bool Read (iDocumentNode* node, csRef<iCelDataBuffer>& db);
   bool Read (iDocumentNode* pcnode, iCelEntity* entity, iCelPropertyClass*& pc);
   bool Read (iDocumentNode* entnode, iCelEntity*& entity);
+  bool ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity);
 
   bool Report (const char* msg, ...);
 

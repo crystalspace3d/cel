@@ -122,6 +122,9 @@ public:
     propclasses_dirty = true;
   }
 
+  virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
+  virtual bool LoadFirstPass (iCelDataBuffer*) { return 0; }
+
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }

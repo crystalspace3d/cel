@@ -10,6 +10,41 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine moved CEL's jobber.pl and snapshot.py runs from the SF
 	  shell machine over to crystalspace3d.org. The documentation and CVS
 	  snapshots also are now served by that machine.
+	- Jorrit extended the persistence system with the notion of
+	  'first-pass' saving and loading. Basically persistence will now
+	  save in two passes. In the first pass property classes can save
+	  important information that is needed for other entities and
+	  property classes. In the second pass the actual set up is done.
+	  Most property class information will be saved in second pass.
+	  There are two new functions iCelPropertyClass->SaveFirstPass()
+	  and LoadFirstPass().
+	- Jorrit added default null implementations of SaveFirstPass() and
+	  LoadFirstPass() to celPcCommon.
+	- Jorrit added support for two-pass loading/saving to the XML and
+	  classic persistence layers (note: loading/saving is not yet
+	  properly supported by the zone manager).
+	- Jorrit moved the loading/saving of a pcregion and pczonemanager
+	  to the first pass instead of second pass. That means that on
+	  load time the maps are guaranteed to be loaded and other
+	  property classes can use that information.
+	- Jorrit removed the unneeded 'countdown2' pass from celtest.
+	- Jorrit fixed a bug in the classical persistence system. It would
+	  fail to load an entity that has no behaviour associated with it.
+	- Jorrit fixed a bug in the quest manager. It was not initializing
+	  the XML token table.
+	- Jorrit added a new 'cel.addons.questdef'. With this addon you can
+	  define quests in XML in your map files.
+	- Jorrit moved the test quest in celtest to data/world.
+	- Jorrit fixed a bug in the parsing of the propertychange trigger.
+	- Jorrit fixed several triggers so that they now deactivate
+	  themselves before firing the callback. That solves the issue of
+	  triggers sometimes firing multiple times for the same response.
+	- Jorrit changed the quest manager so that it automatically adds
+	  'cel.questreward." or 'cel.questtrigger.' to the type. That makes
+	  the XML shorter and easier to read. The full format is still
+	  supported.
+	- Jorrit fixed the quest manager so that it ignores quest factories
+	  that are already there (in the XML loader).
 2-May-2005
 	- David Bronke added a comment to iPcMesh::SetMesh to fix a doxygen
 	  warning.
