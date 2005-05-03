@@ -405,6 +405,24 @@ celPcZoneManager::~celPcZoneManager ()
 
 #define ZONEMANAGER_SERIAL 1
 
+csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcZoneManager::LoadFirstPass (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != ZONEMANAGER_SERIAL)
+  {
+    Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  return true;
+}
+
 csPtr<iCelDataBuffer> celPcZoneManager::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);

@@ -92,6 +92,14 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
       "'property' attribute is missing for the propertychange trigger!");
     return false;
   }
+  value_par = csStrNew (node->GetAttributeValue ("value"));
+  if (!value_par)
+  {
+    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.questtrigger.propertychange",
+      "'value' attribute is missing for the propertychange trigger!");
+    return false;
+  }
   return true;
 }
 
@@ -177,7 +185,10 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties* properties,
         long v;
 	sscanf (value, "%ld", &v);
 	if (v == properties->GetPropertyLong (idx))
+	{
+	  DeactivateTrigger ();
 	  callback->TriggerFired ((iQuestTrigger*)this);
+        }
       }
       break;
     case CEL_DATA_FLOAT:
@@ -185,7 +196,10 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties* properties,
         float v;
 	sscanf (value, "%g", &v);
 	if (v == properties->GetPropertyFloat (idx))
+	{
+	  DeactivateTrigger ();
 	  callback->TriggerFired ((iQuestTrigger*)this);
+        }
       }
       break;
     case CEL_DATA_BOOL:
@@ -194,13 +208,19 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties* properties,
 	v = *value == '1' || *value == 'Y' || *value == 'y' || *value == 't'
 		|| *value == 'T';
 	if (v == properties->GetPropertyBool (idx))
+	{
+	  DeactivateTrigger ();
 	  callback->TriggerFired ((iQuestTrigger*)this);
+        }
       }
       break;
     case CEL_DATA_STRING:
       {
 	if (!strcmp (value, properties->GetPropertyString (idx)))
+	{
+	  DeactivateTrigger ();
 	  callback->TriggerFired ((iQuestTrigger*)this);
+        }
       }
       break;
     default:

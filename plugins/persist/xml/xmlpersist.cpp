@@ -282,6 +282,31 @@ bool celPersistXML::Write (iDocumentNode* entnode,
   return true;
 }
 
+bool celPersistXML::WriteFirstPass (iDocumentNode* entnode,
+	iCelEntity* entity)
+{
+  iCelPropertyClassList* pl = entity->GetPropertyClassList ();
+  size_t i;
+  for (i = 0 ; i < pl->GetCount () ; i++)
+  {
+    iCelPropertyClass* pc = pl->Get (i);
+    csRef<iCelDataBuffer> db = pc->SaveFirstPass ();
+    if (db)
+    {
+      csRef<iDocumentNode> pcnode = entnode->CreateNodeBefore (
+    	  CS_NODE_ELEMENT, 0);
+      pcnode->SetValue ("pc");
+      if (pc->GetName ())
+        pcnode->SetAttribute ("name", pc->GetName ());
+      if (pc->GetTag ())
+        pcnode->SetAttribute ("tag", pc->GetTag ());
+      if (!Write (pcnode, db))
+        return Report ("Error writing property class!\n");
+    }
+  }
+  return true;
+}
+
 //------------------------------------------------------------------------
 
 bool celPersistXML::Read (iDocumentNode* node, celData* cd)
@@ -521,6 +546,36 @@ bool celPersistXML::Read (iDocumentNode* entnode, iCelEntity*& entity)
   return true;
 }
 
+bool celPersistXML::ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity)
+{
+  csRef<iDocumentNodeIterator> it = entnode->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> pcnode = it->Next ();
+    if (pcnode->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = pcnode->GetValue ();
+    if (!strcmp ("pc", value))
+    {
+      const char* pcname = pcnode->GetAttributeValue ("name");
+      const char* tagname = pcnode->GetAttributeValue ("tag");
+      iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
+      if (!pf)
+        return Report ("Couldn't create property class '%s'!", pcname);
+      csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
+      if (tagname) pc->SetTag (tagname);
+      pc->SetEntity (entity);
+      entity->GetPropertyClassList ()->Add (pc);
+      csRef<iCelDataBuffer> db;
+      if (!Read (pcnode, db))
+        return Report ("Error loading property class '%s'!", pcname);
+      if (!pc->LoadFirstPass (db))
+        return Report ("Error loading property class '%s'!", pcname);
+    }
+    else return Report ("File not valid: expected 'pc' in entity!");
+  }
+  return true;
+}
+
 //------------------------------------------------------------------------
 
 bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
@@ -541,9 +596,18 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
   if (!parent)
     return Report ("File '%s' doesn't seem to be a valid XML save file!", name);
 
+  csRef<iDocumentNode> firstpass = parent->GetNode ("firstpass");
+  if (!firstpass)
+    return Report ("File '%s' not valid: 'firstpass' missing!", name);
+  csRef<iDocumentNode> secondpass = parent->GetNode ("secondpass");
+  if (!secondpass)
+    return Report ("File '%s' not valid: 'secondpass' missing!", name);
+
   size_t idx = 0;
   entities_map.DeleteAll ();
-  csRef<iDocumentNodeIterator> it = parent->GetNodes ();
+
+  // --- First pass -----------------------------------
+  csRef<iDocumentNodeIterator> it = firstpass->GetNodes ();
   while (it->HasNext ())
   {
     csRef<iDocumentNode> entnode = it->Next ();
@@ -555,15 +619,18 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
       entities_map.Put ((iCelEntity*)ent, idx);
       set->AddEntity (ent);
       idx++;
+      if (!ReadFirstPass (entnode, ent))
+        return false;
     }
     else
       return Report ("File '%s' doesn't seem to be valid: expected 'entity'!",
       	name);
   }
 
+  // --- Second pass ----------------------------------
   // Loop again to actually load the entities.
   idx = 0;
-  it = parent->GetNodes ();
+  it = secondpass->GetNodes ();
   while (it->HasNext ())
   {
     csRef<iDocumentNode> entnode = it->Next ();
@@ -593,10 +660,29 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
   entities_map.DeleteAll ();
   for (i = 0 ; i < set->GetEntityCount () ; i++)
     entities_map.Put (set->GetEntity (i), i);
+
+  // --- First pass -----------------------------------
+  csRef<iDocumentNode> firstpass = parent->CreateNodeBefore (
+  	CS_NODE_ELEMENT, 0);
+  firstpass->SetValue ("firstpass");
   for (i = 0 ; i < set->GetEntityCount () ; i++)
   {
     iCelEntity* ent = set->GetEntity (i);
-    csRef<iDocumentNode> entnode = parent->CreateNodeBefore (
+    csRef<iDocumentNode> entnode = firstpass->CreateNodeBefore (
+    	CS_NODE_ELEMENT, 0);
+    entnode->SetValue ("entity");
+    if (!WriteFirstPass (entnode, ent))
+      return Report ("Error writing entity in '%s'!", name);
+  }
+
+  // --- Second pass ----------------------------------
+  csRef<iDocumentNode> secondpass = parent->CreateNodeBefore (
+  	CS_NODE_ELEMENT, 0);
+  secondpass->SetValue ("secondpass");
+  for (i = 0 ; i < set->GetEntityCount () ; i++)
+  {
+    iCelEntity* ent = set->GetEntity (i);
+    csRef<iDocumentNode> entnode = secondpass->CreateNodeBefore (
     	CS_NODE_ELEMENT, 0);
     entnode->SetValue ("entity");
     if (!Write (entnode, ent, true))

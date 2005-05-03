@@ -155,7 +155,10 @@ void celMeshEnterSectorTrigger::MovableChanged (iMovable* movable)
   iSectorList* sl = movable->GetSectors ();
   if (sl->GetCount () < 1) return;
   if (celMeshEnterSectorTrigger::sector == sl->Get (0))
+  {
+    DeactivateTrigger ();
     callback->TriggerFired ((iQuestTrigger*)this);
+  }
 }
 
 void celMeshEnterSectorTrigger::MovableDestroyed (iMovable*)
@@ -170,7 +173,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
   csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
   if (!engine) return;
   sector = engine->FindSector (sector_name);
-  if (!sector) return;
+  if (!sector) return;	// @@@ Error report!!!
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* entity = pl->FindEntity (entity_name);
   if (!entity) return;
@@ -182,6 +185,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
 void celMeshEnterSectorTrigger::ActivateTrigger ()
 {
   FindSectorAndMesh ();
+  if (!mesh) return;
   // First remove to make sure we don't register ourselves multiple
   // times.
   mesh->GetMovable ()->RemoveListener ((iMovableListener*)this);

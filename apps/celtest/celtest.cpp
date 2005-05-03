@@ -375,94 +375,15 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
 	(void*)0);
   if (!entity_quest) return 0;
 
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (object_reg, iQuestManager);
-  iChangePropertyQuestRewardFactory* rf_changeprop;
-
   //-----------------------------------------------------------
   // Create 'testquest'.
   //-----------------------------------------------------------
-  iQuestFactory* fact = qm->CreateQuestFactory ("testquest");
-
-  // ---- init ----
-  iQuestStateFactory* state_init = fact->CreateState ("init");
-  iQuestTriggerResponseFactory* init_response1 =
-  	state_init->CreateTriggerResponseFactory ();
-
-  qm->SetTimeoutTrigger (init_response1, "1000");
-  qm->AddDebugPrintReward (init_response1, "$message");
-  rf_changeprop = qm->AddChangePropertyReward (init_response1,
-  	"$ent", "counter");
-  rf_changeprop->SetLongParameter ("0");
-  rf_changeprop = qm->AddChangePropertyReward (init_response1,
-  	"$ent", "countdown");
-  rf_changeprop->SetLongParameter ("5");
-  qm->AddNewStateReward (init_response1, "$ent", "countdown");
-
-  // ---- countdown ----
-  iQuestStateFactory* state_countdown = fact->CreateState ("countdown");
-  iQuestTriggerResponseFactory* countdown_response1 =
-  	state_countdown->CreateTriggerResponseFactory ();
-  
-  qm->SetPropertyChangeTrigger (countdown_response1, "$ent", "countdown", "0");
-  qm->AddDebugPrintReward (countdown_response1, "Done!");
-  qm->AddNewStateReward (countdown_response1, "$ent", "start");
-
-  iQuestTriggerResponseFactory* countdown_response2 =
-  	state_countdown->CreateTriggerResponseFactory ();
-  qm->SetTimeoutTrigger (countdown_response2, "1000");
-  qm->AddDebugPrintReward (countdown_response2, "countdown");
-  rf_changeprop = qm->AddChangePropertyReward (countdown_response2,
-  	"$ent", "countdown");
-  rf_changeprop->SetDiffParameter ("-1");
-  qm->AddNewStateReward (countdown_response2, "$ent", "countdown2");
-
-  // ---- countdown2 ----
-  // Countdown2 only exists because it currently can give problems to
-  // switch to the same state due to a problem with some triggers not
-  // being able to handle this recursively (i.e. timeout).
-  iQuestStateFactory* state_countdown2 = fact->CreateState ("countdown2");
-  iQuestTriggerResponseFactory* countdown2_response1 =
-  	state_countdown2->CreateTriggerResponseFactory ();
-  qm->SetTimeoutTrigger (countdown2_response1, "1");
-  qm->AddNewStateReward (countdown2_response1, "$ent", "countdown");
-
-  // ---- start ----
-  iQuestStateFactory* state_start = fact->CreateState ("start");
-  iQuestTriggerResponseFactory* start_response1 =
-  	state_start->CreateTriggerResponseFactory ();
-
-  qm->SetMeshEnterSectorTrigger (start_response1, "camera", "room0,1");
-  qm->AddDebugPrintReward (start_response1, "Go!");
-  qm->AddNewStateReward (start_response1, "$ent", "middle");
-
-  iQuestTriggerResponseFactory* start_response2 =
-  	state_start->CreateTriggerResponseFactory ();
-  qm->SetPropertyChangeTrigger (start_response2, "$ent", "counter", "5");
-  qm->AddDebugPrintReward (start_response2, "We reached 5!");
-  qm->AddNewStateReward (start_response2, "$ent", "end");
-
-  // ---- middle ----
-  iQuestStateFactory* state_middle = fact->CreateState ("middle");
-  iQuestTriggerResponseFactory* middle_response1 =
-  	state_middle->CreateTriggerResponseFactory ();
-
-  qm->SetMeshEnterSectorTrigger (middle_response1, "camera", "room");
-  qm->AddNewStateReward (middle_response1, "$ent", "start");
-  qm->AddDebugPrintReward (middle_response1, "And Back!");
-  rf_changeprop = qm->AddChangePropertyReward (middle_response1,
-  	"$ent", "counter");
-  rf_changeprop->SetDiffParameter ("1");
-
-  // ---- end ----
-  fact->CreateState ("end");
-
-  //-----------------------------------------------------------
-
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest,
     iPcQuest);
   celQuestParams params;
   params.Put ("message", "Hallo Hallo!");
   params.Put ("ent", name);
+  params.Put ("actor", "camera");
   if (!pcquest->NewQuest ("testquest", params))
   {
     ReportError ("Error creating quest '%s'!", "testquest");

@@ -108,6 +108,7 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name)
   SCF_CONSTRUCT_IBASE (0);
   celQuestFactory::questmgr = questmgr;
   celQuestFactory::name = csStrNew (name);
+  InitTokenTable (xmltokens);
 }
 
 celQuestFactory::~celQuestFactory ()
@@ -170,14 +171,17 @@ bool celQuestFactory::LoadTriggerResponse (
         break;
       case XMLTOKEN_REWARD:
         {
-	  const char* type = child->GetAttributeValue ("type");
-	  iQuestRewardType* rewardtype = questmgr->GetRewardType (type);
+	  csString type = child->GetAttributeValue ("type");
+	  iQuestRewardType* rewardtype = questmgr->GetRewardType (
+	  	"cel.questreward."+type);
+	  if (!rewardtype)
+	    rewardtype = questmgr->GetRewardType (type);
 	  if (!rewardtype)
 	  {
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown reward type '%s' while loading quest '%s'!",
-		type, name);
+		(const char*)type, name);
 	    return false;
 	  }
 	  csRef<iQuestRewardFactory> rewardfact = rewardtype
@@ -212,14 +216,17 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
     {
       case XMLTOKEN_TRIGGER:
         {
-	  const char* type = child->GetAttributeValue ("type");
-	  iQuestTriggerType* triggertype = questmgr->GetTriggerType (type);
+	  csString type = child->GetAttributeValue ("type");
+	  iQuestTriggerType* triggertype = questmgr->GetTriggerType (
+	  	"cel.questtrigger."+type);
+	  if (!triggertype)
+	    triggertype = questmgr->GetTriggerType (type);
 	  if (!triggertype)
 	  {
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown trigger type '%s' while loading state '%s/%s'!",
-		type, name, statefact->GetName ());
+		(const char*)type, name, statefact->GetName ());
 	    return false;
 	  }
 	  // First we create a trigger response factory.
@@ -622,16 +629,19 @@ bool celQuestManager::Load (iDocumentNode* node)
     {
       const char* questname = child->GetAttributeValue ("name");
       iQuestFactory* questfact = CreateQuestFactory (questname);
-      if (!questfact->Load (child))
-        return false;
+      // It is possible that questfact is 0. That means that the factory
+      // already existed.
+      if (questfact)
+        if (!questfact->Load (child))
+          return false;
     }
     else
     {
-        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading quests!",
 		value);
-        return false;
+      return false;
     }
   }
   return true;

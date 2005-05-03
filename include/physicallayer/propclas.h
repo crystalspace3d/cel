@@ -138,6 +138,23 @@ struct iCelPropertyClass : public iBase
 
   /**
    * Save this object to a data buffer.
+   * This routine is the first pass saving routine. Few property classes
+   * need to implement this. The idea is that here information is saved
+   * which is important to make other property classes work. This can
+   * be information related to level data that is essential for other
+   * property classes. Most property classes will return 0 here.
+   */
+  virtual csPtr<iCelDataBuffer> SaveFirstPass () = 0;
+
+  /**
+   * Load this object from a data buffer.
+   * This is the first pass version. Most property classes will
+   * return 0 here.
+   */
+  virtual bool LoadFirstPass (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save this object to a data buffer.
    */
   virtual csPtr<iCelDataBuffer> Save () = 0;
 

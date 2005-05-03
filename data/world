@@ -180,6 +180,63 @@
         <params />
     </meshfact>
     <sector name="room">
+    	<addon plugin="cel.addons.questdef">
+	    <!-- Parameters for this quest:
+	         $message: message to print
+		 $ent: entity containing this quest
+		 $actor: entity containing the actor -->
+	    <quest name="testquest">
+	    	<state name="init">
+		    <trigger type="timeout">
+		    	<fireon timeout="1000" />
+			<reward type="debugprint" message="$message" />
+		    	<reward type="changeproperty" entity_name="$ent" property="counter" long="0" />
+		    	<reward type="changeproperty" entity_name="$ent" property="countdown" long="5" />
+		    	<reward type="newstate" entity_name="$ent" state="countdown" />
+		    </trigger>
+		</state>
+	    	<state name="countdown">
+		    <trigger type="timeout">
+		    	<fireon timeout="1000" />
+			<reward type="debugprint" message="countdown" />
+		    	<reward type="changeproperty" entity_name="$ent" property="countdown" diff="-1" />
+		    	<reward type="newstate" entity_name="$ent" state="countdown" />
+		    </trigger>
+		    <trigger type="propertychange">
+		    	<fireon entity_name="$ent" property="countdown" value="0" />
+			<reward type="debugprint" message="Done!" />
+		    	<reward type="newstate" entity_name="$ent" state="start" />
+		    </trigger>
+		</state>
+	    	<state name="start">
+		    <trigger type="meshentersector">
+		    	<fireon entity_name="$actor" sector_name="room0,1"  />
+			<reward type="debugprint" message="Go!" />
+		    	<reward type="newstate" entity_name="$ent" state="middle" />
+		    </trigger>
+		    <trigger type="propertychange">
+		    	<fireon entity_name="$ent" property="counter" value="5" />
+			<reward type="debugprint" message="We reached 5!" />
+		    	<reward type="newstate" entity_name="$ent" state="end" />
+		    </trigger>
+		</state>
+	    	<state name="middle">
+		    <trigger type="meshentersector">
+		    	<fireon entity_name="$actor" sector_name="room"  />
+			<!-- @@@ Bug: the newstate has to be in front here or the quest doesn't work because
+			     the property change listener in 'start' will not be activated yet but the
+			     property is still changed. A good solution would be to do a manual check
+			     of conditions after activating a state. -->
+		    	<reward type="newstate" entity_name="$ent" state="start" />
+			<reward type="debugprint" message="And Back!" />
+		    	<reward type="changeproperty" entity_name="$ent" property="counter" diff="1" />
+		    </trigger>
+		</state>
+	    	<state name="end">
+		</state>
+	    </quest>
+	</addon>
+
     	<addon plugin="cel.addons.celentity">
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">

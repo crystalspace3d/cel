@@ -735,10 +735,10 @@ SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
  * <li><em>entity_name</em>: the name of the entity containing the
  *     pcproperties property class.
  * <li><em>property</em>: the name of the property.
- * <li><em>string_value</em>: the new string value of the property.
- * <li><em>long_value</em>: the new long value of the property.
- * <li><em>float_value</em>: the new float value of the property.
- * <li><em>bool_value</em>: the new bool value of the property.
+ * <li><em>string</em>: the new string value of the property.
+ * <li><em>long</em>: the new long value of the property.
+ * <li><em>float</em>: the new float value of the property.
+ * <li><em>bool</em>: the new bool value of the property.
  * <li><em>diff</em>: this long or float value will be added to the property.
  * <li><em>toggle</em>: toggle the boolean or long value.
  * </ul>

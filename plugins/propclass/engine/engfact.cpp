@@ -125,7 +125,7 @@ celPcRegion::~celPcRegion ()
 
 #define REGION_SERIAL 2
 
-csPtr<iCelDataBuffer> celPcRegion::Save ()
+csPtr<iCelDataBuffer> celPcRegion::SaveFirstPass ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
 
@@ -138,7 +138,7 @@ csPtr<iCelDataBuffer> celPcRegion::Save ()
   return csPtr<iCelDataBuffer> (databuf);
 }
 
-bool celPcRegion::Load (iCelDataBuffer* databuf)
+bool celPcRegion::LoadFirstPass (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != REGION_SERIAL)
@@ -165,6 +165,23 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
     return false;
   }
 
+  return true;
+}
+
+csPtr<iCelDataBuffer> celPcRegion::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRegion::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL)
+  {
+    EngReport (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
   return true;
 }
 
