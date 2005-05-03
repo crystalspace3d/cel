@@ -30,6 +30,7 @@ struct iPcMesh;
 struct iCelEntity;
 struct iStringArray;
 struct iString;
+struct iDocumentNode;
 
 SCF_VERSION (iCelMapFile, 0, 1, 0);
 
@@ -197,7 +198,7 @@ struct iCelZone : public iBase
 #define CEL_ZONEERROR_LOAD 3
 /** @} */
 
-SCF_VERSION (iPcZoneManager, 0, 1, 0);
+SCF_VERSION (iPcZoneManager, 0, 1, 1);
 
 /**
  * This is the zone manager. In this property class you can define
@@ -221,6 +222,14 @@ SCF_VERSION (iPcZoneManager, 0, 1, 0);
  */
 struct iPcZoneManager : public iBase
 {
+  /**
+   * Load a zone definition from an XML node.
+   * \param node is the node containing region and zone definitions.
+   * \return true on success. On failure the error will be reported to
+   * the reporter and false will be returned.
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+
   /**
    * Create a zone.
    */
