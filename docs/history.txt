@@ -1,8 +1,15 @@
 Crystal Entity Layer (CEL) detailed change log.
-http://cel.sourceforge.net/
+http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-May-2005
+	- Eric Sunshine updated various resources to point at Crystal Entity
+	  Layer's new official domain cel.crystalspace3d.org.  (We also respond
+	  to cel.crystalspace3d.net and cel.crystalspace3d.com.)
+	- Eric Sunshine moved CEL's jobber.pl and snapshot.py runs from the SF
+	  shell machine over to crystalspace3d.org. The documentation and CVS
+	  snapshots also are now served by that machine.
 2-May-2005
 	- David Bronke added a comment to iPcMesh::SetMesh to fix a doxygen
 	  warning.
