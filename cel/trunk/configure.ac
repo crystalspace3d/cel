@@ -10,7 +10,7 @@ AC_PREREQ([2.54])
 AC_INIT([cel], [0.99], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2005 Jorrit Tyberghein and others.],
-    [http://cel.sourceforge.net/])
+    [http://cel.crystalspace3d.org/])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST

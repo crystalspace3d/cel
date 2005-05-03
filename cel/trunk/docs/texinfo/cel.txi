@@ -95,7 +95,7 @@ Space please see the
 
 Crystal Entity Layer is still in development.  It's development efforts are
 currently hosted by SourceForge.  Anybody wishing to contribute should visit
-the @uref{http://cel.sourceforge.net/,Crystal Entity Layer} project page and
+the @uref{http://cel.crystalspace3d.org/,Crystal Entity Layer} project page and
 @uref{http://www.sourceforge.net/,SourceForge}.
 
 Crystal Entity Layer is free and should remain free. Crystal Entity Layer 
@@ -251,10 +251,10 @@ development status.  For more information on the two of these please see
 the Crystal Space documentation.
 
 Crystal Entity Layer is available at:@*
-@uref{http://sourceforge.net/projects/cel}
+@uref{http://cel.crystalspace3d.org/}
 
 Crystal Space is available at:@*
-@uref{http://sourceforge.net/project/crystal}
+@uref{http://www.crystalspace3d.org/}
 
 Generally a release version of Crystal Entity Layer should be built against
 the matching release of Crystal Space.  Likewise development versions should
