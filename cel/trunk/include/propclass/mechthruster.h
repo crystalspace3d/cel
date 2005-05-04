@@ -145,26 +145,30 @@ struct iPcMechanicsThrusterGroup : public iBase
   virtual iPcMechanicsThruster* GetThruster (const char* tag) = 0;
 
   /**
-   * Get the strength of the thruster group. This is equal to the magnitude of
-   * the maximum net force minus the magnitude of the maximum net moment that
-   * this group can produce.
+   * Get the maximum strength of the thrusters along the given axis.
+   * \param axis the axis to query.
    */
-  virtual float GetStrength () = 0;
+  virtual float GetStrength (const csVector3 axis) = 0;
 
   /**
-   * Are all the thrusters in this thruster group taking orders?
+   * Are all the thrusters that fire along the given axis taking orders?
+   * \param axis the axis to check for thruster availability.
    */
-  virtual bool IsAvailable () = 0;
+  virtual bool IsAvailable (const csVector3 axis) = 0;
 
   /**
-   * Apply the given percentage of total thrust.
+   * Apply the given percentage of total thrust to the given axis.
+   * \param thrust the amount of thrust to apply along this axis.
+   * \param axis the axis to apply this thrust in.
    */
-  virtual void ApplyThrust (percentage thrust) = 0;
+  virtual void ApplyThrust (percentage thrust, const csVector3 axis) = 0;
 
   /**
    * A thruster calls this when its effective thrust changes.
+   * \param thrustertag the tag of the thruster whose thrust is changing.
+   * \param thrust the magnitude of the thruster's new effective thrust.
    */
-  virtual void UpdateThrust (const char* thrusterid, float thrust) = 0;
+  virtual void UpdateThrust (const char* thrustertag, float thrust) = 0;
 };
 
 

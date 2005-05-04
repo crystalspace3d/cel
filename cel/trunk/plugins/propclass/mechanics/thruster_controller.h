@@ -72,6 +72,8 @@ private:
   csArray<celThrusterData*> thrusters;
   float strength;
 
+  const csRefArray<iPcMechanicsThruster> GetThrustersInThisDirection (const csVector3 axis) const;
+
 public:
   celPcMechanicsThrusterGroup (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsThrusterGroup ();
@@ -94,11 +96,10 @@ public:
   virtual void AddThruster (iPcMechanicsThruster* thruster, float multiplier);
   virtual void RemoveThruster (const char* thrustertag);
   virtual iPcMechanicsThruster* GetThruster (const char* thrustertag);
-  virtual float GetStrength ();
 
-  virtual bool IsAvailable ();
-
-  virtual void ApplyThrust (percentage thrust);
+  virtual float GetStrength (const csVector3 axis);
+  virtual bool IsAvailable (const csVector3 axis);
+  virtual void ApplyThrust (percentage thrust, const csVector3 axis);
   virtual void UpdateThrust (const char* thrustertag, float thrust);
 
   struct PcMechanicsThrusterGroup : public iPcMechanicsThrusterGroup
@@ -124,17 +125,17 @@ public:
     {
       return scfParent->GetThruster (thrustertag);
     }
-    virtual float GetStrength ()
+    virtual float GetStrength (const csVector3 axis)
     {
-      return scfParent->GetStrength ();
+      return scfParent->GetStrength (axis);
     }
-    virtual bool IsAvailable ()
+    virtual bool IsAvailable (const csVector3 axis)
     {
-      return scfParent->IsAvailable ();
+      return scfParent->IsAvailable (axis);
     }
-    virtual void ApplyThrust (percentage thrust)
+    virtual void ApplyThrust (percentage thrust, const csVector3 axis)
     {
-      scfParent->ApplyThrust (thrust);
+      scfParent->ApplyThrust (thrust, axis);
     }
     virtual void UpdateThrust (const char* thrustertag, float thrust)
     {
