@@ -136,13 +136,16 @@
 00122     propclasses_dirty = <span class="keyword">true</span>;
 00123   }
 00124 
-00125   <span class="comment">// --- For iCelTimerListener -----------------------------------------</span>
-<a name="l00126"></a><a class="code" href="classcelPcCommon.html#a34">00126</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a34">TickEveryFrame</a> () { }
-<a name="l00127"></a><a class="code" href="classcelPcCommon.html#a35">00127</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a35">TickOnce</a> () { }
-00128 };
-00129 
-00130 <span class="preprocessor">#endif // __CEL_CELTOOL_STDPC__</span>
-00131 <span class="preprocessor"></span>
+<a name="l00125"></a><a class="code" href="classcelPcCommon.html#a34">00125</a>   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelPcCommon.html#a34">SaveFirstPass</a> () { <span class="keywordflow">return</span> 0; }
+<a name="l00126"></a><a class="code" href="classcelPcCommon.html#a35">00126</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a35">LoadFirstPass</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>*) { <span class="keywordflow">return</span> 0; }
+00127 
+00128   <span class="comment">// --- For iCelTimerListener -----------------------------------------</span>
+<a name="l00129"></a><a class="code" href="classcelPcCommon.html#a36">00129</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a36">TickEveryFrame</a> () { }
+<a name="l00130"></a><a class="code" href="classcelPcCommon.html#a37">00130</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a37">TickOnce</a> () { }
+00131 };
+00132 
+00133 <span class="preprocessor">#endif // __CEL_CELTOOL_STDPC__</span>
+00134 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
