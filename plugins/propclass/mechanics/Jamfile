@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass mechanics ;
+
+Plugin pfmechanics
+	: [ Wildcard *.cpp *.h ]
+;
+ExternalLibs pfmechanics : CRYSTAL ;
+LinkWith pfmechanics : celtool ;
+
