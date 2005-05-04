@@ -123,12 +123,18 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a33">PropertyClassesHaveChanged</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This method is called by the parent entity when there is a change in property class setting.  <a href="#a33"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a34">TickEveryFrame</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a34">SaveFirstPass</a> ()</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a35">TickOnce</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#a34"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a35">LoadFirstPass</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a35"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this object from a data buffer.  <a href="#a35"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a36">TickEveryFrame</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a36"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelPcCommon.html#a37">TickOnce</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a37"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a common implementation for a property class from which all other property classes can inherit. 
@@ -167,7 +173,7 @@ Add a callback which will be fired when a property changes.
 <p>
 Not all property class implementations actually have properties. It is safe to call this function with the same callback (nothing will happen in that case and false will be returned). Otherwise this function will IncRef the callback. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a7">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a9">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5" doxytag="celPcCommon::GetEntity"></a><p>
@@ -231,7 +237,7 @@ Return the number of supported properties and actions.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a30">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a32">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a22" doxytag="celPcCommon::GetPropertyBool"></a><p>
@@ -263,7 +269,7 @@ Get a property as bool.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a22">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a24">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a26" doxytag="celPcCommon::GetPropertyColor"></a><p>
@@ -304,7 +310,7 @@ Get a property as a color.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a26">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a28">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a28" doxytag="celPcCommon::GetPropertyEntity"></a><p>
@@ -336,7 +342,7 @@ Get a property as entity.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a28">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a30">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a21" doxytag="celPcCommon::GetPropertyFloat"></a><p>
@@ -368,7 +374,7 @@ Get a property as float.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a21">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a23">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a20" doxytag="celPcCommon::GetPropertyLong"></a><p>
@@ -400,7 +406,7 @@ Get a property as long.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a20">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a22">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a30" doxytag="celPcCommon::GetPropertyOrActionDescription"></a><p>
@@ -432,7 +438,7 @@ Get the description of the given property or action.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a32">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a34">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a32" doxytag="celPcCommon::GetPropertyOrActionID"></a><p>
@@ -464,7 +470,7 @@ Get the ID of the given property or action.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a31">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a33">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a18" doxytag="celPcCommon::GetPropertyOrActionType"></a><p>
@@ -518,7 +524,7 @@ CEL_DATA_ENTITY </li>
 </ul>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a18">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a20">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a27" doxytag="celPcCommon::GetPropertyPClass"></a><p>
@@ -550,7 +556,7 @@ Get a property as property class.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a27">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a29">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a23" doxytag="celPcCommon::GetPropertyString"></a><p>
@@ -582,7 +588,7 @@ Get a property as string.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a23">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a25">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a25" doxytag="celPcCommon::GetPropertyVector"></a><p>
@@ -623,7 +629,7 @@ Get a property as a 3D vector.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a25">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a27">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a24" doxytag="celPcCommon::GetPropertyVector"></a><p>
@@ -664,7 +670,7 @@ Get a property as a 2D vector.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a24">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a26">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4" doxytag="celPcCommon::GetTag"></a><p>
@@ -729,7 +735,41 @@ Return true if a property is read-only.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a19">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a21">iCelPropertyClass</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a35" doxytag="celPcCommon::LoadFirstPass"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool celPcCommon::LoadFirstPass           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Load this object from a data buffer. 
+<p>
+This is the first pass version. Most property classes will return 0 here. 
+<p>
+Implements <a class="el" href="structiCelPropertyClass.html#a6">iCelPropertyClass</a>.
+<p>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00126">126</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a29" doxytag="celPcCommon::PerformAction"></a><p>
@@ -770,7 +810,7 @@ Perform an action with a generic string parameter.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a29">iCelPropertyClass</a>.
+Implements <a class="el" href="structiCelPropertyClass.html#a31">iCelPropertyClass</a>.
 <p>
 Definition at line <a class="el" href="stdpcimp_8h-source.html#l00116">116</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
@@ -803,7 +843,7 @@ This method is called by the parent entity when there is a change in property cl
 <p>
 i.e. another property class has been added or removed from the entity. This allows this property class to make adjustments to the references it keeps internally for other property classes. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a33">iCelPropertyClass</a>.
+Implements <a class="el" href="structiCelPropertyClass.html#a35">iCelPropertyClass</a>.
 <p>
 Definition at line <a class="el" href="stdpcimp_8h-source.html#l00120">120</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
@@ -837,7 +877,40 @@ Remove a callback.
 <p>
 It is safe to call this function for a callback that is not registered. Nothing will happen in that case (except that false is returned). This function will DecRef the callback if it was present. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a8">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a10">iCelPropertyClass</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a34" doxytag="celPcCommon::SaveFirstPass"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celPcCommon::SaveFirstPass           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Save this object to a data buffer. 
+<p>
+This routine is the first pass saving routine. Few property classes need to implement this. The idea is that here information is saved which is important to make other property classes work. This can be information related to level data that is essential for other property classes. Most property classes will return 0 here. 
+<p>
+Implements <a class="el" href="structiCelPropertyClass.html#a5">iCelPropertyClass</a>.
+<p>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00125">125</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6" doxytag="celPcCommon::SetEntity"></a><p>
@@ -910,7 +983,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a17">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a19">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a16" doxytag="celPcCommon::SetProperty"></a><p>
@@ -951,7 +1024,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a16">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a18">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a15" doxytag="celPcCommon::SetProperty"></a><p>
@@ -992,7 +1065,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a15">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a17">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a14" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1033,7 +1106,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a14">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a16">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a13" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1074,7 +1147,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a13">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a15">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a12" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1115,7 +1188,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a12">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a14">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a11" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1156,7 +1229,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a11">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a13">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a10" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1197,7 +1270,7 @@ Set a generic property.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a10">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a12">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9" doxytag="celPcCommon::SetProperty"></a><p>
@@ -1240,7 +1313,7 @@ In order to make it easier to access properties in a property class from general
 This function returns false if the property could not be set for some reason. <p>
 The physical layer maintains a registry of ID's to use. The convention is to use property names like: 'cel.property.num'. 
 <p>
-Implements <a class="el" href="structiCelPropertyClass.html#a9">iCelPropertyClass</a>.    </td>
+Implements <a class="el" href="structiCelPropertyClass.html#a11">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a3" doxytag="celPcCommon::SetTag"></a><p>
@@ -1275,7 +1348,7 @@ Multiple property classes of the same type (same name) can be attached to the sa
 Implements <a class="el" href="structiCelPropertyClass.html#a1">iCelPropertyClass</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a34" doxytag="celPcCommon::TickEveryFrame"></a><p>
+<a class="anchor" name="a36" doxytag="celPcCommon::TickEveryFrame"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1307,10 +1380,10 @@ Implements <a class="el" href="structiCelTimerListener.html#a0">iCelTimerListene
 <p>
 Reimplemented in <a class="el" href="structcelPcCameraCommon.html#a29">celPcCameraCommon</a>.
 <p>
-Definition at line <a class="el" href="stdpcimp_8h-source.html#l00126">126</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00129">129</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a35" doxytag="celPcCommon::TickOnce"></a><p>
+<a class="anchor" name="a37" doxytag="celPcCommon::TickOnce"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1340,7 +1413,7 @@ Use iCelPlLayer-&gt;CallbackOnce() to register.
 <p>
 Implements <a class="el" href="structiCelTimerListener.html#a1">iCelTimerListener</a>.
 <p>
-Definition at line <a class="el" href="stdpcimp_8h-source.html#l00127">127</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
+Definition at line <a class="el" href="stdpcimp_8h-source.html#l00130">130</a> of file <a class="el" href="stdpcimp_8h-source.html">stdpcimp.h</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>

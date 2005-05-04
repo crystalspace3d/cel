@@ -98,111 +98,115 @@
 00133 
 00137   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a4">SetEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 00138 
-00142   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="structiCelPropertyClass.html#a5">Save</a> () = 0;
-00143 
-00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a6">Load</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00147   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="structiCelPropertyClass.html#a5">SaveFirstPass</a> () = 0;
 00148 
-00156   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a7">AddPropertyChangeCallback</a> (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb) = 0;
-00157 
-00164   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a8">RemovePropertyChangeCallback</a> (
-00165         <a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb) = 0;
-00166 
-00180   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keywordtype">long</span> value) = 0;
-00181 
-00185   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keywordtype">float</span> value) = 0;
-00186 
-00190   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keywordtype">bool</span> value) = 0;
-00191 
-00195   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
-00196 
-00200   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector2&amp; value) = 0;
-00201 
-00205   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector3&amp; value) = 0;
-00206 
-00210   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csColor&amp; value) = 0;
-00211 
-00215   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID,
-00216         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* value) = 0;
-00217 
-00221   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">SetProperty</a> (csStringID propertyID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-00222 
-00239   <span class="keyword">virtual</span> celDataType <a class="code" href="structiCelPropertyClass.html#a18">GetPropertyOrActionType</a> (
-00240         csStringID propertyID) = 0;
-00241 
-00245   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a19">IsPropertyReadOnly</a> (csStringID propertyID) = 0;
-00246 
-00250   <span class="keyword">virtual</span> <span class="keywordtype">long</span> <a class="code" href="structiCelPropertyClass.html#a20">GetPropertyLong</a> (csStringID propertyID) = 0;
-00251 
-00255   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiCelPropertyClass.html#a21">GetPropertyFloat</a> (csStringID propertyID) = 0;
-00256 
-00260   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a22">GetPropertyBool</a> (csStringID propertyID) = 0;
-00261 
-00265   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClass.html#a23">GetPropertyString</a> (csStringID propertyID) = 0;
-00266 
-00270   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a24">GetPropertyVector</a> (csStringID propertyID, csVector2&amp; v) = 0;
-00271 
-00275   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a24">GetPropertyVector</a> (csStringID propertyID, csVector3&amp; v) = 0;
-00276 
-00280   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a26">GetPropertyColor</a> (csStringID propertyID, csColor&amp; v) = 0;
-00281 
-00285   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClass.html#a27">GetPropertyPClass</a> (csStringID propertyID) = 0;
-00286 
-00290   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPropertyClass.html#a28">GetPropertyEntity</a> (csStringID propertyID) = 0;
-00291 
-00295   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a29">PerformAction</a> (csStringID actionID,
-00296         <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
-00297 
-00301   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiCelPropertyClass.html#a30">GetPropertyAndActionCount</a> () <span class="keyword">const </span>= 0;
-00302 
-00306   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelPropertyClass.html#a31">GetPropertyOrActionID</a> (<span class="keywordtype">int</span> i) = 0;
-00307 
-00311   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClass.html#a32">GetPropertyOrActionDescription</a> (csStringID) = 0;
-00312 
-00320   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a33">PropertyClassesHaveChanged</a> () = 0;
-00321 
-00327   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a34">TickEveryFrame</a> () = 0;
-00328 
-00333   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a35">TickOnce</a> () = 0;
-00334 };
-00335 
-00336 
-00337 SCF_VERSION (<a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a>, 0, 0, 2);
+00154   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a6">LoadFirstPass</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00155 
+00159   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="structiCelPropertyClass.html#a7">Save</a> () = 0;
+00160 
+00164   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a8">Load</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00165 
+00173   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a9">AddPropertyChangeCallback</a> (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb) = 0;
+00174 
+00181   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a10">RemovePropertyChangeCallback</a> (
+00182         <a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb) = 0;
+00183 
+00197   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keywordtype">long</span> value) = 0;
+00198 
+00202   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keywordtype">float</span> value) = 0;
+00203 
+00207   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keywordtype">bool</span> value) = 0;
+00208 
+00212   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
+00213 
+00217   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector2&amp; value) = 0;
+00218 
+00222   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector3&amp; value) = 0;
+00223 
+00227   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csColor&amp; value) = 0;
+00228 
+00232   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID,
+00233         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* value) = 0;
+00234 
+00238   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a11">SetProperty</a> (csStringID propertyID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00239 
+00256   <span class="keyword">virtual</span> celDataType <a class="code" href="structiCelPropertyClass.html#a20">GetPropertyOrActionType</a> (
+00257         csStringID propertyID) = 0;
+00258 
+00262   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a21">IsPropertyReadOnly</a> (csStringID propertyID) = 0;
+00263 
+00267   <span class="keyword">virtual</span> <span class="keywordtype">long</span> <a class="code" href="structiCelPropertyClass.html#a22">GetPropertyLong</a> (csStringID propertyID) = 0;
+00268 
+00272   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiCelPropertyClass.html#a23">GetPropertyFloat</a> (csStringID propertyID) = 0;
+00273 
+00277   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a24">GetPropertyBool</a> (csStringID propertyID) = 0;
+00278 
+00282   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClass.html#a25">GetPropertyString</a> (csStringID propertyID) = 0;
+00283 
+00287   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a26">GetPropertyVector</a> (csStringID propertyID, csVector2&amp; v) = 0;
+00288 
+00292   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a26">GetPropertyVector</a> (csStringID propertyID, csVector3&amp; v) = 0;
+00293 
+00297   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a28">GetPropertyColor</a> (csStringID propertyID, csColor&amp; v) = 0;
+00298 
+00302   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClass.html#a29">GetPropertyPClass</a> (csStringID propertyID) = 0;
+00303 
+00307   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelPropertyClass.html#a30">GetPropertyEntity</a> (csStringID propertyID) = 0;
+00308 
+00312   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a31">PerformAction</a> (csStringID actionID,
+00313         <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
+00314 
+00318   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiCelPropertyClass.html#a32">GetPropertyAndActionCount</a> () <span class="keyword">const </span>= 0;
+00319 
+00323   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelPropertyClass.html#a33">GetPropertyOrActionID</a> (<span class="keywordtype">int</span> i) = 0;
+00324 
+00328   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClass.html#a34">GetPropertyOrActionDescription</a> (csStringID) = 0;
+00329 
+00337   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a35">PropertyClassesHaveChanged</a> () = 0;
 00338 
-<a name="l00342"></a><a class="code" href="structiCelPropertyClassList.html">00342</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a> : <span class="keyword">public</span> iBase
-00343 {
-00347   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a0">GetCount</a> () <span class="keyword">const </span>= 0;
-00348 
-00352   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a1">Get</a> (size_t n) <span class="keyword">const </span>= 0;
+00344   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a36">TickEveryFrame</a> () = 0;
+00345 
+00350   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClass.html#a37">TickOnce</a> () = 0;
+00351 };
+00352 
 00353 
-00357   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a2">Add</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) = 0;
-00358 
-00362   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a3">Remove</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) = 0;
-00363 
-00367   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a3">Remove</a> (size_t n) = 0;
-00368 
-00372   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a5">RemoveByInterface</a> (scfInterfaceID scf_id, <span class="keywordtype">int</span> iVersion) = 0;
-00373 
-00378   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a6">RemoveByInterfaceAndTag</a> (scfInterfaceID scf_id,
-00379         <span class="keywordtype">int</span> iVersion, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
+00354 SCF_VERSION (<a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a>, 0, 0, 2);
+00355 
+<a name="l00359"></a><a class="code" href="structiCelPropertyClassList.html">00359</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a> : <span class="keyword">public</span> iBase
+00360 {
+00364   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a0">GetCount</a> () <span class="keyword">const </span>= 0;
+00365 
+00369   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a1">Get</a> (size_t n) <span class="keyword">const </span>= 0;
+00370 
+00374   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a2">Add</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) = 0;
+00375 
+00379   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a3">Remove</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) = 0;
 00380 
-00384   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassList.html#a7">RemoveAll</a> () = 0;
+00384   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a3">Remove</a> (size_t n) = 0;
 00385 
-00389   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a8">Find</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) <span class="keyword">const </span>= 0;
+00389   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a5">RemoveByInterface</a> (scfInterfaceID scf_id, <span class="keywordtype">int</span> iVersion) = 0;
 00390 
-00397   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a9">FindByName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *name) <span class="keyword">const </span>= 0;
-00398 
-00403   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a10">FindByNameAndTag</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *name,
-00404         <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) <span class="keyword">const </span>= 0;
-00405 
-00413   <span class="keyword">virtual</span> iBase* <a class="code" href="structiCelPropertyClassList.html#a11">FindByInterface</a> (
-00414         scfInterfaceID <span class="keywordtype">id</span>, <span class="keywordtype">int</span> version) <span class="keyword">const </span>= 0;
+00395   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClassList.html#a6">RemoveByInterfaceAndTag</a> (scfInterfaceID scf_id,
+00396         <span class="keywordtype">int</span> iVersion, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
+00397 
+00401   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassList.html#a7">RemoveAll</a> () = 0;
+00402 
+00406   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClassList.html#a8">Find</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* obj) <span class="keyword">const </span>= 0;
+00407 
+00414   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a9">FindByName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *name) <span class="keyword">const </span>= 0;
 00415 
-00420   <span class="keyword">virtual</span> iBase* <a class="code" href="structiCelPropertyClassList.html#a12">FindByInterfaceAndTag</a> (
-00421         scfInterfaceID <span class="keywordtype">id</span>, <span class="keywordtype">int</span> version, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) <span class="keyword">const </span>= 0;
-00422 };
-00423 
-00424 <span class="preprocessor">#endif // __CEL_PL_PROPCLASS__</span>
-00425 <span class="preprocessor"></span>
+00420   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="structiCelPropertyClassList.html#a10">FindByNameAndTag</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *name,
+00421         <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) <span class="keyword">const </span>= 0;
+00422 
+00430   <span class="keyword">virtual</span> iBase* <a class="code" href="structiCelPropertyClassList.html#a11">FindByInterface</a> (
+00431         scfInterfaceID <span class="keywordtype">id</span>, <span class="keywordtype">int</span> version) <span class="keyword">const </span>= 0;
+00432 
+00437   <span class="keyword">virtual</span> iBase* <a class="code" href="structiCelPropertyClassList.html#a12">FindByInterfaceAndTag</a> (
+00438         scfInterfaceID <span class="keywordtype">id</span>, <span class="keywordtype">int</span> version, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag) <span class="keyword">const </span>= 0;
+00439 };
+00440 
+00441 <span class="preprocessor">#endif // __CEL_PL_PROPCLASS__</span>
+00442 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
