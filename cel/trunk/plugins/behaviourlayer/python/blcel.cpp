@@ -5451,6 +5451,52 @@ static PyObject *_wrap_iCelPropertyClass_SetEntity(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iCelPropertyClass_SaveFirstPass(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
+    SwigValueWrapper<csPtr<iCelDataBuffer > > result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iCelPropertyClass_SaveFirstPass",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (arg1)->SaveFirstPass();
+    
+    {
+        csPtr<iCelDataBuffer > * resultptr;
+        resultptr = new csPtr<iCelDataBuffer >((csPtr<iCelDataBuffer > &)(result));
+        resultobj = SWIG_NewPointerObj((void *)(resultptr), SWIGTYPE_p_csPtrTiCelDataBuffer_t, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPropertyClass_LoadFirstPass(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
+    iCelDataBuffer *arg2 = (iCelDataBuffer *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_LoadFirstPass",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelDataBuffer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    result = (bool)(arg1)->LoadFirstPass(arg2);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCelPropertyClass_Save(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
@@ -17518,6 +17564,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPropertyClass_GetTag", _wrap_iCelPropertyClass_GetTag, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetEntity", _wrap_iCelPropertyClass_GetEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_SetEntity", _wrap_iCelPropertyClass_SetEntity, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_SaveFirstPass", _wrap_iCelPropertyClass_SaveFirstPass, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_LoadFirstPass", _wrap_iCelPropertyClass_LoadFirstPass, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_Save", _wrap_iCelPropertyClass_Save, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_Load", _wrap_iCelPropertyClass_Load, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_AddPropertyChangeCallback", _wrap_iCelPropertyClass_AddPropertyChangeCallback, METH_VARARGS, NULL},
