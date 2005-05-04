@@ -410,6 +410,8 @@ class iCelPropertyClass(cspace.iBase):
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)
     def GetEntity(*args): return _blcelc.iCelPropertyClass_GetEntity(*args)
     def SetEntity(*args): return _blcelc.iCelPropertyClass_SetEntity(*args)
+    def SaveFirstPass(*args): return _blcelc.iCelPropertyClass_SaveFirstPass(*args)
+    def LoadFirstPass(*args): return _blcelc.iCelPropertyClass_LoadFirstPass(*args)
     def Save(*args): return _blcelc.iCelPropertyClass_Save(*args)
     def Load(*args): return _blcelc.iCelPropertyClass_Load(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_AddPropertyChangeCallback(*args)
