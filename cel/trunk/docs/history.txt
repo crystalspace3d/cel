@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+4-May-2005
+	- David Bronke committed the first version of the new mechanics
+	  plugin.
 3-May-2005
 	- Eric Sunshine updated various resources to point at Crystal Entity
 	  Layer's new official domain cel.crystalspace3d.org.  (We also respond
