@@ -4,6 +4,10 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 4-May-2005
+	- David Bronke fixed the thruster controller and thruster group code
+	  to work with one-way thrusters. Also added heuristics to figure out
+	  which thrusters in a given group should be fired to give the desired
+	  effect.
 	- David Bronke committed the first version of the new mechanics
 	  plugin.
 3-May-2005
