@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <math.h>
 #include "cssysdef.h"
+#include <math.h>
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"

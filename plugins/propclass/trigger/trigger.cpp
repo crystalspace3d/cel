@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <math.h>
 #include "cssysdef.h"
+#include <math.h>
 #include "plugins/propclass/trigger/trigger.h"
 #include "propclass/camera.h"
 #include "propclass/mesh.h"
@@ -133,7 +133,7 @@ celPcTrigger::~celPcTrigger ()
 }
 
 Property* celPcTrigger::properties = 0;
-int celPcTrigger::propertycount = 0;
+size_t celPcTrigger::propertycount = 0;
 
 void celPcTrigger::UpdateProperties (iObjectRegistry* object_reg)
 {

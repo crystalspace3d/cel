@@ -72,8 +72,8 @@ protected:
   uint* freelist;
   uint listsize;
   uint limit;
-  unsigned int freelistend;
-  unsigned int freelistsize;
+  size_t freelistend;
+  size_t freelistsize;
 };
 
 /**
@@ -97,7 +97,7 @@ public:
   virtual void Clear();
 
   virtual void* Get(uint id);
-  virtual unsigned int Length();
+  virtual size_t Length();
 
 private:
   csHash<void*,uint> reg;
@@ -123,7 +123,7 @@ private:
   csArray<struct part> regs;
 
 private:
-  int GetScopeOfID (uint id);
+  size_t GetScopeOfID (uint id);
 
 public:
   celIDRegistry ();
@@ -138,12 +138,12 @@ public:
    * impl is the implementation of the numreg choosed:
    *  cel.numreg.lists or cel.numreg.hash
    */
-  int AddScope (csString impl, int size);
+  size_t AddScope (csString impl, int size);
 
   /**
    * Register an object in the given scope. Error case return 0
    */
-  uint Register (void* obj, int scope);
+  uint Register (void* obj, size_t scope);
 
   /**
    * Register an object with the provided ID.
@@ -171,7 +171,7 @@ public:
   void* Get (uint id);
 
   // Default scope. 
-  int DefaultScope;
+  size_t DefaultScope;
 };
 
 #endif

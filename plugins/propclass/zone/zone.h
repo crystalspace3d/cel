@@ -221,7 +221,7 @@ public:
   virtual const char* GetName () const { return name; }
   virtual void LinkRegion (iCelRegion* region);
   virtual size_t GetRegionCount () const { return regions.Length (); }
-  virtual iCelRegion* GetRegion (int idx) const
+  virtual iCelRegion* GetRegion (size_t idx) const
   {
     return (iCelRegion*)regions[idx];
   }

@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <math.h>
 #include "cssysdef.h"
+#include <math.h>
 #include "propclass/mesh.h"
 #include "plugins/propclass/zone/zone.h"
 #include "propclass/camera.h"
@@ -152,8 +152,8 @@ iCelMapFile* celRegion::CreateMapFile ()
 
 bool celRegion::RemoveMapFile (iCelMapFile* mapfile)
 {
-  int idx = mapfiles.Find ((celMapFile*)mapfile);
-  if (idx == -1) return false;
+  size_t idx = mapfiles.Find ((celMapFile*)mapfile);
+  if (idx == csArrayItemNotFound) return false;
   mapfiles.DeleteIndex (idx);
   return true;
 }
@@ -337,15 +337,15 @@ SCF_IMPLEMENT_IBASE_END
 
 void celZone::LinkRegion (iCelRegion* region)
 {
-  int idx = regions.Find ((celRegion*)region);
-  if (idx != -1) return;
+  size_t idx = regions.Find ((celRegion*)region);
+  if (idx != csArrayItemNotFound) return;
   regions.Push ((celRegion*)region);
 }
 
 bool celZone::UnlinkRegion (iCelRegion* region)
 {
-  int idx = regions.Find ((celRegion*)region);
-  if (idx == -1) return false;
+  size_t idx = regions.Find ((celRegion*)region);
+  if (idx == csArrayItemNotFound) return false;
   regions.DeleteIndex (idx);
   return true;
 }
@@ -366,8 +366,8 @@ iCelRegion* celZone::FindRegion (const char* name) const
 
 bool celZone::ContainsRegion (celRegion* region)
 {
-  int idx = regions.Find (region);
-  return idx != -1;
+  size_t idx = regions.Find (region);
+  return idx != csArrayItemNotFound;
 }
 
 //---------------------------------------------------------------------------
@@ -620,8 +620,8 @@ iCelZone* celPcZoneManager::CreateZone (const char* name)
 
 bool celPcZoneManager::RemoveZone (iCelZone* zone)
 {
-  int idx = zones.Find ((celZone*)zone);
-  if (idx == -1) return false;
+  size_t idx = zones.Find ((celZone*)zone);
+  if (idx == csArrayItemNotFound) return false;
   zones.DeleteIndex (idx);
   return true;
 }
@@ -659,8 +659,8 @@ iCelRegion* celPcZoneManager::FindRegion (const char* name) const
 
 bool celPcZoneManager::RemoveRegion (iCelRegion* region)
 {
-  int idx = regions.Find ((celRegion*)region);
-  if (idx == -1) return false;
+  size_t idx = regions.Find ((celRegion*)region);
+  if (idx == csArrayItemNotFound) return false;
   regions.DeleteIndex (idx);
   return true;
 }

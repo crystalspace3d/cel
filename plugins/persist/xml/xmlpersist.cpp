@@ -212,7 +212,7 @@ bool celPersistXML::Write (iDocumentNode* pcnode,
     size_t entity_idx = entities_map.Get (pc->GetEntity (),
     	csArrayItemNotFound);
     CS_ASSERT(entity_idx != csArrayItemNotFound);
-    pcnode->SetAttributeAsInt ("locref", entity_idx);
+    pcnode->SetAttributeAsInt ("locref", (int)entity_idx);
     pcnode->SetAttribute ("name", pc->GetName ());
     if (pc->GetTag ())
       pcnode->SetAttribute ("tag", pc->GetTag ());
@@ -252,7 +252,7 @@ bool celPersistXML::Write (iDocumentNode* entnode,
     // In that case we still have to save a reference.
     size_t idx = entities_map.Get (entity, csArrayItemNotFound);
     CS_ASSERT(idx != csArrayItemNotFound);
-    entnode->SetAttributeAsInt ("locref", idx);
+    entnode->SetAttributeAsInt ("locref", (int)idx);
     return true;
   }
 

@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include <ctype.h>
 #include "cssysdef.h"
+#include <ctype.h>
 #include "iutil/document.h"
 #include "imap/services.h"
 #include "ivaria/reporter.h"
@@ -811,7 +811,7 @@ bool celBlXml::ParseExpressionInt (
           return false;
 	}
         h->AddOperation (CEL_OPERATION_DEREFLVAR);
-	h->GetArgument ().SetUInt32 (varidx);
+	h->GetArgument ().SetUInt32 ((uint32)varidx);
       }
       break;
     case CEL_TOKEN_DEREFVAR:
@@ -1117,7 +1117,7 @@ bool celBlXml::ParseExpressionInt (
           if (!ParseExpression (input, local_vars,
 	  	child, h, name, CEL_PRIORITY_SCOPE))
 	    return false;
-	  int last_idx = h->GetLastArgumentIndex ();
+	  size_t last_idx = h->GetLastArgumentIndex ();
 	  if (h->GetOperation (last_idx) != CEL_OPERATION_CALL_RS)
 	  {
             synldr->ReportError ("cel.behaviour.xml", child,
@@ -1632,7 +1632,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (local_vars, child, h, "value", "lvar"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_LVAR);
-	  h->GetArgument ().SetUInt32 (varidx);
+	  h->GetArgument ().SetUInt32 ((uint32)varidx);
 	}
 	break;
       case XMLTOKEN_VAR:
@@ -1663,7 +1663,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	break;
       case XMLTOKEN_WHILE:
         {
-	  int eval_idx = h->GetLastArgumentIndex ()+1;
+	  size_t eval_idx = h->GetLastArgumentIndex ()+1;
           if (!ParseExpression (local_vars, child, h, "eval", "for"))
 	    return false;
 	  const char* execname = GetAttributeString (child, "exec", 0);
@@ -1679,14 +1679,14 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  else
 	  {
 	    h->AddOperation (CEL_OPERATION_IFGOTO);
-	    int while_idx = h->GetLastArgumentIndex ();
+	    size_t while_idx = h->GetLastArgumentIndex ();
 
 	    if (!ParseEventHandler (h, local_vars, child, script))
 	      return false;
 	    h->AddOperation (CEL_OPERATION_GOTO);	// True branch
 	    h->GetArgument ().SetCodeLocation (eval_idx);
 
-	    int last_idx = h->GetLastArgumentIndex ();
+	    size_t last_idx = h->GetLastArgumentIndex ();
 	    h->GetArgument (while_idx).SetCodeLocation (last_idx+1);
 	  }
 	}
@@ -1710,13 +1710,13 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  else
 	  {
 	    h->AddOperation (CEL_OPERATION_FORI);
-	    int for_idx = h->GetLastArgumentIndex ();
+	    size_t for_idx = h->GetLastArgumentIndex ();
 
 	    if (!ParseEventHandler (h, local_vars, child, script))
 	      return false;
 	    h->AddOperation (CEL_OPERATION_END);
 
-	    int last_idx = h->GetLastArgumentIndex ();
+	    size_t last_idx = h->GetLastArgumentIndex ();
 	    h->GetArgument (for_idx).SetCodeLocation (last_idx+1);
 	  }
 	}
@@ -1725,7 +1725,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         {
           if (!ParseExpression (local_vars, child, h, "eval", "switch"))
 	    return false;
-	  csArray<int> goto_end_idx;
+	  csArray<size_t> goto_end_idx;
 	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
 	  while (child_it->HasNext ())
 	  {
@@ -1739,11 +1739,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	        return false;
 	      h->AddOperation (CEL_OPERATION_EQ);
 	      h->AddOperation (CEL_OPERATION_IFGOTO);
-	      int ifgoto_idx = h->GetLastArgumentIndex ();
+	      size_t ifgoto_idx = h->GetLastArgumentIndex ();
 	      if (!ParseEventHandler (h, local_vars, c, script))
 	        return false;
 	      h->AddOperation (CEL_OPERATION_GOTO);
-	      int goto_idx = h->GetLastArgumentIndex ();
+	      size_t goto_idx = h->GetLastArgumentIndex ();
 	      goto_end_idx.Push (goto_idx);
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
 	    }
@@ -1760,7 +1760,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  size_t i;
 	  for (i = 0 ; i < goto_end_idx.Length () ; i++)
 	  {
-	    h->GetArgument (goto_end_idx[i]).SetCodeLocation (end_idx);
+	    h->GetArgument (goto_end_idx[i]).SetCodeLocation ((uint32)end_idx);
 	  }
 	  h->AddOperation (CEL_OPERATION_DROP);
 	}
@@ -1783,7 +1783,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  else
 	  {
 	    h->AddOperation (CEL_OPERATION_IFGOTO);
-	    int ifgoto_idx = h->GetLastArgumentIndex ();
+	    size_t ifgoto_idx = h->GetLastArgumentIndex ();
 	    csRef<iDocumentNode> truechild = child->GetNode ("true");
 	    csRef<iDocumentNode> falsechild = child->GetNode ("false");
 	    if (truechild && falsechild)
@@ -1791,28 +1791,28 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	      if (!ParseEventHandler (h, local_vars, truechild, script))
 	        return false;
 	      h->AddOperation (CEL_OPERATION_GOTO);
-	      int goto_idx = h->GetLastArgumentIndex ();
+	      size_t goto_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
 	      if (!ParseEventHandler (h, local_vars, falsechild, script))
 	        return false;
-	      int last_idx = h->GetLastArgumentIndex ();
+	      size_t last_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (goto_idx).SetCodeLocation (last_idx+1);
 	    }
 	    else if (truechild)
 	    {
 	      if (!ParseEventHandler (h, local_vars, truechild, script))
 	        return false;
-	      int last_idx = h->GetLastArgumentIndex ();
+	      size_t last_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (last_idx+1);
 	    }
 	    else if (falsechild)
 	    {
 	      h->AddOperation (CEL_OPERATION_GOTO);
-	      int goto_idx = h->GetLastArgumentIndex ();
+	      size_t goto_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (goto_idx+1);
 	      if (!ParseEventHandler (h, local_vars, falsechild, script))
 	        return false;
-	      int last_idx = h->GetLastArgumentIndex ();
+	      size_t last_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (goto_idx).SetCodeLocation (last_idx+1);
 	    }
 	    else
@@ -1821,7 +1821,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	      // true child.
 	      if (!ParseEventHandler (h, local_vars, child, script))
 	        return false;
-	      int last_idx = h->GetLastArgumentIndex ();
+	      size_t last_idx = h->GetLastArgumentIndex ();
 	      h->GetArgument (ifgoto_idx).SetCodeLocation (last_idx+1);
 	    }
 	  }

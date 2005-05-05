@@ -78,7 +78,7 @@ private:
   };
 
   static Property* properties;
-  static int propertycount;
+  static size_t propertycount;
 
   static void UpdateProperties (iObjectRegistry* object_reg);
 

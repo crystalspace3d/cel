@@ -54,14 +54,14 @@ struct iPcNavGraphRules : public iBase
    * Various virtual methods that can be used to change the graph behaviour.
    * Calculate the shortest path between two nodes
    */
-  virtual int FindShortestPath (iPcNavGraph* graph, int iNodeStart,
-  	int iNodeEnd, int* &ipath) = 0;
+  virtual size_t FindShortestPath (iPcNavGraph* graph, size_t iNodeStart,
+  	size_t iNodeEnd, size_t* &ipath) = 0;
 
   /** 
    * Various virtual methods that can be used to change the graph behaviour.
    * Find the nearest node to this point.
    */
-  virtual int FindNearestNode (iPcNavGraph* graph, csVector3* point,
+  virtual size_t FindNearestNode (iPcNavGraph* graph, csVector3* point,
   	iSector* sector, iCelEntity* ent) = 0;
 };
 
@@ -87,11 +87,11 @@ struct iPcNavNode : public iBase
   virtual void SetPos ( csVector3 newpos ) = 0;
   virtual csVector3 GetPos() = 0;
 
-  virtual int AddLink (iPcNavLink* link) = 0;
-  virtual int RemoveLink (int i) = 0;
-  virtual iPcNavLink* GetLink (int i) = 0;
-  virtual int GetLinkCount () const = 0;
-  virtual int FindLink (iPcNavLink* link) = 0;
+  virtual size_t AddLink (iPcNavLink* link) = 0;
+  virtual bool RemoveLink (size_t i) = 0;
+  virtual iPcNavLink* GetLink (size_t i) = 0;
+  virtual size_t GetLinkCount () const = 0;
+  virtual size_t FindLink (iPcNavLink* link) = 0;
 };
 
 SCF_VERSION (iPcNavGraph, 0, 0, 1);
@@ -106,23 +106,23 @@ struct iPcNavGraph : public iBase
   virtual void SetRegion (iPcRegion* newregion) = 0;
   virtual csRef<iPcRegion> GetRegion() = 0;
 
-  virtual int AddNode (iPcNavNode* node) = 0;
-  virtual int RemoveNode (int i) = 0;
-  virtual iPcNavNode* GetNode (int i) = 0;
-  virtual int GetNodeCount () const = 0;
-  virtual int FindNode (iPcNavNode* Node) = 0;
+  virtual size_t AddNode (iPcNavNode* node) = 0;
+  virtual bool RemoveNode (size_t i) = 0;
+  virtual iPcNavNode* GetNode (size_t i) = 0;
+  virtual size_t GetNodeCount () const = 0;
+  virtual size_t FindNode (iPcNavNode* Node) = 0;
 
-  virtual int AddLink (iPcNavLink* link) = 0;
-  virtual int RemoveLink (int i) = 0;
-  virtual iPcNavLink* GetLink (int i) = 0;
-  virtual int GetLinkCount () const = 0;
-  virtual int FindLink (iPcNavLink* link) = 0;
+  virtual size_t AddLink (iPcNavLink* link) = 0;
+  virtual bool RemoveLink (size_t i) = 0;
+  virtual iPcNavLink* GetLink (size_t i) = 0;
+  virtual size_t GetLinkCount () const = 0;
+  virtual size_t FindLink (iPcNavLink* link) = 0;
 
   virtual void SetRules (iPcNavGraphRules* newrules) =0;
 
-  virtual int FindNearestNode (csVector3* point, iSector* sector,
+  virtual size_t FindNearestNode (csVector3* point, iSector* sector,
   	iCelEntity* ent) = 0;
-  virtual int FindShortestPath (int iNodeStart, int iNodeEnd, int* &ipath) = 0;
+  virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t*& ipath) = 0;
 };
 
 #endif

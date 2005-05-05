@@ -109,7 +109,7 @@ celDataType celPcProperties::GetPropertyOrActionType (csStringID id)
   return properties[idx]->type;
 }
 
-csStringID celPcProperties::GetPropertyOrActionID (int i)
+csStringID celPcProperties::GetPropertyOrActionID (size_t i)
 {
   property* p = properties[i];
   if (p->id == csInvalidStringID)

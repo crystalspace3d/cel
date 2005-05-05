@@ -57,8 +57,8 @@ private:
 public:
   virtual int TraverseLink( celPcNavGraph* graph, iSector* sector, iPcNavLink* plink, iCelEntity* ent );
   virtual void OptimiseGraph(celPcNavGraph* graph);
-  virtual int FindShortestPath( celPcNavGraph* graph, int iNodeStart, int iNodeEnd, int* &ipath );
-  virtual int FindNearestNode( celPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent );
+  virtual size_t FindShortestPath( celPcNavGraph* graph, size_t iNodeStart, size_t iNodeEnd, size_t* &ipath );
+  virtual size_t FindNearestNode( celPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent );
 
   // Implement PCCommon methods
   celPcNavGraphRulesFPS (iObjectRegistry* object_reg);
@@ -84,12 +84,12 @@ public:
         scfParent->OptimiseGraph( (celPcNavGraph*)(graph->GetPrivateObject ()) );    
       }
 
-      virtual int FindShortestPath( iPcNavGraph* graph, int iNodeStart, int iNodeEnd, int* &ipath )
+      virtual size_t FindShortestPath( iPcNavGraph* graph, size_t iNodeStart, size_t iNodeEnd, size_t* &ipath )
       {
         return scfParent->FindShortestPath( (celPcNavGraph*)(graph->GetPrivateObject ()), iNodeStart, iNodeEnd, ipath );    
       }
 
-      virtual int FindNearestNode( iPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent )
+      virtual size_t FindNearestNode( iPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent )
       {
         return scfParent->FindNearestNode((celPcNavGraph*)(graph->GetPrivateObject ()), point, sector, ent);    
       }

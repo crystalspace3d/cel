@@ -57,24 +57,24 @@ extern void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...);
 class celPriorityQueue
 {
 public:
-  celPriorityQueue( int imaxnodes );
+  celPriorityQueue( size_t imaxnodes );
   ~celPriorityQueue();
-  inline int Empty ( void ) { return ( iqueuesize == 0 ); }
-  void Insert( int, float );
-  int Remove( float &);
+  inline bool Empty ( void ) { return ( iqueuesize == 0 ); }
+  void Insert( size_t, float );
+  size_t Remove( float &);
 
 private:
-  int	iqueuesize;
+  size_t	iqueuesize;
   struct iteminfo
   {
-    int   Item;
+    size_t Item;
     float Priority;
   } *items;
   void SortDown();
   void SortUp();
 };
 
-celPriorityQueue::celPriorityQueue( int imaxitems )
+celPriorityQueue::celPriorityQueue( size_t imaxitems )
 {
   // Allocate enough memory for the queue
   items = (iteminfo*) malloc (imaxitems * sizeof (iteminfo));
@@ -86,7 +86,7 @@ celPriorityQueue::~celPriorityQueue()
   free (items);
 }
 
-void celPriorityQueue::Insert (int iValue, float fPriority)
+void celPriorityQueue::Insert (size_t iValue, float fPriority)
 {
   // Add item to end of Queue
   items[iqueuesize].Priority = fPriority;
@@ -97,10 +97,10 @@ void celPriorityQueue::Insert (int iValue, float fPriority)
   SortUp ();
 }
 
-int celPriorityQueue :: Remove( float &fPriority )
+size_t celPriorityQueue :: Remove( float &fPriority )
 {
   // Remove the item with the lowest priority (item 0) from the queue
-  int iReturn = items[0].Item;
+  size_t iReturn = items[0].Item;
   fPriority = items[0].Priority;
 
   // Reshuffle the queue so that everything is back in the correct priority
@@ -121,14 +121,14 @@ void celPriorityQueue::SortDown()
   struct iteminfo topitem = items[ 0 ];
 
   // get first child.
-  int parent = 0;
-  int child = 1;
+  size_t parent = 0;
+  size_t child = 1;
 
   // move it down through the queue until it is in the correct priority order
   while (child < iqueuesize)
   {
     // check the right child 
-    int rightchild = ITEM_GET_RIGHT(parent);
+    size_t rightchild = ITEM_GET_RIGHT(parent);
 
     if ( (rightchild < iqueuesize) && ( items[ rightchild ].Priority
     	< items[ child ].Priority ))
@@ -158,12 +158,12 @@ void celPriorityQueue::SortDown()
 void celPriorityQueue::SortUp()
 {
   // get last child
-  int child = iqueuesize - 1; 
+  size_t child = iqueuesize - 1; 
 
   // move it up through the queue until it is in the correct priority order
   while (child)
   {
-    int parent = ITEM_PARENT(child);
+    size_t parent = ITEM_PARENT(child);
 
     if ( items[ parent ].Priority > items[ child ].Priority )
     {
@@ -307,7 +307,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
   MoveNotify (object_reg, "NavrulesFPS - OptimiseGraph");
 
   // Remove all failed links from the graph
-  int i=0;
+  size_t i=0;
   int count=0;
   while (i < graph->GetLinkCount())
   {
@@ -341,7 +341,7 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
   // Remove all aligned links from the graph
   // ie. if two links lie in the same direction, remove the furthest one
 
-  int inode;
+  size_t inode;
   count = 0;
   for (inode=0;inode < graph->GetNodeCount(); inode++)
   {
@@ -351,10 +351,10 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
     //MoveNotify( object_reg, "Checking node %d", inode);
 
     // For each node, test all links against all other links
-    int ilink1=0;
+    size_t ilink1=0;
     while (ilink1 < node->GetLinkCount())
     {
-      int ilink2=0;
+      size_t ilink2=0;
       bool startagain = false;
       while (ilink2 < node->GetLinkCount() && !startagain)
       {
@@ -376,14 +376,14 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
           if (vecnode1*vecnode2 >= 0.999) // Get dot product
           {
             // Links are aligned, so delete furthest link
-            int iremovelink = (vecnode1.SquaredNorm() > vecnode2.SquaredNorm())
+            size_t iremovelink = (vecnode1.SquaredNorm() > vecnode2.SquaredNorm())
 	    	? ilink1:ilink2;
 
             //MoveNotify (object_reg, "Comparing link %d (dist %f) vs link %d (dist %f) - removing %d - now %d left", 
             //        ilink1, vecnode1.Norm(), ilink2, vecnode2.Norm(), iremovelink,
             //        node->GetLinkCount());
 
-            int ilinkingraph = graph->FindLink (node->GetLink (iremovelink));
+            size_t ilinkingraph = graph->FindLink (node->GetLink (iremovelink));
             graph->RemoveLink (ilinkingraph); // Remove from graph
             node->RemoveLink (iremovelink);   // Remove link from this node
             count++; // keep track of number of links removed
@@ -408,8 +408,8 @@ void celPcNavGraphRulesFPS::OptimiseGraph( celPcNavGraph* graph )
   	count);
 }
 
-int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
-	int iNodeStart, int iNodeEnd, int* &ipath)
+size_t celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
+	size_t iNodeStart, size_t iNodeEnd, size_t* &ipath)
 {
   /*
    * Find shortest path between two nodes
@@ -427,12 +427,12 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
    */
 
   float* fclosestsofar;
-  int* ipreviousnode;
+  size_t* ipreviousnode;
 
-  int inumnodes;
-  int iCurrentNode;
+  size_t inumnodes;
+  size_t iCurrentNode;
   iPcNavNode* TestNode;
-  int iVisitNode;
+  size_t iVisitNode;
 
   float flOurDistance;
 
@@ -442,12 +442,12 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
 
   inumnodes = graph->GetNodeCount();
   fclosestsofar = (float*) malloc( inumnodes * sizeof( float) );
-  ipreviousnode = (int*) malloc( inumnodes * sizeof( int) );
+  ipreviousnode = (size_t*) malloc( inumnodes * sizeof( int) );
 
   // Limit queue size to number of links
   celPriorityQueue queue (graph->GetLinkCount());
 
-  int i;
+  size_t i;
   for (i = 0; i < inumnodes; i++)
   {
     fclosestsofar[i] = -1;
@@ -506,7 +506,7 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
 
   // now walk backwards through the ipreviousnode array
   iCurrentNode = iNodeEnd;
-  int iNumPathNodes = 1; // dont forget to count the destination
+  size_t iNumPathNodes = 1; // dont forget to count the destination
 	
   // Get number of nodes on the path
   while (iCurrentNode != iNodeStart)
@@ -546,7 +546,7 @@ int celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
   return iNumPathNodes;
 }
 
-int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
+size_t celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
 	csVector3* point, iSector* sector, iCelEntity* ent)
 {
   /*
@@ -555,7 +555,7 @@ int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
    * test that the entity can actually get to this point.
    */
 
-  int iclosestnode, iresult;
+  size_t iclosestnode, iresult;
   float fclosestdist, fdist;
 
   csVector3 nodepos;
@@ -579,13 +579,13 @@ int celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
   pc = pl->CreatePropertyClass (templink, "pclink");
   csRef<iPcNavLink> pclink = SCF_QUERY_INTERFACE (pc, iPcNavLink);
 
-  iclosestnode = -1;
+  iclosestnode = (size_t)-1;
   fclosestdist = -1;
 
-  int iCount = graph->GetNodeCount();
+  size_t iCount = graph->GetNodeCount();
 
   // Check all nodes, to find the closest that this entity can traverse
-  for (int i=0; i < iCount; i++)
+  for (size_t i=0; i < iCount; i++)
   {
     node = graph->GetNode (i); // Get each node in turn
 

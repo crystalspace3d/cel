@@ -73,8 +73,8 @@ public:
 
   // Graph building and query methods
   int BuildNodeGraph (iSector* sector, iCelEntity* defaultent);
-  int FindNearestNode (csVector3* point, iSector* sector, iCelEntity* ent);
-  int FindShortestPath (int iNodeStart, int iNodeEnd, int* &ipath);
+  size_t FindNearestNode (csVector3* point, iSector* sector, iCelEntity* ent);
+  size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t* &ipath);
 
   // Implement PCCommon methods
   celPcNavGraph (iObjectRegistry* object_reg);
@@ -91,17 +91,17 @@ public:
 
   void SetRules (iPcNavGraphRules* newrules) { navgraphrules = newrules; }
 
-  int AddNode( iPcNavNode* node ) { return aNodes.Push( node );}
-  int RemoveNode( int i) {return aNodes.DeleteIndex( i ); }
-  iPcNavNode* GetNode( int i ) { return aNodes[i];}
-  int GetNodeCount() const { return aNodes.Length();}
-  int FindNode( iPcNavNode* Node ) { return aNodes.Find( Node ); }
+  size_t AddNode( iPcNavNode* node ) { return aNodes.Push( node );}
+  bool RemoveNode( size_t i) {return aNodes.DeleteIndex( i ); }
+  iPcNavNode* GetNode( size_t i ) { return aNodes[i];}
+  size_t GetNodeCount() const { return aNodes.Length();}
+  size_t FindNode( iPcNavNode* Node ) { return aNodes.Find( Node ); }
 
-  int AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
-  int RemoveLink( int i) {return aLinks.DeleteIndex( i ); }
-  iPcNavLink* GetLink( int i ) { return aLinks[i];}
-  int GetLinkCount() const {return aLinks.Length();}
-  int FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
+  size_t AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
+  bool RemoveLink( size_t i) {return aLinks.DeleteIndex( i ); }
+  iPcNavLink* GetLink( size_t i ) { return aLinks[i];}
+  size_t GetLinkCount() const {return aLinks.Length();}
+  size_t FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
 
   struct PcNavGraph : public iPcNavGraph
   {
@@ -117,7 +117,7 @@ public:
       return scfParent->Dump();
     }    
 
-    virtual int FindNearestNode (csVector3* point, iSector* sector,
+    virtual size_t FindNearestNode (csVector3* point, iSector* sector,
     	iCelEntity* ent )
     {
       return scfParent->FindNearestNode (point, sector, ent);
@@ -126,51 +126,51 @@ public:
     {
       return scfParent->BuildNodeGraph (sector, defaultent);
     }    
-    virtual int FindShortestPath (int iNodeStart, int iNodeEnd, int* &ipath)
+    virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t* &ipath)
     {
       return scfParent->FindShortestPath (iNodeStart, iNodeEnd, ipath);
     }
 
     // Get / Set Nodes
-    virtual int AddNode (iPcNavNode* node)
+    virtual size_t AddNode (iPcNavNode* node)
     {
       return scfParent->AddNode (node);
     }    
-    virtual int RemoveNode (int i)
+    virtual bool RemoveNode (size_t i)
     {
       return scfParent->RemoveNode (i);
     }    
-    virtual iPcNavNode* GetNode (int i)
+    virtual iPcNavNode* GetNode (size_t i)
     {
       return scfParent->GetNode (i);
     }    
-    virtual int FindNode (iPcNavNode* Node)
+    virtual size_t FindNode (iPcNavNode* Node)
     {
       return scfParent->FindNode (Node);
     }    
-    virtual int GetNodeCount() const
+    virtual size_t GetNodeCount() const
     {
       return scfParent->GetNodeCount();
     }    
 
     // Get / Set Links
-    virtual int AddLink (iPcNavLink* link)
+    virtual size_t AddLink (iPcNavLink* link)
     {
       return scfParent->AddLink (link);
     }    
-    virtual int RemoveLink (int i)
+    virtual bool RemoveLink (size_t i)
     {
       return scfParent->RemoveLink (i);
     }    
-    virtual iPcNavLink* GetLink (int i)
+    virtual iPcNavLink* GetLink (size_t i)
     {
       return scfParent->GetLink (i);
     }    
-    virtual int FindLink (iPcNavLink* link)
+    virtual size_t FindLink (iPcNavLink* link)
     {
       return scfParent->FindLink (link);
     }    
-    virtual int GetLinkCount() const
+    virtual size_t GetLinkCount() const
     {
       return scfParent->GetLinkCount();
     }    
@@ -311,11 +311,11 @@ public:
   csVector3 GetPos() { return pos; }
   void SetPos( csVector3 newpos ) { pos.Set( newpos ); }
 
-  int AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
-  int RemoveLink( int i) {return aLinks.DeleteIndex( i ); }
-  iPcNavLink* GetLink( int i ) { return aLinks[i];}
-  int GetLinkCount() const {return aLinks.Length();}
-  int FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
+  size_t AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
+  bool RemoveLink( size_t i) {return aLinks.DeleteIndex( i ); }
+  iPcNavLink* GetLink( size_t i ) { return aLinks[i];}
+  size_t GetLinkCount() const {return aLinks.Length();}
+  size_t FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
 
   char cAIHints;
 
@@ -336,23 +336,23 @@ public:
     }
 
     // Get / Set Links
-    virtual int AddLink( iPcNavLink* link )
+    virtual size_t AddLink( iPcNavLink* link )
     {
       return scfParent->AddLink( link );
     }    
-    virtual int RemoveLink( int i)
+    virtual bool RemoveLink( size_t i)
     {
       return scfParent->RemoveLink( i );
     }    
-    virtual iPcNavLink* GetLink( int i )
+    virtual iPcNavLink* GetLink( size_t i )
     {
       return scfParent->GetLink( i );
     }    
-    virtual int FindLink( iPcNavLink* link )
+    virtual size_t FindLink( iPcNavLink* link )
     {
       return scfParent->FindLink( link );
     }    
-    virtual int GetLinkCount() const
+    virtual size_t GetLinkCount() const
     {
       return scfParent->GetLinkCount();
     }    
@@ -375,9 +375,9 @@ public:
   virtual int TraverseLink (celPcNavGraph* graph, iSector* sector,
     iPcNavLink* plink, iCelEntity* ent);
   virtual void OptimiseGraph (celPcNavGraph* graph);
-  virtual int FindShortestPath (celPcNavGraph* graph, int iNodeStart,
-  	int iNodeEnd, int* &ipath);
-  virtual int FindNearestNode (celPcNavGraph* graph, csVector3* point,
+  virtual size_t FindShortestPath (celPcNavGraph* graph, size_t iNodeStart,
+  	size_t iNodeEnd, size_t* &ipath);
+  virtual size_t FindNearestNode (celPcNavGraph* graph, csVector3* point,
   	iSector* sector, iCelEntity* ent);
 
   // implement factory methods
@@ -406,15 +406,15 @@ public:
       scfParent->OptimiseGraph ((celPcNavGraph*)(graph->GetPrivateObject ()));
     }
 
-    virtual int FindShortestPath (iPcNavGraph* graph, int iNodeStart,
-    	int iNodeEnd, int* &ipath)
+    virtual size_t FindShortestPath (iPcNavGraph* graph, size_t iNodeStart,
+    	size_t iNodeEnd, size_t* &ipath)
     {
       return scfParent->FindShortestPath (
       	(celPcNavGraph*)(graph->GetPrivateObject ()),
 	iNodeStart, iNodeEnd, ipath);
     }
 
-    virtual int FindNearestNode (iPcNavGraph* graph, csVector3* point,
+    virtual size_t FindNearestNode (iPcNavGraph* graph, csVector3* point,
     	iSector* sector, iCelEntity* ent)
     {
       return scfParent->FindNearestNode (

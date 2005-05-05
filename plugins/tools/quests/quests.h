@@ -190,7 +190,7 @@ private:
   iCelPlLayer* pl;
 
   csPDelArray<celQuestState> states;
-  int current_state;
+  size_t current_state;
 
   /// Deactivate a state (deactivate all triggers).
   void DeactivateState (size_t stateidx);
@@ -211,13 +211,13 @@ public:
   virtual void SaveState (iCelDataBuffer* databuf);
 
   // Add a state, returns the state index.
-  int AddState (const char* name);
+  size_t AddState (const char* name);
   // Add a response for a state. Return response index.
-  int AddStateResponse (int stateidx);
+  size_t AddStateResponse (size_t stateidx);
   // Set trigger for a state and response.
-  void SetStateTrigger (int stateidx, int responseidx, iQuestTrigger* trigger);
+  void SetStateTrigger (size_t stateidx, size_t responseidx, iQuestTrigger* trigger);
   // Add reward for a state and response.
-  void AddStateReward (int stateidx, int responseidx, iQuestReward* reward);
+  void AddStateReward (size_t stateidx, size_t responseidx, iQuestReward* reward);
 };
 
 /**

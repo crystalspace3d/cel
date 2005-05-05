@@ -79,7 +79,7 @@ celPcTest::~celPcTest ()
 }
 
 Property* celPcTest::properties = 0;
-int celPcTest::propertycount = 0;
+size_t celPcTest::propertycount = 0;
 
 void celPcTest::UpdateProperties (iObjectRegistry* object_reg)
 {
@@ -124,7 +124,7 @@ long celPcTest::GetPropertyLong (csStringID propertyId)
   UpdateProperties (object_reg);
   if (propertyId == properties[propid_max].id)
   {
-    return max;
+    return (long)max;
   }
   else
   {

@@ -17,8 +17,8 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <math.h>
 #include "cssysdef.h"
+#include <math.h>
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
@@ -185,7 +185,7 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-int celPcRegion::propertycount = 0;
+size_t celPcRegion::propertycount = 0;
 Property* celPcRegion::properties = 0;
 
 void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
