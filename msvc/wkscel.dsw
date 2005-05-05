@@ -96,6 +96,9 @@ Package=<4>
     Project_Dep_Name libpfinv_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfmechanics_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libpfmesh_static
     End Project Dependency
     Begin Project Dependency
@@ -172,6 +175,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmechanics
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmesh
@@ -285,6 +291,9 @@ Package=<4>
     Project_Dep_Name libpfinv_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfmechanics_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libpfmesh_static
     End Project Dependency
     Begin Project Dependency
@@ -373,6 +382,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfmechanics
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmesh
@@ -592,6 +604,18 @@ Package=<4>
 ###############################################################################
 
 Project: "libpfinv_static"=.\libpfinv_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfmechanics_static"=.\libpfmechanics_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -931,6 +955,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpfinv"=.\plgpfinv.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfmechanics"=.\plgpfmechanics.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
