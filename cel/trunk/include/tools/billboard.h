@@ -298,12 +298,12 @@ struct iBillboardManager : public iBase
   /**
    * Get the number of all billboards.
    */
-  virtual int GetBillboardCount () const = 0;
+  virtual size_t GetBillboardCount () const = 0;
 
   /**
    * Get a billboard by index.
    */
-  virtual iBillboard* GetBillboard (int idx) const = 0;
+  virtual iBillboard* GetBillboard (size_t idx) const = 0;
 
   /**
    * Create a new billboard layer with the given name. Returns 0 on failure.
@@ -327,12 +327,12 @@ struct iBillboardManager : public iBase
   /**
    * Get the number of all billboard layers.
    */
-  virtual int GetBillboardLayerCount () const = 0;
+  virtual size_t GetBillboardLayerCount () const = 0;
 
   /**
    * Get a billboard layer by index.
    */
-  virtual iBillboardLayer* GetBillboardLayer (int idx) const = 0;
+  virtual iBillboardLayer* GetBillboardLayer (size_t idx) const = 0;
 
   /**
    * Remove all billboards.

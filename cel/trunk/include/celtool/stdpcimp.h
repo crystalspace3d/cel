@@ -69,7 +69,7 @@ protected:
 
   void** propdata;
   Property* props;
-  int* propcount;
+  size_t* propcount;
 
 public:
   celPcCommon (iObjectRegistry* object_reg);
@@ -103,7 +103,7 @@ public:
   virtual bool SetProperty (csStringID, iCelPropertyClass* pclass);
   virtual bool SetProperty (csStringID, iCelEntity* entity);
   virtual celDataType GetPropertyOrActionType (csStringID);
-	virtual bool IsPropertyReadOnly (csStringID);
+  virtual bool IsPropertyReadOnly (csStringID);
   virtual long GetPropertyLong (csStringID);
   virtual float GetPropertyFloat (csStringID);
   virtual bool GetPropertyBool (csStringID);
@@ -115,8 +115,8 @@ public:
   virtual iCelEntity* GetPropertyEntity (csStringID);
   virtual bool PerformAction (csStringID, iCelParameterBlock*) { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
-	virtual int GetPropertyAndActionCount () const;
-  virtual csStringID GetPropertyOrActionID (int);
+  virtual size_t GetPropertyAndActionCount () const;
+  virtual csStringID GetPropertyOrActionID (size_t);
   virtual void PropertyClassesHaveChanged ()
   {
     propclasses_dirty = true;

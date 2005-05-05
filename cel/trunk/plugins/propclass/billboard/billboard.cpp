@@ -46,7 +46,7 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Billboard, "pcbillboard")
 
 Property* celPcBillboard::properties = 0;
-int celPcBillboard::propertycount = 0;
+size_t celPcBillboard::propertycount = 0;
 
 void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
 {

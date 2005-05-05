@@ -163,7 +163,7 @@ struct iCelZone : public iBase
   /**
    * Get the specified region.
    */
-  virtual iCelRegion* GetRegion (int idx) const = 0;
+  virtual iCelRegion* GetRegion (size_t idx) const = 0;
 
   /**
    * Get the specified region.

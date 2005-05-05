@@ -82,7 +82,7 @@ celPcQuest::~celPcQuest ()
 }
 
 Property* celPcQuest::properties = 0;
-int celPcQuest::propertycount = 0;
+size_t celPcQuest::propertycount = 0;
 
 void celPcQuest::UpdateProperties (iObjectRegistry* object_reg)
 {

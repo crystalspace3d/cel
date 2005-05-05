@@ -95,7 +95,7 @@ celPcMover::~celPcMover ()
 }
 
 Property* celPcMover::properties = 0;
-int celPcMover::propertycount = 0;
+size_t celPcMover::propertycount = 0;
 
 void celPcMover::UpdateProperties (iObjectRegistry* object_reg)
 {

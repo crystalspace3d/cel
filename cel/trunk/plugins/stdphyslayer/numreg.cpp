@@ -264,7 +264,7 @@ void* NumRegHash::Get (uint id)
   return reg.Get (id, 0);
 }
 
-unsigned int NumRegHash::Length ()
+size_t NumRegHash::Length ()
 {
   return reg.GetSize ();
 }
@@ -284,7 +284,7 @@ celIDRegistry::~celIDRegistry ()
   regs.DeleteAll ();
 }
 
-int celIDRegistry::GetScopeOfID (uint id)
+size_t celIDRegistry::GetScopeOfID (uint id)
 {
   for (size_t i = 0; i < regs.Length (); i++)
   {
@@ -292,13 +292,13 @@ int celIDRegistry::GetScopeOfID (uint id)
       return i;
   }
 
-  return -1;
+  return (size_t)-1;
 }
 
-int celIDRegistry::AddScope (csString impl, int size)
+size_t celIDRegistry::AddScope (csString impl, int size)
 {
-  int id = regs.Length ();
-  int start;
+  size_t id = regs.Length ();
+  uint start;
 
   if (id == 0)
     start = 0;
@@ -328,7 +328,7 @@ int celIDRegistry::AddScope (csString impl, int size)
   return id;
 }
 
-uint celIDRegistry::Register (void* obj, int scope)
+uint celIDRegistry::Register (void* obj, size_t scope)
 {
   uint local_id = regs[scope].numreg->Register (obj);
 
@@ -340,7 +340,7 @@ uint celIDRegistry::Register (void* obj, int scope)
 
 void celIDRegistry::RegisterWithID (void* obj, uint id)
 {
-  int scope = GetScopeOfID (id);
+  size_t scope = GetScopeOfID (id);
   CS_ASSERT (scope != -1);
 
   regs[scope].numreg->RegisterWithID (obj, id - regs[scope].start);
@@ -348,8 +348,8 @@ void celIDRegistry::RegisterWithID (void* obj, uint id)
 
 bool celIDRegistry::Remove (uint id)
 {
-  int scope = GetScopeOfID (id);
-  if (scope == -1)
+  size_t scope = GetScopeOfID (id);
+  if (scope == csArrayItemNotFound)
     return false;
 
   return regs[scope].numreg->Remove (id - regs[scope].start);
@@ -374,8 +374,8 @@ void celIDRegistry::Clear ()
 
 void* celIDRegistry::Get (uint id)
 {
-  int scope = GetScopeOfID (id);
-  if (scope == -1)
+  size_t scope = GetScopeOfID (id);
+  if (scope == csArrayItemNotFound)
     return 0;
 
   return regs[scope].numreg->Get (id - regs[scope].start);

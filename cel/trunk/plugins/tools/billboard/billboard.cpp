@@ -469,7 +469,7 @@ static csSimpleRenderMesh mesh;
 static bool mesh_init = false;
 
 CS_IMPLEMENT_STATIC_VAR (GetMeshIndices, csDirtyAccessArray<uint>, ());
-static int mesh_indices_count = 0;
+static size_t mesh_indices_count = 0;
 CS_IMPLEMENT_STATIC_VAR (GetMeshVertices, csDirtyAccessArray<csVector3>, ());
 CS_IMPLEMENT_STATIC_VAR (GetMeshTexels, csDirtyAccessArray<csVector2>, ());
 CS_IMPLEMENT_STATIC_VAR (GetMeshColors, csDirtyAccessArray<csVector4>, ());
@@ -493,9 +493,9 @@ static void mesh_reset ()
 static void mesh_draw (iGraphics3D* g3d)
 {
   if (mesh_indices_count <= 0) return;
-  mesh.indexCount = mesh_indices_count;
+  mesh.indexCount = (uint)mesh_indices_count;
   mesh.indices = GetMeshIndices ()->GetArray ();
-  mesh.vertexCount = GetMeshVertices ()->Length ();
+  mesh.vertexCount = (uint)GetMeshVertices ()->Length ();
   mesh.vertices = GetMeshVertices ()->GetArray ();
   mesh.texcoords = GetMeshTexels ()->GetArray ();
   mesh.colors = GetMeshColors ()->GetArray ();
@@ -563,7 +563,7 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   csDirtyAccessArray<csVector4>& mesh_colors = *GetMeshColors ();
   
   mesh_indices_count += 4;
-  int i;
+  size_t i;
   for (i = mesh_indices.Length () ; i < mesh_indices_count ; i++)
   {
     mesh_indices.Put (i, i);
@@ -671,7 +671,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-int celBillboardManager::FindMovingBillboard (celBillboard* bb)
+size_t celBillboardManager::FindMovingBillboard (celBillboard* bb)
 {
   size_t i;
   for (i = 0 ; i < moving_billboards.Length () ; i++)
@@ -715,8 +715,8 @@ void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta, int x
 {
   if (bb->is_moving)
   {
-    int i = FindMovingBillboard (bb);
-    CS_ASSERT (i != -1);
+    size_t i = FindMovingBillboard (bb);
+    CS_ASSERT (i != csArrayItemNotFound);
     if (delta == 0)
     {
       moving_billboards.DeleteIndex (i);
@@ -760,7 +760,7 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
 {
   // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
   // @@@ KEEP Z-ORDER IN MIND!
-  int i;
+  size_t i;
   for (i = billboards.Length ()-1 ; i >= 0 ; i--)
   {
     csFlags& f = billboards[i]->GetFlags ();
@@ -874,8 +874,8 @@ void celBillboardManager::StackTop (iBillboard* bb)
 
 void celBillboardManager::StackBottom (iBillboard* bb)
 {
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   if (idx == 0) return; 			// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Insert (1, cbb);
@@ -894,8 +894,8 @@ void celBillboardManager::StackUp (iBillboard* bb)
 void celBillboardManager::StackDown (iBillboard* bb)
 {
   if (billboards.Length () <= 1) return;	// Nothing to do.
-  int idx = billboards.Find ((celBillboard*)bb);
-  if (idx == -1) return;
+  size_t idx = billboards.Find ((celBillboard*)bb);
+  if (idx == csArrayItemNotFound) return;
   if (idx == 0) return;				// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Insert (idx, cbb);

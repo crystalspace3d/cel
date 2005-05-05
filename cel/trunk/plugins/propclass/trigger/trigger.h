@@ -87,7 +87,7 @@ private:
     propid_monitor
   };
   static Property* properties;
-  static int propertycount;
+  static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
   // Leave all entities (sends a message to self and others and then

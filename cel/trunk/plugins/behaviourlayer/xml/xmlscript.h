@@ -222,7 +222,7 @@ struct celXmlArg
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
     struct { float red, green, blue; } col;
-    int codelocation;
+    size_t codelocation;
     int localvar;
   } arg;
   celXmlArg () : type (CEL_DATA_NONE) { }
@@ -298,7 +298,7 @@ struct celXmlArg
     type = CEL_DATA_ID;
     arg.id = id;
   }
-  void SetCodeLocation (int location)
+  void SetCodeLocation (size_t location)
   {
     Cleanup ();
     type = CEL_DATA_CODELOCATION;
@@ -373,9 +373,9 @@ public:
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
 
-  void AddOperation (size_t op);
+  void AddOperation (int op);
   int GetLastOperation () { return operations.Top ().op; }
-  size_t GetOperation (size_t idx) { return operations[idx].op; }
+  int GetOperation (size_t idx) { return operations[idx].op; }
   void ChangeOperation (size_t idx, int newop) { operations[idx].op = newop; }
   void ReplaceLastOperation (int op) { operations.Top ().op = op; }
 
@@ -392,7 +392,7 @@ public:
   celXmlArg& GetLocalVariable (size_t idx) { return local_vars[idx]; }
 
   bool Execute (iCelEntity* entity, celBehaviourXml* behave,
-  	celData& ret, iCelParameterBlock* params, int startop = 0,
+  	celData& ret, iCelParameterBlock* params, size_t startop = 0,
 	bool newscope = true);
 };
 

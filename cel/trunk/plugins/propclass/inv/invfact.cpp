@@ -168,7 +168,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
 
   // Add our child. We will later test if this is valid and if
   // not undo this change.
-  int idx = contents.Push (child);
+  size_t idx = contents.Push (child);
   DG_LINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));
@@ -214,8 +214,8 @@ bool celPcInventory::AddEntity (iCelEntity* child)
 
 bool celPcInventory::RemoveEntity (iCelEntity* child)
 {
-  int idx = contents.Find (child);
-  if (idx == -1) return true;
+  size_t idx = contents.Find (child);
+  if (idx == csArrayItemNotFound) return true;
 
   // Remove our child. We will later test if this is valid and if
   // not undo this change.

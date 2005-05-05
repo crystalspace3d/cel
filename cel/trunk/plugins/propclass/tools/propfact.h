@@ -111,9 +111,9 @@ public:
 
   virtual celDataType GetPropertyOrActionType (csStringID propertyID);
   virtual bool IsPropertyReadOnly (csStringID) { return false; }
-  virtual int GetPropertyAndActionCount () const
+  virtual size_t GetPropertyAndActionCount () const
   { return properties.Length (); }
-  virtual csStringID GetPropertyOrActionID (int i);
+  virtual csStringID GetPropertyOrActionID (size_t i);
   virtual const char* GetPropertyOrActionDescription (csStringID);
 
   void SetProperty (const char* name, float value);

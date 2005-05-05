@@ -113,7 +113,7 @@ bool celPersistClassic::WriteMarker (const char* s)
 
 bool celPersistClassic::Write (const char* s)
 {
-  uint16 l = s ? strlen (s) : 0;
+  uint16 l = s ? (uint16)strlen (s) : 0;
   if (!Write (l)) return ReportWrite ();
   if (s && !file->Write (s, l)) return ReportWrite ();
   return true;

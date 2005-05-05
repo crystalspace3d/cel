@@ -315,12 +315,12 @@ struct iCelPropertyClass : public iBase
   /**
    * Return the number of supported properties and actions.
    */
-  virtual int GetPropertyAndActionCount () const = 0;
+  virtual size_t GetPropertyAndActionCount () const = 0;
 
   /**
    * Get the ID of the given property or action.
    */
-  virtual csStringID GetPropertyOrActionID (int i) = 0;
+  virtual csStringID GetPropertyOrActionID (size_t i) = 0;
 
   /**
    * Get the description of the given property or action.

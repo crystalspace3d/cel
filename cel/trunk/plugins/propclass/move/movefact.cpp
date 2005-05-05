@@ -237,8 +237,8 @@ int celPcMovable::Move (const csVector3& relpos)
 
 void celPcMovable::AddConstraint (iPcMovableConstraint* constraint)
 {
-  int idx = constraints.Find (constraint);
-  if (idx != -1) return;
+  size_t idx = constraints.Find (constraint);
+  if (idx != csArrayItemNotFound) return;
   constraints.Push (constraint);
 }
 
@@ -501,7 +501,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 //---------------------------------------------------------------------------
 
 Property* celPcGravity::properties = 0;
-int celPcGravity::propertycount = 0;
+size_t celPcGravity::propertycount = 0;
 csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
 csStringID celPcGravity::id_force = csInvalidStringID;
 
@@ -753,13 +753,13 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
 {
   static csReversibleTransform identity;
 
-  int num_cdlist = cd_list->GetCount ();
+  size_t num_cdlist = cd_list->GetCount ();
   colliders = 0;
   transforms = 0;
   if (!num_cdlist) return 0;
   colliders = new iCollider* [num_cdlist];
   transforms = new csReversibleTransform* [num_cdlist];
-  int i;
+  size_t i;
   int num_colliders = 0;
   for (i = 0 ; i < num_cdlist ; i++)
   {
@@ -804,8 +804,8 @@ int celPcGravity::TestMove (iCollider* this_collider,
   if (rc == 0)			// Can move partially.
   {
     csCollisionPair* colpairs = cdsys->GetCollisionPairs ();
-    int num_pairs = cdsys->GetCollisionPairCount ();
-    for (int k = 0 ; k < num_pairs ; k++)
+    size_t num_pairs = cdsys->GetCollisionPairCount ();
+    for (size_t k = 0 ; k < num_pairs ; k++)
     {
       csCollisionPair& cp = colpairs[k];
       collider_normal = ((cp.c2-cp.b2) % (cp.b2-cp.a2)).Unit ();

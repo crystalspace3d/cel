@@ -248,7 +248,7 @@ bool celPcNavGraph::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-int celPcNavGraph::FindNearestNode (csVector3* point, iSector* sector,
+size_t celPcNavGraph::FindNearestNode (csVector3* point, iSector* sector,
 	iCelEntity* ent)
 { 
   /*
@@ -263,7 +263,7 @@ int celPcNavGraph::FindNearestNode (csVector3* point, iSector* sector,
   return navgraphrules->FindNearestNode (&scfiPcNavGraph, point, sector, ent);
 }
 
-int celPcNavGraph::FindShortestPath (int iNodeStart, int iNodeEnd, int* &ipath)
+size_t celPcNavGraph::FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t* &ipath)
 { 
   /*
    * Find the shortest path between these two nodes
@@ -369,8 +369,8 @@ int celPcNavGraph::LinkNodes ()
    * in each direction)
    */
 
-  int i,j;
-  int numnodes;
+  size_t i,j;
+  size_t numnodes;
 
   // TODO For now assume that no link entities will be manually created, so
   // that there is no need to search and load link entities from the current
@@ -514,14 +514,14 @@ void celPcNavGraphRules::OptimiseGraph (celPcNavGraph* graph)
   MoveNotify (object_reg, "Navrules - OptimiseGraph");
 }
 
-int celPcNavGraphRules::FindShortestPath (celPcNavGraph* graph,
-	int iNodeStart, int iNodeEnd, int* &ipath)
+size_t celPcNavGraphRules::FindShortestPath (celPcNavGraph* graph,
+	size_t iNodeStart, size_t iNodeEnd, size_t* &ipath)
 {
   MoveNotify( object_reg, "Navrules - FindShortestPath");
   return 0;
 }
 
-int celPcNavGraphRules::FindNearestNode (celPcNavGraph* graph,
+size_t celPcNavGraphRules::FindNearestNode (celPcNavGraph* graph,
 	csVector3* point, iSector* sector, iCelEntity* ent)
 {
   MoveNotify( object_reg, "Navrules - FindNearestNode");

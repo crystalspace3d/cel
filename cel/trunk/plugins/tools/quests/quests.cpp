@@ -127,7 +127,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     celQuestStateFactory* sf = it.Next ();
     const csRefArray<celQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
-    int stateidx = q->AddState (sf->GetName ());
+    size_t stateidx = q->AddState (sf->GetName ());
     size_t i;
     for (i = 0 ; i < responses.Length () ; i++)
     {
@@ -136,7 +136,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       const csRefArray<iQuestRewardFactory>& rewfacts
         = respfact->GetRewardFactories ();
 
-      int respidx = q->AddStateResponse (stateidx);
+      size_t respidx = q->AddStateResponse (stateidx);
       csRef<iQuestTrigger> trig = trigfact->CreateTrigger (params);
       if (!trig) return 0;	// @@@ Report
       q->SetStateTrigger (stateidx, respidx, trig);
@@ -454,23 +454,23 @@ const char* celQuest::GetCurrentState () const
   return states[current_state]->GetName ();
 }
 
-int celQuest::AddState (const char* name)
+size_t celQuest::AddState (const char* name)
 {
   return states.Push (new celQuestState (pl, name));
 }
 
-int celQuest::AddStateResponse (int stateidx)
+size_t celQuest::AddStateResponse (size_t stateidx)
 {
   return states[stateidx]->AddResponse ();
 }
 
-void celQuest::SetStateTrigger (int stateidx, int responseidx,
+void celQuest::SetStateTrigger (size_t stateidx, size_t responseidx,
 	iQuestTrigger* trigger)
 {
   states[stateidx]->GetResponse (responseidx)->SetTrigger (trigger);
 }
 
-void celQuest::AddStateReward (int stateidx, int responseidx,
+void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
 	iQuestReward* reward)
 {
   states[stateidx]->GetResponse (responseidx)->AddReward (reward);

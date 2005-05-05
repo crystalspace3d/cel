@@ -59,7 +59,7 @@ private:
     propid_max
   };
   static Property* properties;
-  static int propertycount;
+  static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
   // Other fields.

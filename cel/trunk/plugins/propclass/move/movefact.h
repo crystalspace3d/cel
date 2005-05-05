@@ -242,7 +242,7 @@ private:
   };
 
   static Property* properties;
-  static int propertycount;
+  static size_t propertycount;
   static csStringID action_applypermanentforce;
   static csStringID id_force;
 

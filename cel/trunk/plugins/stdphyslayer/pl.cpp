@@ -656,15 +656,15 @@ iCelPropertyClassFactory* celPlLayer::FindPropertyClassFactory (
 
 void celPlLayer::Cache (iBase* object)
 {
-  int idx = cache.Find (object);
-  if (idx == -1)
+  size_t idx = cache.Find (object);
+  if (idx == csArrayItemNotFound)
     cache.Push (object);
 }
 
 void celPlLayer::Uncache (iBase* object)
 {
-  int idx = cache.Find (object);
-  if (idx != -1)
+  size_t idx = cache.Find (object);
+  if (idx != csArrayItemNotFound)
   {
     engine->RemoveObject (object);
     cache.DeleteIndex (idx);
@@ -714,8 +714,8 @@ iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
 
 void celPlLayer::AddEntityRemoveCallback (iCelEntityRemoveCallback* callback)
 {
-  int idx = removecallbacks.Find (callback);
-  if (idx != -1) return;
+  size_t idx = removecallbacks.Find (callback);
+  if (idx != csArrayItemNotFound) return;
   removecallbacks.Push (callback);
 }
 
@@ -727,8 +727,8 @@ void celPlLayer::RemoveEntityRemoveCallback (iCelEntityRemoveCallback* callback)
 
 void celPlLayer::AddNewEntityCallback (iCelNewEntityCallback* callback)
 {
-  int idx = newcallbacks.Find (callback);
-  if (idx != -1) return;
+  size_t idx = newcallbacks.Find (callback);
+  if (idx != csArrayItemNotFound) return;
   newcallbacks.Push (callback);
 }
 

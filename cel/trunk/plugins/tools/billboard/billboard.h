@@ -255,7 +255,7 @@ public:
     y /= screen_h_fact;
   }
 
-  int FindMovingBillboard (celBillboard* bb);
+  size_t FindMovingBillboard (celBillboard* bb);
   void RemoveMovingBillboard (celBillboard* bb);
   void MoveToPosition (celBillboard* bb, csTicks delta, int x, int y);
   void HandleMovingBillboards (csTicks elapsed);
@@ -271,14 +271,14 @@ public:
   virtual iBillboard* CreateBillboard (const char* name);
   virtual iBillboard* FindBillboard (const char* name) const;
   virtual void RemoveBillboard (iBillboard* billboard);
-  virtual int GetBillboardCount () const { return billboards.Length (); }
-  virtual iBillboard* GetBillboard (int idx) const { return billboards[idx]; }
+  virtual size_t GetBillboardCount () const { return billboards.Length (); }
+  virtual iBillboard* GetBillboard (size_t idx) const { return billboards[idx]; }
 
   virtual iBillboardLayer* CreateBillboardLayer (const char* name);
   virtual iBillboardLayer* FindBillboardLayer (const char* name) const;
   virtual void RemoveBillboardLayer (iBillboardLayer* layer);
-  virtual int GetBillboardLayerCount () const { return layers.Length (); }
-  virtual iBillboardLayer* GetBillboardLayer (int idx) const { return layers[idx]; }
+  virtual size_t GetBillboardLayerCount () const { return layers.Length (); }
+  virtual iBillboardLayer* GetBillboardLayer (size_t idx) const { return layers[idx]; }
 
   virtual void RemoveAll ();
   virtual void SetFlags (uint32 flags, uint32 mask);
