@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libcpersist_static"
+	Name="grpall_static"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\libcpersist_static\"
-			IntermediateDirectory="..\out\release\build\libcpersist_static\"
+			OutputDirectory="..\out\release\build\grpall_static\"
+			IntermediateDirectory="..\out\release\build\grpall_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -30,14 +30,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\release\build\libcpersist_static\libcpersist_static.pch"
-				AssemblerListingLocation="..\out\release\build\libcpersist_static\"
-				ObjectFile="..\out\release\build\libcpersist_static\"
-				ProgramDataBaseFileName="..\out\release\build\libcpersist_static\libcpersist_static.pdb"
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\release\build\grpall_static\grpall_static.pch"
+				AssemblerListingLocation="..\out\release\build\grpall_static\"
+				ObjectFile="..\out\release\build\grpall_static\"
+				ProgramDataBaseFileName="..\out\release\build\grpall_static\grpall_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -52,25 +52,25 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib"
+				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\libcpersist_static\libcpersist_static.pdb"
+				ProgramDatabaseFile="..\out\release\build\grpall_static\grpall_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\release\libs\libcpersist_static.lib"
+				OutputFile="..\out\release\libs\grpall_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\libcpersist_static\libcpersist_static.tlb"/>
+				TypeLibraryName="..\out\release\build\grpall_static\grpall_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -80,8 +80,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories=".;..;..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -90,8 +90,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\libcpersist_static\"
-			IntermediateDirectory="..\out\debug\build\libcpersist_static\"
+			OutputDirectory="..\out\debug\build\grpall_static\"
+			IntermediateDirectory="..\out\debug\build\grpall_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -102,14 +102,14 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\debug\build\libcpersist_static\libcpersist_static.pch"
-				AssemblerListingLocation="..\out\debug\build\libcpersist_static\"
-				ObjectFile="..\out\debug\build\libcpersist_static\"
-				ProgramDataBaseFileName="..\out\debug\build\libcpersist_static\libcpersist_static.pdb"
+				AdditionalIncludeDirectories=".;..;..\include"
+				PrecompiledHeaderFile="..\out\debug\build\grpall_static\grpall_static.pch"
+				AssemblerListingLocation="..\out\debug\build\grpall_static\"
+				ObjectFile="..\out\debug\build\grpall_static\"
+				ProgramDataBaseFileName="..\out\debug\build\grpall_static\grpall_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,25 +122,25 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib"
+				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\libcpersist_static\libcpersist_static.pdb"
+				ProgramDatabaseFile="..\out\debug\build\grpall_static\grpall_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\debug\libs\libcpersist_static_d.lib"
+				OutputFile="..\out\debug\libs\grpall_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\libcpersist_static\libcpersist_static.tlb"/>
+				TypeLibraryName="..\out\debug\build\grpall_static\grpall_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -150,8 +150,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG"
+				AdditionalIncludeDirectories=".;..;..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -160,23 +160,6 @@
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\msvc\libcpersist_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\persist\classic\cpersist.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\plugins\persist\classic\cpersist.h">
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
