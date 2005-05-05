@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-May-2005
+	- res synched the VC project templates with the CS CVS copies.
+	- res split the static plugin projects out of the 'cel' into their
+	  own workspace.
 4-May-2005
 	- David Bronke fixed the thruster controller and thruster group code
 	  to work with one-way thrusters. Also added heuristics to figure out

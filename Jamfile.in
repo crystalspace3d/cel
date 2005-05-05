@@ -24,7 +24,10 @@ Depends maintainerclean : distclean ;
 MsvcGenSubDir TOP msvc : 6 ;
 MsvcGenSubDir TOP msvc : 7 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
-MsvcGenWorkspace cel ;
+# What the typical user will need. 
+MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static ;
+# Workspace for static variants of plugins and apps.
+MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" ;
 
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
