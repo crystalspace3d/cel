@@ -6005,16 +6005,16 @@ static PyObject *_wrap_iCelPropertyClass_PerformAction(PyObject *, PyObject *arg
 static PyObject *_wrap_iCelPropertyClass_GetPropertyAndActionCount(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
-    int result;
+    size_t result;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"O:iCelPropertyClass_GetPropertyAndActionCount",&obj0)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    result = (int)((iCelPropertyClass const *)arg1)->GetPropertyAndActionCount();
+    result = ((iCelPropertyClass const *)arg1)->GetPropertyAndActionCount();
     
     {
-        resultobj = SWIG_From_int((int)(result)); 
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
     }
     return resultobj;
     fail:
@@ -6025,7 +6025,7 @@ static PyObject *_wrap_iCelPropertyClass_GetPropertyAndActionCount(PyObject *, P
 static PyObject *_wrap_iCelPropertyClass_GetPropertyOrActionID(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
-    int arg2 ;
+    size_t arg2 ;
     csStringID result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -6034,7 +6034,7 @@ static PyObject *_wrap_iCelPropertyClass_GetPropertyOrActionID(PyObject *, PyObj
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (int)(SWIG_As_int(obj1)); 
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
         if (SWIG_arg_fail(2)) SWIG_fail;
     }
     result = (csStringID)(arg1)->GetPropertyOrActionID(arg2);
@@ -8559,16 +8559,16 @@ static PyObject *_wrap_iBillboardManager_RemoveBillboard(PyObject *, PyObject *a
 static PyObject *_wrap_iBillboardManager_GetBillboardCount(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
-    int result;
+    size_t result;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetBillboardCount",&obj0)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    result = (int)((iBillboardManager const *)arg1)->GetBillboardCount();
+    result = ((iBillboardManager const *)arg1)->GetBillboardCount();
     
     {
-        resultobj = SWIG_From_int((int)(result)); 
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
     }
     return resultobj;
     fail:
@@ -8579,7 +8579,7 @@ static PyObject *_wrap_iBillboardManager_GetBillboardCount(PyObject *, PyObject 
 static PyObject *_wrap_iBillboardManager_GetBillboard(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
-    int arg2 ;
+    size_t arg2 ;
     iBillboard *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -8588,7 +8588,7 @@ static PyObject *_wrap_iBillboardManager_GetBillboard(PyObject *, PyObject *args
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (int)(SWIG_As_int(obj1)); 
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
         if (SWIG_arg_fail(2)) SWIG_fail;
     }
     result = (iBillboard *)((iBillboardManager const *)arg1)->GetBillboard(arg2);
@@ -8670,16 +8670,16 @@ static PyObject *_wrap_iBillboardManager_RemoveBillboardLayer(PyObject *, PyObje
 static PyObject *_wrap_iBillboardManager_GetBillboardLayerCount(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
-    int result;
+    size_t result;
     PyObject * obj0 = 0 ;
     
     if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetBillboardLayerCount",&obj0)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    result = (int)((iBillboardManager const *)arg1)->GetBillboardLayerCount();
+    result = ((iBillboardManager const *)arg1)->GetBillboardLayerCount();
     
     {
-        resultobj = SWIG_From_int((int)(result)); 
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
     }
     return resultobj;
     fail:
@@ -8690,7 +8690,7 @@ static PyObject *_wrap_iBillboardManager_GetBillboardLayerCount(PyObject *, PyOb
 static PyObject *_wrap_iBillboardManager_GetBillboardLayer(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
-    int arg2 ;
+    size_t arg2 ;
     iBillboardLayer *result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -8699,7 +8699,7 @@ static PyObject *_wrap_iBillboardManager_GetBillboardLayer(PyObject *, PyObject 
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (int)(SWIG_As_int(obj1)); 
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
         if (SWIG_arg_fail(2)) SWIG_fail;
     }
     result = (iBillboardLayer *)((iBillboardManager const *)arg1)->GetBillboardLayer(arg2);
