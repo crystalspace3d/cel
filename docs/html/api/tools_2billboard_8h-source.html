@@ -154,9 +154,9 @@
 00292 
 00296   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#a2">RemoveBillboard</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard) = 0;
 00297 
-00301   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#a3">GetBillboardCount</a> () <span class="keyword">const </span>= 0;
+00301   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#a3">GetBillboardCount</a> () <span class="keyword">const </span>= 0;
 00302 
-00306   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#a4">GetBillboard</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00306   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#a4">GetBillboard</a> (size_t idx) <span class="keyword">const </span>= 0;
 00307 
 00313   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#a5">CreateBillboardLayer</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 00314 
@@ -164,9 +164,9 @@
 00319 
 00325   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#a7">RemoveBillboardLayer</a> (<a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* layer) = 0;
 00326 
-00330   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#a8">GetBillboardLayerCount</a> () <span class="keyword">const </span>= 0;
+00330   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#a8">GetBillboardLayerCount</a> () <span class="keyword">const </span>= 0;
 00331 
-00335   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#a9">GetBillboardLayer</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00335   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#a9">GetBillboardLayer</a> (size_t idx) <span class="keyword">const </span>= 0;
 00336 
 00340   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#a10">RemoveAll</a> () = 0;
 00341 

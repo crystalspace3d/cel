@@ -156,9 +156,9 @@
 00312   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelPropertyClass.html#a31">PerformAction</a> (csStringID actionID,
 00313         <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
 00314 
-00318   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiCelPropertyClass.html#a32">GetPropertyAndActionCount</a> () <span class="keyword">const </span>= 0;
+00318   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelPropertyClass.html#a32">GetPropertyAndActionCount</a> () <span class="keyword">const </span>= 0;
 00319 
-00323   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelPropertyClass.html#a33">GetPropertyOrActionID</a> (<span class="keywordtype">int</span> i) = 0;
+00323   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelPropertyClass.html#a33">GetPropertyOrActionID</a> (size_t i) = 0;
 00324 
 00328   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClass.html#a34">GetPropertyOrActionDescription</a> (csStringID) = 0;
 00329 
