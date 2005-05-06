@@ -23,7 +23,7 @@ FILEFLAGS 0x0
 #else
       VALUE "Comments", "Release build"
 #endif
-      VALUE "WWW", "http://cel.sourceforge.net/"
+      VALUE "WWW", "http://cel.crystalspace3d.org/"
     }
   }
 }
