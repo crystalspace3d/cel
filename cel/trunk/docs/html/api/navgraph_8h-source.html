@@ -58,10 +58,10 @@
 00046 
 00051   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNavGraphRules.html#a1">OptimiseGraph</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph) = 0;
 00052 
-00057   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcNavGraphRules.html#a2">FindShortestPath</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, <span class="keywordtype">int</span> iNodeStart,
-00058         <span class="keywordtype">int</span> iNodeEnd, <span class="keywordtype">int</span>* &amp;ipath) = 0;
+00057   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a2">FindShortestPath</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, size_t iNodeStart,
+00058         size_t iNodeEnd, size_t* &amp;ipath) = 0;
 00059 
-00064   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcNavGraphRules.html#a3">FindNearestNode</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, csVector3* point,
+00064   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a3">FindNearestNode</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, csVector3* point,
 00065         iSector* sector, <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent) = 0;
 00066 };
 00067 
@@ -85,11 +85,11 @@
 00087   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetPos ( csVector3 newpos ) = 0;
 00088   <span class="keyword">virtual</span> csVector3 GetPos() = 0;
 00089 
-00090   <span class="keyword">virtual</span> <span class="keywordtype">int</span> AddLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
-00091   <span class="keyword">virtual</span> <span class="keywordtype">int</span> RemoveLink (<span class="keywordtype">int</span> i) = 0;
-00092   <span class="keyword">virtual</span> <a class="code" href="structiPcNavLink.html">iPcNavLink</a>* GetLink (<span class="keywordtype">int</span> i) = 0;
-00093   <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetLinkCount () <span class="keyword">const </span>= 0;
-00094   <span class="keyword">virtual</span> <span class="keywordtype">int</span> FindLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
+00090   <span class="keyword">virtual</span> size_t AddLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
+00091   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RemoveLink (size_t i) = 0;
+00092   <span class="keyword">virtual</span> <a class="code" href="structiPcNavLink.html">iPcNavLink</a>* GetLink (size_t i) = 0;
+00093   <span class="keyword">virtual</span> size_t GetLinkCount () <span class="keyword">const </span>= 0;
+00094   <span class="keyword">virtual</span> size_t FindLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
 00095 };
 00096 
 00097 SCF_VERSION (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>, 0, 0, 1);
@@ -103,23 +103,23 @@
 00106   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetRegion (<a class="code" href="structiPcRegion.html">iPcRegion</a>* newregion) = 0;
 00107   <span class="keyword">virtual</span> csRef&lt;iPcRegion&gt; GetRegion() = 0;
 00108 
-00109   <span class="keyword">virtual</span> <span class="keywordtype">int</span> AddNode (<a class="code" href="structiPcNavNode.html">iPcNavNode</a>* node) = 0;
-00110   <span class="keyword">virtual</span> <span class="keywordtype">int</span> RemoveNode (<span class="keywordtype">int</span> i) = 0;
-00111   <span class="keyword">virtual</span> <a class="code" href="structiPcNavNode.html">iPcNavNode</a>* GetNode (<span class="keywordtype">int</span> i) = 0;
-00112   <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetNodeCount () <span class="keyword">const </span>= 0;
-00113   <span class="keyword">virtual</span> <span class="keywordtype">int</span> FindNode (<a class="code" href="structiPcNavNode.html">iPcNavNode</a>* Node) = 0;
+00109   <span class="keyword">virtual</span> size_t AddNode (<a class="code" href="structiPcNavNode.html">iPcNavNode</a>* node) = 0;
+00110   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RemoveNode (size_t i) = 0;
+00111   <span class="keyword">virtual</span> <a class="code" href="structiPcNavNode.html">iPcNavNode</a>* GetNode (size_t i) = 0;
+00112   <span class="keyword">virtual</span> size_t GetNodeCount () <span class="keyword">const </span>= 0;
+00113   <span class="keyword">virtual</span> size_t FindNode (<a class="code" href="structiPcNavNode.html">iPcNavNode</a>* Node) = 0;
 00114 
-00115   <span class="keyword">virtual</span> <span class="keywordtype">int</span> AddLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
-00116   <span class="keyword">virtual</span> <span class="keywordtype">int</span> RemoveLink (<span class="keywordtype">int</span> i) = 0;
-00117   <span class="keyword">virtual</span> <a class="code" href="structiPcNavLink.html">iPcNavLink</a>* GetLink (<span class="keywordtype">int</span> i) = 0;
-00118   <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetLinkCount () <span class="keyword">const </span>= 0;
-00119   <span class="keyword">virtual</span> <span class="keywordtype">int</span> FindLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
+00115   <span class="keyword">virtual</span> size_t AddLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
+00116   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RemoveLink (size_t i) = 0;
+00117   <span class="keyword">virtual</span> <a class="code" href="structiPcNavLink.html">iPcNavLink</a>* GetLink (size_t i) = 0;
+00118   <span class="keyword">virtual</span> size_t GetLinkCount () <span class="keyword">const </span>= 0;
+00119   <span class="keyword">virtual</span> size_t FindLink (<a class="code" href="structiPcNavLink.html">iPcNavLink</a>* link) = 0;
 00120 
 00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetRules (<a class="code" href="structiPcNavGraphRules.html">iPcNavGraphRules</a>* newrules) =0;
 00122 
-00123   <span class="keyword">virtual</span> <span class="keywordtype">int</span> FindNearestNode (csVector3* point, iSector* sector,
+00123   <span class="keyword">virtual</span> size_t FindNearestNode (csVector3* point, iSector* sector,
 00124         <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent) = 0;
-00125   <span class="keyword">virtual</span> <span class="keywordtype">int</span> FindShortestPath (<span class="keywordtype">int</span> iNodeStart, <span class="keywordtype">int</span> iNodeEnd, <span class="keywordtype">int</span>* &amp;ipath) = 0;
+00125   <span class="keyword">virtual</span> size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t*&amp; ipath) = 0;
 00126 };
 00127 
 00128 <span class="preprocessor">#endif</span>

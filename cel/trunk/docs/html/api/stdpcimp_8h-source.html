@@ -83,7 +83,7 @@
 00069 
 00070   <span class="keywordtype">void</span>** propdata;
 00071   Property* props;
-00072   <span class="keywordtype">int</span>* propcount;
+00072   size_t* propcount;
 00073 
 00074 <span class="keyword">public</span>:
 00075   <a class="code" href="classcelPcCommon.html">celPcCommon</a> (iObjectRegistry* object_reg);
@@ -117,7 +117,7 @@
 00103   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pclass);
 00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity);
 00105   <span class="keyword">virtual</span> celDataType <a class="code" href="classcelPcCommon.html#a18">GetPropertyOrActionType</a> (csStringID);
-00106         <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a19">IsPropertyReadOnly</a> (csStringID);
+00106   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a19">IsPropertyReadOnly</a> (csStringID);
 00107   <span class="keyword">virtual</span> <span class="keywordtype">long</span> <a class="code" href="classcelPcCommon.html#a20">GetPropertyLong</a> (csStringID);
 00108   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="classcelPcCommon.html#a21">GetPropertyFloat</a> (csStringID);
 00109   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a22">GetPropertyBool</a> (csStringID);
@@ -129,8 +129,8 @@
 00115   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#a28">GetPropertyEntity</a> (csStringID);
 <a name="l00116"></a><a class="code" href="classcelPcCommon.html#a29">00116</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a29">PerformAction</a> (csStringID, <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>*) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }
 00117   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelPcCommon.html#a30">GetPropertyOrActionDescription</a> (csStringID);
-00118         <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classcelPcCommon.html#a31">GetPropertyAndActionCount</a> () <span class="keyword">const</span>;
-00119   <span class="keyword">virtual</span> csStringID <a class="code" href="classcelPcCommon.html#a32">GetPropertyOrActionID</a> (<span class="keywordtype">int</span>);
+00118   <span class="keyword">virtual</span> size_t <a class="code" href="classcelPcCommon.html#a31">GetPropertyAndActionCount</a> () <span class="keyword">const</span>;
+00119   <span class="keyword">virtual</span> csStringID <a class="code" href="classcelPcCommon.html#a32">GetPropertyOrActionID</a> (size_t);
 <a name="l00120"></a><a class="code" href="classcelPcCommon.html#a33">00120</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a33">PropertyClassesHaveChanged</a> ()
 00121   {
 00122     propclasses_dirty = <span class="keyword">true</span>;

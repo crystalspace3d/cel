@@ -32,10 +32,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a2">RemoveBillboard</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a3">GetBillboardCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a3">GetBillboardCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboards.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a4">GetBillboard</a> (int idx) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a4">GetBillboard</a> (size_t idx) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a billboard by index.  <a href="#a4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a5">CreateBillboardLayer</a> (const char *name)=0</td></tr>
@@ -47,10 +47,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a7">RemoveBillboardLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard layer.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a8">GetBillboardLayerCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a8">GetBillboardLayerCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboard layers.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a9">GetBillboardLayer</a> (int idx) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a9">GetBillboardLayer</a> (size_t idx) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a billboard layer by index.  <a href="#a9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a10">RemoveAll</a> ()=0</td></tr>
@@ -217,7 +217,7 @@ Find a billboard layer with a given name.
         <tr>
           <td class="md" nowrap valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a>* iBillboardManager::GetBillboard           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="md" nowrap valign="top">size_t&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>idx</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap> const<code> [pure virtual]</code></td>
@@ -245,7 +245,7 @@ Get a billboard by index.
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual int iBillboardManager::GetBillboardCount           </td>
+          <td class="md" nowrap valign="top">virtual size_t iBillboardManager::GetBillboardCount           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -276,7 +276,7 @@ Get the number of all billboards.
         <tr>
           <td class="md" nowrap valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a>* iBillboardManager::GetBillboardLayer           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="md" nowrap valign="top">size_t&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>idx</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap> const<code> [pure virtual]</code></td>
@@ -304,7 +304,7 @@ Get a billboard layer by index.
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual int iBillboardManager::GetBillboardLayerCount           </td>
+          <td class="md" nowrap valign="top">virtual size_t iBillboardManager::GetBillboardLayerCount           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>

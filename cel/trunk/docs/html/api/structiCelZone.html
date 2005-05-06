@@ -32,7 +32,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a2">GetRegionCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of regions in this zone.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a3">GetRegion</a> (int idx) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a3">GetRegion</a> (size_t idx) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a4">FindRegion</a> (const char *name) const =0</td></tr>
@@ -120,7 +120,7 @@ Get the name of this zone.
         <tr>
           <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a>* iCelZone::GetRegion           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="md" nowrap valign="top">size_t&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>idx</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap> const<code> [pure virtual]</code></td>
