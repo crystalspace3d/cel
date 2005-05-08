@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-May-2005
+	- res fixed some compilation errors reported by Xordan.
 5-May-2005
 	- res synched the VC project templates with the CS CVS copies.
 	- res split the static plugin projects out of the 'cel' into their
