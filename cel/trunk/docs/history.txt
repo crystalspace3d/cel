@@ -4,6 +4,10 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 8-May-2005
+	- David Bronke started fixing thruster requests in the mechanics
+	  plugin. Requests are still not properly removed, but at least now it
+	  doesn't freeze. Also included lots of debugging output that will be
+	  removed soon.
 	- res fixed some compilation errors reported by Xordan.
 5-May-2005
 	- res synched the VC project templates with the CS CVS copies.

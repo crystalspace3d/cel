@@ -173,6 +173,8 @@ void celPcMechanicsThrusterReactionary::TickEveryFrame ()
 void celPcMechanicsThrusterReactionary::ThrustRequest (iPcMechanicsThrusterGroup*
 	group, float thrust)
 {
+  printf ("received thrust request.\n\n");
+  fflush (stdout);
   if (request.thrust == 0.0 || request.group == group)
   {
     request.group = group;
