@@ -79,7 +79,7 @@ struct iNumReg : public iBase
    * registry). It is the size of array if you use array implementation, the 
    * size of the hash otherwise.
    */
-  virtual unsigned int Length() = 0;
+  virtual size_t Length() = 0;
 };
 
 SCF_VERSION(iNumReg, 0, 0, 1);

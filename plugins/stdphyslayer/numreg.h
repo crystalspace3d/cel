@@ -60,7 +60,7 @@ public:
 
   // Returns the size of the buffer (This is NOT the count of objects in the
   // registry)
-  virtual unsigned int Length()
+  virtual size_t Length()
   {
     return listsize;
   }
@@ -70,7 +70,7 @@ protected:
   
   void** list;
   uint* freelist;
-  uint listsize;
+  size_t listsize;
   uint limit;
   size_t freelistend;
   size_t freelistsize;
