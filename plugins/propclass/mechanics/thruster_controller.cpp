@@ -203,6 +203,8 @@ const csRefArray<iPcMechanicsThruster>
   csVector3 taxis, axisunit = axis.Unit ();
   while (thrustit.HasNext ())
   {
+    printf ("(checking) ");
+    fflush (stdout);
     thruster = thrustit.Next ()->thruster;
     if (grouptype == CEL_TGT_ROTATION)
       taxis = (thruster->GetPosition () % thruster->GetOrientation ());
@@ -211,12 +213,16 @@ const csRefArray<iPcMechanicsThruster>
     if ((taxis.Unit () * axisunit) > 0)
       tarray.Push (thruster);
   }
+  printf ("\nFound %d thrusters within 90 degrees of %f,%f,%f.\n", tarray.GetSize (), axis.x, axis.y, axis.z);
+  fflush (stdout);
   return tarray;
 }
 
 
 float celPcMechanicsThrusterGroup::GetStrength (const csVector3 axis)
 {
+  printf ("Getting strength along axis %f,%f,%f.\n", axis.x,axis.y,axis.z);
+  fflush (stdout);
   float strength = 0;
   csRefArray<iPcMechanicsThruster> ta = GetThrustersInThisDirection (axis);
   csRefArray<iPcMechanicsThruster>::Iterator tait = ta.GetIterator ();
@@ -229,13 +235,26 @@ float celPcMechanicsThrusterGroup::GetStrength (const csVector3 axis)
 
 bool celPcMechanicsThrusterGroup::IsAvailable (const csVector3 axis)
 {
-  bool available = true;
+  printf ("Checking availability along axis %f,%f,%f: ", axis.x,axis.y,axis.z);
+  fflush (stdout);
+  bool available = true, av = false;
   csRefArray<iPcMechanicsThruster> ta = GetThrustersInThisDirection (axis);
   csRefArray<iPcMechanicsThruster>::Iterator tait = ta.GetIterator ();
   while (tait.HasNext ())
   {
-    available = available && tait.Next ()->IsAvailable ();
+    av = tait.Next()->IsAvailable ();
+    available = available && av;
+    if (av)
+      printf ("thruster is available.\n");
+    else
+      printf ("thruster is not available.\n");
+    fflush (stdout);
   }
+  if (available)
+    printf ("Available!\n");
+  else
+    printf ("Not available!\n");
+  fflush (stdout);
   return available;
 }
 
@@ -246,6 +265,8 @@ void celPcMechanicsThrusterGroup::ApplyThrust (percentage thrust, const csVector
   csRefArray<iPcMechanicsThruster>::Iterator tait = ta.GetIterator ();
   while (tait.HasNext ())
   {
+    printf (" [thruster]\n");
+    fflush (stdout);
     thruster = tait.Next ();
     thruster->ThrustRequest ((iPcMechanicsThrusterGroup*)
 	&scfiPcMechanicsThrusterGroup, thrust);
@@ -493,16 +514,36 @@ const csVector3 celPcMechanicsThrusterController::GetAxis (const char* name)
     if (strcmp (ad->name.GetData (), name) == 0)
       break;
   }
-  assert (ad);
   if (ad)
     return ad->axis;
   else
     return csVector3 (0);
 }
 
-float celPcMechanicsThrusterController::GetAxisStrength (const char* name)
+float celPcMechanicsThrusterController::GetAxisStrength (const char* axisname)
 {
-  //FIXME!!!!!!!!!!!!!!!!!!!!!!
+  csArray<celAxisData*>::Iterator it = axes.GetIterator ();
+  celAxisData* ad = 0;
+  while (it.HasNext ()) {
+    ad = it.Next ();
+    if (strcmp (ad->name.GetData (), axisname) == 0) {
+      csVector3 axis = ad->axis;
+      csRefArray<iPcMechanicsThrusterGroup>::Iterator groupit
+	= ad->thrustergroups.GetIterator ();
+      csRef<iPcMechanicsThrusterGroup> group;
+      float maxstrength = 0;
+      while (groupit.HasNext ())
+      {
+        group = groupit.Next ();
+        if (group->IsAvailable (axis)) {
+          if (group->GetStrength (axis) > maxstrength)
+            maxstrength = group->GetStrength (axis);
+        }
+      }
+      return maxstrength;
+    }
+  }
+  Report (object_reg, (csString ("Invalid axis specified: ") + axisname).GetData ());
   return 0;
 }
 
@@ -549,37 +590,54 @@ void celPcMechanicsThrusterController::RemoveThrusterGroup (const char*
 
 void celPcMechanicsThrusterController::ApplyThrust (percentage thrust, const char* axisname)
 {
+  printf ((csString ("Applying thrust on axis '") + axisname + "'.\n").GetData ());
+  fflush (stdout);
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
   while (it.HasNext ()) {
     ad = it.Next ();
+    printf ("Iterating axis: ");
+    printf ((ad->name + "\n").GetData ());
+    fflush (stdout);
     if (strcmp (ad->name.GetData (), axisname) == 0) {
+      printf ("Found match.\n");
+      fflush (stdout);
       csVector3 axis;
       if (thrust < 0)
-        axis = ad->axis;
+        axis = -ad->axis;
       else
         axis = ad->axis;
       csRefArray<iPcMechanicsThrusterGroup>::Iterator groupit
 	= ad->thrustergroups.GetIterator ();
       csRef<iPcMechanicsThrusterGroup> group;
       csRef<iPcMechanicsThrusterGroup> bestgroup = NULL;
+      float beststrength = 0;
       while (groupit.HasNext ())
       {
+        printf ("[group]\n");
+	fflush (stdout);
         group = groupit.Next ();
         if (group->IsAvailable (axis)) {
-          if (bestgroup == NULL)
+          if (bestgroup == NULL || group->GetStrength (axis) > beststrength) {
+	    beststrength = group->GetStrength (axis);
             bestgroup = group;
-          if (group->GetStrength (axis) > bestgroup->GetStrength (axis))
-            bestgroup = group;
+	  }
         }
       }
-      bestgroup->ApplyThrust (fabs (thrust), axis);
+      if (bestgroup != NULL)
+      {
+        printf ("Found best group. Applying thrust %f.\n", thrust);
+	fflush (stdout);
+        bestgroup->ApplyThrust (fabs (thrust), axis);
+      }
+/*      else
+      {
+        Report (object_reg, (csString ("No available groups in axis '") + axisname + "'!").GetData ());
+      }*/
       return;
     }
   }
-  csString str = "Invalid axis specified: ";
-  str += axisname;
-  Report (object_reg, str.GetData ());
+  Report (object_reg, (csString ("Invalid axis specified: ") + axisname).GetData ());
 }
 
 //---------------------------------------------------------------------------
