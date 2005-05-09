@@ -243,6 +243,73 @@ struct iQuestRewardType : public iBase
 };
 
 //-------------------------------------------------------------------------
+// Sequence operations
+//-------------------------------------------------------------------------
+
+SCF_VERSION (iQuestSeqOp, 0, 0, 1);
+
+/**
+ * This is a sequence operation in a quest. A sequence operation represents
+ * an operation that has a duration or an operation that is a single-shot.
+ * You can combine different sequence operations in a sequence and then use
+ * a reward to fire of the sequence as result of a trigger.
+ */
+struct iQuestSeqOp : public iBase
+{
+  /**
+   * Do the operation. The parameter is a value between 0 and 1 which
+   * will be interpolated over a specified time (specified in the sequence).
+   * In case this is a single-shot operation the value will always be 1.
+   */
+  virtual void Do (float time) = 0;
+};
+
+SCF_VERSION (iQuestSeqOpFactory, 0, 0, 1);
+
+/**
+ * A factory to create sequence operators. Factories are created
+ * by an iQuestSeqOpType instance.
+ */
+struct iQuestSeqOpFactory : public iBase
+{
+  /**
+   * Create a sequence operation.
+   * \param params are the parameters with which this reward is
+   * instantiated.
+   */
+  virtual csPtr<iQuestSeqOp> CreateSeqOp (const celQuestParams& params) = 0;
+
+  /**
+   * Load this factory from a document node.
+   * \param node is the node for the operation.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+};
+
+SCF_VERSION (iQuestSeqOpType, 0, 0, 1);
+
+/**
+ * The seqop type is responsible for the creation of seqop factories.
+ * If you want to define a new type of sequence operation then you must
+ * implement iQuestSeqOpType, iQuestSeqOpFactory, and iQuestSeqOp.
+ * You register seqop types with the quest manager so that they can
+ * be used by seqop factories.
+ */
+struct iQuestSeqOpType : public iBase
+{
+  /**
+   * Return the name for this sequence operation type.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Create a sequence operation factory.
+   */
+  virtual csPtr<iQuestSeqOpFactory> CreateSeqOpFactory () = 0;
+};
+
+//-------------------------------------------------------------------------
 // The Quest
 //-------------------------------------------------------------------------
 
@@ -438,6 +505,27 @@ struct iQuestManager : public iBase
   virtual iQuestRewardType* GetRewardType (const char* name) = 0;
 
   /**
+   * Register a seqop reward type. Seqop rewards can be used
+   * by quest sequences to define operations in the sequence.
+   * Returns false on failure (swqop type with that name
+   * already exists).
+   * <p>
+   * The following predefined sequence operation types are automatically
+   * registered in the quest manager:
+   * <ul>
+   * <li>cel.questreward.???: ???.
+   *     See i???QuestSeqOpFactory.
+   * </ul>
+   */
+  virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
+
+  /**
+   * Get a seqop type from the quest manager.
+   * Returns 0 if no such seqop type exists.
+   */
+  virtual iQuestSeqOpType* GetSeqOpType (const char* name) = 0;
+
+  /**
    * Get a quest factory by name.
    */
   virtual iQuestFactory* GetQuestFactory (const char* name) = 0;
@@ -451,9 +539,9 @@ struct iQuestManager : public iBase
 
   /**
    * This is a convenience function to resolve a quest parameter during
-   * creation of the rewards and triggers. This routine knows how to
-   * recognize parameter usage (starting with '$') and will in that case
-   * try to resolve the parameter by finding it in 'params'. Otherwise
+   * creation of rewards, triggers, and sequence operations. This routine
+   * knows how to recognize parameter usage (starting with '$') and will in
+   * that case try to resolve the parameter by finding it in 'params'. Otherwise
    * it will just return the unmodified string.
    */
   virtual const char* ResolveParameter (
@@ -833,6 +921,12 @@ struct iInventoryQuestRewardFactory : public iBase
 
 };
 
+//-------------------------------------------------------------------------
+// Specific sequence operation implementations.
+//-------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+
 /**
  * Convenience to declare a new reward type class.
  */
@@ -907,6 +1001,29 @@ cel##name##TriggerType::~cel##name##TriggerType ()			\
 csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
 {									\
   cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \
+  return fact;								\
+}
+
+/**
+ * Convenience to implement a new sequence operation type class.
+ */
+#define CEL_IMPLEMENT_SEQOPTYPE(name)					\
+SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)				\
+  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)				\
+SCF_IMPLEMENT_IBASE_END							\
+cel##name##SeqOpType::cel##name##SeqOpType (				\
+	iObjectRegistry* object_reg)					\
+{									\
+  SCF_CONSTRUCT_IBASE (0);						\
+  cel##name##SeqOpType::object_reg = object_reg;			\
+}									\
+cel##name##SeqOpType::~cel##name##SeqOpType ()				\
+{									\
+  SCF_DESTRUCT_IBASE ();						\
+}									\
+csPtr<iQuestSeqOpFactory> cel##name##SeqOpType::CreateSeqOpFactory ()	\
+{									\
+  cel##name##SeqOpFactory* fact = new cel##name##SeqOpFactory (this);	\
   return fact;								\
 }
 

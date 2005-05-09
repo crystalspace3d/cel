@@ -232,6 +232,7 @@ public:
 private:
   csHash<csRef<iQuestTriggerType>,csStrKey> trigger_types;
   csHash<csRef<iQuestRewardType>,csStrKey> reward_types;
+  csHash<csRef<iQuestSeqOpType>,csStrKey> seqop_types;
   csHash<csRef<celQuestFactory>,csStrKey> quest_factories;
 
 public:
@@ -245,6 +246,9 @@ public:
   virtual iQuestTriggerType* GetTriggerType (const char* name);
   virtual bool RegisterRewardType (iQuestRewardType* reward);
   virtual iQuestRewardType* GetRewardType (const char* name);
+  virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop);
+  virtual iQuestSeqOpType* GetSeqOpType (const char* name);
+
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);
   virtual const char* ResolveParameter (
