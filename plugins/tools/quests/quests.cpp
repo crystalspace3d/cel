@@ -378,7 +378,7 @@ celQuest::celQuest (iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuest::pl = pl;
-  current_state = -1;
+  current_state = csArrayItemNotFound;
 }
 
 celQuest::~celQuest ()
@@ -439,7 +439,7 @@ bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
 
 void celQuest::SaveState (iCelDataBuffer* databuf)
 {
-  if (size_t (current_state) != csArrayItemNotFound)
+  if (current_state != csArrayItemNotFound)
   {
     celQuestState* st = states[current_state];
     size_t i;
@@ -450,7 +450,7 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
 
 const char* celQuest::GetCurrentState () const
 {
-  if (current_state == -1) return 0;
+  if (current_state == csArrayItemNotFound) return 0;
   return states[current_state]->GetName ();
 }
 
