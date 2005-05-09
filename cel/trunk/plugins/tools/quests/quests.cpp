@@ -608,6 +608,20 @@ iQuestRewardType* celQuestManager::GetRewardType (const char* name)
   return reward_types.Get (name, 0);
 }
 
+bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
+{
+  const char* name = seqop->GetName ();
+  if (seqop_types.Get (name, 0) != 0)
+    return false;
+  seqop_types.Put (name, seqop);
+  return true;
+}
+
+iQuestSeqOpType* celQuestManager::GetSeqOpType (const char* name)
+{
+  return seqop_types.Get (name, 0);
+}
+
 const char* celQuestManager::ResolveParameter (
   	const celQuestParams& params,
 	const char* param)
