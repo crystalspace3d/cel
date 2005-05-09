@@ -99,6 +99,24 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
+  SCF_IMPLEMENTS_INTERFACE (iQuestSequenceFactory)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestSequenceFactory::celQuestSequenceFactory (const char* name)
+{
+  SCF_CONSTRUCT_IBASE (0);
+  celQuestSequenceFactory::name = csStrNew (name);
+}
+
+celQuestSequenceFactory::~celQuestSequenceFactory ()
+{
+  delete[] name;
+  SCF_DESTRUCT_IBASE ();
+}
+
+//---------------------------------------------------------------------------
+
 SCF_IMPLEMENT_IBASE (celQuestFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestFactory)
 SCF_IMPLEMENT_IBASE_END
@@ -306,6 +324,23 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
   states.Put (name, state);
   state->DecRef ();
   return state;
+}
+
+iQuestSequenceFactory* celQuestFactory::GetSequence (const char* name)
+{
+  celQuestSequenceFactory* seq = sequences.Get (name, 0);
+  return (iQuestSequenceFactory*)seq;
+}
+
+iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
+{
+  iQuestSequenceFactory* iseq = GetSequence (name);
+  if (iseq) return 0;
+
+  celQuestSequenceFactory* seq = new celQuestSequenceFactory (name);
+  sequences.Put (name, seq);
+  seq->DecRef ();
+  return seq;
 }
 
 //---------------------------------------------------------------------------

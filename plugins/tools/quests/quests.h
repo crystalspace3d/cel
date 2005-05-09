@@ -89,7 +89,28 @@ public:
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
 };
 
+/**
+ * A sequence factory.
+ */
+class celQuestSequenceFactory : public iQuestSequenceFactory
+{
+private:
+  char* name;
+
+public:
+  celQuestSequenceFactory (const char* name);
+  virtual ~celQuestSequenceFactory ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const { return name; }
+  virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
+  	csTicks start, csTicks end) { /*@@@ TODO */ }
+};
+
 typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
+typedef csHash<csRef<celQuestSequenceFactory>,csStrKey>
+	celQuestFactorySequences;
 
 /**
  * A quest factory.
@@ -100,6 +121,7 @@ private:
   celQuestManager* questmgr;
   char* name;
   celQuestFactoryStates states;
+  celQuestFactorySequences sequences;
 
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "plugins/tools/quests/quests.tok"
@@ -121,6 +143,8 @@ public:
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
+  virtual iQuestSequenceFactory* GetSequence (const char* name);
+  virtual iQuestSequenceFactory* CreateSequence (const char* name);
 };
 
 /**

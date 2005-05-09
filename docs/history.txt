@@ -12,6 +12,10 @@ The history order is reversed so that new features are at the top.
 	  will be closely tied to it. Quest states will be used to fire of
 	  sequences. Not functional yet. Only some basic API has been added
 	  so far.
+	- Jorrit added iQuestSequenceFactory which will manage sequence
+	  factories in a quest factory. Also added an implementation to
+	  the quest managers and methods to add sequence factories to
+	  a quest factory.
 8-May-2005
 	- David Bronke started fixing thruster requests in the mechanics
 	  plugin. Requests are still not properly removed, but at least now it
