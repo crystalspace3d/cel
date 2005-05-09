@@ -387,6 +387,31 @@ struct iQuestStateFactory : public iBase
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
 };
 
+SCF_VERSION (iQuestSequenceFactory, 0, 0, 1);
+
+/**
+ * A representation of a sequence factory.
+ * A sequence factory is basically a sequence of sequence operation factories.
+ */
+struct iQuestSequenceFactory : public iBase
+{
+  /**
+   * Get the name of this factory.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
+   * Add a new operation factory at the specified time.
+   * \param seqopfact is the factory to add.
+   * \param start is the time (relative to the beginning of the
+   * execution of the entire sequence) when the operation should start.
+   * \param end is the time when it should end. If start is equal to end
+   * then this is a single-shot event.
+   */
+  virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
+  	csTicks start, csTicks end) = 0;
+};
+
 SCF_VERSION (iQuestFactory, 0, 0, 1);
 
 /**
@@ -437,6 +462,18 @@ struct iQuestFactory : public iBase
    * Return 0 on failure (name already exists).
    */
   virtual iQuestStateFactory* CreateState (const char* name) = 0;
+
+  /**
+   * Get a sequence factory in this factory.
+   * Return 0 if the factory doesn't exist.
+   */
+  virtual iQuestSequenceFactory* GetSequence (const char* name) = 0;
+
+  /**
+   * Create a new sequence factory in this factory.
+   * Return 0 on failure (name already exists).
+   */
+  virtual iQuestSequenceFactory* CreateSequence (const char* name) = 0;
 };
 
 //-------------------------------------------------------------------------
