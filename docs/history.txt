@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 10-May-2005
 	- Jorrit did more work on the sequence stuff in the quest manager.
 	  Worked on loading.
+	- Jorrit implemented the management of sequences in the quest
+	  class. Sequences are now created upon creation of a quest from
+	  a quest factory.
 9-May-2005
 	- Jorrit reports: when changing a type from int to size_t (like was
 	  done for current_state) it is recommended to also change comparison

@@ -38,6 +38,94 @@ struct iEvent;
 class celQuestManager;
 class celQuestFactory;
 
+//---------------------------------------------------------------------------
+
+/**
+ * Sequence operation.
+ */
+struct celSeqOp
+{
+  csRef<iQuestSeqOp> seqop;
+  csTicks start;
+  csTicks end;
+};
+
+/**
+ * A sequence.
+ */
+class celQuestSequence
+{
+private:
+  csArray<celSeqOp> seqops;
+
+public:
+  celQuestSequence () { }
+  ~celQuestSequence () { }
+
+  /**
+   * Add a new seqop. Warning! Seqops must be added in ascending order
+   * based on 'start'.
+   */
+  void AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end);
+};
+
+/**
+ * Sequence operation factory.
+ */
+struct celSeqOpFact
+{
+  csRef<iQuestSeqOpFactory> seqop;
+  csTicks start;
+  csTicks end;
+};
+
+CS_SPECIALIZE_TEMPLATE
+class csComparator<celSeqOpFact, celSeqOpFact>
+{
+public:
+  static int Compare (const celSeqOpFact& r1, const celSeqOpFact& r2)
+  {
+    if (r1.start < r2.start) return -1;
+    else if (r1.start > r2.start) return 1;
+    else return 0;
+  }
+};
+
+/**
+ * A sequence factory.
+ */
+class celQuestSequenceFactory : public iQuestSequenceFactory
+{
+private:
+  celQuestFactory* parent_factory;
+  char* name;
+  // The array of sequence operations will be sorted due to the
+  // presence of the csComparator specialization above.
+  csArray<celSeqOpFact> seqops;
+  csTicks total_time;
+
+public:
+  celQuestSequenceFactory (const char* name, celQuestFactory* fact);
+  virtual ~celQuestSequenceFactory ();
+
+  SCF_DECLARE_IBASE;
+
+  /// Caller is responsible for deleting returned instance.
+  celQuestSequence* CreateSequence (const celQuestParams& params);
+
+  virtual const char* GetName () const { return name; }
+  virtual bool Load (iDocumentNode* node);
+  virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
+  	csTicks start, csTicks end);
+  virtual void SetTotalTime (csTicks total_time)
+  {
+    celQuestSequenceFactory::total_time = total_time;
+  }
+  virtual csTicks GetTotalTime () const { return total_time; }
+};
+
+//---------------------------------------------------------------------------
+
 /**
  * A quest trigger response factory.
  */
@@ -88,40 +176,6 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
-};
-
-/**
- * A sequence factory.
- */
-class celQuestSequenceFactory : public iQuestSequenceFactory
-{
-private:
-  celQuestFactory* parent_factory;
-  char* name;
-  struct seqOp
-  {
-    csRef<iQuestSeqOpFactory> seqop;
-    csTicks start;
-    csTicks end;
-  };
-  csArray<seqOp> seqops;
-  csTicks total_time;
-
-public:
-  celQuestSequenceFactory (const char* name, celQuestFactory* fact);
-  virtual ~celQuestSequenceFactory ();
-
-  SCF_DECLARE_IBASE;
-
-  virtual const char* GetName () const { return name; }
-  virtual bool Load (iDocumentNode* node);
-  virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	csTicks start, csTicks end);
-  virtual void SetTotalTime (csTicks total_time)
-  {
-    celQuestSequenceFactory::total_time = total_time;
-  }
-  virtual csTicks GetTotalTime () const { return total_time; }
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
@@ -241,6 +295,8 @@ private:
   /// Load/switch state.
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
 
+  csPDelArray<celQuestSequence> sequences;
+
 public:
   celQuest (iCelPlLayer* pl);
   virtual ~celQuest ();
@@ -253,14 +309,22 @@ public:
   virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
   virtual void SaveState (iCelDataBuffer* databuf);
 
-  // Add a state, returns the state index.
+  /// Add a state, returns the state index.
   size_t AddState (const char* name);
-  // Add a response for a state. Return response index.
+  /// Add a response for a state. Return response index.
   size_t AddStateResponse (size_t stateidx);
-  // Set trigger for a state and response.
-  void SetStateTrigger (size_t stateidx, size_t responseidx, iQuestTrigger* trigger);
-  // Add reward for a state and response.
-  void AddStateReward (size_t stateidx, size_t responseidx, iQuestReward* reward);
+  /// Set trigger for a state and response.
+  void SetStateTrigger (size_t stateidx, size_t responseidx,
+  	iQuestTrigger* trigger);
+  /// Add reward for a state and response.
+  void AddStateReward (size_t stateidx, size_t responseidx,
+  	iQuestReward* reward);
+
+  /**
+   * Add a sequence. This class will assume ownership and delete
+   * the sequence on destruction.
+   */
+  void AddSequence (celQuestSequence* sequence);
 };
 
 /**
