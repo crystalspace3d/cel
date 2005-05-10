@@ -55,6 +55,14 @@ struct iCelDataBuffer;
 	</trigger>
     </state>
 
+    <sequence name="seqTest">
+    	<op type="movemesh" duration="2000" entity_name="door"
+		x="0" y="4" z="0" />
+    	<op type="lightcolor" duration="2000" entity_name="lightbulb"
+		red="1" green="1" blue="1" />
+    	<delay time="2000" />
+    </sequence>
+
     <start>notstarted</start>
 </quest>
 */
@@ -401,6 +409,13 @@ struct iQuestSequenceFactory : public iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * Load this sequence factory from a document node.
+   * \param node is the \<sequence\> node in a quest.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
    * Add a new operation factory at the specified time.
    * \param seqopfact is the factory to add.
    * \param start is the time (relative to the beginning of the
@@ -410,6 +425,19 @@ struct iQuestSequenceFactory : public iBase
    */
   virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
   	csTicks start, csTicks end) = 0;
+
+  /**
+   * Set the total time for this sequence. This is used if you manually
+   * setup the sequence as opposed to calling Load(). Note that
+   * AddSeqOpFactory() will automatically bump up the total_time to the
+   * maximum of all 'end' parameters.
+   */
+  virtual void SetTotalTime (csTicks total_time) = 0;
+
+  /**
+   * Get the total time for this sequence.
+   */
+  virtual csTicks GetTotalTime () const = 0;
 };
 
 SCF_VERSION (iQuestFactory, 0, 0, 1);
@@ -446,7 +474,7 @@ struct iQuestFactory : public iBase
 
   /**
    * Load this factory from a document node.
-   * \param node is the \<quest\> node in a quest.
+   * \param node is the \<quest\> node.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;

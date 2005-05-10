@@ -36,6 +36,7 @@
 struct iObjectRegistry;
 struct iEvent;
 class celQuestManager;
+class celQuestFactory;
 
 /**
  * A quest trigger response factory.
@@ -95,17 +96,32 @@ public:
 class celQuestSequenceFactory : public iQuestSequenceFactory
 {
 private:
+  celQuestFactory* parent_factory;
   char* name;
+  struct seqOp
+  {
+    csRef<iQuestSeqOpFactory> seqop;
+    csTicks start;
+    csTicks end;
+  };
+  csArray<seqOp> seqops;
+  csTicks total_time;
 
 public:
-  celQuestSequenceFactory (const char* name);
+  celQuestSequenceFactory (const char* name, celQuestFactory* fact);
   virtual ~celQuestSequenceFactory ();
 
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
+  virtual bool Load (iDocumentNode* node);
   virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	csTicks start, csTicks end) { /*@@@ TODO */ }
+  	csTicks start, csTicks end);
+  virtual void SetTotalTime (csTicks total_time)
+  {
+    celQuestSequenceFactory::total_time = total_time;
+  }
+  virtual csTicks GetTotalTime () const { return total_time; }
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
@@ -123,17 +139,20 @@ private:
   celQuestFactoryStates states;
   celQuestFactorySequences sequences;
 
-  csStringHash xmltokens;
-#define CS_TOKEN_ITEM_FILE "plugins/tools/quests/quests.tok"
-#include "cstool/tokenlist.h"
-
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
   	iQuestTriggerFactory* trigfact, iDocumentNode* node);
   bool LoadState (iQuestStateFactory* statefact, iDocumentNode* node);
 
 public:
+  csStringHash xmltokens;
+#define CS_TOKEN_ITEM_FILE "plugins/tools/quests/quests.tok"
+#include "cstool/tokenlist.h"
+
+public:
   celQuestFactory (celQuestManager* questmgr, const char* name);
   virtual ~celQuestFactory ();
+
+  celQuestManager* GetQuestManager () const { return questmgr; }
 
   SCF_DECLARE_IBASE;
 
