@@ -9,6 +9,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit implemented the management of sequences in the quest
 	  class. Sequences are now created upon creation of a quest from
 	  a quest factory.
+	- res fixed a compile error on gcc 3.4 in quests.cpp.
+	- res copied the new static linking stuff over from CS. There's now
+	  a "cel_staticplugins" target available, and "celtest_static"
+	  demonstrates how to use static plugins from both local (CEL) and
+	  external (CrystalSpace) packages.
 9-May-2005
 	- Jorrit reports: when changing a type from int to size_t (like was
 	  done for current_state) it is recommended to also change comparison

@@ -23,7 +23,7 @@ if $(CMD.NASM)
 
 rule NasmRule
 {
-  local object = [ DoObjectGrist $(<:S=$(SUFOBJ)) ] ;
+  local object = [ DoObjectGrist [ PrefixSuffix $(>)_ : $(<) : $(SUFOBJ) ] ] ;
   Nasm $(object) : $(<) ;
   return $(object) ;
 }
