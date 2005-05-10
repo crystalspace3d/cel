@@ -14,11 +14,15 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   LFlags celtst_static : -lcrystalspace_staticplugins ;
   LinkWith celtst_static : cel_staticplugins celtool ;
   LinkStaticPlugins celtst_static :
+    addon_celentity
+    addon_questdef
     bltest
+    mgr_quests
     pfactormove
     pfdefcam
     pfinput
     pfinv
+    pfengine
     pfmesh
     pfmove
     pfquest
@@ -39,7 +43,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     csddsimg
     csfont
     csgifimg
+    csjpgimg
     csparser
+    cspngimg
     cssynldr
     dynavis
     emit
@@ -87,6 +93,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr2dldr
     spr3d
     spr3dldr
+    sprcal3d 
+    sprcal3dldr
     starldr
     stars
     stdpt
