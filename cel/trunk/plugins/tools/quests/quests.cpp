@@ -99,6 +99,15 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
 
 //---------------------------------------------------------------------------
 
+void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
+{
+  celSeqOp seq;
+  seq.seqop = seqop;
+  seq.start = start;
+  seq.end = end;
+  seqops.Push (seq);
+}
+
 SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestSequenceFactory)
 SCF_IMPLEMENT_IBASE_END
@@ -150,12 +159,12 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 		->CreateSeqOpFactory ();
 	  if (!seqopfact->Load (child))
 	    return false;
-	  seqOp s;
+	  celSeqOpFact s;
 	  s.seqop = seqopfact;
 	  s.start = current_time;
 	  s.end = current_time+duration;
 	  if (s.end > total_time) total_time = s.end;
-	  seqops.Push (s);
+	  seqops.InsertSorted (s);
 	}
         break;
       case parent_factory->XMLTOKEN_DELAY:
@@ -179,12 +188,25 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 void celQuestSequenceFactory::AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
   	csTicks start, csTicks end)
 {
-  seqOp s;
+  celSeqOpFact s;
   s.seqop = seqopfact;
   s.start = start;
   s.end = end;
-  seqops.Push (s);
+  seqops.InsertSorted (s);
   if (end > total_time) total_time = end;
+}
+
+celQuestSequence* celQuestSequenceFactory::CreateSequence (
+	const celQuestParams& params)
+{
+  celQuestSequence* seq = new celQuestSequence ();
+  size_t i;
+  for (i = 0 ; i < seqops.Length () ; i++)
+  {
+    csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
+    seq->AddSeqOp (seqop, seqops[i].start, seqops[i].end);
+  }
+  return seq;
 }
 
 //---------------------------------------------------------------------------
@@ -211,10 +233,11 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       const celQuestParams& params)
 {
   celQuest* q = new celQuest (questmgr->pl);
-  celQuestFactoryStates::GlobalIterator it = states.GetIterator ();
-  while (it.HasNext ())
+
+  celQuestFactoryStates::GlobalIterator sta_it = states.GetIterator ();
+  while (sta_it.HasNext ())
   {
-    celQuestStateFactory* sf = it.Next ();
+    celQuestStateFactory* sf = sta_it.Next ();
     const csRefArray<celQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
     size_t stateidx = q->AddState (sf->GetName ());
@@ -239,6 +262,15 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       }
     }
   }
+
+  celQuestFactorySequences::GlobalIterator seq_it = sequences.GetIterator ();
+  while (seq_it.HasNext ())
+  {
+    celQuestSequenceFactory* sf = seq_it.Next ();
+    celQuestSequence* seq = sf->CreateSequence (params);
+    q->AddSequence (seq);
+  }
+
   return csPtr<iQuest> (q);
 }
 
@@ -582,6 +614,11 @@ void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
 	iQuestReward* reward)
 {
   states[stateidx]->GetResponse (responseidx)->AddReward (reward);
+}
+
+void celQuest::AddSequence (celQuestSequence* sequence)
+{
+  sequences.Push (sequence);
 }
 
 //---------------------------------------------------------------------------
