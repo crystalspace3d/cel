@@ -103,16 +103,88 @@ SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestSequenceFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celQuestSequenceFactory::celQuestSequenceFactory (const char* name)
+celQuestSequenceFactory::celQuestSequenceFactory (const char* name,
+	celQuestFactory* parent)
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuestSequenceFactory::name = csStrNew (name);
+  total_time = 0;
+  parent_factory = parent;
 }
 
 celQuestSequenceFactory::~celQuestSequenceFactory ()
 {
   delete[] name;
   SCF_DESTRUCT_IBASE ();
+}
+
+bool celQuestSequenceFactory::Load (iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  csTicks current_time = 0;
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = parent_factory->xmltokens.Request (value);
+    switch (id)
+    {
+      case parent_factory->XMLTOKEN_OP:
+        {
+	  csString type = child->GetAttributeValue ("type");
+	  iQuestSeqOpType* seqoptype = parent_factory->GetQuestManager ()
+	  	->GetSeqOpType ("cel.questseqop."+type);
+	  if (!seqoptype)
+	    seqoptype = parent_factory->GetQuestManager ()->GetSeqOpType (type);
+	  if (!seqoptype)
+	  {
+            csReport (parent_factory->GetQuestManager ()->object_reg,
+	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+		"Unknown sequence type '%s' while loading quest '%s'!",
+		(const char*)type, name);
+	    return false;
+	  }
+	  int duration = child->GetAttributeValueAsInt ("duration");
+	  csRef<iQuestSeqOpFactory> seqopfact = seqoptype
+		->CreateSeqOpFactory ();
+	  if (!seqopfact->Load (child))
+	    return false;
+	  seqOp s;
+	  s.seqop = seqopfact;
+	  s.start = current_time;
+	  s.end = current_time+duration;
+	  if (s.end > total_time) total_time = s.end;
+	  seqops.Push (s);
+	}
+        break;
+      case parent_factory->XMLTOKEN_DELAY:
+        {
+	  int time = child->GetAttributeValueAsInt ("time");
+	  current_time += time;
+	  if (current_time > total_time) total_time = current_time;
+	}
+        break;
+      default:
+        csReport (parent_factory->GetQuestManager ()->object_reg,
+		CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+		"Unknown token '%s' while loading sequence!",
+		value);
+        return false;
+    }
+  }
+  return true;
+}
+
+void celQuestSequenceFactory::AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
+  	csTicks start, csTicks end)
+{
+  seqOp s;
+  s.seqop = seqopfact;
+  s.start = start;
+  s.end = end;
+  seqops.Push (s);
+  if (end > total_time) total_time = end;
 }
 
 //---------------------------------------------------------------------------
@@ -337,7 +409,8 @@ iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
   iQuestSequenceFactory* iseq = GetSequence (name);
   if (iseq) return 0;
 
-  celQuestSequenceFactory* seq = new celQuestSequenceFactory (name);
+  celQuestSequenceFactory* seq = new celQuestSequenceFactory (name,
+  	this);
   sequences.Put (name, seq);
   seq->DecRef ();
   return seq;
