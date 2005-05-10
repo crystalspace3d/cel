@@ -122,6 +122,19 @@ AS_IF([test $cs_cv_python != no],
 	[CS_EMIT_BUILD_RESULT([cs_cv_python], [PYTHON])])])
 
 #----------------------------------------------------------------------------
+# Check if the Crystal Space static plugins lib was built.
+#----------------------------------------------------------------------------
+AC_MSG_CHECKING([if Crystal Space static plugins are available])
+cel_have_crystal_static=no
+for m in $CRYSTAL_AVAILABLE_LIBS; do
+    AS_IF([test crystalspace_staticplugins = "$m"],
+	[cel_have_crystal_static=yes
+	break])
+done
+AC_MSG_RESULT([$cel_have_crystal_static])
+CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$cel_have_crystal_static])
+
+#----------------------------------------------------------------------------
 # Package configuration switches
 #----------------------------------------------------------------------------
 AC_ARG_ENABLE([debug],

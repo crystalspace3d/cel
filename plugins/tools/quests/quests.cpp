@@ -139,7 +139,7 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
     csStringID id = parent_factory->xmltokens.Request (value);
     switch (id)
     {
-      case parent_factory->XMLTOKEN_OP:
+      case celQuestFactory::XMLTOKEN_OP:
         {
 	  csString type = child->GetAttributeValue ("type");
 	  iQuestSeqOpType* seqoptype = parent_factory->GetQuestManager ()
@@ -167,7 +167,7 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 	  seqops.InsertSorted (s);
 	}
         break;
-      case parent_factory->XMLTOKEN_DELAY:
+      case celQuestFactory::XMLTOKEN_DELAY:
         {
 	  int time = child->GetAttributeValueAsInt ("time");
 	  current_time += time;

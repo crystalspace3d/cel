@@ -822,24 +822,30 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-cstest         verify that the Crystal Spsace SDK is actually
-                          usable (default YES)
+                          usable
+ (default YES)
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --without-python        do not use Python
+  --without-python        do not use
+ Python
   --with-libcppunit=dir   specify location of libcppunit if not detected
-                          automatically; searches dir/include, dir/lib, and
+                          automatically; searches
+ dir/include, dir/lib, and
                           dir
   --without-cs            do not look for an installed Crystal Space SDK; this
-                          option is useful only if you need to perform routine
-                          maintenance tasks, such as generating project files
-                          or converting documentation, without having the
-                          Crystal Space SDK installed
+                          option is useful only
+ if you need to perform
+                          routine maintenance tasks, such as generating
+                          project files or converting documentation, without
+                          having the Crystal Space
+ SDK installed
   --with-cs-prefix=CRYSTAL_PREFIX
                           specify location of Crystal Space installation; this
-                          is the \$prefix value used when installing the SDK
+                          is the \$prefix
+ value used when installing the SDK
 
 Some influential environment variables:
   CC          C compiler command
@@ -7426,6 +7432,7 @@ fi
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_AVAILABLE_LIBS=`$cfg --available-libs`
+	CRYSTAL_STATICDEPS=`$cfg --static-deps`
 	if test -z "$CRYSTAL_LIBS"; then
   cs_sdk=no
 fi
@@ -7825,6 +7832,13 @@ cs_build_prop_val="$CRYSTAL_AVAILABLE_LIBS"
 "
 fi
 
+cs_build_prop_val="$CRYSTAL_STATICDEPS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.STATICDEPS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
 
 fi
 
@@ -7875,6 +7889,29 @@ fi
 
 fi
 
+fi
+
+
+#----------------------------------------------------------------------------
+# Check if the Crystal Space static plugins lib was built.
+#----------------------------------------------------------------------------
+echo "$as_me:$LINENO: checking if Crystal Space static plugins are available" >&5
+echo $ECHO_N "checking if Crystal Space static plugins are available... $ECHO_C" >&6
+cel_have_crystal_static=no
+for m in $CRYSTAL_AVAILABLE_LIBS; do
+    if test crystalspace_staticplugins = "$m"; then
+  cel_have_crystal_static=yes
+	break
+fi
+
+done
+echo "$as_me:$LINENO: result: $cel_have_crystal_static" >&5
+echo "${ECHO_T}$cel_have_crystal_static" >&6
+cs_build_prop_val="$cel_have_crystal_static"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}HAVE_STATIC_PLUGINS ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 

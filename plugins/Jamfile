@@ -7,3 +7,7 @@ SubInclude TOP plugins behaviourlayer ;
 SubInclude TOP plugins addons ;
 SubInclude TOP plugins tools ;
 
+# Assemble big static plugins lib
+Description cel_staticplugins : "CEL static plugins library" ;
+StaticPluginLibrary cel_staticplugins ;
+ExternalLibs cel_staticplugins : CRYSTAL ;

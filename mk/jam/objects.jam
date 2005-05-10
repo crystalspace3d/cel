@@ -51,7 +51,7 @@ rule RegisterHeaderRule
   }
 }
 
-##  CompileObjects sources
+##  CompileObjects sources [: objectfileprefix]
 ##    Compile a set of sourcefiles into objectfiles (extension: SUFOBJ,
 ##    usually .o). This rule takes care of setting the SEARCH and LOCATE
 ##    variables to the values of $(SEARCH_SOURCE) and $(LOCATE_TARGET).
@@ -69,13 +69,25 @@ rule CompileObjects
   for source in $(<)
   {
     # compile the sourcefile to targetfile
-    targets += [ CompileObject $(source) ] ;
+    targets += [ CompileObject $(source) : $(>) ] ;
   }
   
   # locate the targets
   MakeLocate $(targets) : $(LOCATE_TARGET) ;
 
   return $(targets) ;
+}
+
+##  PrefixSuffix [prefix] : filename : suffix
+##    Replaces the suffix of 'filename' with 'suffix' and prepends 'prefix' to
+##    it. 
+rule PrefixSuffix
+{
+  local prefix = $(1) ;
+  local name = $(2) ;
+  local suffix = $(3) ;
+  if ! $(prefix) { prefix = "" ; }
+  return $(name:B=$(prefix)$(name:B):S=$(suffix)) ;
 }
 
 #----------------------------------------------------------------------------
@@ -110,7 +122,7 @@ rule CompileObject
   # Invoke filetype specific rule
   if $(FILETYPE_$(<:S))
   {
-    targets = [ $(FILETYPE_$(<:S)) $(<) ] ;
+    targets = [ $(FILETYPE_$(<:S)) $(<) : $(>) ] ;
   }
   else
   {
