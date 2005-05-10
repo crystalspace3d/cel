@@ -35,42 +35,48 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardType.html">iQuestRewardType</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a3">GetRewardType</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a reward type from the quest manager.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestFactory.html">iQuestFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a4">GetQuestFactory</a> (const char *name)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a4">RegisterSeqOpType</a> (<a class="el" href="structiQuestSeqOpType.html">iQuestSeqOpType</a> *seqop)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a quest factory by name.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestFactory.html">iQuestFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a5">CreateQuestFactory</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a seqop reward type.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSeqOpType.html">iQuestSeqOpType</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a5">GetSeqOpType</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty quest factory.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a6">ResolveParameter</a> (const celQuestParams &amp;params, const char *param)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a seqop type from the quest manager.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestFactory.html">iQuestFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a6">GetQuestFactory</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to resolve a quest parameter during creation of the rewards and triggers.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a7">Load</a> (iDocumentNode *node)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a quest factory by name.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestFactory.html">iQuestFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a7">CreateQuestFactory</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a bunch of quest factories.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a8">AddNewStateReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *state_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty quest factory.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a8">ResolveParameter</a> (const celQuestParams &amp;params, const char *param)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'newstate' reward factory to a response factory.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a9">AddDebugPrintReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *msg_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to resolve a quest parameter during creation of rewards, triggers, and sequence operations.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a9">Load</a> (iDocumentNode *node)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'debugprint' reward factory to a response factory.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a10">AddInventoryReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *child_entity_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a bunch of quest factories.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a10">AddNewStateReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *state_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add an 'inventory' reward factory to a response factory.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a11">AddChangePropertyReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'newstate' reward factory to a response factory.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a11">AddDebugPrintReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *msg_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'changeproperty' reward factory to a response factory.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a12">SetTimeoutTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *timeout_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'debugprint' reward factory to a response factory.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a12">AddInventoryReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *child_entity_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set a 'timeout' trigger factory to a response factory.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a13">SetEnterSectorTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *sector_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add an 'inventory' reward factory to a response factory.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a13">AddChangePropertyReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'entersector' trigger factory to a response factory.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a14">SetMeshEnterSectorTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *sector_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'changeproperty' reward factory to a response factory.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a14">SetTimeoutTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *timeout_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'meshentersector' trigger factory to a response factory.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a15">SetPropertyChangeTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par, const char *value_par)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set a 'timeout' trigger factory to a response factory.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a15">SetEnterSectorTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *sector_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'propertychange' trigger factory to a response factory.  <a href="#a15"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'entersector' trigger factory to a response factory.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a16">SetMeshEnterSectorTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *sector_par)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'meshentersector' trigger factory to a response factory.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a17">SetPropertyChangeTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par, const char *value_par)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'propertychange' trigger factory to a response factory.  <a href="#a17"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the quest manager. 
@@ -79,8 +85,8 @@ This manager can be used to handle quests. A quest is basically a state machine 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00386">386</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a11" doxytag="iQuestManager::AddChangePropertyReward"></a><p>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00490">490</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a13" doxytag="iQuestManager::AddChangePropertyReward"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -125,7 +131,7 @@ Convenience method to add a 'changeproperty' reward factory to a response factor
 You need to specify exactly which value should be modified after calling this.     </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="iQuestManager::AddDebugPrintReward"></a><p>
+<a class="anchor" name="a11" doxytag="iQuestManager::AddDebugPrintReward"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -164,7 +170,7 @@ Convenience method to add a 'debugprint' reward factory to a response factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="iQuestManager::AddInventoryReward"></a><p>
+<a class="anchor" name="a12" doxytag="iQuestManager::AddInventoryReward"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -209,7 +215,7 @@ Convenience method to add an 'inventory' reward factory to a response factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8" doxytag="iQuestManager::AddNewStateReward"></a><p>
+<a class="anchor" name="a10" doxytag="iQuestManager::AddNewStateReward"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -254,7 +260,7 @@ Convenience method to add a 'newstate' reward factory to a response factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iQuestManager::CreateQuestFactory"></a><p>
+<a class="anchor" name="a7" doxytag="iQuestManager::CreateQuestFactory"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -284,7 +290,7 @@ Create an empty quest factory.
 Returns 0 on failure (quest factory with that name already exists).     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iQuestManager::GetQuestFactory"></a><p>
+<a class="anchor" name="a6" doxytag="iQuestManager::GetQuestFactory"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -344,6 +350,36 @@ Get a reward type from the quest manager.
 Returns 0 if no such reward type exists.     </td>
   </tr>
 </table>
+<a class="anchor" name="a5" doxytag="iQuestManager::GetSeqOpType"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>* iQuestManager::GetSeqOpType           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>name</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get a seqop type from the quest manager. 
+<p>
+Returns 0 if no such seqop type exists.     </td>
+  </tr>
+</table>
 <a class="anchor" name="a1" doxytag="iQuestManager::GetTriggerType"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -374,7 +410,7 @@ Get a trigger type from the quest manager.
 Returns 0 if no such trigger type exists.     </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="iQuestManager::Load"></a><p>
+<a class="anchor" name="a9" doxytag="iQuestManager::Load"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -451,6 +487,41 @@ cel.questreward.inventory: manipulate inventory. See <a class="el" href="structi
     </td>
   </tr>
 </table>
+<a class="anchor" name="a4" doxytag="iQuestManager::RegisterSeqOpType"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iQuestManager::RegisterSeqOpType           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiQuestSeqOpType.html">iQuestSeqOpType</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>seqop</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Register a seqop reward type. 
+<p>
+Seqop rewards can be used by quest sequences to define operations in the sequence. Returns false on failure (swqop type with that name already exists). <p>
+The following predefined sequence operation types are automatically registered in the quest manager: <ul>
+<li>
+cel.questreward.???: ???. See i???QuestSeqOpFactory. </li>
+</ul>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a0" doxytag="iQuestManager::RegisterTriggerType"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -490,7 +561,7 @@ cel.questtrigger.timeout: triggers after a specified time. See <a class="el" hre
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6" doxytag="iQuestManager::ResolveParameter"></a><p>
+<a class="anchor" name="a8" doxytag="iQuestManager::ResolveParameter"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -524,12 +595,12 @@ cel.questtrigger.timeout: triggers after a specified time. See <a class="el" hre
     <td>
 
 <p>
-This is a convenience function to resolve a quest parameter during creation of the rewards and triggers. 
+This is a convenience function to resolve a quest parameter during creation of rewards, triggers, and sequence operations. 
 <p>
 This routine knows how to recognize parameter usage (starting with '$') and will in that case try to resolve the parameter by finding it in 'params'. Otherwise it will just return the unmodified string.     </td>
   </tr>
 </table>
-<a class="anchor" name="a13" doxytag="iQuestManager::SetEnterSectorTrigger"></a><p>
+<a class="anchor" name="a15" doxytag="iQuestManager::SetEnterSectorTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -574,7 +645,7 @@ Convenience method to set an 'entersector' trigger factory to a response factory
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14" doxytag="iQuestManager::SetMeshEnterSectorTrigger"></a><p>
+<a class="anchor" name="a16" doxytag="iQuestManager::SetMeshEnterSectorTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -619,7 +690,7 @@ Convenience method to set an 'meshentersector' trigger factory to a response fac
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15" doxytag="iQuestManager::SetPropertyChangeTrigger"></a><p>
+<a class="anchor" name="a17" doxytag="iQuestManager::SetPropertyChangeTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -670,7 +741,7 @@ Convenience method to set an 'propertychange' trigger factory to a response fact
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12" doxytag="iQuestManager::SetTimeoutTrigger"></a><p>
+<a class="anchor" name="a14" doxytag="iQuestManager::SetTimeoutTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

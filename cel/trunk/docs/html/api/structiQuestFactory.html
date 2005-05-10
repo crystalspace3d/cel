@@ -38,6 +38,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestStateFactory.html">iQuestStateFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a4">CreateState</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new state in this factory.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a5">GetSequence</a> (const char *name)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a sequence factory in this factory.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a6">CreateSequence</a> (const char *name)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new sequence factory in this factory.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A quest factory. 
@@ -52,7 +58,7 @@ Every quest state factory has one or more trigger response factories. These resp
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00339">339</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00431">431</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a1" doxytag="iQuestFactory::CreateQuest"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -86,6 +92,36 @@ This instance will have the same structure as this factory but it will be made o
   </table>
 </dl>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="a6" doxytag="iQuestFactory::CreateSequence"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* iQuestFactory::CreateSequence           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>name</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Create a new sequence factory in this factory. 
+<p>
+Return 0 on failure (name already exists).     </td>
   </tr>
 </table>
 <a class="anchor" name="a4" doxytag="iQuestFactory::CreateState"></a><p>
@@ -145,6 +181,36 @@ Return 0 on failure (name already exists).     </td>
 Get the name of this factory. 
 <p>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="a5" doxytag="iQuestFactory::GetSequence"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* iQuestFactory::GetSequence           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>name</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get a sequence factory in this factory. 
+<p>
+Return 0 if the factory doesn't exist.     </td>
   </tr>
 </table>
 <a class="anchor" name="a3" doxytag="iQuestFactory::GetState"></a><p>
