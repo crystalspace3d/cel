@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-May-2005
+	- res synchronized mk/jam/ with the CS master copies.
 10-May-2005
 	- Jorrit did more work on the sequence stuff in the quest manager.
 	  Worked on loading.
