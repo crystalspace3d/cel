@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine updated configure.ac so that the Crystal Space "Python"
 	  and "static plugin" tests are not run if --without-cs has been
 	  specified.
+	- Eric Sunshine upgraded texi2html to the latest version. This fixes
+	  HTML-generation crasher resulting from recently updated
+	  mk/jam/docs.jam.
 10-May-2005
 	- Jorrit did more work on the sequence stuff in the quest manager.
 	  Worked on loading.
