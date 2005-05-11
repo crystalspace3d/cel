@@ -743,9 +743,11 @@ Software Foundation; we sometimes make exceptions for this.  Our
 decision will be guided by the two goals of preserving the free status
 of all derivatives of our free software and of promoting the sharing
 and reuse of software generally.
+@end enumerate
 
 @subsubheading No Warranty
 
+@enumerate j
 @item
 @sc{because the library is licensed free of charge, there is no
 warranty for the library, to the extent permitted by applicable law.
