@@ -118,12 +118,17 @@ actions CelConfigGen
 
 prefix="$(prefix)"
 exec_prefix="$(exec_prefix)"
-includedir="$(appincdir)"
+appincdir="$(appincdir)"
 libdir="$(libdir)"
 plugindir="$(plugindir)"
 version="$(PACKAGE_VERSION)"
+packagename="$(PACKAGE_NAME)"
+makeout="$(LOCATE.OBJECTS)"
+longversion="$(PACKAGE_STRING)"
 exportsummary=" $(exportsummary) "
 libs="$(exportlibs)"
+staticdeps="$(STATICPLUGINS.DEPENDENCIES)"
+optlibs="$(INSTALLEDLIBS_OPTIONAL)"
 
 __END__
   cat $(>) >> $(<)

@@ -1,6 +1,6 @@
 # checklib.m4                                                  -*- Autoconf -*-
 #==============================================================================
-# Copyright (C)2003,2004 by Eric Sunshine <sunshine@sunshineco.com>
+# Copyright (C)2003-2005 by Eric Sunshine <sunshine@sunshineco.com>
 #
 #    This library is free software; you can redistribute it and/or modify it
 #    under the terms of the GNU Library General Public License as published by
@@ -35,9 +35,13 @@ AC_PREREQ([2.56])
 #		it manually.
 #	/sw -- Fink, the MacOS/X manager of Unix packages, installs here by
 #		default.
+#	/opt/local -- DarwinPorts installs here by default.
 #------------------------------------------------------------------------------
 m4_define([cs_lib_paths_default],
-    [/usr/local/include|/usr/local/lib /sw/include|/sw/lib])
+    [/usr/local/include|/usr/local/lib \
+    /sw/include|/sw/lib \
+    /opt/local/include|/opt/local/lib \
+    /opt/include|/opt/lib])
 
 
 
@@ -52,9 +56,14 @@ m4_define([cs_lib_paths_default],
 #		to search here automatically.
 #	/sw/lib/pkgconfig -- Fink, the MacOS/X manager of Unix packages,
 #		installs .pc files here by default.
+#	/opt/local/lib/pkgconfig -- DarwinPorts installs .pc files here by
+#		default.
 #------------------------------------------------------------------------------
 m4_define([cs_pkg_paths_default],
-    [/usr/local/lib/pkgconfig, /sw/lib/pkgconfig])
+    [/usr/local/lib/pkgconfig,
+    /sw/lib/pkgconfig,
+    /opt/local/lib/pkgconfig,
+    /opt/lib/pkgconfig])
 
 
 
@@ -62,66 +71,70 @@ m4_define([cs_pkg_paths_default],
 # CS_CHECK_LIB_WITH(LIBRARY, PROGRAM, [SEARCH-LIST], [LANGUAGE],
 #                   [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND], [OTHER-CFLAGS],
 #                   [OTHER-LFLAGS], [OTHER-LIBS], [ALIASES])
-#	Similar to AC_CHECK_LIB(), but allows caller to to provide list of
-#	directories in which to search for LIBRARY; allows user to override
-#	library location via --with-libLIBRARY=dir; and consults `pkg-config'
-#	(if present) and `LIBRARY-config' (if present, i.e. `sdl-config') in
-#	order to obtain compiler and linker flags.  LIBRARY is the name of the
-#	library or MacOS/X framework which is to be located (for example,
-#	"readline" for `libreadline.a' or `readline.framework').  PROGRAM,
-#	which is typically composed with AC_LANG_PROGRAM(), is a program which
-#	references at least one function or symbol in LIBRARY.  SEARCH-LIST is
-#	a whitespace-delimited list of paths in which to search for the library
-#	and its header files, in addition to those searched by the compiler and
-#	linker by default, and those referenced by the cs_lib_paths_default
-#	macro.  Each list item can specify an `include|library' directory tuple
-#	(for example, "/usr/include|/usr/lib"), or a single directory (for
-#	example, "/usr").  If the second form is used, then "include" and "lib"
-#	subdirectories of the directory are searched.  If the library resources
-#	are not found, then the directory itself is searched.  Thus, "/proj" is
-#	shorthand for "/proj/include|/proj/lib /proj|/proj".  Items in the
-#	search list can include wildcards.  SEARCH-LIST can be overriden by the
-#	user with the --with-libLIBRARY=dir option, in which case only
-#	"dir/include|dir/lib" and "dir|dir" are searched.  If SEARCH-LIST is
-#	omitted and the user did not override the search list via
-#	--with-libLIBRARY=dir, then only the directories normally searched by
-#	the compiler and the directories mentioned via cs_lib_paths_default are
-#	searched.  LANGUAGE is typically either C or C++ and specifies which
-#	compiler to use for the test.  If LANGUAGE is omitted, C is used.
-#	OTHER-CFLAGS, OTHER-LFLAGS, and OTHER-LIBS can specify additional
-#	compiler flags, linker flags, and libraries needed to successfully link
-#	with LIBRARY.  The optional ALIASES is a comma-delimited list of
-#	library names for which to search in case LIBRARY is not located (for
-#	example "[sdl1.2, sdl12]" for libsdl1.2.a, sdl1.2.framework,
-#	libsdl12.a, and sdl12.framework).  If the library or one of its aliases
-#	is found and can be successfully linked into a program, then the shell
-#	cache variable cs_cv_libLIBRARY is set to "yes";
-#	cs_cv_libLIBRARY_cflags, cs_cv_libLIBRARY_lflags, and
+#	Very roughly similar in concept to AC_CHECK_LIB(), but allows caller to
+#	to provide list of directories in which to search for LIBRARY; allows
+#	user to override library location via --with-LIBRARY=dir; and consults
+#	`pkg-config' (if present) and `LIBRARY-config' (if present, i.e.
+#	`sdl-config') in order to obtain compiler and linker flags.  LIBRARY is
+#	the name of the library or MacOS/X framework which is to be located
+#	(for example, "readline" for `libreadline.a' or `readline.framework').
+#	PROGRAM, which is typically composed with AC_LANG_PROGRAM(), is a
+#	program which references at least one function or symbol in LIBRARY.
+#	SEARCH-LIST is a whitespace-delimited list of paths in which to search
+#	for the library and its header files, in addition to those searched by
+#	the compiler and linker by default, and those referenced by the
+#	cs_lib_paths_default macro.  Each list item can specify an
+#	`include|library' directory tuple (for example,
+#	"/usr/include|/usr/lib"), or a single directory (for example, "/usr").
+#	If the second form is used, then "include" and "lib" subdirectories of
+#	the directory are searched.  If the library resources are not found,
+#	then the directory itself is searched.  Thus, "/proj" is shorthand for
+#	"/proj/include|/proj/lib /proj|/proj".  Items in the search list can
+#	include wildcards.  SEARCH-LIST can be overridden by the user with the
+#	--with-LIBRARY=dir option, in which case only "dir/include|dir/lib" and
+#	"dir|dir" are searched.  If SEARCH-LIST is omitted and the user did not
+#	override the search list via --with-LIBRARY=dir, then only the
+#	directories normally searched by the compiler and the directories
+#	mentioned via cs_lib_paths_default are searched.  LANGUAGE is typically
+#	either C or C++ and specifies which compiler to use for the test.  If
+#	LANGUAGE is omitted, C is used.  OTHER-CFLAGS, OTHER-LFLAGS, and
+#	OTHER-LIBS can specify additional compiler flags, linker flags, and
+#	libraries needed to successfully link with LIBRARY.  The optional
+#	ALIASES is a comma-delimited list of library names for which to search
+#	in case LIBRARY is not located (for example "[sdl1.2, sdl12]" for
+#	libsdl1.2.a, sdl1.2.framework, libsdl12.a, and sdl12.framework).  If
+#	the library or one of its aliases is found and can be successfully
+#	linked into a program, then the shell cache variable cs_cv_libLIBRARY
+#	is set to "yes"; cs_cv_libLIBRARY_cflags, cs_cv_libLIBRARY_lflags, and
 #	cs_cv_libLIBRARY_libs are set, respectively, to the compiler flags
 #	(including OTHER-CFLAGS), linker flags (including OTHER-LFLAGS), and
 #	library references (including OTHER-LIBS) which resulted in a
 #	successful build; and ACTION-IF-FOUND is invoked.  If the library was
 #	not found or was unlinkable, or if the user disabled the library via
-#	--without-libLIBRARY, then cs_cv_libLIBRARY is set to "no" and
+#	--without-LIBRARY, then cs_cv_libLIBRARY is set to "no" and
 #	ACTION-IF-NOT-FOUND is invoked.  Note that the exported shell variable
 #	names are always composed from LIBRARY regardless of whether the test
 #	succeeded because the primary library was discovered or one of the
 #	aliases.
 #------------------------------------------------------------------------------
 AC_DEFUN([CS_CHECK_LIB_WITH],
-    [AC_ARG_WITH([lib$1], [AC_HELP_STRING([--with-lib$1=dir],
+    [AC_ARG_WITH([$1], [AC_HELP_STRING([--with-$1=dir],
 	[specify location of lib$1 if not detected automatically; searches
 	dir/include, dir/lib, and dir])])
 
-    AS_IF([test -z "$with_lib$1"], [with_lib$1=yes])
-    AS_IF([test "$with_lib$1" != no],
-	[# If --with-lib value is same as cached value, then assume other
+    # Backward compatibility: Recognize --with-lib$1 as alias for --with-$1.
+    AS_IF([test -n "$with_lib$1" && test -z "$with_$1"],
+	[with_$1="$with_lib$1"])
+
+    AS_IF([test -z "$with_$1"], [with_$1=yes])
+    AS_IF([test "$with_$1" != no],
+	[# If --with-$1 value is same as cached value, then assume other
 	 # cached values are also valid; otherwise, ignore all cached values.
-	AS_IF([test "$with_lib$1" != "$cs_cv_with_lib$1"],
+	AS_IF([test "$with_$1" != "$cs_cv_with_$1"],
 	    [cs_ignore_cache=yes], [cs_ignore_cache=no])
 
 	cs_check_lib_flags=''
-	AS_IF([test $with_lib$1 = yes],
+	AS_IF([test $with_$1 = yes],
 	    [m4_foreach([cs_check_lib_alias], [$1, $10],
 		[_CS_CHECK_LIB_PKG_CONFIG_FLAGS([cs_check_lib_flags],
 		    cs_check_lib_alias)
@@ -129,8 +142,8 @@ AC_DEFUN([CS_CHECK_LIB_WITH],
 		    cs_check_lib_alias)
 		])])
 
-	AS_IF([test $with_lib$1 != yes],
-	    [cs_check_lib_paths=$with_lib$1],
+	AS_IF([test $with_$1 != yes],
+	    [cs_check_lib_paths=$with_$1],
 	    [cs_check_lib_paths="| cs_lib_paths_default $3"])
 	m4_foreach([cs_check_lib_alias], [$1, $10],
 	    [_CS_CHECK_LIB_CREATE_FLAGS([cs_check_lib_flags],
@@ -141,7 +154,7 @@ AC_DEFUN([CS_CHECK_LIB_WITH],
 	    [$4], [], [], [$cs_ignore_cache], [$7], [$8], [$9])],
 	[cs_cv_lib$1=no])
 
-    cs_cv_with_lib$1="$with_lib$1"
+    cs_cv_with_$1="$with_$1"
     AS_IF([test "$cs_cv_lib$1" = yes], [$5], [$6])])
 
 
