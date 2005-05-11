@@ -341,7 +341,7 @@ uint celIDRegistry::Register (void* obj, size_t scope)
 void celIDRegistry::RegisterWithID (void* obj, uint id)
 {
   size_t scope = GetScopeOfID (id);
-  CS_ASSERT (scope != -1);
+  CS_ASSERT (scope != csArrayItemNotFound);
 
   regs[scope].numreg->RegisterWithID (obj, id - regs[scope].start);
 }
