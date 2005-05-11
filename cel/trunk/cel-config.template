@@ -1,5 +1,63 @@
-cflags="-I${includedir}"
 lflags="-L${libdir}"
+
+# From autoconf:
+# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! /bin/sh" >conf$$.sh
+  echo  "exit 0"   >>conf$$.sh
+  chmod +x conf$$.sh
+  if (PATH="/nonexistent;."; conf$$.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
+  fi
+  rm -f conf$$.sh
+fi
+
+# If CEL set, prefer it over configure-time installation directory.
+CEL="${CEL-${prefix}$PATH_SEPARATOR.}"
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CEL
+do
+  prefix="${p}"
+  exec_prefix="${prefix}"
+  # try to determine if we're in a source or installed CS version
+  if test "x$includedir" = "x"
+  then
+    if [ -r ${prefix}/include/${packagename}/physicallayer/pl.h ] ; then
+      includedir="${prefix}/include/${packagename}"
+    elif [ -r ${prefix}/include/physicallayer/pl.h ] ; then
+      includedir="${prefix}/include"
+    fi
+  fi
+done
+IFS=$my_IFS
+if test "x$includedir" = "x"
+then
+  includedir="${appincdir}"
+fi
+cflags="-I${includedir}"
+
+# scan for optional libs
+optsearch=""
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CEL
+do
+  optsearch="$optsearch $p/$makeout/libs"
+done
+IFS=$my_IFS
+optsearch="$optsearch $libdir"
+for l in ${optlibs}
+do
+  for p in $optsearch
+  do
+    if test -r "$p/lib${l}.a"; then
+      libs="$libs $l"
+      exportsummary="$exportsummary $l $p"
+      break
+    fi
+  done
+done
 
 showlibs ()
 {
@@ -23,6 +81,8 @@ Options:
 	[--lflags]
 	[--plugindir]
 	[--includedir]
+	[--available-libs]
+	[--static-deps]
 	[--help]
 
 __EOF__
@@ -36,6 +96,8 @@ __EOF__
 
 linkflags()
 {
+  # Detect type of the installation and the directories where the library files
+  # reside in.
   entry_found="no"
   result=""
 
@@ -48,49 +110,76 @@ linkflags()
     fi
   done
 
+  local newflag=""
   if test "${entry_found}" = "yes"; then
     if test -n "${result}"; then
-      if test -n "${CEL}" && test -d "${CEL}/${result}"; then
-        result="-L${CEL}/${result} "
-      elif test -d "${result}"; then
-        result="-L${result} "
-      else
-        result=""
+      my_IFS=$IFS; IFS=$PATH_SEPARATOR
+      for p in $CEL
+      do
+	if test -n "${p}" && test -d "${p}/${result}"; then
+	  newflag="-L${p}/${result} "
+	  break
+	fi
+      done
+      IFS=$my_IFS
+      if test -z "${newflag}" && test -d "${result}"; then
+	newflag="-L${result} "
       fi
     fi
-    echo "${result}-l$1"
+    echo "${newflag}-l$1"
   fi
 }
 
-# If CEL set, prefer it over configure-time installation directory.
-idir=''
-if test -f "${CEL}/include/cel/physicallayer/pl.h"; then
-    idir="${CEL}/include/cel"
-elif test -f "${CEL}/include/physicallayer/pl.h"; then
-    idir="${CEL}/include"
-fi
-if test -n "${idir}"; then
-    # We purposely prepend the new flag to ensure that older flags appear
-    # toward this end.  This allows the preprocessor to correctly prefer -I
-    # options for the build directory over -I${includedir} for the installation
-    # directory (i.e. prefer the current development version over an installed
-    # version).
-    cflags="-I${idir} ${cflags}"
-    includedir="${idir}"
-fi
+staticdeps()
+{
+  local staticsearch=""
+  local result=""
+  
+  my_IFS=$IFS; IFS=$PATH_SEPARATOR
+  for p in $CEL
+  do
+    staticsearch="$staticsearch $p/$makeout/libs"
+  done
+  IFS=$my_IFS
+  staticsearch="$staticsearch $libdir"
+  
+  for p in $staticsearch
+  do
+    if test -r "$p/$staticdeps"; then
+      result="$p/$staticdeps"
+      break
+    fi
+  done
+  
+  if test -n "${result}"; then
+    # Prepare path returned by --static-deps - it'll be a MSYS style path, but
+    # Jam needs a native Win32 path.
+    if test "`uname -s | sed -e 's+\(.*\)_.*+\1+'`" = "MINGW32" ; then
+      result=`echo $result | sed -e 's+^/\(.\)\(.*\)+\1:\2+'`
+    fi
+    echo "${result}"
+  fi
+}
 
-# If CEL is set and pointing at build directory, then prefer it over installed
-# version; else if CEL is set and pointing at installed location, then use it;
-# else use configure-time installation directory.
-if test -f "${CEL}/stdphyslayer.so" ||
-   test -f "${CEL}/stdphyslayer.dll" ||
-   test -f "${CEL}/stdphyslayer.csbundle"; then
-    plugindir="${CEL}"
-elif test -f "${CEL}/lib/cel/stdphyslayer.so" ||
-   test -f "${CEL}/lib/cel/stdphyslayer.dll" ||
-   test -f "${CEL}/lib/cel/stdphyslayer.csbundle"; then
-    plugindir="${CEL}/lib/cel"
-fi
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CEL
+do
+    # If CEL is set and pointing at build directory, then prefer it over installed
+    # version; else if CEL is set and pointing at installed location, then use it;
+    # else use configure-time installation directory.
+    if test -f "${p}/stdphyslayer.so" ||
+       test -f "${p}/stdphyslayer.dll" ||
+       test -f "${p}/stdphyslayer.csbundle"; then
+	plugindir="${p}"
+	break
+    elif test -f "${p}/lib/cel/stdphyslayer.so" ||
+       test -f "${p}/lib/cel/stdphyslayer.dll" ||
+       test -f "${p}/lib/cel/stdphyslayer.csbundle"; then
+	plugindir="${p}/lib/cel"
+	break
+    fi
+done
+IFS=$my_IFS
 
 if test $# -eq 0; then
     usage 1>&2
@@ -135,12 +224,16 @@ while test $# -gt 0; do
     --lflags)
         show_lflags="yes"
         ;;
-    *)
-	echo "Unknown option $1"
-	echo ""
-	usage
-	exit 1
+    --available-libs)
+	show_availlibs=true
 	;;
+    --static-deps)
+	staticdeps
+	exit 0
+	;;
+    *)
+	raw_names="$raw_names $1"
+        ;;
   esac
   shift
 done
@@ -167,7 +260,11 @@ if test -n "$show_libs"; then
     echo "$libs"
 fi
 if test -n "$show_lflags"; then
-    for lib in $libs; do
+    # If user specified no libraries, then emit all.
+    if test -z "$raw_names"; then
+	raw_names=$libs
+    fi
+    for lib in $raw_names; do
 	# We purposely prepend the new flags to ensure that older flags appear
 	# toward this end.  This allows the linker to correctly prefer -L
 	# options for the build directory over -L${libdir} for the installation
@@ -177,3 +274,24 @@ if test -n "$show_lflags"; then
     done
     echo "$lflags"
 fi
+
+if test -n "$show_availlibs"; then
+    # If user specified no libraries, then emit all.
+    if test -z "$raw_names"; then
+	for x in $libs; do
+	    echo $x
+	done
+    else
+	# Filter the user-supplied list down to valid entries. 
+	for x in $raw_names; do
+	    for z in $libs; do
+		if test "_$x" = "_$z"; then
+		    echo $x
+		    break
+		fi
+	    done
+        done
+    fi
+fi
+
+exit 0
