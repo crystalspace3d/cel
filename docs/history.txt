@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit copied the mk/jam dir from CS over to CEL to fix a few
 	  problems.
 	- res synchronized mk/jam/ with the CS master copies.
+	- Eric Sunshine updated configure.ac so that the Crystal Space "Python"
+	  and "static plugin" tests are not run if --without-cs has been
+	  specified.
 10-May-2005
 	- Jorrit did more work on the sequence stuff in the quest manager.
 	  Worked on loading.

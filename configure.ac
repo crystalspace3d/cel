@@ -109,8 +109,8 @@ AS_IF([test $with_cs != no],
 # CS was built with Python support, which we can only know at this point (after
 # running the CS test).
 #----------------------------------------------------------------------------
-AS_IF([test $cs_cv_python != no],
-    [AC_MSG_CHECKING([if Crystal Space is built with Python support])
+AS_IF([test $with_cs != no && test $cs_cv_python != no],
+    [AC_MSG_CHECKING([for Crystal Space Python support])
     cel_do_python=no
     for m in $CRYSTAL_AVAILABLE_LIBS; do
 	AS_IF([test crystalspace_python = "$m"],
@@ -124,15 +124,16 @@ AS_IF([test $cs_cv_python != no],
 #----------------------------------------------------------------------------
 # Check if the Crystal Space static plugins lib was built.
 #----------------------------------------------------------------------------
-AC_MSG_CHECKING([if Crystal Space static plugins are available])
-cel_have_crystal_static=no
-for m in $CRYSTAL_AVAILABLE_LIBS; do
-    AS_IF([test crystalspace_staticplugins = "$m"],
-	[cel_have_crystal_static=yes
-	break])
-done
-AC_MSG_RESULT([$cel_have_crystal_static])
-CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$cel_have_crystal_static])
+AS_IF([test $with_cs != no],
+    [AC_MSG_CHECKING([for Crystal Space static plugins])
+    cel_have_crystal_static=no
+    for m in $CRYSTAL_AVAILABLE_LIBS; do
+	AS_IF([test crystalspace_staticplugins = "$m"],
+	    [cel_have_crystal_static=yes
+	    break])
+    done
+    AC_MSG_RESULT([$cel_have_crystal_static])
+    CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$cel_have_crystal_static])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches
