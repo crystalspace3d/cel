@@ -3,6 +3,7 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-May-2005
 	- Jorrit copied the mk/jam dir from CS over to CEL to fix a few
 	  problems.
 	- res synchronized mk/jam/ with the CS master copies.
