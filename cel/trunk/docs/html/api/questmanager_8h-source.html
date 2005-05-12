@@ -74,425 +74,439 @@
 00055 <span class="comment">        &lt;/trigger&gt;</span>
 00056 <span class="comment">    &lt;/state&gt;</span>
 00057 <span class="comment"></span>
-00058 <span class="comment">    &lt;start&gt;notstarted&lt;/start&gt;</span>
-00059 <span class="comment">&lt;/quest&gt;</span>
-00060 <span class="comment">*/</span>
-00061 
-00062 <span class="keyword">typedef</span> csHash&lt;csStrKey,csStrKey&gt; celQuestParams;
-00063 
-00064 <span class="comment">//-------------------------------------------------------------------------</span>
-00065 <span class="comment">// Triggers</span>
-00066 <span class="comment">//-------------------------------------------------------------------------</span>
-00067 
-00068 <span class="keyword">struct </span><a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>;
+00058 <span class="comment">    &lt;sequence name="seqTest"&gt;</span>
+00059 <span class="comment">        &lt;op type="movemesh" duration="2000" entity_name="door"</span>
+00060 <span class="comment">                x="0" y="4" z="0" /&gt;</span>
+00061 <span class="comment">        &lt;op type="lightcolor" duration="2000" entity_name="lightbulb"</span>
+00062 <span class="comment">                red="1" green="1" blue="1" /&gt;</span>
+00063 <span class="comment">        &lt;delay time="2000" /&gt;</span>
+00064 <span class="comment">    &lt;/sequence&gt;</span>
+00065 <span class="comment"></span>
+00066 <span class="comment">    &lt;start&gt;notstarted&lt;/start&gt;</span>
+00067 <span class="comment">&lt;/quest&gt;</span>
+00068 <span class="comment">*/</span>
 00069 
-00070 SCF_VERSION (<a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a>, 0, 0, 1);
+00070 <span class="keyword">typedef</span> csHash&lt;csStrKey,csStrKey&gt; celQuestParams;
 00071 
-<a name="l00078"></a><a class="code" href="structiQuestTriggerCallback.html">00078</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a> : <span class="keyword">public</span> iBase
-00079 {
-00081   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerCallback.html#a0">TriggerFired</a> (<a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>* trigger) = 0;
-00082 };
-00083 
-00084 SCF_VERSION (<a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>, 0, 0, 1);
-00085 
-<a name="l00098"></a><a class="code" href="structiQuestTrigger.html">00098</a> <span class="keyword">struct </span><a class="code" href="structiQuestTrigger.html">iQuestTrigger</a> : <span class="keyword">public</span> iBase
-00099 {
-00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a0">RegisterCallback</a> (<a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a>* callback) = 0;
-00105 
-00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a1">ClearCallback</a> () = 0;
-00110 
-00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a2">ActivateTrigger</a> () = 0;
-00115 
-00119   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a3">DeactivateTrigger</a> () = 0;
-00120 
-00126   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestTrigger.html#a4">LoadAndActivateTrigger</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
-00127 
-00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a5">SaveTriggerState</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
-00132 };
-00133 
-00134 SCF_VERSION (<a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>, 0, 0, 1);
+00072 <span class="comment">//-------------------------------------------------------------------------</span>
+00073 <span class="comment">// Triggers</span>
+00074 <span class="comment">//-------------------------------------------------------------------------</span>
+00075 
+00076 <span class="keyword">struct </span><a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>;
+00077 
+00078 SCF_VERSION (<a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a>, 0, 0, 1);
+00079 
+<a name="l00086"></a><a class="code" href="structiQuestTriggerCallback.html">00086</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a> : <span class="keyword">public</span> iBase
+00087 {
+00089   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerCallback.html#a0">TriggerFired</a> (<a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>* trigger) = 0;
+00090 };
+00091 
+00092 SCF_VERSION (<a class="code" href="structiQuestTrigger.html">iQuestTrigger</a>, 0, 0, 1);
+00093 
+<a name="l00106"></a><a class="code" href="structiQuestTrigger.html">00106</a> <span class="keyword">struct </span><a class="code" href="structiQuestTrigger.html">iQuestTrigger</a> : <span class="keyword">public</span> iBase
+00107 {
+00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a0">RegisterCallback</a> (<a class="code" href="structiQuestTriggerCallback.html">iQuestTriggerCallback</a>* callback) = 0;
+00113 
+00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a1">ClearCallback</a> () = 0;
+00118 
+00122   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a2">ActivateTrigger</a> () = 0;
+00123 
+00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a3">DeactivateTrigger</a> () = 0;
+00128 
+00134   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestTrigger.html#a4">LoadAndActivateTrigger</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
 00135 
-<a name="l00140"></a><a class="code" href="structiQuestTriggerFactory.html">00140</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
-00141 {
-00147   <span class="keyword">virtual</span> csPtr&lt;iQuestTrigger&gt; <a class="code" href="structiQuestTriggerFactory.html#a0">CreateTrigger</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
-00148 
-00154   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestTriggerFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
-00155 };
+00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTrigger.html#a5">SaveTriggerState</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00140 };
+00141 
+00142 SCF_VERSION (<a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>, 0, 0, 1);
+00143 
+<a name="l00148"></a><a class="code" href="structiQuestTriggerFactory.html">00148</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
+00149 {
+00155   <span class="keyword">virtual</span> csPtr&lt;iQuestTrigger&gt; <a class="code" href="structiQuestTriggerFactory.html#a0">CreateTrigger</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
 00156 
-00157 SCF_VERSION (<a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>, 0, 0, 1);
-00158 
-<a name="l00166"></a><a class="code" href="structiQuestTriggerType.html">00166</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a> : <span class="keyword">public</span> iBase
-00167 {
-00171   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestTriggerType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00172   
-00176   <span class="keyword">virtual</span> csPtr&lt;iQuestTriggerFactory&gt; <a class="code" href="structiQuestTriggerType.html#a1">CreateTriggerFactory</a> () = 0;
-00177 };
-00178 
-00179 <span class="comment">//-------------------------------------------------------------------------</span>
-00180 <span class="comment">// Rewards</span>
-00181 <span class="comment">//-------------------------------------------------------------------------</span>
-00182 
-00183 SCF_VERSION (<a class="code" href="structiQuestReward.html">iQuestReward</a>, 0, 0, 1);
-00184 
-<a name="l00192"></a><a class="code" href="structiQuestReward.html">00192</a> <span class="keyword">struct </span><a class="code" href="structiQuestReward.html">iQuestReward</a> : <span class="keyword">public</span> iBase
-00193 {
-00197   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestReward.html#a0">Reward</a> () = 0;
-00198 };
-00199 
-00200 SCF_VERSION (<a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>, 0, 0, 1);
-00201 
-<a name="l00206"></a><a class="code" href="structiQuestRewardFactory.html">00206</a> <span class="keyword">struct </span><a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> : <span class="keyword">public</span> iBase
-00207 {
-00213   <span class="keyword">virtual</span> csPtr&lt;iQuestReward&gt; <a class="code" href="structiQuestRewardFactory.html#a0">CreateReward</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
-00214 
-00220   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestRewardFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
-00221 };
+00162   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestTriggerFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
+00163 };
+00164 
+00165 SCF_VERSION (<a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>, 0, 0, 1);
+00166 
+<a name="l00174"></a><a class="code" href="structiQuestTriggerType.html">00174</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a> : <span class="keyword">public</span> iBase
+00175 {
+00179   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestTriggerType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+00180   
+00184   <span class="keyword">virtual</span> csPtr&lt;iQuestTriggerFactory&gt; <a class="code" href="structiQuestTriggerType.html#a1">CreateTriggerFactory</a> () = 0;
+00185 };
+00186 
+00187 <span class="comment">//-------------------------------------------------------------------------</span>
+00188 <span class="comment">// Rewards</span>
+00189 <span class="comment">//-------------------------------------------------------------------------</span>
+00190 
+00191 SCF_VERSION (<a class="code" href="structiQuestReward.html">iQuestReward</a>, 0, 0, 1);
+00192 
+<a name="l00200"></a><a class="code" href="structiQuestReward.html">00200</a> <span class="keyword">struct </span><a class="code" href="structiQuestReward.html">iQuestReward</a> : <span class="keyword">public</span> iBase
+00201 {
+00205   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestReward.html#a0">Reward</a> () = 0;
+00206 };
+00207 
+00208 SCF_VERSION (<a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>, 0, 0, 1);
+00209 
+<a name="l00214"></a><a class="code" href="structiQuestRewardFactory.html">00214</a> <span class="keyword">struct </span><a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> : <span class="keyword">public</span> iBase
+00215 {
+00221   <span class="keyword">virtual</span> csPtr&lt;iQuestReward&gt; <a class="code" href="structiQuestRewardFactory.html#a0">CreateReward</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
 00222 
-00223 SCF_VERSION (<a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>, 0, 0, 1);
-00224 
-<a name="l00232"></a><a class="code" href="structiQuestRewardType.html">00232</a> <span class="keyword">struct </span><a class="code" href="structiQuestRewardType.html">iQuestRewardType</a> : <span class="keyword">public</span> iBase
-00233 {
-00237   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestRewardType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00238   
-00242   <span class="keyword">virtual</span> csPtr&lt;iQuestRewardFactory&gt; <a class="code" href="structiQuestRewardType.html#a1">CreateRewardFactory</a> () = 0;
-00243 };
-00244 
-00245 <span class="comment">//-------------------------------------------------------------------------</span>
-00246 <span class="comment">// Sequence operations</span>
-00247 <span class="comment">//-------------------------------------------------------------------------</span>
-00248 
-00249 SCF_VERSION (<a class="code" href="structiQuestSeqOp.html">iQuestSeqOp</a>, 0, 0, 1);
-00250 
-<a name="l00257"></a><a class="code" href="structiQuestSeqOp.html">00257</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOp.html">iQuestSeqOp</a> : <span class="keyword">public</span> iBase
-00258 {
-00264   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestSeqOp.html#a0">Do</a> (<span class="keywordtype">float</span> time) = 0;
-00265 };
-00266 
-00267 SCF_VERSION (<a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a>, 0, 0, 1);
-00268 
-<a name="l00273"></a><a class="code" href="structiQuestSeqOpFactory.html">00273</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
-00274 {
-00280   <span class="keyword">virtual</span> csPtr&lt;iQuestSeqOp&gt; <a class="code" href="structiQuestSeqOpFactory.html#a0">CreateSeqOp</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
-00281 
-00287   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestSeqOpFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
-00288 };
+00228   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestRewardFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
+00229 };
+00230 
+00231 SCF_VERSION (<a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>, 0, 0, 1);
+00232 
+<a name="l00240"></a><a class="code" href="structiQuestRewardType.html">00240</a> <span class="keyword">struct </span><a class="code" href="structiQuestRewardType.html">iQuestRewardType</a> : <span class="keyword">public</span> iBase
+00241 {
+00245   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestRewardType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+00246   
+00250   <span class="keyword">virtual</span> csPtr&lt;iQuestRewardFactory&gt; <a class="code" href="structiQuestRewardType.html#a1">CreateRewardFactory</a> () = 0;
+00251 };
+00252 
+00253 <span class="comment">//-------------------------------------------------------------------------</span>
+00254 <span class="comment">// Sequence operations</span>
+00255 <span class="comment">//-------------------------------------------------------------------------</span>
+00256 
+00257 SCF_VERSION (<a class="code" href="structiQuestSeqOp.html">iQuestSeqOp</a>, 0, 0, 1);
+00258 
+<a name="l00265"></a><a class="code" href="structiQuestSeqOp.html">00265</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOp.html">iQuestSeqOp</a> : <span class="keyword">public</span> iBase
+00266 {
+00272   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestSeqOp.html#a0">Do</a> (<span class="keywordtype">float</span> time) = 0;
+00273 };
+00274 
+00275 SCF_VERSION (<a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a>, 0, 0, 1);
+00276 
+<a name="l00281"></a><a class="code" href="structiQuestSeqOpFactory.html">00281</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
+00282 {
+00288   <span class="keyword">virtual</span> csPtr&lt;iQuestSeqOp&gt; <a class="code" href="structiQuestSeqOpFactory.html#a0">CreateSeqOp</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
 00289 
-00290 SCF_VERSION (<a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>, 0, 0, 1);
-00291 
-<a name="l00299"></a><a class="code" href="structiQuestSeqOpType.html">00299</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a> : <span class="keyword">public</span> iBase
-00300 {
-00304   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestSeqOpType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00305   
-00309   <span class="keyword">virtual</span> csPtr&lt;iQuestSeqOpFactory&gt; <a class="code" href="structiQuestSeqOpType.html#a1">CreateSeqOpFactory</a> () = 0;
-00310 };
-00311 
-00312 <span class="comment">//-------------------------------------------------------------------------</span>
-00313 <span class="comment">// The Quest</span>
-00314 <span class="comment">//-------------------------------------------------------------------------</span>
-00315 
-00316 SCF_VERSION (<a class="code" href="structiQuest.html">iQuest</a>, 0, 0, 1);
-00317 
-<a name="l00322"></a><a class="code" href="structiQuest.html">00322</a> <span class="keyword">struct </span><a class="code" href="structiQuest.html">iQuest</a> : <span class="keyword">public</span> iBase
-00323 {
-00328   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuest.html#a0">SwitchState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state) = 0;
-00329 
-00333   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuest.html#a1">GetCurrentState</a> () <span class="keyword">const </span>= 0;
-00334 
-00340   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuest.html#a2">LoadState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state, <a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
-00341 
-00346   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuest.html#a3">SaveState</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
-00347 };
-00348 
-00349 SCF_VERSION (<a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>, 0, 0, 1);
-00350 
-<a name="l00356"></a><a class="code" href="structiQuestTriggerResponseFactory.html">00356</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> : <span class="keyword">public</span> iBase
-00357 {
-00362   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerResponseFactory.html#a0">SetTriggerFactory</a> (<a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* trigger_fact) = 0;
-00363 
-00368   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerResponseFactory.html#a1">AddRewardFactory</a> (<a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* reward_fact) = 0;
-00369 };
-00370 
-00371 SCF_VERSION (<a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>, 0, 0, 1);
-00372 
-<a name="l00377"></a><a class="code" href="structiQuestStateFactory.html">00377</a> <span class="keyword">struct </span><a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a> : <span class="keyword">public</span> iBase
-00378 {
-00382   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestStateFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00383 
-00387   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* <a class="code" href="structiQuestStateFactory.html#a1">CreateTriggerResponseFactory</a> () = 0;
-00388 };
-00389 
-00390 SCF_VERSION (<a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>, 0, 0, 1);
+00295   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestSeqOpFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
+00296 };
+00297 
+00298 SCF_VERSION (<a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>, 0, 0, 1);
+00299 
+<a name="l00307"></a><a class="code" href="structiQuestSeqOpType.html">00307</a> <span class="keyword">struct </span><a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a> : <span class="keyword">public</span> iBase
+00308 {
+00312   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestSeqOpType.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+00313   
+00317   <span class="keyword">virtual</span> csPtr&lt;iQuestSeqOpFactory&gt; <a class="code" href="structiQuestSeqOpType.html#a1">CreateSeqOpFactory</a> () = 0;
+00318 };
+00319 
+00320 <span class="comment">//-------------------------------------------------------------------------</span>
+00321 <span class="comment">// The Quest</span>
+00322 <span class="comment">//-------------------------------------------------------------------------</span>
+00323 
+00324 SCF_VERSION (<a class="code" href="structiQuest.html">iQuest</a>, 0, 0, 1);
+00325 
+<a name="l00330"></a><a class="code" href="structiQuest.html">00330</a> <span class="keyword">struct </span><a class="code" href="structiQuest.html">iQuest</a> : <span class="keyword">public</span> iBase
+00331 {
+00336   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuest.html#a0">SwitchState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state) = 0;
+00337 
+00341   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuest.html#a1">GetCurrentState</a> () <span class="keyword">const </span>= 0;
+00342 
+00348   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuest.html#a2">LoadState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state, <a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00349 
+00354   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuest.html#a3">SaveState</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf) = 0;
+00355 };
+00356 
+00357 SCF_VERSION (<a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>, 0, 0, 1);
+00358 
+<a name="l00364"></a><a class="code" href="structiQuestTriggerResponseFactory.html">00364</a> <span class="keyword">struct </span><a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> : <span class="keyword">public</span> iBase
+00365 {
+00370   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerResponseFactory.html#a0">SetTriggerFactory</a> (<a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* trigger_fact) = 0;
+00371 
+00376   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestTriggerResponseFactory.html#a1">AddRewardFactory</a> (<a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* reward_fact) = 0;
+00377 };
+00378 
+00379 SCF_VERSION (<a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>, 0, 0, 1);
+00380 
+<a name="l00385"></a><a class="code" href="structiQuestStateFactory.html">00385</a> <span class="keyword">struct </span><a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a> : <span class="keyword">public</span> iBase
+00386 {
+00390   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestStateFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
 00391 
-<a name="l00396"></a><a class="code" href="structiQuestSequenceFactory.html">00396</a> <span class="keyword">struct </span><a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> : <span class="keyword">public</span> iBase
-00397 {
-00401   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestSequenceFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00402 
-00411   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestSequenceFactory.html#a1">AddSeqOpFactory</a> (<a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a>* seqopfact,
-00412         csTicks start, csTicks end) = 0;
-00413 };
-00414 
-00415 SCF_VERSION (<a class="code" href="structiQuestFactory.html">iQuestFactory</a>, 0, 0, 1);
-00416 
-<a name="l00431"></a><a class="code" href="structiQuestFactory.html">00431</a> <span class="keyword">struct </span><a class="code" href="structiQuestFactory.html">iQuestFactory</a> : <span class="keyword">public</span> iBase
-00432 {
-00436   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
-00437   
-00445   <span class="keyword">virtual</span> csPtr&lt;iQuest&gt; <a class="code" href="structiQuestFactory.html#a1">CreateQuest</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
-00446 
-00452   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestFactory.html#a2">Load</a> (iDocumentNode* node) = 0;
-00453 
-00458   <span class="keyword">virtual</span> <a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>* <a class="code" href="structiQuestFactory.html#a3">GetState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00459 
-00464   <span class="keyword">virtual</span> <a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>* <a class="code" href="structiQuestFactory.html#a4">CreateState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00465 
-00470   <span class="keyword">virtual</span> <a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* <a class="code" href="structiQuestFactory.html#a5">GetSequence</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00471 
-00476   <span class="keyword">virtual</span> <a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* <a class="code" href="structiQuestFactory.html#a6">CreateSequence</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00477 };
-00478 
-00479 <span class="comment">//-------------------------------------------------------------------------</span>
-00480 <span class="comment">// The Quest Manager</span>
-00481 <span class="comment">//-------------------------------------------------------------------------</span>
-00482 
-00483 SCF_VERSION (<a class="code" href="structiQuestManager.html">iQuestManager</a>, 0, 0, 1);
-00484 
-<a name="l00490"></a><a class="code" href="structiQuestManager.html">00490</a> <span class="keyword">struct </span><a class="code" href="structiQuestManager.html">iQuestManager</a> : <span class="keyword">public</span> iBase
-00491 {
-00509   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a0">RegisterTriggerType</a> (<a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>* trigger) = 0;
+00395   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* <a class="code" href="structiQuestStateFactory.html#a1">CreateTriggerResponseFactory</a> () = 0;
+00396 };
+00397 
+00398 SCF_VERSION (<a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>, 0, 0, 1);
+00399 
+<a name="l00404"></a><a class="code" href="structiQuestSequenceFactory.html">00404</a> <span class="keyword">struct </span><a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> : <span class="keyword">public</span> iBase
+00405 {
+00409   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestSequenceFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+00410 
+00416   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestSequenceFactory.html#a1">Load</a> (iDocumentNode* node) = 0;
+00417 
+00426   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestSequenceFactory.html#a2">AddSeqOpFactory</a> (<a class="code" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a>* seqopfact,
+00427         csTicks start, csTicks end) = 0;
+00428 
+00435   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiQuestSequenceFactory.html#a3">SetTotalTime</a> (csTicks total_time) = 0;
+00436 
+00440   <span class="keyword">virtual</span> csTicks <a class="code" href="structiQuestSequenceFactory.html#a4">GetTotalTime</a> () <span class="keyword">const </span>= 0;
+00441 };
+00442 
+00443 SCF_VERSION (<a class="code" href="structiQuestFactory.html">iQuestFactory</a>, 0, 0, 1);
+00444 
+<a name="l00459"></a><a class="code" href="structiQuestFactory.html">00459</a> <span class="keyword">struct </span><a class="code" href="structiQuestFactory.html">iQuestFactory</a> : <span class="keyword">public</span> iBase
+00460 {
+00464   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestFactory.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+00465   
+00473   <span class="keyword">virtual</span> csPtr&lt;iQuest&gt; <a class="code" href="structiQuestFactory.html#a1">CreateQuest</a> (<span class="keyword">const</span> celQuestParams&amp; params) = 0;
+00474 
+00480   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestFactory.html#a2">Load</a> (iDocumentNode* node) = 0;
+00481 
+00486   <span class="keyword">virtual</span> <a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>* <a class="code" href="structiQuestFactory.html#a3">GetState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00487 
+00492   <span class="keyword">virtual</span> <a class="code" href="structiQuestStateFactory.html">iQuestStateFactory</a>* <a class="code" href="structiQuestFactory.html#a4">CreateState</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00493 
+00498   <span class="keyword">virtual</span> <a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* <a class="code" href="structiQuestFactory.html#a5">GetSequence</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00499 
+00504   <span class="keyword">virtual</span> <a class="code" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a>* <a class="code" href="structiQuestFactory.html#a6">CreateSequence</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00505 };
+00506 
+00507 <span class="comment">//-------------------------------------------------------------------------</span>
+00508 <span class="comment">// The Quest Manager</span>
+00509 <span class="comment">//-------------------------------------------------------------------------</span>
 00510 
-00515   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>* <a class="code" href="structiQuestManager.html#a1">GetTriggerType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00516 
-00536   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a2">RegisterRewardType</a> (<a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>* trigger) = 0;
-00537 
-00542   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>* <a class="code" href="structiQuestManager.html#a3">GetRewardType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00543 
-00557   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a4">RegisterSeqOpType</a> (<a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>* seqop) = 0;
-00558 
-00563   <span class="keyword">virtual</span> <a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>* <a class="code" href="structiQuestManager.html#a5">GetSeqOpType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00564 
-00568   <span class="keyword">virtual</span> <a class="code" href="structiQuestFactory.html">iQuestFactory</a>* <a class="code" href="structiQuestManager.html#a6">GetQuestFactory</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00569 
-00575   <span class="keyword">virtual</span> <a class="code" href="structiQuestFactory.html">iQuestFactory</a>* <a class="code" href="structiQuestManager.html#a7">CreateQuestFactory</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00576 
-00584   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestManager.html#a8">ResolveParameter</a> (
-00585         <span class="keyword">const</span> celQuestParams&amp; params,
-00586         <span class="keyword">const</span> <span class="keywordtype">char</span>* param) = 0;
-00587 
-00593   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a9">Load</a> (iDocumentNode* node) = 0;
-00594 
-00599   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a10">AddNewStateReward</a> (
-00600         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00601         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* state_par) = 0;
-00602 
-00607   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a11">AddDebugPrintReward</a> (
-00608         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00609         <span class="keyword">const</span> <span class="keywordtype">char</span>* msg_par) = 0;
-00610 
-00615   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a12">AddInventoryReward</a> (
-00616         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00617         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* child_entity_par) = 0;
-00618 
-00624   <span class="keyword">virtual</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a13">AddChangePropertyReward</a> (
-00625         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00626         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* prop_par) = 0;
-00627 
-00632   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a14">SetTimeoutTrigger</a> (
-00633         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00634         <span class="keyword">const</span> <span class="keywordtype">char</span>* timeout_par) = 0;
-00635 
-00640   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a15">SetEnterSectorTrigger</a> (
-00641         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00642         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* sector_par) = 0;
-00643 
-00648   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a16">SetMeshEnterSectorTrigger</a> (
-00649         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00650         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* sector_par) = 0;
-00651 
-00656   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a17">SetPropertyChangeTrigger</a> (
-00657         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
-00658         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* prop_par,
-00659         <span class="keyword">const</span> <span class="keywordtype">char</span>* value_par) = 0;
-00660 };
-00661 
-00662 <span class="comment">// @@@ TODO:</span>
-00663 <span class="comment">// Trigger: inventory operations</span>
-00664 <span class="comment">// Reward: inventory operations</span>
-00665 
-00666 <span class="comment">//-------------------------------------------------------------------------</span>
-00667 <span class="comment">// Specific trigger implementations.</span>
-00668 <span class="comment">//-------------------------------------------------------------------------</span>
-00669 
-00670 SCF_VERSION (<a class="code" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a>, 0, 0, 1);
+00511 SCF_VERSION (<a class="code" href="structiQuestManager.html">iQuestManager</a>, 0, 0, 1);
+00512 
+<a name="l00518"></a><a class="code" href="structiQuestManager.html">00518</a> <span class="keyword">struct </span><a class="code" href="structiQuestManager.html">iQuestManager</a> : <span class="keyword">public</span> iBase
+00519 {
+00537   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a0">RegisterTriggerType</a> (<a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>* trigger) = 0;
+00538 
+00543   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerType.html">iQuestTriggerType</a>* <a class="code" href="structiQuestManager.html#a1">GetTriggerType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00544 
+00564   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a2">RegisterRewardType</a> (<a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>* trigger) = 0;
+00565 
+00570   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardType.html">iQuestRewardType</a>* <a class="code" href="structiQuestManager.html#a3">GetRewardType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00571 
+00585   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a4">RegisterSeqOpType</a> (<a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>* seqop) = 0;
+00586 
+00591   <span class="keyword">virtual</span> <a class="code" href="structiQuestSeqOpType.html">iQuestSeqOpType</a>* <a class="code" href="structiQuestManager.html#a5">GetSeqOpType</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00592 
+00596   <span class="keyword">virtual</span> <a class="code" href="structiQuestFactory.html">iQuestFactory</a>* <a class="code" href="structiQuestManager.html#a6">GetQuestFactory</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00597 
+00603   <span class="keyword">virtual</span> <a class="code" href="structiQuestFactory.html">iQuestFactory</a>* <a class="code" href="structiQuestManager.html#a7">CreateQuestFactory</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00604 
+00612   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiQuestManager.html#a8">ResolveParameter</a> (
+00613         <span class="keyword">const</span> celQuestParams&amp; params,
+00614         <span class="keyword">const</span> <span class="keywordtype">char</span>* param) = 0;
+00615 
+00621   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiQuestManager.html#a9">Load</a> (iDocumentNode* node) = 0;
+00622 
+00627   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a10">AddNewStateReward</a> (
+00628         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00629         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* state_par) = 0;
+00630 
+00635   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a11">AddDebugPrintReward</a> (
+00636         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00637         <span class="keyword">const</span> <span class="keywordtype">char</span>* msg_par) = 0;
+00638 
+00643   <span class="keyword">virtual</span> <a class="code" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a12">AddInventoryReward</a> (
+00644         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00645         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* child_entity_par) = 0;
+00646 
+00652   <span class="keyword">virtual</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>* <a class="code" href="structiQuestManager.html#a13">AddChangePropertyReward</a> (
+00653         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00654         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* prop_par) = 0;
+00655 
+00660   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a14">SetTimeoutTrigger</a> (
+00661         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00662         <span class="keyword">const</span> <span class="keywordtype">char</span>* timeout_par) = 0;
+00663 
+00668   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a15">SetEnterSectorTrigger</a> (
+00669         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00670         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* sector_par) = 0;
 00671 
-<a name="l00686"></a><a class="code" href="structiTimeoutQuestTriggerFactory.html">00686</a> <span class="keyword">struct </span><a class="code" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
-00687 {
-00693   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiTimeoutQuestTriggerFactory.html#a0">SetTimeoutParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* timeout_par) = 0;
-00694 };
-00695 
-00696 SCF_VERSION (<a class="code" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a>, 0, 0, 1);
+00676   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a16">SetMeshEnterSectorTrigger</a> (
+00677         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00678         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* sector_par) = 0;
+00679 
+00684   <span class="keyword">virtual</span> <a class="code" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* <a class="code" href="structiQuestManager.html#a17">SetPropertyChangeTrigger</a> (
+00685         <a class="code" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a>* response,
+00686         <span class="keyword">const</span> <span class="keywordtype">char</span>* entity_par, <span class="keyword">const</span> <span class="keywordtype">char</span>* prop_par,
+00687         <span class="keyword">const</span> <span class="keywordtype">char</span>* value_par) = 0;
+00688 };
+00689 
+00690 <span class="comment">// @@@ TODO:</span>
+00691 <span class="comment">// Trigger: inventory operations</span>
+00692 <span class="comment">// Reward: inventory operations</span>
+00693 
+00694 <span class="comment">//-------------------------------------------------------------------------</span>
+00695 <span class="comment">// Specific trigger implementations.</span>
+00696 <span class="comment">//-------------------------------------------------------------------------</span>
 00697 
-<a name="l00716"></a><a class="code" href="structiPropertyChangeQuestTriggerFactory.html">00716</a> <span class="keyword">struct </span><a class="code" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
-00717 {
-00724   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00698 SCF_VERSION (<a class="code" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a>, 0, 0, 1);
+00699 
+<a name="l00714"></a><a class="code" href="structiTimeoutQuestTriggerFactory.html">00714</a> <span class="keyword">struct </span><a class="code" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
+00715 {
+00721   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiTimeoutQuestTriggerFactory.html#a0">SetTimeoutParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* timeout_par) = 0;
+00722 };
+00723 
+00724 SCF_VERSION (<a class="code" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a>, 0, 0, 1);
 00725 
-00731   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a1">SetPropertyNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* prop_name) = 0;
-00732 
-00737   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a2">SetValueParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
-00738 };
-00739 
-00740 SCF_VERSION (<a class="code" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>, 0, 0, 1);
-00741 
-<a name="l00762"></a><a class="code" href="structiEnterSectorQuestTriggerFactory.html">00762</a> <span class="keyword">struct </span><a class="code" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
-00763 {
-00770   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiEnterSectorQuestTriggerFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
-00771 
-00778   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiEnterSectorQuestTriggerFactory.html#a1">SetSectorNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* sector_name) = 0;
-00779 };
-00780 
-00781 <span class="comment">//-------------------------------------------------------------------------</span>
-00782 <span class="comment">// Specific reward implementations.</span>
-00783 <span class="comment">//-------------------------------------------------------------------------</span>
-00784 
-00785 SCF_VERSION (<a class="code" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a>, 0, 0, 1);
-00786 
-<a name="l00801"></a><a class="code" href="structiDebugPrintQuestRewardFactory.html">00801</a> <span class="keyword">struct </span><a class="code" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a> : <span class="keyword">public</span> iBase
-00802 {
-00807   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiDebugPrintQuestRewardFactory.html#a0">SetMessageParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg) = 0;
-00808 };
-00809 
-00810 SCF_VERSION (<a class="code" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a>, 0, 0, 1);
-00811 
-<a name="l00828"></a><a class="code" href="structiNewStateQuestRewardFactory.html">00828</a> <span class="keyword">struct </span><a class="code" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a> : <span class="keyword">public</span> iBase
-00829 {
-00836   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNewStateQuestRewardFactory.html#a0">SetStateParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state) = 0;
+<a name="l00744"></a><a class="code" href="structiPropertyChangeQuestTriggerFactory.html">00744</a> <span class="keyword">struct </span><a class="code" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
+00745 {
+00752   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00753 
+00759   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a1">SetPropertyNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* prop_name) = 0;
+00760 
+00765   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPropertyChangeQuestTriggerFactory.html#a2">SetValueParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
+00766 };
+00767 
+00768 SCF_VERSION (<a class="code" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>, 0, 0, 1);
+00769 
+<a name="l00790"></a><a class="code" href="structiEnterSectorQuestTriggerFactory.html">00790</a> <span class="keyword">struct </span><a class="code" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a> : <span class="keyword">public</span> iBase
+00791 {
+00798   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiEnterSectorQuestTriggerFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00799 
+00806   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiEnterSectorQuestTriggerFactory.html#a1">SetSectorNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* sector_name) = 0;
+00807 };
+00808 
+00809 <span class="comment">//-------------------------------------------------------------------------</span>
+00810 <span class="comment">// Specific reward implementations.</span>
+00811 <span class="comment">//-------------------------------------------------------------------------</span>
+00812 
+00813 SCF_VERSION (<a class="code" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a>, 0, 0, 1);
+00814 
+<a name="l00829"></a><a class="code" href="structiDebugPrintQuestRewardFactory.html">00829</a> <span class="keyword">struct </span><a class="code" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a> : <span class="keyword">public</span> iBase
+00830 {
+00835   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiDebugPrintQuestRewardFactory.html#a0">SetMessageParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg) = 0;
+00836 };
 00837 
-00844   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNewStateQuestRewardFactory.html#a1">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
-00845 };
-00846 
-00847 SCF_VERSION (<a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>, 0, 0, 1);
-00848 
-<a name="l00871"></a><a class="code" href="structiChangePropertyQuestRewardFactory.html">00871</a> <span class="keyword">struct </span><a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a> : <span class="keyword">public</span> iBase
-00872 {
-00879   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
-00880 
-00886   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a1">SetPropertyNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* prop_name) = 0;
-00887 
-00892   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a2">SetStringParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pstring) = 0;
-00893 
-00898   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a3">SetLongParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* plong) = 0;
-00899 
-00904   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a4">SetFloatParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pfloat) = 0;
-00905 
-00910   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a5">SetBoolParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pbool) = 0;
-00911 
-00916   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a6">SetDiffParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pdiff) = 0;
-00917 
-00921   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a7">SetToggle</a> () = 0;
-00922 };
-00923 
-00924 SCF_VERSION (<a class="code" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a>, 0, 0, 1);
-00925 
-<a name="l00942"></a><a class="code" href="structiInventoryQuestRewardFactory.html">00942</a> <span class="keyword">struct </span><a class="code" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a> : <span class="keyword">public</span> iBase
-00943 {
-00950   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiInventoryQuestRewardFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00838 SCF_VERSION (<a class="code" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a>, 0, 0, 1);
+00839 
+<a name="l00856"></a><a class="code" href="structiNewStateQuestRewardFactory.html">00856</a> <span class="keyword">struct </span><a class="code" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a> : <span class="keyword">public</span> iBase
+00857 {
+00864   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNewStateQuestRewardFactory.html#a0">SetStateParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* state) = 0;
+00865 
+00872   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNewStateQuestRewardFactory.html#a1">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00873 };
+00874 
+00875 SCF_VERSION (<a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>, 0, 0, 1);
+00876 
+<a name="l00899"></a><a class="code" href="structiChangePropertyQuestRewardFactory.html">00899</a> <span class="keyword">struct </span><a class="code" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a> : <span class="keyword">public</span> iBase
+00900 {
+00907   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00908 
+00914   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a1">SetPropertyNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* prop_name) = 0;
+00915 
+00920   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a2">SetStringParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pstring) = 0;
+00921 
+00926   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a3">SetLongParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* plong) = 0;
+00927 
+00932   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a4">SetFloatParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pfloat) = 0;
+00933 
+00938   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a5">SetBoolParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pbool) = 0;
+00939 
+00944   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a6">SetDiffParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* pdiff) = 0;
+00945 
+00949   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiChangePropertyQuestRewardFactory.html#a7">SetToggle</a> () = 0;
+00950 };
 00951 
-00957   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiInventoryQuestRewardFactory.html#a1">SetChildEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
-00958 
-00959 };
-00960 
-00961 <span class="comment">//-------------------------------------------------------------------------</span>
-00962 <span class="comment">// Specific sequence operation implementations.</span>
-00963 <span class="comment">//-------------------------------------------------------------------------</span>
-00964 
-00965 <span class="comment">//-------------------------------------------------------------------------</span>
-00966 
-00970 <span class="preprocessor">#define CEL_DECLARE_REWARDTYPE(name,id)                                 \</span>
-00971 <span class="preprocessor">class cel##name##RewardType : public iQuestRewardType                   \</span>
-00972 <span class="preprocessor">{                                                                       \</span>
-00973 <span class="preprocessor">public:                                                                 \</span>
-00974 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
-00975 <span class="preprocessor">  cel##name##RewardType (iObjectRegistry* object_reg);                  \</span>
-00976 <span class="preprocessor">  virtual ~cel##name##RewardType ();                                    \</span>
-00977 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
-00978 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
-00979 <span class="preprocessor">  virtual csPtr&lt;iQuestRewardFactory&gt; CreateRewardFactory ();            \</span>
-00980 <span class="preprocessor">};</span>
-00981 <span class="preprocessor"></span>
-00985 <span class="preprocessor">#define CEL_IMPLEMENT_REWARDTYPE(name)                                  \</span>
-00986 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##RewardType)                             \</span>
-00987 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)                           \</span>
-00988 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-00989 <span class="preprocessor">cel##name##RewardType::cel##name##RewardType (                          \</span>
-00990 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-00991 <span class="preprocessor">{                                                                       \</span>
-00992 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-00993 <span class="preprocessor">  cel##name##RewardType::object_reg = object_reg;                       \</span>
-00994 <span class="preprocessor">}                                                                       \</span>
-00995 <span class="preprocessor">cel##name##RewardType::~cel##name##RewardType ()                        \</span>
-00996 <span class="preprocessor">{                                                                       \</span>
-00997 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-00998 <span class="preprocessor">}                                                                       \</span>
-00999 <span class="preprocessor">csPtr&lt;iQuestRewardFactory&gt; cel##name##RewardType::CreateRewardFactory ()\</span>
+00952 SCF_VERSION (<a class="code" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a>, 0, 0, 1);
+00953 
+<a name="l00970"></a><a class="code" href="structiInventoryQuestRewardFactory.html">00970</a> <span class="keyword">struct </span><a class="code" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a> : <span class="keyword">public</span> iBase
+00971 {
+00978   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiInventoryQuestRewardFactory.html#a0">SetEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00979 
+00985   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiInventoryQuestRewardFactory.html#a1">SetChildEntityNameParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity_name) = 0;
+00986 
+00987 };
+00988 
+00989 <span class="comment">//-------------------------------------------------------------------------</span>
+00990 <span class="comment">// Specific sequence operation implementations.</span>
+00991 <span class="comment">//-------------------------------------------------------------------------</span>
+00992 
+00993 <span class="comment">//-------------------------------------------------------------------------</span>
+00994 
+00998 <span class="preprocessor">#define CEL_DECLARE_REWARDTYPE(name,id)                                 \</span>
+00999 <span class="preprocessor">class cel##name##RewardType : public iQuestRewardType                   \</span>
 01000 <span class="preprocessor">{                                                                       \</span>
-01001 <span class="preprocessor">  cel##name##RewardFactory* fact = new                                  \</span>
-01002 <span class="preprocessor">        cel##name##RewardFactory (this);                                \</span>
-01003 <span class="preprocessor">  return fact;                                                          \</span>
-01004 <span class="preprocessor">}</span>
-01005 <span class="preprocessor"></span>
-01009 <span class="preprocessor">#define CEL_DECLARE_TRIGGERTYPE(name,id)                                \</span>
-01010 <span class="preprocessor">class cel##name##TriggerType : public iQuestTriggerType                 \</span>
-01011 <span class="preprocessor">{                                                                       \</span>
-01012 <span class="preprocessor">public:                                                                 \</span>
-01013 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
-01014 <span class="preprocessor">  cel##name##TriggerType (iObjectRegistry* object_reg);                 \</span>
-01015 <span class="preprocessor">  virtual ~cel##name##TriggerType ();                                   \</span>
-01016 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
-01017 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
-01018 <span class="preprocessor">  virtual csPtr&lt;iQuestTriggerFactory&gt; CreateTriggerFactory ();          \</span>
-01019 <span class="preprocessor">};</span>
-01020 <span class="preprocessor"></span>
-01024 <span class="preprocessor">#define CEL_IMPLEMENT_TRIGGERTYPE(name)                                 \</span>
-01025 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##TriggerType)                            \</span>
-01026 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)                          \</span>
-01027 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-01028 <span class="preprocessor">cel##name##TriggerType::cel##name##TriggerType (                        \</span>
-01029 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-01030 <span class="preprocessor">{                                                                       \</span>
-01031 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-01032 <span class="preprocessor">  cel##name##TriggerType::object_reg = object_reg;                      \</span>
-01033 <span class="preprocessor">}                                                                       \</span>
-01034 <span class="preprocessor">cel##name##TriggerType::~cel##name##TriggerType ()                      \</span>
-01035 <span class="preprocessor">{                                                                       \</span>
-01036 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-01037 <span class="preprocessor">}                                                                       \</span>
-01038 <span class="preprocessor">csPtr&lt;iQuestTriggerFactory&gt; cel##name##TriggerType::CreateTriggerFactory () \</span>
+01001 <span class="preprocessor">public:                                                                 \</span>
+01002 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
+01003 <span class="preprocessor">  cel##name##RewardType (iObjectRegistry* object_reg);                  \</span>
+01004 <span class="preprocessor">  virtual ~cel##name##RewardType ();                                    \</span>
+01005 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
+01006 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
+01007 <span class="preprocessor">  virtual csPtr&lt;iQuestRewardFactory&gt; CreateRewardFactory ();            \</span>
+01008 <span class="preprocessor">};</span>
+01009 <span class="preprocessor"></span>
+01013 <span class="preprocessor">#define CEL_IMPLEMENT_REWARDTYPE(name)                                  \</span>
+01014 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##RewardType)                             \</span>
+01015 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)                           \</span>
+01016 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+01017 <span class="preprocessor">cel##name##RewardType::cel##name##RewardType (                          \</span>
+01018 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
+01019 <span class="preprocessor">{                                                                       \</span>
+01020 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+01021 <span class="preprocessor">  cel##name##RewardType::object_reg = object_reg;                       \</span>
+01022 <span class="preprocessor">}                                                                       \</span>
+01023 <span class="preprocessor">cel##name##RewardType::~cel##name##RewardType ()                        \</span>
+01024 <span class="preprocessor">{                                                                       \</span>
+01025 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+01026 <span class="preprocessor">}                                                                       \</span>
+01027 <span class="preprocessor">csPtr&lt;iQuestRewardFactory&gt; cel##name##RewardType::CreateRewardFactory ()\</span>
+01028 <span class="preprocessor">{                                                                       \</span>
+01029 <span class="preprocessor">  cel##name##RewardFactory* fact = new                                  \</span>
+01030 <span class="preprocessor">        cel##name##RewardFactory (this);                                \</span>
+01031 <span class="preprocessor">  return fact;                                                          \</span>
+01032 <span class="preprocessor">}</span>
+01033 <span class="preprocessor"></span>
+01037 <span class="preprocessor">#define CEL_DECLARE_TRIGGERTYPE(name,id)                                \</span>
+01038 <span class="preprocessor">class cel##name##TriggerType : public iQuestTriggerType                 \</span>
 01039 <span class="preprocessor">{                                                                       \</span>
-01040 <span class="preprocessor">  cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \</span>
-01041 <span class="preprocessor">  return fact;                                                          \</span>
-01042 <span class="preprocessor">}</span>
-01043 <span class="preprocessor"></span>
-01047 <span class="preprocessor">#define CEL_IMPLEMENT_SEQOPTYPE(name)                                   \</span>
-01048 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)                              \</span>
-01049 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)                            \</span>
-01050 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-01051 <span class="preprocessor">cel##name##SeqOpType::cel##name##SeqOpType (                            \</span>
-01052 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-01053 <span class="preprocessor">{                                                                       \</span>
-01054 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-01055 <span class="preprocessor">  cel##name##SeqOpType::object_reg = object_reg;                        \</span>
-01056 <span class="preprocessor">}                                                                       \</span>
-01057 <span class="preprocessor">cel##name##SeqOpType::~cel##name##SeqOpType ()                          \</span>
+01040 <span class="preprocessor">public:                                                                 \</span>
+01041 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
+01042 <span class="preprocessor">  cel##name##TriggerType (iObjectRegistry* object_reg);                 \</span>
+01043 <span class="preprocessor">  virtual ~cel##name##TriggerType ();                                   \</span>
+01044 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
+01045 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
+01046 <span class="preprocessor">  virtual csPtr&lt;iQuestTriggerFactory&gt; CreateTriggerFactory ();          \</span>
+01047 <span class="preprocessor">};</span>
+01048 <span class="preprocessor"></span>
+01052 <span class="preprocessor">#define CEL_IMPLEMENT_TRIGGERTYPE(name)                                 \</span>
+01053 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##TriggerType)                            \</span>
+01054 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)                          \</span>
+01055 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+01056 <span class="preprocessor">cel##name##TriggerType::cel##name##TriggerType (                        \</span>
+01057 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
 01058 <span class="preprocessor">{                                                                       \</span>
-01059 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-01060 <span class="preprocessor">}                                                                       \</span>
-01061 <span class="preprocessor">csPtr&lt;iQuestSeqOpFactory&gt; cel##name##SeqOpType::CreateSeqOpFactory ()   \</span>
-01062 <span class="preprocessor">{                                                                       \</span>
-01063 <span class="preprocessor">  cel##name##SeqOpFactory* fact = new cel##name##SeqOpFactory (this);   \</span>
-01064 <span class="preprocessor">  return fact;                                                          \</span>
-01065 <span class="preprocessor">}</span>
-01066 <span class="preprocessor"></span>
-01067 <span class="preprocessor">#endif // __CEL_MGR_QUEST__</span>
-01068 <span class="preprocessor"></span>
+01059 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+01060 <span class="preprocessor">  cel##name##TriggerType::object_reg = object_reg;                      \</span>
+01061 <span class="preprocessor">}                                                                       \</span>
+01062 <span class="preprocessor">cel##name##TriggerType::~cel##name##TriggerType ()                      \</span>
+01063 <span class="preprocessor">{                                                                       \</span>
+01064 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+01065 <span class="preprocessor">}                                                                       \</span>
+01066 <span class="preprocessor">csPtr&lt;iQuestTriggerFactory&gt; cel##name##TriggerType::CreateTriggerFactory () \</span>
+01067 <span class="preprocessor">{                                                                       \</span>
+01068 <span class="preprocessor">  cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \</span>
+01069 <span class="preprocessor">  return fact;                                                          \</span>
+01070 <span class="preprocessor">}</span>
+01071 <span class="preprocessor"></span>
+01075 <span class="preprocessor">#define CEL_IMPLEMENT_SEQOPTYPE(name)                                   \</span>
+01076 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)                              \</span>
+01077 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)                            \</span>
+01078 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+01079 <span class="preprocessor">cel##name##SeqOpType::cel##name##SeqOpType (                            \</span>
+01080 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
+01081 <span class="preprocessor">{                                                                       \</span>
+01082 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+01083 <span class="preprocessor">  cel##name##SeqOpType::object_reg = object_reg;                        \</span>
+01084 <span class="preprocessor">}                                                                       \</span>
+01085 <span class="preprocessor">cel##name##SeqOpType::~cel##name##SeqOpType ()                          \</span>
+01086 <span class="preprocessor">{                                                                       \</span>
+01087 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+01088 <span class="preprocessor">}                                                                       \</span>
+01089 <span class="preprocessor">csPtr&lt;iQuestSeqOpFactory&gt; cel##name##SeqOpType::CreateSeqOpFactory ()   \</span>
+01090 <span class="preprocessor">{                                                                       \</span>
+01091 <span class="preprocessor">  cel##name##SeqOpFactory* fact = new cel##name##SeqOpFactory (this);   \</span>
+01092 <span class="preprocessor">  return fact;                                                          \</span>
+01093 <span class="preprocessor">}</span>
+01094 <span class="preprocessor"></span>
+01095 <span class="preprocessor">#endif // __CEL_MGR_QUEST__</span>
+01096 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
