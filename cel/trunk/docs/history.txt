@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine fixed docs/texinfo/Jamfile to work with recently
 	  updated docs.jam. This fixes problem where the `manualhtml' rule
 	  produced not ouput.
+	- Jorrit worked more on sequences in the quest manager.
 11-May-2005
 	- Jorrit copied the mk/jam dir from CS over to CEL to fix a few
 	  problems.

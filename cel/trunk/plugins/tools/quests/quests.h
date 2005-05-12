@@ -53,20 +53,38 @@ struct celSeqOp
 /**
  * A sequence.
  */
-class celQuestSequence
+class celQuestSequence :
+	public iQuestSequence,
+	public iCelTimerListener
 {
 private:
   csArray<celSeqOp> seqops;
+  char* name;
+  iCelPlLayer* pl;
+  size_t idx;
 
 public:
-  celQuestSequence () { }
-  ~celQuestSequence () { }
+  celQuestSequence (const char* name, iCelPlLayer* pl);
+  virtual ~celQuestSequence ();
 
   /**
    * Add a new seqop. Warning! Seqops must be added in ascending order
    * based on 'start'.
    */
   void AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end);
+
+  SCF_DECLARE_IBASE;
+
+  // --- For iQuestSequence -------------------------------
+  virtual const char* GetName () const { return name; }
+  virtual bool Start (csTicks delay);
+  virtual void Finish ();
+  virtual void Abort ();
+  virtual bool IsRunning ();
+
+  // --- For iCelTimerListener ----------------------------
+  virtual void TickEveryFrame () { }
+  virtual void TickOnce ();
 };
 
 /**
@@ -110,8 +128,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  /// Caller is responsible for deleting returned instance.
-  celQuestSequence* CreateSequence (const celQuestParams& params);
+  csPtr<celQuestSequence> CreateSequence (const celQuestParams& params);
 
   virtual const char* GetName () const { return name; }
   virtual bool Load (iDocumentNode* node);
@@ -295,7 +312,7 @@ private:
   /// Load/switch state.
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
 
-  csPDelArray<celQuestSequence> sequences;
+  csRefArray<celQuestSequence> sequences;
 
 public:
   celQuest (iCelPlLayer* pl);
@@ -309,6 +326,8 @@ public:
   virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
   virtual void SaveState (iCelDataBuffer* databuf);
 
+  virtual iQuestSequence* FindSequence (const char* name);
+
   /// Add a state, returns the state index.
   size_t AddState (const char* name);
   /// Add a response for a state. Return response index.
@@ -321,8 +340,7 @@ public:
   	iQuestReward* reward);
 
   /**
-   * Add a sequence. This class will assume ownership and delete
-   * the sequence on destruction.
+   * Add a sequence. This will increase the ref count.
    */
   void AddSequence (celQuestSequence* sequence);
 };
