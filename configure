@@ -821,15 +821,15 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-cstest         verify that the Crystal Spsace SDK is actually
-                          usable (default YES)
+  --enable-cstest         verify that the Crystal Space SDK is actually usable
+                          (default YES)
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --without-python        do not use Python
-  --with-libcppunit=dir   specify location of libcppunit if not detected
+  --with-cppunit=dir      specify location of libcppunit if not detected
                           automatically; searches dir/include, dir/lib, and
                           dir
   --without-cs            do not look for an installed Crystal Space SDK; this
@@ -6107,20 +6107,26 @@ else
 fi
 
 
-# Check whether --with-libcppunit or --without-libcppunit was given.
-if test "${with_libcppunit+set}" = set; then
-  withval="$with_libcppunit"
+# Check whether --with-cppunit or --without-cppunit was given.
+if test "${with_cppunit+set}" = set; then
+  withval="$with_cppunit"
 
 fi;
 
-    if test -z "$with_libcppunit"; then
-  with_libcppunit=yes
+    # Backward compatibility: Recognize --with-libcppunit as alias for --with-cppunit.
+    if test -n "$with_libcppunit" && test -z "$with_cppunit"; then
+  with_cppunit="$with_libcppunit"
 fi
 
-    if test "$with_libcppunit" != no; then
-  # If --with-lib value is same as cached value, then assume other
+
+    if test -z "$with_cppunit"; then
+  with_cppunit=yes
+fi
+
+    if test "$with_cppunit" != no; then
+  # If --with-cppunit value is same as cached value, then assume other
 	 # cached values are also valid; otherwise, ignore all cached values.
-	if test "$with_libcppunit" != "$cs_cv_with_libcppunit"; then
+	if test "$with_cppunit" != "$cs_cv_with_cppunit"; then
   cs_ignore_cache=yes
 else
   cs_ignore_cache=no
@@ -6128,7 +6134,7 @@ fi
 
 
 	cs_check_lib_flags=''
-	if test $with_libcppunit = yes; then
+	if test $with_cppunit = yes; then
   if test "$cs_prog_pkg_config_checked" != yes; then
 
     if test "$cs_prog_path_prepared" != yes; then
@@ -6223,7 +6229,7 @@ done
   PKG_CONFIG=$ac_ct_PKG_CONFIG
 fi
 
-	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
     export PKG_CONFIG_PATH
 	cs_prog_pkg_config_checked=yes
 fi
@@ -6406,10 +6412,13 @@ fi
 fi
 
 
-	if test $with_libcppunit != yes; then
-  cs_check_lib_paths=$with_libcppunit
+	if test $with_cppunit != yes; then
+  cs_check_lib_paths=$with_cppunit
 else
-  cs_check_lib_paths="| /usr/local/include|/usr/local/lib /sw/include|/sw/lib "
+  cs_check_lib_paths="| /usr/local/include|/usr/local/lib \
+    /sw/include|/sw/lib \
+    /opt/local/include|/opt/local/lib \
+    /opt/include|/opt/lib "
 fi
 
 	for cs_lib_item in $cs_check_lib_paths
@@ -6838,7 +6847,7 @@ else
 fi
 
 
-    cs_cv_with_libcppunit="$with_libcppunit"
+    cs_cv_with_cppunit="$with_cppunit"
 
 
     if test $cs_cv_libcppunit = yes; then
