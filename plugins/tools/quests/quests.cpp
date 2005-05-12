@@ -99,6 +99,25 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celQuestSequence)
+  SCF_IMPLEMENTS_INTERFACE (iQuestSequence)
+  SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
+SCF_IMPLEMENT_IBASE_END
+
+celQuestSequence::celQuestSequence (const char* name, iCelPlLayer* pl)
+{
+  SCF_CONSTRUCT_IBASE (0);
+  celQuestSequence::name = csStrNew (name);
+  celQuestSequence::pl = pl;
+  idx = csArrayItemNotFound;
+}
+
+celQuestSequence::~celQuestSequence ()
+{
+  delete[] name;
+  SCF_DESTRUCT_IBASE ();
+}
+
 void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
 {
   celSeqOp seq;
@@ -106,6 +125,35 @@ void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
   seq.start = start;
   seq.end = end;
   seqops.Push (seq);
+}
+
+bool celQuestSequence::Start (csTicks delay)
+{
+  if (IsRunning ()) return false;
+  idx = 0;
+  pl->CallbackOnce ((iCelTimerListener*)this, delay+seqops[idx].start,
+  	cscmdPreProcess);
+  // @@@...
+  return true;
+}
+
+void celQuestSequence::Finish ()
+{
+  // @@@ TODO
+}
+
+void celQuestSequence::Abort ()
+{
+  // @@@ TODO
+}
+
+bool celQuestSequence::IsRunning ()
+{
+  return idx != csArrayItemNotFound;
+}
+
+void celQuestSequence::TickOnce ()
+{
 }
 
 SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
@@ -196,17 +244,18 @@ void celQuestSequenceFactory::AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
   if (end > total_time) total_time = end;
 }
 
-celQuestSequence* celQuestSequenceFactory::CreateSequence (
+csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 	const celQuestParams& params)
 {
-  celQuestSequence* seq = new celQuestSequence ();
+  celQuestSequence* seq = new celQuestSequence (name,
+  	parent_factory->GetQuestManager ()->pl);
   size_t i;
   for (i = 0 ; i < seqops.Length () ; i++)
   {
     csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
     seq->AddSeqOp (seqop, seqops[i].start, seqops[i].end);
   }
-  return seq;
+  return csPtr<celQuestSequence> (seq);
 }
 
 //---------------------------------------------------------------------------
@@ -267,7 +316,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   while (seq_it.HasNext ())
   {
     celQuestSequenceFactory* sf = seq_it.Next ();
-    celQuestSequence* seq = sf->CreateSequence (params);
+    csRef<celQuestSequence> seq = sf->CreateSequence (params);
     q->AddSequence (seq);
   }
 
@@ -619,6 +668,15 @@ void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
 void celQuest::AddSequence (celQuestSequence* sequence)
 {
   sequences.Push (sequence);
+}
+
+iQuestSequence* celQuest::FindSequence (const char* name)
+{
+  size_t i;
+  for (i = 0 ; i < sequences.Length () ; i++)
+    if (!strcmp (name, sequences[i]->GetName ()))
+      return sequences[i];
+  return 0;
 }
 
 //---------------------------------------------------------------------------

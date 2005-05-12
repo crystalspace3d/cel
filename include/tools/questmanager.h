@@ -317,6 +317,46 @@ struct iQuestSeqOpType : public iBase
   virtual csPtr<iQuestSeqOpFactory> CreateSeqOpFactory () = 0;
 };
 
+SCF_VERSION (iQuestSequence, 0, 0, 1);
+
+/**
+ * A sequence.
+ */
+struct iQuestSequence : public iBase
+{
+  /**
+   * Get the name of this sequence.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
+   * Fire this sequence.
+   * \param delay is a delay before the sequence will really start.
+   * \return false if the sequence is already running.
+   */
+  virtual bool Start (csTicks delay) = 0;
+
+  /**
+   * Finish this sequence. The sequence will be executed at end condition
+   * which means that all operations that have not yet fully executed
+   * will be executed at relative time index '1'. So the end result
+   * will be as if the sequence completed normally.
+   */
+  virtual void Finish () = 0;
+
+  /**
+   * Abort this sequence. This will simply abort the sequence without
+   * doing any further operation. This can leave the objects on which
+   * this sequence operates in undefined states.
+   */
+  virtual void Abort () = 0;
+
+  /**
+   * Return true if this sequence is currently running.
+   */
+  virtual bool IsRunning () = 0;
+};
+
 //-------------------------------------------------------------------------
 // The Quest
 //-------------------------------------------------------------------------
@@ -352,6 +392,11 @@ struct iQuest : public iBase
    * LoadState().
    */
   virtual void SaveState (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Find a sequence.
+   */
+  virtual iQuestSequence* FindSequence (const char* name) = 0;
 };
 
 SCF_VERSION (iQuestTriggerResponseFactory, 0, 0, 1);
