@@ -13,6 +13,11 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine upgraded texi2html to the latest version. This fixes
 	  HTML-generation crasher resulting from recently updated
 	  mk/jam/docs.jam.
+	- res synchronized mk/autoconf with the CS master copies.
+	- res changed cel-config to accept a list of paths in the CEL variable
+	  and also made it generally a bit more cs-config like.
+	- res replaced cel.m4 with a basically only marginally modified copy of 
+	  crystal.m4.
 10-May-2005
 	- Jorrit did more work on the sequence stuff in the quest manager.
 	  Worked on loading.
