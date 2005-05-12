@@ -213,7 +213,7 @@ const csRefArray<iPcMechanicsThruster>
     if ((taxis.Unit () * axisunit) > 0)
       tarray.Push (thruster);
   }
-  printf ("\nFound %d thrusters within 90 degrees of %f,%f,%f.\n", tarray.GetSize (), axis.x, axis.y, axis.z);
+  printf ("\nFound %lu thrusters within 90 degrees of %f,%f,%f.\n", (unsigned long)tarray.GetSize (), axis.x, axis.y, axis.z);
   fflush (stdout);
   return tarray;
 }
