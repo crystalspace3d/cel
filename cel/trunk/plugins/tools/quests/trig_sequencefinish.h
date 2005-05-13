@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
-#define __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
+#ifndef __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
+#define __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -39,25 +39,25 @@ struct iEvent;
 /**
  * A standard trigger type that triggers whenever the camera
  * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.entersector'.
+ * This trigger type listens to the name 'cel.questtrigger.sequencefinish'.
  */
-CEL_DECLARE_TRIGGERTYPE(EnterSector,"cel.questtrigger.entersector")
+CEL_DECLARE_TRIGGERTYPE(SequenceFinish,"cel.questtrigger.sequencefinish")
 
 /**
- * The 'entersector' trigger factory.
+ * The 'sequencefinish' trigger factory.
  */
-class celEnterSectorTriggerFactory :
+class celSequenceFinishTriggerFactory :
 	public iQuestTriggerFactory,
-	public iEnterSectorQuestTriggerFactory
+	public iSequenceFinishQuestTriggerFactory
 {
 private:
-  celEnterSectorTriggerType* type;
+  celSequenceFinishTriggerType* type;
   char* entity_par;
-  char* sector_par;
+  char* sequence_par;
 
 public:
-  celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
-  virtual ~celEnterSectorTriggerFactory ();
+  celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
+  virtual ~celSequenceFinishTriggerFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -65,33 +65,32 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iEnterSectorQuestTriggerFactory ----------------------
+  //----------------- iSequenceFinishQuestTriggerFactory ---------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual void SetSectorParameter (const char* sector);
+  virtual void SetSequenceParameter (const char* sequence);
 };
 
 /**
- * The 'entersector' trigger.
+ * The 'sequencefinish' trigger.
  */
-class celEnterSectorTrigger :
+class celSequenceFinishTrigger :
 	public iQuestTrigger,
-	public iCameraSectorListener
+	public iQuestSequenceCallback
 {
 private:
-  celEnterSectorTriggerType* type;
+  celSequenceFinishTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
-  csWeakRef<iSector> sect;
-  csWeakRef<iCamera> camera;
   char* entity;
-  char* sector;
+  char* sequence;
+  csWeakRef<iQuestSequence> seq;
 
-  void FindSectorAndCamera ();
+  void FindSequence ();
 
 public:
-  celEnterSectorTrigger (celEnterSectorTriggerType* type,
+  celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sector_par);
-  virtual ~celEnterSectorTrigger ();
+	const char* entity_par, const char* sequence_par);
+  virtual ~celSequenceFinishTrigger ();
 
   SCF_DECLARE_IBASE;
 
@@ -102,9 +101,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  //----------------------- iCameraSectorListener --------------------------
-  virtual void NewSector (iCamera* camera, iSector* sector);
+  //----------------------- iQuestSequenceCallback --------------------------
+  virtual void SequenceFinished (iQuestSequence* sequence);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
+#endif // __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
 

@@ -8,6 +8,20 @@ The history order is reversed so that new features are at the top.
 	  Still untested.
 	- Jorrit added the first seqop type to the quest manager for printing
 	  out debug information.
+	- Jorrit fixed loading for sequence factories.
+	- Jorrit implemented a new reward to fire a sequence.
+	- Jorrit added a test sequence to celtest data.
+	- Jorrit implemented correct saving/loading of game state for
+	  sequences that are currently running (persistence).
+	- Jorrit added a callback system to sequences so that you can be
+	  notified when a sequence finishes executing.
+	- Jorrit added a new predefined trigger to the quest manager so that
+	  you can get triggered when a sequence finishes.
+	- Jorrit renamed 'entity_name' to 'entity' and in general removed
+	  the redundant 'name' or 'Name' attribute to related methods.
+	- Jorrit added a new reward to finish a sequence.
+	- Jorrit added convenience methods to the quest manager to create
+	  the new rewards and triggers.
 12-May-2005
 	- Eric Sunshine copied over the Jam files from the masters in the CS
 	  repository to fix some more problems resulting from recent changes.

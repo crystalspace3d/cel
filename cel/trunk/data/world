@@ -190,50 +190,61 @@
 		    <trigger type="timeout">
 		    	<fireon timeout="1000" />
 			<reward type="debugprint" message="$message" />
-		    	<reward type="changeproperty" entity_name="$ent" property="counter" long="0" />
-		    	<reward type="changeproperty" entity_name="$ent" property="countdown" long="5" />
-		    	<reward type="newstate" entity_name="$ent" state="countdown" />
+		    	<reward type="changeproperty" entity="$ent" property="counter" long="0" />
+		    	<reward type="changeproperty" entity="$ent" property="countdown" long="5" />
+		    	<reward type="newstate" entity="$ent" state="sequencetest" />
+			<reward type="sequence" entity="$ent" sequence="test" />
+		    </trigger>
+		</state>
+	    	<state name="sequencetest">
+		    <trigger type="sequencefinish">
+		    	<fireon entity="$ent" sequence="test" />
+			<reward type="debugprint" message="Sequence Finished!" />
+		    	<reward type="newstate" entity="$ent" state="countdown" />
 		    </trigger>
 		</state>
 	    	<state name="countdown">
 		    <trigger type="timeout">
 		    	<fireon timeout="1000" />
 			<reward type="debugprint" message="countdown" />
-		    	<reward type="changeproperty" entity_name="$ent" property="countdown" diff="-1" />
-		    	<reward type="newstate" entity_name="$ent" state="countdown" />
+		    	<reward type="changeproperty" entity="$ent" property="countdown" diff="-1" />
+		    	<reward type="newstate" entity="$ent" state="countdown" />
 		    </trigger>
 		    <trigger type="propertychange">
-		    	<fireon entity_name="$ent" property="countdown" value="0" />
+		    	<fireon entity="$ent" property="countdown" value="0" />
 			<reward type="debugprint" message="Done!" />
-		    	<reward type="newstate" entity_name="$ent" state="start" />
+		    	<reward type="newstate" entity="$ent" state="start" />
 		    </trigger>
 		</state>
 	    	<state name="start">
 		    <trigger type="meshentersector">
-		    	<fireon entity_name="$actor" sector_name="room0,1"  />
+		    	<fireon entity="$actor" sector="room0,1"  />
 			<reward type="debugprint" message="Go!" />
-		    	<reward type="newstate" entity_name="$ent" state="middle" />
+		    	<reward type="newstate" entity="$ent" state="middle" />
 		    </trigger>
 		    <trigger type="propertychange">
-		    	<fireon entity_name="$ent" property="counter" value="5" />
+		    	<fireon entity="$ent" property="counter" value="5" />
 			<reward type="debugprint" message="We reached 5!" />
-		    	<reward type="newstate" entity_name="$ent" state="end" />
+		    	<reward type="newstate" entity="$ent" state="end" />
 		    </trigger>
 		</state>
 	    	<state name="middle">
 		    <trigger type="meshentersector">
-		    	<fireon entity_name="$actor" sector_name="room"  />
+		    	<fireon entity="$actor" sector="room"  />
 			<!-- @@@ Bug: the newstate has to be in front here or the quest doesn't work because
 			     the property change listener in 'start' will not be activated yet but the
 			     property is still changed. A good solution would be to do a manual check
 			     of conditions after activating a state. -->
-		    	<reward type="newstate" entity_name="$ent" state="start" />
+		    	<reward type="newstate" entity="$ent" state="start" />
 			<reward type="debugprint" message="And Back!" />
-		    	<reward type="changeproperty" entity_name="$ent" property="counter" diff="1" />
+		    	<reward type="changeproperty" entity="$ent" property="counter" diff="1" />
 		    </trigger>
 		</state>
 	    	<state name="end">
 		</state>
+	    	<sequence name="test">
+		    <op type="debugprint" duration="2000" message="sequence" />
+		</sequence>
 	    </quest>
 	</addon>
 

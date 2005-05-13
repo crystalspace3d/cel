@@ -48,15 +48,15 @@ celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
 {
   SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTriggerFactory::type = type;
-  entity_name_par = 0;
-  prop_name_par = 0;
+  entity_par = 0;
+  prop_par = 0;
   value_par = 0;
 }
 
 celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 {
-  delete[] entity_name_par;
-  delete[] prop_name_par;
+  delete[] entity_par;
+  delete[] prop_par;
   delete[] value_par;
 
   SCF_DESTRUCT_IBASE ();
@@ -66,26 +66,26 @@ csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celPropertyChangeTrigger* trig = new celPropertyChangeTrigger (type,
-  	params, entity_name_par, prop_name_par, value_par);
+  	params, entity_par, prop_par, value_par);
   return trig;
 }
 
 bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_name_par; entity_name_par = 0;
-  delete[] prop_name_par; prop_name_par = 0;
+  delete[] entity_par; entity_par = 0;
+  delete[] prop_par; prop_par = 0;
   delete[] value_par; value_par = 0;
 
-  entity_name_par = csStrNew (node->GetAttributeValue ("entity_name"));
-  if (!entity_name_par)
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questtrigger.propertychange",
-      "'entity_name' attribute is missing for the propertychange trigger!");
+      "'entity' attribute is missing for the propertychange trigger!");
     return false;
   }
-  prop_name_par = csStrNew (node->GetAttributeValue ("property"));
-  if (!prop_name_par)
+  prop_par = csStrNew (node->GetAttributeValue ("property"));
+  if (!prop_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questtrigger.propertychange",
@@ -103,24 +103,24 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
   return true;
 }
 
-void celPropertyChangeTriggerFactory::SetEntityNameParameter (
-	const char* entity_name)
+void celPropertyChangeTriggerFactory::SetEntityParameter (
+	const char* entity)
 {
-  if (entity_name_par == entity_name) 
+  if (entity_par == entity) 
     return;
 
-  delete[] entity_name_par;
-  entity_name_par = csStrNew (entity_name);
+  delete[] entity_par;
+  entity_par = csStrNew (entity);
 }
 
-void celPropertyChangeTriggerFactory::SetPropertyNameParameter (
-	const char* prop_name)
+void celPropertyChangeTriggerFactory::SetPropertyParameter (
+	const char* prop)
 {
-  if (prop_name_par == prop_name) 
+  if (prop_par == prop) 
     return;
 
-  delete[] prop_name_par;
-  prop_name_par = csStrNew (prop_name);
+  delete[] prop_par;
+  prop_par = csStrNew (prop);
 }
 
 void celPropertyChangeTriggerFactory::SetValueParameter (
@@ -143,22 +143,22 @@ SCF_IMPLEMENT_IBASE_END
 celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_name_par, const char* prop_name_par,
+	const char* entity_par, const char* prop_par,
 	const char* value_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
-  entity_name = csStrNew (qm->ResolveParameter (params, entity_name_par));
-  prop_name = csStrNew (qm->ResolveParameter (params, prop_name_par));
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  prop = csStrNew (qm->ResolveParameter (params, prop_par));
   value = csStrNew (qm->ResolveParameter (params, value_par));
 }
 
 celPropertyChangeTrigger::~celPropertyChangeTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity_name;
-  delete[] prop_name;
+  delete[] entity;
+  delete[] prop;
   delete[] value;
   SCF_DESTRUCT_IBASE ();
 }
@@ -232,9 +232,9 @@ void celPropertyChangeTrigger::FindProperties ()
 {
   if (properties) return;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
-  iCelEntity* entity = pl->FindEntity (entity_name);
-  if (!entity) return;
-  properties = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (!ent) return;
+  properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
 }
 
 void celPropertyChangeTrigger::ActivateTrigger ()
