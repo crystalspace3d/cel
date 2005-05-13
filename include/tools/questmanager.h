@@ -623,8 +623,8 @@ struct iQuestManager : public iBase
    * The following predefined sequence operation types are automatically
    * registered in the quest manager:
    * <ul>
-   * <li>cel.questreward.???: ???.
-   *     See i???QuestSeqOpFactory.
+   * <li>cel.questseqop.debugprint: print a debug message on stdout.
+   *     See iDebugPrintQuestSeqOpFactory.
    * </ul>
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
@@ -1035,6 +1035,31 @@ struct iInventoryQuestRewardFactory : public iBase
 // Specific sequence operation implementations.
 //-------------------------------------------------------------------------
 
+SCF_VERSION (iDebugPrintQuestSeqOpFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the seqop that prints
+ * debug messages on standard output. You can query this interface
+ * from the seqop factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this seqop type is 'cel.questseqop.debugprint'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>message</em>: the message to print.
+ * </ul>
+ */
+struct iDebugPrintQuestSeqOpFactory : public iBase
+{
+  /**
+   * Set the message parameter to print (either a message string
+   * or a parameter if it starts with '$').
+   */
+  virtual void SetMessageParameter (const char* msg) = 0;
+};
+
 //-------------------------------------------------------------------------
 
 /**
@@ -1113,6 +1138,21 @@ csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
   cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \
   return fact;								\
 }
+
+/**
+ * Convenience to declare a new sequence operation type class.
+ */
+#define CEL_DECLARE_SEQOPTYPE(name,id)					\
+class cel##name##SeqOpType : public iQuestSeqOpType			\
+{									\
+public:									\
+  iObjectRegistry* object_reg;						\
+  cel##name##SeqOpType (iObjectRegistry* object_reg);			\
+  virtual ~cel##name##SeqOpType ();					\
+  SCF_DECLARE_IBASE;							\
+  virtual const char* GetName () const { return id; }			\
+  virtual csPtr<iQuestSeqOpFactory> CreateSeqOpFactory ();		\
+};
 
 /**
  * Convenience to implement a new sequence operation type class.
