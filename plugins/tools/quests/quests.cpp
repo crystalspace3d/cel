@@ -104,11 +104,15 @@ SCF_IMPLEMENT_IBASE (celQuestSequence)
   SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
 SCF_IMPLEMENT_IBASE_END
 
-celQuestSequence::celQuestSequence (const char* name, iCelPlLayer* pl)
+celQuestSequence::celQuestSequence (const char* name,
+	csTicks total_time, iCelPlLayer* pl,
+	iVirtualClock* vc)
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuestSequence::name = csStrNew (name);
+  celQuestSequence::total_time = total_time;
   celQuestSequence::pl = pl;
+  celQuestSequence::vc = vc;
   idx = csArrayItemNotFound;
 }
 
@@ -131,20 +135,23 @@ bool celQuestSequence::Start (csTicks delay)
 {
   if (IsRunning ()) return false;
   idx = 0;
-  pl->CallbackOnce ((iCelTimerListener*)this, delay+seqops[idx].start,
-  	cscmdPreProcess);
-  // @@@...
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  start_time = vc->GetCurrentTicks () + delay;
   return true;
 }
 
 void celQuestSequence::Finish ()
 {
-  // @@@ TODO
+  if (!IsRunning ()) return;
+  Perform (total_time+1);
 }
 
 void celQuestSequence::Abort ()
 {
-  // @@@ TODO
+  if (!IsRunning ()) return;
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  idx = csArrayItemNotFound;
+  ops_in_progress.Empty ();
 }
 
 bool celQuestSequence::IsRunning ()
@@ -152,8 +159,56 @@ bool celQuestSequence::IsRunning ()
   return idx != csArrayItemNotFound;
 }
 
-void celQuestSequence::TickOnce ()
+void celQuestSequence::Perform (csTicks rel)
 {
+  if (rel > total_time)
+  {
+    // Sequence has ended.
+    Abort ();
+    return;
+  }
+
+  // Find all operations that have to be performed.
+  while (idx < seqops.Length () && seqops[idx].start >= rel)
+  {
+    if (rel >= seqops[idx].end)
+    {
+      // Single shot operation or operation has already ended. Will not
+      // be put in the progress array.
+      seqops[idx].seqop->Do (1.0f);
+    }
+    else
+    {
+      ops_in_progress.Push (seqops[idx]);
+    }
+    idx++;
+  }
+
+  // Perform the operations that are still in progress.
+  size_t i = 0;
+  while (i < ops_in_progress.Length ())
+  {
+    if (rel >= ops_in_progress[i].end)
+    {
+      ops_in_progress[i].seqop->Do (1.0f);
+      ops_in_progress.DeleteIndex (i);
+    }
+    else
+    {
+      float dt = float (rel - ops_in_progress[i].start)
+      	/ float (ops_in_progress[i].end - ops_in_progress[i].start);
+      ops_in_progress[i].seqop->Do (dt);
+      i++;
+    }
+  }
+}
+
+void celQuestSequence::TickEveryFrame ()
+{
+  csTicks current_time = vc->GetCurrentTicks ();
+  if (current_time < start_time) return;
+  csTicks rel = current_time - start_time;
+  Perform (rel);
 }
 
 SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
@@ -248,7 +303,9 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 	const celQuestParams& params)
 {
   celQuestSequence* seq = new celQuestSequence (name,
-  	parent_factory->GetQuestManager ()->pl);
+  	total_time,
+  	parent_factory->GetQuestManager ()->pl,
+	parent_factory->GetQuestManager ()->vc);
   size_t i;
   for (i = 0 ; i < seqops.Length () ; i++)
   {
@@ -706,6 +763,7 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
 
   {
     celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (
