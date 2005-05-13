@@ -50,7 +50,7 @@ class celNewStateRewardFactory :
 private:
   celNewStateRewardType* type;
   char* state_par;
-  char* entity_name_par;
+  char* entity_par;
 
 public:
   celNewStateRewardFactory (celNewStateRewardType* type);
@@ -64,7 +64,7 @@ public:
 
   //----------------- iNewStateQuestRewardFactory -----------------------
   virtual void SetStateParameter (const char* state);
-  virtual void SetEntityNameParameter (const char* entity_name);
+  virtual void SetEntityParameter (const char* entity);
 };
 
 /**
@@ -76,15 +76,15 @@ class celNewStateReward :
 private:
   celNewStateRewardType* type;
   char* state;
-  char* entity_name;
-  csWeakRef<iCelEntity> entity;
+  char* entity;
+  csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
 
 public:
   celNewStateReward (celNewStateRewardType* type,
   	const celQuestParams& params,
 	const char* state_par,
-	const char* entity_name_par);
+	const char* entity_par);
   virtual ~celNewStateReward ();
 
   SCF_DECLARE_IBASE;

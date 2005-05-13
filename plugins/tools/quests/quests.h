@@ -67,8 +67,13 @@ private:
   csTicks start_time;
   csTicks total_time;
 
+  csRefArray<iQuestSequenceCallback> callbacks;
+
   // Perform the sequence upto relative time 'rel'.
   void Perform (csTicks rel);
+
+  // Fire the sequence callbacks.
+  void FireSequenceCallbacks ();
 
 public:
   celQuestSequence (const char* name, csTicks total_time, iCelPlLayer* pl,
@@ -81,6 +86,15 @@ public:
    */
   void AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end);
 
+  /**
+   * Save state of this sequence.
+   */
+  void SaveState (iCelDataBuffer* databuf);
+  /**
+   * Load state of this sequence.
+   */
+  bool LoadState (iCelDataBuffer* databuf);
+
   SCF_DECLARE_IBASE;
 
   // --- For iQuestSequence -------------------------------
@@ -89,6 +103,8 @@ public:
   virtual void Finish ();
   virtual void Abort ();
   virtual bool IsRunning ();
+  virtual void AddSequenceCallback (iQuestSequenceCallback* cb);
+  virtual void RemoveSequenceCallback (iQuestSequenceCallback* cb);
 
   // --- For iCelTimerListener ----------------------------
   virtual void TickEveryFrame ();
@@ -321,6 +337,7 @@ private:
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
 
   csRefArray<celQuestSequence> sequences;
+  celQuestSequence* FindCelSequence (const char* name);
 
 public:
   celQuest (iCelPlLayer* pl);
@@ -334,7 +351,10 @@ public:
   virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
   virtual void SaveState (iCelDataBuffer* databuf);
 
-  virtual iQuestSequence* FindSequence (const char* name);
+  virtual iQuestSequence* FindSequence (const char* name)
+  {
+    return FindCelSequence (name);
+  }
 
   /// Add a state, returns the state index.
   size_t AddState (const char* name);
@@ -402,6 +422,13 @@ public:
   virtual iQuestRewardFactory* AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par);
+  virtual iQuestRewardFactory* AddSequenceReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par,
+	const char* delay_par);
+  virtual iQuestRewardFactory* AddSequenceFinishReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par);
 
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
@@ -412,6 +439,9 @@ public:
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par);
+  virtual iQuestTriggerFactory* SetSequenceFinishTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par);
   virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par);

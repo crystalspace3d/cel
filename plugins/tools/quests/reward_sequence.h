@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_REWARD_INVENTORY__
-#define __CEL_TOOLS_QUESTS_REWARD_INVENTORY__
+#ifndef __CEL_TOOLS_QUESTS_REWARD_SEQUENCE__
+#define __CEL_TOOLS_QUESTS_REWARD_SEQUENCE__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -29,7 +29,7 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 #include "physicallayer/entity.h"
-#include "propclass/inv.h"
+#include "propclass/quest.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -37,25 +37,26 @@ struct iEvent;
 /**
  * A standard reward type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This reward type listens to the name 'cel.questreward.inventory'.
+ * This reward type listens to the name 'cel.questreward.sequence'.
  */
-CEL_DECLARE_REWARDTYPE(Inventory,"cel.questreward.inventory")
+CEL_DECLARE_REWARDTYPE(Sequence,"cel.questreward.sequence")
 
 /**
- * The 'inventory' reward factory.
+ * The 'sequence' reward factory.
  */
-class celInventoryRewardFactory :
+class celSequenceRewardFactory :
 	public iQuestRewardFactory,
-	public iInventoryQuestRewardFactory
+	public iSequenceQuestRewardFactory
 {
 private:
-  celInventoryRewardType* type;
+  celSequenceRewardType* type;
   char* entity_par;
-  char* child_entity_par;
+  char* sequence_par;
+  char* delay_par;
 
 public:
-  celInventoryRewardFactory (celInventoryRewardType* type);
-  virtual ~celInventoryRewardFactory ();
+  celSequenceRewardFactory (celSequenceRewardType* type);
+  virtual ~celSequenceRewardFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -63,35 +64,38 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iInventoryQuestRewardFactory -----------------------
+  //----------------- iSequenceQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual void SetChildEntityParameter (const char* child_entity);
+  virtual void SetSequenceParameter (const char* sequence);
+  virtual void SetDelayParameter (const char* delay);
 };
 
 /**
- * The 'inventory' reward.
+ * The 'sequence' reward.
  */
-class celInventoryReward :
+class celSequenceReward :
 	public iQuestReward
 {
 private:
-  celInventoryRewardType* type;
+  celSequenceRewardType* type;
   char* entity;
-  char* child_entity;
+  char* sequence;
+  csTicks delay;
   csWeakRef<iCelEntity> ent;
-  csWeakRef<iPcInventory> inventory;
+  csWeakRef<iPcQuest> quest;
 
 public:
-  celInventoryReward (celInventoryRewardType* type,
+  celSequenceReward (celSequenceRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
-	const char* child_entity_par);
-  virtual ~celInventoryReward ();
+	const char* sequence_par,
+	const char* delay_par);
+  virtual ~celSequenceReward ();
 
   SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };
 
-#endif // __CEL_TOOLS_QUESTS_REWARD_INVENTORY__
+#endif // __CEL_TOOLS_QUESTS_REWARD_SEQUENCE__
 

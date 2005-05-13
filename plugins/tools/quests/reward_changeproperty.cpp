@@ -49,7 +49,7 @@ celChangePropertyRewardFactory::celChangePropertyRewardFactory (
   SCF_CONSTRUCT_IBASE (0);
   celChangePropertyRewardFactory::type = type;
   prop_par = 0;
-  entity_name_par = 0;
+  entity_par = 0;
   string_par = 0;
   long_par = 0;
   float_par = 0;
@@ -61,7 +61,7 @@ celChangePropertyRewardFactory::celChangePropertyRewardFactory (
 celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
   delete[] prop_par;
-  delete[] entity_name_par;
+  delete[] entity_par;
   delete[] string_par;
   delete[] long_par;
   delete[] float_par;
@@ -75,7 +75,7 @@ csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
   celChangePropertyReward* trig = new celChangePropertyReward (type,
-  	params, prop_par, entity_name_par, string_par, long_par,
+  	params, prop_par, entity_par, string_par, long_par,
 	float_par, bool_par, diff_par, do_toggle);
   return trig;
 }
@@ -83,7 +83,7 @@ csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
 bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
 {
   delete[] prop_par; prop_par = 0;
-  delete[] entity_name_par; entity_name_par = 0;
+  delete[] entity_par; entity_par = 0;
   delete[] string_par; string_par = 0;
   delete[] long_par; long_par = 0;
   delete[] float_par; float_par = 0;
@@ -91,7 +91,7 @@ bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
   delete[] diff_par; diff_par = 0;
   do_toggle = false;
   prop_par = csStrNew (node->GetAttributeValue ("property"));
-  entity_name_par = csStrNew (node->GetAttributeValue ("entity_name"));
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
   string_par = csStrNew (node->GetAttributeValue ("string"));
   long_par = csStrNew (node->GetAttributeValue ("long"));
   float_par = csStrNew (node->GetAttributeValue ("float"));
@@ -107,17 +107,17 @@ bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
       "'property' attribute is missing for the changeproperty reward!");
     return false;
   }
-  if (!entity_name_par)
+  if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questreward.debugprint",
-      "'entity_name' attribute is missing for the changeproperty reward!");
+      "'entity' attribute is missing for the changeproperty reward!");
     return false;
   }
   return true;
 }
 
-void celChangePropertyRewardFactory::SetPropertyNameParameter (
+void celChangePropertyRewardFactory::SetPropertyParameter (
 	const char* prop)
 {
   if (prop_par == prop) return;
@@ -125,12 +125,12 @@ void celChangePropertyRewardFactory::SetPropertyNameParameter (
   prop_par = csStrNew (prop);
 }
 
-void celChangePropertyRewardFactory::SetEntityNameParameter (
-	const char* entity_name)
+void celChangePropertyRewardFactory::SetEntityParameter (
+	const char* entity)
 {
-  if (entity_name_par == entity_name) return;
-  delete[] entity_name_par;
-  entity_name_par = csStrNew (entity_name);
+  if (entity_par == entity) return;
+  delete[] entity_par;
+  entity_par = csStrNew (entity);
 }
 
 void celChangePropertyRewardFactory::SetStringParameter (
@@ -188,7 +188,7 @@ celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* prop_par,
-	const char* entity_name_par,
+	const char* entity_par,
 	const char* string_par,
 	const char* long_par,
 	const char* float_par,
@@ -200,7 +200,7 @@ celChangePropertyReward::celChangePropertyReward (
   celChangePropertyReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   prop = csStrNew (qm->ResolveParameter (params, prop_par));
-  entity_name = csStrNew (qm->ResolveParameter (params, entity_name_par));
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
   pstring = csStrNew (qm->ResolveParameter (params, string_par));
   plong = csStrNew (qm->ResolveParameter (params, long_par));
   pfloat = csStrNew (qm->ResolveParameter (params, float_par));
@@ -212,7 +212,7 @@ celChangePropertyReward::celChangePropertyReward (
 celChangePropertyReward::~celChangePropertyReward ()
 {
   delete[] prop;
-  delete[] entity_name;
+  delete[] entity;
   delete[] pstring;
   delete[] plong;
   delete[] pfloat;
@@ -225,13 +225,13 @@ void celChangePropertyReward::Reward ()
 {
   if (!properties)
   {
-    if (!entity)
+    if (!ent)
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
-      entity = pl->FindEntity (entity_name);
-      if (!entity) return;
+      ent = pl->FindEntity (entity);
+      if (!ent) return;
     }
-    properties = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+    properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
     if (!properties) return;
   }
 

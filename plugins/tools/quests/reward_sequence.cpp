@@ -30,69 +30,72 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
-#include "plugins/tools/quests/reward_inventory.h"
+#include "plugins/tools/quests/reward_sequence.h"
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_REWARDTYPE(Inventory)
+CEL_IMPLEMENT_REWARDTYPE(Sequence)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryRewardFactory)
+SCF_IMPLEMENT_IBASE (celSequenceRewardFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iInventoryQuestRewardFactory)
+  SCF_IMPLEMENTS_INTERFACE (iSequenceQuestRewardFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celInventoryRewardFactory::celInventoryRewardFactory (
-	celInventoryRewardType* type)
+celSequenceRewardFactory::celSequenceRewardFactory (
+	celSequenceRewardType* type)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celInventoryRewardFactory::type = type;
+  celSequenceRewardFactory::type = type;
   entity_par = 0;
-  child_entity_par = 0;
+  sequence_par = 0;
+  delay_par = 0;
 }
 
-celInventoryRewardFactory::~celInventoryRewardFactory ()
+celSequenceRewardFactory::~celSequenceRewardFactory ()
 {
   delete[] entity_par;
-  delete[] child_entity_par;
+  delete[] sequence_par;
+  delete[] delay_par;
 
   SCF_DESTRUCT_IBASE ();
 }
 
-csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
+csPtr<iQuestReward> celSequenceRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
-  celInventoryReward* trig = new celInventoryReward (type,
-  	params, entity_par, child_entity_par);
+  celSequenceReward* trig = new celSequenceReward (type,
+  	params, entity_par, sequence_par, delay_par);
   return trig;
 }
 
-bool celInventoryRewardFactory::Load (iDocumentNode* node)
+bool celSequenceRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
-  delete[] child_entity_par; child_entity_par = 0;
+  delete[] sequence_par; sequence_par = 0;
+  delete[] delay_par; delay_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  child_entity_par = csStrNew (node->GetAttributeValue (
-  	"child_entity"));
+  sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
+  delay_par = csStrNew (node->GetAttributeValue ("delay"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.inventory",
-      "'entity' attribute is missing for the inventory reward!");
+      "cel.questreward.sequence",
+      "'entity' attribute is missing for the sequence reward!");
     return false;
   }
-  if (!child_entity_par)
+  if (!sequence_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.inventory",
-      "'child_entity' attribute is missing for the inventory reward!");
+      "cel.questreward.sequence",
+      "'sequence' attribute is missing for the sequence reward!");
     return false;
   }
   return true;
 }
 
-void celInventoryRewardFactory::SetEntityParameter (
+void celSequenceRewardFactory::SetEntityParameter (
 	const char* entity)
 {
   if (entity_par == entity) return;
@@ -100,66 +103,81 @@ void celInventoryRewardFactory::SetEntityParameter (
   entity_par = csStrNew (entity);
 }
 
-void celInventoryRewardFactory::SetChildEntityParameter (
-	const char* entity)
+void celSequenceRewardFactory::SetSequenceParameter (
+	const char* sequence)
 {
-  if (child_entity_par == entity) return;
-  delete[] child_entity_par;
-  child_entity_par = csStrNew (entity);
+  if (sequence_par == sequence) return;
+  delete[] sequence_par;
+  sequence_par = csStrNew (sequence);
+}
+
+void celSequenceRewardFactory::SetDelayParameter (
+	const char* delay)
+{
+  if (delay_par == delay) return;
+  delete[] delay_par;
+  delay_par = csStrNew (delay);
 }
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryReward)
+SCF_IMPLEMENT_IBASE (celSequenceReward)
   SCF_IMPLEMENTS_INTERFACE (iQuestReward)
 SCF_IMPLEMENT_IBASE_END
 
-celInventoryReward::celInventoryReward (
-	celInventoryRewardType* type,
+celSequenceReward::celSequenceReward (
+	celSequenceRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
-	const char* child_entity_par)
+	const char* sequence_par,
+	const char* delay_par)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celInventoryReward::type = type;
+  celSequenceReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  child_entity = csStrNew (qm->ResolveParameter (params,
-  	child_entity_par));
+  sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
+  delay = 0;
+  if (delay_par)
+  {
+    const char* s = qm->ResolveParameter (params, delay_par);
+    if (s) sscanf (s, "%d", &delay);
+  }
 }
 
-celInventoryReward::~celInventoryReward ()
+celSequenceReward::~celSequenceReward ()
 {
   delete[] entity;
-  delete[] child_entity;
+  delete[] sequence;
   SCF_DESTRUCT_IBASE ();
 }
 
-void celInventoryReward::Reward ()
+void celSequenceReward::Reward ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
-  if (!inventory)
+  if (!quest)
   {
     if (!ent)
     {
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
-    inventory = CEL_QUERY_PROPCLASS_ENT (ent, iPcInventory);
-    if (!inventory) return;
+    quest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
+    if (!quest) return;
   }
 
-  iCelEntity* child_ent = pl->FindEntity (child_entity);
-  if (!child_ent) return;	// @@@ Report error!
-
-  if (!inventory->AddEntity (child_ent))
+  iQuest* q = quest->GetQuest ();
+  iQuestSequence* seq = q->FindSequence (sequence);
+  if (!seq)
   {
     // @@@ Report error!
     return;
   }
-
-  printf ("New item in inventory!\n");
-  fflush (stdout);
+  if (!seq->Start (delay))
+  {
+    // @@@ Report error!
+    return;
+  }
 }
 
 //---------------------------------------------------------------------------

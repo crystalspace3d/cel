@@ -35,12 +35,12 @@ struct iCelDataBuffer;
 
     <state name="start">
         <trigger type="ininventory">
-	    <fireon entity_name="$actor_entity" new_entity_name="computer_part" />
+	    <fireon entity="$actor_entity" new_entity="computer_part" />
 	    <reward type="newstate" state="state2" />
 	    <reward type="increasestats" statname="HP" value="3" />
 	</trigger>
 	<trigger type="objectdestroyed">
-	    <fireon entity_name="barrel" />
+	    <fireon entity="barrel" />
 	    <reward type="newstate" state="finalstate" />
 	    <reward type="increasestats" statname="HP" value="10" />
 	</trigger>
@@ -48,17 +48,17 @@ struct iCelDataBuffer;
 
     <state name="state2">
         <trigger type="clickonentity">
-	    <fireon entity_name="" />
+	    <fireon entity="" />
 	</trigger>
         <trigger type="cel.questtrigger.entersector">
-	    <fireon entity_name="player" sector_name="room" />
+	    <fireon entity="player" sector="room" />
 	</trigger>
     </state>
 
     <sequence name="seqTest">
-    	<op type="movemesh" duration="2000" entity_name="door"
+    	<op type="movemesh" duration="2000" entity="door"
 		x="0" y="4" z="0" />
-    	<op type="lightcolor" duration="2000" entity_name="lightbulb"
+    	<op type="lightcolor" duration="2000" entity="lightbulb"
 		red="1" green="1" blue="1" />
     	<delay time="2000" />
     </sequence>
@@ -317,6 +317,20 @@ struct iQuestSeqOpType : public iBase
   virtual csPtr<iQuestSeqOpFactory> CreateSeqOpFactory () = 0;
 };
 
+struct iQuestSequence;
+
+SCF_VERSION (iQuestSequenceCallback, 0, 0, 1);
+
+/**
+ * This callback is fired when the sequences finished running properly.
+ * It is not called it the sequence is aborted!
+ */
+struct iQuestSequenceCallback : public iBase
+{
+  /// Sequence finishes.
+  virtual void SequenceFinished (iQuestSequence* sequence) = 0;
+};
+
 SCF_VERSION (iQuestSequence, 0, 0, 1);
 
 /**
@@ -355,6 +369,15 @@ struct iQuestSequence : public iBase
    * Return true if this sequence is currently running.
    */
   virtual bool IsRunning () = 0;
+
+  /**
+   * Register a callback that is fired when this sequence finishes.
+   */
+  virtual void AddSequenceCallback (iQuestSequenceCallback* cb) = 0;
+  /**
+   * Remove a callback.
+   */
+  virtual void RemoveSequenceCallback (iQuestSequenceCallback* cb) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -577,6 +600,10 @@ struct iQuestManager : public iBase
    *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
    * <li>cel.questtrigger.timeout: triggers after a specified time.
    *     See iTimeoutQuestTriggerFactory.
+   * <li>cel.questtrigger.propertychange: triggers when a property changes.
+   *     See iPropertyChangeQuestTriggerFactory.
+   * <li>cel.questtrigger.sequencefinish: triggers when a sequence finishes.
+   *     See iSequenceFinishQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -604,6 +631,10 @@ struct iQuestManager : public iBase
    *     See iChangePropertyQuestRewardFactory.
    * <li>cel.questreward.inventory: manipulate inventory.
    *     See iInventoryQuestRewardFactory.
+   * <li>cel.questreward.sequence: fire sequence.
+   *     See iSequenceQuestRewardFactory.
+   * <li>cel.questreward.sequencefinish: finish sequence.
+   *     See iSequenceFinishQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -690,6 +721,23 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* child_entity_par) = 0;
 
   /**
+   * Convenience method to add an 'sequence' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddSequenceReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par,
+	const char* delay_par) = 0;
+
+  /**
+   * Convenience method to add an 'sequencefinish' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddSequenceFinishReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par) = 0;
+
+  /**
    * Convenience method to add a 'changeproperty' reward factory
    * to a response factory. You need to specify exactly which value
    * should be modified after calling this.
@@ -715,12 +763,20 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* sector_par) = 0;
 
   /**
-   * Convenience method to set an 'meshentersector' trigger factory
+   * Convenience method to set a 'meshentersector' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par) = 0;
+
+  /**
+   * Convenience method to set a 'sequencefinish' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetSequenceFinishTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par) = 0;
 
   /**
    * Convenience method to set an 'propertychange' trigger factory
@@ -780,7 +836,7 @@ SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
  * <p>
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * <ul>
- * <li><em>entity_name</em>: the name of the entity that contains the
+ * <li><em>entity</em>: the name of the entity that contains the
  *     pcproperties property class.
  * <li><em>property</em>: the name of the property.
  * <li><em>value</em>: the value on which this trigger will fire.
@@ -791,17 +847,17 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
   /**
    * Set the name of the entity containing the pcproperties property class
    * on which this trigger will fire.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetEntityParameter (const char* entity) = 0;
 
   /**
    * Set the name of the property on which this trigger will fire.
-   * \param prop_name is the name of the property or a parameter (starts
+   * \param prop is the name of the property or a parameter (starts
    * with '$').
    */
-  virtual void SetPropertyNameParameter (const char* prop_name) = 0;
+  virtual void SetPropertyParameter (const char* prop) = 0;
 
   /**
    * Set the value of the property on which this trigger will fire.
@@ -826,9 +882,9 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
  * <p>
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * <ul>
- * <li><em>entity_name</em>: the name of the entity that contains the
+ * <li><em>entity</em>: the name of the entity that contains the
  *     pccamera or pcmesh property class.
- * <li><em>sector_name</em>: the name of the sector. As soon as the camera
+ * <li><em>sector</em>: the name of the sector. As soon as the camera
  *     or mesh enters that sector this trigger will fire.
  * </ul>
  */
@@ -837,18 +893,55 @@ struct iEnterSectorQuestTriggerFactory : public iBase
   /**
    * Set the name of the entity containing the pccamera or pcmesh property class
    * on which this trigger will fire.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetEntityParameter (const char* entity) = 0;
 
   /**
    * Set the name of the sector on which this trigger will fire
    * as soon as the camera enters that sector.
-   * \param sector_name is the name of the entity or a parameter (starts
+   * \param sector is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetSectorNameParameter (const char* sector_name) = 0;
+  virtual void SetSectorParameter (const char* sector) = 0;
+};
+
+SCF_VERSION (iSequenceFinishQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain sequence finishes. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.sequencefinish'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity that contains the
+ *     pcquest property class.
+ * <li><em>sequence</em>: the name of the sequence on which to listen.
+ * </ul>
+ */
+struct iSequenceFinishQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -894,7 +987,7 @@ SCF_VERSION (iNewStateQuestRewardFactory, 0, 0, 1);
  * In XML, factories recognize the following attributes on the 'reward' node:
  * <ul>
  * <li><em>state</em>: the new state.
- * <li><em>entity_name</em>: the name of the entity containing the
+ * <li><em>entity</em>: the name of the entity containing the
  *     pcquest property class.
  * </ul>
  */
@@ -911,10 +1004,10 @@ struct iNewStateQuestRewardFactory : public iBase
   /**
    * Set the name of the entity containing the pcquest property class
    * on which this reward will work.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetEntityParameter (const char* entity) = 0;
 };
 
 SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
@@ -930,7 +1023,7 @@ SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
  * <p>
  * In XML, factories recognize the following attributes on the 'reward' node:
  * <ul>
- * <li><em>entity_name</em>: the name of the entity containing the
+ * <li><em>entity</em>: the name of the entity containing the
  *     pcproperties property class.
  * <li><em>property</em>: the name of the property.
  * <li><em>string</em>: the new string value of the property.
@@ -946,17 +1039,17 @@ struct iChangePropertyQuestRewardFactory : public iBase
   /**
    * Set the name of the entity containing the pcproperties property class
    * on which this reward will work.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetEntityParameter (const char* entity) = 0;
 
   /**
    * Set the name of the property.
-   * \param prop_name is the name of the property or a parameter (starts
+   * \param prop is the name of the property or a parameter (starts
    * with '$').
    */
-  virtual void SetPropertyNameParameter (const char* prop_name) = 0;
+  virtual void SetPropertyParameter (const char* prop) = 0;
 
   /**
    * Set the string value.
@@ -1006,9 +1099,9 @@ SCF_VERSION (iInventoryQuestRewardFactory, 0, 0, 1);
  * <p>
  * In XML, factories recognize the following attributes on the 'reward' node:
  * <ul>
- * <li><em>entity_name</em>: the name of the entity containing the
+ * <li><em>entity</em>: the name of the entity containing the
  *     pcinventory property class.
- * <li><em>child_entity_name</em>: the name of the entity that will
+ * <li><em>child_entity</em>: the name of the entity that will
  *     be added to or removed from the inventory.
  * </ul>
  */
@@ -1017,18 +1110,95 @@ struct iInventoryQuestRewardFactory : public iBase
   /**
    * Set the name of the entity containing the pcinventory property class
    * on which this reward will work.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetEntityParameter (const char* entity) = 0;
 
   /**
    * Set the name of the entity that will be put in or out the inventory.
-   * \param entity_name is the name of the entity or a parameter (starts
+   * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetChildEntityNameParameter (const char* entity_name) = 0;
+  virtual void SetChildEntityParameter (const char* entity) = 0;
 
+};
+
+SCF_VERSION (iSequenceQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that fires a sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.sequence'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity containing the
+ *     pcquest property class.
+ * <li><em>sequence</em>: the name of the sequence.
+ * <li><em>delay</em>: delay before we start the sequence. Default is 0.
+ * </ul>
+ */
+struct iSequenceQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this reward will work.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the delay.
+   * \param delay is delay or a parameter (starts with '$').
+   */
+  virtual void SetDelayParameter (const char* delay) = 0;
+};
+
+SCF_VERSION (iSequenceFinishQuestRewardFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the reward that finishes a sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.sequencefinish'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity containing the
+ *     pcquest property class.
+ * <li><em>sequence</em>: the name of the sequence.
+ * </ul>
+ */
+struct iSequenceFinishQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this reward will work.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
 };
 
 //-------------------------------------------------------------------------

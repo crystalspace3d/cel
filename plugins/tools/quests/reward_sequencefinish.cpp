@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -29,130 +29,133 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
-#include "propclass/quest.h"
 
-#include "plugins/tools/quests/reward_newstate.h"
-
-//---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_REWARDTYPE(NewState)
+#include "plugins/tools/quests/reward_sequencefinish.h"
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celNewStateRewardFactory)
+CEL_IMPLEMENT_REWARDTYPE(SequenceFinish)
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celSequenceFinishRewardFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iNewStateQuestRewardFactory)
+  SCF_IMPLEMENTS_INTERFACE (iSequenceFinishQuestRewardFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celNewStateRewardFactory::celNewStateRewardFactory (
-	celNewStateRewardType* type)
+celSequenceFinishRewardFactory::celSequenceFinishRewardFactory (
+	celSequenceFinishRewardType* type)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celNewStateRewardFactory::type = type;
-  state_par = 0;
+  celSequenceFinishRewardFactory::type = type;
   entity_par = 0;
+  sequence_par = 0;
 }
 
-celNewStateRewardFactory::~celNewStateRewardFactory ()
+celSequenceFinishRewardFactory::~celSequenceFinishRewardFactory ()
 {
-  delete[] state_par;
   delete[] entity_par;
+  delete[] sequence_par;
 
   SCF_DESTRUCT_IBASE ();
 }
 
-csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
+csPtr<iQuestReward> celSequenceFinishRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
-  celNewStateReward* trig = new celNewStateReward (type,
-  	params, state_par, entity_par);
+  celSequenceFinishReward* trig = new celSequenceFinishReward (type,
+  	params, entity_par, sequence_par);
   return trig;
 }
 
-bool celNewStateRewardFactory::Load (iDocumentNode* node)
+bool celSequenceFinishRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] state_par; state_par = 0;
   delete[] entity_par; entity_par = 0;
-  state_par = csStrNew (node->GetAttributeValue ("state"));
+  delete[] sequence_par; sequence_par = 0;
+  delete[] delay_par; delay_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
-
-  if (!state_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
-      "'state' attribute is missing for the newstate reward!");
-    return false;
-  }
+  sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
-      "'entity' attribute is missing for the newstate reward!");
+      "cel.questreward.sequencefinish",
+      "'entity' attribute is missing for the sequencefinish reward!");
+    return false;
+  }
+  if (!sequence_par)
+  {
+    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.questreward.sequencefinish",
+      "'sequence' attribute is missing for the sequencefinish reward!");
     return false;
   }
   return true;
 }
 
-void celNewStateRewardFactory::SetStateParameter (const char* state)
+void celSequenceFinishRewardFactory::SetEntityParameter (
+	const char* entity)
 {
-  if (state_par == state) 
-    return;
-
-  delete[] state_par;
-  state_par = csStrNew (state);
-}
-
-void celNewStateRewardFactory::SetEntityParameter (const char* entity)
-{
-  if (entity_par == entity) 
-    return;
-
+  if (entity_par == entity) return;
   delete[] entity_par;
   entity_par = csStrNew (entity);
 }
 
+void celSequenceFinishRewardFactory::SetSequenceParameter (
+	const char* sequence)
+{
+  if (sequence_par == sequence) return;
+  delete[] sequence_par;
+  sequence_par = csStrNew (sequence);
+}
+
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celNewStateReward)
+SCF_IMPLEMENT_IBASE (celSequenceFinishReward)
   SCF_IMPLEMENTS_INTERFACE (iQuestReward)
 SCF_IMPLEMENT_IBASE_END
 
-celNewStateReward::celNewStateReward (
-	celNewStateRewardType* type,
+celSequenceFinishReward::celSequenceFinishReward (
+	celSequenceFinishRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* state_par,
-	const char* entity_par)
+	const char* entity_par,
+	const char* sequence_par)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celNewStateReward::type = type;
+  celSequenceFinishReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
-  state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
 }
 
-celNewStateReward::~celNewStateReward ()
+celSequenceFinishReward::~celSequenceFinishReward ()
 {
-  delete[] state;
   delete[] entity;
+  delete[] sequence;
   SCF_DESTRUCT_IBASE ();
 }
 
-void celNewStateReward::Reward ()
+void celSequenceFinishReward::Reward ()
 {
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   if (!quest)
   {
     if (!ent)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
-    csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
-    if (!pcquest) return;
-    quest = pcquest->GetQuest ();
+    quest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
     if (!quest) return;
   }
-  quest->SwitchState (state);
+
+  iQuest* q = quest->GetQuest ();
+  iQuestSequence* seq = q->FindSequence (sequence);
+  if (!seq)
+  {
+    // @@@ Report error!
+    return;
+  }
+  seq->Finish ();
 }
 
 //---------------------------------------------------------------------------
