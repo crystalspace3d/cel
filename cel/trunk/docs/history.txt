@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-May-2005
+	- Jorrit finished the basic sequence stuff in the quest manager.
+	  Still untested.
 12-May-2005
 	- Eric Sunshine copied over the Jam files from the masters in the CS
 	  repository to fix some more problems resulting from recent changes.

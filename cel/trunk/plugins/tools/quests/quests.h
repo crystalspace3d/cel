@@ -59,12 +59,20 @@ class celQuestSequence :
 {
 private:
   csArray<celSeqOp> seqops;
+  csArray<celSeqOp> ops_in_progress;
   char* name;
   iCelPlLayer* pl;
+  iVirtualClock* vc;
   size_t idx;
+  csTicks start_time;
+  csTicks total_time;
+
+  // Perform the sequence upto relative time 'rel'.
+  void Perform (csTicks rel);
 
 public:
-  celQuestSequence (const char* name, iCelPlLayer* pl);
+  celQuestSequence (const char* name, csTicks total_time, iCelPlLayer* pl,
+  	iVirtualClock* vc);
   virtual ~celQuestSequence ();
 
   /**
@@ -83,8 +91,8 @@ public:
   virtual bool IsRunning ();
 
   // --- For iCelTimerListener ----------------------------
-  virtual void TickEveryFrame () { }
-  virtual void TickOnce ();
+  virtual void TickEveryFrame ();
+  virtual void TickOnce () { }
 };
 
 /**
@@ -353,6 +361,7 @@ class celQuestManager : public iQuestManager
 public:
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
+  csWeakRef<iVirtualClock> vc;
 
 private:
   csHash<csRef<iQuestTriggerType>,csStrKey> trigger_types;
