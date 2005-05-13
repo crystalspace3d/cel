@@ -35,6 +35,7 @@
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
 #include "plugins/tools/quests/reward_inventory.h"
+#include "plugins/tools/quests/seqop_debugprint.h"
 
 //---------------------------------------------------------------------------
 
@@ -118,6 +119,7 @@ celQuestSequence::celQuestSequence (const char* name,
 
 celQuestSequence::~celQuestSequence ()
 {
+  Abort ();
   delete[] name;
   SCF_DESTRUCT_IBASE ();
 }
@@ -818,6 +820,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     celInventoryRewardType* type = new celInventoryRewardType (
     	object_reg);
     RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celDebugPrintSeqOpType* type = new celDebugPrintSeqOpType (
+    	object_reg);
+    RegisterSeqOpType (type);
     type->DecRef ();
   }
 

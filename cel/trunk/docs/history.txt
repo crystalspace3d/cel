@@ -6,12 +6,14 @@ The history order is reversed so that new features are at the top.
 13-May-2005
 	- Jorrit finished the basic sequence stuff in the quest manager.
 	  Still untested.
+	- Jorrit added the first seqop type to the quest manager for printing
+	  out debug information.
 12-May-2005
 	- Eric Sunshine copied over the Jam files from the masters in the CS
 	  repository to fix some more problems resulting from recent changes.
 	- Eric Sunshine fixed docs/texinfo/Jamfile to work with recently
 	  updated docs.jam. This fixes problem where the `manualhtml' rule
-	  produced not ouput.
+	  produced no output.
 	- Jorrit worked more on sequences in the quest manager.
 11-May-2005
 	- Jorrit copied the mk/jam dir from CS over to CEL to fix a few
