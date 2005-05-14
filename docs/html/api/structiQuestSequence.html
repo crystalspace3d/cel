@@ -38,13 +38,19 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequence.html#a4">IsRunning</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if this sequence is currently running.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequence.html#a5">AddSequenceCallback</a> (<a class="el" href="structiQuestSequenceCallback.html">iQuestSequenceCallback</a> *cb)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a callback that is fired when this sequence finishes.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequence.html#a6">RemoveSequenceCallback</a> (<a class="el" href="structiQuestSequenceCallback.html">iQuestSequenceCallback</a> *cb)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a callback.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A sequence. 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00325">325</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00339">339</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a3" doxytag="iQuestSequence::Abort"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -72,6 +78,36 @@ Definition at line <a class="el" href="questmanager_8h-source.html#l00325">325</
 Abort this sequence. 
 <p>
 This will simply abort the sequence without doing any further operation. This can leave the objects on which this sequence operates in undefined states.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a5" doxytag="iQuestSequence::AddSequenceCallback"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iQuestSequence::AddSequenceCallback           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiQuestSequenceCallback.html">iQuestSequenceCallback</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>cb</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Register a callback that is fired when this sequence finishes. 
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a2" doxytag="iQuestSequence::Finish"></a><p>
@@ -157,6 +193,36 @@ Get the name of this sequence.
 
 <p>
 Return true if this sequence is currently running. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a6" doxytag="iQuestSequence::RemoveSequenceCallback"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iQuestSequence::RemoveSequenceCallback           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiQuestSequenceCallback.html">iQuestSequenceCallback</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>cb</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a callback. 
 <p>
     </td>
   </tr>
