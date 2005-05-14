@@ -182,6 +182,15 @@
 				RelativePath="..\plugins\tools\quests\reward_newstate.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_sequence.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\reward_sequencefinish.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\seqop_debugprint.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
 			</File>
 			<File
@@ -189,6 +198,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_propertychange.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_sequencefinish.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_timeout.cpp">
@@ -213,6 +225,15 @@
 				RelativePath="..\plugins\tools\quests\reward_newstate.h">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\reward_sequence.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\reward_sequencefinish.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\seqop_debugprint.h">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.h">
 			</File>
 			<File
@@ -220,6 +241,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_propertychange.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_sequencefinish.h">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_timeout.h">

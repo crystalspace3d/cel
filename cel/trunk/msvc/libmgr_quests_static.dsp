@@ -128,6 +128,18 @@ SOURCE=..\plugins\tools\quests\reward_newstate.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_sequence.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\reward_sequencefinish.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\seqop_debugprint.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_entersector.cpp
 # End Source File
 # Begin Source File
@@ -137,6 +149,10 @@ SOURCE=..\plugins\tools\quests\trig_meshentersector.cpp
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\trig_propertychange.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_sequencefinish.cpp
 # End Source File
 # Begin Source File
 
@@ -168,6 +184,18 @@ SOURCE=..\plugins\tools\quests\reward_newstate.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\reward_sequence.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\reward_sequencefinish.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\seqop_debugprint.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_entersector.h
 # End Source File
 # Begin Source File
@@ -177,6 +205,10 @@ SOURCE=..\plugins\tools\quests\trig_meshentersector.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\trig_propertychange.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_sequencefinish.h
 # End Source File
 # Begin Source File
 
