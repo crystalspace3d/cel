@@ -7,6 +7,18 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine updated celInitializer for latest changes to CS path
 	  handling functions (but perhaps Frank would like to check this for
 	  correctness).
+	- Eric Sunshine fixed a number of bugs and copy/paste errors recently
+	  introduced into cel.m4. The most serious issues included:
+	    - CEL test program succeeded _always_ if the CS test program had
+	      succeeded regardless of whether the CEL SDK itself was actually
+	      usable.
+	    - CEL test program attempted to #include <cssysdef.h> but was never
+	      told where to find the CS headers.
+	    - CEL test program invoked CS_IMPLEMENT_APPLICATION, which results
+	      in declaration of two main() functions on Windows, which leads
+	      ultimately to failure.
+	    - Name of variable to enable/disable the CEL test program did not
+	      match variable used later in script.
 13-May-2005
 	- Jorrit finished the basic sequence stuff in the quest manager.
 	  Still untested.
