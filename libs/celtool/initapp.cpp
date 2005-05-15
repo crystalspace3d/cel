@@ -29,19 +29,19 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
   static bool done = false;
   if (!done)
   {
-    csPluginPaths cel_paths;
+    csPathsList cel_paths;
     csString cel_path = getenv("CEL");
     if (!cel_path.IsEmpty())
     {
-      cel_paths.AddOnce(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
+      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
       cel_path << CS_PATH_SEPARATOR << "lib";
-      cel_paths.AddOnce(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
+      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
       cel_path << CS_PATH_SEPARATOR << "cel";
-      cel_paths.AddOnce(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
+      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
     }
 
     if (dir0 != 0)
-      cel_paths.AddOnce(dir0, CEL_PLUGIN_SCAN_RECURSE, "cel");
+      cel_paths.AddUniqueExpanded(dir0, CEL_PLUGIN_SCAN_RECURSE, "cel");
 
     scfInitialize(&cel_paths);
     done = true;

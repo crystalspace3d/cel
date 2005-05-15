@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-May-2005
+	- Eric Sunshine updated celInitializer for latest changes to CS path
+	  handling functions (but perhaps Frank would like to check this for
+	  correctness).
 13-May-2005
 	- Jorrit finished the basic sequence stuff in the quest manager.
 	  Still untested.
