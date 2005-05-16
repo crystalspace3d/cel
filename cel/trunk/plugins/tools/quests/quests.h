@@ -445,6 +445,9 @@ public:
   virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par);
+  virtual iQuestTriggerFactory* SetTriggerTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave = false);
 
   struct Component : public iComponent
   {

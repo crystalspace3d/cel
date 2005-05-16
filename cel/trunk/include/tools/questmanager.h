@@ -604,6 +604,8 @@ struct iQuestManager : public iBase
    *     See iPropertyChangeQuestTriggerFactory.
    * <li>cel.questtrigger.sequencefinish: triggers when a sequence finishes.
    *     See iSequenceFinishQuestTriggerFactory.
+   * <li>cel.questtrigger.trigger: triggers when a pctrigger files.
+   *     See iTriggerQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -779,13 +781,21 @@ struct iQuestManager : public iBase
   	const char* entity_par, const char* sequence_par) = 0;
 
   /**
-   * Convenience method to set an 'propertychange' trigger factory
+   * Convenience method to set a 'propertychange' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par,
 	const char* value_par) = 0;
+
+  /**
+   * Convenience method to set a 'trigger' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetTriggerTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave = false) = 0;
 };
 
 // @@@ TODO:
@@ -942,6 +952,40 @@ struct iSequenceFinishQuestTriggerFactory : public iBase
    * with '$').
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
+};
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a pctrigger fires. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is 'cel.questtrigger.trigger'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity that contains the
+ *     pctrigger property class.
+ * <li><em>leave</em>: if present the trigger will register on 'leaves' instead
+ *     of 'enters'.
+ * </ul>
+ */
+struct iTriggerQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pccamera or pcmesh property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * If this function is called then the trigger will fire on 'leaves'
+   * instead of 'enters'.
+   */
+  virtual void EnableLeave () = 0;
 };
 
 //-------------------------------------------------------------------------

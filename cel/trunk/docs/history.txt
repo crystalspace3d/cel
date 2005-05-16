@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-May-2005
+	- Jorrit added support for a listeners system to iPcTrigger.
+	- Jorrit added support for a new quest trigger that works together
+	  with pctrigger.
+	- Jorrit added a pctrigger/pcquest example to celtest. There is
+	  currently still a crash at exit caused by those but I will
+	  debug that later.
+	- Jorrit fixed a crash bug in pctooltip which could make celtest
+	  crash for one of the objects.
 15-May-2005
 	- Eric Sunshine updated celInitializer for latest changes to CS path
 	  handling functions (but perhaps Frank would like to check this for

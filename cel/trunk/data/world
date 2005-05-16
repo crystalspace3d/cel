@@ -182,6 +182,24 @@
     <sector name="room">
     	<addon plugin="cel.addons.questdef">
 	    <!-- Parameters for this quest:
+		 $ent: entity containing this quest -->
+	    <quest name="proximityquest">
+	    	<state name="start">
+		    <trigger type="trigger">
+		    	<fireon entity="box_small" other_entity="x" />
+			<reward type="debugprint" message="We are close!" />
+		    	<reward type="newstate" entity="$ent" state="second" />
+		    </trigger>
+		</state>
+	    	<state name="second">
+		    <trigger type="trigger">
+		    	<fireon entity="box_small" leave="true" />
+			<reward type="debugprint" message="We are far!" />
+		    	<reward type="newstate" entity="$ent" state="start" />
+		    </trigger>
+		</state>
+	    </quest>
+	    <!-- Parameters for this quest:
 	         $message: message to print
 		 $ent: entity containing this quest
 		 $actor: entity containing the actor -->
