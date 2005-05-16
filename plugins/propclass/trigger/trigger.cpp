@@ -263,11 +263,17 @@ void celPcTrigger::LeaveAllEntities ()
     if (entities_in_trigger[i])
     {
       if (send_to_self)
+      {
+        FireTriggersEntityLeaves (entities_in_trigger[i]);
         SendTriggerMessage (entity, entities_in_trigger[i],
 		"pctrigger_entityleaves");
+      }
       if (send_to_others)
+      {
+        FireTriggersLeaveTrigger (entities_in_trigger[i]);
         SendTriggerMessage (entities_in_trigger[i], entity,
 		"pctrigger_leavetrigger");
+      }
     }
   entities_in_trigger.SetLength (0);
 }
@@ -326,11 +332,17 @@ void celPcTrigger::TickOnce ()
 	  // This entity was previously not in the trigger. Add it now.
 	  entities_in_trigger.Push (monitoring_entity);
 	  if (send_to_self)
+	  {
+	    FireTriggersEntityEnters (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
 		"pctrigger_entityenters");
+	  }
 	  if (send_to_others)
+	  {
+	    FireTriggersEnterTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
 		"pctrigger_entertrigger");
+	  }
 	}
       }
       else
@@ -341,11 +353,17 @@ void celPcTrigger::TickOnce ()
 	  // This entity was previously in the trigger. Remove it now.
 	  entities_in_trigger.DeleteIndex (idx);
 	  if (send_to_self)
+	  {
+	    FireTriggersEntityLeaves (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
 		"pctrigger_entityleaves");
+	  }
 	  if (send_to_others)
+	  {
+	    FireTriggersLeaveTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
 		"pctrigger_leavetrigger");
+	  }
         }
       }
     }
@@ -375,9 +393,15 @@ void celPcTrigger::TickOnce ()
       {
         // This entity was not in the trigger before. Send a message!
 	if (send_to_self)
+	{
+          FireTriggersEntityEnters (ent);
           SendTriggerMessage (entity, ent, "pctrigger_entityenters");
+	}
 	if (send_to_others)
+	{
+          FireTriggersEnterTrigger (ent);
           SendTriggerMessage (ent, entity, "pctrigger_entertrigger");
+        }
       }
       // Delete from the set.
       previous_entities.Delete (ent);
@@ -385,14 +409,21 @@ void celPcTrigger::TickOnce ()
 
     // All entities that are still in the set were in the trigger
     // last time but are not any longer.
-    csSet<csPtrKey<iCelEntity> >::GlobalIterator it = previous_entities.GetIterator ();
+    csSet<csPtrKey<iCelEntity> >::GlobalIterator it = previous_entities
+    	.GetIterator ();
     while (it.HasNext ())
     {
       iCelEntity* ent = it.Next ();
       if (send_to_self)
+      {
+        FireTriggersEntityLeaves (ent);
         SendTriggerMessage (entity, ent, "pctrigger_entityleaves");
+      }
       if (send_to_others)
+      {
+        FireTriggersLeaveTrigger (ent);
         SendTriggerMessage (ent, entity, "pctrigger_leavetrigger");
+      }
     }
   }
   pl->CallbackOnce ((iCelTimerListener*)this,
@@ -432,6 +463,44 @@ void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
   if (ent) params->GetParameter (0).SetIBase (ent);
   celData ret;
   destentity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
+}
+
+void celPcTrigger::AddTriggerListener (iPcTriggerListener* listener)
+{
+  listeners.Push (listener);
+}
+
+void celPcTrigger::RemoveTriggerListener (iPcTriggerListener* listener)
+{
+  listeners.Delete (listener);
+}
+
+void celPcTrigger::FireTriggersEntityEnters (iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->EntityEnters (&scfiPcTrigger, entity);
+}
+
+void celPcTrigger::FireTriggersEntityLeaves (iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->EntityLeaves (&scfiPcTrigger, entity);
+}
+
+void celPcTrigger::FireTriggersEnterTrigger (iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->EnterTrigger (&scfiPcTrigger, entity);
+}
+
+void celPcTrigger::FireTriggersLeaveTrigger (iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->LeaveTrigger (&scfiPcTrigger, entity);
 }
 
 //---------------------------------------------------------------------------

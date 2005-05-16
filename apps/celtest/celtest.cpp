@@ -85,6 +85,7 @@
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
+#include "propclass/trigger.h"
 
 #define PATHFIND_ENABLE 0
 #define PATHFIND_VERBOSE 0
@@ -180,7 +181,7 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
 	float weight, float size,
 	float max_indiv_weight, float max_weight,
 	float max_indiv_size, float max_size,
-	const csVector3& pos)
+	const csVector3& pos, bool do_trigger)
 {
   csRef<iCelEntity> entity_box = pl->CreateEntity (name, bltest, "box",
   	"pcmesh",
@@ -191,6 +192,7 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
 	"pcinventory",
 	"pccharacteristics",
 	"pctest",
+	do_trigger ? "pctrigger" : (void*)0,
   	(void*)0);
   if (!entity_box) return 0;
 
@@ -224,6 +226,14 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
   pcchars->SetCharacteristic ("weight", weight);
   pcchars->SetInheritedCharacteristic ("size", 0, 0);
   pcchars->SetInheritedCharacteristic ("weight", .5, 0);
+
+  if (do_trigger)
+  {
+    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (entity_box,
+    	iPcTrigger);
+    pctrigger->MonitorEntity ("camera");
+    pctrigger->SetupTriggerSphere (room, pos, 1.0f);
+  }
 
   return csPtr<iCelEntity> (entity_box);
 }
@@ -366,14 +376,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   return csPtr<iCelEntity> (entity_cam);
 }
 
-csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
+bool CelTest::CreateQuests ()
 {
   // The Quest Entity
-  csRef<iCelEntity> entity_quest = pl->CreateEntity (name, bltest, "quest",
+  csRef<iCelEntity> entity_quest = pl->CreateEntity ("q1", bltest, "quest",
   	"pcquest",
 	"pcproperties",
 	(void*)0);
-  if (!entity_quest) return 0;
+  if (!entity_quest) return false;
 
   //-----------------------------------------------------------
   // Create 'testquest'.
@@ -382,23 +392,38 @@ csPtr<iCelEntity> CelTest::CreateQuest (const char* name)
     iPcQuest);
   celQuestParams params;
   params.Put ("message", "Hallo Hallo!");
-  params.Put ("ent", name);
+  params.Put ("ent", "q1");
   params.Put ("actor", "camera");
   if (!pcquest->NewQuest ("testquest", params))
   {
     ReportError ("Error creating quest '%s'!", "testquest");
-    return 0;
+    return false;
   }
   pcquest->GetQuest ()->SwitchState ("init");
 
-  return csPtr<iCelEntity> (entity_quest);
+  // The Second Quest Entity
+  entity_quest = pl->CreateEntity ("q2", bltest, "quest",
+  	"pcquest",
+	(void*)0);
+  if (!entity_quest) return false;
+
+  pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest);
+  celQuestParams params2;
+  params2.Put ("ent", "q2");
+  if (!pcquest->NewQuest ("proximityquest", params2))
+  {
+    ReportError ("Error creating quest '%s'!", "proximityquest");
+    return false;
+  }
+  pcquest->GetQuest ()->SwitchState ("start");
+
+  return true;
 }
 
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
   csRef<iCelEntity> entity_dummy;
-  csRef<iCelEntity> entity_quest;
 
   //===============================
   // Create the room entity.
@@ -429,23 +454,23 @@ bool CelTest::CreateRoom ()
   if (!pccamera) return false;
   pccamera->SetRegion (pcregion);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
-  entity_quest = CreateQuest ("myquest");
-  if (!entity_quest) return false;
 
   //===============================
   // Create the box entities.
   //===============================
   csRef<iCelEntity> entity_box;
   entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
-  	1, 1000000, 60, 180, csVector3 (0, 0, 2));
+  	1, 1000000, 60, 180, csVector3 (0, 0, 2), true);
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
 
   entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
   	1, 1000000, 5, 48,
-  	csVector3 (-4, 0, 0));
+  	csVector3 (-4, 0, 0), true);
   if (!entity_box) return false;
   if (!pcinv_room->AddEntity (entity_box)) return false;
+
+  if (!CreateQuests ()) return false;
 
   //===============================
   // Create dummy entities.
@@ -721,6 +746,8 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))

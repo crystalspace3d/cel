@@ -27,6 +27,35 @@
 #include "csutil/weakrefarr.h"
 
 struct iCelEntity;
+struct iPcTrigger;
+
+SCF_VERSION (iPcTriggerListener, 0, 0, 1);
+
+/**
+ * Listen to trigger actions.
+ */
+struct iPcTriggerListener : public iBase
+{
+  /**
+   * An entity enters this trigger.
+   */
+  virtual void EntityEnters (iPcTrigger* trigger, iCelEntity* entity) = 0;
+
+  /**
+   * An entity leaves this trigger.
+   */
+  virtual void EntityLeaves (iPcTrigger* trigger, iCelEntity* entity) = 0;
+
+  /**
+   * This entity enters a trigger.
+   */
+  virtual void EnterTrigger (iPcTrigger* trigger, iCelEntity* entity) = 0;
+
+  /**
+   * This entity leaves a trigger.
+   */
+  virtual void LeaveTrigger (iPcTrigger* trigger, iCelEntity* entity) = 0;
+};
 
 SCF_VERSION (iPcTrigger, 0, 1, 0);
 
@@ -56,6 +85,16 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  */
 struct iPcTrigger : public iBase
 {
+  /**
+   * Add a trigger listener. Trigger listeners are called right before
+   * the behaviour is called.
+   */
+  virtual void AddTriggerListener (iPcTriggerListener* listener) = 0;
+  /**
+   * Remove a trigger listener.
+   */
+  virtual void RemoveTriggerListener (iPcTriggerListener* listener) = 0;
+
   /**
    * Setup a spherical area as trigger zone.
    */

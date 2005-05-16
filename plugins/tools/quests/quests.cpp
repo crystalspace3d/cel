@@ -34,6 +34,7 @@
 #include "plugins/tools/quests/trig_timeout.h"
 #include "plugins/tools/quests/trig_propertychange.h"
 #include "plugins/tools/quests/trig_sequencefinish.h"
+#include "plugins/tools/quests/trig_trigger.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -903,6 +904,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    celTriggerTriggerType* type = new celTriggerTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
     celDebugPrintRewardType* type = new celDebugPrintRewardType (
     	object_reg);
     RegisterRewardType (type);
@@ -1195,6 +1203,20 @@ iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
   newstate->SetEntityParameter (entity_par);
   newstate->SetPropertyParameter (prop_par);
   newstate->SetValueParameter (value_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetTriggerTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.trigger");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTriggerQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (
+  	trigfact, iTriggerQuestTriggerFactory);
+  newstate->SetEntityParameter (entity_par);
+  if (do_leave) newstate->EnableLeave ();
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }

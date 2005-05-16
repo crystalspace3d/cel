@@ -69,6 +69,9 @@ private:
   csWeakRef<iCelEntity> monitoring_entity;
   csWeakRef<iPcMesh> monitoring_entity_pcmesh;
 
+  // Listeners.
+  csRefArray<iPcTriggerListener> listeners;
+
   csTicks delay, jitter;
 
   static csStringID id_entity;
@@ -136,10 +139,24 @@ public:
   {
     return entities_in_trigger;
   }
+  void AddTriggerListener (iPcTriggerListener* listener);
+  void RemoveTriggerListener (iPcTriggerListener* listener);
+  void FireTriggersEntityEnters (iCelEntity* entity);
+  void FireTriggersEntityLeaves (iCelEntity* entity);
+  void FireTriggersEnterTrigger (iCelEntity* entity);
+  void FireTriggersLeaveTrigger (iCelEntity* entity);
 
   struct PcTrigger : public iPcTrigger
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcTrigger);
+    virtual void AddTriggerListener (iPcTriggerListener* listener)
+    {
+      scfParent->AddTriggerListener (listener);
+    }
+    virtual void RemoveTriggerListener (iPcTriggerListener* listener)
+    {
+      scfParent->RemoveTriggerListener (listener);
+    }
     virtual void SetupTriggerSphere (iSector* sector,
     	const csVector3& center, float radius)
     {

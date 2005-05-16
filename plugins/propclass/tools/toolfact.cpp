@@ -115,7 +115,7 @@ bool celPcTooltip::Load (iCelDataBuffer* databuf)
 void celPcTooltip::SetText (const char* t)
 {
   lines.DeleteAll ();
-  if (strcmp (t, "") != 0)
+  if (t && strcmp (t, "") != 0)
   {
     csString str (t);
     size_t lastpos = 0, pos;
@@ -127,7 +127,9 @@ void celPcTooltip::SetText (const char* t)
     }
     while (pos != (size_t) - 1);
     CalculateExtents ();
-  } else {
+  }
+  else
+  {
     Hide ();
   }
 }

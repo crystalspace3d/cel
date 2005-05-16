@@ -90,14 +90,14 @@ private:
   	float weight, float size,
 	float max_indiv_weight, float max_weight,
 	float max_indiv_size, float max_size,
-  	const csVector3& pos);
+  	const csVector3& pos, bool do_trigger);
   csPtr<iCelEntity> CreateDummyEntity (const char* name, const char* factName,
   	float weight, float size,
   	const csVector3& pos, const csVector3& force,
 	bool python);
   csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
 	const csVector3& pos);
-  csPtr<iCelEntity> CreateQuest (const char *name);
+  bool CreateQuests ();
   
 public:
   CelTest ();
