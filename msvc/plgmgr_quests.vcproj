@@ -207,6 +207,9 @@
 			<File
 				RelativePath="..\plugins\tools\quests\trig_timeout.cpp">
 			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_trigger.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -249,6 +252,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_timeout.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_trigger.h">
 			</File>
 		</Filter>
 		<Filter

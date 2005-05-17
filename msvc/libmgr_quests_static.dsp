@@ -158,6 +158,10 @@ SOURCE=..\plugins\tools\quests\trig_sequencefinish.cpp
 
 SOURCE=..\plugins\tools\quests\trig_timeout.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_trigger.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -213,6 +217,10 @@ SOURCE=..\plugins\tools\quests\trig_sequencefinish.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\trig_timeout.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_trigger.h
 # End Source File
 # End Group
 # End Target
