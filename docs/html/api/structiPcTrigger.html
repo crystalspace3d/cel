@@ -23,37 +23,43 @@
 <a href="structiPcTrigger-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a0">SetupTriggerSphere</a> (iSector *sector, const csVector3 &amp;center, float radius)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a0">AddTriggerListener</a> (<a class="el" href="structiPcTriggerListener.html">iPcTriggerListener</a> *listener)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup a spherical area as trigger zone.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a1">SetupTriggerBox</a> (iSector *sector, const csBox3 &amp;box)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a trigger listener.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a1">RemoveTriggerListener</a> (<a class="el" href="structiPcTriggerListener.html">iPcTriggerListener</a> *listener)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup a box trigger zone.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a2">MonitorEntity</a> (const char *entityname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a trigger listener.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a2">SetupTriggerSphere</a> (iSector *sector, const csVector3 &amp;center, float radius)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">By default pctrigger will monitor all entities.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a3">GetMonitorEntity</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup a spherical area as trigger zone.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a3">SetupTriggerBox</a> (iSector *sector, const csBox3 &amp;box)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the entity name that we are currently monitoring or 0 if monitoring all entities.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a4">SetMonitorDelay</a> (csTicks delay, csTicks jitter)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup a box trigger zone.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a4">MonitorEntity</a> (const char *entityname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the number of milliseconds we delay before monitoring all entities again.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a5">EnableMessagesToSelf</a> (bool en)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">By default pctrigger will monitor all entities.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a5">GetMonitorEntity</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable sending messages to the entity containing the trigger about other entities leaving of entering (messages like pctrigger_entityenters and pctrigger_entityleaves).  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a6">EnableMessagesToOthers</a> (bool en)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the entity name that we are currently monitoring or 0 if monitoring all entities.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a6">SetMonitorDelay</a> (csTicks delay, csTicks jitter)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable sending messages to the entities that enter or leave this trigger (messages like pctrigger_entertrigger and pctrigger_leavetrigger).  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a7">EnableTrigger</a> (bool en)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the number of milliseconds we delay before monitoring all entities again.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a7">EnableMessagesToSelf</a> (bool en)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable trigger.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a8">IsEnabled</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable sending messages to the entity containing the trigger about other entities leaving of entering (messages like pctrigger_entityenters and pctrigger_entityleaves).  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a8">EnableMessagesToOthers</a> (bool en)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if trigger is enabled.  <a href="#a8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable sending messages to the entities that enter or leave this trigger (messages like pctrigger_entertrigger and pctrigger_leavetrigger).  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a9">EnableTrigger</a> (bool en)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable trigger.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a10">IsEnabled</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if trigger is enabled.  <a href="#a10"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csWeakRefArray&lt;<br>
- <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a9">GetEntitiesInTrigger</a> () const =0</td></tr>
+ <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTrigger.html#a11">GetEntitiesInTrigger</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get an array of all entities that are currently in the trigger area.  <a href="#a9"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get an array of all entities that are currently in the trigger area.  <a href="#a11"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a trigger property class. 
@@ -82,8 +88,38 @@ monitor (string, read/write): name of entity to monitor. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="trigger_8h-source.html#l00057">57</a> of file <a class="el" href="trigger_8h-source.html">trigger.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a6" doxytag="iPcTrigger::EnableMessagesToOthers"></a><p>
+Definition at line <a class="el" href="trigger_8h-source.html#l00086">86</a> of file <a class="el" href="trigger_8h-source.html">trigger.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a0" doxytag="iPcTrigger::AddTriggerListener"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcTrigger::AddTriggerListener           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcTriggerListener.html">iPcTriggerListener</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>listener</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a trigger listener. 
+<p>
+Trigger listeners are called right before the behaviour is called.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a8" doxytag="iPcTrigger::EnableMessagesToOthers"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -113,7 +149,7 @@ Enable/disable sending messages to the entities that enter or leave this trigger
 This is enabled by default.     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iPcTrigger::EnableMessagesToSelf"></a><p>
+<a class="anchor" name="a7" doxytag="iPcTrigger::EnableMessagesToSelf"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -143,7 +179,7 @@ Enable/disable sending messages to the entity containing the trigger about other
 This is enabled by default.     </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="iPcTrigger::EnableTrigger"></a><p>
+<a class="anchor" name="a9" doxytag="iPcTrigger::EnableTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -173,7 +209,7 @@ Disable trigger.
 Triggers are enabled by default.     </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="iPcTrigger::GetEntitiesInTrigger"></a><p>
+<a class="anchor" name="a11" doxytag="iPcTrigger::GetEntitiesInTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -202,7 +238,7 @@ Get an array of all entities that are currently in the trigger area.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="iPcTrigger::GetMonitorEntity"></a><p>
+<a class="anchor" name="a5" doxytag="iPcTrigger::GetMonitorEntity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -231,7 +267,7 @@ Return the entity name that we are currently monitoring or 0 if monitoring all e
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8" doxytag="iPcTrigger::IsEnabled"></a><p>
+<a class="anchor" name="a10" doxytag="iPcTrigger::IsEnabled"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -260,7 +296,7 @@ Return true if trigger is enabled.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="iPcTrigger::MonitorEntity"></a><p>
+<a class="anchor" name="a4" doxytag="iPcTrigger::MonitorEntity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -290,7 +326,37 @@ By default pctrigger will monitor all entities.
 If you only want pctrigger to monitor one entity then you can give the name of that entity here. pctrigger will try to find the entity with that name and monitor it. To go back to monitoring all entities just call this function with a 0 name.     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iPcTrigger::SetMonitorDelay"></a><p>
+<a class="anchor" name="a1" doxytag="iPcTrigger::RemoveTriggerListener"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcTrigger::RemoveTriggerListener           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcTriggerListener.html">iPcTriggerListener</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>listener</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a trigger listener. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a6" doxytag="iPcTrigger::SetMonitorDelay"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -329,7 +395,7 @@ Set the number of milliseconds we delay before monitoring all entities again.
 There is also a jitter parameter which will add a small random amount to that time to prevent all triggers trying to do the monitoring at once. By default this is set to 200/20 (i.e. roughly five times per second).     </td>
   </tr>
 </table>
-<a class="anchor" name="a1" doxytag="iPcTrigger::SetupTriggerBox"></a><p>
+<a class="anchor" name="a3" doxytag="iPcTrigger::SetupTriggerBox"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -368,7 +434,7 @@ Setup a box trigger zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0" doxytag="iPcTrigger::SetupTriggerSphere"></a><p>
+<a class="anchor" name="a2" doxytag="iPcTrigger::SetupTriggerSphere"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
