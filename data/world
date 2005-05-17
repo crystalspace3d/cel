@@ -186,7 +186,7 @@
 	    <quest name="proximityquest">
 	    	<state name="start">
 		    <trigger type="trigger">
-		    	<fireon entity="box_small" other_entity="x" />
+		    	<fireon entity="box_small" />
 			<reward type="debugprint" message="We are close!" />
 		    	<reward type="newstate" entity="$ent" state="second" />
 		    </trigger>
@@ -198,6 +198,12 @@
 		    	<reward type="newstate" entity="$ent" state="start" />
 		    </trigger>
 		</state>
+		<!--
+	    	<sequence name="movebox">
+		    <op type="transform" duration="2000">
+		    </op>
+		</sequence>
+		-->
 	    </quest>
 	    <!-- Parameters for this quest:
 	         $message: message to print

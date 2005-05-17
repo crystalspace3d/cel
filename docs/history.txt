@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-May-2005
+	- Jorrit fixed a crash at exit but in the pcquest manager with
+	  the trigger trigger.
 16-May-2005
 	- Jorrit added support for a listeners system to iPcTrigger.
 	- Jorrit added support for a new quest trigger that works together

@@ -182,7 +182,6 @@ void celTriggerTrigger::ActivateTrigger ()
 
 void celTriggerTrigger::DeactivateTrigger ()
 {
-  FindEntities ();
   if (ent)
   {
     csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (ent, iPcTrigger);
