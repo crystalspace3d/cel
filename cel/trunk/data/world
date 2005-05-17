@@ -188,6 +188,7 @@
 		    <trigger type="trigger">
 		    	<fireon entity="box_small" />
 			<reward type="debugprint" message="We are close!" />
+			<reward type="sequence" entity="$ent" sequence="movebox" />
 		    	<reward type="newstate" entity="$ent" state="second" />
 		    </trigger>
 		</state>
@@ -198,12 +199,11 @@
 		    	<reward type="newstate" entity="$ent" state="start" />
 		    </trigger>
 		</state>
-		<!--
 	    	<sequence name="movebox">
-		    <op type="transform" duration="2000">
+		    <op type="transform" duration="2000" entity="box_small">
+		    	<v x="0" y="0" z="2" />
 		    </op>
 		</sequence>
-		-->
 	    </quest>
 	    <!-- Parameters for this quest:
 	         $message: message to print

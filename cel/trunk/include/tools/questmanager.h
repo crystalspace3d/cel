@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/hash.h"
+#include "csgeom/vector3.h"
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
@@ -658,6 +659,8 @@ struct iQuestManager : public iBase
    * <ul>
    * <li>cel.questseqop.debugprint: print a debug message on stdout.
    *     See iDebugPrintQuestSeqOpFactory.
+   * <li>cel.questseqop.transform: transform a mesh.
+   *     See iTransformQuestSeqOpFactory.
    * </ul>
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
@@ -1272,6 +1275,38 @@ struct iDebugPrintQuestSeqOpFactory : public iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
+};
+
+SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the seqop that transforms meshes.
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ * <p>
+ * The predefined name of this seqop type is 'cel.questseqop.transform'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity containing the pcmesh
+ *     property class.
+ * <li><em>v</em>: movement vector. This node has 'x', 'y, and 'z'
+ *     attributes.
+ * </ul>
+ */
+struct iTransformQuestSeqOpFactory : public iBase
+{
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the relative movement vector.
+   */
+  virtual void SetVector (const csVector3& vector) = 0;
 };
 
 //-------------------------------------------------------------------------
