@@ -85,7 +85,10 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set a 'sequencefinish' trigger factory to a response factory.  <a href="#a19"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a20">SetPropertyChangeTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par, const char *value_par)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set an 'propertychange' trigger factory to a response factory.  <a href="#a20"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set a 'propertychange' trigger factory to a response factory.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#a21">SetTriggerTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, bool do_leave=false)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to set a 'trigger' trigger factory to a response factory.  <a href="#a21"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the quest manager. 
@@ -670,6 +673,8 @@ cel.questtrigger.timeout: triggers after a specified time. See <a class="el" hre
 cel.questtrigger.propertychange: triggers when a property changes. See <a class="el" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a>. </li>
 <li>
 cel.questtrigger.sequencefinish: triggers when a sequence finishes. See <a class="el" href="structiSequenceFinishQuestTriggerFactory.html">iSequenceFinishQuestTriggerFactory</a>. </li>
+<li>
+cel.questtrigger.trigger: triggers when a pctrigger files. See <a class="el" href="structiTriggerQuestTriggerFactory.html">iTriggerQuestTriggerFactory</a>. </li>
 </ul>
     </td>
   </tr>
@@ -849,7 +854,7 @@ Convenience method to set a 'meshentersector' trigger factory to a response fact
     <td>
 
 <p>
-Convenience method to set an 'propertychange' trigger factory to a response factory. 
+Convenience method to set a 'propertychange' trigger factory to a response factory. 
 <p>
     </td>
   </tr>
@@ -934,6 +939,51 @@ Convenience method to set a 'sequencefinish' trigger factory to a response facto
 
 <p>
 Convenience method to set a 'timeout' trigger factory to a response factory. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a21" doxytag="iQuestManager::SetTriggerTrigger"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>* iQuestManager::SetTriggerTrigger           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>response</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>entity_par</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>do_leave</em> = <code>false</code></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convenience method to set a 'trigger' trigger factory to a response factory. 
 <p>
     </td>
   </tr>
