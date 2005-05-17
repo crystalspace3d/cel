@@ -76,7 +76,7 @@ bool celDebugPrintSeqOpFactory::Load (iDocumentNode* node)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questreward.debugprint",
-      "'message' attribute is missing for the debugprint reward!");
+      "'message' attribute is missing for the debugprint seqop!");
     return false;
   }
   return true;

@@ -41,6 +41,7 @@
 #include "plugins/tools/quests/reward_inventory.h"
 #include "plugins/tools/quests/reward_sequence.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
+#include "plugins/tools/quests/seqop_transform.h"
 
 //---------------------------------------------------------------------------
 
@@ -947,6 +948,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celDebugPrintSeqOpType* type = new celDebugPrintSeqOpType (
+    	object_reg);
+    RegisterSeqOpType (type);
+    type->DecRef ();
+  }
+
+  {
+    celTransformSeqOpType* type = new celTransformSeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();

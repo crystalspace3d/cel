@@ -4,8 +4,11 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 17-May-2005
-	- Jorrit fixed a crash at exit but in the pcquest manager with
+	- Jorrit fixed a crash at exit but in the quest manager with
 	  the trigger trigger.
+	- Jorrit implemented the transform sequence operation in the quest
+	  manager and added a test case to celtest. The transform can currently
+	  only move and not rotate objects.
 16-May-2005
 	- Jorrit added support for a listeners system to iPcTrigger.
 	- Jorrit added support for a new quest trigger that works together
