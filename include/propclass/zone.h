@@ -231,6 +231,17 @@ struct iPcZoneManager : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 
   /**
+   * Load a zone definition from an XML file. The XML file should
+   * contain a 'level' node.
+   * \param path is a VFS path. Current VFS dir will be set to that path.
+   * Can be 0 if no path is desired.
+   * \param file is a VFS file.
+   * \return true on success. On failure the error will be reported to
+   * the reporter and false will be returned.
+   */
+  virtual bool Load (const char* path, const char* file) = 0;
+
+  /**
    * Create a zone.
    */
   virtual iCelZone* CreateZone (const char* name) = 0;
@@ -318,8 +329,10 @@ struct iPcZoneManager : public iBase
    * <li>#CEL_ZONEERROR_BADSTART: can't find start
    * <li>#CEL_ZONEERROR_LOAD: error loading zone
    * </ul>
+   * \param entity is the name of the entity that contains the
+   * pccamera property class.
    */
-  virtual int PointCamera (iPcCamera* pccamera, const char* regionname,
+  virtual int PointCamera (const char* entity, const char* regionname,
   	const char* startname = 0) = 0;
 
   /**
@@ -334,8 +347,10 @@ struct iPcZoneManager : public iBase
    * <li>#CEL_ZONEERROR_BADSTART: can't find start
    * <li>#CEL_ZONEERROR_LOAD: error loading zone
    * </ul>
+   * \param entity is the name of the entity that contains the
+   * pcmesh property class.
    */
-  virtual int PointMesh (iPcMesh* pcmesh, const char* regionname,
+  virtual int PointMesh (const char* entity, const char* regionname,
   	const char* startname = 0) = 0;
 };
 

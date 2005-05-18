@@ -1600,7 +1600,16 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  return false;
         if (!ParseExpression (local_vars, child, h, "behaviour", "createentity"))
 	  return false;
-	h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	if (child->GetAttributeValue ("layer"))
+	{
+          if (!ParseExpression (local_vars, child, h, "layer", "createentity"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_CREATEENTITYL);
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	}
 	break;
       case XMLTOKEN_EXPR:
         if (!ParseExpression (local_vars, child, h, "eval", "expr"))

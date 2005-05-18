@@ -3,6 +3,44 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-May-2005
+	- Jorrit added the notion of 'Init' to the sequence operations. This
+	  Init() function is called before the operation is fired and it gives
+	  the operation a chance to do initialization. This fixes a problem
+	  in the transform sequence operation where it was not able to
+	  properly resume the sequence.
+	- Jorrit implemented rotation for the transform sequence operation.
+	- Jorrit implemented persistence for sequence operations that are
+	  in progress.
+	- Jorrit implemented persistence for pctrigger.
+	- Jorrit added support for a 'layer' attribute in the XML behaviour
+	  layer 'createentity' command.
+	- Jorrit changed celtest to use the zone manager instead of pcregion.
+	  The basic celtest level is now called data/basic_level.xml. The basic
+	  world file is data/basic_world and the entity file is
+	  data/basic_entities.
+	- Jorrit extended the zone manager with a new function to load
+	  a zone definition directly from a file instead of an XML node.
+	  That makes it a bit easier to use again.
+	- Jorrit fixed a bug in the bltest behaviour layer where it would
+	  try to react on messages from behaviour when pl was already removed.
+	  This would cause crash at exit.
+	- Jorrit fixed the persistence for pccamera so that it properly supports
+	  the zone manager too (and not only pcregion like it was doing).
+	- Jorrit partially implemented persistence for the zone manager. It
+	  only works when the zone manager was initialized using the new
+	  Load() function that accepts a path and file.
+	- Jorrit changed the API of iPcZoneManager->PointMesh() and
+	  PointCamera(). They now expect a name of an entity.
+	- Jorrit changed celentity addon so that it now also tries to find
+	  the named behaviour layer from the physical layer (in addition
+	  to the object registry).
+	- Jorrit added support for a new InitCDMesh() action to pclinmove
+	  which will init CD from the mesh.
+	- Jorrit moved most entities that were created from code in celtest
+	  to the basic_entities file.
+	- Jorrit added support for SetMouseButtons and SetCamera actions
+	  to pcmeshselect.
 17-May-2005
 	- Jorrit fixed a crash at exit but in the quest manager with
 	  the trigger trigger.

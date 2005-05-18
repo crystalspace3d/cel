@@ -2794,6 +2794,38 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
         break;
 
+      case CEL_OPERATION_CREATEENTITYL:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg alayer = stack.Pop ();
+	  celXmlArg abh = stack.Pop ();
+	  celXmlArg aent = stack.Pop ();
+	  DUMP_EXEC ((":%04d: createentitylayer %s (layer=%s behaviour=%s)\n",
+	  	i-1, A2S (aent), A2S (alayer), A2S (abh)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: createentitylayer %s layer=%s behaviour=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (aent), A2S (alayer), A2S (abh));
+	    fflush (stdout);
+	  }
+	  csRef<iCelEntity> ent = pl->CreateEntity ();
+	  const char* entname = ArgToString (aent);
+	  if (entname) ent->SetName (entname);
+	  const char* layername = ArgToString (alayer);
+	  iCelBlLayer* bl = pl->FindBehaviourLayer (layername);
+	  if (!bl)
+	    return ReportError (behave,
+	    	"Couldn't find behaviour layer '%s'!", layername);
+
+	  const char* bhname = ArgToString (abh);
+	  iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
+	  if (!bh)
+	    return ReportError (behave,
+	    	"Couldn't create behaviour '%s' for '%s' and layer '%s'!",
+	    	bhname, entname, layername);
+	}
+        break;
       case CEL_OPERATION_CREATEENTITY:
         {
 	  CHECK_STACK(2)

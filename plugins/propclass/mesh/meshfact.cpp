@@ -521,6 +521,10 @@ SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
+csStringID celPcMeshSelect::action_setcamera = csInvalidStringID;
+csStringID celPcMeshSelect::action_setmousebuttons = csInvalidStringID;
+csStringID celPcMeshSelect::id_buttons = csInvalidStringID;
+
 csStringID celPcMeshSelect::id_x = csInvalidStringID;
 csStringID celPcMeshSelect::id_y = csInvalidStringID;
 csStringID celPcMeshSelect::id_button = csInvalidStringID;
@@ -558,6 +562,10 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_button = pl->FetchStringID ("cel.parameter.button");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
+
+    action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
+    action_setmousebuttons = pl->FetchStringID ("cel.action.SetMouseButtons");
+    id_buttons = pl->FetchStringID ("cel.parameter.buttons");
   }
   params = new celGenericParameterBlock (4);
   params->SetParameterDef (0, id_x, "x");
@@ -849,6 +857,30 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
     DG_LINK (this, pc2);
   }
 #endif
+}
+
+bool celPcMeshSelect::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_setcamera)
+  {
+    CEL_FETCH_STRING_PAR (entity,params,id_entity);
+    if (!entity) return false;
+    iCelEntity* ent = pl->FindEntity (entity);
+    if (!ent) return false;	// @@@ Report error?
+    csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+    if (!pccam) return false;	// @@@ Report error?
+    SetCamera (pccam);
+    return true;
+  }
+  else if (actionId == action_setmousebuttons)
+  {
+    CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
+    if (!p_buttons) return false;
+    SetMouseButtons (buttons);
+    return true;
+  }
+  return false;
 }
 
 //---------------------------------------------------------------------------

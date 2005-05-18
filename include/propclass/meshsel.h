@@ -44,6 +44,14 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
  * <li>pcmeshsel_up: mesh is unselected (x,y,button,entity)
  * <li>pcmeshsel_move: mesh is moved (x,y,button,entity)
  * </ul>
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetCamera: parameters 'entity' (string).
+ * <li>SetMouseButtons: parameters 'buttons' (long).
+ * </ul>
  */
 struct iPcMeshSelect : public iBase
 {

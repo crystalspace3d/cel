@@ -136,6 +136,7 @@ void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
   seq.seqop = seqop;
   seq.start = start;
   seq.end = end;
+  seq.idx = seqops.Length ();
   seqops.Push (seq);
 }
 
@@ -180,6 +181,7 @@ void celQuestSequence::Perform (csTicks rel)
   // Find all operations that have to be performed.
   while (idx < seqops.Length () && rel >= seqops[idx].start)
   {
+    seqops[idx].seqop->Init ();
     if (rel >= seqops[idx].end)
     {
       // Single shot operation or operation has already ended. Will not
@@ -223,6 +225,15 @@ void celQuestSequence::TickEveryFrame ()
 void celQuestSequence::SaveState (iCelDataBuffer* databuf)
 {
   databuf->Add ((uint32)(vc->GetCurrentTicks ()-start_time));
+
+  // Save all operations that are still in progress.
+  databuf->Add ((uint16)ops_in_progress.Length ());
+  size_t i;
+  for (i = 0 ; i < ops_in_progress.Length () ; i++)
+  {
+    databuf->Add ((uint32)ops_in_progress[i].idx);
+    ops_in_progress[i].seqop->Save (databuf);
+  }
 }
 
 bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
@@ -232,7 +243,7 @@ bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
 
   csTicks current_time = vc->GetCurrentTicks ();
   start_time = current_time - databuf->GetUInt32 ();
-  csTicks rel = current_time - start_time;
+  //csTicks rel = current_time - start_time;
 
   // When loading state it is important to realize that we assume
   // that the objects on which this sequence operates will load
@@ -241,6 +252,18 @@ bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
   // have to setup the right datastructures so that we can resume
   // de sequence where we left off.
 
+  uint16 cnt_op = databuf->GetUInt16 ();
+  size_t i;
+  idx = 0;
+  for (i = 0 ; i < cnt_op ; i++)
+  {
+    uint32 id = databuf->GetUInt32 ();
+    if (id > idx) idx = id;
+    if (!seqops[id].seqop->Load (databuf))
+      return false;
+    ops_in_progress.Push (seqops[id]);
+  }
+#if 0
   // Find all operations that have to be performed.
   idx = 0;
   while (idx < seqops.Length () && rel >= seqops[idx].start)
@@ -249,6 +272,7 @@ bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
       ops_in_progress.Push (seqops[idx]);
     idx++;
   }
+#endif
 
   return true;
 }

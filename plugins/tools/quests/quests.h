@@ -46,6 +46,7 @@ class celQuestFactory;
 struct celSeqOp
 {
   csRef<iQuestSeqOp> seqop;
+  size_t idx;
   csTicks start;
   csTicks end;
 };

@@ -54,6 +54,7 @@ struct iMeshWrapper;
  * <ul>
  * <li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3).
+ * <li>InitCDMesh: parameters 'percentage' (float).
  * <li>SetPosition: parameters 'sector' (string), 'position' (vector3), and
  *     'yrot' (y rotation degrees).
  * </ul>

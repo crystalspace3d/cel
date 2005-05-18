@@ -73,7 +73,9 @@ CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 csStringID celPcLinearMovement::id_body = csInvalidStringID;
 csStringID celPcLinearMovement::id_legs = csInvalidStringID;
 csStringID celPcLinearMovement::id_offset = csInvalidStringID;
+csStringID celPcLinearMovement::id_percentage = csInvalidStringID;
 csStringID celPcLinearMovement::action_initcd = csInvalidStringID;
+csStringID celPcLinearMovement::action_initcdmesh = csInvalidStringID;
 csStringID celPcLinearMovement::id_sector = csInvalidStringID;
 csStringID celPcLinearMovement::id_position = csInvalidStringID;
 csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
@@ -180,6 +182,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   if (action_initcd == csInvalidStringID)
   {
     action_initcd = pl->FetchStringID ("cel.action.InitCD");
+    id_percentage = pl->FetchStringID ("cel.parameter.percentage");
+    action_initcdmesh = pl->FetchStringID ("cel.action.InitCDMesh");
     id_body = pl->FetchStringID ("cel.parameter.body");
     id_legs = pl->FetchStringID ("cel.parameter.legs");
     id_offset = pl->FetchStringID ("cel.parameter.offset");
@@ -269,6 +273,17 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
     if (!p_offset) return false;
     bool rc = InitCD (body, legs, offset);
+    // @@@ Error report!
+    (void)rc;
+    return true;
+  }
+  else if (actionId == action_initcdmesh)
+  {
+    CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
+    if (!p_percentage) return false;
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    if (!pcmesh) return true;	// @@@ Error report!
+    bool rc = InitCD (pcmesh->GetMesh (), percentage);
     // @@@ Error report!
     (void)rc;
     return true;
