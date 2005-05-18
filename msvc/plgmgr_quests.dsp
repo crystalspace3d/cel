@@ -136,6 +136,10 @@ SOURCE=..\plugins\tools\quests\seqop_debugprint.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\seqop_transform.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_entersector.cpp
 # End Source File
 # Begin Source File
@@ -193,6 +197,10 @@ SOURCE=..\plugins\tools\quests\reward_sequencefinish.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\seqop_debugprint.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\seqop_transform.h
 # End Source File
 # Begin Source File
 

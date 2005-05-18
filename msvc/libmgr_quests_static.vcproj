@@ -191,6 +191,9 @@
 				RelativePath="..\plugins\tools\quests\seqop_debugprint.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\seqop_transform.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
 			</File>
 			<File
@@ -235,6 +238,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\seqop_debugprint.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\seqop_transform.h">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_entersector.h">
