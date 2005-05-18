@@ -266,6 +266,24 @@ SCF_VERSION (iQuestSeqOp, 0, 0, 1);
 struct iQuestSeqOp : public iBase
 {
   /**
+   * Init the operation. This is called before the operation is actually
+   * performed the first time. This function is not called in case the
+   * operation is loaded from persisted data. In that case Load()
+   * is called instead.
+   */
+  virtual void Init () = 0;
+
+  /**
+   * Load the sequence operation from persisted data.
+   */
+  virtual bool Load (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save the sequence operation to persisted data.
+   */
+  virtual void Save (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Do the operation. The parameter is a value between 0 and 1 which
    * will be interpolated over a specified time (specified in the sequence).
    * In case this is a single-shot operation the value will always be 1.
@@ -1291,8 +1309,14 @@ SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the pcmesh
  *     property class.
- * <li><em>v</em>: movement vector. This node has 'x', 'y, and 'z'
+ * <li><em>v</em>: optional movement vector. This node has 'x', 'y, and 'z'
  *     attributes.
+ * <li><em>rotx</em>: optional rotation along x axis. This node has
+ *     an 'angle' parameter in radians.
+ * <li><em>roty</em>: optional rotation along y axis. This node has
+ *     an 'angle' parameter in radians.
+ * <li><em>rotz</em>: optional rotation along z axis. This node has
+ *     an 'angle' parameter in radians.
  * </ul>
  */
 struct iTransformQuestSeqOpFactory : public iBase
@@ -1307,6 +1331,11 @@ struct iTransformQuestSeqOpFactory : public iBase
    * Set the relative movement vector.
    */
   virtual void SetVector (const csVector3& vector) = 0;
+
+  /**
+   * Set the relative rotation.
+   */
+  virtual void SetRotation (int rot_axis, float rot_angle) = 0;
 };
 
 //-------------------------------------------------------------------------

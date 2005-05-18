@@ -82,6 +82,9 @@ public:
 
   SCF_DECLARE_IBASE;
 
+  virtual bool Load (iCelDataBuffer*) { return true; }
+  virtual void Save (iCelDataBuffer*) { }
+  virtual void Init () { }
   virtual void Do (float time);
 };
 

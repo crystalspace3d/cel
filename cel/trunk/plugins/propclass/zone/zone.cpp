@@ -30,6 +30,7 @@
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "csutil/flags.h"
+#include "csutil/xmltiny.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
@@ -41,6 +42,7 @@
 #include "iutil/string.h"
 #include "iutil/stringarray.h"
 #include "iutil/document.h"
+#include "iutil/vfs.h"
 #include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -411,7 +413,32 @@ celPcZoneManager::~celPcZoneManager ()
 
 csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
 {
+  // @@@ Currently persistence for zone manager only works when
+  // the zone manager was setup using Load(path,file) function.
+  if (file.IsEmpty ())
+  {
+    Report (object_reg, "Currently we only support saving of zone manager when the zone manager is loaded using Load(path,file)!");
+    return 0;
+  }
+  
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);
+  databuf->Add (camera_entity);
+  databuf->Add (mesh_entity);
+  databuf->Add (last_regionname);
+  databuf->Add (last_startname);
+  databuf->Add (path);
+  databuf->Add (file);
+  size_t i;
+  for (i = 0 ; i < regions.Length () ; i++)
+  {
+    celRegion* r = regions[i];
+    if (r->IsLoaded ())
+    {
+      databuf->Add (r->GetName ());
+    }
+  }
+  databuf->Add ((const char*)0);
+
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -420,6 +447,41 @@ bool celPcZoneManager::LoadFirstPass (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ZONEMANAGER_SERIAL)
     return Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
+
+  iString* s;
+
+  s = databuf->GetString ();
+  camera_entity.Empty ();
+  if (s) camera_entity = s->GetData ();
+
+  s = databuf->GetString ();
+  mesh_entity.Empty ();
+  if (s) mesh_entity = s->GetData ();
+
+  s = databuf->GetString ();
+  last_regionname.Empty ();
+  if (s) last_regionname = s->GetData ();
+
+  s = databuf->GetString ();
+  last_startname.Empty ();
+  if (s) last_startname = s->GetData ();
+
+  csString p, f;
+  s = databuf->GetString ();
+  if (s) p = s->GetData ();
+  s = databuf->GetString ();
+  if (s) f = s->GetData ();
+  if (!Load (p, f))
+    return false;
+
+  s = databuf->GetString ();
+  while (s && s->GetData ())
+  {
+    iCelRegion* r = FindRegion (s->GetData ());
+    ActivateRegion ((celRegion*)r, false);
+    s = databuf->GetString ();
+  }
+
   return true;
 }
 
@@ -434,6 +496,16 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ZONEMANAGER_SERIAL)
     return Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
+
+  if (!mesh_entity.IsEmpty ())
+    if (PointMesh (mesh_entity, last_regionname, last_startname)
+    	!= CEL_ZONEERROR_OK)
+      return false;
+  if (!camera_entity.IsEmpty ())
+    if (PointCamera (camera_entity, last_regionname, last_startname)
+    	!= CEL_ZONEERROR_OK)
+      return false;
+
   return true;
 }
 
@@ -447,7 +519,8 @@ void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
 {
   if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
-  entity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
+  if (entity->GetBehaviour ())
+    entity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
 }
 
 bool celPcZoneManager::ParseRegion (iDocumentNode* regionnode,
@@ -551,6 +624,41 @@ bool celPcZoneManager::ParseStart (iDocumentNode* startnode)
   }
 
   return true;
+}
+
+bool celPcZoneManager::Load (const char* path, const char* file)
+{
+  celPcZoneManager::path = path;
+  celPcZoneManager::file = file;
+
+  csRef<iDocumentSystem> docsys = CS_QUERY_REGISTRY (object_reg,
+  	iDocumentSystem);
+  if (!docsys)
+    docsys.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = docsys->CreateDocument ();
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  if (path)
+  {
+    vfs->PushDir ();
+    vfs->ChDir (path);
+  }
+  csRef<iDataBuffer> buf = vfs->ReadFile (file);
+  if (path)
+    vfs->PopDir ();
+
+  if (!buf)
+    return Report (object_reg, "Error opening file '%s'!", file);
+  const char* error = doc->Parse (buf);
+  if (error != 0)
+    return Report (object_reg, "XML parse error for file '%s': %s!",
+    	file, error);
+
+  csRef<iDocumentNode> levelnode = doc->GetRoot ()->GetNode ("level");
+  if (!levelnode)
+    return Report (object_reg,
+    	"Malformed XML file, 'level' node is missing in '%s'!", file);
+
+  return Load (levelnode);
 }
 
 bool celPcZoneManager::Load (iDocumentNode* levelnode)
@@ -670,7 +778,8 @@ void celPcZoneManager::RemoveAllRegions ()
   regions.SetLength (0);
 }
 
-bool celPcZoneManager::ActivateRegion (celRegion* region)
+bool celPcZoneManager::ActivateRegion (celRegion* region,
+	bool allow_entity_addon)
 {
   // The 'first' flag is used to see if we need to do some loading
   // work. In that case we send a message to the behaviour layer so that
@@ -700,7 +809,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region)
 	  first = false;
 	  SendZoneMessage (0, "pczonemanager_startloading");
 	}
-	if (!r->Load (true))
+	if (!r->Load (allow_entity_addon))
 	{
 	  SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
           return false;
@@ -768,9 +877,16 @@ void celPcZoneManager::GetLastStartLocation (iString* regionname,
   startname->Append (last_startname);
 }
 
-int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
+int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
   	const char* startname)
 {
+  camera_entity = entity;
+
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (!ent) return CEL_ZONEERROR_OK;
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+  if (!pccamera) return CEL_ZONEERROR_OK;
+
   if (!camlistener)
     camlistener.AttachNew (new cameraSectorListener (this));
   if (celPcZoneManager::pccamera)
@@ -843,9 +959,16 @@ int celPcZoneManager::PointCamera (iPcCamera* pccamera, const char* regionname,
   return CEL_ZONEERROR_OK;
 }
 
-int celPcZoneManager::PointMesh (iPcMesh* pcmesh, const char* regionname,
+int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
   	const char* startname)
 {
+  mesh_entity = entity;
+
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (!ent) return CEL_ZONEERROR_OK;
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+  if (!pcmesh) return CEL_ZONEERROR_OK;
+
   if (!meshlistener)
     meshlistener.AttachNew (new meshmoveListener (this));
   if (celPcZoneManager::pcmesh)

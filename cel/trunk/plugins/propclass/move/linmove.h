@@ -122,10 +122,12 @@ protected:
 
   void FindSiblingPropertyClasses ();
 
+  static csStringID action_initcdmesh;
+  static csStringID id_percentage;
+  static csStringID action_initcd;
   static csStringID id_body;
   static csStringID id_legs;
   static csStringID id_offset;
-  static csStringID action_initcd;
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID id_yrot;

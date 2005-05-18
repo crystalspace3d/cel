@@ -30,6 +30,7 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "physicallayer/persist.h"
 #include "propclass/camera.h"
 
 #include "plugins/tools/quests/seqop_transform.h"
@@ -52,6 +53,7 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
   celTransformSeqOpFactory::type = type;
   entity_par = 0;
   vector.Set (0, 0, 0);
+  rot_axis = -1;
 }
 
 celTransformSeqOpFactory::~celTransformSeqOpFactory ()
@@ -65,7 +67,7 @@ csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
     const csHash<csStrKey,csStrKey>& params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
-  	params, entity_par, vector);
+  	params, entity_par, vector, rot_axis, rot_angle);
   return seqop;
 }
 
@@ -88,6 +90,24 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
     vector.x = v_node->GetAttributeValueAsFloat ("x");
     vector.y = v_node->GetAttributeValueAsFloat ("y");
     vector.z = v_node->GetAttributeValueAsFloat ("z");
+  }
+  csRef<iDocumentNode> rotx_node = node->GetNode ("rotx");
+  if (rotx_node)
+  {
+    rot_axis = CS_AXIS_X;
+    rot_angle = rotx_node->GetAttributeValueAsFloat ("angle");
+  }
+  csRef<iDocumentNode> roty_node = node->GetNode ("roty");
+  if (roty_node)
+  {
+    rot_axis = CS_AXIS_Y;
+    rot_angle = roty_node->GetAttributeValueAsFloat ("angle");
+  }
+  csRef<iDocumentNode> rotz_node = node->GetNode ("rotz");
+  if (rotz_node)
+  {
+    rot_axis = CS_AXIS_Z;
+    rot_angle = rotz_node->GetAttributeValueAsFloat ("angle");
   }
   
   return true;
@@ -112,13 +132,17 @@ celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
-	const csVector3& vector)
+	const csVector3& vector,
+	int axis, float angle)
 {
   SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   celTransformSeqOp::vector = vector;
+  do_move = !(vector < .00001f);
+  rot_axis = axis;
+  rot_angle = angle;
 }
 
 celTransformSeqOp::~celTransformSeqOp ()
@@ -141,19 +165,61 @@ void celTransformSeqOp::FindMesh ()
     {
       mesh = pcmesh->GetMesh ();
       start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+      start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
     }
   }
 }
 
+bool celTransformSeqOp::Load (iCelDataBuffer* databuf)
+{
+  mesh = 0;
+  databuf->GetVector3 (start);
+  csVector3 row1, row2, row3;
+  databuf->GetVector3 (row1);
+  databuf->GetVector3 (row2);
+  databuf->GetVector3 (row3);
+  start_matrix.Set (
+  	row1.x, row1.y, row1.z,
+  	row2.x, row2.y, row2.z,
+  	row3.x, row3.y, row3.z);
+  return true;
+}
+
+void celTransformSeqOp::Save (iCelDataBuffer* databuf)
+{
+  databuf->Add (start);
+  databuf->Add (start_matrix.Row1 ());
+  databuf->Add (start_matrix.Row2 ());
+  databuf->Add (start_matrix.Row3 ());
+}
+
+void celTransformSeqOp::Init ()
+{
+  mesh = 0;
+  FindMesh ();
+}
+
 void celTransformSeqOp::Do (float time)
 {
-  FindMesh ();
   if (mesh)
   {
-    csVector3 v = start + time * vector;
-    mesh->GetMovable ()->GetTransform ().SetOrigin (v);
+    if (do_move)
+    {
+      csVector3 v = start + time * vector;
+      mesh->GetMovable ()->GetTransform ().SetOrigin (v);
+    }
+    if (rot_axis >= 0)
+    {
+      csMatrix3 m = start_matrix;
+      switch (rot_axis)
+      {
+        case CS_AXIS_X: m *= csXRotMatrix3 (rot_angle * time); break;
+        case CS_AXIS_Y: m *= csYRotMatrix3 (rot_angle * time); break;
+        case CS_AXIS_Z: m *= csZRotMatrix3 (rot_angle * time); break;
+      }
+      mesh->GetMovable ()->GetTransform ().SetO2T (m);
+    }
     mesh->GetMovable ()->UpdateMove ();
-    if (time >= 1.0f) mesh = 0;
   }
 }
 

@@ -243,7 +243,10 @@ private:
 
   csRef<cameraSectorListener> camlistener;
   csRef<meshmoveListener> meshlistener;
+
+  csString camera_entity;
   csWeakRef<iPcCamera> pccamera;
+  csString mesh_entity;
   csWeakRef<iPcMesh> pcmesh;
 
   csRefArray<celZone> zones;
@@ -259,11 +262,14 @@ private:
   // the given region and unload all other zones. It is safe to call
   // this too many times as it will check if a region or zone is already
   // loaded or not and avoid doing unneeded work.
-  bool ActivateRegion (celRegion* region);
+  bool ActivateRegion (celRegion* region, bool allow_entity_addon = true);
 
   // Last used region and start name (for PointCamera).
   csString last_regionname;
   csString last_startname;
+
+  // If Load(path,file) is used then the following two will be set.
+  csString path, file;
 
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "plugins/propclass/zone/zone.tok"
@@ -300,6 +306,7 @@ public:
   void SendZoneMessage (iCelRegion* region, const char* msgid);
 
   bool Load (iDocumentNode* node);
+  bool Load (const char* path, const char* file);
 
   iCelZone* CreateZone (const char* name);
   size_t GetZoneCount () const { return zones.Length (); }
@@ -317,10 +324,13 @@ public:
 
   void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
   void GetLastStartLocation (iString* regionname, iString* startname);
-  int PointCamera (iPcCamera* pccamera, const char* regionname,
+
+  int PointCamera (const char* entity, const char* regionname,
   	const char* startname);
-  int PointMesh (iPcMesh* pcmesh, const char* regionname,
+  int PointMesh (const char* entity, const char* regionname,
   	const char* startname);
+  int UpdateMeshCamera ();
+
 
   struct PcZoneManager : public iPcZoneManager
   {
@@ -328,6 +338,10 @@ public:
     virtual bool Load (iDocumentNode* node)
     {
       return scfParent->Load (node);
+    }
+    virtual bool Load (const char* path, const char* file)
+    {
+      return scfParent->Load (path, file);
     }
     virtual iCelZone* CreateZone (const char* name)
     {
@@ -387,15 +401,15 @@ public:
     {
       scfParent->GetLastStartLocation (regionname, startname);
     }
-    virtual int PointCamera (iPcCamera* pccamera, const char* regionname,
+    virtual int PointCamera (const char* entity, const char* regionname,
   	const char* startname = 0)
     {
-      return scfParent->PointCamera (pccamera, regionname, startname);
+      return scfParent->PointCamera (entity, regionname, startname);
     }
-    virtual int PointMesh (iPcMesh* pcmesh, const char* regionname,
+    virtual int PointMesh (const char* entity, const char* regionname,
   	const char* startname = 0)
     {
-      return scfParent->PointMesh (pcmesh, regionname, startname);
+      return scfParent->PointMesh (entity, regionname, startname);
     }
   } scfiPcZoneManager;
 };

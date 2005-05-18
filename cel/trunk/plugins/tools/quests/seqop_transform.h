@@ -53,6 +53,8 @@ private:
   celTransformSeqOpType* type;
   char* entity_par;
   csVector3 vector;
+  int rot_axis;
+  float rot_angle;
 
 public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
@@ -70,6 +72,11 @@ public:
   {
     celTransformSeqOpFactory::vector = vector;
   }
+  virtual void SetRotation (int axis, float angle)
+  {
+    rot_axis = axis;
+    rot_angle = angle;
+  }
 };
 
 /**
@@ -82,8 +89,12 @@ private:
   celTransformSeqOpType* type;
   char* entity;
   csVector3 vector;
+  bool do_move;
+  int rot_axis;
+  float rot_angle;
 
   csVector3 start;
+  csMatrix3 start_matrix;
   csWeakRef<iMeshWrapper> mesh;
 
   void FindMesh ();
@@ -91,11 +102,15 @@ private:
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
   	const celQuestParams& params,
-	const char* entity_par, const csVector3& vector);
+	const char* entity_par, const csVector3& vector,
+	int axis, float angle);
   virtual ~celTransformSeqOp ();
 
   SCF_DECLARE_IBASE;
 
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void Save (iCelDataBuffer* databuf);
+  virtual void Init ();
   virtual void Do (float time);
 };
 

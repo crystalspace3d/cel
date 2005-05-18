@@ -98,6 +98,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
   (void)arg;
   // @@@ Should store the id's for the parameters below.
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl) return false;
   const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
   	"cel.parameter.button")) : 0;
   if (butdata)

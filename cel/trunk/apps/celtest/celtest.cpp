@@ -86,6 +86,7 @@
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
+#include "propclass/zone.h"
 
 #define PATHFIND_ENABLE 0
 #define PATHFIND_VERBOSE 0
@@ -232,49 +233,10 @@ csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
     csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (entity_box,
     	iPcTrigger);
     pctrigger->MonitorEntity ("camera");
-    pctrigger->SetupTriggerSphere (room, pos, 1.0f);
+    pctrigger->SetupTriggerSphere (room, pos, 2.0f);
   }
 
   return csPtr<iCelEntity> (entity_box);
-}
-
-csPtr<iCelEntity> CelTest::CreateDummyEntity (const char* name,
-	const char* factName,
-	float weight, float size, const csVector3& pos,
-	const csVector3& force, bool python)
-{
-  iCelBlLayer* bl;
-  if (python && blpython)
-    bl = blpython;
-  else
-    bl = bltest;
-  csRef<iCelEntity> entity_dummy = pl->CreateEntity (name, bl, "printer",
-  	"pctimer",
-	"pccharacteristics",
-	"pcsolid",
-	"pclinearmovement",
-	"pcmesh",
-  	(void*)0);
-
-  csRef<iPcTimer> pctimer = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcTimer);
-  pctimer->WakeUp (1000, true);
-
-  csRef<iPcCharacteristics> pcchars = CEL_QUERY_PROPCLASS_ENT (entity_dummy,
-  	iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", size);
-  pcchars->SetCharacteristic ("weight", weight);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcMesh);
-  char buf[150];
-  sprintf (buf, "/cel/data/%s", factName);
-  pcmesh->SetMesh (factName, buf);
-  pcmesh->MoveMesh (room, pos);
-
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_dummy,
-    iPcLinearMovement);
-  pclinmove->InitCD (pcmesh->GetMesh (), 10.0f);
-
-  return csPtr<iCelEntity> (entity_dummy);
 }
 
 csPtr<iCelEntity> CelTest::CreateActor (const char* name,
@@ -337,13 +299,13 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   bool hascal3d = true;
   pcmesh->SetPath ("/cel/data");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
-  if (hascal3d)
-    pcmesh->MoveMesh (room, csVector3(0,-1,0));
-  else
-  {
-    pcmesh->SetMesh ("large", "large");
-    pcmesh->MoveMesh (room, csVector3(0,0,0));
-  }
+  //if (hascal3d)
+    //pcmesh->MoveMesh (room, csVector3(0,-1,0));
+  //else
+  //{
+    //pcmesh->SetMesh ("large", "large");
+    //pcmesh->MoveMesh (room, csVector3(0,0,0));
+  //}
 
   csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcMeshSelect);
@@ -429,7 +391,7 @@ bool CelTest::CreateRoom ()
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity ("room", bltest, "room",
-  	"pcregion",
+  	"pczonemanager",
 	"pcinventory",
   	(void*)0);
 
@@ -438,31 +400,36 @@ bool CelTest::CreateRoom ()
   //===============================
   engine->Prepare ();
 
-  csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcRegion);
-  pcregion->SetWorldFile ("/cellib/lev", "world");
-  pcregion->SetRegionName ("celworld");
-  if (!pcregion->Load ())
-    return false;
-  room = pcregion->GetStartSector ();
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  	iPcZoneManager);
+  if (!pczonemgr->Load ("/cellib/lev", "basic_level.xml"))
+    return ReportError ("Error loading level!");
 
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcInventory);
+  scfString regionname, startname;
+  pczonemgr->GetLastStartLocation (&regionname, &startname);
 
   entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
   if (!entity_dummy) return false;
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity_dummy, iPcCamera);
   if (!pccamera) return false;
-  pccamera->SetRegion (pcregion);
+  pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
+  if (pczonemgr->PointMesh ("camera", regionname, startname) != CEL_ZONEERROR_OK)
+    return ReportError ("Error finding start position!");
+
+  room = engine->FindSector ("room");
+
+  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  	iPcInventory);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   //===============================
   // Create the box entities.
   //===============================
   csRef<iCelEntity> entity_box;
-  entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
-  	1, 1000000, 60, 180, csVector3 (0, 0, 2), true);
-  if (!entity_box) return false;
-  if (!pcinv_room->AddEntity (entity_box)) return false;
+  //entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
+  	//1, 1000000, 60, 180, csVector3 (0, 0, 2), false);
+  //if (!entity_box) return false;
+  //if (!pcinv_room->AddEntity (entity_box)) return false;
 
   entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
   	1, 1000000, 5, 48,
@@ -471,39 +438,6 @@ bool CelTest::CreateRoom ()
   if (!pcinv_room->AddEntity (entity_box)) return false;
 
   if (!CreateQuests ()) return false;
-
-  //===============================
-  // Create dummy entities.
-  //===============================
-  entity_dummy = CreateDummyEntity ("dummy1", "large",
-  	.3f, 8, csVector3 (-2, 0, 1), csVector3 (0, 9, 0), false);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  entity_dummy = CreateDummyEntity ("dummy2", "small",
-  	.4f, 2, csVector3 (2, 0, -1), csVector3 (0, 9, 0), true);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  entity_dummy = CreateDummyEntity ("dummy3", "large",
-  	.2f, 11, csVector3 (1, 0, 3), csVector3 (0, 9, 0), false);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  entity_dummy = CreateDummyEntity ("dummy4", "medium",
-  	.7f, 5, csVector3 (0, 0, -1.5), csVector3 (0, 9, 0), false);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  entity_dummy = CreateDummyEntity ("dummy5", "small",
-  	.1f, 1, csVector3 (-1, 0, -2), csVector3 (0, 9, 0), true);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
-
-  entity_dummy = CreateDummyEntity ("dummy6", "medium",
-  	.3f, 4, csVector3 (2.5, 0, 1.5), csVector3 (0, 9, 0), false);
-  if (!entity_dummy) return false;
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   // Create NavGraph Test Entities
   //==============================
@@ -702,7 +636,7 @@ bool CelTest::Application ()
 #else // VFS_PKGDATADIR
   vfs->Mount ("cel", "$.$/");
 #endif // VFS_PKGDATADIR
-  
+
   blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
   	"iCelBlLayer.Python", iCelBlLayer);
   if (!blpython)
@@ -726,6 +660,8 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
     return false;

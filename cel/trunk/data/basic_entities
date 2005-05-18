@@ -1,0 +1,291 @@
+<world>
+    <sector name="room">
+    	<addon plugin="cel.addons.questdef">
+	    <!-- Parameters for this quest:
+		 $ent: entity containing this quest -->
+	    <quest name="proximityquest">
+	    	<state name="start">
+		    <trigger type="trigger">
+		    	<fireon entity="box_small" />
+			<reward type="debugprint" message="We are close!" />
+			<reward type="sequence" entity="$ent" sequence="movebox" />
+		    	<reward type="newstate" entity="$ent" state="second" />
+		    </trigger>
+		</state>
+	    	<state name="second">
+		    <trigger type="trigger">
+		    	<fireon entity="box_small" leave="true" />
+			<reward type="debugprint" message="We are far!" />
+		    	<reward type="newstate" entity="$ent" state="start" />
+		    </trigger>
+		</state>
+	    	<sequence name="movebox">
+		    <op type="transform" duration="2000" entity="box_small">
+		    	<v x="0" y="0" z="2" />
+			<roty angle="3.1415926" />
+		    </op>
+		</sequence>
+	    </quest>
+	    <!-- Parameters for this quest:
+	         $message: message to print
+		 $ent: entity containing this quest
+		 $actor: entity containing the actor -->
+	    <quest name="testquest">
+	    	<state name="init">
+		    <trigger type="timeout">
+		    	<fireon timeout="1000" />
+			<reward type="debugprint" message="$message" />
+		    	<reward type="changeproperty" entity="$ent" property="counter" long="0" />
+		    	<reward type="changeproperty" entity="$ent" property="countdown" long="5" />
+		    	<reward type="newstate" entity="$ent" state="sequencetest" />
+			<reward type="sequence" entity="$ent" sequence="test" />
+		    </trigger>
+		</state>
+	    	<state name="sequencetest">
+		    <trigger type="sequencefinish">
+		    	<fireon entity="$ent" sequence="test" />
+			<reward type="debugprint" message="Sequence Finished!" />
+		    	<reward type="newstate" entity="$ent" state="countdown" />
+		    </trigger>
+		</state>
+	    	<state name="countdown">
+		    <trigger type="timeout">
+		    	<fireon timeout="1000" />
+			<reward type="debugprint" message="countdown" />
+		    	<reward type="changeproperty" entity="$ent" property="countdown" diff="-1" />
+		    	<reward type="newstate" entity="$ent" state="countdown" />
+		    </trigger>
+		    <trigger type="propertychange">
+		    	<fireon entity="$ent" property="countdown" value="0" />
+			<reward type="debugprint" message="Done!" />
+		    	<reward type="newstate" entity="$ent" state="start" />
+		    </trigger>
+		</state>
+	    	<state name="start">
+		    <trigger type="meshentersector">
+		    	<fireon entity="$actor" sector="room0,1"  />
+			<reward type="debugprint" message="Go!" />
+		    	<reward type="newstate" entity="$ent" state="middle" />
+		    </trigger>
+		    <trigger type="propertychange">
+		    	<fireon entity="$ent" property="counter" value="5" />
+			<reward type="debugprint" message="We reached 5!" />
+		    	<reward type="newstate" entity="$ent" state="end" />
+		    </trigger>
+		</state>
+	    	<state name="middle">
+		    <trigger type="meshentersector">
+		    	<fireon entity="$actor" sector="room"  />
+			<!-- @@@ Bug: the newstate has to be in front here or the quest doesn't work because
+			     the property change listener in 'start' will not be activated yet but the
+			     property is still changed. A good solution would be to do a manual check
+			     of conditions after activating a state. -->
+		    	<reward type="newstate" entity="$ent" state="start" />
+			<reward type="debugprint" message="And Back!" />
+		    	<reward type="changeproperty" entity="$ent" property="counter" diff="1" />
+		    </trigger>
+		</state>
+	    	<state name="end">
+		</state>
+	    	<sequence name="test">
+		    <op type="debugprint" duration="2000" message="sequence" />
+		</sequence>
+	    </quest>
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="bla">
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cellib/objects" />
+		    <par name="filename" string="large" />
+		    <par name="factoryname" string="large" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="5,2,5" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCD">
+		    <par name="body" vector="0.5,0.8,0.5" />
+		    <par name="legs" vector="0.5,0.4,0.5" />
+		    <par name="offset" vector="0,-0.4,0" />
+		</action>
+	    </propclass>
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="dummy1" >
+	    <propclass name="pctimer">
+	        <action name="WakeUp">
+		    <par name="time" long="1000" />
+		    <par name="repeat" bool="true" />
+		</action>
+	    </propclass>
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="large" />
+		    <par name="factoryname" string="large" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2,0,1" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+    	<addon plugin="cel.addons.celentity" entityname="dummy2" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="small" />
+		    <par name="factoryname" string="small" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2,0,-1" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+    	<addon plugin="cel.addons.celentity" entityname="dummy3" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="large" />
+		    <par name="factoryname" string="large" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="1,0,3" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+    	<addon plugin="cel.addons.celentity" entityname="dummy4" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="medium" />
+		    <par name="factoryname" string="medium" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="0,0,-1.5" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+    	<addon plugin="cel.addons.celentity" entityname="dummy5" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="small" />
+		    <par name="factoryname" string="small" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-1,0,-2" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+    	<addon plugin="cel.addons.celentity" entityname="dummy6" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="medium" />
+		    <par name="factoryname" string="medium" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="2.5,0,1.5" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="box" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmeshselect">
+	        <action name="SetCamera">
+		    <par name="entity" string="camera" />
+		</action>
+	        <action name="SetMouseButtons">
+		    <par name="buttons" long="2" />
+		</action>
+	    </propclass>
+	    <propclass name="pctest">
+	    <!--
+	        <action name="Print">
+		    <par name="message" string="Hello world!" />
+		</action>
+	    -->
+	    </propclass>
+	    <propclass name="pctimer">
+	    </propclass>
+	    <propclass name="pcinventory">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="box" />
+		    <par name="factoryname" string="box" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="0,0,2" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="box" />
+	</addon>
+    </sector>
+</world>

@@ -124,6 +124,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
 celPcTrigger::~celPcTrigger ()
 {
   send_to_self = false;	// Prevent sending messages to this entity.
+  send_to_others = false;
   LeaveAllEntities ();
   if (pl)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
@@ -319,10 +320,9 @@ void celPcTrigger::TickOnce ()
     {
       // We have an entity to monitor. See how far it is from
       // our trigger center.
-      float sqdistance = csSquaredDist::PointPoint (
-      	monitoring_entity_pcmesh->GetMesh ()->GetMovable ()
-		->GetFullTransform ().GetOrigin (),
-	sphere_center);
+      csVector3 mpos = monitoring_entity_pcmesh->GetMesh ()->GetMovable ()
+		->GetFullTransform ().GetOrigin ();
+      float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
       size_t idx = EntityInTrigger (monitoring_entity);
       if (sqdistance < sphere_radius * sphere_radius)
       {
@@ -436,6 +436,15 @@ void celPcTrigger::TickOnce ()
 csPtr<iCelDataBuffer> celPcTrigger::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TRIGGER_SERIAL);
+  databuf->Add (enabled);
+  databuf->Add (send_to_self);
+  databuf->Add (send_to_others);
+  databuf->Add (monitor_entity);
+  databuf->Add ((uint32)delay);
+  databuf->Add ((uint32)jitter);
+  databuf->Add (sphere_sector->QueryObject ()->GetName ());
+  databuf->Add (sphere_center);
+  databuf->Add (sphere_radius);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -447,6 +456,37 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
     Report (object_reg, "serialnr != TRIGGER_SERIAL.  Cannot load.");
     return false;
   }
+  bool en = databuf->GetBool ();
+  send_to_self = databuf->GetBool ();
+  send_to_others = databuf->GetBool ();
+  iString* s = databuf->GetString ();
+  if (!s)
+  {
+    Report (object_reg, "Problem parsing trigger!");
+    return false;
+  }
+  MonitorEntity (s->GetData ());
+  csTicks d = csTicks (databuf->GetUInt32 ());
+  csTicks j = csTicks (databuf->GetUInt32 ());
+  SetMonitorDelay (d, j);
+  s = databuf->GetString ();
+  if (!s)
+  {
+    Report (object_reg, "Problem parsing trigger!");
+    return false;
+  }
+  iSector* sector = engine->FindSector (s->GetData ());
+  if (!sector)
+  {
+    Report (object_reg, "Can't find sector '%s'!", s->GetData ());
+    return false;
+  }
+  csVector3 c;
+  databuf->GetVector3 (c);
+  float r = databuf->GetFloat ();
+  SetupTriggerSphere (sector, c, r);
+
+  EnableTrigger (en);
 
   return true;
 }

@@ -266,6 +266,10 @@ private:
   // Setup the event handler based on settings.
   void SetupEventHandler ();
 
+  static csStringID action_setcamera;
+  static csStringID action_setmousebuttons;
+  static csStringID id_buttons;
+
   static csStringID id_x, id_y, id_button, id_entity;
   celGenericParameterBlock* params;
   void SendMessage (const char* name, iCelEntity* ent, int x, int y, int but);
@@ -326,6 +330,7 @@ public:
   virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcMeshSelect : public iPcMeshSelect
   {

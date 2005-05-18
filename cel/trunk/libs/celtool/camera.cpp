@@ -80,7 +80,7 @@ bool celPcCameraCommon::SetZoneManager (iPcZoneManager* newzonemgr,
     csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
 
     if (zonemgr)
-      zonemgr->PointCamera (camera, regionname, name);
+      zonemgr->PointCamera (entity->GetName (), regionname, name);
     else
     {
       // camera->GetCamera ()->SetSector (0);
@@ -228,6 +228,8 @@ void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
   csRef<iCelPropertyClass> pc;
   if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
   databuf->Add (pc);
+  if (zonemgr) pc = SCF_QUERY_INTERFACE (zonemgr, iCelPropertyClass);
+  databuf->Add (pc);
   databuf->Add (view->GetCamera()->GetSector()->QueryObject()->GetName());
   const csTransform& tr = view->GetCamera ()->GetTransform ();
   databuf->Add (tr.GetO2TTranslation ());
@@ -258,20 +260,29 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   csVector3 v_o2t;
 
   iCelPropertyClass* pc = databuf->GetPC ();
-  if (!pc)
+  if (pc)
   {
-    Report (object_reg,"Cannot load property class.");
-    return false;
+    region = SCF_QUERY_INTERFACE (pc, iPcRegion);
+    if (region)
+      SetRegion (region, false, 0);
   }
-  region = SCF_QUERY_INTERFACE (pc, iPcRegion);
-  if (region)
-    SetRegion (region, false, 0);
+
+  pc = databuf->GetPC ();
+  if (pc)
+  {
+    zonemgr = SCF_QUERY_INTERFACE (pc, iPcZoneManager);
+    if (zonemgr)
+      SetZoneManager (zonemgr, false, 0, 0);
+  }
 
   const char* sectname = databuf->GetString ()->GetData ();
-  iSector* sector = region->FindSector (sectname);
+  iSector* sector;
+  if (region) sector = region->FindSector (sectname);
+  else sector = engine->FindSector (sectname);
   if (!sector)
   {
-    Report (object_reg,"Illegal sector specified.  Cannot load.");
+    Report (object_reg,"Illegal sector '%s' specified.  Cannot load.",
+    	sectname);
     return false;
   }
   databuf->GetVector3 (v_o2t);
@@ -286,7 +297,7 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   m_o2t.m32 = databuf->GetFloat ();
   m_o2t.m33 = databuf->GetFloat ();
 
-  view->GetCamera ()->SetSector(sector);
+  view->GetCamera ()->SetSector (sector);
   csOrthoTransform tr (m_o2t, v_o2t);
   view->GetCamera ()->SetTransform (tr);
 
