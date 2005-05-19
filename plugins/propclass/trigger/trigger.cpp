@@ -84,6 +84,10 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcTrigger::action_setuptriggersphere = csInvalidStringID;
+csStringID celPcTrigger::id_sector = csInvalidStringID;
+csStringID celPcTrigger::id_position = csInvalidStringID;
+csStringID celPcTrigger::id_radius = csInvalidStringID;
 csStringID celPcTrigger::id_entity = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcTrigger)
@@ -101,7 +105,14 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   if (id_entity == csInvalidStringID)
+  {
     id_entity = pl->FetchStringID ("cel.parameter.entity");
+    action_setuptriggersphere = pl->FetchStringID (
+    	"cel.action.SetupTriggerSphere");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_radius = pl->FetchStringID ("cel.parameter.radius");
+  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_entity, "entity");
 
@@ -491,9 +502,22 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcTrigger::PerformAction (csStringID /*actionId*/,
-	iCelParameterBlock* /*params*/)
+bool celPcTrigger::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
 {
+  if (actionId == action_setuptriggersphere)
+  {
+    CEL_FETCH_STRING_PAR (sector,params,id_sector);
+    if (!p_sector) return false;
+    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+    if (!p_position) return false;
+    CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
+    if (!p_radius) return false;
+    iSector* sec = engine->FindSector (sector);
+    if (!sec) return false;	// @@@ Report error?
+    SetupTriggerSphere (sec, position, radius);
+    return true;
+  }
   return false;
 }
 
@@ -501,8 +525,12 @@ void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
 	iCelEntity* ent, const char* msgid)
 {
   if (ent) params->GetParameter (0).SetIBase (ent);
-  celData ret;
-  destentity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
+  iCelBehaviour* bh = destentity->GetBehaviour ();
+  if (bh)
+  {
+    celData ret;
+    bh->SendMessage (msgid, this, ret, params);
+  }
 }
 
 void celPcTrigger::AddTriggerListener (iPcTriggerListener* listener)

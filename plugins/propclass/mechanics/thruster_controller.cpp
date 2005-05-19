@@ -1,3 +1,22 @@
+/*
+    Crystal Space Entity Layer
+    Copyright (C) 2005 by Jorrit Tyberghein
+  
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+  
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+  
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/string.h"
@@ -40,8 +59,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterGroup::PcMechanicsThrusterGr
   SCF_IMPLEMENTS_INTERFACE (iPcMechanicsThrusterGroup)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcMechanicsThrusterGroup::celPcMechanicsThrusterGroup (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+celPcMechanicsThrusterGroup::celPcMechanicsThrusterGroup (
+	iObjectRegistry* object_reg) : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThrusterGroup);
 
@@ -140,7 +159,9 @@ bool celPcMechanicsThrusterGroup::PerformAction (csStringID actionId,
     }
     AddThruster (th, mult);
     return true;
-  } else if (actionId == action_settype) {
+  }
+  else if (actionId == action_settype)
+  {
     CEL_FETCH_STRING_PAR (type,params,param_type);
     if (!p_type)
     {
@@ -153,7 +174,8 @@ bool celPcMechanicsThrusterGroup::PerformAction (csStringID actionId,
       gtype = CEL_TGT_ROTATION;
     else if (type_id == type_translation)
       gtype = CEL_TGT_TRANSLATION;
-    else {
+    else
+    {
       Report (object_reg, "Invalid thruster group type!");
       return false;
     }
@@ -166,15 +188,17 @@ void celPcMechanicsThrusterGroup::AddThruster (iPcMechanicsThruster* thruster,
 	float multiplier)
 {
   csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (thruster, iCelPropertyClass);
-  celThrusterData* th = new celThrusterData (pc->GetTag (), thruster, thruster->GetEffectiveMaxThrust
-	(), thruster->GetPosition (), multiplier);
+  celThrusterData* th = new celThrusterData (pc->GetTag (), thruster,
+  	thruster->GetEffectiveMaxThrust (), thruster->GetPosition (),
+	multiplier);
   thrusters.Push (th);
 }
 
 void celPcMechanicsThrusterGroup::RemoveThruster (const char* thrustertag)
 {
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     celThrusterData* td = it.Next ();
     if (strcmp (td->tag.GetData (), thrustertag) == 0)
       thrusters.Delete (td);
@@ -185,7 +209,8 @@ iPcMechanicsThruster* celPcMechanicsThrusterGroup::GetThruster (const char*
 	thrustertag)
 {
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     celThrusterData* td = it.Next ();
     if (strcmp (td->tag.GetData (), thrustertag) == 0)
       return td->thruster;
@@ -213,7 +238,8 @@ const csRefArray<iPcMechanicsThruster>
     if ((taxis.Unit () * axisunit) > 0)
       tarray.Push (thruster);
   }
-  printf ("\nFound %lu thrusters within 90 degrees of %f,%f,%f.\n", (unsigned long)tarray.GetSize (), axis.x, axis.y, axis.z);
+  printf ("\nFound %lu thrusters within 90 degrees of %f,%f,%f.\n",
+  	(unsigned long)tarray.GetSize (), axis.x, axis.y, axis.z);
   fflush (stdout);
   return tarray;
 }
@@ -258,7 +284,8 @@ bool celPcMechanicsThrusterGroup::IsAvailable (const csVector3 axis)
   return available;
 }
 
-void celPcMechanicsThrusterGroup::ApplyThrust (percentage thrust, const csVector3 axis)
+void celPcMechanicsThrusterGroup::ApplyThrust (percentage thrust,
+	const csVector3 axis)
 {
   csRef<iPcMechanicsThruster> thruster;
   csRefArray<iPcMechanicsThruster> ta = GetThrustersInThisDirection (axis);
@@ -273,11 +300,13 @@ void celPcMechanicsThrusterGroup::ApplyThrust (percentage thrust, const csVector
   }
 }
 
-void celPcMechanicsThrusterGroup::UpdateThrust (const char* thrustertag, float thrust)
+void celPcMechanicsThrusterGroup::UpdateThrust (const char* thrustertag,
+	float thrust)
 {
   //Update the effective thrust of this thruster.
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     celThrusterData* td = it.Next ();
     if (strcmp (td->tag.GetData (), thrustertag) == 0)
       td->thrust = thrust;
@@ -453,7 +482,9 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     }
     AddAxis (axisname, atype, axisdir);
     return true;
-  } else if (actionId == action_applythrust) {
+  }
+  else if (actionId == action_applythrust)
+  {
     CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
     if (!p_axisname)
     {
@@ -467,7 +498,9 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
       return false;
     }
     ApplyThrust ((percentage) thrust, axisname);
-  } else if (actionId == action_addthrustergroup) {
+  }
+  else if (actionId == action_addthrustergroup)
+  {
     CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
     if (!p_axisname)
     {
@@ -509,7 +542,8 @@ const csVector3 celPcMechanicsThrusterController::GetAxis (const char* name)
 {
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     ad = it.Next ();
     if (strcmp (ad->name.GetData (), name) == 0)
       break;
@@ -524,9 +558,11 @@ float celPcMechanicsThrusterController::GetAxisStrength (const char* axisname)
 {
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     ad = it.Next ();
-    if (strcmp (ad->name.GetData (), axisname) == 0) {
+    if (strcmp (ad->name.GetData (), axisname) == 0)
+    {
       csVector3 axis = ad->axis;
       csRefArray<iPcMechanicsThrusterGroup>::Iterator groupit
 	= ad->thrustergroups.GetIterator ();
@@ -535,7 +571,8 @@ float celPcMechanicsThrusterController::GetAxisStrength (const char* axisname)
       while (groupit.HasNext ())
       {
         group = groupit.Next ();
-        if (group->IsAvailable (axis)) {
+        if (group->IsAvailable (axis))
+	{
           if (group->GetStrength (axis) > maxstrength)
             maxstrength = group->GetStrength (axis);
         }
@@ -543,7 +580,8 @@ float celPcMechanicsThrusterController::GetAxisStrength (const char* axisname)
       return maxstrength;
     }
   }
-  Report (object_reg, (csString ("Invalid axis specified: ") + axisname).GetData ());
+  Report (object_reg, (csString ("Invalid axis specified: ") + axisname)
+  	.GetData ());
   return 0;
 }
 
@@ -552,9 +590,11 @@ void celPcMechanicsThrusterController::AddThrusterGroup
 {
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData *adi = 0, *ad = 0;
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     adi = it.Next ();
-    if (strcmp (adi->name.GetData (), axisname) == 0) {
+    if (strcmp (adi->name.GetData (), axisname) == 0)
+    {
       ad = adi;
       break;
     }
@@ -562,7 +602,8 @@ void celPcMechanicsThrusterController::AddThrusterGroup
   if (ad)
     ad->thrustergroups.Push (thrustergroup);
   else
-    Report (object_reg, (csString ("Couldn't find specified axis: ") + axisname).GetData ());
+    Report (object_reg, (csString ("Couldn't find specified axis: ")
+    	+ axisname).GetData ());
 }
 
 void celPcMechanicsThrusterController::RemoveThrusterGroup (const char*
@@ -570,9 +611,11 @@ void celPcMechanicsThrusterController::RemoveThrusterGroup (const char*
 {
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     ad = it.Next ();
-    if (strcmp (ad->name.GetData (), axisname) == 0) {
+    if (strcmp (ad->name.GetData (), axisname) == 0)
+    {
       csRefArray<iPcMechanicsThrusterGroup>::Iterator groupit
 	= ad->thrustergroups.GetIterator ();
       csRef<iPcMechanicsThrusterGroup> group;
@@ -590,16 +633,19 @@ void celPcMechanicsThrusterController::RemoveThrusterGroup (const char*
 
 void celPcMechanicsThrusterController::ApplyThrust (percentage thrust, const char* axisname)
 {
-  printf ((csString ("Applying thrust on axis '") + axisname + "'.\n").GetData ());
+  printf ((csString ("Applying thrust on axis '") + axisname + "'.\n")
+  	.GetData ());
   fflush (stdout);
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
-  while (it.HasNext ()) {
+  while (it.HasNext ())
+  {
     ad = it.Next ();
     printf ("Iterating axis: ");
     printf ((ad->name + "\n").GetData ());
     fflush (stdout);
-    if (strcmp (ad->name.GetData (), axisname) == 0) {
+    if (strcmp (ad->name.GetData (), axisname) == 0)
+    {
       printf ("Found match.\n");
       fflush (stdout);
       csVector3 axis;
@@ -617,8 +663,10 @@ void celPcMechanicsThrusterController::ApplyThrust (percentage thrust, const cha
         printf ("[group]\n");
 	fflush (stdout);
         group = groupit.Next ();
-        if (group->IsAvailable (axis)) {
-          if (bestgroup == NULL || group->GetStrength (axis) > beststrength) {
+        if (group->IsAvailable (axis))
+	{
+          if (bestgroup == NULL || group->GetStrength (axis) > beststrength)
+	  {
 	    beststrength = group->GetStrength (axis);
             bestgroup = group;
 	  }

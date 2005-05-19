@@ -1,3 +1,22 @@
+/*
+    Crystal Space Entity Layer
+    Copyright (C) 2005 by Jorrit Tyberghein
+  
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+  
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+  
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
 #include "cssysdef.h"
 #include "csqsqrt.h"
 #include "iutil/plugin.h"
@@ -57,8 +76,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary::CelTimerListene
   SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
+	iObjectRegistry* object_reg) : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThruster);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelTimerListener);
@@ -88,7 +107,8 @@ celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
 csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
-  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechanicsobject, iCelPropertyClass);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechanicsobject,
+  	iCelPropertyClass);
   databuf->Add (pc);
   databuf->Add (position);
   databuf->Add (orientation);
@@ -127,34 +147,35 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
     if (p_objectpctag)
     {
       csRef<iPcMechanicsObject> mechobj = 0;
-      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMechanicsObject,objectpctag);
+      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	iPcMechanicsObject,objectpctag);
       assert (mechobj);
       SetMechanicsObject (mechobj);
-    } else {
+    }
+    else
+    {
       return false;
     }
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
     if (p_position)
-    {
       SetPosition (position);
-    } else {
+    else
       Report (object_reg, "Couldn't get position for thruster!");
-    }
     CEL_FETCH_VECTOR3_PAR (orientation,params,param_orientation);
     if (p_orientation)
     {
       fflush (stdout);
       SetOrientation (orientation);
-    } else {
+    }
+    else
+    {
       Report (object_reg, "Couldn't get orientation for thruster!");
     }
     CEL_FETCH_FLOAT_PAR (maxthrust,params,param_maxthrust);
     if (p_maxthrust)
-    {
       SetMaxThrust (maxthrust);
-    } else {
+    else
       Report (object_reg, "Couldn't get maxthrust for thruster!");
-    }
     return true;
   }
   return false;
@@ -170,8 +191,8 @@ void celPcMechanicsThrusterReactionary::TickEveryFrame ()
   }
 }
 
-void celPcMechanicsThrusterReactionary::ThrustRequest (iPcMechanicsThrusterGroup*
-	group, float thrust)
+void celPcMechanicsThrusterReactionary::ThrustRequest (
+	iPcMechanicsThrusterGroup* group, float thrust)
 {
   printf ("received thrust request.\n\n");
   fflush (stdout);
@@ -192,31 +213,39 @@ void celPcMechanicsThrusterReactionary::CancelThrustRequest
   }
 }
 
-void celPcMechanicsThrusterReactionary::SetPosition (const csVector3& pos) {
+void celPcMechanicsThrusterReactionary::SetPosition (const csVector3& pos)
+{
   position = pos;
-};
+}
 
-const csVector3& celPcMechanicsThrusterReactionary::GetPosition () {
+const csVector3& celPcMechanicsThrusterReactionary::GetPosition ()
+{
   return position;
-};
+}
 
-void celPcMechanicsThrusterReactionary::SetOrientation (const csVector3& orientation) {
+void celPcMechanicsThrusterReactionary::SetOrientation (
+	const csVector3& orientation)
+{
   this->orientation = orientation.Unit();
-};
+}
 
-const csVector3& celPcMechanicsThrusterReactionary::GetOrientation () {
+const csVector3& celPcMechanicsThrusterReactionary::GetOrientation ()
+{
   return orientation;
-};
+}
 
-void celPcMechanicsThrusterReactionary::SetMaxThrust (float maxthrust) {
+void celPcMechanicsThrusterReactionary::SetMaxThrust (float maxthrust)
+{
   this->maxthrust = maxthrust;
-};
+}
 
-float celPcMechanicsThrusterReactionary::GetMaxThrust () {
+float celPcMechanicsThrusterReactionary::GetMaxThrust ()
+{
   return maxthrust;
-};
+}
 
-float celPcMechanicsThrusterReactionary::GetEffectiveMaxThrust () {
+float celPcMechanicsThrusterReactionary::GetEffectiveMaxThrust ()
+{
   return maxthrust;
-};
+}
 

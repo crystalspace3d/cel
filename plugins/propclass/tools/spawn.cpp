@@ -167,12 +167,14 @@ void celPcSpawn::TickOnce ()
   }
 
   // Then send a message to our own entity.
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  CS_ASSERT (bh != 0);
   ref = entity;
-  params->GetParameter (0).Set (newent);
-  params->GetParameter (1).Set (spawninfo[idx].behaviour);
-  bh->SendMessage ("pcspawn_newentity", this, ret, params);
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    params->GetParameter (0).Set (newent);
+    params->GetParameter (1).Set (spawninfo[idx].behaviour);
+    bh->SendMessage ("pcspawn_newentity", this, ret, params);
+  }
 }
 
 void celPcSpawn::Reset ()

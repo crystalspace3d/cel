@@ -42,7 +42,8 @@ SCF_VERSION (iPcQuest, 0, 0, 1);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
- * <li>NewQuest: parameters 'name' (string).
+ * <li>NewQuest: parameters 'name' (string). All other string parameters will be
+ *     passed to the quest itself.
  * <li>StopQuest: no parameters.
  * </ul>
  * <p>

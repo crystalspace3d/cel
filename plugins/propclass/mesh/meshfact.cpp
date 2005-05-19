@@ -663,7 +663,7 @@ void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
 	int x, int y, int but)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
-  CS_ASSERT (bh != 0);
+  if (!bh) return;
   params->GetParameter (0).Set ((int32)x);
   params->GetParameter (1).Set ((int32)y);
   params->GetParameter (2).Set ((int32)but);

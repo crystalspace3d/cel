@@ -66,6 +66,14 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * entity that contains this property class and/or the entities
  * that enter/leave the trigger area.
  * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetupTriggerSphere: parameters 'sector' (string), 'position' (vector3),
+ *     and 'radius' (float).
+ * </ul>
+ * <p>
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>

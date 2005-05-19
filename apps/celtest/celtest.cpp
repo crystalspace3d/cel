@@ -88,7 +88,6 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 
-#define PATHFIND_ENABLE 0
 #define PATHFIND_VERBOSE 0
 
 //-----------------------------------------------------------------------------
@@ -176,69 +175,6 @@ bool CelTest::OnKeyboard (iEvent &ev)
   return false;
 }
 
-csPtr<iCelEntity> CelTest::CreateBoxEntity (const char* name,
-	const char* factName,
-	iPcCamera* pccamera,
-	float weight, float size,
-	float max_indiv_weight, float max_weight,
-	float max_indiv_size, float max_size,
-	const csVector3& pos, bool do_trigger)
-{
-  csRef<iCelEntity> entity_box = pl->CreateEntity (name, bltest, "box",
-  	"pcmesh",
-  	"pcmeshselect",
-	"pctimer",
-	"pclinearmovement",
-	"pcsolid",
-	"pcinventory",
-	"pccharacteristics",
-	"pctest",
-	do_trigger ? "pctrigger" : (void*)0,
-  	(void*)0);
-  if (!entity_box) return 0;
-
-  csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_box,
-  	iPcMeshSelect);
-  pcmeshsel->SetCamera (pccamera);
-  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON2);
-
-  csRef<iPcTest> pctest = CEL_QUERY_PROPCLASS_ENT (entity_box, iPcTest);
-  pctest->Print ("Hello world!");
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_box, iPcMesh);
-  char buf[150];
-  sprintf (buf, "/cel/data/%s", factName);
-  pcmesh->SetMesh (factName, buf);
-  pcmesh->MoveMesh (room, pos);
-
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_box,
-    iPcLinearMovement);
-  pclinmove->InitCD (pcmesh->GetMesh (), 10.0f);
-
-  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (entity_box,
-  	iPcInventory);
-  pcinv->SetConstraints ("size", 0, max_indiv_size, max_size);
-  pcinv->SetConstraints ("weight", 0, max_indiv_weight, max_weight);
-  pcinv->SetStrictCharacteristics ("size", true);
-
-  csRef<iPcCharacteristics> pcchars = CEL_QUERY_PROPCLASS_ENT (entity_box,
-  	iPcCharacteristics);
-  pcchars->SetCharacteristic ("size", size);
-  pcchars->SetCharacteristic ("weight", weight);
-  pcchars->SetInheritedCharacteristic ("size", 0, 0);
-  pcchars->SetInheritedCharacteristic ("weight", .5, 0);
-
-  if (do_trigger)
-  {
-    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (entity_box,
-    	iPcTrigger);
-    pctrigger->MonitorEntity ("camera");
-    pctrigger->SetupTriggerSphere (room, pos, 2.0f);
-  }
-
-  return csPtr<iCelEntity> (entity_box);
-}
-
 csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
@@ -266,7 +202,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("d", "straferight");
   pcinp->Bind (" ", "jump");
 
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcDefaultCamera);
+  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
+  	entity_cam, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -338,50 +275,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   return csPtr<iCelEntity> (entity_cam);
 }
 
-bool CelTest::CreateQuests ()
-{
-  // The Quest Entity
-  csRef<iCelEntity> entity_quest = pl->CreateEntity ("q1", bltest, "quest",
-  	"pcquest",
-	"pcproperties",
-	(void*)0);
-  if (!entity_quest) return false;
-
-  //-----------------------------------------------------------
-  // Create 'testquest'.
-  //-----------------------------------------------------------
-  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest,
-    iPcQuest);
-  celQuestParams params;
-  params.Put ("message", "Hallo Hallo!");
-  params.Put ("ent", "q1");
-  params.Put ("actor", "camera");
-  if (!pcquest->NewQuest ("testquest", params))
-  {
-    ReportError ("Error creating quest '%s'!", "testquest");
-    return false;
-  }
-  pcquest->GetQuest ()->SwitchState ("init");
-
-  // The Second Quest Entity
-  entity_quest = pl->CreateEntity ("q2", bltest, "quest",
-  	"pcquest",
-	(void*)0);
-  if (!entity_quest) return false;
-
-  pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest);
-  celQuestParams params2;
-  params2.Put ("ent", "q2");
-  if (!pcquest->NewQuest ("proximityquest", params2))
-  {
-    ReportError ("Error creating quest '%s'!", "proximityquest");
-    return false;
-  }
-  pcquest->GetQuest ()->SwitchState ("start");
-
-  return true;
-}
-
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
@@ -413,7 +306,8 @@ bool CelTest::CreateRoom ()
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity_dummy, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
-  if (pczonemgr->PointMesh ("camera", regionname, startname) != CEL_ZONEERROR_OK)
+  if (pczonemgr->PointMesh ("camera", regionname, startname)
+  	!= CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
   room = engine->FindSector ("room");
@@ -422,27 +316,144 @@ bool CelTest::CreateRoom ()
   	iPcInventory);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
-  //===============================
-  // Create the box entities.
-  //===============================
-  csRef<iCelEntity> entity_box;
-  //entity_box = CreateBoxEntity ("box", "box", pccamera, .9f, 200,
-  	//1, 1000000, 60, 180, csVector3 (0, 0, 2), false);
-  //if (!entity_box) return false;
-  //if (!pcinv_room->AddEntity (entity_box)) return false;
+  game = entity_room;
 
-  entity_box = CreateBoxEntity ("box_small", "smallbox", pccamera, .3f, 50,
-  	1, 1000000, 5, 48,
-  	csVector3 (-4, 0, 0), true);
-  if (!entity_box) return false;
-  if (!pcinv_room->AddEntity (entity_box)) return false;
+  return true;
+}
 
-  if (!CreateQuests ()) return false;
+bool CelTest::OnInitialize (int argc, char* argv[])
+{
+  csDebuggingGraph::SetupGraph (object_reg);
 
+  if (!celInitializer::RequestPlugins (object_reg,
+  	CS_REQUEST_VFS,
+	CS_REQUEST_OPENGL3D,
+	CS_REQUEST_ENGINE,
+	CS_REQUEST_FONTSERVER,
+	CS_REQUEST_IMAGELOADER,
+	CS_REQUEST_LEVELLOADER,
+	CS_REQUEST_REPORTER,
+	CS_REQUEST_REPORTERLISTENER,
+	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
+		iCelBlLayer),
+	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
+	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
+		iCollideSystem),
+	CS_REQUEST_END))
+  {
+    return ReportError ("Can't initialize plugins!");
+  }
+
+  // Now we need to setup an event handler for our application.
+  // Crystal Space is fully event-driven. Everything (except for this
+  // initialization) happens in an event.
+  if (!RegisterQueue (object_reg))
+    return ReportError ("Can't setup event handler!");
+  return true;
+}
+
+bool CelTest::Application ()
+{
+  // Open the main system. This will open all the previously loaded plug-ins.
+  // i.e. all windows will be opened.
+  if (!OpenApplication (object_reg))
+    return ReportError ("Error opening system!");
+
+  // The virtual clock.
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  if (!vc) return ReportError ("Can't find the virtual clock!");
+
+  // Find the pointer to engine plugin
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  if (!engine) return ReportError ("No iEngine plugin!");
+
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  if (!loader) return ReportError ("No iLoader plugin!");
+
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  if (!g3d) return ReportError ("No iGraphics3D plugin!");
+
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
+
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl) return ReportError ("CEL physical layer missing!");
+
+  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+  	"iCelBlLayer.Test", iCelBlLayer);
+  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
+  pl->RegisterBehaviourLayer (bltest);
+
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
+  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
+#else // VFS_PKGDATADIR
+  vfs->Mount ("cel", "$.$/");
+#endif // VFS_PKGDATADIR
+
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
+
+  if (!CreateRoom ()) return false;
+
+  // This calls the default runloop. This will basically just keep
+  // broadcasting process events to keep the game going.
+  Run ();
+
+  return true;
+}
+
+#if 0
   // Create NavGraph Test Entities
   //==============================
   // Create Graph entity
-#if PATHFIND_ENABLE
   csRef<iCelEntity> graph = pl->CreateEntity ("navgraph1", 0, 0,
   	"pcgraph",
   	(void*)0);
@@ -534,175 +545,7 @@ bool CelTest::CreateRoom ()
   ReportInfo ("Final Graph Stats: nodes: %d links: %d",
 	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
 #endif
-#endif // PATHFIND_ENABLE
 
   //===============================
-  game = entity_room;
+#endif
 
-  return true;
-}
-
-bool CelTest::LoadTextures ()
-{
-  if (!LoadTexture ("stone", "/lib/std/stone4.gif")) return false;
-  if (!LoadTexture ("spark", "/lib/std/spark.png")) return false;
-  if (!LoadTexture ("wood", "/lib/stdtex/andrew_wood.jpg")) return false;
-  if (!LoadTexture ("marble", "/lib/stdtex/marble_08_ao___128.jpg"))
-    return false;
-  return true;
-}
-
-bool CelTest::LoadTexture (const char* txtName, const char* fileName)
-{
-  iTextureWrapper* txt = loader->LoadTexture (txtName, fileName);
-  if (!txt)
-    return ReportError ("Error loading texture '%s'!", fileName);
-  printf ("txt: %p %d\n", txt, txt->GetRefCount());
-  pl->Cache (txt);
-  iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName (txtName);
-  if (mat) pl->Cache (mat);
-  return true;
-}
-
-bool CelTest::OnInitialize (int argc, char* argv[])
-{
-  csDebuggingGraph::SetupGraph (object_reg);
-
-  if (!celInitializer::RequestPlugins (object_reg,
-  	CS_REQUEST_VFS,
-	CS_REQUEST_OPENGL3D,
-	CS_REQUEST_ENGINE,
-	CS_REQUEST_FONTSERVER,
-	CS_REQUEST_IMAGELOADER,
-	CS_REQUEST_LEVELLOADER,
-	CS_REQUEST_REPORTER,
-	CS_REQUEST_REPORTERLISTENER,
-	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.python:iCelBlLayer.Python",
-		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
-	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
-		iCollideSystem),
-	CS_REQUEST_END))
-  {
-    return ReportError ("Can't initialize plugins!");
-  }
-
-  // Now we need to setup an event handler for our application.
-  // Crystal Space is fully event-driven. Everything (except for this
-  // initialization) happens in an event.
-  if (!RegisterQueue (object_reg))
-    return ReportError ("Can't setup event handler!");
-  return true;
-}
-
-bool CelTest::Application ()
-{
-  // Open the main system. This will open all the previously loaded plug-ins.
-  // i.e. all windows will be opened.
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
-
-  // The virtual clock.
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  if (!vc) return ReportError ("Can't find the virtual clock!");
-
-  // Find the pointer to engine plugin
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  if (!engine) return ReportError ("No iEngine plugin!");
-
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
-  if (!loader) return ReportError ("No iLoader plugin!");
-
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  if (!g3d) return ReportError ("No iGraphics3D plugin!");
-
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
-  if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
-
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  if (!pl) return ReportError ("CEL physical layer missing!");
-
-  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-  	"iCelBlLayer.Test", iCelBlLayer);
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  pl->RegisterBehaviourLayer (bltest);
-
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
-#else // VFS_PKGDATADIR
-  vfs->Mount ("cel", "$.$/");
-#endif // VFS_PKGDATADIR
-
-  blpython = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-  	"iCelBlLayer.Python", iCelBlLayer);
-  if (!blpython)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-    	"crystalspace.application.celtest",
-    	"CEL python behaviour layer missing.");
-  }
-  else
-    pl->RegisterBehaviourLayer (blpython);
-
-  // XXX: This should be in a config file...
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
-    return false;
-
-  if (!LoadTextures ()) return false;
-  if (!CreateRoom ()) return false;
-
-  // This calls the default runloop. This will basically just keep
-  // broadcasting process events to keep the game going.
-  Run ();
-
-  return true;
-}

@@ -426,8 +426,8 @@ void celPcDefaultCamera::DoCameraTransition ()
 {
   if (inTransitionPhase)
   {
-    if ((GetPosition () - GetPosition (iPcDefaultCamera::actual_data)).SquaredNorm()
-    	< transitionThresholdSquared)
+    if ((GetPosition () - GetPosition (iPcDefaultCamera::actual_data))
+    	.SquaredNorm() < transitionThresholdSquared)
     {
       inTransitionPhase = false;
     }
@@ -504,7 +504,8 @@ void celPcDefaultCamera::DoElasticPhysics (bool isElastic,
     else
     {
       cameraSpringCoef = GetSpringCoef (iPcDefaultCamera::transition);
-      cameraInertialDampeningCoef = GetDampeningCoef(iPcDefaultCamera::transition);
+      cameraInertialDampeningCoef = GetDampeningCoef (
+      	iPcDefaultCamera::transition);
       cameraSpringLength = GetSpringLength(iPcDefaultCamera::transition);
     }
 
@@ -517,7 +518,8 @@ void celPcDefaultCamera::DoElasticPhysics (bool isElastic,
 	cameraInertialDampeningCoef, cameraSpringLength);
     SetPosition (newPos, iPcDefaultCamera::actual_data);
 
-    newTar = CalcElasticPos (GetTarget (iPcDefaultCamera::actual_data), GetTarget (),
+    newTar = CalcElasticPos (GetTarget (iPcDefaultCamera::actual_data),
+    	GetTarget (),
     	deltaIdeal.worldTar, (float)elapsedTicks/1000.0f, cameraSpringCoef,
 	cameraInertialDampeningCoef, cameraSpringLength);
     SetTarget(newTar, iPcDefaultCamera::actual_data);
@@ -623,7 +625,7 @@ void celPcDefaultCamera::Draw()
     if (cammode != iPcDefaultCamera::firstperson || inTransitionPhase)
     {
       if ((GetPosition (iPcDefaultCamera::actual_data)
-		- GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
+	  - GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
         pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
     }
     else
@@ -661,7 +663,8 @@ void celPcDefaultCamera::Draw()
   }
   
   c->GetTransform ().LookAt (GetTarget (iPcDefaultCamera::actual_data) -
-    	GetPosition (iPcDefaultCamera::actual_data), GetUp (iPcDefaultCamera::actual_data));
+    	GetPosition (iPcDefaultCamera::actual_data),
+	GetUp (iPcDefaultCamera::actual_data));
 
   // Now calculate the error of the camera.
   SetPosition (GetPosition (iPcDefaultCamera::actual_data) - GetPosition (),
@@ -990,13 +993,20 @@ bool celPcDefaultCamera::SetMode (iPcDefaultCamera::CameraMode cammode,
 bool celPcDefaultCamera::SetModeName (const char* m, bool use_cd)
 {
   iPcDefaultCamera::CameraMode mode;
-  if (!strcmp (m, "freelook")) mode = iPcDefaultCamera::freelook;
-  else if (!strcmp (m, "firstperson")) mode = iPcDefaultCamera::firstperson;
-  else if (!strcmp (m, "thirdperson")) mode = iPcDefaultCamera::thirdperson;
-  else if (!strcmp (m, "m64_thirdperson")) mode = iPcDefaultCamera::m64_thirdperson;
-  else if (!strcmp (m, "lara_thirdperson")) mode = iPcDefaultCamera::lara_thirdperson;
-  else if (!strcmp (m, "freelook")) mode = iPcDefaultCamera::freelook;
-  else return false;
+  if (!strcmp (m, "freelook"))
+    mode = iPcDefaultCamera::freelook;
+  else if (!strcmp (m, "firstperson"))
+    mode = iPcDefaultCamera::firstperson;
+  else if (!strcmp (m, "thirdperson"))
+    mode = iPcDefaultCamera::thirdperson;
+  else if (!strcmp (m, "m64_thirdperson"))
+    mode = iPcDefaultCamera::m64_thirdperson;
+  else if (!strcmp (m, "lara_thirdperson"))
+    mode = iPcDefaultCamera::lara_thirdperson;
+  else if (!strcmp (m, "freelook"))
+    mode = iPcDefaultCamera::freelook;
+  else
+    return false;
   return SetMode (mode, use_cd);
 }
 
@@ -1009,11 +1019,16 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
 {
   switch (cammode)
   {
-    case iPcDefaultCamera::freelook: return iPcDefaultCamera::firstperson;
-    case iPcDefaultCamera::firstperson: return iPcDefaultCamera::thirdperson;
-    case iPcDefaultCamera::thirdperson: return iPcDefaultCamera::m64_thirdperson;
-    case iPcDefaultCamera::m64_thirdperson: return iPcDefaultCamera::lara_thirdperson;
-    case iPcDefaultCamera::lara_thirdperson: return iPcDefaultCamera::freelook;
+    case iPcDefaultCamera::freelook:
+      return iPcDefaultCamera::firstperson;
+    case iPcDefaultCamera::firstperson:
+      return iPcDefaultCamera::thirdperson;
+    case iPcDefaultCamera::thirdperson:
+      return iPcDefaultCamera::m64_thirdperson;
+    case iPcDefaultCamera::m64_thirdperson:
+      return iPcDefaultCamera::lara_thirdperson;
+    case iPcDefaultCamera::lara_thirdperson:
+      return iPcDefaultCamera::freelook;
     default:
       return cammode;
   }

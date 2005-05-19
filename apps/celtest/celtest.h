@@ -59,7 +59,6 @@ private:
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;
-  csRef<iCelBlLayer> blpython;
   csRef<iCelEntity> game;
  
   /**
@@ -82,18 +81,9 @@ private:
    */
   virtual bool OnKeyboard (iEvent &event);
 
-  bool LoadTextures ();
-  bool LoadTexture (const char* txtName, const char* fileName);
   bool CreateRoom ();
-  csPtr<iCelEntity> CreateBoxEntity (const char* name, const char* factName,
-  	iPcCamera* pccamera,
-  	float weight, float size,
-	float max_indiv_weight, float max_weight,
-	float max_indiv_size, float max_size,
-  	const csVector3& pos, bool do_trigger);
   csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
 	const csVector3& pos);
-  bool CreateQuests ();
   
 public:
   CelTest ();
