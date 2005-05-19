@@ -171,8 +171,8 @@ void celPcMover::SendMessage (const char* msg)
   }
 }
 
-bool celPcMover::Start (iSector* sector, const csVector3& position, const csVector3& up,
-  	float movespeed, float rotatespeed, float sqradius)
+bool celPcMover::Start (iSector* sector, const csVector3& position,
+	const csVector3& up, float movespeed, float rotatespeed, float sqradius)
 {
   FindSiblingPropertyClasses ();
   if (!pclinmove)

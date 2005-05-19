@@ -3,6 +3,25 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-May-2005
+	- Jorrit fixed several property classes so that they no longer
+	  crash if the behaviour is missing. Behaviours are supposed to be
+	  optional. In particular I fixed: pctest, pcbillboard, pccommandinput,
+	  pcmechanics, pcmeshselect, pcspawn, pctimer, and pctrigger
+	- Jorrit reformatted the mechanics property classes and the camera
+	  stuff to standard CS/CEL coding style. Please use that style in the
+	  future!
+	- Jorrit added the LGPL notice to the mechanics property classes
+	  and also some of the camera classes.
+	- Jorrit added SetupTriggerSphere action to the pctrigger property
+	  class.
+	- Jorrit changed the NewQuest action in pcquest so that all parameters
+	  (except for 'name') will be passed to the quest on creation.
+	- Jorrit moved more entities from celtest to the basic_entities file.
+	  This means that celtest will now only create actor and level
+	  entities. All other things are created in the data files.
+	- Jorrit removed loading of the python behaviour layer in celtest
+	  as it is not really useful to have it there.
 18-May-2005
 	- Jorrit added the notion of 'Init' to the sequence operations. This
 	  Init() function is called before the operation is fired and it gives

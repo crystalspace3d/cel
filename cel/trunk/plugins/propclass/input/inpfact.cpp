@@ -92,7 +92,8 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   screenspace = false;
 
   g2d = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
-  if (!g2d) {
+  if (!g2d)
+  {
     Report (object_reg, "Can't find the graphics2d plugin!");
     return;
   }
@@ -266,9 +267,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   csString strtrigger = csString (triggername);
   bool centered = false;
   size_t centerpos = strtrigger.FindStr ("_centered");
-  if (centerpos < (size_t)-1) {
-	  centered = true;
-	  strtrigger.Truncate (centerpos);
+  if (centerpos < (size_t)-1)
+  {
+    centered = true;
+    strtrigger.Truncate (centerpos);
   }
   const char* trig = strtrigger.GetData ();
   csKeyModifiers modifiers;
@@ -318,7 +320,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   else
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    if (type == csevMouseMove || type == csevJoystickMove) {
+    if (type == csevMouseMove || type == csevJoystickMove)
+    {
       celAxisMap* newamap;
       if (!(newamap = GetAxisMap (type, numeric, mods)))
       {
@@ -346,7 +349,9 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         strcpy (newamap->command, "pccommandinput_");
         strcat (newamap->command, command);
       }
-    } else {
+    }
+    else
+    {
       celButtonMap* newbmap;
       if (!(newbmap = GetButtonMap (type, numeric, mods)))
       {
@@ -399,7 +404,8 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
   else if (csInputDefinition::ParseOther (triggername, &type, &numeric, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    if (type == csevMouseMove || type == csevJoystickMove) {
+    if (type == csevMouseMove || type == csevJoystickMove)
+    {
       celAxisMap* amap;
       if (!(amap = GetAxisMap (type, numeric, mods)))
         return 0;
@@ -426,7 +432,8 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     celKeyMap *pmap = 0, *map = keylist;
-    while (map) {
+    while (map)
+    {
       if (map->key == key && map->modifiers == mods)
       {
         pmap->next = map->next;
@@ -438,14 +445,17 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     }
     return false;
   }
-  else if (csInputDefinition::ParseOther (triggername, &type, &numeric, &modifiers))
+  else if (csInputDefinition::ParseOther (triggername, &type, &numeric,
+  	&modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     if (type == csevMouseMove || type == csevJoystickMove)
     {
       celAxisMap *pamap = 0, *amap = axislist;
-      while (amap) {
-        if (amap->type == type && amap->numeric == numeric && amap->modifiers == mods)
+      while (amap)
+      {
+        if (amap->type == type && amap->numeric == numeric
+		&& amap->modifiers == mods)
         {
         pamap->next = amap->next;
           delete amap;
@@ -459,8 +469,10 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     else
     {
       celButtonMap *pbmap = 0, *bmap = buttonlist;
-      while (bmap) {
-        if (bmap->type == type && bmap->numeric == numeric && bmap->modifiers == mods)
+      while (bmap)
+      {
+        if (bmap->type == type && bmap->numeric == numeric
+		&& bmap->modifiers == mods)
         {
           pbmap->next = bmap->next;
           delete bmap;
@@ -524,7 +536,8 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
   return p;
 }
 
-celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric, uint32 mods) const
+celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric,
+	uint32 mods) const
 {
   celAxisMap *p=axislist;
   while (p)
@@ -537,7 +550,8 @@ celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric, uint32 mods) c
   return p;
 }
 
-celButtonMap* celPcCommandInput::GetButtonMap (int type, int numeric, uint32 mods) const
+celButtonMap* celPcCommandInput::GetButtonMap (int type, int numeric,
+	uint32 mods) const
 {
   celButtonMap *p=buttonlist;
   while (p)
@@ -597,13 +611,15 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       if (p->is_on)
       {
-        p->is_on=false;
+        p->is_on = false;
         iCelBehaviour* bh = entity->GetBehaviour();
-        CS_ASSERT(bh != 0);
-        *(p->command_end) = '0';
-        celData ret;
-        bh->SendMessage (p->command, this, ret, 0);
-        *(p->command_end) = 0;
+	if (bh)
+	{
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+        }
       }
     }
     else
@@ -612,21 +628,25 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         // Send auto-repeat message.
         iCelBehaviour* bh = entity->GetBehaviour();
-        CS_ASSERT(bh != 0);
-        *(p->command_end) = '_';
-        celData ret;
-        bh->SendMessage (p->command, this, ret, 0);
-        *(p->command_end) = 0;
+	if (bh)
+	{
+          *(p->command_end) = '_';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+        }
       }
       else
       {
-        p->is_on=true;
+        p->is_on = true;
         iCelBehaviour* bh = entity->GetBehaviour();
-        CS_ASSERT(bh != 0);
-        *(p->command_end) = '1';
-        celData ret;
-        bh->SendMessage (p->command, this, ret, 0);
-        *(p->command_end) = 0;
+	if (bh)
+	{
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+        }
       }
     }
   }
@@ -642,19 +662,23 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         if ((modifiers & p->modifiers) == p->modifiers)
         {
-	  float val;
-	  if (p->numeric == 0)
-            val = (float) ev.Mouse.x;
-	  else
-            val = (float) ev.Mouse.y;
-          celData ret;
-	  if (screenspace)
-            ret.Set (val);
-	  else {
-            ret.Set (ScreenToCentered (val, p->numeric));
+	  iCelBehaviour* bh = entity->GetBehaviour ();
+	  if (bh)
+	  {
+	    float val;
+	    if (p->numeric == 0)
+              val = (float) ev.Mouse.x;
+	    else
+              val = (float) ev.Mouse.y;
+            celData ret;
+	    if (screenspace)
+              ret.Set (val);
+	    else
+              ret.Set (ScreenToCentered (val, p->numeric));
+            bh->SendMessage (p->command, this, ret, 0);
 	  }
-          entity->GetBehaviour ()->SendMessage (p->command, this, ret, 0);
-	  if (p->recenter) {
+	  if (p->recenter)
+	  {
             // Recenter mouse so we don't lose focus
             int width = g2d->GetWidth();
             int height = g2d->GetHeight();
@@ -664,7 +688,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         }
         p=p->next;
       }
-    } else {
+    }
+    else
+    {
       //mouse button event
       int button = ev.Mouse.Button;
       int modifiers = ev.Mouse.Modifiers;
@@ -672,7 +698,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       celButtonMap *p = buttonlist;
       while (p)
       {
-        if ((p->numeric == button) && ((modifiers & p->modifiers) == p->modifiers) && ((1 << p->type) & CSMASK_Mouse))
+        if ((p->numeric == button) && ((modifiers & p->modifiers)
+		== p->modifiers) && ((1 << p->type) & CSMASK_Mouse))
         {
           break;
         }
@@ -685,13 +712,15 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         if (p->is_on)
         {
-          p->is_on=false;
+          p->is_on = false;
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '0';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '0';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
       }
       else
@@ -700,21 +729,25 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         {
           // Send auto-repeat message.
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '_';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '_';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
         else
         {
-          p->is_on=true;
+          p->is_on = true;
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '1';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '1';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
       }
     }
@@ -731,27 +764,33 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         if ((modifiers & p->modifiers) == p->modifiers)
         {
-	  float val;
-	  if (p->numeric == 0)
-            val = (float) ev.Joystick.x;
-	  else
-            val = (float) ev.Joystick.y;
-          //The joystick driver returns values between -32767 and +32767.
-	  //Get the value in the range -1 to 1.
-          val = val / 32767;
-          celData ret;
-	  if (screenspace)
-            ret.Set (CenteredToScreen (val, p->numeric));
-	  else
-            ret.Set (val);
-          entity->GetBehaviour ()->SendMessage (p->command, this, ret, 0);
+	  iCelBehaviour* bh = entity->GetBehaviour ();
+	  if (bh)
+	  {
+	    float val;
+	    if (p->numeric == 0)
+              val = (float) ev.Joystick.x;
+	    else
+              val = (float) ev.Joystick.y;
+            //The joystick driver returns values between -32767 and +32767.
+	    //Get the value in the range -1 to 1.
+            val = val / 32767;
+            celData ret;
+	    if (screenspace)
+              ret.Set (CenteredToScreen (val, p->numeric));
+	    else
+              ret.Set (val);
+            bh->SendMessage (p->command, this, ret, 0);
+	  }
         }
-        p=p->next;
+        p = p->next;
       }
       if (!p)
         return false;
 
-    } else {
+    }
+    else
+    {
       //joystick button event
       int button = ev.Joystick.Button;
       int modifiers = ev.Joystick.Modifiers;
@@ -759,7 +798,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       celButtonMap *p = buttonlist;
       while (p)
       {
-        if ((p->numeric == button) && ((modifiers & p->modifiers) == p->modifiers) && ((1 << p->type) & CSMASK_Joystick))
+        if ((p->numeric == button) && ((modifiers & p->modifiers)
+		== p->modifiers) && ((1 << p->type) & CSMASK_Joystick))
         {
           break;
         }
@@ -772,13 +812,15 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         if (p->is_on)
         {
-          p->is_on=false;
+          p->is_on = false;
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '0';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '0';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
       }
       else
@@ -787,21 +829,25 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         {
           // Send auto-repeat message.
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '_';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '_';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
         else
         {
-          p->is_on=true;
+          p->is_on = true;
           iCelBehaviour* bh = entity->GetBehaviour();
-          CS_ASSERT(bh != 0);
-          *(p->command_end) = '1';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
+	  if (bh)
+	  {
+            *(p->command_end) = '1';
+            celData ret;
+            bh->SendMessage (p->command, this, ret, 0);
+            *(p->command_end) = 0;
+	  }
         }
       }
     }

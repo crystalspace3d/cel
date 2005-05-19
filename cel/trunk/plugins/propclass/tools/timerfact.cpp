@@ -179,11 +179,13 @@ void celPcTimer::TickEveryFrame ()
   {
     ref = entity;
     iCelBehaviour* bh = entity->GetBehaviour ();
-    CS_ASSERT (bh != 0);
-    params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
-    params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
-    celData ret;
-    bh->SendMessage ("pctimer_wakeupframe", this, ret, params);
+    if (bh)
+    {
+      params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
+      params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
+      celData ret;
+      bh->SendMessage ("pctimer_wakeupframe", this, ret, params);
+    }
   }
 }
 
@@ -204,9 +206,11 @@ void celPcTimer::TickOnce ()
       wakeuponce = false;
     }
     iCelBehaviour* bh = entity->GetBehaviour ();
-    CS_ASSERT (bh != 0);
-    celData ret;
-    bh->SendMessage ("pctimer_wakeup", this, ret, 0);
+    if (bh)
+    {
+      celData ret;
+      bh->SendMessage ("pctimer_wakeup", this, ret, 0);
+    }
   }
 }
 

@@ -171,10 +171,12 @@ void celPcTest::Print (const char* msg)
   printf ("Print: %s\n", msg);
   fflush (stdout);
   iCelBehaviour* ble = entity->GetBehaviour ();
-  CS_ASSERT (ble != 0);
-  celData ret;
-  params->GetParameter (0).Set (msg);
-  ble->SendMessage ("pctest_print", this, ret, params);
+  if (ble)
+  {
+    celData ret;
+    params->GetParameter (0).Set (msg);
+    ble->SendMessage ("pctest_print", this, ret, params);
+  }
 
   counter++;
   size_t l = strlen (msg);

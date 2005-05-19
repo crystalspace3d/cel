@@ -1,4 +1,33 @@
 <world>
+    <textures>
+        <texture name="stone">
+            <file>/lib/std/stone4.gif</file>
+        </texture>
+        <texture name="spark">
+            <file>/lib/std/spark.png</file>
+        </texture>
+        <texture name="wood">
+            <file>/lib/stdtex/andrew_wood.jpg</file>
+        </texture>
+        <texture name="marble">
+            <file>/lib/stdtex/marble_08_ao___128.jpg</file>
+        </texture>
+    </textures>
+    <materials>
+        <material name="stone">
+            <texture>stone</texture>
+        </material>
+        <material name="spark">
+            <texture>spark</texture>
+        </material>
+        <material name="wood">
+            <texture>wood</texture>
+        </material>
+        <material name="marble">
+            <texture>marble</texture>
+        </material>
+    </materials>
+
     <sector name="room">
     	<addon plugin="cel.addons.questdef">
 	    <!-- Parameters for this quest:
@@ -259,11 +288,9 @@
 		</action>
 	    </propclass>
 	    <propclass name="pctest">
-	    <!--
 	        <action name="Print">
 		    <par name="message" string="Hello world!" />
 		</action>
-	    -->
 	    </propclass>
 	    <propclass name="pctimer">
 	    </propclass>
@@ -286,6 +313,79 @@
 		</action>
 	    </propclass>
 	    <behaviour layer="bltest" name="box" />
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="box_small" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmeshselect">
+	        <action name="SetCamera">
+		    <par name="entity" string="camera" />
+		</action>
+	        <action name="SetMouseButtons">
+		    <par name="buttons" long="2" />
+		</action>
+	    </propclass>
+	    <propclass name="pctest">
+	        <action name="Print">
+		    <par name="message" string="Hello world (small)!" />
+		</action>
+	    </propclass>
+	    <propclass name="pctimer">
+	    </propclass>
+	    <propclass name="pcinventory">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="smallbox" />
+		    <par name="factoryname" string="smallbox" />
+		</action>
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-4,0,0" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <propclass name="pctrigger">
+		<property name="monitor" string="camera" />
+		<action name="SetupTriggerSphere">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-4,0,0" />
+		    <par name="radius" float="2" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="box" />
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="q1" >
+	    <propclass name="pcquest">
+		<action name="NewQuest">
+		    <par name="name" string="testquest" />
+		    <par name="message" string="Hallo Hallo!" />
+		    <par name="ent" string="q1" />
+		    <par name="actor" string="camera" />
+		</action>
+		<property name="state" string="init" />
+	    </propclass>
+	    <propclass name="pcproperties">
+	    </propclass>
+	    <behaviour layer="bltest" name="quest" />
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="q2" >
+	    <propclass name="pcquest">
+		<action name="NewQuest">
+		    <par name="name" string="proximityquest" />
+		    <par name="ent" string="q2" />
+		</action>
+		<property name="state" string="start" />
+	    </propclass>
+	    <behaviour layer="bltest" name="quest" />
 	</addon>
     </sector>
 </world>

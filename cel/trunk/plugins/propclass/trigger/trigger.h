@@ -74,6 +74,10 @@ private:
 
   csTicks delay, jitter;
 
+  static csStringID action_setuptriggersphere;
+  static csStringID id_sector;
+  static csStringID id_position;
+  static csStringID id_radius;
   static csStringID id_entity;
   celOneParameterBlock* params;
 

@@ -58,11 +58,11 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 
   // For PerformAction.
   if (action_newquest == csInvalidStringID)
+  {
     action_newquest = pl->FetchStringID ("cel.action.NewQuest");
-  if (action_stopquest == csInvalidStringID)
     action_stopquest = pl->FetchStringID ("cel.action.StopQuest");
-  if (id_name == csInvalidStringID)
     id_name = pl->FetchStringID ("cel.parameter.name");
+  }
 
   // For properties.
   UpdateProperties (object_reg);
@@ -211,8 +211,20 @@ bool celPcQuest::PerformAction (csStringID actionId,
   {
     CEL_FETCH_STRING_PAR (msg,params,id_name);
     if (!p_msg) return false;
-    celQuestParams params;
-    return NewQuest (msg, params);
+    celQuestParams par;
+    size_t i;
+    for (i = 0 ; i < params->GetParameterCount () ; i++)
+    {
+      csStringID id;
+      celDataType t;
+      const char* n = params->GetParameter (i, id, t);
+      if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
+      {
+        const celData* cd = params->GetParameter (id);
+        par.Put (n, cd->value.s->GetData ());
+      }
+    }
+    return NewQuest (msg, par);
   }
   else if (actionId == action_stopquest)
   {

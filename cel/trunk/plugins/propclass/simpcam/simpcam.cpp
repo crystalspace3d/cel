@@ -167,25 +167,19 @@ bool celPcSimpleCamera::PerformAction (csStringID actionId,
   {
     CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
     if (p_campos)
-    {
       SetCameraOffset (campos);
-    } else {
+    else
       Report (object_reg, "Couldn't get campos!");
-    }
     CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
     if (p_lookat)
-    {
       SetLookAtOffset (lookat);
-    } else {
+    else
       Report (object_reg, "Couldn't get lookat!");
-    }
     CEL_FETCH_BOOL_PAR (drawmesh,params,param_drawmesh);
     if (p_drawmesh)
-    {
       SetDrawMesh (drawmesh);
-    } else {
+    else
       Report (object_reg, "Couldn't get campos!");
-    }
     return true;
   }
   return false;
@@ -223,7 +217,8 @@ void celPcSimpleCamera::Draw()
     // Adjust camera transform for relative position and lookat position.
     csReversibleTransform cam_trans;
     cam_trans.SetOrigin (actor_trans.This2Other (objectcampos));
-    cam_trans.LookAt (cam_trans.Other2This (actor_trans.This2Other (objectlookat)), actor_trans.This2OtherRelative (csVector3 (0, 1, 0)));
+    cam_trans.LookAt (cam_trans.Other2This (actor_trans.This2Other (
+    	objectlookat)), actor_trans.This2OtherRelative (csVector3 (0, 1, 0)));
 
     iCamera* c = view->GetCamera ();
   

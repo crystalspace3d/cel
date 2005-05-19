@@ -1,3 +1,22 @@
+/*
+    Crystal Space Entity Layer
+    Copyright (C) 2005 by Jorrit Tyberghein
+  
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+  
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+  
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
 #include "cssysdef.h"
 #include "csqsqrt.h"
 #include "iutil/plugin.h"
@@ -92,18 +111,16 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
   if (f.relative)
   {
     if (f.position.IsZero ())
-    {
       f.body->GetBody ()->AddRelForce (f.force);
-    } else {
+    else
       f.body->GetBody ()->AddRelForceAtRelPos (f.force, f.position);
-    }
-  } else {
+  }
+  else
+  {
     if (f.position.IsZero ())
-    {
       f.body->GetBody ()->AddForce (f.force);
-    } else {
+    else
       f.body->GetBody ()->AddForceAtPos (f.force, f.position);
-    }
   }
 }
 
@@ -481,14 +498,20 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNBODY_SERIAL);
   csRef<iCelPropertyClass> pc;
-  if (pcmesh) {
+  if (pcmesh)
+  {
     pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
     databuf->Add (pc);
-  } else databuf->Add ((iCelPropertyClass*) 0);
-  if (mechsystem) {
+  }
+  else
+    databuf->Add ((iCelPropertyClass*) 0);
+  if (mechsystem)
+  {
     pc = SCF_QUERY_INTERFACE (mechsystem, iCelPropertyClass);
     databuf->Add (pc);
-  } else databuf->Add ((iCelPropertyClass*) 0);
+  }
+  else
+    databuf->Add ((iCelPropertyClass*) 0);
   databuf->Add (CS_STATIC_CAST(int32,btype));
   switch (btype)
   {
@@ -635,55 +658,43 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   {
     CEL_FETCH_FLOAT_PAR (friction,params,param_friction);
     if (p_friction)
-    {
       SetFriction (friction);
-    } else {
+    else
       Report (object_reg, "Couldn't get friction!");
-    }
     CEL_FETCH_FLOAT_PAR (mass,params,param_mass);
     if (p_mass)
-    {
       SetMass (mass);
-    } else {
+    else
       Report (object_reg, "Couldn't get mass!");
-    }
     CEL_FETCH_FLOAT_PAR (elasticity,params,param_elasticity);
     if (p_elasticity)
-    {
       SetElasticity (elasticity);
-    } else {
+    else
       Report (object_reg, "Couldn't get elasticity!");
-    }
     CEL_FETCH_FLOAT_PAR (density,params,param_density);
     if (p_density)
-    {
       SetDensity (density);
-    } else {
+    else
       Report (object_reg, "Couldn't get density!");
-    }
     CEL_FETCH_FLOAT_PAR (softness,params,param_softness);
     if (p_softness)
-    {
       SetSoftness (softness);
-    } else {
+    else
       Report (object_reg, "Couldn't get softness!");
-    }
     CEL_FETCH_VECTOR3_PAR (lift,params,param_lift);
     if (p_lift)
-    {
       SetLift (lift);
-    } else {
+    else
       Report (object_reg, "Couldn't get lift!");
-    }
     CEL_FETCH_FLOAT_PAR (drag,params,param_drag);
     if (p_drag)
-    {
       SetDrag (drag);
-    } else {
+    else
       Report (object_reg, "Couldn't get drag!");
-    }
     return true;
-  } else if (actionId == action_makestatic) {
+  }
+  else if (actionId == action_makestatic)
+  {
     CEL_FETCH_BOOL_PAR (makestatic,params,param_static);
     if (!p_makestatic)
     {
@@ -692,7 +703,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     }
     MakeStatic (makestatic);
     return true;
-  } else if (actionId == action_setsystem) {
+  }
+  else if (actionId == action_setsystem)
+  {
     CEL_FETCH_STRING_PAR (syspcent,params,param_systempcent);
     if (!p_syspcent)
     {
@@ -711,7 +724,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     assert (mechsyss);
     SetMechanicsSystem (mechsyss);
     return true;
-  } else if (actionId == action_setmesh) {
+  }
+  else if (actionId == action_setmesh)
+  {
     CEL_FETCH_STRING_PAR (meshpctag,params,param_meshpctag);
     if (!p_meshpctag)
     {
@@ -721,7 +736,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity (),iPcMesh);
     SetMesh (pcmesh);
     return true;
-  } else if (actionId == action_setcollidersphere) {
+  }
+  else if (actionId == action_setcollidersphere)
+  {
     CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
     if (!p_radius)
     {
@@ -736,7 +753,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     }
     AttachColliderSphere (radius, offset);
     return true;
-  } else if (actionId == action_setcollidercylinder) {
+  }
+  else if (actionId == action_setcollidercylinder)
+  {
     CEL_FETCH_FLOAT_PAR (length,params,param_length);
     if (!p_length)
     {
@@ -770,7 +789,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     AttachColliderCylinder (length, radius, csOrthoTransform (csMatrix3
 	(axis.x, axis.y, axis.z, angle), offset));
     return true;
-  } else if (actionId == action_setcolliderbox) {
+  }
+  else if (actionId == action_setcolliderbox)
+  {
     CEL_FETCH_VECTOR3_PAR (size,params,param_size);
     if (!p_size)
     {
@@ -798,7 +819,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     AttachColliderBox (size, csOrthoTransform (csMatrix3 (axis.x, axis.y,
 	axis.z, angle), offset));
     return true;
-  } else if (actionId == action_setcolliderplane) {
+  }
+  else if (actionId == action_setcolliderplane)
+  {
     CEL_FETCH_VECTOR3_PAR (normal,params,param_normal);
     if (!p_normal)
     {
@@ -813,28 +836,35 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     }
     AttachColliderPlane (csPlane3 (normal, offset));
     return true;
-  } else if (actionId == action_setcollidermesh) {
+  }
+  else if (actionId == action_setcollidermesh)
+  {
     AttachColliderMesh ();
     return true;
   }
   return false;
 }
 
-void celPcMechanicsObject::Collision (iRigidBody *thisbody, iRigidBody *otherbody)
+void celPcMechanicsObject::Collision (iRigidBody *thisbody,
+	iRigidBody *otherbody)
 {
   iCelBehaviour* behaviour = entity->GetBehaviour ();
-  CS_ASSERT (behaviour != 0);
+  if (!behaviour) return;
   celData ret;
   //@@@ Find the other body's iPcMechanicsObject.
   /*csRef<iObject> obj = otherbody->QueryObject ();
-  if (obj != NULL) {
+  if (obj != NULL)
+  {
     csRef<iCelEntity> ent = pl->FindAttachedEntity (obj);
-    if (ent == NULL) {
+    if (ent == NULL)
+    {
       printf ("No entity found using given iObject!\n");
       fflush (stdout);
     }
     //params->GetParameter (0).Set (othermechobjtag);
-  } else {
+  }
+  else
+  {
     printf ("No iObject found!\n");
     fflush (stdout);
   }*/
@@ -845,13 +875,16 @@ iRigidBody* celPcMechanicsObject::GetBody ()
 {
   if (!body)
   {
-    if (mechsystem) {
+    if (mechsystem)
+    {
       csRef<iDynamicSystem> dynsys = 0;
       dynsys = mechsystem->GetDynamicSystem ();
       assert (dynsys);
       body = dynsys->CreateBody ();
       body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
-    } else {
+    }
+    else
+    {
       Report (object_reg, "No mechsys!!!!!!!!!");
       return NULL;
     }
@@ -1005,18 +1038,16 @@ void celPcMechanicsObject::AddForceOnce (const csVector3& force, bool relative,
   if (relative)
   {
     if (position.IsZero ())
-    {
       GetBody ()->AddRelForce (force);
-    } else {
+    else
       GetBody ()->AddRelForceAtRelPos (force, position);
-    }
-  } else {
+  }
+  else
+  {
     if (position.IsZero ())
-    {
       GetBody ()->AddForce (force);
-    } else {
+    else
       GetBody ()->AddForceAtPos (force, position);
-    }
   }
 }
 
