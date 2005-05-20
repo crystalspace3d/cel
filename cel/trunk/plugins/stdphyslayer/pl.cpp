@@ -24,6 +24,7 @@
 #include "plugins/stdphyslayer/entity.h"
 #include "plugins/stdphyslayer/message.h"
 #include "plugins/stdphyslayer/etracker.h"
+#include "plugins/stdphyslayer/entitytpl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/datatype.h"
@@ -279,6 +280,152 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
   return entities_hash.Get (name,0);
 }
 
+iCelEntityTemplate* celPlLayer::CreateEntityTemplate (const char* factname)
+{
+  csRef<celEntityTemplate> fact;
+  fact.AttachNew (new celEntityTemplate ());
+  fact->SetName (factname);
+  entity_templates.Put (factname, fact);
+  return &(((celEntityTemplate*)fact)->scfiCelEntityTemplate);
+}
+
+void celPlLayer::RemoveEntityTemplate (iCelEntityTemplate* entfact)
+{
+  entity_templates.DeleteAll (entfact->GetName ());
+}
+
+void celPlLayer::RemoveEntityTemplates ()
+{
+  entity_templates.DeleteAll ();
+}
+
+iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
+{
+  csRef<celEntityTemplate> f = entity_templates.Get (factname, 0);
+  return f ? &(f->scfiCelEntityTemplate) : 0;
+}
+
+iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
+  	const char* name)
+{
+  celEntityTemplate* cfact = ((celEntityTemplate::CelEntityTemplate*)
+  	factory)->GetCelEntityTemplate ();
+  csRef<iCelBlLayer> bl;
+  if (cfact->GetLayer ())
+  {
+    bl = FindBehaviourLayer (cfact->GetLayer ());
+    if (!bl)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"Can't find behaviour layer '%s' for entity '%s' from factory '%s'!",
+		cfact->GetLayer (), name, factory->GetName ());
+      return 0;
+    }
+  }
+  else
+  {
+    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+    if (!bl && cfact->GetBehaviour ())
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"Can't find default behaviour layer for entity '%s' from factory '%s'!",
+		name, factory->GetName ());
+      return 0;
+    }
+  }
+  csRef<iCelEntity> ent = CreateEntity (name, bl, cfact->GetBehaviour (), 0);
+
+  const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
+  size_t i;
+  for (i = 0 ; i < pcs.Length () ; i++)
+  {
+    celPropertyClassTemplate* pcc = pcs[i];
+    const char* pcname = pcc->GetName ();
+    iCelPropertyClass* pc = CreatePropertyClass (ent, pcname);
+    if (!pc)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Error creating property class '%s' for entity '%s from factory '%s''!",
+		pcname, name, factory->GetName ());
+      RemoveEntity (ent);
+      return 0;
+    }
+    const csArray<ccfProp>& props = pcc->GetProperties ();
+    const csArray<ccfAct>& acts = pcc->GetActions ();
+    size_t j;
+    for (j = 0 ; j < props.Length () ; j++)
+    {
+      const celData& d = props[j].data;
+      csStringID id = props[j].id;
+      bool rc;
+      switch (d.type)
+      {
+        case CEL_DATA_LONG: rc = pc->SetProperty (id, (long)d.value.l); break;
+        case CEL_DATA_FLOAT: rc = pc->SetProperty (id, d.value.f); break;
+        case CEL_DATA_BOOL: rc = pc->SetProperty (id, d.value.bo); break;
+        case CEL_DATA_STRING:
+	  rc = pc->SetProperty (id, d.value.s->GetData ());
+	  break;
+        case CEL_DATA_VECTOR2:
+	  {
+	    csVector2 v;
+	    v.x = d.value.v.x;
+	    v.y = d.value.v.y;
+	    rc = pc->SetProperty (id, v);
+	  }
+	  break;
+        case CEL_DATA_VECTOR3:
+	  {
+	    csVector3 v;
+	    v.x = d.value.v.x;
+	    v.y = d.value.v.y;
+	    v.z = d.value.v.z;
+	    rc = pc->SetProperty (id, v);
+	  }
+	  break;
+        case CEL_DATA_COLOR:
+	  {
+	    csColor v;
+	    v.red = d.value.col.red;
+	    v.green = d.value.col.green;
+	    v.blue = d.value.col.blue;
+	    rc = pc->SetProperty (id, v);
+	  }
+	  break;
+        case CEL_DATA_PCLASS: rc = pc->SetProperty (id, d.value.pc); break;
+        case CEL_DATA_ENTITY: rc = pc->SetProperty (id, d.value.ent); break;
+	default: rc = false; break;
+      }
+      if (!rc)
+      {
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.physicallayer",
+	  "Error setting property in '%s' for entity '%s from factory '%s''!",
+		pcname, name, factory->GetName ());
+        RemoveEntity (ent);
+        return 0;
+      }
+    }
+    for (j = 0 ; j < acts.Length () ; j++)
+    {
+      if (!pc->PerformAction (acts[j].id, acts[j].params))
+      {
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.physicallayer",
+	  "Error performing action in '%s' for entity '%s from factory '%s''!",
+		pcname, name, factory->GetName ());
+        RemoveEntity (ent);
+        return 0;
+      }
+    }
+  }
+
+  return ent;
+}
+
 void celPlLayer::RemoveEntityIndex (size_t idx)
 {
   if (idx == csArrayItemNotFound) return;
@@ -299,7 +446,7 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
-	"error while removing Entity with ID %u (%s)",
+	"Error while removing Entity with ID %u (%s)",
 	(unsigned int)entity->GetID(), entity->GetName());
     return;
   }

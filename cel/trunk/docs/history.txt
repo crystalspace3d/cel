@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-May-2005
+	- Jorrit created the notion of entity templates (iCelEntityTemplate)
+	  in the physical layer. This is untested but the idea is a that
+	  a template can be used to create other entities from fully setup
+	  with behaviour and property classes (and properties for those
+	  property classes). To be used properly this also requires the
+	  presence of an addon to define these templates. This will be made
+	  later.
 19-May-2005
 	- Jorrit fixed several property classes so that they no longer
 	  crash if the behaviour is missing. Behaviours are supposed to be

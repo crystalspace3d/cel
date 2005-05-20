@@ -35,6 +35,7 @@ struct iEngine;
 struct iVirtualClock;
 struct iEvent;
 class celEntity;
+class celEntityTemplate;
 
 struct CallbackTiming
 {
@@ -60,6 +61,8 @@ private:
   csRefArray<iCelEntity> entities;
   csHash<iCelEntity*,csStrKey> entities_hash;
   bool entities_hash_dirty;
+
+  csHash<csRef<celEntityTemplate>, csStrKey> entity_templates;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;
   csRefArray<iCelNewEntityCallback> newcallbacks;
@@ -123,7 +126,14 @@ public:
   virtual iCelEntity* GetEntityByIndex (size_t idx) const
   { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);
-  
+
+  virtual iCelEntityTemplate* CreateEntityTemplate (const char* factname);
+  virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact);
+  virtual void RemoveEntityTemplates ();
+  virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
+  	const char* name);
+
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
