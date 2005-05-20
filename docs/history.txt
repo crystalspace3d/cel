@@ -33,6 +33,8 @@ The history order is reversed so that new features are at the top.
 	  if a given property class (name+tag) is already present and in that
 	  case it will not create it. That allows us to set more properties
 	  and actions on a property class created in a template.
+	- Jorrit fixed a problem with pftools which didn't have a plugin
+	  entry for pcspawn.
 19-May-2005
 	- Jorrit fixed several property classes so that they no longer
 	  crash if the behaviour is missing. Behaviours are supposed to be

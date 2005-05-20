@@ -4,6 +4,11 @@
   <scf>
     <classes>
       <class>
+        <name>cel.pcfactory.spawn</name>
+        <implementation>celPfSpawn</implementation>
+	<description>CEL Spawn Property Class Factory</description>
+      </class>
+      <class>
         <name>cel.pcfactory.tooltip</name>
         <implementation>celPfTooltip</implementation>
 	<description>CEL Tooltip Property Class Factory</description>
