@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2003 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -28,26 +28,26 @@
 
 #include "physicallayer/pl.h"
 #include "physicallayer/propclas.h"
-#include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
 #include "celtool/stdparams.h"
 
-#include "celentity.h"
+#include "celentitytpl.h"
 
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celAddOnCelEntity)
+SCF_IMPLEMENT_FACTORY (celAddOnCelEntityTemplate)
 
-SCF_IMPLEMENT_IBASE (celAddOnCelEntity)
+SCF_IMPLEMENT_IBASE (celAddOnCelEntityTemplate)
   SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
-  SCF_IMPLEMENTS_INTERFACE (iEntityLoader)
+  SCF_IMPLEMENTS_INTERFACE (iEntityTemplateLoader)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
 SCF_IMPLEMENT_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntity::Component)
+SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntityTemplate::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
@@ -68,27 +68,27 @@ enum
 };
 
 
-celAddOnCelEntity::celAddOnCelEntity (iBase* parent)
+celAddOnCelEntityTemplate::celAddOnCelEntityTemplate (iBase* parent)
 {
   SCF_CONSTRUCT_IBASE (parent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
-celAddOnCelEntity::~celAddOnCelEntity ()
+celAddOnCelEntityTemplate::~celAddOnCelEntityTemplate ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
   SCF_DESTRUCT_IBASE ();
 }
 
-bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
+bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
 {
-  celAddOnCelEntity::object_reg = object_reg;
+  celAddOnCelEntityTemplate::object_reg = object_reg;
   synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.addons.celentity",
+    	"cel.addons.celentitytpl",
 	"Can't find syntax services!");
     return false;
   }
@@ -96,7 +96,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.addons.celentity",
+    	"cel.addons.celentitytpl",
 	"Can't find physical layer!");
     return false;
   }
@@ -117,28 +117,28 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-const char* celAddOnCelEntity::GetAttributeValue (iDocumentNode* child,
+const char* celAddOnCelEntityTemplate::GetAttributeValue (iDocumentNode* child,
 	const char* propname)
 {
   const char* rc = child->GetAttributeValue (propname);
   if (!rc)
   {
     synldr->ReportError (
-	"cel.addons.celentity", child,
+	"cel.addons.celentitytpl", child,
 	"Can't find attribute '%s'!", propname);
     return 0;
   }
   return rc;
 }
 
-csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
+csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname)
 {
   const char* rc = child->GetAttributeValue (propname);
   if (!rc)
   {
     synldr->ReportError (
-	"cel.addons.celentity", child,
+	"cel.addons.celentitytpl", child,
 	"Can't find attribute '%s'!", propname);
     return csInvalidStringID;
   }
@@ -147,7 +147,7 @@ csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
-bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
+bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	iDocumentNode* node)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -278,7 +278,7 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	        continue;
 	      }
 	      synldr->ReportError (
-	        "cel.addons.celentity",
+	        "cel.addons.celentitytpl",
 	        par_child, "Type for parameter not yet supported!");
 	      return false;
 	    }
@@ -300,62 +300,24 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
   return true;
 }
 
-csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
-	iLoaderContext* ldr_context, iBase* context)
+csPtr<iBase> celAddOnCelEntityTemplate::Parse (iDocumentNode* node,
+	iLoaderContext* ldr_context, iBase*)
 {
-  if (pl->IsEntityAddonAllowed ())
-  {
-    // If the context is not a mesh we will create a standalone entity.
-    csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
-    iCelEntity* ent = Load (node, mesh);
-    csRef<iBase> ent_return = (iBase*)ent;
-    return csPtr<iBase> (ent_return);
-  }
-  else
-  {
-    // Entity addons are not allowed. Do nothing.
-    // IncRef because we return a csPtr. We have to return something
-    // that is not 0 here.
-    IncRef ();
-    return (iLoaderPlugin*)this;
-  }
+  iCelEntityTemplate* ent = Load (node);
+  csRef<iBase> ent_return = (iBase*)ent;
+  return csPtr<iBase> (ent_return);
 }
 
-iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
+iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 {
-  csRef<iCelEntity> ent;
-
-  const char* templatename = node->GetAttributeValue ("template");
   const char* entityname = node->GetAttributeValue ("entityname");
-  if (!entityname && mesh)
-    entityname = mesh->QueryObject ()->GetName ();
-
-  if (templatename)
+  if (!entityname)
   {
-    iCelEntityTemplate* templ = pl->FindEntityTemplate (templatename);
-    if (!templ)
-    {
-      synldr->ReportError (
-	"cel.addons.celentity",
-	node, "Can't find entity template '%s'!", templatename);
-      return 0;
-    }
-    ent = pl->CreateEntity (templ, entityname);
+    synldr->ReportError (
+	"cel.addons.celentitytpl",
+	node, "'entityname' is missing for this entity template!");
   }
-  else
-  {
-    ent = pl->CreateEntity ();
-    ent->SetName (entityname);
-  }
-
-  iCelPropertyClass* pc;
-  if (mesh)
-  {
-    // If we have a mesh we also create a pcmesh property class.
-    pc = pl->CreatePropertyClass (ent, "pcmesh");
-    csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
-    pcmesh->SetMesh (mesh);
-  }
+  csRef<iCelEntityTemplate> ent = pl->CreateEntityTemplate (entityname);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -368,70 +330,34 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     {
       case XMLTOKEN_BEHAVIOUR:
         {
-	  csRef<iCelBlLayer> bl;
 	  const char* blname = child->GetAttributeValue ("layer");
-	  if (blname)
-	  {
-	    bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg, blname,
-	    	iCelBlLayer);
-	    if (!bl) bl = pl->FindBehaviourLayer (blname);
-	  }
-	  else
-	  {
-	    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
-	  }
-	  if (!bl)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.celentity",
-	        child, "Can't find the needed behaviour layer!");
-	    return 0;
-	  }
 	  const char* behavename = child->GetAttributeValue ("name");
 	  if (!behavename)
 	  {
 	    synldr->ReportError (
-	        "cel.addons.celentity",
+	        "cel.addons.celentitytpl",
 	        child, "Name of the behaviour is missing!");
 	    return 0;
 	  }
-	  iCelBehaviour* behave = bl->CreateBehaviour (ent, behavename);
-	  if (!behave)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.celentity",
-	        child, "Couldn't create behaviour with name '%s'!",
-		behavename);
-	    return 0;
-	  }
+	  ent->SetBehaviour (blname, behavename);
 	}
         break;
       case XMLTOKEN_PROPCLASS:
         {
-	  iCelPropertyClass* pc;
+	  iCelPropertyClassTemplate* pc;
 	  const char* name = child->GetAttributeValue ("name");
 	  if (!name)
 	  {
 	    synldr->ReportError (
-	        "cel.addons.celentity",
+	        "cel.addons.celentitytpl",
 	        child, "Name of the property class is missing!");
 	    return 0;
 	  }
-	  const char* tag = child->GetAttributeValue ("tag");
-	  iCelPropertyClassList* plist = ent->GetPropertyClassList ();
-	  // First check if the pc is already present.
-	  pc = plist->FindByNameAndTag (name, tag);
-	  if (!pc)
-	    pc = pl->CreatePropertyClass (ent, name);
-	  if (!pc)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.celentity",
-	        child, "Couldn't create property class '%s'!", name);
-	    return 0;
-	  }
+	  pc = ent->CreatePropertyClassTemplate ();
+	  pc->SetName (name);
 	  if (!ParseProperties (pc, child))
 	    return 0;
+	  const char* tag = child->GetAttributeValue ("tag");
 	  if (tag)
 	    pc->SetTag (tag);
 	}

@@ -210,6 +210,13 @@ SCF_VERSION (iPcZoneManager, 0, 1, 1);
  * then all zones that contain that region will be in memory,
  * The representation of a region.
  * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>Load: parameters 'path' (string), and 'file' (string).
+ * </ul>
+ * <p>
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
@@ -232,7 +239,10 @@ struct iPcZoneManager : public iBase
 
   /**
    * Load a zone definition from an XML file. The XML file should
-   * contain a 'level' node.
+   * contain a 'level' or 'world' node. In case it is a 'world' file then
+   * the zone manager will automatically create a region called 'main'
+   * and a zone called 'main' with a default start location. This is a
+   * conveniance.
    * \param path is a VFS path. Current VFS dir will be set to that path.
    * Can be 0 if no path is desired.
    * \param file is a VFS file.

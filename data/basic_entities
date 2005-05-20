@@ -143,6 +143,61 @@
 	    </propclass>
 	</addon>
 
+    	<addon plugin="cel.addons.celentitytpl" entityname="dummyTemplate" >
+	    <propclass name="pcsolid">
+	    </propclass>
+	    <propclass name="pcmesh">
+	        <action name="LoadMeshPath">
+		    <par name="path" string="/cel/data" />
+		    <par name="filename" string="small" />
+		    <par name="factoryname" string="small" />
+		</action>
+	    </propclass>
+	    <propclass name="pclinearmovement">
+		<action name="InitCDMesh">
+		    <par name="percentage" float="10" />
+		</action>
+	    </propclass>
+	    <behaviour layer="bltest" name="printer" />
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" template="dummyTemplate"
+		entityname="dummy2a" >
+	    <propclass name="pcmesh">
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2,0,-1" />
+		</action>
+	    </propclass>
+	</addon>
+    	<addon plugin="cel.addons.celentity" template="dummyTemplate"
+		entityname="dummy2b" >
+	    <propclass name="pcmesh">
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2.5,0,-1" />
+		</action>
+	    </propclass>
+	</addon>
+    	<addon plugin="cel.addons.celentity" template="dummyTemplate"
+		entityname="dummy2c" >
+	    <propclass name="pcmesh">
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2,0,-1.5" />
+		</action>
+	    </propclass>
+	</addon>
+    	<addon plugin="cel.addons.celentity" template="dummyTemplate"
+		entityname="dummy2d" >
+	    <propclass name="pcmesh">
+		<action name="MoveMesh">
+		    <par name="sector" string="room" />
+		    <par name="position" vector="-2.5,0,-1.5" />
+		</action>
+	    </propclass>
+	</addon>
+
     	<addon plugin="cel.addons.celentity" entityname="dummy1" >
 	    <propclass name="pctimer">
 	        <action name="WakeUp">
@@ -161,27 +216,6 @@
 		<action name="MoveMesh">
 		    <par name="sector" string="room" />
 		    <par name="position" vector="-2,0,1" />
-		</action>
-	    </propclass>
-	    <propclass name="pclinearmovement">
-		<action name="InitCDMesh">
-		    <par name="percentage" float="10" />
-		</action>
-	    </propclass>
-	    <behaviour layer="bltest" name="printer" />
-	</addon>
-    	<addon plugin="cel.addons.celentity" entityname="dummy2" >
-	    <propclass name="pcsolid">
-	    </propclass>
-	    <propclass name="pcmesh">
-	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
-		    <par name="filename" string="small" />
-		    <par name="factoryname" string="small" />
-		</action>
-		<action name="MoveMesh">
-		    <par name="sector" string="room" />
-		    <par name="position" vector="-2,0,-1" />
 		</action>
 	    </propclass>
 	    <propclass name="pclinearmovement">

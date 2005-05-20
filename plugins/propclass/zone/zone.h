@@ -255,6 +255,9 @@ private:
   // The active sector.
   csWeakRef<iSector> active_sector;
 
+  static csStringID action_load;
+  static csStringID id_path;
+  static csStringID id_file;
   static csStringID id_region;
   celOneParameterBlock* params;
 

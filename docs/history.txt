@@ -11,6 +11,28 @@ The history order is reversed so that new features are at the top.
 	  property classes). To be used properly this also requires the
 	  presence of an addon to define these templates. This will be made
 	  later.
+	- Jorrit extended the zone manager so that the Load(path,file) function
+	  can now also accept a 'world' file instead of a 'level' file. In
+	  that case the zone manager will automatically construct a 'main'
+	  region and 'main' zone to create a simple zone manager setup to
+	  be able to load that world file. This is a conveniance.
+	- Jorrit added a new Load() action for pczonemanager.
+	- Jorrit extended celtest so that you can now give a VFS path
+	  and filename on the commandline. By default celtest will load
+	  basic_level.xml at /lib/cellib. To load another file you can do:
+	  	./celtest /this/other_location mylevel.xml
+	  You can also use non-VFS paths so that celtest can load a level
+	  directly from a zip file for example.
+	- Jorrit created a new addon for cel entity templates (celentitytpl).
+	  This addon has exactly the same syntax as the normal celentity addon
+	  but it creates a template instead.
+	- Jorrit added support to the celentity addon so that you can now
+	  load entities from templates too. Just add the 'template' attribute
+	  to the addon node.
+	- Jorrit also changed the celentity addon so that it will first check
+	  if a given property class (name+tag) is already present and in that
+	  case it will not create it. That allows us to set more properties
+	  and actions on a property class created in a template.
 19-May-2005
 	- Jorrit fixed several property classes so that they no longer
 	  crash if the behaviour is missing. Behaviours are supposed to be
