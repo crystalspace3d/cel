@@ -375,6 +375,9 @@ bool celZone::ContainsRegion (celRegion* region)
 //---------------------------------------------------------------------------
 
 csStringID celPcZoneManager::id_region = csInvalidStringID;
+csStringID celPcZoneManager::action_load = csInvalidStringID;
+csStringID celPcZoneManager::id_path = csInvalidStringID;
+csStringID celPcZoneManager::id_file = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
@@ -394,7 +397,12 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   if (id_region == csInvalidStringID)
+  {
     id_region = pl->FetchStringID ("cel.parameter.region");
+    action_load = pl->FetchStringID ("cel.action.Load");
+    id_path = pl->FetchStringID ("cel.parameter.path");
+    id_file = pl->FetchStringID ("cel.parameter.file");
+  }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
 
@@ -509,9 +517,19 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcZoneManager::PerformAction (csStringID /*actionId*/,
-	iCelParameterBlock* /*params*/)
+bool celPcZoneManager::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
 {
+  if (actionId == action_load)
+  {
+    CEL_FETCH_STRING_PAR (path,params,id_path);
+    if (!p_path) return false;
+    CEL_FETCH_STRING_PAR (file,params,id_file);
+    if (!p_file) return false;
+    if (!Load (path, file))
+      return false;
+    return true;
+  }
   return false;
 }
 
@@ -654,11 +672,28 @@ bool celPcZoneManager::Load (const char* path, const char* file)
     	file, error);
 
   csRef<iDocumentNode> levelnode = doc->GetRoot ()->GetNode ("level");
-  if (!levelnode)
-    return Report (object_reg,
-    	"Malformed XML file, 'level' node is missing in '%s'!", file);
+  if (levelnode)
+    return Load (levelnode);
 
-  return Load (levelnode);
+  csRef<iDocumentNode> worldnode = doc->GetRoot ()->GetNode ("world");
+  if (worldnode)
+  {
+    // Special case. Here we simulate a simple region and zone that
+    // will load the world file.
+    iCelRegion* region = CreateRegion ("main");
+    iCelMapFile* mapfile = region->CreateMapFile ();
+    mapfile->SetPath (path);
+    mapfile->SetFile (file);
+    iCelZone* zone = CreateZone ("main");
+    zone->LinkRegion (region);
+    last_regionname = "main";
+    last_startname.Empty ();
+    return true;
+  }
+
+  return Report (object_reg,
+    	"Malformed XML file, 'level' or 'world' node is missing in '%s'!",
+	file);
 }
 
 bool celPcZoneManager::Load (iDocumentNode* levelnode)

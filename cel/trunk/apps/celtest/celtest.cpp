@@ -22,6 +22,7 @@
 #include "csutil/sysfunc.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
+#include "iutil/cmdline.h"
 #include "csutil/cscolor.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
@@ -236,13 +237,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   bool hascal3d = true;
   pcmesh->SetPath ("/cel/data");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
-  //if (hascal3d)
-    //pcmesh->MoveMesh (room, csVector3(0,-1,0));
-  //else
-  //{
-    //pcmesh->SetMesh ("large", "large");
-    //pcmesh->MoveMesh (room, csVector3(0,0,0));
-  //}
 
   csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcMeshSelect);
@@ -293,10 +287,33 @@ bool CelTest::CreateRoom ()
   //===============================
   engine->Prepare ();
 
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
+  csString path, file;
+  path = cmdline->GetName (0);
+  if (!path.IsEmpty ())
+  {
+    file = cmdline->GetName (1);
+    if (file.IsEmpty ()) file = "level.xml";
+  }
+  else
+  {
+    path = "/cellib/lev";
+    file = "basic_level.xml";
+  }
+
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csStringArray paths;
+  paths.Push ("/cellib/lev/");
+  if (!vfs->ChDirAuto (path, &paths, 0, file))
+    return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
+    	path.GetData ());
+
   csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcZoneManager);
-  if (!pczonemgr->Load ("/cellib/lev", "basic_level.xml"))
-    return ReportError ("Error loading level!");
+  if (!pczonemgr->Load (0, file))
+    return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
+    	path.GetData ());
 
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
