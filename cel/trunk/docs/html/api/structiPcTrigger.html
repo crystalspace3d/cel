@@ -65,6 +65,11 @@
 This is a trigger property class. 
 <p>
 It is capable of detecting when another entity (that has a pcmesh) enters or leaves an area defined by this trigger. In that case it can send messages to the entity that contains this property class and/or the entities that enter/leave the trigger area. <p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+SetupTriggerSphere: parameters 'sector' (string), 'position' (vector3), and 'radius' (float). </li>
+</ul>
+<p>
 This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
 <li>
 pctrigger_entityenters: an entity enters this trigger (entity). </li>
@@ -88,7 +93,7 @@ monitor (string, read/write): name of entity to monitor. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="trigger_8h-source.html#l00086">86</a> of file <a class="el" href="trigger_8h-source.html">trigger.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="trigger_8h-source.html#l00094">94</a> of file <a class="el" href="trigger_8h-source.html">trigger.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a0" doxytag="iPcTrigger::AddTriggerListener"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
