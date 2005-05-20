@@ -34,6 +34,7 @@ struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 struct iCelBlLayer;
 struct iCelBehaviour;
+struct iCelEntityTemplate;
 struct iSector;
 struct iCamera;
 class csVector3;
@@ -141,6 +142,35 @@ struct iCelPlLayer : public iBase
    * Remove all entities.
    */
   virtual void RemoveEntities () = 0;
+
+  /**
+   * Create an entity template.
+   * \param factname is the name of the template.
+   */
+  virtual iCelEntityTemplate* CreateEntityTemplate (const char* factname) = 0;
+
+  /**
+   * Remove an entity template.
+   */
+  virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact) = 0;
+
+  /**
+   * Remove all entity templates.
+   */
+  virtual void RemoveEntityTemplates () = 0;
+
+  /**
+   * Find an entity template with a given name.
+   */
+  virtual iCelEntityTemplate* FindEntityTemplate (const char* factname) = 0;
+
+  /**
+   * Create an entity from a template.
+   * \param factory is the template to create from.
+   * \param name is the name of the new entity.
+   */
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
+  	const char* name) = 0;
 
   /**
    * Create a message.
