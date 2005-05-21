@@ -52,7 +52,6 @@ private:
   celSequenceFinishRewardType* type;
   char* entity_par;
   char* sequence_par;
-  char* delay_par;
 
 public:
   celSequenceFinishRewardFactory (celSequenceFinishRewardType* type);
