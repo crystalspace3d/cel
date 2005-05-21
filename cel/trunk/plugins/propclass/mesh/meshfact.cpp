@@ -78,6 +78,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcMesh::action_setmesh = csInvalidStringID;
+csStringID celPcMesh::id_name = csInvalidStringID;
 csStringID celPcMesh::action_loadmesh = csInvalidStringID;
 csStringID celPcMesh::action_loadmeshpath = csInvalidStringID;
 csStringID celPcMesh::id_path = csInvalidStringID;
@@ -106,6 +108,8 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 
   if (action_loadmesh == csInvalidStringID)
   {
+    action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
+    id_name = pl->FetchStringID ("cel.parameter.name");
     action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
     action_loadmeshpath = pl->FetchStringID ("cel.action.LoadMeshPath");
     id_path = pl->FetchStringID ("cel.parameter.path");
@@ -150,7 +154,16 @@ void celPcMesh::RemoveMesh ()
 bool celPcMesh::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
-  if (actionId == action_loadmesh)
+  if (actionId == action_setmesh)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!name) return false;
+    iMeshWrapper* m = engine->FindMeshObject (name);
+    if (!m) return false;	// @@@ Report error
+    SetMesh (m, false);
+    return true;
+  }
+  else if (actionId == action_loadmesh)
   {
     CEL_FETCH_STRING_PAR (file,params,id_filename);
     if (!file) return false;

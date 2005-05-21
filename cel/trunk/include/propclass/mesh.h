@@ -42,6 +42,8 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
+ * <li>SetMesh: parameters 'name' (string). This sets an already existing
+ *     mesh for this pcmesh.
  * <li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
  * <li>LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *     and 'factoryname' (string).

@@ -40,6 +40,7 @@
 #include "plugins/tools/quests/reward_changeproperty.h"
 #include "plugins/tools/quests/reward_inventory.h"
 #include "plugins/tools/quests/reward_sequence.h"
+#include "plugins/tools/quests/reward_sequencefinish.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
 #include "plugins/tools/quests/seqop_transform.h"
 
@@ -170,14 +171,6 @@ bool celQuestSequence::IsRunning ()
 
 void celQuestSequence::Perform (csTicks rel)
 {
-  if (rel > total_time)
-  {
-    // Sequence has ended.
-    FireSequenceCallbacks ();
-    Abort ();
-    return;
-  }
-
   // Find all operations that have to be performed.
   while (idx < seqops.Length () && rel >= seqops[idx].start)
   {
@@ -211,6 +204,14 @@ void celQuestSequence::Perform (csTicks rel)
       ops_in_progress[i].seqop->Do (dt);
       i++;
     }
+  }
+
+  if (rel > total_time)
+  {
+    // Sequence has ended.
+    FireSequenceCallbacks ();
+    Abort ();
+    return;
   }
 }
 
@@ -965,6 +966,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celSequenceRewardType* type = new celSequenceRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celSequenceFinishRewardType* type = new celSequenceFinishRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
