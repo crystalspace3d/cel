@@ -170,6 +170,9 @@
 				RelativePath="..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\stdphyslayer\entitytpl.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\stdphyslayer\etracker.cpp">
 			</File>
 			<File
@@ -190,6 +193,9 @@
 			Filter="">
 			<File
 				RelativePath="..\plugins\stdphyslayer\entity.h">
+			</File>
+			<File
+				RelativePath="..\plugins\stdphyslayer\entitytpl.h">
 			</File>
 			<File
 				RelativePath="..\plugins\stdphyslayer\etracker.h">
