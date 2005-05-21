@@ -72,7 +72,6 @@ bool celSequenceFinishRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
   delete[] sequence_par; sequence_par = 0;
-  delete[] delay_par; delay_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
   if (!entity_par)

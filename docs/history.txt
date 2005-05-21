@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in finishing a sequence. It didn't work before.
 	- Jorrit added pfzone and addon_celentitytpl to celtst_static.
 	- Jorrit atted bruteblock and terrainldr to celtst_static.
+	- Jorrit removed an unused variable in the sequence finish reward
+	  which was deleted without being initialized. Could cause crashes.
 20-May-2005
 	- Jorrit created the notion of entity templates (iCelEntityTemplate)
 	  in the physical layer. This is untested but the idea is a that
