@@ -40,6 +40,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     ballldr
     bezier
     bezierldr
+    bruteblock
+    terrainldr
     bugplug
     csconin
     csddsimg
