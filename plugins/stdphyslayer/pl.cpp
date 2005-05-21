@@ -35,6 +35,7 @@
 #include "csutil/parray.h"
 #include "csutil/cseventq.h"
 #include "csutil/cfgmgr.h"
+#include "csutil/event.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -97,7 +98,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
 {
   if (ev.Type != csevBroadcast) return false;
 
-  CallbackInfo* cbinfo = GetCBInfo (ev.Command.Code);
+  CallbackInfo* cbinfo = GetCBInfo (csCommandEventHelper::GetCode(&ev));
   if (!cbinfo) return false;
 
   // First fire all property classes that must be fired every frame.

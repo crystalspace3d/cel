@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
+#include "csutil/event.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "igraphic/image.h"
@@ -778,11 +779,11 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
   switch (ev.Type)
   {
     case csevBroadcast:
-      if (ev.Command.Code == cscmdPreProcess)
+      if (csCommandEventHelper::GetCode(&ev) == cscmdPreProcess)
       {
         HandleMovingBillboards (vc->GetElapsedTicks ());
       }
-      else if (ev.Command.Code == cscmdPostProcess)
+      else if (csCommandEventHelper::GetCode(&ev) == cscmdPostProcess)
       {
         if (billboards.Length () > 0)
 	{
@@ -804,21 +805,24 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPositionScreen (ev.Mouse.x + moving_dx,
-	  	ev.Mouse.y + moving_dy);
+	  moving_billboard->SetPositionScreen (csMouseEventHelper::GetX(&ev) + moving_dx,
+					       csMouseEventHelper::GetY(&ev) + moving_dy);
 	  moving_billboard = 0;
 	}
 
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
-		CEL_BILLBOARD_CLICKABLE);
+        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
+					  csMouseEventHelper::GetY(&ev),
+					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseUp (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
+	  bb->FireMouseUp (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev), 
+			   csMouseEventHelper::GetButton(&ev));
       }
       break;
     case csevMouseDown:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
-		CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE);
+        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
+					  csMouseEventHelper::GetY(&ev),
+					  CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE);
 	if (bb)
 	{
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_RESTACK))
@@ -829,11 +833,13 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	  {
 	    moving_billboard = bb;
 	    bb->GetPositionScreen (moving_dx, moving_dy);
-	    moving_dx -= ev.Mouse.x;
-	    moving_dy -= ev.Mouse.y;
+	    moving_dx -= csMouseEventHelper::GetX(&ev);
+	    moving_dy -= csMouseEventHelper::GetY(&ev);
 	  }
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_CLICKABLE))
-	    bb->FireMouseDown (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
+	    bb->FireMouseDown (csMouseEventHelper::GetX(&ev), 
+			       csMouseEventHelper::GetY(&ev), 
+			       csMouseEventHelper::GetButton(&ev));
         }
       }
       break;
@@ -841,22 +847,26 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPositionScreen (ev.Mouse.x + moving_dx,
-	  	ev.Mouse.y + moving_dy);
+	  moving_billboard->SetPositionScreen (csMouseEventHelper::GetX(&ev) + moving_dx,
+					       csMouseEventHelper::GetY(&ev) + moving_dy);
 	}
 
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
-		CEL_BILLBOARD_CLICKABLE);
+        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
+					  csMouseEventHelper::GetY(&ev),
+					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseMove (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
+	  bb->FireMouseMove (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev), 
+			     csMouseEventHelper::GetButton(&ev));
       }
       break;
     case csevMouseDoubleClick:
       {
-        celBillboard* bb = FindBillboard (ev.Mouse.x, ev.Mouse.y,
-		CEL_BILLBOARD_CLICKABLE);
+        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev),
+					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseDoubleClick (ev.Mouse.x, ev.Mouse.y, ev.Mouse.Button);
+	  bb->FireMouseDoubleClick (csMouseEventHelper::GetX(&ev), 
+				    csMouseEventHelper::GetY(&ev), 
+				    csMouseEventHelper::GetButton(&ev));
       }
       break;
   }

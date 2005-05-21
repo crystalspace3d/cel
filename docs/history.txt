@@ -35,6 +35,8 @@ The history order is reversed so that new features are at the top.
 	  and actions on a property class created in a template.
 	- Jorrit fixed a problem with pftools which didn't have a plugin
 	  entry for pcspawn.
+	- Adam Bradley changed access to Mouse/Joystick/Command events to
+	  use the new property bag helper interfaces.
 19-May-2005
 	- Jorrit fixed several property classes so that they no longer
 	  crash if the behaviour is missing. Behaviours are supposed to be
