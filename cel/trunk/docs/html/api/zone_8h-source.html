@@ -121,51 +121,51 @@
 00199 <span class="preprocessor"></span>
 00201 SCF_VERSION (<a class="code" href="structiPcZoneManager.html">iPcZoneManager</a>, 0, 1, 1);
 00202 
-<a name="l00223"></a><a class="code" href="structiPcZoneManager.html">00223</a> <span class="keyword">struct </span><a class="code" href="structiPcZoneManager.html">iPcZoneManager</a> : <span class="keyword">public</span> iBase
-00224 {
-00231   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a0">Load</a> (iDocumentNode* node) = 0;
-00232 
-00242   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a0">Load</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
-00243 
-00247   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a2">CreateZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-00248 
-00252   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a3">GetZoneCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00230"></a><a class="code" href="structiPcZoneManager.html">00230</a> <span class="keyword">struct </span><a class="code" href="structiPcZoneManager.html">iPcZoneManager</a> : <span class="keyword">public</span> iBase
+00231 {
+00238   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a0">Load</a> (iDocumentNode* node) = 0;
+00239 
+00252   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a0">Load</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
 00253 
-00257   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a4">GetZone</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00257   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a2">CreateZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 00258 
-00262   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a5">FindZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+00262   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a3">GetZoneCount</a> () <span class="keyword">const </span>= 0;
 00263 
-00268   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a6">RemoveZone</a> (<a class="code" href="structiCelZone.html">iCelZone</a>* zone) = 0;
-00269 
-00273   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a7">RemoveAllZones</a> () = 0;
-00274 
-00278   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a8">CreateRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+00267   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a4">GetZone</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00268 
+00272   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a5">FindZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+00273 
+00278   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a6">RemoveZone</a> (<a class="code" href="structiCelZone.html">iCelZone</a>* zone) = 0;
 00279 
-00283   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a9">GetRegionCount</a> () <span class="keyword">const </span>= 0;
+00283   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a7">RemoveAllZones</a> () = 0;
 00284 
-00288   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a10">GetRegion</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00288   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a8">CreateRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 00289 
-00293   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a11">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+00293   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a9">GetRegionCount</a> () <span class="keyword">const </span>= 0;
 00294 
-00299   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a12">RemoveRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
-00300 
-00304   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a13">RemoveAllRegions</a> () = 0;
-00305 
-00309   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a14">FindStartLocations</a> (iStringArray* regionnames,
-00310         iStringArray* startnames) = 0;
-00311 
-00317   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a15">GetLastStartLocation</a> (iString* regionname,
-00318         iString* startname) = 0;
-00319 
-00335   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a16">PointCamera</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
-00336         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
-00337 
-00353   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a17">PointMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
-00354         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
-00355 };
-00356 
-00357 <span class="preprocessor">#endif // __CEL_PF_ZONE__</span>
-00358 <span class="preprocessor"></span>
+00298   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a10">GetRegion</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+00299 
+00303   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a11">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+00304 
+00309   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a12">RemoveRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
+00310 
+00314   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a13">RemoveAllRegions</a> () = 0;
+00315 
+00319   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a14">FindStartLocations</a> (iStringArray* regionnames,
+00320         iStringArray* startnames) = 0;
+00321 
+00327   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a15">GetLastStartLocation</a> (iString* regionname,
+00328         iString* startname) = 0;
+00329 
+00345   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a16">PointCamera</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
+00346         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
+00347 
+00363   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a17">PointMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
+00364         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
+00365 };
+00366 
+00367 <span class="preprocessor">#endif // __CEL_PF_ZONE__</span>
+00368 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
