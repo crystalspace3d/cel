@@ -1393,64 +1393,65 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iPcBillboard swig_types[42] 
 #define  SWIGTYPE_p_iPcLinearMovement swig_types[43] 
 #define  SWIGTYPE_p_csString swig_types[44] 
-#define  SWIGTYPE_p_iAwsComponent swig_types[45] 
-#define  SWIGTYPE_p_csDirtyAccessArrayTcsSprite2DVertex_t swig_types[46] 
-#define  SWIGTYPE_p_csFlags swig_types[47] 
-#define  SWIGTYPE_p_iPcCommandInput swig_types[48] 
-#define  SWIGTYPE_p_csOrthoTransform swig_types[49] 
-#define  SWIGTYPE_p_iCelPropertyClass swig_types[50] 
-#define  SWIGTYPE_p_iPcMovable swig_types[51] 
-#define  SWIGTYPE_p_iBillboardEventHandler swig_types[52] 
-#define  SWIGTYPE_p_iPcCollisionDetection swig_types[53] 
-#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[54] 
-#define  SWIGTYPE_int swig_types[55] 
-#define  SWIGTYPE_p__csKeyModifierNumType swig_types[56] 
-#define  SWIGTYPE_p_char swig_types[57] 
-#define  SWIGTYPE_p_FileFormatDescription swig_types[58] 
-#define  SWIGTYPE_p_iMeshWrapper swig_types[59] 
-#define  SWIGTYPE_p_iPcDynamicBody swig_types[60] 
-#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[61] 
-#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[62] 
-#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[63] 
-#define  SWIGTYPE_p_iBillboardManager swig_types[64] 
-#define  SWIGTYPE_p_iPcZoneManager swig_types[65] 
-#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_csArrayMemoryAllocatorTcsPluginRequest_t_t swig_types[66] 
-#define  SWIGTYPE_p_iCamera swig_types[67] 
-#define  SWIGTYPE_p_iPcCamera swig_types[68] 
-#define  SWIGTYPE_p_iPcMesh swig_types[69] 
-#define  SWIGTYPE_p_iPcSimpleCamera swig_types[70] 
-#define  SWIGTYPE_p_iCelBehaviour swig_types[71] 
-#define  SWIGTYPE_p_iBillboardLayer swig_types[72] 
-#define  SWIGTYPE_p_iPcTimer swig_types[73] 
-#define  SWIGTYPE_p_csPlane3 swig_types[74] 
-#define  SWIGTYPE_p_csVector2 swig_types[75] 
-#define  SWIGTYPE_p_unsigned_long swig_types[76] 
-#define  SWIGTYPE_p_iCelDataBuffer swig_types[77] 
-#define  SWIGTYPE_p_csVector3 swig_types[78] 
-#define  SWIGTYPE_p_iPcGravity swig_types[79] 
-#define  SWIGTYPE_p_iRigidBody swig_types[80] 
-#define  SWIGTYPE_p_iDynamicSystem swig_types[81] 
-#define  SWIGTYPE_p_iPcDynamicSystem swig_types[82] 
-#define  SWIGTYPE_p_basetype swig_types[83] 
-#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[84] 
-#define  SWIGTYPE_p_iPcSolid swig_types[85] 
-#define  SWIGTYPE_p_unsigned_int swig_types[86] 
-#define  SWIGTYPE_p_unsigned_char swig_types[87] 
-#define  SWIGTYPE_p_iView swig_types[88] 
-#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[89] 
-#define  SWIGTYPE_p_iCelTimerListener swig_types[90] 
-#define  SWIGTYPE_p_iPcInventoryListener swig_types[91] 
-#define  SWIGTYPE_p_celDataType swig_types[92] 
-#define  SWIGTYPE_p__csMouseCursorID swig_types[93] 
-#define  SWIGTYPE_p_float swig_types[94] 
-#define  SWIGTYPE_p_iBase swig_types[95] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[96] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[97] 
-#define  SWIGTYPE_p_iPcInventory swig_types[98] 
-#define  SWIGTYPE_p_uint64 swig_types[99] 
-#define  SWIGTYPE_p_iPcRegion swig_types[100] 
-#define  SWIGTYPE_p_iRegion swig_types[101] 
-static swig_type_info *swig_types[103];
+#define  SWIGTYPE_p_iCelEntityTemplate swig_types[45] 
+#define  SWIGTYPE_p_iAwsComponent swig_types[46] 
+#define  SWIGTYPE_p_csDirtyAccessArrayTcsSprite2DVertex_t swig_types[47] 
+#define  SWIGTYPE_p_csFlags swig_types[48] 
+#define  SWIGTYPE_p_iPcCommandInput swig_types[49] 
+#define  SWIGTYPE_p_csOrthoTransform swig_types[50] 
+#define  SWIGTYPE_p_iCelPropertyClass swig_types[51] 
+#define  SWIGTYPE_p_iPcMovable swig_types[52] 
+#define  SWIGTYPE_p_iBillboardEventHandler swig_types[53] 
+#define  SWIGTYPE_p_iPcCollisionDetection swig_types[54] 
+#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[55] 
+#define  SWIGTYPE_int swig_types[56] 
+#define  SWIGTYPE_p__csKeyModifierNumType swig_types[57] 
+#define  SWIGTYPE_p_char swig_types[58] 
+#define  SWIGTYPE_p_FileFormatDescription swig_types[59] 
+#define  SWIGTYPE_p_iMeshWrapper swig_types[60] 
+#define  SWIGTYPE_p_iPcDynamicBody swig_types[61] 
+#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[62] 
+#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[63] 
+#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[64] 
+#define  SWIGTYPE_p_iBillboardManager swig_types[65] 
+#define  SWIGTYPE_p_iPcZoneManager swig_types[66] 
+#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_csArrayMemoryAllocatorTcsPluginRequest_t_t swig_types[67] 
+#define  SWIGTYPE_p_iCamera swig_types[68] 
+#define  SWIGTYPE_p_iPcCamera swig_types[69] 
+#define  SWIGTYPE_p_iPcMesh swig_types[70] 
+#define  SWIGTYPE_p_iPcSimpleCamera swig_types[71] 
+#define  SWIGTYPE_p_iCelBehaviour swig_types[72] 
+#define  SWIGTYPE_p_iBillboardLayer swig_types[73] 
+#define  SWIGTYPE_p_iPcTimer swig_types[74] 
+#define  SWIGTYPE_p_csPlane3 swig_types[75] 
+#define  SWIGTYPE_p_csVector2 swig_types[76] 
+#define  SWIGTYPE_p_unsigned_long swig_types[77] 
+#define  SWIGTYPE_p_iCelDataBuffer swig_types[78] 
+#define  SWIGTYPE_p_csVector3 swig_types[79] 
+#define  SWIGTYPE_p_iPcGravity swig_types[80] 
+#define  SWIGTYPE_p_iRigidBody swig_types[81] 
+#define  SWIGTYPE_p_iDynamicSystem swig_types[82] 
+#define  SWIGTYPE_p_iPcDynamicSystem swig_types[83] 
+#define  SWIGTYPE_p_basetype swig_types[84] 
+#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[85] 
+#define  SWIGTYPE_p_iPcSolid swig_types[86] 
+#define  SWIGTYPE_p_unsigned_int swig_types[87] 
+#define  SWIGTYPE_p_unsigned_char swig_types[88] 
+#define  SWIGTYPE_p_iView swig_types[89] 
+#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[90] 
+#define  SWIGTYPE_p_iCelTimerListener swig_types[91] 
+#define  SWIGTYPE_p_iPcInventoryListener swig_types[92] 
+#define  SWIGTYPE_p_celDataType swig_types[93] 
+#define  SWIGTYPE_p__csMouseCursorID swig_types[94] 
+#define  SWIGTYPE_p_float swig_types[95] 
+#define  SWIGTYPE_p_iBase swig_types[96] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[97] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[98] 
+#define  SWIGTYPE_p_iPcInventory swig_types[99] 
+#define  SWIGTYPE_p_uint64 swig_types[100] 
+#define  SWIGTYPE_p_iPcRegion swig_types[101] 
+#define  SWIGTYPE_p_iRegion swig_types[102] 
+static swig_type_info *swig_types[104];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -2928,6 +2929,155 @@ static PyObject *_wrap_iCelPlLayer_CreateEntity__SWIG_2(PyObject *self, PyObject
 }
 
 
+static PyObject *_wrap_iCelPlLayer_RemoveEntity(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    iCelEntity *arg2 = (iCelEntity *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_RemoveEntity",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntity, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    (arg1)->RemoveEntity(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_RemoveEntities(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iCelPlLayer_RemoveEntities",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->RemoveEntities();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_CreateEntityTemplate(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    char *arg2 = (char *) 0 ;
+    iCelEntityTemplate *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_CreateEntityTemplate",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (iCelEntityTemplate *)(arg1)->CreateEntityTemplate((char const *)arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntityTemplate, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_RemoveEntityTemplate(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    iCelEntityTemplate *arg2 = (iCelEntityTemplate *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_RemoveEntityTemplate",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntityTemplate, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    (arg1)->RemoveEntityTemplate(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_RemoveEntityTemplates(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iCelPlLayer_RemoveEntityTemplates",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->RemoveEntityTemplates();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_FindEntityTemplate(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    char *arg2 = (char *) 0 ;
+    iCelEntityTemplate *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_FindEntityTemplate",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (iCelEntityTemplate *)(arg1)->FindEntityTemplate((char const *)arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntityTemplate, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_CreateEntity__SWIG_3(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    iCelEntityTemplate *arg2 = (iCelEntityTemplate *) 0 ;
+    char *arg3 = (char *) 0 ;
+    iCelEntity *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iCelPlLayer_CreateEntity",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntityTemplate, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    result = (iCelEntity *)(arg1)->CreateEntity(arg2,(char const *)arg3);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntity, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) {
     int argc;
     PyObject *argv[5];
@@ -2970,6 +3120,35 @@ static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) 
             }
         }
     }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iCelPlLayer, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iCelEntityTemplate, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    return _wrap_iCelPlLayer_CreateEntity__SWIG_3(self,args);
+                }
+            }
+        }
+    }
     if (argc >= 4) {
         int _v;
         {
@@ -3007,44 +3186,6 @@ static PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) 
     }
     
     PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iCelPlLayer_CreateEntity'");
-    return NULL;
-}
-
-
-static PyObject *_wrap_iCelPlLayer_RemoveEntity(PyObject *, PyObject *args) {
-    PyObject *resultobj;
-    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
-    iCelEntity *arg2 = (iCelEntity *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_RemoveEntity",&obj0,&obj1)) goto fail;
-    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(1)) SWIG_fail;
-    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntity, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(2)) SWIG_fail;
-    (arg1)->RemoveEntity(arg2);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iCelPlLayer_RemoveEntities(PyObject *, PyObject *args) {
-    PyObject *resultobj;
-    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iCelPlLayer_RemoveEntities",&obj0)) goto fail;
-    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(1)) SWIG_fail;
-    (arg1)->RemoveEntities();
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
     return NULL;
 }
 
@@ -17461,9 +17602,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_iCelTimerListener", _wrap_delete_iCelTimerListener, METH_VARARGS, NULL},
 	 { (char *)"iCelTimerListener_swigregister", iCelTimerListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_CreateEntityInScope", _wrap_iCelPlLayer_CreateEntityInScope, METH_VARARGS, NULL},
-	 { (char *)"iCelPlLayer_CreateEntity", _wrap_iCelPlLayer_CreateEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_RemoveEntity", _wrap_iCelPlLayer_RemoveEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_RemoveEntities", _wrap_iCelPlLayer_RemoveEntities, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_CreateEntityTemplate", _wrap_iCelPlLayer_CreateEntityTemplate, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_RemoveEntityTemplate", _wrap_iCelPlLayer_RemoveEntityTemplate, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_RemoveEntityTemplates", _wrap_iCelPlLayer_RemoveEntityTemplates, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_FindEntityTemplate", _wrap_iCelPlLayer_FindEntityTemplate, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_CreateEntity", _wrap_iCelPlLayer_CreateEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_CreateMessage", _wrap_iCelPlLayer_CreateMessage, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_CreateDataBuffer", _wrap_iCelPlLayer_CreateDataBuffer, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_AttachEntity", _wrap_iCelPlLayer_AttachEntity, METH_VARARGS, NULL},
@@ -18794,6 +18939,7 @@ static swig_type_info _swigt__p_iBillboard[] = {{"_p_iBillboard", 0, "iBillboard
 static swig_type_info _swigt__p_iPcBillboard[] = {{"_p_iPcBillboard", 0, "iPcBillboard *", 0, 0, 0, 0},{"_p_iPcBillboard", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcLinearMovement[] = {{"_p_iPcLinearMovement", 0, "iPcLinearMovement *", 0, 0, 0, 0},{"_p_iPcLinearMovement", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csString[] = {{"_p_csString", 0, "csString *", 0, 0, 0, 0},{"_p_csString", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_iCelEntityTemplate[] = {{"_p_iCelEntityTemplate", 0, "iCelEntityTemplate *", 0, 0, 0, 0},{"_p_iCelEntityTemplate", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iAwsComponent[] = {{"_p_iAwsComponent", 0, "iAwsComponent *|iAwsWindow *", 0, 0, 0, 0},{"_p_iAwsComponent", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csDirtyAccessArrayTcsSprite2DVertex_t[] = {{"_p_csDirtyAccessArrayTcsSprite2DVertex_t", 0, "csDirtyAccessArray<csSprite2DVertex > *|csColoredVertices *", 0, 0, 0, 0},{"_p_csDirtyAccessArrayTcsSprite2DVertex_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csFlags[] = {{"_p_csFlags", 0, "csFlags *", 0, 0, 0, 0},{"_p_csFlags", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -18898,6 +19044,7 @@ _swigt__p_iBillboard,
 _swigt__p_iPcBillboard, 
 _swigt__p_iPcLinearMovement, 
 _swigt__p_csString, 
+_swigt__p_iCelEntityTemplate, 
 _swigt__p_iAwsComponent, 
 _swigt__p_csDirtyAccessArrayTcsSprite2DVertex_t, 
 _swigt__p_csFlags, 
