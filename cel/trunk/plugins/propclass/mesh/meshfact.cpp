@@ -32,6 +32,7 @@
 #include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/flags.h"
+#include "csutil/event.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
@@ -678,7 +679,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   if (!pccamera) return false;
   iCamera* camera = pccamera->GetCamera ();
 
-  int mouse_but = ev.Mouse.Button;
+  int mouse_but = csMouseEventHelper::GetButton(&ev);
   int but = 1<<(mouse_but-1);
   if (do_follow || do_drag)
   {
@@ -691,8 +692,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   bool mouse_down = ev.Type == csevMouseDown;
   bool mouse_up = ev.Type == csevMouseUp;
-  int mouse_x = ev.Mouse.x;
-  int mouse_y = ev.Mouse.y;
+  int mouse_x = csMouseEventHelper::GetX(&ev);
+  int mouse_y = csMouseEventHelper::GetY(&ev);
 
   iCelEntity* new_sel = 0;
 

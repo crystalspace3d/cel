@@ -655,7 +655,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     if (ev.Type == csevMouseMove)
     {
       //mouse move event
-      int modifiers = ev.Mouse.Modifiers;
+      int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celAxisMap *p = axislist;
       while (p)
@@ -667,9 +667,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  {
 	    float val;
 	    if (p->numeric == 0)
-              val = (float) ev.Mouse.x;
+              val = (float) csMouseEventHelper::GetX(&ev);
 	    else
-              val = (float) ev.Mouse.y;
+              val = (float) csMouseEventHelper::GetY(&ev);
             celData ret;
 	    if (screenspace)
               ret.Set (val);
@@ -692,8 +692,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     else
     {
       //mouse button event
-      int button = ev.Mouse.Button;
-      int modifiers = ev.Mouse.Modifiers;
+      int button = csMouseEventHelper::GetButton(&ev);
+      int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
       while (p)
@@ -757,7 +757,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     if (ev.Type == csevJoystickMove)
     {
       //joystick move event
-      int modifiers = ev.Joystick.Modifiers;
+      int modifiers = csJoystickEventHelper::GetModifiers(&ev);
       //find mapping
       celAxisMap *p = axislist;
       while (p)
@@ -769,9 +769,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  {
 	    float val;
 	    if (p->numeric == 0)
-              val = (float) ev.Joystick.x;
+              val = (float) csJoystickEventHelper::GetX(&ev);
 	    else
-              val = (float) ev.Joystick.y;
+              val = (float) csJoystickEventHelper::GetY(&ev);
             //The joystick driver returns values between -32767 and +32767.
 	    //Get the value in the range -1 to 1.
             val = val / 32767;
@@ -792,8 +792,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     else
     {
       //joystick button event
-      int button = ev.Joystick.Button;
-      int modifiers = ev.Joystick.Modifiers;
+      int button = csJoystickEventHelper::GetButton(&ev);
+      int modifiers = csJoystickEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
       while (p)
