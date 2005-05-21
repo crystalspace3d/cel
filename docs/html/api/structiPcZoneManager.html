@@ -82,6 +82,11 @@
 This is the zone manager. 
 <p>
 In this property class you can define zones. A zone is a collection of regions that are either all together in memory or not at all. A region is made from a set of maps and represents the actual geometry that is in memory. A region is loaded or unloaded as one unit. A region can be in multiple zones. In that case if you are in some region then all zones that contain that region will be in memory, The representation of a region. <p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+Load: parameters 'path' (string), and 'file' (string). </li>
+</ul>
+<p>
 This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
 <li>
 pczonemanager_addregion: new region has been added (region) </li>
@@ -98,7 +103,7 @@ pczonemanager_errorloading: loading of regions stops with error (region) </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="zone_8h-source.html#l00223">223</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="zone_8h-source.html#l00230">230</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a8" doxytag="iPcZoneManager::CreateRegion"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -451,7 +456,7 @@ Get the count of zones.
 <p>
 Load a zone definition from an XML file. 
 <p>
-The XML file should contain a 'level' node. <dl compact><dt><b>Parameters:</b></dt><dd>
+The XML file should contain a 'level' or 'world' node. In case it is a 'world' file then the zone manager will automatically create a region called 'main' and a zone called 'main' with a default start location. This is a conveniance. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>is a VFS path. Current VFS dir will be set to that path. Can be 0 if no path is desired. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>file</em>&nbsp;</td><td>is a VFS file. </td></tr>
