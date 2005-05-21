@@ -15,6 +15,9 @@ Package=<4>
     Project_Dep_Name libaddon_celentity_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libaddon_celentitytpl_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libaddon_questdef_static
     End Project Dependency
     Begin Project Dependency
@@ -123,6 +126,9 @@ Package=<4>
     Project_Dep_Name libaddon_celentity_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libaddon_celentitytpl_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libaddon_questdef_static
     End Project Dependency
     Begin Project Dependency
@@ -220,6 +226,18 @@ Package=<4>
 ###############################################################################
 
 Project: "libaddon_celentity_static"=.\libaddon_celentity_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libaddon_celentitytpl_static"=.\libaddon_celentitytpl_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

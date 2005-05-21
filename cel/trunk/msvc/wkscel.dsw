@@ -54,6 +54,9 @@ Package=<4>
     Project_Dep_Name plgaddon_celentity
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgaddon_celentitytpl
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgaddon_questdef
     End Project Dependency
     Begin Project Dependency
@@ -180,6 +183,9 @@ Package=<4>
     Project_Dep_Name plgaddon_celentity
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgaddon_celentitytpl
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgaddon_questdef
     End Project Dependency
     Begin Project Dependency
@@ -274,6 +280,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgaddon_celentity"=.\plgaddon_celentity.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgaddon_celentitytpl"=.\plgaddon_celentitytpl.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

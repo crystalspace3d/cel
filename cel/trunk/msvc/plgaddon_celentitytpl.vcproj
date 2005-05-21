@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgstdphyslayer"
+	Name="plgaddon_celentitytpl"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\release\build\plgstdphyslayer\"
+			OutputDirectory="..\out\release\build\plgaddon_celentitytpl\"
+			IntermediateDirectory="..\out\release\build\plgaddon_celentitytpl\"
 			ConfigurationType="2"
 			WholeProgramOptimization="TRUE"
 			UseOfMFC="0"
@@ -35,10 +35,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\release\build\plgstdphyslayer\"
-				ObjectFile="..\out\release\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\release\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pch"
+				AssemblerListingLocation="..\out\release\build\plgaddon_celentitytpl\"
+				ObjectFile="..\out\release\build\plgaddon_celentitytpl\"
+				ProgramDataBaseFileName="..\out\release\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -52,16 +52,16 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\stdphyslayer.dll"
+				OutputFile="..\addon_celentitytpl.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\release\build\plgstdphyslayer\plgstdphyslayer.lib"
+				ImportLibrary="..\out\release\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\release\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -73,7 +73,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\release\build\plgaddon_celentitytpl\plgaddon_celentitytpl.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -93,8 +93,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\debug\build\plgstdphyslayer\"
+			OutputDirectory="..\out\debug\build\plgaddon_celentitytpl\"
+			IntermediateDirectory="..\out\debug\build\plgaddon_celentitytpl\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -109,10 +109,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\debug\build\plgstdphyslayer\"
-				ObjectFile="..\out\debug\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pch"
+				AssemblerListingLocation="..\out\debug\build\plgaddon_celentitytpl\"
+				ObjectFile="..\out\debug\build\plgaddon_celentitytpl\"
+				ProgramDataBaseFileName="..\out\debug\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -124,16 +124,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\stdphyslayer.dll"
+				OutputFile="..\addon_celentitytpl.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.lib"
+				ImportLibrary="..\out\debug\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\debug\build\plgaddon_celentitytpl\plgaddon_celentitytpl.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -145,7 +145,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgaddon_celentitytpl\plgaddon_celentitytpl.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -169,60 +169,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\entity.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\entitytpl.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\etracker.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
+				RelativePath="..\plugins\addons\celentitytpl\celentitytpl.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\entity.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\entitytpl.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\etracker.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.h">
+				RelativePath="..\plugins\addons\celentitytpl\celentitytpl.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgstdphyslayer.rc">
+				RelativePath="..\msvc\plgaddon_celentitytpl.rc">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\stdphyslayer.csplugin">
+				RelativePath="..\plugins\addons\celentitytpl\addon_celentitytpl.csplugin">
 			</File>
 		</Filter>
 	</Files>
