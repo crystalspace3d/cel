@@ -312,6 +312,8 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       pcactormove->RotateRight (true);
     else if (!strcmp (msg_id+15, "rotateright0"))
       pcactormove->RotateRight (false);
+    else if (!strcmp (msg_id+15, "jump1"))
+      pcactormove->Jump ();
     else if (!strcmp (msg_id+15, "run1"))
       pcactormove->Run (true);
     else if (!strcmp (msg_id+15, "run0"))

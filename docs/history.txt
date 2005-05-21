@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-May-2005
+	- Jorrit added a new SetMesh action to pcmesh so that you can now
+	  set a pcmesh from an already existing mesh.
+	- Jorrit fixed jump in celtest (space).
+	- Jorrit fixed the quest manager. The sequence finish reward was not
+	  registered so it was not usable.
+	- Jorrit fixed a bug in finishing a sequence. It didn't work before.
+	- Jorrit added pfzone and addon_celentitytpl to celtst_static.
 20-May-2005
 	- Jorrit created the notion of entity templates (iCelEntityTemplate)
 	  in the physical layer. This is untested but the idea is a that

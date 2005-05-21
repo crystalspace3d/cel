@@ -75,6 +75,8 @@ private:
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
+  static csStringID action_setmesh;
+  static csStringID id_name;
   static csStringID id_path;
   static csStringID id_filename;
   static csStringID id_factoryname;

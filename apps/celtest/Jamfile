@@ -15,6 +15,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   LinkWith celtst_static : cel_staticplugins celtool ;
   LinkStaticPlugins celtst_static :
     addon_celentity
+    addon_celentitytpl
     addon_questdef
     bltest
     mgr_quests
@@ -29,6 +30,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pftest
     pftools
     pftrigger
+    pfzone
     stdphyslayer
     xmlpersist
   : blpython
