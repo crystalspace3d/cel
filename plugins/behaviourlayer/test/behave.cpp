@@ -95,6 +95,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
 	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
+#if 0
   (void)arg;
   // @@@ Should store the id's for the parameters below.
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -154,6 +155,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
   }
 
   fflush (stdout);
+#endif
   return false;
 }
 

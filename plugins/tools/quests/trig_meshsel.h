@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_INVENTORY__
-#define __CEL_TOOLS_QUESTS_TRIG_INVENTORY__
+#ifndef __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
+#define __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -28,33 +28,32 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
-#include "propclass/inv.h"
+#include "propclass/meshsel.h"
 
 struct iObjectRegistry;
 struct iEvent;
 
 /**
  * A standard trigger type that triggers whenever a specific object is
- * put in the inventory.
- * This trigger type listens to the name 'cel.questtrigger.inventory'.
+ * put in the meshselect.
+ * This trigger type listens to the name 'cel.questtrigger.meshselect'.
  */
-CEL_DECLARE_TRIGGERTYPE(Inventory,"cel.questtrigger.inventory")
+CEL_DECLARE_TRIGGERTYPE(MeshSelect,"cel.questtrigger.meshselect")
 
 /**
- * The 'inventory' trigger factory.
+ * The 'meshselect' trigger factory.
  */
-class celInventoryTriggerFactory :
+class celMeshSelectTriggerFactory :
 	public iQuestTriggerFactory,
-	public iInventoryQuestTriggerFactory
+	public iMeshSelectQuestTriggerFactory
 {
 private:
-  celInventoryTriggerType* type;
+  celMeshSelectTriggerType* type;
   char* entity_par;
-  char* child_entity_par;
 
 public:
-  celInventoryTriggerFactory (celInventoryTriggerType* type);
-  virtual ~celInventoryTriggerFactory ();
+  celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
+  virtual ~celMeshSelectTriggerFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -62,32 +61,30 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iInventoryQuestTriggerFactory ----------------------
+  //----------------- iMeshSelectQuestTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual void SetChildEntityParameter (const char* entity);
 };
 
 /**
- * The 'inventory' trigger.
+ * The 'meshselect' trigger.
  */
-class celInventoryTrigger :
+class celMeshSelectTrigger :
 	public iQuestTrigger,
-	public iPcInventoryListener
+	public iPcMeshSelectListener
 {
 private:
-  celInventoryTriggerType* type;
+  celMeshSelectTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
-  csWeakRef<iPcInventory> inventory;
+  csWeakRef<iPcMeshSelect> meshselect;
   char* entity;
-  char* child_entity;
 
-  void FindInventory ();
+  void FindMeshSelect ();
 
 public:
-  celInventoryTrigger (celInventoryTriggerType* type,
+  celMeshSelectTrigger (celMeshSelectTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* child_entity_par);
-  virtual ~celInventoryTrigger ();
+	const char* entity_par);
+  virtual ~celMeshSelectTrigger ();
 
   SCF_DECLARE_IBASE;
 
@@ -98,10 +95,14 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  //----------------------- iPcInventoryListener ----------------------------
-  virtual void AddChild (iPcInventory* inventory, iCelEntity* entity);
-  virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity);
+  //----------------------- iPcMeshSelectListener --------------------------
+  virtual void MouseDown (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
+  virtual void MouseUp (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
+  virtual void MouseMove (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_INVENTORY__
+#endif // __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
 

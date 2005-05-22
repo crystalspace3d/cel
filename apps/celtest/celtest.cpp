@@ -188,6 +188,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pcmeshselect",
 	"pclinearmovement",
 	"pctooltip",
+	"pcinventory",
 	(void*)0);
   if (!entity_cam) return 0;
 

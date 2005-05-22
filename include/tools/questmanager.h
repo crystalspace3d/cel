@@ -625,9 +625,10 @@ struct iQuestManager : public iBase
    *     See iSequenceFinishQuestTriggerFactory.
    * <li>cel.questtrigger.trigger: triggers when a pctrigger files.
    *     See iTriggerQuestTriggerFactory.
-   * <li>cel.questtrigger.inventory: triggers when an object enters an
-   *     inventory.
+   * <li>cel.questtrigger.inventory: triggers when an object enters inventory.
    *     See iInventoryQuestTriggerFactory.
+   * <li>cel.questtrigger.meshselect: triggers when a mesh is selected.
+   *     See iMeshSelectQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -894,6 +895,35 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
    * \param value is the varlue or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
+};
+
+SCF_VERSION (iMeshSelectQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain mesh is selected. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.meshselect'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity that contains the
+ *     pcmeshselect property class.
+ * </ul>
+ */
+struct iMeshSelectQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcmeshselect property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
 };
 
 SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
