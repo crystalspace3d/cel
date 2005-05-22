@@ -50,35 +50,35 @@
 00035 <span class="preprocessor"></span>
 00036 SCF_VERSION (<a class="code" href="structiPcMesh.html">iPcMesh</a>, 0, 0, 3);
 00037 
-<a name="l00051"></a><a class="code" href="structiPcMesh.html">00051</a> <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a> : <span class="keyword">public</span> iBase
-00052 {
-00060   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a0">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
-00061 
-00067   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#a1">SetMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* factname, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename) = 0;
-00068 
-00078   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a1">SetMesh</a> (iMeshWrapper* mesh, <span class="keywordtype">bool</span> do_remove = <span class="keyword">false</span>) = 0;
-00079 
-00084   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a3">CreateEmptyThing</a> () = 0;
-00085 
-00089   <span class="keyword">virtual</span> iMeshWrapper* <a class="code" href="structiPcMesh.html#a4">GetMesh</a> () <span class="keyword">const </span>= 0;
-00090 
-00096   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a5">MoveMesh</a> (iSector* sector, <span class="keyword">const</span> csVector3&amp; pos) = 0;
-00097 
-00103   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a6">SetAction</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* actionName, <span class="keywordtype">bool</span> reset = <span class="keyword">false</span>) = 0;
-00104 
-00108   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcMesh.html#a7">GetAction</a> () = 0;
-00109 
-00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a8">SetReverseAction</a> (<span class="keywordtype">bool</span> reverse = <span class="keyword">true</span>) = 0;
-00116 
-00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a9">Hide</a> () = 0;
-00121 
-00125   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a10">Show</a> () = 0;
-00126 
-00130   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#a11">IsVisible</a> () <span class="keyword">const </span>= 0;
-00131 };
-00132 
-00133 <span class="preprocessor">#endif // __CEL_PF_MESH__</span>
-00134 <span class="preprocessor"></span>
+<a name="l00053"></a><a class="code" href="structiPcMesh.html">00053</a> <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a> : <span class="keyword">public</span> iBase
+00054 {
+00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a0">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
+00063 
+00069   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#a1">SetMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* factname, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename) = 0;
+00070 
+00080   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a1">SetMesh</a> (iMeshWrapper* mesh, <span class="keywordtype">bool</span> do_remove = <span class="keyword">false</span>) = 0;
+00081 
+00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a3">CreateEmptyThing</a> () = 0;
+00087 
+00091   <span class="keyword">virtual</span> iMeshWrapper* <a class="code" href="structiPcMesh.html#a4">GetMesh</a> () <span class="keyword">const </span>= 0;
+00092 
+00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a5">MoveMesh</a> (iSector* sector, <span class="keyword">const</span> csVector3&amp; pos) = 0;
+00099 
+00105   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a6">SetAction</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* actionName, <span class="keywordtype">bool</span> reset = <span class="keyword">false</span>) = 0;
+00106 
+00110   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcMesh.html#a7">GetAction</a> () = 0;
+00111 
+00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a8">SetReverseAction</a> (<span class="keywordtype">bool</span> reverse = <span class="keyword">true</span>) = 0;
+00118 
+00122   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a9">Hide</a> () = 0;
+00123 
+00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#a10">Show</a> () = 0;
+00128 
+00132   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#a11">IsVisible</a> () <span class="keyword">const </span>= 0;
+00133 };
+00134 
+00135 <span class="preprocessor">#endif // __CEL_PF_MESH__</span>
+00136 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
