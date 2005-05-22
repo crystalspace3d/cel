@@ -21,14 +21,17 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "csutil/flags.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
 #include "ivaria/reporter.h"
+#include "iengine/mesh.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "propclass/mesh.h"
 
 #include "plugins/tools/quests/reward_inventory.h"
 
@@ -157,6 +160,11 @@ void celInventoryReward::Reward ()
     // @@@ Report error!
     return;
   }
+
+  // Make the mesh invisible if the entity has one.
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (child_ent, iPcMesh);
+  if (pcmesh)
+    pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 
   printf ("New item in inventory!\n");
   fflush (stdout);

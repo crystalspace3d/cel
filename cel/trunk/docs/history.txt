@@ -10,6 +10,13 @@ The history order is reversed so that new features are at the top.
 	  so that you can now listen to mesh selection.
 	- Jorrit fixed celtest Jamfile so that it no longer attempts
 	  to build celtst_static if you just do 'jam'.
+	- Jorrit added a new trigger to the quest manager that fires when
+	  a mesh is selected with the mouse.
+	- Jorrit changed the inventory reward in the quest manager so that
+	  it also hides the mesh as soon as it is put in the inventory.
+	- Jorrit disabled the behaviour associated with 'room' in celtest
+	  since it is not really used.
+	- Jorrit gave the actor in celtest an inventory property class.
 21-May-2005
 	- Jorrit added a new SetMesh action to pcmesh so that you can now
 	  set a pcmesh from an already existing mesh.

@@ -36,6 +36,7 @@
 #include "plugins/tools/quests/trig_sequencefinish.h"
 #include "plugins/tools/quests/trig_trigger.h"
 #include "plugins/tools/quests/trig_inventory.h"
+#include "plugins/tools/quests/trig_meshsel.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -898,6 +899,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   //--- Triggers -----------------------------------------------------
   {
     celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
+    celMeshSelectTriggerType* type = new celMeshSelectTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
