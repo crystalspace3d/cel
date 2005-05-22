@@ -215,6 +215,9 @@ class celPcMeshSelect : public celPcCommon
 private:
   csWeakRef<iPcCamera> pccamera;
 
+  /// Listeners.
+  csRefArray<iPcMeshSelectListener> listeners;
+
   // If the following var is non-0 then we
   // are busy selecting a mesh and are waiting for a mouse up
   // to arrive.
@@ -274,7 +277,10 @@ private:
 
   static csStringID id_x, id_y, id_button, id_entity;
   celGenericParameterBlock* params;
-  void SendMessage (const char* name, iCelEntity* ent, int x, int y, int but);
+#define MSSM_TYPE_DOWN 0
+#define MSSM_TYPE_UP 1
+#define MSSM_TYPE_MOVE 2
+  void SendMessage (int t, iCelEntity* ent, int x, int y, int but);
 
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);
@@ -327,6 +333,12 @@ public:
     max_distance = distance;
   }
 
+  void AddMeshSelectListener (iPcMeshSelectListener* listener);
+  void RemoveMeshSelectListener (iPcMeshSelectListener* listener);
+  void FireListenersDown (int x, int y, int button, iCelEntity* entity);
+  void FireListenersUp (int x, int y, int button, iCelEntity* entity);
+  void FireListenersMove (int x, int y, int button, iCelEntity* entity);
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmeshselect"; }
@@ -337,6 +349,14 @@ public:
   struct PcMeshSelect : public iPcMeshSelect
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
+    virtual void AddMeshSelectListener (iPcMeshSelectListener* listener)
+    {
+      scfParent->AddMeshSelectListener (listener);
+    }
+    virtual void RemoveMeshSelectListener (iPcMeshSelectListener* listener)
+    {
+      scfParent->RemoveMeshSelectListener (listener);
+    }
     virtual void SetCamera (iPcCamera* pccamera)
     {
       scfParent->SetCamera (pccamera);

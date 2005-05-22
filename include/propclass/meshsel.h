@@ -26,11 +26,38 @@
 struct iPcCamera;
 struct iPcMovable;
 struct iPcMesh;
+struct iPcMeshSelect;
 class csVector3;
 
 #define CEL_MOUSE_BUTTON1 1
 #define CEL_MOUSE_BUTTON2 2
 #define CEL_MOUSE_BUTTON3 4
+
+SCF_VERSION (iPcMeshSelectListener, 0, 0, 1);
+
+/**
+ * Listen to mesh selection.
+ */
+struct iPcMeshSelectListener : public iBase
+{
+  /**
+   * Mouse button goes down on mesh.
+   */
+  virtual void MouseDown (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity) = 0;
+
+  /**
+   * Mouse button goes up on mesh.
+   */
+  virtual void MouseUp (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity) = 0;
+
+  /**
+   * Mouse moves while mesh is selected.
+   */
+  virtual void MouseMove (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity) = 0;
+};
 
 SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 
@@ -55,6 +82,16 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
  */
 struct iPcMeshSelect : public iBase
 {
+  /**
+   * Add a listener to listen to mouse selection. These listeners are called
+   * right before the behaviour is called.
+   */
+  virtual void AddMeshSelectListener (iPcMeshSelectListener* listener) = 0;
+  /**
+   * Remove a mesh selection listener.
+   */
+  virtual void RemoveMeshSelectListener (iPcMeshSelectListener* listener) = 0;
+
   /**
    * Set the camera to use for mesh selection.
    */
