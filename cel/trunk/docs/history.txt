@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-May-2005
+	- Jorrit added a new trigger to the quest manager that fires when
+	  some inventory gets a new object.
+	- Jorrit added a new iPcMeshSelectListener system to pcmeshsel
+	  so that you can now listen to mesh selection.
+	- Jorrit fixed celtest Jamfile so that it no longer attempts
+	  to build celtst_static if you just do 'jam'.
 21-May-2005
 	- Jorrit added a new SetMesh action to pcmesh so that you can now
 	  set a pcmesh from an already existing mesh.

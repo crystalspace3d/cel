@@ -35,6 +35,7 @@
 #include "plugins/tools/quests/trig_propertychange.h"
 #include "plugins/tools/quests/trig_sequencefinish.h"
 #include "plugins/tools/quests/trig_trigger.h"
+#include "plugins/tools/quests/trig_inventory.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -894,8 +895,16 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
 
+  //--- Triggers -----------------------------------------------------
   {
     celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
+    celInventoryTriggerType* type = new celInventoryTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
@@ -936,6 +945,7 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  //--- Rewards ------------------------------------------------------
   {
     celDebugPrintRewardType* type = new celDebugPrintRewardType (
     	object_reg);
@@ -978,6 +988,7 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  //--- Sequence Operations ------------------------------------------
   {
     celDebugPrintSeqOpType* type = new celDebugPrintSeqOpType (
     	object_reg);

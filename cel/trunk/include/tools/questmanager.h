@@ -625,6 +625,9 @@ struct iQuestManager : public iBase
    *     See iSequenceFinishQuestTriggerFactory.
    * <li>cel.questtrigger.trigger: triggers when a pctrigger files.
    *     See iTriggerQuestTriggerFactory.
+   * <li>cel.questtrigger.inventory: triggers when an object enters an
+   *     inventory.
+   *     See iInventoryQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -819,10 +822,6 @@ struct iQuestManager : public iBase
   	const char* entity_par, bool do_leave = false) = 0;
 };
 
-// @@@ TODO:
-// Trigger: inventory operations
-// Reward: inventory operations
-
 //-------------------------------------------------------------------------
 // Specific trigger implementations.
 //-------------------------------------------------------------------------
@@ -895,6 +894,43 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
    * \param value is the varlue or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
+};
+
+SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a certain inventory gets some entity. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.inventory'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity that contains the
+ *     pcinventory property class.
+ * <li><em>child_entity</em>: the name of the entity to watch for.
+ * </ul>
+ */
+struct iInventoryQuestTriggerFactory : public iBase
+{
+  /**
+   * Set the name of the entity containing the pcinventory property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity to watch for.
+   * \param child_entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetChildEntityParameter (const char* child_entity) = 0;
 };
 
 SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);

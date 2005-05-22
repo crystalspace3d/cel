@@ -673,9 +673,60 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcMeshSelect::SendMessage (const char* msg, iCelEntity* ent,
+void celPcMeshSelect::AddMeshSelectListener (iPcMeshSelectListener* listener)
+{
+  listeners.Push (listener);
+}
+
+void celPcMeshSelect::RemoveMeshSelectListener (iPcMeshSelectListener* listener)
+{
+  listeners.Delete (listener);
+}
+
+void celPcMeshSelect::FireListenersDown (int x, int y, int button,
+	iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->MouseDown (&scfiPcMeshSelect, x, y, button, entity);
+}
+
+void celPcMeshSelect::FireListenersUp (int x, int y, int button,
+	iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->MouseUp (&scfiPcMeshSelect, x, y, button, entity);
+}
+
+void celPcMeshSelect::FireListenersMove (int x, int y, int button,
+	iCelEntity* entity)
+{
+  size_t i;
+  for (i = 0 ; i < listeners.Length () ; i++)
+    listeners[i]->MouseMove (&scfiPcMeshSelect, x, y, button, entity);
+}
+
+void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
 	int x, int y, int but)
 {
+  const char* msg;
+  switch (t)
+  {
+    case MSSM_TYPE_DOWN:
+      FireListenersDown (x, y, but, ent);
+      msg = "pcmeshsel_down";
+      break;
+    case MSSM_TYPE_UP:
+      FireListenersUp (x, y, but, ent);
+      msg = "pcmeshsel_up";
+      break;
+    case MSSM_TYPE_MOVE:
+      FireListenersUp (x, y, but, ent);
+      msg = "pcmeshsel_move";
+      break;
+  }
+
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (!bh) return;
   params->GetParameter (0).Set ((int32)x);
@@ -794,7 +845,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_global || new_sel == entity)
         sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        SendMessage ("pcmeshsel_down", sel_entity,
+        SendMessage (MSSM_TYPE_DOWN, sel_entity,
 		mouse_x, mouse_y, mouse_but);
       if (sel_entity) cur_on_top = true;
       else cur_on_top = false;
@@ -804,19 +855,19 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       bool old_cur_on_top = cur_on_top;
       cur_on_top = (new_sel == sel_entity);
       if (do_senddown && cur_on_top && (cur_on_top != old_cur_on_top))
-        SendMessage ("pcmeshsel_down", sel_entity,
+        SendMessage (MSSM_TYPE_DOWN, sel_entity,
 		mouse_x, mouse_y, mouse_but);
       else if (do_sendup && ((mouse_up && cur_on_top) ||
       		!cur_on_top && (cur_on_top != old_cur_on_top)))
-        SendMessage ("pcmeshsel_up", sel_entity,
+        SendMessage (MSSM_TYPE_UP, sel_entity,
 		mouse_x, mouse_y, mouse_but);
       else if (do_sendmove)
-        SendMessage ("pcmeshsel_move", sel_entity,
+        SendMessage (MSSM_TYPE_MOVE, sel_entity,
 		mouse_x, mouse_y, mouse_but);
       if (mouse_up) sel_entity = 0;
     }
     else if (do_follow_always && do_sendmove && new_sel)
-      SendMessage ("pcmeshsel_move", new_sel,
+      SendMessage (MSSM_TYPE_MOVE, new_sel,
 		mouse_x, mouse_y, mouse_but);
   }
   else
@@ -826,13 +877,13 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_global || new_sel == entity)
         sel_entity = new_sel;
       if (do_senddown && sel_entity)
-        SendMessage ("pcmeshsel_down", sel_entity,
+        SendMessage (MSSM_TYPE_DOWN, sel_entity,
 		mouse_x, mouse_y, mouse_but);
     }
     else if (mouse_up)
     {
       if (do_sendup && sel_entity)
-        SendMessage ("pcmeshsel_up", sel_entity,
+        SendMessage (MSSM_TYPE_UP, sel_entity,
 		mouse_x, mouse_y, mouse_but);
       sel_entity = 0;
     }
@@ -840,10 +891,10 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     {
       if (do_sendmove)
 	if (sel_entity)
-          SendMessage ("pcmeshsel_move", sel_entity,
+          SendMessage (MSSM_TYPE_MOVE, sel_entity,
 		mouse_x, mouse_y, mouse_but);
         else if (new_sel)
-          SendMessage ("pcmeshsel_move", new_sel,
+          SendMessage (MSSM_TYPE_MOVE, new_sel,
 		mouse_x, mouse_y, mouse_but);
     }
   }
