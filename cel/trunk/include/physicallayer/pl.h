@@ -40,6 +40,9 @@ struct iCamera;
 class csVector3;
 class csString;
 
+/// Parameters used to create an entity from a template.
+typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
+
 struct iCelEntityTracker;
 
 SCF_VERSION (iCelNewEntityCallback, 0, 0, 2);
@@ -168,9 +171,11 @@ struct iCelPlLayer : public iBase
    * Create an entity from a template.
    * \param factory is the template to create from.
    * \param name is the name of the new entity.
+   * \param params is a hash with parameters that will be used
+   * during entity creation.
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name) = 0;
+  	const char* name, const celEntityTemplateParams& params) = 0;
 
   /**
    * Create a message.

@@ -45,6 +45,8 @@
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
 
+#include "celtool/stdparams.h"
+
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -306,8 +308,97 @@ iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
   return f ? &(f->scfiCelEntityTemplate) : 0;
 }
 
+bool celPlLayer::PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
+  	const celEntityTemplateParams& params,
+	iCelEntity* ent, iCelEntityTemplate* factory)
+{
+  csRef<celVariableParameterBlock> converted_params;
+  if (act.params)
+  {
+    converted_params.AttachNew (new celVariableParameterBlock ());
+    size_t k;
+    for (k = 0 ; k < act.params->GetParameterCount () ; k++)
+    {
+      csStringID id;
+      celDataType t;
+      const char* parname = act.params->GetParameter (k, id, t);
+      const celData* par = act.params->GetParameter (id);
+      converted_params->SetParameterDef (k, id, parname);
+      if (t == CEL_DATA_PARAMETER)
+      {
+	const char* value = params.Get (par->value.par.parname->GetData (), 0);
+	celData& converted_par = converted_params->GetParameter (k);
+	switch (par->value.par.partype)
+	{
+	  case CEL_DATA_LONG:
+	    {
+	      long l; sscanf (value, "%ld", &l);
+	      converted_par.Set ((int32)l);
+	    }
+	    break;
+	  case CEL_DATA_FLOAT:
+	    {
+	      float f; sscanf (value, "%f", &f);
+	      converted_par.Set (f);
+	    }
+	    break;
+	  case CEL_DATA_BOOL:
+	    converted_par.Set (bool (*value == 't' || *value == '1' || *value == 'y'));
+	    break;
+	  case CEL_DATA_STRING:
+	    converted_par.Set (value);
+	    break;
+	  case CEL_DATA_VECTOR2:
+	    {
+	      csVector2 v;
+	      sscanf (value, "%f,%f", &v.x, &v.y);
+	      converted_par.Set (v);
+	    }
+	    break;
+	  case CEL_DATA_VECTOR3:
+	    {
+	      csVector3 v;
+	      sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	      converted_par.Set (v);
+	    }
+	    break;
+	  case CEL_DATA_COLOR:
+	    {
+	      csColor v;
+	      sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	      converted_par.Set (v);
+	    }
+ 	    break;
+	  case CEL_DATA_ENTITY:
+	    {
+	      iCelEntity* ent = FindEntity (value);
+	      if (ent)
+		converted_par.Set (ent);
+	    }
+	    break;
+	  default: break;
+	}
+      }
+      else
+      {
+	converted_params->GetParameter (k) = *par;
+      }
+    }
+  }
+  if (!pc->PerformAction (act.id, converted_params))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.physicallayer",
+	  "Error performing action in '%s' for entity '%s from factory '%s''!",
+		pc->GetName (), ent->GetName (), factory->GetName ());
+    RemoveEntity (ent);
+    return false;
+  }
+  return true;
+}
+
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
-  	const char* name)
+  	const char* name, const celEntityTemplateParams& params)
 {
   celEntityTemplate* cfact = ((celEntityTemplate::CelEntityTemplate*)
   	factory)->GetCelEntityTemplate ();
@@ -354,16 +445,23 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
       RemoveEntity (ent);
       return 0;
     }
-    const csArray<ccfProp>& props = pcc->GetProperties ();
-    const csArray<ccfAct>& acts = pcc->GetActions ();
+    const csArray<ccfPropAct>& props = pcc->GetProperties ();
     size_t j;
     for (j = 0 ; j < props.Length () ; j++)
     {
       const celData& d = props[j].data;
       csStringID id = props[j].id;
-      bool rc;
+      bool rc = false;
       switch (d.type)
       {
+        case CEL_DATA_NONE:
+	  {
+	    // Action.
+	    if (!PerformActionTemplate (props[j], pc, params, ent, factory))
+	      return 0;
+	    rc = true;
+	  }
+	  break;
         case CEL_DATA_LONG: rc = pc->SetProperty (id, (long)d.value.l); break;
         case CEL_DATA_FLOAT: rc = pc->SetProperty (id, d.value.f); break;
         case CEL_DATA_BOOL: rc = pc->SetProperty (id, d.value.bo); break;
@@ -398,6 +496,65 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 	  break;
         case CEL_DATA_PCLASS: rc = pc->SetProperty (id, d.value.pc); break;
         case CEL_DATA_ENTITY: rc = pc->SetProperty (id, d.value.ent); break;
+	case CEL_DATA_PARAMETER:
+	  {
+	    const char* parname = d.value.par.parname->GetData ();
+	    const char* value = params.Get (parname, 0);
+	    if (value)
+	    {
+	      switch (d.value.par.partype)
+	      {
+		case CEL_DATA_LONG:
+		  {
+		    long l; sscanf (value, "%ld", &l);
+		    rc = pc->SetProperty (id, l);
+		  }
+		  break;
+		case CEL_DATA_FLOAT:
+		  {
+		    float f; sscanf (value, "%f", &f);
+		    rc = pc->SetProperty (id, f);
+		  }
+		  break;
+		case CEL_DATA_BOOL:
+		  rc = pc->SetProperty (id, *value == 't' || *value == '1' || *value == 'y');
+		  break;
+		case CEL_DATA_STRING:
+		  rc = pc->SetProperty (id, value);
+		  break;
+		case CEL_DATA_VECTOR2:
+		  {
+		    csVector2 v;
+		    sscanf (value, "%f,%f", &v.x, &v.y);
+		    rc = pc->SetProperty (id, v);
+		  }
+		  break;
+		case CEL_DATA_VECTOR3:
+		  {
+		    csVector3 v;
+		    sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+		    rc = pc->SetProperty (id, v);
+		  }
+		  break;
+		case CEL_DATA_COLOR:
+		  {
+		    csColor v;
+		    sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+		    rc = pc->SetProperty (id, v);
+		  }
+		  break;
+		case CEL_DATA_ENTITY:
+		  {
+		    iCelEntity* ent = FindEntity (value);
+		    if (ent)
+		      rc = pc->SetProperty (id, ent);
+		  }
+		  break;
+	        default: rc = false; break;
+	      }
+	    }
+	  }
+	  break;
 	default: rc = false; break;
       }
       if (!rc)
@@ -405,18 +562,6 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",
 	  "Error setting property in '%s' for entity '%s from factory '%s''!",
-		pcname, name, factory->GetName ());
-        RemoveEntity (ent);
-        return 0;
-      }
-    }
-    for (j = 0 ; j < acts.Length () ; j++)
-    {
-      if (!pc->PerformAction (acts[j].id, acts[j].params))
-      {
-        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "crystalspace.cel.physicallayer",
-	  "Error performing action in '%s' for entity '%s from factory '%s''!",
 		pcname, name, factory->GetName ());
         RemoveEntity (ent);
         return 0;

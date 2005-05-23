@@ -10,6 +10,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the properties: global, follow, followalways, drag,
 	  sendmove, sendup, senddown, and maxdistance to pcmeshsel.
 	- Jorrit added the action SetDragPlaneNormal() to pcmeshsel.
+	- Jorrit added a way to specify parameters when you create
+	  entities from a template.
+	- Jorrit fixed entity creation from templates so that the actions
+	  and properties are performed in the same order as specified
+	  in the template XML file (previously it would do first the
+	  properties and then the actions).
 22-May-2005
 	- Jorrit added a new trigger to the quest manager that fires when
 	  some inventory gets a new object.

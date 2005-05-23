@@ -185,6 +185,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
+#if 1
   (void)arg;
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelEntity* ent = 0;
@@ -260,6 +261,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
     }
   }
 
+#endif
   return false;
 }
 

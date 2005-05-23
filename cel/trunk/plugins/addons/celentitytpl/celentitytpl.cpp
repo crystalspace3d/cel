@@ -170,21 +170,38 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	    csRef<iDocumentAttribute> attr = attr_it->Next ();
 	    const char* attr_name = attr->GetName ();
 	    csStringID attr_id = xmltokens.Request (attr_name);
+	    const char* attr_value = attr->GetValue ();
+	    bool do_par = (attr_value && *attr_value == '$');
 	    switch (attr_id)
 	    {
 	      case XMLTOKEN_FLOAT:
-		pc->SetProperty (propid, attr->GetValueAsFloat ());
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_FLOAT, attr_value+1);
+		else
+		  pc->SetProperty (propid, attr->GetValueAsFloat ());
 		break;
 	      case XMLTOKEN_STRING:
-		pc->SetProperty (propid, attr->GetValue ());
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_STRING, attr_value+1);
+		else
+		  pc->SetProperty (propid, attr->GetValue ());
 		break;
 	      case XMLTOKEN_BOOL:
-	        pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_BOOL, attr_value+1);
+		else
+	          pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
 		break;
 	      case XMLTOKEN_LONG:
-	        pc->SetProperty (propid, (long)attr->GetValueAsInt ());
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_LONG, attr_value+1);
+		else
+	          pc->SetProperty (propid, (long)attr->GetValueAsInt ());
 		break;
 	      case XMLTOKEN_VECTOR:
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_VECTOR3, attr_value+1);	// @@@ Vector2?
+		else
 	        {
 		  csVector3 v;
 		  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x,
@@ -200,6 +217,9 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 		}
 		break;
 	      case XMLTOKEN_COLOR:
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_COLOR, attr_value+1);
+		else
 		{
 		  csColor v;
 		  csScanStr (attr->GetValue (), "%f,%f,%f",
@@ -232,49 +252,73 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      params->SetParameterDef (par_idx, parid,
 	      	par_child->GetAttributeValue ("name"));
 	      par_idx++;
+
 	      const char* str_value = par_child->GetAttributeValue ("string");
 	      if (str_value)
 	      {
-	        params->GetParameter (par_idx-1).Set (str_value);
+		if (*str_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (str_value+1, CEL_DATA_STRING);
+		else
+	          params->GetParameter (par_idx-1).Set (str_value);
 		continue;
 	      }
 	      const char* vec_value = par_child->GetAttributeValue ("vector");
 	      if (vec_value)
 	      {
-		csVector3 v;
-		int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-		if (rc == 3)
-		  params->GetParameter (par_idx-1).Set (v);
+		if (*vec_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (vec_value+1, CEL_DATA_VECTOR3);	//@@@?
 		else
 		{
-		  csVector2 v2;
-		  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
-		  params->GetParameter (par_idx-1).Set (v2);
+		  csVector3 v;
+		  int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+		  if (rc == 3)
+		    params->GetParameter (par_idx-1).Set (v);
+		  else
+		  {
+		    csVector2 v2;
+		    csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
+		    params->GetParameter (par_idx-1).Set (v2);
+		  }
 		}
 	        continue;
 	      }
 	      const char* float_value = par_child->GetAttributeValue ("float");
 	      if (float_value)
 	      {
-		float f;
-		csScanStr (float_value, "%f", &f);
-		params->GetParameter (par_idx-1).Set (f);
+		if (*float_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (float_value+1, CEL_DATA_FLOAT);
+		else
+		{
+		  float f;
+		  csScanStr (float_value, "%f", &f);
+		  params->GetParameter (par_idx-1).Set (f);
+		}
 	        continue;
 	      }
 	      const char* bool_value = par_child->GetAttributeValue ("bool");
 	      if (bool_value)
 	      {
-		bool b;
-		csScanStr (bool_value, "%b", &b);
-		params->GetParameter (par_idx-1).Set (b);
+		if (*bool_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (bool_value+1, CEL_DATA_BOOL);
+		else
+		{
+		  bool b;
+		  csScanStr (bool_value, "%b", &b);
+		  params->GetParameter (par_idx-1).Set (b);
+	        }
 	        continue;
 	      }
 	      const char* long_value = par_child->GetAttributeValue ("long");
 	      if (long_value)
 	      {
-		int l;
-		csScanStr (long_value, "%d", &l);
-		params->GetParameter (par_idx-1).Set (l);
+		if (*long_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (long_value+1, CEL_DATA_LONG);
+		else
+		{
+		  int l;
+		  csScanStr (long_value, "%d", &l);
+		  params->GetParameter (par_idx-1).Set (l);
+		}
 	        continue;
 	      }
 	      synldr->ReportError (

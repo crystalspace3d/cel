@@ -40,87 +40,80 @@ celPropertyClassTemplate::~celPropertyClassTemplate ()
   SCF_DESTRUCT_IBASE ();
 }
 
-celData& celPropertyClassTemplate::FindCreateProperty (csStringID id)
+ccfPropAct& celPropertyClassTemplate::FindCreate (csStringID id)
 {
   size_t i;
   for (i = 0 ; i < properties.Length () ; i++)
   {
-    if (properties[i].id == id) return properties[i].data;
+    if (properties[i].id == id) return properties[i];
   }
-  ccfProp prop;
+  ccfPropAct prop;
   prop.id = id;
   i = properties.Push (prop);
-  return properties[i].data;
+  return properties[i];
 }
 
-ccfAct& celPropertyClassTemplate::FindCreateAction (csStringID id)
+void celPropertyClassTemplate::SetPropertyVariable (csStringID propertyID, celDataType type,
+  	const char* varname)
 {
-  size_t i;
-  for (i = 0 ; i < actions.Length () ; i++)
-  {
-    if (actions[i].id == id) return actions[i];
-  }
-  ccfAct prop;
-  prop.id = id;
-  i = actions.Push (prop);
-  return actions[i];
+  FindCreate (propertyID).data.SetParameter (varname, type);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID, long value)
 {
-  FindCreateProperty (propertyID).Set ((int32)value);
+  FindCreate (propertyID).data.Set ((int32)value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID, float value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID, bool value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	const char* value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	const csVector2& value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	const csVector3& value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	const csColor& value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	iCelPropertyClass* value)
 {
-  FindCreateProperty (propertyID).Set (value);
+  FindCreate (propertyID).data.Set (value);
 }
 
 void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 	iCelEntity* entity)
 {
-  FindCreateProperty (propertyID).Set (entity);
+  FindCreate (propertyID).data.Set (entity);
 }
 
 void celPropertyClassTemplate::PerformAction (csStringID actionID,
   	iCelParameterBlock* params)
 {
-  FindCreateAction (actionID).params = params;
+  FindCreate (actionID).params = params;
 }
 
 //---------------------------------------------------------------------------
