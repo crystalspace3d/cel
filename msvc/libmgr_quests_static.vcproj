@@ -197,7 +197,13 @@
 				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\trig_inventory.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_meshentersector.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_meshsel.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_propertychange.cpp">
@@ -246,7 +252,13 @@
 				RelativePath="..\plugins\tools\quests\trig_entersector.h">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\trig_inventory.h">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\trig_meshentersector.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\trig_meshsel.h">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\trig_propertychange.h">
