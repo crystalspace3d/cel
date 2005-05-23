@@ -265,8 +265,8 @@ private:
   // If true then send mouse-down events.
   bool do_senddown;
   
-  // The maximum distance to perform mesh selection over
-  uint max_distance;
+  // The maximum distance to perform mesh selection over.
+  float max_distance;
 
   // Setup the event handler based on settings.
   void SetupEventHandler ();
@@ -274,6 +274,25 @@ private:
   static csStringID action_setcamera;
   static csStringID action_setmousebuttons;
   static csStringID id_buttons;
+  static csStringID action_setdragplanenormal;
+  static csStringID id_normal;
+  static csStringID id_camera;
+
+  // For properties.
+  enum propids
+  {
+    propid_global = 0,
+    propid_follow,
+    propid_followalways,
+    propid_drag,
+    propid_sendmove,
+    propid_sendup,
+    propid_senddown,
+    propid_maxdistance
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
   static csStringID id_x, id_y, id_button, id_entity;
   celGenericParameterBlock* params;
@@ -328,10 +347,8 @@ public:
   bool HasSendupEvent () const { return do_sendup; }
   void SetSenddownEvent (bool sd) { do_senddown = sd; }
   bool HasSenddownEvent () const { return do_senddown; }
-  void SetMaxSelectionDistance (const uint distance)
-  {
-    max_distance = distance;
-  }
+  void SetMaxSelectionDistance (float distance) { max_distance = distance; }
+  float GetMaxSelectionDistance () const { return max_distance; }
 
   void AddMeshSelectListener (iPcMeshSelectListener* listener);
   void RemoveMeshSelectListener (iPcMeshSelectListener* listener);
@@ -345,6 +362,11 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the 'bool' properties.
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool GetPropertyBool (csStringID);
 
   struct PcMeshSelect : public iPcMeshSelect
   {
@@ -435,9 +457,13 @@ public:
     {
       return scfParent->HasSenddownEvent ();
     }
-    virtual void SetMaxSelectionDistance (const uint distance)
+    virtual void SetMaxSelectionDistance (float distance)
     {
       scfParent->SetMaxSelectionDistance (distance);      
+    }
+    virtual float GetMaxSelectionDistance () const
+    {
+      return scfParent->GetMaxSelectionDistance ();      
     }
   } scfiPcMeshSelect;
 
