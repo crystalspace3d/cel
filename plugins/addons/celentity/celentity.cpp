@@ -58,6 +58,7 @@ enum
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_PAR,
+  XMLTOKEN_PARAMS,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -106,6 +107,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("par", XMLTOKEN_PAR);
+  xmltokens.Register ("params", XMLTOKEN_PARAMS);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -340,7 +342,32 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	node, "Can't find entity template '%s'!", templatename);
       return 0;
     }
-    ent = pl->CreateEntity (templ, entityname);
+    celEntityTemplateParams params;
+    csRef<iDocumentNode> paramsnode = node->GetNode ("params");
+    if (paramsnode)
+    {
+      csRef<iDocumentNodeIterator> par_it = paramsnode->GetNodes ();
+      while (par_it->HasNext ())
+      {
+	csRef<iDocumentNode> par_child = par_it->Next ();
+	if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+	const char* par_value = par_child->GetValue ();
+	csStringID par_id = xmltokens.Request (par_value);
+	if (par_id == XMLTOKEN_PAR)
+	{
+	  const char* name = par_child->GetAttributeValue ("name");
+	  const char* value = par_child->GetAttributeValue ("value");
+	  if (name && value)
+	    params.Put (name, value);
+	}
+	else
+	{
+	  synldr->ReportBadToken (par_child);
+	  return 0;
+	}
+      }
+    }
+    ent = pl->CreateEntity (templ, entityname, params);
   }
   else
   {
@@ -435,6 +462,9 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  if (tag)
 	    pc->SetTag (tag);
 	}
+        break;
+      case XMLTOKEN_PARAMS:
+      	// Handled above.
         break;
       default:
         synldr->ReportBadToken (child);

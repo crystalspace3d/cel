@@ -36,6 +36,7 @@ struct iVirtualClock;
 struct iEvent;
 class celEntity;
 class celEntityTemplate;
+struct ccfPropAct;
 
 struct CallbackTiming
 {
@@ -94,6 +95,11 @@ private:
   // List of trackers.
   csRefArray<iCelEntityTracker> trackers;
 
+  // Perform an action from a template on a real property class.
+  bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
+  	const celEntityTemplateParams& params,
+	iCelEntity* ent, iCelEntityTemplate* factory);
+
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
@@ -132,7 +138,7 @@ public:
   virtual void RemoveEntityTemplates ();
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name);
+  	const char* name, const celEntityTemplateParams& params);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);

@@ -27,6 +27,8 @@
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
 
+#include "physicallayer/datatype.h"
+
 struct iCelEntity;
 struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
@@ -104,6 +106,13 @@ struct iCelPropertyClassTemplate : public iBase
   virtual const char* GetTag () const = 0;
 
   /**
+   * Set a property with variables instead of a predefined value. This uses
+   * CEL_DATA_PARAMETER.
+   */
+  virtual void SetPropertyVariable (csStringID propertyID, celDataType type,
+  	const char* varname) = 0;
+
+  /**
    * Set a generic property. In order to make it easier to access
    * properties in a property class from general scripting languages
    * this generic interface to properties is provided. It is always
@@ -160,7 +169,8 @@ struct iCelPropertyClassTemplate : public iBase
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity) = 0;
 
   /**
-   * Perform an action with a generic parameter list.
+   * Perform an action with a generic parameter list. The parameters
+   * here support CEL_DATA_PARAMETER.
    */
   virtual void PerformAction (csStringID actionID,
   	iCelParameterBlock* params) = 0;

@@ -25,13 +25,13 @@
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
-//#include "physicallayer/persist.h"
 
 struct iCelPropertyClass;
 struct iCelEntity;
 
 /**
- * Type for celData.
+ * Type for celData. CEL_DATA_PARAMETER is a special type that indicates
+ * a parameter. This is only useful in certain situations.
  */
 enum celDataType
 {
@@ -52,6 +52,7 @@ enum celDataType
   CEL_DATA_ACTION,
   CEL_DATA_COLOR,
   CEL_DATA_IBASE,
+  CEL_DATA_PARAMETER,
 
   CEL_DATA_LAST
 };
@@ -84,9 +85,30 @@ struct celData
     iCelPropertyClass* pc;
     iCelEntity* ent;
     iBase* ibase;
+    struct
+    {
+      iString* parname;
+      celDataType partype;
+    } par;
   } value;
 
   celData () : type (CEL_DATA_NONE) { }
+  celData (const celData& copy)
+  {
+    type = copy.type;
+    value = copy.value;
+    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
+    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
+  }
+  const celData& operator= (const celData& copy)
+  {
+    Clear ();
+    type = copy.type;
+    value = copy.value;
+    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
+    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
+    return *this;
+  }
   ~celData()
   {
     Clear ();
@@ -94,6 +116,7 @@ struct celData
   void Clear ()
   {
     if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->DecRef ();
+    else if (type == CEL_DATA_PARAMETER) value.par.parname->DecRef ();
     type = CEL_DATA_NONE;
   }
   /**
@@ -159,6 +182,13 @@ struct celData
     Clear ();
     type = CEL_DATA_IBASE;
     value.ibase = b;
+  }
+  void SetParameter (const char* s, celDataType t)
+  {
+    Clear ();
+    type = CEL_DATA_PARAMETER;
+    value.par.parname = new scfString (s);
+    value.par.partype = t;
   }
 };
 

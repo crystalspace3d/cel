@@ -28,15 +28,10 @@
 
 class celPlLayer;
 
-struct ccfProp
+struct ccfPropAct
 {
   csStringID id;
-  celData data;
-};
-
-struct ccfAct
-{
-  csStringID id;
+  celData data;	// If data.type == CEL_DATA_NONE then params will be used (action).
   csRef<iCelParameterBlock> params;
 };
 
@@ -45,18 +40,15 @@ class celPropertyClassTemplate : public iCelPropertyClassTemplate
 private:
   csString name;
   csString tag;
-  csArray<ccfProp> properties;
-  csArray<ccfAct> actions;
+  csArray<ccfPropAct> properties;
 
-  celData& FindCreateProperty (csStringID id);
-  ccfAct& FindCreateAction (csStringID id);
+  ccfPropAct& FindCreate (csStringID id);
 
 public:
   celPropertyClassTemplate ();
   virtual ~celPropertyClassTemplate ();
 
-  const csArray<ccfProp>& GetProperties () const { return properties; }
-  const csArray<ccfAct>& GetActions () const { return actions; }
+  const csArray<ccfPropAct>& GetProperties () const { return properties; }
 
   SCF_DECLARE_IBASE;
 
@@ -67,6 +59,8 @@ public:
   virtual const char* GetName () const { return name; }
   virtual void SetTag (const char* tag) { celPropertyClassTemplate::tag = tag; }
   virtual const char* GetTag () const { return tag; }
+  virtual void SetPropertyVariable (csStringID propertyID, celDataType type,
+  	const char* varname);
   virtual void SetProperty (csStringID propertyID, long value);
   virtual void SetProperty (csStringID propertyID, float value);
   virtual void SetProperty (csStringID propertyID, bool value);
