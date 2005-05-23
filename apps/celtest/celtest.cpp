@@ -239,19 +239,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcmesh->SetPath ("/cel/data");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
-#if 1
-  csRef<iPcMeshSelect> pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcMeshSelect);
-  pcmeshsel->SetCamera (pccamera);
-  pcmeshsel->SetGlobalSelection (true);
-  pcmeshsel->SetFollowMode (false);
-  pcmeshsel->SetFollowAlwaysMode (true);
-  pcmeshsel->SetDragMode (true);
-  pcmeshsel->SetDragPlaneNormal (csVector3 (0, 1, 0), false);
-  pcmeshsel->SetSendmoveEvent (true);
-  pcmeshsel->SetMouseButtons (CEL_MOUSE_BUTTON1);
-#endif
-
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcLinearMovement);
   if (hascal3d)
