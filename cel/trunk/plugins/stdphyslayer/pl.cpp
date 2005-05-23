@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/scanstr.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "plugins/stdphyslayer/pl.h"
@@ -343,7 +344,11 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass
 	    }
 	    break;
 	  case CEL_DATA_BOOL:
-	    converted_par.Set (bool (*value == 't' || *value == '1' || *value == 'y'));
+	    {
+	      bool b;
+	      csScanStr (value, "%b", &b);
+	      converted_par.Set (b);
+	    }
 	    break;
 	  case CEL_DATA_STRING:
 	    converted_par.Set (value);
@@ -517,7 +522,11 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 		  }
 		  break;
 		case CEL_DATA_BOOL:
-		  rc = pc->SetProperty (id, *value == 't' || *value == '1' || *value == 'y');
+		  {
+		    bool b;
+		    csScanStr (value, "%b", &b);
+		    rc = pc->SetProperty (id, b);
+		  }
 		  break;
 		case CEL_DATA_STRING:
 		  rc = pc->SetProperty (id, value);

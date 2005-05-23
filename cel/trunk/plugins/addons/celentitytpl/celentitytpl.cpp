@@ -190,7 +190,12 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	        if (do_par)
 		  pc->SetPropertyVariable (propid, CEL_DATA_BOOL, attr_value+1);
 		else
-	          pc->SetProperty (propid, (bool)attr->GetValueAsInt ());
+		{
+		  const char* v = attr->GetValue ();
+		  bool b;
+		  csScanStr (v, "%b", &b);
+	          pc->SetProperty (propid, b);
+		}
 		break;
 	      case XMLTOKEN_LONG:
 	        if (do_par)

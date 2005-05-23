@@ -16,6 +16,14 @@ The history order is reversed so that new features are at the top.
 	  and properties are performed in the same order as specified
 	  in the template XML file (previously it would do first the
 	  properties and then the actions).
+	- Jorrit fixed several parsers of bool values (like the template
+	  and entity addons and the parsing of properties from XML) to that
+	  they accept 'true', 'yes', 'on', and '1' as true values
+	  as opposed to only '1' and '0'.
+	- Jorrit added a dummy entity to basic_entities so that that the
+	  pcmeshselect on the camera that celtest uses can be avoided now.
+	  Dragging of objects in basic celtest level is now controlled
+	  in basic_entities instead of celtest.
 22-May-2005
 	- Jorrit added a new trigger to the quest manager that fires when
 	  some inventory gets a new object.
