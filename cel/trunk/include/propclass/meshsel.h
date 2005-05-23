@@ -78,6 +78,21 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
  * <ul>
  * <li>SetCamera: parameters 'entity' (string).
  * <li>SetMouseButtons: parameters 'buttons' (long).
+ * <li>SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
+ * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>global (bool, read/write): global selection, default false.
+ * <li>follow (bool, read/write): follow mode, default false.
+ * <li>followalways (bool, read/write): follow always mode, default false.
+ * <li>drag (bool, read/write): drag mode, default false.
+ * <li>sendmove (bool, read/write): send move events, default false.
+ * <li>sendup (bool, read/write): send up events, default true.
+ * <li>senddown (bool, read/write): send down events, default true.
+ * <li>maxdistance (float, read/write): maximum selection distance,
+ *     default 100000.
  * </ul>
  */
 struct iPcMeshSelect : public iBase
@@ -210,7 +225,12 @@ struct iPcMeshSelect : public iBase
    * Set the maximum distance to use for mesh selection.
    * This is the distance in world units from the camera, into the scene.
    */
-  virtual void SetMaxSelectionDistance (const uint distance) = 0;
+  virtual void SetMaxSelectionDistance (float distance) = 0;
+
+  /**
+   * Get the maximum distance to use for mesh selection.
+   */
+  virtual float GetMaxSelectionDistance () const = 0;
 };
 
 #endif // __CEL_PF_MESHSEL__

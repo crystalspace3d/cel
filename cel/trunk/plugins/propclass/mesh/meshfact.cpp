@@ -538,6 +538,9 @@ SCF_IMPLEMENT_IBASE_END
 csStringID celPcMeshSelect::action_setcamera = csInvalidStringID;
 csStringID celPcMeshSelect::action_setmousebuttons = csInvalidStringID;
 csStringID celPcMeshSelect::id_buttons = csInvalidStringID;
+csStringID celPcMeshSelect::action_setdragplanenormal = csInvalidStringID;
+csStringID celPcMeshSelect::id_normal = csInvalidStringID;
+csStringID celPcMeshSelect::id_camera = csInvalidStringID;
 
 csStringID celPcMeshSelect::id_x = csInvalidStringID;
 csStringID celPcMeshSelect::id_y = csInvalidStringID;
@@ -568,7 +571,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendmove = false;
   
   // Initialize the maximum selection distance to a very large number
-  max_distance = 100000;
+  max_distance = 100000.0f;
 
   if (id_x == csInvalidStringID)
   {
@@ -580,12 +583,29 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
     action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
     action_setmousebuttons = pl->FetchStringID ("cel.action.SetMouseButtons");
     id_buttons = pl->FetchStringID ("cel.parameter.buttons");
+    action_setdragplanenormal = pl->FetchStringID ("cel.action.SetDragPlaneNormal");
+    id_normal = pl->FetchStringID ("cel.parameter.normal");
+    id_camera = pl->FetchStringID ("cel.parameter.camera");
   }
   params = new celGenericParameterBlock (4);
   params->SetParameterDef (0, id_x, "x");
   params->SetParameterDef (1, id_y, "y");
   params->SetParameterDef (2, id_button, "button");
   params->SetParameterDef (3, id_entity, "entity");
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_global] = 0;
+  propdata[propid_follow] = 0;
+  propdata[propid_followalways] = 0;
+  propdata[propid_drag] = 0;
+  propdata[propid_sendmove] = 0;
+  propdata[propid_sendup] = 0;
+  propdata[propid_senddown] = 0;
+  propdata[propid_maxdistance] = &max_distance;
 
   SetupEventHandler ();
   DG_TYPE (this, "celPcMeshSelect()");
@@ -604,6 +624,71 @@ celPcMeshSelect::~celPcMeshSelect ()
   delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
 }
+
+Property* celPcMeshSelect::properties = 0;
+size_t celPcMeshSelect::propertycount = 0;
+
+void celPcMeshSelect::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    CS_ASSERT (pl != 0);
+
+    propertycount = 8;
+    properties = new Property[propertycount];
+
+    properties[propid_global].id = pl->FetchStringID (
+    	"cel.property.global");
+    properties[propid_global].datatype = CEL_DATA_BOOL;
+    properties[propid_global].readonly = false;
+    properties[propid_global].desc = "Global Selection.";
+
+    properties[propid_follow].id = pl->FetchStringID (
+    	"cel.property.follow");
+    properties[propid_follow].datatype = CEL_DATA_BOOL;
+    properties[propid_follow].readonly = false;
+    properties[propid_follow].desc = "Follow Mode.";
+
+    properties[propid_followalways].id = pl->FetchStringID (
+    	"cel.property.followalways");
+    properties[propid_followalways].datatype = CEL_DATA_BOOL;
+    properties[propid_followalways].readonly = false;
+    properties[propid_followalways].desc = "Follow Always Mode.";
+
+    properties[propid_drag].id = pl->FetchStringID (
+    	"cel.property.drag");
+    properties[propid_drag].datatype = CEL_DATA_BOOL;
+    properties[propid_drag].readonly = false;
+    properties[propid_drag].desc = "Drag Mode.";
+
+    properties[propid_sendmove].id = pl->FetchStringID (
+    	"cel.property.sendmove");
+    properties[propid_sendmove].datatype = CEL_DATA_BOOL;
+    properties[propid_sendmove].readonly = false;
+    properties[propid_sendmove].desc = "Send Move Events.";
+
+    properties[propid_sendup].id = pl->FetchStringID (
+    	"cel.property.sendup");
+    properties[propid_sendup].datatype = CEL_DATA_BOOL;
+    properties[propid_sendup].readonly = false;
+    properties[propid_sendup].desc = "Send Up Events.";
+
+    properties[propid_senddown].id = pl->FetchStringID (
+    	"cel.property.senddown");
+    properties[propid_senddown].datatype = CEL_DATA_BOOL;
+    properties[propid_senddown].readonly = false;
+    properties[propid_senddown].desc = "Send Down Events.";
+
+    properties[propid_maxdistance].id = pl->FetchStringID (
+    	"cel.property.maxdistance");
+    properties[propid_maxdistance].datatype = CEL_DATA_FLOAT;
+    properties[propid_maxdistance].readonly = false;
+    properties[propid_maxdistance].desc = "Maximum Selection Distance.";
+  }
+}
+
+
 
 void celPcMeshSelect::SetupEventHandler ()
 {
@@ -782,7 +867,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (sector)
     {
       vo = camera->GetTransform ().GetO2TTranslation ();
-      csVector3 isect, end = vo + (vw - vo) * (int)max_distance;
+      csVector3 isect, end = vo + (vw - vo) * max_distance;
 
       iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0, true);
       if (sel)
@@ -924,6 +1009,71 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 #endif
 }
 
+bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_global].id)
+  {
+    SetGlobalSelection (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_follow].id)
+  {
+    SetFollowMode (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_followalways].id)
+  {
+    SetFollowAlwaysMode (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_drag].id)
+  {
+    SetDragMode (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_sendmove].id)
+  {
+    SetSendmoveEvent (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_sendup].id)
+  {
+    SetSendupEvent (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_senddown].id)
+  {
+    SetSenddownEvent (b);
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+bool celPcMeshSelect::GetPropertyBool (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_global].id)
+    return HasGlobalSelection ();
+  else if (propertyId == properties[propid_follow].id)
+    return HasFollowMode ();
+  else if (propertyId == properties[propid_followalways].id)
+    return HasFollowAlwaysMode ();
+  else if (propertyId == properties[propid_drag].id)
+    return HasDragMode ();
+  else if (propertyId == properties[propid_sendmove].id)
+    return HasSendmoveEvent ();
+  else if (propertyId == properties[propid_sendup].id)
+    return HasSendupEvent ();
+  else if (propertyId == properties[propid_senddown].id)
+    return HasSenddownEvent ();
+  else
+    return celPcCommon::GetPropertyBool (propertyId);
+}
+
 bool celPcMeshSelect::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
@@ -943,6 +1093,15 @@ bool celPcMeshSelect::PerformAction (csStringID actionId,
     CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
     if (!p_buttons) return false;
     SetMouseButtons (buttons);
+    return true;
+  }
+  else if (actionId == action_setdragplanenormal)
+  {
+    CEL_FETCH_BOOL_PAR (camera,params,id_camera);
+    if (!p_camera) return false;
+    CEL_FETCH_VECTOR3_PAR (normal,params,id_normal);
+    if (!p_normal) return false;
+    SetDragPlaneNormal (normal, camera);
     return true;
   }
   return false;

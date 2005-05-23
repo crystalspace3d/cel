@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-May-2005
+	- Jorrit changed SetMaxSelectionDistance() in pcmeshsel to accept
+	  a float instead of an integer. Distances are never measured
+	  in integers. Also added a GetMaxSelectionDistance().
+	- Jorrit added the properties: global, follow, followalways, drag,
+	  sendmove, sendup, senddown, and maxdistance to pcmeshsel.
+	- Jorrit added the action SetDragPlaneNormal() to pcmeshsel.
 22-May-2005
 	- Jorrit added a new trigger to the quest manager that fires when
 	  some inventory gets a new object.
