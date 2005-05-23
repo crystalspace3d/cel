@@ -1048,6 +1048,32 @@ scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
+class iPcMeshSelectListener(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshSelectListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelectListener, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcMeshSelectListener instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def MouseDown(*args): return _blcelc.iPcMeshSelectListener_MouseDown(*args)
+    def MouseUp(*args): return _blcelc.iPcMeshSelectListener_MouseUp(*args)
+    def MouseMove(*args): return _blcelc.iPcMeshSelectListener_MouseMove(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcMeshSelectListener):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcMeshSelectListenerPtr(iPcMeshSelectListener):
+    def __init__(self, this):
+        _swig_setattr(self, iPcMeshSelectListener, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcMeshSelectListener, 'thisown', 0)
+        _swig_setattr(self, iPcMeshSelectListener,self.__class__,iPcMeshSelectListener)
+_blcelc.iPcMeshSelectListener_swigregister(iPcMeshSelectListenerPtr)
+
 class iPcMeshSelect(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1058,6 +1084,8 @@ class iPcMeshSelect(cspace.iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<%s.%s; proxy of C++ iPcMeshSelect instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def AddMeshSelectListener(*args): return _blcelc.iPcMeshSelect_AddMeshSelectListener(*args)
+    def RemoveMeshSelectListener(*args): return _blcelc.iPcMeshSelect_RemoveMeshSelectListener(*args)
     def SetCamera(*args): return _blcelc.iPcMeshSelect_SetCamera(*args)
     def SetMouseButtons(*args): return _blcelc.iPcMeshSelect_SetMouseButtons(*args)
     def GetMouseButtons(*args): return _blcelc.iPcMeshSelect_GetMouseButtons(*args)
