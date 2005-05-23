@@ -23,66 +23,72 @@
 <a href="structiPcMeshSelect-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a0">SetCamera</a> (<a class="el" href="structiPcCamera.html">iPcCamera</a> *camera)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a0">AddMeshSelectListener</a> (<a class="el" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a> *listener)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the camera to use for mesh selection.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a1">SetMouseButtons</a> (int buttons)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a listener to listen to mouse selection.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a1">RemoveMeshSelectListener</a> (<a class="el" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a> *listener)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate (with a bit-mask) for which buttons this mesh selector will work.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a2">GetMouseButtons</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a mesh selection listener.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a2">SetCamera</a> (<a class="el" href="structiPcCamera.html">iPcCamera</a> *camera)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bit-mask for the supported buttons.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a3">SetGlobalSelection</a> (bool glob)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the camera to use for mesh selection.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a3">SetMouseButtons</a> (int buttons)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set global/local selection.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a4">HasGlobalSelection</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate (with a bit-mask) for which buttons this mesh selector will work.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a4">GetMouseButtons</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get value of global/local selection.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a5">SetFollowMode</a> (bool follow)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bit-mask for the supported buttons.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a5">SetGlobalSelection</a> (bool glob)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then follow the mouse so that up/down events come through immediatelly when the mouse leaves the object (even if mouse up has not yet happened).  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a6">HasFollowMode</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set global/local selection.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a6">HasGlobalSelection</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of follow mode.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a7">SetFollowAlwaysMode</a> (bool followalways)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get value of global/local selection.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a7">SetFollowMode</a> (bool follow)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then also send move messages when the entity is not selected but the mouse is positioned on top of the entity.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a8">HasFollowAlwaysMode</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then follow the mouse so that up/down events come through immediatelly when the mouse leaves the object (even if mouse up has not yet happened).  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a8">HasFollowMode</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of follow always mode.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a9">SetDragMode</a> (bool drag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of follow mode.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a9">SetFollowAlwaysMode</a> (bool followalways)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then it is possible to drag the selected object.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a10">HasDragMode</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then also send move messages when the entity is not selected but the mouse is positioned on top of the entity.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a10">HasFollowAlwaysMode</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get value of drag mode.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a11">SetDragPlaneNormal</a> (const csVector3 &amp;drag_normal, bool camera_space)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of follow always mode.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a11">SetDragMode</a> (bool drag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the normal of the plane on which the dragged object will move.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a12">GetDragPlaneNormal</a> (csVector3 &amp;drag_normal, bool &amp;camera_space) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then it is possible to drag the selected object.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a12">HasDragMode</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the drag normal and camera space flag.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a13">SetSendmoveEvent</a> (bool mov)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get value of drag mode.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a13">SetDragPlaneNormal</a> (const csVector3 &amp;drag_normal, bool camera_space)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then also send messages on mouse move (only between mouse-down and mouse-up (message 'selectmesh_move').  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a14">HasSendmoveEvent</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the normal of the plane on which the dragged object will move.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a14">GetDragPlaneNormal</a> (csVector3 &amp;drag_normal, bool &amp;camera_space) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send move events.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a15">SetSendupEvent</a> (bool su)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the drag normal and camera space flag.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a15">SetSendmoveEvent</a> (bool mov)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then send mouse-up events (message 'selectmesh_up').  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a16">HasSendupEvent</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then also send messages on mouse move (only between mouse-down and mouse-up (message 'selectmesh_move').  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a16">HasSendmoveEvent</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send up events.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a17">SetSenddownEvent</a> (bool sd)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send move events.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a17">SetSendupEvent</a> (bool su)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then send mouse-down events (message 'selectmesh_down').  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a18">HasSenddownEvent</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then send mouse-up events (message 'selectmesh_up').  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a18">HasSendupEvent</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send down events.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a19">SetMaxSelectionDistance</a> (const uint distance)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send up events.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a19">SetSenddownEvent</a> (bool sd)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the maximum distance to use for mesh selection.  <a href="#a19"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then send mouse-down events (message 'selectmesh_down').  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a20">HasSenddownEvent</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the value of send down events.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a21">SetMaxSelectionDistance</a> (const uint distance)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the maximum distance to use for mesh selection.  <a href="#a21"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class for selecting meshes. 
@@ -106,8 +112,38 @@ SetMouseButtons: parameters 'buttons' (long). </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="meshsel_8h-source.html#l00056">56</a> of file <a class="el" href="meshsel_8h-source.html">meshsel.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a12" doxytag="iPcMeshSelect::GetDragPlaneNormal"></a><p>
+Definition at line <a class="el" href="meshsel_8h-source.html#l00083">83</a> of file <a class="el" href="meshsel_8h-source.html">meshsel.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a0" doxytag="iPcMeshSelect::AddMeshSelectListener"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMeshSelect::AddMeshSelectListener           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>listener</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a listener to listen to mouse selection. 
+<p>
+These listeners are called right before the behaviour is called.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a14" doxytag="iPcMeshSelect::GetDragPlaneNormal"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -146,7 +182,7 @@ Get the drag normal and camera space flag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="iPcMeshSelect::GetMouseButtons"></a><p>
+<a class="anchor" name="a4" doxytag="iPcMeshSelect::GetMouseButtons"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -175,7 +211,7 @@ Get the bit-mask for the supported buttons.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="iPcMeshSelect::HasDragMode"></a><p>
+<a class="anchor" name="a12" doxytag="iPcMeshSelect::HasDragMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -204,7 +240,7 @@ Get value of drag mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8" doxytag="iPcMeshSelect::HasFollowAlwaysMode"></a><p>
+<a class="anchor" name="a10" doxytag="iPcMeshSelect::HasFollowAlwaysMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -233,7 +269,7 @@ Get the value of follow always mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6" doxytag="iPcMeshSelect::HasFollowMode"></a><p>
+<a class="anchor" name="a8" doxytag="iPcMeshSelect::HasFollowMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -262,7 +298,7 @@ Get the value of follow mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iPcMeshSelect::HasGlobalSelection"></a><p>
+<a class="anchor" name="a6" doxytag="iPcMeshSelect::HasGlobalSelection"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -291,7 +327,7 @@ Get value of global/local selection.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18" doxytag="iPcMeshSelect::HasSenddownEvent"></a><p>
+<a class="anchor" name="a20" doxytag="iPcMeshSelect::HasSenddownEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -320,7 +356,7 @@ Get the value of send down events.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14" doxytag="iPcMeshSelect::HasSendmoveEvent"></a><p>
+<a class="anchor" name="a16" doxytag="iPcMeshSelect::HasSendmoveEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -349,7 +385,7 @@ Get the value of send move events.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16" doxytag="iPcMeshSelect::HasSendupEvent"></a><p>
+<a class="anchor" name="a18" doxytag="iPcMeshSelect::HasSendupEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -378,7 +414,37 @@ Get the value of send up events.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0" doxytag="iPcMeshSelect::SetCamera"></a><p>
+<a class="anchor" name="a1" doxytag="iPcMeshSelect::RemoveMeshSelectListener"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMeshSelect::RemoveMeshSelectListener           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>listener</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a mesh selection listener. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a2" doxytag="iPcMeshSelect::SetCamera"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -408,7 +474,7 @@ Set the camera to use for mesh selection.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="iPcMeshSelect::SetDragMode"></a><p>
+<a class="anchor" name="a11" doxytag="iPcMeshSelect::SetDragMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -438,7 +504,7 @@ If true then it is possible to drag the selected object.
 Note that drag mode is usually used in combination with follow mode. (default false).     </td>
   </tr>
 </table>
-<a class="anchor" name="a11" doxytag="iPcMeshSelect::SetDragPlaneNormal"></a><p>
+<a class="anchor" name="a13" doxytag="iPcMeshSelect::SetDragPlaneNormal"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -477,7 +543,7 @@ Set the normal of the plane on which the dragged object will move.
 The actual plane itself will be calculated depending on the current position of the object and that given normal. The normal can be given in camera space or in world space. Default is the 0,0,1 normal in camera space which means that the object will drag according to screen coordinates.     </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="iPcMeshSelect::SetFollowAlwaysMode"></a><p>
+<a class="anchor" name="a9" doxytag="iPcMeshSelect::SetFollowAlwaysMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -507,7 +573,7 @@ If true then also send move messages when the entity is not selected but the mou
 Default false.     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iPcMeshSelect::SetFollowMode"></a><p>
+<a class="anchor" name="a7" doxytag="iPcMeshSelect::SetFollowMode"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -537,7 +603,7 @@ If true then follow the mouse so that up/down events come through immediatelly w
 Otherwise mouse up event will arrive only when the mouse is released independent of wether or not the mouse is above the object at release time. Default false.     </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="iPcMeshSelect::SetGlobalSelection"></a><p>
+<a class="anchor" name="a5" doxytag="iPcMeshSelect::SetGlobalSelection"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -567,7 +633,7 @@ Set global/local selection.
 With local selection the Behaviour will only get messages when it's own mesh entity is selected (default). With global selection the Behaviour will get messages for selection of all mesh entities.     </td>
   </tr>
 </table>
-<a class="anchor" name="a19" doxytag="iPcMeshSelect::SetMaxSelectionDistance"></a><p>
+<a class="anchor" name="a21" doxytag="iPcMeshSelect::SetMaxSelectionDistance"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -597,7 +663,7 @@ Set the maximum distance to use for mesh selection.
 This is the distance in world units from the camera, into the scene.     </td>
   </tr>
 </table>
-<a class="anchor" name="a1" doxytag="iPcMeshSelect::SetMouseButtons"></a><p>
+<a class="anchor" name="a3" doxytag="iPcMeshSelect::SetMouseButtons"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -627,7 +693,7 @@ Indicate (with a bit-mask) for which buttons this mesh selector will work.
 By default this is mouse button one. Use a combination of CEL_MOUSE_... flags.     </td>
   </tr>
 </table>
-<a class="anchor" name="a17" doxytag="iPcMeshSelect::SetSenddownEvent"></a><p>
+<a class="anchor" name="a19" doxytag="iPcMeshSelect::SetSenddownEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -657,7 +723,7 @@ If true then send mouse-down events (message 'selectmesh_down').
 Default true.     </td>
   </tr>
 </table>
-<a class="anchor" name="a13" doxytag="iPcMeshSelect::SetSendmoveEvent"></a><p>
+<a class="anchor" name="a15" doxytag="iPcMeshSelect::SetSendmoveEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -687,7 +753,7 @@ If true then also send messages on mouse move (only between mouse-down and mouse
 Default false.     </td>
   </tr>
 </table>
-<a class="anchor" name="a15" doxytag="iPcMeshSelect::SetSendupEvent"></a><p>
+<a class="anchor" name="a17" doxytag="iPcMeshSelect::SetSendupEvent"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
