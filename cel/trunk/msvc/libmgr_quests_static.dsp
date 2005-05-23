@@ -148,7 +148,15 @@ SOURCE=..\plugins\tools\quests\trig_entersector.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\trig_inventory.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_meshentersector.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_meshsel.cpp
 # End Source File
 # Begin Source File
 
@@ -212,7 +220,15 @@ SOURCE=..\plugins\tools\quests\trig_entersector.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\trig_inventory.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\trig_meshentersector.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\trig_meshsel.h
 # End Source File
 # Begin Source File
 
