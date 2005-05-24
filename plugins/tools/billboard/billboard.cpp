@@ -761,9 +761,10 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
 {
   // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
   // @@@ KEEP Z-ORDER IN MIND!
-  size_t i;
-  for (i = billboards.Length ()-1 ; i >= 0 ; i--)
+  size_t i = billboards.Length ();
+  while (i > 0)
   {
+    i--;
     csFlags& f = billboards[i]->GetFlags ();
     if (f.Check (CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE))
     {

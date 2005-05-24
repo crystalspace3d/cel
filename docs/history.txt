@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-May-2005
+	- Jorrit fixed a crash bug in the billboard manager which arrived
+	  in a recent change to use size_t in a loop.
 23-May-2005
 	- Jorrit changed SetMaxSelectionDistance() in pcmeshsel to accept
 	  a float instead of an integer. Distances are never measured
