@@ -52,6 +52,8 @@ private:
   celChangePropertyRewardType* type;
   char* prop_par;
   char* entity_par;
+  char* pc_par;
+  char* tag_par;
   char* string_par;
   char* long_par;
   char* float_par;
@@ -72,6 +74,7 @@ public:
   //----------------- iChangePropertyQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual void SetPropertyParameter (const char* prop);
+  virtual void SetPCParameter (const char* pc, const char* tag);
   virtual void SetStringParameter (const char* pstring);
   virtual void SetLongParameter (const char* plong);
   virtual void SetFloatParameter (const char* pfloat);
@@ -90,6 +93,8 @@ private:
   celChangePropertyRewardType* type;
   char* prop;
   char* entity;
+  char* pc;
+  char* tag;
   char* pstring;
   char* plong;
   char* pfloat;
@@ -98,12 +103,15 @@ private:
   bool do_toggle;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;
+  csWeakRef<iCelPropertyClass> pclass;
 
 public:
   celChangePropertyReward (celChangePropertyRewardType* type,
   	const celQuestParams& params,
 	const char* prop_par,
 	const char* entity_par,
+	const char* pc,
+	const char* tag,
 	const char* string_par,
 	const char* long_par,
 	const char* float_par,

@@ -21,6 +21,7 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "csutil/scanstr.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
@@ -50,6 +51,8 @@ celChangePropertyRewardFactory::celChangePropertyRewardFactory (
   celChangePropertyRewardFactory::type = type;
   prop_par = 0;
   entity_par = 0;
+  pc_par = 0;
+  tag_par = 0;
   string_par = 0;
   long_par = 0;
   float_par = 0;
@@ -62,6 +65,8 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
   delete[] prop_par;
   delete[] entity_par;
+  delete[] pc_par;
+  delete[] tag_par;
   delete[] string_par;
   delete[] long_par;
   delete[] float_par;
@@ -75,7 +80,7 @@ csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
   celChangePropertyReward* trig = new celChangePropertyReward (type,
-  	params, prop_par, entity_par, string_par, long_par,
+  	params, prop_par, entity_par, pc_par, tag_par, string_par, long_par,
 	float_par, bool_par, diff_par, do_toggle);
   return trig;
 }
@@ -84,6 +89,8 @@ bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
 {
   delete[] prop_par; prop_par = 0;
   delete[] entity_par; entity_par = 0;
+  delete[] pc_par; pc_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] string_par; string_par = 0;
   delete[] long_par; long_par = 0;
   delete[] float_par; float_par = 0;
@@ -92,6 +99,8 @@ bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
   do_toggle = false;
   prop_par = csStrNew (node->GetAttributeValue ("property"));
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  pc_par = csStrNew (node->GetAttributeValue ("pc"));
+  tag_par = csStrNew (node->GetAttributeValue ("tag"));
   string_par = csStrNew (node->GetAttributeValue ("string"));
   long_par = csStrNew (node->GetAttributeValue ("long"));
   float_par = csStrNew (node->GetAttributeValue ("float"));
@@ -131,6 +140,21 @@ void celChangePropertyRewardFactory::SetEntityParameter (
   if (entity_par == entity) return;
   delete[] entity_par;
   entity_par = csStrNew (entity);
+}
+
+void celChangePropertyRewardFactory::SetPCParameter (const char* pc,
+	const char* tag)
+{
+  if (pc_par != pc)
+  {
+    delete[] pc_par;
+    pc_par = csStrNew (pc);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celChangePropertyRewardFactory::SetStringParameter (
@@ -189,6 +213,8 @@ celChangePropertyReward::celChangePropertyReward (
   	const csHash<csStrKey,csStrKey>& params,
 	const char* prop_par,
 	const char* entity_par,
+	const char* pc_par,
+	const char* tag_par,
 	const char* string_par,
 	const char* long_par,
 	const char* float_par,
@@ -201,6 +227,8 @@ celChangePropertyReward::celChangePropertyReward (
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   prop = csStrNew (qm->ResolveParameter (params, prop_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  pc = csStrNew (qm->ResolveParameter (params, pc_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   pstring = csStrNew (qm->ResolveParameter (params, string_par));
   plong = csStrNew (qm->ResolveParameter (params, long_par));
   pfloat = csStrNew (qm->ResolveParameter (params, float_par));
@@ -213,6 +241,8 @@ celChangePropertyReward::~celChangePropertyReward ()
 {
   delete[] prop;
   delete[] entity;
+  delete[] pc;
+  delete[] tag;
   delete[] pstring;
   delete[] plong;
   delete[] pfloat;
@@ -223,103 +253,171 @@ celChangePropertyReward::~celChangePropertyReward ()
 
 void celChangePropertyReward::Reward ()
 {
-  if (!properties)
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  if (!pc && !properties)
   {
     if (!ent)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
     properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
     if (!properties) return;
   }
+  if (pc && !pclass)
+  {
+    if (!ent)
+    {
+      ent = pl->FindEntity (entity);
+      if (!ent) return;
+    }
+    pclass = ent->GetPropertyClassList ()->FindByNameAndTag (pc, tag);
+    if (!pclass) return;
+  }
 
   if (pstring)
   {
-    properties->SetProperty (prop, pstring);
+    if (pc) pclass->SetProperty (pl->FetchStringID (prop), pstring);
+    else properties->SetProperty (prop, pstring);
     return;
   }
   if (plong)
   {
     long l;
     sscanf (plong, "%ld", &l);
-    properties->SetProperty (prop, l);
+    if (pc) pclass->SetProperty (pl->FetchStringID (prop), l);
+    else properties->SetProperty (prop, l);
     return;
   }
   if (pfloat)
   {
     float f;
     sscanf (pfloat, "%f", &f);
-    properties->SetProperty (prop, f);
+    if (pc) pclass->SetProperty (pl->FetchStringID (prop), f);
+    else properties->SetProperty (prop, f);
     return;
   }
   if (pbool)
   {
     bool b;
-    if (*pbool == '1' || *pbool == 't' || *pbool == 'T' || *pbool == 'y' ||
-    	*pbool == 'Y')
-      b = true;
-    else
-      b = false;
-    properties->SetProperty (prop, b);
+    csScanStr (pbool, "%b", &b);
+    if (pc) pclass->SetProperty (pl->FetchStringID (prop), b);
+    else properties->SetProperty (prop, b);
     return;
   }
   if (pdiff)
   {
-    size_t idx = properties->GetPropertyIndex (prop);
-    if (idx != (size_t)~0)
+    if (pc)
     {
-      celDataType t = properties->GetPropertyType (idx);
+      csStringID id = pl->FetchStringID (prop);
+      celDataType t = pclass->GetPropertyOrActionType (id);
       switch (t)
       {
         case CEL_DATA_LONG:
 	  {
 	    long diff;
 	    sscanf (pdiff, "%ld", &diff);
-	    long l = properties->GetPropertyLong (idx);
-	    properties->SetPropertyIndex (idx, l+diff);
+	    long l = pclass->GetPropertyLong (id);
+	    pclass->SetProperty (id, l+diff);
 	  }
 	  return;
         case CEL_DATA_FLOAT:
 	  {
 	    float diff;
 	    sscanf (pdiff, "%f", &diff);
-	    float f = properties->GetPropertyFloat (idx);
-	    properties->SetPropertyIndex (idx, f+diff);
+	    float f = pclass->GetPropertyFloat (id);
+	    pclass->SetProperty (id, f+diff);
 	  }
 	  return;
         default: break;
       }
     }
+    else
+    {
+      size_t idx = properties->GetPropertyIndex (prop);
+      if (idx != (size_t)~0)
+      {
+        celDataType t = properties->GetPropertyType (idx);
+        switch (t)
+        {
+          case CEL_DATA_LONG:
+	    {
+	      long diff;
+	      sscanf (pdiff, "%ld", &diff);
+	      long l = properties->GetPropertyLong (idx);
+	      properties->SetPropertyIndex (idx, l+diff);
+	    }
+	    return;
+          case CEL_DATA_FLOAT:
+	    {
+	      float diff;
+	      sscanf (pdiff, "%f", &diff);
+	      float f = properties->GetPropertyFloat (idx);
+	      properties->SetPropertyIndex (idx, f+diff);
+	    }
+	    return;
+          default: break;
+        }
+      }
+    }
   }
   if (do_toggle)
   {
-    size_t idx = properties->GetPropertyIndex (prop);
-    if (idx != (size_t)~0)
+    if (pc)
     {
-      celDataType t = properties->GetPropertyType (idx);
+      csStringID id = pl->FetchStringID (prop);
+      celDataType t = pclass->GetPropertyOrActionType (id);
       switch (t)
       {
         case CEL_DATA_LONG:
 	  {
-	    long l = properties->GetPropertyLong (idx);
-	    properties->SetPropertyIndex (idx, !l);
+	    long l = pclass->GetPropertyLong (id);
+	    pclass->SetProperty (id, !l);
 	  }
 	  return;
         case CEL_DATA_FLOAT:
 	  {
-	    float f = properties->GetPropertyFloat (idx);
-	    properties->SetPropertyIndex (idx, fabs (f) < .00001 ? 1.0f : 0.0f);
+	    float f = pclass->GetPropertyFloat (id);
+	    pclass->SetProperty (id, fabs (f) < .00001 ? 1.0f : 0.0f);
 	  }
 	  return;
         case CEL_DATA_BOOL:
 	  {
-	    bool f = properties->GetPropertyBool (idx);
-	    properties->SetPropertyIndex (idx, !f);
+	    bool f = pclass->GetPropertyBool (id);
+	    pclass->SetProperty (id, !f);
 	  }
 	  return;
         default: break;
+      }
+    }
+    else
+    {
+      size_t idx = properties->GetPropertyIndex (prop);
+      if (idx != (size_t)~0)
+      {
+        celDataType t = properties->GetPropertyType (idx);
+        switch (t)
+        {
+          case CEL_DATA_LONG:
+	    {
+	      long l = properties->GetPropertyLong (idx);
+	      properties->SetPropertyIndex (idx, !l);
+	    }
+	    return;
+          case CEL_DATA_FLOAT:
+	    {
+	      float f = properties->GetPropertyFloat (idx);
+	      properties->SetPropertyIndex (idx, fabs (f) < .00001 ? 1.0f : 0.0f);
+	    }
+	    return;
+          case CEL_DATA_BOOL:
+	    {
+	      bool f = properties->GetPropertyBool (idx);
+	      properties->SetPropertyIndex (idx, !f);
+	    }
+	    return;
+          default: break;
+        }
       }
     }
   }
