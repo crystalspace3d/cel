@@ -1106,6 +1106,7 @@ class iPcMeshSelect(cspace.iBase):
     def SetSenddownEvent(*args): return _blcelc.iPcMeshSelect_SetSenddownEvent(*args)
     def HasSenddownEvent(*args): return _blcelc.iPcMeshSelect_HasSenddownEvent(*args)
     def SetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_SetMaxSelectionDistance(*args)
+    def GetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_GetMaxSelectionDistance(*args)
     def __del__(self, destroy=_blcelc.delete_iPcMeshSelect):
         try:
             if self.thisown: destroy(self)
