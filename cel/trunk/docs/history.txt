@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 24-May-2005
 	- Jorrit fixed a crash bug in the billboard manager which arrived
 	  in a recent change to use size_t in a loop.
+	- Jorrit fixed the xml behaviour layer so that it gets a
+	  pcdefaultcamera instead of a pccamera. Note that it should not
+	  have to do even that though. Needs a revision.
+	- Jorrit added registration of billboard property class to celtest.
 23-May-2005
 	- Jorrit changed SetMaxSelectionDistance() in pcmeshsel to accept
 	  a float instead of an integer. Distances are never measured
