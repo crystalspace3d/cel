@@ -1145,7 +1145,8 @@ SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the reward that changes the value
- * of a property. You can query this interface
+ * of a property (either on a property from pcproperties or a generic
+ * property on any property class). You can query this interface
  * from the reward factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
@@ -1156,6 +1157,9 @@ SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the
  *     pcproperties property class.
+ * <li><em>pc</em>: the name of the property class. If this is not
+ *     given then pcproperties is used.
+ * <li><em>tag</em>: used together with 'pc' to specify an optional tag.
  * <li><em>property</em>: the name of the property.
  * <li><em>string</em>: the new string value of the property.
  * <li><em>long</em>: the new long value of the property.
@@ -1174,6 +1178,17 @@ struct iChangePropertyQuestRewardFactory : public iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the property class and tag. If this is not
+   * given (or property class name is 0) then pcproperties will
+   * be used.
+   * \param pc is the name of the property class or a parameter (starts
+   * with '$').
+   * \param tag is the name of the tag or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPCParameter (const char* pc, const char* tag) = 0;
 
   /**
    * Set the name of the property.

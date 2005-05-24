@@ -13,6 +13,13 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed the billboard manager so that it sets the
 	  camera transform to identity. That way billboards will always
 	  be positioned correctly on screen.
+	- Jorrit changed the changeproperty reward so that it now also
+	  uses ScanStr() to interprete boolean values.
+	- Jorrit changed the changeproperty reward so that you can also
+	  use it to set properties on all property classes and not only
+	  pcproperties. To do that you must use 'pc' (and 'tag')
+	  attributes for the reward and also use the full property
+	  id ('cel.property.<xxx>').
 23-May-2005
 	- Jorrit changed SetMaxSelectionDistance() in pcmeshsel to accept
 	  a float instead of an integer. Distances are never measured
