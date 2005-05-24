@@ -88,60 +88,60 @@
 <a name="l00094"></a><a class="code" href="structiCelDataBuffer.html#a22">00094</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelDataBuffer.html#a22">GetBool</a> ()
 00095   {
 00096     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00097     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_BOOL) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.bo : <span class="keyword">false</span>;
+00097     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_BOOL) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.bo : <span class="keyword">false</span>;
 00098   }
 00099   <span class="keyword">virtual</span> int8 GetInt8 ()
 00100   {
 00101     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00102     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_BYTE) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.b : 0;
+00102     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_BYTE) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.b : 0;
 00103   }
 00104   <span class="keyword">virtual</span> uint8 GetUInt8 ()
 00105   {
 00106     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00107     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_UBYTE) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.ub : 0;
+00107     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_UBYTE) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.ub : 0;
 00108   }
 00109   <span class="keyword">virtual</span> int16 GetInt16 ()
 00110   {
 00111     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00112     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_WORD) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.w : 0;
+00112     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_WORD) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.w : 0;
 00113   }
 00114   <span class="keyword">virtual</span> uint16 GetUInt16 ()
 00115   {
 00116     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00117     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_UWORD) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.uw : 0;
+00117     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_UWORD) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.uw : 0;
 00118   }
 00119   <span class="keyword">virtual</span> int32 GetInt32 ()
 00120   {
 00121     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00122     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_LONG) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.l : 0;
+00122     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_LONG) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.l : 0;
 00123   }
 00124   <span class="keyword">virtual</span> uint32 GetUInt32 ()
 00125   {
 00126     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00127     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_ULONG) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.ul : 0;
+00127     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_ULONG) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.ul : 0;
 00128   }
 00129   <span class="keyword">virtual</span> <span class="keywordtype">float</span> GetFloat ()
 00130   {
 00131     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00132     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_FLOAT) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.f : 0.0f;
+00132     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_FLOAT) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.f : 0.0f;
 00133   }
 00134   <span class="keyword">virtual</span> iString* GetString ()
 00135   {
 00136     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00137     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_STRING) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.s : (iString*)0;
+00137     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_STRING) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.s : (iString*)0;
 00138   }
 00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetVector2 (csVector2&amp; v)
 00140   {
 00141     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
 00142     <span class="keywordflow">if</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_VECTOR2)
-00143     { v.x = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.v.x; v.y = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.v.y; }
+00143     { v.x = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.v.x; v.y = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.v.y; }
 00144     <span class="keywordflow">else</span> v.x = v.y = 0;
 00145   }
 00146   <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetVector3 (csVector3&amp; v)
 00147   {
 00148     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
 00149     <span class="keywordflow">if</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_VECTOR3)
-00150     { v.x = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.v.x; v.y = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.v.y; v.z = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.v.z; }
+00150     { v.x = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.v.x; v.y = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.v.y; v.z = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.v.z; }
 00151     <span class="keywordflow">else</span> v.x = v.y = v.z = 0;
 00152   }
 00153   <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetColor (csColor&amp; v)
@@ -149,9 +149,9 @@
 00155     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
 00156     <span class="keywordflow">if</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_COLOR)
 00157     {
-00158       v.red = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.col.red;
-00159       v.green = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.col.green;
-00160       v.blue = cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.col.blue;
+00158       v.red = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.col.red;
+00159       v.green = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.col.green;
+00160       v.blue = cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.col.blue;
 00161     }
 00162     <span class="keywordflow">else</span> v.red = v.green= v.blue = 0;
 00163   }
@@ -159,20 +159,20 @@
 00165   {
 00166     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
 00167     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_PCLASS)
-00168         ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.pc
+00168         ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.pc
 00169         : (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>*)0;
 00170   }
 00171   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* GetEntity ()
 00172   {
 00173     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
 00174     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_ENTITY)
-00175         ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.ent
+00175         ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.ent
 00176         : (<a class="code" href="structiCelEntity.html">iCelEntity</a>*)0;
 00177   }
 00178   <span class="keyword">virtual</span> iBase* GetIBase ()
 00179   {
 00180     <a class="code" href="structcelData.html">celData</a>* cd = <a class="code" href="structiCelDataBuffer.html#a3">GetData</a> ();
-00181     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_IBASE) ? cd-&gt;<a class="code" href="structcelData.html#o21">value</a>.ibase : (iBase*)0;
+00181     <span class="keywordflow">return</span> (cd &amp;&amp; cd-&gt;<a class="code" href="structcelData.html#o0">type</a> == CEL_DATA_IBASE) ? cd-&gt;<a class="code" href="structcelData.html#o24">value</a>.ibase : (iBase*)0;
 00182   }
 00183 };
 00184 

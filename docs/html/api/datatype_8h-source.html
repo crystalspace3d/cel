@@ -44,11 +44,10 @@
 00025 <span class="preprocessor">#include "csgeom/vector2.h"</span>
 00026 <span class="preprocessor">#include "csgeom/vector3.h"</span>
 00027 <span class="preprocessor">#include "csutil/cscolor.h"</span>
-00028 <span class="comment">//#include "physicallayer/persist.h"</span>
-00029 
-00030 <span class="keyword">struct </span><a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>;
-00031 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
-00032 
+00028 
+00029 <span class="keyword">struct </span><a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>;
+00030 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
+00031 
 00036 <span class="keyword">enum</span> celDataType
 00037 {
 00038   CEL_DATA_NONE = 0,
@@ -68,112 +67,142 @@
 00052   CEL_DATA_ACTION,
 00053   CEL_DATA_COLOR,
 00054   CEL_DATA_IBASE,
-00055 
-00056   CEL_DATA_LAST
-00057 };
-00058 
-<a name="l00062"></a><a class="code" href="structcelData.html">00062</a> <span class="keyword">struct </span><a class="code" href="structcelData.html">celData</a>
-00063 {
-00064   celDataType type;
-00065   <span class="keyword">union</span>
-00066 <span class="keyword">  </span>{
-00067     <span class="keywordtype">bool</span> bo;
-00068     int8 b;
-00069     uint8 ub;
-00070     int16 w;
-00071     uint16 uw;
-00072     int32 l;
-00073     uint32 ul;
-00074     <span class="keywordtype">float</span> f;
-00075     iString* s;
-00076     <span class="keyword">struct</span>
-00077 <span class="keyword">    </span>{
-00078       <span class="keywordtype">float</span> x, y, z;
-00079     } v;
-00080     <span class="keyword">struct</span>
-00081 <span class="keyword">    </span>{
-00082       <span class="keywordtype">float</span> red, green, blue;
-00083     } col;
-00084     <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc;
-00085     <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent;
-00086     iBase* ibase;
-00087   } value;
-00088 
-00089   <a class="code" href="structcelData.html">celData</a> () : type (CEL_DATA_NONE) { }
-00090   ~<a class="code" href="structcelData.html">celData</a>()
-00091   {
-00092     Clear ();
-00093   }
-00094   <span class="keywordtype">void</span> Clear ()
-00095   {
-00096     <span class="keywordflow">if</span> (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s-&gt;DecRef ();
-00097     type = CEL_DATA_NONE;
-00098   }
-<a name="l00102"></a><a class="code" href="structcelData.html#a3">00102</a>   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keywordtype">bool</span> v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
-00103   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }
-00104   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (uint8 v) { Clear (); type = CEL_DATA_UBYTE; value.ub = v; }
-00105   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (int16 v) { Clear (); type = CEL_DATA_WORD; value.w = v; }
-00106   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (uint16 v) { Clear (); type = CEL_DATA_UWORD; value.uw = v; }
-00107   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (int32 v) { Clear (); type = CEL_DATA_LONG; value.l = v; }
-00108   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (uint32 v) { Clear (); type = CEL_DATA_ULONG; value.ul = v; }
-00109   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keywordtype">float</span> v) { Clear (); type = CEL_DATA_FLOAT; value.f = v; }
-00110   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keyword">const</span> csVector2&amp; v)
-00111   {
-00112     Clear ();
-00113     type = CEL_DATA_VECTOR2;
-00114     value.v.x = v.x;
-00115     value.v.y = v.y;
-00116   }
-00117   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keyword">const</span> csVector3&amp; v)
-00118   {
-00119     Clear ();
-00120     type = CEL_DATA_VECTOR3;
-00121     value.v.x = v.x;
-00122     value.v.y = v.y;
-00123     value.v.z = v.z;
-00124   }
-00125   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keyword">const</span> csColor&amp; v)
-00126   {
-00127     Clear ();
-00128     type = CEL_DATA_COLOR;
-00129     value.col.red = v.red;
-00130     value.col.green = v.green;
-00131     value.col.blue = v.blue;
-00132   }
-00133   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* s)
+00055   CEL_DATA_PARAMETER,
+00056 
+00057   CEL_DATA_LAST
+00058 };
+00059 
+<a name="l00063"></a><a class="code" href="structcelData.html">00063</a> <span class="keyword">struct </span><a class="code" href="structcelData.html">celData</a>
+00064 {
+00065   celDataType type;
+00066   <span class="keyword">union</span>
+00067 <span class="keyword">  </span>{
+00068     <span class="keywordtype">bool</span> bo;
+00069     int8 b;
+00070     uint8 ub;
+00071     int16 w;
+00072     uint16 uw;
+00073     int32 l;
+00074     uint32 ul;
+00075     <span class="keywordtype">float</span> f;
+00076     iString* s;
+00077     <span class="keyword">struct</span>
+00078 <span class="keyword">    </span>{
+00079       <span class="keywordtype">float</span> x, y, z;
+00080     } v;
+00081     <span class="keyword">struct</span>
+00082 <span class="keyword">    </span>{
+00083       <span class="keywordtype">float</span> red, green, blue;
+00084     } col;
+00085     <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc;
+00086     <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent;
+00087     iBase* ibase;
+00088     <span class="keyword">struct</span>
+00089 <span class="keyword">    </span>{
+00090       iString* parname;
+00091       celDataType partype;
+00092     } par;
+00093   } value;
+00094 
+00095   <a class="code" href="structcelData.html">celData</a> () : type (CEL_DATA_NONE) { }
+00096   <a class="code" href="structcelData.html">celData</a> (<span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>&amp; copy)
+00097   {
+00098     type = copy.<a class="code" href="structcelData.html#o0">type</a>;
+00099     value = copy.<a class="code" href="structcelData.html#o24">value</a>;
+00100     <span class="keywordflow">if</span> (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s-&gt;IncRef ();
+00101     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type == CEL_DATA_PARAMETER) value.par.parname-&gt;IncRef ();
+00102   }
+00103   <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>&amp; operator= (<span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>&amp; copy)
+00104   {
+00105     Clear ();
+00106     type = copy.type;
+00107     value = copy.value;
+00108     <span class="keywordflow">if</span> (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s-&gt;IncRef ();
+00109     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type == CEL_DATA_PARAMETER) value.par.parname-&gt;IncRef ();
+00110     <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+00111   }
+00112   ~<a class="code" href="structcelData.html">celData</a>()
+00113   {
+00114     Clear ();
+00115   }
+00116   <span class="keywordtype">void</span> Clear ()
+00117   {
+00118     <span class="keywordflow">if</span> (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s-&gt;DecRef ();
+00119     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type == CEL_DATA_PARAMETER) value.par.parname-&gt;DecRef ();
+00120     type = CEL_DATA_NONE;
+00121   }
+<a name="l00125"></a><a class="code" href="structcelData.html#a5">00125</a>   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keywordtype">bool</span> v) { Clear (); type = CEL_DATA_BOOL; value.bo = v; }
+00126   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (int8 v) { Clear (); type = CEL_DATA_BYTE; value.b = v; }
+00127   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (uint8 v) { Clear (); type = CEL_DATA_UBYTE; value.ub = v; }
+00128   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (int16 v) { Clear (); type = CEL_DATA_WORD; value.w = v; }
+00129   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (uint16 v) { Clear (); type = CEL_DATA_UWORD; value.uw = v; }
+00130   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (int32 v) { Clear (); type = CEL_DATA_LONG; value.l = v; }
+00131   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (uint32 v) { Clear (); type = CEL_DATA_ULONG; value.ul = v; }
+00132   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keywordtype">float</span> v) { Clear (); type = CEL_DATA_FLOAT; value.f = v; }
+00133   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keyword">const</span> csVector2&amp; v)
 00134   {
 00135     Clear ();
-00136     type = CEL_DATA_STRING;
-00137     value.s = <span class="keyword">new</span> scfString (s);
-00138   }
-00139   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc)
-00140   {
-00141     Clear ();
-00142     type = CEL_DATA_PCLASS;
-00143     value.pc = pc;
-00144   }
-00145   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a3">Set</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* ent)
-00146   {
-00147     Clear ();
-00148     type = CEL_DATA_ENTITY;
-00149     value.ent = ent;
-00150   }
-00151   <span class="keywordtype">void</span> SetAction (<span class="keyword">const</span> <span class="keywordtype">char</span>* s)
-00152   {
-00153     Clear ();
-00154     type = CEL_DATA_ACTION;
-00155     value.s = <span class="keyword">new</span> scfString (s);
-00156   }
-00157   <span class="keywordtype">void</span> SetIBase (iBase* b)
-00158   {
-00159     Clear ();
-00160     type = CEL_DATA_IBASE;
-00161     value.ibase = b;
-00162   }
-00163 };
-00164 
-00165 <span class="preprocessor">#endif // __CEL_PL_DATATYPE__</span>
-00166 <span class="preprocessor"></span>
+00136     type = CEL_DATA_VECTOR2;
+00137     value.v.x = v.x;
+00138     value.v.y = v.y;
+00139   }
+00140   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keyword">const</span> csVector3&amp; v)
+00141   {
+00142     Clear ();
+00143     type = CEL_DATA_VECTOR3;
+00144     value.v.x = v.x;
+00145     value.v.y = v.y;
+00146     value.v.z = v.z;
+00147   }
+00148   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keyword">const</span> csColor&amp; v)
+00149   {
+00150     Clear ();
+00151     type = CEL_DATA_COLOR;
+00152     value.col.red = v.red;
+00153     value.col.green = v.green;
+00154     value.col.blue = v.blue;
+00155   }
+00156   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* s)
+00157   {
+00158     Clear ();
+00159     type = CEL_DATA_STRING;
+00160     value.s = <span class="keyword">new</span> scfString (s);
+00161   }
+00162   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc)
+00163   {
+00164     Clear ();
+00165     type = CEL_DATA_PCLASS;
+00166     value.pc = pc;
+00167   }
+00168   <span class="keywordtype">void</span> <a class="code" href="structcelData.html#a5">Set</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* ent)
+00169   {
+00170     Clear ();
+00171     type = CEL_DATA_ENTITY;
+00172     value.ent = ent;
+00173   }
+00174   <span class="keywordtype">void</span> SetAction (<span class="keyword">const</span> <span class="keywordtype">char</span>* s)
+00175   {
+00176     Clear ();
+00177     type = CEL_DATA_ACTION;
+00178     value.s = <span class="keyword">new</span> scfString (s);
+00179   }
+00180   <span class="keywordtype">void</span> SetIBase (iBase* b)
+00181   {
+00182     Clear ();
+00183     type = CEL_DATA_IBASE;
+00184     value.ibase = b;
+00185   }
+00186   <span class="keywordtype">void</span> SetParameter (<span class="keyword">const</span> <span class="keywordtype">char</span>* s, celDataType t)
+00187   {
+00188     Clear ();
+00189     type = CEL_DATA_PARAMETER;
+00190     value.par.parname = <span class="keyword">new</span> scfString (s);
+00191     value.par.partype = t;
+00192   }
+00193 };
+00194 
+00195 <span class="preprocessor">#endif // __CEL_PL_DATATYPE__</span>
+00196 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>

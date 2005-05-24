@@ -68,47 +68,49 @@
 00061 
 00062 SCF_VERSION (<a class="code" href="structiPcMeshSelect.html">iPcMeshSelect</a>, 0, 0, 2);
 00063 
-<a name="l00083"></a><a class="code" href="structiPcMeshSelect.html">00083</a> <span class="keyword">struct </span><a class="code" href="structiPcMeshSelect.html">iPcMeshSelect</a> : <span class="keyword">public</span> iBase
-00084 {
-00089   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a0">AddMeshSelectListener</a> (<a class="code" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a>* listener) = 0;
-00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a1">RemoveMeshSelectListener</a> (<a class="code" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a>* listener) = 0;
-00094 
-00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a2">SetCamera</a> (<a class="code" href="structiPcCamera.html">iPcCamera</a>* camera) = 0;
-00099 
-00105   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a3">SetMouseButtons</a> (<span class="keywordtype">int</span> buttons) = 0;
-00109   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcMeshSelect.html#a4">GetMouseButtons</a> () <span class="keyword">const </span>= 0;
-00110 
-00118   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a5">SetGlobalSelection</a> (<span class="keywordtype">bool</span> glob) = 0;
-00122   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a6">HasGlobalSelection</a> () <span class="keyword">const </span>= 0;
-00123 
-00132   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a7">SetFollowMode</a> (<span class="keywordtype">bool</span> follow) = 0;
-00136   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a8">HasFollowMode</a> () <span class="keyword">const </span>= 0;
-00137 
-00143   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a9">SetFollowAlwaysMode</a> (<span class="keywordtype">bool</span> followalways) = 0;
-00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a10">HasFollowAlwaysMode</a> () <span class="keyword">const </span>= 0;
-00148 
-00155   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a11">SetDragMode</a> (<span class="keywordtype">bool</span> drag) = 0;
-00159   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a12">HasDragMode</a> () <span class="keyword">const </span>= 0;
-00160 
-00170   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a13">SetDragPlaneNormal</a> (<span class="keyword">const</span> csVector3&amp; drag_normal,
-00171         <span class="keywordtype">bool</span> camera_space) = 0;
-00175   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a14">GetDragPlaneNormal</a> (csVector3&amp; drag_normal,
-00176         <span class="keywordtype">bool</span>&amp; camera_space) <span class="keyword">const </span>= 0;
-00177 
-00183   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a15">SetSendmoveEvent</a> (<span class="keywordtype">bool</span> mov) = 0;
-00187   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a16">HasSendmoveEvent</a> () <span class="keyword">const </span>= 0;
-00188 
-00193   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a17">SetSendupEvent</a> (<span class="keywordtype">bool</span> su) = 0;
-00197   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a18">HasSendupEvent</a> () <span class="keyword">const </span>= 0;
-00198 
-00203   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a19">SetSenddownEvent</a> (<span class="keywordtype">bool</span> sd) = 0;
-00207   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a20">HasSenddownEvent</a> () <span class="keyword">const </span>= 0;
-00208 
-00213   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a21">SetMaxSelectionDistance</a> (<span class="keyword">const</span> uint distance) = 0;
-00214 };
-00215 
-00216 <span class="preprocessor">#endif // __CEL_PF_MESHSEL__</span>
-00217 <span class="preprocessor"></span>
+<a name="l00098"></a><a class="code" href="structiPcMeshSelect.html">00098</a> <span class="keyword">struct </span><a class="code" href="structiPcMeshSelect.html">iPcMeshSelect</a> : <span class="keyword">public</span> iBase
+00099 {
+00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a0">AddMeshSelectListener</a> (<a class="code" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a>* listener) = 0;
+00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a1">RemoveMeshSelectListener</a> (<a class="code" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a>* listener) = 0;
+00109 
+00113   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a2">SetCamera</a> (<a class="code" href="structiPcCamera.html">iPcCamera</a>* camera) = 0;
+00114 
+00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a3">SetMouseButtons</a> (<span class="keywordtype">int</span> buttons) = 0;
+00124   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcMeshSelect.html#a4">GetMouseButtons</a> () <span class="keyword">const </span>= 0;
+00125 
+00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a5">SetGlobalSelection</a> (<span class="keywordtype">bool</span> glob) = 0;
+00137   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a6">HasGlobalSelection</a> () <span class="keyword">const </span>= 0;
+00138 
+00147   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a7">SetFollowMode</a> (<span class="keywordtype">bool</span> follow) = 0;
+00151   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a8">HasFollowMode</a> () <span class="keyword">const </span>= 0;
+00152 
+00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a9">SetFollowAlwaysMode</a> (<span class="keywordtype">bool</span> followalways) = 0;
+00162   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a10">HasFollowAlwaysMode</a> () <span class="keyword">const </span>= 0;
+00163 
+00170   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a11">SetDragMode</a> (<span class="keywordtype">bool</span> drag) = 0;
+00174   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a12">HasDragMode</a> () <span class="keyword">const </span>= 0;
+00175 
+00185   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a13">SetDragPlaneNormal</a> (<span class="keyword">const</span> csVector3&amp; drag_normal,
+00186         <span class="keywordtype">bool</span> camera_space) = 0;
+00190   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a14">GetDragPlaneNormal</a> (csVector3&amp; drag_normal,
+00191         <span class="keywordtype">bool</span>&amp; camera_space) <span class="keyword">const </span>= 0;
+00192 
+00198   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a15">SetSendmoveEvent</a> (<span class="keywordtype">bool</span> mov) = 0;
+00202   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a16">HasSendmoveEvent</a> () <span class="keyword">const </span>= 0;
+00203 
+00208   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a17">SetSendupEvent</a> (<span class="keywordtype">bool</span> su) = 0;
+00212   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a18">HasSendupEvent</a> () <span class="keyword">const </span>= 0;
+00213 
+00218   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a19">SetSenddownEvent</a> (<span class="keywordtype">bool</span> sd) = 0;
+00222   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMeshSelect.html#a20">HasSenddownEvent</a> () <span class="keyword">const </span>= 0;
+00223 
+00228   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMeshSelect.html#a21">SetMaxSelectionDistance</a> (<span class="keywordtype">float</span> distance) = 0;
+00229 
+00233   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMeshSelect.html#a22">GetMaxSelectionDistance</a> () <span class="keyword">const </span>= 0;
+00234 };
+00235 
+00236 <span class="preprocessor">#endif // __CEL_PF_MESHSEL__</span>
+00237 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
