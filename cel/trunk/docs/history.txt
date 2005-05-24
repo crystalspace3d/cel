@@ -14,7 +14,7 @@ The history order is reversed so that new features are at the top.
 	  camera transform to identity. That way billboards will always
 	  be positioned correctly on screen.
 	- Jorrit changed the changeproperty reward so that it now also
-	  uses ScanStr() to interprete boolean values.
+	  uses csScanStr() to interprete boolean values.
 	- Jorrit changed the changeproperty reward so that you can also
 	  use it to set properties on all property classes and not only
 	  pcproperties. To do that you must use 'pc' (and 'tag')
