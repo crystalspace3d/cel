@@ -793,6 +793,7 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
           size_t i;
 	  float z = z_max;
 	  float dz = (z_max-z_min) / float (billboards.Length ());
+	  g3d->SetWorldToCamera (csReversibleTransform ());
           for (i = 0 ; i < billboards.Length () ; i++)
           {
             billboards[i]->Draw (g3d, z);
