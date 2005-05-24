@@ -436,6 +436,8 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
     return false;

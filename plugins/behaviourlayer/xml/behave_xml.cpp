@@ -245,7 +245,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     pl->LoadPropertyClassFactory ("cel.pcfactory.region");
-    pl->LoadPropertyClassFactory ("cel.pcfactory.camera");
+    pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera");
     iCelPropertyClass* pc;
 
     csRef<iPcRegion> pcregion;
@@ -269,7 +269,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     }
 
     csRef<iPcCamera> pccamera;
-    pc = pl->CreatePropertyClass (entity, "pccamera");
+    pc = pl->CreatePropertyClass (entity, "pcdefaultcamera");
     if (!pc)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
