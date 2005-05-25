@@ -145,6 +145,15 @@ struct iPcLinearMovement : public iBase
                          csVector3& pos,float yrot,iSector *sector,
                          csVector3& vel,float ang_vel) = 0;
 
+  /**
+   * Sets dead reckoning data in a 'soft' way.  Instead of immediately
+   * setting the position, an error (offset) is measured between the
+   * current position and the new position.  Over the period of 1 second,
+   * the position will be offset until this position error is zero.
+   */
+  virtual void SetSoftDRData(bool on_ground,float speed,
+                         csVector3& pos,float yrot,iSector *sector,
+                         csVector3& vel,float ang_vel) = 0;
 
   /**
    * Set position and sector.
