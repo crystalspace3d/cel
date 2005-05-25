@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-May-2005
+	- Jorrit applied a patch from Cirilo Bernardo which enables soft
+	  DR updates. Basically it is a way to get smoother DR updates
+	  on the client so that actors don't appear to jump from one place
+	  to the other.
 24-May-2005
 	- Jorrit fixed a crash bug in the billboard manager which arrived
 	  in a recent change to use size_t in a loop.

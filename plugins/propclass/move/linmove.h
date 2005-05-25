@@ -112,6 +112,10 @@ protected:
 
   csTicks lastDRUpdate;
   float deltaLimit;
+  
+  // Variables for 'Soft Update' of position
+  csVector3 offset_err;    // Error in terms of absolute position
+  csVector3 offset_rate;   // Speed to bring error to ZERO within 1s
  
   // Move local entity
   bool MoveV (float delta);
@@ -190,6 +194,15 @@ public:
                          csVector3& pos,float yrot,iSector *sector,
                          csVector3& vel,float ang_vel);
 
+  /// Sets dead reckoning data with 'soft' position updating.
+  /// Rather than immediately set the new position, the difference
+  /// between the current position and the new position is
+  /// put into a position error variable. Over a 1-second interval
+  /// the MoveV routine will offset the position so that the position
+  /// error becomes zero.
+  virtual void SetSoftDRData(bool on_ground,float speed,
+                         csVector3& pos,float yrot,iSector *sector,
+                         csVector3& vel,float ang_vel);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -375,6 +388,12 @@ public:
                            csVector3& vel,float ang_vel)
     {
       scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
+    }
+    virtual void SetSoftDRData(bool on_ground,float speed,
+                           csVector3& pos,float yrot,iSector *sector,
+                           csVector3& vel,float ang_vel)
+    {
+      scfParent->SetSoftDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
     }
 
     virtual iSector *GetSector ()

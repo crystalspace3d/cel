@@ -539,10 +539,11 @@ bool celPcLinearMovement::MoveSprite (float delta)
 // Do the actual move
 bool celPcLinearMovement::MoveV (float delta)
 {
-  if (vel < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()))
+  if (vel < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()) &&
+    offset_err.IsZero())
     return false;  // didn't move anywhere
 
-  delta *= speed;
+  
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csMatrix3 mat;
 
@@ -551,8 +552,39 @@ bool celPcLinearMovement::MoveV (float delta)
 
   csVector3 oldpos = movable->GetPosition ();
   csVector3 newpos;
-
-  newpos = mat*(vel*delta) + oldpos;
+  csVector3 del_offset = offset_rate;
+  
+  // The offset change (del_offset) must be calculated before delta is mutilated
+  del_offset *= delta;
+  delta *= speed;
+  
+  // Check for NaN conditions:
+  if (del_offset.x != del_offset.x) del_offset.x = 0;
+  if (del_offset.y != del_offset.y) del_offset.y = 0;
+  if (del_offset.z != del_offset.z) del_offset.z = 0;
+  
+  // Calculate error correction for this time interval
+  if ((del_offset.x > offset_err.x && del_offset.x > 0) ||
+      (del_offset.x < offset_err.x && del_offset.x < 0))
+  {
+    del_offset.x = offset_err.x;
+    offset_rate.x = 0;
+  }
+  if ((del_offset.y > offset_err.y && del_offset.y > 0) ||
+      (del_offset.y < offset_err.y && del_offset.y < 0))
+  {
+    del_offset.y = offset_err.y;
+    offset_rate.y = 0;
+  }
+  if ((del_offset.z > offset_err.z && del_offset.z > 0) ||
+      (del_offset.z < offset_err.z && del_offset.z < 0))
+  {
+    del_offset.z = offset_err.z;
+    offset_rate.z = 0;
+  }
+  offset_err -= del_offset;
+  
+  newpos = mat*(vel*delta) + oldpos + del_offset;
 
   // Check for collisions and adjust position
   if (pccolldet)
@@ -918,6 +950,40 @@ void celPcLinearMovement::SetDRData(bool on_ground,float speed,
 
   this->speed = speed;
   SetPosition(pos,yrot,sector);
+  SetVelocity(vel);
+  csVector3 rot(0,ang_vel,0);
+  SetAngularVelocity(rot);
+  lastDRUpdate = csGetTicks();
+}
+
+void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
+                                    csVector3& pos,float yrot,iSector *sector,
+                                    csVector3& vel,float ang_vel)
+{
+  if (pccolldet)
+    pccolldet->SetOnGround(on_ground);
+
+  csVector3 cur_pos;
+  float cur_rot;
+  iSector *cur_sect;
+  GetLastPosition(cur_pos, cur_rot, cur_sect);
+  if (cur_sect == sector)
+  {
+    offset_err = cur_pos - pos;
+    // Check for NaN conditions:
+    if (offset_err.x != offset_err.x) offset_err.x = 0;
+    if (offset_err.y != offset_err.y) offset_err.y = 0;
+    if (offset_err.z != offset_err.z) offset_err.z = 0;
+    offset_rate = offset_err;
+    SetPosition(cur_pos,yrot,sector);
+  }
+  else
+  {
+    offset_rate = offset_err = csVector3(0,0,0);
+    SetPosition(pos,yrot,sector);
+  }
+  
+  this->speed = speed;
   SetVelocity(vel);
   csVector3 rot(0,ang_vel,0);
   SetAngularVelocity(rot);
