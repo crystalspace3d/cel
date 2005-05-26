@@ -769,9 +769,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  {
 	    float val;
 	    if (p->numeric == 0)
-              val = (float) csJoystickEventHelper::GetX(&ev);
+              val = (float) csJoystickEventHelper::GetAxis(&ev, 1);
 	    else
-              val = (float) csJoystickEventHelper::GetY(&ev);
+              val = (float) csJoystickEventHelper::GetAxis(&ev, 2);
             //The joystick driver returns values between -32767 and +32767.
 	    //Get the value in the range -1 to 1.
             val = val / 32767;

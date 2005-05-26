@@ -795,7 +795,7 @@ void celPcMeshSelect::FireListenersMove (int x, int y, int button,
 void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
 	int x, int y, int but)
 {
-  const char* msg;
+  const char* msg = "pcmeshsel_invalid";
   switch (t)
   {
     case MSSM_TYPE_DOWN:
