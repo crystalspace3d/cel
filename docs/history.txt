@@ -6,7 +6,7 @@ The history order is reversed so that new features are at the top.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
 	  causing accumulated position errors. 
-
+	- Eric Sunshine eliminated some compilation warnings.
 25-May-2005
 	- Jorrit applied a patch from Cirilo Bernardo which enables soft
 	  DR updates. Basically it is a way to get smoother DR updates
