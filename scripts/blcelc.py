@@ -864,6 +864,7 @@ class iPcLinearMovement(cspace.iBase):
     def TimeDiff(*args): return _blcelc.iPcLinearMovement_TimeDiff(*args)
     def GetDRData(*args): return _blcelc.iPcLinearMovement_GetDRData(*args)
     def SetDRData(*args): return _blcelc.iPcLinearMovement_SetDRData(*args)
+    def SetSoftDRData(*args): return _blcelc.iPcLinearMovement_SetSoftDRData(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
     def GetLastPosition(*args): return _blcelc.iPcLinearMovement_GetLastPosition(*args)
     def IsPath(*args): return _blcelc.iPcLinearMovement_IsPath(*args)
