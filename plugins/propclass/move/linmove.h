@@ -120,6 +120,7 @@ protected:
   // Move local entity
   bool MoveV (float delta);
   bool MoveSprite (float delta);
+  void OffsetSprite (float delta);
 
   // Returns a list of sectors near a position.
   int FindSectors (const csVector3& pos, float size, iSector** sectors);

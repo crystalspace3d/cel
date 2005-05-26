@@ -170,6 +170,10 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   path = 0;
   path_speed = 0;
   path_time  = 0;
+  
+  offset_err = 0;
+  offset_rate = 0;
+  
 
   /*
    * Speed affects all aspects of movement, including gravity.
@@ -535,28 +539,17 @@ bool celPcLinearMovement::MoveSprite (float delta)
   return rc;
 }
 
-
-// Do the actual move
-bool celPcLinearMovement::MoveV (float delta)
+// Apply the gradual offset correction from SetSoftDRUpdate to the mesh position
+void celPcLinearMovement::OffsetSprite (float delta)
 {
-  if (vel < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()) &&
-    offset_err.IsZero())
-    return false;  // didn't move anywhere
-
+  if (offset_err.IsZero()) return;  // no offset correction to perform
   
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  csMatrix3 mat;
-
-  csReversibleTransform rt = movable->GetFullTransform ();
-  mat = rt.GetT2O ();
-
   csVector3 oldpos = movable->GetPosition ();
   csVector3 newpos;
-  csVector3 del_offset = offset_rate;
   
-  // The offset change (del_offset) must be calculated before delta is mutilated
+  csVector3 del_offset = offset_rate;
   del_offset *= delta;
-  delta *= speed;
   
   // Check for NaN conditions:
   if (del_offset.x != del_offset.x) del_offset.x = 0;
@@ -583,8 +576,31 @@ bool celPcLinearMovement::MoveV (float delta)
     offset_rate.z = 0;
   }
   offset_err -= del_offset;
+
+  newpos = oldpos + del_offset;
   
-  newpos = mat*(vel*delta) + oldpos + del_offset;
+  movable->GetTransform ().SetOrigin (newpos);
+}
+
+// Do the actual move
+bool celPcLinearMovement::MoveV (float delta)
+{
+  if (vel < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()) )
+    return false;  // didn't move anywhere
+
+  
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  csMatrix3 mat;
+
+  csReversibleTransform rt = movable->GetFullTransform ();
+  mat = rt.GetT2O ();
+
+  csVector3 oldpos = movable->GetPosition ();
+  csVector3 newpos;
+  
+  delta *= speed;
+  
+  newpos = mat*(vel*delta) + oldpos;
 
   // Check for collisions and adjust position
   if (pccolldet)
@@ -730,6 +746,8 @@ void celPcLinearMovement::TickEveryFrame ()
     return;
 
   float delta = elapsed_time/1000.0;
+  // Compensate for offset
+  OffsetSprite(delta);
   if (deltaLimit != 0)
     delta = MIN(delta, deltaLimit);
 
@@ -969,7 +987,7 @@ void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
   GetLastPosition(cur_pos, cur_rot, cur_sect);
   if (cur_sect == sector)
   {
-    offset_err = cur_pos - pos;
+    offset_err = pos - cur_pos;
     // Check for NaN conditions:
     if (offset_err.x != offset_err.x) offset_err.x = 0;
     if (offset_err.y != offset_err.y) offset_err.y = 0;
