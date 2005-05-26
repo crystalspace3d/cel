@@ -99,47 +99,50 @@
 00145                          csVector3&amp; pos,<span class="keywordtype">float</span> yrot,iSector *sector,
 00146                          csVector3&amp; vel,<span class="keywordtype">float</span> ang_vel) = 0;
 00147 
-00148 
-00152   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a13">SetPosition</a> (<span class="keyword">const</span> csVector3&amp; pos, <span class="keywordtype">float</span> yrot,
-00153         <span class="keyword">const</span> iSector* sector) = 0;
-00157   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a14">GetLastPosition</a> (csVector3&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
-00158         iSector*&amp; sector) = 0;
-00159 
-00161   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#a15">IsPath</a>() <span class="keyword">const </span>= 0;
-00162 
-00166   <span class="keyword">virtual</span> iSector* <a class="code" href="structiPcLinearMovement.html#a16">GetSector</a> () = 0;
-00167 
-00172   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a17">ExtrapolatePosition</a> (<span class="keywordtype">float</span> delta) = 0;
-00173 
-00180   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a18">UpdateDRDelta</a> (csTicks ticksdelta) = 0;
-00181 
-00189   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a19">UpdateDR</a> (csTicks ticks) = 0;
+00154   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a13">SetSoftDRData</a>(<span class="keywordtype">bool</span> on_ground,<span class="keywordtype">float</span> speed,
+00155                          csVector3&amp; pos,<span class="keywordtype">float</span> yrot,iSector *sector,
+00156                          csVector3&amp; vel,<span class="keywordtype">float</span> ang_vel) = 0;
+00157 
+00161   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a14">SetPosition</a> (<span class="keyword">const</span> csVector3&amp; pos, <span class="keywordtype">float</span> yrot,
+00162         <span class="keyword">const</span> iSector* sector) = 0;
+00166   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a15">GetLastPosition</a> (csVector3&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
+00167         iSector*&amp; sector) = 0;
+00168 
+00170   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#a16">IsPath</a>() <span class="keyword">const </span>= 0;
+00171 
+00175   <span class="keyword">virtual</span> iSector* <a class="code" href="structiPcLinearMovement.html#a17">GetSector</a> () = 0;
+00176 
+00181   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a18">ExtrapolatePosition</a> (<span class="keywordtype">float</span> delta) = 0;
+00182 
+00189   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a19">UpdateDRDelta</a> (csTicks ticksdelta) = 0;
 00190 
-00196   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a20">SetPath</a> (iPath *newpath) = 0;
-00197 
-00202   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a21">SetPathTime</a> (<span class="keywordtype">float</span> timeval) = 0;
-00203 
-00211   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a22">SetPathSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+00198   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a20">UpdateDR</a> (csTicks ticks) = 0;
+00199 
+00205   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a21">SetPath</a> (iPath *newpath) = 0;
+00206 
+00211   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a22">SetPathTime</a> (<span class="keywordtype">float</span> timeval) = 0;
 00212 
-00221   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a23">SetPathAction</a> (<span class="keywordtype">int</span> which, <span class="keyword">const</span> <span class="keywordtype">char</span> *action) = 0;
-00222 
-00227   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a24">SetPathSector</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *sectorname) = 0;
-00228 
-00229   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsOnGround () <span class="keyword">const </span>= 0;
-00230 
-00231   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetOnGround (<span class="keywordtype">bool</span> onground) = 0;
-00232 
-00233   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetDeltaLimit(<span class="keywordtype">float</span> deltaLimit) = 0;
-00234 
-00235   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RotateV (<span class="keywordtype">float</span> delta) = 0;
-00236 
-00238   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcLinearMovement.html#a29">GetPortalDisplacement</a>() = 0;
+00220   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a23">SetPathSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+00221 
+00230   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a24">SetPathAction</a> (<span class="keywordtype">int</span> which, <span class="keyword">const</span> <span class="keywordtype">char</span> *action) = 0;
+00231 
+00236   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a25">SetPathSector</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *sectorname) = 0;
+00237 
+00238   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsOnGround () <span class="keyword">const </span>= 0;
 00239 
-00241   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a30">ClearPortalDisplacement</a>() = 0;
-00242 };
+00240   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetOnGround (<span class="keywordtype">bool</span> onground) = 0;
+00241 
+00242   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetDeltaLimit(<span class="keywordtype">float</span> deltaLimit) = 0;
 00243 
-00244 <span class="preprocessor">#endif</span>
-00245 <span class="preprocessor"></span>
+00244   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RotateV (<span class="keywordtype">float</span> delta) = 0;
+00245 
+00247   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcLinearMovement.html#a30">GetPortalDisplacement</a>() = 0;
+00248 
+00250   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a31">ClearPortalDisplacement</a>() = 0;
+00251 };
+00252 
+00253 <span class="preprocessor">#endif</span>
+00254 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
