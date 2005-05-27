@@ -261,8 +261,8 @@ public://@@@
 	const CameraData& deltaIdeal,
 	iSector* sector);
 
-  // Get the last position from either linmove or mesh.
-  void GetLastPosition (csVector3& actor_pos,
+  // Get the last full position from either linmove or mesh.
+  void GetLastFullPosition (csVector3& actor_pos,
 	float& actor_yrot, iSector*& actor_sector);
 
   /**

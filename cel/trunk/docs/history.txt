@@ -3,6 +3,19 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-May-2005
+	- Jorrit fixed the default camera so that it looks at the full
+	  position of the mesh instead of the position. That way it also
+	  works for meshes that are children of another mesh.
+	- Jorrit added support to pclinmove for moving on another object
+	  (anchor). If you anchor an entity that has pclinmove to another
+	  entity (that has a pcmesh) then movement will be relative to
+	  the anchor. If the anchor moves then the child will move with it.
+	  This can be used for simulating vehicles where the vehicle itself
+	  moves while the actor in the vehicle moves too. Also for moving
+	  platforms, elevators, ...
+	- Jorrit extended the iPcLinearMovement api so that you can get/set
+	  the full position in addition to the relative position.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
 	  causing accumulated position errors. 
