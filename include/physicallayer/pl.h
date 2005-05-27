@@ -38,6 +38,7 @@ struct iCelEntityTemplate;
 struct iSector;
 struct iCamera;
 class csVector3;
+class csBox3;
 class csString;
 
 /// Parameters used to create an entity from a template.
@@ -237,10 +238,17 @@ struct iCelPlLayer : public iBase
 
   /**
    * Find all entities that are within a certain radius of
-   * a given object. This uses the attached entities from above.
+   * a given position. This uses the attached entities from above.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius) = 0;
+
+  /**
+   * Find all entities that are in a given box.
+   * This uses the attached entities from above.
+   */
+  virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
+  	const csBox3& box) = 0;
 
   /**
    * Given a position on screen find the nearest entity to the camera.

@@ -28,6 +28,7 @@
 
 struct iCelEntity;
 struct iPcTrigger;
+struct iPcMesh;
 
 SCF_VERSION (iPcTriggerListener, 0, 0, 1);
 
@@ -72,6 +73,10 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * <ul>
  * <li>SetupTriggerSphere: parameters 'sector' (string), 'position' (vector3),
  *     and 'radius' (float).
+ * <li>SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
+ *     and 'maxbox' (vector3).
+ * <li>SetupTriggerAboveMesh: parameters 'entity' (string) and
+ *     'maxdistance' (float),
  * </ul>
  * <p>
  * This property class can send out the following messages
@@ -113,6 +118,12 @@ struct iPcTrigger : public iBase
    * Setup a box trigger zone.
    */
   virtual void SetupTriggerBox (iSector* sector, const csBox3& box) = 0;
+
+  /**
+   * Setup a trigger to fire if this mesh ends up above another mesh.
+   * This works by tracing a beam down from the center of the mesh.
+   */
+  virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance) = 0;
 
   /**
    * By default pctrigger will monitor all entities. If you only want

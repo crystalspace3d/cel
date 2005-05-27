@@ -16,6 +16,13 @@ The history order is reversed so that new features are at the top.
 	  platforms, elevators, ...
 	- Jorrit extended the iPcLinearMovement api so that you can get/set
 	  the full position in addition to the relative position.
+	- Jorrit added a version of iCelPlLayer->FindNearbyEntities() that
+	  works with a box instead of a sphere.
+	- Jorrit extended the iPcTrigger property class so that it now
+	  also works with boxes.
+	- Jorrit extended the iPcTrigger property class so that you can also
+	  trigger when you are on top of another mesh. Does not seem to
+	  work fine yet.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
 	  causing accumulated position errors. 
