@@ -287,14 +287,17 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
 {
   if (!pcmesh) return;
 
-  csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()
-    	->GetFullTransform ();
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  csReversibleTransform trans = movable->GetFullTransform ();
 
   // Clear the previous anchor first if any.
   if (anchor)
   {
     anchor->GetMesh ()->GetChildren ()->Remove (pcmesh->GetMesh ());
-    pcmesh->GetMesh ()->GetMovable ()->SetTransform (trans);
+    movable->SetTransform (trans);
+    movable->ClearSectors ();
+    movable->SetSector (anchor->GetMesh ()->GetMovable ()
+    	->GetSectors ()->Get (0));
   }
   anchor = a;
   // Set the new anchor if needed.
@@ -303,10 +306,10 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
     anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
     csReversibleTransform newtrans = trans / anchor->GetMesh ()
     	->GetMovable ()->GetFullTransform ();
-    pcmesh->GetMesh ()->GetMovable ()->SetTransform (newtrans);
+    movable->SetTransform (newtrans);
   }
 
-  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+  movable->UpdateMove ();
 }
 
 Property* celPcLinearMovement::properties = 0;
