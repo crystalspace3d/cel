@@ -43,6 +43,8 @@
 struct iCelEntity;
 struct iObjectRegistry;
 struct iEngine;
+struct iCollideSystem;
+struct iCollider;
 struct iCelPlLayer;
 struct iPcMesh;
 class celPcTrigger;
@@ -58,7 +60,8 @@ CEL_DECLARE_FACTORY(Trigger)
 class celPcTrigger : public celPcCommon
 {
 private:
-  csRef<iEngine> engine;
+  csWeakRef<iEngine> engine;
+  csWeakRef<iCollideSystem> cdsys;
 
   csWeakRefArray<iCelEntity> entities_in_trigger;
   bool enabled;
@@ -79,12 +82,24 @@ private:
   static csStringID id_position;
   static csStringID id_radius;
   static csStringID id_entity;
+  static csStringID action_setuptriggerbox;
+  static csStringID id_minbox;
+  static csStringID id_maxbox;
+  static csStringID action_setuptriggerabovemesh;
+  static csStringID id_maxdistance;
   celOneParameterBlock* params;
 
   // Sphere to use for checking.
   iSector* sphere_sector;
   csVector3 sphere_center;
   float sphere_radius;
+  // Box to use for checking.
+  iSector* box_sector;
+  csBox3 box_area;
+  // Test if we're directly above some mesh.
+  csWeakRef<iPcMesh> above_mesh;
+  iCollider* above_collider;
+  float above_maxdist;
 
   // For properties.
   enum propids
@@ -132,6 +147,7 @@ public:
   void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius);
   void SetupTriggerBox (iSector* sector, const csBox3& box);
+  void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
   void MonitorEntity (const char* entityname);
   const char* GetMonitorEntity () const { return monitor_entity; }
   void SetMonitorDelay (csTicks delay, csTicks jitter);
@@ -169,6 +185,10 @@ public:
     virtual void SetupTriggerBox (iSector* sector, const csBox3& box)
     {
       scfParent->SetupTriggerBox (sector, box);
+    }
+    virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance)
+    {
+      scfParent->SetupTriggerAboveMesh (mesh, maxdistance);
     }
     virtual void MonitorEntity (const char* entityname)
     {

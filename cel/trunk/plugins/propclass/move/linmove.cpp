@@ -300,16 +300,10 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   // Set the new anchor if needed.
   if (anchor)
   {
-csVector3 fporg = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
     anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
     csReversibleTransform newtrans = trans / anchor->GetMesh ()
     	->GetMovable ()->GetFullTransform ();
     pcmesh->GetMesh ()->GetMovable ()->SetTransform (newtrans);
-csVector3 fpnew = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
-printf ("org=%g,%g,%g new=%g,%g,%g\n",
-fporg.x, fporg.y, fporg.z,
-fpnew.x, fpnew.y, fpnew.z);
-fflush (stdout);
   }
 
   pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
