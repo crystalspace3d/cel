@@ -333,6 +333,11 @@ bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
   UpdateProperties (object_reg);
   if (propertyId == properties[propid_anchor].id)
   {
+    if (b == 0 || *b == 0)
+    {
+      SetAnchor (0);
+      return true;
+    }
     iCelEntity* ent = pl->FindEntity (b);
     if (!ent) return false;	// @@@ Report error!
     csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);

@@ -25,6 +25,8 @@ The history order is reversed so that new features are at the top.
 	  work fine yet.
 	- Jorrit fixed pctrigger so that it works for box and the detection
 	  if it is on another mesh in case you are monitoring a single mesh.
+	- Jorrit fixed pclinmove so that you can clear the anchor with
+	  the 'anchor' property now.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
 	  causing accumulated position errors. 
