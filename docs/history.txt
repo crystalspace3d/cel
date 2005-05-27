@@ -23,6 +23,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit extended the iPcTrigger property class so that you can also
 	  trigger when you are on top of another mesh. Does not seem to
 	  work fine yet.
+	- Jorrit fixed pctrigger so that it works for box and the detection
+	  if it is on another mesh in case you are monitoring a single mesh.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
 	  causing accumulated position errors. 

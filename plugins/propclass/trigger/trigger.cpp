@@ -351,6 +351,22 @@ void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
 
 void celPcTrigger::TickOnce ()
 {
+  // First find the information for the 'check above' case.
+  csReversibleTransform above_trans;
+  if (above_mesh)
+  {
+    iMovable* m = above_mesh->GetMesh ()->GetMovable ();
+    above_trans = m->GetFullTransform ();
+    if (!above_collider)
+    {
+      csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (
+		above_mesh->GetMesh ()->QueryObject ());
+      if (!wrap) goto end;
+      above_collider = wrap->GetCollider ();
+    }
+    if (!above_collider) goto end;
+  }
+
   if (monitor_entity)
   {
     // We want to monitor a single entity.
@@ -363,13 +379,35 @@ void celPcTrigger::TickOnce ()
     }
     if (monitoring_entity_pcmesh)
     {
-      // We have an entity to monitor. See how far it is from
-      // our trigger center.
-      csVector3 mpos = monitoring_entity_pcmesh->GetMesh ()->GetMovable ()
-		->GetFullTransform ().GetOrigin ();
-      float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
+      // We have an entity to monitor.
       size_t idx = EntityInTrigger (monitoring_entity);
-      if (sqdistance < sphere_radius * sphere_radius)
+      iMovable* movable = monitoring_entity_pcmesh->GetMesh ()->GetMovable ();
+      csVector3 mpos = movable->GetFullTransform ().GetOrigin ();
+      iSector* sector = movable->GetSectors ()->Get (0);
+
+      bool trigger_fired = false;
+      if (sphere_sector)
+      {
+        // See how far it is from our trigger center.
+	if (sphere_sector == sector)
+	{
+          float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
+          trigger_fired = sqdistance < sphere_radius * sphere_radius;
+        }
+      }
+      else if (box_sector)
+      {
+	if (box_sector == sector)
+          trigger_fired = box_area.In (mpos);
+      }
+      else
+      {
+	csVector3 end (mpos.x, mpos.y-above_maxdist, mpos.z);
+	trigger_fired = cdsys->CollideRay (above_collider, &above_trans,
+		mpos, end);
+      }
+
+      if (trigger_fired)
       {
         // Yes!
 	if (idx == csArrayItemNotFound)
@@ -428,16 +466,8 @@ void celPcTrigger::TickOnce ()
     {
       csBox3 b;
       above_mesh->GetMesh ()->GetWorldBoundingBox (b);
-      list = pl->FindNearbyEntities (sphere_sector, b);
-      above_trans = above_mesh->GetMesh ()->GetMovable ()->GetFullTransform ();
-      if (!above_collider)
-      {
-	csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (
-		above_mesh->GetMesh ()->QueryObject ());
-	if (!wrap) goto end;
-	above_collider = wrap->GetCollider ();
-      }
-      if (!above_collider) goto end;
+      iMovable* m = above_mesh->GetMesh ()->GetMovable ();
+      list = pl->FindNearbyEntities (m->GetSectors ()->Get (0), b);
     }
 
     size_t i;
