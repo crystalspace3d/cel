@@ -145,7 +145,7 @@ void CAThirdPerson::SetupMode ()
   csVector3 actor_pos;
   float actor_yrot;
   iSector* actor_sector;
-  parent->GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  parent->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   parent->SetPosition (CalculateEyePos (actor_pos, actor_yrot,
     parent->thirdPersonPositionOffset));
   parent->SetYaw (actor_yrot);
@@ -345,7 +345,7 @@ void celPcDefaultCamera::FindSiblingPropertyClasses ()
   }
 }
 
-void celPcDefaultCamera::GetLastPosition (csVector3& actor_pos,
+void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
 	float& actor_yrot, iSector*& actor_sector)
 {
   // Try to get position and sector from either linmove or mesh if
@@ -353,13 +353,13 @@ void celPcDefaultCamera::GetLastPosition (csVector3& actor_pos,
   FindSiblingPropertyClasses ();
   if (pclinmove)
   {
-    pclinmove->GetLastPosition (actor_pos, actor_yrot, actor_sector);
+    pclinmove->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
     actor_yrot = FixAngle (actor_yrot);
   }
   else if (pcmesh)
   {
     iMovable* movable = pcmesh->GetMesh()->GetMovable();
-    actor_pos = movable->GetPosition ();
+    actor_pos = movable->GetFullPosition ();
     actor_sector = movable->GetSectors ()->Get (0);
     actor_yrot = 0;
   }
@@ -545,7 +545,7 @@ void celPcDefaultCamera::CenterCamera ()
   csVector3 actor_pos;
   float actor_yrot;
   iSector* actor_sector;
-  GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   SetPosition (actor_pos +
   	csVector3 (
   	  sin (actor_yrot) * GetMaxDistance (),
@@ -575,7 +575,7 @@ void celPcDefaultCamera::Draw()
   csVector3 actor_pos;
   float actor_yrot;
   iSector* actor_sector;
-  GetLastPosition (actor_pos, actor_yrot, actor_sector);
+  GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   if (!actor_sector)
   {
     // We have no actor, so just display with current camera settings.

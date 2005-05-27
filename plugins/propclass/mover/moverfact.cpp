@@ -193,7 +193,7 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
   csVector3 cur_pos;
   float cur_yrot;
   iSector* cur_sector;
-  pclinmove->GetLastPosition (cur_pos, cur_yrot, cur_sector);
+  pclinmove->GetLastFullPosition (cur_pos, cur_yrot, cur_sector);
 
   // Use center of linmove CD box to trace beam.
   csVector3 body, legs, shift;

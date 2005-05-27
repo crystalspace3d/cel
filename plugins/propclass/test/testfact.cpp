@@ -86,8 +86,6 @@ void celPcTest::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT (pl != 0);
-
     propertycount = 2;
     properties = new Property[propertycount];
 

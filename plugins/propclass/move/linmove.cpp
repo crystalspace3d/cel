@@ -173,7 +173,6 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   
   offset_err = 0;
   offset_rate = 0;
-  
 
   /*
    * Speed affects all aspects of movement, including gravity.
@@ -197,6 +196,13 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
   }
 
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_anchor] = 0;		// Handled in this class.
+
   /*
    * Initialize bouding box parameters to detect if they have been
    * loaded or not
@@ -208,6 +214,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
 celPcLinearMovement::~celPcLinearMovement ()
 {
+  SetAnchor (0);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 }
 
@@ -223,8 +230,15 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
   else
     pc = 0;
   databuf->Add (pc);
+
   if (pcmesh)
     pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+  else
+    pc = 0;
+  databuf->Add (pc);
+
+  if (anchor)
+    pc = SCF_QUERY_INTERFACE (anchor, iCelPropertyClass);
   else
     pc = 0;
   databuf->Add (pc);
@@ -252,6 +266,10 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   pcmesh = 0;
   if (pc) pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
+  pc = databuf->GetPC ();
+  anchor = 0;
+  if (pc) anchor = SCF_QUERY_INTERFACE (pc, iPcMesh);
+
   databuf->GetVector3 (topSize);
   databuf->GetVector3 (bottomSize);
   databuf->GetVector3 (shift);
@@ -263,6 +281,94 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   databuf->GetVector3 (angularVelocity);
 
   return true;
+}
+
+void celPcLinearMovement::SetAnchor (iPcMesh* a)
+{
+  if (!pcmesh) return;
+
+  csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()
+    	->GetFullTransform ();
+
+  // Clear the previous anchor first if any.
+  if (anchor)
+  {
+    anchor->GetMesh ()->GetChildren ()->Remove (pcmesh->GetMesh ());
+    pcmesh->GetMesh ()->GetMovable ()->SetTransform (trans);
+  }
+  anchor = a;
+  // Set the new anchor if needed.
+  if (anchor)
+  {
+csVector3 fporg = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
+    anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
+    csReversibleTransform newtrans = trans / anchor->GetMesh ()
+    	->GetMovable ()->GetFullTransform ();
+    pcmesh->GetMesh ()->GetMovable ()->SetTransform (newtrans);
+csVector3 fpnew = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
+printf ("org=%g,%g,%g new=%g,%g,%g\n",
+fporg.x, fporg.y, fporg.z,
+fpnew.x, fpnew.y, fpnew.z);
+fflush (stdout);
+  }
+
+  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+}
+
+Property* celPcLinearMovement::properties = 0;
+size_t celPcLinearMovement::propertycount = 0;
+
+void celPcLinearMovement::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_anchor].id = pl->FetchStringID (
+    	"cel.property.anchor");
+    properties[propid_anchor].datatype = CEL_DATA_STRING;
+    properties[propid_anchor].readonly = false;
+    properties[propid_anchor].desc = "Mesh Anchor.";
+  }
+}
+
+bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_anchor].id)
+  {
+    iCelEntity* ent = pl->FindEntity (b);
+    if (!ent) return false;	// @@@ Report error!
+    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+    if (!m) return false;	// @@@ Report error!
+    SetAnchor (m);
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+const char* celPcLinearMovement::GetPropertyString (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_anchor].id)
+  {
+    if (anchor)
+    {
+      csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (anchor,
+      	iCelPropertyClass);
+      return pc->GetEntity ()->GetName ();
+    }
+    return 0;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyString (propertyId);
+  }
 }
 
 bool celPcLinearMovement::PerformAction (csStringID actionId,
@@ -402,10 +508,12 @@ bool celPcLinearMovement::RotateV (float delta)
   csVector3 angle = angularVelocity * delta;
   if (angleToReachFlag)
   {
-    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetT2O ();
+    const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
+    	->GetTransform ().GetT2O ();
     float current_yrot = Matrix2YRot (transf);
     current_yrot = atan2f (sin (current_yrot), cos (current_yrot) );
-    float yrot_delta = fabs (atan2f (sin (angleToReach.y - current_yrot), cos (angleToReach.y - current_yrot)));
+    float yrot_delta = fabs (atan2f (sin (angleToReach.y - current_yrot),
+    	cos (angleToReach.y - current_yrot)));
     if (fabs(angle.y) > yrot_delta)
       {
   	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
@@ -592,10 +700,12 @@ bool celPcLinearMovement::MoveV (float delta)
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csMatrix3 mat;
 
+  // To test collision detection we use absolute position and transformation
+  // (this is relevant if we are anchored). Later on we will correct that.
   csReversibleTransform rt = movable->GetFullTransform ();
   mat = rt.GetT2O ();
 
-  csVector3 oldpos = movable->GetPosition ();
+  csVector3 oldpos = movable->GetFullPosition ();
   csVector3 newpos;
   
   delta *= speed;
@@ -645,7 +755,13 @@ bool celPcLinearMovement::MoveV (float delta)
       vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
   }
 
-  // move to the new position
+  // Move to the new position. If we have an anchor we have to convert
+  // the new position from absolute to relative.
+  if (anchor)
+  {
+    newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ().Other2This (
+    	newpos);
+  }
   movable->GetTransform ().SetOrigin (newpos);
 
   if (pccolldet)
@@ -942,6 +1058,56 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
     sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
   else
     sector = 0;
+}
+
+void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
+  	iSector*& sector)
+{
+  if (!pcmesh || !pcmesh->GetMesh ())
+  {
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return;
+  }
+
+  // Position
+  pos = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
+
+  // rotation
+  csMatrix3 transf = pcmesh->GetMesh ()->GetMovable ()
+  	->GetFullTransform ().GetT2O ();
+  yrot = Matrix2YRot (transf);
+
+  // Sector
+  if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
+    sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  else
+    sector = 0;
+}
+
+void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
+	const  iSector* sector)
+{
+  FindSiblingPropertyClasses ();
+  // Position
+  csVector3 newpos;
+  if (anchor)
+  {
+    newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ().Other2This (
+    	pos);
+  }
+  else
+  {
+    newpos = pos;
+  }
+  pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector, newpos);
+
+  // Rotation
+  csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
+  // @@@ Not correct if anchor is transformed!!!
+  pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+
+  // Sector
+  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 }
 
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,

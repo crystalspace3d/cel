@@ -81,6 +81,8 @@ protected:
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
 
+  csWeakRef<iPcMesh> anchor;
+
   // Linear vars
   // Actual velocity
   csVector3 angularVelocity;
@@ -138,6 +140,15 @@ protected:
   static csStringID id_yrot;
   static csStringID action_setposition;
 
+  // For properties.
+  enum propids
+  {
+    propid_anchor = 0
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
+
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);
   virtual ~celPcLinearMovement ();
@@ -166,7 +177,9 @@ public:
   void SetSpeed (float speedz);
 
   void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector);
+  void GetLastFullPosition (csVector3& pos,float& yrot, iSector*& sector);
   void SetPosition (const csVector3& pos,float yrot, const iSector* sector);
+  void SetFullPosition (const csVector3& pos,float yrot, const iSector* sector);
 
   bool IsOnGround () const;
 
@@ -177,7 +190,13 @@ public:
 
   bool IsPath() const { return (path != 0); }
 
-  /// Returns the difference in time between now and when the last DR update or extrapolation took place
+  void SetAnchor (iPcMesh* a);
+  iPcMesh* GetAnchor () const { return pcmesh; }
+
+  /**
+   * Returns the difference in time between now and when the last DR update
+   * or extrapolation took place
+   */
   csTicks TimeDiff(void);
 
 
@@ -211,6 +230,8 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool SetProperty (csStringID propertyId, const char* b);
+  virtual const char* GetPropertyString (csStringID propertyId);
   virtual void TickEveryFrame ();
 
   iSector* GetSector ();
@@ -294,9 +315,29 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
 
-    virtual void GetLastPosition (csVector3& pos,float& yrot, iSector*& sector)
+    virtual void SetAnchor (iPcMesh* pcmesh)
     {
-      scfParent->GetLastPosition (pos,yrot, sector);
+      scfParent->SetAnchor (pcmesh);
+    }
+    virtual iPcMesh* GetAnchor () const
+    {
+      return scfParent->GetAnchor ();
+    }
+
+    virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector)
+    {
+      scfParent->GetLastPosition (pos, yrot, sector);
+    }
+    virtual void GetLastFullPosition (csVector3& pos, float& yrot,
+    	iSector*& sector)
+    {
+      scfParent->GetLastFullPosition (pos, yrot, sector);
+    }
+
+    virtual void SetFullPosition (const csVector3& pos,float yrot,
+    	const iSector* sector)
+    {
+      scfParent->SetFullPosition (pos,yrot, sector);
     }
 
     virtual void SetPosition (const csVector3& pos,float yrot,

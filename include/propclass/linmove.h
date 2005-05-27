@@ -37,6 +37,7 @@ struct iDataBuffer;
 struct iSector;
 struct iPath;
 struct iPcCollisionDetection;
+struct iPcMesh;
 struct iMeshWrapper;
 
 /**
@@ -58,9 +59,29 @@ struct iMeshWrapper;
  * <li>SetPosition: parameters 'sector' (string), 'position' (vector3), and
  *     'yrot' (y rotation degrees).
  * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>anchor (string, read/write): name of the entity on which we are
+ * anchored.
+ * </ul>
  */
 struct iPcLinearMovement : public iBase
 {
+  /**
+   * Set an anchor for this movement class. When this linmove is
+   * anchored it basically means that all movement will be done relative
+   * to the anchor. You can use this to do movement on an object that is
+   * also moving on its own. If 'pcmesh' is 0 this will clear the anchor.
+   */
+  virtual void SetAnchor (iPcMesh* pcmesh) = 0;
+
+  /**
+   * Get the current anchor or 0 if movement is not anchored.
+   */
+  virtual iPcMesh* GetAnchor () const = 0;
+
   /**
    * Set the orientation of the mesh with three given euler angles.
    */
@@ -156,14 +177,29 @@ struct iPcLinearMovement : public iBase
                          csVector3& vel,float ang_vel) = 0;
 
   /**
-   * Set position and sector.
+   * Set full position and sector. The position is absolute and will
+   * be corrected to fit on the anchor if there is one.
+   */
+  virtual void SetFullPosition (const csVector3& pos, float yrot,
+  	const iSector* sector) = 0;
+  /**
+   * Set position and sector. The position is relative to the
+   * anchor (if there is one).
    */
   virtual void SetPosition (const csVector3& pos, float yrot,
   	const iSector* sector) = 0;
   /**
-   * Get position and sector.
+   * Get position and sector. If there is an anchor then this
+   * position is relative to the anchor. Use SetLastFullPosition()
+   * if you want an absolute position.
    */
   virtual void GetLastPosition (csVector3& pos, float& yrot,
+  	iSector*& sector) = 0;
+  /**
+   * Get full position and sector. This is an absolute position which
+   * is not relative to the anchor.
+   */
+  virtual void GetLastFullPosition (csVector3& pos, float& yrot,
   	iSector*& sector) = 0;
 
   /// Is a csPath active now or standard DR movement?
