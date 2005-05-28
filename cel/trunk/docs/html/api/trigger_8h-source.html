@@ -47,51 +47,54 @@
 00028 
 00029 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
 00030 <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a>;
-00031 
-00032 SCF_VERSION (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>, 0, 0, 1);
-00033 
-<a name="l00037"></a><a class="code" href="structiPcTriggerListener.html">00037</a> <span class="keyword">struct </span><a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a> : <span class="keyword">public</span> iBase
-00038 {
-00042   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a0">EntityEnters</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-00043 
-00047   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a1">EntityLeaves</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-00048 
-00052   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a2">EnterTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-00053 
-00057   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a3">LeaveTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-00058 };
-00059 
-00060 SCF_VERSION (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>, 0, 1, 0);
-00061 
-<a name="l00094"></a><a class="code" href="structiPcTrigger.html">00094</a> <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a> : <span class="keyword">public</span> iBase
-00095 {
-00100   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a0">AddTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
-00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a1">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
-00105 
-00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a2">SetupTriggerSphere</a> (iSector* sector,
-00110         <span class="keyword">const</span> csVector3&amp; center, <span class="keywordtype">float</span> radius) = 0;
-00111 
-00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a3">SetupTriggerBox</a> (iSector* sector, <span class="keyword">const</span> csBox3&amp; box) = 0;
+00031 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
+00032 
+00033 SCF_VERSION (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>, 0, 0, 1);
+00034 
+<a name="l00038"></a><a class="code" href="structiPcTriggerListener.html">00038</a> <span class="keyword">struct </span><a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a> : <span class="keyword">public</span> iBase
+00039 {
+00043   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a0">EntityEnters</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00044 
+00048   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a1">EntityLeaves</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00049 
+00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a2">EnterTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00054 
+00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a3">LeaveTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+00059 };
+00060 
+00061 SCF_VERSION (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>, 0, 1, 0);
+00062 
+<a name="l00099"></a><a class="code" href="structiPcTrigger.html">00099</a> <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a> : <span class="keyword">public</span> iBase
+00100 {
+00105   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a0">AddTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a1">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+00110 
+00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a2">SetupTriggerSphere</a> (iSector* sector,
+00115         <span class="keyword">const</span> csVector3&amp; center, <span class="keywordtype">float</span> radius) = 0;
 00116 
-00124   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a4">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
-00125 
-00130   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#a5">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
-00131 
-00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a6">SetMonitorDelay</a> (csTicks delay, csTicks jitter) = 0;
-00140 
-00147   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a7">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
-00148 
-00155   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a8">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
-00156 
-00160   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a9">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
-00161 
-00165   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a10">IsEnabled</a> () <span class="keyword">const </span>= 0;
-00166 
-00171   <span class="keyword">virtual</span> <span class="keyword">const</span> csWeakRefArray&lt;iCelEntity&gt;&amp; <a class="code" href="structiPcTrigger.html#a11">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
-00172 };
-00173 
-00174 <span class="preprocessor">#endif // __CEL_PF_TRIGGER__</span>
-00175 <span class="preprocessor"></span>
+00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a3">SetupTriggerBox</a> (iSector* sector, <span class="keyword">const</span> csBox3&amp; box) = 0;
+00121 
+00126   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a4">SetupTriggerAboveMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh, <span class="keywordtype">float</span> maxdistance) = 0;
+00127 
+00135   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a5">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
+00136 
+00141   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#a6">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
+00142 
+00150   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a7">SetMonitorDelay</a> (csTicks delay, csTicks jitter) = 0;
+00151 
+00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a8">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
+00159 
+00166   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a9">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
+00167 
+00171   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a10">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
+00172 
+00176   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a11">IsEnabled</a> () <span class="keyword">const </span>= 0;
+00177 
+00182   <span class="keyword">virtual</span> <span class="keyword">const</span> csWeakRefArray&lt;iCelEntity&gt;&amp; <a class="code" href="structiPcTrigger.html#a12">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
+00183 };
+00184 
+00185 <span class="preprocessor">#endif // __CEL_PF_TRIGGER__</span>
+00186 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.2 
 </small></address> </div></body> </html>
