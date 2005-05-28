@@ -1437,23 +1437,24 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[86] 
 #define  SWIGTYPE_p_iPcSolid swig_types[87] 
 #define  SWIGTYPE_p_unsigned_int swig_types[88] 
-#define  SWIGTYPE_p_unsigned_char swig_types[89] 
-#define  SWIGTYPE_p_iView swig_types[90] 
-#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[91] 
-#define  SWIGTYPE_p_iCelTimerListener swig_types[92] 
-#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[93] 
-#define  SWIGTYPE_p_iPcInventoryListener swig_types[94] 
-#define  SWIGTYPE_p_celDataType swig_types[95] 
-#define  SWIGTYPE_p__csMouseCursorID swig_types[96] 
-#define  SWIGTYPE_p_float swig_types[97] 
-#define  SWIGTYPE_p_iBase swig_types[98] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[99] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[100] 
-#define  SWIGTYPE_p_iPcInventory swig_types[101] 
-#define  SWIGTYPE_p_uint64 swig_types[102] 
-#define  SWIGTYPE_p_iPcRegion swig_types[103] 
-#define  SWIGTYPE_p_iRegion swig_types[104] 
-static swig_type_info *swig_types[106];
+#define  SWIGTYPE_p_csBox3 swig_types[89] 
+#define  SWIGTYPE_p_unsigned_char swig_types[90] 
+#define  SWIGTYPE_p_iView swig_types[91] 
+#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[92] 
+#define  SWIGTYPE_p_iCelTimerListener swig_types[93] 
+#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[94] 
+#define  SWIGTYPE_p_iPcInventoryListener swig_types[95] 
+#define  SWIGTYPE_p_celDataType swig_types[96] 
+#define  SWIGTYPE_p__csMouseCursorID swig_types[97] 
+#define  SWIGTYPE_p_float swig_types[98] 
+#define  SWIGTYPE_p_iBase swig_types[99] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[100] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[101] 
+#define  SWIGTYPE_p_iPcInventory swig_types[102] 
+#define  SWIGTYPE_p_uint64 swig_types[103] 
+#define  SWIGTYPE_p_iPcRegion swig_types[104] 
+#define  SWIGTYPE_p_iRegion swig_types[105] 
+static swig_type_info *swig_types[107];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -3470,7 +3471,7 @@ static PyObject *_wrap_iCelPlLayer_FindAttachedEntity(PyObject *, PyObject *args
 }
 
 
-static PyObject *_wrap_iCelPlLayer_FindNearbyEntities(PyObject *, PyObject *args) {
+static PyObject *_wrap_iCelPlLayer_FindNearbyEntities__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
     iSector *arg2 = (iSector *) 0 ;
@@ -3508,6 +3509,134 @@ static PyObject *_wrap_iCelPlLayer_FindNearbyEntities(PyObject *, PyObject *args
     }
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_FindNearbyEntities__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    iSector *arg2 = (iSector *) 0 ;
+    csBox3 *arg3 = 0 ;
+    SwigValueWrapper<csPtr<iCelEntityList > > result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iCelPlLayer_FindNearbyEntities",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iSector, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    {
+        SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_csBox3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(3)) SWIG_fail;
+        if (arg3 == NULL) {
+            SWIG_null_ref("csBox3");
+        }
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    result = (arg1)->FindNearbyEntities(arg2,(csBox3 const &)*arg3);
+    
+    {
+        csPtr<iCelEntityList > * resultptr;
+        resultptr = new csPtr<iCelEntityList >((csPtr<iCelEntityList > &)(result));
+        resultobj = SWIG_NewPointerObj((void *)(resultptr), SWIGTYPE_p_csPtrTiCelEntityList_t, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_FindNearbyEntities(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[5];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iCelPlLayer, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                {
+                    void *ptr = 0;
+                    if (SWIG_ConvertPtr(argv[2], &ptr, SWIGTYPE_p_csBox3, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    } else {
+                        _v = (ptr != 0);
+                    }
+                }
+                if (_v) {
+                    return _wrap_iCelPlLayer_FindNearbyEntities__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iCelPlLayer, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                {
+                    void *ptr = 0;
+                    if (SWIG_ConvertPtr(argv[2], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    } else {
+                        _v = (ptr != 0);
+                    }
+                }
+                if (_v) {
+                    _v = SWIG_Check_float(argv[3]);
+                    if (_v) {
+                        return _wrap_iCelPlLayer_FindNearbyEntities__SWIG_0(self,args);
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iCelPlLayer_FindNearbyEntities'");
     return NULL;
 }
 
@@ -10556,6 +10685,45 @@ static PyObject *_wrap_scfQuery_iPcCommandInput(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iPcLinearMovement_SetAnchor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    iPcMesh *arg2 = (iPcMesh *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcLinearMovement_SetAnchor",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iPcMesh, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    (arg1)->SetAnchor(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_GetAnchor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    iPcMesh *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_GetAnchor",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (iPcMesh *)((iPcLinearMovement const *)arg1)->GetAnchor();
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iPcMesh, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcLinearMovement_SetAngularVelocity__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
@@ -11540,6 +11708,43 @@ static PyObject *_wrap_iPcLinearMovement_SetSoftDRData(PyObject *, PyObject *arg
 }
 
 
+static PyObject *_wrap_iPcLinearMovement_SetFullPosition(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    csVector3 *arg2 = 0 ;
+    float arg3 ;
+    iSector *arg4 = (iSector *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcLinearMovement_SetFullPosition",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (arg2 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    SWIG_Python_ConvertPtr(obj3, (void **)&arg4, SWIGTYPE_p_iSector, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(4)) SWIG_fail;
+    (arg1)->SetFullPosition((csVector3 const &)*arg2,arg3,(iSector const *)arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcLinearMovement_SetPosition(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
@@ -11616,6 +11821,53 @@ static PyObject *_wrap_iPcLinearMovement_GetLastPosition(PyObject *, PyObject *a
         if (SWIG_arg_fail(4)) SWIG_fail;
     }
     (arg1)->GetLastPosition(*arg2,*arg3,*arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_GetLastFullPosition(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    csVector3 *arg2 = 0 ;
+    float *arg3 = 0 ;
+    iSector **arg4 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcLinearMovement_GetLastFullPosition",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (arg2 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    {
+        SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_float, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(3)) SWIG_fail;
+        if (arg3 == NULL) {
+            SWIG_null_ref("float");
+        }
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    {
+        SWIG_Python_ConvertPtr(obj3, (void **)&arg4, SWIGTYPE_p_p_iSector, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(4)) SWIG_fail;
+        if (arg4 == NULL) {
+            SWIG_null_ref("iSector");
+        }
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    (arg1)->GetLastFullPosition(*arg2,*arg3,*arg4);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -18198,6 +18450,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celCreateCommandInput", _wrap_celCreateCommandInput, METH_VARARGS, NULL},
 	 { (char *)"celGetCommandInput", _wrap_celGetCommandInput, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcCommandInput", _wrap_scfQuery_iPcCommandInput, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_SetAnchor", _wrap_iPcLinearMovement_SetAnchor, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_GetAnchor", _wrap_iPcLinearMovement_GetAnchor, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetAngularVelocity", _wrap_iPcLinearMovement_SetAngularVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetSpeed", _wrap_iPcLinearMovement_SetSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetVelocity", _wrap_iPcLinearMovement_SetVelocity, METH_VARARGS, NULL},
@@ -18209,8 +18463,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_GetDRData", _wrap_iPcLinearMovement_GetDRData, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetDRData", _wrap_iPcLinearMovement_SetDRData, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetSoftDRData", _wrap_iPcLinearMovement_SetSoftDRData, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_SetFullPosition", _wrap_iPcLinearMovement_SetFullPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetPosition", _wrap_iPcLinearMovement_SetPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetLastPosition", _wrap_iPcLinearMovement_GetLastPosition, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_GetLastFullPosition", _wrap_iPcLinearMovement_GetLastFullPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_IsPath", _wrap_iPcLinearMovement_IsPath, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetSector", _wrap_iPcLinearMovement_GetSector, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_ExtrapolatePosition", _wrap_iPcLinearMovement_ExtrapolatePosition, METH_VARARGS, NULL},
@@ -19298,6 +19554,7 @@ static swig_type_info _swigt__p_basetype[] = {{"_p_basetype", 0, "basetype *", 0
 static swig_type_info _swigt__p_csRefArrayTiObject_t[] = {{"_p_csRefArrayTiObject_t", 0, "csRefArray<iObject > *|csObjectContainer *", 0, 0, 0, 0},{"_p_csRefArrayTiObject_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcSolid[] = {{"_p_iPcSolid", 0, "iPcSolid *", 0, 0, 0, 0},{"_p_iPcSolid", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *|uint *", 0, 0, 0, 0},{"_p_unsigned_int", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csBox3[] = {{"_p_csBox3", 0, "csBox3 *", 0, 0, 0, 0},{"_p_csBox3", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_unsigned_char[] = {{"_p_unsigned_char", 0, "unsigned char *|uint8 *", 0, 0, 0, 0},{"_p_unsigned_char", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iView[] = {{"_p_iView", 0, "iView *", 0, 0, 0, 0},{"_p_csView", _p_csViewTo_p_iView, 0, 0, 0, 0, 0},{"_p_iView", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csPtrTiCelEntity_t[] = {{"_p_csPtrTiCelEntity_t", 0, "csPtr<iCelEntity > *", 0, 0, 0, 0},{"_p_csPtrTiCelEntity_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -19405,6 +19662,7 @@ _swigt__p_basetype,
 _swigt__p_csRefArrayTiObject_t, 
 _swigt__p_iPcSolid, 
 _swigt__p_unsigned_int, 
+_swigt__p_csBox3, 
 _swigt__p_unsigned_char, 
 _swigt__p_iView, 
 _swigt__p_csPtrTiCelEntity_t, 
