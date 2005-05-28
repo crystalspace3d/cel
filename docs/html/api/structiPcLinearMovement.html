@@ -23,90 +23,102 @@
 <a href="structiPcLinearMovement-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a0">SetAngularVelocity</a> (const csVector3 &amp;angle)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a0">SetAnchor</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *pcmesh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a1">SetAngularVelocity</a> (const csVector3 &amp;angle, const csVector3 &amp;angle_to_reach)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set an anchor for this movement class.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a1">GetAnchor</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles with a maximum to reached.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a2">SetSpeed</a> (float speedZ)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current anchor or 0 if movement is not anchored.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a2">SetAngularVelocity</a> (const csVector3 &amp;angle)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current speed.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a3">SetVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a3">SetAngularVelocity</a> (const csVector3 &amp;angle, const csVector3 &amp;angle_to_reach)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current velocity vector.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a4">GetVelocity</a> (csVector3 &amp;v) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles with a maximum to reached.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a4">SetSpeed</a> (float speedZ)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current velocity vector.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a5">GetAngularVelocity</a> (csVector3 &amp;v) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current speed.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a5">SetVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current angular velocity vector.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a6">InitCD</a> (iMeshWrapper *mesh, float percentage, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current velocity vector.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a6">GetVelocity</a> (csVector3 &amp;v) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object from a mesh.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a7">InitCD</a> (const csVector3 &amp;body, const csVector3 &amp;legs, const csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current velocity vector.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a7">GetAngularVelocity</a> (csVector3 &amp;v) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a8">GetCDDimensions</a> (csVector3 &amp;body, csVector3 &amp;legs, csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *&amp;pc_cd)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current angular velocity vector.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a8">InitCD</a> (iMeshWrapper *mesh, float percentage, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get CD box for the object.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a9">InitCD</a> (<a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object from a mesh.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a9">InitCD</a> (const csVector3 &amp;body, const csVector3 &amp;legs, const csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD again?@@.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a10">TimeDiff</a> (void)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a10">GetCDDimensions</a> (csVector3 &amp;body, csVector3 &amp;legs, csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *&amp;pc_cd)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the difference in time between now and when the last DR update or extrapolation took place.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a11">GetDRData</a> (bool &amp;on_ground, float &amp;speed, csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector, csVector3 &amp;vel, float &amp;ang_vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get CD box for the object.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a11">InitCD</a> (<a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return all necessary data for Dead Reckoning.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a12">SetDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, float ang_vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD again?@@.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a12">TimeDiff</a> (void)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets all relevant dead reckoning data on this entity.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a13">SetSoftDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, float ang_vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the difference in time between now and when the last DR update or extrapolation took place.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a13">GetDRData</a> (bool &amp;on_ground, float &amp;speed, csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector, csVector3 &amp;vel, float &amp;ang_vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets dead reckoning data in a 'soft' way.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a14">SetPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return all necessary data for Dead Reckoning.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a14">SetDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, float ang_vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a15">GetLastPosition</a> (csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets all relevant dead reckoning data on this entity.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a15">SetSoftDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, float ang_vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get position and sector.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a16">IsPath</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets dead reckoning data in a 'soft' way.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a16">SetFullPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is a csPath active now or standard DR movement?  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a17">GetSector</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set full position and sector.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a17">SetPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get sector.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a18">ExtrapolatePosition</a> (float delta)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a18">GetLastPosition</a> (csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function actually moves and rotates the mesh, relighting if necessary.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a19">UpdateDRDelta</a> (csTicks ticksdelta)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get position and sector.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a19">GetLastFullPosition</a> (csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with a certain time but uses a fixed delta.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a20">UpdateDR</a> (csTicks ticks)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get full position and sector.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a20">IsPath</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with a certain time but calculates the delta relative to the last update, not a fixed delta.  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a21">SetPath</a> (iPath *newpath)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is a csPath active now or standard DR movement?  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a21">GetSector</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function lets linmove store a ref to the supplied iPath.  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a22">SetPathTime</a> (float timeval)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get sector.  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a22">ExtrapolatePosition</a> (float delta)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the current position on the path for use when time deltas are added later.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a23">SetPathSpeed</a> (float speed)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function actually moves and rotates the mesh, relighting if necessary.  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a23">UpdateDRDelta</a> (csTicks ticksdelta)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates the movement of the entity along the path to the time values specified by the path.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a24">SetPathAction</a> (int which, const char *action)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with a certain time but uses a fixed delta.  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a24">UpdateDR</a> (csTicks ticks)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates a particular action name to be used between two points in the path.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a25">SetPathSector</a> (const char *sectorname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with a certain time but calculates the delta relative to the last update, not a fixed delta.  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a25">SetPath</a> (iPath *newpath)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This sets the sector which will be used for the entire path.  <a href="#a25"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a30">GetPortalDisplacement</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function lets linmove store a ref to the supplied iPath.  <a href="#a25"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a26">SetPathTime</a> (float timeval)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total displacement caused by space warping portals.  <a href="#a30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a31">ClearPortalDisplacement</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the current position on the path for use when time deltas are added later.  <a href="#a26"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a27">SetPathSpeed</a> (float speed)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the total displacement caused by space warping portals.  <a href="#a31"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates the movement of the entity along the path to the time values specified by the path.  <a href="#a27"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a28">SetPathAction</a> (int which, const char *action)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates a particular action name to be used between two points in the path.  <a href="#a28"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a29">SetPathSector</a> (const char *sectorname)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This sets the sector which will be used for the entire path.  <a href="#a29"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a34">GetPortalDisplacement</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total displacement caused by space warping portals.  <a href="#a34"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a35">ClearPortalDisplacement</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the total displacement caused by space warping portals.  <a href="#a35"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class controls movement of an entity in a realistic manner. 
@@ -121,12 +133,17 @@ InitCDMesh: parameters 'percentage' (float). </li>
 <li>
 SetPosition: parameters 'sector' (string), 'position' (vector3), and 'yrot' (y rotation degrees). </li>
 </ul>
+<p>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+anchor (string, read/write): name of the entity on which we are anchored. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="linmove_8h-source.html#l00062">62</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a31" doxytag="iPcLinearMovement::ClearPortalDisplacement"></a><p>
+Definition at line <a class="el" href="linmove_8h-source.html#l00070">70</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a35" doxytag="iPcLinearMovement::ClearPortalDisplacement"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -155,7 +172,7 @@ Clear the total displacement caused by space warping portals.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18" doxytag="iPcLinearMovement::ExtrapolatePosition"></a><p>
+<a class="anchor" name="a22" doxytag="iPcLinearMovement::ExtrapolatePosition"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -185,7 +202,36 @@ This function actually moves and rotates the mesh, relighting if necessary.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iPcLinearMovement::GetAngularVelocity"></a><p>
+<a class="anchor" name="a1" doxytag="iPcLinearMovement::GetAnchor"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a>* iPcLinearMovement::GetAnchor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the current anchor or 0 if movement is not anchored. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a7" doxytag="iPcLinearMovement::GetAngularVelocity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -215,7 +261,7 @@ Get the current angular velocity vector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8" doxytag="iPcLinearMovement::GetCDDimensions"></a><p>
+<a class="anchor" name="a10" doxytag="iPcLinearMovement::GetCDDimensions"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -266,7 +312,7 @@ Get CD box for the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11" doxytag="iPcLinearMovement::GetDRData"></a><p>
+<a class="anchor" name="a13" doxytag="iPcLinearMovement::GetDRData"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -335,7 +381,52 @@ Return all necessary data for Dead Reckoning.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15" doxytag="iPcLinearMovement::GetLastPosition"></a><p>
+<a class="anchor" name="a19" doxytag="iPcLinearMovement::GetLastFullPosition"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::GetLastFullPosition           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">csVector3 &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>yrot</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>iSector *&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>sector</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get full position and sector. 
+<p>
+This is an absolute position which is not relative to the anchor.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a18" doxytag="iPcLinearMovement::GetLastPosition"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -377,10 +468,10 @@ Return all necessary data for Dead Reckoning.
 <p>
 Get position and sector. 
 <p>
-    </td>
+If there is an anchor then this position is relative to the anchor. Use SetLastFullPosition() if you want an absolute position.     </td>
   </tr>
 </table>
-<a class="anchor" name="a30" doxytag="iPcLinearMovement::GetPortalDisplacement"></a><p>
+<a class="anchor" name="a34" doxytag="iPcLinearMovement::GetPortalDisplacement"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -409,7 +500,7 @@ Get the total displacement caused by space warping portals.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17" doxytag="iPcLinearMovement::GetSector"></a><p>
+<a class="anchor" name="a21" doxytag="iPcLinearMovement::GetSector"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -438,7 +529,7 @@ Get sector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iPcLinearMovement::GetVelocity"></a><p>
+<a class="anchor" name="a6" doxytag="iPcLinearMovement::GetVelocity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -468,7 +559,7 @@ Get the current velocity vector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="iPcLinearMovement::InitCD"></a><p>
+<a class="anchor" name="a11" doxytag="iPcLinearMovement::InitCD"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -498,7 +589,7 @@ Initialize CD again?@@.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="iPcLinearMovement::InitCD"></a><p>
+<a class="anchor" name="a9" doxytag="iPcLinearMovement::InitCD"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -549,7 +640,7 @@ Initialize CD box for the object.
 The two parameters are the dimensions of the body and the legs collider boxes. The 'shift' vector is used to shift the box. By default (with shift equal to the 0 vector) the colliders are created assuming the 0,0,0 origin is at the bottom center of the actor.     </td>
   </tr>
 </table>
-<a class="anchor" name="a6" doxytag="iPcLinearMovement::InitCD"></a><p>
+<a class="anchor" name="a8" doxytag="iPcLinearMovement::InitCD"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -601,7 +692,7 @@ Initialize CD box for the object from a mesh.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16" doxytag="iPcLinearMovement::IsPath"></a><p>
+<a class="anchor" name="a20" doxytag="iPcLinearMovement::IsPath"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -630,7 +721,37 @@ Is a csPath active now or standard DR movement?
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1" doxytag="iPcLinearMovement::SetAngularVelocity"></a><p>
+<a class="anchor" name="a0" doxytag="iPcLinearMovement::SetAnchor"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::SetAnchor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>pcmesh</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set an anchor for this movement class. 
+<p>
+When this linmove is anchored it basically means that all movement will be done relative to the anchor. You can use this to do movement on an object that is also moving on its own. If 'pcmesh' is 0 this will clear the anchor.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a3" doxytag="iPcLinearMovement::SetAngularVelocity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -669,7 +790,7 @@ Set the orientation of the mesh with three given euler angles with a maximum to 
 It returns true if this maximum has has been reached.     </td>
   </tr>
 </table>
-<a class="anchor" name="a0" doxytag="iPcLinearMovement::SetAngularVelocity"></a><p>
+<a class="anchor" name="a2" doxytag="iPcLinearMovement::SetAngularVelocity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -699,7 +820,7 @@ Set the orientation of the mesh with three given euler angles.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12" doxytag="iPcLinearMovement::SetDRData"></a><p>
+<a class="anchor" name="a14" doxytag="iPcLinearMovement::SetDRData"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -768,7 +889,52 @@ Sets all relevant dead reckoning data on this entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a21" doxytag="iPcLinearMovement::SetPath"></a><p>
+<a class="anchor" name="a16" doxytag="iPcLinearMovement::SetFullPosition"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::SetFullPosition           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const csVector3 &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>yrot</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const iSector *&nbsp;</td>
+          <td class="mdname" nowrap> <em>sector</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set full position and sector. 
+<p>
+The position is absolute and will be corrected to fit on the anchor if there is one.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a25" doxytag="iPcLinearMovement::SetPath"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -798,7 +964,7 @@ This function lets linmove store a ref to the supplied iPath.
 If this path is present, it will be used for movement instead of linear velocity vector.     </td>
   </tr>
 </table>
-<a class="anchor" name="a24" doxytag="iPcLinearMovement::SetPathAction"></a><p>
+<a class="anchor" name="a28" doxytag="iPcLinearMovement::SetPathAction"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -837,7 +1003,7 @@ This relates a particular action name to be used between two points in the path.
 This allows linmove to automatically switch a bird from "fly" to "glide", for example, during downward segments of the flight path.     </td>
   </tr>
 </table>
-<a class="anchor" name="a25" doxytag="iPcLinearMovement::SetPathSector"></a><p>
+<a class="anchor" name="a29" doxytag="iPcLinearMovement::SetPathSector"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -867,7 +1033,7 @@ This sets the sector which will be used for the entire path.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a23" doxytag="iPcLinearMovement::SetPathSpeed"></a><p>
+<a class="anchor" name="a27" doxytag="iPcLinearMovement::SetPathSpeed"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -897,7 +1063,7 @@ This relates the movement of the entity along the path to the time values specif
 Speed=0 makes the entity stationary. Speed=1 is normal traversal of the path.     </td>
   </tr>
 </table>
-<a class="anchor" name="a22" doxytag="iPcLinearMovement::SetPathTime"></a><p>
+<a class="anchor" name="a26" doxytag="iPcLinearMovement::SetPathTime"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -927,7 +1093,7 @@ This function sets the current position on the path for use when time deltas are
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14" doxytag="iPcLinearMovement::SetPosition"></a><p>
+<a class="anchor" name="a17" doxytag="iPcLinearMovement::SetPosition"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -969,10 +1135,10 @@ This function sets the current position on the path for use when time deltas are
 <p>
 Set position and sector. 
 <p>
-    </td>
+The position is relative to the anchor (if there is one).     </td>
   </tr>
 </table>
-<a class="anchor" name="a13" doxytag="iPcLinearMovement::SetSoftDRData"></a><p>
+<a class="anchor" name="a15" doxytag="iPcLinearMovement::SetSoftDRData"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1041,7 +1207,7 @@ Sets dead reckoning data in a 'soft' way.
 Instead of immediately setting the position, an error (offset) is measured between the current position and the new position. Over the period of 1 second, the position will be offset until this position error is zero.     </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="iPcLinearMovement::SetSpeed"></a><p>
+<a class="anchor" name="a4" doxytag="iPcLinearMovement::SetSpeed"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1071,7 +1237,7 @@ Set the current speed.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="iPcLinearMovement::SetVelocity"></a><p>
+<a class="anchor" name="a5" doxytag="iPcLinearMovement::SetVelocity"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1101,7 +1267,7 @@ Set the current velocity vector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="iPcLinearMovement::TimeDiff"></a><p>
+<a class="anchor" name="a12" doxytag="iPcLinearMovement::TimeDiff"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1131,7 +1297,7 @@ Returns the difference in time between now and when the last DR update or extrap
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20" doxytag="iPcLinearMovement::UpdateDR"></a><p>
+<a class="anchor" name="a24" doxytag="iPcLinearMovement::UpdateDR"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1161,7 +1327,7 @@ This function calls ExtrapolatePosition with a certain time but calculates the d
 This allows all entities linmoves to be synchronized to the same ticks, even if updates are all happening at different times.     </td>
   </tr>
 </table>
-<a class="anchor" name="a19" doxytag="iPcLinearMovement::UpdateDRDelta"></a><p>
+<a class="anchor" name="a23" doxytag="iPcLinearMovement::UpdateDRDelta"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
