@@ -52,9 +52,11 @@ class celTransformSeqOpFactory :
 private:
   celTransformSeqOpType* type;
   char* entity_par;
-  csVector3 vector;
+  char* vectorx_par;
+  char* vectory_par;
+  char* vectorz_par;
   int rot_axis;
-  float rot_angle;
+  char* rot_angle_par;
 
 public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
@@ -68,15 +70,9 @@ public:
 
   //----------------- iTransformQuestSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* msg);
-  virtual void SetVector (const csVector3& vector)
-  {
-    celTransformSeqOpFactory::vector = vector;
-  }
-  virtual void SetRotation (int axis, float angle)
-  {
-    rot_axis = axis;
-    rot_angle = angle;
-  }
+  virtual void SetVectorParameter (const char* vectorx, const char* vectory,
+  	const char* vectorz);
+  virtual void SetRotationParameter (int axis, const char* angle);
 };
 
 /**
@@ -102,8 +98,9 @@ private:
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
   	const celQuestParams& params,
-	const char* entity_par, const csVector3& vector,
-	int axis, float angle);
+	const char* entity_par, const char* vectorx,
+	const char* vectory, const char* vectorz,
+	int axis, const char* angle);
   virtual ~celTransformSeqOp ();
 
   SCF_DECLARE_IBASE;

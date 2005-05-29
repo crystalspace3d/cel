@@ -52,13 +52,20 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
   SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOpFactory::type = type;
   entity_par = 0;
-  vector.Set (0, 0, 0);
+  vectorx_par = 0;
+  vectory_par = 0;
+  vectorz_par = 0;
   rot_axis = -1;
+  rot_angle_par = 0;
 }
 
 celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 {
   delete[] entity_par;
+  delete[] vectorx_par;
+  delete[] vectory_par;
+  delete[] vectorz_par;
+  delete[] rot_angle_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -67,15 +74,20 @@ csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
     const csHash<csStrKey,csStrKey>& params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
-  	params, entity_par, vector, rot_axis, rot_angle);
+  	params, entity_par, vectorx_par, vectory_par, vectorz_par,
+	rot_axis, rot_angle_par);
   return seqop;
 }
 
 bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  delete[] vectorx_par; vectorx_par = 0;
+  delete[] vectory_par; vectory_par = 0;
+  delete[] vectorz_par; vectorz_par = 0;
+  delete[] rot_angle_par; rot_angle_par = 0;
 
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -87,27 +99,27 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
   csRef<iDocumentNode> v_node = node->GetNode ("v");
   if (v_node)
   {
-    vector.x = v_node->GetAttributeValueAsFloat ("x");
-    vector.y = v_node->GetAttributeValueAsFloat ("y");
-    vector.z = v_node->GetAttributeValueAsFloat ("z");
+    vectorx_par = csStrNew (v_node->GetAttributeValue ("x"));
+    vectory_par = csStrNew (v_node->GetAttributeValue ("y"));
+    vectorz_par = csStrNew (v_node->GetAttributeValue ("z"));
   }
   csRef<iDocumentNode> rotx_node = node->GetNode ("rotx");
   if (rotx_node)
   {
     rot_axis = CS_AXIS_X;
-    rot_angle = rotx_node->GetAttributeValueAsFloat ("angle");
+    rot_angle_par = csStrNew (rotx_node->GetAttributeValue ("angle"));
   }
   csRef<iDocumentNode> roty_node = node->GetNode ("roty");
   if (roty_node)
   {
     rot_axis = CS_AXIS_Y;
-    rot_angle = roty_node->GetAttributeValueAsFloat ("angle");
+    rot_angle_par = csStrNew (roty_node->GetAttributeValue ("angle"));
   }
   csRef<iDocumentNode> rotz_node = node->GetNode ("rotz");
   if (rotz_node)
   {
     rot_axis = CS_AXIS_Z;
-    rot_angle = rotz_node->GetAttributeValueAsFloat ("angle");
+    rot_angle_par = csStrNew (rotz_node->GetAttributeValue ("angle"));
   }
   
   return true;
@@ -115,14 +127,49 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 
 void celTransformSeqOpFactory::SetEntityParameter (const char* entity)
 {
-  if (entity_par == entity) 
-    return;
-
+  if (entity_par == entity) return;
   delete[] entity_par;
   entity_par = csStrNew (entity);
 }
 
+void celTransformSeqOpFactory::SetVectorParameter (const char* vectorx,
+	const char* vectory, const char* vectorz)
+{
+  if (vectorx_par != vectorx)
+  {
+    delete[] vectorx_par;
+    vectorx_par = csStrNew (vectorx);
+  }
+  if (vectory_par != vectory)
+  {
+    delete[] vectory_par;
+    vectory_par = csStrNew (vectory);
+  }
+  if (vectorz_par != vectorz)
+  {
+    delete[] vectorz_par;
+    vectorz_par = csStrNew (vectorz);
+  }
+}
+
+void celTransformSeqOpFactory::SetRotationParameter (int axis,
+	const char* angle)
+{
+  rot_axis = axis;
+  if (rot_angle_par == angle) return;
+  delete[] rot_angle_par;
+  rot_angle_par = csStrNew (angle);
+}
+
 //---------------------------------------------------------------------------
+
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
 
 SCF_IMPLEMENT_IBASE (celTransformSeqOp)
   SCF_IMPLEMENTS_INTERFACE (iQuestSeqOp)
@@ -132,17 +179,20 @@ celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
-	const csVector3& vector,
-	int axis, float angle)
+	const char* vectorx, const char* vectory, const char* vectorz,
+	int axis, const char* angle)
 {
   SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  celTransformSeqOp::vector = vector;
+  vector.x = ToFloat (qm->ResolveParameter (params, vectorx));
+  vector.y = ToFloat (qm->ResolveParameter (params, vectory));
+  vector.z = ToFloat (qm->ResolveParameter (params, vectorz));
+
   do_move = !(vector < .00001f);
   rot_axis = axis;
-  rot_angle = angle;
+  rot_angle = ToFloat (qm->ResolveParameter (params, angle));
 }
 
 celTransformSeqOp::~celTransformSeqOp ()

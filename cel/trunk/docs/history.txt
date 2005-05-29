@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-May-2005
+	- Jorrit changed the transform sequence operation so that the
+	  vector and angle can now also accept a parameter.
+	- Jorrit fundamentally changed the quest sequence stuff so that
+	  you can now also use parameters for the duration and delays
+	  in a sequence.
 27-May-2005
 	- Jorrit fixed the default camera so that it looks at the full
 	  position of the mesh instead of the position. That way it also

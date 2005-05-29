@@ -77,7 +77,7 @@ private:
   void FireSequenceCallbacks ();
 
 public:
-  celQuestSequence (const char* name, csTicks total_time, iCelPlLayer* pl,
+  celQuestSequence (const char* name, iCelPlLayer* pl,
   	iVirtualClock* vc);
   virtual ~celQuestSequence ();
 
@@ -86,6 +86,14 @@ public:
    * based on 'start'.
    */
   void AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end);
+
+  /**
+   * Set total time.
+   */
+  void SetTotalTime (csTicks total_time)
+  {
+    celQuestSequence::total_time = total_time;
+  }
 
   /**
    * Save state of this sequence.
@@ -117,21 +125,8 @@ public:
  */
 struct celSeqOpFact
 {
-  csRef<iQuestSeqOpFactory> seqop;
-  csTicks start;
-  csTicks end;
-};
-
-CS_SPECIALIZE_TEMPLATE
-class csComparator<celSeqOpFact, celSeqOpFact>
-{
-public:
-  static int Compare (const celSeqOpFact& r1, const celSeqOpFact& r2)
-  {
-    if (r1.start < r2.start) return -1;
-    else if (r1.start > r2.start) return 1;
-    else return 0;
-  }
+  csRef<iQuestSeqOpFactory> seqop;	// If 0 this is a delay.
+  csString duration;			// Duration or parameter.
 };
 
 /**
@@ -145,7 +140,6 @@ private:
   // The array of sequence operations will be sorted due to the
   // presence of the csComparator specialization above.
   csArray<celSeqOpFact> seqops;
-  csTicks total_time;
 
 public:
   celQuestSequenceFactory (const char* name, celQuestFactory* fact);
@@ -158,12 +152,8 @@ public:
   virtual const char* GetName () const { return name; }
   virtual bool Load (iDocumentNode* node);
   virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	csTicks start, csTicks end);
-  virtual void SetTotalTime (csTicks total_time)
-  {
-    celQuestSequenceFactory::total_time = total_time;
-  }
-  virtual csTicks GetTotalTime () const { return total_time; }
+  	const char* duration);
+  virtual void AddDelay (const char* delay);
 };
 
 //---------------------------------------------------------------------------
