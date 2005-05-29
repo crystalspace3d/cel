@@ -115,12 +115,10 @@ SCF_IMPLEMENT_IBASE (celQuestSequence)
 SCF_IMPLEMENT_IBASE_END
 
 celQuestSequence::celQuestSequence (const char* name,
-	csTicks total_time, iCelPlLayer* pl,
-	iVirtualClock* vc)
+	iCelPlLayer* pl, iVirtualClock* vc)
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuestSequence::name = csStrNew (name);
-  celQuestSequence::total_time = total_time;
   celQuestSequence::pl = pl;
   celQuestSequence::vc = vc;
   idx = csArrayItemNotFound;
@@ -306,7 +304,6 @@ celQuestSequenceFactory::celQuestSequenceFactory (const char* name,
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuestSequenceFactory::name = csStrNew (name);
-  total_time = 0;
   parent_factory = parent;
 }
 
@@ -319,7 +316,6 @@ celQuestSequenceFactory::~celQuestSequenceFactory ()
 bool celQuestSequenceFactory::Load (iDocumentNode* node)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  csTicks current_time = 0;
   while (it->HasNext ())
   {
     csRef<iDocumentNode> child = it->Next ();
@@ -343,24 +339,18 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 		(const char*)type, name);
 	    return false;
 	  }
-	  int duration = child->GetAttributeValueAsInt ("duration");
 	  csRef<iQuestSeqOpFactory> seqopfact = seqoptype
 		->CreateSeqOpFactory ();
 	  if (!seqopfact->Load (child))
 	    return false;
-	  celSeqOpFact s;
-	  s.seqop = seqopfact;
-	  s.start = current_time;
-	  s.end = current_time+duration;
-	  if (s.end > total_time) total_time = s.end;
-	  seqops.InsertSorted (s);
+	  const char* duration = child->GetAttributeValue ("duration");
+	  AddSeqOpFactory (seqopfact, duration);
 	}
         break;
       case celQuestFactory::XMLTOKEN_DELAY:
         {
-	  int time = child->GetAttributeValueAsInt ("time");
-	  current_time += time;
-	  if (current_time > total_time) total_time = current_time;
+	  const char* time = child->GetAttributeValue ("time");
+	  AddDelay (time);
 	}
         break;
       default:
@@ -375,29 +365,51 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 }
 
 void celQuestSequenceFactory::AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	csTicks start, csTicks end)
+  	const char* duration)
 {
   celSeqOpFact s;
   s.seqop = seqopfact;
-  s.start = start;
-  s.end = end;
-  seqops.InsertSorted (s);
-  if (end > total_time) total_time = end;
+  s.duration = duration;
+  seqops.Push (s);
+}
+
+void celQuestSequenceFactory::AddDelay (const char* delay)
+{
+  celSeqOpFact s;
+  s.seqop = 0;
+  s.duration = delay;
+  seqops.Push (s);
+}
+
+static uint ToUInt (const char* s)
+{
+  if (!s) return 0;
+  int f;
+  sscanf (s, "%ud", &f);
+  return f;
 }
 
 csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 	const celQuestParams& params)
 {
   celQuestSequence* seq = new celQuestSequence (name,
-  	total_time,
   	parent_factory->GetQuestManager ()->pl,
 	parent_factory->GetQuestManager ()->vc);
   size_t i;
+  csTicks total_time = 0;
   for (i = 0 ; i < seqops.Length () ; i++)
   {
-    csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
-    seq->AddSeqOp (seqop, seqops[i].start, seqops[i].end);
+    csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
+    	ResolveParameter (params, seqops[i].duration));
+    if (seqops[i].seqop)
+    {
+      // It is not a delay.
+      csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
+      seq->AddSeqOp (seqop, total_time, total_time+duration);
+    }
+    total_time += duration;
   }
+  seq->SetTotalTime (total_time);
   return csPtr<celQuestSequence> (seq);
 }
 

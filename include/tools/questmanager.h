@@ -505,26 +505,18 @@ struct iQuestSequenceFactory : public iBase
   /**
    * Add a new operation factory at the specified time.
    * \param seqopfact is the factory to add.
-   * \param start is the time (relative to the beginning of the
-   * execution of the entire sequence) when the operation should start.
-   * \param end is the time when it should end. If start is equal to end
-   * then this is a single-shot event.
+   * \param duration is the duration of this operation. This can be
+   * a string representing a numerical value or a parameter ($x notation).
+   * The duration can be 0 in which case we have a single-stop event.
    */
   virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	csTicks start, csTicks end) = 0;
+  	const char* duration) = 0;
 
   /**
-   * Set the total time for this sequence. This is used if you manually
-   * setup the sequence as opposed to calling Load(). Note that
-   * AddSeqOpFactory() will automatically bump up the total_time to the
-   * maximum of all 'end' parameters.
+   * Add a delay.
+   * \param delay is a the delay or a parameter.
    */
-  virtual void SetTotalTime (csTicks total_time) = 0;
-
-  /**
-   * Get the total time for this sequence.
-   */
-  virtual csTicks GetTotalTime () const = 0;
+  virtual void AddDelay (const char* delay) = 0;
 };
 
 SCF_VERSION (iQuestFactory, 0, 0, 1);
@@ -1390,14 +1382,15 @@ SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the pcmesh
  *     property class.
- * <li><em>v</em>: optional movement vector. This node has 'x', 'y, and 'z'
- *     attributes.
+ * <li><em>v</em>: optional movement vector.
+ *     This node has 'x', 'y, and 'z' attributes. Each of these attributes
+ *     can be a parameter.
  * <li><em>rotx</em>: optional rotation along x axis. This node has
- *     an 'angle' parameter in radians.
+ *     an 'angle' parameter in radians. Angle can be a parameter.
  * <li><em>roty</em>: optional rotation along y axis. This node has
- *     an 'angle' parameter in radians.
+ *     an 'angle' parameter in radians. Angle can be a parameter.
  * <li><em>rotz</em>: optional rotation along z axis. This node has
- *     an 'angle' parameter in radians.
+ *     an 'angle' parameter in radians. Angle can be a parameter.
  * </ul>
  */
 struct iTransformQuestSeqOpFactory : public iBase
@@ -1409,14 +1402,16 @@ struct iTransformQuestSeqOpFactory : public iBase
   virtual void SetEntityParameter (const char* entity) = 0;
 
   /**
-   * Set the relative movement vector.
+   * Set the relative movement vector parameter.
    */
-  virtual void SetVector (const csVector3& vector) = 0;
+  virtual void SetVectorParameter (const char* vectorx, const char* vectory,
+  	const char* vectorz) = 0;
 
   /**
-   * Set the relative rotation.
+   * Set the relative rotation parameter.
+   * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
    */
-  virtual void SetRotation (int rot_axis, float rot_angle) = 0;
+  virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
 };
 
 //-------------------------------------------------------------------------
