@@ -50,12 +50,14 @@ celTriggerTriggerFactory::celTriggerTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celTriggerTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   do_leave = false;
 }
 
 celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -64,14 +66,16 @@ csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celTriggerTrigger* trig = new celTriggerTrigger (type,
-  	params, entity_par, do_leave);
+  	params, entity_par, tag_par, do_leave);
   return trig;
 }
 
 bool celTriggerTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("tag"));
 
   if (!entity_par)
   {
@@ -88,13 +92,18 @@ bool celTriggerTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celTriggerTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -107,13 +116,14 @@ SCF_IMPLEMENT_IBASE_END
 celTriggerTrigger::celTriggerTrigger (
 	celTriggerTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par,
+	const char* entity_par, const char* tag_par,
 	bool do_leave)
 {
   SCF_CONSTRUCT_IBASE (0);
   celTriggerTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   celTriggerTrigger::do_leave = do_leave;
 }
 
@@ -121,6 +131,7 @@ celTriggerTrigger::~celTriggerTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -174,7 +185,8 @@ void celTriggerTrigger::ActivateTrigger ()
   FindEntities ();
   if (ent)
   {
-    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (ent, iPcTrigger);
+    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger,
+    	tag);
     if (pctrigger)
       pctrigger->AddTriggerListener ((iPcTriggerListener*)this);
   }
@@ -184,7 +196,8 @@ void celTriggerTrigger::DeactivateTrigger ()
 {
   if (ent)
   {
-    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_ENT (ent, iPcTrigger);
+    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger,
+    	tag);
     if (pctrigger)
       pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
   }

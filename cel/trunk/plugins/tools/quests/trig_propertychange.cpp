@@ -49,6 +49,7 @@ celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   prop_par = 0;
   value_par = 0;
 }
@@ -56,6 +57,7 @@ celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
 celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] prop_par;
   delete[] value_par;
 
@@ -66,17 +68,19 @@ csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celPropertyChangeTrigger* trig = new celPropertyChangeTrigger (type,
-  	params, entity_par, prop_par, value_par);
+  	params, entity_par, tag_par, prop_par, value_par);
   return trig;
 }
 
 bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] prop_par; prop_par = 0;
   delete[] value_par; value_par = 0;
 
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -104,13 +108,18 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celPropertyChangeTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celPropertyChangeTriggerFactory::SetPropertyParameter (
@@ -143,13 +152,14 @@ SCF_IMPLEMENT_IBASE_END
 celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* prop_par,
-	const char* value_par)
+	const char* entity_par, const char* tag_par,
+	const char* prop_par, const char* value_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   prop = csStrNew (qm->ResolveParameter (params, prop_par));
   value = csStrNew (qm->ResolveParameter (params, value_par));
 }
@@ -158,6 +168,7 @@ celPropertyChangeTrigger::~celPropertyChangeTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   delete[] prop;
   delete[] value;
   SCF_DESTRUCT_IBASE ();
@@ -234,7 +245,7 @@ void celPropertyChangeTrigger::FindProperties ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
+  properties = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcProperties, tag);
 }
 
 void celPropertyChangeTrigger::ActivateTrigger ()

@@ -50,12 +50,14 @@ celEnterSectorTriggerFactory::celEnterSectorTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celEnterSectorTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   sector_par = 0;
 }
 
 celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] sector_par;
 
   SCF_DESTRUCT_IBASE ();
@@ -65,15 +67,17 @@ csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
-  	params, entity_par, sector_par);
+  	params, entity_par, tag_par, sector_par);
   return trig;
 }
 
 bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] sector_par; sector_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_par"));
 
   if (!entity_par)
   {
@@ -94,13 +98,18 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celEnterSectorTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celEnterSectorTriggerFactory::SetSectorParameter (
@@ -123,12 +132,14 @@ SCF_IMPLEMENT_IBASE_END
 celEnterSectorTrigger::celEnterSectorTrigger (
 	celEnterSectorTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sector_par)
+	const char* entity_par, const char* tag_par,
+	const char* sector_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sector = csStrNew (qm->ResolveParameter (params, sector_par));
 }
 
@@ -136,6 +147,7 @@ celEnterSectorTrigger::~celEnterSectorTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   delete[] sector;
   SCF_DESTRUCT_IBASE ();
 }
@@ -171,7 +183,7 @@ void celEnterSectorTrigger::FindSectorAndCamera ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcCamera, tag);
   if (!pccamera) return;
   camera = pccamera->GetCamera ();
 }

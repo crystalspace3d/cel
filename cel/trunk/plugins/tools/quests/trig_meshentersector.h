@@ -54,6 +54,7 @@ class celMeshEnterSectorTriggerFactory :
 private:
   celMeshEnterSectorTriggerType* type;
   char* entity_par;
+  char* tag_par;
   char* sector_par;
 
 public:
@@ -67,7 +68,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iEnterSectorQuestTriggerFactory ----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSectorParameter (const char* sector);
 };
 
@@ -84,6 +85,7 @@ private:
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;
   char* entity;
+  char* tag;
   char* sector;
 
   void FindSectorAndMesh ();
@@ -91,7 +93,8 @@ private:
 public:
   celMeshEnterSectorTrigger (celMeshEnterSectorTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sector_par);
+	const char* entity_par, const char* tag_par,
+	const char* sector_par);
   virtual ~celMeshEnterSectorTrigger ();
 
   SCF_DECLARE_IBASE;

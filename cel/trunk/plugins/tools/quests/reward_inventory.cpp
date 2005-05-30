@@ -53,12 +53,16 @@ celInventoryRewardFactory::celInventoryRewardFactory (
   celInventoryRewardFactory::type = type;
   entity_par = 0;
   child_entity_par = 0;
+  tag_par = 0;
+  child_tag_par = 0;
 }
 
 celInventoryRewardFactory::~celInventoryRewardFactory ()
 {
   delete[] entity_par;
   delete[] child_entity_par;
+  delete[] tag_par;
+  delete[] child_tag_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -67,7 +71,7 @@ csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
-  	params, entity_par, child_entity_par);
+  	params, entity_par, tag_par, child_entity_par, child_tag_par);
   return trig;
 }
 
@@ -75,9 +79,14 @@ bool celInventoryRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
   delete[] child_entity_par; child_entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+  delete[] child_tag_par; child_tag_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   child_entity_par = csStrNew (node->GetAttributeValue (
   	"child_entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  child_tag_par = csStrNew (node->GetAttributeValue (
+  	"child_entity_tag"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -96,19 +105,33 @@ bool celInventoryRewardFactory::Load (iDocumentNode* node)
 }
 
 void celInventoryRewardFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) return;
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celInventoryRewardFactory::SetChildEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (child_entity_par == entity) return;
-  delete[] child_entity_par;
-  child_entity_par = csStrNew (entity);
+  if (child_entity_par != entity)
+  {
+    delete[] child_entity_par;
+    child_entity_par = csStrNew (entity);
+  }
+  if (child_tag_par != tag)
+  {
+    delete[] child_tag_par;
+    child_tag_par = csStrNew (tag);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -120,21 +143,24 @@ SCF_IMPLEMENT_IBASE_END
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* entity_par,
-	const char* child_entity_par)
+	const char* entity_par, const char* tag_par,
+	const char* child_entity_par, const char* child_tag_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celInventoryReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  child_entity = csStrNew (qm->ResolveParameter (params,
-  	child_entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
+  child_tag = csStrNew (qm->ResolveParameter (params, child_tag_par));
 }
 
 celInventoryReward::~celInventoryReward ()
 {
   delete[] entity;
   delete[] child_entity;
+  delete[] tag;
+  delete[] child_tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -148,7 +174,7 @@ void celInventoryReward::Reward ()
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
-    inventory = CEL_QUERY_PROPCLASS_ENT (ent, iPcInventory);
+    inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, tag);
     if (!inventory) return;
   }
 
@@ -162,7 +188,8 @@ void celInventoryReward::Reward ()
   }
 
   // Make the mesh invisible if the entity has one.
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (child_ent, iPcMesh);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh,
+  	child_tag);
   if (pcmesh)
     pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 

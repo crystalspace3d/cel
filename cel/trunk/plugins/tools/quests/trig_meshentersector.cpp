@@ -50,12 +50,14 @@ celMeshEnterSectorTriggerFactory::celMeshEnterSectorTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celMeshEnterSectorTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   sector_par = 0;
 }
 
 celMeshEnterSectorTriggerFactory::~celMeshEnterSectorTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] sector_par;
 
   SCF_DESTRUCT_IBASE ();
@@ -65,15 +67,17 @@ csPtr<iQuestTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celMeshEnterSectorTrigger* trig = new celMeshEnterSectorTrigger (type,
-  	params, entity_par, sector_par);
+  	params, entity_par, tag_par, sector_par);
   return trig;
 }
 
 bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] sector_par; sector_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!entity_par)
   {
@@ -94,13 +98,18 @@ bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celMeshEnterSectorTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celMeshEnterSectorTriggerFactory::SetSectorParameter (
@@ -123,12 +132,14 @@ SCF_IMPLEMENT_IBASE_END
 celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 	celMeshEnterSectorTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sector_par)
+	const char* entity_par, const char* tag_par,
+	const char* sector_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celMeshEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sector = csStrNew (qm->ResolveParameter (params, sector_par));
 }
 
@@ -136,11 +147,13 @@ celMeshEnterSectorTrigger::~celMeshEnterSectorTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   delete[] sector;
   SCF_DESTRUCT_IBASE ();
 }
 
-void celMeshEnterSectorTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celMeshEnterSectorTrigger::RegisterCallback (
+	iQuestTriggerCallback* callback)
 {
   celMeshEnterSectorTrigger::callback = callback;
 }
@@ -177,7 +190,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
   if (!pcmesh) return;
   mesh = pcmesh->GetMesh ();
 }

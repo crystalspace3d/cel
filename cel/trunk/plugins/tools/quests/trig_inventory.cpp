@@ -49,6 +49,7 @@ celInventoryTriggerFactory::celInventoryTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celInventoryTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   child_entity_par = 0;
 }
 
@@ -56,6 +57,7 @@ celInventoryTriggerFactory::~celInventoryTriggerFactory ()
 {
   delete[] entity_par;
   delete[] child_entity_par;
+  delete[] tag_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -64,16 +66,18 @@ csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celInventoryTrigger* trig = new celInventoryTrigger (type,
-  	params, entity_par, child_entity_par);
+  	params, entity_par, tag_par, child_entity_par);
   return trig;
 }
 
 bool celInventoryTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] child_entity_par; child_entity_par = 0;
 
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -93,23 +97,28 @@ bool celInventoryTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celInventoryTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celInventoryTriggerFactory::SetChildEntityParameter (
 	const char* entity)
 {
-  if (child_entity_par == entity) 
-    return;
-
-  delete[] child_entity_par;
-  child_entity_par = csStrNew (entity);
+  if (child_entity_par != entity)
+  {
+    delete[] child_entity_par;
+    child_entity_par = csStrNew (entity);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -122,12 +131,14 @@ SCF_IMPLEMENT_IBASE_END
 celInventoryTrigger::celInventoryTrigger (
 	celInventoryTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* child_entity_par)
+	const char* entity_par, const char* tag_par,
+	const char* child_entity_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celInventoryTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
 }
 
@@ -136,6 +147,7 @@ celInventoryTrigger::~celInventoryTrigger ()
   DeactivateTrigger ();
   delete[] entity;
   delete[] child_entity;
+  delete[] tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -155,7 +167,7 @@ void celInventoryTrigger::FindInventory ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  inventory = CEL_QUERY_PROPCLASS_ENT (ent, iPcInventory);
+  inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, tag);
 }
 
 void celInventoryTrigger::ActivateTrigger ()

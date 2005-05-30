@@ -49,6 +49,7 @@ celSequenceRewardFactory::celSequenceRewardFactory (
   SCF_CONSTRUCT_IBASE (0);
   celSequenceRewardFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   sequence_par = 0;
   delay_par = 0;
 }
@@ -56,6 +57,7 @@ celSequenceRewardFactory::celSequenceRewardFactory (
 celSequenceRewardFactory::~celSequenceRewardFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] sequence_par;
   delete[] delay_par;
 
@@ -66,18 +68,20 @@ csPtr<iQuestReward> celSequenceRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
   celSequenceReward* trig = new celSequenceReward (type,
-  	params, entity_par, sequence_par, delay_par);
+  	params, entity_par, tag_par, sequence_par, delay_par);
   return trig;
 }
 
 bool celSequenceRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] sequence_par; sequence_par = 0;
   delete[] delay_par; delay_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
   delay_par = csStrNew (node->GetAttributeValue ("delay"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -96,11 +100,18 @@ bool celSequenceRewardFactory::Load (iDocumentNode* node)
 }
 
 void celSequenceRewardFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) return;
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celSequenceRewardFactory::SetSequenceParameter (
@@ -129,6 +140,7 @@ celSequenceReward::celSequenceReward (
 	celSequenceRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
+	const char* tag_par,
 	const char* sequence_par,
 	const char* delay_par)
 {
@@ -136,6 +148,7 @@ celSequenceReward::celSequenceReward (
   celSequenceReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
   delay = 0;
   if (delay_par)
@@ -148,6 +161,7 @@ celSequenceReward::celSequenceReward (
 celSequenceReward::~celSequenceReward ()
 {
   delete[] entity;
+  delete[] tag;
   delete[] sequence;
   SCF_DESTRUCT_IBASE ();
 }
@@ -162,7 +176,7 @@ void celSequenceReward::Reward ()
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
-    quest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
+    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
     if (!quest) return;
   }
 

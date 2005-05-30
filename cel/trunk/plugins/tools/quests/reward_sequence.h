@@ -51,6 +51,7 @@ class celSequenceRewardFactory :
 private:
   celSequenceRewardType* type;
   char* entity_par;
+  char* tag_par;
   char* sequence_par;
   char* delay_par;
 
@@ -65,7 +66,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceQuestRewardFactory -----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSequenceParameter (const char* sequence);
   virtual void SetDelayParameter (const char* delay);
 };
@@ -79,6 +80,7 @@ class celSequenceReward :
 private:
   celSequenceRewardType* type;
   char* entity;
+  char* tag;
   char* sequence;
   csTicks delay;
   csWeakRef<iCelEntity> ent;
@@ -88,6 +90,7 @@ public:
   celSequenceReward (celSequenceRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
+	const char* tag_par,
 	const char* sequence_par,
 	const char* delay_par);
   virtual ~celSequenceReward ();

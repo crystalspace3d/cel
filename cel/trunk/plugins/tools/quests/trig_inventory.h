@@ -50,6 +50,7 @@ class celInventoryTriggerFactory :
 private:
   celInventoryTriggerType* type;
   char* entity_par;
+  char* tag_par;
   char* child_entity_par;
 
 public:
@@ -63,7 +64,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iInventoryQuestTriggerFactory ----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetChildEntityParameter (const char* entity);
 };
 
@@ -79,6 +80,7 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcInventory> inventory;
   char* entity;
+  char* tag;
   char* child_entity;
 
   void FindInventory ();
@@ -86,7 +88,8 @@ private:
 public:
   celInventoryTrigger (celInventoryTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* child_entity_par);
+	const char* entity_par, const char* tag_par,
+	const char* child_entity_par);
   virtual ~celInventoryTrigger ();
 
   SCF_DECLARE_IBASE;

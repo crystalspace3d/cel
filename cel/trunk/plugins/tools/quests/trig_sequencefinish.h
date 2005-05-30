@@ -53,6 +53,7 @@ class celSequenceFinishTriggerFactory :
 private:
   celSequenceFinishTriggerType* type;
   char* entity_par;
+  char* tag_par;
   char* sequence_par;
 
 public:
@@ -66,7 +67,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceFinishQuestTriggerFactory ---------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSequenceParameter (const char* sequence);
 };
 
@@ -81,6 +82,7 @@ private:
   celSequenceFinishTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   char* entity;
+  char* tag;
   char* sequence;
   csWeakRef<iQuestSequence> seq;
 
@@ -89,7 +91,8 @@ private:
 public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sequence_par);
+	const char* entity_par, const char* tag_par,
+	const char* sequence_par);
   virtual ~celSequenceFinishTrigger ();
 
   SCF_DECLARE_IBASE;
