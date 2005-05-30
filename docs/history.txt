@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	  to simplify quests a bit because you no longer have to specify
 	  the entity for which you want to change state. If the entity
 	  is not given the current quest is used for the state change.
+	- Jorrit changed the quest property class so that it adds the
+	  name of the entity as a $this parameter during creation of a
+	  quest.
 29-May-2005
 	- Jorrit changed the transform sequence operation so that the
 	  vector and angle can now also accept a parameter.
