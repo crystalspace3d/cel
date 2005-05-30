@@ -19,6 +19,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit also extended the celentity addon so that it also adds
 	  $this as a parameter for the creation of an entity from a
 	  template. Again it will be the name of the entity.
+	- Jorrit added a warning to the quest manager when some reward or
+	  trigger tries to resolve a parameter and the parameter is not
+	  defined.
 29-May-2005
 	- Jorrit changed the transform sequence operation so that the
 	  vector and angle can now also accept a parameter.

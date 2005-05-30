@@ -1095,7 +1095,14 @@ const char* celQuestManager::ResolveParameter (
 {
   if (param == 0) return param;
   if (*param != '$') return param;
-  return params.Get (param+1, 0);
+  const char* val = params.Get (param+1, 0);
+  if (!val)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.questmanager",
+		"Can't resolve parameter %s\n", param);
+  }
+  return val;
 }
 
 bool celQuestManager::Load (iDocumentNode* node)
