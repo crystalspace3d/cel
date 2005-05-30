@@ -29,15 +29,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a1">Load</a> (iDocumentNode *node)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this sequence factory from a document node.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a2">AddSeqOpFactory</a> (<a class="el" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> *seqopfact, csTicks start, csTicks end)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a2">AddSeqOpFactory</a> (<a class="el" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> *seqopfact, const char *duration)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a new operation factory at the specified time.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a3">SetTotalTime</a> (csTicks total_time)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a3">AddDelay</a> (const char *delay)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the total time for this sequence.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a4">GetTotalTime</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total time for this sequence.  <a href="#a4"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a delay.  <a href="#a3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A representation of a sequence factory. 
@@ -47,6 +44,41 @@ A sequence factory is basically a sequence of sequence operation factories.
 
 <p>
 Definition at line <a class="el" href="questmanager_8h-source.html#l00491">491</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a3" doxytag="iQuestSequenceFactory::AddDelay"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iQuestSequenceFactory::AddDelay           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>delay</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a delay. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>delay</em>&nbsp;</td><td>is a the delay or a parameter. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a2" doxytag="iQuestSequenceFactory::AddSeqOpFactory"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -61,14 +93,8 @@ Definition at line <a class="el" href="questmanager_8h-source.html#l00491">491</
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>csTicks&nbsp;</td>
-          <td class="mdname" nowrap> <em>start</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>csTicks&nbsp;</td>
-          <td class="mdname" nowrap> <em>end</em></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>duration</em></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -92,8 +118,7 @@ Add a new operation factory at the specified time.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>seqopfact</em>&nbsp;</td><td>is the factory to add. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>start</em>&nbsp;</td><td>is the time (relative to the beginning of the execution of the entire sequence) when the operation should start. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>end</em>&nbsp;</td><td>is the time when it should end. If start is equal to end then this is a single-shot event. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>duration</em>&nbsp;</td><td>is the duration of this operation. This can be a string representing a numerical value or a parameter ($x notation). The duration can be 0 in which case we have a single-stop event. </td></tr>
   </table>
 </dl>
     </td>
@@ -124,35 +149,6 @@ Add a new operation factory at the specified time.
 
 <p>
 Get the name of this factory. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a4" doxytag="iQuestSequenceFactory::GetTotalTime"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual csTicks iQuestSequenceFactory::GetTotalTime           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get the total time for this sequence. 
 <p>
     </td>
   </tr>
@@ -191,36 +187,6 @@ Load this sequence factory from a document node.
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>false on error (reporter is used to report). </dd></dl>
     </td>
-  </tr>
-</table>
-<a class="anchor" name="a3" doxytag="iQuestSequenceFactory::SetTotalTime"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iQuestSequenceFactory::SetTotalTime           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">csTicks&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>total_time</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Set the total time for this sequence. 
-<p>
-This is used if you manually setup the sequence as opposed to calling <a class="el" href="structiQuestSequenceFactory.html#a1">Load()</a>. Note that <a class="el" href="structiQuestSequenceFactory.html#a2">AddSeqOpFactory()</a> will automatically bump up the total_time to the maximum of all 'end' parameters.     </td>
   </tr>
 </table>
 <hr>The documentation for this struct was generated from the following file:<ul>

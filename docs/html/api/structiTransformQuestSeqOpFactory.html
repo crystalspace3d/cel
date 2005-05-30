@@ -26,12 +26,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiTransformQuestSeqOpFactory.html#a0">SetEntityParameter</a> (const char *entity)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the entity containing the pcmesh (either entity name or a parameter if it starts with '$').  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiTransformQuestSeqOpFactory.html#a1">SetVector</a> (const csVector3 &amp;vector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiTransformQuestSeqOpFactory.html#a1">SetVectorParameter</a> (const char *vectorx, const char *vectory, const char *vectorz)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the relative movement vector.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiTransformQuestSeqOpFactory.html#a2">SetRotation</a> (int rot_axis, float rot_angle)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the relative movement vector parameter.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiTransformQuestSeqOpFactory.html#a2">SetRotationParameter</a> (int rot_axis, const char *rot_angle)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the relative rotation.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the relative rotation parameter.  <a href="#a2"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface is implemented by the seqop that transforms meshes. 
@@ -42,19 +42,19 @@ In XML, factories recognize the following attributes on the 'op' node: <ul>
 <li>
 <em>entity</em>: the name of the entity containing the pcmesh property class. </li>
 <li>
-<em>v</em>: optional movement vector. This node has 'x', 'y, and 'z' attributes. </li>
+<em>v</em>: optional movement vector. This node has 'x', 'y, and 'z' attributes. Each of these attributes can be a parameter. </li>
 <li>
-<em>rotx</em>: optional rotation along x axis. This node has an 'angle' parameter in radians. </li>
+<em>rotx</em>: optional rotation along x axis. This node has an 'angle' parameter in radians. Angle can be a parameter. </li>
 <li>
-<em>roty</em>: optional rotation along y axis. This node has an 'angle' parameter in radians. </li>
+<em>roty</em>: optional rotation along y axis. This node has an 'angle' parameter in radians. Angle can be a parameter. </li>
 <li>
-<em>rotz</em>: optional rotation along z axis. This node has an 'angle' parameter in radians. </li>
+<em>rotz</em>: optional rotation along z axis. This node has an 'angle' parameter in radians. Angle can be a parameter. </li>
 </ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l01403">1403</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l01396">1396</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a0" doxytag="iTransformQuestSeqOpFactory::SetEntityParameter"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -85,13 +85,13 @@ Set the entity containing the pcmesh (either entity name or a parameter if it st
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="iTransformQuestSeqOpFactory::SetRotation"></a><p>
+<a class="anchor" name="a2" doxytag="iTransformQuestSeqOpFactory::SetRotationParameter"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iTransformQuestSeqOpFactory::SetRotation           </td>
+          <td class="md" nowrap valign="top">virtual void iTransformQuestSeqOpFactory::SetRotationParameter           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">int&nbsp;</td>
           <td class="mdname" nowrap> <em>rot_axis</em>, </td>
@@ -99,7 +99,7 @@ Set the entity containing the pcmesh (either entity name or a parameter if it st
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>float&nbsp;</td>
+          <td class="md" nowrap>const char *&nbsp;</td>
           <td class="mdname" nowrap> <em>rot_angle</em></td>
         </tr>
         <tr>
@@ -119,23 +119,43 @@ Set the entity containing the pcmesh (either entity name or a parameter if it st
     <td>
 
 <p>
-Set the relative rotation. 
+Set the relative rotation parameter. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>rot_axis</em>&nbsp;</td><td>is 0, 1, or 2 for x, y, or z axis. </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1" doxytag="iTransformQuestSeqOpFactory::SetVector"></a><p>
+<a class="anchor" name="a1" doxytag="iTransformQuestSeqOpFactory::SetVectorParameter"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iTransformQuestSeqOpFactory::SetVector           </td>
+          <td class="md" nowrap valign="top">virtual void iTransformQuestSeqOpFactory::SetVectorParameter           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const csVector3 &amp;&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>vector</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>vectorx</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>vectory</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>vectorz</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
         </tr>
       </table>
     </td>
@@ -149,7 +169,7 @@ Set the relative rotation.
     <td>
 
 <p>
-Set the relative movement vector. 
+Set the relative movement vector parameter. 
 <p>
     </td>
   </tr>
