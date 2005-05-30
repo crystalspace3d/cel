@@ -262,7 +262,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      if (str_value)
 	      {
 		if (*str_value == '$')
-	          params->GetParameter (par_idx-1).SetParameter (str_value+1, CEL_DATA_STRING);
+	          params->GetParameter (par_idx-1).SetParameter (str_value+1,
+		  	CEL_DATA_STRING);
 		else
 	          params->GetParameter (par_idx-1).Set (str_value);
 		continue;
@@ -271,7 +272,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      if (vec_value)
 	      {
 		if (*vec_value == '$')
-	          params->GetParameter (par_idx-1).SetParameter (vec_value+1, CEL_DATA_VECTOR3);	//@@@?
+	          params->GetParameter (par_idx-1).SetParameter (vec_value+1,
+		  	CEL_DATA_VECTOR3);	//@@@?
 		else
 		{
 		  csVector3 v;
@@ -291,7 +293,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      if (float_value)
 	      {
 		if (*float_value == '$')
-	          params->GetParameter (par_idx-1).SetParameter (float_value+1, CEL_DATA_FLOAT);
+	          params->GetParameter (par_idx-1).SetParameter (float_value+1,
+		  	CEL_DATA_FLOAT);
 		else
 		{
 		  float f;
@@ -304,7 +307,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      if (bool_value)
 	      {
 		if (*bool_value == '$')
-	          params->GetParameter (par_idx-1).SetParameter (bool_value+1, CEL_DATA_BOOL);
+	          params->GetParameter (par_idx-1).SetParameter (bool_value+1,
+		  	CEL_DATA_BOOL);
 		else
 		{
 		  bool b;
@@ -317,7 +321,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      if (long_value)
 	      {
 		if (*long_value == '$')
-	          params->GetParameter (par_idx-1).SetParameter (long_value+1, CEL_DATA_LONG);
+	          params->GetParameter (par_idx-1).SetParameter (long_value+1,
+		  	CEL_DATA_LONG);
 		else
 		{
 		  int l;

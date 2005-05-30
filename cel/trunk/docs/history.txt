@@ -16,6 +16,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed the quest property class so that it adds the
 	  name of the entity as a $this parameter during creation of a
 	  quest.
+	- Jorrit also extended the celentity addon so that it also adds
+	  $this as a parameter for the creation of an entity from a
+	  template. Again it will be the name of the entity.
 29-May-2005
 	- Jorrit changed the transform sequence operation so that the
 	  vector and angle can now also accept a parameter.
