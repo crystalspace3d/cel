@@ -49,11 +49,13 @@ celMeshSelectTriggerFactory::celMeshSelectTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celMeshSelectTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
 }
 
 celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -62,15 +64,17 @@ csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celMeshSelectTrigger* trig = new celMeshSelectTrigger (type,
-  	params, entity_par);
+  	params, entity_par, tag_par);
   return trig;
 }
 
 bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
 
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -82,13 +86,18 @@ bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celMeshSelectTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -101,18 +110,20 @@ SCF_IMPLEMENT_IBASE_END
 celMeshSelectTrigger::celMeshSelectTrigger (
 	celMeshSelectTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par)
+	const char* entity_par, const char* tag_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celMeshSelectTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
 }
 
 celMeshSelectTrigger::~celMeshSelectTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -132,7 +143,7 @@ void celMeshSelectTrigger::FindMeshSelect ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  meshselect = CEL_QUERY_PROPCLASS_ENT (ent, iPcMeshSelect);
+  meshselect = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMeshSelect, tag);
 }
 
 void celMeshSelectTrigger::ActivateTrigger ()

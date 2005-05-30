@@ -50,6 +50,7 @@ class celPropertyChangeTriggerFactory :
 private:
   celPropertyChangeTriggerType* type;
   char* entity_par;
+  char* tag_par;
   char* prop_par;
   char* value_par;
 
@@ -64,7 +65,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iPropertyChangeQuestTriggerFactory ----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetPropertyParameter (const char* prop);
   virtual void SetValueParameter (const char* value);
 };
@@ -81,6 +82,7 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcProperties> properties;
   char* entity;
+  char* tag;
   char* prop;
   char* value;
 
@@ -89,8 +91,8 @@ private:
 public:
   celPropertyChangeTrigger (celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* prop_par,
-	const char* value_par);
+	const char* entity_par, const char* tag_par,
+	const char* prop_par, const char* value_par);
   virtual ~celPropertyChangeTrigger ();
 
   SCF_DECLARE_IBASE;

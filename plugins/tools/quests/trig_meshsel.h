@@ -50,6 +50,7 @@ class celMeshSelectTriggerFactory :
 private:
   celMeshSelectTriggerType* type;
   char* entity_par;
+  char* tag_par;
 
 public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
@@ -62,7 +63,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMeshSelectQuestTriggerFactory ----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
 };
 
 /**
@@ -77,13 +78,14 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
   char* entity;
+  char* tag;
 
   void FindMeshSelect ();
 
 public:
   celMeshSelectTrigger (celMeshSelectTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par);
+	const char* entity_par, const char* tag_par);
   virtual ~celMeshSelectTrigger ();
 
   SCF_DECLARE_IBASE;

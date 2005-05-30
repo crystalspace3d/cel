@@ -52,6 +52,7 @@ class celTransformSeqOpFactory :
 private:
   celTransformSeqOpType* type;
   char* entity_par;
+  char* tag_par;
   char* vectorx_par;
   char* vectory_par;
   char* vectorz_par;
@@ -69,7 +70,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTransformQuestSeqOpFactory -----------------------
-  virtual void SetEntityParameter (const char* msg);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetVectorParameter (const char* vectorx, const char* vectory,
   	const char* vectorz);
   virtual void SetRotationParameter (int axis, const char* angle);
@@ -84,6 +85,7 @@ class celTransformSeqOp :
 private:
   celTransformSeqOpType* type;
   char* entity;
+  char* tag;
   csVector3 vector;
   bool do_move;
   int rot_axis;
@@ -98,8 +100,8 @@ private:
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* vectorx,
-	const char* vectory, const char* vectorz,
+	const char* entity_par, const char* tag_par,
+	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle);
   virtual ~celTransformSeqOp ();
 

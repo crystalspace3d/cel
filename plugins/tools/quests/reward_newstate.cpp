@@ -51,12 +51,14 @@ celNewStateRewardFactory::celNewStateRewardFactory (
   celNewStateRewardFactory::type = type;
   state_par = 0;
   entity_par = 0;
+  tag_par = 0;
 }
 
 celNewStateRewardFactory::~celNewStateRewardFactory ()
 {
   delete[] state_par;
   delete[] entity_par;
+  delete[] tag_par;
 
   SCF_DESTRUCT_IBASE ();
 }
@@ -65,7 +67,7 @@ csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
     const csHash<csStrKey,csStrKey>& params)
 {
   celNewStateReward* trig = new celNewStateReward (type,
-  	params, state_par, entity_par);
+  	params, state_par, entity_par, tag_par);
   return trig;
 }
 
@@ -75,6 +77,7 @@ bool celNewStateRewardFactory::Load (iDocumentNode* node)
   delete[] entity_par; entity_par = 0;
   state_par = csStrNew (node->GetAttributeValue ("state"));
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!state_par)
   {
@@ -102,13 +105,19 @@ void celNewStateRewardFactory::SetStateParameter (const char* state)
   state_par = csStrNew (state);
 }
 
-void celNewStateRewardFactory::SetEntityParameter (const char* entity)
+void celNewStateRewardFactory::SetEntityParameter (const char* entity,
+	const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -121,19 +130,21 @@ celNewStateReward::celNewStateReward (
 	celNewStateRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* state_par,
-	const char* entity_par)
+	const char* entity_par, const char* tag_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celNewStateReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
 }
 
 celNewStateReward::~celNewStateReward ()
 {
   delete[] state;
   delete[] entity;
+  delete[] tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -147,7 +158,8 @@ void celNewStateReward::Reward ()
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
-    csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
+    csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest,
+    	tag);
     if (!pcquest) return;
     quest = pcquest->GetQuest ();
     if (!quest) return;

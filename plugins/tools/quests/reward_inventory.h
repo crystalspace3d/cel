@@ -51,7 +51,9 @@ class celInventoryRewardFactory :
 private:
   celInventoryRewardType* type;
   char* entity_par;
+  char* tag_par;
   char* child_entity_par;
+  char* child_tag_par;
 
 public:
   celInventoryRewardFactory (celInventoryRewardType* type);
@@ -64,8 +66,9 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iInventoryQuestRewardFactory -----------------------
-  virtual void SetEntityParameter (const char* entity);
-  virtual void SetChildEntityParameter (const char* child_entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual void SetChildEntityParameter (const char* child_entity,
+  	const char* tag = 0);
 };
 
 /**
@@ -77,15 +80,17 @@ class celInventoryReward :
 private:
   celInventoryRewardType* type;
   char* entity;
+  char* tag;
   char* child_entity;
+  char* child_tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcInventory> inventory;
 
 public:
   celInventoryReward (celInventoryRewardType* type,
   	const celQuestParams& params,
-	const char* entity_par,
-	const char* child_entity_par);
+	const char* entity_par, const char* tag_par,
+	const char* child_entity_par, const char* child_tag_par);
   virtual ~celInventoryReward ();
 
   SCF_DECLARE_IBASE;

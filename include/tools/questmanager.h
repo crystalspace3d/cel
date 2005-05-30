@@ -861,6 +861,8 @@ SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pcproperties property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>property</em>: the name of the property.
  * <li><em>value</em>: the value on which this trigger will fire.
  * </ul>
@@ -872,8 +874,10 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the property on which this trigger will fire.
@@ -905,6 +909,8 @@ SCF_VERSION (iMeshSelectQuestTriggerFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pcmeshselect property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * </ul>
  */
 struct iMeshSelectQuestTriggerFactory : public iBase
@@ -914,8 +920,10 @@ struct iMeshSelectQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 };
 
 SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
@@ -934,6 +942,8 @@ SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pcinventory property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>child_entity</em>: the name of the entity to watch for.
  * </ul>
  */
@@ -944,8 +954,10 @@ struct iInventoryQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the entity to watch for.
@@ -973,6 +985,8 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pccamera or pcmesh property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>sector</em>: the name of the sector. As soon as the camera
  *     or mesh enters that sector this trigger will fire.
  * </ul>
@@ -984,8 +998,10 @@ struct iEnterSectorQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the sector on which this trigger will fire
@@ -1012,6 +1028,8 @@ SCF_VERSION (iSequenceFinishQuestTriggerFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pcquest property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>sequence</em>: the name of the sequence on which to listen.
  * </ul>
  */
@@ -1022,8 +1040,10 @@ struct iSequenceFinishQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1046,6 +1066,8 @@ struct iSequenceFinishQuestTriggerFactory : public iBase
  * <ul>
  * <li><em>entity</em>: the name of the entity that contains the
  *     pctrigger property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>leave</em>: if present the trigger will register on 'leaves' instead
  *     of 'enters'.
  * </ul>
@@ -1057,8 +1079,10 @@ struct iTriggerQuestTriggerFactory : public iBase
    * on which this trigger will fire.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * If this function is called then the trigger will fire on 'leaves'
@@ -1112,6 +1136,8 @@ SCF_VERSION (iNewStateQuestRewardFactory, 0, 0, 1);
  * <li><em>state</em>: the new state.
  * <li><em>entity</em>: the name of the entity containing the
  *     pcquest property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * </ul>
  */
 struct iNewStateQuestRewardFactory : public iBase
@@ -1129,8 +1155,10 @@ struct iNewStateQuestRewardFactory : public iBase
    * on which this reward will work.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 };
 
 SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
@@ -1239,8 +1267,13 @@ SCF_VERSION (iInventoryQuestRewardFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the
  *     pcinventory property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>child_entity</em>: the name of the entity that will
  *     be added to or removed from the inventory.
+ * <li><em>child_entity_tag</em>: optional tag used to find the right
+ *     property class from the entity. This will be used to find the
+ *     pcmesh for hiding the mesh.
  * </ul>
  */
 struct iInventoryQuestRewardFactory : public iBase
@@ -1250,15 +1283,18 @@ struct iInventoryQuestRewardFactory : public iBase
    * on which this reward will work.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the entity that will be put in or out the inventory.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
    */
-  virtual void SetChildEntityParameter (const char* entity) = 0;
+  virtual void SetChildEntityParameter (const char* entity,
+  	const char* tag = 0) = 0;
 
 };
 
@@ -1276,6 +1312,8 @@ SCF_VERSION (iSequenceQuestRewardFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the
  *     pcquest property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>sequence</em>: the name of the sequence.
  * <li><em>delay</em>: delay before we start the sequence. Default is 0.
  * </ul>
@@ -1287,8 +1325,10 @@ struct iSequenceQuestRewardFactory : public iBase
    * on which this reward will work.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1318,6 +1358,8 @@ SCF_VERSION (iSequenceFinishQuestRewardFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the
  *     pcquest property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>sequence</em>: the name of the sequence.
  * </ul>
  */
@@ -1328,8 +1370,10 @@ struct iSequenceFinishQuestRewardFactory : public iBase
    * on which this reward will work.
    * \param entity is the name of the entity or a parameter (starts
    * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1382,6 +1426,8 @@ SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
  * <ul>
  * <li><em>entity</em>: the name of the entity containing the pcmesh
  *     property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
  * <li><em>v</em>: optional movement vector.
  *     This node has 'x', 'y, and 'z' attributes. Each of these attributes
  *     can be a parameter.
@@ -1398,8 +1444,10 @@ struct iTransformQuestSeqOpFactory : public iBase
   /**
    * Set the entity containing the pcmesh (either entity name
    * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
    */
-  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
    * Set the relative movement vector parameter.

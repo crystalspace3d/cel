@@ -52,6 +52,7 @@ class celTriggerTriggerFactory :
 private:
   celTriggerTriggerType* type;
   char* entity_par;
+  char* tag_par;
   bool do_leave;
 
 public:
@@ -65,7 +66,7 @@ public:
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTriggerQuestTriggerFactory ----------------------
-  virtual void SetEntityParameter (const char* entity);
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void EnableLeave () { do_leave = true; }
 };
 
@@ -80,6 +81,7 @@ private:
   celTriggerTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   char* entity;
+  char* tag;
   csWeakRef<iCelEntity> ent;
   bool do_leave;
 
@@ -88,7 +90,7 @@ private:
 public:
   celTriggerTrigger (celTriggerTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par,
+	const char* entity_par, const char* tag_par,
 	bool do_leave);
   virtual ~celTriggerTrigger ();
 

@@ -52,6 +52,7 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
   SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOpFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   vectorx_par = 0;
   vectory_par = 0;
   vectorz_par = 0;
@@ -62,6 +63,7 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
 celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] vectorx_par;
   delete[] vectory_par;
   delete[] vectorz_par;
@@ -74,7 +76,7 @@ csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
     const csHash<csStrKey,csStrKey>& params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
-  	params, entity_par, vectorx_par, vectory_par, vectorz_par,
+  	params, entity_par, tag_par, vectorx_par, vectory_par, vectorz_par,
 	rot_axis, rot_angle_par);
   return seqop;
 }
@@ -82,6 +84,7 @@ csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
 bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] vectorx_par; vectorx_par = 0;
   delete[] vectory_par; vectory_par = 0;
   delete[] vectorz_par; vectorz_par = 0;
@@ -95,6 +98,7 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
       "'entity' attribute is missing for the transform seqop!");
     return false;
   }
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   csRef<iDocumentNode> v_node = node->GetNode ("v");
   if (v_node)
@@ -125,11 +129,19 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
   return true;
 }
 
-void celTransformSeqOpFactory::SetEntityParameter (const char* entity)
+void celTransformSeqOpFactory::SetEntityParameter (const char* entity,
+	const char* tag)
 {
-  if (entity_par == entity) return;
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celTransformSeqOpFactory::SetVectorParameter (const char* vectorx,
@@ -178,7 +190,7 @@ SCF_IMPLEMENT_IBASE_END
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* entity_par,
+	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle)
 {
@@ -186,6 +198,7 @@ celTransformSeqOp::celTransformSeqOp (
   celTransformSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   vector.x = ToFloat (qm->ResolveParameter (params, vectorx));
   vector.y = ToFloat (qm->ResolveParameter (params, vectory));
   vector.z = ToFloat (qm->ResolveParameter (params, vectorz));
@@ -198,6 +211,7 @@ celTransformSeqOp::celTransformSeqOp (
 celTransformSeqOp::~celTransformSeqOp ()
 {
   delete[] entity;
+  delete[] tag;
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -210,7 +224,7 @@ void celTransformSeqOp::FindMesh ()
   iCelEntity* ent = pl->FindEntity (entity);
   if (ent)
   {
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
     if (pcmesh)
     {
       mesh = pcmesh->GetMesh ();

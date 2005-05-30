@@ -50,12 +50,14 @@ celSequenceFinishTriggerFactory::celSequenceFinishTriggerFactory (
   SCF_CONSTRUCT_IBASE (0);
   celSequenceFinishTriggerFactory::type = type;
   entity_par = 0;
+  tag_par = 0;
   sequence_par = 0;
 }
 
 celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 {
   delete[] entity_par;
+  delete[] tag_par;
   delete[] sequence_par;
 
   SCF_DESTRUCT_IBASE ();
@@ -65,15 +67,17 @@ csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
     const celQuestParams& params)
 {
   celSequenceFinishTrigger* trig = new celSequenceFinishTrigger (type,
-  	params, entity_par, sequence_par);
+  	params, entity_par, tag_par, sequence_par);
   return trig;
 }
 
 bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
   delete[] sequence_par; sequence_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("tag"));
 
   if (!entity_par)
   {
@@ -94,13 +98,18 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
 }
 
 void celSequenceFinishTriggerFactory::SetEntityParameter (
-	const char* entity)
+	const char* entity, const char* tag)
 {
-  if (entity_par == entity) 
-    return;
-
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celSequenceFinishTriggerFactory::SetSequenceParameter (
@@ -123,12 +132,14 @@ SCF_IMPLEMENT_IBASE_END
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* sequence_par)
+	const char* entity_par, const char* tag_par,
+	const char* sequence_par)
 {
   SCF_CONSTRUCT_IBASE (0);
   celSequenceFinishTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
 }
 
@@ -136,6 +147,7 @@ celSequenceFinishTrigger::~celSequenceFinishTrigger ()
 {
   DeactivateTrigger ();
   delete[] entity;
+  delete[] tag;
   delete[] sequence;
   SCF_DESTRUCT_IBASE ();
 }
@@ -162,7 +174,7 @@ void celSequenceFinishTrigger::FindSequence ()
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (ent, iPcQuest);
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
   seq = quest->FindSequence (sequence);

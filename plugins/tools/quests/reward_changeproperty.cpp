@@ -137,9 +137,11 @@ void celChangePropertyRewardFactory::SetPropertyParameter (
 void celChangePropertyRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  if (entity_par == entity) return;
-  delete[] entity_par;
-  entity_par = csStrNew (entity);
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
 }
 
 void celChangePropertyRewardFactory::SetPCParameter (const char* pc,
