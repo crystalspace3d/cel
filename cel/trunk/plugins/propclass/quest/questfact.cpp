@@ -282,7 +282,9 @@ bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
 	  "Couldn't find quest factory '%s'!", name);
     return false;
   }
+  params.Put ("this", entity->GetName ());
   quest = fact->CreateQuest (params);
+  params.Delete ("this", entity->GetName ());
   if (!quest)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,

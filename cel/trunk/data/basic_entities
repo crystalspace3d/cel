@@ -30,14 +30,12 @@
 
     <sector name="room">
     	<addon plugin="cel.addons.questdef">
-	    <!-- Parameters for this quest:
-		 $ent: entity containing this quest -->
 	    <quest name="proximityquest">
 	    	<state name="start">
 		    <trigger type="trigger">
 		    	<fireon entity="box_small" />
 			<reward type="debugprint" message="We are close!" />
-			<reward type="sequence" entity="$ent" sequence="movebox" />
+			<reward type="sequence" entity="$this" sequence="movebox" />
 		    	<reward type="newstate" state="second" />
 		    </trigger>
 		</state>
@@ -57,22 +55,21 @@
 	    </quest>
 	    <!-- Parameters for this quest:
 	         $message: message to print
-		 $ent: entity containing this quest
 		 $actor: entity containing the actor -->
 	    <quest name="testquest">
 	    	<state name="init">
 		    <trigger type="timeout">
 		    	<fireon timeout="1000" />
 			<reward type="debugprint" message="$message" />
-		    	<reward type="changeproperty" entity="$ent" property="counter" long="0" />
-		    	<reward type="changeproperty" entity="$ent" property="countdown" long="5" />
+		    	<reward type="changeproperty" entity="$this" property="counter" long="0" />
+		    	<reward type="changeproperty" entity="$this" property="countdown" long="5" />
 		    	<reward type="newstate" state="sequencetest" />
-			<reward type="sequence" entity="$ent" sequence="test" />
+			<reward type="sequence" entity="$this" sequence="test" />
 		    </trigger>
 		</state>
 	    	<state name="sequencetest">
 		    <trigger type="sequencefinish">
-		    	<fireon entity="$ent" sequence="test" />
+		    	<fireon entity="$this" sequence="test" />
 			<reward type="debugprint" message="Sequence Finished!" />
 		    	<reward type="newstate" state="countdown" />
 		    </trigger>
@@ -81,11 +78,11 @@
 		    <trigger type="timeout">
 		    	<fireon timeout="1000" />
 			<reward type="debugprint" message="countdown" />
-		    	<reward type="changeproperty" entity="$ent" property="countdown" diff="-1" />
+		    	<reward type="changeproperty" entity="$this" property="countdown" diff="-1" />
 		    	<reward type="newstate" state="countdown" />
 		    </trigger>
 		    <trigger type="propertychange">
-		    	<fireon entity="$ent" property="countdown" value="0" />
+		    	<fireon entity="$this" property="countdown" value="0" />
 			<reward type="debugprint" message="Done!" />
 		    	<reward type="newstate" state="start" />
 		    </trigger>
@@ -97,7 +94,7 @@
 		    	<reward type="newstate" state="middle" />
 		    </trigger>
 		    <trigger type="propertychange">
-		    	<fireon entity="$ent" property="counter" value="5" />
+		    	<fireon entity="$this" property="counter" value="5" />
 			<reward type="debugprint" message="We reached 5!" />
 		    	<reward type="newstate" state="end" />
 		    </trigger>
@@ -111,7 +108,7 @@
 			     of conditions after activating a state. -->
 		    	<reward type="newstate" state="start" />
 			<reward type="debugprint" message="And Back!" />
-		    	<reward type="changeproperty" entity="$ent" property="counter" diff="1" />
+		    	<reward type="changeproperty" entity="$this" property="counter" diff="1" />
 		    </trigger>
 		</state>
 	    	<state name="end">
