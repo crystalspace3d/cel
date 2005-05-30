@@ -348,6 +348,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
       return 0;
     }
     celEntityTemplateParams params;
+    params.Put ("this", entityname);
     csRef<iDocumentNode> paramsnode = node->GetNode ("params");
     if (paramsnode)
     {
