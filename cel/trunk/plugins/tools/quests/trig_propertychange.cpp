@@ -65,7 +65,7 @@ celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
   celPropertyChangeTrigger* trig = new celPropertyChangeTrigger (type,
   	params, entity_par, tag_par, prop_par, value_par);

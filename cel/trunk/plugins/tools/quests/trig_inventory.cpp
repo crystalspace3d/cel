@@ -63,7 +63,7 @@ celInventoryTriggerFactory::~celInventoryTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
   celInventoryTrigger* trig = new celInventoryTrigger (type,
   	params, entity_par, tag_par, child_entity_par);

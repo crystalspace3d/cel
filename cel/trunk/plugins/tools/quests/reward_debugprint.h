@@ -56,7 +56,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual csPtr<iQuestReward> CreateReward (
+  virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 

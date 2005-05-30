@@ -60,7 +60,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (
-      const celQuestParams& params);
+      iQuest* q, const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iNewStateQuestRewardFactory -----------------------
@@ -84,7 +84,7 @@ private:
 
 public:
   celNewStateReward (celNewStateRewardType* type,
-  	const celQuestParams& params,
+  	iQuest* q, const celQuestParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward ();

@@ -8,6 +8,11 @@ The history order is reversed so that new features are at the top.
 	  quest manager so that they can now also optionally accept a tag
 	  so that you can specify which property class from the entity
 	  you want to work on.
+	- Jorrit extended the quest reward system so that the quest is
+	  now a parameter for CreateReward(). By doing that it is now possible
+	  to simplify quests a bit because you no longer have to specify
+	  the entity for which you want to change state. If the entity
+	  is not given the current quest is used for the state change.
 29-May-2005
 	- Jorrit changed the transform sequence operation so that the
 	  vector and angle can now also accept a parameter.

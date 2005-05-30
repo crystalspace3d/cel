@@ -77,7 +77,7 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 }
 
 csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celChangePropertyReward* trig = new celChangePropertyReward (type,
   	params, prop_par, entity_par, pc_par, tag_par, string_par, long_par,
