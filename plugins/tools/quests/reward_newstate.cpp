@@ -64,10 +64,10 @@ celNewStateRewardFactory::~celNewStateRewardFactory ()
 }
 
 csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey>& params)
+    iQuest* q, const csHash<csStrKey,csStrKey>& params)
 {
   celNewStateReward* trig = new celNewStateReward (type,
-  	params, state_par, entity_par, tag_par);
+  	q, params, state_par, entity_par, tag_par);
   return trig;
 }
 
@@ -84,13 +84,6 @@ bool celNewStateRewardFactory::Load (iDocumentNode* node)
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questreward.debugprint",
       "'state' attribute is missing for the newstate reward!");
-    return false;
-  }
-  if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
-      "'entity' attribute is missing for the newstate reward!");
     return false;
   }
   return true;
@@ -127,7 +120,7 @@ SCF_IMPLEMENT_IBASE (celNewStateReward)
 SCF_IMPLEMENT_IBASE_END
 
 celNewStateReward::celNewStateReward (
-	celNewStateRewardType* type,
+	celNewStateRewardType* type, iQuest* q,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
@@ -138,6 +131,7 @@ celNewStateReward::celNewStateReward (
   state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  quest = q;
 }
 
 celNewStateReward::~celNewStateReward ()

@@ -60,7 +60,7 @@ celTimeoutTriggerFactory::~celTimeoutTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
   celTimeoutTrigger* trig = new celTimeoutTrigger (type,
   	params, timeout_par);

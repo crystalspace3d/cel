@@ -68,7 +68,7 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
-    const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
   	params, entity_par, tag_par, child_entity_par, child_tag_par);

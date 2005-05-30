@@ -62,7 +62,7 @@ public:
 
   SCF_DECLARE_IBASE;
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (
+  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 

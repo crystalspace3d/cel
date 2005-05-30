@@ -37,6 +37,7 @@ struct iObjectRegistry;
 struct iEvent;
 class celQuestManager;
 class celQuestFactory;
+class celQuest;
 
 //---------------------------------------------------------------------------
 
@@ -263,12 +264,13 @@ private:
   iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
   csRefArray<iQuestReward> rewards;
+  celQuest* quest;
 
   // Count how many rewards we still have to hand out.
   size_t reward_counter;
 
 public:
-  celQuestStateResponse (iCelPlLayer* pl);
+  celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
   virtual ~celQuestStateResponse ();
 
   void SetTrigger (iQuestTrigger* trigger);
@@ -302,7 +304,7 @@ public:
   }
   ~celQuestState () { delete[] name; }
   const char* GetName () const { return name; }
-  size_t AddResponse ();
+  size_t AddResponse (celQuest* quest);
   size_t GetResponseCount () const { return responses.Length (); }
   celQuestStateResponse* GetResponse (size_t idx) const
   {

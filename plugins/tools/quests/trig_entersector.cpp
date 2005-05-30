@@ -64,7 +64,7 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
   celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
   	params, entity_par, tag_par, sector_par);

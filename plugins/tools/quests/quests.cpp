@@ -454,13 +454,15 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
         = respfact->GetRewardFactories ();
 
       size_t respidx = q->AddStateResponse (stateidx);
-      csRef<iQuestTrigger> trig = trigfact->CreateTrigger (params);
+      csRef<iQuestTrigger> trig = trigfact->CreateTrigger ((iQuest*)q,
+      		params);
       if (!trig) return 0;	// @@@ Report
       q->SetStateTrigger (stateidx, respidx, trig);
       size_t j;
       for (j = 0 ; j < rewfacts.Length () ; j++)
       {
-        csRef<iQuestReward> rew = rewfacts[j]->CreateReward (params);
+        csRef<iQuestReward> rew = rewfacts[j]->CreateReward ((iQuest*)q,
+		params);
 	if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
       }
@@ -674,11 +676,13 @@ SCF_IMPLEMENT_IBASE (celQuestStateResponse)
   SCF_IMPLEMENTS_INTERFACE (iQuestTriggerCallback)
 SCF_IMPLEMENT_IBASE_END
 
-celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl)
+celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl,
+	celQuest* quest)
 {
   SCF_CONSTRUCT_IBASE (0);
   reward_counter = 0;
   celQuestStateResponse::pl = pl;
+  celQuestStateResponse::quest = quest;
 }
 
 celQuestStateResponse::~celQuestStateResponse ()
@@ -720,9 +724,9 @@ void celQuestStateResponse::TickEveryFrame ()
 
 //---------------------------------------------------------------------------
 
-size_t celQuestState::AddResponse ()
+size_t celQuestState::AddResponse (celQuest* quest)
 {
-  celQuestStateResponse* response = new celQuestStateResponse (pl);
+  celQuestStateResponse* response = new celQuestStateResponse (pl, quest);
   size_t idx = responses.Push (response);
   response->DecRef ();
   return idx;
@@ -850,7 +854,7 @@ size_t celQuest::AddState (const char* name)
 
 size_t celQuest::AddStateResponse (size_t stateidx)
 {
-  return states[stateidx]->AddResponse ();
+  return states[stateidx]->AddResponse (this);
 }
 
 void celQuest::SetStateTrigger (size_t stateidx, size_t responseidx,

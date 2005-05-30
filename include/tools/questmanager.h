@@ -28,6 +28,7 @@
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
 struct iCelDataBuffer;
+struct iQuest;
 
 /*
 <quest name="test">
@@ -150,10 +151,12 @@ struct iQuestTriggerFactory : public iBase
 {
   /**
    * Create a trigger.
+   * \param quest is the quest for which this trigger is created.
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iQuestTrigger> CreateTrigger (const celQuestParams& params) = 0;
+  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest* quest,
+  	const celQuestParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -216,10 +219,12 @@ struct iQuestRewardFactory : public iBase
 {
   /**
    * Create a reward.
+   * \param quest is the quest for which we are creating this reward.
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iQuestReward> CreateReward (const celQuestParams& params) = 0;
+  virtual csPtr<iQuestReward> CreateReward (iQuest* quest,
+  	const celQuestParams& params) = 0;
 
   /**
    * Load this factory from a document node.
