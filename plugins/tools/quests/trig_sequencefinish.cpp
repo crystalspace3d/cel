@@ -77,7 +77,7 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
   delete[] tag_par; tag_par = 0;
   delete[] sequence_par; sequence_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("tag"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!entity_par)
   {

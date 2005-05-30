@@ -75,7 +75,7 @@ bool celTriggerTriggerFactory::Load (iDocumentNode* node)
   delete[] entity_par; entity_par = 0;
   delete[] tag_par; tag_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("tag"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!entity_par)
   {
