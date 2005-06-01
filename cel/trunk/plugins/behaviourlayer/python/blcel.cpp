@@ -1380,47 +1380,47 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_csColor swig_types[29] 
 #define  SWIGTYPE_p_iCelEntity swig_types[30] 
 #define  SWIGTYPE_p_void swig_types[31] 
-#define  SWIGTYPE_p_csArrayTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_csArrayElementHandlerTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_csArrayMemoryAllocatorTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_t swig_types[32] 
-#define  SWIGTYPE_p_int swig_types[33] 
-#define  SWIGTYPE_p_csPtrTiCelDataBuffer_t swig_types[34] 
-#define  SWIGTYPE_p_iPath swig_types[35] 
-#define  SWIGTYPE_p__csCommandEventCode swig_types[36] 
-#define  SWIGTYPE_p_iCelEntityList swig_types[37] 
-#define  SWIGTYPE_p_celData swig_types[38] 
-#define  SWIGTYPE_p_iObject swig_types[39] 
-#define  SWIGTYPE_p_int64 swig_types[40] 
-#define  SWIGTYPE_p_csHashTcsStrKey_csStrKey_t swig_types[41] 
-#define  SWIGTYPE_p_iBillboard swig_types[42] 
-#define  SWIGTYPE_p_iPcBillboard swig_types[43] 
-#define  SWIGTYPE_p_iPcLinearMovement swig_types[44] 
-#define  SWIGTYPE_p_csString swig_types[45] 
-#define  SWIGTYPE_p_iCelEntityTemplate swig_types[46] 
-#define  SWIGTYPE_p_iAwsComponent swig_types[47] 
-#define  SWIGTYPE_p_csDirtyAccessArrayTcsSprite2DVertex_t swig_types[48] 
-#define  SWIGTYPE_p_csFlags swig_types[49] 
-#define  SWIGTYPE_p_iPcCommandInput swig_types[50] 
-#define  SWIGTYPE_p_csOrthoTransform swig_types[51] 
-#define  SWIGTYPE_p_iCelPropertyClass swig_types[52] 
-#define  SWIGTYPE_p_iPcMovable swig_types[53] 
-#define  SWIGTYPE_p_iBillboardEventHandler swig_types[54] 
-#define  SWIGTYPE_p_iPcCollisionDetection swig_types[55] 
-#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[56] 
-#define  SWIGTYPE_int swig_types[57] 
-#define  SWIGTYPE_p__csKeyModifierNumType swig_types[58] 
-#define  SWIGTYPE_p_char swig_types[59] 
-#define  SWIGTYPE_p_FileFormatDescription swig_types[60] 
-#define  SWIGTYPE_p_iMeshWrapper swig_types[61] 
-#define  SWIGTYPE_p_iPcDynamicBody swig_types[62] 
-#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[63] 
-#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[64] 
-#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[65] 
-#define  SWIGTYPE_p_iBillboardManager swig_types[66] 
-#define  SWIGTYPE_p_iPcZoneManager swig_types[67] 
-#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_csArrayMemoryAllocatorTcsPluginRequest_t_t swig_types[68] 
-#define  SWIGTYPE_p_iCamera swig_types[69] 
-#define  SWIGTYPE_p_iPcCamera swig_types[70] 
-#define  SWIGTYPE_p_iPcMesh swig_types[71] 
-#define  SWIGTYPE_p_iPcSimpleCamera swig_types[72] 
+#define  SWIGTYPE_p_int swig_types[32] 
+#define  SWIGTYPE_p_csPtrTiCelDataBuffer_t swig_types[33] 
+#define  SWIGTYPE_p_iPath swig_types[34] 
+#define  SWIGTYPE_p__csCommandEventCode swig_types[35] 
+#define  SWIGTYPE_p_iCelEntityList swig_types[36] 
+#define  SWIGTYPE_p_celData swig_types[37] 
+#define  SWIGTYPE_p_iObject swig_types[38] 
+#define  SWIGTYPE_p_int64 swig_types[39] 
+#define  SWIGTYPE_p_csHashTcsStrKey_csStrKey_t swig_types[40] 
+#define  SWIGTYPE_p_iBillboard swig_types[41] 
+#define  SWIGTYPE_p_iPcBillboard swig_types[42] 
+#define  SWIGTYPE_p_iPcLinearMovement swig_types[43] 
+#define  SWIGTYPE_p_csString swig_types[44] 
+#define  SWIGTYPE_p_iCelEntityTemplate swig_types[45] 
+#define  SWIGTYPE_p_iAwsComponent swig_types[46] 
+#define  SWIGTYPE_p_csDirtyAccessArrayTcsSprite2DVertex_t swig_types[47] 
+#define  SWIGTYPE_p_csFlags swig_types[48] 
+#define  SWIGTYPE_p_iPcCommandInput swig_types[49] 
+#define  SWIGTYPE_p_csOrthoTransform swig_types[50] 
+#define  SWIGTYPE_p_iCelPropertyClass swig_types[51] 
+#define  SWIGTYPE_p_iPcMovable swig_types[52] 
+#define  SWIGTYPE_p_iBillboardEventHandler swig_types[53] 
+#define  SWIGTYPE_p_iPcCollisionDetection swig_types[54] 
+#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[55] 
+#define  SWIGTYPE_int swig_types[56] 
+#define  SWIGTYPE_p__csKeyModifierNumType swig_types[57] 
+#define  SWIGTYPE_p_char swig_types[58] 
+#define  SWIGTYPE_p_FileFormatDescription swig_types[59] 
+#define  SWIGTYPE_p_iMeshWrapper swig_types[60] 
+#define  SWIGTYPE_p_iPcDynamicBody swig_types[61] 
+#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[62] 
+#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[63] 
+#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[64] 
+#define  SWIGTYPE_p_iBillboardManager swig_types[65] 
+#define  SWIGTYPE_p_iPcZoneManager swig_types[66] 
+#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_csArrayMemoryAllocatorTcsPluginRequest_t_t swig_types[67] 
+#define  SWIGTYPE_p_iCamera swig_types[68] 
+#define  SWIGTYPE_p_iPcCamera swig_types[69] 
+#define  SWIGTYPE_p_iPcMesh swig_types[70] 
+#define  SWIGTYPE_p_iPcSimpleCamera swig_types[71] 
+#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t swig_types[72] 
 #define  SWIGTYPE_p_iCelBehaviour swig_types[73] 
 #define  SWIGTYPE_p_iBillboardLayer swig_types[74] 
 #define  SWIGTYPE_p_iPcTimer swig_types[75] 
@@ -19497,7 +19497,6 @@ static swig_type_info _swigt__p_iCelEntityTracker[] = {{"_p_iCelEntityTracker", 
 static swig_type_info _swigt__p_csColor[] = {{"_p_csColor", 0, "csColor *", 0, 0, 0, 0},{"_p_csColor", 0, 0, 0, 0, 0, 0},{"_p_csColor4", _p_csColor4To_p_csColor, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelEntity[] = {{"_p_iCelEntity", 0, "iCelEntity *", 0, 0, 0, 0},{"_p_iCelEntity", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_void[] = {{"_p_void", 0, "void *", 0, 0, 0, 0},{"_p_void", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_csArrayTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_csArrayElementHandlerTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_csArrayMemoryAllocatorTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_t[] = {{"_p_csArrayTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_csArrayElementHandlerTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_csArrayMemoryAllocatorTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_t", 0, "csArray<csArray<csShaderVariable * > > *|csShaderVarStack *", 0, 0, 0, 0},{"_p_csArrayTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_csArrayElementHandlerTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_csArrayMemoryAllocatorTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_int[] = {{"_p_int", 0, "int *", 0, 0, 0, 0},{"_p_int", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csPtrTiCelDataBuffer_t[] = {{"_p_csPtrTiCelDataBuffer_t", 0, "csPtr<iCelDataBuffer > *", 0, 0, 0, 0},{"_p_csPtrTiCelDataBuffer_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPath[] = {{"_p_iPath", 0, "iPath *", 0, 0, 0, 0},{"_p_iPath", 0, 0, 0, 0, 0, 0},{"_p_csPath", _p_csPathTo_p_iPath, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -19538,6 +19537,7 @@ static swig_type_info _swigt__p_iCamera[] = {{"_p_iCamera", 0, "iCamera *", 0, 0
 static swig_type_info _swigt__p_iPcCamera[] = {{"_p_iPcCamera", 0, "iPcCamera *", 0, 0, 0, 0},{"_p_iPcDefaultCamera", _p_iPcDefaultCameraTo_p_iPcCamera, 0, 0, 0, 0, 0},{"_p_iPcCamera", 0, 0, 0, 0, 0, 0},{"_p_iPcSimpleCamera", _p_iPcSimpleCameraTo_p_iPcCamera, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcMesh[] = {{"_p_iPcMesh", 0, "iPcMesh *", 0, 0, 0, 0},{"_p_iPcMesh", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcSimpleCamera[] = {{"_p_iPcSimpleCamera", 0, "iPcSimpleCamera *", 0, 0, 0, 0},{"_p_iPcSimpleCamera", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t[] = {{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t", 0, "csArray<csShaderVariable * > *|csShaderVarStack *", 0, 0, 0, 0},{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelBehaviour[] = {{"_p_iCelBehaviour", 0, "iCelBehaviour *", 0, 0, 0, 0},{"_p_iCelBehaviour", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iBillboardLayer[] = {{"_p_iBillboardLayer", 0, "iBillboardLayer *", 0, 0, 0, 0},{"_p_iBillboardLayer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcTimer[] = {{"_p_iPcTimer", 0, "iPcTimer *", 0, 0, 0, 0},{"_p_iPcTimer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -19605,7 +19605,6 @@ _swigt__p_iCelEntityTracker,
 _swigt__p_csColor, 
 _swigt__p_iCelEntity, 
 _swigt__p_void, 
-_swigt__p_csArrayTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_csArrayElementHandlerTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_csArrayMemoryAllocatorTcsArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t_t_t, 
 _swigt__p_int, 
 _swigt__p_csPtrTiCelDataBuffer_t, 
 _swigt__p_iPath, 
@@ -19646,6 +19645,7 @@ _swigt__p_iCamera,
 _swigt__p_iPcCamera, 
 _swigt__p_iPcMesh, 
 _swigt__p_iPcSimpleCamera, 
+_swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_csArrayMemoryAllocatorTcsShaderVariable_p_t_t, 
 _swigt__p_iCelBehaviour, 
 _swigt__p_iBillboardLayer, 
 _swigt__p_iPcTimer, 
