@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-May-2005
+	- Jorrit added pgup/pgdn keys for looking up and down in celtest.
+	  Also added 'x' to center camera.
 30-May-2005
 	- Jorrit changed all rewards, triggers, and operations in the
 	  quest manager so that they can now also optionally accept a tag

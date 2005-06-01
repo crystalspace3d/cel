@@ -203,6 +203,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("a", "strafeleft");
   pcinp->Bind ("d", "straferight");
   pcinp->Bind ("space", "jump");
+  pcinp->Bind ("x", "center");
+  pcinp->Bind ("pgup", "lookup");
+  pcinp->Bind ("pgdn", "lookdown");
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
