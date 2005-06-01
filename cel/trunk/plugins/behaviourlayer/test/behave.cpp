@@ -322,6 +322,36 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       pcactormove->Run (true);
     else if (!strcmp (msg_id+15, "run0"))
       pcactormove->Run (false);
+    else if (!strcmp (msg_id+15, "lookup1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookup0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (-1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "center1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->CenterCamera ();
+    }
     else if (!strcmp (msg_id+15, "cammode1"))
     {
       pcactormove->ToggleCameraMode ();
