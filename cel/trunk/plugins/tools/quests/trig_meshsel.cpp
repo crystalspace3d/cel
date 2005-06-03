@@ -156,6 +156,11 @@ void celMeshSelectTrigger::ActivateTrigger ()
   meshselect->AddMeshSelectListener ((iPcMeshSelectListener*)this);
 }
 
+bool celMeshSelectTrigger::Check ()
+{
+  return false;
+}
+
 void celMeshSelectTrigger::DeactivateTrigger ()
 {
   if (!meshselect) return;

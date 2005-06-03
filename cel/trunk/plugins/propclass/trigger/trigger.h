@@ -146,6 +146,8 @@ public:
 
   void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius);
+  void SetupTriggerSphere (iSector* sector,
+  	const char* center_name, float radius);
   void SetupTriggerBox (iSector* sector, const csBox3& box);
   void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
   void MonitorEntity (const char* entityname);
@@ -165,6 +167,7 @@ public:
   void FireTriggersEntityLeaves (iCelEntity* entity);
   void FireTriggersEnterTrigger (iCelEntity* entity);
   void FireTriggersLeaveTrigger (iCelEntity* entity);
+  bool Check ();
 
   struct PcTrigger : public iPcTrigger
   {
@@ -181,6 +184,11 @@ public:
     	const csVector3& center, float radius)
     {
       scfParent->SetupTriggerSphere (sector, center, radius);
+    }
+    virtual void SetupTriggerSphere (iSector* sector,
+    	const char* center_name, float radius)
+    {
+      scfParent->SetupTriggerSphere (sector, center_name, radius);
     }
     virtual void SetupTriggerBox (iSector* sector, const csBox3& box)
     {
@@ -221,6 +229,10 @@ public:
     virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
     {
       return scfParent->GetEntitiesInTrigger ();
+    }
+    virtual bool Check ()
+    {
+      return scfParent->Check ();
     }
   } scfiPcTrigger;
 };

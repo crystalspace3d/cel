@@ -71,7 +71,8 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
- * <li>SetupTriggerSphere: parameters 'sector' (string), 'position' (vector3),
+ * <li>SetupTriggerSphere: parameters 'sector' (string),
+ *     'position' (vector3 or string (name of mapnode in that case)),
  *     and 'radius' (float).
  * <li>SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
  *     and 'maxbox' (vector3).
@@ -113,6 +114,13 @@ struct iPcTrigger : public iBase
    */
   virtual void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius) = 0;
+
+  /**
+   * Setup a spherical area as trigger zone. This version uses a
+   * mapnode (<node> in XML) in the sector to get the position from.
+   */
+  virtual void SetupTriggerSphere (iSector* sector,
+  	const char* center_name, float radius) = 0;
 
   /**
    * Setup a box trigger zone.
@@ -180,6 +188,12 @@ struct iPcTrigger : public iBase
    * in the trigger area.
    */
   virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const = 0;
+
+  /**
+   * This only works if we are monitoring an individual entity. In that
+   * case it will return true if the entity is already in the trigger.
+   */
+  virtual bool Check () = 0;
 };
 
 #endif // __CEL_PF_TRIGGER__

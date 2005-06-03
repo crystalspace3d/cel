@@ -1064,9 +1064,10 @@ void celPlLayer::RemoveNewEntityCallback (iCelNewEntityCallback* callback)
 
 void celPlLayer::FireNewEntityCallbacks (iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0; i < newcallbacks.Length(); i++)
+  size_t i = newcallbacks.Length ();
+  while (i > 0)
   {
+    i--;
     iCelNewEntityCallback* callback = newcallbacks[i];
     callback->NewEntity (entity);
   }

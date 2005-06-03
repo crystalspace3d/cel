@@ -290,9 +290,12 @@ void celQuestSequence::RemoveSequenceCallback (iQuestSequenceCallback* cb)
 
 void celQuestSequence::FireSequenceCallbacks ()
 {
-  size_t i;
-  for (i = 0 ; i < callbacks.Length () ; i++)
+  size_t i = callbacks.Length ();
+  while (i > 0)
+  {
+    i--;
     callbacks[i]->SequenceFinished (this);
+  }
 }
 
 SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
@@ -775,16 +778,30 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
       current_state = i;
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
+      {
+        iQuestTrigger* trigger = st->GetResponse (j)->GetTrigger ();
 	if (databuf)
 	{
-          if (!st->GetResponse (j)->GetTrigger ()
-	  	->LoadAndActivateTrigger (databuf))
+          if (!trigger->LoadAndActivateTrigger (databuf))
 	    return false;	// @@@ Report?
+	  if (trigger->Check ())
+	  {
+	    trigger->DeactivateTrigger ();
+	    st->GetResponse (j)->TriggerFired (trigger);
+	    return true;
+	  }
 	}
 	else
 	{
-          st->GetResponse (j)->GetTrigger ()->ActivateTrigger ();
+          trigger->ActivateTrigger ();
+	  if (trigger->Check ())
+	  {
+	    trigger->DeactivateTrigger ();
+	    st->GetResponse (j)->TriggerFired (trigger);
+	    return true;
+	  }
         }
+      }
       return true;
     }
   }
@@ -1100,7 +1117,7 @@ const char* celQuestManager::ResolveParameter (
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.questmanager",
-		"Can't resolve parameter %s\n", param);
+		"Can't resolve parameter %s", param);
   }
   return val;
 }

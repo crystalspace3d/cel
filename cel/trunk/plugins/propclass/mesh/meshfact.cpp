@@ -771,25 +771,34 @@ void celPcMeshSelect::RemoveMeshSelectListener (iPcMeshSelectListener* listener)
 void celPcMeshSelect::FireListenersDown (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->MouseDown (&scfiPcMeshSelect, x, y, button, entity);
+  }
 }
 
 void celPcMeshSelect::FireListenersUp (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->MouseUp (&scfiPcMeshSelect, x, y, button, entity);
+  }
 }
 
 void celPcMeshSelect::FireListenersMove (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->MouseMove (&scfiPcMeshSelect, x, y, button, entity);
+  }
 }
 
 void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,

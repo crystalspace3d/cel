@@ -138,6 +138,11 @@ void celTimeoutTrigger::ActivateTrigger ()
   timer->AddTimerEvent ((iTimerEvent*)this, timeout);
 }
 
+bool celTimeoutTrigger::Check ()
+{
+  return false;
+}
+
 void celTimeoutTrigger::DeactivateTrigger ()
 {
   timer->RemoveAllTimerEvents ();

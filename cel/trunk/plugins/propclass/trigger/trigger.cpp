@@ -58,6 +58,7 @@
 #include "csqsqrt.h"
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
+#include "ivaria/mapnode.h"
 
 //---------------------------------------------------------------------------
 
@@ -328,6 +329,22 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
   sphere_radius = radius;
 }
 
+void celPcTrigger::SetupTriggerSphere (iSector* sector,
+	const char* center_name, float radius)
+{
+  LeaveAllEntities ();
+  box_sector = 0;
+  above_mesh = 0;
+
+  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, center_name);
+  if (!mapnode) return;	// @@@ Error report?
+
+  sphere_sector = sector;
+  sphere_center = mapnode->GetPosition ();
+  sphere_radius = radius;
+}
+
 void celPcTrigger::SetupTriggerBox (iSector* sector, const csBox3& box)
 {
   LeaveAllEntities ();
@@ -347,6 +364,24 @@ void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
   above_mesh = m;
   above_maxdist = maxdistance;
   above_collider = 0;
+}
+
+bool celPcTrigger::Check ()
+{
+  if (monitor_entity)
+  {
+    // We want to monitor a single entity.
+    if (!monitoring_entity)
+    {
+      // We haven't found the entity yet.
+      monitoring_entity = pl->FindEntity (monitor_entity);
+      monitoring_entity_pcmesh = CEL_QUERY_PROPCLASS_ENT (monitoring_entity,
+      	iPcMesh);
+      size_t idx = EntityInTrigger (monitoring_entity);
+      return idx != csArrayItemNotFound;
+    }
+  }
+  return false;
 }
 
 void celPcTrigger::TickOnce ()
@@ -664,13 +699,28 @@ bool celPcTrigger::PerformAction (csStringID actionId,
   {
     CEL_FETCH_STRING_PAR (sector,params,id_sector);
     if (!p_sector) return false;
-    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position) return false;
+
     CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
     if (!p_radius) return false;
     iSector* sec = engine->FindSector (sector);
     if (!sec) return false;	// @@@ Report error?
-    SetupTriggerSphere (sec, position, radius);
+
+    const celData* p_position = params->GetParameter (id_position);
+    if (!p_position) return false;
+    if (p_position->type == CEL_DATA_VECTOR3)
+    {
+      csVector3 v;
+      v.x = p_position->value.v.x;
+      v.y = p_position->value.v.y;
+      v.z = p_position->value.v.z;
+      SetupTriggerSphere (sec, v, radius);
+    }
+    else if (p_position->type == CEL_DATA_STRING)
+    {
+      const char* position = p_position->value.s->GetData ();
+      SetupTriggerSphere (sec, position, radius);
+    }
+    else return false;
     return true;
   }
   else if (actionId == action_setuptriggerbox)
@@ -726,30 +776,42 @@ void celPcTrigger::RemoveTriggerListener (iPcTriggerListener* listener)
 
 void celPcTrigger::FireTriggersEntityEnters (iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->EntityEnters (&scfiPcTrigger, entity);
+  }
 }
 
 void celPcTrigger::FireTriggersEntityLeaves (iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->EntityLeaves (&scfiPcTrigger, entity);
+  }
 }
 
 void celPcTrigger::FireTriggersEnterTrigger (iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->EnterTrigger (&scfiPcTrigger, entity);
+  }
 }
 
 void celPcTrigger::FireTriggersLeaveTrigger (iCelEntity* entity)
 {
-  size_t i;
-  for (i = 0 ; i < listeners.Length () ; i++)
+  size_t i = listeners.Length ();
+  while (i > 0)
+  {
+    i--;
     listeners[i]->LeaveTrigger (&scfiPcTrigger, entity);
+  }
 }
 
 //---------------------------------------------------------------------------
