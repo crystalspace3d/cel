@@ -59,12 +59,11 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
   delete[] entity_par;
   delete[] tag_par;
   delete[] sequence_par;
-
   SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
   celSequenceFinishTrigger* trig = new celSequenceFinishTrigger (type,
   	params, entity_par, tag_par, sequence_par);
