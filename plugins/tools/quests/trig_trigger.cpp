@@ -63,10 +63,10 @@ celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 }
 
 csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
-    const celQuestParams& params)
+    iQuest*, const celQuestParams& params)
 {
-  celTriggerTrigger* trig = new celTriggerTrigger (type,
-  	params, entity_par, tag_par, do_leave);
+  celTriggerTrigger* trig = new celTriggerTrigger (type, params,
+  	entity_par, tag_par, do_leave);
   return trig;
 }
 
