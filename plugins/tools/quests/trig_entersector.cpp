@@ -197,6 +197,12 @@ void celEnterSectorTrigger::ActivateTrigger ()
   camera->AddCameraSectorListener ((iCameraSectorListener*)this);
 }
 
+bool celEnterSectorTrigger::Check ()
+{
+  if (!camera) return false;
+  return camera->GetSector () == sect;
+}
+
 void celEnterSectorTrigger::DeactivateTrigger ()
 {
   if (!camera) return;

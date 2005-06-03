@@ -180,6 +180,19 @@ void celInventoryTrigger::ActivateTrigger ()
   inventory->AddInventoryListener ((iPcInventoryListener*)this);
 }
 
+bool celInventoryTrigger::Check ()
+{
+  if (!inventory) return false;
+  size_t i;
+  for (i = 0 ; i < inventory->GetEntityCount () ; i++)
+  {
+    iCelEntity* ent = inventory->GetEntity (i);
+    if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
+      return true;
+  }
+  return false;
+}
+
 void celInventoryTrigger::DeactivateTrigger ()
 {
   if (!inventory) return;

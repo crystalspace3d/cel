@@ -173,34 +173,32 @@ void celTriggerTrigger::LeaveTrigger (iPcTrigger*, iCelEntity*)
 
 void celTriggerTrigger::FindEntities ()
 {
-  if (!ent)
+  if (!pctrigger)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
-    ent = pl->FindEntity (entity);
+    iCelEntity* ent = pl->FindEntity (entity);
+    if (!ent) return;
+    pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger, tag);
   }
 }
 
 void celTriggerTrigger::ActivateTrigger ()
 {
   FindEntities ();
-  if (ent)
-  {
-    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger,
-    	tag);
-    if (pctrigger)
-      pctrigger->AddTriggerListener ((iPcTriggerListener*)this);
-  }
+  if (pctrigger)
+    pctrigger->AddTriggerListener ((iPcTriggerListener*)this);
+}
+
+bool celTriggerTrigger::Check ()
+{
+  if (!pctrigger) return false;
+  return pctrigger->Check ();
 }
 
 void celTriggerTrigger::DeactivateTrigger ()
 {
-  if (ent)
-  {
-    csRef<iPcTrigger> pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger,
-    	tag);
-    if (pctrigger)
-      pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
-  }
+  if (pctrigger)
+    pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
 }
 
 bool celTriggerTrigger::LoadAndActivateTrigger (iCelDataBuffer*)

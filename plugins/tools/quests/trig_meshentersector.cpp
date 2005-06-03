@@ -205,6 +205,15 @@ void celMeshEnterSectorTrigger::ActivateTrigger ()
   mesh->GetMovable ()->AddListener ((iMovableListener*)this);
 }
 
+bool celMeshEnterSectorTrigger::Check ()
+{
+  if (!mesh) return false;
+  iMovable* movable = mesh->GetMovable ();
+  iSectorList* sl = movable->GetSectors ();
+  if (sl->GetCount () < 1) return false;
+  return sect == sl->Get (0);
+}
+
 void celMeshEnterSectorTrigger::DeactivateTrigger ()
 {
   if (!mesh) return;

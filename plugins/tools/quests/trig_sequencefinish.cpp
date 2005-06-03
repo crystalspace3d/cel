@@ -189,6 +189,11 @@ void celSequenceFinishTrigger::ActivateTrigger ()
   seq->AddSequenceCallback ((iQuestSequenceCallback*)this);
 }
 
+bool celSequenceFinishTrigger::Check ()
+{
+  return false;
+}
+
 void celSequenceFinishTrigger::DeactivateTrigger ()
 {
   FindSequence ();

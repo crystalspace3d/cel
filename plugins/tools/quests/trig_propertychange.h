@@ -87,6 +87,7 @@ private:
   char* value;
 
   void FindProperties ();
+  bool TestProperty (size_t idx);
 
 public:
   celPropertyChangeTrigger (celPropertyChangeTriggerType* type,
@@ -100,6 +101,7 @@ public:
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
+  virtual bool Check ();
   virtual void DeactivateTrigger ();
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);

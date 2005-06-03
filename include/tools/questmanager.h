@@ -129,6 +129,13 @@ struct iQuestTrigger : public iBase
   virtual void DeactivateTrigger () = 0;
 
   /**
+   * Check the trigger immediatelly and return true if it is valid.
+   * This function does nothing else. Only the condition of the
+   * trigger is tested.
+   */
+  virtual bool Check () = 0;
+
+  /**
    * Activate the trigger and load state from databuf (persistence).
    * \return false on failure (data in buffer doesn't match what we
    * expect).

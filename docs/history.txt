@@ -3,6 +3,35 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Jun-2005
+	- Jorrit extended iPcTrigger so that you can now also set up
+	  a sphere trigger around the position as defined by a named
+	  map node object (<node> in XML). This is an easy way to setup
+	  triggers as you can easily put those nodes in map editors.
+	  For example, in blender you can just create an 'empty' object
+	  (object of type empty). blend2cs will convert that to
+	  <node> objects. You can also use this new command from the
+	  SetupTriggerSphere action. The 'position' parameter can be
+	  interpreted as a vector (old way) or a string (name of map node).
+	- Jorrit fixed a bad bug in the property change trigger. It would
+	  fire if any property matched the condition. i.e. it forgot
+	  to check on the property name.
+	- Jorrit added a new iPcTrigger->Check() method to check if the
+	  trigger is already valid. Only works if a single entity
+	  is being monitored.
+	- Jorrit extended the trigger api in the quest manager with
+	  a Check() function. The quest manager can call that function
+	  manually to test if the trigger is already valid right after
+	  activating it. This allows triggers to fire immediatelly
+	  after being activated. For example, a trigger that tests
+	  if a property reaches a certain value would only work if
+	  the property didn't already have that value. With this
+	  change this condition is tested immediatelly.
+	- Jorrit fixed the callback firing mechanism in pcmeshselect,
+	  pctrigger, the standard physical layer, and the quest sequence
+	  manager so that they now traverse and call the callbacks in
+	  reverse order. That way a callback can safely remove itself
+	  from the callback list.
 31-May-2005
 	- Jorrit added pgup/pgdn keys for looking up and down in celtest.
 	  Also added 'x' to center camera.

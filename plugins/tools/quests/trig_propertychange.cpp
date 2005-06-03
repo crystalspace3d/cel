@@ -21,6 +21,7 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "csutil/scanstr.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
@@ -184,58 +185,52 @@ void celPropertyChangeTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celPropertyChangeTrigger::PropertyChanged (iPcProperties* properties,
-	size_t idx)
+bool celPropertyChangeTrigger::TestProperty (size_t idx)
 {
   celDataType type = properties->GetPropertyType (idx);
-  csString fmt;
   switch (type)
   {
     case CEL_DATA_LONG:
       {
         long v;
 	sscanf (value, "%ld", &v);
-	if (v == properties->GetPropertyLong (idx))
-	{
-	  DeactivateTrigger ();
-	  callback->TriggerFired ((iQuestTrigger*)this);
-        }
+	return (v == properties->GetPropertyLong (idx));
       }
       break;
     case CEL_DATA_FLOAT:
       {
         float v;
 	sscanf (value, "%g", &v);
-	if (v == properties->GetPropertyFloat (idx))
-	{
-	  DeactivateTrigger ();
-	  callback->TriggerFired ((iQuestTrigger*)this);
-        }
+	return (v == properties->GetPropertyFloat (idx));
       }
       break;
     case CEL_DATA_BOOL:
       {
         bool v;
-	v = *value == '1' || *value == 'Y' || *value == 'y' || *value == 't'
-		|| *value == 'T';
-	if (v == properties->GetPropertyBool (idx))
-	{
-	  DeactivateTrigger ();
-	  callback->TriggerFired ((iQuestTrigger*)this);
-        }
+	csScanStr (value, "%b", &v);
+	return (v == properties->GetPropertyBool (idx));
       }
       break;
     case CEL_DATA_STRING:
       {
-	if (!strcmp (value, properties->GetPropertyString (idx)))
-	{
-	  DeactivateTrigger ();
-	  callback->TriggerFired ((iQuestTrigger*)this);
-        }
+	return (!strcmp (value, properties->GetPropertyString (idx)));
       }
       break;
     default:
       break;
+  }
+  return false;
+}
+
+void celPropertyChangeTrigger::PropertyChanged (iPcProperties*,
+	size_t idx)
+{
+  const char* pn = properties->GetPropertyName (idx);
+  if (strcmp (pn, prop) != 0) return;
+  if (TestProperty (idx))
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
   }
 }
 
@@ -256,6 +251,14 @@ void celPropertyChangeTrigger::ActivateTrigger ()
   // times.
   properties->RemovePropertyListener ((iPcPropertyListener*)this);
   properties->AddPropertyListener ((iPcPropertyListener*)this);
+}
+
+bool celPropertyChangeTrigger::Check ()
+{
+  if (!properties) return false;
+  size_t idx = properties->GetPropertyIndex (prop);
+  if (idx == csArrayItemNotFound) return false;
+  return TestProperty (idx);
 }
 
 void celPropertyChangeTrigger::DeactivateTrigger ()
