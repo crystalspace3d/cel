@@ -55,7 +55,6 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
-  iSector* room;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;

@@ -311,16 +311,14 @@ bool CelTest::CreateRoom ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateActor ("camera", "", csVector3(0,0,0));
+  entity_dummy = CreateActor ("camera", "", csVector3 (0,0,0));
   if (!entity_dummy) return false;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity_dummy, iPcCamera);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("camera", regionname, startname)
   	!= CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
-
-  room = engine->FindSector ("room");
 
   csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcInventory);
