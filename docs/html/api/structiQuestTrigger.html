@@ -35,12 +35,15 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a3">DeactivateTrigger</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Deactivate the trigger.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a4">LoadAndActivateTrigger</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a4">Check</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Activate the trigger and load state from databuf (persistence).  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a5">SaveTriggerState</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check the trigger immediatelly and return true if it is valid.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a5">LoadAndActivateTrigger</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save trigger state.  <a href="#a5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Activate the trigger and load state from databuf (persistence).  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#a6">SaveTriggerState</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save trigger state.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a trigger for a quest. 
@@ -78,6 +81,35 @@ Definition at line <a class="el" href="questmanager_8h-source.html#l00108">108</
 Activate the trigger. 
 <p>
 Note that triggers start deactivated.     </td>
+  </tr>
+</table>
+<a class="anchor" name="a4" doxytag="iQuestTrigger::Check"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iQuestTrigger::Check           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Check the trigger immediatelly and return true if it is valid. 
+<p>
+This function does nothing else. Only the condition of the trigger is tested.     </td>
   </tr>
 </table>
 <a class="anchor" name="a1" doxytag="iQuestTrigger::ClearCallback"></a><p>
@@ -138,7 +170,7 @@ Deactivate the trigger.
 Note that triggers start deactivated.     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="iQuestTrigger::LoadAndActivateTrigger"></a><p>
+<a class="anchor" name="a5" doxytag="iQuestTrigger::LoadAndActivateTrigger"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -199,7 +231,7 @@ Register a callback with this trigger.
 When the trigger fires it will call this callback. A trigger supports only one callback.     </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="iQuestTrigger::SaveTriggerState"></a><p>
+<a class="anchor" name="a6" doxytag="iQuestTrigger::SaveTriggerState"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
