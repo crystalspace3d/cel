@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_SEQOP_TRANSFORM__
-#define __CEL_TOOLS_QUESTS_SEQOP_TRANSFORM__
+#ifndef __CEL_TOOLS_QUESTS_SEQOP_LIGHT__
+#define __CEL_TOOLS_QUESTS_SEQOP_LIGHT__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,10 +27,10 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "iengine/mesh.h"
+#include "iengine/light.h"
 #include "tools/questmanager.h"
 
-#include "propclass/mesh.h"
+#include "propclass/light.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -38,30 +38,31 @@ struct iEvent;
 /**
  * A standard seqop type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This seqop type listens to the name 'cel.questseqop.transform'.
+ * This seqop type listens to the name 'cel.questseqop.light'.
  */
-CEL_DECLARE_SEQOPTYPE(Transform,"cel.questseqop.transform")
+CEL_DECLARE_SEQOPTYPE(Light,"cel.questseqop.light")
 
 /**
- * The 'transform' seqop factory.
+ * The 'light' seqop factory.
  */
-class celTransformSeqOpFactory :
+class celLightSeqOpFactory :
 	public iQuestSeqOpFactory,
-	public iTransformQuestSeqOpFactory
+	public iLightQuestSeqOpFactory
 {
 private:
-  celTransformSeqOpType* type;
-  char* entity_par;
-  char* tag_par;
-  char* vectorx_par;
-  char* vectory_par;
-  char* vectorz_par;
-  int rot_axis;
-  char* rot_angle_par;
+  celLightSeqOpType* type;
+  csString entity_par;
+  csString tag_par;
+  csString rel_red_par;
+  csString rel_green_par;
+  csString rel_blue_par;
+  csString abs_red_par;
+  csString abs_green_par;
+  csString abs_blue_par;
 
 public:
-  celTransformSeqOpFactory (celTransformSeqOpType* type);
-  virtual ~celTransformSeqOpFactory ();
+  celLightSeqOpFactory (celLightSeqOpType* type);
+  virtual ~celLightSeqOpFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -69,41 +70,43 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iTransformQuestSeqOpFactory -----------------------
+  //----------------- iLightQuestSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual void SetVectorParameter (const char* vectorx, const char* vectory,
-  	const char* vectorz);
-  virtual void SetRotationParameter (int axis, const char* angle);
+  virtual void SetRelColorParameter (const char* red, const char* green,
+  	const char* blue);
+  virtual void SetAbsColorParameter (const char* red, const char* green,
+  	const char* blue);
 };
 
 /**
- * The 'transform' seqop.
+ * The 'light' seqop.
  */
-class celTransformSeqOp :
+class celLightSeqOp :
 	public iQuestSeqOp
 {
 private:
-  celTransformSeqOpType* type;
-  char* entity;
-  char* tag;
-  csVector3 vector;
-  bool do_move;
-  int rot_axis;
-  float rot_angle;
+  celLightSeqOpType* type;
+  csString entity;
+  csString tag;
+  csColor rel;
+  csColor abs;
+  bool do_abs;
+  bool do_rel;
 
-  csVector3 start;
-  csMatrix3 start_matrix;
-  csWeakRef<iMeshWrapper> mesh;
+  csColor start;
+  csWeakRef<iLight> light;
 
-  void FindMesh ();
+  void FindLight ();
 
 public:
-  celTransformSeqOp (celTransformSeqOpType* type,
+  celLightSeqOp (celLightSeqOpType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* vectorx, const char* vectory, const char* vectorz,
-	int axis, const char* angle);
-  virtual ~celTransformSeqOp ();
+	const char* rel_red_par, const char* rel_green_par,
+		const char* rel_blue_par,
+	const char* abs_red_par, const char* abs_green_par,
+		const char* abs_blue_par);
+  virtual ~celLightSeqOp ();
 
   SCF_DECLARE_IBASE;
 
@@ -113,5 +116,5 @@ public:
   virtual void Do (float time);
 };
 
-#endif // __CEL_TOOLS_QUESTS_SEQOP_TRANSFORM__
+#endif // __CEL_TOOLS_QUESTS_SEQOP_LIGHT__
 
