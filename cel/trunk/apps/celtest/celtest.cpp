@@ -427,6 +427,8 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
     return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
