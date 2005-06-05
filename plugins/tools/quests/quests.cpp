@@ -45,6 +45,7 @@
 #include "plugins/tools/quests/reward_sequencefinish.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
 #include "plugins/tools/quests/seqop_transform.h"
+#include "plugins/tools/quests/seqop_light.h"
 
 //---------------------------------------------------------------------------
 
@@ -1039,6 +1040,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celTransformSeqOpType* type = new celTransformSeqOpType (
+    	object_reg);
+    RegisterSeqOpType (type);
+    type->DecRef ();
+  }
+
+  {
+    celLightSeqOpType* type = new celLightSeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();

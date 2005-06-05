@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Jun-2005
+	- Jorrit added a new pclight property class to properly represent
+	  a light as an entity.
+	- Jorrit added a new 'light' sequence operation for the quest
+	  manager.
 3-Jun-2005
 	- Jorrit extended iPcTrigger so that you can now also set up
 	  a sphere trigger around the position as defined by a named

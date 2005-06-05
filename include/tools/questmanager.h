@@ -687,6 +687,8 @@ struct iQuestManager : public iBase
    *     See iDebugPrintQuestSeqOpFactory.
    * <li>cel.questseqop.transform: transform a mesh.
    *     See iTransformQuestSeqOpFactory.
+   * <li>cel.questseqop.light: animate a light color.
+   *     See iLightQuestSeqOpFactory.
    * </ul>
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
@@ -1472,6 +1474,53 @@ struct iTransformQuestSeqOpFactory : public iBase
    * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
+};
+
+SCF_VERSION (iLightQuestSeqOpFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the seqop that animates light colors.
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ * <p>
+ * The predefined name of this seqop type is 'cel.questseqop.light'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity containing the pclight
+ *     property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
+ * <li><em>relcolor</em>: relative color animation vector.
+ *     This node has 'red', 'green, and 'blue' attributes. Each of these
+ *     attributes can be a parameter.
+ * <li><em>abscolor</em>: absolute color.
+ *     This node has 'red', 'green, and 'blue' attributes. Each of these
+ *     attributes can be a parameter.
+ * </ul>
+ */
+struct iLightQuestSeqOpFactory : public iBase
+{
+  /**
+   * Set the entity containing the pclight (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the relative color animation vector.
+   */
+  virtual void SetRelColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
+
+  /**
+   * Set the absolute color.
+   */
+  virtual void SetAbsColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
 };
 
 //-------------------------------------------------------------------------
