@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgmgr_quests"
+	Name="plgpflight"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\plgmgr_quests\"
-			IntermediateDirectory="..\out\release\build\plgmgr_quests\"
+			OutputDirectory="..\out\release\build\plgpflight\"
+			IntermediateDirectory="..\out\release\build\plgpflight\"
 			ConfigurationType="2"
 			WholeProgramOptimization="TRUE"
 			UseOfMFC="0"
@@ -35,10 +35,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\release\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\out\release\build\plgmgr_quests\"
-				ObjectFile="..\out\release\build\plgmgr_quests\"
-				ProgramDataBaseFileName="..\out\release\build\plgmgr_quests\plgmgr_quests.pdb"
+				PrecompiledHeaderFile="..\out\release\build\plgpflight\plgpflight.pch"
+				AssemblerListingLocation="..\out\release\build\plgpflight\"
+				ObjectFile="..\out\release\build\plgpflight\"
+				ProgramDataBaseFileName="..\out\release\build\plgpflight\plgpflight.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -52,16 +52,16 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\mgr_quests.dll"
+				OutputFile="..\pflight.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\release\build\plgmgr_quests\plgmgr_quests.lib"
+				ImportLibrary="..\out\release\build\plgpflight\plgpflight.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\plgmgr_quests\plgmgr_quests.pdb"
+				ProgramDatabaseFile="..\out\release\build\plgpflight\plgpflight.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -73,7 +73,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\out\release\build\plgpflight\plgpflight.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -93,8 +93,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\plgmgr_quests\"
-			IntermediateDirectory="..\out\debug\build\plgmgr_quests\"
+			OutputDirectory="..\out\debug\build\plgpflight\"
+			IntermediateDirectory="..\out\debug\build\plgpflight\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -109,10 +109,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\debug\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\out\debug\build\plgmgr_quests\"
-				ObjectFile="..\out\debug\build\plgmgr_quests\"
-				ProgramDataBaseFileName="..\out\debug\build\plgmgr_quests\plgmgr_quests.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\plgpflight\plgpflight.pch"
+				AssemblerListingLocation="..\out\debug\build\plgpflight\"
+				ObjectFile="..\out\debug\build\plgpflight\"
+				ProgramDataBaseFileName="..\out\debug\build\plgpflight\plgpflight.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -124,16 +124,16 @@
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\mgr_quests.dll"
+				OutputFile="..\pflight.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\out\debug\build\plgmgr_quests\plgmgr_quests.lib"
+				ImportLibrary="..\out\debug\build\plgpflight\plgpflight.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\plgmgr_quests\plgmgr_quests.pdb"
+				ProgramDatabaseFile="..\out\debug\build\plgpflight\plgpflight.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -145,7 +145,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\out\debug\build\plgpflight\plgpflight.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -169,126 +169,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\tools\quests\quests.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_changeproperty.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_debugprint.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_newstate.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequence.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequencefinish.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_debugprint.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_light.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_transform.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshentersector.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshsel.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_propertychange.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_sequencefinish.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_timeout.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_trigger.cpp">
+				RelativePath="..\plugins\propclass\light\lightfact.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\tools\quests\quests.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_changeproperty.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_debugprint.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_inventory.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_newstate.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequence.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequencefinish.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_debugprint.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_light.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_transform.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_entersector.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_inventory.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshentersector.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshsel.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_propertychange.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_sequencefinish.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_timeout.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_trigger.h">
+				RelativePath="..\plugins\propclass\light\lightfact.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgmgr_quests.rc">
+				RelativePath="..\msvc\plgpflight.rc">
 			</File>
 			<File
-				RelativePath="..\plugins\tools\quests\mgr_quests.csplugin">
+				RelativePath="..\plugins\propclass\light\pflight.csplugin">
 			</File>
 		</Filter>
 	</Files>

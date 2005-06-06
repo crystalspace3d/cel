@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libmgr_quests_static"
+	Name="libpflight_static"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\libmgr_quests_static\"
-			IntermediateDirectory="..\out\release\build\libmgr_quests_static\"
+			OutputDirectory="..\out\release\build\libpflight_static\"
+			IntermediateDirectory="..\out\release\build\libpflight_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -34,10 +34,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\release\build\libmgr_quests_static\libmgr_quests_static.pch"
-				AssemblerListingLocation="..\out\release\build\libmgr_quests_static\"
-				ObjectFile="..\out\release\build\libmgr_quests_static\"
-				ProgramDataBaseFileName="..\out\release\build\libmgr_quests_static\libmgr_quests_static.pdb"
+				PrecompiledHeaderFile="..\out\release\build\libpflight_static\libpflight_static.pch"
+				AssemblerListingLocation="..\out\release\build\libpflight_static\"
+				ObjectFile="..\out\release\build\libpflight_static\"
+				ProgramDataBaseFileName="..\out\release\build\libpflight_static\libpflight_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -57,12 +57,12 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\libmgr_quests_static\libmgr_quests_static.pdb"
+				ProgramDatabaseFile="..\out\release\build\libpflight_static\libpflight_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\release\libs\libmgr_quests_static.lib"
+				OutputFile="..\out\release\libs\libpflight_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -70,7 +70,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\libmgr_quests_static\libmgr_quests_static.tlb"/>
+				TypeLibraryName="..\out\release\build\libpflight_static\libpflight_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -90,8 +90,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\libmgr_quests_static\"
-			IntermediateDirectory="..\out\debug\build\libmgr_quests_static\"
+			OutputDirectory="..\out\debug\build\libpflight_static\"
+			IntermediateDirectory="..\out\debug\build\libpflight_static\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -106,10 +106,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
-				PrecompiledHeaderFile="..\out\debug\build\libmgr_quests_static\libmgr_quests_static.pch"
-				AssemblerListingLocation="..\out\debug\build\libmgr_quests_static\"
-				ObjectFile="..\out\debug\build\libmgr_quests_static\"
-				ProgramDataBaseFileName="..\out\debug\build\libmgr_quests_static\libmgr_quests_static.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\libpflight_static\libpflight_static.pch"
+				AssemblerListingLocation="..\out\debug\build\libpflight_static\"
+				ObjectFile="..\out\debug\build\libpflight_static\"
+				ProgramDataBaseFileName="..\out\debug\build\libpflight_static\libpflight_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,12 +127,12 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\libmgr_quests_static\libmgr_quests_static.pdb"
+				ProgramDatabaseFile="..\out\debug\build\libpflight_static\libpflight_static.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\out\debug\libs\libmgr_quests_static_d.lib"
+				OutputFile="..\out\debug\libs\libpflight_static_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -140,7 +140,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\libmgr_quests_static\libmgr_quests_static.tlb"/>
+				TypeLibraryName="..\out\debug\build\libpflight_static\libpflight_static.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -164,119 +164,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\libmgr_quests_staticreg.cpp">
+				RelativePath="..\msvc\libpflight_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\tools\quests\quests.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_changeproperty.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_debugprint.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_newstate.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequence.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequencefinish.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_debugprint.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_light.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_transform.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_entersector.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshentersector.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshsel.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_propertychange.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_sequencefinish.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_timeout.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_trigger.cpp">
+				RelativePath="..\plugins\propclass\light\lightfact.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\tools\quests\quests.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_changeproperty.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_debugprint.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_inventory.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_newstate.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequence.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\reward_sequencefinish.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_debugprint.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_light.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\seqop_transform.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_entersector.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_inventory.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshentersector.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_meshsel.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_propertychange.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_sequencefinish.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_timeout.h">
-			</File>
-			<File
-				RelativePath="..\plugins\tools\quests\trig_trigger.h">
+				RelativePath="..\plugins\propclass\light\lightfact.h">
 			</File>
 		</Filter>
 	</Files>
