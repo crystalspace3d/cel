@@ -687,6 +687,8 @@ struct iQuestManager : public iBase
    *     See iDebugPrintQuestSeqOpFactory.
    * <li>cel.questseqop.transform: transform a mesh.
    *     See iTransformQuestSeqOpFactory.
+   * <li>cel.questseqop.movepath: move a mesh along a path.
+   *     See iMovePathQuestSeqOpFactory.
    * <li>cel.questseqop.light: animate a light color.
    *     See iLightQuestSeqOpFactory.
    * </ul>
@@ -1474,6 +1476,52 @@ struct iTransformQuestSeqOpFactory : public iBase
    * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
+};
+
+SCF_VERSION (iMovePathQuestSeqOpFactory, 0, 0, 1);
+
+/**
+ * This interface is implemented by the seqop that moves meshes along
+ * a path. You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ * <p>
+ * The predefined name of this seqop type is 'cel.questseqop.movepath'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity containing the pcmesh
+ *     property class.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
+ * <li>several <em>pathnode</em> tags: one for every node with the following
+ *     attributes: sector, node, and time. All of those can be a parameter.
+ *     The 'node' refers to a node object in the given sector from which
+ *     the position, up ('yvector'), and forward ('zvector') will be used.
+ *     'time' should be an increasing time value.
+ * </ul>
+ */
+struct iMovePathQuestSeqOpFactory : public iBase
+{
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Add a node.
+   * \param sectorname is the name of the sector in which the node can
+   * be found. Warning! In the current implementation the sector should
+   * be the same for all nodes.
+   * \param node is the name of the node (position, yvector, and zvector
+   * are used).
+   * \param time is an increasing time value.
+   */
+  virtual void AddPathNode (const char* sectorname, const char* node,
+  	const char* time) = 0;
 };
 
 SCF_VERSION (iLightQuestSeqOpFactory, 0, 0, 1);
