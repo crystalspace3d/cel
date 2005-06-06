@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Jun-2005
+	- Jorrit added untested support for a new movepath sequence
+	  operation which moves a mesh along a spline path.
 5-Jun-2005
 	- Jorrit added a new pclight property class to properly represent
 	  a light as an entity.
