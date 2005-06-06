@@ -136,6 +136,10 @@ SOURCE=..\plugins\tools\quests\seqop_debugprint.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\seqop_light.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\seqop_transform.cpp
 # End Source File
 # Begin Source File
@@ -205,6 +209,10 @@ SOURCE=..\plugins\tools\quests\reward_sequencefinish.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\seqop_debugprint.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\seqop_light.h
 # End Source File
 # Begin Source File
 

@@ -99,6 +99,9 @@ Package=<4>
     Project_Dep_Name plgpfinv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgpflight
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfmechanics
     End Project Dependency
     Begin Project Dependency
@@ -226,6 +229,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfinv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpflight
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmechanics
@@ -490,6 +496,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpfinv"=.\plgpfinv.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpflight"=.\plgpflight.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
