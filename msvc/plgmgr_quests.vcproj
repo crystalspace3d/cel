@@ -196,6 +196,9 @@
 				RelativePath="..\plugins\tools\quests\seqop_light.cpp">
 			</File>
 			<File
+				RelativePath="..\plugins\tools\quests\seqop_movepath.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\tools\quests\seqop_transform.cpp">
 			</File>
 			<File
@@ -252,6 +255,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\seqop_light.h">
+			</File>
+			<File
+				RelativePath="..\plugins\tools\quests\seqop_movepath.h">
 			</File>
 			<File
 				RelativePath="..\plugins\tools\quests\seqop_transform.h">
