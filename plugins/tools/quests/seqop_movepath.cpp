@@ -106,7 +106,7 @@ void celMovePathSeqOpFactory::SetEntityParameter (const char* entity,
 void celMovePathSeqOpFactory::AddPathNode (const char* sector,
 	const char* node, const char* time)
 {
-  sectors.Push (node);
+  sectors.Push (sector);
   nodes.Push (node);
   times.Push (time);
 }
@@ -160,7 +160,8 @@ celMovePathSeqOp::celMovePathSeqOp (
   	sector->QueryObject (), iMapNode, nodes[i]);
     if (!mapnode) { delete path; path = 0; return; }	// @@@ Error report?
 
-    path->SetPositionVector (i, mapnode->GetPosition ());
+    const csVector3& pos = mapnode->GetPosition ();
+    path->SetPositionVector (i, pos);
     path->SetForwardVector (i, mapnode->GetZVector ());
     path->SetUpVector (i, mapnode->GetYVector ());
   }
