@@ -144,6 +144,10 @@ SOURCE=..\plugins\tools\quests\seqop_light.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\tools\quests\seqop_movepath.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\tools\quests\seqop_transform.cpp
 # End Source File
 # Begin Source File
@@ -217,6 +221,10 @@ SOURCE=..\plugins\tools\quests\seqop_debugprint.h
 # Begin Source File
 
 SOURCE=..\plugins\tools\quests\seqop_light.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\tools\quests\seqop_movepath.h
 # End Source File
 # Begin Source File
 
