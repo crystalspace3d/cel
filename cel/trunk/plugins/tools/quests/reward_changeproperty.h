@@ -50,15 +50,15 @@ class celChangePropertyRewardFactory :
 {
 private:
   celChangePropertyRewardType* type;
-  char* prop_par;
-  char* entity_par;
-  char* pc_par;
-  char* tag_par;
-  char* string_par;
-  char* long_par;
-  char* float_par;
-  char* bool_par;
-  char* diff_par;
+  csString prop_par;
+  csString entity_par;
+  csString pc_par;
+  csString tag_par;
+  csString string_par;
+  csString long_par;
+  csString float_par;
+  csString bool_par;
+  csString diff_par;
   bool do_toggle;
 
 public:
@@ -91,15 +91,15 @@ class celChangePropertyReward :
 {
 private:
   celChangePropertyRewardType* type;
-  char* prop;
-  char* entity;
-  char* pc;
-  char* tag;
-  char* pstring;
-  char* plong;
-  char* pfloat;
-  char* pbool;
-  char* pdiff;
+  csString prop;
+  csString entity;
+  csString pc;
+  csString tag;
+  csString pstring;
+  csString plong;
+  csString pfloat;
+  csString pbool;
+  csString pdiff;
   bool do_toggle;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;

@@ -7,6 +7,7 @@ SubInclude TOP plugins propclass input ;
 SubInclude TOP plugins propclass inv ;
 SubInclude TOP plugins propclass mesh ;
 SubInclude TOP plugins propclass light ;
+SubInclude TOP plugins propclass portal ;
 SubInclude TOP plugins propclass move ;
 SubInclude TOP plugins propclass dynmove ;
 SubInclude TOP plugins propclass mechanics ;
