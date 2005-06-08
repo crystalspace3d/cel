@@ -6,6 +6,18 @@ The history order is reversed so that new features are at the top.
 8-Jun-2005
 	- Eric Sunshine fixed 'jam install' entries for the data directory
 	  which had become outdated following recent changes.
+	- Jorrit added a new portal property class. This is useful for
+	  closing portals which can speed up rendering. This feature can
+	  be used in combination with a door that is closed. If the door
+	  is closed you can also close the portal to avoid rendering
+	  of the stuff behind the portal.
+	- Jorrit changed the change property reward so that it uses csString.
+	- Jorrit fixed a bug in pctrigger. It wasn't initializing the
+	  above_collider properly.
+	- Jorrit fixed a bug in the sequence handling of the quest manager.
+	  It was impossible to have operations performing at the same time
+	  in the same sequence because it was augmenting the current time
+	  even for normal operations. It should only do that for delays.
 7-Jun-2005
 	- Jorrit fixed movepath so that it really works.
 6-Jun-2005

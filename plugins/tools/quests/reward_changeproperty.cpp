@@ -49,30 +49,11 @@ celChangePropertyRewardFactory::celChangePropertyRewardFactory (
 {
   SCF_CONSTRUCT_IBASE (0);
   celChangePropertyRewardFactory::type = type;
-  prop_par = 0;
-  entity_par = 0;
-  pc_par = 0;
-  tag_par = 0;
-  string_par = 0;
-  long_par = 0;
-  float_par = 0;
-  bool_par = 0;
-  diff_par = 0;
   do_toggle = false;
 }
 
 celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
-  delete[] prop_par;
-  delete[] entity_par;
-  delete[] pc_par;
-  delete[] tag_par;
-  delete[] string_par;
-  delete[] long_par;
-  delete[] float_par;
-  delete[] bool_par;
-  delete[] diff_par;
-
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -87,39 +68,30 @@ csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
 
 bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] prop_par; prop_par = 0;
-  delete[] entity_par; entity_par = 0;
-  delete[] pc_par; pc_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] string_par; string_par = 0;
-  delete[] long_par; long_par = 0;
-  delete[] float_par; float_par = 0;
-  delete[] bool_par; bool_par = 0;
-  delete[] diff_par; diff_par = 0;
   do_toggle = false;
-  prop_par = csStrNew (node->GetAttributeValue ("property"));
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  pc_par = csStrNew (node->GetAttributeValue ("pc"));
-  tag_par = csStrNew (node->GetAttributeValue ("tag"));
-  string_par = csStrNew (node->GetAttributeValue ("string"));
-  long_par = csStrNew (node->GetAttributeValue ("long"));
-  float_par = csStrNew (node->GetAttributeValue ("float"));
-  bool_par = csStrNew (node->GetAttributeValue ("bool"));
-  diff_par = csStrNew (node->GetAttributeValue ("diff"));
+  prop_par = node->GetAttributeValue ("property");
+  entity_par = node->GetAttributeValue ("entity");
+  pc_par = node->GetAttributeValue ("pc");
+  tag_par = node->GetAttributeValue ("tag");
+  string_par = node->GetAttributeValue ("string");
+  long_par = node->GetAttributeValue ("long");
+  float_par = node->GetAttributeValue ("float");
+  bool_par = node->GetAttributeValue ("bool");
+  diff_par = node->GetAttributeValue ("diff");
   if (node->GetAttributeValue ("toggle"))
     do_toggle = true;
 
-  if (!prop_par)
+  if (prop_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
+      "cel.questreward.changeproperty",
       "'property' attribute is missing for the changeproperty reward!");
     return false;
   }
-  if (!entity_par)
+  if (entity_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
+      "cel.questreward.changeproperty",
       "'entity' attribute is missing for the changeproperty reward!");
     return false;
   }
@@ -129,74 +101,50 @@ bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
 void celChangePropertyRewardFactory::SetPropertyParameter (
 	const char* prop)
 {
-  if (prop_par == prop) return;
-  delete[] prop_par;
-  prop_par = csStrNew (prop);
+  prop_par = prop;
 }
 
 void celChangePropertyRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
+  entity_par = entity;
 }
 
 void celChangePropertyRewardFactory::SetPCParameter (const char* pc,
 	const char* tag)
 {
-  if (pc_par != pc)
-  {
-    delete[] pc_par;
-    pc_par = csStrNew (pc);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  pc_par = pc;
+  tag_par = tag;
 }
 
 void celChangePropertyRewardFactory::SetStringParameter (
 	const char* str)
 {
-  if (string_par == str) return;
-  delete[] string_par;
-  string_par = csStrNew (str);
+  string_par = str;
 }
 
 void celChangePropertyRewardFactory::SetLongParameter (
 	const char* str)
 {
-  if (long_par == str) return;
-  delete[] long_par;
-  long_par = csStrNew (str);
+  long_par = str;
 }
 
 void celChangePropertyRewardFactory::SetFloatParameter (
 	const char* str)
 {
-  if (float_par == str) return;
-  delete[] float_par;
-  float_par = csStrNew (str);
+  float_par = str;
 }
 
 void celChangePropertyRewardFactory::SetBoolParameter (
 	const char* str)
 {
-  if (bool_par == str) return;
-  delete[] bool_par;
-  bool_par = csStrNew (str);
+  bool_par = str;
 }
 
 void celChangePropertyRewardFactory::SetDiffParameter (
 	const char* str)
 {
-  if (diff_par == str) return;
-  delete[] diff_par;
-  diff_par = csStrNew (str);
+  diff_par = str;
 }
 
 void celChangePropertyRewardFactory::SetToggle ()
@@ -227,37 +175,29 @@ celChangePropertyReward::celChangePropertyReward (
   SCF_CONSTRUCT_IBASE (0);
   celChangePropertyReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
-  prop = csStrNew (qm->ResolveParameter (params, prop_par));
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  pc = csStrNew (qm->ResolveParameter (params, pc_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  pstring = csStrNew (qm->ResolveParameter (params, string_par));
-  plong = csStrNew (qm->ResolveParameter (params, long_par));
-  pfloat = csStrNew (qm->ResolveParameter (params, float_par));
-  pbool = csStrNew (qm->ResolveParameter (params, bool_par));
-  pdiff = csStrNew (qm->ResolveParameter (params, diff_par));
+  prop = qm->ResolveParameter (params, prop_par);
+  entity = qm->ResolveParameter (params, entity_par);
+  pc = qm->ResolveParameter (params, pc_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  pstring = qm->ResolveParameter (params, string_par);
+  plong = qm->ResolveParameter (params, long_par);
+  pfloat = qm->ResolveParameter (params, float_par);
+  pbool = qm->ResolveParameter (params, bool_par);
+  pdiff = qm->ResolveParameter (params, diff_par);
   celChangePropertyReward::do_toggle = do_toggle;
 }
 
 celChangePropertyReward::~celChangePropertyReward ()
 {
-  delete[] prop;
-  delete[] entity;
-  delete[] pc;
-  delete[] tag;
-  delete[] pstring;
-  delete[] plong;
-  delete[] pfloat;
-  delete[] pbool;
-  delete[] pdiff;
   SCF_DESTRUCT_IBASE ();
 }
 
 void celChangePropertyReward::Reward ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
-  if (!pc && !properties)
+  if (pc.IsEmpty () && !properties)
   {
+    pclass = 0;
     if (!ent)
     {
       ent = pl->FindEntity (entity);
@@ -266,7 +206,7 @@ void celChangePropertyReward::Reward ()
     properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
     if (!properties) return;
   }
-  if (pc && !pclass)
+  if (!pc.IsEmpty () && !pclass)
   {
     if (!ent)
     {
@@ -277,39 +217,39 @@ void celChangePropertyReward::Reward ()
     if (!pclass) return;
   }
 
-  if (pstring)
+  if (pstring.GetData () != 0)	// Do NOT use IsEmpty() here! Empty string is valid data.
   {
-    if (pc) pclass->SetProperty (pl->FetchStringID (prop), pstring);
+    if (pclass) pclass->SetProperty (pl->FetchStringID (prop), pstring);
     else properties->SetProperty (prop, pstring);
     return;
   }
-  if (plong)
+  if (!plong.IsEmpty ())
   {
     long l;
     sscanf (plong, "%ld", &l);
-    if (pc) pclass->SetProperty (pl->FetchStringID (prop), l);
+    if (pclass) pclass->SetProperty (pl->FetchStringID (prop), l);
     else properties->SetProperty (prop, l);
     return;
   }
-  if (pfloat)
+  if (!pfloat.IsEmpty ())
   {
     float f;
     sscanf (pfloat, "%f", &f);
-    if (pc) pclass->SetProperty (pl->FetchStringID (prop), f);
+    if (pclass) pclass->SetProperty (pl->FetchStringID (prop), f);
     else properties->SetProperty (prop, f);
     return;
   }
-  if (pbool)
+  if (!pbool.IsEmpty ())
   {
     bool b;
     csScanStr (pbool, "%b", &b);
-    if (pc) pclass->SetProperty (pl->FetchStringID (prop), b);
+    if (pclass) pclass->SetProperty (pl->FetchStringID (prop), b);
     else properties->SetProperty (prop, b);
     return;
   }
-  if (pdiff)
+  if (!pdiff.IsEmpty ())
   {
-    if (pc)
+    if (pclass)
     {
       csStringID id = pl->FetchStringID (prop);
       celDataType t = pclass->GetPropertyOrActionType (id);
@@ -365,7 +305,7 @@ void celChangePropertyReward::Reward ()
   }
   if (do_toggle)
   {
-    if (pc)
+    if (pclass)
     {
       csStringID id = pl->FetchStringID (prop);
       celDataType t = pclass->GetPropertyOrActionType (id);

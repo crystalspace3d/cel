@@ -402,19 +402,25 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 	parent_factory->GetQuestManager ()->vc);
   size_t i;
   csTicks total_time = 0;
+  csTicks max_time = 0;
   for (i = 0 ; i < seqops.Length () ; i++)
   {
     csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
     	ResolveParameter (params, seqops[i].duration));
+    if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {
       // It is not a delay.
       csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
       seq->AddSeqOp (seqop, total_time, total_time+duration);
     }
-    total_time += duration;
+    else
+    {
+      // A delay.
+      total_time += duration;
+    }
   }
-  seq->SetTotalTime (total_time);
+  seq->SetTotalTime (max_time);
   return csPtr<celQuestSequence> (seq);
 }
 

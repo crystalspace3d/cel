@@ -38,7 +38,7 @@ struct iEngine;
 class csVector3;
 
 /**
- * Factory for mesh.
+ * Factory for light.
  */
 CEL_DECLARE_FACTORY (Light)
 

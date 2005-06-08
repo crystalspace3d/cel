@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass portal ;
+
+Plugin pfportal
+	: portalfact.cpp portalfact.h
+;
+ExternalLibs pfportal : CRYSTAL ;
+LinkWith pfportal : celtool ;
+
