@@ -3,13 +3,15 @@ SubDir TOP data ;
 InstallData
   [ Wildcard *.txt *.cal3d ]
   ball
+  basic_entities
+  basic_level.xml
+  basic_world
   box
   large
   medium
   portal_world
   small
   smallbox
-  world
   : data ;
 
 InstallData [ Wildcard cally : *.caf *.cmf *.csf ] : data cally ;
