@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Jun-2005
+	- Eric Sunshine fixed 'jam install' entries for the data directory
+	  which had become outdated following recent changes.
 7-Jun-2005
 	- Jorrit fixed movepath so that it really works.
 6-Jun-2005
