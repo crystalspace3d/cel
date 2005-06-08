@@ -18,6 +18,9 @@ The history order is reversed so that new features are at the top.
 	  It was impossible to have operations performing at the same time
 	  in the same sequence because it was augmenting the current time
 	  even for normal operations. It should only do that for delays.
+	- Jorrit fixed pctrigger so that it uses the new CS CollideSegment()
+	  routine instead of CollideRay(). That fixes problems with
+	  the above mesh detection detecting too much.
 7-Jun-2005
 	- Jorrit fixed movepath so that it really works.
 6-Jun-2005
