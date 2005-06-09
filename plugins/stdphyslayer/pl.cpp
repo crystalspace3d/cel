@@ -163,12 +163,12 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 
 int celPlLayer::AddScope (csString version, int size)
 {
-  return idlist.AddScope (version, size);
+  return (int)idlist.AddScope (version, size);
 }
 
 csPtr<iCelEntity> celPlLayer::CreateEntity ()
 {
-  return CreateEntityInScope (idlist.DefaultScope);
+  return CreateEntityInScope ((int)idlist.DefaultScope);
 }
 
 csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
