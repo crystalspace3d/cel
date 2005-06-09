@@ -32,7 +32,7 @@ NumRegLists::NumRegLists(int limit, int freelistsize, int startsize)
 {
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
-  freelist = new uint[freelistsize];
+  freelist = new size_t[freelistsize];
   listsize = startsize;
   NumRegLists::limit = limit;
   freelistend = 0;
@@ -56,7 +56,7 @@ uint NumRegLists::intern_Register(void* obj)
   CS_ASSERT (freelist[freelistend] < listsize);      
   list[freelist[freelistend]] = obj;
 
-  return freelist[freelistend];  
+  return (uint)freelist[freelistend];  
 }    
 
 uint NumRegLists::Register (void* obj)
@@ -84,7 +84,7 @@ uint NumRegLists::Register (void* obj)
   // 3. extend list and append
   if (listsize<limit)
   {
-    uint newsize;
+    size_t newsize;
     if (listsize>=limit-ADDSIZE)
       newsize=limit;
     else
@@ -102,7 +102,7 @@ uint NumRegLists::Register (void* obj)
 
     memset (list+listsize,0,(newsize-listsize)*sizeof(void*));
     //fill freelist
-    for (uint i=listsize;i<newsize && freelistend<freelistsize;i++)
+    for (size_t i=listsize;i<newsize && freelistend<freelistsize;i++)
     {
       CS_ASSERT (freelistend < freelistsize);
       freelist[freelistend]=i;
@@ -124,7 +124,7 @@ void NumRegLists::RegisterWithID (void* obj, uint id)
   // First, grow the list if the id is too big.
   while (id >= listsize)
   {
-    uint newsize;
+    size_t newsize;
     if (listsize >= limit - ADDSIZE)
       newsize = limit;
     else

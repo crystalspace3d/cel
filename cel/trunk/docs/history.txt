@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine applied a few patches from Pablo
 	  <caedes@sindominio.net> which fix a couple problems in blcel.i and
 	  smallgame.py.
+	- res renamed the "celtst" target to "celtest".
+	- res fixed some VC8 warnings.
 8-Jun-2005
 	- Eric Sunshine fixed 'jam install' entries for the data directory
 	  which had become outdated following recent changes.

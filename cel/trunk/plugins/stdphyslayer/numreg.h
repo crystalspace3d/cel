@@ -69,7 +69,7 @@ protected:
   inline uint intern_Register(void* obj);
   
   void** list;
-  uint* freelist;
+  size_t* freelist;
   size_t listsize;
   uint limit;
   size_t freelistend;
