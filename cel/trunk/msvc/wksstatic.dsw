@@ -78,6 +78,9 @@ Package=<4>
     Project_Dep_Name libpfmover_static
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name libpfportal_static
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name libpfquest_static
     End Project Dependency
     Begin Project Dependency
@@ -190,6 +193,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libpfmover_static
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libpfportal_static
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libpfquest_static
@@ -484,6 +490,18 @@ Package=<4>
 ###############################################################################
 
 Project: "libpfmover_static"=.\libpfmover_static.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libpfportal_static"=.\libpfportal_static.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
