@@ -26,6 +26,7 @@
 #include "propclass/inv.h"
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
+#include "propclass/actormove.h"
 #include "propclass/input.h"
 #include "propclass/dynmove.h"
 #include "propclass/billboard.h"
@@ -296,15 +297,19 @@ CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 
 //-----------------------------------------------------------------------------
+%include "propclass/actormove.h"
+CEL_PC(iPcActorMove, ActorMove, pcactormove)
+
+//-----------------------------------------------------------------------------
 
 %include "propclass/camera.h"
 CEL_PC(iPcCamera, Camera, pccamera)
 
 %include "propclass/defcam.h"
-CEL_PC(iPcDefaultCamera, DefaultCamera, pcdefcam)
+CEL_PC(iPcDefaultCamera, DefaultCamera, pcdefaultcamera)
 
 %include "propclass/simpcam.h"
-CEL_PC(iPcSimpleCamera, SimpleCamera, pcsimpcam)
+CEL_PC(iPcSimpleCamera, SimpleCamera, pcsimplecamera)
 
 //-----------------------------------------------------------------------------
 

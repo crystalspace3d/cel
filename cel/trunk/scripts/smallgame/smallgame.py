@@ -7,11 +7,12 @@ class smallgame:
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.region")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.mesh")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.solid")
-		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.camera")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.defaultcamera")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.gravity")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.movable")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.pccommandinput")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.linmove")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.actormove")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.colldet")
 		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.timer")
 
