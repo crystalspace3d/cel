@@ -114,6 +114,9 @@ Package=<4>
     Project_Dep_Name plgpfmover
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name plgpfportal
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plgpfquest
     End Project Dependency
     Begin Project Dependency
@@ -244,6 +247,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfmover
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plgpfportal
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfquest
@@ -571,6 +577,21 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpfmover"=.\plgpfmover.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "plgpfportal"=.\plgpfportal.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
