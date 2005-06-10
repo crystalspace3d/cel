@@ -41,7 +41,7 @@
 #include "plugins/propclass/move/navgraphrulesfps.h"
 
 // Use debugging function
-extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
+extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 extern void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...);
 
 

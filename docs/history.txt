@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added proper error reporting all over the place. All
 	  property classes and the quest manager now properly report errors
 	  on the reporter.
+	- Jorrit fixed errors with MoveReport() returning both bool
+	  and void.
 9-Jun-2005
 	- Eric Sunshine applied a few patches from Pablo
 	  <caedes@sindominio.net> which fix a couple problems in blcel.i and

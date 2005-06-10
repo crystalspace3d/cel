@@ -62,7 +62,7 @@ CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
 CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
 CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
 
-void MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
+bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -79,6 +79,7 @@ void MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
@@ -146,10 +147,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MOVABLE_SERIAL)
-  {
-    MoveReport (object_reg,"serialnr != MOVABLE_SERIAL.  Cannot load.");
-    return false;
-  }
+    return MoveReport (object_reg,"serialnr != MOVABLE_SERIAL.  Cannot load.");
 
   RemoveAllConstraints ();
   int i;
@@ -290,10 +288,7 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != SOLID_SERIAL)
-  {
-    MoveReport (object_reg,"serialnr != SOLID_SERIAL.  Cannot load.");
-    return false;
-  }
+    return MoveReport (object_reg, "serialnr != SOLID_SERIAL.  Cannot load.");
 
   collider_wrap = 0;
   no_collider = false;
@@ -420,10 +415,8 @@ bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MOVABLECONST_CD_SERIAL)
-  {
-    MoveReport (object_reg,"serialnr != MOVABLECONST_CD_SERIAL.  Cannot load.");
-    return false;
-  }
+    return MoveReport (object_reg,
+    	"serialnr != MOVABLECONST_CD_SERIAL.  Cannot load.");
   return true;
 }
 
@@ -607,10 +600,8 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != GRAVITY2_SERIAL)
-  {
-    MoveReport (object_reg,"serialnr != GRAVITY2_SERIAL.  Cannot load.");
-    return false;
-  }
+    return MoveReport (object_reg,
+    	"serialnr != GRAVITY2_SERIAL.  Cannot load.");
   iCelPropertyClass* pc;
 
   pc = databuf->GetPC ();
