@@ -17,7 +17,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "0.99"
       VALUE "FileVersion", "0.99"
       VALUE "LegalCopyright", "Copyright (C)2002-2005 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "celtst"
+      VALUE "FileDescription", "celtest"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -41,7 +41,7 @@ FILEFLAGS 0x0
   "    name=""Crystal Entity Layer""\r\n",
   "    type=""win32""\r\n",
   "/>\r\n",
-  "<description>celtst</description>\r\n",
+  "<description>celtest</description>\r\n",
   "<dependency>\r\n",
   "    <dependentAssembly>\r\n",
   "	  <assemblyIdentity\r\n",
