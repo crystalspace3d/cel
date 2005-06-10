@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	  on the reporter.
 	- Jorrit fixed errors with MoveReport() returning both bool
 	  and void.
+	- Eric Sunshine fixed computation of the script's own directory in
+	  start_smallgame.sh, which was almost completely borked. It failed in
+	  all but the simplest cases.
 9-Jun-2005
 	- Eric Sunshine applied a few patches from Pablo
 	  <caedes@sindominio.net> which fix a couple problems in blcel.i and
