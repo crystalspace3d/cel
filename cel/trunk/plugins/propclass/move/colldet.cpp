@@ -60,7 +60,7 @@
 
 #include "plugins/propclass/move/colldet.h"
 
-extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
+extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (CollisionDetection, "pccollisiondetection")
 
@@ -343,14 +343,9 @@ bool celPcCollisionDetection::Init (const csVector3& body,
     pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
 
     if (!pcmeshref)
-    {
-      MoveReport (object_reg, "Colldet: No Mesh found on entity!");
-      return false;
-    }
+      return MoveReport (object_reg, "Colldet: No Mesh found on entity!");
     else
-    {
       pcmesh = pcmeshref; // Pull ptr out of csRef
-    }
   }
 
   topSize = body;
@@ -381,10 +376,7 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   bottomCollider = cdsys->CreateCollider (mesh);
 
   if (!(topCollider && bottomCollider))
-  {
-    MoveReport (object_reg, "Error while setting up CD!");
-    return false;
-  }
+    return MoveReport (object_reg, "Error while setting up CD!");
 
   useCD = true;
   return true;
