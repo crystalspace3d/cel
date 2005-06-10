@@ -906,6 +906,62 @@ celCreateLinearMovement = _blcelc.celCreateLinearMovement
 celGetLinearMovement = _blcelc.celGetLinearMovement
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
+class iPcActorMove(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcActorMove, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcActorMove, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcActorMove instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def Forward(*args): return _blcelc.iPcActorMove_Forward(*args)
+    def IsMovingForward(*args): return _blcelc.iPcActorMove_IsMovingForward(*args)
+    def Backward(*args): return _blcelc.iPcActorMove_Backward(*args)
+    def IsMovingBackward(*args): return _blcelc.iPcActorMove_IsMovingBackward(*args)
+    def StrafeLeft(*args): return _blcelc.iPcActorMove_StrafeLeft(*args)
+    def IsStrafingLeft(*args): return _blcelc.iPcActorMove_IsStrafingLeft(*args)
+    def StrafeRight(*args): return _blcelc.iPcActorMove_StrafeRight(*args)
+    def IsStrafingRight(*args): return _blcelc.iPcActorMove_IsStrafingRight(*args)
+    def RotateLeft(*args): return _blcelc.iPcActorMove_RotateLeft(*args)
+    def IsRotatingLeft(*args): return _blcelc.iPcActorMove_IsRotatingLeft(*args)
+    def RotateRight(*args): return _blcelc.iPcActorMove_RotateRight(*args)
+    def IsRotatingRight(*args): return _blcelc.iPcActorMove_IsRotatingRight(*args)
+    def RotateTo(*args): return _blcelc.iPcActorMove_RotateTo(*args)
+    def Run(*args): return _blcelc.iPcActorMove_Run(*args)
+    def IsRunning(*args): return _blcelc.iPcActorMove_IsRunning(*args)
+    def AutoRun(*args): return _blcelc.iPcActorMove_AutoRun(*args)
+    def IsAutoRunning(*args): return _blcelc.iPcActorMove_IsAutoRunning(*args)
+    def Jump(*args): return _blcelc.iPcActorMove_Jump(*args)
+    def ToggleCameraMode(*args): return _blcelc.iPcActorMove_ToggleCameraMode(*args)
+    def SetMovementSpeed(*args): return _blcelc.iPcActorMove_SetMovementSpeed(*args)
+    def GetMovementSpeed(*args): return _blcelc.iPcActorMove_GetMovementSpeed(*args)
+    def SetRunningSpeed(*args): return _blcelc.iPcActorMove_SetRunningSpeed(*args)
+    def GetRunningSpeed(*args): return _blcelc.iPcActorMove_GetRunningSpeed(*args)
+    def SetRotationSpeed(*args): return _blcelc.iPcActorMove_SetRotationSpeed(*args)
+    def GetRotationSpeed(*args): return _blcelc.iPcActorMove_GetRotationSpeed(*args)
+    def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
+    def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcActorMove):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcActorMovePtr(iPcActorMove):
+    def __init__(self, this):
+        _swig_setattr(self, iPcActorMove, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcActorMove, 'thisown', 0)
+        _swig_setattr(self, iPcActorMove,self.__class__,iPcActorMove)
+_blcelc.iPcActorMove_swigregister(iPcActorMovePtr)
+
+
+celCreateActorMove = _blcelc.celCreateActorMove
+
+celGetActorMove = _blcelc.celGetActorMove
+
+scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
 class iPcCamera(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
