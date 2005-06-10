@@ -39,6 +39,26 @@
 
 CEL_IMPLEMENT_REWARDTYPE(Inventory)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.inventory",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celInventoryRewardFactory)
@@ -88,19 +108,11 @@ bool celInventoryRewardFactory::Load (iDocumentNode* node)
   child_tag_par = csStrNew (node->GetAttributeValue (
   	"child_entity_tag"));
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.inventory",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the inventory reward!");
-    return false;
-  }
   if (!child_entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.inventory",
+    return Report (type->object_reg,
       "'child_entity' attribute is missing for the inventory reward!");
-    return false;
-  }
   return true;
 }
 
@@ -179,11 +191,17 @@ void celInventoryReward::Reward ()
   }
 
   iCelEntity* child_ent = pl->FindEntity (child_entity);
-  if (!child_ent) return;	// @@@ Report error!
+  if (!child_ent)
+  {
+    Report (type->object_reg, "Can't create entity '%s' in inventory reward!",
+    	(const char*)child_entity);
+    return;
+  }
 
   if (!inventory->AddEntity (child_ent))
   {
-    // @@@ Report error!
+    Report (type->object_reg, "Can't add entity '%s' in inventory reward!",
+    	(const char*)child_entity);
     return;
   }
 

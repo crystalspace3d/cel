@@ -66,7 +66,7 @@
 
 #include "linmove.h"
 
-extern void MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
+extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
 CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 
@@ -150,7 +150,11 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  if (!vc) MoveReport (object_reg, "iVirtualClock Missing!");
+  if (!vc)
+  {
+    MoveReport (object_reg, "iVirtualClock Missing!");
+    return;
+  }
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine)
@@ -256,7 +260,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 {
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
-    return false;
+    return MoveReport (object_reg, "Can't load propertyclass pclinmove!");
 
   iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcCollisionDetection> pccd;
@@ -342,9 +346,14 @@ bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
       return true;
     }
     iCelEntity* ent = pl->FindEntity (b);
-    if (!ent) return false;	// @@@ Report error!
+    if (!ent)
+      return MoveReport (object_reg,
+      	"Can't find entity '%s' for property 'anchor' in pclinmove!", b);
     csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
-    if (!m) return false;	// @@@ Report error!
+    if (!m)
+      return MoveReport (object_reg,
+      	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
+	b);
     SetAnchor (m);
     return true;
   }
@@ -379,41 +388,51 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
   if (actionId == action_initcd)
   {
     CEL_FETCH_VECTOR3_PAR (body,params,id_body);
-    if (!p_body) return false;
+    if (!p_body)
+      return MoveReport (object_reg,
+      	"Missing parameter 'body' for action InitCD!");
     CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
-    if (!p_legs) return false;
+    if (!p_legs)
+      return MoveReport (object_reg,
+      	"Missing parameter 'legs' for action InitCD!");
     CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
-    if (!p_offset) return false;
+    if (!p_offset)
+      return MoveReport (object_reg,
+      	"Missing parameter 'offset' for action InitCD!");
     bool rc = InitCD (body, legs, offset);
-    // @@@ Error report!
-    (void)rc;
-    return true;
+    return rc;
   }
   else if (actionId == action_initcdmesh)
   {
     CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
-    if (!p_percentage) return false;
+    if (!p_percentage)
+      return MoveReport (object_reg,
+      	"Missing parameter 'percentage' for action InitCDMesh!");
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    if (!pcmesh) return true;	// @@@ Error report!
+    if (!pcmesh)
+      return MoveReport (object_reg,
+      	"Can't find pcmesh in current entity for action InitCDMesh!");
     bool rc = InitCD (pcmesh->GetMesh (), percentage);
-    // @@@ Error report!
-    (void)rc;
-    return true;
+    return rc;
   }
   else if (actionId == action_setposition)
   {
     CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position) return false;
+    if (!p_position)
+      return MoveReport (object_reg,
+      	"Missing parameter 'position' for action SetPosition!");
     CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-    if (!p_yrot) return false;
+    if (!p_yrot)
+      return MoveReport (object_reg,
+      	"Missing parameter 'yrot' for action SetPosition!");
     CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!sector) return false;
+    if (!sector)
+      return MoveReport (object_reg,
+      	"Missing parameter 'sector' for action SetPosition!");
     iSector* sect = engine->FindSector (sector);
     if (!sect)
-    {
-      // @@@ Error
-      return false;
-    }
+      return MoveReport (object_reg,
+      	"Can't find sector '%s' for action SetPosition!", sector);
     SetPosition (position, yrot, sect);
     return true;
   }
@@ -497,10 +516,7 @@ static float Matrix2YRot (const csMatrix3& mat)
 bool celPcLinearMovement::RotateV (float delta)
 {
   if (!pcmesh || !pcmesh->GetMesh ())
-  {
-    MoveReport (object_reg, "Linmove: No Mesh found on entity!");
-    return false;
-  }      
+    return MoveReport (object_reg, "Linmove: No Mesh found on entity!");
 
   // rotation
   if (angularVelocity < SMALL_EPSILON)
@@ -928,10 +944,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 {
   FindSiblingPropertyClasses ();
   if (!pcmesh)
-  {
-    MoveReport (object_reg, "No Mesh found on entity!");
-    return false;
-  }
+    return MoveReport (object_reg, "No Mesh found on entity!");
 
   topSize = body;
   bottomSize = legs;
@@ -951,12 +964,9 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   {
     csRef<iCelPropertyClass> pc;
     pc = pl->CreatePropertyClass(entity, "pccollisiondetection");
-    if ( !pc )
-    {
-      MoveReport (object_reg,
+    if (!pc)
+      return MoveReport (object_reg,
 		"Could not create property class pccollisiondetection.");
-      return false;
-    }
     csRef<iPcCollisionDetection> pctemp;
     pctemp = SCF_QUERY_INTERFACE(pc, iPcCollisionDetection);
 

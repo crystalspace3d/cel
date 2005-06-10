@@ -37,6 +37,26 @@
 
 CEL_IMPLEMENT_TRIGGERTYPE(MeshEnterSector)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.trigger.meshentersector", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celMeshEnterSectorTriggerFactory)
@@ -80,20 +100,12 @@ bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
   tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.meshentersector",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the meshentersector trigger!");
-    return false;
-  }
   sector_par = csStrNew (node->GetAttributeValue ("sector"));
   if (!sector_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.meshentersector",
+    return Report (type->object_reg,
       "'sector' attribute is missing for the meshentersector trigger!");
-    return false;
-  }
   return true;
 }
 
@@ -180,18 +192,41 @@ void celMeshEnterSectorTrigger::MovableDestroyed (iMovable*)
 
 void celMeshEnterSectorTrigger::FindSectorAndMesh ()
 {
+  // @@@ This routine should return bool for error?
   if (mesh && sector) return;
   sect = 0;
   mesh = 0;
   csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
-  if (!engine) return;
+  if (!engine)
+  {
+    Report (type->object_reg, "Missing engine in meshentersector trigger!");
+    return;
+  }
   sect = engine->FindSector (sector);
-  if (!sect) return;	// @@@ Error report!!!
+  if (!sect)
+  {
+    Report (type->object_reg,
+    	"Can't find sector '%s' in meshentersector trigger!",
+    	(const char*)sector);
+    return;
+  }
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   iCelEntity* ent = pl->FindEntity (entity);
-  if (!ent) return;
+  if (!ent)
+  {
+    Report (type->object_reg,
+    	"Can't find entity '%s' in meshentersector trigger!",
+    	(const char*)entity);
+    return;
+  }
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
-  if (!pcmesh) return;
+  if (!pcmesh)
+  {
+    Report (type->object_reg,
+    	"Entity '%s' doesn't have a pcmesh (meshentersector trigger)!",
+    	(const char*)entity);
+    return;
+  }
   mesh = pcmesh->GetMesh ();
 }
 

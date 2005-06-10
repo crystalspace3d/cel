@@ -39,6 +39,26 @@
 
 CEL_IMPLEMENT_SEQOPTYPE(MovePath)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.seqop.movepath", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celMovePathSeqOpFactory)
@@ -70,12 +90,8 @@ bool celMovePathSeqOpFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");
   if (entity_par.IsEmpty ())
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.movepath",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the movepath seqop!");
-    return false;
-  }
   tag_par = node->GetAttributeValue ("entity_tag");
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -138,6 +154,7 @@ celMovePathSeqOp::celMovePathSeqOp (
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
 
+  csString sectorname;
   path = new csPath (nodes.Length ());
 
   sector = 0;
@@ -152,13 +169,29 @@ celMovePathSeqOp::celMovePathSeqOp (
     if (!sector)
     {
       csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
-      sector = engine->FindSector (qm->ResolveParameter (params, sectors[i]));
-      if (!sector) { delete path; path = 0; return; }	// @@@ Report?
+      sectorname = qm->ResolveParameter (params, sectors[i]);
+      sector = engine->FindSector (sectorname);
+      if (!sector)
+      {
+        delete path;
+	path = 0;
+	Report (type->object_reg, "Can't find sector '%s' in movepath seqop!",
+		(const char*)sectorname);
+	return;
+      }
     }
 
     csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
   	sector->QueryObject (), iMapNode, nodes[i]);
-    if (!mapnode) { delete path; path = 0; return; }	// @@@ Error report?
+    if (!mapnode)
+    {
+      delete path;
+      path = 0;
+      Report (type->object_reg,
+      	"Can't find node '%s' in sector '%s' (movepath seqop)!",
+	(const char*)nodes[i], (const char*)sectorname);
+      return;
+    }
 
     const csVector3& pos = mapnode->GetPosition ();
     path->SetPositionVector (i, pos);
