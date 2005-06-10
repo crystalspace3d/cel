@@ -36,6 +36,26 @@
 
 CEL_IMPLEMENT_TRIGGERTYPE(MeshSelect)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.trigger.meshsel", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celMeshSelectTriggerFactory)
@@ -76,12 +96,8 @@ bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.inventory",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
-    return false;
-  }
   return true;
 }
 
@@ -149,7 +165,11 @@ void celMeshSelectTrigger::FindMeshSelect ()
 void celMeshSelectTrigger::ActivateTrigger ()
 {
   FindMeshSelect ();
-  if (!meshselect) return;	// @@@ Report error!
+  if (!meshselect)
+  {
+    Report (type->object_reg, "Can't find pcmeshselect for meshsel trigger!");
+    return;
+  }
   // First remove to make sure we don't register ourselves multiple
   // times.
   meshselect->RemoveMeshSelectListener ((iPcMeshSelectListener*)this);

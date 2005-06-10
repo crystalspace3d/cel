@@ -57,14 +57,14 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
 CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
 
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
 
   csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mesh",
     	msg, arg);
   else
   {
@@ -74,6 +74,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 //---------------------------------------------------------------------------
@@ -157,49 +158,68 @@ bool celPcMesh::PerformAction (csStringID actionId,
   if (actionId == action_setmesh)
   {
     CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!name) return false;
+    if (!name)
+      return Report (object_reg,
+      	"Missing parameter 'name' for action SetMesh!");
     iMeshWrapper* m = engine->FindMeshObject (name);
-    if (!m) return false;	// @@@ Report error
+    if (!m)
+      return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
+      	name);
     SetMesh (m, false);
     return true;
   }
   else if (actionId == action_loadmesh)
   {
     CEL_FETCH_STRING_PAR (file,params,id_filename);
-    if (!file) return false;
+    if (!file)
+      return Report (object_reg,
+      	"Missing parameter 'filename' for action LoadMesh!");
     CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-    if (!factory) return false;
+    if (!factory)
+      return Report (object_reg,
+      	"Missing parameter 'factoryname' for action LoadMesh!");
     bool rc = SetMesh (factory, file);
-    // @@@ Error report!
-    (void)rc;
+    if (!rc)
+      return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
+      	factory, file);
     return true;
   }
   else if (actionId == action_loadmeshpath)
   {
     CEL_FETCH_STRING_PAR (pa,params,id_path);
-    if (!pa) return false;
+    if (!pa)
+      return Report (object_reg,
+      	"Missing parameter 'path' for action LoadMeshPath!");
     CEL_FETCH_STRING_PAR (file,params,id_filename);
-    if (!file) return false;
+    if (!file)
+      return Report (object_reg,
+      	"Missing parameter 'filename' for action LoadMeshPath!");
     CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-    if (!factory) return false;
+    if (!factory)
+      return Report (object_reg,
+      	"Missing parameter 'factoryname' for action LoadMeshPath!");
     SetPath (pa);
     bool rc = SetMesh (factory, file);
-    // @@@ Error report!
-    (void)rc;
+    if (!rc)
+      return Report (object_reg,
+      	"Can't load mesh '%s/%s' (path '%s') for action LoadMeshPath!",
+      	(const char*)factory, (const char*)file, (const char*)path);
     return true;
   }
   else if (actionId == action_movemesh)
   {
     CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!sector) return false;
+    if (!sector)
+      return Report (object_reg,
+      	"Missing parameter 'sector' for action MoveMesh!");
     CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position) return false;
+    if (!p_position)
+      return Report (object_reg,
+      	"Missing parameter 'position' for action MoveMesh!");
     iSector* sect = engine->FindSector (sector);
     if (!sect)
-    {
-      // @@@ Error
-      return false;
-    }
+      return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
+      	sector);
     MoveMesh (sect, position);
     return true;
   }
@@ -264,10 +284,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MESH_SERIAL)
-  {
-    Report (object_reg, "Serialnr != MESH_SERIAL.  Cannot load.");
-    return false;
-  }
+    return Report (object_reg, "Serialnr != MESH_SERIAL.  Cannot load.");
 
   Clear ();
   visible = true;
@@ -287,11 +304,8 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
     const char* meshname = databuf->GetString ()->GetData ();
     iMeshWrapper* m = engine->FindMeshObject (meshname);
     if (!m)
-    {
-      Report (object_reg, "Can't find mesh '%s' for loading entity!",
+      return Report (object_reg, "Can't find mesh '%s' for loading entity!",
       	meshname);
-      return false;
-    }
     SetMesh (m, creation_flag == CEL_CREATE_MESHREMOVE);
   }
   else if (creation_flag == CEL_CREATE_THING)
@@ -731,10 +745,7 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MESHSEL_SERIAL)
-  {
-    Report (object_reg,"serialnr != MESHSEL_SERIAL.  Cannot load.");
-    return false;
-  }
+    return Report (object_reg, "serialnr != MESHSEL_SERIAL.  Cannot load.");
 
   csRef<iPcCamera> pcm;
   pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcCamera);
@@ -1089,27 +1100,39 @@ bool celPcMeshSelect::PerformAction (csStringID actionId,
   if (actionId == action_setcamera)
   {
     CEL_FETCH_STRING_PAR (entity,params,id_entity);
-    if (!entity) return false;
+    if (!entity)
+      return Report (object_reg,
+      	"Missing parameter 'entity' for action SetCamera!");
     iCelEntity* ent = pl->FindEntity (entity);
-    if (!ent) return false;	// @@@ Report error?
+    if (!ent)
+      return Report (object_reg, "Can't find entity '%s' for action SetCamera!",
+      	entity);
     csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
-    if (!pccam) return false;	// @@@ Report error?
+    if (!pccam)
+      return Report (object_reg,
+      	"Entity '%s' doesn't have a camera (action SetCamera)!", entity);
     SetCamera (pccam);
     return true;
   }
   else if (actionId == action_setmousebuttons)
   {
     CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
-    if (!p_buttons) return false;
+    if (!p_buttons)
+      return Report (object_reg,
+      	"Missing parameter 'buttons' for action SetMouseButtons!");
     SetMouseButtons (buttons);
     return true;
   }
   else if (actionId == action_setdragplanenormal)
   {
     CEL_FETCH_BOOL_PAR (camera,params,id_camera);
-    if (!p_camera) return false;
+    if (!p_camera)
+      return Report (object_reg,
+      	"Missing parameter 'camera' for action SetDragPlaneNormal!");
     CEL_FETCH_VECTOR3_PAR (normal,params,id_normal);
-    if (!p_normal) return false;
+    if (!p_normal)
+      return Report (object_reg,
+      	"Missing parameter 'normal' for action SetDragPlaneNormal!");
     SetDragPlaneNormal (normal, camera);
     return true;
   }

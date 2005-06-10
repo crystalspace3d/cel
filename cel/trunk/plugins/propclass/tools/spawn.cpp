@@ -36,10 +36,31 @@
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
 #include "ivideo/txtmgr.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
 CEL_IMPLEMENT_FACTORY (Spawn, "pcspawn")
+
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.spawn",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
 
 //---------------------------------------------------------------------------
 
@@ -101,7 +122,8 @@ csPtr<iCelDataBuffer> celPcSpawn::Save ()
 bool celPcSpawn::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != SPAWN_SERIAL) return false;
+  if (serialnr != SPAWN_SERIAL)
+    return Report (object_reg, "Couldn't load spawn property class!");
 
   return true;
 }
@@ -155,7 +177,11 @@ void celPcSpawn::TickOnce ()
   for (i = 0 ; i < pcs.Length () ; i++)
   {
     iCelPropertyClass* pc = pl->CreatePropertyClass (newent, pcs[i]);
-    if (!pc) { /* @@@ Error reporting */ }
+    if (!pc)
+    {
+      Report (object_reg, "Error creating property class '%s' for entity '%s'!",
+      	(const char*)pcs[i], newent->GetName ());
+    }
   }
 
   // First send a message to our new entity if needed.

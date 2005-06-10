@@ -36,6 +36,26 @@
 
 CEL_IMPLEMENT_REWARDTYPE(SequenceFinish)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.reward.sequencefinish", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celSequenceFinishRewardFactory)
@@ -79,19 +99,11 @@ bool celSequenceFinishRewardFactory::Load (iDocumentNode* node)
   tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.sequencefinish",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the sequencefinish reward!");
-    return false;
-  }
   if (!sequence_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.sequencefinish",
+    return Report (type->object_reg,
       "'sequence' attribute is missing for the sequencefinish reward!");
-    return false;
-  }
   return true;
 }
 
@@ -164,7 +176,13 @@ void celSequenceFinishReward::Reward ()
   iQuestSequence* seq = q->FindSequence (sequence);
   if (!seq)
   {
-    // @@@ Report error!
+    if (tag)
+      Report (type->object_reg,
+      	"Can't find sequence '%s' in entity '%s' and tag '%s'!",
+	(const char*)sequence, (const char*)entity, (const char*)tag);
+    else
+      Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
+    	  (const char*)sequence, (const char*)entity);
     return;
   }
   seq->Finish ();

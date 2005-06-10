@@ -37,6 +37,26 @@
 
 CEL_IMPLEMENT_TRIGGERTYPE(PropertyChange)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.trigger.propertychange", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celPropertyChangeTriggerFactory)
@@ -83,28 +103,16 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.propertychange",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the propertychange trigger!");
-    return false;
-  }
   prop_par = csStrNew (node->GetAttributeValue ("property"));
   if (!prop_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.propertychange",
+    return Report (type->object_reg,
       "'property' attribute is missing for the propertychange trigger!");
-    return false;
-  }
   value_par = csStrNew (node->GetAttributeValue ("value"));
   if (!value_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.propertychange",
+    return Report (type->object_reg,
       "'value' attribute is missing for the propertychange trigger!");
-    return false;
-  }
   return true;
 }
 
@@ -246,7 +254,12 @@ void celPropertyChangeTrigger::FindProperties ()
 void celPropertyChangeTrigger::ActivateTrigger ()
 {
   FindProperties ();
-  if (!properties) return;	// @@@ Report error!
+  if (!properties)
+  {
+    Report (type->object_reg,
+    	"Can't find pcproperties for propertychange trigger!");
+    return;
+  }
   // First remove to make sure we don't register ourselves multiple
   // times.
   properties->RemovePropertyListener ((iPcPropertyListener*)this);

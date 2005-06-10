@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Jun-2005
+	- Jorrit added proper error reporting all over the place. All
+	  property classes and the quest manager now properly report errors
+	  on the reporter.
 9-Jun-2005
 	- Eric Sunshine applied a few patches from Pablo
 	  <caedes@sindominio.net> which fix a couple problems in blcel.i and

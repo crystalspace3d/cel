@@ -33,6 +33,26 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Quest, "pcquest")
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.quest",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 csStringID celPcQuest::action_newquest = csInvalidStringID;
@@ -174,7 +194,8 @@ csPtr<iCelDataBuffer> celPcQuest::Save ()
 bool celPcQuest::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != QUEST_SERIAL) return false;
+  if (serialnr != QUEST_SERIAL)
+    return Report (object_reg, "Couldn't load pcquest!");
 
   questname = databuf->GetString ()->GetData ();
 
@@ -210,7 +231,9 @@ bool celPcQuest::PerformAction (csStringID actionId,
   if (actionId == action_newquest)
   {
     CEL_FETCH_STRING_PAR (msg,params,id_name);
-    if (!p_msg) return false;
+    if (!p_msg)
+      return Report (object_reg,
+      	"Missing parameter 'name' for action NewQuest!");
     celQuestParams par;
     size_t i;
     for (i = 0 ; i < params->GetParameterCount () ; i++)
@@ -247,16 +270,12 @@ void celPcQuest::GetQuestManager ()
       	iQuestManager);
       if (!quest_mgr)
       {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.quest",
-	  "Can't find quest manager plugin!");
+	Report (object_reg, "Can't find quest manager plugin!");
         return;
       }
       if (!object_reg->Register (quest_mgr, "iQuestManager"))
       {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.quest",
-	  "Couldn't register quest manager plugin!");
+	Report (object_reg, "Couldn't register quest manager plugin!");
         return;
       }
     }
@@ -265,33 +284,17 @@ void celPcQuest::GetQuestManager ()
 
 bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
 {
-  // @@@ Report error on reporter here?
   GetQuestManager ();
   if (!quest_mgr)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.quest",
-	  "Couldn't find quest manager!");
-    return false;
-  }
+    return Report (object_reg, "Couldn't find quest manager!");
   iQuestFactory* fact = quest_mgr->GetQuestFactory (name);
   if (!fact)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.quest",
-	  "Couldn't find quest factory '%s'!", name);
-    return false;
-  }
+    return Report (object_reg, "Couldn't find quest factory '%s'!", name);
   params.Put ("this", entity->GetName ());
   quest = fact->CreateQuest (params);
   params.Delete ("this", entity->GetName ());
   if (!quest)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.quest",
-	  "Couldn't create quest from factory '%s'!", name);
-    return false;
-  }
+    Report (object_reg, "Couldn't create quest from factory '%s'!", name);
   quest_params = params;
   questname = name;
   return true;

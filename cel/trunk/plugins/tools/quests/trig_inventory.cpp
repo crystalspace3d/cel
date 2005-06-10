@@ -36,6 +36,26 @@
 
 CEL_IMPLEMENT_TRIGGERTYPE(Inventory)
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
+    	"cel.quests.trigger.inventory", msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celInventoryTriggerFactory)
@@ -79,20 +99,12 @@ bool celInventoryTriggerFactory::Load (iDocumentNode* node)
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
   tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
   if (!entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.inventory",
+    return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
-    return false;
-  }
   child_entity_par = csStrNew (node->GetAttributeValue ("child_entity"));
   if (!child_entity_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.inventory",
+    return Report (type->object_reg,
       "'child_entity' attribute is missing for the inventory trigger!");
-    return false;
-  }
   return true;
 }
 
@@ -173,7 +185,11 @@ void celInventoryTrigger::FindInventory ()
 void celInventoryTrigger::ActivateTrigger ()
 {
   FindInventory ();
-  if (!inventory) return;	// @@@ Report error!
+  if (!inventory)
+  {
+    Report (type->object_reg, "Can't find pcinventory for inventory trigger!");
+    return;
+  }
   // First remove to make sure we don't register ourselves multiple
   // times.
   inventory->RemoveInventoryListener ((iPcInventoryListener*)this);
