@@ -187,8 +187,9 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
   int hits, i;
   iSector* current_sector=movable->GetSectors ()->Get (0);
 
-  csOrthoTransform transform_oldpos (csMatrix3(), oldpos);
-  csOrthoTransform transform_newpos (csMatrix3(), newpos);
+  csMatrix3 id;
+  csOrthoTransform transform_oldpos (id, oldpos);
+  csOrthoTransform transform_newpos (id, newpos);
 
   // Part1: find body collisions => movement
   // Find possible colliding sectors.
