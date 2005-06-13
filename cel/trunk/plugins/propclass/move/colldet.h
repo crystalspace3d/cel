@@ -89,8 +89,9 @@ protected:
 //  float camera_pitchspeed;
   
 
-  /// Are we on the ground?
+  /// Are we on the ground? flag
   bool onground;
+
   /// Enable collision detection flag.
   bool useCD;
   /// Should we revert the last attempted move/rotation?
