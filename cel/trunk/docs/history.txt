@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 13-Jun-2005
 	- Andrew Dai made some general improvements to celPcCollisionDetection,
 	  including a fix for when a non-zero model shift is used.
+	- Jorrit fixed compile error in pccolldet.
 10-Jun-2005
 	- Jorrit added proper error reporting all over the place. All
 	  property classes and the quest manager now properly report errors
