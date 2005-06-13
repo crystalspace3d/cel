@@ -193,7 +193,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
   // Part1: find body collisions => movement
   // Find possible colliding sectors.
-  csVector3 localvel = vel * delta;
+  csVector3 localvel = movable->GetFullTransform ().GetT2O() *(vel * delta);
 
   // Travel all relevant sectors and do collision detection.
 
