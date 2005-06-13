@@ -156,7 +156,7 @@ bool celPcCollisionDetection::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-static inline int FindIntersection (const csCollisionPair& cd,
+static inline bool FindIntersection (const csCollisionPair& cd,
     			   csVector3 line[2])
 {
   csVector3 tri1[3]; tri1[0]=cd.a1; tri1[1]=cd.b1; tri1[2]=cd.c1;
@@ -185,29 +185,22 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
     return true;
 
   int hits, i;
-  csMatrix3 identitymatrix;
-  csOrthoTransform transform_newpos (identitymatrix, newpos);
   iSector* current_sector=movable->GetSectors ()->Get (0);
 
-  csMatrix3 mat;
-
-  csReversibleTransform rt = movable->GetFullTransform ();
-  mat = rt.GetT2O ();
-
-  csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(),
-    oldpos);
+  csOrthoTransform transform_oldpos (csMatrix3(), oldpos);
+  csOrthoTransform transform_newpos (csMatrix3(), newpos);
 
   // Part1: find body collisions => movement
   // Find possible colliding sectors.
-  csVector3 localvel = mat*(vel * delta);
-
-  num_our_cd = hits = 0;
+  csVector3 localvel = vel * delta;
 
   // Travel all relevant sectors and do collision detection.
+
+  num_our_cd = 0;
   cdsys->SetOneHitOnly (false);
   cdsys->ResetCollisionPairs ();
 
-  hits += CollisionDetect (topCollider, current_sector,
+  hits = CollisionDetect (topCollider, current_sector,
     &transform_newpos, &transform_oldpos);
 
   for (i = 0; i < num_our_cd; i++ )
@@ -218,83 +211,94 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     if (vec * localvel > 0) continue;
 
-    csVector3 line[2];
-    if (vel.y > 0 && FindIntersection (cd, line))
-    {
-      // Hit above head?
-      if (ABS(newpos.y - MAX(line[0].y,line[1].y)) >
-        topSize.y + bottomSize.y)
-        // Ouch!
-        vel.y = 0;
-    }
-
     localvel = -(localvel % vec) % vec;
   }
   newpos = oldpos + localvel;
 
+  transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+
   // Part2: legs
 
-  num_our_cd = hits = 0;
+  num_our_cd = 0;
 
   transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
-  cdsys->SetOneHitOnly (false);
   cdsys->ResetCollisionPairs ();	
 
-  hits += CollisionDetect (bottomCollider, current_sector,
+  hits = CollisionDetect (bottomCollider, current_sector,
     &transform_newpos, &transform_oldpos);
 
-  // Falling unless proven otherwise
-  onground = false;
-  bool downstairs;
+  bool stepDown;
 
   // Only able to step down if we aren't jumping or falling
   if (hits > 0 || vel.y != 0)
-    downstairs = false;
+    stepDown = false;
   else
   {
-    downstairs = true;
+    stepDown = true;
 
-    // Try testing 'stepping' down
-    newpos.y -= bottomSize.y / 2;
+    // Try stepping down
+    newpos.y -= bottomSize.y/2;
     transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
-    num_our_cd = hits = 0;
+    num_our_cd = 0;
 
-    cdsys->SetOneHitOnly (false);
     cdsys->ResetCollisionPairs ();	
 
-    hits += CollisionDetect (bottomCollider, current_sector,
+    hits = CollisionDetect (bottomCollider, current_sector,
       &transform_newpos, &transform_oldpos);
   }
 
-  if (hits > 0)
+  // Falling unless proven otherwise
+  onground = false;
+
+  float maxJump = newpos.y + bottomSize.y;
+  float max_y = -1e9;
+
+  int itercount = 0;
+
+  // Keep moving the model up until it no longer collides
+  while (hits > 0 && newpos.y < maxJump)
   {
-    float max_y = -1e9;
+    bool adjust = false;
     for (i = 0; i < num_our_cd; i++ )
     {
       csCollisionPair cd = our_cd_contact[i];
-      csVector3 n = ((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
+      csVector3 n = -((cd.c2-cd.b2)%(cd.b2-cd.a2)).Unit ();
 
       // Is it a collision with a ground polygon?
       //  (this tests for the angle between ground and collidet
       //  triangle)
-      if (-n.y < 0.7)
+      if (n.y < 0.7)
         continue;
 
       // Hit a ground polygon so we are not falling
-      onground = true;
+      onground = adjust = true;
       csVector3 line[2];
-      if (FindIntersection (cd,line))
-        max_y = MAX(MAX(line[0].y, line[1].y),max_y);
+      FindIntersection (cd,line);
+      max_y = MAX(MAX(line[0].y, line[1].y)+shift.y,max_y);
+      if(max_y > maxJump)
+      {
+        max_y = maxJump;
+        break;
+      }
     }
-    if (onground)
-    {
-      if (max_y <= newpos.y + bottomSize.y && max_y != -1e9)
-        newpos.y = max_y - 0.01f;
+    hits = 0;
 
-      if (vel.y < 0 )
-        vel.y = 0;
+    if (adjust)
+    {
+      // Temporarily lift the model up so that it passes the final check
+      newpos.y = max_y + 0.01f;
+      if(itercount > 4)
+        newpos.y = maxJump;
+      num_our_cd = 0;
+
+      transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+
+      cdsys->ResetCollisionPairs ();	
+
+      hits = CollisionDetect (bottomCollider, current_sector,
+        &transform_newpos, &transform_oldpos);
     }
   }
 
@@ -305,27 +309,41 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     // vel = (mat.GetInverse()*localvel)/delta;
 
-    if (downstairs)
+    if (stepDown)
       // No steps here, so readjust position back up
       newpos.y += bottomSize.y / 2;
   }
 
   // Part 2.5: check top again and revert move if we're still in a wall.
-  num_our_cd = hits = 0;
-  cdsys->SetOneHitOnly (false);
+  num_our_cd = 0;
   cdsys->ResetCollisionPairs ();
   transform_newpos = csOrthoTransform (csMatrix3(), newpos);
+
+  // Bring the model back down now that it has passed the final check
+  if(onground)
+    newpos.y -= 0.02f;
 
   if (CollisionDetect (topCollider, current_sector,
     &transform_newpos,&transform_oldpos) > 0)
   {
-    // No move possible without a collision
-    newpos = oldpos;
+    // No move possible without a collision with the torso
     revertMove = true;
+    // If we get 'stuck' on geometry then we should be on some kind of ground
+    if(vel.x == 0 && vel.y <= 0 && vel.z == 0)
+      onground = true;
     return false;
   }
-  else
-    return true;
+  //num_our_cd = 0;
+  //cdsys->ResetCollisionPairs ();
+  //if(CollisionDetect (bottomCollider, current_sector,
+  //  &transform_newpos,&transform_oldpos) > 0)
+  //{
+  //  // No move possible without a collision with the legs
+  //  revertMove = true;
+  //  return false;
+  //}
+
+  return true;
 }
 
 
@@ -507,7 +525,8 @@ int celPcCollisionDetection::CollisionDetect (
               ->GetName ());
 #endif
         CD_contact = cdsys->GetCollisionPairs ();
-        for (size_t j = 0; j < cdsys->GetCollisionPairCount (); j++ )
+        size_t count = cdsys->GetCollisionPairCount();
+        for (size_t j = 0; j < count; j++ )
         {
           /*
            * Here we follow a segment from our current position to the
@@ -521,9 +540,9 @@ int celPcCollisionDetection::CollisionDetect (
           csReversibleTransform temptrans(*old_transform);
 
           // Move the triangles from object space into world space
-          temppair.a1 = transform->This2Other (CD_contact[j].a1+shift);
-          temppair.b1 = transform->This2Other (CD_contact[j].b1+shift);
-          temppair.c1 = transform->This2Other (CD_contact[j].c1+shift);
+          temppair.a1 = transform->This2Other (CD_contact[j].a1);
+          temppair.b1 = transform->This2Other (CD_contact[j].b1);
+          temppair.c1 = transform->This2Other (CD_contact[j].c1);
           if (meshWrapper->GetMovable()->IsFullTransformIdentity())
           {
               temppair.a2 = CD_contact[j].a2;
@@ -536,18 +555,10 @@ int celPcCollisionDetection::CollisionDetect (
               temppair.b2 = tr.This2Other (CD_contact[j].b2);
               temppair.c2 = tr.This2Other (CD_contact[j].c2);
           }
-          if (FindIntersection (temppair, line))
-          {
-              // Collided at this line segment. Pick a point in the middle of
-              // the segment to test.
-              testpos=(line[0]+line[1])/2;
-          }
-          else
-          {
-              // No collision found, use the destination of the move.
-              testpos=transform->GetO2TTranslation ();
-;
-          }
+          FindIntersection (temppair, line);
+          // Collided at this line segment. Pick a point in the middle of
+          // the segment to test.
+          testpos=(line[0]+line[1])/2;
 
           // This follows a line segment from start to finish and returns
           // the sector you are ultimately in.
