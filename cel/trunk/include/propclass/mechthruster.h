@@ -68,38 +68,30 @@ struct iPcMechanicsThruster : public iBase
   virtual float GetMaxThrust () = 0;
 
   /**
-   * Get the effective maximum thrust of this thruster, taking into account the
-   * current environment.
+   * Get the amount of force a given thrust will produce, taking into account
+   * the current environment.
+   * \param thrust the amount of thrust to convert.
    */
-  virtual float GetEffectiveMaxThrust () = 0;
+  virtual float GetThrustForce (float thrust) = 0;
+
+  /**
+   * How much thrust is available on this thruster?
+   */
+  virtual float AvailableThrust () = 0;
 
 
   ////
   //Applying thrust
 
   /**
-   * Request that the thruster apply a percentage of its total thrust.
-   * \param group the group that is requesting this thrust.
-   * \param thrust the amount of thrust to request.
+   * Applies a delta to the thruster's current thrust.
+   * \param deltathrust the change in thrust.
    */
-  virtual void ThrustRequest (iPcMechanicsThrusterGroup* group,
-	percentage thrust) = 0;
-
-  /**
-   * Cancel a previous thrust request. (returns false if the thrust request has
-   * already been cancelled or does not exist.)
-   * \param group the group that requested this thrust.
-   */
-  virtual void CancelThrustRequest (iPcMechanicsThrusterGroup* group) = 0;
-
-  /**
-   * Is this thruster currently taking orders? (of fries)
-   */
-  virtual bool IsAvailable () = 0;
+  virtual void ThrustChange (float deltathrust) = 0;
 };
 
 
-SCF_VERSION (iPcMechanicsThrusterGroup, 0, 0, 1);
+SCF_VERSION (iPcMechanicsBalancedGroup, 0, 0, 1);
 
 enum celAxisType {
   CEL_TGT_ROTATION,
@@ -107,19 +99,19 @@ enum celAxisType {
 };
 
 /**
- * Property class representing a group of thrusters that can translate or
- * rotate the object in a certain way.
+ * Property class representing a balanced group of thrusters that can translate
+ * or rotate the object in a certain axis. 
  */
-struct iPcMechanicsThrusterGroup : public iBase
+struct iPcMechanicsBalancedGroup : public iBase
 {
   /**
-   * Set this thruster group's type.
+   * Set this group's type.
    * \param type one of celAxisType, the type of thruster this is.
    */
   virtual void SetType (celAxisType type) = 0;
 
   /**
-   * Get this thruster group's type.
+   * Get this group's type.
    */
   virtual celAxisType GetType () = 0;
 
@@ -128,9 +120,9 @@ struct iPcMechanicsThrusterGroup : public iBase
    * Add a thruster to this thruster group. At least one is required.
    * \param thruster the thruster to add to this group.
    * \param multiplier the percentage of the maximum thrust of this thruster to
-   * use.
+   * use when activated through this balanced group. (must be >0 and <=1)
    */
-  virtual void AddThruster (iPcMechanicsThruster* thruster, percentage multiplier) = 0;
+  virtual void AddThruster (iPcMechanicsThruster* thruster, float multiplier) = 0;
 
   /**
    * Remove a thruster.
@@ -145,37 +137,35 @@ struct iPcMechanicsThrusterGroup : public iBase
   virtual iPcMechanicsThruster* GetThruster (const char* tag) = 0;
 
   /**
-   * Get the maximum strength of the thrusters along the given axis.
-   * \param axis the axis to query.
+   * What is the maximum amount of thrust that can be applied to the thrusters
+   * in this group?
    */
-  virtual float GetStrength (const csVector3 axis) = 0;
+  virtual float AvailableThrust () = 0;
 
   /**
-   * Are all the thrusters that fire along the given axis taking orders?
-   * \param axis the axis to check for thruster availability.
+   * Get the amount of force that the maximum thrust for this group would
+   * produce.
    */
-  virtual bool IsAvailable (const csVector3 axis) = 0;
+  virtual float AvailableThrustForce () = 0;
 
   /**
-   * Apply the given percentage of total thrust to the given axis.
-   * \param thrust the amount of thrust to apply along this axis.
-   * \param axis the axis to apply this thrust in.
+   * Apply the given thrust to all thrusters in this balanced group.
+   * \param thrust the amount of thrust to apply. (must be > 0)
    */
-  virtual void ApplyThrust (percentage thrust, const csVector3 axis) = 0;
+  virtual void ApplyThrust (float thrust) = 0;
 
   /**
-   * A thruster calls this when its effective thrust changes.
-   * \param thrustertag the tag of the thruster whose thrust is changing.
-   * \param thrust the magnitude of the thruster's new effective thrust.
+   * Cancels the last thrust applied.
    */
-  virtual void UpdateThrust (const char* thrustertag, float thrust) = 0;
+  virtual void CancelThrust () = 0;
 };
 
 
 SCF_VERSION (iPcMechanicsThrusterController, 0, 0, 1);
 
 /**
- * Property class that controls the thrusters attached to an object.
+ * Property class that controls the thrusters attached to an object through the
+ * use of balanced thruster groups.
  */
 struct iPcMechanicsThrusterController : public iBase
 {
@@ -193,11 +183,11 @@ struct iPcMechanicsThrusterController : public iBase
   /**
    * Add a named axis to the controller.
    * \param name the name for this axis.
-   * \param type one of celAxisType, the type of groups that can be
-   * added to this group.
+   * \param type one of celAxisType, the type of groups that can be added to
+   * this group.
    * \param axis the vector representing either the direction of movement for
    * this axis (for translational axes) or the direction of the axis around
-   * which rotation on this axis occurs. (for rotational axes)
+   * which rotation occurs. (for rotational axes)
    */
   virtual void AddAxis (const char* name, celAxisType type, const
 	csVector3 axis) = 0;
@@ -212,22 +202,29 @@ struct iPcMechanicsThrusterController : public iBase
    * Get the strength of the best thruster group in the given axis.
    * \param name the name of the axis to check.
    */
-  virtual float GetAxisStrength (const char* name) = 0;
+  virtual float GetAxisMaxForce (const char* name) = 0;
 
   /**
-   * Add a thruster group to the specified axis.
-   * \param thrustergroup the group to add.
+   * Get the amount of thrust needed to produce the maximum force in the given
+   * axis.
+   * \param name the name of the axis to check.
+   */
+  virtual float GetAxisMaxThrust (const char* name) = 0;
+
+  /**
+   * Add a balanced thruster group to the specified axis.
+   * \param group the group to add.
    * \param axisname the name of the axis to add to.
    */
-  virtual void AddThrusterGroup (iPcMechanicsThrusterGroup* thrustergroup,
+  virtual void AddBalancedGroup (iPcMechanicsBalancedGroup* group,
 	const char* axisname) = 0;
 
   /**
    * Remove a thruster group from the specified axis.
-   * \param thrustergrouptag the tag of the group to remove.
+   * \param grouptag the tag of the group to remove.
    * \param axisname the name of the axis to remove from.
    */
-  virtual void RemoveThrusterGroup (const char* thrustergrouptag, const char*
+  virtual void RemoveBalancedGroup (const char* grouptag, const char*
 	axisname) = 0;
 
   /**
@@ -235,24 +232,7 @@ struct iPcMechanicsThrusterController : public iBase
    * \param thrust the percentage of the total thrust for this axis to apply.
    * \param axisname the name of the axis to apply thrust along.
    */
-  virtual void ApplyThrust (percentage thrust, const char* axisname) = 0;
-};
-
-
-struct celThrusterRequestData
-{
-public:
-  float thrust;
-  csRef<iPcMechanicsThrusterGroup> group;
-
-  celThrusterRequestData ()
-  {
-    celThrusterRequestData::group = 0;
-    celThrusterRequestData::thrust = 0.0f;
-  }
-  ~celThrusterRequestData ()
-  {
-  };
+  virtual void ApplyThrust (float thrust, const char* axisname) = 0;
 };
 
 #endif //__CEL_PF_MECHANICS_THRUSTER__

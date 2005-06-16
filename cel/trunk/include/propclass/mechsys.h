@@ -62,7 +62,7 @@ struct iPcMechanicsSystem : public iBase
    * step to the given body. This function is called by
    * iPcMechanicsObject::AddForceDuration().
    * \param pcobject a pointer to the object that will receive this force every
-   * frame.
+   * step until the end of the given time.
    * \param force a vector representing the force to add to this object.
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
@@ -77,7 +77,7 @@ struct iPcMechanicsSystem : public iBase
    * During the next frame add the force every step. This function is called
    * by iPcMechanicsObject::AddForceFrame().
    * \param pcobject a pointer to the object that will receive this force every
-   * frame.
+   * step until the end of the frame.
    * \param force a vector representing the force to add to this object.
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
@@ -85,6 +85,32 @@ struct iPcMechanicsSystem : public iBase
    */
   virtual void AddForceFrame (iPcMechanicsObject* pcobject,
   	const csVector3& force, bool relative, const csVector3& position) = 0;
+
+  /**
+   * Add a force with the given tag, to be manually removed later. This
+   * function is called by iPcMechanicsObject::AddForceTagged().
+   * \param pcobject a pointer to the object that will receive this force every
+   * step until it is removed.
+   * \param force a vector representing the force to add to this object.
+   * \param relative if set to true, the given force and position are both in
+   * object space; otherwise they are in world space.
+   * \param position the position of the force.
+   * \param forcetagid the tag for this force. (use
+   * iCelPlLayer::FetchStringID() to get this.)
+   */
+  virtual void AddForceTagged (iPcMechanicsObject* pcobject,
+  	const csVector3& force, bool relative, const csVector3& position,
+	csStringID forcetagid) = 0;
+
+  /**
+   * Remove the force with the given tag. This function is called by
+   * iPcMechanicsObject::RemoveForceTagged().
+   * \param pcobject a pointer to the object that is currently being affected
+   * by the given force.
+   * \param forcetagid the tag of the desired force.
+   */
+  virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
+	csStringID forcetagid) = 0;
 
   /**
    * Remove the given body from the force queues (filled with AddForceFrame()
@@ -338,8 +364,7 @@ struct iPcMechanicsObject : public iBase
 	const csVector3& position) = 0;
 
   /**
-   * During the specified time (in seconds) add the force every
-   * step.
+   * During the specified time (in seconds) add the force every step.
    * \param force a vector representing the force to add to this object.
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
@@ -358,6 +383,24 @@ struct iPcMechanicsObject : public iBase
    */
   virtual void AddForceFrame (const csVector3& force, bool relative,
 	const csVector3& position) = 0;
+
+  /**
+   * Add a force with the given tag, to be manually removed later.
+   * \param force a vector representing the force to add to this object.
+   * \param relative if set to true, the given force and position are both in
+   * object space; otherwise they are in world space.
+   * \param position the position of the force.
+   * \param forcetagid the tag for this force. (use
+   * iCelPlLayer::FetchStringID() to get this.)
+   */
+  virtual void AddForceTagged (const csVector3& force, bool relative,
+	const csVector3& position, csStringID forcetagid) = 0;
+
+  /**
+   * Remove the force with the given tag.
+   * \param forcetagid the tag of the desired force.
+   */
+  virtual void RemoveForceTagged (csStringID forcetagid) = 0;
 
   /**
    * Clear the permanent forces on this body.

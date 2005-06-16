@@ -3,6 +3,19 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Jun-2005
+	- David Bronke added support for tagged forces to iPcMechanics*.
+	- David Bronke removed all uses of the "percentage" type from the
+	  mechanics plugin.
+	- David Bronke changed the structure of the mechanics plugin, making
+	  thrusters much simpler (no more pointers to a thruster group, so the
+	  thruster can be controlled by anyone) and changing
+	  iPcMechanicsThrusterGroup to iPcMechanicsBalancedGroup, reflecting
+	  the notion that thrusters within each group should be "balanced",
+	  creating a uniform force in the desired direction. (no rotation for
+	  translational balanced groups, no translation for rotational
+	  balanced groups.)
+	- David Bronke improved the commenting of the mechanics plugin.
 13-Jun-2005
 	- Andrew Dai made some general improvements to celPcCollisionDetection,
 	  including a fix for when a non-zero model shift is used.

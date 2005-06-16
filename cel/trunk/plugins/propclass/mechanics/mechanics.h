@@ -55,15 +55,17 @@ CEL_DECLARE_FACTORY (MechanicsObject)
 struct celForce
 {
   iPcMechanicsObject* body;
-  float seconds;	// Remaining time. Not used if for entire frame.
-  bool frame;		// True if processing is for entire frame.
-  bool relative;	// True if force and position are relative to the object.
-  csVector3 force;
-  csVector3 position;
+  float seconds;		// Remaining time. Not used if for entire frame.
+  bool frame;			// True if processing is for entire frame.
+  csStringID forcetagid;	// The string ID for the tag of this force.
+  bool relative;		// True if force and position are relative to the object.
+  csVector3 force;		// Defines the magnitude and direction of the force.
+  csVector3 position;		// The position of the force.
 };
 
 /**
- * This is a dynamic system.
+ * The mechanics system. This takes care of coordinating all the objects in the
+ * system, applying forces and handling collisions.
  */
 class celPcMechanicsSystem : public celPcCommon
 {
@@ -91,6 +93,9 @@ public:
   void SetGravity (const csVector3& grav);
   const csVector3 GetGravity ();
 
+  void AddForceTagged (iPcMechanicsObject* body, const csVector3& force,
+	bool relative, const csVector3& position, csStringID forcetagid);
+  void RemoveForceTagged (iPcMechanicsObject* body, csStringID forcetagid);
   void AddForceDuration (iPcMechanicsObject* body, const csVector3& force,
 	bool relative, const csVector3& position, float seconds);
   void AddForceFrame (iPcMechanicsObject* body, const csVector3& force,
@@ -132,6 +137,17 @@ public:
     virtual const csVector3 GetGravity ()
     {
       return scfParent->GetGravity ();
+    }
+    virtual void AddForceTagged (iPcMechanicsObject* pcobject,
+	const csVector3& force, bool relative, const csVector3& position,
+	csStringID forcetagid)
+    {
+      scfParent->AddForceTagged (pcobject, force, relative, position, forcetagid);
+    }
+    virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
+	csStringID forcetagid)
+    {
+      scfParent->RemoveForceTagged (pcobject, forcetagid);
     }
     virtual void AddForceDuration (iPcMechanicsObject* body,
   	const csVector3& force, bool relative, const csVector3& position,
@@ -324,33 +340,19 @@ public:
 
   iRigidBody* GetBody ();
 
-  virtual void SetFriction (float friction) {
-    celPcMechanicsObject::friction = friction;
-  }
+  void SetFriction (float friction);
 
-  virtual void SetMass (float mass) {
-    celPcMechanicsObject::mass = mass;
-  }
+  void SetMass (float mass);
 
-  virtual void SetElasticity (float elasticity) {
-    celPcMechanicsObject::elasticity = elasticity;
-  }
+  void SetElasticity (float elasticity);
 
-  virtual void SetDensity (float density) {
-    celPcMechanicsObject::density = density;
-  }
+  void SetDensity (float density);
 
-  virtual void SetSoftness (float softness) {
-    celPcMechanicsObject::softness = softness;
-  }
+  void SetSoftness (float softness);
 
-  virtual void SetLift (const csVector3& lift) {
-    celPcMechanicsObject::lift = lift;
-  }
+  void SetLift (const csVector3& lift);
 
-  virtual void SetDrag (float drag) {
-    celPcMechanicsObject::drag = drag;
-  }
+  void SetDrag (float drag);
 
   virtual float GetFriction () {
     return celPcMechanicsObject::friction;
@@ -396,6 +398,9 @@ public:
   void AttachColliderPlane (const csPlane3& plane);
   void AttachColliderMesh ();
 
+  void AddForceTagged (const csVector3& force, bool relative,
+	const csVector3& position, csStringID forcetagid);
+  void RemoveForceTagged (csStringID forcetagid);
   void AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position);
   void AddForceDuration (const csVector3& force, bool relative,
@@ -520,6 +525,15 @@ public:
     virtual void AttachColliderMesh ()
     {
       scfParent->AttachColliderMesh ();
+    }
+    virtual void AddForceTagged (const csVector3& force, bool relative,
+	const csVector3& position, csStringID forcetagid)
+    {
+      scfParent->AddForceTagged (force, relative, position, forcetagid);
+    }
+    virtual void RemoveForceTagged (csStringID forcetagid)
+    {
+      scfParent->RemoveForceTagged (forcetagid);
     }
     virtual void AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position)

@@ -68,23 +68,27 @@ private:
 
   // Data members
   csWeakRef<iPcMechanicsObject> mechanicsobject;
-  celThrusterRequestData request;
   csVector3 position;
   csVector3 orientation;
+  float thrust;
   float maxthrust;
 
 public:
   celPcMechanicsThrusterReactionary (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsThrusterReactionary ();
 
+  // celPcCommon implementation
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmechthrustreactionary"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+
+  // iCelTimerListener function implementation
   virtual void TickEveryFrame ();
 
+  // iPcMechanicsThruster function implementation
   virtual void SetMechanicsObject (iPcMechanicsObject* mechobj)
   {
     mechanicsobject = mechobj;
@@ -107,17 +111,13 @@ public:
 
   virtual float GetMaxThrust ();
 
-  virtual float GetEffectiveMaxThrust ();
+  virtual float GetThrustForce (float thrust);
 
-  virtual void ThrustRequest (iPcMechanicsThrusterGroup* group, float thrust);
+  virtual void ThrustChange (float deltathrust);
 
-  virtual void CancelThrustRequest (iPcMechanicsThrusterGroup* group);
+  virtual float AvailableThrust ();
 
-  virtual bool IsAvailable ()
-  {
-    return (fabs (request.thrust) < 0.000001f);
-  }
-
+  // embedded iPcMechanicsThruster implementation
   struct PcMechanicsThruster : public iPcMechanicsThruster
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary);
@@ -162,27 +162,23 @@ public:
       return scfParent->GetMaxThrust ();
     }
 
-    virtual float GetEffectiveMaxThrust ()
+    virtual float GetThrustForce (float thrust)
     {
-      return scfParent->GetEffectiveMaxThrust ();
+      return scfParent->GetThrustForce (thrust);
     }
 
-    virtual void ThrustRequest (iPcMechanicsThrusterGroup* group, float thrust)
+    virtual void ThrustChange (float deltathrust)
     {
-      scfParent->ThrustRequest (group, thrust);
+      scfParent->ThrustChange (deltathrust);
     }
 
-    virtual void CancelThrustRequest (iPcMechanicsThrusterGroup* group)
+    virtual float AvailableThrust ()
     {
-      scfParent->CancelThrustRequest (group);
-    }
-
-    virtual bool IsAvailable ()
-    {
-      return scfParent->IsAvailable ();
+      return scfParent->AvailableThrust ();
     }
   } scfiPcMechanicsThruster;
 
+  // embedded iCelTimerListener implementation
   struct CelTimerListener : public iCelTimerListener
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary);
