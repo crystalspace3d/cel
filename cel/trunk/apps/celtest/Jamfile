@@ -1,19 +1,19 @@
 SubDir TOP apps celtest ;
 
-Application celtest : [ Wildcard *.cpp *.h ] ;
-CFlags celtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith celtest : celtool ;
-ExternalLibs celtest : CRYSTAL ;
+Application celtst : [ Wildcard *.cpp *.h ] ;
+CFlags celtst : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith celtst : celtool ;
+ExternalLibs celtst : CRYSTAL ;
 
 if $(HAVE_STATIC_PLUGINS) = "yes"
 {
   SubVariant static ;
   
-  Application celtest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-  CFlags celtest_static : [ FDefines CS_STATIC_LINKED ] ;
-  LFlags celtest_static : -lcrystalspace_staticplugins ;
-  LinkWith celtest_static : cel_staticplugins celtool ;
-  LinkStaticPlugins celtest_static :
+  Application celtst_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  CFlags celtst_static : [ FDefines CS_STATIC_LINKED ] ;
+  LFlags celtst_static : -lcrystalspace_staticplugins ;
+  LinkWith celtst_static : cel_staticplugins celtool ;
+  LinkStaticPlugins celtst_static :
     addon_celentity
     addon_celentitytpl
     addon_questdef
@@ -35,7 +35,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     xmlpersist
   : blpython
   ;
-  LinkStaticPlugins celtest_static : 
+  LinkStaticPlugins celtst_static : 
     ball
     ballldr
     bezier
@@ -111,7 +111,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : glwin32 glx2d glosx2d xwin
   : CRYSTAL
   ;
-  ExternalLibs celtest_static : CRYSTAL ;
+  ExternalLibs celtst_static : CRYSTAL ;
   
   SubVariant ;
 }

@@ -16,6 +16,11 @@ The history order is reversed so that new features are at the top.
 	  translational balanced groups, no translation for rotational
 	  balanced groups.)
 	- David Bronke improved the commenting of the mechanics plugin.
+	- Jorrit changed celtest to celtst again. The problem is that in the
+	  past we used to have a 'celtest' directory. And CVS can't remove
+	  directories so when you are on linux and do a cvs update then
+	  the 'celtest' directory will conflict with the 'celtest'
+	  executable.
 13-Jun-2005
 	- Andrew Dai made some general improvements to celPcCollisionDetection,
 	  including a fix for when a non-zero model shift is used.
