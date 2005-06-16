@@ -89,7 +89,7 @@ void celPcMechanicsSystem::ProcessForces (float dt)
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
-    if (f.frame)
+    if (f.forcetagid != csInvalidStringID || f.frame)
     {
       ApplyForce (f);
     }
@@ -148,7 +148,7 @@ void celPcMechanicsSystem::TickEveryFrame ()
   for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
-    if (f.frame || f.seconds <= 0)
+    if (f.forcetagid == csInvalidStringID && (f.frame || f.seconds <= 0))
     {
       forces.DeleteIndex (i);
       i--;
@@ -264,6 +264,35 @@ bool celPcMechanicsSystem::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+void celPcMechanicsSystem::AddForceTagged (iPcMechanicsObject* pcobject,
+	const csVector3& force, bool relative, const csVector3& position,
+	csStringID forcetagid)
+{
+  celForce f;
+  f.body = pcobject;
+  f.seconds = 0;
+  f.frame = false;
+  f.forcetagid = forcetagid;
+  f.force = force;
+  f.relative = relative;
+  f.position = position;
+  forces.Push (f);
+}
+
+void celPcMechanicsSystem::RemoveForceTagged (iPcMechanicsObject* pcobject,
+	csStringID forcetagid)
+{
+  for (size_t i = 0 ; i < forces.Length () ; i++)
+  {
+    celForce& f = forces[i];
+    if (f.forcetagid == forcetagid)
+    {
+      forces.DeleteIndex (i);
+      return;
+    }
+  }
+}
+
 void celPcMechanicsSystem::AddForceDuration (iPcMechanicsObject* body,
 	const csVector3& force, bool relative, const csVector3& position,
 	float seconds)
@@ -272,6 +301,7 @@ void celPcMechanicsSystem::AddForceDuration (iPcMechanicsObject* body,
   f.body = body;
   f.seconds = seconds;
   f.frame = false;
+  f.forcetagid = csInvalidStringID;
   f.force = force;
   f.relative = relative;
   f.position = position;
@@ -285,6 +315,7 @@ void celPcMechanicsSystem::AddForceFrame (iPcMechanicsObject* body,
   f.body = body;
   f.seconds = 0;
   f.frame = true;
+  f.forcetagid = csInvalidStringID;
   f.force = force;
   f.relative = relative;
   f.position = position;
@@ -901,6 +932,35 @@ iPcMesh* celPcMechanicsObject::GetMesh ()
   return pcmesh;
 }
 
+void celPcMechanicsObject::SetFriction (float friction) {
+  celPcMechanicsObject::friction = friction;
+}
+
+void celPcMechanicsObject::SetMass (float mass) {
+  celPcMechanicsObject::mass = mass;
+  body->SetProperties (mass, body->GetCenter (), csMatrix3 () * mass);
+}
+
+void celPcMechanicsObject::SetElasticity (float elasticity) {
+  celPcMechanicsObject::elasticity = elasticity;
+}
+
+void celPcMechanicsObject::SetDensity (float density) {
+  celPcMechanicsObject::density = density;
+}
+
+void celPcMechanicsObject::SetSoftness (float softness) {
+  celPcMechanicsObject::softness = softness;
+}
+
+void celPcMechanicsObject::SetLift (const csVector3& lift) {
+  celPcMechanicsObject::lift = lift;
+}
+
+void celPcMechanicsObject::SetDrag (float drag) {
+  celPcMechanicsObject::drag = drag;
+}
+
 void celPcMechanicsObject::SetLinearVelocity (const csVector3& vel)
 {
   GetBody ();
@@ -1029,6 +1089,18 @@ void celPcMechanicsObject::AttachColliderMesh ()
   delete bdata;
   bdata = 0;
   btype = CEL_BODY_MESH;
+}
+
+void celPcMechanicsObject::AddForceTagged (const csVector3& force, bool relative,
+	const csVector3& position, csStringID forcetagid)
+{
+  mechsystem->AddForceTagged (&scfiPcMechanicsObject, force, relative,
+	position, forcetagid);
+}
+
+void celPcMechanicsObject::RemoveForceTagged (csStringID forcetagid)
+{
+  mechsystem->RemoveForceTagged (&scfiPcMechanicsObject, forcetagid);
 }
 
 void celPcMechanicsObject::AddForceOnce (const csVector3& force, bool relative,

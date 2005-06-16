@@ -42,15 +42,6 @@
 
 CEL_IMPLEMENT_FACTORY (MechanicsThrusterReactionary, "pcmechthrustreactionary")
 
-static float clipPercent (float val)
-{
-  if (val < 0)
-    return 0;
-  if (val > 1)
-    return 1;
-  return val;
-}
-
 //---------------------------------------------------------------------------
 
 // Actions
@@ -113,9 +104,7 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
   databuf->Add (position);
   databuf->Add (orientation);
   databuf->Add (maxthrust);
-  databuf->Add (request.thrust);
-  pc = SCF_QUERY_INTERFACE (request.group, iCelPropertyClass);
-  databuf->Add (pc);
+  databuf->Add (thrust);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -132,9 +121,7 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
   databuf->GetVector3 (position);
   databuf->GetVector3 (orientation);
   maxthrust = databuf->GetFloat ();
-  request.thrust = databuf->GetFloat ();
-  pc = databuf->GetPC ();
-  request.group = SCF_QUERY_INTERFACE (pc, iPcMechanicsThrusterGroup);
+  thrust = databuf->GetFloat ();
   return true;
 }
 
@@ -183,34 +170,29 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
 
 void celPcMechanicsThrusterReactionary::TickEveryFrame ()
 {
-  if (request.thrust != 0.0)
+  if (thrust != 0.0)
   {
     //Thruster is active.
-    mechanicsobject->AddForceFrame (orientation * ((request.thrust <= 1.0 ?
-	request.thrust : 1.0) * maxthrust), true, position);
+    mechanicsobject->AddForceFrame (orientation * ((thrust <= 1.0 ?
+	thrust : 1.0) * maxthrust), true, position);
   }
 }
 
-void celPcMechanicsThrusterReactionary::ThrustRequest (
-	iPcMechanicsThrusterGroup* group, float thrust)
+void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
 {
-  printf ("received thrust request.\n\n");
+  printf ("changing thrust from %f to %f.\n\n", thrust, thrust + deltathrust);
   fflush (stdout);
-  if (request.thrust == 0.0 || request.group == group)
+  if (deltathrust <= AvailableThrust () && deltathrust > (-thrust))
   {
-    request.group = group;
-    request.thrust = clipPercent (thrust);
+    thrust = thrust + deltathrust;
+  } else {
+    Report (object_reg, "Requested thrust change exceeds limits!");
   }
 }
 
-void celPcMechanicsThrusterReactionary::CancelThrustRequest
-	(iPcMechanicsThrusterGroup* group)
+float celPcMechanicsThrusterReactionary::AvailableThrust ()
 {
-  if (request.group = group)
-  {
-    request.group = 0;
-    request.thrust = 0.0;
-  }
+  return maxthrust - thrust;
 }
 
 void celPcMechanicsThrusterReactionary::SetPosition (const csVector3& pos)
@@ -244,8 +226,8 @@ float celPcMechanicsThrusterReactionary::GetMaxThrust ()
   return maxthrust;
 }
 
-float celPcMechanicsThrusterReactionary::GetEffectiveMaxThrust ()
+float celPcMechanicsThrusterReactionary::GetThrustForce (float thrust)
 {
-  return maxthrust;
+  return thrust;
 }
 
