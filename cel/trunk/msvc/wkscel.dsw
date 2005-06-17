@@ -18,7 +18,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "appceltest"=.\appceltest.dsp - Package Owner=<4>
+Project: "appceltst"=.\appceltst.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -45,7 +45,7 @@ Package=<4>
     Project_Dep_Name appbootstrap
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name appceltest
+    Project_Dep_Name appceltst
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libceltool
@@ -156,7 +156,7 @@ Package=<4>
     Project_Dep_Name appbootstrap
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name appceltest
+    Project_Dep_Name appceltst
     End Project Dependency
 }}}
 

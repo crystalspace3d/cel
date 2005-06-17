@@ -38,9 +38,9 @@ static char const metainfo_pfmechanics[] =
 "	</requires>"
 "      </class>"
 "      <class>"
-"        <name>cel.pcfactory.mechthrustergroup</name>"
-"        <implementation>celPfMechanicsThrusterGroup</implementation>"
-"	<description>CEL Mechanics Thruster Group Class Factory</description>"
+"        <name>cel.pcfactory.mechbalancedgroup</name>"
+"        <implementation>celPfMechanicsBalancedGroup</implementation>"
+"	<description>CEL Mechanics Balanced Thruster Group Class Factory</description>"
 "	<requires>"
 "	  <class>cel.physicallayer</class>"
 "	</requires>"
@@ -73,9 +73,9 @@ static char const metainfo_pfmechanics[] =
   #define celPfMechanicsObject_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsObject) 
   #endif
-  #ifndef celPfMechanicsThrusterGroup_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsThrusterGroup_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterGroup) 
+  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
+  #define celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsBalancedGroup) 
   #endif
   #ifndef celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
   #define celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
@@ -97,9 +97,9 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #define celPfMechanicsObject_FACTORY_REGISTERED 
     celPfMechanicsObject_StaticInit celPfMechanicsObject_static_init__; 
   #endif
-  #ifndef celPfMechanicsThrusterGroup_FACTORY_REGISTERED 
-  #define celPfMechanicsThrusterGroup_FACTORY_REGISTERED 
-    celPfMechanicsThrusterGroup_StaticInit celPfMechanicsThrusterGroup_static_init__; 
+  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
+  #define celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
+    celPfMechanicsBalancedGroup_StaticInit celPfMechanicsBalancedGroup_static_init__; 
   #endif
   #ifndef celPfMechanicsThrusterController_FACTORY_REGISTERED 
   #define celPfMechanicsThrusterController_FACTORY_REGISTERED 
