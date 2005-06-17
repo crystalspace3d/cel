@@ -95,7 +95,7 @@ struct iPcMechanicsSystem : public iBase
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
    * \param position the position of the force.
-   * \param forcetagid the tag for this force. (use
+   * \param forceid the tag for this force. (use
    * iCelPlLayer::FetchStringID() to get this.)
    */
   virtual void AddForceTagged (iPcMechanicsObject* pcobject,
@@ -107,7 +107,7 @@ struct iPcMechanicsSystem : public iBase
    * iPcMechanicsObject::RemoveForceTagged().
    * \param pcobject a pointer to the object that is currently being affected
    * by the given force.
-   * \param forcetagid the tag of the desired force.
+   * \param forceid the tag of the desired force.
    */
   virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
 	uint32 forceid) = 0;
@@ -397,7 +397,7 @@ struct iPcMechanicsObject : public iBase
 
   /**
    * Remove the force with the given tag.
-   * \param forcetagid the tag of the desired force.
+   * \param forceid the tag of the desired force.
    */
   virtual void RemoveForceTagged (uint32 forceid) = 0;
 
