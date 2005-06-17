@@ -117,7 +117,7 @@ struct iPcTrigger : public iBase
 
   /**
    * Setup a spherical area as trigger zone. This version uses a
-   * mapnode (<node> in XML) in the sector to get the position from.
+   * mapnode (\<node\> in XML) in the sector to get the position from.
    */
   virtual void SetupTriggerSphere (iSector* sector,
   	const char* center_name, float radius) = 0;

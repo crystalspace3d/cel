@@ -150,7 +150,7 @@ struct iPcMechanicsBalancedGroup : public iBase
 
   /**
    * Apply the given thrust to all thrusters in this balanced group.
-   * \param thrust the amount of thrust to apply. (must be > 0)
+   * \param deltathrust the amount of thrust to apply. (must be > 0)
    */
   virtual void ChangeThrust (float deltathrust) = 0;
 };
@@ -233,7 +233,7 @@ struct iPcMechanicsThrusterController : public iBase
 
   /**
    * Cancels specified thrust request.
-   * \id the id of the thrust request to be cancelled.
+   * \param id the id of the thrust request to be cancelled.
    */
   virtual void CancelThrust (uint32 id) = 0;
 };

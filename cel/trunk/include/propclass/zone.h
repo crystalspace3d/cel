@@ -341,6 +341,8 @@ struct iPcZoneManager : public iBase
    * </ul>
    * \param entity is the name of the entity that contains the
    * pccamera property class.
+   * \param regionname the name of the region to load.
+   * \param startname the name of the starting position.
    */
   virtual int PointCamera (const char* entity, const char* regionname,
   	const char* startname = 0) = 0;
@@ -359,6 +361,8 @@ struct iPcZoneManager : public iBase
    * </ul>
    * \param entity is the name of the entity that contains the
    * pcmesh property class.
+   * \param regionname the name of the region to load.
+   * \param startname the name of the starting position.
    */
   virtual int PointMesh (const char* entity, const char* regionname,
   	const char* startname = 0) = 0;

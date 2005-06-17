@@ -1474,6 +1474,7 @@ struct iTransformQuestSeqOpFactory : public iBase
   /**
    * Set the relative rotation parameter.
    * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
+   * \param rot_angle the amount of rotation.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
 };

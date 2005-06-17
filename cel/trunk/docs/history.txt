@@ -34,6 +34,9 @@ The history order is reversed so that new features are at the top.
 	  uint32s are used to represent unique IDs for each force that is
 	  applied to an object and for each thrust that is requested from an
 	  iPcMechanicsThrusterController.
+	- David Bronke fixed a few Doxygen errors in the header files.
+	  (skipped questmanager.h for the most part because I don't understand
+	  all the parameters)
 13-Jun-2005
 	- Andrew Dai made some general improvements to celPcCollisionDetection,
 	  including a fix for when a non-zero model shift is used.
