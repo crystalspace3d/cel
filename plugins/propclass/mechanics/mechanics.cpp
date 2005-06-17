@@ -940,7 +940,8 @@ void celPcMechanicsObject::SetFriction (float friction) {
 
 void celPcMechanicsObject::SetMass (float mass) {
   celPcMechanicsObject::mass = mass;
-  body->SetProperties (mass, body->GetCenter (), csMatrix3 () * mass);
+  if (GetBody () != NULL)
+    body->SetProperties (mass, body->GetCenter (), csMatrix3 () * mass);
 }
 
 void celPcMechanicsObject::SetElasticity (float elasticity) {
