@@ -41,6 +41,7 @@ public:
 
   static celBlPython* shared_instance;
   iObjectRegistry* object_reg;
+  bool use_debugger;
 
   virtual bool Initialize (iObjectRegistry* object_reg);
   virtual const char* GetName () const { return "blpython"; }
@@ -52,6 +53,8 @@ public:
   
   void ShowError ();
   void Print (bool Error, const char *msg);
+
+  virtual bool HandleEvent(iEvent&);
 
   SCF_DECLARE_IBASE;
 
@@ -128,6 +131,14 @@ public:
     bool Remove(const char *name)
       { return false; }
   } scfiScript;
+
+  // Implement iEventHandler interface.
+  struct eiEventHandler : public iEventHandler
+  {
+    SCF_DECLARE_EMBEDDED_IBASE(celBlPython);
+    virtual bool HandleEvent (iEvent& e)
+    { return scfParent->HandleEvent(e); }
+  } scfiEventHandler;
 };
 
 class celPythonBehaviour : public iCelBehaviour

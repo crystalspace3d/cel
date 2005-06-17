@@ -4,7 +4,6 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 16-Jun-2005
-	- David Bronke added support for tagged forces to iPcMechanics*.
 	- David Bronke removed all uses of the "percentage" type from the
 	  mechanics plugin.
 	- David Bronke changed the structure of the mechanics plugin, making
@@ -21,6 +20,20 @@ The history order is reversed so that new features are at the top.
 	  directories so when you are on linux and do a cvs update then
 	  the 'celtest' directory will conflict with the 'celtest'
 	  executable.
+	- David Bronke made some minor cleanup changes in the mechanics
+	  plugin.
+	- David Bronke added a --python-enable-debugger command-line option to
+	  the celBlPython plugin, mirroring a change that Eric previously added
+	  to the cspython plugin. When enabled, a Python exception causes the
+	  Python debugger to be launched. Previously, this functionality was
+	  the default behavior, but it caused problems because it required that
+	  the main application be linked against Python.
+	- David Bronke added SWIG interfaces for the mechanics plugin to
+	  blcel.i
+	- David Bronke added support for force and thrust IDs to iPcMechanics*.
+	  uint32s are used to represent unique IDs for each force that is
+	  applied to an object and for each thrust that is requested from an
+	  iPcMechanicsThrusterController.
 13-Jun-2005
 	- Andrew Dai made some general improvements to celPcCollisionDetection,
 	  including a fix for when a non-zero model shift is used.

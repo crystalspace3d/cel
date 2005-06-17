@@ -23,9 +23,12 @@
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "csutil/csstring.h"
 #include "csutil/util.h"
-#include "ivaria/reporter.h"
 #include "csutil/syspath.h"
 #include "iutil/objreg.h"
+#include "iutil/cmdline.h"
+#include "iutil/eventq.h"
+#include "csutil/event.h"
+#include "ivaria/reporter.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"
 
@@ -35,6 +38,7 @@ SCF_IMPLEMENT_IBASE(celBlPython)
   SCF_IMPLEMENTS_INTERFACE(iCelBlLayer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iComponent)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iScript)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiComponent)
@@ -43,6 +47,10 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiScript)
   SCF_IMPLEMENTS_INTERFACE (iScript)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiEventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 SCF_IMPLEMENT_FACTORY (celBlPython)
@@ -55,21 +63,30 @@ celBlPython::celBlPython (iBase *iParent) :
   SCF_CONSTRUCT_IBASE (iParent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiScript);
+  SCF_CONSTRUCT_EMBEDDED_IBASE(scfiEventHandler);
   shared_instance = this;
 }
 
 celBlPython::~celBlPython ()
 {
+  csRef<iEventQueue> queue = CS_QUERY_REGISTRY(object_reg, iEventQueue);
+  if (queue.IsValid())
+    queue->RemoveListener(&scfiEventHandler);
   Py_Finalize ();
   object_reg = 0;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiScript);
+  SCF_DESTRUCT_EMBEDDED_IBASE(scfiEventHandler);
   SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlPython::Initialize (iObjectRegistry* object_reg)
 {
   celBlPython::object_reg = object_reg;
+
+  csRef<iCommandLineParser> cmdline(
+    CS_QUERY_REGISTRY(object_reg, iCommandLineParser));
+  use_debugger = cmdline->GetOption("python-enable-debugger") != 0;
 
   Py_SetProgramName ("Crystal Entity Layer -- Python");
   Py_Initialize ();
@@ -98,7 +115,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   if (!RunText ("sys.path.append('" SCRIPTSDIR "/')")) return false;
 #endif // SCRIPTSDIR
 
-  if (!LoadModule ("pdb")) return false;  
+  if (use_debugger && !LoadModule ("pdb")) return false;
   if (!LoadModule ("cspace")) return false;
   if (!LoadModule ("blcelc")) return false;
 
@@ -111,6 +128,10 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   // Store the physical layer pointer in 'blcel.physicallayer'.
   Store ("blcelc.physicallayer_ptr", pl, (void *) "iCelPlLayer *");
   //RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
+
+  csRef<iEventQueue> queue = CS_QUERY_REGISTRY(object_reg, iEventQueue);
+  if (queue.IsValid())
+    queue->RegisterListener(&scfiEventHandler, CSMASK_Broadcast);
 
   return true;
 }
@@ -189,15 +210,16 @@ void celBlPython::ShowError ()
 bool celBlPython::RunText (const char* Text)
 {
   csString str(Text);
-  bool worked = !PyRun_SimpleString (str.GetData ());
-  if (!worked) 
+  bool ok = !PyRun_SimpleString (str.GetData ());
+  if (!ok) 
   {    
     printf ("Error running text '%s'\n", Text);    
     fflush (stdout);
-    //PyRun_SimpleString ("pdb.pm()");
+    if (use_debugger)
+      PyRun_SimpleString ("pdb.pm()");
   }  
   ShowError ();
-  return worked;
+  return ok;
 }
 
 bool celBlPython::Store (const char* name, void* data, void* tag)
@@ -242,6 +264,23 @@ void celBlPython::Print (bool Error, const char *msg)
       rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.behaviourlayer.python",
       	"%s", msg);
   }
+}
+
+bool celBlPython::HandleEvent(iEvent& e)
+{
+  bool handled = false;
+  if (e.Type == csevBroadcast &&
+	csCommandEventHelper::GetCode(&e) == cscmdCommandLineHelp)
+  {
+#undef indent
+#define indent "                     "
+    printf("Options for celBlPython plugin:\n"
+           "  -python-enable-debugger\n"
+           indent "When Python exception is thrown, launch Python debugger\n");
+#undef indent
+    handled = true;
+  }
+  return handled;
 }
 
 //----------------------------------------------------------------------------

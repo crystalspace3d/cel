@@ -100,7 +100,7 @@ struct iPcMechanicsSystem : public iBase
    */
   virtual void AddForceTagged (iPcMechanicsObject* pcobject,
   	const csVector3& force, bool relative, const csVector3& position,
-	csStringID forcetagid) = 0;
+	uint32 forceid) = 0;
 
   /**
    * Remove the force with the given tag. This function is called by
@@ -110,7 +110,7 @@ struct iPcMechanicsSystem : public iBase
    * \param forcetagid the tag of the desired force.
    */
   virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
-	csStringID forcetagid) = 0;
+	uint32 forceid) = 0;
 
   /**
    * Remove the given body from the force queues (filled with AddForceFrame()
@@ -390,17 +390,16 @@ struct iPcMechanicsObject : public iBase
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
    * \param position the position of the force.
-   * \param forcetagid the tag for this force. (use
-   * iCelPlLayer::FetchStringID() to get this.)
+   * \param forceid is set to the ID of this force.
    */
   virtual void AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, csStringID forcetagid) = 0;
+	const csVector3& position, uint32& forceid) = 0;
 
   /**
    * Remove the force with the given tag.
    * \param forcetagid the tag of the desired force.
    */
-  virtual void RemoveForceTagged (csStringID forcetagid) = 0;
+  virtual void RemoveForceTagged (uint32 forceid) = 0;
 
   /**
    * Clear the permanent forces on this body.

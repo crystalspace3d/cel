@@ -57,7 +57,7 @@ struct celForce
   iPcMechanicsObject* body;
   float seconds;		// Remaining time. Not used if for entire frame.
   bool frame;			// True if processing is for entire frame.
-  csStringID forcetagid;	// The string ID for the tag of this force.
+  uint32 forceid;		// The string ID for the tag of this force.
   bool relative;		// True if force and position are relative to the object.
   csVector3 force;		// Defines the magnitude and direction of the force.
   csVector3 position;		// The position of the force.
@@ -94,8 +94,8 @@ public:
   const csVector3 GetGravity ();
 
   void AddForceTagged (iPcMechanicsObject* body, const csVector3& force,
-	bool relative, const csVector3& position, csStringID forcetagid);
-  void RemoveForceTagged (iPcMechanicsObject* body, csStringID forcetagid);
+	bool relative, const csVector3& position, uint32 forceid);
+  void RemoveForceTagged (iPcMechanicsObject* body, uint32 forceid);
   void AddForceDuration (iPcMechanicsObject* body, const csVector3& force,
 	bool relative, const csVector3& position, float seconds);
   void AddForceFrame (iPcMechanicsObject* body, const csVector3& force,
@@ -140,14 +140,14 @@ public:
     }
     virtual void AddForceTagged (iPcMechanicsObject* pcobject,
 	const csVector3& force, bool relative, const csVector3& position,
-	csStringID forcetagid)
+	uint32 forceid)
     {
-      scfParent->AddForceTagged (pcobject, force, relative, position, forcetagid);
+      scfParent->AddForceTagged (pcobject, force, relative, position, forceid);
     }
     virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
-	csStringID forcetagid)
+	uint32 forceid)
     {
-      scfParent->RemoveForceTagged (pcobject, forcetagid);
+      scfParent->RemoveForceTagged (pcobject, forceid);
     }
     virtual void AddForceDuration (iPcMechanicsObject* body,
   	const csVector3& force, bool relative, const csVector3& position,
@@ -302,6 +302,9 @@ private:
   static csStringID param_otherbody;
   celOneParameterBlock* params;
 
+  // Last assigned force id for this object
+  uint32 forceidseed;
+
   csWeakRef<iPcMechanicsSystem> mechsystem;
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iRigidBody> body;
@@ -399,8 +402,8 @@ public:
   void AttachColliderMesh ();
 
   void AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, csStringID forcetagid);
-  void RemoveForceTagged (csStringID forcetagid);
+	const csVector3& position, uint32& forceid);
+  void RemoveForceTagged (uint32 forceid);
   void AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position);
   void AddForceDuration (const csVector3& force, bool relative,
@@ -527,13 +530,13 @@ public:
       scfParent->AttachColliderMesh ();
     }
     virtual void AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, csStringID forcetagid)
+	const csVector3& position, uint32& forceid)
     {
-      scfParent->AddForceTagged (force, relative, position, forcetagid);
+      scfParent->AddForceTagged (force, relative, position, forceid);
     }
-    virtual void RemoveForceTagged (csStringID forcetagid)
+    virtual void RemoveForceTagged (uint32 forceid)
     {
-      scfParent->RemoveForceTagged (forcetagid);
+      scfParent->RemoveForceTagged (forceid);
     }
     virtual void AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position)

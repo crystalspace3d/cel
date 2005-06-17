@@ -246,35 +246,7 @@ float celPcMechanicsBalancedGroup::AvailableThrustForce ()
   return outputforce;
 }
 
-void celPcMechanicsBalancedGroup::ApplyThrust (float thrust)
-{
-  if (thrust < 0)
-  {
-    Report (object_reg, "Negative thrust specified! Aborting thrust!");
-    return;
-  }
-  if (curthrust != 0)
-  {
-    curthrust = thrust;
-    thrust = thrust - curthrust;
-  }
-  else
-  {
-    curthrust = thrust;
-  }
-  csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
-  celThrusterData* thrusterdata;
-  while (it.HasNext ())
-  {
-    printf (" [thruster]\n");
-    fflush (stdout);
-    thrusterdata = it.Next ();
-    thrusterdata->thruster->ThrustChange (thrust *
-	thrusterdata->thrustcoefficient);
-  }
-}
-
-void celPcMechanicsBalancedGroup::CancelThrust ()
+void celPcMechanicsBalancedGroup::ChangeThrust (float deltathrust)
 {
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
   celThrusterData* thrusterdata;
@@ -283,10 +255,9 @@ void celPcMechanicsBalancedGroup::CancelThrust ()
     printf (" [thruster]\n");
     fflush (stdout);
     thrusterdata = it.Next ();
-    thrusterdata->thruster->ThrustChange (-curthrust *
+    thrusterdata->thruster->ThrustChange (deltathrust *
 	thrusterdata->thrustcoefficient);
   }
-  curthrust = 0;
 }
 
 //---------------------------------------------------------------------------
@@ -393,6 +364,17 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
       databuf->Add (pc);
     }
   }
+  databuf->Add ((int32) requests.GetSize ());
+  csArray<celThrustRequestData*>::Iterator trit = requests.GetIterator ();
+  celThrustRequestData* trd;
+  while (trit.HasNext ())
+  {
+    trd = trit.Next ();
+    pc = SCF_QUERY_INTERFACE (trd->group, iCelPropertyClass);
+    databuf->Add (pc);
+    databuf->Add (trd->id);
+    databuf->Add (trd->thrust);
+  }
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -402,10 +384,10 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   if (serialnr != THRUSTERCONTROLLER_SERIAL) return false;
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
   csRef<iPcMechanicsObject> mechobj = SCF_QUERY_INTERFACE (pc, iPcMechanicsObject);
-  int axessize = (int) databuf->GetInt32 ();
-  int tgsize, j;
+  int32 axessize = databuf->GetInt32 ();
+  int32 tgsize, i, j;
   csRef<iPcMechanicsBalancedGroup> tg;
-  for (int i = 1; i <= axessize; i++)
+  for (i = 1; i <= axessize; i++)
   {
     iString* name = databuf->GetString ();
     csVector3 axis;
@@ -419,6 +401,18 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
       tg = SCF_QUERY_INTERFACE (pc, iPcMechanicsBalancedGroup);
       AddBalancedGroup (tg, name->GetData ());
     }
+  }
+  int32 requestsize = databuf->GetInt32 ();
+  uint32 id;
+  float thrust;
+  csRef<iPcMechanicsBalancedGroup> group;
+  for (i = 1; j <= requestsize; i++)
+  {
+    pc = databuf->GetPC ();
+    group = SCF_QUERY_INTERFACE (pc, iPcMechanicsBalancedGroup);
+    id = databuf->GetUInt32 ();
+    thrust = databuf->GetFloat ();
+    ApplyThrustHelper (thrust, group, id);
   }
   return true;
 }
@@ -473,7 +467,9 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
       Report (object_reg, "Couldn't get thrust!");
       return false;
     }
-    ApplyThrust ((percentage) thrust, axisname);
+    uint32 forceid;
+    ApplyThrust (thrust, axisname, forceid);
+    //TODO: Any way to return forceid to the caller?
   }
   else if (actionId == action_addbalancedgroup)
   {
@@ -637,7 +633,16 @@ void celPcMechanicsThrusterController::RemoveBalancedGroup (const char*
   }
 }
 
-void celPcMechanicsThrusterController::ApplyThrust (float thrust, const char* axisname)
+void celPcMechanicsThrusterController::ApplyThrustHelper (float thrust,
+	iPcMechanicsBalancedGroup* group, uint32 id)
+{
+  celThrustRequestData* trd = new celThrustRequestData (group, id, thrust);
+  requests.Push (trd);
+  group->ChangeThrust (thrust);
+}
+
+void celPcMechanicsThrusterController::ApplyThrust (float thrust,
+	const char* axisname, uint32& id)
 {
   printf ((csString ("Applying thrust on axis '") + axisname + "'.\n")
   	.GetData ());
@@ -679,16 +684,29 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust, const char* ax
       {
         printf ("Found best group. Applying thrust %f.\n", thrust);
         fflush (stdout);
-        bestgroup->ApplyThrust (thrust);
+	id = lastrequestid++;
+        ApplyThrustHelper (thrust, bestgroup, id);
       }
-/*      else
-      {
-        Report (object_reg, (csString ("No available groups in axis '") + axisname + "'!").GetData ());
-      }*/
       return;
     }
   }
   Report (object_reg, (csString ("Invalid axis specified: ") + axisname).GetData ());
+}
+
+void celPcMechanicsThrusterController::CancelThrust (uint32 id)
+{
+  csArray<celThrustRequestData*>::Iterator trit = requests.GetIterator ();
+  celThrustRequestData* trd = 0;
+  while (trit.HasNext ())
+  {
+    trd = trit.Next ();
+    if (trd->id == id)
+    {
+      trd->group->ChangeThrust (-trd->thrust);
+      requests.Delete (trd);
+      delete trd;
+    }
+  }
 }
 
 //---------------------------------------------------------------------------
