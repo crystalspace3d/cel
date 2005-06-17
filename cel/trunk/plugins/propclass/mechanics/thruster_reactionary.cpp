@@ -56,23 +56,18 @@ csStringID celPcMechanicsThrusterReactionary::param_maxthrust = csInvalidStringI
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsThrusterReactionary)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsThruster)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelTimerListener)
 SCF_IMPLEMENT_IBASE_EXT_END
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary::PcMechanicsThruster)
   SCF_IMPLEMENTS_INTERFACE (iPcMechanicsThruster)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary::CelTimerListener)
-  SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
 	iObjectRegistry* object_reg) : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThruster);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelTimerListener);
-  pl->CallbackEveryFrame (&scfiCelTimerListener, cscmdPreProcess);
+
+  lastforceid = 0;
 
   // Actions
   if (action_initthruster == csInvalidStringID)
@@ -103,6 +98,7 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
   databuf->Add (pc);
   databuf->Add (position);
   databuf->Add (orientation);
+  databuf->Add (lastforceid);
   databuf->Add (maxthrust);
   databuf->Add (thrust);
   return csPtr<iCelDataBuffer> (databuf);
@@ -120,6 +116,7 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
   mechanicsobject = SCF_QUERY_INTERFACE (pc, iPcMechanicsObject);
   databuf->GetVector3 (position);
   databuf->GetVector3 (orientation);
+  lastforceid = databuf->GetUInt32 ();
   maxthrust = databuf->GetFloat ();
   thrust = databuf->GetFloat ();
   return true;
@@ -168,23 +165,25 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
   return false;
 }
 
-void celPcMechanicsThrusterReactionary::TickEveryFrame ()
-{
-  if (thrust != 0.0)
-  {
-    //Thruster is active.
-    mechanicsobject->AddForceFrame (orientation * ((thrust <= 1.0 ?
-	thrust : 1.0) * maxthrust), true, position);
-  }
-}
-
 void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
 {
   printf ("changing thrust from %f to %f.\n\n", thrust, thrust + deltathrust);
   fflush (stdout);
   if (deltathrust <= AvailableThrust () && deltathrust > (-thrust))
   {
+    if (lastforceid != 0)
+      mechanicsobject->RemoveForceTagged (lastforceid);
     thrust = thrust + deltathrust;
+    if (thrust > 0)
+    {
+      mechanicsobject->AddForceTagged (orientation * (thrust <= maxthrust ?
+	thrust : maxthrust), true, position, lastforceid);
+    }
+    else
+    {
+      thrust = 0;
+      lastforceid = 0;
+    }
   } else {
     Report (object_reg, "Requested thrust change exceeds limits!");
   }

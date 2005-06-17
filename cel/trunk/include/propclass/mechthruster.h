@@ -152,12 +152,7 @@ struct iPcMechanicsBalancedGroup : public iBase
    * Apply the given thrust to all thrusters in this balanced group.
    * \param thrust the amount of thrust to apply. (must be > 0)
    */
-  virtual void ApplyThrust (float thrust) = 0;
-
-  /**
-   * Cancels the last thrust applied.
-   */
-  virtual void CancelThrust () = 0;
+  virtual void ChangeThrust (float deltathrust) = 0;
 };
 
 
@@ -231,8 +226,16 @@ struct iPcMechanicsThrusterController : public iBase
    * Apply the given percentage of total thrust for a given axis.
    * \param thrust the percentage of the total thrust for this axis to apply.
    * \param axisname the name of the axis to apply thrust along.
+   * \param id is set to the id of the thrust request being applied.
    */
-  virtual void ApplyThrust (float thrust, const char* axisname) = 0;
+  virtual void ApplyThrust (float thrust, const char* axisname,
+	uint32& id) = 0;
+
+  /**
+   * Cancels specified thrust request.
+   * \id the id of the thrust request to be cancelled.
+   */
+  virtual void CancelThrust (uint32 id) = 0;
 };
 
 #endif //__CEL_PF_MECHANICS_THRUSTER__

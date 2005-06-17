@@ -85,7 +85,6 @@ private:
   // Data members
   celAxisType grouptype;
   csArray<celThrusterData*> thrusters;
-  float curthrust;
 
 public:
   celPcMechanicsBalancedGroup (iObjectRegistry* object_reg);
@@ -114,8 +113,7 @@ public:
 
   virtual float AvailableThrust ();
   virtual float AvailableThrustForce ();
-  virtual void ApplyThrust (float thrust);
-  virtual void CancelThrust ();
+  virtual void ChangeThrust (float deltathrust);
 
   // embedded iPcMechanicsBalancedGroup implementation
   struct PcMechanicsBalancedGroup : public iPcMechanicsBalancedGroup
@@ -149,13 +147,9 @@ public:
     {
       return scfParent->AvailableThrustForce ();
     }
-    virtual void ApplyThrust (float thrust)
+    virtual void ChangeThrust (float deltathrust)
     {
-      scfParent->ApplyThrust (thrust);
-    }
-    virtual void CancelThrust ()
-    {
-      scfParent->CancelThrust ();
+      scfParent->ChangeThrust (deltathrust);
     }
   } scfiPcMechanicsBalancedGroup;
 };
@@ -177,6 +171,22 @@ public:
   }
   ~celAxisData ()
   {
+  };
+};
+
+struct celThrustRequestData
+{
+public:
+  csRef<iPcMechanicsBalancedGroup> group;
+  uint32 id;
+  float thrust;
+
+  celThrustRequestData (iPcMechanicsBalancedGroup* group, uint32 id,
+	float thrust)
+  {
+    celThrustRequestData::group = group;
+    celThrustRequestData::id = id;
+    celThrustRequestData::thrust = thrust;
   };
 };
 
@@ -216,6 +226,10 @@ private:
   // Data members
   csWeakRef<iPcMechanicsObject> mechobject;
   csArray<celAxisData*> axes;
+  csArray<celThrustRequestData*> requests;
+  uint32 lastrequestid;
+
+  virtual void ApplyThrustHelper (float thrust, iPcMechanicsBalancedGroup* group, uint32 id);
 
 public:
   celPcMechanicsThrusterController (iObjectRegistry* object_reg);
@@ -241,7 +255,8 @@ public:
 	const char* axisname);
   virtual void RemoveBalancedGroup (const char* grouptag, const char*
 	axisname);
-  virtual void ApplyThrust (float thrust, const char* axisname);
+  virtual void ApplyThrust (float thrust, const char* axisname, uint32& id);
+  virtual void CancelThrust (uint32 id);
 
   // embedded iPcMechanicsBalancedGroup implementation
   struct PcMechanicsThrusterController : public iPcMechanicsThrusterController
@@ -282,9 +297,13 @@ public:
     {
       scfParent->RemoveBalancedGroup (grouptag, axisname);
     }
-    virtual void ApplyThrust (float thrust, const char* axisname)
+    virtual void ApplyThrust (float thrust, const char* axisname, uint32& id)
     {
-      scfParent->ApplyThrust (thrust, axisname);
+      scfParent->ApplyThrust (thrust, axisname, id);
+    }
+    virtual void CancelThrust (uint32 id)
+    {
+      scfParent->CancelThrust (id);
     }
   } scfiPcMechanicsThrusterController;
 };

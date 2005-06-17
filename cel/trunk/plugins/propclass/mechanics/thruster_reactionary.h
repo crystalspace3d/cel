@@ -72,6 +72,7 @@ private:
   csVector3 orientation;
   float thrust;
   float maxthrust;
+  uint32 lastforceid;
 
 public:
   celPcMechanicsThrusterReactionary (iObjectRegistry* object_reg);
@@ -84,9 +85,6 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
-
-  // iCelTimerListener function implementation
-  virtual void TickEveryFrame ();
 
   // iPcMechanicsThruster function implementation
   virtual void SetMechanicsObject (iPcMechanicsObject* mechobj)
@@ -177,20 +175,6 @@ public:
       return scfParent->AvailableThrust ();
     }
   } scfiPcMechanicsThruster;
-
-  // embedded iCelTimerListener implementation
-  struct CelTimerListener : public iCelTimerListener
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary);
-    virtual void TickEveryFrame ()
-    {
-      scfParent->TickEveryFrame ();
-    }
-    virtual void TickOnce ()
-    {
-      return;
-    }
-  } scfiCelTimerListener;
 };
 
 #endif // __CEL_PF_MECHANICS_SYSTEM_FACTORY__

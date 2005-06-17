@@ -30,6 +30,8 @@
 #include "propclass/input.h"
 #include "propclass/dynmove.h"
 #include "propclass/billboard.h"
+#include "propclass/mechsys.h"
+#include "propclass/mechthruster.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 %}
@@ -249,6 +251,24 @@ CEL_PC(iPcDynamicSystem, DynamicSystem, pcdynsys)
 CEL_PC_QUERY_CLASSLIST(iPcDynamicSystem)
 CEL_PC(iPcDynamicBody, DynamicBody, pcdynbody)
 CEL_PC_QUERY_CLASSLIST(iPcDynamicBody)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/mechsys.h"
+CEL_PC(iPcMechanicsSystem, MechanicsSystem, pcmechsys)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsSystem)
+CEL_PC(iPcMechanicsObject, MechanicsObject, pcmechobject)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsObject)
+
+%include "propclass/mechthruster.h"
+CEL_PC(iPcMechanicsThruster, MechanicsThrusterReactionary,
+	pcmechthrustreactionary)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsThruster)
+CEL_PC(iPcMechanicsBalancedGroup, MechanicsBalancedGroup, pcmechbalancedgroup)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsBalancedGroup)
+CEL_PC(iPcMechanicsThrusterController, MechanicsThrusterController,
+	pcmechthrustercontroller)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsThrusterController)
 
 //-----------------------------------------------------------------------------
 

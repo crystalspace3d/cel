@@ -10,8 +10,5 @@ enum celForceType {
 			//(requires that the object is in contact with a surface.)
 };
 
-typedef float percentage;	//Percentages are floats where values from 0 to 1 are
-				//interpreted as 0% to 100%.
-
 #endif //__CEL_PF_MECHANICS_COMMON_H__
 
