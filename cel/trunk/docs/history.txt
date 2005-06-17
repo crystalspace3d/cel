@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Jun-2005
+	- David Bronke fixed a problem in the mechanics plugin where it was
+	  trying to dereference "body" before assigning a value to it.
 16-Jun-2005
 	- David Bronke removed all uses of the "percentage" type from the
 	  mechanics plugin.
