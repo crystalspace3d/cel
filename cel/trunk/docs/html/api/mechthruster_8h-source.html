@@ -27,7 +27,7 @@
 <a name="l00008"></a>00008 
 <a name="l00009"></a>00009 <span class="keyword">class </span>csVector3;
 <a name="l00010"></a>00010 <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>;
-<a name="l00011"></a>00011 <span class="keyword">struct </span><a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a>;
+<a name="l00011"></a>00011 <span class="keyword">struct </span>iPcMechanicsThrusterGroup;
 <a name="l00012"></a>00012 
 <a name="l00013"></a>00013 SCF_VERSION (<a class="code" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a>, 0, 0, 1);
 <a name="l00014"></a>00014 
@@ -52,92 +52,74 @@
 <a name="l00064"></a>00064 
 <a name="l00068"></a>00068   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThruster.html#a7">GetMaxThrust</a> () = 0;
 <a name="l00069"></a>00069 
-<a name="l00074"></a>00074   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThruster.html#a8">GetEffectiveMaxThrust</a> () = 0;
-<a name="l00075"></a>00075 
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThruster.html#a8">GetThrustForce</a> (<span class="keywordtype">float</span> thrust) = 0;
 <a name="l00076"></a>00076 
-<a name="l00078"></a>00078   <span class="comment">//Applying thrust</span>
-<a name="l00079"></a>00079 
-<a name="l00085"></a>00085   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThruster.html#a9">ThrustRequest</a> (<a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a>* group,
-<a name="l00086"></a>00086         percentage thrust) = 0;
-<a name="l00087"></a>00087 
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThruster.html#a10">CancelThrustRequest</a> (<a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a>* group) = 0;
-<a name="l00094"></a>00094 
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMechanicsThruster.html#a11">IsAvailable</a> () = 0;
+<a name="l00080"></a>00080   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThruster.html#a9">AvailableThrust</a> () = 0;
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 
+<a name="l00084"></a>00084   <span class="comment">//Applying thrust</span>
+<a name="l00085"></a>00085 
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThruster.html#a10">ThrustChange</a> (<span class="keywordtype">float</span> deltathrust) = 0;
+<a name="l00091"></a>00091 };
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 SCF_VERSION (<a class="code" href="structiPcMechanicsBalancedGroup.html">iPcMechanicsBalancedGroup</a>, 0, 0, 1);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="keyword">enum</span> celAxisType {
+<a name="l00097"></a>00097   CEL_TGT_ROTATION,
+<a name="l00098"></a>00098   CEL_TGT_TRANSLATION
 <a name="l00099"></a>00099 };
 <a name="l00100"></a>00100 
-<a name="l00101"></a>00101 
-<a name="l00102"></a>00102 SCF_VERSION (<a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a>, 0, 0, 1);
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="keyword">enum</span> celAxisType {
-<a name="l00105"></a>00105   CEL_TGT_ROTATION,
-<a name="l00106"></a>00106   CEL_TGT_TRANSLATION
-<a name="l00107"></a>00107 };
-<a name="l00108"></a>00108 
-<a name="l00113"></a><a class="code" href="structiPcMechanicsThrusterGroup.html">00113</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a> : <span class="keyword">public</span> iBase
-<a name="l00114"></a>00114 {
-<a name="l00119"></a>00119   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a0">SetType</a> (celAxisType type) = 0;
-<a name="l00120"></a>00120 
-<a name="l00124"></a>00124   <span class="keyword">virtual</span> celAxisType <a class="code" href="structiPcMechanicsThrusterGroup.html#a1">GetType</a> () = 0;
-<a name="l00125"></a>00125 
+<a name="l00105"></a><a class="code" href="structiPcMechanicsBalancedGroup.html">00105</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsBalancedGroup.html">iPcMechanicsBalancedGroup</a> : <span class="keyword">public</span> iBase
+<a name="l00106"></a>00106 {
+<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a0">SetType</a> (celAxisType type) = 0;
+<a name="l00112"></a>00112 
+<a name="l00116"></a>00116   <span class="keyword">virtual</span> celAxisType <a class="code" href="structiPcMechanicsBalancedGroup.html#a1">GetType</a> () = 0;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 
+<a name="l00125"></a>00125   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a2">AddThruster</a> (<a class="code" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a>* thruster, <span class="keywordtype">float</span> multiplier) = 0;
 <a name="l00126"></a>00126 
-<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a2">AddThruster</a> (<a class="code" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a>* thruster, percentage multiplier) = 0;
-<a name="l00134"></a>00134 
-<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a3">RemoveThruster</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
-<a name="l00140"></a>00140 
-<a name="l00145"></a>00145   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a>* <a class="code" href="structiPcMechanicsThrusterGroup.html#a4">GetThruster</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
-<a name="l00146"></a>00146 
-<a name="l00151"></a>00151   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a5">GetStrength</a> (<span class="keyword">const</span> csVector3 axis) = 0;
-<a name="l00152"></a>00152 
-<a name="l00157"></a>00157   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a6">IsAvailable</a> (<span class="keyword">const</span> csVector3 axis) = 0;
-<a name="l00158"></a>00158 
-<a name="l00164"></a>00164   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a7">ApplyThrust</a> (percentage thrust, <span class="keyword">const</span> csVector3 axis) = 0;
+<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a3">RemoveThruster</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
+<a name="l00132"></a>00132 
+<a name="l00137"></a>00137   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a>* <a class="code" href="structiPcMechanicsBalancedGroup.html#a4">GetThruster</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tag) = 0;
+<a name="l00138"></a>00138 
+<a name="l00143"></a>00143   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a5">AvailableThrust</a> () = 0;
+<a name="l00144"></a>00144 
+<a name="l00149"></a>00149   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a6">AvailableThrustForce</a> () = 0;
+<a name="l00150"></a>00150 
+<a name="l00155"></a>00155   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a7">ApplyThrust</a> (<span class="keywordtype">float</span> thrust) = 0;
+<a name="l00156"></a>00156 
+<a name="l00160"></a>00160   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsBalancedGroup.html#a8">CancelThrust</a> () = 0;
+<a name="l00161"></a>00161 };
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 SCF_VERSION (<a class="code" href="structiPcMechanicsThrusterController.html">iPcMechanicsThrusterController</a>, 0, 0, 1);
 <a name="l00165"></a>00165 
-<a name="l00171"></a>00171   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterGroup.html#a8">UpdateThrust</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* thrustertag, <span class="keywordtype">float</span> thrust) = 0;
-<a name="l00172"></a>00172 };
-<a name="l00173"></a>00173 
-<a name="l00174"></a>00174 
-<a name="l00175"></a>00175 SCF_VERSION (<a class="code" href="structiPcMechanicsThrusterController.html">iPcMechanicsThrusterController</a>, 0, 0, 1);
-<a name="l00176"></a>00176 
-<a name="l00180"></a><a class="code" href="structiPcMechanicsThrusterController.html">00180</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsThrusterController.html">iPcMechanicsThrusterController</a> : <span class="keyword">public</span> iBase
-<a name="l00181"></a>00181 {
-<a name="l00186"></a>00186   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a0">SetMechanicsObject</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* mechobj) = 0;
-<a name="l00187"></a>00187 
-<a name="l00191"></a>00191   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* <a class="code" href="structiPcMechanicsThrusterController.html#a1">GetMechanicsObject</a> () = 0;
-<a name="l00192"></a>00192 
-<a name="l00202"></a>00202   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a2">AddAxis</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name, celAxisType type, <span class="keyword">const</span>
-<a name="l00203"></a>00203         csVector3 axis) = 0;
-<a name="l00204"></a>00204 
-<a name="l00209"></a>00209   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsThrusterController.html#a3">GetAxis</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00210"></a>00210 
-<a name="l00215"></a>00215   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThrusterController.html#a4">GetAxisStrength</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00216"></a>00216 
-<a name="l00222"></a>00222   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a5">AddThrusterGroup</a> (<a class="code" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a>* thrustergroup,
-<a name="l00223"></a>00223         <span class="keyword">const</span> <span class="keywordtype">char</span>* axisname) = 0;
-<a name="l00224"></a>00224 
-<a name="l00230"></a>00230   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a6">RemoveThrusterGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* thrustergrouptag, <span class="keyword">const</span> <span class="keywordtype">char</span>*
-<a name="l00231"></a>00231         axisname) = 0;
-<a name="l00232"></a>00232 
-<a name="l00238"></a>00238   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a7">ApplyThrust</a> (percentage thrust, <span class="keyword">const</span> <span class="keywordtype">char</span>* axisname) = 0;
-<a name="l00239"></a>00239 };
-<a name="l00240"></a>00240 
-<a name="l00241"></a>00241 
-<a name="l00242"></a><a class="code" href="structcelThrusterRequestData.html">00242</a> <span class="keyword">struct </span><a class="code" href="structcelThrusterRequestData.html">celThrusterRequestData</a>
-<a name="l00243"></a>00243 {
-<a name="l00244"></a>00244 <span class="keyword">public</span>:
-<a name="l00245"></a><a class="code" href="structcelThrusterRequestData.html#o0">00245</a>   <span class="keywordtype">float</span> <a class="code" href="structcelThrusterRequestData.html#o0">thrust</a>;
-<a name="l00246"></a><a class="code" href="structcelThrusterRequestData.html#o1">00246</a>   csRef&lt;iPcMechanicsThrusterGroup&gt; <a class="code" href="structcelThrusterRequestData.html#o1">group</a>;
-<a name="l00247"></a>00247 
-<a name="l00248"></a><a class="code" href="structcelThrusterRequestData.html#a0">00248</a>   <a class="code" href="structcelThrusterRequestData.html#a0">celThrusterRequestData</a> ()
-<a name="l00249"></a>00249   {
-<a name="l00250"></a>00250     <a class="code" href="structcelThrusterRequestData.html#o1">celThrusterRequestData::group</a> = 0;
-<a name="l00251"></a>00251     <a class="code" href="structcelThrusterRequestData.html#o0">celThrusterRequestData::thrust</a> = 0.0f;
-<a name="l00252"></a>00252   }
-<a name="l00253"></a><a class="code" href="structcelThrusterRequestData.html#a1">00253</a>   <a class="code" href="structcelThrusterRequestData.html#a1">~celThrusterRequestData</a> ()
-<a name="l00254"></a>00254   {
-<a name="l00255"></a>00255   };
-<a name="l00256"></a>00256 };
-<a name="l00257"></a>00257 
-<a name="l00258"></a>00258 <span class="preprocessor">#endif //__CEL_PF_MECHANICS_THRUSTER__</span>
+<a name="l00170"></a><a class="code" href="structiPcMechanicsThrusterController.html">00170</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsThrusterController.html">iPcMechanicsThrusterController</a> : <span class="keyword">public</span> iBase
+<a name="l00171"></a>00171 {
+<a name="l00176"></a>00176   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a0">SetMechanicsObject</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* mechobj) = 0;
+<a name="l00177"></a>00177 
+<a name="l00181"></a>00181   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* <a class="code" href="structiPcMechanicsThrusterController.html#a1">GetMechanicsObject</a> () = 0;
+<a name="l00182"></a>00182 
+<a name="l00192"></a>00192   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a2">AddAxis</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name, celAxisType type, <span class="keyword">const</span>
+<a name="l00193"></a>00193         csVector3 axis) = 0;
+<a name="l00194"></a>00194 
+<a name="l00199"></a>00199   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsThrusterController.html#a3">GetAxis</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00200"></a>00200 
+<a name="l00205"></a>00205   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThrusterController.html#a4">GetAxisMaxForce</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00206"></a>00206 
+<a name="l00212"></a>00212   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsThrusterController.html#a5">GetAxisMaxThrust</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00213"></a>00213 
+<a name="l00219"></a>00219   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a6">AddBalancedGroup</a> (<a class="code" href="structiPcMechanicsBalancedGroup.html">iPcMechanicsBalancedGroup</a>* group,
+<a name="l00220"></a>00220         <span class="keyword">const</span> <span class="keywordtype">char</span>* axisname) = 0;
+<a name="l00221"></a>00221 
+<a name="l00227"></a>00227   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a7">RemoveBalancedGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* grouptag, <span class="keyword">const</span> <span class="keywordtype">char</span>*
+<a name="l00228"></a>00228         axisname) = 0;
+<a name="l00229"></a>00229 
+<a name="l00235"></a>00235   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsThrusterController.html#a8">ApplyThrust</a> (<span class="keywordtype">float</span> thrust, <span class="keyword">const</span> <span class="keywordtype">char</span>* axisname) = 0;
+<a name="l00236"></a>00236 };
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238 <span class="preprocessor">#endif //__CEL_PF_MECHANICS_THRUSTER__</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.3-20050530 
 </small></address> </div></body> </html>

@@ -47,18 +47,15 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a7">GetMaxThrust</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum thrust.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a8">GetEffectiveMaxThrust</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a8">GetThrustForce</a> (float thrust)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the effective maximum thrust of this thruster, taking into account the current environment.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a9">ThrustRequest</a> (<a class="el" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a> *group, percentage thrust)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force a given thrust will produce, taking into account the current environment.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a9">AvailableThrust</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Request that the thruster apply a percentage of its total thrust.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a10">CancelThrustRequest</a> (<a class="el" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a> *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">How much thrust is available on this thruster?  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a10">ThrustChange</a> (float deltathrust)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cancel a previous thrust request.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a11">IsAvailable</a> ()=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is this thruster currently taking orders? (of fries).  <a href="#a11"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Applies a delta to the thruster's current thrust.  <a href="#a10"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a thruster that affect forces on the attached object. 
@@ -66,48 +63,13 @@
 
 <p>
 Definition at line <a class="el" href="mechthruster_8h-source.html#l00019">19</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsThruster::CancelThrustRequest" ref="a10" args="(iPcMechanicsThrusterGroup *group)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsThruster::AvailableThrust" ref="a9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iPcMechanicsThruster::CancelThrustRequest           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a> *&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>group</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Cancel a previous thrust request. 
-<p>
-(returns false if the thrust request has already been cancelled or does not exist.) <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>group</em>&nbsp;</td><td>the group that requested this thrust.</td></tr>
-  </table>
-</dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThruster::GetEffectiveMaxThrust" ref="a8" args="()=0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual float iPcMechanicsThruster::GetEffectiveMaxThrust           </td>
+          <td class="md" nowrap valign="top">virtual float iPcMechanicsThruster::AvailableThrust           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -125,7 +87,7 @@ Cancel a previous thrust request.
     <td>
 
 <p>
-Get the effective maximum thrust of this thruster, taking into account the current environment. 
+How much thrust is available on this thruster? 
 <p>
     </td>
   </tr>
@@ -246,15 +208,16 @@ Get the thruster's position relative to the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMechanicsThruster::IsAvailable" ref="a11" args="()=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThruster::GetThrustForce" ref="a8" args="(float thrust)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual bool iPcMechanicsThruster::IsAvailable           </td>
+          <td class="md" nowrap valign="top">virtual float iPcMechanicsThruster::GetThrustForce           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>thrust</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
         </tr>
@@ -270,8 +233,13 @@ Get the thruster's position relative to the object.
     <td>
 
 <p>
-Is this thruster currently taking orders? (of fries). 
+Get the amount of force a given thrust will produce, taking into account the current environment. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>thrust</em>&nbsp;</td><td>the amount of thrust to convert.</td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -415,27 +383,18 @@ Set the thruster's position relative to the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsThruster::ThrustRequest" ref="a9" args="(iPcMechanicsThrusterGroup *group, percentage thrust)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsThruster::ThrustChange" ref="a10" args="(float deltathrust)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iPcMechanicsThruster::ThrustRequest           </td>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsThruster::ThrustChange           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="structiPcMechanicsThrusterGroup.html">iPcMechanicsThrusterGroup</a> *&nbsp;</td>
-          <td class="mdname" nowrap> <em>group</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>percentage&nbsp;</td>
-          <td class="mdname" nowrap> <em>thrust</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>deltathrust</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
         </tr>
       </table>
     </td>
@@ -449,12 +408,11 @@ Set the thruster's position relative to the object.
     <td>
 
 <p>
-Request that the thruster apply a percentage of its total thrust. 
+Applies a delta to the thruster's current thrust. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>group</em>&nbsp;</td><td>the group that is requesting this thrust. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>thrust</em>&nbsp;</td><td>the amount of thrust to request.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>deltathrust</em>&nbsp;</td><td>the change in thrust.</td></tr>
   </table>
 </dl>
     </td>
