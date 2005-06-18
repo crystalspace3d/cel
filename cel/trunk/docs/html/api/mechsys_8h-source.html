@@ -60,10 +60,10 @@
 <a name="l00088"></a>00088 
 <a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a8">AddForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
 <a name="l00102"></a>00102         <span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> csVector3&amp; position,
-<a name="l00103"></a>00103         csStringID forcetagid) = 0;
+<a name="l00103"></a>00103         uint32 forceid) = 0;
 <a name="l00104"></a>00104 
 <a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a9">RemoveForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
-<a name="l00113"></a>00113         csStringID forcetagid) = 0;
+<a name="l00113"></a>00113         uint32 forceid) = 0;
 <a name="l00114"></a>00114 
 <a name="l00121"></a>00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a10">ClearForces</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject) = 0;
 <a name="l00122"></a>00122 
@@ -163,16 +163,16 @@
 <a name="l00384"></a>00384   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a32">AddForceFrame</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
 <a name="l00385"></a>00385         <span class="keyword">const</span> csVector3&amp; position) = 0;
 <a name="l00386"></a>00386 
-<a name="l00396"></a>00396   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a33">AddForceTagged</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
-<a name="l00397"></a>00397         <span class="keyword">const</span> csVector3&amp; position, csStringID forcetagid) = 0;
-<a name="l00398"></a>00398 
-<a name="l00403"></a>00403   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a34">RemoveForceTagged</a> (csStringID forcetagid) = 0;
-<a name="l00404"></a>00404 
-<a name="l00408"></a>00408   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a35">ClearForces</a> () = 0;
-<a name="l00409"></a>00409 };
-<a name="l00410"></a>00410 
-<a name="l00411"></a>00411 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
-<a name="l00412"></a>00412 <span class="preprocessor"></span>
+<a name="l00395"></a>00395   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a33">AddForceTagged</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
+<a name="l00396"></a>00396         <span class="keyword">const</span> csVector3&amp; position, uint32&amp; forceid) = 0;
+<a name="l00397"></a>00397 
+<a name="l00402"></a>00402   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a34">RemoveForceTagged</a> (uint32 forceid) = 0;
+<a name="l00403"></a>00403 
+<a name="l00407"></a>00407   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a35">ClearForces</a> () = 0;
+<a name="l00408"></a>00408 };
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
+<a name="l00411"></a>00411 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.3-20050530 
 </small></address> </div></body> </html>
