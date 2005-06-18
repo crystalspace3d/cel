@@ -47,10 +47,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a7">AddForceFrame</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a8">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, csStringID forcetagid)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a8">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a9">RemoveForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, csStringID forcetagid)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a9">RemoveForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, uint32 forceid)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#a9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a10">ClearForces</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject)=0</td></tr>
@@ -191,7 +191,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a32
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceTagged" ref="a8" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, csStringID forcetagid)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceTagged" ref="a8" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -223,8 +223,8 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a32
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>csStringID&nbsp;</td>
-          <td class="mdname" nowrap> <em>forcetagid</em></td>
+          <td class="md" nowrap>uint32&nbsp;</td>
+          <td class="mdname" nowrap> <em>forceid</em></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -251,7 +251,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a33
     <tr><td valign="top"></td><td valign="top"><em>force</em>&nbsp;</td><td>a vector representing the force to add to this object. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>relative</em>&nbsp;</td><td>if set to true, the given force and position are both in object space; otherwise they are in world space. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>position</em>&nbsp;</td><td>the position of the force. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>forcetagid</em>&nbsp;</td><td>the tag for this force. (use <a class="el" href="structiCelPlLayer.html#a46">iCelPlLayer::FetchStringID()</a> to get this.)</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>forceid</em>&nbsp;</td><td>the tag for this force. (use <a class="el" href="structiCelPlLayer.html#a46">iCelPlLayer::FetchStringID()</a> to get this.)</td></tr>
   </table>
 </dl>
     </td>
@@ -408,7 +408,7 @@ Get the current step time.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveForceTagged" ref="a9" args="(iPcMechanicsObject *pcobject, csStringID forcetagid)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveForceTagged" ref="a9" args="(iPcMechanicsObject *pcobject, uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -422,8 +422,8 @@ Get the current step time.
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>csStringID&nbsp;</td>
-          <td class="mdname" nowrap> <em>forcetagid</em></td>
+          <td class="md" nowrap>uint32&nbsp;</td>
+          <td class="mdname" nowrap> <em>forceid</em></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -447,7 +447,7 @@ Remove the force with the given tag.
 This function is called by <a class="el" href="structiPcMechanicsObject.html#a34">iPcMechanicsObject::RemoveForceTagged()</a>. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pcobject</em>&nbsp;</td><td>a pointer to the object that is currently being affected by the given force. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>forcetagid</em>&nbsp;</td><td>the tag of the desired force.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>forceid</em>&nbsp;</td><td>the tag of the desired force.</td></tr>
   </table>
 </dl>
     </td>

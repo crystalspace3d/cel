@@ -44,12 +44,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a6">AvailableThrustForce</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force that the maximum thrust for this group would produce.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a7">ApplyThrust</a> (float thrust)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a7">ChangeThrust</a> (float deltathrust)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply the given thrust to all thrusters in this balanced group.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a8">CancelThrust</a> ()=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cancels the last thrust applied.  <a href="#a8"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a balanced group of thrusters that can translate or rotate the object in a certain axis. 
@@ -97,41 +94,6 @@ At least one is required. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>thruster</em>&nbsp;</td><td>the thruster to add to this group. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>multiplier</em>&nbsp;</td><td>the percentage of the maximum thrust of this thruster to use when activated through this balanced group. (must be &gt;0 and &lt;=1)</td></tr>
-  </table>
-</dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::ApplyThrust" ref="a7" args="(float thrust)=0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual void iPcMechanicsBalancedGroup::ApplyThrust           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">float&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>thrust</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Apply the given thrust to all thrusters in this balanced group. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>thrust</em>&nbsp;</td><td>the amount of thrust to apply. (must be &gt; 0)</td></tr>
   </table>
 </dl>
     </td>
@@ -195,15 +157,16 @@ Get the amount of force that the maximum thrust for this group would produce.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::CancelThrust" ref="a8" args="()=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::ChangeThrust" ref="a7" args="(float deltathrust)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iPcMechanicsBalancedGroup::CancelThrust           </td>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsBalancedGroup::ChangeThrust           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>deltathrust</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
         </tr>
@@ -219,8 +182,13 @@ Get the amount of force that the maximum thrust for this group would produce.
     <td>
 
 <p>
-Cancels the last thrust applied. 
+Apply the given thrust to all thrusters in this balanced group. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>deltathrust</em>&nbsp;</td><td>the amount of thrust to apply. (must be &gt; 0)</td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>

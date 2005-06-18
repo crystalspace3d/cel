@@ -47,16 +47,19 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThrusterController.html#a7">RemoveBalancedGroup</a> (const char *grouptag, const char *axisname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a thruster group from the specified axis.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThrusterController.html#a8">ApplyThrust</a> (float thrust, const char *axisname)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThrusterController.html#a8">ApplyThrust</a> (float thrust, const char *axisname, uint32 &amp;id)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply the given percentage of total thrust for a given axis.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThrusterController.html#a9">CancelThrust</a> (uint32 id)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cancels specified thrust request.  <a href="#a9"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class that controls the thrusters attached to an object through the use of balanced thruster groups. 
 <p>
 
 <p>
-Definition at line <a class="el" href="mechthruster_8h-source.html#l00170">170</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechthruster_8h-source.html#l00165">165</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsThrusterController::AddAxis" ref="a2" args="(const char *name, celAxisType type, const csVector3 axis)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -154,7 +157,7 @@ Add a balanced thruster group to the specified axis.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThrusterController::ApplyThrust" ref="a8" args="(float thrust, const char *axisname)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThrusterController::ApplyThrust" ref="a8" args="(float thrust, const char *axisname, uint32 &amp;id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -169,7 +172,13 @@ Add a balanced thruster group to the specified axis.
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
           <td class="md" nowrap>const char *&nbsp;</td>
-          <td class="mdname" nowrap> <em>axisname</em></td>
+          <td class="mdname" nowrap> <em>axisname</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>uint32 &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>id</em></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -193,7 +202,43 @@ Apply the given percentage of total thrust for a given axis.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>thrust</em>&nbsp;</td><td>the percentage of the total thrust for this axis to apply. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>axisname</em>&nbsp;</td><td>the name of the axis to apply thrust along.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>axisname</em>&nbsp;</td><td>the name of the axis to apply thrust along. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td>is set to the id of the thrust request being applied.</td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsThrusterController::CancelThrust" ref="a9" args="(uint32 id)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsThrusterController::CancelThrust           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">uint32&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>id</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Cancels specified thrust request. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td>the id of the thrust request to be cancelled.</td></tr>
   </table>
 </dl>
     </td>

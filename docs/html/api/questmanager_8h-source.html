@@ -541,133 +541,133 @@
 <a name="l01471"></a>01471   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiTransformQuestSeqOpFactory.html#a1">SetVectorParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* vectorx, <span class="keyword">const</span> <span class="keywordtype">char</span>* vectory,
 <a name="l01472"></a>01472         <span class="keyword">const</span> <span class="keywordtype">char</span>* vectorz) = 0;
 <a name="l01473"></a>01473 
-<a name="l01478"></a>01478   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiTransformQuestSeqOpFactory.html#a2">SetRotationParameter</a> (<span class="keywordtype">int</span> rot_axis, <span class="keyword">const</span> <span class="keywordtype">char</span>* rot_angle) = 0;
-<a name="l01479"></a>01479 };
-<a name="l01480"></a>01480 
-<a name="l01481"></a>01481 SCF_VERSION (<a class="code" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a>, 0, 0, 1);
-<a name="l01482"></a>01482 
-<a name="l01504"></a><a class="code" href="structiMovePathQuestSeqOpFactory.html">01504</a> <span class="keyword">struct </span><a class="code" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
-<a name="l01505"></a>01505 {
-<a name="l01512"></a>01512   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiMovePathQuestSeqOpFactory.html#a0">SetEntityParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag = 0) = 0;
-<a name="l01513"></a>01513 
-<a name="l01523"></a>01523   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiMovePathQuestSeqOpFactory.html#a1">AddPathNode</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* sectorname, <span class="keyword">const</span> <span class="keywordtype">char</span>* node,
-<a name="l01524"></a>01524         <span class="keyword">const</span> <span class="keywordtype">char</span>* time) = 0;
-<a name="l01525"></a>01525 };
-<a name="l01526"></a>01526 
-<a name="l01527"></a>01527 SCF_VERSION (<a class="code" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a>, 0, 0, 1);
-<a name="l01528"></a>01528 
-<a name="l01551"></a><a class="code" href="structiLightQuestSeqOpFactory.html">01551</a> <span class="keyword">struct </span><a class="code" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
-<a name="l01552"></a>01552 {
-<a name="l01559"></a>01559   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a0">SetEntityParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag = 0) = 0;
-<a name="l01560"></a>01560 
-<a name="l01564"></a>01564   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a1">SetRelColorParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* red, <span class="keyword">const</span> <span class="keywordtype">char</span>* green,
-<a name="l01565"></a>01565         <span class="keyword">const</span> <span class="keywordtype">char</span>* blue) = 0;
-<a name="l01566"></a>01566 
-<a name="l01570"></a>01570   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a2">SetAbsColorParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* red, <span class="keyword">const</span> <span class="keywordtype">char</span>* green,
-<a name="l01571"></a>01571         <span class="keyword">const</span> <span class="keywordtype">char</span>* blue) = 0;
-<a name="l01572"></a>01572 };
-<a name="l01573"></a>01573 
-<a name="l01574"></a>01574 <span class="comment">//-------------------------------------------------------------------------</span>
-<a name="l01575"></a>01575 
-<a name="l01579"></a>01579 <span class="preprocessor">#define CEL_DECLARE_REWARDTYPE(name,id)                                 \</span>
-<a name="l01580"></a>01580 <span class="preprocessor">class cel##name##RewardType : public iQuestRewardType                   \</span>
-<a name="l01581"></a>01581 <span class="preprocessor">{                                                                       \</span>
-<a name="l01582"></a>01582 <span class="preprocessor">public:                                                                 \</span>
-<a name="l01583"></a>01583 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
-<a name="l01584"></a>01584 <span class="preprocessor">  cel##name##RewardType (iObjectRegistry* object_reg);                  \</span>
-<a name="l01585"></a>01585 <span class="preprocessor">  virtual ~cel##name##RewardType ();                                    \</span>
-<a name="l01586"></a>01586 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
-<a name="l01587"></a>01587 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
-<a name="l01588"></a>01588 <span class="preprocessor">  virtual csPtr&lt;iQuestRewardFactory&gt; CreateRewardFactory ();            \</span>
-<a name="l01589"></a>01589 <span class="preprocessor">};</span>
-<a name="l01590"></a>01590 <span class="preprocessor"></span>
-<a name="l01594"></a>01594 <span class="preprocessor">#define CEL_IMPLEMENT_REWARDTYPE(name)                                  \</span>
-<a name="l01595"></a>01595 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##RewardType)                             \</span>
-<a name="l01596"></a>01596 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)                           \</span>
-<a name="l01597"></a>01597 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-<a name="l01598"></a>01598 <span class="preprocessor">cel##name##RewardType::cel##name##RewardType (                          \</span>
-<a name="l01599"></a>01599 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-<a name="l01600"></a>01600 <span class="preprocessor">{                                                                       \</span>
-<a name="l01601"></a>01601 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-<a name="l01602"></a>01602 <span class="preprocessor">  cel##name##RewardType::object_reg = object_reg;                       \</span>
-<a name="l01603"></a>01603 <span class="preprocessor">}                                                                       \</span>
-<a name="l01604"></a>01604 <span class="preprocessor">cel##name##RewardType::~cel##name##RewardType ()                        \</span>
-<a name="l01605"></a>01605 <span class="preprocessor">{                                                                       \</span>
-<a name="l01606"></a>01606 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-<a name="l01607"></a>01607 <span class="preprocessor">}                                                                       \</span>
-<a name="l01608"></a>01608 <span class="preprocessor">csPtr&lt;iQuestRewardFactory&gt; cel##name##RewardType::CreateRewardFactory ()\</span>
-<a name="l01609"></a>01609 <span class="preprocessor">{                                                                       \</span>
-<a name="l01610"></a>01610 <span class="preprocessor">  cel##name##RewardFactory* fact = new                                  \</span>
-<a name="l01611"></a>01611 <span class="preprocessor">        cel##name##RewardFactory (this);                                \</span>
-<a name="l01612"></a>01612 <span class="preprocessor">  return fact;                                                          \</span>
-<a name="l01613"></a>01613 <span class="preprocessor">}</span>
-<a name="l01614"></a>01614 <span class="preprocessor"></span>
-<a name="l01618"></a>01618 <span class="preprocessor">#define CEL_DECLARE_TRIGGERTYPE(name,id)                                \</span>
-<a name="l01619"></a>01619 <span class="preprocessor">class cel##name##TriggerType : public iQuestTriggerType                 \</span>
-<a name="l01620"></a>01620 <span class="preprocessor">{                                                                       \</span>
-<a name="l01621"></a>01621 <span class="preprocessor">public:                                                                 \</span>
-<a name="l01622"></a>01622 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
-<a name="l01623"></a>01623 <span class="preprocessor">  cel##name##TriggerType (iObjectRegistry* object_reg);                 \</span>
-<a name="l01624"></a>01624 <span class="preprocessor">  virtual ~cel##name##TriggerType ();                                   \</span>
-<a name="l01625"></a>01625 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
-<a name="l01626"></a>01626 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
-<a name="l01627"></a>01627 <span class="preprocessor">  virtual csPtr&lt;iQuestTriggerFactory&gt; CreateTriggerFactory ();          \</span>
-<a name="l01628"></a>01628 <span class="preprocessor">};</span>
-<a name="l01629"></a>01629 <span class="preprocessor"></span>
-<a name="l01633"></a>01633 <span class="preprocessor">#define CEL_IMPLEMENT_TRIGGERTYPE(name)                                 \</span>
-<a name="l01634"></a>01634 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##TriggerType)                            \</span>
-<a name="l01635"></a>01635 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)                          \</span>
-<a name="l01636"></a>01636 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-<a name="l01637"></a>01637 <span class="preprocessor">cel##name##TriggerType::cel##name##TriggerType (                        \</span>
-<a name="l01638"></a>01638 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-<a name="l01639"></a>01639 <span class="preprocessor">{                                                                       \</span>
-<a name="l01640"></a>01640 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-<a name="l01641"></a>01641 <span class="preprocessor">  cel##name##TriggerType::object_reg = object_reg;                      \</span>
-<a name="l01642"></a>01642 <span class="preprocessor">}                                                                       \</span>
-<a name="l01643"></a>01643 <span class="preprocessor">cel##name##TriggerType::~cel##name##TriggerType ()                      \</span>
-<a name="l01644"></a>01644 <span class="preprocessor">{                                                                       \</span>
-<a name="l01645"></a>01645 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-<a name="l01646"></a>01646 <span class="preprocessor">}                                                                       \</span>
-<a name="l01647"></a>01647 <span class="preprocessor">csPtr&lt;iQuestTriggerFactory&gt; cel##name##TriggerType::CreateTriggerFactory () \</span>
-<a name="l01648"></a>01648 <span class="preprocessor">{                                                                       \</span>
-<a name="l01649"></a>01649 <span class="preprocessor">  cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \</span>
-<a name="l01650"></a>01650 <span class="preprocessor">  return fact;                                                          \</span>
-<a name="l01651"></a>01651 <span class="preprocessor">}</span>
-<a name="l01652"></a>01652 <span class="preprocessor"></span>
-<a name="l01656"></a>01656 <span class="preprocessor">#define CEL_DECLARE_SEQOPTYPE(name,id)                                  \</span>
-<a name="l01657"></a>01657 <span class="preprocessor">class cel##name##SeqOpType : public iQuestSeqOpType                     \</span>
-<a name="l01658"></a>01658 <span class="preprocessor">{                                                                       \</span>
-<a name="l01659"></a>01659 <span class="preprocessor">public:                                                                 \</span>
-<a name="l01660"></a>01660 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
-<a name="l01661"></a>01661 <span class="preprocessor">  cel##name##SeqOpType (iObjectRegistry* object_reg);                   \</span>
-<a name="l01662"></a>01662 <span class="preprocessor">  virtual ~cel##name##SeqOpType ();                                     \</span>
-<a name="l01663"></a>01663 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
-<a name="l01664"></a>01664 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
-<a name="l01665"></a>01665 <span class="preprocessor">  virtual csPtr&lt;iQuestSeqOpFactory&gt; CreateSeqOpFactory ();              \</span>
-<a name="l01666"></a>01666 <span class="preprocessor">};</span>
-<a name="l01667"></a>01667 <span class="preprocessor"></span>
-<a name="l01671"></a>01671 <span class="preprocessor">#define CEL_IMPLEMENT_SEQOPTYPE(name)                                   \</span>
-<a name="l01672"></a>01672 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)                              \</span>
-<a name="l01673"></a>01673 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)                            \</span>
-<a name="l01674"></a>01674 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
-<a name="l01675"></a>01675 <span class="preprocessor">cel##name##SeqOpType::cel##name##SeqOpType (                            \</span>
-<a name="l01676"></a>01676 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
-<a name="l01677"></a>01677 <span class="preprocessor">{                                                                       \</span>
-<a name="l01678"></a>01678 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
-<a name="l01679"></a>01679 <span class="preprocessor">  cel##name##SeqOpType::object_reg = object_reg;                        \</span>
-<a name="l01680"></a>01680 <span class="preprocessor">}                                                                       \</span>
-<a name="l01681"></a>01681 <span class="preprocessor">cel##name##SeqOpType::~cel##name##SeqOpType ()                          \</span>
-<a name="l01682"></a>01682 <span class="preprocessor">{                                                                       \</span>
-<a name="l01683"></a>01683 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
-<a name="l01684"></a>01684 <span class="preprocessor">}                                                                       \</span>
-<a name="l01685"></a>01685 <span class="preprocessor">csPtr&lt;iQuestSeqOpFactory&gt; cel##name##SeqOpType::CreateSeqOpFactory ()   \</span>
-<a name="l01686"></a>01686 <span class="preprocessor">{                                                                       \</span>
-<a name="l01687"></a>01687 <span class="preprocessor">  cel##name##SeqOpFactory* fact = new cel##name##SeqOpFactory (this);   \</span>
-<a name="l01688"></a>01688 <span class="preprocessor">  return fact;                                                          \</span>
-<a name="l01689"></a>01689 <span class="preprocessor">}</span>
-<a name="l01690"></a>01690 <span class="preprocessor"></span>
-<a name="l01691"></a>01691 <span class="preprocessor">#endif // __CEL_MGR_QUEST__</span>
-<a name="l01692"></a>01692 <span class="preprocessor"></span>
+<a name="l01479"></a>01479   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiTransformQuestSeqOpFactory.html#a2">SetRotationParameter</a> (<span class="keywordtype">int</span> rot_axis, <span class="keyword">const</span> <span class="keywordtype">char</span>* rot_angle) = 0;
+<a name="l01480"></a>01480 };
+<a name="l01481"></a>01481 
+<a name="l01482"></a>01482 SCF_VERSION (<a class="code" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a>, 0, 0, 1);
+<a name="l01483"></a>01483 
+<a name="l01505"></a><a class="code" href="structiMovePathQuestSeqOpFactory.html">01505</a> <span class="keyword">struct </span><a class="code" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
+<a name="l01506"></a>01506 {
+<a name="l01513"></a>01513   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiMovePathQuestSeqOpFactory.html#a0">SetEntityParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag = 0) = 0;
+<a name="l01514"></a>01514 
+<a name="l01524"></a>01524   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiMovePathQuestSeqOpFactory.html#a1">AddPathNode</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* sectorname, <span class="keyword">const</span> <span class="keywordtype">char</span>* node,
+<a name="l01525"></a>01525         <span class="keyword">const</span> <span class="keywordtype">char</span>* time) = 0;
+<a name="l01526"></a>01526 };
+<a name="l01527"></a>01527 
+<a name="l01528"></a>01528 SCF_VERSION (<a class="code" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a>, 0, 0, 1);
+<a name="l01529"></a>01529 
+<a name="l01552"></a><a class="code" href="structiLightQuestSeqOpFactory.html">01552</a> <span class="keyword">struct </span><a class="code" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a> : <span class="keyword">public</span> iBase
+<a name="l01553"></a>01553 {
+<a name="l01560"></a>01560   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a0">SetEntityParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* tag = 0) = 0;
+<a name="l01561"></a>01561 
+<a name="l01565"></a>01565   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a1">SetRelColorParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* red, <span class="keyword">const</span> <span class="keywordtype">char</span>* green,
+<a name="l01566"></a>01566         <span class="keyword">const</span> <span class="keywordtype">char</span>* blue) = 0;
+<a name="l01567"></a>01567 
+<a name="l01571"></a>01571   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiLightQuestSeqOpFactory.html#a2">SetAbsColorParameter</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* red, <span class="keyword">const</span> <span class="keywordtype">char</span>* green,
+<a name="l01572"></a>01572         <span class="keyword">const</span> <span class="keywordtype">char</span>* blue) = 0;
+<a name="l01573"></a>01573 };
+<a name="l01574"></a>01574 
+<a name="l01575"></a>01575 <span class="comment">//-------------------------------------------------------------------------</span>
+<a name="l01576"></a>01576 
+<a name="l01580"></a>01580 <span class="preprocessor">#define CEL_DECLARE_REWARDTYPE(name,id)                                 \</span>
+<a name="l01581"></a>01581 <span class="preprocessor">class cel##name##RewardType : public iQuestRewardType                   \</span>
+<a name="l01582"></a>01582 <span class="preprocessor">{                                                                       \</span>
+<a name="l01583"></a>01583 <span class="preprocessor">public:                                                                 \</span>
+<a name="l01584"></a>01584 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
+<a name="l01585"></a>01585 <span class="preprocessor">  cel##name##RewardType (iObjectRegistry* object_reg);                  \</span>
+<a name="l01586"></a>01586 <span class="preprocessor">  virtual ~cel##name##RewardType ();                                    \</span>
+<a name="l01587"></a>01587 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
+<a name="l01588"></a>01588 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
+<a name="l01589"></a>01589 <span class="preprocessor">  virtual csPtr&lt;iQuestRewardFactory&gt; CreateRewardFactory ();            \</span>
+<a name="l01590"></a>01590 <span class="preprocessor">};</span>
+<a name="l01591"></a>01591 <span class="preprocessor"></span>
+<a name="l01595"></a>01595 <span class="preprocessor">#define CEL_IMPLEMENT_REWARDTYPE(name)                                  \</span>
+<a name="l01596"></a>01596 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##RewardType)                             \</span>
+<a name="l01597"></a>01597 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)                           \</span>
+<a name="l01598"></a>01598 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+<a name="l01599"></a>01599 <span class="preprocessor">cel##name##RewardType::cel##name##RewardType (                          \</span>
+<a name="l01600"></a>01600 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
+<a name="l01601"></a>01601 <span class="preprocessor">{                                                                       \</span>
+<a name="l01602"></a>01602 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+<a name="l01603"></a>01603 <span class="preprocessor">  cel##name##RewardType::object_reg = object_reg;                       \</span>
+<a name="l01604"></a>01604 <span class="preprocessor">}                                                                       \</span>
+<a name="l01605"></a>01605 <span class="preprocessor">cel##name##RewardType::~cel##name##RewardType ()                        \</span>
+<a name="l01606"></a>01606 <span class="preprocessor">{                                                                       \</span>
+<a name="l01607"></a>01607 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+<a name="l01608"></a>01608 <span class="preprocessor">}                                                                       \</span>
+<a name="l01609"></a>01609 <span class="preprocessor">csPtr&lt;iQuestRewardFactory&gt; cel##name##RewardType::CreateRewardFactory ()\</span>
+<a name="l01610"></a>01610 <span class="preprocessor">{                                                                       \</span>
+<a name="l01611"></a>01611 <span class="preprocessor">  cel##name##RewardFactory* fact = new                                  \</span>
+<a name="l01612"></a>01612 <span class="preprocessor">        cel##name##RewardFactory (this);                                \</span>
+<a name="l01613"></a>01613 <span class="preprocessor">  return fact;                                                          \</span>
+<a name="l01614"></a>01614 <span class="preprocessor">}</span>
+<a name="l01615"></a>01615 <span class="preprocessor"></span>
+<a name="l01619"></a>01619 <span class="preprocessor">#define CEL_DECLARE_TRIGGERTYPE(name,id)                                \</span>
+<a name="l01620"></a>01620 <span class="preprocessor">class cel##name##TriggerType : public iQuestTriggerType                 \</span>
+<a name="l01621"></a>01621 <span class="preprocessor">{                                                                       \</span>
+<a name="l01622"></a>01622 <span class="preprocessor">public:                                                                 \</span>
+<a name="l01623"></a>01623 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
+<a name="l01624"></a>01624 <span class="preprocessor">  cel##name##TriggerType (iObjectRegistry* object_reg);                 \</span>
+<a name="l01625"></a>01625 <span class="preprocessor">  virtual ~cel##name##TriggerType ();                                   \</span>
+<a name="l01626"></a>01626 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
+<a name="l01627"></a>01627 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
+<a name="l01628"></a>01628 <span class="preprocessor">  virtual csPtr&lt;iQuestTriggerFactory&gt; CreateTriggerFactory ();          \</span>
+<a name="l01629"></a>01629 <span class="preprocessor">};</span>
+<a name="l01630"></a>01630 <span class="preprocessor"></span>
+<a name="l01634"></a>01634 <span class="preprocessor">#define CEL_IMPLEMENT_TRIGGERTYPE(name)                                 \</span>
+<a name="l01635"></a>01635 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##TriggerType)                            \</span>
+<a name="l01636"></a>01636 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)                          \</span>
+<a name="l01637"></a>01637 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+<a name="l01638"></a>01638 <span class="preprocessor">cel##name##TriggerType::cel##name##TriggerType (                        \</span>
+<a name="l01639"></a>01639 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
+<a name="l01640"></a>01640 <span class="preprocessor">{                                                                       \</span>
+<a name="l01641"></a>01641 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+<a name="l01642"></a>01642 <span class="preprocessor">  cel##name##TriggerType::object_reg = object_reg;                      \</span>
+<a name="l01643"></a>01643 <span class="preprocessor">}                                                                       \</span>
+<a name="l01644"></a>01644 <span class="preprocessor">cel##name##TriggerType::~cel##name##TriggerType ()                      \</span>
+<a name="l01645"></a>01645 <span class="preprocessor">{                                                                       \</span>
+<a name="l01646"></a>01646 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+<a name="l01647"></a>01647 <span class="preprocessor">}                                                                       \</span>
+<a name="l01648"></a>01648 <span class="preprocessor">csPtr&lt;iQuestTriggerFactory&gt; cel##name##TriggerType::CreateTriggerFactory () \</span>
+<a name="l01649"></a>01649 <span class="preprocessor">{                                                                       \</span>
+<a name="l01650"></a>01650 <span class="preprocessor">  cel##name##TriggerFactory* fact = new cel##name##TriggerFactory (this); \</span>
+<a name="l01651"></a>01651 <span class="preprocessor">  return fact;                                                          \</span>
+<a name="l01652"></a>01652 <span class="preprocessor">}</span>
+<a name="l01653"></a>01653 <span class="preprocessor"></span>
+<a name="l01657"></a>01657 <span class="preprocessor">#define CEL_DECLARE_SEQOPTYPE(name,id)                                  \</span>
+<a name="l01658"></a>01658 <span class="preprocessor">class cel##name##SeqOpType : public iQuestSeqOpType                     \</span>
+<a name="l01659"></a>01659 <span class="preprocessor">{                                                                       \</span>
+<a name="l01660"></a>01660 <span class="preprocessor">public:                                                                 \</span>
+<a name="l01661"></a>01661 <span class="preprocessor">  iObjectRegistry* object_reg;                                          \</span>
+<a name="l01662"></a>01662 <span class="preprocessor">  cel##name##SeqOpType (iObjectRegistry* object_reg);                   \</span>
+<a name="l01663"></a>01663 <span class="preprocessor">  virtual ~cel##name##SeqOpType ();                                     \</span>
+<a name="l01664"></a>01664 <span class="preprocessor">  SCF_DECLARE_IBASE;                                                    \</span>
+<a name="l01665"></a>01665 <span class="preprocessor">  virtual const char* GetName () const { return id; }                   \</span>
+<a name="l01666"></a>01666 <span class="preprocessor">  virtual csPtr&lt;iQuestSeqOpFactory&gt; CreateSeqOpFactory ();              \</span>
+<a name="l01667"></a>01667 <span class="preprocessor">};</span>
+<a name="l01668"></a>01668 <span class="preprocessor"></span>
+<a name="l01672"></a>01672 <span class="preprocessor">#define CEL_IMPLEMENT_SEQOPTYPE(name)                                   \</span>
+<a name="l01673"></a>01673 <span class="preprocessor">SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)                              \</span>
+<a name="l01674"></a>01674 <span class="preprocessor">  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)                            \</span>
+<a name="l01675"></a>01675 <span class="preprocessor">SCF_IMPLEMENT_IBASE_END                                                 \</span>
+<a name="l01676"></a>01676 <span class="preprocessor">cel##name##SeqOpType::cel##name##SeqOpType (                            \</span>
+<a name="l01677"></a>01677 <span class="preprocessor">        iObjectRegistry* object_reg)                                    \</span>
+<a name="l01678"></a>01678 <span class="preprocessor">{                                                                       \</span>
+<a name="l01679"></a>01679 <span class="preprocessor">  SCF_CONSTRUCT_IBASE (0);                                              \</span>
+<a name="l01680"></a>01680 <span class="preprocessor">  cel##name##SeqOpType::object_reg = object_reg;                        \</span>
+<a name="l01681"></a>01681 <span class="preprocessor">}                                                                       \</span>
+<a name="l01682"></a>01682 <span class="preprocessor">cel##name##SeqOpType::~cel##name##SeqOpType ()                          \</span>
+<a name="l01683"></a>01683 <span class="preprocessor">{                                                                       \</span>
+<a name="l01684"></a>01684 <span class="preprocessor">  SCF_DESTRUCT_IBASE ();                                                \</span>
+<a name="l01685"></a>01685 <span class="preprocessor">}                                                                       \</span>
+<a name="l01686"></a>01686 <span class="preprocessor">csPtr&lt;iQuestSeqOpFactory&gt; cel##name##SeqOpType::CreateSeqOpFactory ()   \</span>
+<a name="l01687"></a>01687 <span class="preprocessor">{                                                                       \</span>
+<a name="l01688"></a>01688 <span class="preprocessor">  cel##name##SeqOpFactory* fact = new cel##name##SeqOpFactory (this);   \</span>
+<a name="l01689"></a>01689 <span class="preprocessor">  return fact;                                                          \</span>
+<a name="l01690"></a>01690 <span class="preprocessor">}</span>
+<a name="l01691"></a>01691 <span class="preprocessor"></span>
+<a name="l01692"></a>01692 <span class="preprocessor">#endif // __CEL_MGR_QUEST__</span>
+<a name="l01693"></a>01693 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.3-20050530 
 </small></address> </div></body> </html>
