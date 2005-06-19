@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Jun-2005
+	- Andrew Dai changed celPcLinearMovement and reliant classes to use
+          a new velocity system where velocity is specified in terms of body
+          coordinates and world coordinates. Body velocity can only
+          be changed by the client using PcLinearMovement whereas world velocity
+          may be changed through the effects of gravity, frictional surfaces, etc.
+
 17-Jun-2005
 	- David Bronke fixed a problem in the mechanics plugin where it was
 	  trying to dereference "body" before assigning a value to it.
