@@ -101,11 +101,21 @@ struct iPcLinearMovement : public iBase
   virtual void SetSpeed (float speedZ) = 0;
 
   /**
-   * Set the current velocity vector.
+   * Set the current velocity vector in body coordinates.
    */
   virtual void SetVelocity (const csVector3& vel) = 0;
 
   /**
+   * Exerts a velocity on the body in world coordinates
+   */
+
+  virtual void AddVelocity (const csVector3& vel) = 0;
+
+  /// Resets the velocity of this body in world coordinates.
+  virtual void ClearWorldVelocity () = 0;
+
+
+    /**
    * Get the current velocity vector.
    */
   virtual void GetVelocity (csVector3& v) const = 0;
@@ -158,13 +168,14 @@ struct iPcLinearMovement : public iBase
                          float& yrot,
                          iSector*& sector,
                          csVector3& vel,
+                         csVector3& worldVel,
                          float& ang_vel) = 0;
 
 
   /// Sets all relevant dead reckoning data on this entity
   virtual void SetDRData(bool on_ground,float speed,
                          csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,float ang_vel) = 0;
+                         csVector3& vel,csVector3& worldVel,float ang_vel) = 0;
 
   /**
    * Sets dead reckoning data in a 'soft' way.  Instead of immediately
@@ -174,7 +185,7 @@ struct iPcLinearMovement : public iBase
    */
   virtual void SetSoftDRData(bool on_ground,float speed,
                          csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,float ang_vel) = 0;
+                         csVector3& vel, csVector3& worldVel,float ang_vel) = 0;
 
   /**
    * Set full position and sector. The position is absolute and will

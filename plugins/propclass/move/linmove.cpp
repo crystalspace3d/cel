@@ -163,11 +163,15 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     return;
   }
 
-  vel = 0;
-  angularVelocity = 0;
+  velBody = angularVelocity = velWorld = 0;
   angleToReachFlag = false;
   angDelta = 0;
   lastDRUpdate = 0;
+
+  historyIndex = 0;
+  historyFilled = false;
+  hugGround = true;
+
 
   portalDisplaced = 0.0f;
 
@@ -250,7 +254,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
   databuf->Add (topSize);
   databuf->Add (bottomSize);
   databuf->Add (shift);
-  databuf->Add (vel);
+  databuf->Add (velBody);
   databuf->Add (angularVelocity);
 
   return csPtr<iCelDataBuffer> (databuf);
@@ -281,7 +285,8 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   if (!InitCD (topSize, bottomSize, shift, pccd))
     return false;
 
-  databuf->GetVector3 (vel);
+
+  databuf->GetVector3 (velBody);
   databuf->GetVector3 (angularVelocity);
 
   return true;
@@ -439,7 +444,7 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
   return false;
 }
 
-static inline int FindIntersection (const csCollisionPair& cd,
+static inline bool FindIntersection (const csCollisionPair& cd,
     			   csVector3 line[2])
 {
   csVector3 tri1[3]; tri1[0]=cd.a1; tri1[1]=cd.b1; tri1[2]=cd.c1;
@@ -466,21 +471,6 @@ void celPcLinearMovement::SetAngularVelocity (const csVector3& angleVel,
   angleToReachFlag = true;
   this->angleToReach = angleToReach;
 }
-
-void celPcLinearMovement::SetVelocity (const csVector3& vel)
-{
-  /*
-   * Y movement is jumping, flight (lift) and gravity effects
-   * Take care to check IsOnGround () before calling this for jumping
-   */
-    celPcLinearMovement::vel = vel;
-}
-
-void celPcLinearMovement::GetVelocity (csVector3& v) const
-{
-  v = vel;
-}
-
 
 void celPcLinearMovement::SetSpeed (float speedZ)
 {
@@ -533,28 +523,15 @@ bool celPcLinearMovement::RotateV (float delta)
     float yrot_delta = fabs (atan2f (sin (angleToReach.y - current_yrot),
     	cos (angleToReach.y - current_yrot)));
     if (fabs(angle.y) > yrot_delta)
-      {
-  	angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
-  	angularVelocity = 0;
- 	angleToReachFlag = false;
-      }
+    {
+      angle.y = (angle.y / fabs (angle.y)) * yrot_delta;
+      angularVelocity = 0;
+      angleToReachFlag = false;
+    }
   }
 
-  csMatrix3 rotMat (1,0,0,0,1,0,0,0,1);
-  float ca = 0;
-  float sa = 0;
-
-  if (angle.y != 0 )
-  {
-    ca = cos (angle.y);
-    sa = sin (angle.y);
-  }
-
-  rotMat = rotMat * csMatrix3 (ca, 0, -sa,
-    0, 1, 0,
-    sa,0, ca);
-
-  pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
+  csYRotMatrix3 rotMat(angle.y);
+  pcmesh->GetMesh ()->GetMovable()->Transform (rotMat);
   return true;
 }
 
@@ -606,14 +583,18 @@ bool celPcLinearMovement::MoveSprite (float delta)
   //float local_max_interval =
 	 // MAX (temp1, MIN_CD_INTERVAL);
 
+  // Calculate the total velocity (body and world) in OBJECT space.
+  csVector3 bodyVel(pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld) +
+    velBody);
+
   float local_max_interval =
-    MAX (MIN (MIN ((vel.y==0.0f)
+    MAX (MIN (MIN ((bodyVel.y==0.0f)
   	? MAX_CD_INTERVAL
-	: ABS (intervalSize.y/vel.y), (vel.x==0.0f)
+	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
 		? MAX_CD_INTERVAL
-		: ABS (intervalSize.x/vel.x)), (vel.z==0.0f)
+		: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
 			? MAX_CD_INTERVAL
-			: ABS (intervalSize.z/vel.z)), MIN_CD_INTERVAL);
+			: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
 
   // Compensate for speed
   local_max_interval /= speed;
@@ -641,14 +622,18 @@ bool celPcLinearMovement::MoveSprite (float delta)
       if (!rc)
           return rc;
 
+      // The velocity may have changed by now
+      bodyVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld) +
+        velBody;
+
       delta -= local_max_interval;
-      local_max_interval = MAX (MIN (MIN ((vel.y==0.0f)
+      local_max_interval = MAX (MIN (MIN ((bodyVel.y==0.0f)
       	? MAX_CD_INTERVAL
-	: ABS (intervalSize.y/vel.y), (vel.x==0.0f)
+	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
 		? MAX_CD_INTERVAL
-		: ABS (intervalSize.x/vel.x)), (vel.z==0.0f)
+		: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
 			? MAX_CD_INTERVAL
-			: ABS (intervalSize.z/vel.z)), MIN_CD_INTERVAL);
+			: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
       // Compensate for speed
       local_max_interval /= speed;
       // Err on the side of safety
@@ -711,31 +696,30 @@ void celPcLinearMovement::OffsetSprite (float delta)
 // Do the actual move
 bool celPcLinearMovement::MoveV (float delta)
 {
-  if (vel < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()) )
+  if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()))
     return false;  // didn't move anywhere
 
   
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+
   csMatrix3 mat;
 
   // To test collision detection we use absolute position and transformation
   // (this is relevant if we are anchored). Later on we will correct that.
   csReversibleTransform rt = movable->GetFullTransform ();
   mat = rt.GetT2O ();
-
-  csVector3 oldpos = movable->GetFullPosition ();
-  csVector3 newpos;
-  
   delta *= speed;
-  
-  newpos = mat*(vel*delta) + oldpos;
+
+  csVector3 worldVel(movable->GetTransform().This2OtherRelative(velBody) + velWorld);
+  csVector3 oldpos(movable->GetPosition());
+  csVector3 newpos(worldVel*delta + oldpos);
 
   // Check for collisions and adjust position
   if (pccolldet)
-    if(!pccolldet->AdjustForCollisions (oldpos, newpos, vel, delta, movable))
+    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel, delta, movable))
       return false;                   // We haven't moved so return early
 
-  csOrthoTransform transform_oldpos = csReversibleTransform (csMatrix3(), oldpos);
+  
   csVector3 origNewpos = newpos;
   bool mirror = false;
 
@@ -748,9 +732,7 @@ bool celPcLinearMovement::MoveV (float delta)
   // we won't really cross a portal.
   float height5 = (bottomSize.y + topSize.y) / 20.0;
   newpos.y += height5;
-
-  transform_oldpos.SetOrigin (transform_oldpos.GetOrigin ()
-    + csVector3 (0, height5, 0));
+  csOrthoTransform transform_oldpos(csMatrix3(), oldpos + csVector3 (0, height5, 0));
 
   new_sector = new_sector->FollowSegment (transform_oldpos,
       newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
@@ -759,18 +741,116 @@ bool celPcLinearMovement::MoveV (float delta)
     movable->SetSector (new_sector);
 
   portalDisplaced += newpos - origNewpos;
-
   if(!IsOnGround())
   {
     // gravity! move down!
-    vel.y  -= 19.6 * delta;
+    velWorld.y  -= 19.6 * delta;
     /*
     * Terminal velocity
     *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
     *   / 3.28 feet/meter = 53.65 m/s
     */
-    if (vel.y < -(ABS_MAX_FREEFALL_VELOCITY))
-      vel.y = -(ABS_MAX_FREEFALL_VELOCITY);
+    // The body velocity is figured in here too.
+    if (velWorld.y < 0)
+    {
+      if (movable->GetTransform().This2OtherRelative(velBody).y + velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
+        velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY) - movable->GetTransform().This2OtherRelative(velBody).y;
+      if (velWorld.y > 0)
+        velWorld.y = 0;
+    }
+  }
+  else
+  {
+    if(velWorld.y < 0)
+      velWorld.y = 0;
+
+    // Not fully implemented!
+    if(hugGround)
+    {
+      int currentIndex = historyIndex;
+      moveHistory[historyIndex++] = newpos;
+      if(historyIndex == 40)
+        historyIndex = 0;
+      float displacement = 0;
+      float heightChange = 0;
+      float baseSize = bottomSize.z;
+      csVector3 current(moveHistory[currentIndex--]);
+
+      float highest = current.y;
+      csVector3 planevec[3];
+      planevec[0] = planevec[1] = planevec[2] = current;
+      int i = 0;
+      while (displacement < baseSize)
+      {
+        if((!historyFilled && currentIndex < 0) || (currentIndex == historyIndex))
+          break;
+        if(currentIndex < 0)
+          currentIndex = 39;
+
+        if(displacement < baseSize / 3 && current.y > highest)
+        {
+          planevec[0] = current;
+          highest = current.y;
+        }
+        else if(displacement < baseSize * 2 / 3 && displacement >= baseSize / 3)
+        {
+          if (i != 1)
+          {
+            planevec[1] = current;
+            highest = current.y;
+            i = 1;
+          }
+          else if (current.y > highest)
+          {
+            planevec[1] = current;
+            highest = current.y;
+          }
+        }
+        else if(displacement >= baseSize * 2 / 3)
+        {
+          if (i != 2)
+          {
+            planevec[2] = current;
+            highest = current.y;
+            i = 2;
+          }
+          else if (current.y > highest)
+          {
+            planevec[2] = current;
+            highest = current.y;
+          }
+        }
+        current = moveHistory[currentIndex--];
+
+        displacement = sqrt(pow(newpos.x - current.x, 2) + pow(newpos.z - current.z, 2));
+        //heightChange += current.y - previous.y;
+      }
+
+      if(displacement > baseSize)
+      {
+        csPlane3 plane(planevec[0], planevec[1], planevec[2]);
+        if(plane.Normal().Norm() > 0)
+        {
+          csVector3 normal = plane.Normal().Unit();
+          if(normal.y < 0)
+            normal = -normal;
+          float yAngle = acos(normal.y);
+          float xAngle = atan(normal.x/normal.z);
+          //float angle = atan(max_y - 0.01 - oldpos.y / distTravelled);
+          float angle = atan(heightChange / displacement);
+          //printf("angle: %f, numerator: %f, denominator: %f\n",angle*2*PI/360, oldpos.y-max_y-0.01,distTravelled);
+
+          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()->GetTransform().GetT2O();
+          csVector3 zVec(0,0,1);
+          zVec = transform*zVec;
+
+          float diffAngle = angle - atan(zVec.y/zVec.z);
+          //printf("%p Normal %f %f %f \n", this, normal.x, normal.y, normal.z);
+          //printf("Target x angle: %f y angle: %f\n", xAngle, yAngle);
+          csXRotMatrix3 rotMat(-diffAngle);
+        }
+      }
+    }
   }
 
   // Move to the new position. If we have an anchor we have to convert
@@ -1021,13 +1101,15 @@ void celPcLinearMovement::GetDRData(bool& on_ground,
                                     float& yrot,
                                     iSector*& sector,
                                     csVector3& vel,
+                                    csVector3& worldVel,
                                     float& ang_vel)
 {
   on_ground = IsOnGround();
   speed = this->speed;
   GetLastPosition(pos,yrot,sector);
-  vel = this->vel;
+  vel = velBody;
   ang_vel = angularVelocity.y;
+  worldVel = this->velWorld;
 }
 
 
@@ -1139,7 +1221,7 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 
 void celPcLinearMovement::SetDRData(bool on_ground,float speed,
                                     csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel,float ang_vel)
+                                    csVector3& vel, csVector3& worldVel, float ang_vel)
 {
   if (pccolldet)
     pccolldet->SetOnGround(on_ground);
@@ -1147,6 +1229,8 @@ void celPcLinearMovement::SetDRData(bool on_ground,float speed,
   this->speed = speed;
   SetPosition(pos,yrot,sector);
   SetVelocity(vel);
+  ClearWorldVelocity();
+  AddVelocity(worldVel);
   csVector3 rot(0,ang_vel,0);
   SetAngularVelocity(rot);
   lastDRUpdate = csGetTicks();
@@ -1154,7 +1238,7 @@ void celPcLinearMovement::SetDRData(bool on_ground,float speed,
 
 void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
                                     csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel,float ang_vel)
+                                    csVector3& vel, csVector3& worldVel, float ang_vel)
 {
   if (pccolldet)
     pccolldet->SetOnGround(on_ground);
@@ -1181,6 +1265,8 @@ void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
   
   this->speed = speed;
   SetVelocity(vel);
+  ClearWorldVelocity();
+  AddVelocity(worldVel);
   csVector3 rot(0,ang_vel,0);
   SetAngularVelocity(rot);
   lastDRUpdate = csGetTicks();

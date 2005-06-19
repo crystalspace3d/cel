@@ -84,14 +84,22 @@ protected:
   csWeakRef<iPcMesh> anchor;
 
   // Linear vars
-  // Actual velocity
+  float angDelta;
+  bool stationary;
+  float speed;
+
   csVector3 angularVelocity;
   csVector3 angleToReach;
   bool angleToReachFlag;
-  csVector3 vel;
-  float speed;
-  bool stationary;
-  float angDelta;
+  csVector3 velBody;
+
+  csVector3 velWorld;
+
+    /// Should the model be tilted so it's aligned with the ground
+  bool hugGround;
+  csVector3 moveHistory[40];
+  int historyIndex;
+  bool historyFilled;
 
   // Path vars
   csRef<iPath> path;
@@ -156,8 +164,42 @@ public:
   void SetAngularVelocity (const csVector3& angle);
   void SetAngularVelocity (const csVector3& angle,
   	const csVector3& angle_to_reach);
-  void SetVelocity (const csVector3& vel);
-  void GetVelocity (csVector3& v) const;
+
+  /// Sets a velocity for this body in body coordinates
+  void SetVelocity (const csVector3& vel)
+  {
+    /*
+    * Y movement here is NOT lift and gravity effects. It IS for jumping & jetpacks.
+    */
+    velBody = vel;
+  }
+
+  /// Adds on a velocity to this body in world coordinates
+  void AddVelocity (const csVector3& vel)
+  {
+    /*
+    * Y movement here can be used for lift and gravity effects.
+    */
+    velWorld += vel;
+  }
+
+  /// Resets the velocity of this body in world coordinates.
+  void ClearWorldVelocity ()
+  {
+    /*
+    * Y movement here can be used for lift and gravity effects.
+    */
+    velWorld = 0.0f;
+  }
+
+  void GetVelocity (csVector3& v) const
+  {
+    csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld);
+
+    // Return the composite of the object and world velocity in the OBJECT coordinate
+    // system.
+    v = worldVel + velBody;
+  }
   bool RotateV (float delta);
   /**
    * Get the current angular velocity vector.
@@ -207,12 +249,13 @@ public:
                  float& yrot,
                  iSector*& sector,
                  csVector3& vel,
+                 csVector3& worldVel,
                  float& ang_vel);
 
   /// Sets all relevant dead reckoning data on this entity
   virtual void SetDRData(bool on_ground,float speed,
                          csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,float ang_vel);
+                         csVector3& vel, csVector3& worldVel, float ang_vel);
 
   /// Sets dead reckoning data with 'soft' position updating.
   /// Rather than immediately set the new position, the difference
@@ -222,7 +265,7 @@ public:
   /// error becomes zero.
   virtual void SetSoftDRData(bool on_ground,float speed,
                          csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,float ang_vel);
+                         csVector3& vel, csVector3& worldVel, float ang_vel);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -364,6 +407,14 @@ public:
       scfParent->SetVelocity (vel);
     }
 
+    virtual void AddVelocity (const csVector3& vel)
+    {
+      scfParent->AddVelocity (vel);
+    }
+    virtual void ClearWorldVelocity ()
+    {
+      return scfParent->ClearWorldVelocity ();
+    }
     virtual bool RotateV (float delta)
     {
       return scfParent->RotateV (delta);
@@ -421,21 +472,22 @@ public:
                            float& yrot,
                            iSector*& sector,
                            csVector3& vel,
+                           csVector3& worldVel,
                            float& ang_vel)
     {
-      scfParent->GetDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
+      scfParent->GetDRData(on_ground,speed,pos,yrot,sector,vel,worldVel,ang_vel);
     }
     virtual void SetDRData(bool on_ground,float speed,
                            csVector3& pos,float yrot,iSector *sector,
-                           csVector3& vel,float ang_vel)
+                           csVector3& vel,csVector3& worldVel, float ang_vel)
     {
-      scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
+      scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,worldVel, ang_vel);
     }
     virtual void SetSoftDRData(bool on_ground,float speed,
                            csVector3& pos,float yrot,iSector *sector,
-                           csVector3& vel,float ang_vel)
+                           csVector3& vel,csVector3& worldVel, float ang_vel)
     {
-      scfParent->SetSoftDRData(on_ground,speed,pos,yrot,sector,vel,ang_vel);
+      scfParent->SetSoftDRData(on_ground,speed,pos,yrot,sector,vel,worldVel, ang_vel);
     }
 
     virtual iSector *GetSector ()
