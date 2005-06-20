@@ -3,15 +3,22 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Jun-2005
+	- Eric Sunshine applied a patche from Pablo <caedes@sindominio.net>:
+	    - Added iPcTooltip to the blcel.i.
+	    - Replaced celCreateCamera with celCreateDefaultCamera in actor.py.
+	    - Adapted some movement code in attempt to make moveactor propclass
+	      work (it is commented in the modified file to facilitate future
+	      inclusion).
 19-Jun-2005
-	- Andrew Dai changed celPcLinearMovement and reliant classes to use
-          a new velocity system where velocity is specified in terms of body
-          coordinates and world coordinates. Body velocity can only
-          be changed by the client using PcLinearMovement whereas world velocity
-          may be changed through the effects of gravity, frictional surfaces, etc.
-	- David Bronke trimmed down the amount of debugging output given by
-	  the mechanics plugin (in particular, iPcMechanicsThrusterController)
-	  and added some important checks, with appropriate error reporting.
+	- Andrew Dai changed celPcLinearMovement and reliant classes to use a
+	  new velocity system where velocity is specified in terms of body
+	  coordinates and world coordinates. Body velocity can only be changed
+	  by the client using PcLinearMovement whereas world velocity may be
+	  changed through the effects of gravity, frictional surfaces, etc.
+	- David Bronke trimmed down the amount of debugging output given by the
+	  mechanics plugin (in particular, iPcMechanicsThrusterController) and
+	  added some important checks, with appropriate error reporting.
 	  (still some printf's in there, but those should be gone once the
 	  debugging is done.)
 17-Jun-2005
