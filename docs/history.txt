@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	    - Adapted some movement code in attempt to make moveactor propclass
 	      work (it is commented in the modified file to facilitate future
 	      inclusion).
+	    - Added a line to actor.py for responding adequately to camera
+	      change action.
 19-Jun-2005
 	- Andrew Dai changed celPcLinearMovement and reliant classes to use a
 	  new velocity system where velocity is specified in terms of body
