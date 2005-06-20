@@ -35,6 +35,7 @@
 #include "propclass/tooltip.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
+#include "propclass/zone.h"
 %}
 
 // @@@ UGLY: Duplicated from CS. Find a better way.
@@ -306,6 +307,11 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 CEL_PC_GET(iPcRegion, Region)
 CEL_PC_QUERY(iPcRegion)
 CEL_PC_QUERY_CLASSLIST(iPcRegion)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/zone.h"
+CEL_PC(iPcZoneManager, ZoneManager, pczonemanager)
 
 //-----------------------------------------------------------------------------
 
