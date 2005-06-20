@@ -732,7 +732,8 @@ bool celPcLinearMovement::MoveV (float delta)
   // we won't really cross a portal.
   float height5 = (bottomSize.y + topSize.y) / 20.0;
   newpos.y += height5;
-  csOrthoTransform transform_oldpos(csMatrix3(), oldpos + csVector3 (0, height5, 0));
+  csMatrix3 id;
+  csOrthoTransform transform_oldpos(id, oldpos + csVector3 (0, height5, 0));
 
   new_sector = new_sector->FollowSegment (transform_oldpos,
       newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
