@@ -13581,6 +13581,50 @@ static PyObject *_wrap_iPcLinearMovement_SetVelocity(PyObject *, PyObject *args)
 }
 
 
+static PyObject *_wrap_iPcLinearMovement_AddVelocity(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    csVector3 *arg2 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcLinearMovement_AddVelocity",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (arg2 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->AddVelocity((csVector3 const &)*arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_ClearWorldVelocity(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_ClearWorldVelocity",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->ClearWorldVelocity();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcLinearMovement_GetVelocity(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
@@ -14165,7 +14209,8 @@ static PyObject *_wrap_iPcLinearMovement_GetDRData(PyObject *, PyObject *args) {
     float *arg5 = 0 ;
     iSector **arg6 = 0 ;
     csVector3 *arg7 = 0 ;
-    float *arg8 = 0 ;
+    csVector3 *arg8 = 0 ;
+    float *arg9 = 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     PyObject * obj2 = 0 ;
@@ -14174,8 +14219,9 @@ static PyObject *_wrap_iPcLinearMovement_GetDRData(PyObject *, PyObject *args) {
     PyObject * obj5 = 0 ;
     PyObject * obj6 = 0 ;
     PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOO:iPcLinearMovement_GetDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:iPcLinearMovement_GetDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
@@ -14227,14 +14273,22 @@ static PyObject *_wrap_iPcLinearMovement_GetDRData(PyObject *, PyObject *args) {
         if (SWIG_arg_fail(7)) SWIG_fail;
     }
     {
-        SWIG_Python_ConvertPtr(obj7, (void **)&arg8, SWIGTYPE_p_float, SWIG_POINTER_EXCEPTION | 0);
+        SWIG_Python_ConvertPtr(obj7, (void **)&arg8, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
         if (SWIG_arg_fail(8)) SWIG_fail;
         if (arg8 == NULL) {
-            SWIG_null_ref("float");
+            SWIG_null_ref("csVector3");
         }
         if (SWIG_arg_fail(8)) SWIG_fail;
     }
-    (arg1)->GetDRData(*arg2,*arg3,*arg4,*arg5,*arg6,*arg7,*arg8);
+    {
+        SWIG_Python_ConvertPtr(obj8, (void **)&arg9, SWIGTYPE_p_float, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(9)) SWIG_fail;
+        if (arg9 == NULL) {
+            SWIG_null_ref("float");
+        }
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    (arg1)->GetDRData(*arg2,*arg3,*arg4,*arg5,*arg6,*arg7,*arg8,*arg9);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -14252,7 +14306,8 @@ static PyObject *_wrap_iPcLinearMovement_SetDRData(PyObject *, PyObject *args) {
     float arg5 ;
     iSector *arg6 = (iSector *) 0 ;
     csVector3 *arg7 = 0 ;
-    float arg8 ;
+    csVector3 *arg8 = 0 ;
+    float arg9 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     PyObject * obj2 = 0 ;
@@ -14261,8 +14316,9 @@ static PyObject *_wrap_iPcLinearMovement_SetDRData(PyObject *, PyObject *args) {
     PyObject * obj5 = 0 ;
     PyObject * obj6 = 0 ;
     PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOO:iPcLinearMovement_SetDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:iPcLinearMovement_SetDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
@@ -14296,10 +14352,18 @@ static PyObject *_wrap_iPcLinearMovement_SetDRData(PyObject *, PyObject *args) {
         if (SWIG_arg_fail(7)) SWIG_fail;
     }
     {
-        arg8 = (float)(SWIG_As_float(obj7)); 
+        SWIG_Python_ConvertPtr(obj7, (void **)&arg8, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(8)) SWIG_fail;
+        if (arg8 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
         if (SWIG_arg_fail(8)) SWIG_fail;
     }
-    (arg1)->SetDRData(arg2,arg3,*arg4,arg5,arg6,*arg7,arg8);
+    {
+        arg9 = (float)(SWIG_As_float(obj8)); 
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    (arg1)->SetDRData(arg2,arg3,*arg4,arg5,arg6,*arg7,*arg8,arg9);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -14317,7 +14381,8 @@ static PyObject *_wrap_iPcLinearMovement_SetSoftDRData(PyObject *, PyObject *arg
     float arg5 ;
     iSector *arg6 = (iSector *) 0 ;
     csVector3 *arg7 = 0 ;
-    float arg8 ;
+    csVector3 *arg8 = 0 ;
+    float arg9 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     PyObject * obj2 = 0 ;
@@ -14326,8 +14391,9 @@ static PyObject *_wrap_iPcLinearMovement_SetSoftDRData(PyObject *, PyObject *arg
     PyObject * obj5 = 0 ;
     PyObject * obj6 = 0 ;
     PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOO:iPcLinearMovement_SetSoftDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:iPcLinearMovement_SetSoftDRData",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
@@ -14361,10 +14427,18 @@ static PyObject *_wrap_iPcLinearMovement_SetSoftDRData(PyObject *, PyObject *arg
         if (SWIG_arg_fail(7)) SWIG_fail;
     }
     {
-        arg8 = (float)(SWIG_As_float(obj7)); 
+        SWIG_Python_ConvertPtr(obj7, (void **)&arg8, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(8)) SWIG_fail;
+        if (arg8 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
         if (SWIG_arg_fail(8)) SWIG_fail;
     }
-    (arg1)->SetSoftDRData(arg2,arg3,*arg4,arg5,arg6,*arg7,arg8);
+    {
+        arg9 = (float)(SWIG_As_float(obj8)); 
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    (arg1)->SetSoftDRData(arg2,arg3,*arg4,arg5,arg6,*arg7,*arg8,arg9);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -21882,6 +21956,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_SetAngularVelocity", _wrap_iPcLinearMovement_SetAngularVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetSpeed", _wrap_iPcLinearMovement_SetSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetVelocity", _wrap_iPcLinearMovement_SetVelocity, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_AddVelocity", _wrap_iPcLinearMovement_AddVelocity, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_ClearWorldVelocity", _wrap_iPcLinearMovement_ClearWorldVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetVelocity", _wrap_iPcLinearMovement_GetVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetAngularVelocity", _wrap_iPcLinearMovement_GetAngularVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetCDDimensions", _wrap_iPcLinearMovement_GetCDDimensions, METH_VARARGS, NULL},

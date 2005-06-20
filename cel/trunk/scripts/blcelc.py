@@ -1093,6 +1093,8 @@ class iPcLinearMovement(cspace.iBase):
     def SetAngularVelocity(*args): return _blcelc.iPcLinearMovement_SetAngularVelocity(*args)
     def SetSpeed(*args): return _blcelc.iPcLinearMovement_SetSpeed(*args)
     def SetVelocity(*args): return _blcelc.iPcLinearMovement_SetVelocity(*args)
+    def AddVelocity(*args): return _blcelc.iPcLinearMovement_AddVelocity(*args)
+    def ClearWorldVelocity(*args): return _blcelc.iPcLinearMovement_ClearWorldVelocity(*args)
     def GetVelocity(*args): return _blcelc.iPcLinearMovement_GetVelocity(*args)
     def GetAngularVelocity(*args): return _blcelc.iPcLinearMovement_GetAngularVelocity(*args)
     def GetCDDimensions(*args): return _blcelc.iPcLinearMovement_GetCDDimensions(*args)
