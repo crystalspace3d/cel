@@ -9,7 +9,11 @@ The history order is reversed so that new features are at the top.
           coordinates and world coordinates. Body velocity can only
           be changed by the client using PcLinearMovement whereas world velocity
           may be changed through the effects of gravity, frictional surfaces, etc.
-
+	- David Bronke trimmed down the amount of debugging output given by
+	  the mechanics plugin (in particular, iPcMechanicsThrusterController)
+	  and added some important checks, with appropriate error reporting.
+	  (still some printf's in there, but those should be gone once the
+	  debugging is done.)
 17-Jun-2005
 	- David Bronke fixed a problem in the mechanics plugin where it was
 	  trying to dereference "body" before assigning a value to it.

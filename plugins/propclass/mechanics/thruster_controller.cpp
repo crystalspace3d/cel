@@ -652,18 +652,15 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
   while (it.HasNext ())
   {
     ad = it.Next ();
-    printf ("Iterating axis: ");
-    printf ((ad->name + "\n").GetData ());
-    fflush (stdout);
     if (strcmp (ad->name.GetData (), axisname) == 0)
     {
       printf ("Found match.\n");
       fflush (stdout);
-      csVector3 axis;
-      if (thrust < 0)
-        axis = -ad->axis;
-      else
-        axis = ad->axis;
+      if (ad->balancedgroups.IsEmpty ())
+      {
+        Report (object_reg, "No groups in this axis!");
+	return;
+      }
       csRefArray<iPcMechanicsBalancedGroup>::Iterator groupit
 	= ad->balancedgroups.GetIterator ();
       csRef<iPcMechanicsBalancedGroup> group;
@@ -684,8 +681,15 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       {
         printf ("Found best group. Applying thrust %f.\n", thrust);
         fflush (stdout);
-	id = lastrequestid++;
+	lastrequestid++;
+	printf ("Current thrust ID: %u\n", lastrequestid);
+	fflush (stdout);
+	id = lastrequestid;
         ApplyThrustHelper (thrust, bestgroup, id);
+      }
+      else
+      {
+        Report (object_reg, "No best group found. Something's wrong!");
       }
       return;
     }
