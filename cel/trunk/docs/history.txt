@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	      inclusion).
 	    - Added a line to actor.py for responding adequately to camera
 	      change action.
+	- res applied a change from Pablo <caedes@sindominio.net> to add 
+	  iPcZoneManager to blcel.i.
 19-Jun-2005
 	- Andrew Dai changed celPcLinearMovement and reliant classes to use a
 	  new velocity system where velocity is specified in terms of body
