@@ -32,6 +32,7 @@
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
 #include "propclass/mechthruster.h"
+#include "propclass/tooltip.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 %}
@@ -373,6 +374,11 @@ CEL_PC(iPcInventory, Inventory, pcinventory)
 
 %include "propclass/chars.h"
 CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/tooltip.h"
+CEL_PC(iPcTooltip, ToolTip, pctooltip)
 
 //-----------------------------------------------------------------------------
 

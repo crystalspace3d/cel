@@ -15,22 +15,30 @@ class actor:
 		self.autorun = 0
 		self.running = 0
 
-		mesh = celCreateMesh(physicallayer_ptr,celEntity)
-		self.linmove = celCreateLinearMovement(physicallayer_ptr,celEntity)
 		input = celCreateCommandInput(physicallayer_ptr,celEntity)
+		self.camera = celCreateDefaultCamera(physicallayer_ptr,celEntity)
+		#self.actormove = celCreateActorMove(physicallayer_ptr,celEntity)
+		mesh = celCreateMesh(physicallayer_ptr,celEntity)
 
-		room = region.GetStartSector()
-		self.camera = celCreateCamera(physicallayer_ptr,celEntity)
+		self.linmove = celCreateLinearMovement(physicallayer_ptr,celEntity)
 		self.camera.SetRegion(region)
-		self.camera.SetMode(self.camera.thirdperson)
+		self.camera.SetMode(self.camera.firstperson)
+		#self.solid = celCreateSolid(physicallayer_ptr,celEntity)
+		#self.actormove.SetMovementSpeed(2.0)
+		#self.actormove.SetRunningSpeed (5.0)
+		#self.actormove.SetRotationSpeed (1.75)
+		#self.actormove.SetJumpingVelocity (6.31)
 
 		# @@@ Ugly hardcoding of path!
+		room = region.GetStartSector()
+		
 		mesh.LoadMesh("box", "/cellib/objects/box")
 		pos = csVector3 (0, 1, 0)
 		mesh.MoveMesh(room,pos)
 
+
 		self.linmove.InitCD(csVector3(.5,1.0/3.0,.5),csVector3(.5,2.0/3.0,.5),
-			csVector3(0,0,0))
+			csVector3(0,0.0,0))
 
 		input.Bind("up", "forward")
 		input.Bind("down", "backward")
@@ -48,7 +56,7 @@ class actor:
 		else:
 			movementspeed = 2.0
 		velocity = csVector3 (0, 0, 0)
-		self.linmove.GetVelocity(velocity)
+		#self.linmove.GetVelocity(velocity)
 		if (self.autorun or self.forward) and self.straferight:
 			velocity.x = -0.75 * movementspeed
 			velocity.z = -0.75 * movementspeed
@@ -154,5 +162,5 @@ class actor:
 		self.handle_movement(0)
 
 	def pccommandinput_cammode1(self,celEntity,args):
-		print "cam"
+		self.camera.SetMode(self.camera.GetNextMode ())
 
