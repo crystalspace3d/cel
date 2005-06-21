@@ -1040,6 +1040,147 @@ Region = _blcelc.Region
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
 scfQueryPC_iPcRegion = _blcelc.scfQueryPC_iPcRegion
+class iCelMapFile(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelMapFile, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelMapFile, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelMapFile instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetPath(*args): return _blcelc.iCelMapFile_SetPath(*args)
+    def SetFile(*args): return _blcelc.iCelMapFile_SetFile(*args)
+    def GetPath(*args): return _blcelc.iCelMapFile_GetPath(*args)
+    def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
+    def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
+    def GetSectorName(*args): return _blcelc.iCelMapFile_GetSectorName(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelMapFile):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelMapFilePtr(iCelMapFile):
+    def __init__(self, this):
+        _swig_setattr(self, iCelMapFile, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelMapFile, 'thisown', 0)
+        _swig_setattr(self, iCelMapFile,self.__class__,iCelMapFile)
+_blcelc.iCelMapFile_swigregister(iCelMapFilePtr)
+
+class iCelRegion(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelRegion, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelRegion, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelRegion instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
+    def SetCachePath(*args): return _blcelc.iCelRegion_SetCachePath(*args)
+    def GetCachePath(*args): return _blcelc.iCelRegion_GetCachePath(*args)
+    def CreateMapFile(*args): return _blcelc.iCelRegion_CreateMapFile(*args)
+    def GetMapFileCount(*args): return _blcelc.iCelRegion_GetMapFileCount(*args)
+    def GetMapFile(*args): return _blcelc.iCelRegion_GetMapFile(*args)
+    def RemoveMapFile(*args): return _blcelc.iCelRegion_RemoveMapFile(*args)
+    def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
+    def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelRegion):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelRegionPtr(iCelRegion):
+    def __init__(self, this):
+        _swig_setattr(self, iCelRegion, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelRegion, 'thisown', 0)
+        _swig_setattr(self, iCelRegion,self.__class__,iCelRegion)
+_blcelc.iCelRegion_swigregister(iCelRegionPtr)
+
+class iCelZone(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelZone, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelZone, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelZone instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetName(*args): return _blcelc.iCelZone_GetName(*args)
+    def LinkRegion(*args): return _blcelc.iCelZone_LinkRegion(*args)
+    def GetRegionCount(*args): return _blcelc.iCelZone_GetRegionCount(*args)
+    def GetRegion(*args): return _blcelc.iCelZone_GetRegion(*args)
+    def FindRegion(*args): return _blcelc.iCelZone_FindRegion(*args)
+    def UnlinkRegion(*args): return _blcelc.iCelZone_UnlinkRegion(*args)
+    def UnlinkAllRegions(*args): return _blcelc.iCelZone_UnlinkAllRegions(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelZone):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelZonePtr(iCelZone):
+    def __init__(self, this):
+        _swig_setattr(self, iCelZone, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelZone, 'thisown', 0)
+        _swig_setattr(self, iCelZone,self.__class__,iCelZone)
+_blcelc.iCelZone_swigregister(iCelZonePtr)
+
+CEL_ZONEERROR_OK = _blcelc.CEL_ZONEERROR_OK
+CEL_ZONEERROR_BADREGION = _blcelc.CEL_ZONEERROR_BADREGION
+CEL_ZONEERROR_BADSTART = _blcelc.CEL_ZONEERROR_BADSTART
+CEL_ZONEERROR_LOAD = _blcelc.CEL_ZONEERROR_LOAD
+class iPcZoneManager(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcZoneManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcZoneManager, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcZoneManager instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def Load(*args): return _blcelc.iPcZoneManager_Load(*args)
+    def CreateZone(*args): return _blcelc.iPcZoneManager_CreateZone(*args)
+    def GetZoneCount(*args): return _blcelc.iPcZoneManager_GetZoneCount(*args)
+    def GetZone(*args): return _blcelc.iPcZoneManager_GetZone(*args)
+    def FindZone(*args): return _blcelc.iPcZoneManager_FindZone(*args)
+    def RemoveZone(*args): return _blcelc.iPcZoneManager_RemoveZone(*args)
+    def RemoveAllZones(*args): return _blcelc.iPcZoneManager_RemoveAllZones(*args)
+    def CreateRegion(*args): return _blcelc.iPcZoneManager_CreateRegion(*args)
+    def GetRegionCount(*args): return _blcelc.iPcZoneManager_GetRegionCount(*args)
+    def GetRegion(*args): return _blcelc.iPcZoneManager_GetRegion(*args)
+    def FindRegion(*args): return _blcelc.iPcZoneManager_FindRegion(*args)
+    def RemoveRegion(*args): return _blcelc.iPcZoneManager_RemoveRegion(*args)
+    def RemoveAllRegions(*args): return _blcelc.iPcZoneManager_RemoveAllRegions(*args)
+    def FindStartLocations(*args): return _blcelc.iPcZoneManager_FindStartLocations(*args)
+    def GetLastStartLocation(*args): return _blcelc.iPcZoneManager_GetLastStartLocation(*args)
+    def PointCamera(*args): return _blcelc.iPcZoneManager_PointCamera(*args)
+    def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcZoneManager):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcZoneManagerPtr(iPcZoneManager):
+    def __init__(self, this):
+        _swig_setattr(self, iPcZoneManager, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcZoneManager, 'thisown', 0)
+        _swig_setattr(self, iPcZoneManager,self.__class__,iPcZoneManager)
+_blcelc.iPcZoneManager_swigregister(iPcZoneManagerPtr)
+
+
+celCreateZoneManager = _blcelc.celCreateZoneManager
+
+celGetZoneManager = _blcelc.celGetZoneManager
+
+scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
 class iPcCommandInput(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1749,6 +1890,46 @@ celCreateCharacteristics = _blcelc.celCreateCharacteristics
 celGetCharacteristics = _blcelc.celGetCharacteristics
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
+CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
+CEL_TOOLTIP_CENTER = _blcelc.CEL_TOOLTIP_CENTER
+CEL_TOOLTIP_RIGHT = _blcelc.CEL_TOOLTIP_RIGHT
+class iPcTooltip(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTooltip, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTooltip, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcTooltip instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetText(*args): return _blcelc.iPcTooltip_SetText(*args)
+    def Show(*args): return _blcelc.iPcTooltip_Show(*args)
+    def Hide(*args): return _blcelc.iPcTooltip_Hide(*args)
+    def IsVisible(*args): return _blcelc.iPcTooltip_IsVisible(*args)
+    def SetTextColor(*args): return _blcelc.iPcTooltip_SetTextColor(*args)
+    def SetBackgroundColor(*args): return _blcelc.iPcTooltip_SetBackgroundColor(*args)
+    def SetFont(*args): return _blcelc.iPcTooltip_SetFont(*args)
+    def SetJustify(*args): return _blcelc.iPcTooltip_SetJustify(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcTooltip):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcTooltipPtr(iPcTooltip):
+    def __init__(self, this):
+        _swig_setattr(self, iPcTooltip, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcTooltip, 'thisown', 0)
+        _swig_setattr(self, iPcTooltip,self.__class__,iPcTooltip)
+_blcelc.iPcTooltip_swigregister(iPcTooltipPtr)
+
+
+celCreateToolTip = _blcelc.celCreateToolTip
+
+celGetToolTip = _blcelc.celGetToolTip
+
+scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
