@@ -190,6 +190,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
   csMatrix3 id;
   csOrthoTransform transform_oldpos (id, oldpos);
   csOrthoTransform transform_newpos (id, newpos);
+  csVector3 maxmove;
 
   // Part1: find body collisions => movement
   // Find possible colliding sectors.
@@ -201,8 +202,13 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
   cdsys->SetOneHitOnly (false);
   cdsys->ResetCollisionPairs ();
 
-  hits = CollisionDetect (topCollider, current_sector,
-    &transform_newpos, &transform_oldpos);
+  // Perform recursive collision testing to minimise hits and
+  // find distance we can travel
+  hits = CollisionDetectIterative (topCollider, current_sector,
+    &transform_newpos, &transform_oldpos, maxmove);
+
+  // localvel is smaller because we can partly move the object in that direction
+  localvel -= maxmove - oldpos;
 
   for (i = 0; i < num_our_cd; i++ )
   {
@@ -214,7 +220,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
 
     localvel = -(localvel % vec) % vec;
   }
-  newpos = oldpos + localvel;
+  newpos = maxmove + localvel;
 
   transform_newpos = csOrthoTransform (csMatrix3(), newpos);
 
@@ -616,6 +622,84 @@ int celPcCollisionDetection::CollisionDetect (
   }
   return hits;
 }
+
+int celPcCollisionDetection::CollisionDetectIterative (
+	iCollider *collider,
+	iSector* sector,
+	csReversibleTransform* transform,
+	csReversibleTransform* old_transform, csVector3& maxmove)
+{
+    //int iterations = 0;
+
+    
+    // The maximum position it's possible for the player to move to
+
+    // If we collide at the start point or don't collide at the end point then there
+    // is no need for recursion.
+    int hits = CollisionDetect(collider, sector, transform, old_transform);
+    if(hits == 0)
+    {
+        maxmove = transform->GetOrigin();
+        return hits;
+    }
+
+    cdsys->ResetCollisionPairs ();
+    num_our_cd = 0;
+
+    maxmove = old_transform->GetOrigin();
+    hits = CollisionDetect(collider, sector, old_transform, old_transform);
+    if(hits > 0)
+        return hits;
+
+    // The upper and lower bounds
+    csVector3 upper = transform->GetOrigin();
+    csVector3 lower = old_transform->GetOrigin();
+
+    csMatrix3 id;
+
+    // The last hit that was made, used so that a hit will always be returned
+    csVector3 lastHit = upper;
+
+    //cdsys->SetOneHitOnly(true);
+    // Repeatedly split the range with which to test the collision against
+    while((upper - lower).SquaredNorm() > EPSILON)
+    {
+        // Test in the middle between upper and lower bounds
+        csOrthoTransform current (id, lower + (upper - lower)/2);
+        cdsys->ResetCollisionPairs ();
+        num_our_cd = 0;
+
+        hits = CollisionDetect(collider, sector, &current, old_transform);
+    
+        // Adjust bounds
+        if(hits > 0)
+        {
+            lastHit = lower + (upper - lower)/2;
+            upper = lastHit;
+        }
+        else
+        {
+            maxmove = lower + (upper - lower) / 2;
+            lower = maxmove;
+        }
+        //iterations++;
+    }
+    if(hits == 0)
+    {
+        cdsys->SetOneHitOnly(false);
+        // Make sure we actually return a hit
+        csOrthoTransform current (id, lastHit);
+        cdsys->ResetCollisionPairs ();
+        num_our_cd = 0;
+        hits = CollisionDetect(collider, sector, &current, old_transform) > 0;
+    }
+
+    //printf("Iterations %i Percentage %f\n", iterations, (lastHit - old_transform->GetOrigin()).SquaredNorm()/(transform->GetOrigin() - old_transform->GetOrigin()).SquaredNorm());
+    return hits;
+}
+
+
+
 
 #define MAXSECTORSOCCUPIED  20
 

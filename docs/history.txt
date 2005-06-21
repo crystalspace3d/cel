@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Jun-2005
+  - Andrew Dai added CollisionDetectIterative to celPcCollisionDetection
+    which allows the maximum position an object can move to to be found. 
 20-Jun-2005
 	- Eric Sunshine applied a patche from Pablo <caedes@sindominio.net>:
 	    - Added iPcTooltip to the blcel.i.

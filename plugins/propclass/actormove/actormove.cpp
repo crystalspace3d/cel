@@ -194,8 +194,7 @@ void celPcActorMove::HandleMovement (bool jump)
   else
     speed = movement_speed;
 
-  csVector3 velocity;
-  pclinmove->GetVelocity (velocity);
+  static csVector3 velocity(0,0,0);
 
   if ((autorun || forward) && straferight)
   {
@@ -263,8 +262,8 @@ void celPcActorMove::HandleMovement (bool jump)
 
   if (jump && pclinmove->IsOnGround ())
   {
-    velocity.y = jumping_velocity;
-    pclinmove->SetVelocity (velocity);
+    csVector3 velocity (0,jumping_velocity, 0);
+    pclinmove->AddVelocity (velocity);
     if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
     // @@@ do spr3d!
   }

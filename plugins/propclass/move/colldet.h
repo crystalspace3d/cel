@@ -164,6 +164,29 @@ protected:
    */
   int CollisionDetect (iCollider *cw, iSector* sect,
   	csReversibleTransform *cdt, csReversibleTransform *cdstart);
+  /**
+   * Performs the collision detection for the provided csColliderWrapper vs
+   * all nearby objects and gives the furthest point that will not collide.
+   * <p>
+   * @param cw  	Pointer to a csColliderWrapper that is to be tested for
+   *			collisions with nearby objects
+   * @param sect	Pointer to the iSector interface of the sector that
+   *			this Wrapper is currently in.
+   * @param cdt		Pointer to a reversible transform of the "new"
+   *			position of the object to test.
+   * @param cdstart	Pointer to a reversible transform of the original
+   *			position of the object to test (before any movements).
+   * @param maxmove	A vector that holds the maximum point to which the object can move.
+   *
+   *<p>
+   * This function calls CollisionDetect each time splitting the range
+   * between the 'new' position and the original position of the object and testing
+   * the point in the middle. This finds the point of first contact to an accuracy
+   * of EPSILON and then sets maxmove to a point before it.
+   * <p>
+   */
+  int CollisionDetectIterative (iCollider *cw, iSector* sect,
+  	csReversibleTransform *cdt, csReversibleTransform *cdstart, csVector3& maxmove);
 
 //  csPtr<iDataBuffer> GetPathDRData ();
 //  bool SetPathDRData (iDataBuffer* data);
