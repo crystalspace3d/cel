@@ -2857,6 +2857,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	bhname, entname);
 	}
         break;
+      case CEL_OPERATION_CREATEENTITYTPL:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg atpl = stack.Pop ();
+	  DUMP_EXEC ((":%04d: createentity (template=%s)\n", i-1,
+	  	A2S (atpl)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: createentity template=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (atpl));
+	    fflush (stdout);
+	  }
+	  const char* entname = ArgToString (atpl);
+	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (entname);
+	  if (!entpl)
+	    return ReportError (behave,
+	    	"Couldn't find entity template '%s'!", entname);
+	  celEntityTemplateParams entpl_params;
+	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname, entpl_params);
+	}
+        break;
       case CEL_OPERATION_CALL_I:
         {
 	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
