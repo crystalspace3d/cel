@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Andrew Dai added a shortcut to the collision detection routine to avoid
           some checks if the player is not near any portals. This can give a significant
           performance boost.
+	- Dariusz Dawidowski added support for a 'template' attribute
+          in the XML behaviour layer 'createentity' command.
+          <createentity template="..." />
 21-Jun-2005
 	- Andrew Dai added CollisionDetectIterative to celPcCollisionDetection
 	  which allows the maximum position an object can move to to be found. 
