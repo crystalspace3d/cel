@@ -1596,19 +1596,28 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	h->AddOperation (CEL_OPERATION_DESTROYENTITY);
 	break;
       case XMLTOKEN_CREATEENTITY:
-        if (!ParseExpression (local_vars, child, h, "name", "createentity"))
-	  return false;
-        if (!ParseExpression (local_vars, child, h, "behaviour", "createentity"))
-	  return false;
-	if (child->GetAttributeValue ("layer"))
-	{
-          if (!ParseExpression (local_vars, child, h, "layer", "createentity"))
+        if (child->GetAttributeValue ("name"))
+        {
+	  if (!ParseExpression (local_vars, child, h, "name", "createentity"))
 	    return false;
-	  h->AddOperation (CEL_OPERATION_CREATEENTITYL);
+	  if (!ParseExpression (local_vars, child, h, "behaviour", "createentity"))
+	    return false;
+	  if (child->GetAttributeValue ("layer"))
+	  {
+	    if (!ParseExpression (local_vars, child, h, "layer", "createentity"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_CREATEENTITYL);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	  }
 	}
-	else
+	else if (child->GetAttributeValue ("template"))
 	{
-	  h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	  if (!ParseExpression (local_vars, child, h, "template", "createentity"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_CREATEENTITYTPL);
 	}
 	break;
       case XMLTOKEN_EXPR:
