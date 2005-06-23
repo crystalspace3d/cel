@@ -28,6 +28,8 @@
 #include "csutil/weakrefarr.h"
 #include "csutil/refarr.h"
 #include "celtool/camera.h"
+#include "celtool/stdpcimp.h"
+#include "celtool/stdparams.h"
 #include "propclass/defcam.h"
 #include "propclass/linmove.h"
 #include "propclass/mesh.h"
@@ -175,6 +177,23 @@ private:
   csRef<iCollideSystem> cdsys;
   bool use_cd;
 
+  static csStringID action_setcamera;
+  static csStringID id_modename;
+  static csStringID id_spring;
+  static csStringID id_turnspeed;
+  static csStringID id_swingcoef;
+  static csStringID id_fpoffset;
+  static csStringID id_tpoffset;
+  static csStringID id_pitch;
+  static csStringID id_pitchvelocity;
+  static csStringID id_yaw;
+  static csStringID id_yawvelocity;
+  static csStringID id_distance;
+  static csStringID action_setzonemanager;
+  static csStringID id_entityname;
+  static csStringID id_regionname;
+  static csStringID id_startname;
+
 public://@@@
   bool modeset_needed;
   iPcDefaultCamera::CameraMode prev_cammode;
@@ -276,6 +295,8 @@ public://@@@
 public:
   celPcDefaultCamera (iObjectRegistry* object_reg);
   virtual ~celPcDefaultCamera ();
+
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
 
   bool SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd = true);
   iPcDefaultCamera::CameraMode GetMode () const { return cammode; }
