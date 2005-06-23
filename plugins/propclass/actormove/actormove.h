@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2004 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -84,6 +84,25 @@ private:
   bool rotatetoreached;
   bool running;
   bool autorun;
+
+  static csStringID action_setspeed;
+  static csStringID action_forward;
+  static csStringID action_backward;
+  static csStringID action_strafeleft;
+  static csStringID action_straferight;
+  static csStringID action_rotateleft;
+  static csStringID action_rotateright;
+  static csStringID action_rotateto;
+  static csStringID action_run;
+  static csStringID action_autorun;
+  static csStringID action_jump;
+  static csStringID action_togglecameramode;
+  static csStringID id_movement;
+  static csStringID id_running;
+  static csStringID id_rotation;
+  static csStringID id_jumping;
+  static csStringID id_start;
+  static csStringID id_yrot;
 
   void RotateTo (float yrot);
   void HandleMovement (bool jump);
@@ -199,6 +218,8 @@ public:
   virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
 
   struct PcActorMove : public iPcActorMove
   {

@@ -52,6 +52,25 @@ CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
 
 //---------------------------------------------------------------------------
 
+csStringID celPcActorMove::action_setspeed = csInvalidStringID;
+csStringID celPcActorMove::action_forward = csInvalidStringID;
+csStringID celPcActorMove::action_backward = csInvalidStringID;
+csStringID celPcActorMove::action_strafeleft = csInvalidStringID;
+csStringID celPcActorMove::action_straferight = csInvalidStringID;
+csStringID celPcActorMove::action_rotateleft = csInvalidStringID;
+csStringID celPcActorMove::action_rotateright = csInvalidStringID;
+csStringID celPcActorMove::action_rotateto = csInvalidStringID;
+csStringID celPcActorMove::action_run = csInvalidStringID;
+csStringID celPcActorMove::action_autorun = csInvalidStringID;
+csStringID celPcActorMove::action_jump = csInvalidStringID;
+csStringID celPcActorMove::action_togglecameramode = csInvalidStringID;
+csStringID celPcActorMove::id_movement = csInvalidStringID;
+csStringID celPcActorMove::id_running = csInvalidStringID;
+csStringID celPcActorMove::id_rotation = csInvalidStringID;
+csStringID celPcActorMove::id_jumping = csInvalidStringID;
+csStringID celPcActorMove::id_start = csInvalidStringID;
+csStringID celPcActorMove::id_yrot = csInvalidStringID;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcActorMove)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcActorMove)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -64,6 +83,29 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcActorMove);
+
+  if (action_setspeed == csInvalidStringID)
+  {
+    action_setspeed = pl->FetchStringID ("cel.action.SetSpeed");
+    action_forward = pl->FetchStringID ("cel.action.Forward");
+    action_backward = pl->FetchStringID ("cel.action.Backward");
+    action_strafeleft = pl->FetchStringID ("cel.action.StrafeLeft");
+    action_straferight = pl->FetchStringID ("cel.action.StrafeRight");
+    action_rotateleft = pl->FetchStringID ("cel.action.RotateLeft");
+    action_rotateright = pl->FetchStringID ("cel.action.RotateRight");
+    action_rotateto = pl->FetchStringID ("cel.action.RotateTo");
+    action_run = pl->FetchStringID ("cel.action.Run");
+    action_autorun = pl->FetchStringID ("cel.action.AutoRun");
+    action_jump = pl->FetchStringID ("cel.action.Jump");
+    action_togglecameramode = pl->FetchStringID ("cel.action.ToggleCameraMode");
+    id_movement = pl->FetchStringID ("cel.parameter.movement");
+    id_running = pl->FetchStringID ("cel.parameter.running");
+    id_rotation = pl->FetchStringID ("cel.parameter.rotation");
+    id_jumping = pl->FetchStringID ("cel.parameter.jumping");
+    id_start = pl->FetchStringID ("cel.parameter.start");
+    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
+  }
+
   movement_speed = 2.0f;
   running_speed = 5.0f;
   rotating_speed = 1.75f;
@@ -99,6 +141,97 @@ bool celPcActorMove::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ACTORMOVE_SERIAL) return false;
   return true;
+}
+
+bool celPcActorMove::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_setspeed)
+  {
+    CEL_FETCH_FLOAT_PAR (movement,params,id_movement);
+    if (p_movement) SetMovementSpeed (movement);
+    CEL_FETCH_FLOAT_PAR (running,params,id_running);
+    if (p_running) SetRunningSpeed (running);
+    CEL_FETCH_FLOAT_PAR (rotation,params,id_rotation);
+    if (p_rotation) SetRotationSpeed (rotation);
+    CEL_FETCH_FLOAT_PAR (jumping,params,id_jumping);
+    if (p_jumping) SetJumpingVelocity (jumping);
+    return true;
+  }
+  else if (actionId == action_forward)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    Forward (start);
+    return true;
+  }
+  else if (actionId == action_backward)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    Backward (start);
+    return true;
+  }
+  else if (actionId == action_strafeleft)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    StrafeLeft (start);
+    return true;
+  }
+  else if (actionId == action_straferight)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    StrafeRight (start);
+    return true;
+  }
+  else if (actionId == action_rotateleft)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    RotateLeft (start);
+    return true;
+  }
+  else if (actionId == action_rotateright)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    RotateRight (start);
+    return true;
+  }
+  else if (actionId == action_rotateto)
+  {
+    CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
+    if (!p_yrot) return false;
+    RotateTo (yrot);
+    return true;
+  }
+  else if (actionId == action_run)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    Run (start);
+    return true;
+  }
+  else if (actionId == action_autorun)
+  {
+    CEL_FETCH_BOOL_PAR (start,params,id_start);
+    if (!p_start) return false;
+    AutoRun (start);
+    return true;
+  }
+  else if (actionId == action_jump)
+  {
+    Jump ();
+    return true;
+  }
+  else if (actionId == action_togglecameramode)
+  {
+    ToggleCameraMode ();
+    return true;
+  }
+  return false;
 }
 
 void celPcActorMove::FindSiblingPropertyClasses ()
@@ -254,10 +387,10 @@ void celPcActorMove::HandleMovement (bool jump)
   {
     pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0));
   }
-  else 
+  else
   {
-    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0), 
-				   csVector3 (0, rotate_to, 0));    
+    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0),
+				   csVector3 (0, rotate_to, 0));
   }
 
   if (jump && pclinmove->IsOnGround ())
