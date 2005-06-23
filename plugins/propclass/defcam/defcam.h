@@ -71,7 +71,7 @@ struct CameraData
 
 /**
  * Camera algorithm class. This is a pure virtual abstract
- * class which is inherited 
+ * class which is inherited
  */
 class CameraAlgorithm
 {
@@ -648,6 +648,11 @@ public:
     {
       return scfParent->SetZoneManager (zonemgr, point, regionname, name);
     }
+    virtual bool SetZoneManager (const char* entityname, bool point,
+        const char* regionname, const char* name = 0)
+    {
+      return scfParent->SetZoneManager (entityname, point, regionname, name);
+    }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
       scfParent->SetRectangle (x, y, w, h);
@@ -760,11 +765,11 @@ public:
     virtual void SetFirstPersonOffset (const csVector3& offset)
     {
       scfParent->firstPersonPositionOffset = offset;
-    }   
+    }
     virtual void SetThirdPersonOffset (const csVector3& offset)
-    { 
+    {
       scfParent->thirdPersonPositionOffset = offset;
-    } 
+    }
     virtual void CenterCamera ()
     {
       scfParent->CenterCamera ();
