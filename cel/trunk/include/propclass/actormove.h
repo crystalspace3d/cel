@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2004 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -33,6 +33,25 @@ SCF_VERSION (iPcActorMove, 0, 0, 1);
  * the appropriate calls here depending on the keys that are pressed.
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetSpeed: parameters 'movement' (float), 'running' (float),
+ *    'rotation' (float) and 'jumping' (float).
+ * <li>Forward: parameters 'start' (bool).
+ * <li>Backward: parameters 'start' (bool).
+ * <li>StrafeLeft: parameters 'start' (bool).
+ * <li>StrafeRight: parameters 'start' (bool).
+ * <li>RotateLeft: parameters 'start' (bool).
+ * <li>RotateRight: parameters 'start' (bool).
+ * <li>RotateTo: parameters 'yrot' (float).
+ * <li>Run: parameters 'start' (bool).
+ * <li>AutoRun: parameters 'start' (bool).
+ * <li>Jump.
+ * <li>ToggleCameraMode.
+ * </ul>
  */
 struct iPcActorMove : public iBase
 {
