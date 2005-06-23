@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Jun-2005
+	- Dariusz Dawidowski overloaded SetZoneManager for camera which 
+	  now also accepts entity name instead of pointer to iPcZoneManager.
 22-Jun-2005
 	- Andrew Dai added a shortcut to the collision detection routine to
 	  avoid some checks if the player is not near any portals. This can

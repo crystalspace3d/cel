@@ -149,6 +149,11 @@ public:
     {
       return scfParent->SetZoneManager (zonemgr, point, regionname, name);
     }
+    virtual bool SetZoneManager (const char* entityname, bool point,
+        const char* regionname, const char* name = 0)
+    {
+      return scfParent->SetZoneManager (entityname, point, regionname, name);
+    }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
       scfParent->SetRectangle (x, y, w, h);

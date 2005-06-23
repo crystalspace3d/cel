@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -52,6 +52,16 @@ struct iPcCamera : public iBase
    * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+      const char* regionname, const char* name = 0) = 0;
+
+  /**
+   * Set Camera to a zone manager
+   * \param entityname is a name of the entity with the zone manager.
+   * \param point if true, set the camera to a given start position.
+   * \param regionname is the name of the region to add the camera to.
+   * \param name is the name of the start position to move the camera to.
+   */
+  virtual bool SetZoneManager (const char* entityname, bool point,
       const char* regionname, const char* name = 0) = 0;
 
   /**
