@@ -4,13 +4,14 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 22-Jun-2005
-	- Andrew Dai added a shortcut to the collision detection routine to avoid
-          some checks if the player is not near any portals. This can give a significant
-          performance boost. Also boosted the performance of collision detection
-          by using bounding boxes to find potential collisions rather than spheres.
-	- Dariusz Dawidowski added support for a 'template' attribute
-          in the XML behaviour layer 'createentity' command.
-          <createentity template="..." />
+	- Andrew Dai added a shortcut to the collision detection routine to
+	  avoid some checks if the player is not near any portals. This can
+	  give a significant performance boost. Also boosted the performance of
+	  collision detection by using bounding boxes to find potential
+	  collisions rather than spheres.
+	- Dariusz Dawidowski added support for a 'template' attribute in the
+	  XML behaviour layer 'createentity' command.
+	  <createentity template="..." />
 21-Jun-2005
 	- Andrew Dai added CollisionDetectIterative to celPcCollisionDetection
 	  which allows the maximum position an object can move to to be found. 
@@ -349,8 +350,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in the bltest behaviour layer where it would
 	  try to react on messages from behaviour when pl was already removed.
 	  This would cause crash at exit.
-	- Jorrit fixed the persistence for pccamera so that it properly supports
-	  the zone manager too (and not only pcregion like it was doing).
+	- Jorrit fixed the persistence for pccamera so that it properly
+	  supports the zone manager too (and not only pcregion like it was
+	  doing).
 	- Jorrit partially implemented persistence for the zone manager. It
 	  only works when the zone manager was initialized using the new
 	  Load() function that accepts a path and file.
