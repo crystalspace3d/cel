@@ -6,7 +6,8 @@ The history order is reversed so that new features are at the top.
 22-Jun-2005
 	- Andrew Dai added a shortcut to the collision detection routine to avoid
           some checks if the player is not near any portals. This can give a significant
-          performance boost.
+          performance boost. Also boosted the performance of collision detection
+          by using bounding boxes to find potential collisions rather than spheres.
 	- Dariusz Dawidowski added support for a 'template' attribute
           in the XML behaviour layer 'createentity' command.
           <createentity template="..." />

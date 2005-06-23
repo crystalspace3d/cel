@@ -80,7 +80,7 @@ protected:
 //  csRef<iVirtualClock> vc;
 
   // This is the distance the CD will use to look for objects to collide with.
-  float radiusCD;
+  csBox3 boundingBox;
 
   // Linear vars
 //  csVector3 angularVelocity;

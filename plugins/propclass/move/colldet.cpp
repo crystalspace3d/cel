@@ -376,10 +376,9 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   topSize = body;
   bottomSize = legs;
   celPcCollisionDetection::shift = _shift;
+  float maxX = MAX(body.x, legs.x)+shift.x;
+  float maxZ = MAX(body.z, legs.z)+shift.z;
 
-  radiusCD = 0.1f + sqrt (
-  	topSize.x * topSize.x+topSize.z * topSize.z
-	+ (topSize.y + bottomSize.y) * (topSize.y + bottomSize.y));
   csRef<iPolygonMesh> mesh;
 
   float bX2 = body.x / 2.0f;
@@ -399,6 +398,9 @@ bool celPcCollisionDetection::Init (const csVector3& body,
 	csBox3 (csVector3 (-lX2, LEGOFFSET, -lZ2) + shift,
 		csVector3 (lX2, LEGOFFSET + legs.y, lZ2) + shift)));
   bottomCollider = cdsys->CreateCollider (mesh);
+
+  boundingBox.Set(csVector3(-maxX / 2.0f, LEGOFFSET, -maxZ / 2.0f) + shift,
+    csVector3(maxX / 2.0f, bYtop, maxZ / 2.0f) + shift);
 
   if (!(topCollider && bottomCollider))
     return MoveReport (object_reg, "Error while setting up CD!");
@@ -500,26 +502,26 @@ int celPcCollisionDetection::CollisionDetect (
   csVector3 testpos;
   csVector3 line[2];
   csCollisionPair temppair;
-  float radius = radiusCD + (transform->GetOrigin() - old_transform->GetOrigin()).Norm();
+  csBox3 playerBoxStart = boundingBox;
+  csBox3 playerBoxEnd = boundingBox;
 
-  // Get all the portal meshes in this sector
-  const csSet <csPtrKey<iMeshWrapper> > meshWrapSet = sector->GetPortalMeshes();
-  csSet <csPtrKey<iMeshWrapper> >::GlobalIterator iter = meshWrapSet.GetIterator();
-
-  // Check if any portal mesh is close to the player object
-  while (iter.HasNext() && !checkSectors)
-  {
-    csBox3 bbox;
-    iter.Next()->GetWorldBoundingBox(bbox);
-    checkSectors = csIntersect3::BoxSphere(bbox, old_transform->GetOrigin(), radius);
-  } 
+  playerBoxStart.SetCenter(old_transform->GetOrigin()+boundingBox.GetCenter());
+  playerBoxEnd.SetCenter(transform->GetOrigin()+boundingBox.GetCenter());
 
   csCollisionPair* CD_contact;
 
   csRef<iMeshWrapperIterator> objectIter = engine->GetNearbyMeshes (sector,
-        old_transform->GetOrigin (),
-        radius,
+        playerBoxStart + playerBoxEnd,
         true);
+
+  // Check if any portal mesh is close to the player object
+  while (objectIter->HasNext () && !checkSectors)
+  {
+    iMeshWrapper* meshwrap = objectIter->Next();
+    if(meshwrap->GetPortalContainer())
+      checkSectors = true;
+  }
+  objectIter->Reset();
 
   while (objectIter->HasNext ())
   {
