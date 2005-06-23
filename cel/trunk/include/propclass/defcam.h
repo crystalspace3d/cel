@@ -28,6 +28,18 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  * This is a property class that wraps a standard first-person and
  * third-person camera and related functionality. It depends on either iPcMesh
  * or iPcLinearMovement.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetCamera: parameters 'modename' (string), 'spring' (vector3),
+ *    'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
+ *    'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),
+ *    'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max).
+ * <li>SetZoneManager: parameters 'entity' (string), 'entity' (region) and
+ *    'start' (string).
+ * </ul>
  */
 class iPcDefaultCamera : public iPcCamera
 {
@@ -91,7 +103,7 @@ public:
   virtual void SetMinMaxCameraDistance (float minDistance,
   	float maxDistance) = 0;
 
-  /** 
+  /**
    * Set the turn speed for the camera. Only used by lara_thirdperson
    * and m64_thirdperson.
    */
@@ -118,7 +130,7 @@ public:
    * Center camera in any mode except first person mode. This will
    * basically force the camera behind the actor.
    */
-  virtual void CenterCamera () = 0; 
+  virtual void CenterCamera () = 0;
 
   /**
    * Control pitch.
