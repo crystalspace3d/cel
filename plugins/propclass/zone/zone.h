@@ -259,6 +259,12 @@ private:
   static csStringID id_path;
   static csStringID id_file;
   static csStringID id_region;
+  static csStringID action_pointmesh;
+  static csStringID action_pointcamera;
+  static csStringID id_entityname;
+  static csStringID id_regionname;
+  static csStringID id_startname;
+
   celOneParameterBlock* params;
 
   // Activate some region. This will load all zones that contain

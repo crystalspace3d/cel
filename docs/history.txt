@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Jun-2005
+	- Dariusz Dawidowski added new XML actions for pcdefaultcamera:
+	  SetCamera and SetZoneManager
 23-Jun-2005
 	- Dariusz Dawidowski overloaded SetZoneManager for camera which 
 	  now also accepts entity name instead of pointer to iPcZoneManager.

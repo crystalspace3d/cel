@@ -378,6 +378,11 @@ csStringID celPcZoneManager::id_region = csInvalidStringID;
 csStringID celPcZoneManager::action_load = csInvalidStringID;
 csStringID celPcZoneManager::id_path = csInvalidStringID;
 csStringID celPcZoneManager::id_file = csInvalidStringID;
+csStringID celPcZoneManager::action_pointmesh = csInvalidStringID;
+csStringID celPcZoneManager::action_pointcamera = csInvalidStringID;
+csStringID celPcZoneManager::id_entityname = csInvalidStringID;
+csStringID celPcZoneManager::id_regionname = csInvalidStringID;
+csStringID celPcZoneManager::id_startname = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
@@ -402,6 +407,11 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     action_load = pl->FetchStringID ("cel.action.Load");
     id_path = pl->FetchStringID ("cel.parameter.path");
     id_file = pl->FetchStringID ("cel.parameter.file");
+    action_pointmesh = pl->FetchStringID ("cel.action.PointMesh");
+    action_pointcamera = pl->FetchStringID ("cel.action.PointCamera");
+    id_entityname = pl->FetchStringID ("cel.parameter.entity");
+    id_regionname = pl->FetchStringID ("cel.parameter.region");
+    id_startname = pl->FetchStringID ("cel.parameter.start");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
@@ -428,7 +438,7 @@ csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
     Report (object_reg, "Currently we only support saving of zone manager when the zone manager is loaded using Load(path,file)!");
     return 0;
   }
-  
+
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);
   databuf->Add (camera_entity);
   databuf->Add (mesh_entity);
@@ -527,6 +537,30 @@ bool celPcZoneManager::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (file,params,id_file);
     if (!p_file) return false;
     if (!Load (path, file))
+      return false;
+    return true;
+  }
+  else if (actionId == action_pointmesh)
+  {
+    CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+    if (!p_entityname) return false;
+    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+    if (!p_regionname) return false;
+    CEL_FETCH_STRING_PAR (startname,params,id_startname);
+    if (!p_startname) return false;
+    if (!PointMesh (entityname, regionname, startname))
+      return false;
+    return true;
+  }
+  else if (actionId == action_pointcamera)
+  {
+    CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+    if (!p_entityname) return false;
+    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+    if (!p_regionname) return false;
+    CEL_FETCH_STRING_PAR (startname,params,id_startname);
+    if (!p_startname) return false;
+    if (!PointCamera (entityname, regionname, startname))
       return false;
     return true;
   }
@@ -856,7 +890,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region,
       r->Unload ();
     }
   }
-  
+
   // If first is false that means we sent a message indiciating that loading
   // started. So we have to send a message indicating that loading finished
   // too.
