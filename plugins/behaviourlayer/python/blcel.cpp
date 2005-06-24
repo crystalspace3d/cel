@@ -17314,6 +17314,83 @@ static PyObject *_wrap_iPcCamera_SetZoneManager__SWIG_1(PyObject *, PyObject *ar
 }
 
 
+static PyObject *_wrap_iPcCamera_SetZoneManager__SWIG_2(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCamera *arg1 = (iPcCamera *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool arg3 ;
+    char *arg4 = (char *) 0 ;
+    char *arg5 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOOO:iPcCamera_SetZoneManager",&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (bool)(SWIG_As_bool(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj3, (char**)&arg4)) {
+        SWIG_arg_fail(4);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj4, (char**)&arg5)) {
+        SWIG_arg_fail(5);SWIG_fail;
+    }
+    result = (bool)(arg1)->SetZoneManager((char const *)arg2,arg3,(char const *)arg4,(char const *)arg5);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCamera_SetZoneManager__SWIG_3(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCamera *arg1 = (iPcCamera *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool arg3 ;
+    char *arg4 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcCamera_SetZoneManager",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (bool)(SWIG_As_bool(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj3, (char**)&arg4)) {
+        SWIG_arg_fail(4);SWIG_fail;
+    }
+    result = (bool)(arg1)->SetZoneManager((char const *)arg2,arg3,(char const *)arg4);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcCamera_SetZoneManager(PyObject *self, PyObject *args) {
     int argc;
     PyObject *argv[6];
@@ -17355,6 +17432,30 @@ static PyObject *_wrap_iPcCamera_SetZoneManager(PyObject *self, PyObject *args) 
             }
         }
     }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcCamera, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_bool(argv[2]);
+                if (_v) {
+                    _v = SWIG_AsCharPtr(argv[3], (char **)(0));
+                    if (_v) {
+                        return _wrap_iPcCamera_SetZoneManager__SWIG_3(self,args);
+                    }
+                }
+            }
+        }
+    }
     if (argc == 5) {
         int _v;
         {
@@ -17384,6 +17485,33 @@ static PyObject *_wrap_iPcCamera_SetZoneManager(PyObject *self, PyObject *args) 
                         _v = SWIG_AsCharPtr(argv[4], (char **)(0));
                         if (_v) {
                             return _wrap_iPcCamera_SetZoneManager__SWIG_0(self,args);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 5) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcCamera, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_bool(argv[2]);
+                if (_v) {
+                    _v = SWIG_AsCharPtr(argv[3], (char **)(0));
+                    if (_v) {
+                        _v = SWIG_AsCharPtr(argv[4], (char **)(0));
+                        if (_v) {
+                            return _wrap_iPcCamera_SetZoneManager__SWIG_2(self,args);
                         }
                     }
                 }
