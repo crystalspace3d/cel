@@ -105,11 +105,18 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class that wraps a standard first-person and third-person camera and related functionality. 
 <p>
-It depends on either <a class="el" href="structiPcMesh.html">iPcMesh</a> or <a class="el" href="structiPcLinearMovement.html">iPcLinearMovement</a>.
+It depends on either <a class="el" href="structiPcMesh.html">iPcMesh</a> or <a class="el" href="structiPcLinearMovement.html">iPcLinearMovement</a>. <p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+SetCamera: parameters 'modename' (string), 'spring' (vector3), 'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3), 'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float), 'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max). </li>
+<li>
+SetZoneManager: parameters 'entity' (string), 'entity' (region) and 'start' (string). </li>
+</ul>
+
 <p>
 
 <p>
-Definition at line <a class="el" href="defcam_8h-source.html#l00032">32</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.<hr><h2>Member Enumeration Documentation</h2>
+Definition at line <a class="el" href="defcam_8h-source.html#l00044">44</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.<hr><h2>Member Enumeration Documentation</h2>
 <a class="anchor" name="w10"></a><!-- doxytag: member="iPcDefaultCamera::CameraMode" ref="w10" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -134,7 +141,7 @@ Camera modes.
 <p>
 
 <p>
-Definition at line <a class="el" href="defcam_8h-source.html#l00038">38</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.    </td>
+Definition at line <a class="el" href="defcam_8h-source.html#l00050">50</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
