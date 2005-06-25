@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Jun-2005
+	- Jorrit fixed a small bug in pclinmove::GetSector() where it would
+	  forget to get the sibling pcmesh.
 24-Jun-2005
 	- Dariusz Dawidowski added new XML actions for pczonemanager:
 	  PointCamera and PointMesh.
