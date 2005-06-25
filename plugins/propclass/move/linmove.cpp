@@ -1116,6 +1116,7 @@ void celPcLinearMovement::GetDRData(bool& on_ground,
 
 iSector* celPcLinearMovement::GetSector ()
 {
+  FindSiblingPropertyClasses ();
   return pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
 }
 
@@ -1222,7 +1223,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 
 void celPcLinearMovement::SetDRData(bool on_ground,float speed,
                                     csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel, csVector3& worldVel, float ang_vel)
+                                    csVector3& vel, csVector3& worldVel,
+				    float ang_vel)
 {
   if (pccolldet)
     pccolldet->SetOnGround(on_ground);
@@ -1239,7 +1241,8 @@ void celPcLinearMovement::SetDRData(bool on_ground,float speed,
 
 void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
                                     csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel, csVector3& worldVel, float ang_vel)
+                                    csVector3& vel, csVector3& worldVel,
+				    float ang_vel)
 {
   if (pccolldet)
     pccolldet->SetOnGround(on_ground);
