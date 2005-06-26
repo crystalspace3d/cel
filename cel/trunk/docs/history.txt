@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Jun-2005
+    - blueCommand added gravity access functions and a gravity callback
+      to make you able to get instant notices when the gravity is turning
+      the object around (up up up down (callback) down down..)
 25-Jun-2005
 	- Jorrit fixed a small bug in pclinmove::GetSector() where it would
 	  forget to get the sibling pcmesh.
