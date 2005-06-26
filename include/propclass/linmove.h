@@ -40,6 +40,23 @@ struct iPcCollisionDetection;
 struct iPcMesh;
 struct iMeshWrapper;
 
+
+/**
+ * Inherit this class if you want to know when gravity is applied to a certain
+ * iPcLinearMovement. This is usefully if you for example want to apply certain
+ * gravity or something on the way up, but not on the way down (Parachutes and
+ * things like that).
+ * Register this callback with AddGravityCallback in iPcLinearMovement, and remove
+ * with RemoveGravityCallback
+ * NOTE: You need to manualy delete the objects you add later on, but remember to
+ * remove the object from the list before you delete it, or it will crash
+ */
+class iPcGravityCallback
+{
+public:
+    virtual void Callback() = 0;
+};
+
 /**
  * This property class controls movement of an entity in a realistic
  * manner. It should be used in combination with iPcMesh but otherwise
@@ -289,6 +306,22 @@ struct iPcLinearMovement : public iBase
   virtual void SetDeltaLimit(float deltaLimit) = 0;
 
   virtual bool RotateV (float delta) = 0;
+
+  virtual void SetGravity(float grav) = 0;
+
+  virtual float GetGravity() = 0;
+
+  virtual void ResetGravity() = 0;
+
+  /**
+   * Shedules a callback when gravity has grasped an object
+   * and is dragging it down. I.e, calls when the object changes
+   * to negative Y velocity
+   * @param callback The callback object
+   */
+  virtual void AddGravityCallback(iPcGravityCallback* callback) = 0;
+
+  virtual void RemoveGravityCallback(iPcGravityCallback* callback) = 0;
 
   /// Get the total displacement caused by space warping portals.
   virtual csVector3 GetPortalDisplacement() = 0;
