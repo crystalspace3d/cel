@@ -171,7 +171,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   historyIndex = 0;
   historyFilled = false;
   hugGround = true;
-
+  called = false;
 
   portalDisplaced = 0.0f;
 
@@ -210,6 +210,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_anchor] = 0;		// Handled in this class.
+
+  ResetGravity();
 
   /*
    * Initialize bouding box parameters to detect if they have been
@@ -745,7 +747,7 @@ bool celPcLinearMovement::MoveV (float delta)
   if(!IsOnGround())
   {
     // gravity! move down!
-    velWorld.y  -= 19.6 * delta;
+    velWorld.y  -= gravity * delta;
     /*
     * Terminal velocity
     *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
@@ -754,11 +756,21 @@ bool celPcLinearMovement::MoveV (float delta)
     // The body velocity is figured in here too.
     if (velWorld.y < 0)
     {
+       // Call callbacks
+      if(!called)
+      {
+        for(size_t i = 0; i < gravityCallbacks.Length();i++)
+          gravityCallbacks[i]->Callback();
+        called = true;
+      }
+
       if (movable->GetTransform().This2OtherRelative(velBody).y + velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
         velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY) - movable->GetTransform().This2OtherRelative(velBody).y;
       if (velWorld.y > 0)
         velWorld.y = 0;
     }
+    else
+        called = false;
   }
   else
   {

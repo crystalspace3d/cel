@@ -87,6 +87,10 @@ protected:
   float angDelta;
   bool stationary;
   float speed;
+  float gravity;
+
+  bool called;
+  csArray<iPcGravityCallback*> gravityCallbacks;
 
   csVector3 angularVelocity;
   csVector3 angleToReach;
@@ -228,6 +232,26 @@ public:
   void SetOnGround(bool onground) { 
     if (pccolldet)
       pccolldet->SetOnGround(onground);
+  }
+
+  void SetGravity(float grav) {
+      gravity = grav;
+  }
+
+  float GetGravity() {
+      return gravity;
+  }
+
+  void ResetGravity() {
+      gravity = 19.6f;
+  }
+
+  void AddGravityCallback(iPcGravityCallback* callback) {
+        gravityCallbacks.Push(callback);
+  }
+
+  void RemoveGravityCallback(iPcGravityCallback* callback) {
+        gravityCallbacks.Delete(callback);
   }
 
   bool IsPath() const { return (path != 0); }
@@ -455,6 +479,26 @@ public:
     virtual void SetOnGround (bool onground)
     {
       scfParent->SetOnGround (onground);
+    }
+    virtual void SetGravity(float grav)
+    {
+        scfParent->SetGravity(grav);
+    }
+    virtual float GetGravity()
+    {
+        return scfParent->GetGravity();
+    }
+    virtual void AddGravityCallback(iPcGravityCallback* callback) {
+        scfParent->AddGravityCallback(callback);
+    }
+
+    virtual void RemoveGravityCallback(iPcGravityCallback* callback) {
+        scfParent->RemoveGravityCallback(callback);
+    }
+
+    virtual void ResetGravity()
+    {
+        scfParent->ResetGravity();
     }
     virtual bool IsPath() const
     {
