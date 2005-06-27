@@ -119,12 +119,15 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a31">SetPathSector</a> (const char *sectorname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This sets the sector which will be used for the entire path.  <a href="#a31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a36">GetPortalDisplacement</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a39">AddGravityCallback</a> (<a class="el" href="classiPcGravityCallback.html">iPcGravityCallback</a> *callback)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total displacement caused by space warping portals.  <a href="#a36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a37">ClearPortalDisplacement</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Shedules a callback when gravity has grasped an object and is dragging it down.  <a href="#a39"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a41">GetPortalDisplacement</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the total displacement caused by space warping portals.  <a href="#a37"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total displacement caused by space warping portals.  <a href="#a41"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a42">ClearPortalDisplacement</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the total displacement caused by space warping portals.  <a href="#a42"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class controls movement of an entity in a realistic manner. 
@@ -148,7 +151,42 @@ anchor (string, read/write): name of the entity on which we are anchored. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="linmove_8h-source.html#l00070">70</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="linmove_8h-source.html#l00087">87</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a39"></a><!-- doxytag: member="iPcLinearMovement::AddGravityCallback" ref="a39" args="(iPcGravityCallback *callback)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::AddGravityCallback           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="classiPcGravityCallback.html">iPcGravityCallback</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>callback</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Shedules a callback when gravity has grasped an object and is dragging it down. 
+<p>
+I.e, calls when the object changes to negative Y velocity <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>callback</em>&nbsp;</td><td>The callback object</td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="iPcLinearMovement::AddVelocity" ref="a6" args="(const csVector3 &amp;vel)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -179,7 +217,7 @@ Exerts a velocity on the body in world coordinates.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a37"></a><!-- doxytag: member="iPcLinearMovement::ClearPortalDisplacement" ref="a37" args="()=0" --><p>
+<a class="anchor" name="a42"></a><!-- doxytag: member="iPcLinearMovement::ClearPortalDisplacement" ref="a42" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -542,7 +580,7 @@ Get position and sector.
 If there is an anchor then this position is relative to the anchor. Use SetLastFullPosition() if you want an absolute position.    </td>
   </tr>
 </table>
-<a class="anchor" name="a36"></a><!-- doxytag: member="iPcLinearMovement::GetPortalDisplacement" ref="a36" args="()=0" --><p>
+<a class="anchor" name="a41"></a><!-- doxytag: member="iPcLinearMovement::GetPortalDisplacement" ref="a41" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
