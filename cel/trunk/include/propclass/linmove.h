@@ -31,8 +31,6 @@
 #include "csutil/strhash.h"
 
 
-SCF_VERSION (iPcLinearMovement, 0, 0, 1);
-
 struct iDataBuffer;
 struct iSector;
 struct iPath;
@@ -41,21 +39,23 @@ struct iPcMesh;
 struct iMeshWrapper;
 
 
+SCF_VERSION (iPcGravityCallback, 0, 0, 1);
+
 /**
  * Inherit this class if you want to know when gravity is applied to a certain
  * iPcLinearMovement. This is usefully if you for example want to apply certain
  * gravity or something on the way up, but not on the way down (Parachutes and
  * things like that).
- * Register this callback with AddGravityCallback in iPcLinearMovement, and remove
- * with RemoveGravityCallback
- * NOTE: You need to manualy delete the objects you add later on, but remember to
- * remove the object from the list before you delete it, or it will crash
+ * Register this callback with AddGravityCallback in iPcLinearMovement, and
+ * remove with RemoveGravityCallback
  */
-class iPcGravityCallback
+struct iPcGravityCallback : public iBase
 {
 public:
-    virtual void Callback() = 0;
+    virtual void Callback () = 0;
 };
+
+SCF_VERSION (iPcLinearMovement, 0, 0, 1);
 
 /**
  * This property class controls movement of an entity in a realistic
@@ -307,7 +307,7 @@ struct iPcLinearMovement : public iBase
 
   virtual bool RotateV (float delta) = 0;
 
-  virtual void SetGravity(float grav) = 0;
+  virtual void SetGravity (float grav) = 0;
 
   virtual float GetGravity() = 0;
 
@@ -319,9 +319,12 @@ struct iPcLinearMovement : public iBase
    * to negative Y velocity
    * @param callback The callback object
    */
-  virtual void AddGravityCallback(iPcGravityCallback* callback) = 0;
+  virtual void AddGravityCallback (iPcGravityCallback* callback) = 0;
 
-  virtual void RemoveGravityCallback(iPcGravityCallback* callback) = 0;
+  /**
+   * Remove a gravity callback.
+   */
+  virtual void RemoveGravityCallback (iPcGravityCallback* callback) = 0;
 
   /// Get the total displacement caused by space warping portals.
   virtual csVector3 GetPortalDisplacement() = 0;

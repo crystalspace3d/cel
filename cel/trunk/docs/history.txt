@@ -3,10 +3,17 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Jun-2005
+	- Jorrit changed iPcGravityCallback so that it is now a proper
+	  SCF interface. This allows the callback to be ref counted as it
+	  should be.
+	- Jorrit reversed the order in which the gravity callbacks are called
+	  so that you can safely delete a callback from within the callback
+	  itself.
 26-Jun-2005
-    - blueCommand added gravity access functions and a gravity callback
-      to make you able to get instant notices when the gravity is turning
-      the object around (up up up down (callback) down down..)
+	- blueCommand added gravity access functions and a gravity callback
+	  to make you able to get instant notices when the gravity is turning
+	  the object around (up up up down (callback) down down..)
 25-Jun-2005
 	- Jorrit fixed a small bug in pclinmove::GetSector() where it would
 	  forget to get the sibling pcmesh.
