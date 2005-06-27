@@ -586,8 +586,8 @@ bool celPcLinearMovement::MoveSprite (float delta)
 	 // MAX (temp1, MIN_CD_INTERVAL);
 
   // Calculate the total velocity (body and world) in OBJECT space.
-  csVector3 bodyVel(pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld) +
-    velBody);
+  csVector3 bodyVel(pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+  	.Other2ThisRelative(velWorld) + velBody);
 
   float local_max_interval =
     MAX (MIN (MIN ((bodyVel.y==0.0f)
@@ -625,8 +625,8 @@ bool celPcLinearMovement::MoveSprite (float delta)
           return rc;
 
       // The velocity may have changed by now
-      bodyVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld) +
-        velBody;
+      bodyVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+      	.Other2ThisRelative(velWorld) + velBody;
 
       delta -= local_max_interval;
       local_max_interval = MAX (MIN (MIN ((bodyVel.y==0.0f)
@@ -698,7 +698,8 @@ void celPcLinearMovement::OffsetSprite (float delta)
 // Do the actual move
 bool celPcLinearMovement::MoveV (float delta)
 {
-  if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON && (!pccolldet || pccolldet->IsOnGround()))
+  if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
+  	&& (!pccolldet || pccolldet->IsOnGround()))
     return false;  // didn't move anywhere
 
   
@@ -712,13 +713,15 @@ bool celPcLinearMovement::MoveV (float delta)
   mat = rt.GetT2O ();
   delta *= speed;
 
-  csVector3 worldVel(movable->GetTransform().This2OtherRelative(velBody) + velWorld);
+  csVector3 worldVel(movable->GetTransform().This2OtherRelative(velBody)
+  	+ velWorld);
   csVector3 oldpos(movable->GetPosition());
   csVector3 newpos(worldVel*delta + oldpos);
 
   // Check for collisions and adjust position
   if (pccolldet)
-    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel, delta, movable))
+    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
+    	delta, movable))
       return false;                   // We haven't moved so return early
 
   
@@ -757,20 +760,26 @@ bool celPcLinearMovement::MoveV (float delta)
     if (velWorld.y < 0)
     {
        // Call callbacks
-      if(!called)
+      if (!called)
       {
-        for(size_t i = 0; i < gravityCallbacks.Length();i++)
-          gravityCallbacks[i]->Callback();
+        size_t i = gravityCallbacks.Length ();
+	while (i > 0)
+	{
+	  i--;
+          gravityCallbacks[i]->Callback ();
+	}
         called = true;
       }
 
-      if (movable->GetTransform().This2OtherRelative(velBody).y + velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
-        velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY) - movable->GetTransform().This2OtherRelative(velBody).y;
+      if (movable->GetTransform().This2OtherRelative(velBody).y
+      		+ velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
+        velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
+		- movable->GetTransform().This2OtherRelative(velBody).y;
       if (velWorld.y > 0)
         velWorld.y = 0;
     }
     else
-        called = false;
+      called = false;
   }
   else
   {
@@ -778,14 +787,14 @@ bool celPcLinearMovement::MoveV (float delta)
       velWorld.y = 0;
 
     // Not fully implemented!
-    if(hugGround)
+    if (hugGround)
     {
       int currentIndex = historyIndex;
       moveHistory[historyIndex++] = newpos;
       if(historyIndex == 40)
         historyIndex = 0;
       float displacement = 0;
-      float heightChange = 0;
+      //float heightChange = 0;
       float baseSize = bottomSize.z;
       csVector3 current(moveHistory[currentIndex--]);
 
@@ -795,7 +804,8 @@ bool celPcLinearMovement::MoveV (float delta)
       int i = 0;
       while (displacement < baseSize)
       {
-        if((!historyFilled && currentIndex < 0) || (currentIndex == historyIndex))
+        if((!historyFilled && currentIndex < 0)
+		|| (currentIndex == historyIndex))
           break;
         if(currentIndex < 0)
           currentIndex = 39;
@@ -835,7 +845,8 @@ bool celPcLinearMovement::MoveV (float delta)
         }
         current = moveHistory[currentIndex--];
 
-        displacement = sqrt(pow(newpos.x - current.x, 2) + pow(newpos.z - current.z, 2));
+        displacement = sqrt(pow(newpos.x - current.x, 2)
+		+ pow(newpos.z - current.z, 2));
         //heightChange += current.y - previous.y;
       }
 
@@ -847,20 +858,21 @@ bool celPcLinearMovement::MoveV (float delta)
           csVector3 normal = plane.Normal().Unit();
           if(normal.y < 0)
             normal = -normal;
-          float yAngle = acos(normal.y);
-          float xAngle = atan(normal.x/normal.z);
+          //float yAngle = acos(normal.y);
+          //float xAngle = atan(normal.x/normal.z);
           //float angle = atan(max_y - 0.01 - oldpos.y / distTravelled);
-          float angle = atan(heightChange / displacement);
+          //float angle = atan(heightChange / displacement);
           //printf("angle: %f, numerator: %f, denominator: %f\n",angle*2*PI/360, oldpos.y-max_y-0.01,distTravelled);
 
-          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()->GetTransform().GetT2O();
+          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()
+	  	->GetTransform().GetT2O();
           csVector3 zVec(0,0,1);
           zVec = transform*zVec;
 
-          float diffAngle = angle - atan(zVec.y/zVec.z);
+          //float diffAngle = angle - atan(zVec.y/zVec.z);
           //printf("%p Normal %f %f %f \n", this, normal.x, normal.y, normal.z);
           //printf("Target x angle: %f y angle: %f\n", xAngle, yAngle);
-          csXRotMatrix3 rotMat(-diffAngle);
+          //csXRotMatrix3 rotMat(-diffAngle);
         }
       }
     }
@@ -947,7 +959,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     if (spstate && strcmp(path_actions[path->GetCurrentIndex()],
 	                  spstate->GetCurAction()->GetName() ) )
     {
-        spstate->SetAction(path_actions[path->GetCurrentIndex()]);
+      spstate->SetAction(path_actions[path->GetCurrentIndex()]);
     }
   }
   else
@@ -986,19 +998,19 @@ bool celPcLinearMovement::InitCD (iPcCollisionDetection *pc_cd)
 {
   FindSiblingPropertyClasses ();
   if (topSize.IsZero () && pcmesh)
+  {
+    iMeshWrapper* meshWrapper = pcmesh->GetMesh ();
+    if (meshWrapper)
     {
-      csRef<iMeshWrapper> meshWrapper = pcmesh->GetMesh ();
-      if (meshWrapper)
-	{
-	  csBox3 worldBoundingBox;
-	  meshWrapper->GetWorldBoundingBox (worldBoundingBox);
-	  topSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
-	  topSize.y = topSize.y * BODY_LEG_FACTOR;
-	  bottomSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
-	  bottomSize.y = bottomSize.y * (1 - BODY_LEG_FACTOR);
-	  shift = 0;
-	}
+      csBox3 worldBoundingBox;
+      meshWrapper->GetWorldBoundingBox (worldBoundingBox);
+      topSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
+      topSize.y = topSize.y * BODY_LEG_FACTOR;
+      bottomSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
+      bottomSize.y = bottomSize.y * (1 - BODY_LEG_FACTOR);
+      shift = 0;
     }
+  }
   return InitCD (topSize, bottomSize, shift, pc_cd);
 }
 

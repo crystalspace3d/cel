@@ -90,7 +90,7 @@ protected:
   float gravity;
 
   bool called;
-  csArray<iPcGravityCallback*> gravityCallbacks;
+  csRefArray<iPcGravityCallback> gravityCallbacks;
 
   csVector3 angularVelocity;
   csVector3 angleToReach;
@@ -172,39 +172,37 @@ public:
   /// Sets a velocity for this body in body coordinates
   void SetVelocity (const csVector3& vel)
   {
-    /*
-    * Y movement here is NOT lift and gravity effects. It IS for jumping & jetpacks.
-    */
+    // Y movement here is NOT lift and gravity effects. It IS for
+    // jumping & jetpacks.
     velBody = vel;
   }
 
   /// Adds on a velocity to this body in world coordinates
   void AddVelocity (const csVector3& vel)
   {
-    /*
-    * Y movement here can be used for lift and gravity effects.
-    */
+    // Y movement here can be used for lift and gravity effects.
     velWorld += vel;
   }
 
   /// Resets the velocity of this body in world coordinates.
   void ClearWorldVelocity ()
   {
-    /*
-    * Y movement here can be used for lift and gravity effects.
-    */
+    // Y movement here can be used for lift and gravity effects.
     velWorld = 0.0f;
   }
 
   void GetVelocity (csVector3& v) const
   {
-    csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().Other2ThisRelative(velWorld);
+    csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+    	.Other2ThisRelative(velWorld);
 
-    // Return the composite of the object and world velocity in the OBJECT coordinate
-    // system.
+    // Return the composite of the object and world velocity
+    // in the OBJECT coordinate system.
     v = worldVel + velBody;
   }
+
   bool RotateV (float delta);
+
   /**
    * Get the current angular velocity vector.
    */
@@ -246,12 +244,14 @@ public:
       gravity = 19.6f;
   }
 
-  void AddGravityCallback(iPcGravityCallback* callback) {
-        gravityCallbacks.Push(callback);
+  void AddGravityCallback (iPcGravityCallback* callback)
+  {
+    gravityCallbacks.Push (callback);
   }
 
-  void RemoveGravityCallback(iPcGravityCallback* callback) {
-        gravityCallbacks.Delete(callback);
+  void RemoveGravityCallback (iPcGravityCallback* callback)
+  {
+    gravityCallbacks.Delete (callback);
   }
 
   bool IsPath() const { return (path != 0); }
@@ -482,23 +482,25 @@ public:
     }
     virtual void SetGravity(float grav)
     {
-        scfParent->SetGravity(grav);
+      scfParent->SetGravity(grav);
     }
     virtual float GetGravity()
     {
-        return scfParent->GetGravity();
+      return scfParent->GetGravity();
     }
-    virtual void AddGravityCallback(iPcGravityCallback* callback) {
-        scfParent->AddGravityCallback(callback);
+    virtual void AddGravityCallback (iPcGravityCallback* callback)
+    {
+      scfParent->AddGravityCallback(callback);
     }
 
-    virtual void RemoveGravityCallback(iPcGravityCallback* callback) {
-        scfParent->RemoveGravityCallback(callback);
+    virtual void RemoveGravityCallback (iPcGravityCallback* callback)
+    {
+      scfParent->RemoveGravityCallback (callback);
     }
 
     virtual void ResetGravity()
     {
-        scfParent->ResetGravity();
+      scfParent->ResetGravity();
     }
     virtual bool IsPath() const
     {
@@ -525,13 +527,15 @@ public:
                            csVector3& pos,float yrot,iSector *sector,
                            csVector3& vel,csVector3& worldVel, float ang_vel)
     {
-      scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,worldVel, ang_vel);
+      scfParent->SetDRData(on_ground,speed,pos,yrot,sector,vel,
+      	worldVel, ang_vel);
     }
     virtual void SetSoftDRData(bool on_ground,float speed,
                            csVector3& pos,float yrot,iSector *sector,
                            csVector3& vel,csVector3& worldVel, float ang_vel)
     {
-      scfParent->SetSoftDRData(on_ground,speed,pos,yrot,sector,vel,worldVel, ang_vel);
+      scfParent->SetSoftDRData(on_ground,speed,pos,yrot,sector,vel,
+      	worldVel, ang_vel);
     }
 
     virtual iSector *GetSector ()
