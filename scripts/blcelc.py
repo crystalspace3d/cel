@@ -1219,6 +1219,28 @@ celCreateCommandInput = _blcelc.celCreateCommandInput
 celGetCommandInput = _blcelc.celGetCommandInput
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
+class iPcGravityCallback(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravityCallback, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcGravityCallback, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcGravityCallback instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def Callback(*args): return _blcelc.iPcGravityCallback_Callback(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcGravityCallback):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcGravityCallbackPtr(iPcGravityCallback):
+    def __init__(self, this):
+        _swig_setattr(self, iPcGravityCallback, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcGravityCallback, 'thisown', 0)
+        _swig_setattr(self, iPcGravityCallback,self.__class__,iPcGravityCallback)
+_blcelc.iPcGravityCallback_swigregister(iPcGravityCallbackPtr)
+
 class iPcLinearMovement(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1262,6 +1284,11 @@ class iPcLinearMovement(cspace.iBase):
     def SetOnGround(*args): return _blcelc.iPcLinearMovement_SetOnGround(*args)
     def SetDeltaLimit(*args): return _blcelc.iPcLinearMovement_SetDeltaLimit(*args)
     def RotateV(*args): return _blcelc.iPcLinearMovement_RotateV(*args)
+    def SetGravity(*args): return _blcelc.iPcLinearMovement_SetGravity(*args)
+    def GetGravity(*args): return _blcelc.iPcLinearMovement_GetGravity(*args)
+    def ResetGravity(*args): return _blcelc.iPcLinearMovement_ResetGravity(*args)
+    def AddGravityCallback(*args): return _blcelc.iPcLinearMovement_AddGravityCallback(*args)
+    def RemoveGravityCallback(*args): return _blcelc.iPcLinearMovement_RemoveGravityCallback(*args)
     def GetPortalDisplacement(*args): return _blcelc.iPcLinearMovement_GetPortalDisplacement(*args)
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
     def __del__(self, destroy=_blcelc.delete_iPcLinearMovement):
