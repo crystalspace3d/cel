@@ -563,8 +563,9 @@ bool celPcLinearMovement::MoveSprite (float delta)
   //float local_max_interval;
   bool rc = false;
 
-  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
-      ->GetTransform ().GetT2O ();
+  csReversibleTransform fulltransf = pcmesh->GetMesh ()->GetMovable ()
+  	->GetFullTransform ();
+  const csMatrix3& transf = fulltransf.GetT2O ();
   float yrot = Matrix2YRot (transf);
 
 
@@ -586,8 +587,7 @@ bool celPcLinearMovement::MoveSprite (float delta)
 	 // MAX (temp1, MIN_CD_INTERVAL);
 
   // Calculate the total velocity (body and world) in OBJECT space.
-  csVector3 bodyVel(pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-  	.Other2ThisRelative(velWorld) + velBody);
+  csVector3 bodyVel(fulltransf.Other2ThisRelative (velWorld) + velBody);
 
   float local_max_interval =
     MAX (MIN (MIN ((bodyVel.y==0.0f)
@@ -609,15 +609,16 @@ bool celPcLinearMovement::MoveSprite (float delta)
     {
       rc |= MoveV (local_max_interval);
 
-      if(pccolldet->QueryRevert())
+      if (pccolldet->QueryRevert())
       {
         // Revert Rotation for safety
-        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
-        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+        //@@@ This need to be revised! You can't change the full transform!
+        //@@@csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
+	//@@@pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ().SetO2T (matrix);
       }
       else
       {
-          rc |= RotateV(local_max_interval);
+          rc |= RotateV (local_max_interval);
           yrot = Matrix2YRot (transf);
       }
 
@@ -625,8 +626,7 @@ bool celPcLinearMovement::MoveSprite (float delta)
           return rc;
 
       // The velocity may have changed by now
-      bodyVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-      	.Other2ThisRelative(velWorld) + velBody;
+      bodyVel = fulltransf.Other2ThisRelative(velWorld) + velBody;
 
       delta -= local_max_interval;
       local_max_interval = MAX (MIN (MIN ((bodyVel.y==0.0f)
@@ -709,14 +709,13 @@ bool celPcLinearMovement::MoveV (float delta)
 
   // To test collision detection we use absolute position and transformation
   // (this is relevant if we are anchored). Later on we will correct that.
-  csReversibleTransform rt = movable->GetFullTransform ();
-  mat = rt.GetT2O ();
+  csReversibleTransform fulltransf = movable->GetFullTransform ();
+  mat = fulltransf.GetT2O ();
   delta *= speed;
 
-  csVector3 worldVel(movable->GetTransform().This2OtherRelative(velBody)
-  	+ velWorld);
-  csVector3 oldpos(movable->GetPosition());
-  csVector3 newpos(worldVel*delta + oldpos);
+  csVector3 worldVel (fulltransf.This2OtherRelative (velBody) + velWorld);
+  csVector3 oldpos (fulltransf.GetOrigin ());
+  csVector3 newpos (worldVel*delta + oldpos);
 
   // Check for collisions and adjust position
   if (pccolldet)
@@ -738,7 +737,7 @@ bool celPcLinearMovement::MoveV (float delta)
   float height5 = (bottomSize.y + topSize.y) / 20.0;
   newpos.y += height5;
   csMatrix3 id;
-  csOrthoTransform transform_oldpos(id, oldpos + csVector3 (0, height5, 0));
+  csOrthoTransform transform_oldpos (id, oldpos + csVector3 (0, height5, 0));
 
   new_sector = new_sector->FollowSegment (transform_oldpos,
       newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
@@ -771,10 +770,10 @@ bool celPcLinearMovement::MoveV (float delta)
         called = true;
       }
 
-      if (movable->GetTransform().This2OtherRelative(velBody).y
+      if (fulltransf.This2OtherRelative(velBody).y
       		+ velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
         velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
-		- movable->GetTransform().This2OtherRelative(velBody).y;
+		- fulltransf.This2OtherRelative(velBody).y;
       if (velWorld.y > 0)
         velWorld.y = 0;
     }
@@ -850,6 +849,7 @@ bool celPcLinearMovement::MoveV (float delta)
         //heightChange += current.y - previous.y;
       }
 
+#if 0
       if(displacement > baseSize)
       {
         csPlane3 plane(planevec[0], planevec[1], planevec[2]);
@@ -865,7 +865,7 @@ bool celPcLinearMovement::MoveV (float delta)
           //printf("angle: %f, numerator: %f, denominator: %f\n",angle*2*PI/360, oldpos.y-max_y-0.01,distTravelled);
 
           const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()
-	  	->GetTransform().GetT2O();
+	  	->GetFullTransform().GetT2O();
           csVector3 zVec(0,0,1);
           zVec = transform*zVec;
 
@@ -875,6 +875,7 @@ bool celPcLinearMovement::MoveV (float delta)
           //csXRotMatrix3 rotMat(-diffAngle);
         }
       }
+#endif 
     }
   }
 
