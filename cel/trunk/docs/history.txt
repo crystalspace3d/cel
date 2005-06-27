@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit reversed the order in which the gravity callbacks are called
 	  so that you can safely delete a callback from within the callback
 	  itself.
+	- Jorrit fixed pclinmove so that the anchor system works again. Please
+	  use GetFullTransform/GetFullPosition if you want to know where the
+	  object is in world space!
 26-Jun-2005
 	- blueCommand added gravity access functions and a gravity callback
 	  to make you able to get instant notices when the gravity is turning
