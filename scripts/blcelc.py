@@ -1219,10 +1219,12 @@ celCreateCommandInput = _blcelc.celCreateCommandInput
 celGetCommandInput = _blcelc.celGetCommandInput
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
-class iPcGravityCallback(_object):
+class iPcGravityCallback(cspace.iBase):
     __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravityCallback, name, value)
     __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcGravityCallback, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
