@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Jun-2005
+	- Eric Sunshine fixed some compilation ambiguities reported by Cygwin
+	  compiler.
 27-Jun-2005
 	- Jorrit changed iPcGravityCallback so that it is now a proper
 	  SCF interface. This allows the callback to be ref counted as it
