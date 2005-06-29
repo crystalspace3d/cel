@@ -631,7 +631,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
   if (marker[3] == 'R')
   {
     // A reference.
-    uint entid;
+    uint32 entid;
     if (!Read (entid))
       return false;
     entity = set->GetEntity (entid);

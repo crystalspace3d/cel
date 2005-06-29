@@ -327,7 +327,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 		{
 		  int l;
 		  csScanStr (long_value, "%d", &l);
-		  params->GetParameter (par_idx-1).Set (l);
+		  params->GetParameter (par_idx-1).Set ((int32)l);
 		}
 	        continue;
 	      }
