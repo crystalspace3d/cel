@@ -17,11 +17,12 @@ The history order is reversed so that new features are at the top.
 	  Also added checks for texi2dvi, texi2pdf, dvips, and dvipdf to
 	  configure.ac in order to support these conversions.
 	- Eric Sunshine added an --enable-meta-info-embedding option to the
-	  conifgure script so that CEL plugins can employ meta-info (.csplugin)
+	  configure script so that CEL plugins can employ meta-info (.csplugin)
 	  embedding if supported by the platform.
-	- Eric Sunshine added docs/texinfo/unixdef.txi, which defines @import,
-	  @imports, @importss, etc., in order to allow the presently monolithic
-	  cel.txi to be broken down into smaller components.
+	- Eric Sunshine added docs/texinfo/unixdef.txi, which defines
+	  @import, @imports, @importss, @picture, @pictures, @picturess,
+	  etc., in order to allow the presently monolithic cel.txi to be
+	  broken down into smaller components.
 29-Jun-2005
 	- Eric Sunshine fixed some compilation ambiguities reported by Cygwin
 	  compiler.
