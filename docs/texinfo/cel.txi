@@ -10,6 +10,9 @@
 @finalout
 @c %**end of header
 
+@c Grab definitions for @import{}, @imports{}, @importss{}, etc.
+@include unixdef.txi
+
 @contents
 
 @node Top, Introduction, , (dir)
