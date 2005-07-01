@@ -3,6 +3,22 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Jul-2005
+	- Eric Sunshine updated the Autoconf, Jam, and msvcgen utility files
+	  from the master copies in the CS repository.
+	- Eric Sunshine removed the ugly docs/support/runmakeinfo.sh,
+	  runtexi2dvi.sh, and runtexi2html.sh scripts since the newly updated
+	  docs.jam is now self-contained and no longer requires these external
+	  tools.
+	- Eric Sunshine added a Jam 'repairdoc' target which repairs broken
+	  @node and @menu directives in the CEL manual's Texinfo files.
+	- Eric Sunshine added additional Jam targets 'manualdvi', 'manualps',
+	  and 'manualpdf' for converting the CEL manual to various formats.
+	  Also added checks for texi2dvi, texi2pdf, dvips, and dvipdf to
+	  configure.ac in order to support these conversions.
+	- Eric Sunshine added an --enable-meta-info-embedding option to the
+	  conifgure script so that CEL plugins can employ meta-info (.csplugin)
+	  embedding if supported by the platform.
 29-Jun-2005
 	- Eric Sunshine fixed some compilation ambiguities reported by Cygwin
 	  compiler.

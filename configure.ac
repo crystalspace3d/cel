@@ -42,6 +42,18 @@ CS_EMIT_BUILD_PROPERTY([RANLIB], [$RANLIB], [], [], [], [Y])
 CS_CHECK_PROGS([DOXYGEN], [doxygen])
 CS_EMIT_BUILD_PROPERTY([CMD.DOXYGEN], [$DOXYGEN])
 
+CS_CHECK_PROGS([TEXI2DVI], [texi2dvi])
+CS_EMIT_BUILD_PROPERTY([CMD.TEXI2DVI], [$TEXI2DVI])
+
+CS_CHECK_PROGS([TEXI2PDF], [texi2pdf])
+CS_EMIT_BUILD_PROPERTY([CMD.TEXI2PDF], [$TEXI2PDF])
+
+CS_CHECK_PROGS([DVIPS], [dvips])
+CS_EMIT_BUILD_PROPERTY([CMD.DVIPS], [$DVIPS])
+
+CS_CHECK_PROGS([DVIPDF], [dvipdf])
+CS_EMIT_BUILD_PROPERTY([CMD.DVIPDF], [$DVIPDF])
+
 CS_CHECK_PROGS([MAKEINFO], [makeinfo])
 CS_EMIT_BUILD_PROPERTY([CMD.MAKEINFO], [$MAKEINFO])
 
@@ -134,6 +146,17 @@ AS_IF([test $with_cs != no],
     done
     AC_MSG_RESULT([$cel_have_crystal_static])
     CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$cel_have_crystal_static])])
+
+#------------------------------------------------------------------------------
+# Determine if plugin meta-information should be embedded directly into plugin
+# modules or if it should exist in stand-alone .csplugin files.
+#------------------------------------------------------------------------------
+CS_META_INFO_EMBED([emit], [no])
+AS_IF([test $enable_meta_info_embedding = yes],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
+	[AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
+    CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS],
+	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches

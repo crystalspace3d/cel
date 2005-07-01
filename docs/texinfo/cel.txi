@@ -12,7 +12,7 @@
 
 @contents
 
-@node Top, Introduction, (dir), (dir)
+@node Top, Introduction, , (dir)
 @top Crystal Entity Layer
 
 Crystal Entity Layer is an open-source plugin for Crystal Space.
@@ -57,27 +57,27 @@ except that this permission notice may be stated in a translation approved
 by the copyright holders.
 
 @menu
-* Introduction::                
-* Building::                    
-* Configuring::                 
-* Applications::                
-* Tutorials::                   
+* Introduction::
+* Building:: Building and Installing
+* Configuring::
+* Applications::
+* Tutorials::
 @end menu
 
 @node Introduction, Building, Top, Top
 @chapter Introduction
 
 @menu
-* What Is CEL::                 What Is Crystal Entity Layer?
-* Concepts::                    Concepts
-* How To Read::                 How To Read This Manual
-* Current Status::              Current Status
-* Using CEL::                   Using Crystal Entity Layer For Your Project
-* Guide::                       A Guide To This Documentation
-* Features::                    Feature List
-* Where To Get CEL::            Where to Get Crystal Entity Layer
-* Mailing Lists::               Mailing Lists
-* Licence::                     LGPL Licence
+* What Is CEL:: What Is Crystal Entity Layer?
+* Concepts::
+* How To Read:: How To Read This Manual
+* Current Status::
+* Using CEL:: Using Crystal Entity Layer For Your Project
+* Guide:: A Guide To This Documentation
+* Features:: Feature List
+* Where To Get CEL:: Where to Get Crystal Entity Layer
+* Mailing Lists::
+* Licence:: GNU Library General Public License
 @end menu
 
 @node What Is CEL, Concepts, Introduction, Introduction
