@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Jul-2005
+	- res fixed another Cygwin compilation ambiguity.
 1-Jul-2005
 	- Eric Sunshine updated the Autoconf, Jam, and msvcgen utility files
 	  from the master copies in the CS repository.

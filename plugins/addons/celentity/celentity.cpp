@@ -279,7 +279,7 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	      const char* long_value = par_child->GetAttributeValue ("long");
 	      if (long_value)
 	      {
-		int l;
+		int32 l;
 		csScanStr (long_value, "%d", &l);
 		params->GetParameter (par_idx-1).Set (l);
 	        continue;
