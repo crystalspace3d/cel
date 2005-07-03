@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 2-Jul-2005
 	- res fixed another Cygwin compilation ambiguity.
+	- David Bronke fixed a problem in the mechanics plugin's reactionary
+	  thrusters where thrust was never initialized.
 1-Jul-2005
 	- Eric Sunshine updated the Autoconf, Jam, and msvcgen utility files
 	  from the master copies in the CS repository.
