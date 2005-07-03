@@ -68,6 +68,8 @@ celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThruster);
 
   lastforceid = 0;
+  thrust = 0;
+  maxthrust = 0;
 
   // Actions
   if (action_initthruster == csInvalidStringID)
@@ -169,7 +171,7 @@ void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
 {
   printf ("changing thrust from %f to %f.\n\n", thrust, thrust + deltathrust);
   fflush (stdout);
-  if (deltathrust <= AvailableThrust () && deltathrust > (-thrust))
+  if (deltathrust <= AvailableThrust () && deltathrust >= (-thrust))
   {
     if (lastforceid != 0)
       mechanicsobject->RemoveForceTagged (lastforceid);

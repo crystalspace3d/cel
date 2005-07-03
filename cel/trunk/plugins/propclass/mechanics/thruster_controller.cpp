@@ -671,7 +671,7 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
         printf ("[group]\n");
         fflush (stdout);
         group = groupit.Next ();
-        if (bestgroup == NULL || group->AvailableThrust () > beststrength)
+        if (group != NULL && (bestgroup == NULL || group->AvailableThrust () > beststrength))
         {
           beststrength = group->AvailableThrust ();
           bestgroup = group;
@@ -694,7 +694,8 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       return;
     }
   }
-  Report (object_reg, (csString ("Invalid axis specified: ") + axisname).GetData ());
+  Report (object_reg, (csString ("Invalid axis specified: ") +
+	axisname).GetData ());
 }
 
 void celPcMechanicsThrusterController::CancelThrust (uint32 id)
