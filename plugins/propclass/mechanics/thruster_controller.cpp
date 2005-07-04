@@ -590,7 +590,7 @@ const float celPcMechanicsThrusterController::GetAxisVelocity (const char* name)
         vvel = tehbody->GetAngularVelocity ();
       else
         vvel = tehbody->GetLinearVelocity ();
-      return trans.This2OtherRelative (vvel) * ad->axis.Unit ();;
+      return trans.Other2ThisRelative (vvel) * ad->axis.Unit ();;
     }
   }
   return 0;
