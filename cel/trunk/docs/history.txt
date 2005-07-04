@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Jul-2005
+	- David Bronke added a fix from Chris Case that corrects the problems
+	  with getting incorrect returns from
+	  iPcMechanicsThrusterController::GetAxisVelocity().
 2-Jul-2005
 	- res fixed another Cygwin compilation ambiguity.
 	- David Bronke fixed a problem in the mechanics plugin's reactionary
