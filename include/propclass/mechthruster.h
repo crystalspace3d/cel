@@ -94,8 +94,9 @@ struct iPcMechanicsThruster : public iBase
 SCF_VERSION (iPcMechanicsBalancedGroup, 0, 0, 1);
 
 enum celAxisType {
-  CEL_TGT_ROTATION,
-  CEL_TGT_TRANSLATION
+  CEL_AT_NONE,
+  CEL_AT_ROTATION,
+  CEL_AT_TRANSLATION
 };
 
 /**
@@ -192,6 +193,18 @@ struct iPcMechanicsThrusterController : public iBase
    * \param name the name of the axis to query.
    */
   virtual const csVector3 GetAxis (const char* name) = 0;
+
+  /**
+   * Get the type of the given axis
+   * \param name the name of the axis to query.
+   */
+  virtual const celAxisType GetAxisType (const char* name) = 0;
+
+  /**
+   * Get the current velocity in the given axis.
+   * \param name the name of the axis to query.
+   */
+  virtual const float GetAxisVelocity (const char* name) = 0;
 
   /**
    * Get the strength of the best thruster group in the given axis.

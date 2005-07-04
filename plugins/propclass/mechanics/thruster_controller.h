@@ -205,6 +205,10 @@ private:
   static csStringID action_addaxis;
   static csStringID action_applythrust;
   static csStringID action_addbalancedgroup;
+  static csStringID action_inittc;
+
+  // Parameters for action_inittc
+  static csStringID param_object;
 
   // Parameters for action_addaxis
   static csStringID param_axisname;
@@ -249,6 +253,8 @@ public:
   virtual void AddAxis (const char* name, celAxisType type, const
 	csVector3 axis);
   virtual const csVector3 GetAxis (const char* name);
+  virtual const celAxisType GetAxisType (const char* name);
+  virtual const float GetAxisVelocity (const char* name);
   virtual float GetAxisMaxForce (const char* name);
   virtual float GetAxisMaxThrust (const char* name);
   virtual void AddBalancedGroup (iPcMechanicsBalancedGroup* group,
@@ -278,6 +284,14 @@ public:
     virtual const csVector3 GetAxis (const char* name)
     {
       return scfParent->GetAxis (name);
+    }
+    virtual const celAxisType GetAxisType (const char* name)
+    {
+      return scfParent->GetAxisType (name);
+    }
+    virtual const float GetAxisVelocity (const char* name)
+    {
+      return scfParent->GetAxisVelocity (name);
     }
     virtual float GetAxisMaxForce (const char* name)
     {
