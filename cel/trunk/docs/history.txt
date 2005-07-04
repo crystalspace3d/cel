@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- res fixed another Cygwin compilation ambiguity.
 	- David Bronke fixed a problem in the mechanics plugin's reactionary
 	  thrusters where thrust was never initialized.
+	- David Bronke added functions to iPcMechanicsThrusterController to
+	  query the velocity around a given axis and the type of a given axis.
 1-Jul-2005
 	- Eric Sunshine updated the Autoconf, Jam, and msvcgen utility files
 	  from the master copies in the CS repository.

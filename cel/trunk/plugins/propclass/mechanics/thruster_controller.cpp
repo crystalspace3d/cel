@@ -22,6 +22,8 @@
 #include "iutil/string.h"
 #include "csutil/debug.h"
 #include "csgeom/math3d.h"
+#include "csgeom/transfrm.h"
+#include "ivaria/dynamics.h"
 
 #include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/thruster_controller.h"
@@ -169,9 +171,9 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
     csStringID type_id = pl->FetchStringID (type);
     celAxisType gtype;
     if (type_id == type_rotation)
-      gtype = CEL_TGT_ROTATION;
+      gtype = CEL_AT_ROTATION;
     else if (type_id == type_translation)
-      gtype = CEL_TGT_TRANSLATION;
+      gtype = CEL_AT_TRANSLATION;
     else
     {
       Report (object_reg, "Invalid thruster group type!");
@@ -270,6 +272,10 @@ CEL_IMPLEMENT_FACTORY (MechanicsThrusterController, "pcmechthrustercontroller")
 csStringID celPcMechanicsThrusterController::action_addaxis = csInvalidStringID;
 csStringID celPcMechanicsThrusterController::action_applythrust = csInvalidStringID;
 csStringID celPcMechanicsThrusterController::action_addbalancedgroup = csInvalidStringID;
+csStringID celPcMechanicsThrusterController::action_inittc = csInvalidStringID;
+
+// Parameters for action_inittc
+csStringID celPcMechanicsThrusterController::param_object = csInvalidStringID;
 
 // Parameters for action_addaxis
 csStringID celPcMechanicsThrusterController::param_axisname = csInvalidStringID;
@@ -308,6 +314,12 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (iObjectRegis
     action_applythrust = pl->FetchStringID ("cel.action.ApplyThrust");
   if (action_addbalancedgroup == csInvalidStringID)
     action_addbalancedgroup = pl->FetchStringID ("cel.action.AddBalancedGroup");
+  if (action_inittc == csInvalidStringID)
+    action_inittc = pl->FetchStringID ("cel.action.InitThrusterController");
+
+  // Parameters for action_inittc
+  if (param_object == csInvalidStringID)
+    param_object = pl->FetchStringID ("cel.parameter.objectpctag");
 
   // Parameters for action_addaxis
   if (param_axisname == csInvalidStringID)
@@ -437,9 +449,9 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     csStringID type_id = pl->FetchStringID (axistype);
     celAxisType atype;
     if (type_id == type_rotation)
-      atype = CEL_TGT_ROTATION;
+      atype = CEL_AT_ROTATION;
     else if (type_id == type_translation)
-      atype = CEL_TGT_TRANSLATION;
+      atype = CEL_AT_TRANSLATION;
     else {
       Report (object_reg, "Invalid axis type!");
       return false;
@@ -489,6 +501,22 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
 	(GetEntity (), iPcMechanicsBalancedGroup, balancedgrouppctag);
     AddBalancedGroup (tg, axisname);
   }
+  else if (actionId == action_inittc)
+  {
+    CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
+    if (p_objectpctag)
+    {
+      csRef<iPcMechanicsObject> mechobj = 0;
+      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	iPcMechanicsObject,objectpctag);
+      assert (mechobj);
+      SetMechanicsObject (mechobj);
+    }
+    else
+    {
+      return false;
+    }
+  }
   return false;
 }
 
@@ -524,6 +552,48 @@ const csVector3 celPcMechanicsThrusterController::GetAxis (const char* name)
     return ad->axis;
   else
     return csVector3 (0);
+}
+
+const celAxisType celPcMechanicsThrusterController::GetAxisType (const char* name)
+{
+  csArray<celAxisData*>::Iterator it = axes.GetIterator ();
+  celAxisData* ad = 0;
+  while (it.HasNext ())
+  {
+    ad = it.Next ();
+    if (strcmp (ad->name.GetData (), name) == 0)
+      break;
+  }
+  if (ad)
+    return ad->type;
+  else
+    return CEL_AT_NONE;
+}
+
+const float celPcMechanicsThrusterController::GetAxisVelocity (const char* name)
+{
+  if (mechobject != NULL) {
+    csArray<celAxisData*>::Iterator it = axes.GetIterator ();
+    celAxisData* ad = 0;
+    while (it.HasNext ())
+    {
+      ad = it.Next ();
+      if (strcmp (ad->name.GetData (), name) == 0)
+        break;
+    }
+    if (ad)
+    {
+      csRef<iRigidBody> tehbody = mechobject->GetBody ();
+      csOrthoTransform trans = tehbody->GetTransform ();
+      csVector3 vvel;
+      if (ad->type == CEL_AT_ROTATION)
+        vvel = tehbody->GetAngularVelocity ();
+      else
+        vvel = tehbody->GetLinearVelocity ();
+      return trans.This2OtherRelative (vvel) * ad->axis.Unit ();;
+    }
+  }
+  return 0;
 }
 
 float celPcMechanicsThrusterController::GetAxisMaxForce (const char* axisname)
