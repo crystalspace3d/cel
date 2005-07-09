@@ -1,0 +1,1179 @@
+@c -*-texinfo-*-
+@node Tutorial, , The Basics, Using CEL
+@section tutorial
+@cindex zone manager
+@cindex entity creation
+@cindex @code{csApplicationFramework}
+@cindex @code{csBaseEventHandler}
+
+This is a tutorial to show how you can use Crystal Entity Layer in your
+own applications. The game data needed by this tutorial can be downloaded
+from:
+
+@uref{http://www.crystalspace3d.org/celtutorial.zip}
+
+Here are the five source files of this tutorial:
+
+@menu
+* Tutorial Main:: main.cpp
+* Tutorial App Header:: app.h
+* Tutorial App:: app.cpp
+* Tutorial Behave Header:: behave.h
+* Tutorial Behave:: behave.cpp
+@end menu
+
+@subheading The XML Entity File
+
+Except for the level and player entities all other entities are defined
+in the @file{entities} file. Here is an example of how such an entity
+looks:
+
+@example
+    <addon plugin="celentity" entityname="badone">
+
+      <propclass name="pcmesh">
+        <action name="LoadMeshPath">
+	  <par name="path" string="/this/model" />
+	  <par name="filename" string="monkey" />
+	  <par name="factoryname" string="monkey" />
+	</action>
+      </propclass>
+
+      <propclass name="pcmeshselect" />
+
+      <propclass name="pcproperties">
+        <property name="pos1" vector="9,2,8" />
+        <property name="pos2" vector="6,2,8" />
+        <property name="pos3" vector="6,2,12" />
+        <property name="pos4" vector="7,5,10" />
+        <property name="pos5" vector="8,1,7" />
+        <property name="pos6" vector="9,2,8" />
+        <property name="up1" vector="0,1,0" />
+        <property name="up2" vector="0,1,0" />
+        <property name="up3" vector="0,1,0" />
+        <property name="up4" vector="0,1,0" />
+        <property name="up5" vector="0,1,0" />
+        <property name="up6" vector="0,1,0" />
+        <property name="forward1" vector="-1,0,0" />
+        <property name="forward2" vector="0,0,1" />
+        <property name="forward3" vector="1,1,-1" />
+        <property name="forward4" vector="1,-1,-1" />
+        <property name="forward5" vector="1,1,1" />
+        <property name="forward6" vector="-1,0,0" />
+        <property name="time1" long="1000" />
+        <property name="time2" long="1000" />
+        <property name="time3" long="1000" />
+        <property name="time4" long="1000" />
+        <property name="time5" long="1000" />
+        <property name="time6" long="1000" />
+      </propclass>
+
+      <propclass name="pctimer">
+        <action name="WakeUp">
+	  <par name="time" long="5000" />
+	  <par name="repeat" bool="true" />
+	</action>
+      </propclass>
+
+      <propclass name="pclinearmovement">
+        <action name="InitCD">
+	  <par name="body" vector=".2,.2,.2" />
+	  <par name="legs" vector=".2,.2,.2" />
+	  <par name="offset" vector="0,-.3,0" />
+	</action>
+        <action name="SetPosition">
+	  <par name="position" vector="9,3,8" />
+	  <par name="sector" string="Scene" />
+	  <par name="yrot" float="0" />
+	</action>
+      </propclass>
+
+      <behaviour name="badone_behave" />
+
+    </addon>
+@end example
+
+In this particular example we use the @samp{cel.addons.celentity} addon
+to create an entity with the name @samp{badone}. It has the following property
+classes:
+@itemize @bullet
+@item @samp{pcmesh}
+This mesh is setup with the @samp{monkey} model that
+was made in @samp{Blender}.
+@item @samp{pcmeshselect}
+Used for selection of mesh.
+@item @samp{pcproperties}
+This is a generic property class for storing named properties. In this
+particular case the @samp{badone_behave} behaviour will read out the properties
+to construct the path for the catmull rom spline.
+@item @samp{pctimer}
+This timer will be used to restart the movement along the path after
+5 seconds (5000 milliseconds).
+@item @samp{pclinearmovement}
+This is the generic movement system.
+@end itemize
+
+We also create the entity with the @samp{badone_behave} behaviour.
+
+@node Tutorial Main, Tutorial App Header, Tutorial, Tutorial
+@subsection main.cpp
+
+This is the main entry point for the application. It does nothing more then
+make an instance of @code{MainApp} and pass control to that.
+
+@example
+#include <crystalspace.h>
+#include "app.h"
+
+CS_IMPLEMENT_APPLICATION
+
+int main (int argc, char *argv[])
+@{
+  MainApp app;
+  return app.Main (argc, argv);
+@}
+@end example
+
+@node Tutorial App Header, Tutorial App, Tutorial Main, Tutorial
+@subsection app.h
+
+In this header file we declare our main application class. This is the class
+where we store references to commonly used modules from Crystal Space and
+Crystal Entity Layer. This is also the class that contains the main event
+handling loop.
+
+@example
+#ifndef APP_H
+#define APP_H
+
+#include <physicallayer/entity.h>
+#include <physicallayer/pl.h>
+
+/*
+ * Our main application class inherits from csApplicationFramework
+ * and csBaseEventHandler.
+ */
+class MainApp : public csApplicationFramework,
+                public csBaseEventHandler
+@{
+private:
+  // References to modules from Crystal Space.
+  csRef<iGraphics3D> g3d;
+  csRef<iEngine> engine;
+  csRef<iLoader> loader;
+  csRef<iVFS> vfs;
+  csRef<iVirtualClock> vc;
+  csRef<iKeyboardDriver> kbd;
+
+  // References to modules from Crystal Entity Layer.
+  csRef<iCelPlLayer> pl;
+  csRef<iCelBlLayer> bl;
+
+  // Our level and player entity.
+  csRef<iCelEntity> level_entity;
+  csRef<iCelEntity> player_entity;
+
+  // Inherited from csBaseEventHandler: handle a keyboard event.
+  bool OnKeyboard (iEvent&);
+
+  // Inherited from csBaseEventHandler: handle a signle frame.
+  void ProcessFrame ();
+  // Inherited from csBaseEventHandler: handle a signle frame.
+  void FinishFrame ();
+
+  // Create the level entity and load the level in it.
+  // Returns false on failure. The error has been already reported to
+  // the reporter in that case.
+  bool LoadLevel ();
+
+  // Create the player.
+  // Returns false on failure. The error has been already reported to
+  // the reporter in that case.
+  bool CreatePlayer ();
+
+public:
+  MainApp ();
+  virtual ~MainApp ();
+
+  // Inherited from csApplicationFramework: initialization.
+  virtual bool OnInitialize (int argc, char* argv[]);
+
+  // Inherited from csApplicationFramework: initialization.
+  virtual bool Application ();
+@};
+
+#endif
+@end example
+
+@node Tutorial App, Tutorial Behave Header, Tutorial App Header, Tutorial
+@subsection app.cpp
+
+Here is our main application source file.
+
+@example
+#include <crystalspace.h>
+
+#include <celtool/initapp.h>
+#include <propclass/zone.h>
+#include <propclass/camera.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+#include <propclass/actormove.h>
+#include <propclass/input.h>
+#include <physicallayer/propclas.h>
+
+#include "app.h"
+#include "behave.h"
+
+MainApp::MainApp ()
+@{
+  SetApplicationName ("CEL Tutorial");
+@}
+
+MainApp::~MainApp ()
+@{
+@}
+@end example
+
+In @code{LoadLevel()} we create the level entity. @code{iCelPlLayer} has
+a @code{CreateEntity()} conveniance function which creates the entity,
+assigns a behaviour to it and also creates the property classes for it. In
+this particular case we create an entity called @samp{level} and assign it
+with the behaviour that is called @samp{level_behave} (this one will be
+defined later in this tutorial). We also create a @samp{pczonemanager}
+property class for it. This property class manages loading and unloading
+of levels (map files) in the game.
+
+@code{CEL_QUERY_PROPCLASS_ENT} is an important macro that you can use
+to fetch a reference to one of the property classes in an entity. Every
+property class implements some interface in addition to the standard
+@code{iCelPropertyClass} interface. In case of the zone manager this
+interface is @code{iPcZoneManager}.
+
+The @code{ReportError()} method is part of @code{csApplicationFramework}
+and makes it easier to use the reporter (Crystal Space plugin) to report
+errors to the user.
+
+After creating the entity we need to setup the property classes. In this
+case this means the zone manager. It is possible to setup the zone manager
+from an @sc{xml} descriptor file but in this case we set it up manually
+to load two files: one @file{world} file which is created in @samp{Blender}
+and contains the 3D geometry and one @file{entities} file which we created
+manually. The entities file contains definitions for entities in our game.
+
+@example
+bool MainApp::LoadLevel ()
+@{
+  level_entity = pl->CreateEntity ("level", bl, "level_behave",
+    "pczonemanager",
+    0);
+  if (!level_entity)
+    return ReportError ("Error creating level entity!");
+
+  // Now get the iPcZoneManager interface so we can setup the level.
+  csRef<iPcZoneManager> zonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
+  	iPcZoneManager);
+  iCelZone* zone = zonemgr->CreateZone ("main");
+  iCelRegion* region = zonemgr->CreateRegion ("main");
+  zone->LinkRegion (region);
+
+  iCelMapFile* mapfile = region->CreateMapFile ();
+  mapfile->SetPath ("/this/level");
+  mapfile->SetFile ("world");
+
+  iCelMapFile* entitiesfile = region->CreateMapFile ();
+  entitiesfile->SetPath ("/this/level");
+  entitiesfile->SetFile ("entities");
+
+  return true;
+@}
+@end example
+
+Here we create the player. This time we use the @samp{player_behave}
+behaviour that we define later. The player entity also uses a lot more
+property classes. We need a camera, a mesh (3D geometry), the movement
+system, keyboard input, and an inventory.
+
+After creating the entity we again have to setup the various property
+classes. The camera needs to know about the zone manager so we also fetch
+that from the level entity that we created earlier. In @code{SetZoneManager()}
+we also indicate where the camera should start. In this example we pick
+region @samp{main} and the name of the camera is @samp{Camera}.
+
+For our player mesh we pick the @samp{cally} model that is part of
+Crystal Entity Layer.
+
+Since we are possibly using third-person camera mode the zone manager needs
+to know about the player mesh. This is needed so that the zone manager can
+load the needed regions depending on where the player moves.
+
+Then we setup @samp{pclinearmovement} and @samp{pcactormove} with the
+proper movement parameters. This includes the dimensions of the collision
+box and various speed parameters with which we will move the player.
+
+Finally we need to bind various keys to actual commands. The behaviour
+will get these commands (and not the keys) so this cleanly separates the
+actual keys and the operations performed by those keys. In real games
+you probably want to read the key definitions from a configuration file.
+
+@example
+bool MainApp::CreatePlayer ()
+@{
+  player_entity = pl->CreateEntity ("player", bl, "player_behave",
+    "pcdefaultcamera",
+    "pcmesh",
+    "pclinearmovement",
+    "pcactormove",
+    "pccommandinput",
+    "pcinventory",
+    0);
+  if (!player_entity)
+    return ReportError ("Error creating player entity!");
+
+  // Get the iPcCamera interface so that we can set the camera.
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
+  	player_entity, iPcCamera);
+  // Get the zone manager from the level entity which should have
+  // been created by now.
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (
+  	level_entity, iPcZoneManager);
+  pccamera->SetZoneManager (pczonemgr, true, "main", "Camera");
+
+  // Get the iPcMesh interface so we can load the right mesh
+  // for our player.
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
+  	player_entity, iPcMesh);
+  pcmesh->SetPath ("/this/model");
+  pcmesh->SetMesh ("test", "cally.cal3d");
+  if (!pcmesh->GetMesh ())
+    return ReportError ("Error loading model!");
+
+  if (pczonemgr->PointMesh ("player", "main", "Camera"))
+    return ReportError ("Can't find region or start position in region!");
+
+  // Get iPcLinearMovement so we can setup the movement system.
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (
+  	player_entity, iPcLinearMovement);
+  pclinmove->InitCD (
+  	csVector3 (0.5,0.8,0.5),
+  	csVector3 (0.5,0.4,0.5),
+  	csVector3 (0,0,0));
+
+  // Get the iPcActorMove interface so that we can set movement speed.
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (
+  	player_entity, iPcActorMove);
+  pcactormove->SetMovementSpeed (3.0f);
+  pcactormove->SetRunningSpeed (5.0f);
+  pcactormove->SetRotationSpeed (1.75f);
+
+  // Get iPcCommandInput so we can do key bindings. The behaviour
+  // layer will interprete the commands so the actor can move.
+  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (
+  	player_entity, iPcCommandInput);
+  // We read the key bindings from the standard config file.
+  pcinput->Bind ("up", "forward");
+  pcinput->Bind ("down", "backward");
+  pcinput->Bind ("left", "rotateleft");
+  pcinput->Bind ("right", "rotateright");
+  pcinput->Bind ("m", "cammode");
+  pcinput->Bind ("d", "drop");
+
+  return true;
+@}
+@end example
+
+The following three methods are called by the event handler whenever
+a certain event occurs. @code{ProcessFrame()} is called every frame. Normally
+you would put the code here to draw 3D graphics. However in case of CRystal
+Entity Layer it is the camera property class that actually takes care of
+this so the implementation here is empty. In @code{FinishFrame()} we
+actually render everything on screen.
+
+When the player presses a key the @code{OnKeyboard()} routine is called. In
+this case we only listen to the escape key to exit the application since
+all other keys are handled by the player entity.
+
+@example
+void MainApp::ProcessFrame ()
+@{
+@}
+
+void MainApp::FinishFrame ()
+@{
+  // Just tell the 3D renderer that everything has been rendered.
+  g3d->FinishDraw ();
+  g3d->Print (0);
+@}
+
+bool MainApp::OnKeyboard(iEvent& ev)
+@{
+  // We got a keyboard event.
+  csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
+  if (eventtype == csKeyEventTypeDown)
+  @{
+    // The user pressed a key (as opposed to releasing it).
+    utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
+    if (code == CSKEY_ESC)
+    @{
+      // The user pressed escape to exit the application.
+      // The proper way to quit a Crystal Space application
+      // is by broadcasting a cscmdQuit event. That will cause the
+      // main runloop to stop. To do that we get the event queue from
+      // the object registry and then post the event.
+      csRef<iEventQueue> q =
+        CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
+      if (q.IsValid()) q->GetEventOutlet()->Broadcast(cscmdQuit);
+    @}
+  @}
+  return false;
+@}
+@end example
+
+Initialization routines. @code{OnInitialize()} is called by the
+application framework. In this routine we call @code{RequestPlugins()}
+to load various plugins that we will need. In addition to the standard
+plugins that most Crystal Space applications need (like OpenGL renderer,
+engine, level loader, @dots{}) we also load the @sc{cel} physical layer
+and the @sc{opcode} collision detection plugin. Most of these plugins we
+will not use directly but they are used by the property classes.
+
+@code{Application()} is called when it is time to open the application
+screen. Here we fetch various modules from the object registry and store
+a reference in our main class.
+
+Here we also create our behaviour layer and we register it to the object
+registry and also to the physical layer (with @code{RegisterBehaviourLayer()}).
+
+Then we need to load the property class factories for all property classes
+that we plan to use in this tutorial.
+
+Finally we load our level (@code{LoadLevel())} and create the player
+(@code{CreatePlayer()}).
+
+The last thing we do here is call @code{Run()} which will start the main
+event loop. This function only returns when the application exits.
+
+@example
+bool MainApp::OnInitialize (int argc, char* argv[])
+@{
+  if (!celInitializer::RequestPlugins (object_reg,
+        CS_REQUEST_VFS,
+    	CS_REQUEST_OPENGL3D,
+    	CS_REQUEST_ENGINE,
+    	CS_REQUEST_FONTSERVER,
+    	CS_REQUEST_IMAGELOADER,
+    	CS_REQUEST_LEVELLOADER,
+    	CS_REQUEST_REPORTER,
+    	CS_REQUEST_REPORTERLISTENER,
+    	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+    	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
+		    iCollideSystem),
+      CS_REQUEST_END))
+    return ReportError ("Can't initialize plugins!");
+
+  if (!RegisterQueue (object_reg))
+    return ReportError ("Can't setup event handler!");
+
+  return true;
+@}
+
+bool MainApp::Application ()
+@{
+  if (!OpenApplication (object_reg))
+    return ReportError ("Error opening system!");
+
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  bl.AttachNew (new BehaviourLayer(pl));
+
+  // We also need to register it to the object registry.
+  if (!object_reg->Register (bl, "iCelBlLayer"))
+    return ReportError ("Can't register our behaviour layer!");
+
+  pl->RegisterBehaviourLayer (bl);
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return ReportError ("Error loading pczonemanager factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return ReportError ("Error loading pcsolid factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return ReportError ("Error loading pccolldet factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return ReportError ("Error loading pcdefaultcamera factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return ReportError ("Error loading pcmesh factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return ReportError ("Error loading pcmeshselect factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return ReportError ("Error loading pclinmove factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return ReportError ("Error loading pccommandinput factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return ReportError ("Error loading pcactormove factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return ReportError ("Error loading pcinventory factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return ReportError ("Error loading pcproperties factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return ReportError ("Error loading pctimer factory!");
+
+  if (!LoadLevel ())
+    return ReportError ("Error loading level!");
+  if (!CreatePlayer ())
+    return ReportError ("Couldn't create player!");
+
+  Run ();
+
+  return true;
+@}
+@end example
+
+@node Tutorial Behave Header, Tutorial Behave, Tutorial App, Tutorial
+@subsection behave.h
+
+Here is the header for our behaviour layer. Here we define the behaviour
+layer and also the implementations of every behaviour.
+
+@example
+#ifndef BEHAVE_H
+#define BEHAVE_H
+
+#include <physicallayer/pl.h>
+#include <behaviourlayer/bl.h>
+#include <behaviourlayer/behave.h>
+#include <propclass/actormove.h>
+#include <propclass/meshsel.h>
+#include <propclass/mesh.h>
+#include <propclass/camera.h>
+#include <propclass/inv.h>
+@end example
+
+@code{BehaviourLayer} is our behaviour layer. It is a simple class that
+will create the right behaviour depending on the given name.
+
+@example
+class BehaviourLayer : public iCelBlLayer
+@{
+private:
+  iCelPlLayer* pl;
+
+public:
+  BehaviourLayer (iCelPlLayer* pl);
+  virtual ~BehaviourLayer ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const
+  @{
+    return "behaviourlayer";
+  @}
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+@};
+@end example
+
+@code{BehaviourCommon} is the common superclass for all our behaviours. It
+takes care of overriding the standard @code{SendMessage()} routine and
+to replace it with a version that uses an @sc{id} instead of a string. That
+is faster.
+
+@example
+class BehaviourCommon : public iCelBehaviour
+@{
+protected:
+  iCelEntity* entity;
+  BehaviourLayer* bl;
+  iCelPlLayer* pl;
+
+public:
+  BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourCommon ();
+
+  /**
+   * This is a specific version of SendMessage() that accepts
+   * an integer instead of a csStringID. Subclasses of ccBehaviourBase
+   * will only have to override this version. The normal iCelBehaviour
+   * versions of SendMessage() are implemented in this class and
+   * will redirect to this version.
+   */
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+
+  SCF_DECLARE_IBASE;
+
+  virtual iCelBlLayer* GetBehaviourLayer () const
+  @{
+    return bl;
+  @}
+  virtual bool SendMessage (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, ...);
+  virtual bool SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual void* GetInternalObject ()
+  @{
+    return 0;
+  @}
+@};
+@end example
+
+The level behaviour doesn't do much.
+
+@example
+class BehaviourLevel : public BehaviourCommon
+@{
+public:
+  BehaviourLevel (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+    : BehaviourCommon (entity, bl, pl) @{ @}
+  virtual ~BehaviourLevel () @{ @}
+
+  virtual const char* GetName () const
+  @{
+    return "level_behave";
+  @}
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+@};
+
+@end example
+
+This is the behaviour for a box. This behaviour will be used for entities
+in the @samp{entities} file.
+
+@example
+class BehaviourBox : public BehaviourCommon
+@{
+private:
+  csStringID id_pcmeshsel_down;
+
+  void GetPlayer ();
+  csWeakRef<iPcMeshSelect> pcmeshsel;
+  iCelEntity* player;
+
+  void PickUp ();
+
+public:
+  BehaviourBox (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourBox () @{ @}
+
+  virtual const char* GetName () const
+  @{
+    return "box_behave";
+  @}
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+@};
+@end example
+
+Another behaviour used for entities in the @samp{entities} file.
+
+@example
+class BehaviourBadOne : public BehaviourCommon
+@{
+private:
+  csStringID id_pctimer_wakeup;
+  csStringID id_par_elapsedticks;
+
+  csRef<csPath> path;
+  void ReadPath ();
+
+  void Restart ();
+
+public:
+  BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourBadOne () @{ @}
+
+  virtual const char* GetName () const
+  @{
+    return "badone_behave";
+  @}
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+@};
+@end example
+
+And finally the behaviour for our player. This one takes care of matching
+commands from the @samp{pccommandinput} property class to actual operations
+on @samp{pcactormove}.
+
+@example
+class BehaviourPlayer : public BehaviourCommon
+@{
+private:
+  csStringID id_pccommandinput_forward1;
+  csStringID id_pccommandinput_forward0;
+  csStringID id_pccommandinput_backward1;
+  csStringID id_pccommandinput_backward0;
+  csStringID id_pccommandinput_rotateleft1;
+  csStringID id_pccommandinput_rotateleft0;
+  csStringID id_pccommandinput_rotateright1;
+  csStringID id_pccommandinput_rotateright0;
+  csStringID id_pccommandinput_cammode1;
+  csStringID id_pccommandinput_drop1;
+
+  csStringID id_pcinventory_addchild;
+  csStringID id_pcinventory_removechild;
+
+  void GetActorMove ();
+  csWeakRef<iPcActorMove> pcactormove;
+
+  void GetInventory ();
+  csWeakRef<iPcInventory> pcinventory;
+
+  void GetMesh ();
+  csWeakRef<iPcMesh> pcmesh;
+
+  void ShowInventory ();
+  void Drop ();
+
+public:
+  BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourPlayer () @{ @}
+
+  virtual const char* GetName () const
+  @{
+    return "player_behave";
+  @}
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+@};
+#endif
+@end example
+
+@node Tutorial Behave, , Tutorial Behave Header, Tutorial
+@subsection behave.cpp
+
+Here is the source for our behaviour layer. The @code{CreateBehaviour()}
+function in @code{BehaviourLayer} will compare the given name parameter
+with the possible names for behaviours and then create the appropriate
+subclass of @code{BehaviourCommon}.
+
+@example
+#include <crystalspace.h>
+
+#include <physicallayer/entity.h>
+#include <physicallayer/propclas.h>
+#include <propclass/linmove.h>
+#include <propclass/prop.h>
+
+#include "behave.h"
+
+SCF_IMPLEMENT_IBASE (BehaviourLayer)
+  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
+SCF_IMPLEMENT_IBASE_END
+
+BehaviourLayer::BehaviourLayer (iCelPlLayer* pl)
+@{
+  SCF_CONSTRUCT_IBASE (0);
+  BehaviourLayer::pl = pl;
+@}
+
+BehaviourLayer::~BehaviourLayer ()
+@{
+  SCF_DESTRUCT_IBASE ();
+@}
+
+iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
+	const char* name)
+@{
+  iCelBehaviour* behave = 0;
+  if (!strcmp (name, "level_behave"))
+    behave = new BehaviourLevel (entity, this, pl);
+  else if (!strcmp (name, "player_behave"))
+    behave = new BehaviourPlayer (entity, this, pl);
+  else if (!strcmp (name, "box_behave"))
+    behave = new BehaviourBox (entity, this, pl);
+  else if (!strcmp (name, "badone_behave"))
+    behave = new BehaviourBadOne (entity, this, pl);
+
+  if (behave)
+  @{
+    entity->SetBehaviour (behave);
+    // There is now a reference in the entity. We destroy
+    // our own reference here.
+    behave->DecRef ();
+  @}
+  return behave;
+@}
+@end example
+
+In @code{SendMessage()} of @code{BehaviourCommon} we use the
+@code{FetchStringID()} function to @samp{intern} the message string
+to an @sc{id}. In the actual implementations of @code{SendMessage()} in the
+various behaviours we can then use integer comparisons instead of string
+compares.
+
+@example
+SCF_IMPLEMENT_IBASE (BehaviourCommon)
+  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
+SCF_IMPLEMENT_IBASE_END
+
+BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+@{
+  SCF_CONSTRUCT_IBASE (0);
+  BehaviourCommon::entity = entity;
+  BehaviourCommon::bl = bl;
+  BehaviourCommon::pl = pl;
+@}
+
+BehaviourCommon::~BehaviourCommon ()
+@{
+  SCF_DESTRUCT_IBASE ();
+@}
+
+bool BehaviourCommon::SendMessage (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, ...)
+@{
+  va_list arg;
+  va_start (arg, params);
+  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
+  va_end (arg);
+  return rc;
+@}
+
+bool BehaviourCommon::SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg)
+@{
+  csStringID id = pl->FetchStringID (msg_id);
+  return SendMessage (id, pc, ret, params, arg);
+@}
+
+bool BehaviourCommon::SendMessage (csStringID,
+	iCelPropertyClass*,
+  	celData&, iCelParameterBlock*, va_list)
+@{
+  return false;
+@}
+@end example
+
+The level behaviour does not do anything in this tutorial.
+
+@example
+bool BehaviourLevel::SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg)
+@{
+  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
+@}
+@end example
+
+The player behaviour is responsible for managing input (from
+@samp{pccommandinput}) and moving the actor in response to that input
+(with @samp{pcactormove}). First we request @sc{id}'s from the physical
+layer for the messages from the input property class that we want to respond
+too. For every command we defined in a @code{Bind()} in the
+@code{CreatePlayer()} function we get both a @samp{1} (when key is pressed)
+and a @samp{0} message (when key is released).
+
+We also respond to messages from the inventory system so that we can
+print out a message when an object is added or removed from the player
+inventory. The @code{ShowInventory()} function will show the inventory
+on standard output and the @code{Drop()} function will drop one item from
+the inventory.
+
+In @code{SendMessage()} we test which message we got. If it is one of
+the input messages we call the appropriate @sc{api} method in @samp{pcactormove}
+to move, rotate, or jump the player. If it is one of the inventory messages
+then we show the inventory contents.
+
+@example
+BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+  : BehaviourCommon (entity, bl, pl)
+@{
+  id_pccommandinput_forward1 = pl->FetchStringID ("pccommandinput_forward1");
+  id_pccommandinput_forward0 = pl->FetchStringID ("pccommandinput_forward0");
+  id_pccommandinput_backward1 = pl->FetchStringID ("pccommandinput_backward1");
+  id_pccommandinput_backward0 = pl->FetchStringID ("pccommandinput_backward0");
+  id_pccommandinput_rotateleft1 = pl->FetchStringID ("pccommandinput_rotateleft1");
+  id_pccommandinput_rotateleft0 = pl->FetchStringID ("pccommandinput_rotateleft0");
+  id_pccommandinput_rotateright1 = pl->FetchStringID ("pccommandinput_rotateright1");
+  id_pccommandinput_rotateright0 = pl->FetchStringID ("pccommandinput_rotateright0");
+  id_pccommandinput_cammode1 = pl->FetchStringID ("pccommandinput_cammode1");
+  id_pccommandinput_drop1 = pl->FetchStringID ("pccommandinput_drop1");
+
+  id_pcinventory_addchild = pl->FetchStringID ("pcinventory_addchild");
+  id_pcinventory_removechild = pl->FetchStringID ("pcinventory_removechild");
+@}
+
+void BehaviourPlayer::GetActorMove ()
+@{
+  if (!pcactormove)
+  @{
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+  @}
+@}
+
+void BehaviourPlayer::GetInventory ()
+@{
+  if (!pcinventory)
+  @{
+    pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
+  @}
+@}
+
+void BehaviourPlayer::GetMesh ()
+@{
+  if (!pcmesh)
+  @{
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  @}
+@}
+
+void BehaviourPlayer::ShowInventory ()
+@{
+  size_t count = pcinventory->GetEntityCount ();
+  size_t i;
+  for (i = 0 ; i < count ; i++)
+  @{
+    iCelEntity* child = pcinventory->GetEntity (i);
+    printf ("  child %d is '%s'\n", i, child->GetName ());
+  @}
+@}
+
+void BehaviourPlayer::Drop ()
+@{
+  GetInventory ();
+  size_t count = pcinventory->GetEntityCount ();
+  if (count <= 0)
+  @{
+    printf ("Inventory is empty!\n");
+    return;
+  @}
+  iCelEntity* child = pcinventory->GetEntity (0);
+  pcinventory->RemoveEntity (child);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (
+  	child, iPcLinearMovement);
+  if (pclinmove)
+  @{
+    GetMesh ();
+    // Now we get current position and orientation from player
+    // mesh and from that we calculate a spot in front of the
+    // player where we will drop down the item.
+    csVector3 pos = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+    	.This2Other (csVector3 (0, 2, -2));
+    iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+    pclinmove->SetPosition (pos, 0, sector);
+    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
+    if (pcmesh_child) pcmesh_child->Show ();
+  @}
+@}
+
+bool BehaviourPlayer::SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg)
+@{
+  GetActorMove ();
+
+  if (msg_id == id_pccommandinput_forward1)
+    pcactormove->Forward (true);
+  else if (msg_id == id_pccommandinput_forward0)
+    pcactormove->Forward (false);
+  else if (msg_id == id_pccommandinput_backward1)
+    pcactormove->Backward (true);
+  else if (msg_id == id_pccommandinput_backward0)
+    pcactormove->Backward (false);
+  else if (msg_id == id_pccommandinput_rotateleft1)
+    pcactormove->RotateLeft (true);
+  else if (msg_id == id_pccommandinput_rotateleft0)
+    pcactormove->RotateLeft (false);
+  else if (msg_id == id_pccommandinput_rotateright1)
+    pcactormove->RotateRight (true);
+  else if (msg_id == id_pccommandinput_rotateright0)
+    pcactormove->RotateRight (false);
+  else if (msg_id == id_pccommandinput_cammode1)
+    pcactormove->ToggleCameraMode ();
+  else if (msg_id == id_pccommandinput_drop1)
+    Drop ();
+  else if (msg_id == id_pcinventory_addchild)
+  @{
+    GetInventory ();
+    printf ("Got a new object! Objects in inventory:\n");
+    ShowInventory ();
+  @}
+  else if (msg_id == id_pcinventory_removechild)
+  @{
+    GetInventory ();
+    printf ("Object removed from inventory! Objects in inventory:\n");
+    ShowInventory ();
+  @}
+  else
+    return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);;
+
+  return true;
+@}
+@end example
+
+The box behaviour supports picking up and putting itself in the player
+inventory. To do that entities that use this behaviour need to use the
+@samp{pcmeshselect} property class so that they get a message whenever
+the entity is selected. In this behaviour we wait for that message and
+when we get it we will add ourselves to the inventory of the player.
+
+@example
+BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+  : BehaviourCommon (entity, bl, pl)
+@{
+  id_pcmeshsel_down = pl->FetchStringID ("pcmeshsel_down");
+  GetPlayer ();
+@}
+
+void BehaviourBox::PickUp ()
+@{
+  if (!player) return;
+  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (player, iPcInventory);
+  if (pcinv)
+  @{
+    pcinv->AddEntity (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    if (pcmesh) pcmesh->Hide ();
+  @}
+@}
+
+void BehaviourBox::GetPlayer ()
+@{
+  if (!pcmeshsel || !player)
+  @{
+    pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshSelect);
+    player = pl->FindEntity ("player");
+    if (!player) return;
+    csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
+    if (pccamera)
+      pcmeshsel->SetCamera (pccamera);
+  @}
+@}
+
+bool BehaviourBox::SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg)
+@{
+  if (msg_id == id_pcmeshsel_down)
+  @{
+    PickUp ();
+    return true;
+  @}
+
+  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
+@}
+@end example
+
+This behaviour represents an entity that moves around on a path. We use
+catmull rom splines to calculate a smooth path. The @code{csPath} class
+from Crystal Space helps with this. In the @code{ReadPath()} function we
+read the path from properties that are assigned to the entity (using the
+general @samp{pcproperties} property class).
+
+Entities that use this behaviour also need to have a @samp{pctimer} property
+class. This is used to be able to restart the movement path after a certain
+time has expired.
+
+@example
+BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+  : BehaviourCommon (entity, bl, pl)
+@{
+  id_pctimer_wakeup = pl->FetchStringID ("pctimer_wakeup");
+  id_par_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
+
+  ReadPath ();
+@}
+
+static bool GetPropVector (iPcProperties* pcprop, const char* prefix, int i, csVector3& v)
+@{
+  csString propname = prefix;
+  propname += i;
+  size_t idx = pcprop->GetPropertyIndex (propname);
+  if (idx == csArrayItemNotFound) return false;
+  if (!pcprop->GetPropertyVector (idx, v)) return false;
+  return true;
+@}
+
+static bool GetPropLong (iPcProperties* pcprop, const char* prefix, int i, long& l)
+@{
+  csString propname = prefix;
+  propname += i;
+  size_t idx = pcprop->GetPropertyIndex (propname);
+  if (idx == csArrayItemNotFound) return false;
+  l = pcprop->GetPropertyLong (idx);
+  return true;
+@}
+
+void BehaviourBadOne::ReadPath ()
+@{
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+
+  // Count the number of points we have.
+  int count = 0;
+  for (;;)
+  @{
+    csVector3 v;
+    if (!GetPropVector (pcprop, "pos", count+1, v)) break;
+    count++;
+  @}
+
+  path.AttachNew (new csPath(count));
+
+  int i = 0;
+  long totaltime = 0;
+  for (i = 0 ; i < count ; i++)
+  @{
+    csVector3 pos, forward, up;
+    GetPropVector (pcprop, "pos", i+1, pos);
+    if (!GetPropVector (pcprop, "forward", i+1, forward)) forward.Set (1, 0, 0);
+    if (!GetPropVector (pcprop, "up", i+1, up)) up.Set (0, 1, 0);
+    long time;
+    if (!GetPropLong (pcprop, "time", i+1, time)) time = 1000;
+    path->SetPositionVector (i, pos);
+    path->SetUpVector (i, up);
+    path->SetForwardVector (i, forward);
+    path->SetTime (i, float (totaltime) / 1000.0);
+    totaltime += time;
+  @}
+
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (
+  	entity, iPcLinearMovement);
+  if (pclinmove)
+  @{
+    for (i = 0 ; i < count ; i++)
+    @{
+      pclinmove->SetPathAction (i, "default");
+    @}
+  @}
+@}
+
+void BehaviourBadOne::Restart ()
+@{
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (
+  	entity, iPcLinearMovement);
+  if (pclinmove)
+  @{
+    pclinmove->SetPath (path);
+    pclinmove->SetPathTime (0);
+  @}
+@}
+
+bool BehaviourBadOne::SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg)
+@{
+  if (msg_id == id_pctimer_wakeup)
+  @{
+    Restart ();
+    return true;
+  @}
+
+  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
+@}
+@end example
+
