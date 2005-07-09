@@ -1,0 +1,152 @@
+@c -*-texinfo-*-
+@node The Basics, , Using CEL, Using CEL
+@section The Basics
+
+In this section the basic concepts behind Crystal Entity Layer are explained.
+Crystal Entity Layer is a game layer that sits on top of Crystal Space and
+adds game specific notions.
+
+@subheading Entities
+@cindex entity
+@cindex @code{iCelEntity}
+
+The most important concept in nearly every game is an @dfn{entity}. An entity
+can be anything that has a meaning in the game. This includes objects a
+player can interact with (like keys, weapons, @dots{}), non player characters
+(@sc{npc}), monsters, boxes that you can open and close, the player itself,
+the world, a part of the storyline the player needs to solve. And the list
+goes on. Basically everything that you consider a seperate entity when talking
+about your game will be an entity in Crystal Entity Layer.
+
+Entities are not always visual entities. i.e. you can't always see an entity
+on screen. An entity can also be something that is not visual like a story
+element or some data you want to keep.
+
+An entity is represented by the @code{iCelEntity} interface. An entity is
+created by an @code{iCelPlLayer} instance.
+
+On its own an entity in Crystal Entity Layer is pretty useless. It is just
+an empty stub with a name. That's all. To make an enity useful two important
+concepts are introduced: @dfn{property classes} and a @dfn{behaviour}.
+
+@subheading Property Classes
+@cindex property class
+@cindex @code{iCelPropertyClass}
+
+A property class is a piece of code (typically implemented in a plugin)
+that you can attach to some entity. By attaching the right property classes
+to an entity you define the characteristics of that entity. This notion can
+be explained best with a few examples. Let's say you want to define an entity
+for a box in a game. Here are the property classes you could use for that
+entity:
+
+@itemize @bullet
+@item @samp{pcmesh}
+This property class gives entities a 3D representation (i.e. a mesh in
+Crystal Space terminology). It is only when an entity has this property class
+that you can see it in the 3D world. In this particular example this property
+class would be setup with a mesh that represents a box.
+@item @samp{pclinearmovement}
+This property class is the general movement system in Crystal Entity Layer
+that does not use physics but only simple gravity and collision detection
+simulation. By attaching this property class this entity will correctly fall
+on the floor when it is released in the air.
+@item @samp{pcinventory}
+By adding this property class the box will be able to contain other items
+(entities). It really acts like a box now. You can assign various attributes
+to the inventory so that you can set the maximum capacity this box can
+carry for example.
+@end itemize
+
+Here is another example of how you could setup your hero:
+
+@itemize @bullet
+@item @samp{pcmesh}
+Again we need a mesh if we plan to use our hero in third-person mode.
+@item @samp{pclinearmovement}
+Here we again use @samp{pclinearmovement}. This time we use it also to
+control actual movement of the hero.
+@item @samp{pcdefaultcamera}
+Our hero defines the camera. So everything the hero sees we see too. The default
+camera in Crystal Entity Layer also suports 3rd person view. It is actually a
+pretty powerful property class with lots of options on how you want the camera
+to follow the hero.
+@item @samp{pcactormove}
+This class helps to combine the features of the three property classes
+above so that they work nicely together. It basically knows about player
+animations and how they relate to walking/running speed.
+@item @samp{pcinventory}
+Possible a player can hold items so it is useful to have an inventory.
+@item @samp{pccommandinput}
+To be able to react to user input (mouse, keyboard, @dots{}) we use the
+@samp{pccommandinput} property class. We also configure this property class
+so that the right input is propagate to @samp{pcactormove}.
+@end itemize
+
+These are only two examples. There are a lot more possibilities. It is
+important to note that property classes are dynamic. You can add or remove
+property classes at runtime so that you can actually change the characteristics
+of an entity.
+
+A property class is represented by the @code{iCelPropertyClass} interface.
+Property classes are created from property class factories.
+
+@subheading Behaviour
+@cindex behaviour
+@cindex @code{iCelBehaviour}
+
+The property classes define what an entity can do. The combination of
+property classes define the characteristics of that entity. The @dfn{behaviour}
+for an entity defines how the entity actually interacts in and with the game.
+It is where the game logic is defined. The entity system and property classes
+represent code that is written in Crystal Entity Layer itself but the behaviours
+represent code that you as a game creator need to write. There are currently
+three supported ways to write behaviours:
+
+@itemize @bullet
+@item
+Using @samp{python}: you can make python scripts that control the game logic.
+@item
+Using @sc{xml}: Crystal Entity Layer has a scripting language based on @sc{xml}
+that is specifically made to create behaviours.
+@item
+Using @samp{c++} code: you can also code behaviours with regular @samp{c++}
+code.
+@end itemize
+
+In the same game you can mix behaviours of different types
+and in the future more ways will be added.
+
+Property classes send messages to the behaviour when something interesting
+happens. For example, when an entity has a @samp{pccommandinput} property
+class then the behaviour will get messages every time a key is pressed.
+In reaction to those messages the behaviour can then call @sc{api} calls
+in @samp{pcactormove} to (for example) move the actor around.
+
+A behaviour is represented by the @code{iCelBehaviour} interface. You can
+create behaviours from @code{iCelBlLayer}.
+
+@subheading Physical Layer
+@cindex physical layer
+@cindex @code{iCelPlLayer}
+
+The physical layer is the core of Crystal Entity Layer. It is responsible
+for the creation and management of entities and property classes. In addition
+to the physical layer plugin the plugins that contain the code for the
+property class factories are also considered part of the physical layer.
+
+A physical layer is represented by the @code{iCelPlLayer} interface. You can
+get an instance of the physical layer from the object registry if you loaded
+the plugin at initialization time.
+
+@subheading Behaviour Layer
+@cindex behaviour layer
+@cindex @code{iCelBlLayer}
+
+The behaviour layer is a simple class which has only one responsability:
+the creation of behaviours. For @sc{xml} and @samp{python} there are already
+two predefined behaviour layers. If you want to use @samp{c++} for the game
+logic then you must make your own behaviour layer.
+
+The behaviour layer is represented by the @code{iCelBlLayer} interface.
+

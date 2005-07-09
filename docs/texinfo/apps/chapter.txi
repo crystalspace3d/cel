@@ -1,0 +1,34 @@
+@node Applications, Using CEL, Building, Top
+@chapter Applications
+This chapter describes the various applications which are packaged with 
+Crystal Entity Layer.  These applications may either serve as test 
+applications in order to test the functionality of Crystal Entity Layer, as 
+examples of how to use Crystal Entity Layer or sometimes as both.
+
+@menu
+* AppOverview::                 Overview
+* AppCeltest::                  celtest
+* AppBootstrap::                bootstrap
+@end menu
+
+@node AppOverview, AppCeltest, Applications, Applications
+@section Overview
+The applications currently bundled with Crystal Entity Layer are:
+
+@table @code
+@item celtest
+    This is a test application designed to test the various Crystal Entity 
+    Layer modules and give a basic demonstration of what some of the property 
+    classes do.
+        
+@item bootstrap
+    TODO: Document bootstrap overview
+@end table
+
+@node AppCeltest, AppBootstrap, AppOverview, Applications
+@section celtest
+TODO: Document celtest
+
+@node AppBootstrap,  , AppCeltest, Applications
+@section bootstrap
+TODO: Document bootstrap
