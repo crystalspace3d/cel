@@ -124,6 +124,42 @@ struct iPcMechanicsSystem : public iBase
    * Clear all forces.
    */
   virtual void ClearAllForces () = 0;
+
+  /**
+   * Create an iRigidBody and add it to the system.
+   */
+  virtual csPtr<iRigidBody> CreateBody () = 0;
+
+  /**
+   * Remove a given iRigidBody from the system.
+   * \param body the body to remove from the system.
+   */
+  virtual void RemoveBody (iRigidBody* body) = 0;
+
+  /**
+   * Add a body to the specified group.
+   * \param body the body to add to the group.
+   * \param group the name of the group to add the body to. Creates the group if
+   * it does not exist.
+   */
+  virtual void AddBodyToGroup (iRigidBody* body, const char* group) = 0;
+
+  /**
+   * Remove a body from the specified group.
+   * \param body the body to remove from the group.
+   * \param group the name of the group to remove the body from.
+   */
+  virtual void RemoveBodyFromGroup (iRigidBody* body, const char* group) = 0;
+
+  /**
+   * Create a joint between the two given bodies.
+   */
+  virtual iJoint* CreateJoint (iRigidBody* body1, iRigidBody* body2) = 0;
+
+  /**
+   * Remove a given joint from the system.
+   */
+  virtual void RemoveJoint (iJoint* joint) = 0;
 };
 
 SCF_VERSION (iPcMechanicsObject, 0, 0, 1);
@@ -405,6 +441,28 @@ struct iPcMechanicsObject : public iBase
    * Clear the permanent forces on this body.
    */
   virtual void ClearForces () = 0;
+
+
+  ////
+  //Groups and Joints
+
+  /**
+   * Add this body to the specified group.
+   * \param group the name of the group to add the body to. Creates the group if
+   * it does not exist.
+   */
+  virtual void AddToGroup (const char* group) = 0;
+
+  /**
+   * Remove this body from the specified group.
+   * \param group the name of the group to remove the body from.
+   */
+  virtual void RemoveFromGroup (const char* group) = 0;
+
+  /**
+   * Create a joint between this object and another.
+   */
+  virtual iJoint* CreateJoint (iPcMechanicsObject* other) = 0;
 };
 
 #endif // __CEL_PF_MECHANICS_SYSTEM__

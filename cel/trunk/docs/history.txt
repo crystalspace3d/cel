@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	  `pwd' command.
 	  https://texi2html.cvshome.org/servlets/ReadMsg?list=dev&msgNo=538
 	- Jorrit started working on the improved CEL documentation.
+	- David Bronke added functions to iPcMechanicsSystem and
+	  iPcMechanicsObject that allow them to deal with joints and groups
+	  directly.
 3-Jul-2005
 	- David Bronke added a fix from Chris Case that corrects the problems
 	  with getting incorrect returns from

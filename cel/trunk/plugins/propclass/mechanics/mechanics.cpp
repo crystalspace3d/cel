@@ -340,6 +340,54 @@ void celPcMechanicsSystem::ClearAllForces ()
   forces.DeleteAll ();
 }
 
+csPtr<iRigidBody> celPcMechanicsSystem::CreateBody ()
+{
+  return dynsystem->CreateBody ();
+}
+
+void celPcMechanicsSystem::RemoveBody (iRigidBody* body)
+{
+  dynsystem->RemoveBody (body);
+}
+
+void celPcMechanicsSystem::AddBodyToGroup (iRigidBody* body, const char* group)
+{
+  csRef<iBodyGroup> grp;
+  iBodyGroup** grpptr = groups.GetElementPointer (group);
+  if (grpptr != NULL)
+  {
+    grp = *grpptr;
+  }
+  else
+  {
+    grp = dynsystem->CreateGroup ();
+    groups.PutUnique (group, grp);
+  }
+  grp->AddBody (body);
+}
+
+void celPcMechanicsSystem::RemoveBodyFromGroup (iRigidBody* body, const char* group)
+{
+  iBodyGroup** grpptr = groups.GetElementPointer (group);
+  if (grpptr != NULL && (*grpptr)->BodyInGroup (body))
+  {
+    (*grpptr)->RemoveBody (body);
+  }
+}
+
+iJoint* celPcMechanicsSystem::CreateJoint (iRigidBody* body1, iRigidBody* body2)
+{
+  csRef<iJoint> jnt = dynsystem->CreateJoint ();
+  jnt->Attach (body1, body2);
+  return jnt;
+}
+
+void celPcMechanicsSystem::RemoveJoint (iJoint* joint)
+{
+  dynsystem->RemoveJoint (joint);
+}
+
+
 //---------------------------------------------------------------------------
 
 // Actions
@@ -1143,5 +1191,20 @@ void celPcMechanicsObject::AddForceFrame (const csVector3& force,
 void celPcMechanicsObject::ClearForces ()
 {
   mechsystem->ClearForces (&scfiPcMechanicsObject);
+}
+
+void celPcMechanicsObject::AddToGroup (const char* group)
+{
+  mechsystem->AddBodyToGroup (GetBody (), group);
+}
+
+void celPcMechanicsObject::RemoveFromGroup (const char* group)
+{
+  mechsystem->RemoveBodyFromGroup (GetBody (), group);
+}
+
+iJoint* celPcMechanicsObject::CreateJoint (iPcMechanicsObject* other)
+{
+  return mechsystem->CreateJoint (GetBody (), other->GetBody ());
 }
 

@@ -74,6 +74,7 @@ private:
   csRef<iDynamicSystem> dynsystem;
   csRef<iVirtualClock> vc;
   csArray<celForce> forces;
+  csHash<iBodyGroup*, const char*> groups;
   float delta;
 
   void ProcessForces (float dt);
@@ -103,6 +104,13 @@ public:
   void ClearForces (iPcMechanicsObject* body);
   void ClearAllForces ();
   void ApplyForce (celForce& f);
+
+  csPtr<iRigidBody> CreateBody ();
+  void RemoveBody (iRigidBody* body);
+  void AddBodyToGroup (iRigidBody* body, const char* group);
+  void RemoveBodyFromGroup (iRigidBody* body, const char* group);
+  iJoint* CreateJoint (iRigidBody* body1, iRigidBody* body2);
+  void RemoveJoint (iJoint* joint);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -167,6 +175,30 @@ public:
     virtual void ClearAllForces ()
     {
       scfParent->ClearAllForces ();
+    }
+    virtual csPtr<iRigidBody> CreateBody ()
+    {
+      return scfParent->CreateBody ();
+    }
+    virtual void RemoveBody (iRigidBody* body)
+    {
+      scfParent->RemoveBody (body);
+    }
+    virtual void AddBodyToGroup (iRigidBody* body, const char* group)
+    {
+      scfParent->AddBodyToGroup (body, group);
+    }
+    virtual void RemoveBodyFromGroup (iRigidBody* body, const char* group)
+    {
+      scfParent->RemoveBodyFromGroup (body, group);
+    }
+    virtual iJoint* CreateJoint (iRigidBody* body1, iRigidBody* body2)
+    {
+      return scfParent->CreateJoint (body1, body2);
+    }
+    virtual void RemoveJoint (iJoint* joint)
+    {
+      scfParent->RemoveJoint (joint);
     }
   } scfiPcMechanicsSystem;
 
@@ -412,6 +444,9 @@ public:
 	const csVector3& position);
   void ClearForces ();
 
+  void AddToGroup (const char* group);
+  void RemoveFromGroup (const char* group);
+  iJoint* CreateJoint (iPcMechanicsObject* other);
 
   void Collision (iRigidBody *thisbody, iRigidBody *otherbody);
 
@@ -556,6 +591,18 @@ public:
     virtual void ClearForces ()
     {
       scfParent->ClearForces ();
+    }
+    virtual void AddToGroup (const char* group)
+    {
+      scfParent->AddToGroup (group);
+    }
+    virtual void RemoveFromGroup (const char* group)
+    {
+      scfParent->RemoveFromGroup (group);
+    }
+    virtual iJoint* CreateJoint (iPcMechanicsObject* other)
+    {
+      return scfParent->CreateJoint (other);
     }
   } scfiPcMechanicsObject;
 
