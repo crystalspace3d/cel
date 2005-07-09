@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Jul-2005
+	- Eric Sunshine applied a patch to texi2html.pl which allows it to work
+	  on Windows by avoding dependence upon the Unix-specific external
+	  `pwd' command.
+	  https://texi2html.cvshome.org/servlets/ReadMsg?list=dev&msgNo=538
 3-Jul-2005
 	- David Bronke added a fix from Chris Case that corrects the problems
 	  with getting incorrect returns from
