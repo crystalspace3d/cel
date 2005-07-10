@@ -59,6 +59,24 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a11">ClearAllForces</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all forces.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; iRigidBody &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a12">CreateBody</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an iRigidBody and add it to the system.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a13">RemoveBody</a> (iRigidBody *body)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given iRigidBody from the system.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a14">AddBodyToGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a body to the specified group.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a15">RemoveBodyFromGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a body from the specified group.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a16">CreateJoint</a> (iRigidBody *body1, iRigidBody *body2)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between the two given bodies.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a17">RemoveJoint</a> (iJoint *joint)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given joint from the system.  <a href="#a17"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a dynamic system. 
@@ -66,6 +84,51 @@
 
 <p>
 Definition at line <a class="el" href="mechsys_8h-source.html#l00024">24</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcMechanicsSystem::AddBodyToGroup" ref="a14" args="(iRigidBody *body, const char *group)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsSystem::AddBodyToGroup           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iRigidBody *&nbsp;</td>
+          <td class="mdname" nowrap> <em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>group</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a body to the specified group. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>body</em>&nbsp;</td><td>the body to add to the group. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>group</em>&nbsp;</td><td>the name of the group to add the body to. Creates the group if it does not exist.</td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceDuration" ref="a6" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -321,6 +384,74 @@ Remove the given body from the force queues (filled with <a class="el" href="str
     </td>
   </tr>
 </table>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMechanicsSystem::CreateBody" ref="a12" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual csPtr&lt;iRigidBody&gt; iPcMechanicsSystem::CreateBody           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Create an iRigidBody and add it to the system. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcMechanicsSystem::CreateJoint" ref="a16" args="(iRigidBody *body1, iRigidBody *body2)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual iJoint* iPcMechanicsSystem::CreateJoint           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iRigidBody *&nbsp;</td>
+          <td class="mdname" nowrap> <em>body1</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>iRigidBody *&nbsp;</td>
+          <td class="mdname" nowrap> <em>body2</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Create a joint between the two given bodies. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsSystem::GetDynamicSystem" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -408,6 +539,86 @@ Get the current step time.
     </td>
   </tr>
 </table>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBody" ref="a13" args="(iRigidBody *body)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsSystem::RemoveBody           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iRigidBody *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>body</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a given iRigidBody from the system. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>body</em>&nbsp;</td><td>the body to remove from the system.</td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBodyFromGroup" ref="a15" args="(iRigidBody *body, const char *group)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsSystem::RemoveBodyFromGroup           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iRigidBody *&nbsp;</td>
+          <td class="mdname" nowrap> <em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>group</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a body from the specified group. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>body</em>&nbsp;</td><td>the body to remove from the group. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>group</em>&nbsp;</td><td>the name of the group to remove the body from.</td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveForceTagged" ref="a9" args="(iPcMechanicsObject *pcobject, uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -450,6 +661,36 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a34
     <tr><td valign="top"></td><td valign="top"><em>forceid</em>&nbsp;</td><td>the tag of the desired force.</td></tr>
   </table>
 </dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveJoint" ref="a17" args="(iJoint *joint)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsSystem::RemoveJoint           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">iJoint *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>joint</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove a given joint from the system. 
+<p>
     </td>
   </tr>
 </table>
