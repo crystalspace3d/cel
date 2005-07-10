@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.2.4 behave.h</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.2.4 behave.h">
+<meta name="keywords" content="Crystal Entity Layer: 4.2.4 behave.h">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Tutorial-Behave-Header"></a>
+<a name="4.2.4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.2.3.html#4.2.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.5.html#4.2.5" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.2.4 behave.h </h3>
+
+<p>Here is the header for our behaviour layer. Here we define the behaviour
+layer and also the implementations of every behaviour.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">#ifndef BEHAVE_H
+#define BEHAVE_H
+
+#include &lt;physicallayer/pl.h&gt;
+#include &lt;behaviourlayer/bl.h&gt;
+#include &lt;behaviourlayer/behave.h&gt;
+#include &lt;propclass/actormove.h&gt;
+#include &lt;propclass/meshsel.h&gt;
+#include &lt;propclass/mesh.h&gt;
+#include &lt;propclass/camera.h&gt;
+#include &lt;propclass/inv.h&gt;
+</pre></td></tr></table>
+<p><code>BehaviourLayer</code> is our behaviour layer. It is a simple class that
+will create the right behaviour depending on the given name.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourLayer : public iCelBlLayer
+{
+private:
+  iCelPlLayer* pl;
+
+public:
+  BehaviourLayer (iCelPlLayer* pl);
+  virtual ~BehaviourLayer ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual const char* GetName () const
+  {
+    return &quot;behaviourlayer&quot;;
+  }
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+};
+</pre></td></tr></table>
+<p><code>BehaviourCommon</code> is the common superclass for all our behaviours. It
+takes care of overriding the standard <code>SendMessage()</code> routine and
+to replace it with a version that uses an <small>ID</small> instead of a string. That
+is faster.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourCommon : public iCelBehaviour
+{
+protected:
+  iCelEntity* entity;
+  BehaviourLayer* bl;
+  iCelPlLayer* pl;
+
+public:
+  BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourCommon ();
+
+  /**
+   * This is a specific version of SendMessage() that accepts
+   * an integer instead of a csStringID. Subclasses of ccBehaviourBase
+   * will only have to override this version. The normal iCelBehaviour
+   * versions of SendMessage() are implemented in this class and
+   * will redirect to this version.
+   */
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+
+  SCF_DECLARE_IBASE;
+
+  virtual iCelBlLayer* GetBehaviourLayer () const
+  {
+    return bl;
+  }
+  virtual bool SendMessage (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, ...);
+  virtual bool SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+  virtual void* GetInternalObject ()
+  {
+    return 0;
+  }
+};
+</pre></td></tr></table>
+<p>The level behaviour doesn't do much.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourLevel : public BehaviourCommon
+{
+public:
+  BehaviourLevel (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+    : BehaviourCommon (entity, bl, pl) { }
+  virtual ~BehaviourLevel () { }
+
+  virtual const char* GetName () const
+  {
+    return &quot;level_behave&quot;;
+  }
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+};
+
+</pre></td></tr></table>
+<p>This is the behaviour for a box. This behaviour will be used for entities
+in the <samp>`entities'</samp> file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourBox : public BehaviourCommon
+{
+private:
+  csStringID id_pcmeshsel_down;
+
+  void GetPlayer ();
+  csWeakRef&lt;iPcMeshSelect&gt; pcmeshsel;
+  iCelEntity* player;
+
+  void PickUp ();
+
+public:
+  BehaviourBox (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourBox () { }
+
+  virtual const char* GetName () const
+  {
+    return &quot;box_behave&quot;;
+  }
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+};
+</pre></td></tr></table>
+<p>Another behaviour used for entities in the <samp>`entities'</samp> file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourBadOne : public BehaviourCommon
+{
+private:
+  csStringID id_pctimer_wakeup;
+  csStringID id_par_elapsedticks;
+
+  csRef&lt;csPath&gt; path;
+  void ReadPath ();
+
+  void Restart ();
+
+public:
+  BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourBadOne () { }
+
+  virtual const char* GetName () const
+  {
+    return &quot;badone_behave&quot;;
+  }
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+};
+</pre></td></tr></table>
+<p>And finally the behaviour for our player. This one takes care of matching
+commands from the <samp>`pccommandinput'</samp> property class to actual operations
+on <samp>`pcactormove'</samp>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourPlayer : public BehaviourCommon
+{
+private:
+  csStringID id_pccommandinput_forward1;
+  csStringID id_pccommandinput_forward0;
+  csStringID id_pccommandinput_backward1;
+  csStringID id_pccommandinput_backward0;
+  csStringID id_pccommandinput_rotateleft1;
+  csStringID id_pccommandinput_rotateleft0;
+  csStringID id_pccommandinput_rotateright1;
+  csStringID id_pccommandinput_rotateright0;
+  csStringID id_pccommandinput_cammode1;
+  csStringID id_pccommandinput_drop1;
+
+  csStringID id_pcinventory_addchild;
+  csStringID id_pcinventory_removechild;
+
+  void GetActorMove ();
+  csWeakRef&lt;iPcActorMove&gt; pcactormove;
+
+  void GetInventory ();
+  csWeakRef&lt;iPcInventory&gt; pcinventory;
+
+  void GetMesh ();
+  csWeakRef&lt;iPcMesh&gt; pcmesh;
+
+  void ShowInventory ();
+  void Drop ();
+
+public:
+  BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
+  virtual ~BehaviourPlayer () { }
+
+  virtual const char* GetName () const
+  {
+    return &quot;player_behave&quot;;
+  }
+  virtual bool SendMessage (csStringID msg_id,
+	iCelPropertyClass* pc,
+  	celData&amp; ret, iCelParameterBlock* params, va_list arg);
+};
+#endif
+</pre></td></tr></table>
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.2.3.html#4.2.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.5.html#4.2.5" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

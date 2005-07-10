@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 2.4.4 Windows using Cygwin</title>
+<title>Crystal Entity Layer: 4.2.1 main.cpp</title>
 
-<meta name="description" content="Crystal Entity Layer: 2.4.4 Windows using Cygwin">
-<meta name="keywords" content="Crystal Entity Layer: 2.4.4 Windows using Cygwin">
+<meta name="description" content="Crystal Entity Layer: 4.2.1 main.cpp">
+<meta name="keywords" content="Crystal Entity Layer: 4.2.1 main.cpp">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -40,15 +40,15 @@ ul.toc {list-style: none}
 
 <body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<a name="Cygwin"></a>
-<a name="2.4.4"></a>
+<a name="Tutorial-Main"></a>
+<a name="4.2.1"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="cel_2.4.3.html#2.4.3" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.2.html#4.2.2" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="cel_2.html#2." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_2.4.html#2.4" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
@@ -58,34 +58,30 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[Index]</td>
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="subsection"> 2.4.4 Windows using Cygwin </h3>
+<h3 class="subsection"> 4.2.1 main.cpp </h3>
 
-<p>These instructions detail how to build Crystal Entity Layer under Cygwin.  They
-assume that you already have Cygwin installed and operating.  They also assume
-that you have the Jam build environment running under Cygwin.  
+<p>This is the main entry point for the application. It does nothing more then
+make an instance of <code>MainApp</code> and pass control to that.
 </p>
-<ol>
-<li> Ensure that Crystal Space has been compiled correctly.
+<table><tr><td>&nbsp;</td><td><pre class="example">#include &lt;crystalspace.h&gt;
+#include &quot;app.h&quot;
 
-</li><li> Ensure that the CRYSTAL environment variable is set correctly. For 
-example:<br>
-       export CRYSTAL=~/CS
+CS_IMPLEMENT_APPLICATION
 
-</li><li> From the cel directory run the configure script, with the command:<br>
-        ./configure
-
-</li><li> Use jam to build the project<br>
-        jam
-</li></ol>
-
+int main (int argc, char *argv[])
+{
+  MainApp app;
+  return app.Main (argc, argv);
+}
+</pre></td></tr></table>
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="cel_2.4.3.html#2.4.3" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.2.html#4.2.2" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="cel_2.html#2." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_2.4.html#2.4" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
 </tr></table>
 <p>
  <font size="-1">
