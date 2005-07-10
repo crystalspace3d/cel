@@ -219,7 +219,8 @@ iPcMechanicsThruster* celPcMechanicsBalancedGroup::GetThruster (const char*
 
 float celPcMechanicsBalancedGroup::AvailableThrust ()
 {
-  float maxinputthrust = 0, tmpavail = 0;
+  float maxinputthrust = thrusters[0]->thruster->AvailableThrust ();
+  float tmpavail = 0;
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
   celThrusterData* thrusterdata;
   while (it.HasNext ())
@@ -254,8 +255,6 @@ void celPcMechanicsBalancedGroup::ChangeThrust (float deltathrust)
   celThrusterData* thrusterdata;
   while (it.HasNext ())
   {
-    printf (" [thruster]\n");
-    fflush (stdout);
     thrusterdata = it.Next ();
     thrusterdata->thruster->ThrustChange (deltathrust *
 	thrusterdata->thrustcoefficient);
@@ -714,9 +713,6 @@ void celPcMechanicsThrusterController::ApplyThrustHelper (float thrust,
 void celPcMechanicsThrusterController::ApplyThrust (float thrust,
 	const char* axisname, uint32& id)
 {
-  printf ((csString ("Applying thrust on axis '") + axisname + "'.\n")
-  	.GetData ());
-  fflush (stdout);
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
   while (it.HasNext ())
@@ -724,8 +720,6 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
     ad = it.Next ();
     if (strcmp (ad->name.GetData (), axisname) == 0)
     {
-      printf ("Found match.\n");
-      fflush (stdout);
       if (ad->balancedgroups.IsEmpty ())
       {
         Report (object_reg, "No groups in this axis!");
@@ -738,8 +732,6 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       float beststrength = 0;
       while (groupit.HasNext ())
       {
-        printf ("[group]\n");
-        fflush (stdout);
         group = groupit.Next ();
         if (group != NULL && (bestgroup == NULL || group->AvailableThrust () > beststrength))
         {
@@ -749,11 +741,7 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       }
       if (bestgroup != NULL)
       {
-        printf ("Found best group. Applying thrust %f.\n", thrust);
-        fflush (stdout);
 	lastrequestid++;
-	printf ("Current thrust ID: %u\n", lastrequestid);
-	fflush (stdout);
 	id = lastrequestid;
         ApplyThrustHelper (thrust, bestgroup, id);
       }
