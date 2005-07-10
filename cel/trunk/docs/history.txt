@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	  iPcMechanicsObject that allow them to deal with joints and groups
 	  directly.
 	- Jorrit added a tutorial to the CEL documentation.
+	- David Bronke fixed detection of maximum thrust and maximum force in
+	  thruster groups, as well as cleaning up a bunch of extra output from
+	  the mechanics plugin.
 3-Jul-2005
 	- David Bronke added a fix from Chris Case that corrects the problems
 	  with getting incorrect returns from

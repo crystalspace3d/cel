@@ -939,15 +939,13 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
     csRef<iCelEntity> ent = pl->FindAttachedEntity (obj);
     if (ent == NULL)
     {
-      printf ("No entity found using given iObject!\n");
-      fflush (stdout);
+      Report (object_reg, "No entity found using given iObject!\n");
     }
     //params->GetParameter (0).Set (othermechobjtag);
   }
   else
   {
-    printf ("No iObject found!\n");
-    fflush (stdout);
+    Report (object_reg, "No iObject found!\n");
   }*/
   behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
 }

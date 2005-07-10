@@ -169,8 +169,6 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
 
 void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
 {
-  printf ("changing thrust from %f to %f.\n\n", thrust, thrust + deltathrust);
-  fflush (stdout);
   if (deltathrust <= AvailableThrust () && deltathrust >= (-thrust))
   {
     if (lastforceid != 0)
