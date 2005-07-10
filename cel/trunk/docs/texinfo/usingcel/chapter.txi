@@ -8,8 +8,10 @@ applications.
 @menu
 * The Basics::
 * Tutorial:: tutorial
+* Property Classes::
 @end menu
 
 @imports{usingcel,basics.txi}
 @imports{usingcel,tutorial1.txi}
+@importss{usingcel,propclasses,chapter.txi}
 
