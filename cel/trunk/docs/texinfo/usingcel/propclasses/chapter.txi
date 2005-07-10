@@ -5,8 +5,14 @@
 Here in this chapter the various property classes are documented.
 
 @menu
-* Quest Manager::
+* PropClass Quest Manager:: Quest Manager
+* PropClass Mesh:: Mesh
+* PropClass LinMove:: Linear Movement
+* PropClass Timer:: Timer
 @end menu
 
 @importss{usingcel,propclasses,questmgr.txi}
+@importss{usingcel,propclasses,mesh.txi}
+@importss{usingcel,propclasses,linmove.txi}
+@importss{usingcel,propclasses,timer.txi}
 

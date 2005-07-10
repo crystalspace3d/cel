@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @node Tutorial, Property Classes, The Basics, Using CEL
-@section tutorial
+@section Tutorial
 @cindex zone manager
 @cindex entity creation
 @cindex @code{csApplicationFramework}
@@ -97,7 +97,7 @@ In this particular example we use the @samp{cel.addons.celentity} addon
 to create an entity with the name @samp{badone}. It has the following property
 classes:
 @itemize @bullet
-@item @samp{pcmesh}
+@item @samp{pcmesh} (@pxref{PropClass Mesh}).
 This mesh is setup with the @samp{monkey} model that
 was made in @samp{Blender}.
 @item @samp{pcmeshselect}
@@ -106,10 +106,10 @@ Used for selection of mesh.
 This is a generic property class for storing named properties. In this
 particular case the @samp{badone_behave} behaviour will read out the properties
 to construct the path for the catmull rom spline.
-@item @samp{pctimer}
+@item @samp{pctimer} (@pxref{PropClass Timer}).
 This timer will be used to restart the movement along the path after
 5 seconds (5000 milliseconds).
-@item @samp{pclinearmovement}
+@item @samp{pclinearmovement} (@pxref{PropClass LinMove}).
 This is the generic movement system.
 @end itemize
 

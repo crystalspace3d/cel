@@ -7,7 +7,7 @@ applications.
 
 @menu
 * The Basics::
-* Tutorial:: tutorial
+* Tutorial::
 * Property Classes::
 @end menu
 
