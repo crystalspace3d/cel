@@ -627,7 +627,7 @@ struct iQuestManager : public iBase
    *     See iPropertyChangeQuestTriggerFactory.
    * <li>cel.questtrigger.sequencefinish: triggers when a sequence finishes.
    *     See iSequenceFinishQuestTriggerFactory.
-   * <li>cel.questtrigger.trigger: triggers when a pctrigger files.
+   * <li>cel.questtrigger.trigger: triggers when a pctrigger fires.
    *     See iTriggerQuestTriggerFactory.
    * <li>cel.questtrigger.inventory: triggers when an object enters inventory.
    *     See iInventoryQuestTriggerFactory.

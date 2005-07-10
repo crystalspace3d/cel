@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Tutorial, , The Basics, Using CEL
+@node Tutorial, Property Classes, The Basics, Using CEL
 @section tutorial
 @cindex zone manager
 @cindex entity creation

@@ -1,0 +1,12 @@
+@c -*-texinfo-*-
+@node Property Classes, , Tutorial, Using CEL
+@section Property Classes
+
+Here in this chapter the various property classes are documented.
+
+@menu
+* Quest Manager::
+@end menu
+
+@importss{usingcel,propclasses,questmgr.txi}
+
