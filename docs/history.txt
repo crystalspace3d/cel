@@ -4,7 +4,9 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 10-Jul-2005
-	- Jorrit added documentation about the quest manager.
+	- Jorrit added documentation for the quest manager.
+	- Jorrit added documentation for pcmesh and added empty stubs
+	  for pctimer and pclinearmovement.
 9-Jul-2005
 	- Eric Sunshine applied a patch to texi2html.pl which allows it to work
 	  on Windows by avoding dependence upon the Unix-specific external

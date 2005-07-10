@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Quest Manager, , Property Classes, Property Classes
+@node PropClass Quest Manager, PropClass Mesh, Property Classes, Property Classes
 @subsection Quest Manager
 @cindex quest manager
 @cindex @code{iQuestManager}
@@ -11,7 +11,18 @@
 The quest property classes uses the quest manager in the background so
 this section will also explain the quest manager.
 
-@subsubheading The Quest Manager
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.quest}
+@item @emph{Interface}:
+@code{iPcQuest}
+@item @emph{Header}:
+@file{include/propclass/quest.h}
+@end itemize
+
+@subsubheading General Information
 
 The quest manager is one of the most important modules in Crystal Entity
 Layer. A quest is basically a @dfn{story} in a game. With story defined
