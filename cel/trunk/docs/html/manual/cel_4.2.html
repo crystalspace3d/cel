@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.2 tutorial</title>
+<title>Crystal Entity Layer: 4.2 Tutorial</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.2 tutorial">
-<meta name="keywords" content="Crystal Entity Layer: 4.2 tutorial">
+<meta name="description" content="Crystal Entity Layer: 4.2 Tutorial">
+<meta name="keywords" content="Crystal Entity Layer: 4.2 Tutorial">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -58,7 +58,7 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[Index]</td>
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h2 class="section"> 4.2 tutorial </h2>
+<h2 class="section"> 4.2 Tutorial </h2>
 
 <p>This is a tutorial to show how you can use Crystal Entity Layer in your
 own applications. The game data needed by this tutorial can be downloaded
@@ -150,7 +150,7 @@ looks:
 to create an entity with the name <samp>`badone'</samp>. It has the following property
 classes:
 </p><ul>
-<li> <samp>`pcmesh'</samp>
+<li> <samp>`pcmesh'</samp> (see section <a href="cel_4.3.2.html#4.3.2">Mesh</a>).
 This mesh is setup with the <samp>`monkey'</samp> model that
 was made in <samp>`Blender'</samp>.
 </li><li> <samp>`pcmeshselect'</samp>
@@ -159,10 +159,10 @@ Used for selection of mesh.
 This is a generic property class for storing named properties. In this
 particular case the <samp>`badone_behave'</samp> behaviour will read out the properties
 to construct the path for the catmull rom spline.
-</li><li> <samp>`pctimer'</samp>
+</li><li> <samp>`pctimer'</samp> (@pxref{PropClass Timer}).
 This timer will be used to restart the movement along the path after
 5 seconds (5000 milliseconds).
-</li><li> <samp>`pclinearmovement'</samp>
+</li><li> <samp>`pclinearmovement'</samp> (see section <a href="cel_4.3.3.html#4.3.3">Linear Movement</a>).
 This is the generic movement system.
 </li></ul>
 
