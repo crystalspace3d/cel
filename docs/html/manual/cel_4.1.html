@@ -97,12 +97,12 @@ for a box in a game. Here are the property classes you could use for that
 entity:
 </p>
 <ul>
-<li> <samp>`pcmesh'</samp>
+<li> <samp>`pcmesh'</samp> (see section <a href="cel_4.3.2.html#4.3.2">Mesh</a>).
 This property class gives entities a 3D representation (i.e. a mesh in
 Crystal Space terminology). It is only when an entity has this property class
 that you can see it in the 3D world. In this particular example this property
 class would be setup with a mesh that represents a box.
-</li><li> <samp>`pclinearmovement'</samp>
+</li><li> <samp>`pclinearmovement'</samp> (see section <a href="cel_4.3.3.html#4.3.3">Linear Movement</a>).
 This property class is the general movement system in Crystal Entity Layer
 that does not use physics but only simple gravity and collision detection
 simulation. By attaching this property class this entity will correctly fall
@@ -117,9 +117,9 @@ carry for example.
 <p>Here is another example of how you could setup your hero:
 </p>
 <ul>
-<li> <samp>`pcmesh'</samp>
+<li> <samp>`pcmesh'</samp> (see section <a href="cel_4.3.2.html#4.3.2">Mesh</a>).
 Again we need a mesh if we plan to use our hero in third-person mode.
-</li><li> <samp>`pclinearmovement'</samp>
+</li><li> <samp>`pclinearmovement'</samp> (see section <a href="cel_4.3.3.html#4.3.3">Linear Movement</a>).
 Here we again use <samp>`pclinearmovement'</samp>. This time we use it also to
 control actual movement of the hero.
 </li><li> <samp>`pcdefaultcamera'</samp>
