@@ -1,0 +1,208 @@
+@c -*-texinfo-*-
+@node XML Behaviour Layer, , Property Classes, Using CEL
+@section The XML Behaviour Layer
+@cindex @sc{xml}
+@cindex behaviour layer
+
+One of the predefined behaviour layers in Crystal Entity Layer is the
+@sc{xml} behaviour layer. In this behaviour layer @sc{xml} is used a
+simple scripting language. This allows one to create game logic using
+@sc{xml} that one can embed in a map file.
+
+@subheading Example
+
+The easiest way to describe the basics behind the @sc{xml} behaviour
+layer is with an example:
+
+@example
+<world>
+    <textures>
+        <texture name="chair">
+            <file>/cellib/images/chair5.gif</file>
+        </texture>
+    </textures>
+    <materials>
+        <material name="chair">
+	    <texture>chair</texture>
+	</material>
+    </materials>
+    <settings>
+        <clearscreen>yes</clearscreen>
+    </settings>
+
+    <addon plugin="cel.addons.xmlscripts">
+        <pcfactory>cel.pcfactory.billboard</pcfactory>
+        <pcfactory>cel.pcfactory.timer</pcfactory>
+        <pcfactory>cel.pcfactory.properties</pcfactory>
+
+        <script name="chair_clicker">
+            <event name="init">
+                <var name="counter" value="0" />
+            </event>
+            <event name="pcbillboard_select">
+                <var name="counter" value="?counter+1" />
+                <if eval="?counter < 10">
+                    <true>
+                       <print value="'You clicked '+?counter+' times.'" />
+                    </true>
+                    <false>
+                        <print value="'It is time you stopped clicking!'" />
+                    </false>
+                </if>
+            </event>
+        </script>
+
+        <script name="chair_mover">
+            <event name="pctimer_wakeup">
+                <bb_move x="rand(1)*250000" y="rand(1)*250000" delta="500" />
+            </event>
+        </script>
+    </addon>
+
+    <addon plugin="cel.addons.celentity" entityname="red_chair">
+        <propclass name="pcbillboard">
+            <property name="name" string="red_chair" />
+            <property name="materialname" string="chair" />
+            <property name="clickable" bool="1" />
+            <property name="movable" bool="1" />
+            <property name="restack" bool="1" />
+            <property name="color" color="1,1,1" />
+            <property name="widthpct" float=".7" />
+            <property name="heightpct" float=".7" />
+        </propclass>
+        <behaviour name="chair_clicker" />
+    </addon>
+
+    <addon plugin="cel.addons.celentity" entityname="green_chair">
+        <propclass name="pcbillboard">
+            <property name="name" string="green_chair" />
+            <property name="materialname" string="chair" />
+            <property name="clickable" bool="1" />
+            <property name="movable" bool="0" />
+            <property name="restack" bool="1" />
+            <property name="color" color="0,1,0" />
+            <property name="widthpct" float=".7" />
+            <property name="heightpct" float=".7" />
+            <property name="x" long="100000" />
+            <property name="y" long="100000" />
+        </propclass>
+        <propclass name="pctimer">
+            <action name="WakeUp">
+                    <par name="time" long="500" />
+                    <par name="repeat" bool="true" />
+            </action>
+        </propclass>
+        <behaviour name="chair_mover" />
+    </addon>
+</world>
+@end example
+
+To run this example you can put this @sc{xml} file in the current
+directory and then do this on Windows:
+
+@example
+bootstrap.exe cel.behaviourlayer.xml bootstrap load //this testscript.xml
+@end example
+
+Or on GNU/Linux:
+
+@example
+./bootstrap cel.behaviourlayer.xml bootstrap load /this testscript.xml
+@end example
+
+In this example we create two entities using the @samp{cel.addons.celentity}
+addon. The @samp{red_chair} entity just has one property classes which is
+the @samp{pcbillboard} property class. This property class is designed for
+simple 2D graphics. You can use it to build a complete 2D game (like the
+Boulderdash game that is included with Crystal Entity Layer) or else you can
+use it for @sc{hud} elements in a 3D game. The @samp{green_chair} entity has
+a @samp{pcbillboard} property class and a @samp{pctimer}
+(@pxref{PropClass Timer}).
+
+@subheading Scripts
+
+When using the @sc{xml} behaviour layer you basically create @dfn{scripts}.
+Every script corresponds to a behaviour for an entity (multiple entities
+can use it of course). In this particular example we use the
+@samp{cel.addons.xmlscripts} addon to create the two scripts that we will
+use for the two entities. The @samp{chair_clicker} script simply waits
+until the billboard is clicked and increments a counter. If the counter
+is less then 10 then it will print out the count. Otherwise it issues a
+warning. The @samp{chair_mover} script simply waits until the timer
+fires and then it initiates a move of the billboard to another location.
+The @samp{bb_move} will make sure the billboard keeps moving gradually
+to the desired location (side note, the location system for billboards
+uses a coordinate system where 0,0 it top-left and 307200,307200 is
+bottom-right, independent of window resolution).
+
+@subheading Events
+
+Every event in a script roughly corresponds with a method call in a normal
+programming language. You can make as many events as you want but there are
+a few special cases. First there is the @samp{init} event which is called
+when the entity with that script is first executed. It is a kind of
+constructor. Secondly when the entity gets a message from one of the property
+classes this message is also translated to an event. In the example above
+the @samp{chair_clicker} script reacted on billboard selection which is
+a message from the billboard property class that is named
+@samp{pcbillboard_select}. The @samp{chair_mover} script reacted on timer
+events which is a message from the timer proerty class that is named
+@samp{pctimer_wakeup}.
+
+@subheading Variables
+
+You can use two kinds of variables in an event. First there are global
+variables. To assign a value to such a variable you use:
+
+@example
+<var name="variable" value="1000" />
+@end example
+
+Note that variables are always strings. It is the operator that you use
+on a variable that decides the type that is used during the calculation.
+
+To use a global variable you use the @samp{?} operator like this:
+
+@example
+<print value="?variable" />
+@end example
+
+You can combine this in complex expressions:
+
+@example
+<print value="3.14*(?variable+?othervar)" />
+@end example
+
+Global variables have one big advantage: they are persistant. Internally
+the @sc{xml} behaviour layer will automatically use a @samp{pcproperties}
+property class to store these variables (such a property class will be
+created on the entity if it doesn't already exist). This also means you
+can set and access variables from other entities (notice how the
+@samp{?} operator is combined with the @samp{.} operator to access the
+variable from another entity):
+
+@example
+<var entity="other_entity" var="variable" value="'some string'" />
+<print value="'x in other_entity is equal to '+?other_entity.x" />
+@end example
+
+In contrast with global variables you also have local variables. Local
+variables don't remember their value and you can't access local variables
+from other entities either. On the other hand they are considerably more
+performant to work with. Here is how you set and use a local variable:
+
+@example
+<lvar name="localvar" value="3.1415" />
+<print value="'Our local variable is equal to '+#localvar"/>
+@end example
+
+This can become pretty complex. For example take this:
+
+@example
+<print value="?#entity.#variable" />
+@end example
+
+This will print out the variable which has the name given in the local
+variable called @samp{variable} from the entity which has the name given
+in the local variable called @samp{entity}.
+

@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Jul-2005
+	- Jorrit added documentation for the zone manager and partial
+	  documentation for the XML behaviour layer.
 10-Jul-2005
 	- Jorrit added documentation for the quest manager.
 	- Jorrit added documentation for pcmesh and added empty stubs
