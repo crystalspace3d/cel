@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Property Classes, , Tutorial, Using CEL
+@node Property Classes, XML Behaviour Layer, Tutorial, Using CEL
 @section Property Classes
 
 Here in this chapter the various property classes are documented.
@@ -9,10 +9,12 @@ Here in this chapter the various property classes are documented.
 * PropClass Mesh:: Mesh
 * PropClass LinMove:: Linear Movement
 * PropClass Timer:: Timer
+* PropClass ZoneMgr:: Zone Manager
 @end menu
 
 @importss{usingcel,propclasses,questmgr.txi}
 @importss{usingcel,propclasses,mesh.txi}
 @importss{usingcel,propclasses,linmove.txi}
 @importss{usingcel,propclasses,timer.txi}
+@importss{usingcel,propclasses,zonemgr.txi}
 
