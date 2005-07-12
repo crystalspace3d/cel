@@ -12,6 +12,11 @@ The history order is reversed so that new features are at the top.
 	  But they do.
 	- Jorrit added documentation for the four different addons that
 	  CEL implements.
+	- Jorrit fixed a bug in pcmeshselect which caused persistance
+	  to crash.
+	- Jorrit fixed linmove persistance so that it correctly restores anchor
+	  on loading.
+	- Jorrit fixed persistance for the pctrigger property class.
 11-Jul-2005
 	- Jorrit added documentation for the zone manager and partial
 	  documentation for the XML behaviour layer.

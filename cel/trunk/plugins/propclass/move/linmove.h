@@ -82,6 +82,7 @@ protected:
   csRef<iVirtualClock> vc;
 
   csWeakRef<iPcMesh> anchor;
+  bool anchor_needsinit;
 
   // Linear vars
   float angDelta;
@@ -256,6 +257,7 @@ public:
 
   bool IsPath() const { return (path != 0); }
 
+  void LoadAnchor (iPcMesh* a);
   void SetAnchor (iPcMesh* a);
   iPcMesh* GetAnchor () const { return pcmesh; }
 
