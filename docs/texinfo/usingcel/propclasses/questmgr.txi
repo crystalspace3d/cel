@@ -139,8 +139,8 @@ You can define your own sequence operations for the quest manager.
 @subsubheading Defining a quest in XML
 
 Here we show how you could define a quest in XML. We use the
-@samp{cel.addons.questdef} addon so that we can embed the quest
-definition in a regular world file:
+@samp{cel.addons.questdef} addon (@pxref{Addons QuestDef}) so that we can
+embed the quest definition in a regular world file:
 
 @example
 <addon plugin="cel.addons.questdef">
@@ -205,7 +205,7 @@ and go to the @samp{opened} state. Similarly for the @samp{opened} state
 where we wait until the player moves away from the trigger.
 
 To define an entity that uses this quest we use the @samp{cel.addons.celentity}
-addon like this:
+addon (@pxref{Addons CelEntity}) like this:
 
 @example
 <addon plugin="cel.addons.celentity" entityname="SlidingDoor">
