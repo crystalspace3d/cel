@@ -808,7 +808,16 @@ bool celPcLinearMovement::MoveV (float delta)
   else
   {
     if(velWorld.y < 0)
+    {
+       // Call callbacks
+        size_t i = gravityCallbacks.Length ();
+	while (i > 0)
+	{
+	  i--;
+          gravityCallbacks[i]->Callback ();
+	}
       velWorld.y = 0;
+    }
 
     // Not fully implemented!
     if (hugGround)
