@@ -12,6 +12,8 @@ This property class defines a visual representation for an entity.
 @subsubheading Property Class Details
 
 @itemize @bullet
+@item @emph{Name}:
+@samp{pcmesh}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.mesh}
 @item @emph{Interface}:

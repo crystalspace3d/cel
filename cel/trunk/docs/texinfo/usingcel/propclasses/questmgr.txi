@@ -14,6 +14,8 @@ this section will also explain the quest manager.
 @subsubheading Property Class Details
 
 @itemize @bullet
+@item @emph{Name}:
+@samp{pcquest}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.quest}
 @item @emph{Interface}:
