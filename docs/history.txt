@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Jul-2005
+	- Jorrit added some discussion about how to use property classes
+	  in general. Also added a name for every property class to the
+	  documentation.
 11-Jul-2005
 	- Jorrit added documentation for the zone manager and partial
 	  documentation for the XML behaviour layer.

@@ -11,6 +11,8 @@ handles gravity and collision detection but not accurate physics.
 @subsubheading Property Class Details
 
 @itemize @bullet
+@item @emph{Name}:
+@samp{pclinearmovement}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.linmove}
 @item @emph{Interface}:

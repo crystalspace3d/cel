@@ -11,6 +11,8 @@ loading.
 @subsubheading Property Class Details
 
 @itemize @bullet
+@item @emph{Name}:
+@samp{pczonemanager}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.zonemanager}
 @item @emph{Interface}:

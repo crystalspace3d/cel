@@ -1,8 +1,75 @@
 @c -*-texinfo-*-
 @node Property Classes, XML Behaviour Layer, Tutorial, Using CEL
 @section Property Classes
+@cindex property class
 
 Here in this chapter the various property classes are documented.
+
+@subheading Using a Property Class in General
+
+Here are a few generic guidelines on using property classes. Before you can
+use any property class you must first ensure that the property class factory
+for that property class is loaded and registered with the physical layer.
+To do that you need the @dfn{Factory ID} for the property class which is
+documented in every property class documentation. Then you add the following
+line to the initialization of your application (example for @samp{pcmesh}
+property class):
+
+@example
+if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+  return false;
+@end example
+
+To use the @sc{api} from that property class you must load the header
+(also given with every property class documentation). There are two ways
+to create a property class for an entity. The first way creates them together
+with the entity itself:
+
+@example
+csRef<iCelEntity> entity = pl->CreateEntity (entname, behaviourlayer,
+	behavename,
+	"pcmesh",
+	@dots{} (other property classes)
+	(void*)0);
+@end example
+
+The second way creates a property class on an entity that is already created:
+
+@example
+iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcmesh");
+@end example
+
+To request a property class from an entity you can use:
+
+@example
+csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+@end example
+
+@subheading Tagged Property Classes
+
+Normally an entity only has one instance of a given property class
+type (i.e. only one @samp{pcmesh} maximum). Sometimes it is useful to be
+able to add multiple property class instances of the same type. To distinguish
+between the different instances you can use @dfn{tags}. Here is how you can
+create a tagged property class for an entity:
+
+@example
+iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, "pcmesh",
+	"main_mesh");
+@end example
+
+And to fetch a tagged property class you can use:
+
+@example
+csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
+	"main_mesh");
+@end example
+
+Note that there is the concept of a default property class for a given
+type. Usually the default property class is the one that has no tag (tag
+equal to 0). So when you call @code{CEL_QUERY_PROPCLASS_ENT} it will first
+try to look for the property class with tag equal to 0. If all property
+classes have a tag then it will return a random one.
 
 @menu
 * PropClass Quest Manager:: Quest Manager
