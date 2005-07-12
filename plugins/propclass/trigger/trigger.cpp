@@ -624,6 +624,16 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
   {
     databuf->Add ((uint8)0);
   }
+
+  databuf->Add ((uint32)entities_in_trigger.Length ());
+  size_t i;
+  for (i = 0 ; i < entities_in_trigger.Length () ; i++)
+  {
+    databuf->Add (entities_in_trigger[i]);
+  }
+  databuf->Add (monitoring_entity);
+  databuf->Add (monitoring_entity_pcmesh);
+
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -682,6 +692,20 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   }
 
   EnableTrigger (en);
+
+  iCelEntity* ent;
+  entities_in_trigger.DeleteAll ();
+  size_t et = databuf->GetUInt32 ();
+  while (et > 0)
+  {
+    et--;
+    ent = databuf->GetEntity ();
+    if (ent) entities_in_trigger.Push (ent);
+  }
+  ent = databuf->GetEntity ();
+  if (ent) monitoring_entity = ent;
+  iCelPropertyClass* pc = databuf->GetPC ();
+  if (pc) monitoring_entity_pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
   return true;
 }

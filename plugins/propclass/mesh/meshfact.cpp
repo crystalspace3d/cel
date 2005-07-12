@@ -748,8 +748,12 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
     return Report (object_reg, "serialnr != MESHSEL_SERIAL.  Cannot load.");
 
   csRef<iPcCamera> pcm;
-  pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcCamera);
-  SetCamera (pcm);
+  iCelPropertyClass* pc = databuf->GetPC ();
+  if (pc)
+  {
+    pcm = SCF_QUERY_INTERFACE (pc, iPcCamera);
+    SetCamera (pcm);
+  }
 
   sel_entity = databuf->GetEntity ();
   cur_on_top = databuf->GetBool ();

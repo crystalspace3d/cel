@@ -174,6 +174,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   called = false;
 
   portalDisplaced = 0.0f;
+  anchor_needsinit = false;
 
   path = 0;
   path_speed = 0;
@@ -277,8 +278,11 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   if (pc) pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
   pc = databuf->GetPC ();
-  anchor = 0;
-  if (pc) anchor = SCF_QUERY_INTERFACE (pc, iPcMesh);
+  if (pc)
+  {
+    csRef<iPcMesh> new_anchor = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    LoadAnchor (new_anchor);
+  }
 
   databuf->GetVector3 (topSize);
   databuf->GetVector3 (bottomSize);
@@ -294,15 +298,36 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+void celPcLinearMovement::LoadAnchor (iPcMesh* a)
+{
+  anchor_needsinit = false;
+  if (!pcmesh) return;
+
+  anchor = a;
+  // Set the new anchor if needed.
+  if (anchor)
+  {
+    if (!anchor->GetMesh ())
+      anchor_needsinit = true;
+    else
+    {
+      iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+      anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
+      movable->UpdateMove ();
+    }
+  }
+}
+
 void celPcLinearMovement::SetAnchor (iPcMesh* a)
 {
+  anchor_needsinit = false;
   if (!pcmesh) return;
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csReversibleTransform trans = movable->GetFullTransform ();
 
   // Clear the previous anchor first if any.
-  if (anchor)
+  if (anchor && anchor != a)
   {
     anchor->GetMesh ()->GetChildren ()->Remove (pcmesh->GetMesh ());
     movable->SetTransform (trans);
@@ -975,6 +1000,9 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 void celPcLinearMovement::TickEveryFrame ()
 {
   FindSiblingPropertyClasses ();
+
+  if (anchor_needsinit) LoadAnchor (anchor);
+
   if (!pcmesh)
   {
     MoveReport (object_reg, "No Mesh found on entity!");
