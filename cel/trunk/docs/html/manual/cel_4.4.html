@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.4 The XML Behaviour Layer</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.4 The XML Behaviour Layer">
+<meta name="keywords" content="Crystal Entity Layer: 4.4 The XML Behaviour Layer">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="XML-Behaviour-Layer"></a>
+<a name="4.4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.4.html#4.3.4" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.4 The XML Behaviour Layer </h2>
+
+<p>One of the predefined behaviour layers in Crystal Entity Layer is the
+<small>XML</small> behaviour layer. In this behaviour layer <small>XML</small> is used a
+simple scripting language. This allows one to create game logic using
+<small>XML</small> that one can embed in a map file.
+</p>
+<a name="SEC66"></a>
+<h3 class="subheading"> Example </h3>
+
+<p>The easiest way to describe the basics behind the <small>XML</small> behaviour
+layer is with an example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;world&gt;
+    &lt;textures&gt;
+        &lt;texture name=&quot;chair&quot;&gt;
+            &lt;file&gt;/cellib/images/chair5.gif&lt;/file&gt;
+        &lt;/texture&gt;
+    &lt;/textures&gt;
+    &lt;materials&gt;
+        &lt;material name=&quot;chair&quot;&gt;
+	    &lt;texture&gt;chair&lt;/texture&gt;
+	&lt;/material&gt;
+    &lt;/materials&gt;
+    &lt;settings&gt;
+        &lt;clearscreen&gt;yes&lt;/clearscreen&gt;
+    &lt;/settings&gt;
+
+    &lt;addon plugin=&quot;cel.addons.xmlscripts&quot;&gt;
+        &lt;pcfactory&gt;cel.pcfactory.billboard&lt;/pcfactory&gt;
+        &lt;pcfactory&gt;cel.pcfactory.timer&lt;/pcfactory&gt;
+        &lt;pcfactory&gt;cel.pcfactory.properties&lt;/pcfactory&gt;
+
+        &lt;script name=&quot;chair_clicker&quot;&gt;
+            &lt;event name=&quot;init&quot;&gt;
+                &lt;var name=&quot;counter&quot; value=&quot;0&quot; /&gt;
+            &lt;/event&gt;
+            &lt;event name=&quot;pcbillboard_select&quot;&gt;
+                &lt;var name=&quot;counter&quot; value=&quot;?counter+1&quot; /&gt;
+                &lt;if eval=&quot;?counter &lt; 10&quot;&gt;
+                    &lt;true&gt;
+                       &lt;print value=&quot;'You clicked '+?counter+' times.'&quot; /&gt;
+                    &lt;/true&gt;
+                    &lt;false&gt;
+                        &lt;print value=&quot;'It is time you stopped clicking!'&quot; /&gt;
+                    &lt;/false&gt;
+                &lt;/if&gt;
+            &lt;/event&gt;
+        &lt;/script&gt;
+
+        &lt;script name=&quot;chair_mover&quot;&gt;
+            &lt;event name=&quot;pctimer_wakeup&quot;&gt;
+                &lt;bb_move x=&quot;rand(1)*250000&quot; y=&quot;rand(1)*250000&quot; delta=&quot;500&quot; /&gt;
+            &lt;/event&gt;
+        &lt;/script&gt;
+    &lt;/addon&gt;
+
+    &lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;red_chair&quot;&gt;
+        &lt;propclass name=&quot;pcbillboard&quot;&gt;
+            &lt;property name=&quot;name&quot; string=&quot;red_chair&quot; /&gt;
+            &lt;property name=&quot;materialname&quot; string=&quot;chair&quot; /&gt;
+            &lt;property name=&quot;clickable&quot; bool=&quot;1&quot; /&gt;
+            &lt;property name=&quot;movable&quot; bool=&quot;1&quot; /&gt;
+            &lt;property name=&quot;restack&quot; bool=&quot;1&quot; /&gt;
+            &lt;property name=&quot;color&quot; color=&quot;1,1,1&quot; /&gt;
+            &lt;property name=&quot;widthpct&quot; float=&quot;.7&quot; /&gt;
+            &lt;property name=&quot;heightpct&quot; float=&quot;.7&quot; /&gt;
+        &lt;/propclass&gt;
+        &lt;behaviour name=&quot;chair_clicker&quot; /&gt;
+    &lt;/addon&gt;
+
+    &lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;green_chair&quot;&gt;
+        &lt;propclass name=&quot;pcbillboard&quot;&gt;
+            &lt;property name=&quot;name&quot; string=&quot;green_chair&quot; /&gt;
+            &lt;property name=&quot;materialname&quot; string=&quot;chair&quot; /&gt;
+            &lt;property name=&quot;clickable&quot; bool=&quot;1&quot; /&gt;
+            &lt;property name=&quot;movable&quot; bool=&quot;0&quot; /&gt;
+            &lt;property name=&quot;restack&quot; bool=&quot;1&quot; /&gt;
+            &lt;property name=&quot;color&quot; color=&quot;0,1,0&quot; /&gt;
+            &lt;property name=&quot;widthpct&quot; float=&quot;.7&quot; /&gt;
+            &lt;property name=&quot;heightpct&quot; float=&quot;.7&quot; /&gt;
+            &lt;property name=&quot;x&quot; long=&quot;100000&quot; /&gt;
+            &lt;property name=&quot;y&quot; long=&quot;100000&quot; /&gt;
+        &lt;/propclass&gt;
+        &lt;propclass name=&quot;pctimer&quot;&gt;
+            &lt;action name=&quot;WakeUp&quot;&gt;
+                    &lt;par name=&quot;time&quot; long=&quot;500&quot; /&gt;
+                    &lt;par name=&quot;repeat&quot; bool=&quot;true&quot; /&gt;
+            &lt;/action&gt;
+        &lt;/propclass&gt;
+        &lt;behaviour name=&quot;chair_mover&quot; /&gt;
+    &lt;/addon&gt;
+&lt;/world&gt;
+</pre></td></tr></table>
+<p>To run this example you can put this <small>XML</small> file in the current
+directory and then do this on Windows:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">bootstrap.exe cel.behaviourlayer.xml bootstrap load //this testscript.xml
+</pre></td></tr></table>
+<p>Or on GNU/Linux:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">./bootstrap cel.behaviourlayer.xml bootstrap load /this testscript.xml
+</pre></td></tr></table>
+<p>In this example we create two entities using the <samp>`cel.addons.celentity'</samp>
+addon. The <samp>`red_chair'</samp> entity just has one property classes which is
+the <samp>`pcbillboard'</samp> property class. This property class is designed for
+simple 2D graphics. You can use it to build a complete 2D game (like the
+Boulderdash game that is included with Crystal Entity Layer) or else you can
+use it for <small>HUD</small> elements in a 3D game. The <samp>`green_chair'</samp> entity has
+a <samp>`pcbillboard'</samp> property class and a <samp>`pctimer'</samp>
+(@pxref{PropClass Timer}).
+</p>
+<a name="SEC67"></a>
+<h3 class="subheading"> Scripts </h3>
+
+<p>When using the <small>XML</small> behaviour layer you basically create <em>scripts</em>.
+Every script corresponds to a behaviour for an entity (multiple entities
+can use it of course). In this particular example we use the
+<samp>`cel.addons.xmlscripts'</samp> addon to create the two scripts that we will
+use for the two entities. The <samp>`chair_clicker'</samp> script simply waits
+until the billboard is clicked and increments a counter. If the counter
+is less then 10 then it will print out the count. Otherwise it issues a
+warning. The <samp>`chair_mover'</samp> script simply waits until the timer
+fires and then it initiates a move of the billboard to another location.
+The <samp>`bb_move'</samp> will make sure the billboard keeps moving gradually
+to the desired location (side note, the location system for billboards
+uses a coordinate system where 0,0 it top-left and 307200,307200 is
+bottom-right, independent of window resolution).
+</p>
+<a name="SEC68"></a>
+<h3 class="subheading"> Events </h3>
+
+<p>Every event in a script roughly corresponds with a method call in a normal
+programming language. You can make as many events as you want but there are
+a few special cases. First there is the <samp>`init'</samp> event which is called
+when the entity with that script is first executed. It is a kind of
+constructor. Secondly when the entity gets a message from one of the property
+classes this message is also translated to an event. In the example above
+the <samp>`chair_clicker'</samp> script reacted on billboard selection which is
+a message from the billboard property class that is named
+<samp>`pcbillboard_select'</samp>. The <samp>`chair_mover'</samp> script reacted on timer
+events which is a message from the timer proerty class that is named
+<samp>`pctimer_wakeup'</samp>.
+</p>
+<a name="SEC69"></a>
+<h3 class="subheading"> Variables </h3>
+
+<p>You can use two kinds of variables in an event. First there are global
+variables. To assign a value to such a variable you use:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;var name=&quot;variable&quot; value=&quot;1000&quot; /&gt;
+</pre></td></tr></table>
+<p>Note that variables are always strings. It is the operator that you use
+on a variable that decides the type that is used during the calculation.
+</p>
+<p>To use a global variable you use the <samp>`?'</samp> operator like this:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;print value=&quot;?variable&quot; /&gt;
+</pre></td></tr></table>
+<p>You can combine this in complex expressions:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;print value=&quot;3.14*(?variable+?othervar)&quot; /&gt;
+</pre></td></tr></table>
+<p>Global variables have one big advantage: they are persistant. Internally
+the <small>XML</small> behaviour layer will automatically use a <samp>`pcproperties'</samp>
+property class to store these variables (such a property class will be
+created on the entity if it doesn't already exist). This also means you
+can set and access variables from other entities (notice how the
+<samp>`?'</samp> operator is combined with the <samp>`.'</samp> operator to access the
+variable from another entity):
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;var entity=&quot;other_entity&quot; var=&quot;variable&quot; value=&quot;'some string'&quot; /&gt;
+&lt;print value=&quot;'x in other_entity is equal to '+?other_entity.x&quot; /&gt;
+</pre></td></tr></table>
+<p>In contrast with global variables you also have local variables. Local
+variables don't remember their value and you can't access local variables
+from other entities either. On the other hand they are considerably more
+performant to work with. Here is how you set and use a local variable:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;lvar name=&quot;localvar&quot; value=&quot;3.1415&quot; /&gt;
+&lt;print value=&quot;'Our local variable is equal to '+#localvar&quot;/&gt;
+</pre></td></tr></table>
+<p>This can become pretty complex. For example take this:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;print value=&quot;?#entity.#variable&quot; /&gt;
+</pre></td></tr></table>
+<p>This will print out the variable which has the name given in the local
+variable called <samp>`variable'</samp> from the entity which has the name given
+in the local variable called <samp>`entity'</samp>.
+</p>
+
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.4.html#4.3.4" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
