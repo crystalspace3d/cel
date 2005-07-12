@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.3.4 Zone Manager</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.3.4 Zone Manager">
+<meta name="keywords" content="Crystal Entity Layer: 4.3.4 Zone Manager">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-ZoneMgr"></a>
+<a name="4.3.4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.3.html#4.3.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.3.4 Zone Manager </h3>
+
+<p>The zone manager is a useful property class for managing level
+loading.
+</p>
+<a name="SEC60"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Factory ID</em>:
+<samp>`cel.pcfactory.zonemanager'</samp>
+</li><li> <em>Interface</em>:
+<code>iPcZoneManager</code>
+</li><li> <em>Header</em>:
+<tt>`include/propclass/zone.h'</tt>
+</li></ul>
+
+<a name="SEC61"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>The zone manager is a powerful property class that manages dynamic loading
+(loading of the map files that are required at a given time in the game)
+but it can also be used for single map loading for simple games. A commonly
+used scenario is to setup the zone manager with a single map file for geometry
+and another file for entity descriptions.
+</p>
+<a name="SEC62"></a>
+<h4 class="subsubheading"> Concepts </h4>
+
+<p>The following concepts are defined in the zone manager:
+</p>
+<ul>
+<li> <em>zone</em>:
+A zone is a collection of regions that are either all together in memory
+or not at all.
+</li><li> <em>region</em>:
+A region is a set of maps. A region can be in multiple zones in which 
+case all those zones will be loaded when the region is active. This is useful
+for small transition regions between two bigger regions.
+</li><li> <em>map</em>:
+A map is either a world file or an entity description file.
+</li></ul>
+
+<a name="SEC63"></a>
+<h4 class="subsubheading"> Loading A Simple Map File </h4>
+
+<p>The <code>iPcZoneManager-&gt;Load()</code> method which accepts a <small>VFS</small> <samp>`path'</samp>
+and a <samp>`file'</samp> accepts both normal Crystal Space world files or else
+an <small>XML</small> zone description file. In the first case the zone manager will
+automatically setup a region and a zone which are both called <samp>`main'</samp>.
+</p>
+<a name="SEC64"></a>
+<h4 class="subsubheading"> Loading A Complex Level Set </h4>
+
+<p>The other case is where you pass a <small>XML</small> zone description file to the
+<code>Load()</code> method (of course you can also setup the zone manager purely
+with <small>API</small> calls but using an <small>XML</small> description file is more flexible
+and easier). Here is an example of such a description file:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;level name=&quot;SuperLevel&quot; description=&quot;Super Complex Level&quot;&gt;
+    &lt;mount vfs=&quot;/sl/part1&quot; real=&quot;$*data$/levels$/part1.zip&quot; /&gt;
+    &lt;mount vfs=&quot;/sl/part2&quot; real=&quot;$*data$/levels$/part2.zip&quot; /&gt;
+    &lt;mount vfs=&quot;/sl/part_trans&quot; real=&quot;$*data$/levels$/part_trans.zip&quot; /&gt;
+    &lt;mount vfs=&quot;/sl/textures&quot; real=&quot;$*data$/levels$/textures.zip&quot; /&gt;
+    &lt;region name=&quot;part1&quot;&gt;
+       &lt;map
+          name=&quot;part1_entities&quot;
+          path=&quot;/sl/part1&quot;
+          file=&quot;entities.xml&quot; /&gt;
+       &lt;map
+          name=&quot;part1_world&quot;
+          path=&quot;/sl/part1&quot;
+          file=&quot;world&quot; /&gt;
+    &lt;/region&gt;
+    &lt;region name=&quot;part2&quot;&gt;
+       &lt;map
+          name=&quot;part2_entities&quot;
+          path=&quot;/sl/part2&quot;
+          file=&quot;entities.xml&quot; /&gt;
+       &lt;map
+          name=&quot;part2_world&quot;
+          path=&quot;/sl/part2&quot;
+          file=&quot;world&quot; /&gt;
+    &lt;/region&gt;
+    &lt;region name=&quot;part_trans&quot;&gt;
+       &lt;map
+          name=&quot;part_trans_entities&quot;
+          path=&quot;/sl/part_trans&quot;
+          file=&quot;entities.xml&quot; /&gt;
+       &lt;map
+          name=&quot;part_trans_world&quot;
+          path=&quot;/sl/part_trans&quot;
+          file=&quot;world&quot; /&gt;
+    &lt;/region&gt;
+    &lt;zone name=&quot;zone1&quot;&gt;
+       &lt;region&gt;part1&lt;/region&gt;
+       &lt;region&gt;part_trans&lt;/region&gt;
+    &lt;/zone&gt;
+    &lt;zone name=&quot;zone2&quot;&gt;
+       &lt;region&gt;part2&lt;/region&gt;
+       &lt;region&gt;part_trans&lt;/region&gt;
+    &lt;/zone&gt;
+    &lt;start&gt;
+       &lt;region&gt;part1&lt;/region&gt;
+       &lt;name&gt;Camera&lt;/name&gt;
+    &lt;/start&gt;
+&lt;/level&gt;
+</pre></td></tr></table>
+<p>In this example we have created three levels in our 3D modeller program:
+<samp>`part1'</samp>, <samp>`part2'</samp>, and <samp>`part_trans'</samp>. The last one is a transition
+level that connects <samp>`part1'</samp> and <samp>`part2'</samp>. Preferably this is a
+small level like a corridor which should ensure that from <samp>`part1'</samp> you
+can't see anything of <samp>`part2'</samp> by looking through <samp>`part_trans'</samp> (and
+vice versa). Every level zip files contains a <tt>`world'</tt> file with geometry
+and an <tt>`entities.xml'</tt> file for entity descriptions.
+</p>
+<p>For every map file (geometry and entities) we have a region. Finally we create
+two zones. Both zones contain the transition map as that is always needed.
+As soon as the player enters the transition map both zones will be activated
+and everything will be in memory. If you want to avoid this then you need
+to define two transition maps.
+</p>
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.3.html#4.3.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
