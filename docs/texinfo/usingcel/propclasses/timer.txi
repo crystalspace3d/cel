@@ -1,0 +1,3 @@
+@c -*-texinfo-*-
+@node PropClass Timer, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@subsection Timer
