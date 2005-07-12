@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node XML Behaviour Layer, , Property Classes, Using CEL
+@node XML Behaviour Layer, , Addons, Using CEL
 @section The XML Behaviour Layer
 @cindex @sc{xml}
 @cindex behaviour layer
@@ -111,9 +111,10 @@ Or on GNU/Linux:
 @end example
 
 In this example we create two entities using the @samp{cel.addons.celentity}
-addon. The @samp{red_chair} entity just has one property classes which is
-the @samp{pcbillboard} property class. This property class is designed for
-simple 2D graphics. You can use it to build a complete 2D game (like the
+addon (@pxref{Addons CelEntity}). The @samp{red_chair} entity just
+has one property classes which is the @samp{pcbillboard} property class.
+This property class is designed for simple 2D graphics.
+You can use it to build a complete 2D game (like the
 Boulderdash game that is included with Crystal Entity Layer) or else you can
 use it for @sc{hud} elements in a 3D game. The @samp{green_chair} entity has
 a @samp{pcbillboard} property class and a @samp{pctimer}
@@ -124,11 +125,11 @@ a @samp{pcbillboard} property class and a @samp{pctimer}
 When using the @sc{xml} behaviour layer you basically create @dfn{scripts}.
 Every script corresponds to a behaviour for an entity (multiple entities
 can use it of course). In this particular example we use the
-@samp{cel.addons.xmlscripts} addon to create the two scripts that we will
-use for the two entities. The @samp{chair_clicker} script simply waits
-until the billboard is clicked and increments a counter. If the counter
-is less then 10 then it will print out the count. Otherwise it issues a
-warning. The @samp{chair_mover} script simply waits until the timer
+@samp{cel.addons.xmlscripts} addon (@pxref{Addons XmlScripts}) to create the
+two scripts that we will use for the two entities. The @samp{chair_clicker}
+script simply waits until the billboard is clicked and increments a counter.
+If the counter is less then 10 then it will print out the count. Otherwise it
+issues a warning. The @samp{chair_mover} script simply waits until the timer
 fires and then it initiates a move of the billboard to another location.
 The @samp{bb_move} will make sure the billboard keeps moving gradually
 to the desired location (side note, the location system for billboards
@@ -158,8 +159,24 @@ variables. To assign a value to such a variable you use:
 <var name="variable" value="1000" />
 @end example
 
-Note that variables are always strings. It is the operator that you use
-on a variable that decides the type that is used during the calculation.
+Note that variables are typed. The following types are possible:
+@itemize @bullet
+@item @samp{int32} (signed 32-bit integer):
+This is recognized by a value like @samp{345} or @samp{-398}.
+@item @samp{uint32} (unsigned 32-bit integer):
+This is recognized by a value like @samp{345u}.
+@item @samp{float} (floating point number):
+Possibilities are @samp{342.33} or @samp{-2.33e-33}.
+@item @samp{bool} (true or false):
+Possible values are @samp{true} or @samp{false}.
+@item @samp{vector2} (two dimensional vector):
+Written as @samp{[x,y]}.
+@item @samp{vector3} (three dimensional vector):
+Written as @samp{[x,y,z]}.
+@item @samp{string} (a string):
+Written as a simple token with no spaces or special tokens (like 'bla321')
+or else surrounded by single quotes.
+@end itemize
 
 To use a global variable you use the @samp{?} operator like this:
 
@@ -205,4 +222,103 @@ This can become pretty complex. For example take this:
 This will print out the variable which has the name given in the local
 variable called @samp{variable} from the entity which has the name given
 in the local variable called @samp{entity}.
+
+@subheading Calling Events
+
+Some events (like @samp{init} and messages from property classes) are
+automatically called but you can also define your own events and in that
+case you need to be able to call them (like you would call functions).
+Here is an example on how to call an event:
+
+@example
+<call event="myevent" />
+@end example
+
+This is the simplest example. In this case we will simply pass control
+to the @samp{myevent} event and when that finishes execution will resume
+at the operation after the @code{call}.
+
+It is also possible to call an event in another entity. Basically what this
+will do is call the event in the script (behaviour) that is attached
+to that other entity:
+
+@example
+<call entity="other_entities" event="myevent" />
+@end example
+
+You can also pass parameters in an event call:
+
+@example
+<call event="myevent">
+    <par id="parid(x)" value="100" />
+    <par id="parid(y)" value="50" />
+</call>
+@end example
+
+This will pass the @samp{x} and @samp{y} parameters to the event. In the
+event you can access these parameters with the @samp{@@} operator like this:
+
+@example
+<event name="addsomething">
+    <print value="@@x+@@y" />
+</event>
+@end example
+
+Events can also be used as functions that return a value. In that case
+you write the event like this:
+
+@example
+<event name="addsomething">
+    <return value="@@x+@@y" />
+</event>
+@end example
+
+Then you can use this function as follows:
+
+@example
+<print value="addsomething(x=3,y=5)" />
+@end example
+
+You can see how the parameters are passed by name.
+
+It is also possible to call an event in another entity as a function by
+using the scope (@samp{::}) operator:
+
+@example
+<print value="otherentity::addsomething(x=3,y=5)" />
+@end example
+
+A special case for function calling is the @samp{...} operator. If you use
+that then the parameters for the function will be the same as the parameters
+that called this function. For example:
+
+@example
+<event name="process">
+    <return value="addsomething(...)*3" />
+</event>
+@end example
+
+This function will call @samp{addsomething} with the same parameters that
+are given to @samp{process} and then multiply the result with 3.
+
+@subheading Arrays
+
+The @sc{xml} behaviour layer supports sparse one and two dimensional arrays.
+They are sparse in the sense that only elements that are assigned really
+exist and consume memory. So you can put a value in the array at index
+5 and one at index 1000000 and the array will be essentially only two items
+big. Also the indices don't have to be numeric. You can use any kind of
+type. Internally arrays work by concatenating the array name with the index.
+For example: @samp{bla['testing',3]} actually corresponds with a normal
+variable that is called @samp{bla_testing_3}. So every element in an array
+is actually just a normal variable. The array syntax is just syntax to help
+you write arrays more easily. Here is an example on how to assign a value
+in an array and how to use it:
+
+@example
+<lvar name="index" value="1000" />
+<var name="bla[#index,3]" value="100" />
+<print value="?bla[#index,3]" />
+@end example
+
 

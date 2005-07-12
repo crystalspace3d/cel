@@ -7,6 +7,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the
 	  documentation.
+	- Jorrit did some more work on the XML behaviour layer documentation.
+	  Also fixed a major bug which said that variables don't have types.
+	  But they do.
+	- Jorrit added documentation for the four different addons that
+	  CEL implements.
 11-Jul-2005
 	- Jorrit added documentation for the zone manager and partial
 	  documentation for the XML behaviour layer.

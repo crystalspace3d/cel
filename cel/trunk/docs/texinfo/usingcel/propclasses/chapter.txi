@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Property Classes, XML Behaviour Layer, Tutorial, Using CEL
+@node Property Classes, Addons, Tutorial, Using CEL
 @section Property Classes
 @cindex property class
 

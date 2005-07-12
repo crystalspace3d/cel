@@ -94,8 +94,8 @@ looks:
 @end example
 
 In this particular example we use the @samp{cel.addons.celentity} addon
-to create an entity with the name @samp{badone}. It has the following property
-classes:
+(@pxref{Addons CelEntity}) to create an entity with the name @samp{badone}.
+It has the following property classes:
 @itemize @bullet
 @item @samp{pcmesh} (@pxref{PropClass Mesh}).
 This mesh is setup with the @samp{monkey} model that
