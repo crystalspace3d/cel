@@ -177,6 +177,28 @@ bool MechTest::OnKeyboard (iEvent &ev)
   return false;
 }
 
+csPtr<iCelEntity> MechTest::CreateDynSphere (const char* name,
+	const char* roomname, const csVector3& pos)
+{
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, 0,
+	"pcmesh",
+	"pcmechobject",
+	(void*)0);
+  if (!entity_cam) return 0;
+
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetMesh ("Sphere", "Sphere");
+  iSector* room = engine->FindSector (roomname);
+  pcmesh->MoveMesh (room, pos);
+
+  csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
+  	iPcMechanicsObject);
+  pcmechobject->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
+
+  return csPtr<iCelEntity> (entity_cam);
+}
+
 csPtr<iCelEntity> MechTest::CreateDynBox (const char* name,
 	const char* roomname, const csVector3& pos)
 {
@@ -195,7 +217,6 @@ csPtr<iCelEntity> MechTest::CreateDynBox (const char* name,
   csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcMechanicsObject);
   pcmechobject->AttachColliderBox (csVector3 (.4, .3, .3), csOrthoTransform ());
-  //pcmechobject->MakeStatic (true);
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -222,11 +243,10 @@ csPtr<iCelEntity> MechTest::CreateDynActor (const char* name,
   pcinp->Bind ("x", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
-  pcinp->Bind ("m", "cammode");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("smallbox", "smallbox");
+  pcmesh->SetMesh ("Sphere", "Sphere");
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
@@ -254,7 +274,9 @@ csPtr<iCelEntity> MechTest::CreateDynActor (const char* name,
 
   csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcMechanicsObject);
-  pcmechobject->AttachColliderBox (csVector3 (.4, .3, .3), csOrthoTransform ());
+  pcmechobject->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
+  pcmechobject->SetMass (1.0);
+  pcmechobject->SetDensity (3.0);
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -327,6 +349,7 @@ bool MechTest::CreateRoom ()
   csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
+  pcmechsys->SetStepTime (0.03f);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsObject);
@@ -335,6 +358,11 @@ bool MechTest::CreateRoom ()
   pcmechobj->MakeStatic (true);
 
   game = entity_room;
+
+  entity_dummy = CreateDynSphere ("sphere1", "room", csVector3 (.5,  0, -8));
+  entity_dummy = CreateDynSphere ("sphere2", "room", csVector3 (0,   0, -7));
+  entity_dummy = CreateDynSphere ("sphere3", "room", csVector3 (-.5, 0, -8));
+  entity_dummy = CreateDynSphere ("sphere4", "room", csVector3 (0,   .5, -7.5));
 
   entity_dummy = CreateDynBox ("box1", "room", csVector3 (0,  -.8,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.8,-10));
@@ -348,7 +376,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.8,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.8,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.8,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (6,  -.8,-10));
 
   entity_dummy = CreateDynBox ("box1", "room", csVector3 (.25, -.49,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, -.49,-10));
@@ -361,9 +388,7 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,-.49,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,-.49,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.25,-.49,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.75,-.49,-10));
 
-#if 1
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  -.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,-.18,-10));
@@ -374,8 +399,33 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.18,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.18,-10));
-#endif
+
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, .13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,.13,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,.13,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,.13,-10));
+
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  .44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,.44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  .44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,.44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  .44,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,.44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  .44,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,.44,-10));
+
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,.75,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75,.75,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25,.75,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75,.75,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,.75,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,.75,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,.75,-10));
 
   return true;
 }

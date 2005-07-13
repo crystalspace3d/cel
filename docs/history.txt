@@ -19,6 +19,8 @@ The history order is reversed so that new features are at the top.
 	  Also added API to configure this so you can also enable
 	  quickstep. With this change the mechtest app works a lot better
 	  now.
+	- Jorrit improved the mechtest demo a bit. Now uses 0.03 step size
+	  instead of 0.01. This improves speed.
 12-Jul-2005
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the
