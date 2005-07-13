@@ -195,6 +195,7 @@ csPtr<iCelEntity> MechTest::CreateDynBox (const char* name,
   csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcMechanicsObject);
   pcmechobject->AttachColliderBox (csVector3 (.4, .3, .3), csOrthoTransform ());
+  //pcmechobject->MakeStatic (true);
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -323,51 +324,58 @@ bool MechTest::CreateRoom ()
   	iPcInventory);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
+  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  	iPcMechanicsSystem);
+  pcmechsys->EnableQuickStep ();
+
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsObject);
   csPlane3 ground (0, -1, 0, -1);
   pcmechobj->AttachColliderPlane (ground);
+  pcmechobj->MakeStatic (true);
 
   game = entity_room;
 
-  entity_dummy = CreateDynBox ("box1", "room", csVector3 (0,  -.5,-10));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  -.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,-.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  -.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,-.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  -.5,-10));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,-.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (6,  -.5,-10));
+  entity_dummy = CreateDynBox ("box1", "room", csVector3 (0,  -.8,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  -.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,-.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  -.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,-.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  -.8,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,-.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.8,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (6,  -.8,-10));
 
-  entity_dummy = CreateDynBox ("box1", "room", csVector3 (.25, 0,-10));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, 0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,0,-10));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.25,0,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.75,0,-10));
+  entity_dummy = CreateDynBox ("box1", "room", csVector3 (.25, -.49,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, -.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,-.49,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.25,-.49,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.75,-.49,-10));
 
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, .5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  .5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  .5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  .5,-10));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  .5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,.5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  .5,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,.5,-10));
+#if 1
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  -.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,-.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  -.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,-.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  -.18,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,-.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.18,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.18,-10));
+#endif
 
   return true;
 }

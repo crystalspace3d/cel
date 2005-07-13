@@ -13,6 +13,12 @@ The history order is reversed so that new features are at the top.
 	  unstable very fast and then crashes.
 	- Eric Sunshine added an index to the CEL user manual.
 	- Eric Sunshine added a libode check to configure.ac.
+	- Jorrit changed the mechanics plugin to use EnableStepFast(1). This
+	  uses much better results and now the physics scales a lot better
+	  with high number of objects.
+	  Also added API to configure this so you can also enable
+	  quickstep. With this change the mechtest app works a lot better
+	  now.
 12-Jul-2005
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the

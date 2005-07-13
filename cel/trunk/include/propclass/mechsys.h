@@ -161,6 +161,21 @@ struct iPcMechanicsSystem : public iBase
    * Remove a given joint from the system.
    */
   virtual void RemoveJoint (iJoint* joint) = 0;
+
+  /**
+   * Disable fast stepping. This is very accurate but can quickly
+   * break with lots of objects.
+   */
+  virtual void DisableStepFast () = 0;
+  /**
+   * Enable fast stepping. This is a lot faster then DisableStepFast().
+   * Default.
+   */
+  virtual void EnableStepFast () = 0;
+  /**
+   * Very fast but not accurate.
+   */
+  virtual void EnableQuickStep () = 0;
 };
 
 SCF_VERSION (iPcMechanicsObject, 0, 0, 1);
