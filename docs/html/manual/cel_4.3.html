@@ -62,13 +62,68 @@ ul.toc {list-style: none}
 
 <p>Here in this chapter the various property classes are documented.
 </p>
+<a name="SEC42"></a>
+<h3 class="subheading"> Using a Property Class in General </h3>
+
+<p>Here are a few generic guidelines on using property classes. Before you can
+use any property class you must first ensure that the property class factory
+for that property class is loaded and registered with the physical layer.
+To do that you need the <em>Factory ID</em> for the property class which is
+documented in every property class documentation. Then you add the following
+line to the initialization of your application (example for <samp>`pcmesh'</samp>
+property class):
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
+  return false;
+</pre></td></tr></table>
+<p>To use the <small>API</small> from that property class you must load the header
+(also given with every property class documentation). There are two ways
+to create a property class for an entity. The first way creates them together
+with the entity itself:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iCelEntity&gt; entity = pl-&gt;CreateEntity (entname, behaviourlayer,
+	behavename,
+	&quot;pcmesh&quot;,
+	... (other property classes)
+	(void*)0);
+</pre></td></tr></table>
+<p>The second way creates a property class on an entity that is already created:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
+</pre></td></tr></table>
+<p>To request a property class from an entity you can use:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+</pre></td></tr></table>
+<a name="SEC43"></a>
+<h3 class="subheading"> Tagged Property Classes </h3>
+
+<p>Normally an entity only has one instance of a given property class
+type (i.e. only one <samp>`pcmesh'</samp> maximum). Sometimes it is useful to be
+able to add multiple property class instances of the same type. To distinguish
+between the different instances you can use <em>tags</em>. Here is how you can
+create a tagged property class for an entity:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcmesh&quot;,
+	&quot;main_mesh&quot;);
+</pre></td></tr></table>
+<p>And to fetch a tagged property class you can use:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
+	&quot;main_mesh&quot;);
+</pre></td></tr></table>
+<p>Note that there is the concept of a default property class for a given
+type. Usually the default property class is the one that has no tag (tag
+equal to 0). So when you call <code>CEL_QUERY_PROPCLASS_ENT</code> it will first
+try to look for the property class with tag equal to 0. If all property
+classes have a tag then it will return a random one.
+</p>
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top"><a href="cel_4.3.1.html#4.3.1">4.3.1 Quest Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 <tr><td align="left" valign="top"><a href="cel_4.3.2.html#4.3.2">4.3.2 Mesh</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 <tr><td align="left" valign="top"><a href="cel_4.3.3.html#4.3.3">4.3.3 Linear Movement</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top">&bull; PropClass Timer</td><td>&nbsp;&nbsp;</td><td align="left" valign="top"> Timer
-</td></tr>
-<tr><td align="left" valign="top"><a href="cel_4.3.4.html#4.3.4">4.3.4 Zone Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.4.html#4.3.4">4.3.4 Timer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.5.html#4.3.5">4.3.5 Zone Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 </table>
 
 <hr size="1">
