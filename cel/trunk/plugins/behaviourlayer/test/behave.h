@@ -128,5 +128,19 @@ public:
   	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
+/**
+ * 'move' behaviour.
+ */
+class celBehaviourDynActor : public celBehaviourGeneral
+{
+public:
+  celBehaviourDynActor (iCelEntity* entity, iObjectRegistry* object_reg);
+  virtual ~celBehaviourDynActor();
+
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+};
+
 #endif // __CEL_BLTEST_BEHAVE__
 
