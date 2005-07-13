@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	  mechanics plugin. Currently it doesn't work very well as it gets
 	  unstable very fast and then crashes.
 	- Eric Sunshine added an index to the CEL user manual.
+	- Eric Sunshine added a libode check to configure.ac.
 12-Jul-2005
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the

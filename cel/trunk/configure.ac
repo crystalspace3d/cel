@@ -94,6 +94,11 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 CS_CHECK_PYTHON()
 CS_CHECK_CPPUNIT([emit])
 
+CS_CHECK_LIB_WITH([ode],
+    [AC_LANG_PROGRAM([[#include <ode/ode.h>]], [dWorldCreate()])],
+    [$srcdir/libs/libode*], [C++],
+    [CS_EMIT_BUILD_RESULT([cs_cv_libode], [ODE])])
+
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
 #----------------------------------------------------------------------------
