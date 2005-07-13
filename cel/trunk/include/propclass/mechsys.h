@@ -15,6 +15,7 @@ struct iRigidBody;
 struct iSector;
 struct iPcMesh;
 struct iPcMechanicsObject;
+struct iJoint;
 
 SCF_VERSION (iPcMechanicsSystem, 0, 0, 1);
 
@@ -189,7 +190,9 @@ struct iPcMechanicsObject : public iBase
   virtual iPcMesh* GetMesh () = 0;
 
   /**
-   * Set the mechanics system to use. This is required.
+   * Set the mechanics system to use. If you don't do this then the
+   * object will look in the object registry for a suitable mechanics
+   * system.
    * \param mechsys a pointer to the iPcMechanicsSystem to use.
    */
   virtual void SetMechanicsSystem (iPcMechanicsSystem* mechsys) = 0;

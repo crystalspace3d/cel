@@ -3,8 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-12-Jul-2005
-	- blueCommand Added linmove callback fireing on tuched ground
+13-Jul-2005
+	- Jorrit changed mechanics plugin so that it is no longer required
+	  to call iPcMechanicsObject->SetMechanicsSystem(). If you don't call
+	  this then the object will automatically look for the mechanics
+	  system in the object registry.
 12-Jul-2005
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the
@@ -19,6 +22,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed linmove persistance so that it correctly restores anchor
 	  on loading.
 	- Jorrit fixed persistance for the pctrigger property class.
+	- blueCommand Added linmove callback fireing on tuched ground
 11-Jul-2005
 	- Jorrit added documentation for the zone manager and partial
 	  documentation for the XML behaviour layer.

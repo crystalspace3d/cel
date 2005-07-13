@@ -73,6 +73,8 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 
   dynamics = 0;
   dynsystem = 0;
+
+  object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
 }
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
@@ -586,6 +588,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   }
   else
     databuf->Add ((iCelPropertyClass*) 0);
+  GetMechSystem ();
   if (mechsystem)
   {
     pc = SCF_QUERY_INTERFACE (mechsystem, iCelPropertyClass);
@@ -950,8 +953,17 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
 }
 
+void celPcMechanicsObject::GetMechSystem ()
+{
+  if (!mechsystem)
+  {
+    mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
+  }
+}
+
 iRigidBody* celPcMechanicsObject::GetBody ()
 {
+  GetMechSystem ();
   if (!body)
   {
     if (mechsystem)
