@@ -33,6 +33,7 @@
 #include "iengine/movable.h"
 #include "ivaria/reporter.h"
 #include "ivaria/dynamics.h"
+#include "ivaria/ode.h"
 
 #include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/mechanics.h"
@@ -203,9 +204,34 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
     }
     dynsystem = dynamics->CreateSystem ();
     dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
+
+    EnableStepFast ();
   }
   return dynsystem;
 }
+
+void celPcMechanicsSystem::DisableStepFast ()
+{
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
+  osys->EnableStepFast (0);
+}
+
+void celPcMechanicsSystem::EnableStepFast ()
+{
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
+  osys->EnableStepFast (1);
+}
+
+void celPcMechanicsSystem::EnableQuickStep ()
+{
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
+  osys->EnableQuickStep (1);
+}
+
+
 
 void celPcMechanicsSystem::SetGravity (const csVector3& grav)
 {

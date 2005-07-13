@@ -112,6 +112,10 @@ public:
   iJoint* CreateJoint (iRigidBody* body1, iRigidBody* body2);
   void RemoveJoint (iJoint* joint);
 
+  void DisableStepFast ();
+  void EnableStepFast ();
+  void EnableQuickStep ();
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmechsys"; }
@@ -199,6 +203,18 @@ public:
     virtual void RemoveJoint (iJoint* joint)
     {
       scfParent->RemoveJoint (joint);
+    }
+    virtual void DisableStepFast ()
+    {
+      scfParent->DisableStepFast ();
+    }
+    virtual void EnableStepFast ()
+    {
+      scfParent->EnableStepFast ();
+    }
+    virtual void EnableQuickStep ()
+    {
+      scfParent->EnableQuickStep ();
     }
   } scfiPcMechanicsSystem;
 
