@@ -85,6 +85,8 @@ private:
 	const csVector3& pos);
   csPtr<iCelEntity> CreateDynBox (const char *name, const char* roomname,
 	const csVector3& pos);
+  csPtr<iCelEntity> CreateDynSphere (const char *name, const char* roomname,
+	const csVector3& pos);
   
 public:
   MechTest ();
