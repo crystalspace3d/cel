@@ -210,7 +210,7 @@ csPtr<iCelEntity> MechTest::CreateDynBox (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("smallbox", "smallbox");
+  pcmesh->SetMesh ("gmbox", "gmbox");
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
