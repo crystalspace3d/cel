@@ -3,6 +3,10 @@
         <plugin name="plasma">crystalspace.texture.loader.plasma</plugin>
         <plugin name="fireTexLoader">crystalspace.texture.loader.fire</plugin>
     </plugins>
+    <addon>
+  	<plugin>crystalspace.renderloop.loop.loader</plugin>
+        <paramsfile>/shader/std_rloop_shadowed.xml</paramsfile>
+    </addon>
     <textures>
         <texture name="floor">
             <file>/lib/stdtex/floors_2_d6ct_128.jpg</file>
@@ -11,11 +15,14 @@
     <materials>
         <material name="floor">
             <texture>floor</texture>
+	    <shader type="ambient">ambient</shader>
+	    <shader type="diffuse">light</shader>
         </material>
     </materials>
     <settings>
         <clearzbuf>yes</clearzbuf>
         <clearscreen>yes</clearscreen>
+        <renderloop>std_rloop_shadowed</renderloop>
     </settings>
     <plugins>
         <plugin name="thing">crystalspace.mesh.loader.thing</plugin>
