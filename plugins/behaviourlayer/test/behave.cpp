@@ -34,6 +34,7 @@
 #include "propclass/gravity.h"
 #include "propclass/actormove.h"
 #include "propclass/timer.h"
+#include "propclass/mechsys.h"
 #include "plugins/behaviourlayer/test/behave.h"
 
 //---------------------------------------------------------------------------
@@ -364,5 +365,80 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
   }
 
   return bhroom->SendMessageV (msg_id, pc, ret, params, arg);
+}
+
+//---------------------------------------------------------------------------
+
+celBehaviourDynActor::celBehaviourDynActor (iCelEntity* entity,
+    iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
+{
+}
+
+celBehaviourDynActor::~celBehaviourDynActor()
+{
+}
+
+bool celBehaviourDynActor::SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
+	celData& ret, iCelParameterBlock* params, va_list arg)
+{
+  bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
+
+  if (pcinput_msg)
+  {
+    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity,
+    	iPcMechanicsObject);
+    if (!pcmechobj)
+      return false;
+
+    if (!strcmp (msg_id+15, "forward1"))
+      pcmechobj->AddForceDuration (csVector3 (0, 0, -25), false,
+      	csVector3 (0, 0, 0), .2);
+    else if (!strcmp (msg_id+15, "backward1"))
+      pcmechobj->AddForceDuration (csVector3 (0, 0, 25), false,
+      	csVector3 (0, 0, 0), .2);
+    else if (!strcmp (msg_id+15, "strafeleft1"))
+      pcmechobj->AddForceDuration (csVector3 (25, 0, 0), false,
+      	csVector3 (0, 0, 0), .2);
+    else if (!strcmp (msg_id+15, "straferight1"))
+      pcmechobj->AddForceDuration (csVector3 (-25, 0, 0), false,
+      	csVector3 (0, 0, 0), .2);
+    else if (!strcmp (msg_id+15, "jump1"))
+      pcmechobj->AddForceDuration (csVector3 (0, 25, 0), false,
+      	csVector3 (0, 0, 0), .2);
+    else if (!strcmp (msg_id+15, "lookup1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookup0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (-1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "center1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->CenterCamera ();
+    }
+    return true;
+  }
+
+  return false;
 }
 

@@ -1,0 +1,19 @@
+<level name="mech_level" description="CelTest mechanics test level">
+    <region name="main">
+    	<map
+		name="world"
+		path="/cellib/lev"
+		file="mech_world" />
+    	<map
+		name="entities"
+		path="/cellib/lev"
+		file="mech_entities" />
+    </region>
+    <zone name="zone_all">
+    	<region>main</region>
+    </zone>
+    <start>
+    	<region>main</region>
+    </start>
+</level>
+

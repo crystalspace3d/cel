@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	  to call iPcMechanicsObject->SetMechanicsSystem(). If you don't call
 	  this then the object will automatically look for the mechanics
 	  system in the object registry.
+	- Jorrit added 'mechtest' which is a test application for the
+	  mechanics plugin. Currently it doesn't work very well as it gets
+	  unstable very fast and then crashes.
 12-Jul-2005
 	- Jorrit added some discussion about how to use property classes
 	  in general. Also added a name for every property class to the
