@@ -64,11 +64,17 @@ by the copyright holders.
 * Building:: Building and Installing
 * Applications::
 * Using CEL::
+* Index::
 @end menu
 
 @imports{intro,chapter.txi}
 @imports{build,chapter.txi}
 @imports{apps,chapter.txi}
 @imports{usingcel,chapter.txi}
+
+@node Index, , Using CEL, Top
+@unnumbered Index
+
+@printindex cp
 
 @bye
