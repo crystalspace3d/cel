@@ -353,6 +353,8 @@ private:
   csVector3 lift;
   float drag;
 
+  void GetMechSystem ();
+
 public:
   celPcMechanicsObject (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsObject ();
