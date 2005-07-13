@@ -349,7 +349,7 @@ bool MechTest::CreateRoom ()
   csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
-  pcmechsys->SetStepTime (0.03f);
+  pcmechsys->SetStepTime (0.02f);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsObject);
