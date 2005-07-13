@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Using CEL, , Applications, Top
+@node Using CEL, Index, Applications, Top
 @chapter Using CEL
 
 This chapter explains how to use Crystal Entity Layer in your own
