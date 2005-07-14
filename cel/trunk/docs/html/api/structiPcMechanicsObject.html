@@ -152,7 +152,7 @@ pcdynamicbody_collision: an entity has collided with this entity. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="mechsys_8h-source.html#l00176">176</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechsys_8h-source.html#l00192">192</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a31"></a><!-- doxytag: member="iPcMechanicsObject::AddForceDuration" ref="a31" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1464,7 +1464,7 @@ Must be called before Attach..., otherwise defaults to 1. <dl compact><dt><b>Par
 <p>
 Set the mechanics system to use. 
 <p>
-This is required. <dl compact><dt><b>Parameters:</b></dt><dd>
+If you don't do this then the object will look in the object registry for a suitable mechanics system. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>mechsys</em>&nbsp;</td><td>a pointer to the <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> to use.</td></tr>
   </table>
