@@ -604,6 +604,9 @@ class iPcMechanicsSystem(cspace.iBase):
     def RemoveBodyFromGroup(*args): return _blcelc.iPcMechanicsSystem_RemoveBodyFromGroup(*args)
     def CreateJoint(*args): return _blcelc.iPcMechanicsSystem_CreateJoint(*args)
     def RemoveJoint(*args): return _blcelc.iPcMechanicsSystem_RemoveJoint(*args)
+    def DisableStepFast(*args): return _blcelc.iPcMechanicsSystem_DisableStepFast(*args)
+    def EnableStepFast(*args): return _blcelc.iPcMechanicsSystem_EnableStepFast(*args)
+    def EnableQuickStep(*args): return _blcelc.iPcMechanicsSystem_EnableQuickStep(*args)
     def __del__(self, destroy=_blcelc.delete_iPcMechanicsSystem):
         try:
             if self.thisown: destroy(self)

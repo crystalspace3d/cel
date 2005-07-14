@@ -8593,6 +8593,57 @@ static PyObject *_wrap_iPcMechanicsSystem_RemoveJoint(PyObject *, PyObject *args
 }
 
 
+static PyObject *_wrap_iPcMechanicsSystem_DisableStepFast(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcMechanicsSystem_DisableStepFast",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->DisableStepFast();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsSystem_EnableStepFast(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcMechanicsSystem_EnableStepFast",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->EnableStepFast();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsSystem_EnableQuickStep(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcMechanicsSystem_EnableQuickStep",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->EnableQuickStep();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iPcMechanicsSystem(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
@@ -23911,6 +23962,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMechanicsSystem_RemoveBodyFromGroup", _wrap_iPcMechanicsSystem_RemoveBodyFromGroup, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_CreateJoint", _wrap_iPcMechanicsSystem_CreateJoint, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_RemoveJoint", _wrap_iPcMechanicsSystem_RemoveJoint, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsSystem_DisableStepFast", _wrap_iPcMechanicsSystem_DisableStepFast, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsSystem_EnableStepFast", _wrap_iPcMechanicsSystem_EnableStepFast, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsSystem_EnableQuickStep", _wrap_iPcMechanicsSystem_EnableQuickStep, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcMechanicsSystem", _wrap_delete_iPcMechanicsSystem, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_swigregister", iPcMechanicsSystem_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_SetMesh", _wrap_iPcMechanicsObject_SetMesh, METH_VARARGS, NULL},
