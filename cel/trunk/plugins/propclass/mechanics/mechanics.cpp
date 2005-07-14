@@ -74,6 +74,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 
   dynamics = 0;
   dynsystem = 0;
+  remaining_delta = 0;
 
   object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
 }
@@ -131,19 +132,25 @@ void celPcMechanicsSystem::TickEveryFrame ()
 {
   GetDynamicSystem ();
   csTicks elapsed_time = vc->GetElapsedTicks ();
-  float et = float (elapsed_time) / 1000.0;
+
+  // For ODE it is recommended that all steps are done with the
+  // same size. So we always will call dynamics->Step(delta) with
+  // the constant delta. However, sometimes our elapsed time
+  // is not divisible by delta and in that case we have a small
+  // time (smaller then delta) left-over. We can't afford to drop
+  // that because then speed of physics simulation would differ
+  // depending on framerate. So we will put that remainder in
+  // remaining_delta and use that here too.
+  float et = remaining_delta + (float (elapsed_time) / 1000.0);
   while (et >= delta)
   {
     ProcessForces (delta);
     dynamics->Step (delta);
     et -= delta;
   }
-  // Do the remainder.
-  if (et > SMALL_EPSILON)
-  {
-    ProcessForces (et);
-    dynamics->Step (et);
-  }
+
+  // Now we have a small remainder. We remember that in remaining_delta.
+  remaining_delta = et;
 
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
@@ -166,7 +173,8 @@ void celPcMechanicsSystem::SetDynamicSystem (iDynamicSystem* dynsys)
   dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
   if (!dynamics)
   {
-    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
+    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
+    	iPluginManager);
     dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
 	iDynamics);
     if (dynamics)
