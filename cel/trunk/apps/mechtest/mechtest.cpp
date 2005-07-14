@@ -188,7 +188,7 @@ csPtr<iCelEntity> MechTest::CreateDynSphere (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("Sphere", "Sphere");
+  pcmesh->SetMesh ("Sphere", "sphere");
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
@@ -246,7 +246,7 @@ csPtr<iCelEntity> MechTest::CreateDynActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("Sphere", "Sphere");
+  pcmesh->SetMesh ("Sphere", "sphere");
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
