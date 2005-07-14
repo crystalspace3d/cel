@@ -76,6 +76,7 @@ private:
   csArray<celForce> forces;
   csHash<iBodyGroup*, const char*> groups;
   float delta;
+  float remaining_delta;
 
   void ProcessForces (float dt);
 
