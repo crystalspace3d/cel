@@ -276,7 +276,7 @@ PACKAGE_STRING='cel 0.99'
 PACKAGE_BUGREPORT='cel-main@lists.sourceforge.net'
 
 ac_unique_file="mk/jam/build.jam"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os MKDIR MKDIRS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN TEXI2DVI TEXI2PDF DVIPS DVIPDF MAKEINFO PERL TTREE SWIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CONFIG_ODE ac_ct_CONFIG_ODE CRYSTAL CRYSTAL_CONFIG_TOOL ac_pt_CRYSTAL_CONFIG_TOOL WINDRES ac_ct_WINDRES OBJCOPY ac_ct_OBJCOPY CONFIG_BFD ac_ct_CONFIG_BFD LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os MKDIR MKDIRS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX INSTALL RANLIB ac_ct_RANLIB DOXYGEN TEXI2DVI TEXI2PDF DVIPS DVIPDF MAKEINFO PERL TTREE SWIG CSLIBS_CONFIG ac_ct_CSLIBS_CONFIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CONFIG_ODE ac_ct_CONFIG_ODE CRYSTAL CRYSTAL_CONFIG_TOOL ac_pt_CRYSTAL_CONFIG_TOOL WINDRES ac_ct_WINDRES OBJCOPY ac_ct_OBJCOPY CONFIG_BFD ac_ct_CONFIG_BFD LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -821,41 +821,56 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-cstest         verify that the Crystal Space SDK is actually usable
-                          (default YES)
+  --enable-cstest         verify that the Crystal Space SDK is actually
+                          usable
+ (default YES)
   --enable-meta-info-embedding
                           store plugin meta-information directly inside plugin
-                          modules if supported by platform; if disabled,
-                          meta-information is stored in stand-alone .csplugin
-                          files; this is enabled by default for non-Unix
+                          modules if
+ supported by platform; if disabled,
+                          meta-information is stored in
+ stand-alone .csplugin
+                          files; this is enabled by default for
+ non-Unix
                           platforms, and disabled by default for non-GPL
-                          projects on Unix platforms since the Unix
-                          implementation requires the GPL-licensed libbfd
-                          library; enable this option on Unix only if you are
+                          projects
+ on Unix platforms since the Unix
+                          implementation requires the
+ GPL-licensed libbfd
+                          library; enable this option on Unix only if
+ you are
                           certain you want a GPL-licensed library infecting
-                          your project
+                          your
+ project
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --without-python        do not use Python
+  --without-python        do not use
+ Python
   --with-cppunit=dir      specify location of libcppunit if not detected
-                          automatically; searches dir/include, dir/lib, and
+                          automatically; searches
+ dir/include, dir/lib, and
                           dir
   --with-ode=dir          specify location of libode if not detected
-                          automatically; searches dir/include, dir/lib, and
+                          automatically; searches
+ dir/include, dir/lib, and
                           dir
   --without-cs            do not look for an installed Crystal Space SDK; this
-                          option is useful only if you need to perform routine
-                          maintenance tasks, such as generating project files
-                          or converting documentation, without having the
-                          Crystal Space SDK installed
+                          option is useful only
+ if you need to perform
+                          routine maintenance tasks, such as generating
+                          project files or converting documentation, without
+                          having the Crystal Space
+ SDK installed
   --with-cs-prefix=CRYSTAL_PREFIX
                           specify location of Crystal Space installation; this
-                          is the \$prefix value used when installing the SDK
+                          is the \$prefix
+ value used when installing the SDK
   --with-bfd=dir          specify location of libbfd if not detected
-                          automatically; searches dir/include, dir/lib, and
+                          automatically; searches
+ dir/include, dir/lib, and
                           dir
 
 Some influential environment variables:
@@ -5172,6 +5187,139 @@ fi
 # Check for external libraries.
 #----------------------------------------------------------------------------
 
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  for ac_prog in cslibs-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_CSLIBS_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$CSLIBS_CONFIG"; then
+  ac_cv_prog_CSLIBS_CONFIG="$CSLIBS_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_CSLIBS_CONFIG="$ac_tool_prefix$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+CSLIBS_CONFIG=$ac_cv_prog_CSLIBS_CONFIG
+if test -n "$CSLIBS_CONFIG"; then
+  echo "$as_me:$LINENO: result: $CSLIBS_CONFIG" >&5
+echo "${ECHO_T}$CSLIBS_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+    test -n "$CSLIBS_CONFIG" && break
+  done
+fi
+if test -z "$CSLIBS_CONFIG"; then
+  ac_ct_CSLIBS_CONFIG=$CSLIBS_CONFIG
+  for ac_prog in cslibs-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_CSLIBS_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_CSLIBS_CONFIG"; then
+  ac_cv_prog_ac_ct_CSLIBS_CONFIG="$ac_ct_CSLIBS_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_CSLIBS_CONFIG="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+ac_ct_CSLIBS_CONFIG=$ac_cv_prog_ac_ct_CSLIBS_CONFIG
+if test -n "$ac_ct_CSLIBS_CONFIG"; then
+  echo "$as_me:$LINENO: result: $ac_ct_CSLIBS_CONFIG" >&5
+echo "${ECHO_T}$ac_ct_CSLIBS_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$ac_ct_CSLIBS_CONFIG" && break
+done
+
+  CSLIBS_CONFIG=$ac_ct_CSLIBS_CONFIG
+fi
+
+    if test $ac_compiler_gnu = yes; then
+  cs_cv_cslibs_compiler="--compiler gcc-`$CXX -dumpversion`"
+fi
+
+    echo "$as_me:$LINENO: checking for cslibs package" >&5
+echo $ECHO_N "checking for cslibs package... $ECHO_C" >&6
+if test "${cs_cv_cslibs+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$CSLIBS_CONFIG"; then
+  cs_cv_cslibs=yes
+	    cs_cv_cslibs_cflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --cflags \$cs_cv_cslibs_compiler") >&5
+  ($CSLIBS_CONFIG --cflags $cs_cv_cslibs_compiler) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	    cs_cv_cslibs_lflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --lflags \$cs_cv_cslibs_compiler") >&5
+  ($CSLIBS_CONFIG --lflags $cs_cv_cslibs_compiler) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	    cs_cv_cslibs_binpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --binpath \$cs_cv_cslibs_compiler") >&5
+  ($CSLIBS_CONFIG --binpath $cs_cv_cslibs_compiler) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+else
+  cs_cv_cslibs=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_cslibs" >&5
+echo "${ECHO_T}$cs_cv_cslibs" >&6
+    if test $cs_cv_cslibs = yes; then
+  CFLAGS="$CFLAGS $cs_cv_cslibs_cflags"
+	CPPFLAGS="$CPPFLAGS $cs_cv_cslibs_cflags"
+	LDFLAGS="$LDFLAGS $cs_cv_cslibs_lflags"
+	PATH="$cs_cv_cslibs_binpath$PATH_SEPARATOR$PATH"
+fi
+
+
     case $host_os in
 
 	*)
@@ -8199,6 +8347,32 @@ fi
 fi
 
 
+#------------------------------------------------------------------------------
+# Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
+# as any additional flags provided by cs-win32libs.
+#------------------------------------------------------------------------------
+cs_build_prop_val="$CPPFLAGS $CFLAGS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += \"$cs_build_prop_val\" ;
+"
+fi
+
+cs_build_prop_val="$CPPFLAGS $CXXFLAGS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += \"$cs_build_prop_val\" ;
+"
+fi
+
+cs_build_prop_val="$LDFLAGS"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS += \"$cs_build_prop_val\" ;
+"
+fi
+
+
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
 #----------------------------------------------------------------------------
@@ -11147,6 +11321,8 @@ s,@MAKEINFO@,$MAKEINFO,;t t
 s,@PERL@,$PERL,;t t
 s,@TTREE@,$TTREE,;t t
 s,@SWIG@,$SWIG,;t t
+s,@CSLIBS_CONFIG@,$CSLIBS_CONFIG,;t t
+s,@ac_ct_CSLIBS_CONFIG@,$ac_ct_CSLIBS_CONFIG,;t t
 s,@PYTHON@,$PYTHON,;t t
 s,@PKG_CONFIG@,$PKG_CONFIG,;t t
 s,@ac_ct_PKG_CONFIG@,$ac_ct_PKG_CONFIG,;t t
