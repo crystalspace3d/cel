@@ -91,6 +91,7 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------
+CS_CHECK_CSWIN32LIBS
 CS_CHECK_PYTHON()
 CS_CHECK_CPPUNIT([emit])
 
@@ -98,6 +99,14 @@ CS_CHECK_LIB_WITH([ode],
     [AC_LANG_PROGRAM([[#include <ode/ode.h>]], [dWorldCreate()])],
     [$srcdir/libs/libode*], [C++],
     [CS_EMIT_BUILD_RESULT([cs_cv_libode], [ODE])])
+
+#------------------------------------------------------------------------------
+# Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
+# as any additional flags provided by cs-win32libs.
+#------------------------------------------------------------------------------
+CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], [$CPPFLAGS $CFLAGS], [+])
+CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS], [$CPPFLAGS $CXXFLAGS], [+])
+CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS], [$LDFLAGS], [+])
 
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
