@@ -821,56 +821,41 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-cstest         verify that the Crystal Space SDK is actually
-                          usable
- (default YES)
+  --enable-cstest         verify that the Crystal Space SDK is actually usable
+                          (default YES)
   --enable-meta-info-embedding
                           store plugin meta-information directly inside plugin
-                          modules if
- supported by platform; if disabled,
-                          meta-information is stored in
- stand-alone .csplugin
-                          files; this is enabled by default for
- non-Unix
+                          modules if supported by platform; if disabled,
+                          meta-information is stored in stand-alone .csplugin
+                          files; this is enabled by default for non-Unix
                           platforms, and disabled by default for non-GPL
-                          projects
- on Unix platforms since the Unix
-                          implementation requires the
- GPL-licensed libbfd
-                          library; enable this option on Unix only if
- you are
+                          projects on Unix platforms since the Unix
+                          implementation requires the GPL-licensed libbfd
+                          library; enable this option on Unix only if you are
                           certain you want a GPL-licensed library infecting
-                          your
- project
+                          your project
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --without-python        do not use
- Python
+  --without-python        do not use Python
   --with-cppunit=dir      specify location of libcppunit if not detected
-                          automatically; searches
- dir/include, dir/lib, and
+                          automatically; searches dir/include, dir/lib, and
                           dir
   --with-ode=dir          specify location of libode if not detected
-                          automatically; searches
- dir/include, dir/lib, and
+                          automatically; searches dir/include, dir/lib, and
                           dir
   --without-cs            do not look for an installed Crystal Space SDK; this
-                          option is useful only
- if you need to perform
-                          routine maintenance tasks, such as generating
-                          project files or converting documentation, without
-                          having the Crystal Space
- SDK installed
+                          option is useful only if you need to perform routine
+                          maintenance tasks, such as generating project files
+                          or converting documentation, without having the
+                          Crystal Space SDK installed
   --with-cs-prefix=CRYSTAL_PREFIX
                           specify location of Crystal Space installation; this
-                          is the \$prefix
- value used when installing the SDK
+                          is the \$prefix value used when installing the SDK
   --with-bfd=dir          specify location of libbfd if not detected
-                          automatically; searches
- dir/include, dir/lib, and
+                          automatically; searches dir/include, dir/lib, and
                           dir
 
 Some influential environment variables:
