@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- res enabled ODE for VC projects.
 	- res fixed configure to emit CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS
 	  and to Jamconfig. Makes ODE-requiring plugins work on MinGW.
+	- David Bronke fixed a bug in the thruster controller where it was
+	  returning inverse values for the velocity along translational axes.
 14-Jul-2005
 	- Jorrit did a big stability fix to the mechanics plugin. Apparently
 	  ODE doesn't like it if it is called with variable steps. The mechanics
