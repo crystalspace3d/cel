@@ -251,6 +251,8 @@ float celPcMechanicsBalancedGroup::AvailableThrustForce ()
 
 void celPcMechanicsBalancedGroup::ChangeThrust (float deltathrust)
 {
+  printf("ChangeThrust: deltathrust=%f\n", deltathrust);
+  fflush(stdout);
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
   celThrusterData* thrusterdata;
   while (it.HasNext ())
@@ -588,7 +590,7 @@ const float celPcMechanicsThrusterController::GetAxisVelocity (const char* name)
       if (ad->type == CEL_AT_ROTATION)
         vvel = tehbody->GetAngularVelocity ();
       else
-        vvel = tehbody->GetLinearVelocity ();
+        vvel = -tehbody->GetLinearVelocity ();
       return trans.Other2ThisRelative (vvel) * ad->axis.Unit ();;
     }
   }
