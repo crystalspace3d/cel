@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  and to Jamconfig. Makes ODE-requiring plugins work on MinGW.
 	- David Bronke fixed a bug in the thruster controller where it was
 	  returning inverse values for the velocity along translational axes.
+	- David Bronke removed extraneous debug output from the mechanics
+	  plugin.
 14-Jul-2005
 	- Jorrit did a big stability fix to the mechanics plugin. Apparently
 	  ODE doesn't like it if it is called with variable steps. The mechanics

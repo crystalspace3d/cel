@@ -251,8 +251,6 @@ float celPcMechanicsBalancedGroup::AvailableThrustForce ()
 
 void celPcMechanicsBalancedGroup::ChangeThrust (float deltathrust)
 {
-  printf("ChangeThrust: deltathrust=%f\n", deltathrust);
-  fflush(stdout);
   csArray<celThrusterData*>::Iterator it = thrusters.GetIterator ();
   celThrusterData* thrusterdata;
   while (it.HasNext ())
