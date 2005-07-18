@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Jul-2005
+	- caedes added SetSystem and SetGravity XML actions to pcmechsys.
 18-Jul-2005
 	- Jorrit fixed a bug in mechanics. It would crash if you tried to
 	  use calls like EnableStepFast() before creating any mechanics object

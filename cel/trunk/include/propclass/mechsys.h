@@ -32,6 +32,14 @@ struct iPcMechanicsSystem : public iBase
   virtual void SetDynamicSystem (iDynamicSystem* dynsys) = 0;
 
   /**
+   * Set the dynamic system.
+   * \param dynsysname the name of the iDynamicSystem that this
+   * iPcMechanicsSystem represents.
+   */
+  virtual void SetDynamicSystem (const char *dynsysname) = 0;
+
+
+  /**
    * Get the dynamic system.
    */
   virtual iDynamicSystem* GetDynamicSystem () = 0;
