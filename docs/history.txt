@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in mechanics. It would crash if you tried to
 	  use calls like EnableStepFast() before creating any mechanics object
 	  because the dynsystem was not initialized yet.
+	- Jorrit fixed mechanics plugin so that it no longer requires
+	  ODE. This means the physics plugin can be any physics plugin
+	  again.
 17-Jul-2005
 	- David Bronke fixed a bug in the thruster controller where it was
 	  returning inverse values for the velocity along translational axes.
