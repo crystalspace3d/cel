@@ -223,7 +223,8 @@ void celPcMechanicsSystem::DisableStepFast ()
   GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
-  osys->EnableStepFast (0);
+  if (osys)
+    osys->EnableStepFast (0);
 }
 
 void celPcMechanicsSystem::EnableStepFast ()
@@ -231,7 +232,8 @@ void celPcMechanicsSystem::EnableStepFast ()
   GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
-  osys->EnableStepFast (1);
+  if (osys)
+    osys->EnableStepFast (1);
 }
 
 void celPcMechanicsSystem::EnableQuickStep ()
@@ -239,7 +241,8 @@ void celPcMechanicsSystem::EnableQuickStep ()
   GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
-  osys->EnableQuickStep (1);
+  if (osys)
+    osys->EnableQuickStep (1);
 }
 
 
