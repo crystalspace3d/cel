@@ -70,6 +70,16 @@ struct celForce
 class celPcMechanicsSystem : public celPcCommon
 {
 private:
+  // Actions
+  static csStringID action_setsystem;
+  static csStringID action_setgravity;
+
+  // Parameters for action_setsystem (mechsystem)
+  static csStringID param_dynsys;
+
+  // Parameters for action_setgravity
+  static csStringID param_gravity;
+ 
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
   csRef<iVirtualClock> vc;
@@ -79,12 +89,14 @@ private:
   float remaining_delta;
 
   void ProcessForces (float dt);
+  iDynamics *GetDynamics ();
 
 public:
   celPcMechanicsSystem (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsSystem ();
 
   void SetDynamicSystem (iDynamicSystem* dynsys);
+  void SetDynamicSystem (const char *dynsys);
   iDynamicSystem* GetDynamicSystem ();
   void SetStepTime (float delta)
   {
@@ -123,6 +135,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   struct PcMechanicsSystem : public iPcMechanicsSystem
   {
@@ -130,6 +143,10 @@ public:
     virtual void SetDynamicSystem (iDynamicSystem* dynsys)
     {
       scfParent->SetDynamicSystem (dynsys);
+    }
+    virtual void SetDynamicSystem (const char *dynsysname)
+    {
+      scfParent->SetDynamicSystem (dynsysname);
     }
     virtual iDynamicSystem* GetDynamicSystem ()
     {

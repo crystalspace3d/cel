@@ -63,6 +63,18 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsSystem::CelTimerListener)
   SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+//---------------------------------------------------------------------------
+
+// Actions
+csStringID celPcMechanicsSystem::action_setsystem = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_setgravity = csInvalidStringID;
+
+// Parameters for action_setsystem
+csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
+
+// Parameters for action_setgravity
+csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
+
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
@@ -75,8 +87,21 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   dynamics = 0;
   dynsystem = 0;
   remaining_delta = 0;
-
+  
   object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
+  
+  // Actions
+  if (action_setsystem == csInvalidStringID)
+    action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
+  if (action_setgravity == csInvalidStringID)
+    action_setgravity  = pl->FetchStringID ("cel.action.SetGravity");
+  
+  // Parameters for action_setsystem
+  if (param_dynsys == csInvalidStringID)
+    param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
+  // Parameters for action_setgravity
+  if (param_gravity == csInvalidStringID)
+    param_gravity = pl->FetchStringID ("cel.parameter.gravity");
 }
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
@@ -128,6 +153,27 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
   }
 }
 
+iDynamics* celPcMechanicsSystem::GetDynamics ()
+{
+  dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
+  if (!dynamics)
+  {
+    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
+    dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
+	iDynamics);
+    if (dynamics)
+    {
+      object_reg->Register (dynamics, "iDynamics");
+    }
+  }
+  if (!dynamics)
+  {
+    Report (object_reg, "Can't find dynamic subsystem!");
+    return 0;
+  }
+  return dynamics;
+}
+
 void celPcMechanicsSystem::TickEveryFrame ()
 {
   GetDynamicSystem ();
@@ -166,48 +212,26 @@ void celPcMechanicsSystem::TickEveryFrame ()
   }
 }
 
+void celPcMechanicsSystem::SetDynamicSystem (const char* dynsysname)
+{
+  GetDynamics();
+  dynsystem = dynamics->FindSystem(dynsysname);
+}
+
 void celPcMechanicsSystem::SetDynamicSystem (iDynamicSystem* dynsys)
 {
   dynsystem = dynsys;
   dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
-  dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
-  if (!dynamics)
-  {
-    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
-    	iPluginManager);
-    dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
-	iDynamics);
-    if (dynamics)
-    {
-      object_reg->Register (dynamics, "iDynamics");
-    }
-  }
-  if (!dynamics)
-  {
-    Report (object_reg, "Can't find dynamic subsystem!");
-    return;
-  }
+  GetDynamics ();
 }
 
 iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
 {
   if (!dynsystem)
   {
-    dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
+    GetDynamics();
     if (!dynamics)
     {
-      csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
-      	iDynamics);
-      if (dynamics)
-      {
-        object_reg->Register (dynamics, "iDynamics");
-      }
-    }
-    if (!dynamics)
-    {
-      Report (object_reg, "Can't find dynamic subsystem!");
       return 0;
     }
     dynsystem = dynamics->CreateSystem ();
@@ -258,6 +282,39 @@ const csVector3 celPcMechanicsSystem::GetGravity ()
   return dynsystem->GetGravity ();
 }
 
+bool celPcMechanicsSystem::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_setsystem)
+  {
+    CEL_FETCH_STRING_PAR (dynsys,params,param_dynsys);
+    if (p_dynsys)
+    {
+      SetDynamicSystem(dynsys);
+    }
+    else
+    {
+      Report (object_reg, "Couldn't get dynamics system name!");
+      return false;
+    }
+  }
+  if (actionId == action_setgravity)
+  {
+    CEL_FETCH_VECTOR3_PAR (gravity,params,param_gravity);
+    if (p_gravity)
+    {
+      GetDynamicSystem();
+      if (dynsystem)
+         dynsystem->SetGravity (gravity);
+    }
+    else
+    {
+      Report (object_reg, "Couldn't get gravity!");
+      return false;
+    }
+  }
+  return true;
+}
 
 #define MECHSYS_SERIAL 1
 
