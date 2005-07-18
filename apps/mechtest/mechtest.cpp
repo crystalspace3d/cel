@@ -375,7 +375,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.8,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.8,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.8,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.5,-.8,-10));
 
   entity_dummy = CreateDynBox ("box1", "room", csVector3 (.25, -.49,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, -.49,-10));
@@ -387,7 +386,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,-.49,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,-.49,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,-.49,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.25,-.49,-10));
 
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.5, -.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  -.18,-10));
@@ -398,7 +396,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,-.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  -.18,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,-.18,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5,  -.18,-10));
 
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (.75, .13,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,.13,-10));
@@ -408,7 +405,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,.13,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,.13,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,.13,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75,.13,-10));
 
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1,  .44,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,.44,-10));
@@ -417,7 +413,6 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  .44,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,.44,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (4,  .44,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5,.44,-10));
 
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25,.75,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75,.75,-10));
@@ -425,7 +420,12 @@ bool MechTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75,.75,-10));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25,.75,-10));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75,.75,-10));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25,.75,-10));
+
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5,1.06,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2,  1.06,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5,1.06,-10));
+  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3,  1.06,-10));
+  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5,1.06,-10));
 
   return true;
 }

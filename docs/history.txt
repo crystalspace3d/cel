@@ -3,15 +3,20 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Jul-2005
+	- Jorrit fixed a bug in mechanics. It would crash if you tried to
+	  use calls like EnableStepFast() before creating any mechanics object
+	  because the dynsystem was not initialized yet.
+17-Jul-2005
+	- David Bronke fixed a bug in the thruster controller where it was
+	  returning inverse values for the velocity along translational axes.
+	- David Bronke removed extraneous debug output from the mechanics
+	  plugin.
 15-Jul-2005
 	- res added cs-win32libs detection to configure.
 	- res enabled ODE for VC projects.
 	- res fixed configure to emit CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS
 	  and to Jamconfig. Makes ODE-requiring plugins work on MinGW.
-	- David Bronke fixed a bug in the thruster controller where it was
-	  returning inverse values for the velocity along translational axes.
-	- David Bronke removed extraneous debug output from the mechanics
-	  plugin.
 14-Jul-2005
 	- Jorrit did a big stability fix to the mechanics plugin. Apparently
 	  ODE doesn't like it if it is called with variable steps. The mechanics

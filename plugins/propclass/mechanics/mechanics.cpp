@@ -220,6 +220,7 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
 
 void celPcMechanicsSystem::DisableStepFast ()
 {
+  GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   osys->EnableStepFast (0);
@@ -227,6 +228,7 @@ void celPcMechanicsSystem::DisableStepFast ()
 
 void celPcMechanicsSystem::EnableStepFast ()
 {
+  GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   osys->EnableStepFast (1);
@@ -234,20 +236,22 @@ void celPcMechanicsSystem::EnableStepFast ()
 
 void celPcMechanicsSystem::EnableQuickStep ()
 {
+  GetDynamicSystem ();
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   osys->EnableQuickStep (1);
 }
 
 
-
 void celPcMechanicsSystem::SetGravity (const csVector3& grav)
 {
+  GetDynamicSystem ();
   dynsystem->SetGravity (grav);
 }
 
 const csVector3 celPcMechanicsSystem::GetGravity ()
 {
+  GetDynamicSystem ();
   return dynsystem->GetGravity ();
 }
 
