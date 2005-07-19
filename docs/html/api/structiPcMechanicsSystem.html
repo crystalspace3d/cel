@@ -26,66 +26,69 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a0">SetDynamicSystem</a> (iDynamicSystem *dynsys)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iDynamicSystem *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a1">GetDynamicSystem</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a1">SetDynamicSystem</a> (const char *dynsysname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a2">SetStepTime</a> (float delta)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iDynamicSystem *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a2">GetDynamicSystem</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the time we want for one step.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a3">GetStepTime</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a3">SetStepTime</a> (float delta)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current step time.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a4">SetGravity</a> (const csVector3 &amp;grav)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the time we want for one step.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a4">GetStepTime</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the gravity for the system.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a5">GetGravity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current step time.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a5">SetGravity</a> (const csVector3 &amp;grav)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current gravity.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a6">AddForceDuration</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the gravity for the system.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a6">GetGravity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in milliseconds) add the force every step to the given body.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a7">AddForceFrame</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current gravity.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a7">AddForceDuration</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a8">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in milliseconds) add the force every step to the given body.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a8">AddForceFrame</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a9">RemoveForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, uint32 forceid)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a9">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a10">ClearForces</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a10">RemoveForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, uint32 forceid)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the given body from the force queues (filled with <a class="el" href="structiPcMechanicsSystem.html#a7">AddForceFrame()</a> and <a class="el" href="structiPcMechanicsSystem.html#a6">AddForceDuration()</a>).  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a11">ClearAllForces</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a11">ClearForces</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all forces.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; iRigidBody &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a12">CreateBody</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the given body from the force queues (filled with <a class="el" href="structiPcMechanicsSystem.html#a8">AddForceFrame()</a> and <a class="el" href="structiPcMechanicsSystem.html#a7">AddForceDuration()</a>).  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a12">ClearAllForces</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an iRigidBody and add it to the system.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a13">RemoveBody</a> (iRigidBody *body)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all forces.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; iRigidBody &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a13">CreateBody</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given iRigidBody from the system.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a14">AddBodyToGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an iRigidBody and add it to the system.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a14">RemoveBody</a> (iRigidBody *body)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a body to the specified group.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a15">RemoveBodyFromGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given iRigidBody from the system.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a15">AddBodyToGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a body from the specified group.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a16">CreateJoint</a> (iRigidBody *body1, iRigidBody *body2)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a body to the specified group.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a16">RemoveBodyFromGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between the two given bodies.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a17">RemoveJoint</a> (iJoint *joint)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a body from the specified group.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a17">CreateJoint</a> (iRigidBody *body1, iRigidBody *body2)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given joint from the system.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a18">DisableStepFast</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between the two given bodies.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a18">RemoveJoint</a> (iJoint *joint)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable fast stepping.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a19">EnableStepFast</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given joint from the system.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a19">DisableStepFast</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fast stepping.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a20">EnableQuickStep</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable fast stepping.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a20">EnableStepFast</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Very fast but not accurate.  <a href="#a20"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fast stepping.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a21">EnableQuickStep</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Very fast but not accurate.  <a href="#a21"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a dynamic system. 
@@ -93,7 +96,7 @@
 
 <p>
 Definition at line <a class="el" href="mechsys_8h-source.html#l00025">25</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcMechanicsSystem::AddBodyToGroup" ref="a14" args="(iRigidBody *body, const char *group)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcMechanicsSystem::AddBodyToGroup" ref="a15" args="(iRigidBody *body, const char *group)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -138,7 +141,7 @@ Add a body to the specified group.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceDuration" ref="a6" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceDuration" ref="a7" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -204,7 +207,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a31
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceFrame" ref="a7" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceFrame" ref="a8" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -263,7 +266,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a32
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceTagged" ref="a8" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsSystem::AddForceTagged" ref="a9" args="(iPcMechanicsObject *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -329,7 +332,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a33
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMechanicsSystem::ClearAllForces" ref="a11" args="()=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMechanicsSystem::ClearAllForces" ref="a12" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -358,7 +361,7 @@ Clear all forces.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsSystem::ClearForces" ref="a10" args="(iPcMechanicsObject *pcobject)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMechanicsSystem::ClearForces" ref="a11" args="(iPcMechanicsObject *pcobject)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -383,7 +386,7 @@ Clear all forces.
     <td>
 
 <p>
-Remove the given body from the force queues (filled with <a class="el" href="structiPcMechanicsSystem.html#a7">AddForceFrame()</a> and <a class="el" href="structiPcMechanicsSystem.html#a6">AddForceDuration()</a>). 
+Remove the given body from the force queues (filled with <a class="el" href="structiPcMechanicsSystem.html#a8">AddForceFrame()</a> and <a class="el" href="structiPcMechanicsSystem.html#a7">AddForceDuration()</a>). 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -393,7 +396,7 @@ Remove the given body from the force queues (filled with <a class="el" href="str
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMechanicsSystem::CreateBody" ref="a12" args="()=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcMechanicsSystem::CreateBody" ref="a13" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -422,7 +425,7 @@ Create an iRigidBody and add it to the system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcMechanicsSystem::CreateJoint" ref="a16" args="(iRigidBody *body1, iRigidBody *body2)=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcMechanicsSystem::CreateJoint" ref="a17" args="(iRigidBody *body1, iRigidBody *body2)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -461,7 +464,7 @@ Create a joint between the two given bodies.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iPcMechanicsSystem::DisableStepFast" ref="a18" args="()=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iPcMechanicsSystem::DisableStepFast" ref="a19" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -490,7 +493,7 @@ Disable fast stepping.
 This is very accurate but can quickly break with lots of objects.    </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iPcMechanicsSystem::EnableQuickStep" ref="a20" args="()=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iPcMechanicsSystem::EnableQuickStep" ref="a21" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -519,7 +522,7 @@ Very fast but not accurate.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iPcMechanicsSystem::EnableStepFast" ref="a19" args="()=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iPcMechanicsSystem::EnableStepFast" ref="a20" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -545,10 +548,10 @@ Very fast but not accurate.
 <p>
 Enable fast stepping. 
 <p>
-This is a lot faster then <a class="el" href="structiPcMechanicsSystem.html#a18">DisableStepFast()</a>. Default.    </td>
+This is a lot faster then <a class="el" href="structiPcMechanicsSystem.html#a19">DisableStepFast()</a>. Default.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsSystem::GetDynamicSystem" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsSystem::GetDynamicSystem" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -577,7 +580,7 @@ Get the dynamic system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsSystem::GetGravity" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsSystem::GetGravity" ref="a6" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -606,7 +609,7 @@ Get the current gravity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsSystem::GetStepTime" ref="a3" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsSystem::GetStepTime" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -635,7 +638,7 @@ Get the current step time.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBody" ref="a13" args="(iRigidBody *body)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBody" ref="a14" args="(iRigidBody *body)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -670,7 +673,7 @@ Remove a given iRigidBody from the system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBodyFromGroup" ref="a15" args="(iRigidBody *body, const char *group)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveBodyFromGroup" ref="a16" args="(iRigidBody *body, const char *group)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -715,7 +718,7 @@ Remove a body from the specified group.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveForceTagged" ref="a9" args="(iPcMechanicsObject *pcobject, uint32 forceid)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveForceTagged" ref="a10" args="(iPcMechanicsObject *pcobject, uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -760,7 +763,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a34
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveJoint" ref="a17" args="(iJoint *joint)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iPcMechanicsSystem::RemoveJoint" ref="a18" args="(iJoint *joint)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -787,6 +790,41 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#a34
 <p>
 Remove a given joint from the system. 
 <p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsSystem::SetDynamicSystem" ref="a1" args="(const char *dynsysname)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsSystem::SetDynamicSystem           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>dynsysname</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the dynamic system. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>dynsysname</em>&nbsp;</td><td>the name of the iDynamicSystem that this iPcMechanicsSystem represents.</td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -825,7 +863,7 @@ Set the dynamic system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsSystem::SetGravity" ref="a4" args="(const csVector3 &amp;grav)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsSystem::SetGravity" ref="a5" args="(const csVector3 &amp;grav)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -860,7 +898,7 @@ By default this is (0,-9.8,0). <dl compact><dt><b>Parameters:</b></dt><dd>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsSystem::SetStepTime" ref="a2" args="(float delta)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsSystem::SetStepTime" ref="a3" args="(float delta)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
