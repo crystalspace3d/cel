@@ -8102,7 +8102,7 @@ static PyObject *_wrap_scfQueryPC_iPcDynamicBody(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcMechanicsSystem_SetDynamicSystem(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcMechanicsSystem_SetDynamicSystem__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
     iDynamicSystem *arg2 = (iDynamicSystem *) 0 ;
@@ -8119,6 +8119,87 @@ static PyObject *_wrap_iPcMechanicsSystem_SetDynamicSystem(PyObject *, PyObject 
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsSystem_SetDynamicSystem__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    char *arg2 = (char *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsSystem_SetDynamicSystem",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    (arg1)->SetDynamicSystem((char const *)arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsSystem_SetDynamicSystem(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsSystem, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iDynamicSystem, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_iPcMechanicsSystem_SetDynamicSystem__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsSystem, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                return _wrap_iPcMechanicsSystem_SetDynamicSystem__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcMechanicsSystem_SetDynamicSystem'");
     return NULL;
 }
 
