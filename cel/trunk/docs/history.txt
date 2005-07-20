@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Jul-2005
+	- Jorrit changed CEL to use the new csColliderActor in CS in
+	  the pccolldet property class. Warning! This does mean that
+	  pcsolid is no longer supported here! Possibly pcsolid and the
+	  other related old movement property classes should be removed.
 19-Jul-2005
 	- caedes added SetSystem and SetGravity XML actions to pcmechsys.
 18-Jul-2005
