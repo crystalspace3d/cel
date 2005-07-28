@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "mechtest.h"
 #include "csutil/sysfunc.h"
+#include "csgeom/plane3.h"
 #include "iutil/vfs.h"
 #include "iutil/object.h"
 #include "iutil/cmdline.h"

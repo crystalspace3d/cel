@@ -53,6 +53,7 @@
 #include <igeom/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
+#include <csgeom/math3d.h>
 
 //CEL includes
 #include "physicallayer/pl.h"
@@ -92,8 +93,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 // collision detection variables
 #define MAXSECTORSOCCUPIED  20
-csCollisionPair celPcLinearMovement::our_cd_contact[1000];
-int celPcLinearMovement::num_our_cd;
 
 // velocity = prevVelocity + ACCEL
 #define ACCEL 0.5f

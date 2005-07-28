@@ -31,6 +31,7 @@
 #include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "csutil/xmltiny.h"
+#include "csutil/databuf.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"

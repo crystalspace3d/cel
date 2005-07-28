@@ -29,6 +29,7 @@
 #include "csutil/memfile.h"
 #include "csutil/cscolor.h"
 #include "csutil/xmltiny.h"
+#include "csutil/databuf.h"
 #include "iutil/vfs.h"
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"

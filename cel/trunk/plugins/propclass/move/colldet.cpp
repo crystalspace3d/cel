@@ -86,6 +86,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
     return;
   }
   collider_actor.SetCollideSystem (cdsys);
+  collider_actor.SetGravity (19.2f);
 
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   collider_actor.SetEngine (engine);
