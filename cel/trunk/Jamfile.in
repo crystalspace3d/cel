@@ -38,8 +38,10 @@ MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
 MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
 MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs .. .. .. CS include ]
+  [ ConcatDirs .. .. .. CS include csutil win32 ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ] ;
+  [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS :
   [ ConcatDirs .. .. .. CS out release libs ]
   [ ConcatDirs .. .. .. CS libs csutil win32 ]
