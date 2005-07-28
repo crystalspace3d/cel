@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/plane3.h"
 #include "celtool/camera.h"
 #include "propclass/zone.h"
 #include "propclass/region.h"

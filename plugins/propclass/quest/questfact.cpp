@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "csutil/debug.h"
+#include "ivaria/reporter.h"
 #include "plugins/propclass/quest/questfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"

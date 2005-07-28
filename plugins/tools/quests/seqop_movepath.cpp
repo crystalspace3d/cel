@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/object.h"
 #include "ivaria/reporter.h"
 #include "iengine/movable.h"
 

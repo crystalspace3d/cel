@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Jul-2005
+	- Jorrit fixes CEL for the latest CS include file changes.
+	- Jorrit changed colldet to manually set gravity to 19.2 since CEL
+	  was using this default before. csColliderActor in CS has changed
+	  to 9.806 now.
 20-Jul-2005
 	- Jorrit changed CEL to use the new csColliderActor in CS in
 	  the pccolldet property class. Warning! This does mean that

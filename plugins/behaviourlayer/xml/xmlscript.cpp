@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
+#include "csutil/databuf.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
 #include "ivaria/reporter.h"

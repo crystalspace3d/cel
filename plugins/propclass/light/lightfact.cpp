@@ -27,6 +27,7 @@
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "csutil/util.h"
+#include "iutil/object.h"
 #include "iengine/sector.h"
 #include "iengine/light.h"
 #include "iengine/movable.h"
