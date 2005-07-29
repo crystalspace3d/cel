@@ -450,7 +450,8 @@ bool celBillboard::In (int sx, int sy)
   if (bb_w == -1 || !has_clickmap)
   {
     SetupMaterial ();
-    if (bb_w == -1 || !has_clickmap) return false;
+    if (bb_w == -1 || !has_clickmap)
+      return false;
   }
   csRect r;
   GetRect (r);
@@ -462,8 +463,7 @@ bool celBillboard::In (int sx, int sy)
       return false;
     return GetFromClickMap (tx, ty);
   }
-  else
-    return false;
+  return false;
 }
 
 static csSimpleRenderMesh mesh;
