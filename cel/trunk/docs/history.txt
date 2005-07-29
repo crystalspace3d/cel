@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Jul-2005
+	- Jorrit fixed the simple camera so that it actually works now.
 28-Jul-2005
 	- Jorrit fixes CEL for the latest CS include file changes.
 	- Jorrit changed colldet to manually set gravity to 19.2 since CEL

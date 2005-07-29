@@ -88,23 +88,12 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  view = csPtr<iView> (new csView (engine, g3d));
-
-  rect_set = false;
   kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   CS_ASSERT (kbd != 0);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  CS_ASSERT (vc != 0);
-  //cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
-  clear_zbuf = false;
-  clear_screen = false;
-
-  objectlookat = csVector3 ();
-  objectcampos = csVector3 ();
+  objectlookat.Set (0, 0, 0);
+  objectcampos.Set (0, 0, 0);
 
   lastActorSector = 0;
 
@@ -119,8 +108,6 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
     param_lookat = pl->FetchStringID ("cel.parameter.lookat");
   if (param_drawmesh == csInvalidStringID)
     param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
-
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdProcess);
 }
 
 celPcSimpleCamera::~celPcSimpleCamera ()
@@ -153,11 +140,6 @@ void celPcSimpleCamera::GetActorTransform (csReversibleTransform& actor_trans,
     actor_trans.SetT2O (csMatrix3 ());
     actor_sector = 0;
   }
-}
-
-void celPcSimpleCamera::TickEveryFrame ()
-{
-  Draw();
 }
 
 bool celPcSimpleCamera::PerformAction (csStringID actionId,
@@ -202,7 +184,7 @@ void celPcSimpleCamera::SetDrawMesh (bool draw)
   }
 }
 
-void celPcSimpleCamera::Draw()
+void celPcSimpleCamera::Draw ()
 {
   // First get elapsed time from the virtual clock.
   //csTicks elapsed_time = vc->GetElapsedTicks ();

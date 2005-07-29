@@ -70,28 +70,17 @@ private:
   static csStringID param_lookat;
   static csStringID param_drawmesh;
 
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
   csRef<iKeyboardDriver> kbd;
   csRef<iMouseDriver> mouse;
-  csRef<iVirtualClock> vc;
-  //csRef<iCollideSystem> cdsys;
-  csRef<iView> view;
   //bool use_cd;
-  bool rect_set;
-  int rect_x, rect_y, rect_w, rect_h;
   bool drawmesh;
   csVector3 objectcampos;
   csVector3 objectlookat;
 
-  csWeakRef<iPcRegion> region;
-  csWeakRef<iPcZoneManager> zonemgr;
   csWeakRef<iPcMesh> pcmesh;
   void FindSiblingPropertyClasses ();
 
   iSector* lastActorSector;
-
-  bool clear_zbuf, clear_screen;
 
   void GetActorTransform (csReversibleTransform& actor_trans, iSector*&
       actor_sector);
@@ -134,7 +123,6 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
-  virtual void TickEveryFrame ();
 
   struct PcSimpleCamera : public iPcSimpleCamera
   {
