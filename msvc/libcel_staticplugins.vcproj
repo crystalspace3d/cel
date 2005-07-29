@@ -33,7 +33,7 @@
 				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\out\release\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\out\release\build\libcel_staticplugins\"
 				ObjectFile="..\out\release\build\libcel_staticplugins\"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -105,7 +105,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\out\debug\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\out\debug\build\libcel_staticplugins\"
 				ObjectFile="..\out\debug\build\libcel_staticplugins\"
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_STATIC_LINKED"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

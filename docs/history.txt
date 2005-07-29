@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed the simple camera so that it actually works now.
 	- Jorrit fixed mechanics plugin so that AttachColliderMesh() no
 	  longer crashes if there is no pcmesh.
+	- res added $CRYSTAL/include/csutil/win32 to CFLAGS for MSVC project
+	  files.
+	- Eric Sunshine fixed syntax error in Jamfile.in.
+	- Eric Sunshine grabbed new checkpython.m4 from CS master repository.
 28-Jul-2005
 	- Jorrit fixes CEL for the latest CS include file changes.
 	- Jorrit changed colldet to manually set gravity to 19.2 since CEL
