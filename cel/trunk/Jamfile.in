@@ -40,7 +40,7 @@ MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs .. .. .. CS include ]
   [ ConcatDirs .. .. .. CS include csutil win32 ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ] ;
+  [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS :
   [ ConcatDirs .. .. .. CS out release libs ]
