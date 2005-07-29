@@ -1238,6 +1238,7 @@ void celPcMechanicsObject::AttachColliderMesh ()
 {
   GetBody ();
   GetMesh ();
+  if (!pcmesh) return;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
   body->AttachColliderMesh (mesh, mesh->GetMovable ()->GetFullTransform (),
   	friction, density, elasticity, softness);
