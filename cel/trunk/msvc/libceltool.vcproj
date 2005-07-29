@@ -33,7 +33,7 @@
 				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				PrecompiledHeaderFile="..\out\release\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\out\release\build\libceltool\"
 				ObjectFile="..\out\release\build\libceltool\"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -105,7 +105,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				PrecompiledHeaderFile="..\out\debug\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\out\debug\build\libceltool\"
 				ObjectFile="..\out\debug\build\libceltool\"
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS"
-				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
+				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
