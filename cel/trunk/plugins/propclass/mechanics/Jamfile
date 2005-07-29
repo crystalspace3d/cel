@@ -1,8 +1,8 @@
 SubDir TOP plugins propclass mechanics ;
 
-Plugin pfmechanics
-	: [ Wildcard *.cpp *.h ]
-;
-ExternalLibs pfmechanics : CRYSTAL ODE ;
-LinkWith pfmechanics : celtool ;
-
+if $(ODE.AVAILABLE) = yes
+{
+  Plugin pfmechanics : [ Wildcard *.cpp *.h ] ;
+  ExternalLibs pfmechanics : CRYSTAL ODE ;
+  LinkWith pfmechanics : celtool ;
+}
