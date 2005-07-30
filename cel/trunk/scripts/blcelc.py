@@ -70,12 +70,10 @@ celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
 
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
 
-class iCelNewEntityCallback(cspace.iBase):
+class iCelNewEntityCallback(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelNewEntityCallback, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelNewEntityCallback, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -94,12 +92,10 @@ class iCelNewEntityCallbackPtr(iCelNewEntityCallback):
         _swig_setattr(self, iCelNewEntityCallback,self.__class__,iCelNewEntityCallback)
 _blcelc.iCelNewEntityCallback_swigregister(iCelNewEntityCallbackPtr)
 
-class iCelEntityRemoveCallback(cspace.iBase):
+class iCelEntityRemoveCallback(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityRemoveCallback, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityRemoveCallback, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -118,12 +114,10 @@ class iCelEntityRemoveCallbackPtr(iCelEntityRemoveCallback):
         _swig_setattr(self, iCelEntityRemoveCallback,self.__class__,iCelEntityRemoveCallback)
 _blcelc.iCelEntityRemoveCallback_swigregister(iCelEntityRemoveCallbackPtr)
 
-class iCelTimerListener(cspace.iBase):
+class iCelTimerListener(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelTimerListener, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelTimerListener, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -143,12 +137,10 @@ class iCelTimerListenerPtr(iCelTimerListener):
         _swig_setattr(self, iCelTimerListener,self.__class__,iCelTimerListener)
 _blcelc.iCelTimerListener_swigregister(iCelTimerListenerPtr)
 
-class iCelPlLayer(cspace.iBase):
+class iCelPlLayer(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPlLayer, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPlLayer, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -219,12 +211,10 @@ class iCelPlLayerPtr(iCelPlLayer):
         _swig_setattr(self, iCelPlLayer,self.__class__,iCelPlLayer)
 _blcelc.iCelPlLayer_swigregister(iCelPlLayerPtr)
 
-class iCelEntityTracker(cspace.iBase):
+class iCelEntityTracker(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityTracker, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTracker, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -249,12 +239,10 @@ _blcelc.iCelEntityTracker_swigregister(iCelEntityTrackerPtr)
 
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
-class iCelEntity(cspace.iBase):
+class iCelEntity(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntity, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntity, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -281,12 +269,10 @@ class iCelEntityPtr(iCelEntity):
         _swig_setattr(self, iCelEntity,self.__class__,iCelEntity)
 _blcelc.iCelEntity_swigregister(iCelEntityPtr)
 
-class iCelEntityList(cspace.iBase):
+class iCelEntityList(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityList, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityList, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -319,12 +305,10 @@ celCreateEntity = _blcelc.celCreateEntity
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
 
 celFindNearbyEntities = _blcelc.celFindNearbyEntities
-class iCelBlLayer(cspace.iBase):
+class iCelBlLayer(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelBlLayer, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelBlLayer, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -346,12 +330,10 @@ _blcelc.iCelBlLayer_swigregister(iCelBlLayerPtr)
 
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
-class iCelParameterBlock(cspace.iBase):
+class iCelParameterBlock(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelParameterBlock, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -371,12 +353,10 @@ class iCelParameterBlockPtr(iCelParameterBlock):
         _swig_setattr(self, iCelParameterBlock,self.__class__,iCelParameterBlock)
 _blcelc.iCelParameterBlock_swigregister(iCelParameterBlockPtr)
 
-class iCelBehaviour(cspace.iBase):
+class iCelBehaviour(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelBehaviour, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelBehaviour, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -399,12 +379,10 @@ class iCelBehaviourPtr(iCelBehaviour):
         _swig_setattr(self, iCelBehaviour,self.__class__,iCelBehaviour)
 _blcelc.iCelBehaviour_swigregister(iCelBehaviourPtr)
 
-class iCelPropertyClass(cspace.iBase):
+class iCelPropertyClass(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClass, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClass, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -455,12 +433,10 @@ class iCelPropertyClassPtr(iCelPropertyClass):
         _swig_setattr(self, iCelPropertyClass,self.__class__,iCelPropertyClass)
 _blcelc.iCelPropertyClass_swigregister(iCelPropertyClassPtr)
 
-class iCelPropertyClassList(cspace.iBase):
+class iCelPropertyClassList(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassList, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassList, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -490,12 +466,10 @@ class iCelPropertyClassListPtr(iCelPropertyClassList):
         _swig_setattr(self, iCelPropertyClassList,self.__class__,iCelPropertyClassList)
 _blcelc.iCelPropertyClassList_swigregister(iCelPropertyClassListPtr)
 
-class iPcDynamicSystem(cspace.iBase):
+class iPcDynamicSystem(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDynamicSystem, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcDynamicSystem, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -520,12 +494,10 @@ class iPcDynamicSystemPtr(iPcDynamicSystem):
         _swig_setattr(self, iPcDynamicSystem,self.__class__,iPcDynamicSystem)
 _blcelc.iPcDynamicSystem_swigregister(iPcDynamicSystemPtr)
 
-class iPcDynamicBody(cspace.iBase):
+class iPcDynamicBody(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDynamicBody, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcDynamicBody, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -576,12 +548,10 @@ celGetDynamicBody = _blcelc.celGetDynamicBody
 scfQuery_iPcDynamicBody = _blcelc.scfQuery_iPcDynamicBody
 
 scfQueryPC_iPcDynamicBody = _blcelc.scfQueryPC_iPcDynamicBody
-class iPcMechanicsSystem(cspace.iBase):
+class iPcMechanicsSystem(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsSystem, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsSystem, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -620,12 +590,10 @@ class iPcMechanicsSystemPtr(iPcMechanicsSystem):
         _swig_setattr(self, iPcMechanicsSystem,self.__class__,iPcMechanicsSystem)
 _blcelc.iPcMechanicsSystem_swigregister(iPcMechanicsSystemPtr)
 
-class iPcMechanicsObject(cspace.iBase):
+class iPcMechanicsObject(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsObject, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsObject, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -698,12 +666,10 @@ celGetMechanicsObject = _blcelc.celGetMechanicsObject
 scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
 
 scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
-class iPcMechanicsThruster(cspace.iBase):
+class iPcMechanicsThruster(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThruster, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThruster, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -735,12 +701,10 @@ _blcelc.iPcMechanicsThruster_swigregister(iPcMechanicsThrusterPtr)
 CEL_AT_NONE = _blcelc.CEL_AT_NONE
 CEL_AT_ROTATION = _blcelc.CEL_AT_ROTATION
 CEL_AT_TRANSLATION = _blcelc.CEL_AT_TRANSLATION
-class iPcMechanicsBalancedGroup(cspace.iBase):
+class iPcMechanicsBalancedGroup(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsBalancedGroup, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsBalancedGroup, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -766,12 +730,10 @@ class iPcMechanicsBalancedGroupPtr(iPcMechanicsBalancedGroup):
         _swig_setattr(self, iPcMechanicsBalancedGroup,self.__class__,iPcMechanicsBalancedGroup)
 _blcelc.iPcMechanicsBalancedGroup_swigregister(iPcMechanicsBalancedGroupPtr)
 
-class iPcMechanicsThrusterController(cspace.iBase):
+class iPcMechanicsThrusterController(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThrusterController, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThrusterController, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -825,12 +787,10 @@ celGetMechanicsThrusterController = _blcelc.celGetMechanicsThrusterController
 scfQuery_iPcMechanicsThrusterController = _blcelc.scfQuery_iPcMechanicsThrusterController
 
 scfQueryPC_iPcMechanicsThrusterController = _blcelc.scfQueryPC_iPcMechanicsThrusterController
-class iBillboardLayer(cspace.iBase):
+class iBillboardLayer(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardLayer, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardLayer, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -852,12 +812,10 @@ class iBillboardLayerPtr(iBillboardLayer):
         _swig_setattr(self, iBillboardLayer,self.__class__,iBillboardLayer)
 _blcelc.iBillboardLayer_swigregister(iBillboardLayerPtr)
 
-class iBillboardEventHandler(cspace.iBase):
+class iBillboardEventHandler(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardEventHandler, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardEventHandler, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -883,12 +841,10 @@ CEL_BILLBOARD_VISIBLE = _blcelc.CEL_BILLBOARD_VISIBLE
 CEL_BILLBOARD_MOVABLE = _blcelc.CEL_BILLBOARD_MOVABLE
 CEL_BILLBOARD_CLICKABLE = _blcelc.CEL_BILLBOARD_CLICKABLE
 CEL_BILLBOARD_RESTACK = _blcelc.CEL_BILLBOARD_RESTACK
-class iBillboard(cspace.iBase):
+class iBillboard(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboard, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboard, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -932,12 +888,10 @@ class iBillboardPtr(iBillboard):
         _swig_setattr(self, iBillboard,self.__class__,iBillboard)
 _blcelc.iBillboard_swigregister(iBillboardPtr)
 
-class iBillboardManager(cspace.iBase):
+class iBillboardManager(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardManager, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardManager, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -974,12 +928,10 @@ class iBillboardManagerPtr(iBillboardManager):
         _swig_setattr(self, iBillboardManager,self.__class__,iBillboardManager)
 _blcelc.iBillboardManager_swigregister(iBillboardManagerPtr)
 
-class iPcBillboard(cspace.iBase):
+class iPcBillboard(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcBillboard, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcBillboard, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1010,12 +962,10 @@ celGetBillboard = _blcelc.celGetBillboard
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
 
 scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
-class iPcRegion(cspace.iBase):
+class iPcRegion(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcRegion, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcRegion, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1055,12 +1005,10 @@ Region = _blcelc.Region
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 
 scfQueryPC_iPcRegion = _blcelc.scfQueryPC_iPcRegion
-class iCelMapFile(cspace.iBase):
+class iCelMapFile(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelMapFile, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelMapFile, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1084,12 +1032,10 @@ class iCelMapFilePtr(iCelMapFile):
         _swig_setattr(self, iCelMapFile,self.__class__,iCelMapFile)
 _blcelc.iCelMapFile_swigregister(iCelMapFilePtr)
 
-class iCelRegion(cspace.iBase):
+class iCelRegion(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelRegion, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelRegion, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1116,12 +1062,10 @@ class iCelRegionPtr(iCelRegion):
         _swig_setattr(self, iCelRegion,self.__class__,iCelRegion)
 _blcelc.iCelRegion_swigregister(iCelRegionPtr)
 
-class iCelZone(cspace.iBase):
+class iCelZone(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iCelZone, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelZone, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1150,12 +1094,10 @@ CEL_ZONEERROR_OK = _blcelc.CEL_ZONEERROR_OK
 CEL_ZONEERROR_BADREGION = _blcelc.CEL_ZONEERROR_BADREGION
 CEL_ZONEERROR_BADSTART = _blcelc.CEL_ZONEERROR_BADSTART
 CEL_ZONEERROR_LOAD = _blcelc.CEL_ZONEERROR_LOAD
-class iPcZoneManager(cspace.iBase):
+class iPcZoneManager(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcZoneManager, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcZoneManager, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1196,12 +1138,10 @@ celCreateZoneManager = _blcelc.celCreateZoneManager
 celGetZoneManager = _blcelc.celGetZoneManager
 
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
-class iPcCommandInput(cspace.iBase):
+class iPcCommandInput(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCommandInput, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCommandInput, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1234,12 +1174,10 @@ celCreateCommandInput = _blcelc.celCreateCommandInput
 celGetCommandInput = _blcelc.celGetCommandInput
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
-class iPcGravityCallback(cspace.iBase):
+class iPcGravityCallback(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravityCallback, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcGravityCallback, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1258,12 +1196,10 @@ class iPcGravityCallbackPtr(iPcGravityCallback):
         _swig_setattr(self, iPcGravityCallback,self.__class__,iPcGravityCallback)
 _blcelc.iPcGravityCallback_swigregister(iPcGravityCallbackPtr)
 
-class iPcLinearMovement(cspace.iBase):
+class iPcLinearMovement(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcLinearMovement, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcLinearMovement, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1327,12 +1263,10 @@ celCreateLinearMovement = _blcelc.celCreateLinearMovement
 celGetLinearMovement = _blcelc.celGetLinearMovement
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
-class iPcActorMove(cspace.iBase):
+class iPcActorMove(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcActorMove, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcActorMove, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1383,12 +1317,10 @@ celCreateActorMove = _blcelc.celCreateActorMove
 celGetActorMove = _blcelc.celGetActorMove
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
-class iPcCamera(cspace.iBase):
+class iPcCamera(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCamera, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCamera, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1530,12 +1462,10 @@ scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
-class iPcMeshSelectListener(cspace.iBase):
+class iPcMeshSelectListener(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshSelectListener, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelectListener, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1556,12 +1486,10 @@ class iPcMeshSelectListenerPtr(iPcMeshSelectListener):
         _swig_setattr(self, iPcMeshSelectListener,self.__class__,iPcMeshSelectListener)
 _blcelc.iPcMeshSelectListener_swigregister(iPcMeshSelectListenerPtr)
 
-class iPcMeshSelect(cspace.iBase):
+class iPcMeshSelect(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshSelect, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelect, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1609,12 +1537,10 @@ celGetMeshSelect = _blcelc.celGetMeshSelect
 
 scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
 CEL_PCMESH_PROPERTY_MESH = _blcelc.CEL_PCMESH_PROPERTY_MESH
-class iPcMesh(cspace.iBase):
+class iPcMesh(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMesh, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMesh, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1649,12 +1575,10 @@ celCreateMesh = _blcelc.celCreateMesh
 celGetMesh = _blcelc.celGetMesh
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
-class iPcTimer(cspace.iBase):
+class iPcTimer(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTimer, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTimer, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1681,12 +1605,10 @@ celCreateTimer = _blcelc.celCreateTimer
 celGetTimer = _blcelc.celGetTimer
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
-class iPcSolid(cspace.iBase):
+class iPcSolid(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSolid, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcSolid, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1713,12 +1635,10 @@ celCreateSolid = _blcelc.celCreateSolid
 celGetSolid = _blcelc.celGetSolid
 
 scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
-class iPcGravity(cspace.iBase):
+class iPcGravity(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravity, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcGravity, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1762,12 +1682,10 @@ CEL_PCMOVABLE_PROPERTY_POSITION = _blcelc.CEL_PCMOVABLE_PROPERTY_POSITION
 CEL_MOVE_FAIL = _blcelc.CEL_MOVE_FAIL
 CEL_MOVE_SUCCEED = _blcelc.CEL_MOVE_SUCCEED
 CEL_MOVE_PARTIAL = _blcelc.CEL_MOVE_PARTIAL
-class iPcMovable(cspace.iBase):
+class iPcMovable(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMovable, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMovable, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1791,12 +1709,10 @@ class iPcMovablePtr(iPcMovable):
         _swig_setattr(self, iPcMovable,self.__class__,iPcMovable)
 _blcelc.iPcMovable_swigregister(iPcMovablePtr)
 
-class iPcMovableConstraint(cspace.iBase):
+class iPcMovableConstraint(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMovableConstraint, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMovableConstraint, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1821,12 +1737,10 @@ celCreateMovable = _blcelc.celCreateMovable
 celGetMovable = _blcelc.celGetMovable
 
 scfQuery_iPcMovable = _blcelc.scfQuery_iPcMovable
-class iPcInventoryListener(cspace.iBase):
+class iPcInventoryListener(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcInventoryListener, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcInventoryListener, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1846,12 +1760,10 @@ class iPcInventoryListenerPtr(iPcInventoryListener):
         _swig_setattr(self, iPcInventoryListener,self.__class__,iPcInventoryListener)
 _blcelc.iPcInventoryListener_swigregister(iPcInventoryListenerPtr)
 
-class iPcInventory(cspace.iBase):
+class iPcInventory(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcInventory, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcInventory, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1892,12 +1804,10 @@ celCreateInventory = _blcelc.celCreateInventory
 celGetInventory = _blcelc.celGetInventory
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
-class iPcCharacteristics(cspace.iBase):
+class iPcCharacteristics(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCharacteristics, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCharacteristics, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
@@ -1937,12 +1847,10 @@ scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
 CEL_TOOLTIP_CENTER = _blcelc.CEL_TOOLTIP_CENTER
 CEL_TOOLTIP_RIGHT = _blcelc.CEL_TOOLTIP_RIGHT
-class iPcTooltip(cspace.iBase):
+class iPcTooltip(_object):
     __swig_setmethods__ = {}
-    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTooltip, name, value)
     __swig_getmethods__ = {}
-    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTooltip, name)
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):

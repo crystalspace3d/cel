@@ -1438,8 +1438,8 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iBillboardLayer swig_types[87] 
 #define  SWIGTYPE_p_iCelZone swig_types[88] 
 #define  SWIGTYPE_p_iPcTimer swig_types[89] 
-#define  SWIGTYPE_p_csPlane3 swig_types[90] 
-#define  SWIGTYPE_p_csVector2 swig_types[91] 
+#define  SWIGTYPE_p_csVector2 swig_types[90] 
+#define  SWIGTYPE_p_csPlane3 swig_types[91] 
 #define  SWIGTYPE_p_unsigned_long swig_types[92] 
 #define  SWIGTYPE_p_iCelDataBuffer swig_types[93] 
 #define  SWIGTYPE_p_csVector3 swig_types[94] 
@@ -1452,26 +1452,27 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_basetype swig_types[101] 
 #define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[102] 
 #define  SWIGTYPE_p_iPcSolid swig_types[103] 
-#define  SWIGTYPE_p_unsigned_int swig_types[104] 
-#define  SWIGTYPE_p_csBox3 swig_types[105] 
-#define  SWIGTYPE_p_unsigned_char swig_types[106] 
-#define  SWIGTYPE_p_iView swig_types[107] 
-#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[108] 
-#define  SWIGTYPE_p_iCelTimerListener swig_types[109] 
-#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[110] 
-#define  SWIGTYPE_p_iPcInventoryListener swig_types[111] 
-#define  SWIGTYPE_p_celDataType swig_types[112] 
-#define  SWIGTYPE_p__csMouseCursorID swig_types[113] 
-#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[114] 
-#define  SWIGTYPE_p_float swig_types[115] 
-#define  SWIGTYPE_p_iBase swig_types[116] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[117] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[118] 
-#define  SWIGTYPE_p_iPcInventory swig_types[119] 
-#define  SWIGTYPE_p_uint64 swig_types[120] 
-#define  SWIGTYPE_p_iPcRegion swig_types[121] 
-#define  SWIGTYPE_p_iRegion swig_types[122] 
-static swig_type_info *swig_types[124];
+#define  SWIGTYPE_p_scfInterfaceID swig_types[104] 
+#define  SWIGTYPE_p_unsigned_int swig_types[105] 
+#define  SWIGTYPE_p_csBox3 swig_types[106] 
+#define  SWIGTYPE_p_unsigned_char swig_types[107] 
+#define  SWIGTYPE_p_iView swig_types[108] 
+#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[109] 
+#define  SWIGTYPE_p_iCelTimerListener swig_types[110] 
+#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[111] 
+#define  SWIGTYPE_p_iPcInventoryListener swig_types[112] 
+#define  SWIGTYPE_p_celDataType swig_types[113] 
+#define  SWIGTYPE_p__csMouseCursorID swig_types[114] 
+#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[115] 
+#define  SWIGTYPE_p_float swig_types[116] 
+#define  SWIGTYPE_p_iBase swig_types[117] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[118] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[119] 
+#define  SWIGTYPE_p_iPcInventory swig_types[120] 
+#define  SWIGTYPE_p_uint64 swig_types[121] 
+#define  SWIGTYPE_p_iPcRegion swig_types[122] 
+#define  SWIGTYPE_p_iRegion swig_types[123] 
+static swig_type_info *swig_types[125];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -2109,7 +2110,7 @@ static bool iCelPropertyClass_SetPropertyVector3(iCelPropertyClass *self,csStrin
 iPcDynamicSystem *celCreateDynamicSystem(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdynsys" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcDynamicSystem> pclm =    csPtr<iPcDynamicSystem> ((iPcDynamicSystem *)(pc)->QueryInterface (		   scfInterface<iPcDynamicSystem>::GetID (), scfInterface<iPcDynamicSystem>::GetVersion()));
+  csRef<iPcDynamicSystem> pclm =    scfQueryInterface<iPcDynamicSystem> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2125,7 +2126,7 @@ iPcDynamicSystem * celGetDynamicSystem (iCelEntity *entity)
 
 iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc)
 {
-  csRef<iPcDynamicSystem> iface =    csPtr<iPcDynamicSystem> ((iPcDynamicSystem *)(pc)->QueryInterface (		   scfInterface<iPcDynamicSystem>::GetID (), scfInterface<iPcDynamicSystem>::GetVersion()));
+  csRef<iPcDynamicSystem> iface =    scfQueryInterface<iPcDynamicSystem> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2133,7 +2134,7 @@ iPcDynamicSystem *scfQuery_iPcDynamicSystem (iCelPropertyClass *pc)
 
 iPcDynamicSystem *scfQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist)
 {
-  csRef<iPcDynamicSystem> iface =    csPtr<iPcDynamicSystem> ((iPcDynamicSystem *)(pclist)->QueryInterface (		   scfInterface<iPcDynamicSystem>::GetID (), scfInterface<iPcDynamicSystem>::GetVersion()));
+  csRef<iPcDynamicSystem> iface =    scfQueryInterface<iPcDynamicSystem> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2142,7 +2143,7 @@ iPcDynamicSystem *scfQueryPC_iPcDynamicSystem (iCelPropertyClassList *pclist)
 iPcDynamicBody *celCreateDynamicBody(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdynbody" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcDynamicBody> pclm =    csPtr<iPcDynamicBody> ((iPcDynamicBody *)(pc)->QueryInterface (		   scfInterface<iPcDynamicBody>::GetID (), scfInterface<iPcDynamicBody>::GetVersion()));
+  csRef<iPcDynamicBody> pclm =    scfQueryInterface<iPcDynamicBody> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2158,7 +2159,7 @@ iPcDynamicBody * celGetDynamicBody (iCelEntity *entity)
 
 iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc)
 {
-  csRef<iPcDynamicBody> iface =    csPtr<iPcDynamicBody> ((iPcDynamicBody *)(pc)->QueryInterface (		   scfInterface<iPcDynamicBody>::GetID (), scfInterface<iPcDynamicBody>::GetVersion()));
+  csRef<iPcDynamicBody> iface =    scfQueryInterface<iPcDynamicBody> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2166,7 +2167,7 @@ iPcDynamicBody *scfQuery_iPcDynamicBody (iCelPropertyClass *pc)
 
 iPcDynamicBody *scfQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist)
 {
-  csRef<iPcDynamicBody> iface =    csPtr<iPcDynamicBody> ((iPcDynamicBody *)(pclist)->QueryInterface (		   scfInterface<iPcDynamicBody>::GetID (), scfInterface<iPcDynamicBody>::GetVersion()));
+  csRef<iPcDynamicBody> iface =    scfQueryInterface<iPcDynamicBody> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2175,7 +2176,7 @@ iPcDynamicBody *scfQueryPC_iPcDynamicBody (iCelPropertyClassList *pclist)
 iPcMechanicsSystem *celCreateMechanicsSystem(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechsys" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsSystem> pclm =    csPtr<iPcMechanicsSystem> ((iPcMechanicsSystem *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsSystem>::GetID (), scfInterface<iPcMechanicsSystem>::GetVersion()));
+  csRef<iPcMechanicsSystem> pclm =    scfQueryInterface<iPcMechanicsSystem> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2191,7 +2192,7 @@ iPcMechanicsSystem * celGetMechanicsSystem (iCelEntity *entity)
 
 iPcMechanicsSystem *scfQuery_iPcMechanicsSystem (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsSystem> iface =    csPtr<iPcMechanicsSystem> ((iPcMechanicsSystem *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsSystem>::GetID (), scfInterface<iPcMechanicsSystem>::GetVersion()));
+  csRef<iPcMechanicsSystem> iface =    scfQueryInterface<iPcMechanicsSystem> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2199,7 +2200,7 @@ iPcMechanicsSystem *scfQuery_iPcMechanicsSystem (iCelPropertyClass *pc)
 
 iPcMechanicsSystem *scfQueryPC_iPcMechanicsSystem (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsSystem> iface =    csPtr<iPcMechanicsSystem> ((iPcMechanicsSystem *)(pclist)->QueryInterface (		   scfInterface<iPcMechanicsSystem>::GetID (), scfInterface<iPcMechanicsSystem>::GetVersion()));
+  csRef<iPcMechanicsSystem> iface =    scfQueryInterface<iPcMechanicsSystem> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2208,7 +2209,7 @@ iPcMechanicsSystem *scfQueryPC_iPcMechanicsSystem (iCelPropertyClassList *pclist
 iPcMechanicsObject *celCreateMechanicsObject(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechobject" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsObject> pclm =    csPtr<iPcMechanicsObject> ((iPcMechanicsObject *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsObject>::GetID (), scfInterface<iPcMechanicsObject>::GetVersion()));
+  csRef<iPcMechanicsObject> pclm =    scfQueryInterface<iPcMechanicsObject> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2224,7 +2225,7 @@ iPcMechanicsObject * celGetMechanicsObject (iCelEntity *entity)
 
 iPcMechanicsObject *scfQuery_iPcMechanicsObject (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsObject> iface =    csPtr<iPcMechanicsObject> ((iPcMechanicsObject *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsObject>::GetID (), scfInterface<iPcMechanicsObject>::GetVersion()));
+  csRef<iPcMechanicsObject> iface =    scfQueryInterface<iPcMechanicsObject> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2232,7 +2233,7 @@ iPcMechanicsObject *scfQuery_iPcMechanicsObject (iCelPropertyClass *pc)
 
 iPcMechanicsObject *scfQueryPC_iPcMechanicsObject (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsObject> iface =    csPtr<iPcMechanicsObject> ((iPcMechanicsObject *)(pclist)->QueryInterface (		   scfInterface<iPcMechanicsObject>::GetID (), scfInterface<iPcMechanicsObject>::GetVersion()));
+  csRef<iPcMechanicsObject> iface =    scfQueryInterface<iPcMechanicsObject> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2241,7 +2242,7 @@ iPcMechanicsObject *scfQueryPC_iPcMechanicsObject (iCelPropertyClassList *pclist
 iPcMechanicsThruster *celCreateMechanicsThrusterReactionary(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustreactionary" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsThruster> pclm =    csPtr<iPcMechanicsThruster> ((iPcMechanicsThruster *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsThruster>::GetID (), scfInterface<iPcMechanicsThruster>::GetVersion()));
+  csRef<iPcMechanicsThruster> pclm =    scfQueryInterface<iPcMechanicsThruster> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2257,7 +2258,7 @@ iPcMechanicsThruster * celGetMechanicsThrusterReactionary (iCelEntity *entity)
 
 iPcMechanicsThruster *scfQuery_iPcMechanicsThruster (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsThruster> iface =    csPtr<iPcMechanicsThruster> ((iPcMechanicsThruster *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsThruster>::GetID (), scfInterface<iPcMechanicsThruster>::GetVersion()));
+  csRef<iPcMechanicsThruster> iface =    scfQueryInterface<iPcMechanicsThruster> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2265,7 +2266,7 @@ iPcMechanicsThruster *scfQuery_iPcMechanicsThruster (iCelPropertyClass *pc)
 
 iPcMechanicsThruster *scfQueryPC_iPcMechanicsThruster (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsThruster> iface =    csPtr<iPcMechanicsThruster> ((iPcMechanicsThruster *)(pclist)->QueryInterface (		   scfInterface<iPcMechanicsThruster>::GetID (), scfInterface<iPcMechanicsThruster>::GetVersion()));
+  csRef<iPcMechanicsThruster> iface =    scfQueryInterface<iPcMechanicsThruster> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2274,7 +2275,7 @@ iPcMechanicsThruster *scfQueryPC_iPcMechanicsThruster (iCelPropertyClassList *pc
 iPcMechanicsBalancedGroup *celCreateMechanicsBalancedGroup(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechbalancedgroup" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsBalancedGroup> pclm =    csPtr<iPcMechanicsBalancedGroup> ((iPcMechanicsBalancedGroup *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsBalancedGroup>::GetID (), scfInterface<iPcMechanicsBalancedGroup>::GetVersion()));
+  csRef<iPcMechanicsBalancedGroup> pclm =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2290,7 +2291,7 @@ iPcMechanicsBalancedGroup * celGetMechanicsBalancedGroup (iCelEntity *entity)
 
 iPcMechanicsBalancedGroup *scfQuery_iPcMechanicsBalancedGroup (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsBalancedGroup> iface =    csPtr<iPcMechanicsBalancedGroup> ((iPcMechanicsBalancedGroup *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsBalancedGroup>::GetID (), scfInterface<iPcMechanicsBalancedGroup>::GetVersion()));
+  csRef<iPcMechanicsBalancedGroup> iface =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2298,7 +2299,7 @@ iPcMechanicsBalancedGroup *scfQuery_iPcMechanicsBalancedGroup (iCelPropertyClass
 
 iPcMechanicsBalancedGroup *scfQueryPC_iPcMechanicsBalancedGroup (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsBalancedGroup> iface =    csPtr<iPcMechanicsBalancedGroup> ((iPcMechanicsBalancedGroup *)(pclist)->QueryInterface (		   scfInterface<iPcMechanicsBalancedGroup>::GetID (), scfInterface<iPcMechanicsBalancedGroup>::GetVersion()));
+  csRef<iPcMechanicsBalancedGroup> iface =    scfQueryInterface<iPcMechanicsBalancedGroup> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2307,7 +2308,7 @@ iPcMechanicsBalancedGroup *scfQueryPC_iPcMechanicsBalancedGroup (iCelPropertyCla
 iPcMechanicsThrusterController *celCreateMechanicsThrusterController(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustercontroller" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsThrusterController> pclm =    csPtr<iPcMechanicsThrusterController> ((iPcMechanicsThrusterController *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsThrusterController>::GetID (), scfInterface<iPcMechanicsThrusterController>::GetVersion()));
+  csRef<iPcMechanicsThrusterController> pclm =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2323,7 +2324,7 @@ iPcMechanicsThrusterController * celGetMechanicsThrusterController (iCelEntity *
 
 iPcMechanicsThrusterController *scfQuery_iPcMechanicsThrusterController (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsThrusterController> iface =    csPtr<iPcMechanicsThrusterController> ((iPcMechanicsThrusterController *)(pc)->QueryInterface (		   scfInterface<iPcMechanicsThrusterController>::GetID (), scfInterface<iPcMechanicsThrusterController>::GetVersion()));
+  csRef<iPcMechanicsThrusterController> iface =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2331,7 +2332,7 @@ iPcMechanicsThrusterController *scfQuery_iPcMechanicsThrusterController (iCelPro
 
 iPcMechanicsThrusterController *scfQueryPC_iPcMechanicsThrusterController (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsThrusterController> iface =    csPtr<iPcMechanicsThrusterController> ((iPcMechanicsThrusterController *)(pclist)->QueryInterface (		   scfInterface<iPcMechanicsThrusterController>::GetID (), scfInterface<iPcMechanicsThrusterController>::GetVersion()));
+  csRef<iPcMechanicsThrusterController> iface =    scfQueryInterface<iPcMechanicsThrusterController> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2360,7 +2361,7 @@ t_output_helper(PyObject* target, PyObject* o) {
 iPcBillboard *celCreateBillboard(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcbillboard" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcBillboard> pclm =    csPtr<iPcBillboard> ((iPcBillboard *)(pc)->QueryInterface (		   scfInterface<iPcBillboard>::GetID (), scfInterface<iPcBillboard>::GetVersion()));
+  csRef<iPcBillboard> pclm =    scfQueryInterface<iPcBillboard> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2376,7 +2377,7 @@ iPcBillboard * celGetBillboard (iCelEntity *entity)
 
 iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
 {
-  csRef<iPcBillboard> iface =    csPtr<iPcBillboard> ((iPcBillboard *)(pc)->QueryInterface (		   scfInterface<iPcBillboard>::GetID (), scfInterface<iPcBillboard>::GetVersion()));
+  csRef<iPcBillboard> iface =    scfQueryInterface<iPcBillboard> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2384,7 +2385,7 @@ iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
 
 iPcBillboard *scfQueryPC_iPcBillboard (iCelPropertyClassList *pclist)
 {
-  csRef<iPcBillboard> iface =    csPtr<iPcBillboard> ((iPcBillboard *)(pclist)->QueryInterface (		   scfInterface<iPcBillboard>::GetID (), scfInterface<iPcBillboard>::GetVersion()));
+  csRef<iPcBillboard> iface =    scfQueryInterface<iPcBillboard> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2416,7 +2417,7 @@ iPcRegion * Region (iCelEntity *entity)
 
 iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
 {
-  csRef<iPcRegion> iface =    csPtr<iPcRegion> ((iPcRegion *)(pc)->QueryInterface (		   scfInterface<iPcRegion>::GetID (), scfInterface<iPcRegion>::GetVersion()));
+  csRef<iPcRegion> iface =    scfQueryInterface<iPcRegion> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2424,7 +2425,7 @@ iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
 
 iPcRegion *scfQueryPC_iPcRegion (iCelPropertyClassList *pclist)
 {
-  csRef<iPcRegion> iface =    csPtr<iPcRegion> ((iPcRegion *)(pclist)->QueryInterface (		   scfInterface<iPcRegion>::GetID (), scfInterface<iPcRegion>::GetVersion()));
+  csRef<iPcRegion> iface =    scfQueryInterface<iPcRegion> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2433,7 +2434,7 @@ iPcRegion *scfQueryPC_iPcRegion (iCelPropertyClassList *pclist)
 iPcZoneManager *celCreateZoneManager(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pczonemanager" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcZoneManager> pclm =    csPtr<iPcZoneManager> ((iPcZoneManager *)(pc)->QueryInterface (		   scfInterface<iPcZoneManager>::GetID (), scfInterface<iPcZoneManager>::GetVersion()));
+  csRef<iPcZoneManager> pclm =    scfQueryInterface<iPcZoneManager> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2449,7 +2450,7 @@ iPcZoneManager * celGetZoneManager (iCelEntity *entity)
 
 iPcZoneManager *scfQuery_iPcZoneManager (iCelPropertyClass *pc)
 {
-  csRef<iPcZoneManager> iface =    csPtr<iPcZoneManager> ((iPcZoneManager *)(pc)->QueryInterface (		   scfInterface<iPcZoneManager>::GetID (), scfInterface<iPcZoneManager>::GetVersion()));
+  csRef<iPcZoneManager> iface =    scfQueryInterface<iPcZoneManager> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2458,7 +2459,7 @@ iPcZoneManager *scfQuery_iPcZoneManager (iCelPropertyClass *pc)
 iPcCommandInput *celCreateCommandInput(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccommandinput" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCommandInput> pclm =    csPtr<iPcCommandInput> ((iPcCommandInput *)(pc)->QueryInterface (		   scfInterface<iPcCommandInput>::GetID (), scfInterface<iPcCommandInput>::GetVersion()));
+  csRef<iPcCommandInput> pclm =    scfQueryInterface<iPcCommandInput> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2474,7 +2475,7 @@ iPcCommandInput * celGetCommandInput (iCelEntity *entity)
 
 iPcCommandInput *scfQuery_iPcCommandInput (iCelPropertyClass *pc)
 {
-  csRef<iPcCommandInput> iface =    csPtr<iPcCommandInput> ((iPcCommandInput *)(pc)->QueryInterface (		   scfInterface<iPcCommandInput>::GetID (), scfInterface<iPcCommandInput>::GetVersion()));
+  csRef<iPcCommandInput> iface =    scfQueryInterface<iPcCommandInput> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2483,7 +2484,7 @@ iPcCommandInput *scfQuery_iPcCommandInput (iCelPropertyClass *pc)
 iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pclinearmovement" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcLinearMovement> pclm =    csPtr<iPcLinearMovement> ((iPcLinearMovement *)(pc)->QueryInterface (		   scfInterface<iPcLinearMovement>::GetID (), scfInterface<iPcLinearMovement>::GetVersion()));
+  csRef<iPcLinearMovement> pclm =    scfQueryInterface<iPcLinearMovement> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2499,7 +2500,7 @@ iPcLinearMovement * celGetLinearMovement (iCelEntity *entity)
 
 iPcLinearMovement *scfQuery_iPcLinearMovement (iCelPropertyClass *pc)
 {
-  csRef<iPcLinearMovement> iface =    csPtr<iPcLinearMovement> ((iPcLinearMovement *)(pc)->QueryInterface (		   scfInterface<iPcLinearMovement>::GetID (), scfInterface<iPcLinearMovement>::GetVersion()));
+  csRef<iPcLinearMovement> iface =    scfQueryInterface<iPcLinearMovement> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2508,7 +2509,7 @@ iPcLinearMovement *scfQuery_iPcLinearMovement (iCelPropertyClass *pc)
 iPcActorMove *celCreateActorMove(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcactormove" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcActorMove> pclm =    csPtr<iPcActorMove> ((iPcActorMove *)(pc)->QueryInterface (		   scfInterface<iPcActorMove>::GetID (), scfInterface<iPcActorMove>::GetVersion()));
+  csRef<iPcActorMove> pclm =    scfQueryInterface<iPcActorMove> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2524,7 +2525,7 @@ iPcActorMove * celGetActorMove (iCelEntity *entity)
 
 iPcActorMove *scfQuery_iPcActorMove (iCelPropertyClass *pc)
 {
-  csRef<iPcActorMove> iface =    csPtr<iPcActorMove> ((iPcActorMove *)(pc)->QueryInterface (		   scfInterface<iPcActorMove>::GetID (), scfInterface<iPcActorMove>::GetVersion()));
+  csRef<iPcActorMove> iface =    scfQueryInterface<iPcActorMove> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2533,7 +2534,7 @@ iPcActorMove *scfQuery_iPcActorMove (iCelPropertyClass *pc)
 iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCamera> pclm =    csPtr<iPcCamera> ((iPcCamera *)(pc)->QueryInterface (		   scfInterface<iPcCamera>::GetID (), scfInterface<iPcCamera>::GetVersion()));
+  csRef<iPcCamera> pclm =    scfQueryInterface<iPcCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2549,7 +2550,7 @@ iPcCamera * celGetCamera (iCelEntity *entity)
 
 iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcCamera> iface =    csPtr<iPcCamera> ((iPcCamera *)(pc)->QueryInterface (		   scfInterface<iPcCamera>::GetID (), scfInterface<iPcCamera>::GetVersion()));
+  csRef<iPcCamera> iface =    scfQueryInterface<iPcCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2558,7 +2559,7 @@ iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc)
 iPcDefaultCamera *celCreateDefaultCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdefaultcamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcDefaultCamera> pclm =    csPtr<iPcDefaultCamera> ((iPcDefaultCamera *)(pc)->QueryInterface (		   scfInterface<iPcDefaultCamera>::GetID (), scfInterface<iPcDefaultCamera>::GetVersion()));
+  csRef<iPcDefaultCamera> pclm =    scfQueryInterface<iPcDefaultCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2574,7 +2575,7 @@ iPcDefaultCamera * celGetDefaultCamera (iCelEntity *entity)
 
 iPcDefaultCamera *scfQuery_iPcDefaultCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcDefaultCamera> iface =    csPtr<iPcDefaultCamera> ((iPcDefaultCamera *)(pc)->QueryInterface (		   scfInterface<iPcDefaultCamera>::GetID (), scfInterface<iPcDefaultCamera>::GetVersion()));
+  csRef<iPcDefaultCamera> iface =    scfQueryInterface<iPcDefaultCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2583,7 +2584,7 @@ iPcDefaultCamera *scfQuery_iPcDefaultCamera (iCelPropertyClass *pc)
 iPcSimpleCamera *celCreateSimpleCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsimplecamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSimpleCamera> pclm =    csPtr<iPcSimpleCamera> ((iPcSimpleCamera *)(pc)->QueryInterface (		   scfInterface<iPcSimpleCamera>::GetID (), scfInterface<iPcSimpleCamera>::GetVersion()));
+  csRef<iPcSimpleCamera> pclm =    scfQueryInterface<iPcSimpleCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2599,7 +2600,7 @@ iPcSimpleCamera * celGetSimpleCamera (iCelEntity *entity)
 
 iPcSimpleCamera *scfQuery_iPcSimpleCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcSimpleCamera> iface =    csPtr<iPcSimpleCamera> ((iPcSimpleCamera *)(pc)->QueryInterface (		   scfInterface<iPcSimpleCamera>::GetID (), scfInterface<iPcSimpleCamera>::GetVersion()));
+  csRef<iPcSimpleCamera> iface =    scfQueryInterface<iPcSimpleCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2608,7 +2609,7 @@ iPcSimpleCamera *scfQuery_iPcSimpleCamera (iCelPropertyClass *pc)
 iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmeshselect" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMeshSelect> pclm =    csPtr<iPcMeshSelect> ((iPcMeshSelect *)(pc)->QueryInterface (		   scfInterface<iPcMeshSelect>::GetID (), scfInterface<iPcMeshSelect>::GetVersion()));
+  csRef<iPcMeshSelect> pclm =    scfQueryInterface<iPcMeshSelect> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2624,7 +2625,7 @@ iPcMeshSelect * celGetMeshSelect (iCelEntity *entity)
 
 iPcMeshSelect *scfQuery_iPcMeshSelect (iCelPropertyClass *pc)
 {
-  csRef<iPcMeshSelect> iface =    csPtr<iPcMeshSelect> ((iPcMeshSelect *)(pc)->QueryInterface (		   scfInterface<iPcMeshSelect>::GetID (), scfInterface<iPcMeshSelect>::GetVersion()));
+  csRef<iPcMeshSelect> iface =    scfQueryInterface<iPcMeshSelect> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2633,7 +2634,7 @@ iPcMeshSelect *scfQuery_iPcMeshSelect (iCelPropertyClass *pc)
 iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmesh" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMesh> pclm =    csPtr<iPcMesh> ((iPcMesh *)(pc)->QueryInterface (		   scfInterface<iPcMesh>::GetID (), scfInterface<iPcMesh>::GetVersion()));
+  csRef<iPcMesh> pclm =    scfQueryInterface<iPcMesh> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2649,7 +2650,7 @@ iPcMesh * celGetMesh (iCelEntity *entity)
 
 iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
 {
-  csRef<iPcMesh> iface =    csPtr<iPcMesh> ((iPcMesh *)(pc)->QueryInterface (		   scfInterface<iPcMesh>::GetID (), scfInterface<iPcMesh>::GetVersion()));
+  csRef<iPcMesh> iface =    scfQueryInterface<iPcMesh> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2658,7 +2659,7 @@ iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
 iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctimer" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcTimer> pclm =    csPtr<iPcTimer> ((iPcTimer *)(pc)->QueryInterface (		   scfInterface<iPcTimer>::GetID (), scfInterface<iPcTimer>::GetVersion()));
+  csRef<iPcTimer> pclm =    scfQueryInterface<iPcTimer> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2674,7 +2675,7 @@ iPcTimer * celGetTimer (iCelEntity *entity)
 
 iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc)
 {
-  csRef<iPcTimer> iface =    csPtr<iPcTimer> ((iPcTimer *)(pc)->QueryInterface (		   scfInterface<iPcTimer>::GetID (), scfInterface<iPcTimer>::GetVersion()));
+  csRef<iPcTimer> iface =    scfQueryInterface<iPcTimer> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2683,7 +2684,7 @@ iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc)
 iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsolid" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSolid> pclm =    csPtr<iPcSolid> ((iPcSolid *)(pc)->QueryInterface (		   scfInterface<iPcSolid>::GetID (), scfInterface<iPcSolid>::GetVersion()));
+  csRef<iPcSolid> pclm =    scfQueryInterface<iPcSolid> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2699,7 +2700,7 @@ iPcSolid * celGetSolid (iCelEntity *entity)
 
 iPcSolid *scfQuery_iPcSolid (iCelPropertyClass *pc)
 {
-  csRef<iPcSolid> iface =    csPtr<iPcSolid> ((iPcSolid *)(pc)->QueryInterface (		   scfInterface<iPcSolid>::GetID (), scfInterface<iPcSolid>::GetVersion()));
+  csRef<iPcSolid> iface =    scfQueryInterface<iPcSolid> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2708,7 +2709,7 @@ iPcSolid *scfQuery_iPcSolid (iCelPropertyClass *pc)
 iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcgravity" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcGravity> pclm =    csPtr<iPcGravity> ((iPcGravity *)(pc)->QueryInterface (		   scfInterface<iPcGravity>::GetID (), scfInterface<iPcGravity>::GetVersion()));
+  csRef<iPcGravity> pclm =    scfQueryInterface<iPcGravity> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2724,7 +2725,7 @@ iPcGravity * celGetGravity (iCelEntity *entity)
 
 iPcGravity *scfQuery_iPcGravity (iCelPropertyClass *pc)
 {
-  csRef<iPcGravity> iface =    csPtr<iPcGravity> ((iPcGravity *)(pc)->QueryInterface (		   scfInterface<iPcGravity>::GetID (), scfInterface<iPcGravity>::GetVersion()));
+  csRef<iPcGravity> iface =    scfQueryInterface<iPcGravity> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2733,7 +2734,7 @@ iPcGravity *scfQuery_iPcGravity (iCelPropertyClass *pc)
 iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmovable" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMovable> pclm =    csPtr<iPcMovable> ((iPcMovable *)(pc)->QueryInterface (		   scfInterface<iPcMovable>::GetID (), scfInterface<iPcMovable>::GetVersion()));
+  csRef<iPcMovable> pclm =    scfQueryInterface<iPcMovable> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2749,7 +2750,7 @@ iPcMovable * celGetMovable (iCelEntity *entity)
 
 iPcMovable *scfQuery_iPcMovable (iCelPropertyClass *pc)
 {
-  csRef<iPcMovable> iface =    csPtr<iPcMovable> ((iPcMovable *)(pc)->QueryInterface (		   scfInterface<iPcMovable>::GetID (), scfInterface<iPcMovable>::GetVersion()));
+  csRef<iPcMovable> iface =    scfQueryInterface<iPcMovable> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2758,7 +2759,7 @@ iPcMovable *scfQuery_iPcMovable (iCelPropertyClass *pc)
 iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcinventory" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcInventory> pclm =    csPtr<iPcInventory> ((iPcInventory *)(pc)->QueryInterface (		   scfInterface<iPcInventory>::GetID (), scfInterface<iPcInventory>::GetVersion()));
+  csRef<iPcInventory> pclm =    scfQueryInterface<iPcInventory> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2774,7 +2775,7 @@ iPcInventory * celGetInventory (iCelEntity *entity)
 
 iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
 {
-  csRef<iPcInventory> iface =    csPtr<iPcInventory> ((iPcInventory *)(pc)->QueryInterface (		   scfInterface<iPcInventory>::GetID (), scfInterface<iPcInventory>::GetVersion()));
+  csRef<iPcInventory> iface =    scfQueryInterface<iPcInventory> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2783,7 +2784,7 @@ iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
 iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccharacteristics" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCharacteristics> pclm =    csPtr<iPcCharacteristics> ((iPcCharacteristics *)(pc)->QueryInterface (		   scfInterface<iPcCharacteristics>::GetID (), scfInterface<iPcCharacteristics>::GetVersion()));
+  csRef<iPcCharacteristics> pclm =    scfQueryInterface<iPcCharacteristics> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2799,7 +2800,7 @@ iPcCharacteristics * celGetCharacteristics (iCelEntity *entity)
 
 iPcCharacteristics *scfQuery_iPcCharacteristics (iCelPropertyClass *pc)
 {
-  csRef<iPcCharacteristics> iface =    csPtr<iPcCharacteristics> ((iPcCharacteristics *)(pc)->QueryInterface (		   scfInterface<iPcCharacteristics>::GetID (), scfInterface<iPcCharacteristics>::GetVersion()));
+  csRef<iPcCharacteristics> iface =    scfQueryInterface<iPcCharacteristics> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -2808,7 +2809,7 @@ iPcCharacteristics *scfQuery_iPcCharacteristics (iCelPropertyClass *pc)
 iPcTooltip *celCreateToolTip(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctooltip" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcTooltip> pclm =    csPtr<iPcTooltip> ((iPcTooltip *)(pc)->QueryInterface (		   scfInterface<iPcTooltip>::GetID (), scfInterface<iPcTooltip>::GetVersion()));
+  csRef<iPcTooltip> pclm =    scfQueryInterface<iPcTooltip> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -2824,7 +2825,7 @@ iPcTooltip * celGetToolTip (iCelEntity *entity)
 
 iPcTooltip *scfQuery_iPcTooltip (iCelPropertyClass *pc)
 {
-  csRef<iPcTooltip> iface =    csPtr<iPcTooltip> ((iPcTooltip *)(pc)->QueryInterface (		   scfInterface<iPcTooltip>::GetID (), scfInterface<iPcTooltip>::GetVersion()));
+  csRef<iPcTooltip> iface =    scfQueryInterface<iPcTooltip> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -7056,8 +7057,14 @@ static PyObject *_wrap_iCelPropertyClassList_RemoveByInterface(PyObject *, PyObj
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClassList, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (scfInterfaceID)(SWIG_As_unsigned_SS_long(obj1)); 
+        scfInterfaceID * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_scfInterfaceID, SWIG_POINTER_EXCEPTION);
         if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("scfInterfaceID");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
     }
     {
         arg3 = (int)(SWIG_As_int(obj2)); 
@@ -7090,8 +7097,14 @@ static PyObject *_wrap_iCelPropertyClassList_RemoveByInterfaceAndTag(PyObject *,
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClassList, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (scfInterfaceID)(SWIG_As_unsigned_SS_long(obj1)); 
+        scfInterfaceID * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_scfInterfaceID, SWIG_POINTER_EXCEPTION);
         if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("scfInterfaceID");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
     }
     {
         arg3 = (int)(SWIG_As_int(obj2)); 
@@ -7217,8 +7230,14 @@ static PyObject *_wrap_iCelPropertyClassList_FindByInterface(PyObject *, PyObjec
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClassList, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (scfInterfaceID)(SWIG_As_unsigned_SS_long(obj1)); 
+        scfInterfaceID * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_scfInterfaceID, SWIG_POINTER_EXCEPTION);
         if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("scfInterfaceID");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
     }
     {
         arg3 = (int)(SWIG_As_int(obj2)); 
@@ -7249,8 +7268,14 @@ static PyObject *_wrap_iCelPropertyClassList_FindByInterfaceAndTag(PyObject *, P
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClassList, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        arg2 = (scfInterfaceID)(SWIG_As_unsigned_SS_long(obj1)); 
+        scfInterfaceID * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_scfInterfaceID, SWIG_POINTER_EXCEPTION);
         if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("scfInterfaceID");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
     }
     {
         arg3 = (int)(SWIG_As_int(obj2)); 
@@ -24787,9 +24812,6 @@ static void *_p_iSprite2DFactoryStateTo_p_iBase(void *x) {
 static void *_p_iGeneralFactoryStateTo_p_iBase(void *x) {
     return (void *)((iBase *) (iGeneralMeshCommonState *) ((iGeneralFactoryState *) x));
 }
-static void *_p_iSCFTo_p_iBase(void *x) {
-    return (void *)((iBase *)  ((iSCF *) x));
-}
 static void *_p_iGraphics2DTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iGraphics2D *) x));
 }
@@ -24967,9 +24989,6 @@ static void *_p_iOffscreenCanvasCallbackTo_p_iBase(void *x) {
 static void *_p_iMeshObjectDrawCallbackTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iMeshObjectDrawCallback *) x));
 }
-static void *_p_iPortalCallbackTo_p_iBase(void *x) {
-    return (void *)((iBase *)  ((iPortalCallback *) x));
-}
 static void *_p_iLightCallbackTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iLightCallback *) x));
 }
@@ -24987,6 +25006,9 @@ static void *_p_iTextureCallbackTo_p_iBase(void *x) {
 }
 static void *_p_iMeshDrawCallbackTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iMeshDrawCallback *) x));
+}
+static void *_p_iPortalCallbackTo_p_iBase(void *x) {
+    return (void *)((iBase *)  ((iPortalCallback *) x));
 }
 static void *_p_iObjectTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iObject *) x));
@@ -25357,6 +25379,9 @@ static void *_p_iPcRegionTo_p_iBase(void *x) {
 static void *_p_iCelMapFileTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iCelMapFile *) x));
 }
+static void *_p_iNativeWindowManagerTo_p_iBase(void *x) {
+    return (void *)((iBase *)  ((iNativeWindowManager *) x));
+}
 static void *_p_iConfigManagerTo_p_iBase(void *x) {
     return (void *)((iBase *) (iConfigFile *) ((iConfigManager *) x));
 }
@@ -25374,9 +25399,6 @@ static void *_p_iAwsSinkManagerTo_p_iBase(void *x) {
 }
 static void *_p_iAwsPrefManagerTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iAwsPrefManager *) x));
-}
-static void *_p_iNativeWindowManagerTo_p_iBase(void *x) {
-    return (void *)((iBase *)  ((iNativeWindowManager *) x));
 }
 static void *_p_iShaderManagerTo_p_iBase(void *x) {
     return (void *)((iBase *) (iShaderVariableContext *) ((iShaderManager *) x));
@@ -25504,8 +25526,8 @@ static swig_type_info _swigt__p_csPtrTiRigidBody_t[] = {{"_p_csPtrTiRigidBody_t"
 static swig_type_info _swigt__p_iBillboardLayer[] = {{"_p_iBillboardLayer", 0, "iBillboardLayer *", 0, 0, 0, 0},{"_p_iBillboardLayer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelZone[] = {{"_p_iCelZone", 0, "iCelZone *", 0, 0, 0, 0},{"_p_iCelZone", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcTimer[] = {{"_p_iPcTimer", 0, "iPcTimer *", 0, 0, 0, 0},{"_p_iPcTimer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_csPlane3[] = {{"_p_csPlane3", 0, "csPlane3 *", 0, 0, 0, 0},{"_p_csPlane3", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csVector2[] = {{"_p_csVector2", 0, "csVector2 *", 0, 0, 0, 0},{"_p_csVector2", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csPlane3[] = {{"_p_csPlane3", 0, "csPlane3 *", 0, 0, 0, 0},{"_p_csPlane3", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_unsigned_long[] = {{"_p_unsigned_long", 0, "unsigned long *|csStringID *", 0, 0, 0, 0},{"_p_unsigned_long", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelDataBuffer[] = {{"_p_iCelDataBuffer", 0, "iCelDataBuffer *", 0, 0, 0, 0},{"_p_iCelDataBuffer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csVector3[] = {{"_p_csVector3", 0, "csVector3 *", 0, 0, 0, 0},{"_p_csVector3", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -25518,6 +25540,7 @@ static swig_type_info _swigt__p_iPcMechanicsSystem[] = {{"_p_iPcMechanicsSystem"
 static swig_type_info _swigt__p_basetype[] = {{"_p_basetype", 0, "basetype *", 0, 0, 0, 0},{"_p_basetype", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csRefArrayTiObject_t[] = {{"_p_csRefArrayTiObject_t", 0, "csRefArray<iObject > *|csObjectContainer *", 0, 0, 0, 0},{"_p_csRefArrayTiObject_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcSolid[] = {{"_p_iPcSolid", 0, "iPcSolid *", 0, 0, 0, 0},{"_p_iPcSolid", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_scfInterfaceID[] = {{"_p_scfInterfaceID", 0, "scfInterfaceID *", 0, 0, 0, 0},{"_p_scfInterfaceID", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *|uint32 *", 0, 0, 0, 0},{"_p_unsigned_int", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csBox3[] = {{"_p_csBox3", 0, "csBox3 *", 0, 0, 0, 0},{"_p_csBox3", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_unsigned_char[] = {{"_p_unsigned_char", 0, "unsigned char *|uint8 *", 0, 0, 0, 0},{"_p_unsigned_char", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -25530,7 +25553,7 @@ static swig_type_info _swigt__p_celDataType[] = {{"_p_celDataType", 0, "enum cel
 static swig_type_info _swigt__p__csMouseCursorID[] = {{"_p__csMouseCursorID", 0, "enum _csMouseCursorID *|csMouseCursorID *", 0, 0, 0, 0},{"_p__csMouseCursorID", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcMechanicsThrusterController[] = {{"_p_iPcMechanicsThrusterController", 0, "iPcMechanicsThrusterController *", 0, 0, 0, 0},{"_p_iPcMechanicsThrusterController", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_float[] = {{"_p_float", 0, "float *", 0, 0, 0, 0},{"_p_float", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_iBase[] = {{"_p_iBase", 0, "iBase *", 0, 0, 0, 0},{"_p_iAwsRGBKey", _p_iAwsRGBKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRendererLightmap", _p_iRendererLightmapTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSuperLightmap", _p_iSuperLightmapTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConsoleOutput", _p_iConsoleOutputTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerrainObjectState", _p_iTerrainObjectStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iClipper2D", _p_iClipper2DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDebugHelper", _p_iDebugHelperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csGeomDebugHelper", _p_csGeomDebugHelperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentAttribute", _p_iDocumentAttributeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialEngine", _p_iMaterialEngineTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMovableConstraint", _p_iPcMovableConstraintTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iImageIO", _p_iImageIOTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardLayer", _p_iBillboardLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPath", _p_iPathTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboard", _p_iBillboardTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcBillboard", _p_iPcBillboardTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSCF", _p_iSCFTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoaderStatus", _p_iLoaderStatusTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCharacteristics", _p_iPcCharacteristicsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureHandle", _p_iTextureHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralMeshState", _p_iGeneralMeshStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamics", _p_iDynamicsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iParameterESM", _p_iParameterESMTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iModelConverter", _p_iModelConverterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCommandInput", _p_iPcCommandInputTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsIntKey", _p_iAwsIntKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshList", _p_iMeshListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventPlug", _p_iEventPlugTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPropertyClass", _p_iCelPropertyClassTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialWrapper", _p_iMaterialWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundWrapper", _p_iSoundWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureWrapper", _p_iTextureWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshWrapper", _p_iMeshWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshFactoryWrapper", _p_iMeshFactoryWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceWrapper", _p_iSequenceWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csColliderWrapper", _p_csColliderWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iString", _p_iStringTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConsoleWatcher", _p_iConsoleWatcherTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcInventory", _p_iPcInventoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsThruster", _p_iPcMechanicsThrusterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngine", _p_iEngineTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSimpleFormerState", _p_iSimpleFormerStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterial", _p_iMaterialTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DUVAnimation", _p_iSprite2DUVAnimationTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPolygonMesh", _p_csPolygonMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPolygonMesh", _p_iPolygonMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerrainFactoryState", _p_iTerrainFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingFactoryState", _p_iThingFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DFactoryState", _p_iSpriteCal3DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite3DFactoryState", _p_iSprite3DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DFactoryState", _p_iSprite2DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralFactoryState", _p_iGeneralFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGraphics2D", _p_iGraphics2DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocument", _p_iDocumentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderPriorityList", _p_iShaderPriorityListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityList", _p_iCelEntityListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDataBuffer", _p_iDataBufferTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObject", _p_iMeshObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iScriptObject", _p_iScriptObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDefaultCamera", _p_iPcDefaultCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceTimedOperation", _p_iSequenceTimedOperationTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iHalo", _p_iHaloTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFontServer", _p_iFontServerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPolygonMeshBox", _p_csPolygonMeshBoxTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStringArray", _p_iStringArrayTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporter", _p_iReporterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPluginIterator", _p_iPluginIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigIterator", _p_iConfigIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentAttributeIterator", _p_iDocumentAttributeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentNodeIterator", _p_iDocumentNodeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventAttributeIterator", _p_iEventAttributeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectRegistryIterator", _p_iObjectRegistryIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectIterator", _p_iObjectIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporterIterator", _p_iReporterIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStreamIterator", _p_iStreamIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityObjectIterator", _p_iVisibilityObjectIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshWrapperIterator", _p_iMeshWrapperIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorIterator", _p_iSectorIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightIterator", _p_iLightIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControl", _p_iGenMeshAnimationControlTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectRegistry", _p_iObjectRegistryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPlLayer", _p_iCelPlLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelBlLayer", _p_iCelBlLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcLinearMovement", _p_iPcLinearMovementTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundListener", _p_iSoundListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectModelListener", _p_iObjectModelListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraSectorListener", _p_iCameraSectorListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMovableListener", _p_iMovableListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityCullerListener", _p_iVisibilityCullerListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporterListener", _p_iReporterListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStandardReporterListener", _p_iStandardReporterListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelTimerListener", _p_iCelTimerListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMeshSelectListener", _p_iPcMeshSelectListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcInventoryListener", _p_iPcInventoryListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csTinyDocumentSystem", _p_csTinyDocumentSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentSystem", _p_iDocumentSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcTimer", _p_iPcTimerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPath", _p_csPathTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DUVAnimationFrame", _p_iSprite2DUVAnimationFrameTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerraFormer", _p_iTerraFormerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelZone", _p_iCelZoneTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSector", _p_iSectorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceTrigger", _p_iSequenceTriggerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcGravity", _p_iPcGravityTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortalContainer", _p_iPortalContainerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKeyContainer", _p_iAwsKeyContainerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraPositionList", _p_iCameraPositionListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRegionList", _p_iRegionListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteAction", _p_iSpriteActionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBase", 0, 0, 0, 0, 0, 0},{"_p_iLightList", _p_iLightListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFile", _p_iFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iOffscreenCanvasCallback", _p_iOffscreenCanvasCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectDrawCallback", _p_iMeshObjectDrawCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortalCallback", _p_iPortalCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightCallback", _p_iLightCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorCallback", _p_iSectorCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorMeshCallback", _p_iSectorMeshCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSectorCallback", _p_iEngineSectorCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureCallback", _p_iTextureCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshDrawCallback", _p_iMeshDrawCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicsMoveCallback", _p_iDynamicsMoveCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicsCollisionCallback", _p_iDynamicsCollisionCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelNewEntityCallback", _p_iCelNewEntityCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityRemoveCallback", _p_iCelEntityRemoveCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcGravityCallback", _p_iPcGravityCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObject", _p_iObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityObject", _p_iVisibilityObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csObject", _p_csObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsObject", _p_iPcMechanicsObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCamera", _p_iCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCamera", _p_iPcCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcSimpleCamera", _p_iPcSimpleCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCommandLineParser", _p_iCommandLineParserTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshFactoryList", _p_iMeshFactoryListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGraphics3D", _p_iGraphics3DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVirtualClock", _p_iVirtualClockTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectType", _p_iMeshObjectTypeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DState", _p_iSprite2DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingEnvironment", _p_iThingEnvironmentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMovable", _p_iMovableTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMovable", _p_iPcMovableTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAws", _p_iAwsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderVariableContext", _p_iShaderVariableContextTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorList", _p_iSectorListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCollideSystem", _p_iCollideSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicSystem", _p_iDynamicSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDynamicSystem", _p_iPcDynamicSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsSystem", _p_iPcMechanicsSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderCompiler", _p_iShaderCompilerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightingProcessData", _p_iLightingProcessDataTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityTracker", _p_iCelEntityTrackerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraPosition", _p_iCameraPositionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBinaryLoaderPlugin", _p_iBinaryLoaderPluginTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoaderPlugin", _p_iLoaderPluginTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DSocket", _p_iSpriteCal3DSocketTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVideoStream", _p_iVideoStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStream", _p_iStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAudioStream", _p_iAudioStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityCuller", _p_iVisibilityCullerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralMeshCommonState", _p_iGeneralMeshCommonStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigFile", _p_iConfigFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventQueue", _p_iEventQueueTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVFS", _p_iVFSTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundSource", _p_iSoundSourceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRigidBody", _p_iRigidBodyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventOutlet", _p_iEventOutletTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentNode", _p_iDocumentNodeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponentNode", _p_iAwsComponentNodeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStreamFormat", _p_iStreamFormatTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFont", _p_iFontTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iKeyboardDriver", _p_iKeyboardDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundDriver", _p_iSoundDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DState", _p_iSpriteCal3DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite3DState", _p_iSprite3DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBodyGroup", _p_iBodyGroupTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDynamicBody", _p_iPcDynamicBodyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFrustumView", _p_iFrustumViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelBehaviour", _p_iCelBehaviourTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventHandler", _p_iEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAnimTimeUpdateHandler", _p_iAnimTimeUpdateHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundLoader", _p_iSoundLoaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p__csPyEventHandler", _p__csPyEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardEventHandler", _p_iBillboardEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortal", _p_iPortalTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcTooltip", _p_iPcTooltipTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSequenceParameters", _p_iEngineSequenceParametersTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKey", _p_iAwsKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iView", _p_iViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControlType", _p_iGenMeshAnimationControlTypeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundRender", _p_iSoundRenderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iKeyComposer", _p_iKeyComposerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderRenderInterface", _p_iShaderRenderInterfaceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialList", _p_iMaterialListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsRectKey", _p_iAwsRectKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightingProcessInfo", _p_iLightingProcessInfoTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iJoint", _p_iJointTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteSocket", _p_iSpriteSocketTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcActorMove", _p_iPcActorMoveTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iComponent", _p_iComponentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponent", _p_iAwsComponentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLight", _p_iLightTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsStringKey", _p_iAwsStringKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSource", _p_iAwsSourceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntity", _p_iCelEntityTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iJoystickDriver", _p_iJoystickDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMouseDriver", _p_iMouseDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectFactory", _p_iMeshObjectFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControlFactory", _p_iGenMeshAnimationControlFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsConnectionNodeFactory", _p_iAwsConnectionNodeFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKeyFactory", _p_iAwsKeyFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponentFactory", _p_iAwsComponentFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFactory", _p_iFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoader", _p_iLoaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFrustumViewUserdata", _p_iFrustumViewUserdataTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSink", _p_iAwsSinkTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShader", _p_iShaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureList", _p_iTextureListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iNativeWindow", _p_iNativeWindowTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelRegion", _p_iCelRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteFrame", _p_iSpriteFrameTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsBalancedGroup", _p_iPcMechanicsBalancedGroupTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFontDeleteNotify", _p_iFontDeleteNotifyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingState", _p_iThingStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsFloatKey", _p_iAwsFloatKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsThrusterController", _p_iPcMechanicsThrusterControllerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerraSampler", _p_iTerraSamplerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEvent", _p_iEventTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSlot", _p_iAwsSlotTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBallState", _p_iBallStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iImage", _p_iImageTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCollider", _p_iColliderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelParameterBlock", _p_iCelParameterBlockTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMeshSelect", _p_iPcMeshSelectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundHandle", _p_iSoundHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPolygonHandle", _p_iPolygonHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectModel", _p_iObjectModelTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsConnectionKey", _p_iAwsConnectionKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csView", _p_csViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPropertyClassList", _p_iCelPropertyClassListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRegion", _p_iRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStringSet", _p_iStringSetTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcRegion", _p_iPcRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelMapFile", _p_iCelMapFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigManager", _p_iConfigManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPluginManager", _p_iPluginManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCacheManager", _p_iCacheManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsLayoutManager", _p_iAwsLayoutManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSinkManager", _p_iAwsSinkManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsPrefManager", _p_iAwsPrefManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iNativeWindowManager", _p_iNativeWindowManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderManager", _p_iShaderManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureManager", _p_iTextureManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSequenceManager", _p_iEngineSequenceManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardManager", _p_iBillboardManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcZoneManager", _p_iPcZoneManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsPointKey", _p_iAwsPointKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iScript", _p_iScriptTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcSolid", _p_iPcSolidTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSaver", _p_iSaverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMesh", _p_iPcMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventCord", _p_iEventCordTo_p_iBase, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_iBase[] = {{"_p_iBase", 0, "iBase *", 0, 0, 0, 0},{"_p_iAwsRGBKey", _p_iAwsRGBKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRendererLightmap", _p_iRendererLightmapTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSuperLightmap", _p_iSuperLightmapTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConsoleOutput", _p_iConsoleOutputTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerrainObjectState", _p_iTerrainObjectStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iClipper2D", _p_iClipper2DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDebugHelper", _p_iDebugHelperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csGeomDebugHelper", _p_csGeomDebugHelperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentAttribute", _p_iDocumentAttributeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialEngine", _p_iMaterialEngineTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMovableConstraint", _p_iPcMovableConstraintTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iImageIO", _p_iImageIOTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardLayer", _p_iBillboardLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPath", _p_iPathTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboard", _p_iBillboardTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcBillboard", _p_iPcBillboardTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoaderStatus", _p_iLoaderStatusTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCharacteristics", _p_iPcCharacteristicsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureHandle", _p_iTextureHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralMeshState", _p_iGeneralMeshStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamics", _p_iDynamicsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iParameterESM", _p_iParameterESMTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iModelConverter", _p_iModelConverterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCommandInput", _p_iPcCommandInputTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsIntKey", _p_iAwsIntKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshList", _p_iMeshListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventPlug", _p_iEventPlugTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPropertyClass", _p_iCelPropertyClassTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshWrapper", _p_iMeshWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialWrapper", _p_iMaterialWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundWrapper", _p_iSoundWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureWrapper", _p_iTextureWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshFactoryWrapper", _p_iMeshFactoryWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceWrapper", _p_iSequenceWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csColliderWrapper", _p_csColliderWrapperTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iString", _p_iStringTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConsoleWatcher", _p_iConsoleWatcherTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcInventory", _p_iPcInventoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsThruster", _p_iPcMechanicsThrusterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngine", _p_iEngineTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSimpleFormerState", _p_iSimpleFormerStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterial", _p_iMaterialTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DUVAnimation", _p_iSprite2DUVAnimationTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPolygonMesh", _p_csPolygonMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPolygonMesh", _p_iPolygonMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerrainFactoryState", _p_iTerrainFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingFactoryState", _p_iThingFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DFactoryState", _p_iSpriteCal3DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite3DFactoryState", _p_iSprite3DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DFactoryState", _p_iSprite2DFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralFactoryState", _p_iGeneralFactoryStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGraphics2D", _p_iGraphics2DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocument", _p_iDocumentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderPriorityList", _p_iShaderPriorityListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityList", _p_iCelEntityListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDataBuffer", _p_iDataBufferTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObject", _p_iMeshObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iScriptObject", _p_iScriptObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDefaultCamera", _p_iPcDefaultCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceTimedOperation", _p_iSequenceTimedOperationTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iHalo", _p_iHaloTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFontServer", _p_iFontServerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPolygonMeshBox", _p_csPolygonMeshBoxTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStringArray", _p_iStringArrayTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporter", _p_iReporterTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventAttributeIterator", _p_iEventAttributeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPluginIterator", _p_iPluginIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigIterator", _p_iConfigIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentAttributeIterator", _p_iDocumentAttributeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentNodeIterator", _p_iDocumentNodeIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectRegistryIterator", _p_iObjectRegistryIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporterIterator", _p_iReporterIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStreamIterator", _p_iStreamIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityObjectIterator", _p_iVisibilityObjectIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshWrapperIterator", _p_iMeshWrapperIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorIterator", _p_iSectorIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightIterator", _p_iLightIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectIterator", _p_iObjectIteratorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControl", _p_iGenMeshAnimationControlTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectRegistry", _p_iObjectRegistryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPlLayer", _p_iCelPlLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelBlLayer", _p_iCelBlLayerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcLinearMovement", _p_iPcLinearMovementTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundListener", _p_iSoundListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectModelListener", _p_iObjectModelListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraSectorListener", _p_iCameraSectorListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMovableListener", _p_iMovableListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityCullerListener", _p_iVisibilityCullerListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iReporterListener", _p_iReporterListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStandardReporterListener", _p_iStandardReporterListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelTimerListener", _p_iCelTimerListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMeshSelectListener", _p_iPcMeshSelectListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcInventoryListener", _p_iPcInventoryListenerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csTinyDocumentSystem", _p_csTinyDocumentSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentSystem", _p_iDocumentSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcTimer", _p_iPcTimerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csPath", _p_csPathTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DUVAnimationFrame", _p_iSprite2DUVAnimationFrameTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerraFormer", _p_iTerraFormerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelZone", _p_iCelZoneTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSector", _p_iSectorTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSequenceTrigger", _p_iSequenceTriggerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcGravity", _p_iPcGravityTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortalContainer", _p_iPortalContainerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKeyContainer", _p_iAwsKeyContainerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraPositionList", _p_iCameraPositionListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRegionList", _p_iRegionListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteAction", _p_iSpriteActionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBase", 0, 0, 0, 0, 0, 0},{"_p_iLightList", _p_iLightListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFile", _p_iFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iOffscreenCanvasCallback", _p_iOffscreenCanvasCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectDrawCallback", _p_iMeshObjectDrawCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightCallback", _p_iLightCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorCallback", _p_iSectorCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorMeshCallback", _p_iSectorMeshCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSectorCallback", _p_iEngineSectorCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureCallback", _p_iTextureCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshDrawCallback", _p_iMeshDrawCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortalCallback", _p_iPortalCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicsMoveCallback", _p_iDynamicsMoveCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicsCollisionCallback", _p_iDynamicsCollisionCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelNewEntityCallback", _p_iCelNewEntityCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityRemoveCallback", _p_iCelEntityRemoveCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcGravityCallback", _p_iPcGravityCallbackTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObject", _p_iObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityObject", _p_iVisibilityObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csObject", _p_csObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsObject", _p_iPcMechanicsObjectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCamera", _p_iCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcCamera", _p_iPcCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcSimpleCamera", _p_iPcSimpleCameraTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCommandLineParser", _p_iCommandLineParserTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshFactoryList", _p_iMeshFactoryListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGraphics3D", _p_iGraphics3DTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVirtualClock", _p_iVirtualClockTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectType", _p_iMeshObjectTypeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite2DState", _p_iSprite2DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingEnvironment", _p_iThingEnvironmentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMovable", _p_iMovableTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMovable", _p_iPcMovableTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAws", _p_iAwsTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderVariableContext", _p_iShaderVariableContextTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSectorList", _p_iSectorListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCollideSystem", _p_iCollideSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDynamicSystem", _p_iDynamicSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDynamicSystem", _p_iPcDynamicSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsSystem", _p_iPcMechanicsSystemTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderCompiler", _p_iShaderCompilerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightingProcessData", _p_iLightingProcessDataTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntityTracker", _p_iCelEntityTrackerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCameraPosition", _p_iCameraPositionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBinaryLoaderPlugin", _p_iBinaryLoaderPluginTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoaderPlugin", _p_iLoaderPluginTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DSocket", _p_iSpriteCal3DSocketTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAudioStream", _p_iAudioStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVideoStream", _p_iVideoStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStream", _p_iStreamTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVisibilityCuller", _p_iVisibilityCullerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGeneralMeshCommonState", _p_iGeneralMeshCommonStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigFile", _p_iConfigFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventQueue", _p_iEventQueueTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iVFS", _p_iVFSTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundSource", _p_iSoundSourceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRigidBody", _p_iRigidBodyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventOutlet", _p_iEventOutletTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iDocumentNode", _p_iDocumentNodeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponentNode", _p_iAwsComponentNodeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStreamFormat", _p_iStreamFormatTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFont", _p_iFontTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iKeyboardDriver", _p_iKeyboardDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundDriver", _p_iSoundDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteCal3DState", _p_iSpriteCal3DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSprite3DState", _p_iSprite3DStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBodyGroup", _p_iBodyGroupTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcDynamicBody", _p_iPcDynamicBodyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFrustumView", _p_iFrustumViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelBehaviour", _p_iCelBehaviourTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventHandler", _p_iEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAnimTimeUpdateHandler", _p_iAnimTimeUpdateHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundLoader", _p_iSoundLoaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p__csPyEventHandler", _p__csPyEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardEventHandler", _p_iBillboardEventHandlerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPortal", _p_iPortalTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcTooltip", _p_iPcTooltipTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSequenceParameters", _p_iEngineSequenceParametersTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKey", _p_iAwsKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iView", _p_iViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControlType", _p_iGenMeshAnimationControlTypeTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundRender", _p_iSoundRenderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iKeyComposer", _p_iKeyComposerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderRenderInterface", _p_iShaderRenderInterfaceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMaterialList", _p_iMaterialListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsRectKey", _p_iAwsRectKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLightingProcessInfo", _p_iLightingProcessInfoTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iJoint", _p_iJointTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteSocket", _p_iSpriteSocketTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcActorMove", _p_iPcActorMoveTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iComponent", _p_iComponentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponent", _p_iAwsComponentTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLight", _p_iLightTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsStringKey", _p_iAwsStringKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSource", _p_iAwsSourceTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelEntity", _p_iCelEntityTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iJoystickDriver", _p_iJoystickDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMouseDriver", _p_iMouseDriverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iMeshObjectFactory", _p_iMeshObjectFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iGenMeshAnimationControlFactory", _p_iGenMeshAnimationControlFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsConnectionNodeFactory", _p_iAwsConnectionNodeFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsKeyFactory", _p_iAwsKeyFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsComponentFactory", _p_iAwsComponentFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFactory", _p_iFactoryTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iLoader", _p_iLoaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFrustumViewUserdata", _p_iFrustumViewUserdataTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSink", _p_iAwsSinkTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShader", _p_iShaderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureList", _p_iTextureListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iNativeWindow", _p_iNativeWindowTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelRegion", _p_iCelRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSpriteFrame", _p_iSpriteFrameTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsBalancedGroup", _p_iPcMechanicsBalancedGroupTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iFontDeleteNotify", _p_iFontDeleteNotifyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iThingState", _p_iThingStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsFloatKey", _p_iAwsFloatKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMechanicsThrusterController", _p_iPcMechanicsThrusterControllerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTerraSampler", _p_iTerraSamplerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEvent", _p_iEventTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSlot", _p_iAwsSlotTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBallState", _p_iBallStateTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iImage", _p_iImageTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCollider", _p_iColliderTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelParameterBlock", _p_iCelParameterBlockTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMeshSelect", _p_iPcMeshSelectTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSoundHandle", _p_iSoundHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPolygonHandle", _p_iPolygonHandleTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iObjectModel", _p_iObjectModelTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsConnectionKey", _p_iAwsConnectionKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_csView", _p_csViewTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelPropertyClassList", _p_iCelPropertyClassListTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iRegion", _p_iRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iStringSet", _p_iStringSetTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcRegion", _p_iPcRegionTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCelMapFile", _p_iCelMapFileTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iNativeWindowManager", _p_iNativeWindowManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iConfigManager", _p_iConfigManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPluginManager", _p_iPluginManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iCacheManager", _p_iCacheManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsLayoutManager", _p_iAwsLayoutManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsSinkManager", _p_iAwsSinkManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsPrefManager", _p_iAwsPrefManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iShaderManager", _p_iShaderManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iTextureManager", _p_iTextureManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEngineSequenceManager", _p_iEngineSequenceManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iBillboardManager", _p_iBillboardManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcZoneManager", _p_iPcZoneManagerTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iAwsPointKey", _p_iAwsPointKeyTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iScript", _p_iScriptTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcSolid", _p_iPcSolidTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iSaver", _p_iSaverTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iPcMesh", _p_iPcMeshTo_p_iBase, 0, 0, 0, 0, 0},{"_p_iEventCord", _p_iEventCordTo_p_iBase, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelBlLayer[] = {{"_p_iCelBlLayer", 0, "iCelBlLayer *", 0, 0, 0, 0},{"_p_iCelBlLayer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelPlLayer[] = {{"_p_iCelPlLayer", 0, "iCelPlLayer *", 0, 0, 0, 0},{"_p_iCelPlLayer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcInventory[] = {{"_p_iPcInventory", 0, "iPcInventory *", 0, 0, 0, 0},{"_p_iPcInventory", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -25629,8 +25652,8 @@ _swigt__p_csPtrTiRigidBody_t,
 _swigt__p_iBillboardLayer, 
 _swigt__p_iCelZone, 
 _swigt__p_iPcTimer, 
-_swigt__p_csPlane3, 
 _swigt__p_csVector2, 
+_swigt__p_csPlane3, 
 _swigt__p_unsigned_long, 
 _swigt__p_iCelDataBuffer, 
 _swigt__p_csVector3, 
@@ -25643,6 +25666,7 @@ _swigt__p_iPcMechanicsSystem,
 _swigt__p_basetype, 
 _swigt__p_csRefArrayTiObject_t, 
 _swigt__p_iPcSolid, 
+_swigt__p_scfInterfaceID, 
 _swigt__p_unsigned_int, 
 _swigt__p_csBox3, 
 _swigt__p_unsigned_char, 
