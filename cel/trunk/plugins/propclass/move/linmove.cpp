@@ -743,9 +743,9 @@ bool celPcLinearMovement::MoveV (float delta)
 
   // Check for collisions and adjust position
   if (pccolldet)
-    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
-    	delta, movable))
-      return false;                   // We haven't moved so return early
+    pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
+    	delta, movable);
+      //return false;                   // We haven't moved so return early
 
   
   csVector3 origNewpos = newpos;
@@ -819,7 +819,7 @@ bool celPcLinearMovement::MoveV (float delta)
     }
 
     // Not fully implemented!
-    if (hugGround)
+    if (false)
     {
       int currentIndex = historyIndex;
       moveHistory[historyIndex++] = newpos;
