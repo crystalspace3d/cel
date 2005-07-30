@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Jul-2005
+	- Andrew Dai changed movement so that a shortcut in MoveV is no longer
+	  used, this should solve some 'sticky' situations.
 29-Jul-2005
 	- Jorrit fixed the simple camera so that it actually works now.
 	- Jorrit fixed mechanics plugin so that AttachColliderMesh() no
