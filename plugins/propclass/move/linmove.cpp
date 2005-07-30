@@ -743,8 +743,9 @@ bool celPcLinearMovement::MoveV (float delta)
 
   // Check for collisions and adjust position
   if (pccolldet)
-    pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
-    	delta, movable);
+    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
+    	delta, movable))
+      newpos = oldpos;
       //return false;                   // We haven't moved so return early
 
   
