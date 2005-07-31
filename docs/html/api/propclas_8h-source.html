@@ -47,14 +47,14 @@
 <a name="l00028"></a>00028 
 <a name="l00035"></a>00035 <span class="preprocessor">#define CEL_QUERY_PROPCLASS(PcList,Interface)                               \</span>
 <a name="l00036"></a>00036 <span class="preprocessor">  csPtr&lt;Interface&gt; (                                                        \</span>
-<a name="l00037"></a>00037 <span class="preprocessor">  (Interface*)((PcList)-&gt;FindByInterface (scfInterface&lt;Interface&gt;::GetID(), \</span>
-<a name="l00038"></a>00038 <span class="preprocessor">     scfInterface&lt;Interface&gt;::GetVersion())))</span>
+<a name="l00037"></a>00037 <span class="preprocessor">  (Interface*)((PcList)-&gt;FindByInterface (scfInterfaceTraits&lt;Interface&gt;::GetID(), \</span>
+<a name="l00038"></a>00038 <span class="preprocessor">     scfInterfaceTraits&lt;Interface&gt;::GetVersion())))</span>
 <a name="l00039"></a>00039 <span class="preprocessor"></span>
 <a name="l00044"></a>00044 <span class="preprocessor">#define CEL_QUERY_PROPCLASS_TAG(PcList,Interface,Tag)                       \</span>
 <a name="l00045"></a>00045 <span class="preprocessor">  csPtr&lt;Interface&gt; (                                                        \</span>
 <a name="l00046"></a>00046 <span class="preprocessor">  (Interface*)((PcList)-&gt;FindByInterfaceAndTag (                            \</span>
-<a name="l00047"></a>00047 <span class="preprocessor">        scfInterface&lt;Interface&gt;::GetID(),                                   \</span>
-<a name="l00048"></a>00048 <span class="preprocessor">        scfInterface&lt;Interface&gt;::GetVersion(), Tag)))</span>
+<a name="l00047"></a>00047 <span class="preprocessor">        scfInterfaceTraits&lt;Interface&gt;::GetID(),                             \</span>
+<a name="l00048"></a>00048 <span class="preprocessor">        scfInterfaceTraits&lt;Interface&gt;::GetVersion(), Tag)))</span>
 <a name="l00049"></a>00049 <span class="preprocessor"></span>
 <a name="l00056"></a>00056 <span class="preprocessor">#define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)                              \</span>
 <a name="l00057"></a>00057 <span class="preprocessor">  CEL_QUERY_PROPCLASS((Ent)-&gt;GetPropertyClassList(),Interface)</span>
@@ -63,13 +63,13 @@
 <a name="l00064"></a>00064 <span class="preprocessor">  CEL_QUERY_PROPCLASS_TAG((Ent)-&gt;GetPropertyClassList(),Interface,Tag)</span>
 <a name="l00065"></a>00065 <span class="preprocessor"></span>
 <a name="l00069"></a>00069 <span class="preprocessor">#define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \</span>
-<a name="l00070"></a>00070 <span class="preprocessor">  ((PcList)-&gt;RemoveByInterface (scfInterface&lt;Interface&gt;::GetID(),           \</span>
-<a name="l00071"></a>00071 <span class="preprocessor">                                scfInterface&lt;Interface&gt;::GetVersion()))</span>
+<a name="l00070"></a>00070 <span class="preprocessor">  ((PcList)-&gt;RemoveByInterface (scfInterfaceTraits&lt;Interface&gt;::GetID(),           \</span>
+<a name="l00071"></a>00071 <span class="preprocessor">                                scfInterfaceTraits&lt;Interface&gt;::GetVersion()))</span>
 <a name="l00072"></a>00072 <span class="preprocessor"></span>
 <a name="l00077"></a>00077 <span class="preprocessor">#define CEL_REMOVE_PROPCLASS_TAG(PcList,Interface,Tag)                      \</span>
 <a name="l00078"></a>00078 <span class="preprocessor">  ((PcList)-&gt;RemoveByInterfaceAndTag (                                      \</span>
-<a name="l00079"></a>00079 <span class="preprocessor">        scfInterface&lt;Interface&gt;::GetID(),                                   \</span>
-<a name="l00080"></a>00080 <span class="preprocessor">        scfInterface&lt;Interface&gt;::GetVersion(), Tag))</span>
+<a name="l00079"></a>00079 <span class="preprocessor">        scfInterfaceTraits&lt;Interface&gt;::GetID(),                                     \</span>
+<a name="l00080"></a>00080 <span class="preprocessor">        scfInterfaceTraits&lt;Interface&gt;::GetVersion(), Tag))</span>
 <a name="l00081"></a>00081 <span class="preprocessor"></span>
 <a name="l00085"></a>00085 <span class="preprocessor">#define CEL_REMOVE_PROPCLASS_ENT(Ent, Interface)                            \</span>
 <a name="l00086"></a>00086 <span class="preprocessor">  CEL_REMOVE_PROPCLASS((Ent)-&gt;GetPropertyClassList(),Interface)</span>
