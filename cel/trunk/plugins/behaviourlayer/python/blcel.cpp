@@ -2118,7 +2118,7 @@ iPcDynamicSystem *celCreateDynamicSystem(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcDynamicSystem * celGetDynamicSystem (iCelEntity *entity)
 {
-  csRef<iPcDynamicSystem> pc =    csPtr<iPcDynamicSystem> (							       (iPcDynamicSystem*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcDynamicSystem>::GetID(),       scfInterface<iPcDynamicSystem>::GetVersion())));
+  csRef<iPcDynamicSystem> pc =    csPtr<iPcDynamicSystem> (							       (iPcDynamicSystem*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcDynamicSystem>::GetID(),       scfInterfaceTraits<iPcDynamicSystem>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2151,7 +2151,7 @@ iPcDynamicBody *celCreateDynamicBody(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcDynamicBody * celGetDynamicBody (iCelEntity *entity)
 {
-  csRef<iPcDynamicBody> pc =    csPtr<iPcDynamicBody> (							       (iPcDynamicBody*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcDynamicBody>::GetID(),       scfInterface<iPcDynamicBody>::GetVersion())));
+  csRef<iPcDynamicBody> pc =    csPtr<iPcDynamicBody> (							       (iPcDynamicBody*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcDynamicBody>::GetID(),       scfInterfaceTraits<iPcDynamicBody>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2184,7 +2184,7 @@ iPcMechanicsSystem *celCreateMechanicsSystem(iCelPlLayer *pl, iCelEntity *entity
 
 iPcMechanicsSystem * celGetMechanicsSystem (iCelEntity *entity)
 {
-  csRef<iPcMechanicsSystem> pc =    csPtr<iPcMechanicsSystem> (							       (iPcMechanicsSystem*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMechanicsSystem>::GetID(),       scfInterface<iPcMechanicsSystem>::GetVersion())));
+  csRef<iPcMechanicsSystem> pc =    csPtr<iPcMechanicsSystem> (							       (iPcMechanicsSystem*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMechanicsSystem>::GetID(),       scfInterfaceTraits<iPcMechanicsSystem>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2217,7 +2217,7 @@ iPcMechanicsObject *celCreateMechanicsObject(iCelPlLayer *pl, iCelEntity *entity
 
 iPcMechanicsObject * celGetMechanicsObject (iCelEntity *entity)
 {
-  csRef<iPcMechanicsObject> pc =    csPtr<iPcMechanicsObject> (							       (iPcMechanicsObject*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMechanicsObject>::GetID(),       scfInterface<iPcMechanicsObject>::GetVersion())));
+  csRef<iPcMechanicsObject> pc =    csPtr<iPcMechanicsObject> (							       (iPcMechanicsObject*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMechanicsObject>::GetID(),       scfInterfaceTraits<iPcMechanicsObject>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2250,7 +2250,7 @@ iPcMechanicsThruster *celCreateMechanicsThrusterReactionary(iCelPlLayer *pl, iCe
 
 iPcMechanicsThruster * celGetMechanicsThrusterReactionary (iCelEntity *entity)
 {
-  csRef<iPcMechanicsThruster> pc =    csPtr<iPcMechanicsThruster> (							       (iPcMechanicsThruster*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMechanicsThruster>::GetID(),       scfInterface<iPcMechanicsThruster>::GetVersion())));
+  csRef<iPcMechanicsThruster> pc =    csPtr<iPcMechanicsThruster> (							       (iPcMechanicsThruster*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMechanicsThruster>::GetID(),       scfInterfaceTraits<iPcMechanicsThruster>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2283,7 +2283,7 @@ iPcMechanicsBalancedGroup *celCreateMechanicsBalancedGroup(iCelPlLayer *pl, iCel
 
 iPcMechanicsBalancedGroup * celGetMechanicsBalancedGroup (iCelEntity *entity)
 {
-  csRef<iPcMechanicsBalancedGroup> pc =    csPtr<iPcMechanicsBalancedGroup> (							       (iPcMechanicsBalancedGroup*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMechanicsBalancedGroup>::GetID(),       scfInterface<iPcMechanicsBalancedGroup>::GetVersion())));
+  csRef<iPcMechanicsBalancedGroup> pc =    csPtr<iPcMechanicsBalancedGroup> (							       (iPcMechanicsBalancedGroup*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMechanicsBalancedGroup>::GetID(),       scfInterfaceTraits<iPcMechanicsBalancedGroup>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2316,7 +2316,7 @@ iPcMechanicsThrusterController *celCreateMechanicsThrusterController(iCelPlLayer
 
 iPcMechanicsThrusterController * celGetMechanicsThrusterController (iCelEntity *entity)
 {
-  csRef<iPcMechanicsThrusterController> pc =    csPtr<iPcMechanicsThrusterController> (							       (iPcMechanicsThrusterController*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMechanicsThrusterController>::GetID(),       scfInterface<iPcMechanicsThrusterController>::GetVersion())));
+  csRef<iPcMechanicsThrusterController> pc =    csPtr<iPcMechanicsThrusterController> (							       (iPcMechanicsThrusterController*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMechanicsThrusterController>::GetID(),       scfInterfaceTraits<iPcMechanicsThrusterController>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2369,7 +2369,7 @@ iPcBillboard *celCreateBillboard(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcBillboard * celGetBillboard (iCelEntity *entity)
 {
-  csRef<iPcBillboard> pc =    csPtr<iPcBillboard> (							       (iPcBillboard*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcBillboard>::GetID(),       scfInterface<iPcBillboard>::GetVersion())));
+  csRef<iPcBillboard> pc =    csPtr<iPcBillboard> (							       (iPcBillboard*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcBillboard>::GetID(),       scfInterfaceTraits<iPcBillboard>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2409,7 +2409,7 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 
 iPcRegion * Region (iCelEntity *entity)
 {
-  csRef<iPcRegion> pc =    csPtr<iPcRegion> (							       (iPcRegion*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcRegion>::GetID(),       scfInterface<iPcRegion>::GetVersion())));
+  csRef<iPcRegion> pc =    csPtr<iPcRegion> (							       (iPcRegion*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcRegion>::GetID(),       scfInterfaceTraits<iPcRegion>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2442,7 +2442,7 @@ iPcZoneManager *celCreateZoneManager(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcZoneManager * celGetZoneManager (iCelEntity *entity)
 {
-  csRef<iPcZoneManager> pc =    csPtr<iPcZoneManager> (							       (iPcZoneManager*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcZoneManager>::GetID(),       scfInterface<iPcZoneManager>::GetVersion())));
+  csRef<iPcZoneManager> pc =    csPtr<iPcZoneManager> (							       (iPcZoneManager*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcZoneManager>::GetID(),       scfInterfaceTraits<iPcZoneManager>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2467,7 +2467,7 @@ iPcCommandInput *celCreateCommandInput(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcCommandInput * celGetCommandInput (iCelEntity *entity)
 {
-  csRef<iPcCommandInput> pc =    csPtr<iPcCommandInput> (							       (iPcCommandInput*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcCommandInput>::GetID(),       scfInterface<iPcCommandInput>::GetVersion())));
+  csRef<iPcCommandInput> pc =    csPtr<iPcCommandInput> (							       (iPcCommandInput*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcCommandInput>::GetID(),       scfInterfaceTraits<iPcCommandInput>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2492,7 +2492,7 @@ iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) 
 
 iPcLinearMovement * celGetLinearMovement (iCelEntity *entity)
 {
-  csRef<iPcLinearMovement> pc =    csPtr<iPcLinearMovement> (							       (iPcLinearMovement*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcLinearMovement>::GetID(),       scfInterface<iPcLinearMovement>::GetVersion())));
+  csRef<iPcLinearMovement> pc =    csPtr<iPcLinearMovement> (							       (iPcLinearMovement*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcLinearMovement>::GetID(),       scfInterfaceTraits<iPcLinearMovement>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2517,7 +2517,7 @@ iPcActorMove *celCreateActorMove(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcActorMove * celGetActorMove (iCelEntity *entity)
 {
-  csRef<iPcActorMove> pc =    csPtr<iPcActorMove> (							       (iPcActorMove*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcActorMove>::GetID(),       scfInterface<iPcActorMove>::GetVersion())));
+  csRef<iPcActorMove> pc =    csPtr<iPcActorMove> (							       (iPcActorMove*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcActorMove>::GetID(),       scfInterfaceTraits<iPcActorMove>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2542,7 +2542,7 @@ iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcCamera * celGetCamera (iCelEntity *entity)
 {
-  csRef<iPcCamera> pc =    csPtr<iPcCamera> (							       (iPcCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcCamera>::GetID(),       scfInterface<iPcCamera>::GetVersion())));
+  csRef<iPcCamera> pc =    csPtr<iPcCamera> (							       (iPcCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcCamera>::GetID(),       scfInterfaceTraits<iPcCamera>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2567,7 +2567,7 @@ iPcDefaultCamera *celCreateDefaultCamera(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcDefaultCamera * celGetDefaultCamera (iCelEntity *entity)
 {
-  csRef<iPcDefaultCamera> pc =    csPtr<iPcDefaultCamera> (							       (iPcDefaultCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcDefaultCamera>::GetID(),       scfInterface<iPcDefaultCamera>::GetVersion())));
+  csRef<iPcDefaultCamera> pc =    csPtr<iPcDefaultCamera> (							       (iPcDefaultCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcDefaultCamera>::GetID(),       scfInterfaceTraits<iPcDefaultCamera>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2592,7 +2592,7 @@ iPcSimpleCamera *celCreateSimpleCamera(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcSimpleCamera * celGetSimpleCamera (iCelEntity *entity)
 {
-  csRef<iPcSimpleCamera> pc =    csPtr<iPcSimpleCamera> (							       (iPcSimpleCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcSimpleCamera>::GetID(),       scfInterface<iPcSimpleCamera>::GetVersion())));
+  csRef<iPcSimpleCamera> pc =    csPtr<iPcSimpleCamera> (							       (iPcSimpleCamera*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcSimpleCamera>::GetID(),       scfInterfaceTraits<iPcSimpleCamera>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2617,7 +2617,7 @@ iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcMeshSelect * celGetMeshSelect (iCelEntity *entity)
 {
-  csRef<iPcMeshSelect> pc =    csPtr<iPcMeshSelect> (							       (iPcMeshSelect*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMeshSelect>::GetID(),       scfInterface<iPcMeshSelect>::GetVersion())));
+  csRef<iPcMeshSelect> pc =    csPtr<iPcMeshSelect> (							       (iPcMeshSelect*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMeshSelect>::GetID(),       scfInterfaceTraits<iPcMeshSelect>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2642,7 +2642,7 @@ iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcMesh * celGetMesh (iCelEntity *entity)
 {
-  csRef<iPcMesh> pc =    csPtr<iPcMesh> (							       (iPcMesh*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMesh>::GetID(),       scfInterface<iPcMesh>::GetVersion())));
+  csRef<iPcMesh> pc =    csPtr<iPcMesh> (							       (iPcMesh*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMesh>::GetID(),       scfInterfaceTraits<iPcMesh>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2667,7 +2667,7 @@ iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcTimer * celGetTimer (iCelEntity *entity)
 {
-  csRef<iPcTimer> pc =    csPtr<iPcTimer> (							       (iPcTimer*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcTimer>::GetID(),       scfInterface<iPcTimer>::GetVersion())));
+  csRef<iPcTimer> pc =    csPtr<iPcTimer> (							       (iPcTimer*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcTimer>::GetID(),       scfInterfaceTraits<iPcTimer>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2692,7 +2692,7 @@ iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcSolid * celGetSolid (iCelEntity *entity)
 {
-  csRef<iPcSolid> pc =    csPtr<iPcSolid> (							       (iPcSolid*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcSolid>::GetID(),       scfInterface<iPcSolid>::GetVersion())));
+  csRef<iPcSolid> pc =    csPtr<iPcSolid> (							       (iPcSolid*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcSolid>::GetID(),       scfInterfaceTraits<iPcSolid>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2717,7 +2717,7 @@ iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcGravity * celGetGravity (iCelEntity *entity)
 {
-  csRef<iPcGravity> pc =    csPtr<iPcGravity> (							       (iPcGravity*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcGravity>::GetID(),       scfInterface<iPcGravity>::GetVersion())));
+  csRef<iPcGravity> pc =    csPtr<iPcGravity> (							       (iPcGravity*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcGravity>::GetID(),       scfInterfaceTraits<iPcGravity>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2742,7 +2742,7 @@ iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcMovable * celGetMovable (iCelEntity *entity)
 {
-  csRef<iPcMovable> pc =    csPtr<iPcMovable> (							       (iPcMovable*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcMovable>::GetID(),       scfInterface<iPcMovable>::GetVersion())));
+  csRef<iPcMovable> pc =    csPtr<iPcMovable> (							       (iPcMovable*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcMovable>::GetID(),       scfInterfaceTraits<iPcMovable>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2767,7 +2767,7 @@ iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcInventory * celGetInventory (iCelEntity *entity)
 {
-  csRef<iPcInventory> pc =    csPtr<iPcInventory> (							       (iPcInventory*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcInventory>::GetID(),       scfInterface<iPcInventory>::GetVersion())));
+  csRef<iPcInventory> pc =    csPtr<iPcInventory> (							       (iPcInventory*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcInventory>::GetID(),       scfInterfaceTraits<iPcInventory>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2792,7 +2792,7 @@ iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity
 
 iPcCharacteristics * celGetCharacteristics (iCelEntity *entity)
 {
-  csRef<iPcCharacteristics> pc =    csPtr<iPcCharacteristics> (							       (iPcCharacteristics*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcCharacteristics>::GetID(),       scfInterface<iPcCharacteristics>::GetVersion())));
+  csRef<iPcCharacteristics> pc =    csPtr<iPcCharacteristics> (							       (iPcCharacteristics*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcCharacteristics>::GetID(),       scfInterfaceTraits<iPcCharacteristics>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -2817,7 +2817,7 @@ iPcTooltip *celCreateToolTip(iCelPlLayer *pl, iCelEntity *entity) {
 
 iPcTooltip * celGetToolTip (iCelEntity *entity)
 {
-  csRef<iPcTooltip> pc =    csPtr<iPcTooltip> (							       (iPcTooltip*)((entity->GetPropertyClassList ())->FindByInterface (scfInterface<iPcTooltip>::GetID(),       scfInterface<iPcTooltip>::GetVersion())));
+  csRef<iPcTooltip> pc =    csPtr<iPcTooltip> (							       (iPcTooltip*)((entity->GetPropertyClassList ())->FindByInterface (scfInterfaceTraits<iPcTooltip>::GetID(),       scfInterfaceTraits<iPcTooltip>::GetVersion())));
   if (!pc.IsValid()) return 0;
   return pc;
 }

@@ -34,8 +34,8 @@
  */
 #define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
   csPtr<Interface> (							    \
-  (Interface*)((PcList)->FindByInterface (scfInterface<Interface>::GetID(), \
-     scfInterface<Interface>::GetVersion())))
+  (Interface*)((PcList)->FindByInterface (scfInterfaceTraits<Interface>::GetID(), \
+     scfInterfaceTraits<Interface>::GetVersion())))
 
 /**
  * Find a property class by SCF interface and tag. If tag is 0 then
@@ -44,8 +44,8 @@
 #define CEL_QUERY_PROPCLASS_TAG(PcList,Interface,Tag)			    \
   csPtr<Interface> (							    \
   (Interface*)((PcList)->FindByInterfaceAndTag (			    \
-  	scfInterface<Interface>::GetID(),				    \
-        scfInterface<Interface>::GetVersion(), Tag)))
+  	scfInterfaceTraits<Interface>::GetID(),				    \
+        scfInterfaceTraits<Interface>::GetVersion(), Tag)))
 
 /**
  * Find a property class by SCF interface. This function will first
@@ -67,8 +67,8 @@
  * Remove all property classes with given interface (ignores tag).
  */
 #define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \
-  ((PcList)->RemoveByInterface (scfInterface<Interface>::GetID(),           \
-				scfInterface<Interface>::GetVersion()))
+  ((PcList)->RemoveByInterface (scfInterfaceTraits<Interface>::GetID(),           \
+				scfInterfaceTraits<Interface>::GetVersion()))
 
 /**
  * Remove all property classes with given interface and with the given tag.
@@ -76,8 +76,8 @@
  */
 #define CEL_REMOVE_PROPCLASS_TAG(PcList,Interface,Tag)                      \
   ((PcList)->RemoveByInterfaceAndTag (					    \
-        scfInterface<Interface>::GetID(),          			    \
-	scfInterface<Interface>::GetVersion(), Tag))
+        scfInterfaceTraits<Interface>::GetID(),          			    \
+	scfInterfaceTraits<Interface>::GetVersion(), Tag))
 
 /**
  * Remove all property classes with given interface (ignores tag).
