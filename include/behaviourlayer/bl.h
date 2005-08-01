@@ -31,7 +31,7 @@ SCF_VERSION (iCelBlLayer, 0, 0, 1);
 /**
  * This is the Behaviour Layer itself.
  */
-struct iCelBlLayer : public iBase
+struct iCelBlLayer : virtual public iBase
 {
   /**
    * The name of this behaviour layer.

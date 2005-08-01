@@ -35,7 +35,7 @@ SCF_VERSION (iEntityTemplateLoader, 0, 0, 1);
  * entity templates with assocated behaviour and property classes
  * from an XML description file.
  */
-struct iEntityTemplateLoader : public iBase
+struct iEntityTemplateLoader : virtual public iBase
 {
   /**
    * Load the entity template from the document node.

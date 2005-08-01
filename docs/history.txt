@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Aug-2005
+	- Jorrit fixed CEL for the latest SCF changes in CS.
 30-Jul-2005
 	- Andrew Dai changed movement so that a shortcut in MoveV is no longer
 	  used, this should solve some 'sticky' situations.

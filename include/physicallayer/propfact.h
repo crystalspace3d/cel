@@ -31,7 +31,7 @@ SCF_VERSION (iCelPropertyClassFactory, 0, 0, 1);
  * This is a factory for property classes.
  * One factory can support multiple types of property classes.
  */
-struct iCelPropertyClassFactory : public iBase
+struct iCelPropertyClassFactory : virtual public iBase
 {
   /**
    * Get the name of this property class factory.
