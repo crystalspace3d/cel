@@ -33,7 +33,7 @@ SCF_VERSION (iCelBlLayerGenerate, 0, 0, 1);
  * to dynamically add behaviour (scripts) to the behaviour layer by
  * using the API in this interface.
  */
-struct iCelBlLayerGenerate : public iBase
+struct iCelBlLayerGenerate : virtual public iBase
 {
   /**
    * Create a new named behaviour layer script from a document node.

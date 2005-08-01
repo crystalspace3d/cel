@@ -35,7 +35,7 @@ SCF_VERSION (iEntityLoader, 0, 0, 1);
  * entities with assocated behaviour and property classes
  * from an XML description file.
  */
-struct iEntityLoader : public iBase
+struct iEntityLoader : virtual public iBase
 {
   /**
    * Load the entity from the document node.
