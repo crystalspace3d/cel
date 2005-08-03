@@ -80,12 +80,11 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsSystem);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelTimerListener);
-  delta = 0.01f;
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   pl->CallbackEveryFrame (&scfiCelTimerListener, cscmdPreProcess);
 
-  dynamics = 0;
-  dynsystem = 0;
+  dynsystem_error_reported = false;
+  delta = 0.01f;
   remaining_delta = 0;
   
   object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
@@ -155,20 +154,21 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
 iDynamics* celPcMechanicsSystem::GetDynamics ()
 {
   dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
-  if (!dynamics)
+  if (!dynamics && !dynsystem_error_reported)
   {
     csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
     	iPluginManager);
-    dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
-	iDynamics);
+    dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode", iDynamics);
     if (dynamics)
-    {
       object_reg->Register (dynamics, "iDynamics");
-    }
   }
   if (!dynamics)
   {
-    Report (object_reg, "Can't find dynamic subsystem!");
+    if (!dynsystem_error_reported)
+    {
+      dynsystem_error_reported = true;
+      Report (object_reg, "Can't find dynamic subsystem!");
+    }
     return 0;
   }
   return dynamics;
@@ -177,6 +177,7 @@ iDynamics* celPcMechanicsSystem::GetDynamics ()
 void celPcMechanicsSystem::TickEveryFrame ()
 {
   GetDynamicSystem ();
+  if (!dynamics) return;
   csTicks elapsed_time = vc->GetElapsedTicks ();
 
   // For ODE it is recommended that all steps are done with the
@@ -1056,11 +1057,6 @@ iRigidBody* celPcMechanicsObject::GetBody ()
       {
         body = dynsys->CreateBody ();
         body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
-      }
-      else
-      {
-        Report (object_reg, "No dynamics plugin!");
-	return 0;
       }
     }
     else

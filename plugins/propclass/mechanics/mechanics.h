@@ -82,6 +82,7 @@ private:
  
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
+  bool dynsystem_error_reported;
   csRef<iVirtualClock> vc;
   csArray<celForce> forces;
   csHash<iBodyGroup*, const char*> groups;
