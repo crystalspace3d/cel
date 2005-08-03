@@ -66,27 +66,23 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsBalancedGroup);
 
-  // Actions
   if (action_addthruster == csInvalidStringID)
+  {
+    // Actions
     action_addthruster = pl->FetchStringID ("cel.action.AddThruster");
-  if (action_settype == csInvalidStringID)
     action_settype = pl->FetchStringID ("cel.action.SetType");
 
-  // Parameters for action_addthruster
-  if (param_thruster == csInvalidStringID)
+    // Parameters for action_addthruster
     param_thruster = pl->FetchStringID ("cel.parameter.thrusterpctag");
-  if (param_multiplier == csInvalidStringID)
     param_multiplier = pl->FetchStringID ("cel.parameter.multiplier");
 
-  // Parameters for action_settype
-  if (param_type == csInvalidStringID)
+    // Parameters for action_settype
     param_type = pl->FetchStringID ("cel.parameter.type");
 
-  // Group types
-  if (type_rotation == csInvalidStringID)
+    // Group types
     type_rotation = pl->FetchStringID ("rotation");
-  if (type_translation == csInvalidStringID)
     type_translation = pl->FetchStringID ("translation");
+  }
 }
 
 celPcMechanicsBalancedGroup::~celPcMechanicsBalancedGroup ()
@@ -187,7 +183,8 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
 void celPcMechanicsBalancedGroup::AddThruster (iPcMechanicsThruster* thruster,
 	float multiplier)
 {
-  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (thruster, iCelPropertyClass);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (thruster,
+  	iCelPropertyClass);
   celThrusterData* th = new celThrusterData (pc->GetTag (), thruster,
 	multiplier);
   thrusters.Push (th);
@@ -214,7 +211,7 @@ iPcMechanicsThruster* celPcMechanicsBalancedGroup::GetThruster (const char*
     if (strcmp (td->tag.GetData (), thrustertag) == 0)
       return td->thruster;
   }
-  return NULL;
+  return 0;
 }
 
 float celPcMechanicsBalancedGroup::AvailableThrust ()
@@ -301,48 +298,37 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterController::PcMechanicsThrus
   SCF_IMPLEMENTS_INTERFACE (iPcMechanicsThrusterController)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-celPcMechanicsThrusterController::celPcMechanicsThrusterController (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+celPcMechanicsThrusterController::celPcMechanicsThrusterController (
+	iObjectRegistry* object_reg) : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThrusterController);
 
-  // Actions
   if (action_addaxis == csInvalidStringID)
+  {
+    // Actions
     action_addaxis = pl->FetchStringID ("cel.action.AddAxis");
-  if (action_applythrust == csInvalidStringID)
     action_applythrust = pl->FetchStringID ("cel.action.ApplyThrust");
-  if (action_addbalancedgroup == csInvalidStringID)
     action_addbalancedgroup = pl->FetchStringID ("cel.action.AddBalancedGroup");
-  if (action_inittc == csInvalidStringID)
     action_inittc = pl->FetchStringID ("cel.action.InitThrusterController");
 
-  // Parameters for action_inittc
-  if (param_object == csInvalidStringID)
+    // Parameters for action_inittc
     param_object = pl->FetchStringID ("cel.parameter.objectpctag");
 
-  // Parameters for action_addaxis
-  if (param_axisname == csInvalidStringID)
+    // Parameters for action_addaxis
     param_axisname = pl->FetchStringID ("cel.parameter.axisname");
-  if (param_axistype == csInvalidStringID)
     param_axistype = pl->FetchStringID ("cel.parameter.axistype");
-  if (param_axisdir == csInvalidStringID)
     param_axisdir = pl->FetchStringID ("cel.parameter.axisdir");
 
-  // Parameters for action_applythrust
-  if (param_thrust == csInvalidStringID)
+    // Parameters for action_applythrust
     param_thrust = pl->FetchStringID ("cel.parameter.thrust");
-  //param_axisname shared
 
-  // Parameters for action_addbalancedgroup
-  if (param_balancedgroup == csInvalidStringID)
+    // Parameters for action_addbalancedgroup
     param_balancedgroup = pl->FetchStringID ("cel.parameter.balancedgroup");
-  //param_axisname shared
 
-  // Axis types
-  if (type_rotation == csInvalidStringID)
+    // Axis types
     type_rotation = pl->FetchStringID ("rotation");
-  if (type_translation == csInvalidStringID)
     type_translation = pl->FetchStringID ("translation");
+  }
 }
 
 celPcMechanicsThrusterController::~celPcMechanicsThrusterController ()
@@ -353,8 +339,10 @@ celPcMechanicsThrusterController::~celPcMechanicsThrusterController ()
 
 csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
 {
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (THRUSTERCONTROLLER_SERIAL);
-  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechobject, iCelPropertyClass);
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (
+  	THRUSTERCONTROLLER_SERIAL);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechobject,
+  	iCelPropertyClass);
   databuf->Add (pc);
   databuf->Add ((int32) axes.GetSize ());
   csArray<celAxisData*>::Iterator axisit = axes.GetIterator ();
@@ -367,7 +355,8 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
     databuf->Add (ad->axis);
     databuf->Add ((int32) ad->type);
     databuf->Add ((int32) ad->balancedgroups.GetSize ());
-    csRefArray<iPcMechanicsBalancedGroup>::Iterator tgit = ad->balancedgroups.GetIterator ();
+    csRefArray<iPcMechanicsBalancedGroup>::Iterator tgit =
+    	ad->balancedgroups.GetIterator ();
     while (tgit.HasNext ())
     {
       tg = tgit.Next ();
@@ -394,7 +383,8 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != THRUSTERCONTROLLER_SERIAL) return false;
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
-  csRef<iPcMechanicsObject> mechobj = SCF_QUERY_INTERFACE (pc, iPcMechanicsObject);
+  csRef<iPcMechanicsObject> mechobj = SCF_QUERY_INTERFACE (pc,
+  	iPcMechanicsObject);
   int32 axessize = databuf->GetInt32 ();
   int32 tgsize, i, j;
   csRef<iPcMechanicsBalancedGroup> tg;
@@ -553,7 +543,8 @@ const csVector3 celPcMechanicsThrusterController::GetAxis (const char* name)
     return csVector3 (0);
 }
 
-const celAxisType celPcMechanicsThrusterController::GetAxisType (const char* name)
+const celAxisType celPcMechanicsThrusterController::GetAxisType (
+	const char* name)
 {
   csArray<celAxisData*>::Iterator it = axes.GetIterator ();
   celAxisData* ad = 0;
@@ -569,9 +560,10 @@ const celAxisType celPcMechanicsThrusterController::GetAxisType (const char* nam
     return CEL_AT_NONE;
 }
 
-const float celPcMechanicsThrusterController::GetAxisVelocity (const char* name)
+const float celPcMechanicsThrusterController::GetAxisVelocity (
+	const char* name)
 {
-  if (mechobject != NULL) {
+  if (mechobject != 0) {
     csArray<celAxisData*>::Iterator it = axes.GetIterator ();
     celAxisData* ad = 0;
     while (it.HasNext ())
@@ -728,18 +720,19 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       csRefArray<iPcMechanicsBalancedGroup>::Iterator groupit
 	= ad->balancedgroups.GetIterator ();
       csRef<iPcMechanicsBalancedGroup> group;
-      csRef<iPcMechanicsBalancedGroup> bestgroup = NULL;
+      csRef<iPcMechanicsBalancedGroup> bestgroup = 0;
       float beststrength = 0;
       while (groupit.HasNext ())
       {
         group = groupit.Next ();
-        if (group != NULL && (bestgroup == NULL || group->AvailableThrust () > beststrength))
+        if (group != 0 && (bestgroup == 0
+		|| group->AvailableThrust () > beststrength))
         {
           beststrength = group->AvailableThrust ();
           bestgroup = group;
         }
       }
-      if (bestgroup != NULL)
+      if (bestgroup != 0)
       {
 	lastrequestid++;
 	id = lastrequestid;
