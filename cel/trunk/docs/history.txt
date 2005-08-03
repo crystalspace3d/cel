@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Aug-2005
+	- Jorrit fixed the mechanics plugin so that it uses CS code style
+	  and also made sure it is more robust in case the dynamics plugin
+	  is missing for some reason.
 1-Aug-2005
 	- Jorrit fixed CEL for the latest SCF changes in CS.
 30-Jul-2005

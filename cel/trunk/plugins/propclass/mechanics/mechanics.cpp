@@ -90,18 +90,17 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   
   object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
   
-  // Actions
   if (action_setsystem == csInvalidStringID)
+  {
+    // Actions
     action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
-  if (action_setgravity == csInvalidStringID)
     action_setgravity  = pl->FetchStringID ("cel.action.SetGravity");
   
-  // Parameters for action_setsystem
-  if (param_dynsys == csInvalidStringID)
+    // Parameters for action_setsystem
     param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
-  // Parameters for action_setgravity
-  if (param_gravity == csInvalidStringID)
+    // Parameters for action_setgravity
     param_gravity = pl->FetchStringID ("cel.parameter.gravity");
+  }
 }
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
@@ -158,7 +157,8 @@ iDynamics* celPcMechanicsSystem::GetDynamics ()
   dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
   if (!dynamics)
   {
-    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg, iPluginManager);
+    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
+    	iPluginManager);
     dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
 	iDynamics);
     if (dynamics)
@@ -245,6 +245,7 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
 void celPcMechanicsSystem::DisableStepFast ()
 {
   GetDynamicSystem ();
+  if (!dynsystem) return;
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   if (osys)
@@ -254,6 +255,7 @@ void celPcMechanicsSystem::DisableStepFast ()
 void celPcMechanicsSystem::EnableStepFast ()
 {
   GetDynamicSystem ();
+  if (!dynsystem) return;
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   if (osys)
@@ -263,6 +265,7 @@ void celPcMechanicsSystem::EnableStepFast ()
 void celPcMechanicsSystem::EnableQuickStep ()
 {
   GetDynamicSystem ();
+  if (!dynsystem) return;
   csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
     	iODEDynamicSystemState);
   if (osys)
@@ -273,12 +276,14 @@ void celPcMechanicsSystem::EnableQuickStep ()
 void celPcMechanicsSystem::SetGravity (const csVector3& grav)
 {
   GetDynamicSystem ();
+  if (!dynsystem) return;
   dynsystem->SetGravity (grav);
 }
 
 const csVector3 celPcMechanicsSystem::GetGravity ()
 {
   GetDynamicSystem ();
+  if (!dynsystem) return csVector3 (0);
   return dynsystem->GetGravity ();
 }
 
@@ -454,7 +459,7 @@ void celPcMechanicsSystem::AddBodyToGroup (iRigidBody* body, const char* group)
 {
   csRef<iBodyGroup> grp;
   iBodyGroup** grpptr = groups.GetElementPointer (group);
-  if (grpptr != NULL)
+  if (grpptr != 0)
   {
     grp = *grpptr;
   }
@@ -466,10 +471,11 @@ void celPcMechanicsSystem::AddBodyToGroup (iRigidBody* body, const char* group)
   grp->AddBody (body);
 }
 
-void celPcMechanicsSystem::RemoveBodyFromGroup (iRigidBody* body, const char* group)
+void celPcMechanicsSystem::RemoveBodyFromGroup (iRigidBody* body,
+	const char* group)
 {
   iBodyGroup** grpptr = groups.GetElementPointer (group);
-  if (grpptr != NULL && (*grpptr)->BodyInGroup (body))
+  if (grpptr != 0 && (*grpptr)->BodyInGroup (body))
   {
     (*grpptr)->RemoveBody (body);
   }
@@ -580,87 +586,64 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 
   is_static = false;
 
-  // Actions
   if (action_initphys == csInvalidStringID)
+  {
+    // Actions
     action_initphys = pl->FetchStringID ("cel.action.InitPhys");
-  if (action_makestatic == csInvalidStringID)
     action_makestatic = pl->FetchStringID ("cel.action.MakeStatic");
-  if (action_setsystem == csInvalidStringID)
     action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
-  if (action_setmesh == csInvalidStringID)
     action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
-  if (action_setcollidersphere == csInvalidStringID)
-    action_setcollidersphere = pl->FetchStringID ("cel.action.SetColliderSphere");
-  if (action_setcollidercylinder == csInvalidStringID)
-    action_setcollidercylinder = pl->FetchStringID ("cel.action.SetColliderCylinder");
-  if (action_setcolliderbox == csInvalidStringID)
+    action_setcollidersphere = pl->FetchStringID (
+    	"cel.action.SetColliderSphere");
+    action_setcollidercylinder = pl->FetchStringID (
+    	"cel.action.SetColliderCylinder");
     action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBox");
-  if (action_setcolliderplane == csInvalidStringID)
     action_setcolliderplane = pl->FetchStringID ("cel.action.SetColliderPlane");
-  if (action_setcollidermesh == csInvalidStringID)
     action_setcollidermesh = pl->FetchStringID ("cel.action.SetColliderMesh");
 
-  // Parameters for action_initphys
-  if (param_friction == csInvalidStringID)
+    // Parameters for action_initphys
     param_friction = pl->FetchStringID ("cel.parameter.friction");
-  if (param_mass == csInvalidStringID)
     param_mass = pl->FetchStringID ("cel.parameter.mass");
-  if (param_elasticity == csInvalidStringID)
     param_elasticity = pl->FetchStringID ("cel.parameter.elasticity");
-  if (param_density == csInvalidStringID)
     param_density = pl->FetchStringID ("cel.parameter.density");
-  if (param_softness == csInvalidStringID)
     param_softness = pl->FetchStringID ("cel.parameter.softness");
-  if (param_lift == csInvalidStringID)
     param_lift = pl->FetchStringID ("cel.parameter.lift");
-  if (param_drag == csInvalidStringID)
     param_drag = pl->FetchStringID ("cel.parameter.drag");
 
-  // Parameters for action_makestatic
-  if (param_static == csInvalidStringID)
+    // Parameters for action_makestatic
     param_static = pl->FetchStringID ("cel.parameter.static");
 
-  // Parameters for action_setsystem
-  if (param_systempcent == csInvalidStringID)
+    // Parameters for action_setsystem
     param_systempcent = pl->FetchStringID ("cel.parameter.systempcent");
-  if (param_systempctag == csInvalidStringID)
     param_systempctag = pl->FetchStringID ("cel.parameter.systempctag");
 
-  // Parameters for action_setmesh
-  if (param_meshpctag == csInvalidStringID)
+    // Parameters for action_setmesh
     param_meshpctag = pl->FetchStringID ("cel.parameter.meshpctag");
 
-  // Parameters for action_setcollidersphere
-  if (param_radius == csInvalidStringID)
+    // Parameters for action_setcollidersphere
     param_radius = pl->FetchStringID ("cel.parameter.radius");
-  if (param_offset == csInvalidStringID)
     param_offset = pl->FetchStringID ("cel.parameter.offset");
 
-  // Parameters for action_setcollidercylinder
-  if (param_length == csInvalidStringID)
+    // Parameters for action_setcollidercylinder
     param_length = pl->FetchStringID ("cel.parameter.length");
-  //param_radius shared
-  if (param_axis == csInvalidStringID)
+    //param_radius shared
     param_axis = pl->FetchStringID ("cel.parameter.axis");
-  if (param_angle == csInvalidStringID)
     param_angle = pl->FetchStringID ("cel.parameter.angle");
-  //param_offset shared
+    //param_offset shared
 
-  // Parameters for action_setcolliderbox
-  if (param_size == csInvalidStringID)
+    // Parameters for action_setcolliderbox
     param_size = pl->FetchStringID ("cel.parameter.size");
-  //param_axis shared
-  //param_angle shared
-  //param_offset shared
+    //param_axis shared
+    //param_angle shared
+    //param_offset shared
 
-  // Parameters for action_setcolliderplane
-  if (param_normal == csInvalidStringID)
+    // Parameters for action_setcolliderplane
     param_normal = pl->FetchStringID ("cel.parameter.normal");
-  //param_offset shared
+    //param_offset shared
 
-  // Parameters for message pcdynamicbody_collision
-  if (param_otherbody  == csInvalidStringID)
+    // Parameters for message pcdynamicbody_collision
     param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
+  }
 
   params = new celOneParameterBlock ();
   params->SetParameterDef (param_otherbody, "otherbody");
@@ -761,7 +744,8 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
   }
   csRef<iPcMesh> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcMesh);
   SetMesh (pcm);
-  csRef<iPcMechanicsSystem> pcms = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcMechanicsSystem);
+  csRef<iPcMechanicsSystem> pcms = SCF_QUERY_INTERFACE (databuf->GetPC (),
+  	iPcMechanicsSystem);
   SetMechanicsSystem (pcms);
   btype = (int) databuf->GetInt32 ();
   switch (btype)
@@ -1035,10 +1019,10 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   celData ret;
   //@@@ Find the other body's iPcMechanicsObject.
   /*csRef<iObject> obj = otherbody->QueryObject ();
-  if (obj != NULL)
+  if (obj != 0)
   {
     csRef<iCelEntity> ent = pl->FindAttachedEntity (obj);
-    if (ent == NULL)
+    if (ent == 0)
     {
       Report (object_reg, "No entity found using given iObject!\n");
     }
@@ -1068,14 +1052,21 @@ iRigidBody* celPcMechanicsObject::GetBody ()
     {
       csRef<iDynamicSystem> dynsys = 0;
       dynsys = mechsystem->GetDynamicSystem ();
-      assert (dynsys);
-      body = dynsys->CreateBody ();
-      body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
+      if (dynsys)
+      {
+        body = dynsys->CreateBody ();
+        body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
+      }
+      else
+      {
+        Report (object_reg, "No dynamics plugin!");
+	return 0;
+      }
     }
     else
     {
       Report (object_reg, "No mechsys!!!!!!!!!");
-      return NULL;
+      return 0;
     }
   }
   return body;
@@ -1090,29 +1081,35 @@ iPcMesh* celPcMechanicsObject::GetMesh ()
   return pcmesh;
 }
 
-void celPcMechanicsObject::SetFriction (float friction) {
+void celPcMechanicsObject::SetFriction (float friction)
+{
   celPcMechanicsObject::friction = friction;
 }
 
-void celPcMechanicsObject::SetMass (float mass) {
+void celPcMechanicsObject::SetMass (float mass)
+{
   celPcMechanicsObject::mass = mass;
-  if (GetBody () != NULL)
+  if (GetBody () != 0)
     body->SetProperties (mass, body->GetCenter (), csMatrix3 () * mass);
 }
 
-void celPcMechanicsObject::SetElasticity (float elasticity) {
+void celPcMechanicsObject::SetElasticity (float elasticity)
+{
   celPcMechanicsObject::elasticity = elasticity;
 }
 
-void celPcMechanicsObject::SetDensity (float density) {
+void celPcMechanicsObject::SetDensity (float density)
+{
   celPcMechanicsObject::density = density;
 }
 
-void celPcMechanicsObject::SetSoftness (float softness) {
+void celPcMechanicsObject::SetSoftness (float softness)
+{
   celPcMechanicsObject::softness = softness;
 }
 
-void celPcMechanicsObject::SetLift (const csVector3& lift) {
+void celPcMechanicsObject::SetLift (const csVector3& lift)
+{
   celPcMechanicsObject::lift = lift;
 }
 
@@ -1122,8 +1119,8 @@ void celPcMechanicsObject::SetDrag (float drag) {
 
 void celPcMechanicsObject::SetLinearVelocity (const csVector3& vel)
 {
-  GetBody ();
-  body->SetLinearVelocity (vel);
+  if (GetBody ())
+    body->SetLinearVelocity (vel);
 }
 
 const csVector3 celPcMechanicsObject::GetLinearVelocity ()
@@ -1133,8 +1130,8 @@ const csVector3 celPcMechanicsObject::GetLinearVelocity ()
 
 void celPcMechanicsObject::SetAngularVelocity (const csVector3& vel)
 {
-  GetBody ();
-  body->SetAngularVelocity (vel);
+  if (GetBody ())
+    body->SetAngularVelocity (vel);
 }
 
 const csVector3 celPcMechanicsObject::GetAngularVelocity ()
@@ -1146,7 +1143,7 @@ void celPcMechanicsObject::MakeStatic (bool stat)
 {
   if (stat == is_static) return;
   is_static = stat;
-  GetBody ();
+  if (!GetBody ()) return;
   if (is_static)
   {
     body->SetMoveCallback (0);
@@ -1161,7 +1158,7 @@ void celPcMechanicsObject::MakeStatic (bool stat)
 void celPcMechanicsObject::AttachColliderSphere (float radius,
 	const csVector3& offset)
 {
-  GetBody ();
+  if (!GetBody ()) return;
   GetMesh ();
   body->AttachColliderSphere (radius, offset, friction, density,
   	elasticity, softness);
@@ -1180,7 +1177,7 @@ void celPcMechanicsObject::AttachColliderSphere (float radius,
 void celPcMechanicsObject::AttachColliderCylinder (float length, float radius,
 	const csOrthoTransform& trans)
 {
-  GetBody ();
+  if (!GetBody ()) return;
   GetMesh ();
   body->AttachColliderCylinder (length, radius, trans, friction, density,
   	elasticity, softness);
@@ -1199,7 +1196,7 @@ void celPcMechanicsObject::AttachColliderCylinder (float length, float radius,
 void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
   	const csOrthoTransform& trans)
 {
-  GetBody ();
+  if (!GetBody ()) return;
   GetMesh ();
   body->AttachColliderBox (size, trans, friction, density, elasticity,
   	softness);
@@ -1218,7 +1215,7 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
 
 void celPcMechanicsObject::AttachColliderPlane (const csPlane3& plane)
 {
-  GetBody ();
+  if (!GetBody ()) return;
   GetMesh ();
   body->AttachColliderPlane (plane, friction, density, elasticity,
   	softness);
@@ -1236,7 +1233,7 @@ void celPcMechanicsObject::AttachColliderPlane (const csPlane3& plane)
 
 void celPcMechanicsObject::AttachColliderMesh ()
 {
-  GetBody ();
+  if (!GetBody ()) return;
   GetMesh ();
   if (!pcmesh) return;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
@@ -1251,8 +1248,8 @@ void celPcMechanicsObject::AttachColliderMesh ()
   btype = CEL_BODY_MESH;
 }
 
-void celPcMechanicsObject::AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, uint32& forceid)
+void celPcMechanicsObject::AddForceTagged (const csVector3& force,
+	bool relative, const csVector3& position, uint32& forceid)
 {
   forceid = forceidseed++;
   mechsystem->AddForceTagged (&scfiPcMechanicsObject, force, relative,
@@ -1267,7 +1264,7 @@ void celPcMechanicsObject::RemoveForceTagged (uint32 forceid)
 void celPcMechanicsObject::AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position)
 {
-  GetBody ();
+  if (!GetBody ()) return;
   if (relative)
   {
     if (position.IsZero ())
@@ -1304,16 +1301,19 @@ void celPcMechanicsObject::ClearForces ()
 
 void celPcMechanicsObject::AddToGroup (const char* group)
 {
+  if (!GetBody ()) return;
   mechsystem->AddBodyToGroup (GetBody (), group);
 }
 
 void celPcMechanicsObject::RemoveFromGroup (const char* group)
 {
+  if (!GetBody ()) return;
   mechsystem->RemoveBodyFromGroup (GetBody (), group);
 }
 
 iJoint* celPcMechanicsObject::CreateJoint (iPcMechanicsObject* other)
 {
+  if (!GetBody ()) return 0;
   return mechsystem->CreateJoint (GetBody (), other->GetBody ());
 }
 
