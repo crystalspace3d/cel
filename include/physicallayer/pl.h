@@ -71,14 +71,14 @@ struct iCelEntityRemoveCallback : public iBase
 };
 
 
-SCF_VERSION (iCelTimerListener, 0, 0, 1);
-
 /**
  * Generic timing system in CEL. If you want to get a tick every
  * frame or after a while you can implement this and register.
  */
-struct iCelTimerListener : public iBase
+struct iCelTimerListener : public virtual iBase
 {
+  SCF_INTERFACE (iCelTimerListener, 0, 0, 1);
+
   /**
    * This function is called by the physical layer when a broadcast
    * is needed. Use iCelPlLayer->CallbackEveryFrame() to register.

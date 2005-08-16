@@ -58,13 +58,13 @@ struct iCelParameterBlock : public iBase
   virtual const celData* GetParameter (csStringID id) const = 0;
 };
 
-SCF_VERSION (iCelBehaviour, 0, 0, 2);
-
 /**
  * This is an entity in the CEL layer at the BL (behaviour layer) side.
  */
-struct iCelBehaviour : public iBase
+struct iCelBehaviour : public virtual iBase
 {
+  SCF_INTERFACE (iCelBehaviour, 0, 0, 2);
+
   /**
    * Get the name of this behaviour (was used in the call to
    * iCelBlLayer::CreateBehaviour()).

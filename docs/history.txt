@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Aug-2005
+	- Jorrit changed a few interfaces to use the new SCF style:
+	    - iCelBehaviour
+	    - iCelTimerListener
+	- Jorrit extended the zone manager with a new flag to prevent creation
+	  of collider wrappers. Also added new actions for this (DisableCD
+	  and EnableCD).
 3-Aug-2005
 	- Jorrit fixed the mechanics plugin so that it uses CS code style
 	  and also made sure it is more robust in case the dynamics plugin
