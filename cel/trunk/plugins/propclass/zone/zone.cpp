@@ -269,9 +269,12 @@ bool celRegion::Load (bool allow_entity_addon)
   cur_region->Prepare ();
   engine->PrecacheDraw (cur_region);
 
-  // Create colliders for all meshes in this region.
-  csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
+  if (mgr->IsColliderWrappers ())
+  {
+    // Create colliders for all meshes in this region.
+    csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
   	engine, cur_region);
+  }
 
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
 
@@ -376,6 +379,8 @@ bool celZone::ContainsRegion (celRegion* region)
 //---------------------------------------------------------------------------
 
 csStringID celPcZoneManager::id_region = csInvalidStringID;
+csStringID celPcZoneManager::action_disablecd = csInvalidStringID;
+csStringID celPcZoneManager::action_enablecd = csInvalidStringID;
 csStringID celPcZoneManager::action_load = csInvalidStringID;
 csStringID celPcZoneManager::id_path = csInvalidStringID;
 csStringID celPcZoneManager::id_file = csInvalidStringID;
@@ -402,9 +407,13 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
+  do_colliderwrappers = true;
+
   if (id_region == csInvalidStringID)
   {
     id_region = pl->FetchStringID ("cel.parameter.region");
+    action_disablecd = pl->FetchStringID ("cel.action.DisableCD");
+    action_enablecd = pl->FetchStringID ("cel.action.EnableCD");
     action_load = pl->FetchStringID ("cel.action.Load");
     id_path = pl->FetchStringID ("cel.parameter.path");
     id_file = pl->FetchStringID ("cel.parameter.file");
@@ -531,7 +540,17 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
 bool celPcZoneManager::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
-  if (actionId == action_load)
+  if (actionId == action_disablecd)
+  {
+    EnableColliderWrappers (false);
+    return true;
+  }
+  else if (actionId == action_enablecd)
+  {
+    EnableColliderWrappers (true);
+    return true;
+  }
+  else if (actionId == action_load)
   {
     CEL_FETCH_STRING_PAR (path,params,id_path);
     if (!p_path) return false;

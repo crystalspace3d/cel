@@ -252,9 +252,13 @@ private:
   csRefArray<celZone> zones;
   csRefArray<celRegion> regions;
 
+  bool do_colliderwrappers;
+
   // The active sector.
   csWeakRef<iSector> active_sector;
 
+  static csStringID action_disablecd;
+  static csStringID action_enablecd;
   static csStringID action_load;
   static csStringID id_path;
   static csStringID id_file;
@@ -314,6 +318,8 @@ public:
 
   void SendZoneMessage (iCelRegion* region, const char* msgid);
 
+  void EnableColliderWrappers (bool en) { do_colliderwrappers = en; }
+  bool IsColliderWrappers () const { return do_colliderwrappers; }
   bool Load (iDocumentNode* node);
   bool Load (const char* path, const char* file);
 
@@ -340,10 +346,17 @@ public:
   	const char* startname);
   int UpdateMeshCamera ();
 
-
   struct PcZoneManager : public iPcZoneManager
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcZoneManager);
+    virtual void EnableColliderWrappers (bool en)
+    {
+      scfParent->EnableColliderWrappers (en);
+    }
+    virtual bool IsColliderWrappers () const
+    {
+      return scfParent->IsColliderWrappers ();
+    }
     virtual bool Load (iDocumentNode* node)
     {
       return scfParent->Load (node);

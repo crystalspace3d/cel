@@ -214,6 +214,8 @@ SCF_VERSION (iPcZoneManager, 0, 1, 1);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
+ * <li>DisableCD: no parameters. Don't create collider wrappers.
+ * <li>EnableCD: no parameters. Create collider wrappers (default).
  * <li>Load: parameters 'path' (string), and 'file' (string).
  * <li>PointMesh: parameters 'entity' (string), 'region' (string),
  *    and 'start' (string).
@@ -233,6 +235,18 @@ SCF_VERSION (iPcZoneManager, 0, 1, 1);
  */
 struct iPcZoneManager : public iBase
 {
+  /**
+   * By default the zone manager will create collider wrappers
+   * (csColliderWrapper) for all objects that are loaded. If you don't want
+   * that behaviour you can disable it here.
+   */
+  virtual void EnableColliderWrappers (bool en) = 0;
+
+  /**
+   * Is collider wrapper creation enabled?
+   */
+  virtual bool IsColliderWrappers () const = 0;
+
   /**
    * Load a zone definition from an XML node.
    * \param node is the node containing region and zone definitions.
