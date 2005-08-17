@@ -79,13 +79,13 @@
 <a name="l00071"></a>00071 };
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 
-<a name="l00074"></a>00074 SCF_VERSION (<a class="code" href="structiCelTimerListener.html">iCelTimerListener</a>, 0, 0, 1);
-<a name="l00075"></a>00075 
-<a name="l00080"></a><a class="code" href="structiCelTimerListener.html">00080</a> <span class="keyword">struct </span><a class="code" href="structiCelTimerListener.html">iCelTimerListener</a> : <span class="keyword">public</span> iBase
-<a name="l00081"></a>00081 {
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelTimerListener.html#a0">TickEveryFrame</a> () = 0;
+<a name="l00078"></a><a class="code" href="structiCelTimerListener.html">00078</a> <span class="keyword">struct </span><a class="code" href="structiCelTimerListener.html">iCelTimerListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00079"></a>00079 {
+<a name="l00080"></a>00080   SCF_INTERFACE (<a class="code" href="structiCelTimerListener.html">iCelTimerListener</a>, 0, 0, 1);
+<a name="l00081"></a>00081 
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelTimerListener.html#a1">TickEveryFrame</a> () = 0;
 <a name="l00087"></a>00087 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelTimerListener.html#a1">TickOnce</a> () = 0;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelTimerListener.html#a2">TickOnce</a> () = 0;
 <a name="l00093"></a>00093 };
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 SCF_VERSION (<a class="code" href="structiCelPlLayer.html">iCelPlLayer</a>, 0, 3, 2);

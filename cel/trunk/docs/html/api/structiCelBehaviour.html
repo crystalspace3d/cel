@@ -23,29 +23,29 @@
 <a href="structiCelBehaviour-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a1">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this behaviour (was used in the call to <a class="el" href="structiCelBlLayer.html#a1">iCelBlLayer::CreateBehaviour()</a>).  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a1">GetBehaviourLayer</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this behaviour (was used in the call to <a class="el" href="structiCelBlLayer.html#a1">iCelBlLayer::CreateBehaviour()</a>).  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a2">GetBehaviourLayer</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the behaviour layer that created this behaviour.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a2">SendMessage</a> (const char *msg_id, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, <a class="el" href="structcelData.html">celData</a> &amp;ret, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Send a message to this entity.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a3">SendMessageV</a> (const char *msg_id, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, <a class="el" href="structcelData.html">celData</a> &amp;ret, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params, va_list arg)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the behaviour layer that created this behaviour.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a3">SendMessage</a> (const char *msg_id, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, <a class="el" href="structcelData.html">celData</a> &amp;ret, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Send a message to this entity.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a4">GetInternalObject</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a4">SendMessageV</a> (const char *msg_id, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, <a class="el" href="structcelData.html">celData</a> &amp;ret, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params, va_list arg)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a function intended for implementations of behaviour layers.  <a href="#a4"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Send a message to this entity.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBehaviour.html#a5">GetInternalObject</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a function intended for implementations of behaviour layers.  <a href="#a5"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an entity in the CEL layer at the BL (behaviour layer) side. 
 <p>
 
 <p>
-Definition at line <a class="el" href="behave_8h-source.html#l00066">66</a> of file <a class="el" href="behave_8h-source.html">behave.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelBehaviour::GetBehaviourLayer" ref="a1" args="() const =0" --><p>
+Definition at line <a class="el" href="behave_8h-source.html#l00064">64</a> of file <a class="el" href="behave_8h-source.html">behave.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelBehaviour::GetBehaviourLayer" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -74,7 +74,7 @@ Get the behaviour layer that created this behaviour.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelBehaviour::GetInternalObject" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelBehaviour::GetInternalObject" ref="a5" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -103,7 +103,7 @@ This is a function intended for implementations of behaviour layers.
 It returns a pointer to an internal object. For example, in case of a Python behaviour layer it would return a pointer to the actual Python object handle (PyObject pointer). Some behaviour layers may not need this and return 0 in that case. User-code should NEVER call this function or depend on it!    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelBehaviour::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelBehaviour::GetName" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -132,7 +132,7 @@ Get the name of this behaviour (was used in the call to <a class="el" href="stru
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelBehaviour::SendMessage" ref="a2" args="(const char *msg_id, iCelPropertyClass *pc, celData &amp;ret, iCelParameterBlock *params,...)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelBehaviour::SendMessage" ref="a3" args="(const char *msg_id, iCelPropertyClass *pc, celData &amp;ret, iCelParameterBlock *params,...)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -189,7 +189,7 @@ Send a message to this entity.
 Returns true if the message was understood and handled by the entity. The 'ret' parameter can be used to return values.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelBehaviour::SendMessageV" ref="a3" args="(const char *msg_id, iCelPropertyClass *pc, celData &amp;ret, iCelParameterBlock *params, va_list arg)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelBehaviour::SendMessageV" ref="a4" args="(const char *msg_id, iCelPropertyClass *pc, celData &amp;ret, iCelParameterBlock *params, va_list arg)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
