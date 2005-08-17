@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Aug-2005
+        - Andrew Robberts added the starting of a new cel camera system.
 16-Aug-2005
 	- Jorrit changed a few interfaces to use the new SCF style:
 	    - iCelBehaviour
