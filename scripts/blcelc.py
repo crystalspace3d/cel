@@ -1160,6 +1160,8 @@ class iPcZoneManager(cspace.iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<%s.%s; proxy of C++ iPcZoneManager instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def EnableColliderWrappers(*args): return _blcelc.iPcZoneManager_EnableColliderWrappers(*args)
+    def IsColliderWrappers(*args): return _blcelc.iPcZoneManager_IsColliderWrappers(*args)
     def Load(*args): return _blcelc.iPcZoneManager_Load(*args)
     def CreateZone(*args): return _blcelc.iPcZoneManager_CreateZone(*args)
     def GetZoneCount(*args): return _blcelc.iPcZoneManager_GetZoneCount(*args)
