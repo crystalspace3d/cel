@@ -13715,6 +13715,49 @@ static PyObject * iCelZone_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_iPcZoneManager_EnableColliderWrappers(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    bool arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcZoneManager_EnableColliderWrappers",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (bool)(SWIG_As_bool(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->EnableColliderWrappers(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_IsColliderWrappers(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcZoneManager_IsColliderWrappers",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (bool)((iPcZoneManager const *)arg1)->IsColliderWrappers();
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcZoneManager_Load__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
@@ -24266,6 +24309,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelZone_UnlinkAllRegions", _wrap_iCelZone_UnlinkAllRegions, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelZone", _wrap_delete_iCelZone, METH_VARARGS, NULL},
 	 { (char *)"iCelZone_swigregister", iCelZone_swigregister, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_EnableColliderWrappers", _wrap_iPcZoneManager_EnableColliderWrappers, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_IsColliderWrappers", _wrap_iPcZoneManager_IsColliderWrappers, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_Load", _wrap_iPcZoneManager_Load, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_CreateZone", _wrap_iPcZoneManager_CreateZone, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_GetZoneCount", _wrap_iPcZoneManager_GetZoneCount, METH_VARARGS, NULL},
