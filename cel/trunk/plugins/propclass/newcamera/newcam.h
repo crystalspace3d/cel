@@ -77,27 +77,27 @@ private:
   csVector3 basePosOffset;
 
   csWeakRef<iPcMesh> pcmesh;
-  void FindSiblingPropertyClasses ();
+  void FindSiblingPropertyClasses();
 
   iSector* lastActorSector;
 
-  void GetActorTransform (csReversibleTransform & 
+  void GetActorTransform(csReversibleTransform & 
       actor_trans, iSector *& actor_sector);
 
 public:
-  celPcNewCamera (iObjectRegistry* object_reg);
-  virtual ~celPcNewCamera ();
+  celPcNewCamera(iObjectRegistry* object_reg);
+  virtual ~celPcNewCamera();
 
-  virtual const char* GetName () const
+  virtual const char* GetName() const
   {
     return "New Camera";
   }
 
-  virtual csPtr<iCelDataBuffer> Save ()
+  virtual csPtr<iCelDataBuffer> Save()
   {
     return 0;
   }
-  virtual bool Load (iCelDataBuffer* databuf)
+  virtual bool Load(iCelDataBuffer* databuf)
   {
     return true;
   }
@@ -127,45 +127,45 @@ public:
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetCameraOffset (const csVector3& offset);
+  virtual void SetPositionOffset(const csVector3& offset);
 
   /** Attaches a camera mode to this camera.
    *  \param mode 	The camera mode to attach.
    *  \return 		The index that the camera mode was stored.
    */
-  virtual size_t AttachCameraMode (iCelCameraMode * mode);
+  virtual size_t AttachCameraMode(iCelCameraMode * mode);
 
   /** Gets the index of the current camera mode.
    *  \return 	The index of the current camera mode.
    */
-  virtual size_t GetCurrentCameraModeIndex () const;
+  virtual size_t GetCurrentCameraModeIndex() const;
 
   /** Gets the current camera mode.
    *  \return 	The current camera mode.
    */
-  virtual iCelCameraMode * GetCurrentCameraMode ();
+  virtual iCelCameraMode * GetCurrentCameraMode();
 
   /** Sets the current camera mode.
    *  \param modeIndex 	The index of the current camera mode.
    *  \return 		True on successful camera mode change.
    */
-  virtual bool SetCurrentCameraMode (size_t modeIndex);
+  virtual bool SetCurrentCameraMode(size_t modeIndex);
 
   /** Sets the current camera mode to the next available mode.
    */
-  virtual void NextCameraMode ();
+  virtual void NextCameraMode();
 
   /** Sets the current camera mode to the previous available mode.
    */
-  virtual void PrevCameraMode ();
+  virtual void PrevCameraMode();
 
   /**
    * Render. This will clear the screen then draw on top of it.
    */
-  virtual void Draw ();
-  virtual void TickEveryFrame ();
+  virtual void Draw();
+  virtual void TickEveryFrame();
 
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  SCF_DECLARE_IBASE_EXT(celPcCommon);
 };
 
 #endif // __CEL_PF_NEW_CAMERA_FACTORY__

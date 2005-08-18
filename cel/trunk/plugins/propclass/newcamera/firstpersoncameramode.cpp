@@ -68,42 +68,42 @@ celFirstPersonCameraMode::~celFirstPersonCameraMode()
 {
 }
 
-void celFirstPersonCameraMode::SetParentCamera (iPcNewCamera * camera)
+void celFirstPersonCameraMode::SetParentCamera(iPcNewCamera * camera)
 {
   parentCamera = camera;
 }
 
-bool celFirstPersonCameraMode::UseSpringPhysics () const
+bool celFirstPersonCameraMode::UseSpringPhysics() const
 {
   return false;
 }
 
-float celFirstPersonCameraMode::GetSpringCoefficient () const
+float celFirstPersonCameraMode::GetSpringCoefficient() const
 {
   return 0;
 }
 
-float celFirstPersonCameraMode::GetSpringLength () const
+float celFirstPersonCameraMode::GetSpringLength() const
 {
   return 0;
 }
 
-float celFirstPersonCameraMode::GetInertialDampeningCoefficient () const
+float celFirstPersonCameraMode::GetInertialDampeningCoefficient() const
 {
   return 0;
 }
 
-const csVector3 & celFirstPersonCameraMode::GetPositionOffset () const
+const csVector3 & celFirstPersonCameraMode::GetPositionOffset() const
 {
   return posOffset;
 }
 
-const csVector3 & celFirstPersonCameraMode::GetDirection () const
+const csVector3 & celFirstPersonCameraMode::GetDirection() const
 {
   return parentCamera->GetBaseDir();
 }
 
-const csVector3 & celFirstPersonCameraMode::GetUp () const
+const csVector3 & celFirstPersonCameraMode::GetUp() const
 {
   return parentCamera->GetBaseUp();
 }
