@@ -63,6 +63,13 @@ struct iCelCameraMode
    *  \return 	True if this camera mode uses spring physics.
    */
   virtual bool UseSpringPhysics() const = 0;
+
+  /** 
+   * Decides if the mesh the camera is attached to should be drawn or not in
+   * this mode.
+   * \return 	True if the attached mesh should be drawn.
+   */
+  virtual bool DrawAttachedMesh() const = 0;
   
   /** Gets the spring coefficient to use for the spring physics.
    *  \return 	The spring coefficient of this camera mode.
@@ -132,13 +139,26 @@ struct iPcNewCamera : public iBase
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset(const csVector3& offset) = 0;
+  virtual void SetPositionOffset(const csVector3 & offset) = 0;
 
   /** Attaches a camera mode to this camera.
    *  \param mode 	The camera mode to attach.
-   *  \return 		The index that the camera mode was stored.
+   *  \return 		A unique id for the attached camera mode.
    */
   virtual size_t AttachCameraMode(iCelCameraMode * mode) = 0;
+
+  typedef enum _CEL_CAMERA_MODE
+  {
+    CCM_FIRST_PERSON,
+
+    CCM_COUNT
+  } CEL_CAMERA_MODE;
+
+  /** Attaches a built-in camera mode to this camera.
+   *  \param mode 	The id of the built-in camera mode to attach.
+   *  \return 		A unique id for the attached camera mode.
+   */
+  virtual size_t AttachCameraMode(CEL_CAMERA_MODE mode) = 0;
 
   /** Gets the index of the current camera mode.
    *  \return 	The index of the current camera mode.

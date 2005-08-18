@@ -66,21 +66,28 @@ CEL_IMPLEMENT_FACTORY(NewCamera, "pcnewcamera")
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE_EXT(celPcNewCamera)
+  SCF_IMPLEMENTS_INTERFACE(iPcNewCamera)
 SCF_IMPLEMENT_IBASE_EXT_END
 
-void celPcNewCamera::FindSiblingPropertyClasses()
+void celPcNewCamera::UpdateMeshVisibility()
 {
-  if (HavePropertyClassesChanged())
-  {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  }
+  if (!pcmesh)
+    return;
+
+  if (currMode >= cameraModes.Length())
+    return;
+
+  if (cameraModes[currMode]->DrawAttachedMesh())
+    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_INVISIBLE, 0);
+  else
+    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_INVISIBLE,
+	CS_ENTITY_INVISIBLE);
 }
 
 void celPcNewCamera::GetActorTransform(csReversibleTransform& actor_trans,
 	iSector*& actor_sector)
 {
   // Try to get position and sector from the mesh.
-  FindSiblingPropertyClasses();
   if (pcmesh)
   {
     iMovable* movable = pcmesh->GetMesh()->GetMovable();
@@ -97,6 +104,7 @@ void celPcNewCamera::GetActorTransform(csReversibleTransform& actor_trans,
 celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   : celPcCommon(object_reg)
 {
+  SCF_CONSTRUCT_IBASE(0);
   engine = CS_QUERY_REGISTRY(object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY(object_reg, iGraphics3D);
   view = csPtr<iView>(new csView(engine, g3d));
@@ -105,12 +113,21 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
 
   basePosOffset.Set(0,0,0);
 
-  AttachCameraMode(new celFirstPersonCameraMode());
-
+  currMode = (size_t)-1;
+  AttachCameraMode(CCM_FIRST_PERSON);
 }
 
 celPcNewCamera::~celPcNewCamera()
 {
+  SCF_DESTRUCT_IBASE();
+}
+
+void celPcNewCamera::PropertyClassesHaveChanged()
+{
+  celPcCommon::PropertyClassesHaveChanged();
+
+  pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  UpdateMeshVisibility();
 }
 
 const csVector3 & celPcNewCamera::GetBasePos() const
@@ -137,11 +154,19 @@ size_t celPcNewCamera::AttachCameraMode(iCelCameraMode * mode)
 {
   cameraModes.Push(mode);
   mode->SetParentCamera(this);
-  
-  if (currMode < 0 || currMode >= cameraModes.Length())
-    currMode = cameraModes.Length()-1;
 
   return (cameraModes.Length()-1);
+}
+
+size_t celPcNewCamera::AttachCameraMode(CEL_CAMERA_MODE mode)
+{
+  switch (mode)
+  {
+    case CCM_FIRST_PERSON:
+      return AttachCameraMode(new celFirstPersonCameraMode());
+    default:
+      return (size_t)-1;
+  }
 }
 
 size_t celPcNewCamera::GetCurrentCameraModeIndex() const
@@ -156,10 +181,12 @@ iCelCameraMode * celPcNewCamera::GetCurrentCameraMode()
 
 bool celPcNewCamera::SetCurrentCameraMode(size_t modeIndex)
 {
-  if (modeIndex < 0 || modeIndex >= cameraModes.Length())
+  if (modeIndex >= cameraModes.Length())
     return false;
 
   currMode = modeIndex;
+  UpdateMeshVisibility();
+
   return true;
 }
 
@@ -168,9 +195,10 @@ void celPcNewCamera::NextCameraMode()
   if (cameraModes.Length() == 0)
     return;
 
-  ++currMode;
-  if (currMode >= cameraModes.Length())
-    currMode = 0;
+  size_t newMode = currMode+1;
+  if (newMode >= cameraModes.Length())
+    newMode = 0;
+  SetCurrentCameraMode(newMode);
 }
 
 void celPcNewCamera::PrevCameraMode()
@@ -178,15 +206,20 @@ void celPcNewCamera::PrevCameraMode()
   if (cameraModes.Length() == 0)
     return;
 
-  --currMode;
-  if (currMode < 0)
-    currMode = cameraModes.Length()-1;
+  size_t newMode = currMode-1;
+  if (newMode == (size_t)-1)
+    newMode = cameraModes.Length()-1;
+  SetCurrentCameraMode(newMode);
 }
 
 void celPcNewCamera::Draw()
 {
-  if (currMode < 0 || currMode >= cameraModes.Length())
-    return;
+  if (currMode >= cameraModes.Length())
+  {
+    SetCurrentCameraMode(cameraModes.Length()-1);
+    if (currMode >= cameraModes.Length())
+      return;
+  }
   iCelCameraMode * mode = cameraModes[currMode];
   
   csReversibleTransform actorTrans;
@@ -195,8 +228,8 @@ void celPcNewCamera::Draw()
   if (!camSector)
     return;
 
-  basePos = actorTrans.GetOrigin() + basePosOffset;
-  baseDir = actorTrans.This2OtherRelative(csVector3(0,0,1));
+  basePos = actorTrans.GetOrigin() + actorTrans.This2OtherRelative(basePosOffset);
+  baseDir = actorTrans.This2OtherRelative(csVector3(0,0,-1));
   baseUp  = actorTrans.This2OtherRelative(csVector3(0,1,0));
     
   if (!mode->DecideCameraState())
@@ -205,16 +238,18 @@ void celPcNewCamera::Draw()
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
   camTrans.SetOrigin(basePos + mode->GetPositionOffset());
-  camTrans.LookAt(camTrans.GetOrigin() + mode->GetDirection(), 
+  camTrans.LookAt(mode->GetDirection(), 
       mode->GetUp());
 
+  /*
   printf("CAM_ORIGIN[%7.3f,%7.3f,%7.3f], CAM_DIR[%7.3f,%7.3f,%7.3f], "
       "CAM_UP[%7.3f,%7.3f,%7.3f], CAM_SECTOR[%s]\n",
 	basePos.x, basePos.y, basePos.z,
 	baseDir.x, baseDir.y, baseDir.z,
 	baseUp.x, baseUp.y, baseUp.z,
 	camSector->QueryObject()->GetName());
-    
+  */
+
   iCamera * c = view->GetCamera();
   
   // First set the camera back on where the sector is.

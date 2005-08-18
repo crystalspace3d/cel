@@ -57,6 +57,13 @@ public:
    */
   virtual bool UseSpringPhysics() const;
   
+  /** 
+   * Decides if the mesh the camera is attached to should be drawn or not in
+   * this mode.
+   * \return 	True if the attached mesh should be drawn.
+   */
+  virtual bool DrawAttachedMesh() const;
+
   /** Gets the spring coefficient to use for the spring physics.
    *  \return 	The spring coefficient of this camera mode.
    */
