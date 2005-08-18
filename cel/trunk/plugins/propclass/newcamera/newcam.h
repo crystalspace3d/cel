@@ -32,7 +32,6 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "celtool/camera.h"
 #include "propclass/newcamera.h"
 #include "propclass/region.h"
 #include "propclass/mesh.h"
@@ -77,32 +76,31 @@ private:
   csVector3 basePosOffset;
 
   csWeakRef<iPcMesh> pcmesh;
-  void FindSiblingPropertyClasses();
-
   iSector* lastActorSector;
+
+  void UpdateMeshVisibility();
 
   void GetActorTransform(csReversibleTransform & 
       actor_trans, iSector *& actor_sector);
 
 public:
-  celPcNewCamera(iObjectRegistry* object_reg);
+  celPcNewCamera(iObjectRegistry * object_reg);
   virtual ~celPcNewCamera();
 
-  virtual const char* GetName() const
+  virtual const char * GetName() const
   {
     return "New Camera";
   }
-
   virtual csPtr<iCelDataBuffer> Save()
   {
     return 0;
   }
-  virtual bool Load(iCelDataBuffer* databuf)
+  virtual bool Load(iCelDataBuffer * databuf)
   {
     return true;
   }
+  void PropertyClassesHaveChanged();
 
-  
   /**
    * Gets the base position of the camera in world coordinates.
    * \return 	The base position of the camera in world coordinates.
@@ -127,13 +125,19 @@ public:
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset(const csVector3& offset);
+  virtual void SetPositionOffset(const csVector3 & offset);
 
   /** Attaches a camera mode to this camera.
    *  \param mode 	The camera mode to attach.
    *  \return 		The index that the camera mode was stored.
    */
   virtual size_t AttachCameraMode(iCelCameraMode * mode);
+
+  /** Attaches a built-in camera mode to this camera.
+   *  \param mode 	The id of the built-in camera mode to attach.
+   *  \return 		A unique id for the attached camera mode.
+   */
+  virtual size_t AttachCameraMode(CEL_CAMERA_MODE mode);
 
   /** Gets the index of the current camera mode.
    *  \return 	The index of the current camera mode.

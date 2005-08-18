@@ -78,6 +78,11 @@ bool celFirstPersonCameraMode::UseSpringPhysics() const
   return false;
 }
 
+bool celFirstPersonCameraMode::DrawAttachedMesh() const
+{
+  return false;
+}
+
 float celFirstPersonCameraMode::GetSpringCoefficient() const
 {
   return 0;

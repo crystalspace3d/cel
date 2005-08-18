@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Aug-2005
+	- Andrew Robberts continued work on new cel camera system and added a
+	  first person camera mode.
 17-Aug-2005
         - Andrew Robberts added the starting of a new cel camera system.
 16-Aug-2005
