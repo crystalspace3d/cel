@@ -57,43 +57,43 @@ struct iCelCameraMode
   /** Tells the camera mode what camera has it attached.
    *  \param camera 	The parent camera.
    */
-  virtual void SetParentCamera (iPcNewCamera * camera) = 0;
+  virtual void SetParentCamera(iPcNewCamera * camera) = 0;
 
   /** Decides if this camera mode should use spring physics or not.
    *  \return 	True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringPhysics () const = 0;
+  virtual bool UseSpringPhysics() const = 0;
   
   /** Gets the spring coefficient to use for the spring physics.
    *  \return 	The spring coefficient of this camera mode.
    */
-  virtual float GetSpringCoefficient () const = 0;
+  virtual float GetSpringCoefficient() const = 0;
 
   /** Gets the spring length to use for the spring physics.
    *  \return 	The spring length of this camera mode.
    */
-  virtual float GetSpringLength () const = 0;
+  virtual float GetSpringLength() const = 0;
 
   /** Gets the inertial dampening coefficient to use for the spring physics.
    *  \return 	The inertial dampening coefficient of this camera.
    */
-  virtual float GetInertialDampeningCoefficient () const = 0;
+  virtual float GetInertialDampeningCoefficient() const = 0;
   
   /** Gets the desired camera position as an offset of the player's position.
    *  \return 	The desired camera position as an offset of the player's
    *  		position.
    */
-  virtual const csVector3 & GetPositionOffset () const = 0;
+  virtual const csVector3 & GetPositionOffset() const = 0;
 
   /** Gets the desired camera direction.
    *  \return 	The desired camera direction.
    */
-  virtual const csVector3 & GetDirection () const = 0;
+  virtual const csVector3 & GetDirection() const = 0;
   
   /** Gets the desired camera up vector.
    *  \return 	The desired camera up vector.
    */
-  virtual const csVector3 & GetUp () const = 0;
+  virtual const csVector3 & GetUp() const = 0;
 
   /** Informs the camera mode that it should compute the desired position,
    *  direction, up, etc. of the camera now.
@@ -102,6 +102,7 @@ struct iCelCameraMode
   virtual bool DecideCameraState() = 0; 
 };
 
+SCF_VERSION(iPcNewCamera, 0, 0, 1);
 /**
  * This is a camera property class.
  */
@@ -124,49 +125,49 @@ struct iPcNewCamera : public iBase
    * \return 	The base up vector of the camera.
    */
   virtual const csVector3 & GetBaseUp() const = 0;
-  
+
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetCameraOffset (const csVector3& offset) = 0;
+  virtual void SetPositionOffset(const csVector3& offset) = 0;
 
   /** Attaches a camera mode to this camera.
    *  \param mode 	The camera mode to attach.
    *  \return 		The index that the camera mode was stored.
    */
-  virtual size_t AttachCameraMode (iCelCameraMode * mode) = 0;
+  virtual size_t AttachCameraMode(iCelCameraMode * mode) = 0;
 
   /** Gets the index of the current camera mode.
    *  \return 	The index of the current camera mode.
    */
-  virtual size_t GetCurrentCameraModeIndex () const = 0;
+  virtual size_t GetCurrentCameraModeIndex() const = 0;
 
   /** Gets the current camera mode.
    *  \return 	The current camera mode.
    */
-  virtual iCelCameraMode * GetCurrentCameraMode () = 0;
+  virtual iCelCameraMode * GetCurrentCameraMode() = 0;
 
   /** Sets the current camera mode.
    *  \param modeIndex 	The index of the current camera mode.
    *  \return 		True on successful camera mode change.
    */
-  virtual bool SetCurrentCameraMode (size_t modeIndex) = 0;
+  virtual bool SetCurrentCameraMode(size_t modeIndex) = 0;
 
   /** Sets the current camera mode to the next available mode.
    */
-  virtual void NextCameraMode () = 0;
+  virtual void NextCameraMode() = 0;
 
   /** Sets the current camera mode to the previous available mode.
    */
-  virtual void PrevCameraMode () = 0;
+  virtual void PrevCameraMode() = 0;
 
   /**
    * Render. This will clear the screen then draw on top of it.
    */
-  virtual void Draw () = 0;
+  virtual void Draw() = 0;
 };
 
 #endif // __CEL_PF_NEW_CAMERA__
