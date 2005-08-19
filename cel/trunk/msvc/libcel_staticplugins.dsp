@@ -188,6 +188,10 @@ SOURCE=..\msvc\libpfmover_staticreg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\msvc\libpfnewcamera_staticreg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\msvc\libpfportal_staticreg.cpp
 # End Source File
 # Begin Source File
@@ -341,6 +345,14 @@ SOURCE=..\plugins\propclass\move\navgraphrulesfps.cpp
 # Begin Source File
 
 SOURCE=..\plugins\propclass\mover\moverfact.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\newcam.cpp
 # End Source File
 # Begin Source File
 
@@ -621,6 +633,14 @@ SOURCE=..\plugins\propclass\move\navgraphrulesfps.h
 # Begin Source File
 
 SOURCE=..\plugins\propclass\mover\moverfact.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\newcam.h
 # End Source File
 # Begin Source File
 

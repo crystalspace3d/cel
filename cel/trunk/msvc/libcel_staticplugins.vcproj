@@ -479,6 +479,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\msvc\libpfnewcamera_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\msvc_libpfnewcamera_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\msvc_libpfnewcamera_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\msvc\libpfportal_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1061,6 +1076,36 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_mover_moverfact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_newcamera_firstpersoncameramode.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_newcamera_firstpersoncameramode.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\newcam.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_newcamera_newcam.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_newcamera_newcam.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1717,6 +1762,12 @@
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\mover\moverfact.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\newcam.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\portal\portalfact.h">
