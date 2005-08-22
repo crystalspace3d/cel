@@ -83,20 +83,9 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcRegion)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRegion::PcRegion)
-  SCF_IMPLEMENTS_INTERFACE (iPcRegion)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
-  : celPcCommon (object_reg)
+  : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRegion);
-
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
 
@@ -120,7 +109,6 @@ celPcRegion::~celPcRegion ()
   delete[] worlddir;
   delete[] worldfile;
   delete[] regionname;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRegion);
 }
 
 #define REGION_SERIAL 2

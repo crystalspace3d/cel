@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcCommandInput, 0, 0, 1);
-
 /**
  * Input propery class.
  * <p>
@@ -44,8 +42,10 @@ SCF_VERSION (iPcCommandInput, 0, 0, 1);
  * <li>pccommandinput_<axis>: movement on the given axis
  * </ul>
  */
-struct iPcCommandInput : public iBase
+struct iPcCommandInput : public virtual iBase
 {
+  SCF_INTERFACE (iPcCommandInput, 0, 0, 1);
+
   /**
    * Activates the input to get Commands
    */

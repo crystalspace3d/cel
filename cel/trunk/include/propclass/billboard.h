@@ -25,8 +25,6 @@
 
 struct iBillboard;
 
-SCF_VERSION (iPcBillboard, 0, 0, 1);
-
 /**
  * Billboard property class.
  * <p>
@@ -62,8 +60,10 @@ SCF_VERSION (iPcBillboard, 0, 0, 1);
  * <li>layer (string, read/write): layer name.
  * </ul>
  */
-struct iPcBillboard : public iBase
+struct iPcBillboard : public virtual iBase
 {
+  SCF_INTERFACE (iPcBillboard, 0, 0, 1);
+
   /**
    * Set the name of the billboard.
    */

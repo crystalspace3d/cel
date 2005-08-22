@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcTest, 0, 0, 1);
-
 /**
  * This is a test property class.
  * <p>
@@ -48,8 +46,10 @@ SCF_VERSION (iPcTest, 0, 0, 1);
  * <li>max (long, read/write): maximum length of what was printed.
  * </ul>
  */
-struct iPcTest : public iBase
+struct iPcTest : public virtual iBase
 {
+  SCF_INTERFACE (iPcTest, 0, 0, 1);
+
   /**
    * Print a message.
    */

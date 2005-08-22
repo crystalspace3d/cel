@@ -45,7 +45,8 @@ CEL_DECLARE_FACTORY(Billboard)
 /**
  * This is a billboard property class.
  */
-class celPcBillboard : public celPcCommon
+class celPcBillboard : public scfImplementationExt1<
+	celPcBillboard, celPcCommon, iPcBillboard>
 {
 private:
   char* billboard_name;
@@ -85,12 +86,11 @@ public:
   celPcBillboard (iObjectRegistry* object_reg);
   virtual ~celPcBillboard ();
 
-  void SetBillboardName (const char* name);
-  iBillboard* GetBillboard ();
-  void EnableEvents (bool e);
-  bool AreEventsEnabled () const { return events_enabled; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void SetBillboardName (const char* name);
+  virtual const char* GetBillboardName () { return billboard_name; }
+  virtual iBillboard* GetBillboard ();
+  virtual void EnableEvents (bool e);
+  virtual bool AreEventsEnabled () const { return events_enabled; }
 
   virtual const char* GetName () const { return "pcbillboard"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -121,46 +121,19 @@ public:
   void DoubleClick (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
 
-  struct PcBillboard : public iPcBillboard
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcBillboard);
-    virtual void SetBillboardName (const char* name)
-    {
-      scfParent->SetBillboardName (name);
-    }
-    virtual const char* GetBillboardName ()
-    {
-      return scfParent->billboard_name;
-    }
-    virtual iBillboard* GetBillboard ()
-    {
-      return scfParent->GetBillboard ();
-    }
-    virtual void EnableEvents (bool e)
-    {
-      scfParent->EnableEvents (e);
-    }
-    virtual bool AreEventsEnabled () const
-    {
-      return scfParent->AreEventsEnabled ();
-    }
-  } scfiPcBillboard;
-  friend struct PcBillboard;
-
   // Not embedded to avoid problems with circular refs!
-  struct BillboardEventHandler : public iBillboardEventHandler
+  struct BillboardEventHandler : public scfImplementation1<
+  	BillboardEventHandler, iBillboardEventHandler>
   {
     celPcBillboard* parent;
-    BillboardEventHandler (celPcBillboard* parent)
+    BillboardEventHandler (celPcBillboard* parent) :
+    	scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE (0);
       BillboardEventHandler::parent = parent;
     }
     virtual ~BillboardEventHandler ()
     {
-      SCF_DESTRUCT_IBASE ();
     }
-    SCF_DECLARE_IBASE;
     virtual void Select (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
     {

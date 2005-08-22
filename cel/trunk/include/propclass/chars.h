@@ -26,13 +26,13 @@
 struct iCelEntity;
 struct iPcInventory;
 
-SCF_VERSION (iPcCharacteristics, 0, 0, 1);
-
 /**
  * This is a characteristics property class.
  */
-struct iPcCharacteristics : public iBase
+struct iPcCharacteristics : public virtual iBase
 {
+  SCF_INTERFACE (iPcCharacteristics, 0, 0, 1);
+
   /**
    * Set characteristic property.
    * Returns false if this is impossible because the entity

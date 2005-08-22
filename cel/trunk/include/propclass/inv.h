@@ -26,13 +26,13 @@
 struct iCelEntity;
 struct iPcInventory;
 
-SCF_VERSION (iPcInventoryListener, 0, 0, 1);
-
 /**
  * Listen to inventory changes.
  */
-struct iPcInventoryListener : public iBase
+struct iPcInventoryListener : public virtual iBase
 {
+  SCF_INTERFACE (iPcInventoryListener, 0, 0, 1);
+
   /**
    * A child is added to this inventory.
    */
@@ -43,8 +43,6 @@ struct iPcInventoryListener : public iBase
    */
   virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity) = 0;
 };
-
-SCF_VERSION (iPcInventory, 0, 0, 1);
 
 /**
  * This is an inventory property class.
@@ -59,8 +57,10 @@ SCF_VERSION (iPcInventory, 0, 0, 1);
  * <li>pcinventory_removed: this entity is removed (entity)
  * </ul>
  */
-struct iPcInventory : public iBase
+struct iPcInventory : public virtual iBase
 {
+  SCF_INTERFACE (iPcInventory, 0, 0, 1);
+
   /**
    * Add an inventory listener. Inventory listeners are called right before
    * the behaviour is called.

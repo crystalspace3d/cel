@@ -67,22 +67,13 @@ csStringID celPcCommandInput::id_trigger = csInvalidStringID;
 csStringID celPcCommandInput::id_command = csInvalidStringID;
 csStringID celPcCommandInput::action_bind = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcCommandInput)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCommandInput)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCommandInput::PcCommandInput)
-  SCF_IMPLEMENTS_INTERFACE (iPcCommandInput)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 SCF_IMPLEMENT_IBASE (celPcCommandInput::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
 
 celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
-    : celPcCommon (object_reg)
+    : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
   celPcCommandInput::object_reg = object_reg;
 
   keylist = 0;
@@ -150,7 +141,6 @@ celPcCommandInput::~celPcCommandInput ()
     delete b;
     b=bn;
   }
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCommandInput);
 }
 
 bool celPcCommandInput::PerformAction (csStringID actionId,

@@ -90,18 +90,9 @@ csStringID celPcMesh::action_movemesh = csInvalidStringID;
 csStringID celPcMesh::id_sector = csInvalidStringID;
 csStringID celPcMesh::id_position = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMesh)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMesh)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMesh::PcMesh)
-  SCF_IMPLEMENTS_INTERFACE (iPcMesh)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMesh);
   visible = true;
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
@@ -125,7 +116,6 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 celPcMesh::~celPcMesh ()
 {
   Clear ();
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMesh);
 }
 
 void celPcMesh::Clear ()
@@ -537,14 +527,6 @@ void celPcMesh::Show ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMeshSelect)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMeshSelect)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMeshSelect::PcMeshSelect)
-  SCF_IMPLEMENTS_INTERFACE (iPcMeshSelect)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
@@ -562,9 +544,8 @@ csStringID celPcMeshSelect::id_button = csInvalidStringID;
 csStringID celPcMeshSelect::id_entity = csInvalidStringID;
 
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
   scfiEventHandler = 0;
   pccamera = 0;
 
@@ -636,7 +617,6 @@ celPcMeshSelect::~celPcMeshSelect ()
   }
   SetCamera (0);
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMeshSelect);
 }
 
 Property* celPcMeshSelect::properties = 0;
@@ -790,7 +770,7 @@ void celPcMeshSelect::FireListenersDown (int x, int y, int button,
   while (i > 0)
   {
     i--;
-    listeners[i]->MouseDown (&scfiPcMeshSelect, x, y, button, entity);
+    listeners[i]->MouseDown ((iPcMeshSelect*)this, x, y, button, entity);
   }
 }
 
@@ -801,7 +781,7 @@ void celPcMeshSelect::FireListenersUp (int x, int y, int button,
   while (i > 0)
   {
     i--;
-    listeners[i]->MouseUp (&scfiPcMeshSelect, x, y, button, entity);
+    listeners[i]->MouseUp ((iPcMeshSelect*)this, x, y, button, entity);
   }
 }
 
@@ -812,7 +792,7 @@ void celPcMeshSelect::FireListenersMove (int x, int y, int button,
   while (i > 0)
   {
     i--;
-    listeners[i]->MouseMove (&scfiPcMeshSelect, x, y, button, entity);
+    listeners[i]->MouseMove ((iPcMeshSelect*)this, x, y, button, entity);
   }
 }
 

@@ -58,16 +58,16 @@ struct iBillboardLayer : public iBase
   virtual const char* GetName () const = 0;
 };
 
-SCF_VERSION (iBillboardEventHandler, 0, 0, 1);
-
 /**
  * An event on some billboard (like being selected
  * or something).
  * Note that all coordinates in this interface are given in billboard
  * coordinates (see iBillboard for more information about what this means).
  */
-struct iBillboardEventHandler : public iBase
+struct iBillboardEventHandler : public virtual iBase
 {
+  SCF_INTERFACE (iBillboardEventHandler, 0, 0, 1);
+
   /**
    * Billboard is selected.
    */

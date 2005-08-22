@@ -58,7 +58,8 @@ CEL_DECLARE_FACTORY(NpcMove)
  * It knows about pclinmove and pccamera and can also control
  * animation in sprcal3d and spr3d mesh objects.
  */
-class celPcActorMove : public celPcCommon
+class celPcActorMove : public scfImplementationExt1<
+	celPcActorMove,celPcCommon,iPcActorMove>
 {
 private:
   csWeakRef<iPcLinearMovement> pclinmove;
@@ -104,7 +105,6 @@ private:
   static csStringID id_start;
   static csStringID id_yrot;
 
-  void RotateTo (float yrot);
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
   void GetSpriteStates ();
@@ -113,231 +113,112 @@ public:
   celPcActorMove (iObjectRegistry* object_reg);
   virtual ~celPcActorMove ();
 
-  void Forward (bool start)
+  virtual void Forward (bool start)
   {
     forward = start;
     HandleMovement (false);
   }
-  bool IsMovingForward ()
+  virtual bool IsMovingForward ()
   {
     HandleMovement (false);
     return forward;
   }
-  void Backward (bool start)
+  virtual void Backward (bool start)
   {
     backward = start;
     HandleMovement (false);
   }
-  bool IsMovingBackward ()
+  virtual bool IsMovingBackward ()
   {
     HandleMovement (false);
     return backward;
   }
-  void StrafeLeft (bool start)
+  virtual void StrafeLeft (bool start)
   {
     strafeleft = start;
     HandleMovement (false);
   }
-  bool IsStrafingLeft ()
+  virtual bool IsStrafingLeft ()
   {
     HandleMovement (false);
     return strafeleft;
   }
-  void StrafeRight (bool start)
+  virtual void StrafeRight (bool start)
   {
     straferight = start;
     HandleMovement (false);
   }
-  bool IsStrafingRight ()
+  virtual bool IsStrafingRight ()
   {
     HandleMovement (false);
     return straferight;
   }
-  void RotateLeft (bool start)
+  virtual void RotateLeft (bool start)
   {
     rotateleft = start;
     rotatetoreached = true;
     HandleMovement (false);
   }
-  bool IsRotatingLeft ()
+  virtual bool IsRotatingLeft ()
   {
     HandleMovement (false);
     return rotateleft;
   }
-  void RotateRight (bool start)
+  virtual void RotateRight (bool start)
   {
     rotateright = start;
     rotatetoreached = true;
     HandleMovement (false);
   }
-  bool IsRotatingRight ()
+  virtual bool IsRotatingRight ()
   {
     HandleMovement (false);
     return rotateright;
   }
-  void Run (bool start)
+  virtual void RotateTo (float yrot);
+  virtual void Run (bool start)
   {
     if (!autorun) running = start;
     HandleMovement (false);
   }
-  bool IsRunning ()
+  virtual bool IsRunning ()
   {
     HandleMovement (false);
     return running;
   }
-  void AutoRun (bool start)
+  virtual void AutoRun (bool start)
   {
     autorun = start;
     HandleMovement (false);
   }
-  bool IsAutoRunning ()
+  virtual bool IsAutoRunning ()
   {
     HandleMovement (false);
     return autorun;
   }
-  void Jump ()
+  virtual void Jump ()
   {
     HandleMovement (true);
   }
-  void ToggleCameraMode ();
+  virtual void ToggleCameraMode ();
 
-  void SetMovementSpeed (float speed) { movement_speed = speed; }
-  float GetMovementSpeed () const { return movement_speed; }
+  virtual void SetMovementSpeed (float speed) { movement_speed = speed; }
+  virtual float GetMovementSpeed () const { return movement_speed; }
 
-  void SetRotationSpeed (float speed) { rotating_speed = speed; }
-  float GetRotationSpeed () const { return rotating_speed; }
+  virtual void SetRotationSpeed (float speed) { rotating_speed = speed; }
+  virtual float GetRotationSpeed () const { return rotating_speed; }
 
-  void SetRunningSpeed (float speed) { running_speed = speed; }
-  float GetRunningSpeed () const { return running_speed; }
+  virtual void SetRunningSpeed (float speed) { running_speed = speed; }
+  virtual float GetRunningSpeed () const { return running_speed; }
 
-  void SetJumpingVelocity (float speed) { jumping_velocity = speed; }
-  float GetJumpingVelocity () const { return jumping_velocity; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void SetJumpingVelocity (float speed) { jumping_velocity = speed; }
+  virtual float GetJumpingVelocity () const { return jumping_velocity; }
 
   virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
-
-  struct PcActorMove : public iPcActorMove
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcActorMove);
-    virtual void Forward (bool start)
-    {
-      scfParent->Forward (start);
-    }
-    virtual bool IsMovingForward ()
-    {
-      return scfParent->IsMovingForward ();
-    }
-    virtual void Backward (bool start)
-    {
-      scfParent->Backward (start);
-    }
-    virtual bool IsMovingBackward ()
-    {
-      return scfParent->IsMovingBackward ();
-    }
-    virtual void StrafeLeft (bool start)
-    {
-      scfParent->StrafeLeft (start);
-    }
-    virtual bool IsStrafingLeft ()
-    {
-      return scfParent->IsStrafingLeft ();
-    }
-    virtual void StrafeRight (bool start)
-    {
-      scfParent->StrafeRight (start);
-    }
-    virtual bool IsStrafingRight ()
-    {
-      return scfParent->IsStrafingRight ();
-    }
-    virtual void RotateLeft (bool start)
-    {
-      scfParent->RotateLeft (start);
-    }
-    virtual bool IsRotatingLeft ()
-    {
-      return scfParent->IsRotatingLeft ();
-    }
-    virtual void RotateRight (bool start)
-    {
-      scfParent->RotateRight (start);
-    }
-    virtual bool IsRotatingRight ()
-    {
-      return scfParent->IsRotatingRight ();
-    }
-    virtual void RotateTo (float yrot)
-    {
-      scfParent->RotateTo (yrot);
-    }
-    virtual void Run (bool start)
-    {
-      scfParent->Run (start);
-    }
-    virtual bool IsRunning ()
-    {
-      return scfParent->IsRunning ();
-    }
-    virtual void AutoRun (bool start)
-    {
-      scfParent->AutoRun (start);
-    }
-    virtual bool IsAutoRunning ()
-    {
-      return scfParent->IsAutoRunning ();
-    }
-    virtual void Jump ()
-    {
-      scfParent->Jump ();
-    }
-    virtual void ToggleCameraMode ()
-    {
-      scfParent->ToggleCameraMode ();
-    }
-
-    virtual void SetMovementSpeed (float speed)
-    {
-      scfParent->SetMovementSpeed (speed);
-    }
-    virtual float GetMovementSpeed () const
-    {
-      return scfParent->GetMovementSpeed ();
-    }
-
-    virtual void SetRotationSpeed (float speed)
-    {
-      scfParent->SetRotationSpeed (speed);
-    }
-    virtual float GetRotationSpeed () const
-    {
-      return scfParent->GetRotationSpeed ();
-    }
-
-    virtual void SetRunningSpeed (float speed)
-    {
-      scfParent->SetRunningSpeed (speed);
-    }
-    virtual float GetRunningSpeed () const
-    {
-      return scfParent->GetRunningSpeed ();
-    }
-
-    virtual void SetJumpingVelocity (float speed)
-    {
-      scfParent->SetJumpingVelocity (speed);
-    }
-    virtual float GetJumpingVelocity () const
-    {
-      return scfParent->GetJumpingVelocity ();
-    }
-  } scfiPcActorMove;
-  friend struct PcActorMove;
 };
 
 /**
@@ -345,7 +226,8 @@ public:
  * It knows about pclinmove and can also control
  * animation in sprcal3d and spr3d mesh objects.
  */
-class celPcNpcMove : public celPcCommon
+class celPcNpcMove : public scfImplementationExt1<
+	celPcNpcMove,celPcCommon,iPcNpcMove>
 {
 private:
   csWeakRef<iPcLinearMovement> pclinmove;
@@ -362,18 +244,10 @@ public:
   celPcNpcMove (iObjectRegistry* object_reg);
   virtual ~celPcNpcMove ();
 
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
-
   virtual const char* GetName () const { return "pcnpcmove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickOnce ();
-
-  struct PcNpcMove : public iPcNpcMove
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcNpcMove);
-  } scfiPcNpcMove;
-  friend struct PcNpcMove;
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__

@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "csutil/scf.h"
+#include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
@@ -46,7 +47,8 @@ struct Property
  * from which all other property classes can inherit.
  * This makes it easier to write a property class.
  */
-class celPcCommon : public iCelPropertyClass, public iCelTimerListener
+class celPcCommon : public scfImplementation2<
+	celPcCommon, iCelPropertyClass, iCelTimerListener>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -74,8 +76,6 @@ protected:
 public:
   celPcCommon (iObjectRegistry* object_reg);
   virtual ~celPcCommon ();
-
-  SCF_DECLARE_IBASE;
 
   bool HavePropertyClassesChanged ()
   {

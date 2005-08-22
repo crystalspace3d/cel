@@ -17,13 +17,13 @@ struct iPcMesh;
 struct iPcMechanicsObject;
 struct iJoint;
 
-SCF_VERSION (iPcMechanicsSystem, 0, 0, 1);
-
 /**
  * Property class representing a dynamic system.
  */
-struct iPcMechanicsSystem : public iBase
+struct iPcMechanicsSystem : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsSystem, 0, 0, 1);
+
   /**
    * Set the dynamic system.
    * \param dynsys a pointer to the iDynamicSystem that this iPcMechanicsSystem
@@ -186,8 +186,6 @@ struct iPcMechanicsSystem : public iBase
   virtual void EnableQuickStep () = 0;
 };
 
-SCF_VERSION (iPcMechanicsObject, 0, 0, 1);
-
 /**
  * A dynamic body.
  * <p>
@@ -197,8 +195,10 @@ SCF_VERSION (iPcMechanicsObject, 0, 0, 1);
  * <li>pcdynamicbody_collision: an entity has collided with this entity.
  * </ul>
  */
-struct iPcMechanicsObject : public iBase
+struct iPcMechanicsObject : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsObject, 0, 0, 1);
+
   /**
    * Set the mesh which this body will control.
    * If not called then this property class will automatically

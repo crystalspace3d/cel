@@ -45,7 +45,8 @@ CEL_DECLARE_FACTORY (Light)
 /**
  * This is a light property class.
  */
-class celPcLight : public celPcCommon
+class celPcLight : public scfImplementationExt1<
+	celPcLight, celPcCommon, iPcLight>
 {
 private:
   csRef<iLight> light;
@@ -61,39 +62,20 @@ public:
    * Assign a named light to this property class.
    * Returns false if light cannot be found.
    */
-  bool SetLight (const char* lightname);
+  virtual bool SetLight (const char* lightname);
   /**
    * Assign a light to this property class.
    */
-  void SetLight (iLight* mesh);
+  virtual void SetLight (iLight* mesh);
   /**
    * Get the light.
    */
-  iLight* GetLight () { return light; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual iLight* GetLight () const { return light; }
 
   virtual const char* GetName () const { return "pclight"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
-
-  struct PcLight : public iPcLight
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcLight);
-    virtual bool SetLight (const char* lightname)
-    {
-      return scfParent->SetLight (lightname);
-    }
-    virtual void SetLight (iLight* light)
-    {
-      scfParent->SetLight (light);
-    }
-    virtual iLight* GetLight () const
-    {
-      return scfParent->GetLight ();
-    }
-  } scfiPcLight;
 };
 
 #endif // __CEL_PF_LIGHTFACT__
