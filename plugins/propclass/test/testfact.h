@@ -41,7 +41,8 @@ CEL_DECLARE_FACTORY (Test)
 /**
  * This is a test property class.
  */
-class celPcTest : public celPcCommon
+class celPcTest : public scfImplementationExt1<
+	celPcTest, celPcCommon, iPcTest>
 {
 private:
   // For SendMessage parameters.
@@ -70,9 +71,7 @@ public:
   celPcTest (iObjectRegistry* object_reg);
   virtual ~celPcTest ();
 
-  void Print (const char* msg);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void Print (const char* msg);
 
   virtual const char* GetName () const { return "pctest"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -83,15 +82,6 @@ public:
   // for the 'max' property.
   virtual bool SetProperty (csStringID, long);
   virtual long GetPropertyLong (csStringID);
-
-  struct PcTest : public iPcTest
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTest);
-    virtual void Print (const char* msg)
-    {
-      scfParent->Print (msg);
-    }
-  } scfiPcTest;
 };
 
 #endif // __CEL_PF_TESTFACT__

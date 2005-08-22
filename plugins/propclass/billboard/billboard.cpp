@@ -166,26 +166,13 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcBillboard)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcBillboard)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcBillboard::PcBillboard)
-  SCF_IMPLEMENTS_INTERFACE (iPcBillboard)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_IBASE (celPcBillboard::BillboardEventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 csStringID celPcBillboard::id_x = csInvalidStringID;
 csStringID celPcBillboard::id_y = csInvalidStringID;
 csStringID celPcBillboard::id_button = csInvalidStringID;
 
 celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcBillboard);
   billboard_name = csStrNew ("default");
   billboard = 0;
   events_enabled = false;
@@ -238,7 +225,6 @@ celPcBillboard::~celPcBillboard ()
   delete[] billboard_name;
   delete params;
   delete scfiBillboardEventHandler;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcBillboard);
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)

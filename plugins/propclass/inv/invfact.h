@@ -46,7 +46,8 @@ CEL_DECLARE_FACTORY (Characteristics)
 /**
  * This is an inventory property class.
  */
-class celPcInventory : public celPcCommon
+class celPcInventory : public scfImplementationExt1<
+	celPcInventory, celPcCommon, iPcInventory>
 {
 private:
   csRefArray<iCelEntity> contents;
@@ -76,117 +77,40 @@ public:
   celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
 
-  bool AddEntity (iCelEntity* entity);
-  bool RemoveEntity (iCelEntity* entity);
-  bool RemoveAll ();
-  size_t GetEntityCount () const { return contents.Length () ; }
-  iCelEntity* GetEntity (size_t idx) const;
-  bool SetStrictCharacteristics (const char* charName, bool strict);
-  bool HasStrictCharacteristics (const char* charName) const;
-  bool SetConstraints (const char* charName, float minValue, float maxValue,
-		  float totalMaxValue);
-  bool GetConstraints (const char* charName, float& minValue, float& maxValue,
-		  float& totalMaxValue) const;
-  void RemoveConstraints (const char* charName);
-  void RemoveAllConstraints ();
-  float GetCurrentCharacteristic (const char* charName) const;
+  virtual bool AddEntity (iCelEntity* entity);
+  virtual bool RemoveEntity (iCelEntity* entity);
+  virtual bool RemoveAll ();
+  virtual size_t GetEntityCount () const { return contents.Length () ; }
+  virtual iCelEntity* GetEntity (size_t idx) const;
+  virtual bool SetStrictCharacteristics (const char* charName, bool strict);
+  virtual bool HasStrictCharacteristics (const char* charName) const;
+  virtual bool SetConstraints (const char* charName, float minValue,
+  	float maxValue, float totalMaxValue);
+  virtual bool GetConstraints (const char* charName, float& minValue,
+  	float& maxValue, float& totalMaxValue) const;
+  virtual void RemoveConstraints (const char* charName);
+  virtual void RemoveAllConstraints ();
+  virtual float GetCurrentCharacteristic (const char* charName) const;
 
-  void MarkDirty (const char* charName);
-  bool TestConstraints (const char* charName);
-  void Dump ();
+  virtual void MarkDirty (const char* charName);
+  virtual bool TestConstraints (const char* charName);
+  virtual void Dump ();
 
-  void AddInventoryListener (iPcInventoryListener* listener);
-  void RemoveInventoryListener (iPcInventoryListener* listener);
+  virtual void AddInventoryListener (iPcInventoryListener* listener);
+  virtual void RemoveInventoryListener (iPcInventoryListener* listener);
   void FireInventoryListenersAdd (iCelEntity* entity);
   void FireInventoryListenersRemove (iCelEntity* entity);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcinventory"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcInventory : public iPcInventory
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcInventory);
-    virtual void AddInventoryListener (iPcInventoryListener* listener)
-    {
-      scfParent->AddInventoryListener (listener);
-    }
-    virtual void RemoveInventoryListener (iPcInventoryListener* listener)
-    {
-      scfParent->RemoveInventoryListener (listener);
-    }
-    virtual bool AddEntity (iCelEntity* entity)
-    {
-      return scfParent->AddEntity (entity);
-    }
-    virtual bool RemoveEntity (iCelEntity* entity)
-    {
-      return scfParent->RemoveEntity (entity);
-    }
-    virtual bool RemoveAll ()
-    {
-      return scfParent->RemoveAll ();
-    }
-    virtual size_t GetEntityCount () const
-    {
-      return scfParent->GetEntityCount ();
-    }
-    virtual iCelEntity* GetEntity (size_t idx) const
-    {
-      return scfParent->GetEntity (idx);
-    }
-    virtual bool SetStrictCharacteristics (const char* charName, bool strict)
-    {
-      return scfParent->SetStrictCharacteristics (charName, strict);
-    }
-    virtual bool HasStrictCharacteristics (const char* charName) const
-    {
-      return scfParent->HasStrictCharacteristics (charName);
-    }
-    virtual bool SetConstraints (const char* charName,
-    	float minValue, float maxValue, float totalMaxValue)
-    {
-      return scfParent->SetConstraints (charName,
-      	minValue, maxValue, totalMaxValue); }
-    virtual bool GetConstraints (const char* charName,
-    	float& minValue, float& maxValue, float& totalMaxValue) const
-    {
-      return scfParent->GetConstraints (charName,
-      	minValue, maxValue, totalMaxValue);
-    }
-    virtual void RemoveConstraints (const char* charName)
-    {
-      scfParent->RemoveConstraints (charName);
-    }
-    virtual void RemoveAllConstraints ()
-    {
-      scfParent->RemoveAllConstraints ();
-    }
-    virtual float GetCurrentCharacteristic (const char* charName) const
-    {
-      return scfParent->GetCurrentCharacteristic (charName);
-    }
-    virtual void MarkDirty (const char* charName)
-    {
-      scfParent->MarkDirty (charName);
-    }
-    virtual bool TestConstraints (const char* charName)
-    {
-      return scfParent->TestConstraints (charName);
-    }
-    virtual void Dump ()
-    {
-      scfParent->Dump ();
-    }
-  } scfiPcInventory;
 };
 
 /**
  * This is a characteristics property class.
  */
-class celPcCharacteristics : public celPcCommon
+class celPcCharacteristics : public scfImplementationExt1<
+	celPcCharacteristics, celPcCommon, iPcCharacteristics>
 {
 private:
   struct charact
@@ -209,83 +133,24 @@ public:
   celPcCharacteristics (iObjectRegistry* object_reg);
   virtual ~celPcCharacteristics ();
 
-  bool SetCharacteristic (const char* name, float value);
-  bool SetInheritedCharacteristic (const char* name, float factor, float add);
-  float GetCharacteristic (const char* name) const;
-  float GetLocalCharacteristic (const char* name) const;
-  float GetInheritedCharacteristic (const char* name) const;
-  bool ClearCharacteristic (const char* name);
-  bool HasCharacteristic (const char* name) const;
-  bool ClearAll ();
-  void AddToInventory (iPcInventory* inv);
-  void RemoveFromInventory (iPcInventory* inv);
-  void MarkDirty (const char* charName);
-  bool TestConstraints (const char* charName);
-  void Dump ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual bool SetCharacteristic (const char* name, float value);
+  virtual bool SetInheritedCharacteristic (const char* name, float factor,
+  	float add);
+  virtual float GetCharacteristic (const char* name) const;
+  virtual float GetLocalCharacteristic (const char* name) const;
+  virtual float GetInheritedCharacteristic (const char* name) const;
+  virtual bool ClearCharacteristic (const char* name);
+  virtual bool HasCharacteristic (const char* name) const;
+  virtual bool ClearAll ();
+  virtual void AddToInventory (iPcInventory* inv);
+  virtual void RemoveFromInventory (iPcInventory* inv);
+  virtual void MarkDirty (const char* charName);
+  virtual bool TestConstraints (const char* charName);
+  virtual void Dump ();
 
   virtual const char* GetName () const { return "pccharacteristics"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcCharacteristics : public iPcCharacteristics
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcCharacteristics);
-    virtual bool SetCharacteristic (const char* name, float value)
-    {
-      return scfParent->SetCharacteristic (name, value);
-    }
-    virtual bool SetInheritedCharacteristic (const char* name,
-		  float factor, float add)
-    {
-      return scfParent->SetInheritedCharacteristic (name, factor, add);
-    }
-    virtual float GetCharacteristic (const char* name) const
-    {
-      return scfParent->GetCharacteristic (name);
-    }
-    virtual float GetLocalCharacteristic (const char* name) const
-    {
-      return scfParent->GetLocalCharacteristic (name);
-    }
-    virtual float GetInheritedCharacteristic (const char* name) const
-    {
-      return scfParent->GetInheritedCharacteristic (name);
-    }
-    virtual bool ClearCharacteristic (const char* name)
-    {
-      return scfParent->ClearCharacteristic (name);
-    }
-    virtual bool HasCharacteristic (const char* name) const
-    {
-      return scfParent->HasCharacteristic (name);
-    }
-    virtual bool ClearAll ()
-    {
-      return scfParent->ClearAll ();
-    }
-    virtual void AddToInventory (iPcInventory* inv)
-    {
-      scfParent->AddToInventory (inv);
-    }
-    virtual void RemoveFromInventory (iPcInventory* inv)
-    {
-      scfParent->RemoveFromInventory (inv);
-    }
-    virtual void MarkDirty (const char* charName)
-    {
-      scfParent->MarkDirty (charName);
-    }
-    virtual bool TestConstraints (const char* charName)
-    {
-      return scfParent->TestConstraints (charName);
-    }
-    virtual void Dump ()
-    {
-      scfParent->Dump ();
-    }
-  } scfiPcCharacteristics;
 };
 
 #endif // __CEL_PF_INVFACT__

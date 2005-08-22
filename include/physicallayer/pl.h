@@ -46,26 +46,26 @@ typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
 
 struct iCelEntityTracker;
 
-SCF_VERSION (iCelNewEntityCallback, 0, 0, 2);
-
 /**
  * Implement this interface if you want to know when new entities
  * are added.
  */
-struct iCelNewEntityCallback : public iBase
+struct iCelNewEntityCallback : public virtual iBase
 {
+  SCF_INTERFACE (iCelNewEntityCallback, 0, 0, 2);
+
   /** this function is called for entities that are added */
   virtual void NewEntity (iCelEntity* entity) = 0;
 };
-
-SCF_VERSION (iCelEntityRemoveCallback, 0, 0, 2);
 
 /**
  * Implement this interface if you want to know when entities
  * are removed.
  */
-struct iCelEntityRemoveCallback : public iBase
+struct iCelEntityRemoveCallback : public virtual iBase
 {
+  SCF_INTERFACE (iCelEntityRemoveCallback, 0, 0, 2);
+
   /** this function is called for entities that are removed */
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 };

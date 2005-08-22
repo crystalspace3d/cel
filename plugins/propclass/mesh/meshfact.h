@@ -50,7 +50,8 @@ CEL_DECLARE_FACTORY (MeshSelect)
 /**
  * This is a mesh property class.
  */
-class celPcMesh : public celPcCommon
+class celPcMesh : public scfImplementationExt1<
+	celPcMesh, celPcCommon, iPcMesh>
 {
 private:
   csRef<iMeshWrapper> mesh;
@@ -98,119 +99,65 @@ public:
    */
   void Clear ();
   /// Set path.
-  void SetPath (const char* path);
+  virtual void SetPath (const char* path);
   /**
    * Assign a mesh created from factname and/or loaded from filename
    * to this pcmesh.
    */
-  bool SetMesh (const char* factname, const char* filename);
+  virtual bool SetMesh (const char* factname, const char* filename);
   /**
    * Assign a mesh from a meshwrapper to this pcmesh.
    */
-  void SetMesh (iMeshWrapper* mesh, bool do_remove);
+  virtual void SetMesh (iMeshWrapper* mesh, bool do_remove);
   /**
    * Creates an empty thing mesh for this pcmesh-entity.
    */
-  void CreateEmptyThing ();
+  virtual void CreateEmptyThing ();
   /**
    * Get the mesh of this pcmesh-entity.
    */
-  iMeshWrapper* GetMesh () { return mesh; }
+  virtual iMeshWrapper* GetMesh () const { return mesh; }
   /**
    * Move this mesh to the according sector and position.
    */
-  void MoveMesh (iSector* sector, const csVector3& pos);
+  virtual void MoveMesh (iSector* sector, const csVector3& pos);
   /**
    * Sets an action for this mesh if different from the current action,
    * or resetaction is set.
    */
-  void SetAction (const char* actionName, bool reset = false);
+  virtual void SetAction (const char* actionName, bool reset = false);
   /**
    * Returns the name for the current action.
    */
-  const char* GetAction ();
+  virtual const char* GetAction ();
   /**
    * Reverse the currently set action.
    */
-  void SetReverseAction (bool reverse = true);
+  virtual void SetReverseAction (bool reverse = true);
   /**
    * Hides this entity.
    */
-  void Hide ();
+  virtual void Hide ();
   /**
    * Shows this entity.
    */
-  void Show ();
+  virtual void Show ();
   /**
    * Returns visibility status for this entity.
    */
-  bool IsVisible () const { return visible; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual bool IsVisible () const { return visible; }
 
   virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
-
-  struct PcMesh : public iPcMesh
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMesh);
-    virtual void SetPath (const char* path)
-    {
-      scfParent->SetPath (path);
-    }
-    virtual bool SetMesh (const char* factname, const char* filename)
-    {
-      return scfParent->SetMesh (factname, filename);
-    }
-    virtual void SetMesh (iMeshWrapper* mesh, bool do_remove)
-    {
-      scfParent->SetMesh (mesh, do_remove);
-    }
-    virtual void CreateEmptyThing ()
-    {
-      scfParent->CreateEmptyThing ();
-    }
-    virtual iMeshWrapper* GetMesh () const
-    {
-      return scfParent->GetMesh ();
-    }
-    virtual void MoveMesh (iSector* sector, const csVector3& pos)
-    {
-      scfParent->MoveMesh (sector, pos);
-    }
-    virtual void SetAction (const char* actionName, bool reset = false)
-    {
-      scfParent->SetAction (actionName, reset);
-    }
-    virtual const char* GetAction ()
-    {
-      return scfParent->GetAction ();
-    }
-    virtual void SetReverseAction (bool reverse = true)
-    {
-      scfParent->SetReverseAction (reverse);
-    }
-    void Hide ()
-    {
-      scfParent->Hide ();
-    }
-    void Show ()
-    {
-      scfParent->Show ();
-    }
-    bool IsVisible () const
-    {
-      return scfParent->IsVisible ();
-    }
-  } scfiPcMesh;
 };
 
 /**
  * This is a mesh selection property class.
  */
-class celPcMeshSelect : public celPcCommon
+class celPcMeshSelect : public scfImplementationExt1<
+	celPcMeshSelect, celPcCommon, iPcMeshSelect>
 {
 private:
   csWeakRef<iPcCamera> pccamera;
@@ -306,57 +253,58 @@ public:
   virtual ~celPcMeshSelect ();
 
   bool HandleEvent (iEvent& ev);
-  void SetCamera (iPcCamera* pccamera);
+  virtual void SetCamera (iPcCamera* pccamera);
 
-  void SetMouseButtons (int buttons) { mouse_buttons = buttons; }
-  int GetMouseButtons () const { return mouse_buttons; }
+  virtual void SetMouseButtons (int buttons) { mouse_buttons = buttons; }
+  virtual int GetMouseButtons () const { return mouse_buttons; }
 
-  void SetGlobalSelection (bool glob) { do_global = glob; }
-  bool HasGlobalSelection () const { return do_global; }
-  void SetFollowMode (bool follow)
+  virtual void SetGlobalSelection (bool glob) { do_global = glob; }
+  virtual bool HasGlobalSelection () const { return do_global; }
+  virtual void SetFollowMode (bool follow)
   {
     do_follow = follow;
     SetupEventHandler ();
   }
-  bool HasFollowMode () const { return do_follow; }
-  void SetFollowAlwaysMode (bool followalways) { do_follow_always = followalways; }
-  bool HasFollowAlwaysMode () const { return do_follow_always; }
-  void SetDragMode (bool drag)
+  virtual bool HasFollowMode () const { return do_follow; }
+  virtual void SetFollowAlwaysMode (bool followalways)
+  { do_follow_always = followalways; }
+  virtual bool HasFollowAlwaysMode () const { return do_follow_always; }
+  virtual void SetDragMode (bool drag)
   {
     do_drag = drag;
     SetupEventHandler ();
   }
-  bool HasDragMode () const { return do_drag; }
-  void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
+  virtual bool HasDragMode () const { return do_drag; }
+  virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
   {
     celPcMeshSelect::drag_normal = drag_normal;
     drag_normal_camera = camera_space;
   }
-  void GetDragPlaneNormal (csVector3& drag_normal, bool& camera_space) const
+  virtual void GetDragPlaneNormal (csVector3& drag_normal,
+  	bool& camera_space) const
   {
     drag_normal = celPcMeshSelect::drag_normal;
     camera_space = drag_normal_camera;
   }
-  void SetSendmoveEvent (bool mov)
+  virtual void SetSendmoveEvent (bool mov)
   {
     do_sendmove = mov;
     SetupEventHandler ();
   }
-  bool HasSendmoveEvent () const { return do_sendmove; }
-  void SetSendupEvent (bool su) { do_sendup = su; }
-  bool HasSendupEvent () const { return do_sendup; }
-  void SetSenddownEvent (bool sd) { do_senddown = sd; }
-  bool HasSenddownEvent () const { return do_senddown; }
-  void SetMaxSelectionDistance (float distance) { max_distance = distance; }
-  float GetMaxSelectionDistance () const { return max_distance; }
+  virtual bool HasSendmoveEvent () const { return do_sendmove; }
+  virtual void SetSendupEvent (bool su) { do_sendup = su; }
+  virtual bool HasSendupEvent () const { return do_sendup; }
+  virtual void SetSenddownEvent (bool sd) { do_senddown = sd; }
+  virtual bool HasSenddownEvent () const { return do_senddown; }
+  virtual void SetMaxSelectionDistance (float distance)
+  { max_distance = distance; }
+  virtual float GetMaxSelectionDistance () const { return max_distance; }
 
-  void AddMeshSelectListener (iPcMeshSelectListener* listener);
-  void RemoveMeshSelectListener (iPcMeshSelectListener* listener);
+  virtual void AddMeshSelectListener (iPcMeshSelectListener* listener);
+  virtual void RemoveMeshSelectListener (iPcMeshSelectListener* listener);
   void FireListenersDown (int x, int y, int button, iCelEntity* entity);
   void FireListenersUp (int x, int y, int button, iCelEntity* entity);
   void FireListenersMove (int x, int y, int button, iCelEntity* entity);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -367,105 +315,6 @@ public:
   // for the 'bool' properties.
   virtual bool SetProperty (csStringID, bool);
   virtual bool GetPropertyBool (csStringID);
-
-  struct PcMeshSelect : public iPcMeshSelect
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMeshSelect);
-    virtual void AddMeshSelectListener (iPcMeshSelectListener* listener)
-    {
-      scfParent->AddMeshSelectListener (listener);
-    }
-    virtual void RemoveMeshSelectListener (iPcMeshSelectListener* listener)
-    {
-      scfParent->RemoveMeshSelectListener (listener);
-    }
-    virtual void SetCamera (iPcCamera* pccamera)
-    {
-      scfParent->SetCamera (pccamera);
-    }
-    virtual void SetMouseButtons (int buttons)
-    {
-      scfParent->SetMouseButtons (buttons);
-    }
-    virtual int GetMouseButtons () const
-    {
-      return scfParent->GetMouseButtons ();
-    }
-    virtual void SetGlobalSelection (bool glob)
-    {
-      scfParent->SetGlobalSelection (glob);
-    }
-    virtual bool HasGlobalSelection () const
-    {
-      return scfParent->HasGlobalSelection ();
-    }
-    virtual void SetFollowMode (bool follow)
-    {
-      scfParent->SetFollowMode (follow);
-    }
-    virtual bool HasFollowMode () const
-    {
-      return scfParent->HasFollowMode ();
-    }
-    virtual void SetFollowAlwaysMode (bool followalways)
-    {
-      scfParent->SetFollowAlwaysMode (followalways);
-    }
-    virtual bool HasFollowAlwaysMode () const
-    {
-      return scfParent->HasFollowAlwaysMode ();
-    }
-    virtual void SetDragMode (bool drag)
-    {
-      scfParent->SetDragMode (drag);
-    }
-    virtual bool HasDragMode () const
-    {
-      return scfParent->HasDragMode ();
-    }
-    virtual void SetDragPlaneNormal (const csVector3& drag_normal,
-    	bool camera_space)
-    {
-      scfParent->SetDragPlaneNormal (drag_normal, camera_space);
-    }
-    virtual void GetDragPlaneNormal (csVector3& drag_normal,
-    	bool& camera_space) const
-    {
-      scfParent->GetDragPlaneNormal (drag_normal, camera_space);
-    }
-    virtual void SetSendmoveEvent (bool mov)
-    {
-      scfParent->SetSendmoveEvent (mov);
-    }
-    virtual bool HasSendmoveEvent () const
-    {
-      return scfParent->HasSendmoveEvent ();
-    }
-    virtual void SetSendupEvent (bool su)
-    {
-      scfParent->SetSendupEvent (su);
-    }
-    virtual bool HasSendupEvent () const
-    {
-      return scfParent->HasSendupEvent ();
-    }
-    virtual void SetSenddownEvent (bool sd)
-    {
-      scfParent->SetSenddownEvent (sd);
-    }
-    virtual bool HasSenddownEvent () const
-    {
-      return scfParent->HasSenddownEvent ();
-    }
-    virtual void SetMaxSelectionDistance (float distance)
-    {
-      scfParent->SetMaxSelectionDistance (distance);      
-    }
-    virtual float GetMaxSelectionDistance () const
-    {
-      return scfParent->GetMaxSelectionDistance ();      
-    }
-  } scfiPcMeshSelect;
 
   // This is not an embedded interface in order to avoid
   // a circular reference between this registered event handler

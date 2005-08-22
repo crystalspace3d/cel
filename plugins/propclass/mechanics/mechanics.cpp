@@ -50,21 +50,6 @@ CEL_IMPLEMENT_FACTORY(MechanicsObject, "pcmechobject")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsSystem)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsSystem)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelTimerListener)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsSystem::PcMechanicsSystem)
-  SCF_IMPLEMENTS_INTERFACE (iPcMechanicsSystem)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsSystem::CelTimerListener)
-  SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-//---------------------------------------------------------------------------
-
 // Actions
 csStringID celPcMechanicsSystem::action_setsystem = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_setgravity = csInvalidStringID;
@@ -76,18 +61,17 @@ csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
 
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsSystem);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelTimerListener);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  pl->CallbackEveryFrame (&scfiCelTimerListener, cscmdPreProcess);
+  scfiCelTimerListener = new CelTimerListener (this);
+  pl->CallbackEveryFrame (scfiCelTimerListener, cscmdPreProcess);
 
   dynsystem_error_reported = false;
   delta = 0.01f;
   remaining_delta = 0;
   
-  object_reg->Register (&scfiPcMechanicsSystem, "iPcMechanicsSystem");
+  object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
   
   if (action_setsystem == csInvalidStringID)
   {
@@ -104,6 +88,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
 {
+  scfiCelTimerListener->DecRef ();
 }
 
 void celPcMechanicsSystem::ProcessForces (float dt)
@@ -551,22 +536,13 @@ csStringID celPcMechanicsObject::param_normal = csInvalidStringID;
 // Parameters for message pcdynamicbody_collision
 csStringID celPcMechanicsObject::param_otherbody = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsObject)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsObject)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::PcMechanicsObject)
-  SCF_IMPLEMENTS_INTERFACE (iPcMechanicsObject)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsObject);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiDynamicsCollisionCallback);
   DG_TYPE (this, "celPcMechanicsObject()");
 
@@ -654,7 +630,7 @@ celPcMechanicsObject::~celPcMechanicsObject ()
 {
   delete bdata;
   if (mechsystem)
-    mechsystem->ClearForces (&scfiPcMechanicsObject);
+    mechsystem->ClearForces ((iPcMechanicsObject*)this);
 }
 
 #define DYNBODY_SERIAL 1
@@ -1248,13 +1224,13 @@ void celPcMechanicsObject::AddForceTagged (const csVector3& force,
 	bool relative, const csVector3& position, uint32& forceid)
 {
   forceid = forceidseed++;
-  mechsystem->AddForceTagged (&scfiPcMechanicsObject, force, relative,
+  mechsystem->AddForceTagged ((iPcMechanicsObject*)this, force, relative,
 	position, forceid);
 }
 
 void celPcMechanicsObject::RemoveForceTagged (uint32 forceid)
 {
-  mechsystem->RemoveForceTagged (&scfiPcMechanicsObject, forceid);
+  mechsystem->RemoveForceTagged ((iPcMechanicsObject*)this, forceid);
 }
 
 void celPcMechanicsObject::AddForceOnce (const csVector3& force, bool relative,
@@ -1280,19 +1256,19 @@ void celPcMechanicsObject::AddForceOnce (const csVector3& force, bool relative,
 void celPcMechanicsObject::AddForceDuration (const csVector3& force,
 	bool relative, const csVector3& position, float seconds)
 {
-  mechsystem->AddForceDuration (&scfiPcMechanicsObject, force, relative,
+  mechsystem->AddForceDuration ((iPcMechanicsObject*)this, force, relative,
 	position, seconds);
 }
 
 void celPcMechanicsObject::AddForceFrame (const csVector3& force,
 	bool relative, const csVector3& position)
 {
-  mechsystem->AddForceFrame (&scfiPcMechanicsObject, force, relative, position);
+  mechsystem->AddForceFrame ((iPcMechanicsObject*)this, force, relative, position);
 }
 
 void celPcMechanicsObject::ClearForces ()
 {
-  mechsystem->ClearForces (&scfiPcMechanicsObject);
+  mechsystem->ClearForces ((iPcMechanicsObject*)this);
 }
 
 void celPcMechanicsObject::AddToGroup (const char* group)

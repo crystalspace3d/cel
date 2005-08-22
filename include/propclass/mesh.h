@@ -33,8 +33,6 @@ class csVector3;
  */
 #define CEL_PCMESH_PROPERTY_MESH 1
 
-SCF_VERSION (iPcMesh, 0, 0, 3);
-
 /**
  * This is a property class holding the representation of a mesh.
  * <p>
@@ -50,8 +48,10 @@ SCF_VERSION (iPcMesh, 0, 0, 3);
  * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).
  * </ul>
  */
-struct iPcMesh : public iBase
+struct iPcMesh : public virtual iBase
 {
+  SCF_INTERFACE (iPcMesh, 0, 0, 3);
+
   /**
    * Set the path to use. If this is not done then the filename
    * in SetMesh() will be used alone. Otherwise this path is used to

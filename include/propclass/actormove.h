@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcActorMove, 0, 0, 1);
-
 /**
  * ActorMove property class. This property class makes a connection
  * between pclinmove and pccamera and makes it easier to control
@@ -53,8 +51,10 @@ SCF_VERSION (iPcActorMove, 0, 0, 1);
  * <li>ToggleCameraMode.
  * </ul>
  */
-struct iPcActorMove : public iBase
+struct iPcActorMove : public virtual iBase
 {
+  SCF_INTERFACE (iPcActorMove, 0, 0, 1);
+
   /// Start/stop going forward.
   virtual void Forward (bool start) = 0;
   /// Returns the toogle value of moving forward.

@@ -28,8 +28,6 @@ struct iSector;
 struct iPcCamera;
 struct iRegion;
 
-SCF_VERSION (iPcRegion, 0, 1, 1);
-
 /**
  * The representation of a region.
  * <p>
@@ -48,8 +46,10 @@ SCF_VERSION (iPcRegion, 0, 1, 1);
  * <li>regionname (string, read/write): region name.
  * </ul>
  */
-struct iPcRegion : public iBase
+struct iPcRegion : public virtual iBase
 {
+  SCF_INTERFACE (iPcRegion, 0, 1, 1);
+
   /**
    * Set the world file to use for this region.
    */

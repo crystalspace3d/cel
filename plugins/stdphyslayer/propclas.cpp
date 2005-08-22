@@ -198,14 +198,14 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!obj) continue;
-    iBase* interf = (iBase*)(obj->QueryInterface (id, version));
+    void* interf = obj->QueryInterface (id, version);
     if (interf)
     {
       // We prefer property classes with no tag.
       if (obj->GetTag () == 0)
-        return interf;
+        return (iBase*)obj;
       else
-        found_interf = csPtr<iBase> (interf);
+        found_interf = csPtr<iBase> (obj);
     }
   }
   if (found_interf)
@@ -227,10 +227,10 @@ iBase* celPropertyClassList::FindByInterfaceAndTag (scfInterfaceID id,
       continue;
     if (tag != 0 && strcmp (obj->GetTag (), tag) != 0)
       continue;
-    iBase* interf = (iBase*)(obj->QueryInterface (id, version));
+    void* interf = obj->QueryInterface (id, version);
     if (interf)
     {
-      return interf;
+      return (iBase*)obj;
     }
   }
   return 0;

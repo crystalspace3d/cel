@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcNpcMove, 0, 0, 1);
-
 /**
  * NpcMove property class. This property class makes a connection
  * between pclinmove and pcmesh and makes it easier to control
@@ -32,8 +30,9 @@ SCF_VERSION (iPcNpcMove, 0, 0, 1);
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
  */
-struct iPcNpcMove : public iBase
+struct iPcNpcMove : public virtual iBase
 {
+  SCF_INTERFACE (iPcNpcMove, 0, 0, 1);
 };
 
 #endif // __CEL_PF_NPCMOVE__

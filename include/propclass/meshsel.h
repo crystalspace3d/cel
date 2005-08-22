@@ -33,13 +33,13 @@ class csVector3;
 #define CEL_MOUSE_BUTTON2 2
 #define CEL_MOUSE_BUTTON3 4
 
-SCF_VERSION (iPcMeshSelectListener, 0, 0, 1);
-
 /**
  * Listen to mesh selection.
  */
-struct iPcMeshSelectListener : public iBase
+struct iPcMeshSelectListener : public virtual iBase
 {
+  SCF_INTERFACE (iPcMeshSelectListener, 0, 0, 1);
+
   /**
    * Mouse button goes down on mesh.
    */
@@ -58,8 +58,6 @@ struct iPcMeshSelectListener : public iBase
   virtual void MouseMove (iPcMeshSelect* meshsel,
   	int x, int y, int button, iCelEntity* entity) = 0;
 };
-
-SCF_VERSION (iPcMeshSelect, 0, 0, 2);
 
 /**
  * This is a property class for selecting meshes.
@@ -95,8 +93,10 @@ SCF_VERSION (iPcMeshSelect, 0, 0, 2);
  *     default 100000.
  * </ul>
  */
-struct iPcMeshSelect : public iBase
+struct iPcMeshSelect : public virtual iBase
 {
+  SCF_INTERFACE (iPcMeshSelect, 0, 0, 2);
+
   /**
    * Add a listener to listen to mouse selection. These listeners are called
    * right before the behaviour is called.

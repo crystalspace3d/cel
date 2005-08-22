@@ -64,18 +64,9 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 csStringID celPcLight::action_setlight = csInvalidStringID;
 csStringID celPcLight::id_name = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcLight)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLight)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcLight::PcLight)
-  SCF_IMPLEMENTS_INTERFACE (iPcLight)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcLight::celPcLight (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcLight);
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   if (action_setlight == csInvalidStringID)
@@ -87,7 +78,6 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
 
 celPcLight::~celPcLight ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLight);
 }
 
 bool celPcLight::PerformAction (csStringID actionId,

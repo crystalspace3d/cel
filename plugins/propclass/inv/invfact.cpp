@@ -59,20 +59,11 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcInventory)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcInventory)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcInventory::PcInventory)
-  SCF_IMPLEMENTS_INTERFACE (iPcInventory)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcInventory::id_entity = csInvalidStringID;
 
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcInventory);
   DG_TYPE (this, "celPcInventory()");
 
   if (id_entity == csInvalidStringID)
@@ -85,7 +76,6 @@ celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcInventory);
 }
 
 #define INVENTORY_SERIAL 1
@@ -156,7 +146,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     csRef<iPcCharacteristics> pcchar = CEL_QUERY_PROPCLASS_ENT (
   	ent, iPcCharacteristics);
     if (pcchar)
-      pcchar->AddToInventory (&scfiPcInventory);
+      pcchar->AddToInventory ((iPcInventory*)this);
   }
 
   return true;
@@ -173,7 +163,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
-    pcchar->AddToInventory (&scfiPcInventory);
+    pcchar->AddToInventory ((iPcInventory*)this);
 
   // First try if everything is ok.
   MarkDirty (0);
@@ -184,7 +174,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     contents.DeleteIndex (idx);
     DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
-      pcchar->RemoveFromInventory (&scfiPcInventory);
+      pcchar->RemoveFromInventory ((iPcInventory*)this);
     return false;
   }
 
@@ -226,7 +216,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
-    pcchar->RemoveFromInventory (&scfiPcInventory);
+    pcchar->RemoveFromInventory ((iPcInventory*)this);
 
   // First try if everything is ok.
   MarkDirty (0);
@@ -237,7 +227,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     contents.Push (child);
     DG_LINK (this, child->QueryObject ());
     if (pcchar)
-      pcchar->AddToInventory (&scfiPcInventory);
+      pcchar->AddToInventory ((iPcInventory*)this);
     return false;
   }
 
@@ -553,7 +543,7 @@ void celPcInventory::FireInventoryListenersAdd (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->AddChild (&scfiPcInventory, entity);
+    listeners[i]->AddChild ((iPcInventory*)this, entity);
   }
 }
 
@@ -563,30 +553,20 @@ void celPcInventory::FireInventoryListenersRemove (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->RemoveChild (&scfiPcInventory, entity);
+    listeners[i]->RemoveChild ((iPcInventory*)this, entity);
   }
 }
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcCharacteristics)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCharacteristics)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCharacteristics::PcCharacteristics)
-  SCF_IMPLEMENTS_INTERFACE (iPcCharacteristics)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCharacteristics);
   DG_TYPE (this, "celPcCharacteristics()");
 }
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCharacteristics);
 }
 
 #define CHARACTERISTICS_SERIAL 1

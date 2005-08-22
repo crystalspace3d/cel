@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Aug-2005
+	- Jorrit converted a big part of CEL (but not all) to the new
+	  SCF syntax.
 18-Aug-2005
 	- Andrew Robberts continued work on new cel camera system and added a
 	  first person camera mode.

@@ -72,7 +72,8 @@ struct celAxisMap
 /**
  * This comment is an input property class.
  */
-class celPcCommandInput : public celPcCommon
+class celPcCommandInput : public scfImplementationExt1<
+	celPcCommandInput, celPcCommon, iPcCommandInput>
 {
 private:
   celKeyMap* keylist;
@@ -87,8 +88,6 @@ private:
 public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pccommandinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -106,29 +105,6 @@ public:
   virtual const char* GetBind(const char *triggername) const;
   virtual bool RemoveBind (const char* triggername, const char* command);
   virtual void RemoveAllBinds ();
-
-  struct PcCommandInput : public iPcCommandInput
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcCommandInput);
-    virtual void Activate (bool activate = true)
-    { scfParent->Activate(activate); }
-    virtual void ScreenCoordinates (bool screen = true)
-    { scfParent->ScreenCoordinates(screen); }
-    virtual float ScreenToCentered (float screencoord, float axis = 0)
-    { return scfParent->ScreenToCentered(screencoord, axis); }
-    virtual float CenteredToScreen (float centeredcoord, float axis = 0)
-    { return scfParent->CenteredToScreen(centeredcoord, axis); }
-    virtual bool LoadConfig (const char* fname)
-    { return scfParent->LoadConfig(fname); }
-    virtual bool Bind (const char* triggername, const char* command)
-    { return scfParent->Bind(triggername, command); }
-    virtual const char* GetBind (const char* triggername) const
-    { return scfParent->GetBind(triggername); }
-    virtual bool RemoveBind (const char* triggername, const char* command)
-    { return scfParent->RemoveBind(triggername, command); }
-    virtual void RemoveAllBinds ()
-    { scfParent->RemoveAllBinds(); }
-  } scfiPcCommandInput;
 
   class EventHandler : public iEventHandler
   {

@@ -27,8 +27,6 @@ struct iLight;
 struct iSector;
 class csVector3;
 
-SCF_VERSION (iPcLight, 0, 0, 1);
-
 /**
  * This is a property class holding the representation of a light.
  * <p>
@@ -40,8 +38,10 @@ SCF_VERSION (iPcLight, 0, 0, 1);
  *     light for this pclight.
  * </ul>
  */
-struct iPcLight : public iBase
+struct iPcLight : public virtual iBase
 {
+  SCF_INTERFACE (iPcLight, 0, 0, 1);
+  
   /**
    * Set the light by name. Returns false if the light cannot be found.
    */

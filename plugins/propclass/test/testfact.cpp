@@ -37,19 +37,9 @@ CEL_IMPLEMENT_FACTORY (Test, "pctest")
 csStringID celPcTest::id_message = csInvalidStringID;
 csStringID celPcTest::action_print = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcTest)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTest)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTest::PcTest)
-  SCF_IMPLEMENTS_INTERFACE (iPcTest)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcTest::celPcTest (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTest);
-
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
     id_message = pl->FetchStringID ("cel.parameter.message");
@@ -75,7 +65,6 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 celPcTest::~celPcTest ()
 {
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTest);
 }
 
 Property* celPcTest::properties = 0;

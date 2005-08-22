@@ -71,19 +71,9 @@ csStringID celPcActorMove::id_jumping = csInvalidStringID;
 csStringID celPcActorMove::id_start = csInvalidStringID;
 csStringID celPcActorMove::id_yrot = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcActorMove)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcActorMove)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcActorMove::PcActorMove)
-  SCF_IMPLEMENTS_INTERFACE (iPcActorMove)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcActorMove);
-
   if (action_setspeed == csInvalidStringID)
   {
     action_setspeed = pl->FetchStringID ("cel.action.SetSpeed");
@@ -97,7 +87,8 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     action_run = pl->FetchStringID ("cel.action.Run");
     action_autorun = pl->FetchStringID ("cel.action.AutoRun");
     action_jump = pl->FetchStringID ("cel.action.Jump");
-    action_togglecameramode = pl->FetchStringID ("cel.action.ToggleCameraMode");
+    action_togglecameramode = pl->FetchStringID (
+    	"cel.action.ToggleCameraMode");
     id_movement = pl->FetchStringID ("cel.parameter.movement");
     id_running = pl->FetchStringID ("cel.parameter.running");
     id_rotation = pl->FetchStringID ("cel.parameter.rotation");
@@ -124,7 +115,6 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 
 celPcActorMove::~celPcActorMove ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcActorMove);
 }
 
 #define ACTORMOVE_SERIAL 1
@@ -416,25 +406,15 @@ void celPcActorMove::ToggleCameraMode ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcNpcMove)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcNpcMove)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNpcMove::PcNpcMove)
-  SCF_IMPLEMENTS_INTERFACE (iPcNpcMove)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNpcMove);
   checked_spritestate = false;
   pl->CallbackOnce ((iCelTimerListener*)this, 50, cscmdPreProcess);
 }
 
 celPcNpcMove::~celPcNpcMove ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNpcMove);
 }
 
 void celPcNpcMove::TickOnce ()

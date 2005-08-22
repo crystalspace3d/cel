@@ -29,13 +29,9 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcCommon)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClass)
-SCF_IMPLEMENT_IBASE_END
-
-celPcCommon::celPcCommon (iObjectRegistry* object_reg)
+celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
+	scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celPcCommon::object_reg = object_reg;
   entity = 0;
   propcount = 0;
@@ -48,7 +44,6 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg)
 celPcCommon::~celPcCommon ()
 {
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celPcCommon::SetTag (const char* tagname)

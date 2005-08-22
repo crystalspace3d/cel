@@ -55,7 +55,8 @@ CEL_DECLARE_FACTORY(Region)
 /**
  * This is a region property class.
  */
-class celPcRegion : public celPcCommon, public iCelNewEntityCallback
+class celPcRegion : public scfImplementationExt2<
+	celPcRegion, celPcCommon, iPcRegion, iCelNewEntityCallback>
 {
 private:
   bool empty_sector;
@@ -94,17 +95,17 @@ public:
   virtual ~celPcRegion ();
 
   /// Set the worldfile directory on VFS and filename.
-  void SetWorldFile (const char* vfsdir, const char* name);
+  virtual void SetWorldFile (const char* vfsdir, const char* name);
   /// Get the worldfile directory name.
-  const char* GetWorldDir () const { return worlddir; }
+  virtual const char* GetWorldDir () const { return worlddir; }
   /// Get the worldfile filename.
-  const char* GetWorldFile () const { return worldfile; }
+  virtual const char* GetWorldFile () const { return worldfile; }
   /// Set a name for this region.
-  void SetRegionName (const char* name);
+  virtual void SetRegionName (const char* name);
   /// Get the name of this region.
-  const char* GetRegionName () const { return regionname; }
+  virtual const char* GetRegionName () const { return regionname; }
   /// Create an empty sector.
-  void CreateEmptySector (const char* name);
+  virtual void CreateEmptySector (const char* name);
   /**
    * Load an entire region according to worldfile, worlddir,
    * regionname and create entities for all meshes in this region
@@ -115,33 +116,32 @@ public:
    * pcregion. The persistence layer will take care of creating the other
    * entities so it is not needed (or even desired) to load them here.
    */
-  bool Load (bool allow_entity_addon = true);
+  bool Load (bool allow_entity_addon);
+  virtual bool Load () { return Load (true); }
   /**
    * Unload the region by removing all entities from this region
    * and removing it from the engines region list.
    */
-  void Unload ();
+  virtual void Unload ();
   /**
    * Get the start sector by searching for the given "name"
    * in all camerapositions within this world, if the position
    * is found it returns the belonging sector, otherwise it's
    * searching for the sector "room".
    */
-  iSector* GetStartSector (const char* name);
+  virtual iSector* GetStartSector (const char* name);
   /**
    * Get the startposition queried by "name" searching through
    * all camerapositions within this world.
    * Otherwise returns first cameraposition.
    */
-  csVector3 GetStartPosition (const char* name);
+  virtual csVector3 GetStartPosition (const char* name);
   /// Points the given camera to the startingposition named "name".
-  void PointCamera (iPcCamera* pccamera, const char* name);
+  virtual void PointCamera (iPcCamera* pccamera, const char* name);
   /// Find a sector named "name".
-  iSector* FindSector (const char* name);
+  virtual iSector* FindSector (const char* name);
   /// Get the CS region
-  iRegion* GetRegion ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual iRegion* GetRegion ();
 
   virtual const char* GetName () const { return "pcregion"; }
   virtual csPtr<iCelDataBuffer> SaveFirstPass ();
@@ -153,63 +153,6 @@ public:
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
-
-  struct PcRegion : public iPcRegion
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcRegion);
-    virtual void SetWorldFile (const char* vfsdir, const char* name)
-    {
-      scfParent->SetWorldFile (vfsdir, name);
-    }
-    virtual const char* GetWorldDir () const
-    {
-      return scfParent->GetWorldDir ();
-    }
-    virtual const char* GetWorldFile () const
-    {
-      return scfParent->GetWorldFile ();
-    }
-    virtual void CreateEmptySector (const char* name)
-    {
-      scfParent->CreateEmptySector (name);
-    }
-    virtual void SetRegionName (const char* name)
-    {
-      scfParent->SetRegionName (name);
-    }
-    virtual const char* GetRegionName () const
-    {
-      return scfParent->GetRegionName ();
-    }
-    virtual iSector* FindSector(const char* name)
-    {
-      return scfParent->FindSector(name);
-    }
-    virtual bool Load ()
-    {
-      return scfParent->Load ();
-    }
-    virtual void Unload ()
-    {
-      scfParent->Unload ();
-    }
-    virtual iSector* GetStartSector (const char* name = 0)
-    {
-      return scfParent->GetStartSector (name);
-    }
-    virtual csVector3 GetStartPosition (const char* name = 0)
-    {
-      return scfParent->GetStartPosition (name);
-    }
-    virtual void PointCamera (iPcCamera* pccamera, const char* name = 0)
-    {
-      scfParent->PointCamera (pccamera, name);
-    }
-    virtual iRegion* GetRegion ()
-    {
-      return scfParent->GetRegion ();
-    }
-  } scfiPcRegion;
 };
 
 #endif // __CEL_PF_ENGFACT__
