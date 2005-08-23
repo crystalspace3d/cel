@@ -695,19 +695,23 @@ bool NetTest::Application ()
 
   // read client-server type of this application
   // 0 means singleplayer, 1 means server, 2 means client, 3 means client + server + open to other players
-  int app_type = 3;
+# define APP_SINGLEPLAYER 0
+# define APP_SERVER 1
+# define APP_CLIENT 2
+# define APP_CLIENTSERVER 3
+  int app_type = APP_CLIENT;
 
   if (cmdline->GetOption ("server") != 0)
   {
     if (cmdline->GetOption ("client") != 0)
-      app_type = 3;
+      app_type = APP_CLIENTSERVER;
     else
-      app_type = 1;
+      app_type = APP_SERVER;
   }
   else if (cmdline->GetOption ("client") != 0)
-    app_type = 2;
+    app_type = APP_CLIENT;
   else if (cmdline->GetOption ("singleplayer") != 0)
-    app_type = 0;
+    app_type = APP_SINGLEPLAYER;
 
   // read player name
   csString player_name = cmdline->GetOption ("player");
@@ -738,28 +742,32 @@ bool NetTest::Application ()
   // launch networked game
   switch (app_type)
   {
-  case 0:
-    csPrintf ("Creating singleplayer game with player %s\n", player.player_name.GetData ());
-    if (!game_factory->CreateNewGame (CEL_NET_SINGLEPLAYER, &game_info, &player))
-      return false;
-    break;
-  case 1:
-    csPrintf ("Creating server\n");
-    if (!game_factory->CreateNewGame (CEL_NET_LOCAL, &game_info))
-      return false;
-    break;
-  case 2:
-    csPrintf ("Starting client with player %s\n", player.player_name.GetData ());
-    if (server_hostname && !server_hostname.IsEmpty ())
-      game_info.hostname = server_hostname;
-    if (!game_factory->ConnectGame (&game_info, &player))
-      return false;
-    break;
-  case 3:
-    csPrintf ("Starting client and server with player %s\n", player.player_name.GetData ());
-    if (!game_factory->CreateNewGame (CEL_NET_LOCAL, &game_info, &player))
-      return false;
-    break;
+    case APP_SINGLEPLAYER:
+      csPrintf ("Creating singleplayer game with player %s\n",
+    	  player.player_name.GetData ());
+      if (!game_factory->CreateNewGame (CEL_NET_SINGLEPLAYER,
+    	  &game_info, &player))
+        return false;
+      break;
+    case APP_SERVER:
+      csPrintf ("Creating server\n");
+      if (!game_factory->CreateNewGame (CEL_NET_LOCAL, &game_info))
+        return false;
+      break;
+    case APP_CLIENT:
+      csPrintf ("Starting client with player %s\n",
+    	  player.player_name.GetData ());
+      if (server_hostname && !server_hostname.IsEmpty ())
+        game_info.hostname = server_hostname;
+      if (!game_factory->ConnectGame (&game_info, &player))
+        return false;
+      break;
+    case APP_CLIENTSERVER:
+      csPrintf ("Starting client and server with player %s\n",
+    	  player.player_name.GetData ());
+      if (!game_factory->CreateNewGame (CEL_NET_LOCAL, &game_info, &player))
+        return false;
+      break;
   }
 
   // This calls the default runloop. This will basically just keep
@@ -803,11 +811,13 @@ void NetTest::Write(int align,int x,int y,int fg,int bg,char *str,...) {
     int w, h;
     font->GetDimensions (buf, w, h);
 
-    switch(align) {
-      case 2:  x -= w; break;
+    switch(align)
+    {
+      case 2: x -= w; break;
       case 1: x = (x + rb - w) / 2; break;
     }
   }
 
   g2d->Write (font, x, y, fg, bg, buf);
 }
+
