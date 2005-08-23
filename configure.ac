@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------
-# Autoconf input script. Start the ./autgen.sh script for producing a
+# Autoconf input script. Start the ./autogen.sh script for producing a
 # the configure script.
 #----------------------------------------------------------------------------
 AC_PREREQ([2.54])
