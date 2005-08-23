@@ -532,12 +532,13 @@ bool NetTest::OnInitialize (int argc, char* argv[])
   }
 
   bool do_server = cmdline->GetOption ("server") != 0;
+  bool do_client = cmdline->GetOption ("client") != 0;
 
   if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 
 	CS_REQUEST_PLUGIN (
-	do_server
+	(do_server && !do_client)
 		? "crystalspace.graphics3d.null"
 		: "crystalspace.graphics3d.opengl",
 	iGraphics3D),

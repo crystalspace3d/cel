@@ -24,6 +24,8 @@ The history order is reversed so that new features are at the top.
 	      you must also copy NL.dll/NL.so to your system path or to the
 	      current directory.
 	- res added a configure check for HawkNL.
+	- Jorrit fixed a bug in nettest. It would use the null renderer if
+	  you opened with both server and client.
 22-Aug-2005
 	- Jorrit converted a big part of CEL (but not all) to the new
 	  SCF syntax.
