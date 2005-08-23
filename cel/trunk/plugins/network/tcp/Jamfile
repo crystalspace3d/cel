@@ -1,0 +1,7 @@
+SubDir TOP plugins network tcp ;
+
+Plugin tcpnetwork
+	: [ Wildcard *.cpp *.h ]
+;
+ExternalLibs tcpnetwork : CRYSTAL ; 
+LinkWith tcpnetwork : celtool ;

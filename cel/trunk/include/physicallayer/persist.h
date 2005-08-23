@@ -33,7 +33,65 @@ struct iCelEntity;
 struct iFile;
 struct celData;
 
-SCF_VERSION (iCelDataBuffer, 0, 0, 1);
+/**
+ * The different types of persistence. The different values can be:
+ * <UL>
+ * <LI>CEL_PERSIST_TYPE_UNDEF: Undefined, should never be encountered</LI>
+ * <LI>CEL_PERSIST_TYPE_RECORD: The state of the entity is saved and 
+ * loaded from a record.</LI>
+ * <LI>CEL_PERSIST_TYPE_RECORD_FIRST_PASS: The state of the entity is 
+ * saved and loaded from a record for the first pass</LI>
+ * <LI>CEL_PERSIST_TYPE_SERVER_CONTROL: This is a network link controlled 
+ * on the server side. A property class will receive calls to 
+ * GetPersistentData if we are on the server side, and calls to 
+ * SetPersistentData if we are on the client side.</LI>
+ * <LI>CEL_PERSIST_TYPE_CLIENT_CONTROL: This is a network link controlled 
+ * on the client side. A property class will receive calls to 
+ * GetPersistentData if we are on the client side, and calls to 
+ * SetPersistentData if we are on the server side.</LI>
+ * <LI>CEL_PERSIST_TYPE_SERVER_FORCING: This is a network link controlled 
+ * on the client side but the data are forced authoritatively by the server. 
+ * A property class will receive calls to GetPersistentData if we are on 
+ * the server side, and calls to SetPersistentData if we are on the client 
+ * side.</LI>
+ * </UL>
+ */
+enum celPersistenceType
+{
+  CEL_PERSIST_TYPE_UNDEF = 0,
+  CEL_PERSIST_TYPE_RECORD,
+  CEL_PERSIST_TYPE_RECORD_FIRST_PASS,
+  CEL_PERSIST_TYPE_SERVER_CONTROL,
+  CEL_PERSIST_TYPE_CLIENT_CONTROL,
+  CEL_PERSIST_TYPE_SERVER_FORCING
+};
+
+/**
+ * The result while setting the persistence data of a property class. The 
+ * different values can be:
+ * <UL>
+ * <LI>CEL_PERSIST_RESULT_UNDEF: Undefined, should never be encountered.</LI>
+ * <LI>CEL_PERSIST_RESULT_OK: No problems and no cheat detected.</LI>
+ * <LI>CEL_PERSIST_RESULT_CHEAT_SUSPICIOUS: Suspicious, the player may be 
+ * cheating.</LI>
+ * <LI>CEL_PERSIST_RESULT_CHEAT_CLEAR: The player is clearly cheating.</LI>
+ * <LI>CEL_PERSIST_RESULT_ERROR: An error was encountered while setting 
+ * the persistent data.</LI>
+ * <LI>CEL_PERSIST_RESULT_UNKNOWN_PC: Trying to set the persistence data 
+ * of an unknown property class.</LI>
+ * </UL>
+ */
+enum celPersistenceResult
+{
+  CEL_PERSIST_RESULT_UNDEF = 0,
+  CEL_PERSIST_RESULT_OK,
+  CEL_PERSIST_RESULT_CHEAT_SUSPICIOUS,
+  CEL_PERSIST_RESULT_CHEAT_CLEAR,
+  CEL_PERSIST_RESULT_ERROR,
+  CEL_PERSIST_RESULT_UNKNOWN_PC
+};
+
+SCF_VERSION (iCelDataBuffer, 0, 0, 2);
 
 /**
  * This interface describes persistable data.
@@ -180,6 +238,57 @@ struct iCelDataBuffer : public iBase
     celData* cd = GetData ();
     return (cd && cd->type == CEL_DATA_IBASE) ? cd->value.ibase : (iBase*)0;
   }
+  virtual csString GetDebugInfo ()
+  {
+    if (GetDataCount () == 0) return "Data buffer: empty\n";
+
+    csString txt = "Data buffer:\n";
+    size_t i = 0, count = GetDataCount ();
+    for ( ; i < count; i++)
+      txt.AppendFmt("\t%s\n", GetData (i)->GetDebugInfo ().GetData ());
+
+    return txt;
+  }
+};
+
+SCF_VERSION (iCelPersistentDataList, 0, 0, 1);
+
+/**
+ * A list of persistent data for all the property classes of an entity.
+ * The complete state of all the property classes of an entity can be specified
+ * with this list. The list can contain one entry per property class. The name
+ * and the tag of the property class is used to identify it.
+ */
+struct iCelPersistentDataList : public iBase
+{
+  /**
+   * Return the number of entries in this list.
+   */
+  virtual size_t GetCount () const = 0;
+
+  /**
+   * To get the persistent data at the specified position.
+   * \param idx The index of the entry.
+   * \param databuf The persistent data.
+   * \param pc_name The name of the property class associated to the 
+   * persistent data.
+   * \param pc_tag The tag of the property class associated to the 
+   * persistent data.
+   */
+  virtual bool GetPersistentData (size_t idx, csRef<iCelDataBuffer>& databuf, 
+        csString& pc_name, csString& pc_tag) const = 0;
+
+  /**
+   * To add a new persistent data buffer.
+   * \param idx The index of the entry.
+   * \param databuf The persistent data.
+   * \param pc_name The name of the property class associated to the 
+   * persistent data.
+   * \param pc_tag The tag of the property class associated to the 
+   * persistent data.
+   */
+  virtual void AddPersistentData (csRef<iCelDataBuffer>& databuf, 
+        csString& pc_name, csString& pc_tag) = 0;
 };
 
 SCF_VERSION (iCelLocalEntitySet, 0, 0, 1);

@@ -3,6 +3,7 @@ SubDir TOP plugins ;
 SubInclude TOP plugins stdphyslayer ;
 SubInclude TOP plugins propclass ;
 SubInclude TOP plugins persist ;
+SubInclude TOP plugins network ;
 SubInclude TOP plugins behaviourlayer ;
 SubInclude TOP plugins addons ;
 SubInclude TOP plugins tools ;

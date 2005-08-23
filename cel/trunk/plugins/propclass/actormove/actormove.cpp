@@ -404,6 +404,93 @@ void celPcActorMove::ToggleCameraMode ()
   pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
 }
 
+csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (celPersistenceType persistence_type)
+{
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
+    return SaveFirstPass ();
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD)
+    return Save ();
+
+  // TODO: this is a hack
+  FindSiblingPropertyClasses ();
+  GetSpriteStates ();
+
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ACTORMOVE_SERIAL);
+
+  if (sprcal3d)
+  {
+    // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
+    uint32 anim_count = sprcal3d->GetActiveAnimCount ();
+    databuf->Add (anim_count);
+    char buffer[anim_count * 2];
+    sprcal3d->GetActiveAnims (buffer, 2 * anim_count);
+    // TODO: use instead a new celData type: RAW_DATA?
+    uint32 i;
+    for (i = 0; i < anim_count; i++)
+    {
+      databuf->Add ((int8) buffer[2 * i]);
+      databuf->Add ((int8) buffer[2 * i + 1]);
+    }
+  }
+  else if (spr3d)
+  {
+    databuf->Add (spr3d->GetCurFrame ());
+    databuf->Add (spr3d->GetCurAction ()->GetName ());
+  }
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time, 
+		      iCelDataBuffer* databuf, celPersistenceType persistence_type)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != ACTORMOVE_SERIAL) return CEL_PERSIST_RESULT_ERROR;
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
+  {
+    LoadFirstPass (databuf);
+    return CEL_PERSIST_RESULT_OK;
+  }
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD)
+  {
+    Load (databuf);
+    return CEL_PERSIST_RESULT_OK;
+  }
+
+  if (persistence_type == CEL_PERSIST_TYPE_SERVER_FORCING)
+    return CEL_PERSIST_RESULT_OK;
+
+  // TODO: this is a hack
+  FindSiblingPropertyClasses ();
+  GetSpriteStates ();
+
+  // TODO: make some smooth update
+  if (sprcal3d)
+  {
+    int anim_count = databuf->GetUInt32 ();
+    char buffer[anim_count * 2];
+    int i = 0;
+    for (i = 0; i < anim_count; i++)
+    {
+      buffer[2 * i] = databuf->GetInt8 ();
+      buffer[2 * i + 1] = databuf->GetInt8 ();
+    }
+    sprcal3d->SetActiveAnims (buffer, anim_count);
+  }
+  else if (spr3d)
+  {
+    uint32 frame = databuf->GetUInt32 ();
+    spr3d->SetFrame (frame);
+    iString* action = databuf->GetString ();
+    spr3d->SetAction (*action);
+  }
+
+  return CEL_PERSIST_RESULT_OK;
+}
+
 //---------------------------------------------------------------------------
 
 celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)

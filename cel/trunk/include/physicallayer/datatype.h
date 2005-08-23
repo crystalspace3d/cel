@@ -190,6 +190,7 @@ struct celData
     value.par.parname = new scfString (s);
     value.par.partype = t;
   }
+  csString GetDebugInfo ();
 };
 
 #endif // __CEL_PL_DATATYPE__
