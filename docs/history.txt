@@ -23,6 +23,7 @@ The history order is reversed so that new features are at the top.
 	      the path to the libNL.a file to COMPILER.LFLAGS. In addition
 	      you must also copy NL.dll/NL.so to your system path or to the
 	      current directory.
+	- res added a configure check for HawkNL.
 22-Aug-2005
 	- Jorrit converted a big part of CEL (but not all) to the new
 	  SCF syntax.

@@ -100,6 +100,11 @@ CS_CHECK_LIB_WITH([ode],
     [$srcdir/libs/libode*], [C++],
     [CS_EMIT_BUILD_RESULT([cs_cv_libode], [ODE])])
 
+CS_CHECK_LIB_WITH([NL],
+    [AC_LANG_PROGRAM([[#include <nl.h>]], [nlOpen(0,0)])],
+    [], [C++],
+    [CS_EMIT_BUILD_RESULT([cs_cv_libNL], [HAWKNL])])
+
 #------------------------------------------------------------------------------
 # Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
 # as any additional flags provided by cs-win32libs.
