@@ -1,7 +1,8 @@
 SubDir TOP plugins network tcp ;
 
-Plugin tcpnetwork
-	: [ Wildcard *.cpp *.h ]
-;
-ExternalLibs tcpnetwork : CRYSTAL ; 
-LinkWith tcpnetwork : celtool ;
+if $(HAWKNL.AVAILABLE) = "yes"
+{
+  Plugin tcpnetwork : [ Wildcard *.cpp *.h ] ;
+  ExternalLibs tcpnetwork : CRYSTAL HAWKNL ; 
+  LinkWith tcpnetwork : celtool ;
+}
