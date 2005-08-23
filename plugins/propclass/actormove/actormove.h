@@ -219,6 +219,11 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+
+  csPtr<iCelDataBuffer> GetPersistentData (
+        celPersistenceType persistence_type);
+  celPersistenceResult SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* data, celPersistenceType persistence_type);
 };
 
 /**

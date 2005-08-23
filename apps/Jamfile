@@ -3,4 +3,5 @@ SubDir TOP apps ;
 SubInclude TOP apps celtest ;
 SubInclude TOP apps mechtest ;
 SubInclude TOP apps bootstrap ;
+SubInclude TOP apps nettest ;
 

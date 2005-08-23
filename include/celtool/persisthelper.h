@@ -77,5 +77,36 @@ public:
   virtual iCelPropertyClass* FindExternalPC (iCelDataBuffer* databuf);
 };
 
+/**
+ * Standard implementation of iCelPersistentDataList.
+ */
+class celStandardPersistentDataList : public iCelPersistentDataList
+{
+ private:
+  class celPersistentDataEntry
+  {
+  public:
+    csRef<iCelDataBuffer> databuf;
+    csString pc_name;
+    csString pc_tag;
+  };
+  csArray<celPersistentDataEntry*> data_list;
+  
+ public:
+  celStandardPersistentDataList ();
+  virtual ~celStandardPersistentDataList ();
+
+  SCF_DECLARE_IBASE;
+
+  virtual size_t GetCount () const
+    { return data_list.Length (); }
+
+  virtual bool GetPersistentData (size_t idx, csRef<iCelDataBuffer>& databuf, 
+	csString& pc_name, csString& pc_tag) const;
+
+  virtual void AddPersistentData (csRef<iCelDataBuffer>& databuf, 
+        csString& pc_name, csString& pc_tag);
+};
+
 #endif // __CEL_CELTOOL_PERSISTHELPER__
 

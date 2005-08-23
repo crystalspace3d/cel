@@ -380,6 +380,11 @@ public:
   void ClearPortalDisplacement()
   { portalDisplaced = 0.0f; }
 
+  csPtr<iCelDataBuffer> GetPersistentData (
+        celPersistenceType persistence_type);
+  celPersistenceResult SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* data, celPersistenceType persistence_type);
+
   struct PcLinearMovement : public iPcLinearMovement
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
@@ -587,6 +592,14 @@ public:
     
     virtual void ClearPortalDisplacement()
     { scfParent->ClearPortalDisplacement(); }
+
+    virtual csPtr<iCelDataBuffer> GetPersistentData (
+        celPersistenceType persistence_type)
+    { return scfParent->GetPersistentData (persistence_type); }
+
+    virtual celPersistenceResult SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* data, celPersistenceType persistence_type)
+    { return scfParent->SetPersistentData (data_time, data, persistence_type); }
 
   } scfiPcLinearMovement;
 

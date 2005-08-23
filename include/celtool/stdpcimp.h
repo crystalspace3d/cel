@@ -125,6 +125,13 @@ public:
   virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
   virtual bool LoadFirstPass (iCelDataBuffer*) { return 0; }
 
+  virtual csPtr<iCelDataBuffer> GetPersistentData (
+	celPersistenceType persistence_type)
+    { return 0; }
+  virtual celPersistenceResult SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* data, celPersistenceType persistence_type)
+    { return CEL_PERSIST_RESULT_OK; };
+
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }

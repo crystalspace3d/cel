@@ -1337,3 +1337,76 @@ void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
   SetAngularVelocity(rot);
   lastDRUpdate = csGetTicks();
 }
+
+csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
+        celPersistenceType persistence_type)
+{
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
+    return SaveFirstPass ();
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD)
+    return Save ();
+
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LINMOVE_SERIAL);
+
+  bool on_ground;
+  float speed;
+  csVector3 pos;
+  float yrot;
+  iSector* sector;
+  csVector3 vel;
+  csVector3 worldVel;
+  float ang_vel;
+  GetDRData (on_ground, speed, pos, yrot, sector, vel, worldVel, ang_vel);
+
+  databuf->Add (on_ground);
+  databuf->Add (speed);
+  databuf->Add (pos);
+  databuf->Add (yrot);
+  databuf->Add (vel);
+  databuf->Add (worldVel);
+  databuf->Add (ang_vel);
+  
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* databuf, celPersistenceType persistence_type)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != LINMOVE_SERIAL) return CEL_PERSIST_RESULT_ERROR;
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
+  {
+    LoadFirstPass (databuf);
+    return CEL_PERSIST_RESULT_OK;
+  }
+
+  if (persistence_type == CEL_PERSIST_TYPE_RECORD)
+  {
+    Load (databuf);
+    return CEL_PERSIST_RESULT_OK;
+  }
+
+  // TODO: use some smooth update when data forced by the server
+  if (persistence_type == CEL_PERSIST_TYPE_SERVER_FORCING)
+    return CEL_PERSIST_RESULT_OK;
+
+  bool dr_on_ground = databuf->GetBool ();
+  float dr_speed = databuf->GetFloat ();
+  csVector3 dr_pos;
+  databuf->GetVector3 (dr_pos);
+  float dr_yrot = databuf->GetFloat ();
+  csVector3 dr_vel;
+  databuf->GetVector3 (dr_vel);
+  csVector3 dr_worldVel;
+  databuf->GetVector3 (dr_worldVel);
+  float dr_ang_vel = databuf->GetFloat ();
+
+  // TODO: use data_time for DR data time
+  // TODO: send also sector
+  SetSoftDRData (dr_on_ground, dr_speed, dr_pos, dr_yrot, GetSector (), 
+  		 dr_vel, dr_worldVel, dr_ang_vel);
+
+  return CEL_PERSIST_RESULT_OK;
+}

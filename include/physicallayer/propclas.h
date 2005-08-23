@@ -25,6 +25,7 @@
 #include "csutil/strset.h"
 #include "csutil/ref.h"
 #include "physicallayer/datatype.h"
+#include "physicallayer/persist.h"
 
 struct iCelPropertyClassList;
 
@@ -162,7 +163,7 @@ struct iCelParameterBlock;
  */
 struct iCelPropertyClass : public virtual iBase
 {
-  SCF_INTERFACE (iCelPropertyClass, 0, 0, 6);
+  SCF_INTERFACE (iCelPropertyClass, 0, 0, 7);
 
   /**
    * Get the name of this property class.
@@ -405,6 +406,27 @@ struct iCelPropertyClass : public virtual iBase
    * is needed. Use iCelPlLayer->CallbackPCOnce() to register a PC for this.
    */
   virtual void TickOnce () = 0;
+
+  /**
+   * Return the persistent data of this property class.
+   * <P>Note: this function replaces the Save function.
+   */
+  virtual csPtr<iCelDataBuffer> GetPersistentData (
+        celPersistenceType persistence_type) = 0;
+
+  /**
+   * Read the state of this property class from some persistent data. 
+   * <P>Note: this function replaces the Load function.
+   * \param data_time The timestamp of the persistent data.
+   * \param data The persistent data.
+   * \param persistence_type The type of the persistence source.
+   * \return Whether a problem has been encountered or not. Cheats can happen 
+   * only if the type of the persistence source is 
+   * CEL_PERSIST_TYPE_CLIENT_CONTROL (ie, when we are on the server side and the 
+   * entity is controlled by a client).
+   */
+  virtual celPersistenceResult SetPersistentData (csTicks data_time, 
+        iCelDataBuffer* data, celPersistenceType persistence_type) = 0;
 };
 
 

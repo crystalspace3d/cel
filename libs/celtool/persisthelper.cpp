@@ -93,3 +93,47 @@ iCelPropertyClass* celStandardLocalEntitySet::FindExternalPC (
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celStandardPersistentDataList)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistentDataList)
+SCF_IMPLEMENT_IBASE_END
+
+celStandardPersistentDataList::celStandardPersistentDataList ()
+{
+  SCF_CONSTRUCT_IBASE (0);
+}
+
+celStandardPersistentDataList::~celStandardPersistentDataList ()
+{
+  size_t i, count = data_list.Length ();
+  for (i = 0; i < count; i++)
+    delete data_list[i];
+  data_list.DeleteAll ();
+
+  SCF_DESTRUCT_IBASE ();
+}
+
+bool celStandardPersistentDataList::GetPersistentData (size_t idx, 
+     csRef<iCelDataBuffer>& databuf, csString& pc_name, csString& pc_tag) const
+{
+  if (idx >= data_list.Length ())
+    return false;
+  
+  celPersistentDataEntry* data_entry = data_list.Get (idx);
+  databuf = data_entry->databuf;
+  pc_name = data_entry->pc_name;
+  pc_tag = data_entry->pc_tag;
+  return true;
+}
+
+void celStandardPersistentDataList::AddPersistentData (
+     csRef<iCelDataBuffer>& databuf, csString& pc_name, csString& pc_tag)
+{
+  celPersistentDataEntry* data_entry = new celPersistentDataEntry ();
+  data_entry->databuf = databuf;
+  data_entry->pc_name = pc_name;
+  data_entry->pc_tag = pc_tag;
+  data_list.Push (data_entry);
+}
+
+//---------------------------------------------------------------------------
+

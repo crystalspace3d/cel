@@ -3,6 +3,26 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Aug-2005
+	- Jorrit committed the networking plugin from Christian van Brussel
+	  after fixing a few issues:
+	    - Added missing LGPL notice to some of the files.
+	    - Reformatted a bit.
+	    - Fixed an initialization bug in nettest (gfm was not initialized
+	      to 0 and that would cause a crash if you do nettst -help).
+	    - Changed nettst to nettest target.
+	    - Extended nettest so it also responds to -help in addition
+	      to -nethelp.
+	  Some info:
+	    - Run nettest with -nethelp to get help about how to use it. You
+	      can run one server and multiple clients.
+	    - The TCP plugin requires HawkNL. Currently the configure script
+	      has not been extended to detect HawkNL so you'll have to modify
+	      Jamconfig manually to get it to compile. Basically you must
+	      add the path to the 'nl.h' include file to COMPILER.CFLAGS and
+	      the path to the libNL.a file to COMPILER.LFLAGS. In addition
+	      you must also copy NL.dll/NL.so to your system path or to the
+	      current directory.
 22-Aug-2005
 	- Jorrit converted a big part of CEL (but not all) to the new
 	  SCF syntax.
