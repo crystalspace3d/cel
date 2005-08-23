@@ -777,7 +777,8 @@ bool NetTest::Application ()
   return true;
 }
 
-void NetTest::WriteShadow (int align,int x,int y,int fg,char *str,...) {
+void NetTest::WriteShadow (int align,int x,int y,int fg,char *str,...)
+{
   char buf[256];
 
   va_list arg;
@@ -789,7 +790,8 @@ void NetTest::WriteShadow (int align,int x,int y,int fg,char *str,...) {
   Write (align, x, y, fg, -1, buf);
 }
 
-void NetTest::Write(int align,int x,int y,int fg,int bg,char *str,...) {
+void NetTest::Write(int align,int x,int y,int fg,int bg,char *str,...)
+{
   va_list arg;
   char b[256], *buf = b;
 
